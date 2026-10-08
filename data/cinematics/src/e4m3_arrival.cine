@@ -1,0 +1,32 @@
+# e4m3 E1 "e4m3_arrival" (docs/design/mission-e4-03.md, Cinematic hooks; script-episodes-4-8/e4m3.md 1): 15 s at 0:00,
+# mode=pause over the live mission (the spec's HOLD runs as PAUSE: MissionBase.play_cutscene freezes the world).
+# The Sighing Wood in winter (120 x 120): the new Heartwood (43, 43), Ysolde's start (36, 36), Hollowfen (18, 44) with its
+# one Rime Totem (18, 37), the Heartglade / Last Heartwood (0, 9), Stagwatch (44, 14), Fernhollow (-30, -4), Mossgate
+# (-44, -18), Torvald's camp north-west (-43, -43). 1) CRANE down over the white canopy from the south-east, rime on every
+# trunk, the five glades as blue-white circles (a frost ring at each grove centre); 2) MS Ysolde at the new Heartwood's
+# roots, opening her hand on the grey seed-pod token (orbits the live hero: tag `ysolde`; the cast stands at her start);
+# 3) WS the Hollowfen glade: one frosted totem, a faint green breath under the ice (map point, a small green bloom).
+# Axis: the Ysolde - Torvald line runs south-east -> north-west (z = x); every camera stays on its SOUTH-WEST side (z > x).
+# Line: L1 (narrator, voice-over) over shot 1. Fallback: the end state puts the camera on Ysolde and says L1-L4.
+cine e4m3_arrival  title="The Sighing Wood in Winter"  mode=pause  letterbox=2.39  seed=91  length=13..17
+env day  moon_yaw=160  moon_pitch=-18  energy=0.85
+cast  ysolde    res://art/units/wizards/ysolde.tscn  at=(36, 0, 36)  yaw=315
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# CRANE down over the white canopy from the south-east: five blue-white glades
+shot A1 6.5  cam=crane  from=(40, 34, 70)  to=(34, 22, 62)  look=(0, 0, 4)>(8, 0, 14)  fov=58>52  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-14
+  at 0.4  line narrator "The Sighing Wood, at the edge of winter. Burnt by Shadow, frozen by Ice, and not dead yet."
+  at 0.6  vfx g1  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(18, 0.3, 44)  life=5.5  scale=1.6
+  at 0.9  vfx g2  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(44, 0.3, 14)  life=5.2  scale=1.6
+  at 1.2  vfx g3  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(0, 0.3, 9)  life=4.9  scale=1.6
+  at 1.5  vfx g4  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(-30, 0.3, -4)  life=4.6  scale=1.6
+  at 1.8  vfx g5  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(-44, 0.3, -18)  life=4.3  scale=1.6
+# MS Ysolde at the Heartwood's roots, opening her hand on the grey seed-pod (south-west of her, 3/4 front)
+shot A2 4.5  cam=orbit  pivot=ysolde  r=4.0  h=1.5  deg=118>134
+  at 0.5  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-14
+# WS the Hollowfen glade: one frosted totem, a faint green breath under the ice
+shot A3 4.0  cam=dolly  from=(8, 4, 54)  to=(8.8, 3.8, 53)  look=(18, 1, 41)>(18, 0.8, 41.5)  fov=44>40
+  at 0.4  vfx breath  scene=res://art/cinematics/fx/bloom_wave.tscn  at=(18, 0.2, 44)  life=3.0  scale=0.5
+  at 0.5  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-12
+  at 3.4  fade alpha=1 time=0.6

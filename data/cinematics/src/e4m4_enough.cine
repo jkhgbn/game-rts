@@ -1,0 +1,55 @@
+# e4m4 E19 "e4m4_enough" (docs/design/mission-e4-04.md, Cinematic hooks; script-episodes-4-8/e4m4.md 1): 40 s, then the
+# victory. mode=pause over the live mission, at Aldra's Glass Spire (30, -36) north of the Wall. 1) MS Ysolde at the
+# spire's foot; glass shards burst from the snow and close into a cage to her shoulders (`glass_prison` VFX missing: an
+# ice burst + a frost ring at her feet, spec fallback), Maelis thrown back (sfx); 2) MCU Aldra above her, chisel raised;
+# 3) CU Torvald's hand catches the chisel's shaft (spec fallback: a cut on him, hand raised); 4) WS Torvald and Aldra
+# face to face, the Rimeshields lowering their shields one by one (sfx); 5) MS Ysolde as the cage cracks and falls away;
+# 6) CU Torvald, front, weary; 7) WIDE crane up and out over the Wall: the first blizzard (a white whiteout tint + wind),
+# both armies still in the snow; FADE_BLACK. Character shots orbit the live units (hero `ysolde`, `aldra`, `torvald` =
+# MissionE404 properties); the cast (Ysolde south of the spire, Aldra and Torvald by its door) stands in for cine's checks.
+# Axis: the Ysolde - Torvald line runs south -> north (x ~ 27); every camera stays WEST of it (and south of the
+# Torvald - Aldra pair).
+# Lines: L28 (Aldra), L29 (Torvald), L30 (Aldra), L31 (Torvald), L32 (Ysolde), L33 (Torvald), L34 (narrator, voice-over)
+# (mission DIALOGUE, French in dialogue.po). Fallback: the end state says L28-L34 as dialogue cards, then the victory.
+cine e4m4_enough  title="Enough"  mode=pause  letterbox=2.39  seed=104  length=37..43
+env day  moon_yaw=225  moon_pitch=-12  energy=0.9
+cast  ysolde    res://art/units/wizards/ysolde.tscn  at=(28, 0, -28)  yaw=180
+cast  aldra     res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(30, 0, -33)  yaw=0
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(26, 0, -34)  yaw=0
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# MS Ysolde at the spire's foot: the glass cage closes to her shoulders; Maelis thrown back
+shot E1 6.0  cam=orbit  pivot=ysolde  r=4.6  h=1.5  deg=-150>-140  in=fade_black:0.6
+  at 0.6  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-4
+  at 0.8  vfx cage  scene=res://art/cinematics/fx/ice_burst.tscn  at=(28, 0.6, -28)  life=3.0  scale=1.2
+  at 0.8  vfx ring  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(28, 0.1, -28)  life=4.8  scale=0.8
+  at 1.0  sfx res://assets/audio/sfx/ab_frost_shell.wav  vol=-6
+  at 2.8  sfx res://assets/audio/sfx/hit_heavy.wav  vol=-10
+# MCU Aldra above her, chisel raised
+shot E2 5.0  cam=orbit  pivot=aldra  r=3.0  h=1.7  deg=130>140
+  at 0.3  line aldra "One strike, Torvald, and the green war is over. Let me finish it."
+# CU Torvald's hand on the chisel's shaft
+shot E3 3.5  cam=orbit  pivot=torvald  r=2.6  h=1.95  deg=140>146  fov=30
+  at 0.3  sfx res://assets/audio/sfx/atk_heavy.wav  vol=-8
+  at 0.4  line torvald "Enough, Aldra."
+# WS Torvald and Aldra face to face; the Rimeshields lower their shields one by one
+shot E4 7.0  cam=orbit  pivot=torvald  r=7.0  h=2.4  deg=118>132
+  at 0.3  line aldra "She broke your wall!"
+  at 3.2  line torvald "It was only ever ice. Let her up."
+  at 4.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-10
+  at 4.8  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-11
+  at 5.6  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-12
+# MS Ysolde as the cage cracks and falls away
+shot E5 5.0  cam=orbit  pivot=ysolde  r=4.0  h=1.5  deg=-145>-135
+  at 0.5  vfx crack  scene=res://art/cinematics/fx/ice_burst.tscn  at=(28, 1.0, -28)  life=2.0  scale=0.9
+  at 0.5  sfx res://assets/audio/sfx/building_collapse.wav  vol=-12
+  at 1.6  line ysolde "Why?"
+# CU Torvald, front, weary
+shot E6 6.0  cam=orbit  pivot=torvald  r=2.2  h=1.55  deg=100>108  fov=34
+  at 0.3  line torvald "Because a hundred winters is long enough. Go home, Ysolde. Spring will keep." dur=5.5
+# WIDE crane up and out: the first blizzard rolls over the Wall, both armies still in the snow
+shot E7 7.5  cam=crane  from=(12, 6, -22)  to=(-8, 30, -2)  look=(28, 1, -32)>(14, 0, -18)  fov=46>58
+  at 0.0  sfx res://assets/audio/sfx/atk_storm.wav  vol=-12
+  at 0.2  fade color=#e8eef8 alpha=0.35 time=4.0
+  at 0.4  line narrator "That night the first blizzard closed the passes. Both sides sat down to wait for spring."
+  at 6.3  fade alpha=1 time=1.2

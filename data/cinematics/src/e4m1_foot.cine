@@ -1,0 +1,24 @@
+# e4m1 E15 "e4m1_foot" (docs/design/mission-e4-01.md, Cinematic hooks; script-episodes-4-8/e4m1.md 1): 10 s when the Ice
+# Final group reaches its first standard, mode=pause over the live mission (the spec's HOLD runs as PAUSE).
+# 1) MS Torvald at the standard, 3/4, he raises one hand (the hand is skipped until Motion Lab: spec fallback); his
+# Rimeshields ground their shields (sfx). Orbits the live `torvald` (MissionE401.torvald); the cast stands at std_well
+# (24, 18), the standard nearest Birch Ford, a stand-in for cine's checks. 2) Long lens (fov 24) from the standard
+# south-west up Lark Hill to the golden tree (-16, 48.5): Malrik's column passing on toward it, the amber pulse soft in
+# his hand (a heart-stone pulse on the hill road). Map points only in shot 2.
+# Axis: cameras WEST of the Malrik - Ysolde line (shot 1 sits south-west of Torvald). Line: L25 (mission DIALOGUE).
+# Fallback: the end state says L25 as a dialogue card.
+cine e4m1_foot  title="The Foot of the Hill"  mode=pause  letterbox=2.39  seed=72  length=8..12
+env dusk  moon_yaw=230  moon_pitch=-14  energy=0.8
+cast  torvald  res://art/units/wizards/torvald.tscn  at=(24, 0, 16)  yaw=0
+
+# MS Torvald at the standard, 3/4 from the south-west; his Rimeshields ground their shields
+shot F1 5.0  cam=orbit  pivot=torvald  r=4.0  h=1.6  deg=118>132  in=fade_black:0.5
+  at 0.4  line torvald "I came for a ford, Bishop. Not for his tree. My host stops here."
+  at 0.4  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-12
+  at 2.6  sfx res://assets/audio/sfx/ab_hold_the_line.wav  vol=-8
+# Long lens from the standard up to the tree: Malrik's column passing on, the amber pulse soft
+shot F2 5.0  cam=dolly  from=(21.5, 2.2, 21.0)  to=(21.1, 2.3, 21.4)  look=(-14, 3, 46)>(-16, 3.4, 48.5)  fov=24>22
+  at 0.3  vfx heart  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(-2, 1.1, 36)  life=4.0  scale=0.4
+  at 0.5  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-12
+  at 2.0  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-13
+  at 4.4  fade alpha=1 time=0.6

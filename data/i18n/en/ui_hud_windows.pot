@@ -347,13 +347,13 @@ msgid "Three trackers walk your mines and roads in turn, attack every Magpie the
 msgstr ""
 
 #. const NO_BAZAAR := "No Bazaar"
-#: scripts/ui/trade_window.gd:90 scripts/ui/post_panel.gd:407 scripts/campaign/mission_e2_03.gd:153
+#: scripts/ui/trade_window.gd:90 scripts/ui/post_panel.gd:407 scripts/campaign/mission_e2_03.gd:154
 #: scripts/economy/caravan.gd:47 scripts/economy/gold_bank.gd:61
 msgid "No Bazaar"
 msgstr ""
 
 #. const NO_GOLD := "Not enough gold"
-#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:385 scripts/campaign/mission_e2_03.gd:154
+#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:385 scripts/campaign/mission_e2_03.gd:155
 #: scripts/economy/gold_bank.gd:63 scripts/world/champion_guild.gd:79 scripts/world/hunters_guild.gd:57
 msgid "Not enough gold"
 msgstr ""
@@ -481,7 +481,7 @@ msgstr ""
 
 #. reason = "On cooldown"
 #: scripts/ui/trade_window.gd:1304 scripts/ui/trade_window.gd:1328 scripts/ui/item_tooltip.gd:216
-#: scripts/ui/command_card.gd:841 scripts/ui/spell_info.gd:153 scripts/units/champion_abilities.gd:64
+#: scripts/ui/command_card.gd:843 scripts/ui/spell_info.gd:153 scripts/units/champion_abilities.gd:64
 msgid "On cooldown"
 msgstr ""
 
@@ -609,7 +609,7 @@ msgid "Exchange 100 crystals -> 40 essence"
 msgstr ""
 
 #. message.emit("No shop nearby")
-#: scripts/ui/shop_window.gd:254 scripts/buildings/keep.gd:321 scripts/items/inventory.gd:476
+#: scripts/ui/shop_window.gd:254 scripts/buildings/keep.gd:322 scripts/items/inventory.gd:476
 #: scripts/items/recipes.gd:59
 msgid "No shop nearby"
 msgstr ""
@@ -792,12 +792,12 @@ msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:653 scripts/ui/flag_card.gd:268
-#: scripts/ui/idle_worker_button.gd:20 scripts/economy/caravan.gd:188
+#: scripts/ui/idle_worker_button.gd:20 scripts/economy/caravan.gd:189
 msgid "Idle"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:643 scripts/ui/selection_panel.gd:711
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:643 scripts/ui/selection_panel.gd:719
 msgid "Fallen"
 msgstr ""
 
@@ -817,7 +817,7 @@ msgid "Fighting"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1439
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1451
 msgid "Unpaid!"
 msgstr ""
 
@@ -1407,12 +1407,12 @@ msgid "Returns in %d s"
 msgstr ""
 
 #. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
-#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:784
+#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:792
 msgid "XP  MAX"
 msgstr ""
 
 #. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
-#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:789
+#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:797
 msgid "XP  %d / %d"
 msgstr ""
 
@@ -1593,7 +1593,7 @@ msgid "Guard"
 msgstr ""
 
 #. const KIND_NAMES: Array[String] = ["Hunt", "Explore", "Guard", "Escort"]
-#: scripts/ui/bounty_mode.gd:25 scripts/ui/command_card.gd:596 scripts/world/bounty.gd:35
+#: scripts/ui/bounty_mode.gd:25 scripts/ui/command_card.gd:598 scripts/world/bounty.gd:35
 msgid "Escort"
 msgstr ""
 
@@ -1642,7 +1642,7 @@ msgid "Paid {n}"
 msgstr ""
 
 #. paid_text += " · " + Loc.t("max")
-#: scripts/ui/flag_card.gd:200
+#: scripts/ui/flag_card.gd:200 scripts/ui/wave_strike/wave_strike_hud.gd:222
 msgid "max"
 msgstr ""
 
@@ -1797,7 +1797,7 @@ msgid "Escaping"
 msgstr ""
 
 #. var subtitle := " · Epic beast"
-#: scripts/ui/mapfill_bar.gd:1076 scripts/ui/selection_panel.gd:910
+#: scripts/ui/mapfill_bar.gd:1076 scripts/ui/selection_panel.gd:921
 msgid " · Epic beast"
 msgstr ""
 
@@ -1972,12 +1972,12 @@ msgid "For you: "
 msgstr ""
 
 #. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1038
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1040
 msgid "far"
 msgstr ""
 
 #. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1038
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1040
 msgid "near"
 msgstr ""
 
@@ -2067,7 +2067,7 @@ msgid "Not held"
 msgstr ""
 
 #. action_button.text = "Current route" if is_current else "Set as route"
-#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1036
+#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1038
 msgid "Current route"
 msgstr ""
 

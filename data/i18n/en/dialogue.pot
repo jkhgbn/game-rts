@@ -396,27 +396,27 @@ msgid "Mind the seventh step. It bites."
 msgstr ""
 
 #. speaker aldra
-#: data/voice/lines/c_e3_doubt.json:L1
+#: data/voice/lines/c_e3_doubt.json:L1 data/voice/lines/c_e3_doubt_refused.json:L1
 msgid "The old storm-sword crossed the river twice today."
 msgstr ""
 
 #. speaker aldra
-#: data/voice/lines/c_e3_doubt.json:L2
+#: data/voice/lines/c_e3_doubt.json:L2 data/voice/lines/c_e3_doubt_refused.json:L2
 msgid "He only looked at the ridge. Then he went back."
 msgstr ""
 
 #. speaker torvald
-#: data/voice/lines/c_e3_doubt.json:L3
+#: data/voice/lines/c_e3_doubt.json:L3 data/voice/lines/c_e3_doubt_refused.json:L3
 msgid "He is counting us."
 msgstr ""
 
 #. speaker torvald
-#: data/voice/lines/c_e3_doubt.json:L4
+#: data/voice/lines/c_e3_doubt.json:L4 data/voice/lines/c_e3_doubt_refused.json:L4
 msgid "What did it cost you, Malrik? In Duskbarrow."
 msgstr ""
 
 #. speaker malrik
-#: data/voice/lines/c_e3_doubt.json:L5
+#: data/voice/lines/c_e3_doubt.json:L5 data/voice/lines/c_e3_doubt_refused.json:L5
 msgid "A little. Less than you would think."
 msgstr ""
 
@@ -428,6 +428,16 @@ msgstr ""
 #. speaker torvald
 #: data/voice/lines/c_e3_doubt.json:L7
 msgid "I know. I saw."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e3_doubt_refused.json:L6
+msgid "It didn't glow at all. That frightens me more."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e3_doubt_refused.json:L7
+msgid "Then it is waiting."
 msgstr ""
 
 #. speaker malrik
@@ -508,6 +518,3211 @@ msgstr ""
 #. speaker torvald
 #: data/voice/lines/c_e3_price.json:L7
 msgid "Go. I will keep your ridge cold."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e4_frontier.json:L1
+msgid "Your captains are asking why we pulled back."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e4_frontier.json:L2
+msgid "Tell them I was looking at a weed."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e4_frontier.json:L3
+msgid "We could burn it again."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e4_frontier.json:L4 data/voice/lines/e7m4.json:L22
+msgid "No."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e4_frontier.json:L5
+msgid "Malrik's riders came at dusk. He wants the Wall raised before the snow."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e4_frontier.json:L6
+msgid "Then it will be raised. I gave my word."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e4_frontier.json:L7
+msgid "He's raising the Wall of a Hundred Winters. Every pass on his frontier."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_frontier.json:L8
+msgid "When the snow closes them, the north feeds Malrik's war all winter. Out of reach."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e4_frontier.json:L9
+msgid "So we break it before the first blizzard. A week, Ashby says. Maybe less."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e4_frontier.json:L10
+msgid "I'll bring the fire. You bring the patience."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_frontier.json:L11
+msgid "I'll bring a tree."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c_e4_refuge.json:L1
+msgid "Night under the golden tree. Every family made it up the hill, and nobody can sleep."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e4_refuge.json:L2
+msgid "Here. Ashby packs bread like he expects a siege."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_refuge.json:L3
+msgid "He usually gets one."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e4_refuge.json:L4
+msgid "You'd have let him have the ford all along."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_refuge.json:L5
+msgid "Fords don't bleed."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e4_refuge.json:L6
+msgid "The wagons are burning. All of them, on the south road."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e4_refuge.json:L7
+msgid "Nobody saw the knife. Nobody ever does."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_refuge.json:L8
+msgid "Mother Hush. So that's where she went."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e4_refuge.json:L9
+msgid "No grain, no carts. The valley can't feed them now."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_refuge.json:L10
+msgid "Then they walk. West, through the old woods, to the Fire border."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e4_refuge.json:L11
+msgid "Through Malrik's hunters? With grandmothers and goats?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_refuge.json:L12
+msgid "Slowly. Slow is alive."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e4_refuge.json:L13
+msgid "Then I'll tell Ashby to leave the gate open."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c_e4_turnback.json:L1
+msgid "Cinderwatch, on the Fire border. Every bed is taken, and one lantern is still lit."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_turnback.json:L2
+msgid "Vessa. They are all inside your wall. Ashby gave away his own blanket."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_turnback.json:L3
+msgid "I am not staying. You knew that before I did."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e4_turnback.json:L4
+msgid "The scouts are back from the Sighing Wood."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e4_turnback.json:L5
+msgid "Rime on every trunk. Aldra's totems in all five glades."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e4_turnback.json:L6
+msgid "They didn't freeze it to hold it. They froze it so it would stay dead."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_turnback.json:L7
+msgid "Then it is waiting for someone."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/c_e4_turnback.json:L8
+msgid "From the queen, my lady. She said you'd know what it is."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e4_turnback.json:L9
+msgid "I think the wood can now. V."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_turnback.json:L10
+msgid "So do I."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e4_turnback.json:L11
+msgid "Back into the cold, then?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e4_turnback.json:L12
+msgid "Back home."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c_e5_turn.json:C1
+msgid "The same winter, far to the east, the other apprentice remembered too."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e5_turn.json:C2
+msgid "Everyone thinks the dark found me. I found it. By one candle. Let me show you."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e6_gate.json:L1_open data/voice/lines/e6m2.json:L29
+msgid "Hearthwick still sends me bread every midwinter. Burnt, usually."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e6_gate.json:L1_shut data/voice/lines/e6m2.json:L30
+msgid "Some nights I still see the smoke."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c_e6_gate.json:L2
+msgid "In the west, Ysolde remembered a different winter."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e6_lake.json:L1
+msgid "The ice has stopped singing."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e6_lake.json:L2
+msgid "There is nothing under it left to sing about."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e6_lake.json:L3
+msgid "A hundred winters I kept it for him."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e6_lake.json:L4
+msgid "And a girl with a fire took it in an afternoon."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e6_lake.json:L5
+msgid "She did. I have worse things to remember."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e6_lake.json:L6 data/voice/lines/c_e6_lake.json:L7
+msgid "The gate."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e6_seed.json:L1
+msgid "You never told the village you were right."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e6_seed.json:L2
+msgid "I didn't need to. It came up green."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e6_seed.json:L3
+msgid "That branch won't come back, you know."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e6_seed.json:L4
+msgid "Give it a spring."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e6_seed.json:L5 data/voice/lines/e6m3.json:L25
+msgid "Twelve years ago he sent for me one last time. Torvald too. Only us."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/c_e7_ledger.json:L1
+msgid "Night in Adamarch. Everyone was counting coin. Torvald counted one gift."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e7_ledger.json:L2
+msgid "Two hundred. I counted them twice. Ten towers of twenty."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e7_ledger.json:L3
+msgid "Every one carries the anchor. The Outwall's stamp."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_ledger.json:L4
+msgid "Two hundred dockers' wages, given as a gift."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e7_ledger.json:L5
+msgid "Coin remembers where it was taken."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_ledger.json:L6
+msgid "So does Malrik. He has simply never minded."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/c_e7_ledger.json:L7
+msgid "Tomorrow, ask the herald where the knives came from."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e7_ledger.json:L8
+msgid "You heard him."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_ledger.json:L9
+msgid "I heard."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_ledger.json:L10
+msgid "Tomorrow, then."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/c_e7_mask.json:L1
+msgid "The Admiralty, that night. Malrik was in mourning. He had lit every lamp."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e7_mask.json:L2
+msgid "Torvald. Come in. I was just mourning."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_mask.json:L3
+msgid "She left this on the sand."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e7_mask.json:L4
+msgid "Wars need a first blow. I only provided one."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_mask.json:L5
+msgid "You broke a truce older than both of us."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e7_mask.json:L6
+msgid "Truces are what weak men sign to sleep. You signed one with me, Torvald."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_mask.json:L7
+msgid "For now, I sail with you."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e7_mask.json:L8
+msgid "For now. Always your favourite words."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/c_e7_mask.json:L9
+msgid "He knew the truth, and he waited anyway. He always did."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/c_e7_pits.json:L1
+msgid "The Hall of Silence, where they teach one word a day. Malrik brought more."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e7_pits.json:L2
+msgid "Empty the pits, Your Radiance. All of them."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e7_pits.json:L3
+msgid "By morning every dragon on the Coinwater is ours."
+msgstr ""
+
+#. speaker diamond_archon
+#: data/voice/lines/c_e7_pits.json:L4
+msgid "An Archon before me did that once. The Year of Two Skies."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e7_pits.json:L5
+msgid "Then let us call it a tradition."
+msgstr ""
+
+#. speaker diamond_archon
+#: data/voice/lines/c_e7_pits.json:L6
+msgid "Yes."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e7_pits.json:L7
+msgid "The Hall's lamps are still lit, my lord. Someone is signing something."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/c_e7_pits.json:L8
+msgid "Tomorrow your friend buys the whole sky. Ask him what he means to burn."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/c_e7_pits.json:L8b
+msgid "You guarded stones. Everyone guards stones."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_pits.json:L9
+msgid "I think I already know, old one."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e7_pits.json:L10
+msgid "Will you ask him, my lord?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e7_pits.json:L11 data/voice/lines/ep3_ending.json:L4
+msgid "Tomorrow."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e8_muster.json:L1
+msgid "Two days on this rock. I've counted every pebble. Twice."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e8_muster.json:L2
+msgid "We came as fast as ice comes."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e8_muster.json:L3
+msgid "So, slowly. Welcome anyway."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e8_muster.json:L4
+msgid "Every road behind me is open. I didn't close a single one."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e8_muster.json:L5
+msgid "Three. And the one who's always late on purpose."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e8_muster.json:L6
+msgid "He asked for all four of you. Especially Malrik."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e8_muster.json:L7
+msgid "I heard. I came. Don't make it a speech."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e8_muster.json:L8
+msgid "Four keys, four keyholes. Each to your own. Together."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m1.json:L1
+msgid "Long before the war, a girl with soot on her hands came down into the Vale of Bells."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L2
+msgid "Five beacons, Vessa. Light them all and the south watch comes home. That is the trial."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m1.json:L3
+msgid "Five? I could light fifty. Can I light the bridge too? It looks very flammable."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L4
+msgid "Stand close and hold still. Fire comes when you stop chasing it."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m1.json:L5
+msgid "Ha! One! Did you see? Tell me you saw that."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L6
+msgid "I saw. Now build something to guard it. A beacon on its own is just a target."
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m1.json:L7
+msgid "Pretty lights in the vale! Keep lighting them, little match. We'll follow them home."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L8
+msgid "You're getting stronger. Learn to step out of trouble before you learn to start it."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m1.json:L9
+msgid "Millrace is lit! And the mill is... mostly not on fire. Mostly."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m1.json:L10
+msgid "The miller's boys took down their bows from the wall. Nobody had asked them to."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L11
+msgid "Halfway. Your soldiers are tired, Vessa. Let them catch up."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L12
+msgid "Leave the boars their hill and they'll leave you yours. Take the beacon, not the fight."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m1.json:L13
+msgid "On the far road, the south watch's scouts saw the fire and turned their horses home."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L14
+msgid "Vessa! A spark that runs off alone goes out. Wait for your soldiers."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m1.json:L15
+msgid "Oops. Tents are very flammable. Who knew? ...Everyone. Everyone knew."
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m1.json:L16
+msgid "All five lit? Then the whole vale can watch you lose. Boys! Fetch me that match!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m1.json:L17
+msgid "Come on, then! I've got five fires and a really bad temper."
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m1.json:L18
+msgid "She burned my good coat! Back to the fens! Back to the fens!"
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m1.json:L19
+msgid "At dusk the south watch rode home along a road of fire."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L20
+msgid "Not bad, girl. Remember it: the spark first. Then the storm."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m1.json:L21
+msgid "What storm? I don't have a storm. Do YOU have a storm?"
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L22
+msgid "Ha. Go and wash your face. You look like a chimney."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e5m1.json:L23
+msgid "Not yet, old friend. Let her find her own fire first."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m1.json:L24
+msgid "Just catching my breath. Keep lighting!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m1.json:L25
+msgid "Vey... I didn't wait..."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m1.json:L26
+msgid "No, no, no! That was somebody's house!"
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m2.json:L1
+msgid "Three summers on, the reivers built a fort in the fens. Vessa was sent to knock."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L2
+msgid "Sergeant Ashby, my lady. Vey says I'm to keep you alive. He says it's a full-time job."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m2.json:L3
+msgid "Vey worries. I've been practising. Give me a wall and I'll burn a door through it."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L4
+msgid "Yes, my lady. With the army, my lady. The army's the bit that walks behind you."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L5
+msgid "Reeds, my lady. Lovely place to hide a knife. Let the lads go in first."
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m2.json:L6
+msgid "Little match! Three years, and you still run in alone!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m2.json:L7
+msgid "Okay. OKAY. Bad idea. Very bad idea!"
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L8
+msgid "There! In the reeds! That's what waiting buys you, my lady."
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m2.json:L9
+msgid "Burn my tents, would you? I'll have your diggers and their shovels too."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L10
+msgid "Hurlers! Now we're talking. They throw farther than those towers can shoot."
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m2.json:L11
+msgid "Come on, match! Come and knock! I'm right here! Just you!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m2.json:L12
+msgid "One tower down! Ashby, did you see? Write it down somewhere!"
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m2.json:L13
+msgid "Out, boys! Knock the fire-throwers flat!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m2.json:L14
+msgid "See? A door! I said there'd be a door!"
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L15
+msgid "There already was a door, my lady. It had a latch."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L16
+msgid "You're glowing, my lady. More than usual, I mean."
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m2.json:L17
+msgid "My nest! My lovely nest! The horn, boys! Blow the horn!"
+msgstr ""
+
+#. speaker gannet
+#: data/voice/lines/e5m2.json:L18
+msgid "Keep the fort! Keep the fens! I'm keeping my neck!"
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m2.json:L19
+msgid "Rookhold burned until morning. So, by accident, did the grain it had stolen."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m2.json:L20
+msgid "Ashby. That was the grain. That was the grain we came here to take back."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L21
+msgid "It was, my lady. It's toast now. Very good toast."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m2.json:L22
+msgid "The Master's going to say it. I know he is. \"Fire that will not wait...\""
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L23
+msgid "\"...burns its own house.\" Yes, my lady. We've all heard him say it."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e5m2.json:L24
+msgid "Just a scratch! Carry on, my lady, I'll catch you up!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m2.json:L25
+msgid "I should have... waited..."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m3.json:L1
+msgid "Wickmoor buried its dead with their rings on. Lately, someone had been taking them back."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L2
+msgid "They say my father robs graves. My father can't rob a pie off a windowsill."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L3
+msgid "The Reeve hangs him at dawn. So tonight I ask the dead. The dead don't lie to me."
+msgstr ""
+
+#. speaker reeve
+#: data/voice/lines/e5m3.json:L4
+msgid "Lanterns up, lads! If the gravedigger's brat comes sniffing, bring him to me."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L5
+msgid "There. Dark again. The dark never asks me what I'm doing here."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L6
+msgid "...Hello. You came when I called. Nobody comes when I call."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m3.json:L7
+msgid "The shadows of the old graves stood up, and waited for him to speak."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L8
+msgid "\"Here lies Edda Brack. She was right about the roof.\" I believe you, Edda."
+msgstr ""
+
+#. speaker reeve
+#: data/voice/lines/e5m3.json:L9
+msgid "There! Something in the yews! Hoy! Hoy!"
+msgstr ""
+
+#. speaker reeve
+#: data/voice/lines/e5m3.json:L10
+msgid "Every lantern in Wickmoor, up! Find me that boy!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L11
+msgid "They don't need it any more. I do. That isn't stealing. It's... inheritance."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m3.json:L12
+msgid "He told himself it was only one ring. It was never only one."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L13
+msgid "A thief's purse, sealed with the Reeve's own seal. You pay robbers, Reeve?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L14
+msgid "Magpies. In my father's ossuary. Digging up my father's work."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L15
+msgid "Every ring in Wickmoor, in one sack. With a receipt. Thieves are so tidy."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L16
+msgid "A ledger. Graves, rings and prices. He sold the dead by the pound."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L17
+msgid "Three secrets. Now the whole town can hear them. Where's that bell?"
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m3.json:L18
+msgid "At midnight the bell of Wickmoor rang, and every window in the town lit."
+msgstr ""
+
+#. speaker reeve
+#: data/voice/lines/e5m3.json:L19
+msgid "Clever boy. Clever boys have accidents in graveyards."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L20
+msgid "You're not one of the Reeve's. Who are you? ...You're very tall."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e5m3.json:L21
+msgid "Reading tombstones by one candle, at midnight. And they told you everything."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L22
+msgid "The dead don't lie. They've got nothing left to want."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e5m3.json:L23
+msgid "This one, too."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m3.json:L24
+msgid "He pinched out his candle. In the dark, he was not afraid. He never had been."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L25
+msgid "Let go! He's lying! He's the one- let GO!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L26
+msgid "Back! Out of the light! It eats you."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e5m4.json:L1
+msgid "Five years later, below the citadel. A friendly match. Supposedly."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e5m4.json:L2
+msgid "Five banners. The first to hold three while the bell counts thirty wins. Nobody gets hurt."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m4.json:L3
+msgid "Define hurt. ...Kidding! Malrik, you take the shady side. You like it there."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m4.json:L4
+msgid "Of course. The side nobody picked. I have had a great deal of practice with those."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e5m4.json:L5
+msgid "She'll take the field in five minutes. He'll take it in the last one."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e5m4.json:L6
+msgid "I'm cheering for the grass. Nobody ever cheers for the grass."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m4.json:L7
+msgid "Three! Ring it, Vey! Ring it, ring it, ring it!"
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m4.json:L8
+msgid "Thirty, girl. Count with me. One..."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m4.json:L9
+msgid "There she goes. She never looks behind her. Somebody should."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m4.json:L10
+msgid "Hey! That's MY banner! You can't just take it!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m4.json:L11
+msgid "I was given the leftovers, Vessa. I have learned to take the rest."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e5m4.json:L12
+msgid "The bell counts for Malrik."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m4.json:L13
+msgid "Ow! Fine! I yield! This counts as a tie!"
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e5m4.json:L14
+msgid "It does not count as a tie."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e5m4.json:L15
+msgid "Did anyone see him move? No. Nobody ever does."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m4.json:L16
+msgid "Her banner, her crystals. Fire is generous when it isn't looking."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e5m4.json:L17
+msgid "Malrik wins. By taking."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m4.json:L18
+msgid "You taught us to use what we were given. I was given leftovers. I used them."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e5m4.json:L19
+msgid "...Yes. Well played."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m4.json:L20
+msgid "Rematch. Now. Best of three. Best of five!"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e5m4.json:L21
+msgid "Later, my joy. Both of you, come up to the orrery. I have something for you."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e5m4.json:L22
+msgid "I yield. ...This time."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e5m4.json:L23
+msgid "Thirty! Fair and square! Malrik, you can keep the shade!"
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m1.json:L1
+msgid "A hundred winters ago, the lake had no name, and the north had one keeper."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m1.json:L2
+msgid "Keep this cold, Torvald. Keep it until I come back for it."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L3
+msgid "What is it?"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m1.json:L4
+msgid "A promise I made to a stone. Something will come for it. Every winter."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m1.json:L5
+msgid "My lord? The ice is singing. Can you hear it?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L6
+msgid "Go home, girl. Winter is coming, and it is bringing guests."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m1.json:L7
+msgid "This is my home. I'll stay, if it's all the same to you."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m1.json:L8
+msgid "The first winter came down from the north, and it did not come alone."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m1.json:L9
+msgid "That is my key, frost-man. I made the lock. Give it back."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L10
+msgid "A talking stone. Wonderful. I was hoping for a quiet century."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L11
+msgid "The ice holds for us, and not for them. Remember that, girl."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m1.json:L12
+msgid "Aldra. My name is Aldra. And I will remember."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m1.json:L13
+msgid "Spring came late to the lake, and stayed only a little while."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L15
+msgid "You carved a giant out of my lake."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m1.json:L16
+msgid "You weren't using it."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m1.json:L17
+msgid "Every winter, frost-man. I have nothing left but winters."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L18
+msgid "Bigger ones. Of course there are bigger ones."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m1.json:L19
+msgid "The third winter was the longest. The Hollow sent everything it had left."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m1.json:L20
+msgid "Step aside, little king of snow. I built stairs before your mountains had names."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L21
+msgid "Stone is patient. Ice is older."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m1.json:L22
+msgid "Three winters, and not one stone stood on your ice."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L23
+msgid "They will come back."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m1.json:L24
+msgid "Then so will you. Every winter. You are my patience, Torvald."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m1.json:L25
+msgid "Aldra Stillwater. Stay with it. The ice keeps its wardens."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m1.json:L26
+msgid "Then I will keep it right back."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m1.json:L27
+msgid "The lake froze around the Heartfrost that night. It did not thaw for a hundred winters."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L28
+msgid "Too slow... forgive me. Too slow."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m1.json:L28b data/voice/lines/e6m2.json:L28
+msgid "Cracked. Not broken."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m1.json:L29
+msgid "The longhouse... my mother's nets were in there."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m1.json:L30
+msgid "Mine. At last, mine."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m2.json:L1
+msgid "Forty winters ago. The gate had stood for sixty years, and never once opened."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L2
+msgid "Sixty winters I have kept this gate. I can keep it one more."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m2.json:L3
+msgid "Torvald. The Heartfrost hums when the stone-men are near. It is humming now."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L4
+msgid "Then the gate stays shut, and the lake stays quiet."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m2.json:L5
+msgid "South of the wall, the lamps of Hearthwick went out one by one."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m2.json:L5b
+msgid "They are not coming for the lake. Why are they not coming for the lake?"
+msgstr ""
+
+#. speaker rider
+#: data/voice/lines/e6m2.json:L6
+msgid "Lord Torvald! Open the gate! The stone-men are in Hearthwick!"
+msgstr ""
+
+#. speaker rider
+#: data/voice/lines/e6m2.json:L7
+msgid "They're burning the houses. Two hundred people, my lord. Children."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m2.json:L8
+msgid "It is bait. They want the gate open. They want the mere."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L9
+msgid "I know what they want."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L10
+msgid "Open the gate. All of it."
+msgstr ""
+
+#. speaker rider
+#: data/voice/lines/e6m2.json:L11
+msgid "Thank you, my lord! I'll bring them home!"
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m2.json:L12
+msgid "Then I hold the mere alone. Do not be long."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L13
+msgid "...No. The gate stays shut."
+msgstr ""
+
+#. speaker rider
+#: data/voice/lines/e6m2.json:L14
+msgid "You can see the smoke from up there! You can SEE it!"
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m2.json:L15
+msgid "The snow buried his signal fire. Torvald watched it go out."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m2.json:L16
+msgid "Thank you for opening the door, frost-man."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m2.json:L17
+msgid "Keep your gate, then. I will come up through your floor."
+msgstr ""
+
+#. speaker rider
+#: data/voice/lines/e6m2.json:L18
+msgid "They're through! Keep it open, the last ones are coming!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L19
+msgid "Their door is broken. Go home, stones."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m2.json:L20
+msgid "Torvald! The big one is at your gate!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L21
+msgid "Close it now. Gently. Everyone is home."
+msgstr ""
+
+#. speaker rider
+#: data/voice/lines/e6m2.json:L22
+msgid "Hearthwick will remember this gate, my lord."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L23
+msgid "The lake is safe. The lake is always safe."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e6m2.json:L24
+msgid "And the town?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L25
+msgid "...Ask me in a hundred winters."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m2.json:L26
+msgid "The ice... gives..."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m2.json:L27
+msgid "Mine."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m3.json:L1
+msgid "Thirty-two winters ago, the frost came back to Evenmead. Nothing grew. Again."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L2
+msgid "They say I was born the year nothing grew. I won't let there be two."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e6m3.json:L3
+msgid "Seed in the snow, little one? The whole village is laughing at you."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L4
+msgid "My mother did it. In spring it came up green. Help me keep the wolves off."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e6m3.json:L5
+msgid "Fine. I'll take the well. The wolves always come to the well."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m3.json:L6
+msgid "When the sun went down, the frost bit through everything that was not covered."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L7
+msgid "Cover the gardens! Sit on them if you have to!"
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e6m3.json:L8
+msgid "Wolves off the north ridge. Thin ones. Hungry ones."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L9
+msgid "See? It fights back. Things that grow always fight back."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L10
+msgid "No. No, no. I'll plant it again. Next year. I will."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e6m3.json:L11
+msgid "Colder than last night. The river froze to the bottom."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L12
+msgid "Then we'll be warmer than the river."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m3.json:L13
+msgid "On the longest night, the pack's old leader came down from the ridge."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e6m3.json:L14
+msgid "Old Whitepelt. I've hunted him nine winters. He's never been this hungry."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e6m3.json:L15
+msgid "Nine winters. And a girl with a seed sack beats me to him."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m3.json:L16
+msgid "And then, one grey morning, the snow began to turn to water."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m3.json:L17
+msgid "A sapling, coaxed through the frost. In this cold?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L18
+msgid "It wants to grow. It only needs someone to wait with it."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m3.json:L19
+msgid "Show me."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m3.json:L20
+msgid "...Show me again."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m3.json:L21
+msgid "She did. For twenty years, until he was gone."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L22
+msgid "I'm sorry... I couldn't keep them warm."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m3.json:L23
+msgid "Nothing grew. Nothing at all."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e6m3.json:L24
+msgid "I'm fine! Bitten. Fine. Keep planting."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m4.json:L1
+msgid "Twelve years ago. The Master sent for two of his four. Only two."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L2
+msgid "Ysolde. Torvald. Hold the isle. Whatever climbs out of the water must not touch this stone."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m4.json:L3
+msgid "What is under it?"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L4
+msgid "My first mistake. His name was Obren."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m4.json:L5
+msgid "Should we send for Vessa and Malrik?"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L6
+msgid "Vessa would burn it open to see inside. Malrik would ask what it pays. No."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m4.json:L7
+msgid "Something under the isle is counting. Every one that falls, it counts."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m4.json:L8
+msgid "Master. You came yourself. I am honoured. Kneel a little longer."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m4.json:L9
+msgid "Then the isle split, and the amber came up through the stones."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m4.json:L10
+msgid "Torvald! It's breaking on our side!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m4.json:L11
+msgid "Then I am on your side. Hold."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L12
+msgid "It will not hold from up here. Not for long."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m4.json:L13
+msgid "Come down, old man. Hold my door yourself. Learn how long a year is in the dark."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m4.json:L14
+msgid "Master. You can't go down there."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L15
+msgid "Someone must. I have always been the one who must."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m4.json:L16
+msgid "A wood-girl, a snowman and a tired old man. I can wait. Stone is patient."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L17
+msgid "Listen, both of you. Tell no one what sleeps here. If the world knows, the world will dig."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L18
+msgid "My regalia are its keys. When I go, they will scatter. Never let them sit in one hand."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L19
+msgid "Ysolde, my heart: keep growing things. Torvald, my patience: wait for me."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m4.json:L20
+msgid "How long?"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L21
+msgid "Not too long."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e6m4.json:L22
+msgid "He went down that same night, to hold the door from below. He never said for how long."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e6m4.json:L23
+msgid "The seal! Keep them off the stone!"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m4.json:L24
+msgid "Master... forgive me..."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e6m4.json:L25
+msgid "Open. At last, open."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e6m4.json:L26
+msgid "That gate is closed. Roots don't forget."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e6m4.json:L27
+msgid "One fewer door. Keep yours shut, Ysolde."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L1
+msgid "Two harbours, one rock, a sky for sale. Bring gold. I take no promises."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m1.json:L2
+msgid "The west harbour is yours, Torvald, the east is mine. Together we outbid the sun."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L3
+msgid "I came to keep the Coinwater's peace, Malrik. Not to buy a dragon like a cart-horse."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m1.json:L4
+msgid "Then keep it with gold, my lord. Winter is patient. Markets are not."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m1.json:L5
+msgid "Send the wagons to the harbour. And watch the shoals. The sun's riders are faster than ice."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m1.json:L6
+msgid "The first coin is home. It smells of fish and diamonds."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e7m1.json:L7
+msgid "Torvald! You came south for the sunshine? I'll show you sunshine."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L8
+msgid "Vessa. Still never waiting. One day, child, the road will be longer than you are."
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/e7m1.json:L9
+msgid "The rock is held! By the old law, its master speaks last at the hammer."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L10
+msgid "The first of my brood. Kesh burns bright, and cheap. Who pays?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L11
+msgid "Fly with us, then. And try not to enjoy it."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L12
+msgid "Gold from the south. Kesh, burn the north."
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/e7m1.json:L13
+msgid "The Laurel at noon! By the Truce of the Stilled Sea: first blood, and no further!"
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/e7m1.json:L14
+msgid "No crowd worth the name today, Diamond Wall. Just us, and a great deal of money."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m1.json:L15
+msgid "Then let us disappoint the money."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m1.json:L16
+msgid "Gold cloaks, behind me. So this is how Aurivane wins now."
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/e7m1.json:L17
+msgid "Those aren't mine! Seraphine, those are NOT mine!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L16b
+msgid "That smoke is violet. Gold cloaks do not bleed violet."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m1.json:L18
+msgid "Walls don't run, Ice-king. But they can walk, if you walk beside them."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m1.json:L19
+msgid "The harbour, then. I will hold it. It is the one thing today that hasn't lied to me."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m1.json:L20
+msgid "For the second bid, Torvald. A gift. Two hundred, in good gold."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L21
+msgid "This coin carries the Outwall's stamp, Malrik. Dockers' wages. Where did you find it?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m1.json:L22
+msgid "Lying in the street, Torvald. Where coin usually lies."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e7m1.json:L22b
+msgid "Count it, Ice-king. Count all of it. Someone is counting you."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L23a
+msgid "Morrow-of-Glass, my daughter. She remembers both your grandfathers' coin."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L23
+msgid "Glass and frost. At least one of us will match the banners."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L24
+msgid "Diamonds were never enough for her. Morrow, fly south."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e7m1.json:L25
+msgid "Torvald. You let me go once, on your wall. I remember. I will not hold back today."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L26
+msgid "Good. Holding back has always been my fault, not yours."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L27
+msgid "And now the old price. Me. Whoever pays the most, I burn for."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L28
+msgid "I have never owned anything this old. Except my regrets."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L29
+msgid "Twice each, I said. Let us make it three."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e7m1.json:L30
+msgid "Everything we have, Ysolde! Take that harbour while the sky is still for sale!"
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m1.json:L31
+msgid "Adamarch will remember who stood on the quay with her. Even if the Archon will not."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L32
+msgid "Remember who paid for it, Seraphine. I would like to know myself."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L34
+msgid "The Laurel was broken by knives. Gold cloaks. Violet smoke. Somebody lied on my rock."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L33
+msgid "The sky has chosen its master, and it is not you."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m1.json:L35
+msgid "The harbour is burning, my lord. Adamarch does not forgive a guest who loses its harbour."
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/e7m1.json:L36
+msgid "No... she was the best of us. Both cities killed her today."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L37
+msgid "Too slow. Again... the ice gives way."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m1.json:L38
+msgid "Steel and quilting. Adamarch's coin, wearing our colours."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m2.json:L1
+msgid "Two cities, two lies, one rock. The rock, at least, is honest."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m2.json:L2
+msgid "They say Adamarch staged it. I bled on that sand, Ice-king. I would like to know for whom."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L3
+msgid "So would I. Malrik sailed home before the blood was dry. That is not mourning."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m2.json:L4
+msgid "The bettors fled with their strongboxes and dropped half of them. Coin always runs downhill."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e7m2.json:L5
+msgid "Back again, Torvald? You're the slowest man I know, and you're still everywhere."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L6
+msgid "The Citadel stands. Aldra. I would rather not do this one alone."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m2.json:L7
+msgid "You never do anything alone, my lord. You only think you do."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m2.json:L8
+msgid "The barricade is down. Walls should know when to fall. Ours never did."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m2.json:L9
+msgid "You hold my rock. Look under the cloths. The dead are poor liars."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L10
+msgid "Aurivane's cloaks, on knives forged in the dark. The edges drink the light. Shadow steel."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L10b
+msgid "The boat my rune saw left violet smoke. Gold cloaks do not row from the north."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m2.json:L11
+msgid "The bettors' ledger. Someone wagered against both cities, on the same night, before the duel."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L12
+msgid "A man who bets on the war, not the winner. I know only one with that much patience."
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/e7m2.json:L13
+msgid "Don't hurt me! I only read the names! I saw the boat, a black boat, from the north side!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L14
+msgid "Easy. Who stepped out of it?"
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/e7m2.json:L15
+msgid "A woman in a white mask. She never said a word. The knives followed her like ducklings."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L16
+msgid "A white mask. Then I know the knife, and I know the hand that throws it."
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/e7m2.json:L17
+msgid "You want the truth told on my sand, Ice-king? Then by the old rule. First blood, and no further."
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/e7m2.json:L18a
+msgid "Well struck. Twice now an Adamarch guest has cut me. I am starting to take it personally."
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/e7m2.json:L18b
+msgid "First blood to the Sun. Now say your truth, Ice-king, and I will listen."
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/e7m2.json:L18c
+msgid "Neither bleeds! By the law, it is a draw, and the sand is quiet!"
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e7m2.json:L19
+msgid "Hush now, Sunblade. The war only needs one more death."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m2.json:L20
+msgid "Behind you, Dacian! The knives again!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e7m2.json:L21
+msgid "I know those knives. I've had them at my throat. Hush! I owe you a night!"
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e7m2.json:L22
+msgid "There is always another night, Ice-king. Ask your friend how he spends his."
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/e7m2.json:L23
+msgid "Those were never ours. You knew before you came to the sand."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L24
+msgid "Mother Hush. I have stood beside this mask in Malrik's camp. They were my ally's knives."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m2.json:L25
+msgid "Then your ally broke a truce that held for a hundred and thirty years. For what?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L26
+msgid "For a war that does not end. Wars are good for business, and better for that stone."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m2.json:L27
+msgid "First blood, and no further. The cities forgot. Let us see if you remember."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m2.json:L28
+msgid "Bettors' gold. It spends the same as honest gold, which is the whole trouble with gold."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m2.json:L29
+msgid "The Sunblade is down. Every bell in both cities will ring for war now."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m2.json:L30
+msgid "Too late. I always arrive... too late."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m3.json:L1
+msgid "The Outwall. Where the coin is earned, and never spent."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L2
+msgid "You're the ice-king? We've had kings before. They stand on the wall and watch."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m3.json:L3
+msgid "Then I will stand down here. Ring your bells when I tell you, and bring your people to me."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L4
+msgid "The Glass Hall is open, my lord. It holds more than you think. Winter is roomy."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L5
+msgid "Rope Row's coming. Mind the old ones, they walk slow. Like you, no offence."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L6
+msgid "Crimson lanterns on the water. Aurivane burns what it cannot buy."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L7
+msgid "Facetguards, turned back by an ice-king. I'll be telling that one in the tavern for years."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L7b
+msgid "The Archon's press took a whole lane. They'll dig till they drop, and nobody'll count them."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L8
+msgid "Men in grey masks, out of the old adit. They do not take coin. They take people."
+msgstr ""
+
+#. speaker diamond_archon
+#: data/voice/lines/e7m3.json:L9
+msgid "Ice-king. Adamarch did not open its harbour to you so you could herd fishermen."
+msgstr ""
+
+#. speaker diamond_archon
+#: data/voice/lines/e7m3.json:L10
+msgid "Guard my pits. The diamonds pay for your dragons. The Outwall can look after itself."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m3.json:L11
+msgid "It has been looking after itself for a thousand years, Your Radiance. Look where it got them."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L12
+msgid "Diamond tithe. Every minute you stand there, my lord, the Archon pays. Every minute."
+msgstr ""
+
+#. speaker diamond_archon
+#: data/voice/lines/e7m3.json:L13
+msgid "Those beasts are the property of the Diamond Hall. You will answer for them."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m3.json:L14
+msgid "Then I will answer for them. They will answer to nobody."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L15
+msgid "Net Lane, out! Follow the cold, it's the only thing tonight that isn't lying to us."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L16
+msgid "The boats are in. Two crews, sixteen souls, and the whole night coming for them."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m3.json:L17
+msgid "The Archon forbade this. The Hall of Silence can fine me. These are Adamarch's people too."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m3.json:L18
+msgid "Pits to the east, fishers to the south. Aldra, I cannot stand in two places."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L19
+msgid "Their captain comes himself. Break his mask, my lord. I want to see what is under it."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m3.json:L20
+msgid "Violet. And a candle sigil. Malrik, you are taking rowers from the gutter now."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L21
+msgid "His gift at the auction was their wages. Tonight he came back for the men."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m3.json:L22
+msgid "The last tide, Ice-king. The cities always send the biggest boats just before morning."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L23
+msgid "Half the Outwall gone! Ice-king, whatever you're guarding, it isn't us!"
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L24
+msgid "Every bell's rung. I never heard all five at once. Sounds like a festival."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L25
+msgid "Dawn, and the Outwall's still here. Nobody on the wall will ever thank you. So: thank you."
+msgstr ""
+
+#. speaker diamond_archon
+#: data/voice/lines/e7m3.json:L26
+msgid "The pits held. Adamarch pays its debts, Ice-king. It never forgets them, either."
+msgstr ""
+
+#. speaker diamond_archon
+#: data/voice/lines/e7m3.json:L27
+msgid "My pits stood empty all night. Remember that I asked you, and that you chose."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m3.json:L28
+msgid "You did not pay for that, Ice-king. Nobody paid for that. I will remember."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m3.json:L29
+msgid "I waited too long again. The lanes are quiet. Too quiet, for a morning."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m3.json:L30
+msgid "Not here... not in front of them..."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L31
+msgid "The lanes are empty, my lord. There is nobody left to shelter."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L1
+msgid "The Year of Two Skies comes round again. Every ship. Every dragon. One strait."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L2
+msgid "Today we finish Aurivane, Torvald. Take the rock. I will handle the sky."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L3
+msgid "You handled the Laurel too, Malrik. I have not forgotten whose knives they were."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L4
+msgid "Then remember it after we win. Victory is a wonderful eraser."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m4.json:L5
+msgid "Crimson sails on the water. They will shell the shore road. Sink them, or stay off it."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e7m4.json:L6
+msgid "Last chance to pick the right side, Torvald! I'm told I'm very forgiving!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L7
+msgid "You are told many things, Vessa. Most of them by people standing behind you."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L8
+msgid "One small sale before the great one. Sunwake, Aurivane's pride. Who pays?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L9
+msgid "Sunwake flies with us. For the morning, at least."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L10
+msgid "Sunwake keeps her old masters. For now."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e7m4.json:L11
+msgid "Malrik! Every grave you dig, I will plant over. Every single one!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L12
+msgid "Then you will be a very busy gardener, Ysolde."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m4.json:L13
+msgid "One red sail under. The sea keeps the coin, as usual."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m4.json:L14
+msgid "The rock is Adamarch's! The Archon is watching from the spire, Ice-king. So is everyone."
+msgstr ""
+
+#. speaker diamond_archon
+#: data/voice/lines/e7m4.json:L15
+msgid "Empty the pits. All of them. Let the sky be white and silver by noon."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L16
+msgid "Every dragon on the Coinwater changes sides in one morning. I have seen this before."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e7m4.json:L17
+msgid "He bought the whole SKY? Ysolde, pull back! Everyone, back to the ships!"
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/e7m4.json:L18
+msgid "Enough. Seraphine, the cloth. We end this on the sand, the old way."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m4.json:L19
+msgid "A truce, Sunblade. No bets. No knives. Just us."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L20
+msgid "Burn them. Both fleets, the sand, the cloth. A strait of dead feeds the stone for years."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e7m4.json:L21
+msgid "Yes, Bishop. A whole sea of them. Feed me, and I will crown you king of the deep."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L23
+msgid "You said that once before, in your hall. \"For now,\" you said."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L24
+msgid "I am done waiting, Malrik. Aldra. Everyone. To the rock."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L25
+msgid "You paid me once, Ice-king, in clean coin. That bond still holds. I fly with you."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L25a
+msgid "You never bought me, Ice-king. That is why I will fly with you."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L25b
+msgid "And you sheltered the Outwall when nobody paid. I remember debts."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e7m4.json:L26
+msgid "Torvald? You're fighting HIM? ...Fine. Aurivane stands down. Don't make me regret it."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L27
+msgid "Kesh. Morrow. Sunwake. I filled your hoards to the brim. Earn them."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m4.json:L28
+msgid "My lord, the Bazaar. A dragon serves whoever filled the hoard last. Pay them to fly away."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L29
+msgid "Paid to go home. The one price he never tried."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e7m4.json:L30
+msgid "There is always another night, Ice-king. Tonight it is yours."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L31
+msgid "Then I will spend it awake."
+msgstr ""
+
+#. speaker brannet
+#: data/voice/lines/e7m4.json:L32
+msgid "Those oars were ours! Nobody from the Outwall rows for the candle-man!"
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m4.json:L32b
+msgid "Silver sinks the same as crimson, my lord. Slower, perhaps. Heavier pride."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e7m4.json:L33
+msgid "More, Bishop. The sea is generous tonight."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L33b
+msgid "Do you hear it, Torvald? Every one of them is mine now. Every single one."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L34
+msgid "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m4.json:L35
+msgid "The west water is glass. Their galleys are stuck fast."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/e7m4.json:L36
+msgid "The east is frozen! Dacian, back to back!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L37
+msgid "Torvald! You never said no to anyone in your life. Why start with me?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L38
+msgid "Because I finally saw what you were buying."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L39 data/voice/lines/ep7_opening.json:L22
+msgid "Enough."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/e7m4.json:L40
+msgid "I have heard that word once before. It sounded better from you."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L41
+msgid "The sea... was never mine to hold."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e7m4.json:L42
+msgid "The rock is his. The stone will drink the whole strait now."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e7m4.json:L43
+msgid "The Bishop sends his regrets. I will deliver them in person, later."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_fire.json:L1
+msgid "Spring at Crown Hollow. Three keys are still on the road. One is already here, of course."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L2
+msgid "Two days early. I'm always early. That's the problem, isn't it?"
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m1_fire.json:L3
+msgid "Six stakes, one line. The Hollow can't feed on this bank. Don't hand it the other one."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L4
+msgid "So I just... stand here. For fourteen minutes."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m1_fire.json:L5
+msgid "The spark first, then the storm. Today the spark waits. I'll be below, talking to the sky."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_fire.json:L6
+msgid "Little ember. You came alone. You always come alone."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L7
+msgid "Not alone. Early. There's a difference. I'm told."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_fire.json:L8
+msgid "My door is open, Queen of Fire. Come and close it. You know you want to."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L9
+msgid "I really do. I'm not going to. Somebody write that down."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m1_fire.json:L10
+msgid "Girl! The water is the line. Every step past it, it eats."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_fire.json:L11
+msgid "Yes. Closer. Hungry fire feeds me best."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e8m1_fire.json:L12
+msgid "Scouts on the far bank, my queen! Pinned at the old wagon road!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L13
+msgid "Hold the ford for them. They run to us. We do NOT run to them."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e8m1_fire.json:L14
+msgid "Did the queen just say \"we do not run\"? I'm putting that in the regiment book."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e8m1_fire.json:L15
+msgid "Every rider home! The queen waited! Somebody ring a bell!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L16
+msgid "Vey! I called. And look: still on my side of the river."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m1_fire.json:L17
+msgid "I see it. First time in twenty years. Don't spoil it."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m1_fire.json:L18
+msgid "That's what waiting buys you, girl. Lightning, on time."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_fire.json:L19
+msgid "The line is broken. Feed me, little ember. Feed me everything."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_fire.json:L20
+msgid "The last tide climbs out of the Hollow. On the hills behind it, three banners rise."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_fire.json:L21
+msgid "Ice, on the north road. You waited for us, child? Truly?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_fire.json:L22
+msgid "She waited. I watched her do it. I may need to sit down."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_fire.json:L23
+msgid "Don't all stare. I was invited. Especially, I'm told."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L24
+msgid "Four keys. One hole in the ground. Let's go and knock."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L25
+msgid "Too early... too early again..."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/e8m1_fire.json:L26
+msgid "They're at the keep! Emberguard, hold! HOLD!"
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_ice.json:L1
+msgid "The Hundredwinter Gate. Someone is knocking on it. Someone always was."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e8m1_ice.json:L2
+msgid "We don't know what follows them. We could wait. Just until we see."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L3
+msgid "I always waited until I saw. Then there was nothing left to see."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L4
+msgid "Not this year. Open the gate, Aldra. Or no. I will. My hands, this time."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L5
+msgid "Come in. Get warm. There is soup, I'm told. I've never been told that before."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_ice.json:L6
+msgid "Out of the cracked north comes a long dark line: carts, old men, children, and the hunt behind."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_ice.json:L7
+msgid "Kettlewick stands. It remembers who opened the gate once. Its shields come too."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L8
+msgid "Kettlewick. Twice now. Perhaps it's a habit."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_ice.json:L9b
+msgid "Kettlewick is a ruin. The gate stayed shut that winter. This column is what's left."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e8m1_ice.json:L9
+msgid "Torvald, they're at the gate. Whatever you're waiting for, it's here."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L10
+msgid "That's the last of them. Close it behind them. Gates are for closing too."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L11
+msgid "They rest here. Four minutes. They walked for three days. We hold for four minutes."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e8m1_ice.json:L12
+msgid "You called. Before I asked. Winter's changing."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_ice.json:L13
+msgid "The ice cracks, Torvald. Even yours. Especially yours."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L14
+msgid "Then it cracks. Ice was never the point. The line was."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e8m1_ice.json:L15
+msgid "Both flanks! They want the children. Hold the stair!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L16
+msgid "Twenty. That's enough to be a town. Keep them coming."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L17
+msgid "Go south. Don't look back. There's nothing back there worth the look."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e8m1_ice.json:L18
+msgid "The orb is warm. It hasn't been warm in a hundred years."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L19
+msgid "Crown Hollow, then. Vessa waited. I can hurry. Watch me."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L20
+msgid "Too slow... once more..."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e8m1_ice.json:L21
+msgid "Too many lost. The road is closed to them now."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_nature.json:L1
+msgid "The Closed Road. For a hundred years nobody came in. For a hundred years she never went out."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L2
+msgid "I grew these walls to keep the war out. They did. They kept everything out."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e8m1_nature.json:L3
+msgid "They'll fight you, child. They only know the one word you taught them."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L4
+msgid "Then I'll teach them a second word. It's a short one. Open."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L5
+msgid "One down. It felt like pulling out my own hair. Two more."
+msgstr ""
+
+#. speaker messenger
+#: data/voice/lines/e8m1_nature.json:L6
+msgid "My lady! Pipwell... Pipwell's burning. They... they asked for you. By name."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L7
+msgid "Nobody burns while I watch. Not any more. Go home, Pipwell. Grow it back."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L8
+msgid "Too slow. I was always too slow for the ones at the border."
+msgstr ""
+
+#. speaker messenger
+#: data/voice/lines/e8m1_nature.json:L9
+msgid "Fernby! The... the old stones are walking. Into the houses!"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L10
+msgid "Two. I'm taking a side, Maelis. It's theirs."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e8m1_nature.json:L11
+msgid "You called me out of the wood. I've waited forty years to hear that."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L12
+msgid "The last root. My first wall. Goodbye."
+msgstr ""
+
+#. speaker messenger
+#: data/voice/lines/e8m1_nature.json:L13
+msgid "Hollins Cross... please. Please, they're... they're at the mill."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L14
+msgid "Three messengers, three answers. I could get used to answering."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_nature.json:L15
+msgid "Stay in your garden, gardener. You were always so good at it."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L16
+msgid "I've left the garden. Show me again, Master. I'm showing you."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_nature.json:L17
+msgid "For the first time in a hundred years, the green went out of its own border."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L18
+msgid "The Signet's warm. It's pointing at the others. Let's not keep them waiting."
+msgstr ""
+
+#. speaker messenger
+#: data/voice/lines/e8m1_nature.json:L19
+msgid "My lady... you're really coming? Out here? With us?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L20
+msgid "Burn it, then. It grows back. That's the one thing I've always known."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L21
+msgid "I left... too late..."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_shadow.json:L1
+msgid "Duskbarrow, city of crypts. Its bishop came home with a stone, and the dead got up to meet it."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L2
+msgid "Every grave here, I dug, or my father did. They know my shovel. They don't know this."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_shadow.json:L3
+msgid "They are yours, Bishop. Take them back. Use me. Just a little."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L4
+msgid "A little. You always say a little."
+msgstr ""
+
+#. speaker shade
+#: data/voice/lines/e8m1_shadow.json:L5
+msgid "Bishop, the Old Ossuary is open. The dead are wearing amber."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L6
+msgid "Then we put them back to bed. Gently. They were somebody's."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_shadow.json:L7
+msgid "There. Doesn't that feel like enough? It never is. Again."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L8
+msgid "I know what you are. You're the last biscuit in the tin, forever."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L9
+msgid "Rest. I'm sorry they woke you. It wasn't me. It was what I was holding."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L10
+msgid "Father. You taught me where to dig. You never taught me when to stop."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_shadow.json:L10b
+msgid "Use me, and he will stand up and answer you. One question. Any question."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L11
+msgid "I'm learning, late. You'd say that's the family way. Sleep, old man."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e8m1_shadow.json:L12
+msgid "Bishop. You taught me the knife. The stone taught me the rest."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e8m1_shadow.json:L13
+msgid "Give it to me. You never use it right. You use it SMALL."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L14
+msgid "That's the only way to use it, Hush. Small. Then never."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e8m1_shadow.json:L15
+msgid "There is always another night, Bishop!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L16
+msgid "There is. I'd like to sleep through one of them."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e8m1_shadow.json:L17
+msgid "You'll want me back. When the dark gets loud."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L18
+msgid "Go, then. Keep your knives sharp. I may need a friend who isn't a rock."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_shadow.json:L19
+msgid "You will use me at the end. Everyone does. Your Master did."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L20
+msgid "Then I'll be the first who didn't. I do so like being first."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L21
+msgid "I'm not using you. I'm carrying you. Like a parcel. To the hole you came from."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m1_shadow.json:L22
+msgid "The Bishop walked out of his city with the stone in his fist, and for once the fist stayed shut."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L23
+msgid "Hungry... to the very last..."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m1_shadow.json:L24
+msgid "Not once? Not ONCE? ...What ARE you?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L25
+msgid "Full, apparently. Who knew."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m2.json:L1
+msgid "Four kingdoms on one field, and every banner pointed the same way. It had never happened."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m2.json:L2
+msgid "Well. Look at the four of you. Thirty years I waited to see this, and it's ugly. I love it."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L3
+msgid "Fire takes its bank. Or wherever I'm standing. I'm flexible."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L4
+msgid "Ice holds its bank. Malrik, if that stone so much as hums, I'm freezing your pocket."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L5
+msgid "Noted. Ysolde, try not to plant anything on my keyhole."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L5b
+msgid "No promises. Spring is busy."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m2.json:L6
+msgid "Four of you. FOUR. I only needed one to come close. You brought me a feast."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m2.json:L7
+msgid "Gates on every road. He's been building while we argued. Mason to the end."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m2.json:L8
+msgid "The pylon's down! Now the Hollow knows your key is coming. Hold the ring!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L10
+msgid "They're all over my keyhole! I could use a hand. Or ten."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L11
+msgid "The Bishop requests assistance. Politely. Once."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L12
+msgid "My line is bending. Help me hold it. I'm asking. Note that."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L13
+msgid "They're in my roots! Please. Now, not in a season."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L14
+msgid "That's what friends are for. Apparently. Don't tell Malrik."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L15
+msgid "Hm. Help that arrives on time. Unsettling. Thank you."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L16
+msgid "You came quickly. I'll try to learn how that's done."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L17
+msgid "You came. I always hoped someone would, when it was me."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m2.json:L18
+msgid "Every one who falls is a step on my stair. Keep climbing for me."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m2.json:L19
+msgid "Stop feeding it! Fight smart, or fight later. Later is worse."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L20
+msgid "Marching now! Fire on the bridge. Somebody watch my back, I won't."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L21
+msgid "Shadow marches. The stone stays in my pocket. Mostly I'm telling myself."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L22
+msgid "Ice is moving. I know. Write it down somewhere."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L23
+msgid "Nature marches out. Again. It's getting easier."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L24
+msgid "Fire's key is in! Don't make me wait. I'm terrible at it."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L25
+msgid "Shadow's lock is turned. You may thank me in writing."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L26
+msgid "Ice is set. That was quick, for me."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L27
+msgid "Nature's key is home. The roots are holding it."
+msgstr ""
+
+#. speaker pell
+#: data/voice/lines/e8m2.json:L28
+msgid "Last stall before the end of the world! Again! I'm getting good at these."
+msgstr ""
+
+#. speaker pell
+#: data/voice/lines/e8m2.json:L28b
+msgid "Genuine relic polish! For your keys! Four keys, four customers, I can't lose."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L29
+msgid "Those are mine. Were mine. They followed the stone. They'll follow it into the ground."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m2.json:L30
+msgid "Renegades on the Shadow side! Whoever's nearest, lend the Bishop a blade."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m2.json:L31
+msgid "Too slow, all of you. I'm already climbing."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m2.json:L32
+msgid "One gate less. Build something on the rubble. He'd hate that."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m2.json:L33
+msgid "Four keyholes, four colours, one ring of light around the isle."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e8m2.json:L34
+msgid "Now. All four of you. Turn them, and do not let go."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L35
+msgid "Master?! That's... that's him! Turn them!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L36
+msgid "Of course he waits until the last minute to speak. Family trait."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m2.json:L37
+msgid "You opened my door with your own hands. Thank you. Now I come up."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L38
+msgid "Then let him come. We are four. We hold."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m2.json:L40
+msgid "Your keep's burning! Pull back and hold it, then go again."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L9_vessa
+msgid "My key's in. I waited for it, too. Who's next?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L9_malrik
+msgid "The stone is in its lock. Not in my hand. Who's next?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L9_torvald
+msgid "The orb is turned. Quickly. For me. Who's next?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L9_ysolde
+msgid "The Signet is home. I'm still out here. Who's next?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L38b data/voice/lines/ep8_ending_a.json:L3
+msgid "Together."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L39_vessa
+msgid "Not now... not when we're finally together..."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m2.json:L39_malrik
+msgid "Of course. Just as it got interesting."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L39_torvald
+msgid "Too late... again..."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L39_ysolde
+msgid "I came out... for this..."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/e8m3.json:L1
+msgid "The last thing Obren ever built climbed out of the dark, and it was wearing his throne."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m3.json:L2
+msgid "A thousand years he held it. A hundred I lay under it. Now I hold everything."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m3.json:L3
+msgid "Chains on every limb. The keys are holding him. Keep the keys standing, and he stays bound."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m3.json:L4
+msgid "So we hit him when the chains pull. And we don't let go. I can do that. Probably."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m3.json:L5
+msgid "Hold the line. Ice knows how. The rest of you, copy me."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L6
+msgid "Four people who hate each other, holding one rope. What could possibly go wrong."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m3.json:L7
+msgid "They're coming up the ramps. Every keyhole, every side. Hold yours!"
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m3.json:L8
+msgid "Pull, little keys. Pull all you like. Chains are stone, and stone is mine."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m3.json:L9
+msgid "Watch the chains! When all four pull, he's bound. That's your window."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m3.json:L12
+msgid "One chain gone. One limb free. Feel how much stronger I am already?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L14
+msgid "More of mine, wearing amber. I'm running out of ways to say I'm sorry about them."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m3.json:L15
+msgid "Enough of your little ring. I will walk to the weakest of you and sit on it."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m3.json:L16
+msgid "He's out! Don't feed him: whatever dies near him, he eats. Fight from range!"
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/e8m3.json:L17
+msgid "His leg is cracking! The glass sees it. Again, there!"
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/e8m3.json:L18
+msgid "The chains! They're dragging him back! The keys remember who they belong to!"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e8m3.json:L19
+msgid "Hold him there. I am almost with you."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/e8m3.json:L20
+msgid "I said you'd want me back, Bishop. The dark got very loud."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L21
+msgid "It did. Take my keyhole's left side. And Hush... thank you."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e8m3.json:L22
+msgid "Again. All four. I am right beneath you."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m3.json:L23
+msgid "His light? HIS? Through MY throne? You'll break it! You'll break everything!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m3.json:L24
+msgid "Some things should break. Once. Properly."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/e8m3.json:L25
+msgid "One more turn, my four. Then I will come up, and we will talk."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m3.json:L26
+msgid "Keep your helpers close! If one of them's away, the pulse breaks the turn!"
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m3.json:L27
+msgid "Your helper's down! Bring them back, or time the turn right after the pulse!"
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m3.json:L29
+msgid "Two chains, two limbs. I'm free. I was always going to be free."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m3.json:L30
+msgid "He's coming for YOUR keep! Pull back and meet him at the walls!"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m3.json:L31
+msgid "He's bending! Everyone, everything you have!"
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/e8m3.json:L32
+msgid "You fed me, Bishop. Every time you used me, I grew. Thank you."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m3.json:L10_vessa
+msgid "NOW! Hit him while he's tied!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L10_malrik
+msgid "There. Bound. Make it count."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m3.json:L10_torvald
+msgid "He is held. Strike, all of you."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m3.json:L10_ysolde
+msgid "The roots have him! Now!"
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/e8m3.json:L11_vey
+msgid "A keyhole's below half! The chains won't pull until it's healed!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m3.json:L11_vessa
+msgid "My keyhole's cracking! No surge till you help!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L11_malrik
+msgid "My lock is wobbling. Assistance would be... efficient."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m3.json:L11_torvald
+msgid "My ward is failing. Help me hold it."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m3.json:L11_ysolde
+msgid "My keyhole's bleeding sap! Please!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m3.json:L13_vessa
+msgid "Back on! Sorry, chain."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L13_malrik
+msgid "Relit. Nobody saw that."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m3.json:L13_torvald
+msgid "Mended. Slowly. But mended."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m3.json:L13_ysolde
+msgid "It grew back. They always do."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/e8m3.json:L28_vessa
+msgid "Hold... hold it... without me..."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L28_malrik
+msgid "Carry the stone... somebody..."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/e8m3.json:L28_torvald
+msgid "Too slow... at the end..."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/e8m3.json:L28_ysolde
+msgid "It grows back... it has to..."
 msgstr ""
 
 #. speaker vessa
@@ -711,11 +3926,6 @@ msgid "Now the tree."
 msgstr ""
 
 #. speaker malrik
-#: data/voice/lines/ep3_ending.json:L4
-msgid "Tomorrow."
-msgstr ""
-
-#. speaker malrik
 #: data/voice/lines/ep3_ending.json:L5
 msgid "I have heard “stop” all my life."
 msgstr ""
@@ -795,6 +4005,41 @@ msgstr ""
 msgid "I will not stop."
 msgstr ""
 
+#. speaker narrator
+#: data/voice/lines/ep4_ending.json:L1
+msgid "The blizzard closed the passes, and the war sat down to wait."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep4_ending.json:L2
+msgid "You'll keep it?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep4_ending.json:L3
+msgid "Until spring."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep4_ending.json:L4
+msgid "And then?"
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep4_ending.json:L5
+msgid "Then we'll see what grows."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/ep4_ending.json:L6
+msgid "Four keys, Bishop. Count them in your sleep."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/ep4_ending.json:L7
+msgid "Four wizards, four fires, one long winter. And each of them remembered how it began."
+msgstr ""
+
 #. speaker ysolde
 #: data/voice/lines/ep4_opening.json:L1
 msgid "Malrik tells his life as a list of wounds. Mine is a list of winters."
@@ -871,13 +4116,832 @@ msgid "It will not stop."
 msgstr ""
 
 #. speaker master
-#: data/voice/lines/prologue_3min.json:L01
+#: data/voice/lines/ep5_ending.json:L1 data/voice/lines/ep7_opening.json:L28
+msgid "Vessa. Malrik. The two harbour cities are yours now. Keep them in peace."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_ending.json:L2 data/voice/lines/ep7_opening.json:L29
+msgid "Of course, Master! No problem at all!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_ending.json:L3 data/voice/lines/ep7_opening.json:L30
+msgid "None whatsoever."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_ending.json:L4
+msgid "I'm taking the gold one!"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_ending.json:L5
+msgid "Naturally."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep5_ending.json:L6
+msgid "You heard her. No problem at all."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_ending.json:L7
+msgid "I heard them both."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/ep5_ending.json:L8
+msgid "Three years later he was gone, and the peace he gave them was the first thing they spent."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L1 data/voice/lines/prologue_3min.json:L01
 msgid "Once upon a time, the strongest wizard who ever lived ruled the world."
 msgstr ""
 
 #. speaker master
-#: data/voice/lines/prologue_3min.json:L02
+#: data/voice/lines/ep5_opening.json:L2 data/voice/lines/prologue_3min.json:L02
 msgid "They called him only the Master. For a thousand years, he kept the peace."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L3 data/voice/lines/prologue_3min.json:L06
+msgid "He raised four apprentices, and gave each of them a kingdom."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L4 data/voice/lines/ep6_ending.json:L3
+#: data/voice/lines/ep6_opening.json:L2 data/voice/lines/prologue_3min.json:L07
+msgid "Then, between one breath and the next, he was gone."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L5 data/voice/lines/prologue_3min.json:L12
+msgid "Four heirs. One empty throne."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L6 data/voice/lines/prologue_3min.json:L30
+msgid "I loved all four of them. And still, they went to war."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L7
+msgid "Now winter has stopped their war, child, and two of them remember how it began."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L8
+msgid "Vey's. He cut it off his own sword the day I lit five beacons."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L9
+msgid "But that wasn't the start. The start was a barn."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L10
+msgid "I was six. It was our barn. Nobody clapped."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L11
+msgid "Smaller, next time. And not the barn."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L12
+msgid "Nobody had ever said \"next time\" to me before."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep5_opening.json:L13
+msgid "Again."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L14
+msgid "Vey said fire was the easy part. I was very good at the easy part."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L15
+msgid "I never met a wall I couldn't turn into a door."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep5_opening.json:L16
+msgid "Vessa! Wait!"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L17
+msgid "Everyone always said wait. Nobody ever told me what for."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L18
+msgid "The Master had a saying about fire that won't wait. He said it a lot. Mostly at me."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L19
+msgid "Again, my joy. Smaller."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L20
+msgid "He laughed when I laughed. Nobody else ever did that."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_opening.json:L21
+msgid "She tells it with fireworks. Mine needs one candle."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_opening.json:L22
+msgid "My father dug the graves. I read them. Someone had to remember who was down there."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_opening.json:L23
+msgid "Hello, Tobin Marsh. Nobody visits you either."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_opening.json:L24
+msgid "The town boys dared me into the crypt for a night. They waited outside."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_opening.json:L25
+msgid "I came out at dawn. Bored. The shadows came out with me."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_opening.json:L26
+msgid "In the citadel there was always enough. I took more anyway."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep5_opening.json:L27
+msgid "Malrik! Where's my bread?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_opening.json:L28
+msgid "What bread?"
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep5_opening.json:L29
+msgid "He's not afraid of it. Most grown men are."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep5_opening.json:L30
+msgid "I know. That is why it is his."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep5_opening.json:L31
+msgid "He gave me the dark. What was left. He never said otherwise."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/ep6_ending.json:L1
+msgid "You came down yourself. I knew you would."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep6_ending.json:L2
+msgid "Then we will both learn patience, Obren. I have had a good teacher."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/ep6_ending.json:L4
+msgid "Two of the four knew where he had gone. For twelve years, they told no one."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep6_opening.json:L1 data/voice/lines/prologue_3min.json:L05
+msgid "Kings brought him their quarrels, and went home as friends."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep6_opening.json:L3 data/voice/lines/prologue_3min.json:L22
+msgid "Torvald, the eldest. Where he stands, the ice holds, and so does the line."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep6_opening.json:L4 data/voice/lines/prologue_3min.json:L26
+msgid "Ysolde. I found her coaxing a sapling through the frost."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep6_opening.json:L5 data/voice/lines/prologue_3min.json:L13
+msgid "I know this tale well, child. I was that wizard."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L6
+msgid "Ysolde once asked me what I remember of being young. I told her: snow."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L7
+msgid "I was a boy on a mountain pass, keeping a beacon for soldiers who had gone down the road."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L8
+msgid "They never came back. I kept it lit all winter anyway."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep6_opening.json:L9
+msgid "All winter? For men who were not coming?"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L10
+msgid "Someone had to keep the light, I said."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep6_opening.json:L11
+msgid "Then come with me. I need someone who keeps a light."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L12
+msgid "He gave me the north. One winter, he gave me a block of ice with a light inside it."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L13
+msgid "Something came for it every winter, for a hundred winters. Nothing got past me."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L14
+msgid "He said I wait too long."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L15
+msgid "Once a rider hammered at my gate, and I stood there counting."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L16
+msgid "He called me his patience. Twelve years now, I have waited for him to come back."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/ep6_opening.json:L17
+msgid "You could stop waiting."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep6_opening.json:L18
+msgid "No. It is the one thing I am good at."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep6_opening.json:L19
+msgid "You know how he found me. A girl, a sapling, the frost. That part is easy to tell."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep6_opening.json:L20
+msgid "After that, for twenty years, he brought me dead things. A frozen rose. A burnt branch."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep6_opening.json:L21
+msgid "Every time, he said the same thing."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep6_opening.json:L22
+msgid "Show me again."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep6_opening.json:L23
+msgid "He gave me the west and told me to keep it growing. Nothing that grows stays beaten."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep6_opening.json:L24
+msgid "He said I would not take a side, not even while the world burned."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep6_opening.json:L25
+msgid "He was right. For far too long."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep6_opening.json:L26
+msgid "He called me his heart. A heart is the part that keeps going when the rest stops."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/ep6_opening.json:L27
+msgid "You never speak of the night he went."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep6_opening.json:L28
+msgid "I promised not to. So did someone else."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_ending.json:L1
+msgid "Dawn came up on a sea that did not move. The second time in my long life."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep7_ending.json:L2
+msgid "So. No."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep7_ending.json:L3
+msgid "No. Not for now. Not ever."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep7_ending.json:L4
+msgid "We will see who waits longer, Torvald."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_ending.json:L5
+msgid "The one price I ever gave back."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_ending.json:L6
+msgid "Gold for fire, they say. He paid in neither."
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/ep7_opening.json:L1
+msgid "By the Truce of the Stilled Sea: first blood, and no further!"
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/ep7_opening.json:L2
+msgid "For Aurivane, the Sunblade: Dacian Orrow!"
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/ep7_opening.json:L3
+msgid "For Adamarch, the Diamond Wall: Seraphine Vael!"
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/ep7_opening.json:L4
+msgid "Nine years I trained for this sand."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/ep7_opening.json:L5
+msgid "Then don't waste it."
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/ep7_opening.json:L6
+msgid "Yield, Diamond Wall."
+msgstr ""
+
+#. speaker seraphine
+#: data/voice/lines/ep7_opening.json:L7
+msgid "Walls don't yield."
+msgstr ""
+
+#. speaker herald
+#: data/voice/lines/ep7_opening.json:L8
+msgid "First blood! Adamarch!"
+msgstr ""
+
+#. speaker dacian
+#: data/voice/lines/ep7_opening.json:L9
+msgid "Well struck."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L10
+msgid "They say he kept the peace for a thousand years. Not here."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L11
+msgid "Two cities on one strait. Aurivane, of gold. Adamarch, of diamond."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L12
+msgid "Only the rich may live inside their walls. Only the strong may stay."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L13
+msgid "Between them, one rock. Who holds it taxes every ship on the sea."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L14
+msgid "They fought over it for a thousand years. For gold, and for glory."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L15
+msgid "He tried everything. He sent them gold, so they would want nothing."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L16
+msgid "They bought more ships. So much gold sank, they named the strait the Coinwater."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L17
+msgid "He took us dragons away. They paid us more to come back."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L18
+msgid "I burned Adamarch for Aurivane, then Aurivane for Adamarch. Twice each."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L19
+msgid "The harder he held them, the more they slipped. So at last, he came himself."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L20
+msgid "He had never stepped into a war in the open. Not once in a thousand years."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L21
+msgid "He walked out, and the sea went still."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L23
+msgid "Every blade stopped. Every dragon came to his hand. Even mine."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L24
+msgid "He gave them one duel a year instead of a war. First blood, and no further."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L25
+msgid "They bowed to him. Then they bet their cities on the duels. They saw only gold."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L26
+msgid "He left in anger, and never sat there again."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L27
+msgid "So he stopped holding the world alone, and raised four apprentices to keep it."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L31
+msgid "They heard gold, and soldiers, for free."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L32
+msgid "Now his chair is empty. And I am home."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L33
+msgid "So the old price stands. Whoever pays the most, I burn for."
+msgstr ""
+
+#. speaker ossavar
+#: data/voice/lines/ep7_opening.json:L34
+msgid "And look who has come to bid."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_bookend.json:L1
+msgid "...and that, child, is the end of the tale."
+msgstr ""
+
+#. speaker child
+#: data/voice/lines/ep8_bookend.json:L2
+msgid "Is it true? Were you really him?"
+msgstr ""
+
+#. speaker child
+#: data/voice/lines/ep8_bookend.json:L3
+msgid "Were you sad, when they stopped needing you?"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_bookend.json:L4
+msgid "No. That was the whole point."
+msgstr ""
+
+#. speaker child
+#: data/voice/lines/ep8_bookend.json:L3_dark
+msgid "Is the throne still full?"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_bookend.json:L4_dark
+msgid "For now. Storms come."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_bookend.json:L5
+msgid "...Well. So that is where it went."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_dark_fire.json:L1
+msgid "She burned so bright that night never came again."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_dark_fire.json:L2 data/voice/lines/ep8_dark_ice.json:L2
+#: data/voice/lines/ep8_dark_nature.json:L2 data/voice/lines/ep8_dark_shadow.json:L2
+msgid "And for a thousand years, the peace held. In one hand."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_dark_fire.json:L3 data/voice/lines/ep8_dark_ice.json:L3
+#: data/voice/lines/ep8_dark_nature.json:L3 data/voice/lines/ep8_dark_shadow.json:L3
+msgid "I know how that tale ends."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_dark_ice.json:L1
+msgid "Nothing broke again. Nothing moved, either."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_dark_nature.json:L1
+msgid "And the green covered every road. And every grave."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_dark_shadow.json:L1
+msgid "And the world grew very quiet. And very obedient."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_ending_a.json:L1
+msgid "Now! All four! Together!"
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep8_ending_a.json:L2
+msgid "Together, then."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/ep8_ending_a.json:L4
+msgid "Keep me, Bishop. I made you strong."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep8_ending_a.json:L5
+msgid "You made me hungry. Different thing."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/ep8_ending_a.json:L6
+msgid "I only wanted... to build something that would last."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_a.json:L7
+msgid "You did, Obren. It held me twelve years."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep8_ending_a.json:L8
+msgid "There he is. Took his time."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_ending_a.json:L9
+msgid "Master!"
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_a.json:L10
+msgid "My joy. Still never waits."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_a.json:L11
+msgid "A thousand years I held the world in one hand."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_a.json:L12
+msgid "The harder I held, the more it slipped."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_a.json:L13
+msgid "Kings. Cities. Even you four. I gave you kingdoms. You saw gold."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep8_ending_a.json:L14
+msgid "In fairness, it was a great deal of gold."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_a.json:L15
+msgid "So I will not hold it again."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep8_ending_a.json:L16
+msgid "So. The lightning."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_ending_a.json:L17
+msgid "FINALLY."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep8_ending_a.json:L18
+msgid "His. Lent to me to keep you four alive. Now it goes home."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_a.json:L19
+msgid "Whoever sits there holds the world, as I did."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_a.json:L20
+msgid "Someone will always want that seat. Choose, all four of you."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_ending_b.json:L1_vessa data/voice/lines/ep8_ending_b.json:L1_malrik
+#: data/voice/lines/ep8_ending_b.json:L1_torvald data/voice/lines/ep8_ending_b.json:L1_ysolde
+msgid "Nobody sits. Not ever again."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L2
+msgid "Good."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L3
+msgid "Torvald opened his gate, and he kept it open."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L4
+msgid "Ysolde planted the Hollow with oaks. She never closed a road again."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L5
+msgid "Malrik kept watch over the deep. The dark still came when he called."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L6
+msgid "It never frightened him."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L7
+msgid "Vessa rebuilt my observatory, and taught children their first spark. She learned to wait."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L8
+msgid "Mostly."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L9
+msgid "The two harbour cities fought one more duel, and called it a draw."
+msgstr ""
+
+#. speaker master
+#: data/voice/lines/ep8_ending_b.json:L10
+msgid "And the throne stayed empty. That was the peace: four hands, not one."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/ep8_opening.json:L1
+msgid "Spring, after the Coinwater. Every battle of this war had soaked into the ground."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/ep8_opening.json:L2
+msgid "And the ground ran one way. Down, into the Hollow."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/ep8_opening.json:L3
+msgid "The war itself was opening the door."
+msgstr ""
+
+#. speaker obren
+#: data/voice/lines/ep8_opening.json:L4
+msgid "Hear me, Bishop. No more whispers. Every battle you fought, I drank."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep8_opening.json:L5
+msgid "You've found your voice. Pity. I liked you better as a whisper."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep8_opening.json:L6
+msgid "He can't hold it. Not alone. Not any more."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_opening.json:L7
+msgid "Then he won't be. Ashby! Your fastest messenger."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_opening.json:L8
+msgid "The Orb goes north to Torvald. It lay in his lake. It's his to carry."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_opening.json:L9
+msgid "Tell him: we need all four of you."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_opening.json:L10
+msgid "The Signet slept in Ysolde's tree. Take it home to her, Wren."
+msgstr ""
+
+#. speaker wren
+#: data/voice/lines/ep8_opening.json:L11
+msgid "Before moonrise. I promise."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep8_opening.json:L12
+msgid "You gave two away. Without a fight. Are you ill, girl?"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_opening.json:L13
+msgid "Three keys. The fourth is in Malrik's pocket."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/ep8_opening.json:L14
+msgid "Then we go and ask him. He asked for all four of you. Especially Malrik."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/ep8_throne_malrik.json:L1
+msgid "Full. At last. Just once, to be full."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/ep8_throne_torvald.json:L1
+msgid "A peace that never melts. Never breaks."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/ep8_throne_vessa.json:L1
+msgid "I could stop every war. Keep everyone safe."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/ep8_throne_ysolde.json:L1
+msgid "Everything would grow. Everywhere. Always."
 msgstr ""
 
 #. speaker master
@@ -888,21 +4952,6 @@ msgstr ""
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L04
 msgid "Dragons great and small filled its sky, and not one breathed in anger."
-msgstr ""
-
-#. speaker master
-#: data/voice/lines/prologue_3min.json:L05
-msgid "Kings brought him their quarrels, and went home as friends."
-msgstr ""
-
-#. speaker master
-#: data/voice/lines/prologue_3min.json:L06
-msgid "He raised four apprentices, and gave each of them a kingdom."
-msgstr ""
-
-#. speaker master
-#: data/voice/lines/prologue_3min.json:L07
-msgid "Then, between one breath and the next, he was gone."
 msgstr ""
 
 #. speaker master
@@ -923,16 +4972,6 @@ msgstr ""
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L11
 msgid "Ysolde, of Nature."
-msgstr ""
-
-#. speaker master
-#: data/voice/lines/prologue_3min.json:L12
-msgid "Four heirs. One empty throne."
-msgstr ""
-
-#. speaker master
-#: data/voice/lines/prologue_3min.json:L13
-msgid "I know this tale well, child. I was that wizard."
 msgstr ""
 
 #. speaker master
@@ -976,11 +5015,6 @@ msgid "He thinks I gave him leftovers. I gave the dark to the one it could not f
 msgstr ""
 
 #. speaker master
-#: data/voice/lines/prologue_3min.json:L22
-msgid "Torvald, the eldest. Where he stands, the ice holds, and so does the line."
-msgstr ""
-
-#. speaker master
 #: data/voice/lines/prologue_3min.json:L23
 msgid "Armies have not broken him, nor winters, nor time."
 msgstr ""
@@ -996,11 +5030,6 @@ msgid "I left him my coldest secret. Torvald was my patience."
 msgstr ""
 
 #. speaker master
-#: data/voice/lines/prologue_3min.json:L26
-msgid "Ysolde. I found her coaxing a sapling through the frost."
-msgstr ""
-
-#. speaker master
 #: data/voice/lines/prologue_3min.json:L27
 msgid "Burn her forest down, and it grows back. Every spring. Every time."
 msgstr ""
@@ -1013,11 +5042,6 @@ msgstr ""
 #. speaker master
 #: data/voice/lines/prologue_3min.json:L29
 msgid "I would say: show me again. And she always did. Ysolde was my heart."
-msgstr ""
-
-#. speaker master
-#: data/voice/lines/prologue_3min.json:L30
-msgid "I loved all four of them. And still, they went to war."
 msgstr ""
 
 #. speaker unit_cinder_hand

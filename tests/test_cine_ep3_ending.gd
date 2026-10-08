@@ -1,14 +1,14 @@
 extends SceneTree
 ## Episode 3 ending + Episode 4 wiring: e3m4's reward "next" is the film ep3_ending; the chain ep3_ending -> ep4_opening ->
-## e4m1 (not built: the main menu); both films have their stage (scenes/cinematics/<id>.tscn, tools/cine/cine_stage_export.gd)
+## e4m1 (its mission scene starts, 2026-10-08); both films have their stage (scenes/cinematics/<id>.tscn, tools/cine/cine_stage_export.gd)
 ## and baked script; ep3_ending passes cine's checks with every line translated (data/i18n/fr/dialogue.po); playing the
-## chain shows ep3_ending, a skip goes on to ep4_opening, a skip there lands on the main menu, both marked seen.
+## chain shows ep3_ending, a skip goes on to ep4_opening, a skip there starts e4m1 (mission_e4_01.tscn), both marked seen.
 ## Uses its own save (CampaignState.default_path).
 ## Run:  godot --headless --path . -s tests/test_cine_ep3_ending.gd --fixed-fps 60 --quit-after 6000
 
 const TASK_ID := "cine_ep3_ending"
 const TEST_SAVE := "user://test_cine_ep3_ending.json"
-const MENU := "res://scenes/ui/main_menu.tscn"
+const E4M1 := "res://missions/mission_e4_01.tscn"
 
 var frame := 0
 var step := 0
@@ -70,8 +70,8 @@ func _process(_delta: float) -> bool:
 			_next()
 		5:
 			var cs := current_scene
-			if cs == null or cs.scene_file_path != MENU:
-				return step_frame > 600 and _end("the chain did not end on the main menu (%s)" % (cs.scene_file_path if cs else "null"))
+			if cs == null or cs.scene_file_path != E4M1:
+				return step_frame > 600 and _end("the chain did not start e4m1 (%s)" % (cs.scene_file_path if cs else "null"))
 			_ok(CampaignState.open().is_seen(&"ep4_opening"), "ep4_opening not marked seen")
 			return _end("")
 	return false

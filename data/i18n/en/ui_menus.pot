@@ -31,7 +31,7 @@ msgid "Hero WASD"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:78 scripts/ui/menus/settings_panel.gd:329
+#: scripts/ui/menus/game_settings.gd:78 scripts/ui/menus/settings_panel.gd:366
 msgid "RTS camera (WASD)"
 msgstr ""
 
@@ -47,8 +47,8 @@ msgstr ""
 
 #. "name": "Fire", "wizard": "Vessa", "kingdom_line": "Fire kingdom", "of_line": "Vessa of Fire", "title": "Vessa
 #: scripts/ui/menus/kingdom_card.gd:16 scripts/ui/cinematic/speakers.gd:7
-#: scripts/campaign/mission_00.gd:111 scripts/campaign/mission_01.gd:93
-#: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_03.gd:154
+#: scripts/campaign/mission_00.gd:111 scripts/campaign/mission_01.gd:96
+#: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_03.gd:155
 msgid "Vessa"
 msgstr ""
 
@@ -89,8 +89,8 @@ msgstr ""
 
 #. "name": "Shadow", "wizard": "Malrik", "kingdom_line": "Shadow kingdom", "of_line": "Malrik of Shadow", "title"
 #: scripts/ui/menus/kingdom_card.gd:21 scripts/ui/cinematic/speakers.gd:10
-#: scripts/campaign/mission_00.gd:112 scripts/campaign/mission_01.gd:93
-#: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_03.gd:154
+#: scripts/campaign/mission_00.gd:112 scripts/campaign/mission_01.gd:96
+#: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_03.gd:155
 msgid "Malrik"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgstr ""
 #. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
 #: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/cinematic/speakers.gd:12
 #: scripts/campaign/mission_02.gd:138 scripts/campaign/mission_e2_01.gd:151
-#: scripts/campaign/mission_e2_02.gd:168 scripts/campaign/mission_e2_05.gd:166
+#: scripts/campaign/mission_e2_02.gd:170 scripts/campaign/mission_e2_05.gd:166
 msgid "Torvald"
 msgstr ""
 
@@ -173,8 +173,8 @@ msgstr ""
 
 #. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
 #: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/cinematic/speakers.gd:13
-#: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_e2_01.gd:151
-#: scripts/campaign/mission_e2_02.gd:167 scripts/campaign/mission_e2_05.gd:165
+#: scripts/campaign/mission_03.gd:156 scripts/campaign/mission_e2_01.gd:151
+#: scripts/campaign/mission_e2_02.gd:169 scripts/campaign/mission_e2_05.gd:165
 msgid "Ysolde"
 msgstr ""
 
@@ -325,7 +325,7 @@ msgid "The Night of Knives"
 msgstr ""
 
 #. const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
-#: scripts/ui/menus/main_menu.gd:15 scripts/campaign/mission_01.gd:17
+#: scripts/ui/menus/main_menu.gd:15 scripts/campaign/mission_01.gd:20
 msgid "The Crown in the Ashes"
 msgstr ""
 
@@ -425,8 +425,8 @@ msgid "Every unit of the four kingdoms: stats, abilities, pros and cons, counter
 msgstr ""
 
 #. settings_button = _menu_button(box, "Settings")
-#: scripts/ui/menus/main_menu.gd:677 scripts/ui/menus/pause_menu.gd:49
-#: scripts/ui/menus/settings_panel.gd:62
+#: scripts/ui/menus/main_menu.gd:677 scripts/ui/menus/pause_menu.gd:57
+#: scripts/ui/menus/settings_panel.gd:67
 msgid "Settings"
 msgstr ""
 
@@ -496,58 +496,173 @@ msgstr ""
 msgid "Mission"
 msgstr ""
 
+#. slots_title.text = Loc.t("Save game") if mode == &"save" else Loc.t("Load game")
+#: scripts/ui/menus/pause_menu.gd:244 scripts/ui/menus/pause_menu.gd:256
+msgid "Save game"
+msgstr ""
+
+#. slots_title.text = Loc.t("Save game") if mode == &"save" else Loc.t("Load game")
+#: scripts/ui/menus/pause_menu.gd:244
+msgid "Load game"
+msgstr ""
+
+#. var slot_name := Loc.t("Quicksave") if slot == SaveGame.QUICK else Loc.t("Slot {n}", {"n": i + 1})
+#: scripts/ui/menus/pause_menu.gd:279
+msgid "Quicksave"
+msgstr ""
+
+#. var slot_name := Loc.t("Quicksave") if slot == SaveGame.QUICK else Loc.t("Slot {n}", {"n": i + 1})
+#: scripts/ui/menus/pause_menu.gd:279
+msgid "Slot {n}"
+msgstr ""
+
+#. b.text = Loc.t("{slot}: empty", {"slot": slot_name})
+#: scripts/ui/menus/pause_menu.gd:282
+msgid "{slot}: empty"
+msgstr ""
+
+#. b.text = Loc.t("{slot}: {reason}", {"slot": slot_name, "reason": Loc.sink(String(info["error"]))})
+#: scripts/ui/menus/pause_menu.gd:284
+msgid "{slot}: {reason}"
+msgstr ""
+
+#. b.text = Loc.t("{slot}: {title}  ·  {time}  ·  {date}", {"slot": slot_name,
+#: scripts/ui/menus/pause_menu.gd:286
+msgid "{slot}: {title}  ·  {time}  ·  {date}"
+msgstr ""
+
 #. var title := UIStyle.use_title_font(UIStyle.label("Paused", 40))
-#: scripts/ui/menus/pause_menu.gd:43
+#: scripts/ui/menus/pause_menu.gd:51
 msgid "Paused"
 msgstr ""
 
 #. resume_button = _button(box, "Resume")
-#: scripts/ui/menus/pause_menu.gd:47
+#: scripts/ui/menus/pause_menu.gd:55
 msgid "Resume"
 msgstr ""
 
 #. unit_guide_button.tooltip_text = "Every unit: stats, abilities, pros and cons, counters."
-#: scripts/ui/menus/pause_menu.gd:52
+#: scripts/ui/menus/pause_menu.gd:60
 msgid "Every unit: stats, abilities, pros and cons, counters."
 msgstr ""
 
+#. save_button = _button(box, "Save")
+#: scripts/ui/menus/pause_menu.gd:62
+msgid "Save"
+msgstr ""
+
+#. load_button = _button(box, "Load")
+#: scripts/ui/menus/pause_menu.gd:64
+msgid "Load"
+msgstr ""
+
 #. restart_button = _button(box, "Restart")
-#: scripts/ui/menus/pause_menu.gd:54
+#: scripts/ui/menus/pause_menu.gd:66
 msgid "Restart"
 msgstr ""
 
 #. surrender_button = _button(box, "Surrender")
-#: scripts/ui/menus/pause_menu.gd:56
+#: scripts/ui/menus/pause_menu.gd:68
 msgid "Surrender"
 msgstr ""
 
 #. quit_button = _button(box, "Quit to menu")
-#: scripts/ui/menus/pause_menu.gd:58
+#: scripts/ui/menus/pause_menu.gd:70
 msgid "Quit to menu"
 msgstr ""
 
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+#: scripts/ui/menus/pause_menu.gd:324
+msgid "Nothing to save here"
+msgstr ""
+
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+#: scripts/ui/menus/pause_menu.gd:324
+msgid "The match has not started yet"
+msgstr ""
+
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+#: scripts/ui/menus/pause_menu.gd:324
+msgid "The match is over"
+msgstr ""
+
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+#: scripts/ui/menus/pause_menu.gd:324
+msgid "Can't save during a film"
+msgstr ""
+
+#. "Still loading", "Could not write the save file", "No save in this slot", "This save file is damaged",
+#: scripts/ui/menus/pause_menu.gd:325
+msgid "Still loading"
+msgstr ""
+
+#. "Still loading", "Could not write the save file", "No save in this slot", "This save file is damaged",
+#: scripts/ui/menus/pause_menu.gd:325
+msgid "Could not write the save file"
+msgstr ""
+
+#. "Still loading", "Could not write the save file", "No save in this slot", "This save file is damaged",
+#: scripts/ui/menus/pause_menu.gd:325
+msgid "No save in this slot"
+msgstr ""
+
+#. "Still loading", "Could not write the save file", "No save in this slot", "This save file is damaged",
+#: scripts/ui/menus/pause_menu.gd:325
+msgid "This save file is damaged"
+msgstr ""
+
+#. "This save is from another version of the game", "The saved map is missing", "Game saved", "Game loaded",
+#: scripts/ui/menus/pause_menu.gd:326
+msgid "This save is from another version of the game"
+msgstr ""
+
+#. "This save is from another version of the game", "The saved map is missing", "Game saved", "Game loaded",
+#: scripts/ui/menus/pause_menu.gd:326
+msgid "The saved map is missing"
+msgstr ""
+
+#. "This save is from another version of the game", "The saved map is missing", "Game saved", "Game loaded",
+#: scripts/ui/menus/pause_menu.gd:326
+msgid "Game saved"
+msgstr ""
+
+#. "This save is from another version of the game", "The saved map is missing", "Game saved", "Game loaded",
+#: scripts/ui/menus/pause_menu.gd:326
+msgid "Game loaded"
+msgstr ""
+
+#. "Skirmish", "Mission 1",
+#: scripts/ui/menus/pause_menu.gd:327
+msgid "Skirmish"
+msgstr ""
+
+#. "Skirmish", "Mission 1",
+#: scripts/ui/menus/pause_menu.gd:327
+msgid "Mission 1"
+msgstr ""
+
 #. return Loc.t("%s: walk your wizard (camera follows)  ·  %s + click: attack-move") % [
-#: scripts/ui/menus/settings_panel.gd:164
+#: scripts/ui/menus/settings_panel.gd:171
 msgid "%s: walk your wizard (camera follows)  ·  %s + click: attack-move"
 msgstr ""
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster
-#: scripts/ui/menus/settings_panel.gd:167
+#: scripts/ui/menus/settings_panel.gd:174
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster)"
 msgstr ""
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera") % KeyLabels.of(KE
-#: scripts/ui/menus/settings_panel.gd:169
+#: scripts/ui/menus/settings_panel.gd:176
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera"
 msgstr ""
 
 #. return Loc.t("Classic: like most strategy games, right click moves your wizard and %s + click "
-#: scripts/ui/menus/settings_panel.gd:175
+#: scripts/ui/menus/settings_panel.gd:182
 msgid "Classic: like most strategy games, right click moves your wizard and %s + click attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.\nRTS camera (WASD): right click moves your wizard, %s move the camera (Shift = faster), %s + click attack-moves."
 msgstr ""
 
 #. var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t el
-#: scripts/ui/menus/settings_panel.gd:446 scripts/ui/champion_bar.gd:59
+#: scripts/ui/menus/settings_panel.gd:483 scripts/ui/champion_bar.gd:59
 #: data/champion_classes/wizard.tres:8
 msgid "Wizard"
 msgstr ""
@@ -578,131 +693,131 @@ msgid "High: full plants and flowers, birds, butterflies and frogs, animated wat
 msgstr ""
 
 #. master_slider = _slider_row(box, "Master volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:82
+#: scripts/ui/menus/settings_panel.gd:87
 msgid "Master volume"
 msgstr ""
 
 #. music_slider = _slider_row(box, "Music volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:83
+#: scripts/ui/menus/settings_panel.gd:88
 msgid "Music volume"
 msgstr ""
 
 #. sfx_slider = _slider_row(box, "Effects volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:84
+#: scripts/ui/menus/settings_panel.gd:89
 msgid "Effects volume"
 msgstr ""
 
 #. scale_slider = _slider_row(box, "UI scale", GameSettings.UI_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:85
+#: scripts/ui/menus/settings_panel.gd:90
 msgid "UI scale"
 msgstr ""
 
 #. fullscreen_check = _check_row(box, "Fullscreen")
-#: scripts/ui/menus/settings_panel.gd:87
+#: scripts/ui/menus/settings_panel.gd:92
 msgid "Fullscreen"
 msgstr ""
 
 #. edge_pan_check = _check_row(box, "Scroll at screen edge")
-#: scripts/ui/menus/settings_panel.gd:88
+#: scripts/ui/menus/settings_panel.gd:93
 msgid "Scroll at screen edge"
 msgstr ""
 
 #. render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:93
+#: scripts/ui/menus/settings_panel.gd:98
 msgid "Render scale"
 msgstr ""
 
 #. var name_label := UIStyle.label("Language", 18)
-#: scripts/ui/menus/settings_panel.gd:192
+#: scripts/ui/menus/settings_panel.gd:203
 msgid "Language"
 msgstr ""
 
 #. language_option.tooltip_text = "Game language (voices stay in English; subtitles follow the language)."
-#: scripts/ui/menus/settings_panel.gd:202
+#: scripts/ui/menus/settings_panel.gd:213
 msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr ""
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:321
+#: scripts/ui/menus/settings_panel.gd:358
 msgid "Controls"
 msgstr ""
 
 #. controls_option.add_item("Classic (right click moves)", GameSettings.CONTROLS_CLASSIC)
-#: scripts/ui/menus/settings_panel.gd:327
+#: scripts/ui/menus/settings_panel.gd:364
 msgid "Classic (right click moves)"
 msgstr ""
 
 #. controls_option.add_item("Hero WASD (keys walk the wizard)", GameSettings.CONTROLS_HERO_WASD)
-#: scripts/ui/menus/settings_panel.gd:328
+#: scripts/ui/menus/settings_panel.gd:365
 msgid "Hero WASD (keys walk the wizard)"
 msgstr ""
 
 #. var name_label := UIStyle.label("Unit priority", 18)
-#: scripts/ui/menus/settings_panel.gd:351
+#: scripts/ui/menus/settings_panel.gd:388
 msgid "Unit priority"
 msgstr ""
 
 #. name_label.tooltip_text = "Tab order of unit types in a selection; the first one is active first."
-#: scripts/ui/menus/settings_panel.gd:353
+#: scripts/ui/menus/settings_panel.gd:390
 msgid "Tab order of unit types in a selection; the first one is active first."
 msgstr ""
 
 #. priority_kingdom.tooltip_text = "The kingdom whose unit order is shown."
-#: scripts/ui/menus/settings_panel.gd:358
+#: scripts/ui/menus/settings_panel.gd:395
 msgid "The kingdom whose unit order is shown."
 msgstr ""
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:364 scripts/ui/menus/settings_panel.gd:367
+#: scripts/ui/menus/settings_panel.gd:401 scripts/ui/menus/settings_panel.gd:404
 msgid "Show"
 msgstr ""
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:364
+#: scripts/ui/menus/settings_panel.gd:401
 msgid "Show / hide the list (Tab cycles unit types in this order)"
 msgstr ""
 
 #. priority_toggle.text = "Hide" if priority_list.visible else "Show")
-#: scripts/ui/menus/settings_panel.gd:367
+#: scripts/ui/menus/settings_panel.gd:404
 msgid "Hide"
 msgstr ""
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:368
+#: scripts/ui/menus/settings_panel.gd:405
 msgid "Reset"
 msgstr ""
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:368
+#: scripts/ui/menus/settings_panel.gd:405
 msgid "Default order: wizard, dearest soldiers first, workers last"
 msgstr ""
 
 #. var up := _small_button(row, "+", "Higher priority")
-#: scripts/ui/menus/settings_panel.gd:449
+#: scripts/ui/menus/settings_panel.gd:486
 msgid "Higher priority"
 msgstr ""
 
 #. var down := _small_button(row, "−", "Lower priority")
-#: scripts/ui/menus/settings_panel.gd:452
+#: scripts/ui/menus/settings_panel.gd:489
 msgid "Lower priority"
 msgstr ""
 
 #. var name_label := UIStyle.label("Map detail", 18)
-#: scripts/ui/menus/settings_panel.gd:462
+#: scripts/ui/menus/settings_panel.gd:499
 msgid "Map detail"
 msgstr ""
 
 #. map_detail_option.add_item("High", 0)
-#: scripts/ui/menus/settings_panel.gd:468
+#: scripts/ui/menus/settings_panel.gd:505
 msgid "High"
 msgstr ""
 
 #. map_detail_option.add_item("Low (faster)", 1)
-#: scripts/ui/menus/settings_panel.gd:469
+#: scripts/ui/menus/settings_panel.gd:506
 msgid "Low (faster)"
 msgstr ""
 
 #. var name_label := UIStyle.label("Upscaler", 18)
-#: scripts/ui/menus/settings_panel.gd:483
+#: scripts/ui/menus/settings_panel.gd:520
 msgid "Upscaler"
 msgstr ""

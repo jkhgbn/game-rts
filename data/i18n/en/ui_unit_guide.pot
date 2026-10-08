@@ -146,8 +146,8 @@ msgid "%s m/s"
 msgstr ""
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Unit Guide", 34))
-#: scripts/ui/menus/unit_guide.gd:296 scripts/ui/menus/main_menu.gd:653
-#: scripts/ui/menus/pause_menu.gd:51
+#: scripts/ui/menus/unit_guide.gd:296 scripts/ui/menus/main_menu.gd:674
+#: scripts/ui/menus/pause_menu.gd:59
 msgid "Unit Guide"
 msgstr ""
 
@@ -162,9 +162,9 @@ msgid "Type a name, role, kingdom, building or tag (\"archers\", \"chill\", \"st
 msgstr ""
 
 #. back_button = _button(row, "Back", 140)
-#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:749
-#: scripts/ui/menus/main_menu.gd:835 scripts/ui/menus/settings_panel.gd:105
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:115
+#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:770
+#: scripts/ui/menus/main_menu.gd:856 scripts/ui/menus/pause_menu.gd:269
+#: scripts/ui/menus/settings_panel.gd:110 scripts/ui/wave_strike/wave_strike_lobby.gd:115
 msgid "Back"
 msgstr ""
 
@@ -427,9 +427,9 @@ msgid "Tavern"
 msgstr ""
 
 #. var keep_name := keep.display_name if keep else "Keep"
-#: scripts/ui/menus/unit_guide_data.gd:71 scripts/ui/command_card.gd:950
-#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:1856
-#: scripts/ui/selection_panel.gd:2736
+#: scripts/ui/menus/unit_guide_data.gd:71 scripts/ui/command_card.gd:952
+#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:1868
+#: scripts/ui/selection_panel.gd:2748
 msgid "Keep"
 msgstr ""
 

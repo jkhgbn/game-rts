@@ -1,0 +1,24 @@
+# e4m3 E6 "e4m3_aldra" (docs/design/mission-e4-03.md, Cinematic hooks; script-episodes-4-8/e4m3.md 1): 10 s when a side-0
+# unit first comes within 18 m of the Heartglade, mode=pause over the live mission. 1) MS Aldra at the Last Heartwood
+# (0, 9), chisel-staff on the rime, three blue beams from the totems (-7, 9), (7, 9), (0, 16) into it (the e2m1
+# e2m1_frostwarden framing, reversed); 2) MS Ysolde, staff low, 3/4. Both orbit the live units (`aldra` =
+# MissionE403.aldra, the hero `ysolde`); cast positions (Aldra at the glade, Ysolde coming in from the south-east) are
+# stand-ins for cine's checks. Axis: the Ysolde - Torvald line (z = x); every camera stays on its SOUTH-WEST side.
+# Lines: L8 (Aldra), L9 (Ysolde) (mission DIALOGUE, French in dialogue.po).
+# Fallback: the end state says L8-L9 as dialogue cards with a 2 s pan to the glade.
+cine e4m3_aldra  title="The Glass Warden"  mode=pause  letterbox=2.39  seed=92  length=8..12
+env day  moon_yaw=160  moon_pitch=-18  energy=0.85
+cast  aldra   res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(1, 0, 11)  yaw=45
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(12, 0, 22)  yaw=225
+
+# MS Aldra at the Last Heartwood; three blue beams from the totems
+shot D1 5.0  cam=orbit  pivot=aldra  r=4.0  h=1.6  deg=82>98  in=fade_black:0.4
+  at 0.3  line aldra "Ysolde. Torvald asked me to keep this wood quiet. I keep what I'm asked to keep."
+  at 0.5  vfx b1  scene=res://art/cinematics/fx/streak_blue.tscn  at=(-7, 2.0, 9)  to=(0, 1.5, 9)  life=4.3
+  at 0.8  vfx b2  scene=res://art/cinematics/fx/streak_blue.tscn  at=(7, 2.0, 9)  to=(0, 1.5, 9)  life=4.0
+  at 1.1  vfx b3  scene=res://art/cinematics/fx/streak_blue.tscn  at=(0, 2.0, 16)  to=(0, 1.5, 9)  life=3.7
+  at 0.5  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-6
+# MS Ysolde, staff low, 3/4 (west of her)
+shot D2 5.0  cam=orbit  pivot=ysolde  r=4.0  h=1.5  deg=165>180
+  at 0.7  line ysolde "You froze a grave, Aldra. I've come to open it."
+  at 4.4  fade alpha=1 time=0.6

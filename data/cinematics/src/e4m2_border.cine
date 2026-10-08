@@ -1,0 +1,34 @@
+# e4m2 E19 "e4m2_border" (docs/design/mission-e4-02.md, Cinematic hooks; script-episodes-4-8/e4m2.md 1): 30 s, then the
+# victory. mode=pause over the live mission. Cinderwatch (Fire border fort): keep (-72, -10), gate zone (-66, 3); Ashby and
+# his Flame Guards hold at (-60, 12); the road runs east from the gate: (-56, 6) (-40, 8) (-24, 0).
+# 1) WS Cinderwatch's gate open, the last walkers passing under red banners, Ashby counting them in (map point: the gate);
+# 2) MS Ashby and Ysolde, 3/4 (orbits the live `ashby`, MissionE402.ashby, who never leaves his hold spot: a capsule
+# stand-in until Ashby has a model); 3) CU Wren handing her lantern to a Fire soldier (map point inside the gate: a small
+# green glow); 4) WS Ysolde and Maelis turning east down the empty road, autumn leaves falling (map point: the road east
+# of the gate; ember drift for the leaves). Axis: cameras stay SOUTH of the road / the Ashby - Ysolde pair.
+# Lines: L26 (Ashby), L27 (Ysolde), L28 (Maelis), L29 (Ysolde) (mission DIALOGUE, French in dialogue.po).
+# Fallback: the end state says L26-L29 as dialogue cards with a 2 s pan to the gate, then the victory.
+cine e4m2_border  title="The Border"  mode=pause  letterbox=2.39  seed=83  length=28..32
+env day  moon_yaw=120  moon_pitch=-24  energy=1.0
+cast  ashby   capsule  at=(-60, 0, 12)  yaw=200
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(-58.5, 0, 9.5)  yaw=330
+cast  maelis  res://art/units/helpers/helper_maelis/helper_maelis.tscn  at=(-55, 0, 7)  yaw=90
+
+# WS the gate open, the last walkers under red banners, Ashby counting them in
+shot B1 7.5  cam=dolly  from=(-50, 6, 16)  to=(-51, 5.5, 15)  look=(-66, 2, 3)>(-66, 2, 2)  fov=44>40  in=fade_black:0.8
+  at 0.2  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-12
+  at 1.0  vfx brazier  scene=res://art/cinematics/fx/ember.tscn  at=(-64, 3, 0)  life=6.0  scale=0.6
+# MS Ashby and Ysolde, 3/4
+shot B2 9.5  cam=orbit  pivot=ashby  r=4.8  h=1.6  deg=70>84
+  at 0.3  line ashby "That's the lot, my lady. The border's yours whenever you want it. The queen said so."
+  at 5.9  line ysolde "Thank her for me. And tell her I'm not staying."
+# CU Wren's lantern passing to a Fire soldier inside the gate
+shot B3 4.0  cam=dolly  from=(-61.5, 1.5, 7.0)  to=(-61.9, 1.5, 6.6)  look=(-64.5, 1.2, 4)>(-64.8, 1.3, 3.8)  fov=32>30
+  at 0.4  vfx lantern  scene=res://art/cinematics/fx/green_pillar.tscn  at=(-64.5, 1.2, 4)  life=3.4  scale=0.12
+  at 0.5  sfx res://assets/audio/sfx/item_pickup.wav  vol=-14
+# WS Ysolde and Maelis turning east down the empty road, leaves falling
+shot B4 9.0  cam=dolly  from=(-66, 3.0, 9)  to=(-65.2, 3.2, 8.6)  look=(-50, 1.2, 6)>(-44, 1.4, 7)  fov=42>40
+  at 0.2  vfx leaves  scene=res://art/cinematics/fx/ember.tscn  at=(-54, 4, 7)  life=8.5  scale=1.2
+  at 0.4  line maelis "The Sighing Wood, then? Burnt, frozen, and still ours."
+  at 4.4  line ysolde "A seed doesn't wait for the war to end, Maelis. Neither do I."
+  at 8.0  fade alpha=1 time=1.0

@@ -1,0 +1,121 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_4ad8t"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_tk40w"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_m0ls8"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_6jdh0"]
+
+[sub_resource type="Resource" id="Resource_2b7rp"]
+script = ExtResource("4_6jdh0")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_horns.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_xyivw"]
+script = ExtResource("4_6jdh0")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -9.0
+}
+
+[sub_resource type="Resource" id="Resource_l1yg6"]
+script = ExtResource("4_6jdh0")
+at = 1.4
+kind = &"vfx"
+target = Vector3(-40, 0.5, 10)
+params = {
+"life": 2.6,
+"scale": 1.4,
+"scene": "res://art/cinematics/fx/bloom_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_xt6k2"]
+script = ExtResource("4_6jdh0")
+at = 1.8
+kind = &"vfx"
+target = Vector3(48, 0.5, 10)
+params = {
+"life": 2.6,
+"scale": 1.4,
+"scene": "res://art/cinematics/fx/bloom_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_6abaq"]
+script = ExtResource("1_4ad8t")
+at = 0.5
+speaker = &"narrator"
+text = "The evening horn. Malrik's whole host comes down to the water."
+voice = "res://assets/audio/voice/narrator/the_evening_horn_malriks_97200b9d.wav"
+
+[sub_resource type="Resource" id="Resource_6unil"]
+script = ExtResource("3_m0ls8")
+id = &"H1"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(-70, 40, 0)
+to_pos = Vector3(-60, 42, 8)
+look_from = Vector3(0, 2, 0)
+look_to = Vector3(4, 1, 2)
+fov_from = 50.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.6
+lines = Array[ExtResource("1_4ad8t")]([SubResource("Resource_6abaq")])
+actions = Array[ExtResource("4_6jdh0")]([SubResource("Resource_2b7rp"), SubResource("Resource_xyivw"), SubResource("Resource_l1yg6"), SubResource("Resource_xt6k2")])
+
+[sub_resource type="Resource" id="Resource_ahvq3"]
+script = ExtResource("4_6jdh0")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/ab_grove_oath.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_25f0p"]
+script = ExtResource("4_6jdh0")
+at = 5.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_428rn"]
+script = ExtResource("1_4ad8t")
+at = 0.3
+speaker = &"ysolde"
+text = "Let them have the water. Everyone to the foot of the hill. Nobody passes the tree."
+voice = "res://assets/audio/voice/ysolde/let_them_have_the_3a7880a2.wav"
+
+[sub_resource type="Resource" id="Resource_ouhdt"]
+script = ExtResource("3_m0ls8")
+id = &"H2"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.77, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(-5, 0, 34)
+orbit_radius = 4.2
+orbit_height = 1.5
+orbit_from_deg = -140.0
+orbit_to_deg = -128.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_4ad8t")]([SubResource("Resource_428rn")])
+actions = Array[ExtResource("4_6jdh0")]([SubResource("Resource_ahvq3"), SubResource("Resource_25f0p")])
+
+[resource]
+script = ExtResource("2_tk40w")
+id = &"e4m1_horn"
+title = "The Evening Horn"
+world_mode = 1
+shots = Array[ExtResource("3_m0ls8")]([SubResource("Resource_6unil"), SubResource("Resource_ouhdt")])
+shake_seed = 71
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

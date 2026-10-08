@@ -136,12 +136,14 @@ msgstr ""
 #. &"maelis": ["Maelis", Color(0.60, 0.85, 0.50)],
 #: scripts/ui/cinematic/speakers.gd:21 scripts/campaign/mission_03.gd:156
 #: scripts/campaign/mission_e2_02.gd:169 scripts/campaign/mission_e2_05.gd:165
+#: scripts/campaign/mission_e4_01.gd:144 scripts/campaign/mission_e4_02.gd:111
 msgid "Maelis"
 msgstr ""
 
 #. &"aldra": ["Aldra", Color(0.62, 0.95, 0.88)],   # mission-02.md (M9.U1): Torvald's voice on the Glass Ridge
 #: scripts/ui/cinematic/speakers.gd:22 scripts/campaign/mission_02.gd:139
 #: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_05.gd:166
+#: scripts/campaign/mission_e4_03.gd:112 scripts/campaign/mission_e4_04.gd:119
 msgid "Aldra"
 msgstr ""
 

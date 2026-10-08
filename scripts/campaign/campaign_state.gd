@@ -42,7 +42,7 @@ const COMPANION_PURSE_CAP := 300
 const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
 const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3", &"e2m4", &"e2m5",
-		&"e3m1", &"e3m2", &"e3m3", &"e3m4"]
+		&"e3m1", &"e3m2", &"e3m3", &"e3m4", &"e4m1", &"e4m2", &"e4m3", &"e4m4"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
@@ -58,6 +58,10 @@ const MISSION_SCENES := {
 	&"e3m2": "res://missions/mission_e3_02.tscn",
 	&"e3m3": "res://missions/mission_e3_03.tscn",
 	&"e3m4": "res://missions/mission_e3_04.tscn",
+	&"e4m1": "res://missions/mission_e4_01.tscn",
+	&"e4m2": "res://missions/mission_e4_02.tscn",
+	&"e4m3": "res://missions/mission_e4_03.tscn",
+	&"e4m4": "res://missions/mission_e4_04.tscn",
 }
 ## Story films a reward's "next" may name (StoryFilms plays them): film id -> what follows it (a film or a mission).
 ## The victory unlocks the first mission at the end of the chain (film_target).
@@ -74,11 +78,17 @@ const STORY_FILMS := {
 	&"c_e3_price": &"e3m3",          # mission-e3-02.md: "The Stone's First Price" after e3m2, before e3m3's briefing
 	&"c_e3_doubt": &"e3m4",          # mission-e3-03.md: "Torvald's Doubt" after e3m3, before e3m4's briefing
 	&"ep3_ending": &"ep4_opening",   # mission-e3-04.md: "I Will Not Stop" after e3m4, then the Ep4 card
-	&"ep4_opening": &"e4m1",         # e4m1 not built yet: the chain ends on the main menu
+	&"ep4_opening": &"e4m1",         # mission-e4-01.md E1: the opening plays before the briefing
+	&"c_e4_refuge": &"e4m2",         # mission-e4-01.md: "What the Tree Saw" after e4m1, before e4m2's briefing
+	&"c_e4_turnback": &"e4m3",       # mission-e4-02.md: "The Way Back" after e4m2, before e4m3's briefing
+	&"c_e4_frontier": &"e4m4",       # mission-e4-03.md: "The Wall" after e4m3, before e4m4's briefing
+	&"ep4_ending": &"",              # mission-e4-04.md: "Winter's End", then the main menu (Episode 5 not built)
 }
 ## Malrik's track (campaign-outline D8; per-wizard item tracks are not built): Ep3 victories are flags-only
 ## ("save_items": false, Vessa's items untouched) and carry Malrik's essence (50 %, cap 1 500) in this int flag.
 const MALRIK_ESSENCE_FLAG := "malrik_essence"
+## Ysolde's track (Episode 4, the same rule): flags only, her essence (50 %, cap 1 500) in this int flag.
+const YSOLDE_ESSENCE_FLAG := "ysolde_essence"
 ## What each victory gives: an artifact (owned, equipped in slot 1 by default), flags set from
 ## objectives ("flag": "objective id"), essence added before the 50 % cut per done objective, next mission.
 ## Optional keys (docs/design/mission-framework.md): "set_flags" (constant values), "items" (extra owned artifacts),
@@ -180,6 +190,35 @@ const MISSION_REWARDS := {
 		"flags": {"e3m4_knight_charge": "sec_knight", "e3m4_refused": "sec_refuse"},
 		"set_flags": {"ep3_complete": true, "torvald_heard_stone": true},
 		"next": &"ep3_ending",   # film chain ep3_ending -> ep4_opening -> e4m1 (unlocks e4m1, as before)
+		"save_items": false,
+	},
+	# Episode 4 (Ysolde's track: flags only, her essence in YSOLDE_ESSENCE_FLAG, written by the mission; Vessa's and
+	# Malrik's tracks untouched). docs/design/mission-e4-01.md "Reward carried to e4m2" (folk saved / time computed).
+	&"e4m1": {
+		"flags": {"e4m1_ford_held": "sec_ford", "e4m1_horns_held": "sec_horns"},
+		"set_flags": {"maelis_story_met": true, "ep4_started": true},
+		"next": &"c_e4_refuge",   # film c_e4_refuge -> e4m2
+		"save_items": false,
+	},
+	# docs/design/mission-e4-02.md "Reward carried to e4m3" (e4m2_folk_arrived is mission-computed).
+	&"e4m2": {
+		"flags": {"e4m2_brook_thawed": "sec_brook", "e4m2_hollow_burned": "sec_hollow", "e4m2_maelis_called": "sec_maelis"},
+		"set_flags": {"helper_maelis_unlocked": true},
+		"next": &"c_e4_turnback",   # film c_e4_turnback -> e4m3
+		"save_items": false,
+	},
+	# docs/design/mission-e4-03.md "Reward carried to e4m4" (the Heartwood Seed: flag heartwood_seed_owned, no ItemType yet).
+	&"e4m3": {
+		"flags": {"e4m3_spire_shattered": "sec_spire", "e4m3_groves_unbroken": "sec_unbroken"},
+		"set_flags": {"heartwood_seed_owned": true},
+		"next": &"c_e4_frontier",   # film c_e4_frontier -> e4m4
+		"save_items": false,
+	},
+	# docs/design/mission-e4-04.md "Reward carried".
+	&"e4m4": {
+		"flags": {"e4m4_elder_woken": "sec_elder", "e4m4_halls_broken": "sec_halls"},
+		"set_flags": {"ep4_complete": true, "torvald_stayed_aldra": true, "elder_treant_unlocked_nature": true},
+		"next": &"ep4_ending",   # film ep4_ending, then the main menu
 		"save_items": false,
 	},
 }

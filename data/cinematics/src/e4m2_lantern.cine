@@ -1,0 +1,27 @@
+# e4m2 E1 "e4m2_lantern" (docs/design/mission-e4-02.md, Cinematic hooks; script-episodes-4-8/e4m2.md 1): 15 s at 0:00,
+# mode=pause over the live mission (the spec's HOLD runs as PAUSE: MissionBase.play_cutscene freezes the world).
+# The Green Road (160 x 100): Lantern post (60, 2) = the road's head, Lantern Green (64, 4) where the people wait, the
+# Heartwood "Larkrest" (62, -26), Gallow Hollow far north (Dusk Keep (6, -36)), the road west to Cinderwatch (-66, 3).
+# 1) CRANE down over the amber canopy from the east, smoke rising far to the north (a dark smoke puff over Gallow Hollow);
+# 2) MS Wren on her Grove Stag lighting the green lantern at the road's head (map point: the Lantern post, a green flare);
+# 3) WS the people with bundles in the Lantern Green, Maelis leaning on her staff at the road's edge (map points).
+# Map points only (no actor-tracked camera): Wren and Maelis stand at the Lantern until E2 in the mission.
+# Axis: cameras stay on the south side of the road, looking north / west. Line: L1 (narrator, voice-over) over shot 1.
+# Fallback (no .tres / cinematics off): the end state puts the camera on the Lantern and says L1-L4.
+cine e4m2_lantern  title="The Green Lantern"  mode=pause  letterbox=2.39  seed=81  length=13..17
+env day  moon_yaw=90  moon_pitch=-20  energy=1.0
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# CRANE down over the amber canopy from the east; smoke far to the north
+shot L1 6.5  cam=crane  from=(78, 26, 14)  to=(72, 14, 12)  look=(40, 0, -6)>(56, 0, 2)  fov=56>48  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-10
+  at 0.3  vfx smoke  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(6, 8, -36)  life=6.0  scale=2.5
+  at 0.4  line narrator "The morning after Lark Hill. The wagons burned in the night. The people will have to walk."
+# MS the green lantern at the road's head: Wren lights it
+shot L2 4.0  cam=dolly  from=(55.5, 2.0, 6.5)  to=(56.2, 1.9, 5.9)  look=(60, 2.4, 2)>(60, 2.6, 2)  fov=36>32
+  at 0.8  sfx res://assets/audio/sfx/spell_vigor_on.wav  vol=-8
+  at 0.9  vfx flare  scene=res://art/cinematics/fx/green_pillar.tscn  at=(60, 2.6, 2)  life=2.8  scale=0.25
+# WS the Lantern Green: the people with their bundles, Maelis at the road's edge
+shot L3 4.5  cam=dolly  from=(52, 3.6, 14)  to=(52.6, 3.4, 13.2)  look=(62, 1, 4)>(62, 1, 3.5)  fov=46>42
+  at 0.2  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-16
+  at 3.9  fade alpha=1 time=0.6

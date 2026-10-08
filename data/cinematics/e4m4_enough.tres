@@ -1,0 +1,314 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_mk06b"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_7fno1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_e75c2"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_m1q46"]
+
+[sub_resource type="Resource" id="Resource_m7dpo"]
+script = ExtResource("4_m1q46")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_m5j2w"]
+script = ExtResource("4_m1q46")
+at = 0.8
+kind = &"vfx"
+target = Vector3(28, 0.6, -28)
+params = {
+"life": 3.0,
+"scale": 1.2,
+"scene": "res://art/cinematics/fx/ice_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_vhssg"]
+script = ExtResource("4_m1q46")
+at = 0.8
+kind = &"vfx"
+target = Vector3(28, 0.1, -28)
+params = {
+"life": 4.8,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/freeze_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_jg6jx"]
+script = ExtResource("4_m1q46")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/ab_frost_shell.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_pi7vb"]
+script = ExtResource("4_m1q46")
+at = 2.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/hit_heavy.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_u5dhe"]
+script = ExtResource("3_e75c2")
+id = &"E1"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.77, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(28, 0, -28)
+orbit_radius = 4.6
+orbit_height = 1.5
+orbit_from_deg = -150.0
+orbit_to_deg = -140.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_m1q46")]([SubResource("Resource_m7dpo"), SubResource("Resource_m5j2w"), SubResource("Resource_vhssg"), SubResource("Resource_jg6jx"), SubResource("Resource_pi7vb")])
+
+[sub_resource type="Resource" id="Resource_csqr3"]
+script = ExtResource("1_mk06b")
+at = 0.3
+speaker = &"aldra"
+text = "One strike, Torvald, and the green war is over. Let me finish it."
+voice = "res://assets/audio/voice/aldra/one_strike_torvald_and_0ed13b62.wav"
+
+[sub_resource type="Resource" id="Resource_6nfnm"]
+script = ExtResource("3_e75c2")
+id = &"E2"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.7789999, 0)
+pivot_actor = &"aldra"
+pivot = Vector3(30, 0, -33)
+orbit_radius = 3.0
+orbit_height = 1.7
+orbit_from_deg = 130.0
+orbit_to_deg = 140.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_mk06b")]([SubResource("Resource_csqr3")])
+
+[sub_resource type="Resource" id="Resource_blmvq"]
+script = ExtResource("4_m1q46")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_heavy.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_mx480"]
+script = ExtResource("1_mk06b")
+at = 0.4
+speaker = &"torvald"
+text = "Enough, Aldra."
+voice = "res://assets/audio/voice/torvald/enough_aldra_6162b9c6.wav"
+
+[sub_resource type="Resource" id="Resource_if16m"]
+script = ExtResource("3_e75c2")
+id = &"E3"
+duration = 3.5
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(26, 0, -34)
+orbit_radius = 2.6
+orbit_height = 1.95
+orbit_from_deg = 140.0
+orbit_to_deg = 146.0
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_mk06b")]([SubResource("Resource_mx480")])
+actions = Array[ExtResource("4_m1q46")]([SubResource("Resource_blmvq")])
+
+[sub_resource type="Resource" id="Resource_5exer"]
+script = ExtResource("4_m1q46")
+at = 4.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_mrx54"]
+script = ExtResource("4_m1q46")
+at = 4.8
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -11.0
+}
+
+[sub_resource type="Resource" id="Resource_jsas0"]
+script = ExtResource("4_m1q46")
+at = 5.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_yqhca"]
+script = ExtResource("1_mk06b")
+at = 0.3
+speaker = &"aldra"
+text = "She broke your wall!"
+voice = "res://assets/audio/voice/aldra/she_broke_your_wall_ae55fbf9.wav"
+
+[sub_resource type="Resource" id="Resource_p8khs"]
+script = ExtResource("1_mk06b")
+at = 3.2
+speaker = &"torvald"
+text = "It was only ever ice. Let her up."
+voice = "res://assets/audio/voice/torvald/it_was_only_ever_4bcfb212.wav"
+
+[sub_resource type="Resource" id="Resource_7woqr"]
+script = ExtResource("3_e75c2")
+id = &"E4"
+duration = 7.0
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(26, 0, -34)
+orbit_radius = 7.0
+orbit_height = 2.4
+orbit_from_deg = 118.0
+orbit_to_deg = 132.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_mk06b")]([SubResource("Resource_yqhca"), SubResource("Resource_p8khs")])
+actions = Array[ExtResource("4_m1q46")]([SubResource("Resource_5exer"), SubResource("Resource_mrx54"), SubResource("Resource_jsas0")])
+
+[sub_resource type="Resource" id="Resource_fs7l5"]
+script = ExtResource("4_m1q46")
+at = 0.5
+kind = &"vfx"
+target = Vector3(28, 1, -28)
+params = {
+"life": 2.0,
+"scale": 0.9,
+"scene": "res://art/cinematics/fx/ice_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ruvts"]
+script = ExtResource("4_m1q46")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_eb58j"]
+script = ExtResource("1_mk06b")
+at = 1.6
+speaker = &"ysolde"
+text = "Why?"
+voice = "res://assets/audio/voice/ysolde/why_adb7d872.wav"
+
+[sub_resource type="Resource" id="Resource_pfi0t"]
+script = ExtResource("3_e75c2")
+id = &"E5"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.77, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(28, 0, -28)
+orbit_radius = 4.0
+orbit_height = 1.5
+orbit_from_deg = -145.0
+orbit_to_deg = -135.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_mk06b")]([SubResource("Resource_eb58j")])
+actions = Array[ExtResource("4_m1q46")]([SubResource("Resource_fs7l5"), SubResource("Resource_ruvts")])
+
+[sub_resource type="Resource" id="Resource_i215v"]
+script = ExtResource("1_mk06b")
+at = 0.3
+speaker = &"torvald"
+text = "Because a hundred winters is long enough. Go home, Ysolde. Spring will keep."
+duration = 5.5
+voice = "res://assets/audio/voice/torvald/because_a_hundred_winters_55280b98.wav"
+
+[sub_resource type="Resource" id="Resource_yafe6"]
+script = ExtResource("3_e75c2")
+id = &"E6"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(26, 0, -34)
+orbit_radius = 2.2
+orbit_height = 1.55
+orbit_from_deg = 100.0
+orbit_to_deg = 108.0
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_mk06b")]([SubResource("Resource_i215v")])
+
+[sub_resource type="Resource" id="Resource_gwo1s"]
+script = ExtResource("4_m1q46")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_jps5g"]
+script = ExtResource("4_m1q46")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.35,
+"color": Color(0.9098039, 0.93333334, 0.972549, 1),
+"time": 4.0
+}
+
+[sub_resource type="Resource" id="Resource_gkdye"]
+script = ExtResource("4_m1q46")
+at = 6.3
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_ovnmy"]
+script = ExtResource("1_mk06b")
+at = 0.4
+speaker = &"narrator"
+text = "That night the first blizzard closed the passes. Both sides sat down to wait for spring."
+voice = "res://assets/audio/voice/narrator/that_night_the_first_73bcc592.wav"
+
+[sub_resource type="Resource" id="Resource_ca88e"]
+script = ExtResource("3_e75c2")
+id = &"E7"
+duration = 7.5
+camera_mode = 2
+from_pos = Vector3(12, 6, -22)
+to_pos = Vector3(-8, 30, -2)
+look_from = Vector3(28, 1, -32)
+look_to = Vector3(14, 0, -18)
+fov_from = 46.0
+fov_to = 58.0
+lines = Array[ExtResource("1_mk06b")]([SubResource("Resource_ovnmy")])
+actions = Array[ExtResource("4_m1q46")]([SubResource("Resource_gwo1s"), SubResource("Resource_jps5g"), SubResource("Resource_gkdye")])
+
+[resource]
+script = ExtResource("2_7fno1")
+id = &"e4m4_enough"
+title = "Enough"
+world_mode = 1
+shots = Array[ExtResource("3_e75c2")]([SubResource("Resource_u5dhe"), SubResource("Resource_6nfnm"), SubResource("Resource_if16m"), SubResource("Resource_7woqr"), SubResource("Resource_pfi0t"), SubResource("Resource_yafe6"), SubResource("Resource_ca88e")])
+shake_seed = 104
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

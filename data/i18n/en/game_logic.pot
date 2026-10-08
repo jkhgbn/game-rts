@@ -240,7 +240,7 @@ msgstr ""
 
 #. const REASON_WORKING := "Already in progress"
 #: scripts/buildings/forge_kit.gd:81 scripts/buildings/unit_upgrades.gd:42
-#: scripts/units/bowman_upgrades.gd:47 scripts/units/stables16.gd:263
+#: scripts/units/bowman_upgrades.gd:47 scripts/units/stables16.gd:265
 msgid "Already in progress"
 msgstr ""
 
@@ -270,47 +270,47 @@ msgid "Upgrade the keep: +%d %% HP, +%d damage."
 msgstr ""
 
 #. opens.append("the \"+\" upgrades at the Hall")
-#: scripts/buildings/keep.gd:227
+#: scripts/buildings/keep.gd:228
 msgid "the \"+\" upgrades at the Hall"
 msgstr ""
 
 #. lines.append("Opens: " + " · ".join(opens))
-#: scripts/buildings/keep.gd:229
+#: scripts/buildings/keep.gd:230
 msgid "Opens:  · "
 msgstr ""
 
 #. needs.append("from %s" % TierSystem.clock(ts.start_time(to)))
-#: scripts/buildings/keep.gd:233
+#: scripts/buildings/keep.gd:234
 msgid "from %s"
 msgstr ""
 
 #. needs.append("a completed Hall")
-#: scripts/buildings/keep.gd:235
+#: scripts/buildings/keep.gd:236
 msgid "a completed Hall"
 msgstr ""
 
 #. needs.push_front("the Stronghold")
-#: scripts/buildings/keep.gd:237
+#: scripts/buildings/keep.gd:238
 msgid "the Stronghold"
 msgstr ""
 
 #. lines.append("Needs " + ", ".join(needs) + ".")
-#: scripts/buildings/keep.gd:239
+#: scripts/buildings/keep.gd:240
 msgid "Needs , "
 msgstr ""
 
 #. return "Exchange disabled"
-#: scripts/buildings/keep.gd:319
+#: scripts/buildings/keep.gd:320
 msgid "Exchange disabled"
 msgstr ""
 
 #. return "Not your shop"
-#: scripts/buildings/keep.gd:323
+#: scripts/buildings/keep.gd:324
 msgid "Not your shop"
 msgstr ""
 
 #. return "Essence not available"
-#: scripts/buildings/keep.gd:326
+#: scripts/buildings/keep.gd:327
 msgid "Essence not available"
 msgstr ""
 
@@ -396,7 +396,7 @@ msgstr ""
 
 #. const REASON_DONE := "Already researched"
 #: scripts/buildings/unit_upgrades.gd:41 scripts/units/bowman_upgrades.gd:46
-#: scripts/units/stables16.gd:261
+#: scripts/units/stables16.gd:263
 msgid "Already researched"
 msgstr ""
 
@@ -941,7 +941,7 @@ msgid "Requires a Bazaar or a second Hall"
 msgstr ""
 
 #. var gate := (REASON_T2 if OWN_T2_GATE else "Tier 2: requires Stronghold") if tier_of(type_id) >= 2 else ""
-#: scripts/units/new_units_12.gd:105
+#: scripts/units/new_units_12.gd:108
 msgid "Tier 2: requires Stronghold"
 msgstr ""
 
@@ -1071,17 +1071,17 @@ msgid "Tier 3 horse archer. Long range, fast; regenerates."
 msgstr ""
 
 #. return "No rank-up for that unit"
-#: scripts/units/stables16.gd:259
+#: scripts/units/stables16.gd:261
 msgid "No rank-up for that unit"
 msgstr ""
 
 #. return "Needs completed Stables"
-#: scripts/units/stables16.gd:266 scripts/units/stables16.gd:269
+#: scripts/units/stables16.gd:268 scripts/units/stables16.gd:271
 msgid "Needs completed Stables"
 msgstr ""
 
 #. return "The Stables is busy"
-#: scripts/units/stables16.gd:275
+#: scripts/units/stables16.gd:277
 msgid "The Stables is busy"
 msgstr ""
 
@@ -1290,77 +1290,77 @@ msgid "not sold"
 msgstr ""
 
 #. return "Loading"
-#: scripts/economy/caravan.gd:170
+#: scripts/economy/caravan.gd:171
 msgid "Loading"
 msgstr ""
 
 #. return "To %s" % _post_name(_trip_post)
-#: scripts/economy/caravan.gd:172
+#: scripts/economy/caravan.gd:173
 msgid "To %s"
 msgstr ""
 
 #. return "Trading"
-#: scripts/economy/caravan.gd:174
+#: scripts/economy/caravan.gd:175
 msgid "Trading"
 msgstr ""
 
 #. return "Returning with %d" % cargo if cargo > 0 else "Returning"
-#: scripts/economy/caravan.gd:176
+#: scripts/economy/caravan.gd:177
 msgid "Returning with %d"
 msgstr ""
 
 #. return "Returning with %d" % cargo if cargo > 0 else "Returning"
-#: scripts/economy/caravan.gd:176
+#: scripts/economy/caravan.gd:177
 msgid "Returning"
 msgstr ""
 
 #. return "Waiting: posts open at 4:00"
-#: scripts/economy/caravan.gd:180
+#: scripts/economy/caravan.gd:181
 msgid "Waiting: posts open at 4:00"
 msgstr ""
 
 #. return "Waiting: %s is held" % _post_name(_trip_post)
-#: scripts/economy/caravan.gd:182
+#: scripts/economy/caravan.gd:183
 msgid "Waiting: %s is held"
 msgstr ""
 
 #. return "Waiting: no Bazaar"
-#: scripts/economy/caravan.gd:184
+#: scripts/economy/caravan.gd:185
 msgid "Waiting: no Bazaar"
 msgstr ""
 
 #. return "Waiting: no route"
-#: scripts/economy/caravan.gd:186
+#: scripts/economy/caravan.gd:187
 msgid "Waiting: no route"
 msgstr ""
 
 #. return "Waiting"
-#: scripts/economy/caravan.gd:187
+#: scripts/economy/caravan.gd:188
 msgid "Waiting"
 msgstr ""
 
 #. return "the post"
-#: scripts/economy/caravan.gd:663
+#: scripts/economy/caravan.gd:664
 msgid "the post"
 msgstr ""
 
 #. return "Your caravan was robbed: -%d gold" % amount
-#: scripts/economy/caravan.gd:850
+#: scripts/economy/caravan.gd:868
 msgid "Your caravan was robbed: -%d gold"
 msgstr ""
 
 #. return "Your caravan was destroyed"
-#: scripts/economy/caravan.gd:852
+#: scripts/economy/caravan.gd:870
 msgid "Your caravan was destroyed"
 msgstr ""
 
 #. return "%d of your caravans were destroyed" % amount
-#: scripts/economy/caravan.gd:853
+#: scripts/economy/caravan.gd:871
 msgid "%d of your caravans were destroyed"
 msgstr ""
 
 #. _show("%s is held by the enemy: your caravans wait" % post_name)
-#: scripts/economy/caravan.gd:861
+#: scripts/economy/caravan.gd:880
 msgid "%s is held by the enemy: your caravans wait"
 msgstr ""
 

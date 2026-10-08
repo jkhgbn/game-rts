@@ -1,0 +1,118 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_hg02b"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_ehh6d"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_a00di"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_u7ebh"]
+
+[sub_resource type="Resource" id="Resource_iqj20"]
+script = ExtResource("4_u7ebh")
+at = 0.2
+kind = &"vfx"
+target = Vector3(4, 0, 15)
+params = {
+"life": 4.6,
+"scale": 0.08,
+"scene": "res://art/cinematics/fx/green_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_yhjlm"]
+script = ExtResource("4_u7ebh")
+at = 0.3
+kind = &"vfx"
+target = Vector3(4, 0.05, 15)
+params = {
+"life": 3.0,
+"scale": 0.3,
+"scene": "res://art/cinematics/fx/freeze_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_y1b4p"]
+script = ExtResource("4_u7ebh")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_vd7yy"]
+script = ExtResource("1_hg02b")
+at = 0.4
+speaker = &"torvald"
+text = "Aldra. Look. A shoot, in the ash. After all of that."
+voice = "res://assets/audio/voice/torvald/aldra_look_a_shoot_ad19f66f.wav"
+
+[sub_resource type="Resource" id="Resource_pi1v8"]
+script = ExtResource("3_a00di")
+id = &"S1"
+duration = 5.0
+camera_mode = 1
+from_pos = Vector3(2.6, 0.35, 16.8)
+to_pos = Vector3(2.9, 0.3, 16.4)
+look_from = Vector3(4, 0.2, 15)
+look_to = Vector3(4, 0.3, 15)
+fov_from = 34.0
+fov_to = 30.0
+transition_in = 1
+lines = Array[ExtResource("1_hg02b")]([SubResource("Resource_vd7yy")])
+actions = Array[ExtResource("4_u7ebh")]([SubResource("Resource_iqj20"), SubResource("Resource_yhjlm"), SubResource("Resource_y1b4p")])
+
+[sub_resource type="Resource" id="Resource_ve5gl"]
+script = ExtResource("4_u7ebh")
+at = 3.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/ab_hold_the_line.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_iq3y6"]
+script = ExtResource("4_u7ebh")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_xfu82"]
+script = ExtResource("1_hg02b")
+at = 0.3
+speaker = &"aldra"
+text = "It's a weed, Torvald."
+voice = "res://assets/audio/voice/aldra/its_a_weed_torvald_4c1e9d87.wav"
+
+[sub_resource type="Resource" id="Resource_o6q3w"]
+script = ExtResource("1_hg02b")
+at = 3.0
+speaker = &"torvald"
+text = "We were all weeds once. Pull back."
+voice = "res://assets/audio/voice/torvald/we_were_all_weeds_0b0b7c80.wav"
+
+[sub_resource type="Resource" id="Resource_gcojo"]
+script = ExtResource("3_a00di")
+id = &"S2"
+duration = 7.0
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(2, 0, 12)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = 96.0
+orbit_to_deg = 112.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_hg02b")]([SubResource("Resource_xfu82"), SubResource("Resource_o6q3w")])
+actions = Array[ExtResource("4_u7ebh")]([SubResource("Resource_ve5gl"), SubResource("Resource_iq3y6")])
+
+[resource]
+script = ExtResource("2_ehh6d")
+id = &"e4m3_shoot"
+title = "A Shoot in the Ash"
+world_mode = 1
+shots = Array[ExtResource("3_a00di")]([SubResource("Resource_pi1v8"), SubResource("Resource_gcojo")])
+shake_seed = 93
+lines_over_cuts = true

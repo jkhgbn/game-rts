@@ -1,0 +1,26 @@
+# e4m4 E12 "e4m4_wardens" (docs/design/mission-e4-04.md, Cinematic hooks; script-episodes-4-8/e4m4.md 1): 8 s when the
+# first Wallwarden wakes, mode=pause over the live mission. 1) Low angle at the West alcove (-44, -16) behind the West Gate
+# (the gate the player hits first; Maelis's "by the west gate"): the ice face splits and the Wallwarden steps out, rime
+# pouring off it (map point: an ice burst + a frost ring); 2) MS Aldra, chisel raised (orbits the live `aldra`,
+# MissionE404.aldra; the spec has her on the Wall above for this shot only: the cast stands at the West Gate, a stand-in
+# for cine's checks; if the mission puts her on the Wall top for the film, the orbit follows her there).
+# Axis: cameras WEST of the Ysolde - Torvald line (the Ep4 rule): both shots look east from the west side.
+# Lines: L16 (Aldra), L17 (Ysolde) (mission DIALOGUE, French in dialogue.po).
+# Fallback: the end state says L16-L17 as dialogue cards; the camera goes back on the gate.
+cine e4m4_wardens  title="The Wallwardens"  mode=pause  letterbox=2.39  seed=102  length=7..10
+env day  moon_yaw=225  moon_pitch=-16  energy=1.0
+cast  aldra   res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(-40, 0, -12)  yaw=180
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(-44, 0, 4)  yaw=180
+
+# Low at the alcove: the ice face splits, the Wallwarden steps out, rime pouring off it
+shot W1 4.2  cam=dolly  from=(-51, 0.6, -11.5)  to=(-50.4, 0.7, -12)  look=(-44, 2.5, -16)>(-44, 4.5, -16)  fov=48>44  in=fade_black:0.4
+  at 0.2  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-4
+  at 0.4  line aldra "Wake, old guards. Somebody is knocking."
+  at 0.8  vfx split  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-44, 2, -16)  life=2.5  scale=1.6
+  at 1.0  vfx rime  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(-44, 0.2, -15)  life=3.0  scale=1.4
+  at 1.0  sfx res://assets/audio/sfx/building_collapse.wav  vol=-8
+  at 2.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-4
+# MS Aldra, chisel raised (west of her, 3/4)
+shot W2 3.8  cam=orbit  pivot=aldra  r=4.0  h=1.4  deg=200>212
+  at 0.2  line ysolde "Colossi. Tall, slow, and stubborn. So are we."
+  at 3.3  fade alpha=1 time=0.5

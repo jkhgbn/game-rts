@@ -1,0 +1,146 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_e8pir"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_mc77f"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_4tkew"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_3dmto"]
+
+[sub_resource type="Resource" id="Resource_ari5n"]
+script = ExtResource("4_3dmto")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -22.0
+}
+
+[sub_resource type="Resource" id="Resource_b1rv0"]
+script = ExtResource("4_3dmto")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_1nc41"]
+script = ExtResource("4_3dmto")
+at = 1.0
+kind = &"vfx"
+target = Vector3(-44, 5, -8)
+params = {
+"life": 5.0,
+"scale": 1.2,
+"scene": "res://art/cinematics/fx/freeze_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_4usxp"]
+script = ExtResource("4_3dmto")
+at = 1.4
+kind = &"vfx"
+target = Vector3(0, 5, -8)
+params = {
+"life": 4.6,
+"scale": 1.2,
+"scene": "res://art/cinematics/fx/freeze_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_v2ag4"]
+script = ExtResource("4_3dmto")
+at = 1.8
+kind = &"vfx"
+target = Vector3(44, 5, -8)
+params = {
+"life": 4.2,
+"scale": 1.2,
+"scene": "res://art/cinematics/fx/freeze_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_7vluy"]
+script = ExtResource("1_e8pir")
+at = 0.4
+speaker = &"narrator"
+text = "Torvald's frontier, a week before the snows. A wall older than any of the four."
+voice = "res://assets/audio/voice/narrator/torvalds_frontier_a_week_27c59e51.wav"
+
+[sub_resource type="Resource" id="Resource_37yto"]
+script = ExtResource("3_4tkew")
+id = &"R1"
+duration = 6.5
+camera_mode = 2
+from_pos = Vector3(-76, 18, 6)
+to_pos = Vector3(-68, 12, 2)
+look_from = Vector3(-24, 4, -8)
+look_to = Vector3(0, 4, -8)
+fov_from = 50.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_e8pir")]([SubResource("Resource_7vluy")])
+actions = Array[ExtResource("4_3dmto")]([SubResource("Resource_ari5n"), SubResource("Resource_b1rv0"), SubResource("Resource_1nc41"), SubResource("Resource_4usxp"), SubResource("Resource_v2ag4")])
+
+[sub_resource type="Resource" id="Resource_oy3ke"]
+script = ExtResource("4_3dmto")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_p7ncc"]
+script = ExtResource("3_4tkew")
+id = &"R2"
+duration = 4.5
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(-1.5, 0, -11)
+orbit_radius = 4.2
+orbit_height = 1.7
+orbit_from_deg = 200.0
+orbit_to_deg = 212.0
+fov_from = 40.0
+fov_to = 40.0
+actions = Array[ExtResource("4_3dmto")]([SubResource("Resource_oy3ke")])
+
+[sub_resource type="Resource" id="Resource_73n5u"]
+script = ExtResource("4_3dmto")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_oh3te"]
+script = ExtResource("4_3dmto")
+at = 3.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_ggvkv"]
+script = ExtResource("3_4tkew")
+id = &"R3"
+duration = 4.0
+camera_mode = 1
+from_pos = Vector3(-50, 6, 42)
+to_pos = Vector3(-49.2, 5.6, 41.2)
+look_from = Vector3(-30, 1.5, 28)
+look_to = Vector3(-29, 1.5, 28)
+fov_from = 46.0
+fov_to = 42.0
+actions = Array[ExtResource("4_3dmto")]([SubResource("Resource_73n5u"), SubResource("Resource_oh3te")])
+
+[resource]
+script = ExtResource("2_mc77f")
+id = &"e4m4_arrival"
+title = "The Wall of a Hundred Winters"
+world_mode = 1
+shots = Array[ExtResource("3_4tkew")]([SubResource("Resource_37yto"), SubResource("Resource_p7ncc"), SubResource("Resource_ggvkv")])
+shake_seed = 101
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

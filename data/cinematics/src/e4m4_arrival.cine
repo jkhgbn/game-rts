@@ -1,0 +1,31 @@
+# e4m4 E1 "e4m4_arrival" (docs/design/mission-e4-04.md, Cinematic hooks; script-episodes-4-8/e4m4.md 1): 15 s at 0:00,
+# mode=pause over the live mission (the spec's HOLD runs as PAUSE: MissionBase.play_cutscene freezes the world).
+# The Hundred Winters (160 x 140): the Wall on z = -8 from x -72 to 72, gates West (-44, -8), Heart (0, -8), East (44, -8),
+# the Winterheart (0, -16) behind the Heart Gate, Aldra's Glass Spire (30, -36), Torvald's Rime Keep (0, -54); south: the
+# Heartwood (-46, 48), the Fire Keep (46, 48), rallies (-30, 28) / (30, 28), Ysolde's start (-38, 38).
+# 1) CRANE along the Wall from the west cliff, frost smoke on its top, rune bands glowing faintly (a frost ring at each
+# gate); 2) MS Torvald, cloak in the wind, Aldra's spire catching the sun behind him (orbits the live `torvald`,
+# MissionE404.torvald; the cast stands on the Heart Gate parapet line for cine's checks); 3) WS the Nature and Fire camps in
+# the snow, Ysolde and Vessa side by side at the rally (map point: the player's rally).
+# Axis: the Ysolde - Torvald line runs south -> north through the Heart Gate; every camera stays WEST of it.
+# Line: L1 (narrator, voice-over) over shot 1. Fallback: the end state puts the camera on Ysolde and says L1-L5.
+cine e4m4_arrival  title="The Wall of a Hundred Winters"  mode=pause  letterbox=2.39  seed=101  length=13..17
+env day  moon_yaw=225  moon_pitch=-16  energy=1.0
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(-1.5, 0, -11)  yaw=180
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# CRANE along the Wall from the west cliff: frost smoke, the rune bands glowing faintly
+shot R1 6.5  cam=crane  from=(-76, 18, 6)  to=(-68, 12, 2)  look=(-24, 4, -8)>(0, 4, -8)  fov=50>46  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/sfx/atk_storm.wav  vol=-22
+  at 0.2  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-12
+  at 0.4  line narrator "Torvald's frontier, a week before the snows. A wall older than any of the four."
+  at 1.0  vfx w1  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(-44, 5, -8)  life=5.0  scale=1.2
+  at 1.4  vfx w2  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(0, 5, -8)  life=4.6  scale=1.2
+  at 1.8  vfx w3  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(44, 5, -8)  life=4.2  scale=1.2
+# MS Torvald, cloak in the wind, the Glass Spire behind him (west of him, 3/4)
+shot R2 4.5  cam=orbit  pivot=torvald  r=4.2  h=1.7  deg=200>212
+  at 0.3  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-14
+# WS the camps in the snow: Ysolde and Vessa side by side at the rally
+shot R3 4.0  cam=dolly  from=(-50, 6, 42)  to=(-49.2, 5.6, 41.2)  look=(-30, 1.5, 28)>(-29, 1.5, 28)  fov=46>42
+  at 0.2  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-16
+  at 3.4  fade alpha=1 time=0.6

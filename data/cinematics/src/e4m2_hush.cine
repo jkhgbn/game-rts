@@ -1,0 +1,23 @@
+# e4m2 E7 "e4m2_hush" (docs/design/mission-e4-02.md, Cinematic hooks; script-episodes-4-8/e4m2.md 1): 8 s when A3
+# wakes, mode=pause over the live mission. Crowstone Clearing (-40, 16): the old standing stone, 8 m south of the road's
+# waypoint wp_7 (-40, 8). 1) Low angle on the road at Crowstone: the stone's shadow stretches and Hush rises out of it,
+# the mouthless mask first (map point: the stone, a shroud of smoke; the mission spawns her there); 2) MS Ysolde turning,
+# staff up (orbits the live hero: tag `ysolde`; the cast stands on the road at wp_7 for cine's checks).
+# Axis: the Hush - Ysolde line runs north-south along x = -40; every camera stays WEST of it.
+# Lines: L11 (Hush), L12 (Ysolde) (mission DIALOGUE, French in dialogue.po).
+# Fallback: the end state spawns Hush with a smoke puff and says L11-L12 as dialogue cards.
+cine e4m2_hush  title="Out of the Shadow"  mode=pause  letterbox=2.39  seed=82  length=7..10
+env day  moon_yaw=90  moon_pitch=-20  energy=1.0
+cast  hush    res://art/units/helpers/helper_hush/helper_hush.tscn  at=(-40, 0, 14)  yaw=180
+cast  ysolde  res://art/units/wizards/ysolde.tscn  at=(-40, 0, 8)  yaw=0
+
+# Low on the road at Crowstone: the stone's shadow stretches, Hush rises out of it
+shot H1 4.2  cam=dolly  from=(-46, 0.5, 10.5)  to=(-45.6, 0.6, 10.9)  look=(-40, 1.0, 14.5)>(-40, 2.0, 14.2)  fov=44>40  in=fade_black:0.4
+  at 0.2  sfx res://assets/audio/sfx/spell_umbral_shroud.wav  vol=-6
+  at 0.2  vfx shadow  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(-40, 0.2, 14.5)  life=3.6  scale=0.8
+  at 0.2  line hush "Little lambs on a little road. The Bishop sends his regards." dur=3.9
+# MS Ysolde turning, staff up (west of her, 3/4 front)
+shot H2 3.8  cam=orbit  pivot=ysolde  r=4.0  h=1.5  deg=138>150
+  at 0.2  line ysolde "You burned their wagons. You don't get their children." dur=3.3
+  at 0.3  sfx res://assets/audio/sfx/ab_grove_oath.wav  vol=-10
+  at 3.3  fade alpha=1 time=0.5

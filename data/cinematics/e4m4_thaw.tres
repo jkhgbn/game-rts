@@ -1,0 +1,136 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_ld4tw"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_vmeal"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_lbh4w"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_insk8"]
+
+[sub_resource type="Resource" id="Resource_4s5dw"]
+script = ExtResource("4_insk8")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_cbfmh"]
+script = ExtResource("4_insk8")
+at = 0.8
+kind = &"vfx"
+target = Vector3(0, 0.5, -16)
+params = {
+"life": 2.4,
+"scale": 0.6,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_gq7kv"]
+script = ExtResource("4_insk8")
+at = 3.0
+kind = &"vfx"
+target = Vector3(0, 2.2, -16)
+params = {
+"life": 2.0,
+"scale": 1.8,
+"scene": "res://art/cinematics/fx/ice_burst.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_xlwno"]
+script = ExtResource("4_insk8")
+at = 3.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_collapse.wav",
+"volume_db": -4.0
+}
+
+[sub_resource type="Resource" id="Resource_c6fse"]
+script = ExtResource("1_ld4tw")
+at = 0.3
+speaker = &"narrator"
+text = "A hundred winters, broken in one afternoon. The Wall begins to weep."
+voice = "res://assets/audio/voice/narrator/a_hundred_winters_broken_6eff91f1.wav"
+
+[sub_resource type="Resource" id="Resource_vg7qo"]
+script = ExtResource("3_lbh4w")
+id = &"T1"
+duration = 5.0
+camera_mode = 1
+from_pos = Vector3(-4.6, 2.4, -13.4)
+to_pos = Vector3(-4.1, 2.3, -13.9)
+look_from = Vector3(0, 2.2, -16)
+look_to = Vector3(0, 2.4, -16)
+fov_from = 32.0
+fov_to = 28.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_ld4tw")]([SubResource("Resource_c6fse")])
+actions = Array[ExtResource("4_insk8")]([SubResource("Resource_4s5dw"), SubResource("Resource_cbfmh"), SubResource("Resource_gq7kv"), SubResource("Resource_xlwno")])
+
+[sub_resource type="Resource" id="Resource_6g6nu"]
+script = ExtResource("4_insk8")
+at = 0.1
+kind = &"fade"
+params = {
+"alpha": 0.12,
+"color": Color(0.84705883, 0.9254902, 1, 1),
+"time": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_1eur6"]
+script = ExtResource("4_insk8")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/shovel_earth.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_bgj0x"]
+script = ExtResource("4_insk8")
+at = 6.3
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_2aff3"]
+script = ExtResource("1_ld4tw")
+at = 0.3
+speaker = &"vessa"
+text = "Look at it melt! Fire always wins in the end."
+voice = "res://assets/audio/voice/vessa/look_at_it_melt_1df723e8.wav"
+
+[sub_resource type="Resource" id="Resource_ni80y"]
+script = ExtResource("1_ld4tw")
+at = 3.8
+speaker = &"ysolde"
+text = "That was the tree, Vessa."
+voice = "res://assets/audio/voice/ysolde/that_was_the_tree_93101157.wav"
+
+[sub_resource type="Resource" id="Resource_y0urf"]
+script = ExtResource("3_lbh4w")
+id = &"T2"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(-74, 10, 4)
+to_pos = Vector3(-70, 9, 2)
+look_from = Vector3(-10, 2, -8)
+look_to = Vector3(6, 2, -8)
+fov_from = 46.0
+fov_to = 42.0
+lines = Array[ExtResource("1_ld4tw")]([SubResource("Resource_2aff3"), SubResource("Resource_ni80y")])
+actions = Array[ExtResource("4_insk8")]([SubResource("Resource_6g6nu"), SubResource("Resource_1eur6"), SubResource("Resource_bgj0x")])
+
+[resource]
+script = ExtResource("2_vmeal")
+id = &"e4m4_thaw"
+title = "The Thaw"
+world_mode = 1
+shots = Array[ExtResource("3_lbh4w")]([SubResource("Resource_vg7qo"), SubResource("Resource_y0urf")])
+shake_seed = 103
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

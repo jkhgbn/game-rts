@@ -1,0 +1,110 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_4thc1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_20a1e"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_b472r"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_ivbqg"]
+
+[sub_resource type="Resource" id="Resource_nij5h"]
+script = ExtResource("4_ivbqg")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_hba36"]
+script = ExtResource("4_ivbqg")
+at = 2.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/ab_hold_the_line.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_kfpuq"]
+script = ExtResource("1_4thc1")
+at = 0.4
+speaker = &"torvald"
+text = "I came for a ford, Bishop. Not for his tree. My host stops here."
+voice = "res://assets/audio/voice/torvald/i_came_for_a_3c01c1f3.wav"
+
+[sub_resource type="Resource" id="Resource_3w0id"]
+script = ExtResource("3_b472r")
+id = &"F1"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(24, 0, 16)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = 118.0
+orbit_to_deg = 132.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+lines = Array[ExtResource("1_4thc1")]([SubResource("Resource_kfpuq")])
+actions = Array[ExtResource("4_ivbqg")]([SubResource("Resource_nij5h"), SubResource("Resource_hba36")])
+
+[sub_resource type="Resource" id="Resource_cmnea"]
+script = ExtResource("4_ivbqg")
+at = 0.3
+kind = &"vfx"
+target = Vector3(-2, 1.1, 36)
+params = {
+"life": 4.0,
+"scale": 0.4,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_b6otg"]
+script = ExtResource("4_ivbqg")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_eeeg8"]
+script = ExtResource("4_ivbqg")
+at = 2.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -13.0
+}
+
+[sub_resource type="Resource" id="Resource_efiur"]
+script = ExtResource("4_ivbqg")
+at = 4.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_8wn05"]
+script = ExtResource("3_b472r")
+id = &"F2"
+duration = 5.0
+camera_mode = 1
+from_pos = Vector3(21.5, 2.2, 21)
+to_pos = Vector3(21.1, 2.3, 21.4)
+look_from = Vector3(-14, 3, 46)
+look_to = Vector3(-16, 3.4, 48.5)
+fov_from = 24.0
+fov_to = 22.0
+actions = Array[ExtResource("4_ivbqg")]([SubResource("Resource_cmnea"), SubResource("Resource_b6otg"), SubResource("Resource_eeeg8"), SubResource("Resource_efiur")])
+
+[resource]
+script = ExtResource("2_20a1e")
+id = &"e4m1_foot"
+title = "The Foot of the Hill"
+world_mode = 1
+shots = Array[ExtResource("3_b472r")]([SubResource("Resource_3w0id"), SubResource("Resource_8wn05")])
+shake_seed = 72
+lines_over_cuts = true

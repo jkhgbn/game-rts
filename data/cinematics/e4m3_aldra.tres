@@ -1,0 +1,117 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_7qs4s"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_bmq1n"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_c0mip"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_hjvwo"]
+
+[sub_resource type="Resource" id="Resource_vhqdf"]
+script = ExtResource("4_hjvwo")
+at = 0.5
+kind = &"vfx"
+target = Vector3(-7, 2, 9)
+params = {
+"life": 4.3,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(0, 1.5, 9)
+}
+
+[sub_resource type="Resource" id="Resource_i4mcw"]
+script = ExtResource("4_hjvwo")
+at = 0.8
+kind = &"vfx"
+target = Vector3(7, 2, 9)
+params = {
+"life": 4.0,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(0, 1.5, 9)
+}
+
+[sub_resource type="Resource" id="Resource_nl4nw"]
+script = ExtResource("4_hjvwo")
+at = 1.1
+kind = &"vfx"
+target = Vector3(0, 2, 16)
+params = {
+"life": 3.7,
+"scene": "res://art/cinematics/fx/streak_blue.tscn",
+"to": Vector3(0, 1.5, 9)
+}
+
+[sub_resource type="Resource" id="Resource_7ihim"]
+script = ExtResource("4_hjvwo")
+at = 0.5
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_pr88x"]
+script = ExtResource("1_7qs4s")
+at = 0.3
+speaker = &"aldra"
+text = "Ysolde. Torvald asked me to keep this wood quiet. I keep what I'm asked to keep."
+voice = "res://assets/audio/voice/aldra/ysolde_torvald_asked_me_34c86af9.wav"
+
+[sub_resource type="Resource" id="Resource_b6nv8"]
+script = ExtResource("3_c0mip")
+id = &"D1"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.7789999, 0)
+pivot_actor = &"aldra"
+pivot = Vector3(1, 0, 11)
+orbit_radius = 4.0
+orbit_height = 1.6
+orbit_from_deg = 82.0
+orbit_to_deg = 98.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_7qs4s")]([SubResource("Resource_pr88x")])
+actions = Array[ExtResource("4_hjvwo")]([SubResource("Resource_vhqdf"), SubResource("Resource_i4mcw"), SubResource("Resource_nl4nw"), SubResource("Resource_7ihim")])
+
+[sub_resource type="Resource" id="Resource_qk81r"]
+script = ExtResource("4_hjvwo")
+at = 4.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_hvrhk"]
+script = ExtResource("1_7qs4s")
+at = 0.7
+speaker = &"ysolde"
+text = "You froze a grave, Aldra. I've come to open it."
+voice = "res://assets/audio/voice/ysolde/you_froze_a_grave_7fc47ff1.wav"
+
+[sub_resource type="Resource" id="Resource_mnpwf"]
+script = ExtResource("3_c0mip")
+id = &"D2"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 1.77, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(12, 0, 22)
+orbit_radius = 4.0
+orbit_height = 1.5
+orbit_from_deg = 165.0
+orbit_to_deg = 180.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_7qs4s")]([SubResource("Resource_hvrhk")])
+actions = Array[ExtResource("4_hjvwo")]([SubResource("Resource_qk81r")])
+
+[resource]
+script = ExtResource("2_bmq1n")
+id = &"e4m3_aldra"
+title = "The Glass Warden"
+world_mode = 1
+shots = Array[ExtResource("3_c0mip")]([SubResource("Resource_b6nv8"), SubResource("Resource_mnpwf")])
+shake_seed = 92
+lines_over_cuts = true

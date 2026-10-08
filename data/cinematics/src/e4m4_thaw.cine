@@ -1,0 +1,28 @@
+# e4m4 E17 "e4m4_thaw" (docs/design/mission-e4-04.md, Cinematic hooks; script-episodes-4-8/e4m4.md 1): 12 s when the
+# Winterheart falls, mode=pause over the live mission (the spec's HOLD runs as PAUSE). 1) ECU the Winterheart (0, -16):
+# its last crack, light pouring out, then the shatter (a sun pillar, then an ice burst; 12 shards = the mission's own
+# break); 2) WS along the Wall from the west: meltwater down its face, pieces sag, the three gates swing open, the spires
+# go dark (the mission applies the thaw in its end state; a white-blue melt tint here). Map points only.
+# Axis: cameras WEST of the Ysolde - Torvald line through the Heart Gate (x = 0).
+# Lines: L23 (narrator, voice-over), L24 (Vessa), L25 (Ysolde) (mission DIALOGUE, French in dialogue.po).
+# Fallback: the end state says L23-L25 as dialogue cards and applies the thaw.
+cine e4m4_thaw  title="The Thaw"  mode=pause  letterbox=2.39  seed=103  length=10..14
+env day  moon_yaw=225  moon_pitch=-16  energy=1.0
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  vessa     res://art/units/wizards/vessa.tscn   at=(30, 0, 4)  yaw=180
+cast  ysolde    res://art/units/wizards/ysolde.tscn  at=(-4, 0, 2)  yaw=180
+
+# ECU the Winterheart's last crack: light pours out, it shatters
+shot T1 5.0  cam=dolly  from=(-4.6, 2.4, -13.4)  to=(-4.1, 2.3, -13.9)  look=(0, 2.2, -16)>(0, 2.4, -16)  fov=32>28  in=fade_black:0.4
+  at 0.2  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-4
+  at 0.3  line narrator "A hundred winters, broken in one afternoon. The Wall begins to weep."
+  at 0.8  vfx light  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(0, 0.5, -16)  life=2.4  scale=0.6
+  at 3.0  vfx shatter  scene=res://art/cinematics/fx/ice_burst.tscn  at=(0, 2.2, -16)  life=2.0  scale=1.8
+  at 3.0  sfx res://assets/audio/sfx/building_collapse.wav  vol=-4
+# WS along the Wall from the west: meltwater, pieces sag, the gates swing open, the spires go dark
+shot T2 7.0  cam=dolly  from=(-74, 10, 4)  to=(-70, 9, 2)  look=(-10, 2, -8)>(6, 2, -8)  fov=46>42
+  at 0.1  fade color=#d8ecff alpha=0.12 time=2.0
+  at 0.3  line vessa "Look at it melt! Fire always wins in the end."
+  at 0.6  sfx res://assets/audio/forge/sfx/shovel_earth.wav  vol=-14
+  at 3.8  line ysolde "That was the tree, Vessa."
+  at 6.3  fade alpha=1 time=0.6

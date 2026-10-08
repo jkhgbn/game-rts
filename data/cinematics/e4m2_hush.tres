@@ -1,0 +1,103 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_l5o2a"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_7pf18"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_qufgc"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_7j0br"]
+
+[sub_resource type="Resource" id="Resource_srxl7"]
+script = ExtResource("4_7j0br")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/spell_umbral_shroud.wav",
+"volume_db": -6.0
+}
+
+[sub_resource type="Resource" id="Resource_37ywi"]
+script = ExtResource("4_7j0br")
+at = 0.2
+kind = &"vfx"
+target = Vector3(-40, 0.2, 14.5)
+params = {
+"life": 3.6,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_yoysh"]
+script = ExtResource("1_l5o2a")
+at = 0.2
+speaker = &"hush"
+text = "Little lambs on a little road. The Bishop sends his regards."
+duration = 3.9
+voice = "res://assets/audio/voice/hush/little_lambs_on_a_cb043ebd.wav"
+
+[sub_resource type="Resource" id="Resource_qxpga"]
+script = ExtResource("3_qufgc")
+id = &"H1"
+duration = 4.2
+camera_mode = 1
+from_pos = Vector3(-46, 0.5, 10.5)
+to_pos = Vector3(-45.6, 0.6, 10.9)
+look_from = Vector3(-40, 1, 14.5)
+look_to = Vector3(-40, 2, 14.2)
+fov_from = 44.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_l5o2a")]([SubResource("Resource_yoysh")])
+actions = Array[ExtResource("4_7j0br")]([SubResource("Resource_srxl7"), SubResource("Resource_37ywi")])
+
+[sub_resource type="Resource" id="Resource_4rfah"]
+script = ExtResource("4_7j0br")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/ab_grove_oath.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_jl3i2"]
+script = ExtResource("4_7j0br")
+at = 3.3
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.5
+}
+
+[sub_resource type="Resource" id="Resource_t0r4n"]
+script = ExtResource("1_l5o2a")
+at = 0.2
+speaker = &"ysolde"
+text = "You burned their wagons. You don't get their children."
+duration = 3.3
+voice = "res://assets/audio/voice/ysolde/you_burned_their_wagons_8bfcf81d.wav"
+
+[sub_resource type="Resource" id="Resource_r6tg2"]
+script = ExtResource("3_qufgc")
+id = &"H2"
+duration = 3.8
+camera_mode = 3
+look_offset = Vector3(0, 1.77, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(-40, 0, 8)
+orbit_radius = 4.0
+orbit_height = 1.5
+orbit_from_deg = 138.0
+orbit_to_deg = 150.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_l5o2a")]([SubResource("Resource_t0r4n")])
+actions = Array[ExtResource("4_7j0br")]([SubResource("Resource_4rfah"), SubResource("Resource_jl3i2")])
+
+[resource]
+script = ExtResource("2_7pf18")
+id = &"e4m2_hush"
+title = "Out of the Shadow"
+world_mode = 1
+shots = Array[ExtResource("3_qufgc")]([SubResource("Resource_qxpga"), SubResource("Resource_r6tg2")])
+shake_seed = 82
+lines_over_cuts = true
