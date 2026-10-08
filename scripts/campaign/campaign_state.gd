@@ -64,6 +64,9 @@ const MISSION_SCENES := {
 const STORY_FILMS := {
 	&"ep2_ending": &"ep3_opening",   # mission-e2-05.md: "All Four, or None", then the Ep3 card
 	&"ep3_opening": &"e3m1",         # mission-e3-01.md E1: the opening plays before the briefing
+	&"c_e3_knife": &"e3m2",          # mission-e3-02.md: "The Bishop's Knife" after e3m1, before e3m2's briefing
+	&"c_e3_price": &"e3m3",          # mission-e3-02.md: "The Stone's First Price" after e3m2, before e3m3's briefing
+	&"c_e3_doubt": &"e3m4",          # mission-e3-03.md: "Torvald's Doubt" after e3m3, before e3m4's briefing
 	&"ep3_ending": &"ep4_opening",   # mission-e3-04.md: "I Will Not Stop" after e3m4, then the Ep4 card
 	&"ep4_opening": &"e4m1",         # e4m1 not built yet: the chain ends on the main menu
 }
@@ -150,20 +153,20 @@ const MISSION_REWARDS := {
 	&"e3m1": {
 		"flags": {"e3m1_horns_silenced": "sec_horns", "e3m1_vessa_driven": "sec_vessa"},
 		"set_flags": {"ep3_started": true},
-		"next": &"e3m2",
+		"next": &"c_e3_knife",   # film c_e3_knife -> e3m2 (unlocks e3m2, as before)
 		"save_items": false,
 	},
 	# docs/design/mission-e3-02.md "Reward carried to e3m3" (e3m2_alarms is mission-computed).
 	&"e3m2": {
 		"flags": {"e3m2_unseen": "sec_unseen", "e3m2_villagers_spared": "sec_villagers", "e3m2_hush_called": "sec_call"},
 		"set_flags": {"helper_hush_unlocked": true, "e3m2_grain_spoiled": true},
-		"next": &"e3m3",
+		"next": &"c_e3_price",   # film c_e3_price -> e3m3
 		"save_items": false,
 	},
 	# docs/design/mission-e3-03.md "Reward carried to e3m4" (shard uses / seizures and shadow_stone_uses are computed).
 	&"e3m3": {
 		"flags": {"e3m3_refused": "sec_refuse", "e3m3_crypt_whole": "sec_whole"},
-		"next": &"e3m4",
+		"next": &"c_e3_doubt",   # film c_e3_doubt -> e3m4
 		"save_items": false,
 	},
 	# docs/design/mission-e3-04.md "Reward: end of Episode 3".

@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3]
+
+; c_e3_knife: Malrik's camp table on the ridge. A trestle top, two legs, the map of the south camp (parchment, Lark
+; Hill's crest and the four wagon spots inked on it) and a short candle. Origin = the ground under the table's centre.
+; The four wooden tokens are a separate scene (war_tokens.tscn) so the film can hide them when Hush takes them.
+
+[sub_resource type="BoxMesh" id="Box_top"]
+size = Vector3(1.5, 0.06, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.33, 0.22, 0.14, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Box_leg"]
+size = Vector3(0.08, 0.78, 0.7)
+
+[sub_resource type="BoxMesh" id="Box_map"]
+size = Vector3(1.2, 0.006, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_map"]
+albedo_color = Color(0.78, 0.68, 0.5, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="Box_ink"]
+size = Vector3(0.9, 0.002, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ink"]
+albedo_color = Color(0.2, 0.14, 0.18, 1)
+roughness = 1.0
+
+[sub_resource type="CylinderMesh" id="Cyl_candle"]
+top_radius = 0.025
+bottom_radius = 0.03
+height = 0.12
+
+[sub_resource type="StandardMaterial3D" id="Mat_candle"]
+albedo_color = Color(0.85, 0.82, 0.7, 1)
+
+[sub_resource type="SphereMesh" id="Sphere_flame"]
+radius = 0.018
+height = 0.05
+
+[sub_resource type="StandardMaterial3D" id="Mat_flame"]
+shading_mode = 0
+albedo_color = Color(1, 0.72, 0.35, 1)
+emission_enabled = true
+emission = Color(1, 0.6, 0.25, 1)
+emission_energy_multiplier = 4.0
+
+[node name="war_map" type="Node3D"]
+
+[node name="Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81, 0)
+mesh = SubResource("Box_top")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="LegW" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.39, 0)
+mesh = SubResource("Box_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="LegE" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.39, 0)
+mesh = SubResource("Box_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="Map" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.996, 0, 0.087, 0, 1, 0, -0.087, 0, 0.996, 0, 0.843, 0)
+mesh = SubResource("Box_map")
+surface_material_override/0 = SubResource("Mat_map")
+
+[node name="Crest" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(0.94, 0, 0.342, 0, 1, 0, -0.342, 0, 0.94, 0, 0.004, 0.05)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="River" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.004, -0.25)
+mesh = SubResource("Box_ink")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Candle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66, 0.9, -0.34)
+mesh = SubResource("Cyl_candle")
+surface_material_override/0 = SubResource("Mat_candle")
+
+[node name="Flame" type="MeshInstance3D" parent="Candle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("Sphere_flame")
+surface_material_override/0 = SubResource("Mat_flame")

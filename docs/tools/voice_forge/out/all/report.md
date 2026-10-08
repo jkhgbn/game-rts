@@ -1,8 +1,8 @@
 # voice_forge build: all
 
-2026-10-07 23:14:37 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `de07660654de53fc` (manifest.json (line keys are content hashes))
+2026-10-08 00:10:05 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `8aa98925f0c945b4` (manifest.json (line keys are content hashes))
 
-## Result: **WARN** - quality **92 / 100** (previous run 74, +18)
+## Result: **WARN** - quality **92 / 100** (previous run 92, +0)
 
 0 FAIL, 3 WARN, 12 PASS, 1 info, 0 skipped, 2 s
 
@@ -15,15 +15,15 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | cast.json | PASS 100 | 58 speakers | parses, has speakers |  |
-| D2 | lines found | PASS 100 | 675 unique lines | > 0 |  |
-| D3 | manifest entries | PASS 100 | 675 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
+| D2 | lines found | PASS 100 | 698 unique lines | > 0 |  |
+| D3 | manifest entries | PASS 100 | 698 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
 | D4 | speakers cast | PASS 100 | all cast | every speaker has a voice in cast.json |  |
 | D5 | speakers vs Speakers.TABLE | INFO | dancer, messenger, reveler, unit_ash_hurler, unit_ashveil_saboteur, unit_barrow_ghoul, unit_blaze_rider, unit_bleakbow, unit_bloomtender, unit_bramblehorn, unit_burr_slinger, unit_cinder_arbalest, unit_cinder_hand, unit_ember_archer, unit_flame_guard, unit_frost_mortar, unit_frostbow, unit_gloom_thrall, unit_greenheart_oathkeeper, unit_hexweaver, unit_hoarlight_magebow, unit_hollow_oathsworn, unit_nightblood_reaver, unit_nightbolt, unit_pyre_adept, unit_rime_colossus, unit_rime_hauler, unit_rime_seer, unit_rimeling, unit_rimeshield, unit_scorchbow, unit_scorchling, unit_shadow_knight, unit_shardcaster, unit_shardguard, unit_sprigling, unit_stormbottle_genie, unit_thistle_darter, unit_thornling, unit_vinelasher, unit_wildwood_archer | subtitle names known |  |
 
 ## Coverage (every spoken line has audio)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | lines with audio | PASS 100 | 675 / 675 | every spoken line has a WAV |  |
+| C1 | lines with audio | PASS 100 | 698 / 698 | every spoken line has a WAV |  |
 | C2 | mission lines voiced | PASS 100 | 385 / 385 | all mission dialogue voiced |  |
 | C3 | imported | PASS 100 | 0 not importable | load(path) is AudioStream |  |
 | C4 | orphan WAVs | PASS 100 | 0 | no manifest line without a source |  |
@@ -31,7 +31,7 @@
 ## Fit (voice length vs cine slot / subtitle time)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | voice fits its slot | **WARN** 68 | 14 / 757 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
+| F1 | voice fits its slot | **WARN** 68 | 14 / 809 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
 
 ## Audio (format, clipping, trim, size)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -40,7 +40,7 @@
 | A2 | clipping | PASS 100 | none | no sample at full scale |  |
 | A3 | peak level | PASS 100 | -1.0..-1.0 dBFS | -2..-0.5 dBFS (target -1) |  |
 | A4 | trimmed | **WARN** 50 | 1 untrimmed unit_rime_hauler/right_ill_have_a_92efb9f7 (0.05 / 0.32 s) | lead <= 0.12 s, tail <= 0.20 s of silence | re-render |
-| A5 | size | **WARN** 35 | 88.5 MB source WAV, 32.2 min of speech | <= 40 MB | the import is QOA-compressed (~5x smaller in the build) |
+| A5 | size | **WARN** 35 | 90.9 MB source WAV, 33.1 min of speech | <= 40 MB | the import is QOA-compressed (~5x smaller in the build) |
 
 ## Game hookup
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -65,6 +65,9 @@
 - source: scripts/campaign/mission_e3_03.gd: 28 lines
 - source: scripts/campaign/mission_e3_04.gd: 33 lines
 - source: scripts/campaign/mission_skeleton.gd: 3 lines
+- source: data/cinematics/src/c_e3_doubt.cine: 7 lines
+- source: data/cinematics/src/c_e3_knife.cine: 9 lines
+- source: data/cinematics/src/c_e3_price.cine: 7 lines
 - source: data/cinematics/src/e2m1_arrival.cine: 3 lines
 - source: data/cinematics/src/e2m1_frostwarden.cine: 2 lines
 - source: data/cinematics/src/e2m1_ysolde.cine: 2 lines
@@ -90,10 +93,13 @@
 - source: data/cinematics/src/e3m1_standard.cine: 3 lines
 - source: data/cinematics/src/e3m2_dawn.cine: 3 lines
 - source: data/cinematics/src/e3m2_embers.cine: 0 lines
+- source: data/cinematics/src/e3m2_slip.cine: 1 lines
+- source: data/cinematics/src/e3m3_homecoming.cine: 1 lines
 - source: data/cinematics/src/e3m3_offer.cine: 3 lines
 - source: data/cinematics/src/e3m3_rest.cine: 3 lines
 - source: data/cinematics/src/e3m3_sexton.cine: 2 lines
 - source: data/cinematics/src/e3m4_field.cine: 6 lines
+- source: data/cinematics/src/e3m4_return.cine: 4 lines
 - source: data/cinematics/src/e3m4_whisper.cine: 3 lines
 - source: data/cinematics/src/ep2_ending.cine: 9 lines
 - source: data/cinematics/src/ep2_opening.cine: 28 lines
@@ -109,6 +115,9 @@
 - source: data/cinematics/src/two_wizards.cine: 1 lines
 - source: data/cinematics/src/watch_keep.cine: 4 lines
 - source: data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)
+- source: data/voice/lines/c_e3_doubt.json: 7 lines
+- source: data/voice/lines/c_e3_knife.json: 9 lines
+- source: data/voice/lines/c_e3_price.json: 7 lines
 - source: data/voice/lines/ep2_opening.json: 28 lines
 - source: data/voice/lines/ep3_ending.json: 5 lines
 - source: data/voice/lines/ep3_opening.json: 15 lines
@@ -133,6 +142,6 @@
 - over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s
 - over slot: torvald/so_the_little_ember_6f0f8efc L9: 5.12 s > subtitle 5.00 s
 - over slot: vey/four_seals_wake_them_904df50c L3: 5.12 s > subtitle 5.00 s
-- this build: 101.0 rendered, 574.0 unchanged
-- last render: 101.0 lines, 315.0 s of audio in 109.3 s (x0.35 real time) on ["CPUExecutionProvider"], at 2026-10-07 23:14:24
-- total: 675 lines, 32.20 min of speech, 44 speed-fitted, 28 with direction tags
+- this build: 23.0 rendered, 675.0 unchanged
+- last render: 23.0 lines, 52.7 s of audio in 126.1 s (x2.39 real time) on ["CPUExecutionProvider"], at 2026-10-08 00:09:37
+- total: 698 lines, 33.08 min of speech, 45 speed-fitted, 28 with direction tags

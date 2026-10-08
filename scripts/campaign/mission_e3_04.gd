@@ -670,14 +670,16 @@ func say_l(n: int) -> void:
 
 # ---------------------------------------------------------------- events
 
+## E1: the return (e3m4_return, HOLD 0:20 played as PAUSE; fallback = the camera on Malrik + L1-L4), the start hint.
 func _intro() -> void:
 	fire_once(&"E1")
-	if camera_rig and hero_alive():
-		camera_rig.focus_on(hero.global_position)
-	for n in [1, 2, 3, 4]:
-		say_l(n)
-	if hud:
-		hud.show_message(HINT_START, 10.0)
+	play_cutscene(&"e3m4_return", func() -> void:
+		if camera_rig and hero_alive():
+			camera_rig.focus_on(hero.global_position)
+		for n in [1, 2, 3, 4]:
+			say_l(n)
+		if hud:
+			hud.show_message(HINT_START, 10.0))
 
 
 func _add_events() -> void:

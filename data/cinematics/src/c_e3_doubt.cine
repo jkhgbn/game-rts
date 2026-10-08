@@ -1,0 +1,70 @@
+# Between-scene "Torvald's Doubt", ~65 s (docs/design/mission-e3-03.md, Cinematic hooks `c_e3_doubt`; beats for its
+# writer E3M3.D1). The Evenmead ridge at night, Torvald's pavilion: Aldra (his Glass Warden, off screen as in ep3_ending)
+# sets down a report: the old storm-sword has crossed the river twice to look at the ridge; Malrik comes back, Hush behind
+# him; Torvald watches the stone glow through Malrik's coat and asks what it cost: "A little. Less than you would think."
+# Aldra, after he leaves: "It glowed when he lied." Torvald: "I know. I saw." The spec's `e3m3_refused` variant (Aldra:
+# "It didn't glow at all.") needs a branching film (not supported): this is the default telling.
+# Plays after e3m3's victory (StoryFlow: CampaignState.STORY_FILMS c_e3_doubt -> e3m4).
+# Text source for i18n / voices: data/voice/lines/c_e3_doubt.json (the same text as the lines below).
+# Set: forge_evenmead (marks B01 N12, puppets malrik / hush / torvald / stone). Night = the ep3_ending dark-blue grade.
+# Axis: the Ep3 rule (every camera east of the Malrik - Ysolde line).
+cine c_e3_doubt  title="Torvald's Doubt"  letterbox=2.39  seed=38  length=59..71
+use set forge_evenmead
+use music res://assets/audio/forge/music/ep3_opening.wav  vol=-22
+env night  moon_yaw=210  moon_pitch=-40  energy=0.4
+cast  aldra  capsule  at=(30, 0, -300)
+
+# ---------------------------------------------------------------- the ridge at night
+shot B01 9.0  in=fade_black:1.2
+  at 0.0  fade color=#0b0c26 alpha=0.5 time=0.05
+  at 0.0  hide malrik
+  at 0.0  hide stone
+  at 0.0  hide hush
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
+  at 2.0  vfx t1  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-14, 4.0, -27.2)  life=60  scale=0.12
+  at 3.0  vfx t2  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-9, 4.6, -27.6)  life=60  scale=0.12
+# Torvald's pavilion: Aldra's report
+shot D2 8.0  cam=frame "ms on torvald, 3/4 left, eye"  push=0.15
+  at 0.0  anim torvald set_expression  arg=neutral
+  at 0.4  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-16
+  at 0.6  line aldra "The old storm-sword crossed the river twice today."
+  at 4.2  line aldra "He only looked at the ridge. Then he went back."
+shot D3 5.0  cam=frame "mcu on torvald, 3/4 left, eye"
+  at 0.0  anim torvald set_expression  arg=worried
+  at 0.6  line torvald "He is counting us."
+# Malrik comes back up the ridge, Hush behind him
+shot D4 7.0  cam=frame "ms on malrik and hush, 3/4 left, eye"
+  at 0.0  show malrik
+  at 0.0  show stone
+  at 0.0  teleport hush  to=(0.8, 7.43, -37.4)  yaw=10
+  at 0.0  show hush
+  at 0.0  anim malrik set_expression  arg=neutral
+  at 0.6  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-14
+  at 3.0  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-16
+# The stone glows through his coat
+shot D5 6.0  cam=frame "cu on stone, high"  in=blend:0.3
+  at 0.6  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(-0.42, 8.84, -35.38)  life=4.4  scale=0.6
+  at 0.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-10
+  at 2.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-12
+shot D6 6.0  cam=frame "ms on torvald, 3/4 left, eye"
+  at 0.4  line torvald "What did it cost you, Malrik? In Duskbarrow."
+# "A little." The stone glows again as he says it
+shot D7 6.0  cam=frame "mcu on malrik, 3/4 left, eye"
+  at 0.0  anim malrik set_expression  arg=smile
+  at 0.5  line malrik "A little. Less than you would think."
+  at 1.4  vfx lie  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(-0.42, 8.84, -35.38)  life=2.4  scale=0.7
+  at 1.4  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-8
+# He leaves; Aldra speaks once he is gone
+shot D8 8.0  cam=frame "ms on torvald, 3/4 left, eye"  push=0.2
+  at 0.0  hide malrik
+  at 0.0  hide stone
+  at 0.0  hide hush
+  at 1.6  line aldra "It glowed when he lied."
+  at 4.6  anim torvald set_expression  arg=worried
+  at 4.6  line torvald "I know. I saw."
+# Long lens across the valley to Lark Hill; fade
+shot N12 10.0  in=blend:0.4
+  at 0.0  fade color=#0b0c26 alpha=0.55 time=0.05
+  at 3.0  vfx flicker  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(-9, 7.5, 40)  life=0.6  scale=1.0
+  at 3.0  sfx res://assets/audio/sfx/atk_storm.wav  vol=-18
+  at 8.8  fade alpha=1 time=1.2

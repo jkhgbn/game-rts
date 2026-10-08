@@ -27,7 +27,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "675 unique lines",
+			"value": "698 unique lines",
 			"weight": 1.0
 		},
 		{
@@ -41,7 +41,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "675 entries, 0 bad ",
+			"value": "698 entries, 0 bad ",
 			"weight": 1.0
 		},
 		{
@@ -83,7 +83,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "675 / 675",
+			"value": "698 / 698",
 			"weight": 1.0
 		},
 		{
@@ -129,17 +129,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.981505944517834,
+			"graded": 0.982694684796044,
 			"group": "fit",
 			"hint": "run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line",
 			"id": "F1",
 			"improve": "the lines listed in the notes",
 			"name": "voice fits its slot",
 			"rule": "voice length <= cine slot / subtitle time",
-			"score": 0.683712021136063,
+			"score": 0.684116192830655,
 			"shot": "",
 			"status": "WARN",
-			"value": "14 / 757 over (0 by > 15 %)",
+			"value": "14 / 809 over (0 by > 15 %)",
 			"weight": 1.0
 		},
 		{
@@ -209,7 +209,7 @@
 			"score": 0.35,
 			"shot": "",
 			"status": "WARN",
-			"value": "88.5 MB source WAV, 32.2 min of speech",
+			"value": "90.9 MB source WAV, 33.1 min of speech",
 			"weight": 1.0
 		},
 		{
@@ -242,13 +242,13 @@
 		"fit": "Fit (voice length vs cine slot / subtitle time)",
 		"hook": "Game hookup"
 	},
-	"hash": "de07660654de53fc",
+	"hash": "8aa98925f0c945b4",
 	"hash_note": "manifest.json (line keys are content hashes)",
 	"headless": false,
 	"id": "all",
 	"improve_next": [
 		{
-			"rank": 10.3162879788639,
+			"rank": 10.3158838071693,
 			"source": "F1 voice fits its slot",
 			"status": "WARN",
 			"text": "the lines listed in the notes",
@@ -289,6 +289,9 @@
 		"source: scripts/campaign/mission_e3_03.gd: 28 lines",
 		"source: scripts/campaign/mission_e3_04.gd: 33 lines",
 		"source: scripts/campaign/mission_skeleton.gd: 3 lines",
+		"source: data/cinematics/src/c_e3_doubt.cine: 7 lines",
+		"source: data/cinematics/src/c_e3_knife.cine: 9 lines",
+		"source: data/cinematics/src/c_e3_price.cine: 7 lines",
 		"source: data/cinematics/src/e2m1_arrival.cine: 3 lines",
 		"source: data/cinematics/src/e2m1_frostwarden.cine: 2 lines",
 		"source: data/cinematics/src/e2m1_ysolde.cine: 2 lines",
@@ -314,10 +317,13 @@
 		"source: data/cinematics/src/e3m1_standard.cine: 3 lines",
 		"source: data/cinematics/src/e3m2_dawn.cine: 3 lines",
 		"source: data/cinematics/src/e3m2_embers.cine: 0 lines",
+		"source: data/cinematics/src/e3m2_slip.cine: 1 lines",
+		"source: data/cinematics/src/e3m3_homecoming.cine: 1 lines",
 		"source: data/cinematics/src/e3m3_offer.cine: 3 lines",
 		"source: data/cinematics/src/e3m3_rest.cine: 3 lines",
 		"source: data/cinematics/src/e3m3_sexton.cine: 2 lines",
 		"source: data/cinematics/src/e3m4_field.cine: 6 lines",
+		"source: data/cinematics/src/e3m4_return.cine: 4 lines",
 		"source: data/cinematics/src/e3m4_whisper.cine: 3 lines",
 		"source: data/cinematics/src/ep2_ending.cine: 9 lines",
 		"source: data/cinematics/src/ep2_opening.cine: 28 lines",
@@ -333,6 +339,9 @@
 		"source: data/cinematics/src/two_wizards.cine: 1 lines",
 		"source: data/cinematics/src/watch_keep.cine: 4 lines",
 		"source: data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)",
+		"source: data/voice/lines/c_e3_doubt.json: 7 lines",
+		"source: data/voice/lines/c_e3_knife.json: 9 lines",
+		"source: data/voice/lines/c_e3_price.json: 7 lines",
 		"source: data/voice/lines/ep2_opening.json: 28 lines",
 		"source: data/voice/lines/ep3_ending.json: 5 lines",
 		"source: data/voice/lines/ep3_opening.json: 15 lines",
@@ -357,17 +366,17 @@
 		"over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s",
 		"over slot: torvald/so_the_little_ember_6f0f8efc L9: 5.12 s > subtitle 5.00 s",
 		"over slot: vey/four_seals_wake_them_904df50c L3: 5.12 s > subtitle 5.00 s",
-		"this build: 101.0 rendered, 574.0 unchanged",
-		"last render: 101.0 lines, 315.0 s of audio in 109.3 s (x0.35 real time) on [\"CPUExecutionProvider\"], at 2026-10-07 23:14:24",
-		"total: 675 lines, 32.20 min of speech, 44 speed-fitted, 28 with direction tags"
+		"this build: 23.0 rendered, 675.0 unchanged",
+		"last render: 23.0 lines, 52.7 s of audio in 126.1 s (x2.39 real time) on [\"CPUExecutionProvider\"], at 2026-10-08 00:09:37",
+		"total: 698 lines, 33.08 min of speech, 45 speed-fitted, 28 with direction tags"
 	],
-	"previous_quality": 73.6,
+	"previous_quality": 92.1,
 	"quality": 92.1,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 2.5,
+	"seconds": 2.4,
 	"shots": {},
-	"started": "2026-10-07 23:14:37",
+	"started": "2026-10-08 00:10:05",
 	"tier": "",
 	"tool": "voice_forge",
 	"verb": "build"

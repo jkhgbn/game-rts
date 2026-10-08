@@ -5,6 +5,121 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#. speaker aldra
+#: data/voice/lines/c_e3_doubt.json:L1
+msgid "The old storm-sword crossed the river twice today."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e3_doubt.json:L2
+msgid "He only looked at the ridge. Then he went back."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e3_doubt.json:L3
+msgid "He is counting us."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e3_doubt.json:L4
+msgid "What did it cost you, Malrik? In Duskbarrow."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_doubt.json:L5
+msgid "A little. Less than you would think."
+msgstr ""
+
+#. speaker aldra
+#: data/voice/lines/c_e3_doubt.json:L6
+msgid "It glowed when he lied."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e3_doubt.json:L7
+msgid "I know. I saw."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L1
+msgid "Ford mud. My father said the same of grave clay: it never comes off."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L2
+msgid "You missed her, at Emberfall."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/c_e3_knife.json:L3
+msgid "Once."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/c_e3_knife.json:L4
+msgid "Once is enough to remember, Bishop. Who is it tonight?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L5
+msgid "Not who. What. Four wagons on the south hill, one token each."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L6
+msgid "Bring me back their axle pins."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e3_knife.json:L7
+msgid "You send a knife at farmers' carts, Malrik."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L8
+msgid "At an army's supper, Torvald. Hungry soldiers go home."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/c_e3_knife.json:L9
+msgid "Sleep well, Bishop. Someone won't."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_price.json:L1
+msgid "I did not ask you anything."
+msgstr ""
+
+#. speaker shade
+#: data/voice/lines/c_e3_price.json:L2
+msgid "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_price.json:L3
+msgid "Whose dead?"
+msgstr ""
+
+#. speaker shade
+#: data/voice/lines/c_e3_price.json:L4
+msgid "Yours."
+msgstr ""
+
+#. speaker hush
+#: data/voice/lines/c_e3_price.json:L5
+msgid "Shall I come?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c_e3_price.json:L6
+msgid "Always."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c_e3_price.json:L7
+msgid "Go. I will keep your ridge cold."
+msgstr ""
+
 #. speaker reveler
 #: data/voice/lines/ep2_opening.json:L01
 msgid "To Vessa! To the Ember Queen!"

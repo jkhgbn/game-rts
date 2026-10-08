@@ -1,0 +1,24 @@
+# e3m2 E1 "e3m2_slip" (docs/design/mission-e3-02.md, Cinematic hooks): ~15 s, mode=pause over the live mission (the
+# spec's HOLD runs as PAUSE until the player supports HOLD). Night on the Evenmead: the river at z ~0, the squad at its
+# start marks south of it (SQUAD_START (2, 0, 19)), Lark Hill's fires on the crest (z 30-50), the golden tree (-16, 48.5).
+# 1) WIDE from the north-east bank (fov 46): moonlight on the river, the squad at its marks; 2) MS Hush, her white mask
+# catching the moon, 3/4-left (orbits the live hero: phase 1's hero is the Hush commando, tag `helper_hush` = her model);
+# 3) long lens south up Lark Hill: the watch-fires on the crest, the golden tree a dark shape.
+# Axis: cameras east of the subjects (the Ep3 rule). Line: L1 over shot 1 (mission DIALOGUE, French in campaign.po).
+# End state (MissionE302._intro): camera on Hush, L1-L4, the start hint.
+cine e3m2_slip  title="The Slip"  mode=pause  letterbox=2.39  seed=43  length=13..17
+env night  moon_yaw=200  moon_pitch=-35  energy=0.6
+cast  helper_hush  res://art/units/helpers/helper_hush/helper_hush.tscn  at=(2, 0, 19)  yaw=170
+cast  narrator     capsule  at=(0, 0, -300)  hidden=1
+
+# WIDE from the north-east bank: moonlight on the water, the squad crouched at its marks beyond it
+shot S1 6.0  cam=dolly  from=(17, 6.5, 2)  to=(15, 6, 4)  look=(3, 0.4, 14)>(2, 0.6, 17)  fov=46>44  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
+  at 0.4  line narrator "Night on Lark Hill. Two armies asleep in their armour, and one woman who never sleeps."
+# MS Hush, the white mask catching the moon
+shot S2 4.0  cam=orbit  pivot=helper_hush  r=3.0  h=1.5  deg=25>35  fov=38
+  at 0.6  sfx res://assets/audio/sfx/spell_umbral_shroud.wav  vol=-14
+# Long lens south up Lark Hill: the watch-fires on the crest, the golden tree a dark shape behind them
+shot S3 5.0  cam=dolly  from=(8, 2.6, 16)  to=(7.6, 2.7, 15)  look=(-4, 2.5, 40)>(-6, 3, 42)  fov=22>19
+  at 0.4  sfx res://assets/audio/sfx/ab_flame_burst.wav  vol=-20
+  at 4.4  fade alpha=1 time=0.6

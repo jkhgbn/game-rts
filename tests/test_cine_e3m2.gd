@@ -1,11 +1,11 @@
 extends SceneTree
-## e3m2 in-mission scenes (data/cinematics/src/{e3m2_embers,e3m2_dawn}.cine, mode=pause): cine checks 0 FAIL, the baked .tres (PAUSE,
+## e3m2 in-mission scenes (data/cinematics/src/{e3m2_slip,e3m2_embers,e3m2_dawn}.cine, mode=pause): cine checks 0 FAIL, the baked .tres (PAUSE,
 ## no stage, its length), MissionE302 plays each id, every subtitle is a mission line with French
 ## (tests/helpers/cine_scene_check.gd). The live playback path is covered by tests/test_cine_e3m1.gd.
 ## Run:  godot --headless --path . -s tests/test_cine_e3m2.gd --fixed-fps 60 --quit-after 3000
 
 const TASK_ID := "cine_e3m2"
-const IDS := ["e3m2_embers", "e3m2_dawn"]
+const IDS := ["e3m2_slip", "e3m2_embers", "e3m2_dawn"]
 const MISSION_SCRIPT := "res://scripts/campaign/mission_e3_02.gd"
 
 

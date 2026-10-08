@@ -1,0 +1,52 @@
+{
+	"asset": "c_e3_knife",
+	"budget": {},
+	"checks": [
+		{
+			"graded": -1.0,
+			"group": "stills",
+			"hint": "",
+			"id": "ST1",
+			"improve": "",
+			"name": "frames",
+			"rule": "3 per shot per size",
+			"score": 1.0,
+			"shot": "",
+			"status": "PASS",
+			"value": "27 frames in stills/",
+			"weight": 1.0
+		}
+	],
+	"counts": {
+		"FAIL": 0,
+		"INFO": 0,
+		"PASS": 1,
+		"SKIP": 0,
+		"WARN": 0
+	},
+	"ground": "",
+	"groups": {
+		"diff": "Changes vs the previous stills run",
+		"stills": "Stills"
+	},
+	"hash": "f47dc5c228ed1b67",
+	"hash_note": "",
+	"headless": false,
+	"id": "c_e3_knife",
+	"improve_next": [],
+	"kind": "stills",
+	"kingdom": "",
+	"notes": [],
+	"previous_quality": 100.0,
+	"quality": 100.0,
+	"result": "PASS",
+	"scene": "",
+	"seconds": 15.1,
+	"shots": {
+		"contact sheet": "stills.png"
+	},
+	"started": "2026-10-08 00:05:25",
+	"tier": "",
+	"tool": "cine",
+	"verb": "stills"
+}

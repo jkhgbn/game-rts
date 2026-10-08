@@ -1,0 +1,402 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_7ldq8"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_otvfs"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_4c1ye"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_44bea"]
+
+[sub_resource type="Resource" id="Resource_odjjp"]
+script = ExtResource("4_44bea")
+kind = &"fade"
+params = {
+"alpha": 0.5,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_ekef2"]
+script = ExtResource("4_44bea")
+kind = &"visible"
+actor = &"hush"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_70pqw"]
+script = ExtResource("4_44bea")
+kind = &"teleport"
+actor = &"torvald"
+target = Vector3(-9, 7.4, -39)
+params = {
+"yaw_deg": 70.0
+}
+
+[sub_resource type="Resource" id="Resource_q5g6e"]
+script = ExtResource("4_44bea")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_e8r5y"]
+script = ExtResource("4_44bea")
+at = 2.0
+kind = &"vfx"
+target = Vector3(-14, 4, -27.2)
+params = {
+"life": 40.0,
+"scale": 0.12,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_fkwho"]
+script = ExtResource("4_44bea")
+at = 3.4
+kind = &"vfx"
+target = Vector3(-4, 5.2, -28)
+params = {
+"life": 40.0,
+"scale": 0.12,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_mnytq"]
+script = ExtResource("3_4c1ye")
+id = &"B01"
+duration = 9.0
+camera_mode = 1
+from_pos = Vector3(62, 42, 24)
+to_pos = Vector3(40, 15, 14)
+look_from = Vector3(-6, 2, -6)
+look_to = Vector3(2, 2, -10)
+fov_from = 46.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 1.2
+actions = Array[ExtResource("4_44bea")]([SubResource("Resource_odjjp"), SubResource("Resource_ekef2"), SubResource("Resource_70pqw"), SubResource("Resource_q5g6e"), SubResource("Resource_e8r5y"), SubResource("Resource_fkwho")])
+stage_set = &"forge_evenmead"
+marker_prefix = &"B01"
+
+[sub_resource type="Resource" id="Resource_o5asv"]
+script = ExtResource("4_44bea")
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_bngw5"]
+script = ExtResource("4_44bea")
+at = 1.2
+kind = &"vfx"
+target = Vector3(-0.42, 8.84, -35.38)
+params = {
+"life": 5.0,
+"scale": 0.7,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_r1p67"]
+script = ExtResource("4_44bea")
+at = 1.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -9.0
+}
+
+[sub_resource type="Resource" id="Resource_1kmki"]
+script = ExtResource("4_44bea")
+at = 2.2
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_nj7qy"]
+script = ExtResource("1_7ldq8")
+at = 3.6
+speaker = &"malrik"
+text = "I did not ask you anything."
+voice = "res://assets/audio/voice/malrik/i_did_not_ask_8e6eb56a.wav"
+
+[sub_resource type="Resource" id="Resource_7mkt8"]
+script = ExtResource("3_4c1ye")
+id = &"P2"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(2.088989, 8.382291, -33.91101)
+to_pos = Vector3(1.9508706, 8.425263, -34.04913)
+look_from = Vector3(0, 9.032231, -36)
+look_to = Vector3(0, 9.032231, -36)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_7ldq8")]([SubResource("Resource_nj7qy")])
+actions = Array[ExtResource("4_44bea")]([SubResource("Resource_o5asv"), SubResource("Resource_bngw5"), SubResource("Resource_r1p67"), SubResource("Resource_1kmki")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_wbywd"]
+script = ExtResource("4_44bea")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_ja2hj"]
+script = ExtResource("1_7ldq8")
+at = 0.4
+speaker = &"shade"
+text = "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking."
+duration = 5.8
+voice = "res://assets/audio/voice/shade/duskbarrow_bishop_the_barrow_e07a6c8e.wav"
+
+[sub_resource type="Resource" id="Resource_we1t5"]
+script = ExtResource("3_4c1ye")
+id = &"P3"
+duration = 7.0
+from_pos = Vector3(0.6677439, 8.59425, -32.839966)
+to_pos = Vector3(0.6677439, 8.59425, -32.839966)
+look_from = Vector3(3.6, 8.59425, -33.2)
+look_to = Vector3(3.6, 8.59425, -33.2)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_7ldq8")]([SubResource("Resource_ja2hj")])
+actions = Array[ExtResource("4_44bea")]([SubResource("Resource_wbywd")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_0ljdf"]
+script = ExtResource("1_7ldq8")
+at = 0.4
+speaker = &"malrik"
+text = "Whose dead?"
+voice = "res://assets/audio/voice/malrik/whose_dead_7d694186.wav"
+
+[sub_resource type="Resource" id="Resource_qvtj4"]
+script = ExtResource("3_4c1ye")
+id = &"P4"
+duration = 4.0
+from_pos = Vector3(1.3708991, 9.212232, -34.6291)
+to_pos = Vector3(1.3708991, 9.212232, -34.6291)
+look_from = Vector3(0, 9.212232, -36)
+look_to = Vector3(0, 9.212232, -36)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_7ldq8")]([SubResource("Resource_0ljdf")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_b4w6q"]
+script = ExtResource("1_7ldq8")
+at = 0.6
+speaker = &"shade"
+text = "Yours."
+voice = "res://assets/audio/voice/shade/yours_4a43feb4.wav"
+
+[sub_resource type="Resource" id="Resource_4ftg4"]
+script = ExtResource("3_4c1ye")
+id = &"P5"
+duration = 4.0
+from_pos = Vector3(1.6757069, 8.77425, -32.963726)
+to_pos = Vector3(1.6757069, 8.77425, -32.963726)
+look_from = Vector3(3.6, 8.77425, -33.2)
+look_to = Vector3(3.6, 8.77425, -33.2)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_7ldq8")]([SubResource("Resource_b4w6q")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_4x0ai"]
+script = ExtResource("4_44bea")
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_cmgon"]
+script = ExtResource("4_44bea")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/candle_pinch.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_nskwk"]
+script = ExtResource("3_4c1ye")
+id = &"P6"
+duration = 8.0
+from_pos = Vector3(-0.42, 9.4246855, -33.995182)
+to_pos = Vector3(-0.42, 9.4246855, -33.995182)
+look_from = Vector3(-0.42, 8.94, -35.38)
+look_to = Vector3(-0.42, 8.94, -35.38)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 3
+transition_time = 0.3
+actions = Array[ExtResource("4_44bea")]([SubResource("Resource_4x0ai"), SubResource("Resource_cmgon")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_vgnqu"]
+script = ExtResource("4_44bea")
+kind = &"teleport"
+actor = &"hush"
+target = Vector3(0.8, 7.43, -37.4)
+params = {
+"yaw_deg": 10.0
+}
+
+[sub_resource type="Resource" id="Resource_51m0i"]
+script = ExtResource("4_44bea")
+kind = &"visible"
+actor = &"hush"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_e0dgs"]
+script = ExtResource("4_44bea")
+kind = &"visible"
+actor = &"shade"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_a7y5h"]
+script = ExtResource("4_44bea")
+at = 3.6
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "fierce",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_kq6uv"]
+script = ExtResource("1_7ldq8")
+at = 0.6
+speaker = &"hush"
+text = "Shall I come?"
+voice = "res://assets/audio/voice/hush/shall_i_come_453646cc.wav"
+
+[sub_resource type="Resource" id="Resource_tfss7"]
+script = ExtResource("1_7ldq8")
+at = 3.6
+speaker = &"malrik"
+text = "Always."
+voice = "res://assets/audio/voice/malrik/always_0edd8d97.wav"
+
+[sub_resource type="Resource" id="Resource_0q1a1"]
+script = ExtResource("3_4c1ye")
+id = &"P7"
+duration = 8.0
+from_pos = Vector3(5.1227603, 8.873231, -35.624516)
+to_pos = Vector3(5.1227603, 8.873231, -35.624516)
+look_from = Vector3(1.4, 8.873231, -36.75)
+look_to = Vector3(1.4, 8.873231, -36.75)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_7ldq8")]([SubResource("Resource_kq6uv"), SubResource("Resource_tfss7")])
+actions = Array[ExtResource("4_44bea")]([SubResource("Resource_vgnqu"), SubResource("Resource_51m0i"), SubResource("Resource_e0dgs"), SubResource("Resource_a7y5h")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_wrhjo"]
+script = ExtResource("4_44bea")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_36b66"]
+script = ExtResource("4_44bea")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_6jed2"]
+script = ExtResource("1_7ldq8")
+at = 0.6
+speaker = &"torvald"
+text = "Go. I will keep your ridge cold."
+voice = "res://assets/audio/voice/torvald/go_i_will_keep_2ee86eee.wav"
+
+[sub_resource type="Resource" id="Resource_4goba"]
+script = ExtResource("3_4c1ye")
+id = &"P8"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(-7.7514687, 8.7, -36.322517)
+to_pos = Vector3(-7.8148613, 8.7, -36.45846)
+look_from = Vector3(-9, 8.7, -39)
+look_to = Vector3(-9, 8.7, -39)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_7ldq8")]([SubResource("Resource_6jed2")])
+actions = Array[ExtResource("4_44bea")]([SubResource("Resource_wrhjo"), SubResource("Resource_36b66")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_44mvm"]
+script = ExtResource("4_44bea")
+kind = &"fade"
+params = {
+"alpha": 0.6,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_x8je7"]
+script = ExtResource("4_44bea")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_xxusq"]
+script = ExtResource("4_44bea")
+at = 7.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_8uspk"]
+script = ExtResource("3_4c1ye")
+id = &"B14R"
+duration = 9.0
+camera_mode = 1
+from_pos = Vector3(-70, 40, 0)
+to_pos = Vector3(-60, 42, 8)
+look_from = Vector3(0, 2, 0)
+look_to = Vector3(0, 2, 0)
+fov_from = 50.0
+fov_to = 50.0
+transition_in = 3
+transition_time = 0.4
+actions = Array[ExtResource("4_44bea")]([SubResource("Resource_44mvm"), SubResource("Resource_x8je7"), SubResource("Resource_xxusq")])
+stage_set = &"forge_evenmead"
+marker_prefix = &"B14R"
+
+[resource]
+script = ExtResource("2_otvfs")
+id = &"c_e3_price"
+title = "The Stone's First Price"
+stage_scene = "res://scenes/cinematics/c_e3_price.tscn"
+shots = Array[ExtResource("3_4c1ye")]([SubResource("Resource_mnytq"), SubResource("Resource_7mkt8"), SubResource("Resource_we1t5"), SubResource("Resource_qvtj4"), SubResource("Resource_4ftg4"), SubResource("Resource_nskwk"), SubResource("Resource_0q1a1"), SubResource("Resource_4goba"), SubResource("Resource_8uspk")])
+music_cue = &"res://assets/audio/forge/music/ep3_opening.wav"
+shake_seed = 37
+music_volume_db = -22.0
+lines_over_cuts = true

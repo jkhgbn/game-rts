@@ -4,8 +4,8 @@
  "engine": "kokoro-onnx v1.0",
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
- "count": 675,
- "total_seconds": 1931.83,
+ "count": 698,
+ "total_seconds": 1984.55,
  "orphans": [],
  "lines": {
   "aldra/cracked_not_broken_torvald_c73e5da5": {
@@ -33,6 +33,43 @@
      "ref": "L10",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  "aldra/he_only_looked_at_665606c4": {
+   "speaker": "aldra",
+   "text": "He only looked at the ridge. Then he went back.",
+   "text_hash": "665606c476e0004e",
+   "path": "res://assets/audio/voice/aldra/he_only_looked_at_665606c4.wav",
+   "voice": {
+    "bf_lily": 0.6,
+    "bf_alice": 0.4
+   },
+   "speed": 0.95,
+   "cast_speed": 0.95,
+   "lang": "en-gb",
+   "duration": 2.67,
+   "peak": 0.8913,
+   "rms_db": -19.4,
+   "clipped": 0,
+   "file_hash": "cebaef1e60d95777",
+   "gen_s": 0.77,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_doubt.cine:31",
+     "ref": "c_e3_doubt/D2@4.2",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_doubt.json",
+     "ref": "c_e3_doubt/L2",
+     "slot": 3.5,
+     "slot_kind": "cine slot",
      "speaker_id": "aldra"
     }
    ]
@@ -70,6 +107,43 @@
      "ref": "e2m1_frostwarden/F1@0.3",
      "slot": 4.7,
      "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  "aldra/it_glowed_when_he_582df543": {
+   "speaker": "aldra",
+   "text": "It glowed when he lied.",
+   "text_hash": "582df5435d92ea1d",
+   "path": "res://assets/audio/voice/aldra/it_glowed_when_he_582df543.wav",
+   "voice": {
+    "bf_lily": 0.6,
+    "bf_alice": 0.4
+   },
+   "speed": 0.95,
+   "cast_speed": 0.95,
+   "lang": "en-gb",
+   "duration": 1.79,
+   "peak": 0.8913,
+   "rms_db": -16.0,
+   "clipped": 0,
+   "file_hash": "f9e83cbe79c7015f",
+   "gen_s": 0.45,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_doubt.cine:62",
+     "ref": "c_e3_doubt/D8@1.6",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_doubt.json",
+     "ref": "c_e3_doubt/L6",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
      "speaker_id": "aldra"
     }
    ]
@@ -156,6 +230,43 @@
      "ref": "L29",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  "aldra/the_old_storm_sword_95684d1b": {
+   "speaker": "aldra",
+   "text": "The old storm-sword crossed the river twice today.",
+   "text_hash": "95684d1bd517f0ea",
+   "path": "res://assets/audio/voice/aldra/the_old_storm_sword_95684d1b.wav",
+   "voice": {
+    "bf_lily": 0.6,
+    "bf_alice": 0.4
+   },
+   "speed": 0.95,
+   "cast_speed": 0.95,
+   "lang": "en-gb",
+   "duration": 2.95,
+   "peak": 0.8913,
+   "rms_db": -17.7,
+   "clipped": 0,
+   "file_hash": "6abed6a81a8433a1",
+   "gen_s": 0.72,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_doubt.cine:30",
+     "ref": "c_e3_doubt/D2@0.6",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_doubt.json",
+     "ref": "c_e3_doubt/L1",
+     "slot": 3.6,
+     "slot_kind": "cine slot",
      "speaker_id": "aldra"
     }
    ]
@@ -1407,6 +1518,74 @@
     }
    ]
   },
+  "hush/once_969e6144": {
+   "speaker": "hush",
+   "text": "Once.",
+   "text_hash": "969e61442d4d5a22",
+   "path": "res://assets/audio/voice/hush/once_969e6144.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 0.94,
+   "peak": 0.8913,
+   "rms_db": -16.5,
+   "clipped": 0,
+   "file_hash": "9f7ee57a4a3a2827",
+   "gen_s": 0.43,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:36",
+     "ref": "c_e3_knife/K3@4",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L3",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/once_is_enough_to_4025d01e": {
+   "speaker": "hush",
+   "text": "Once is enough to remember, Bishop. Who is it tonight?",
+   "text_hash": "4025d01e247441e9",
+   "path": "res://assets/audio/voice/hush/once_is_enough_to_4025d01e.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 3.52,
+   "peak": 0.8913,
+   "rms_db": -18.7,
+   "clipped": 0,
+   "file_hash": "18dabba8a8f4743c",
+   "gen_s": 0.91,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:39",
+     "ref": "c_e3_knife/K4@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L4",
+     "slot": 3.9,
+     "slot_kind": "cine slot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
   "hush/one_horn_fewer_the_b84447ea": {
    "speaker": "hush",
    "text": "One horn fewer. The valley will have to shout.",
@@ -1506,6 +1685,74 @@
      "ref": "L5",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/shall_i_come_453646cc": {
+   "speaker": "hush",
+   "text": "Shall I come?",
+   "text_hash": "453646ccef040523",
+   "path": "res://assets/audio/voice/hush/shall_i_come_453646cc.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 1.22,
+   "peak": 0.8913,
+   "rms_db": -17.2,
+   "clipped": 0,
+   "file_hash": "308a3e505d28f876",
+   "gen_s": 0.41,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_price.cine:49",
+     "ref": "c_e3_price/P7@0.6",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_price.json",
+     "ref": "c_e3_price/L5",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/sleep_well_bishop_someone_2558147b": {
+   "speaker": "hush",
+   "text": "Sleep well, Bishop. Someone won't.",
+   "text_hash": "2558147bdd2f6f28",
+   "path": "res://assets/audio/voice/hush/sleep_well_bishop_someone_2558147b.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.25,
+   "peak": 0.8913,
+   "rms_db": -19.0,
+   "clipped": 0,
+   "file_hash": "7afc2a6686e55f73",
+   "gen_s": 6.36,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:56",
+     "ref": "c_e3_knife/K8@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L9",
+     "slot": 2.8,
+     "slot_kind": "cine slot",
      "speaker_id": "hush"
     }
    ]
@@ -1972,6 +2219,40 @@
     }
    ]
   },
+  "malrik/a_little_less_than_e9db75b8": {
+   "speaker": "malrik",
+   "text": "A little. Less than you would think.",
+   "text_hash": "e9db75b8c9e042b0",
+   "path": "res://assets/audio/voice/malrik/a_little_less_than_e9db75b8.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 1.96,
+   "peak": 0.8913,
+   "rms_db": -14.9,
+   "clipped": 0,
+   "file_hash": "b3fc2b5ce9682aa8",
+   "gen_s": 5.21,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_doubt.cine:54",
+     "ref": "c_e3_doubt/D7@0.5",
+     "slot": 5.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_doubt.json",
+     "ref": "c_e3_doubt/L5",
+     "slot": 2.9,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
   "malrik/a_map_to_the_5b99da9c": {
    "speaker": "malrik",
    "text": "A map to the deep. How generous. I'll take it off your body.",
@@ -2002,6 +2283,40 @@
      "ref": "e2m3_paid/P3@0.5",
      "slot": 7.5,
      "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/always_0edd8d97": {
+   "speaker": "malrik",
+   "text": "Always.",
+   "text_hash": "0edd8d9769062482",
+   "path": "res://assets/audio/voice/malrik/always_0edd8d97.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 0.93,
+   "peak": 0.8913,
+   "rms_db": -12.9,
+   "clipped": 0,
+   "file_hash": "61d1c03cba59c5ae",
+   "gen_s": 4.25,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_price.cine:50",
+     "ref": "c_e3_price/P7@3.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_price.json",
+     "ref": "c_e3_price/L6",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
      "speaker_id": "malrik"
     }
    ]
@@ -2134,6 +2449,74 @@
      "ref": "L8",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/at_an_armys_supper_a3673f23": {
+   "speaker": "malrik",
+   "text": "At an army's supper, Torvald. Hungry soldiers go home.",
+   "text_hash": "a3673f23a73fdbcc",
+   "path": "res://assets/audio/voice/malrik/at_an_armys_supper_a3673f23.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.797,
+   "peak": 0.8913,
+   "rms_db": -15.7,
+   "clipped": 0,
+   "file_hash": "8e1d6c845d0fc4e5",
+   "gen_s": 8.9,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:53",
+     "ref": "c_e3_knife/K7@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L8",
+     "slot": 3.9,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/bring_me_back_their_59d08381": {
+   "speaker": "malrik",
+   "text": "Bring me back their axle pins.",
+   "text_hash": "59d08381df06153f",
+   "path": "res://assets/audio/voice/malrik/bring_me_back_their_59d08381.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.07,
+   "peak": 0.8913,
+   "rms_db": -16.4,
+   "clipped": 0,
+   "file_hash": "84497520e36aa03b",
+   "gen_s": 6.47,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:44",
+     "ref": "c_e3_knife/K5@4.6",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L6",
+     "slot": 2.6,
+     "slot_kind": "cine slot",
      "speaker_id": "malrik"
     }
    ]
@@ -2405,6 +2788,45 @@
     }
    ]
   },
+  "malrik/ford_mud_my_father_60cd5c23": {
+   "speaker": "malrik",
+   "text": "Ford mud. My father said the same of grave clay: it never comes off.",
+   "text_hash": "60cd5c234630449e",
+   "path": "res://assets/audio/voice/malrik/ford_mud_my_father_60cd5c23.wav",
+   "voice": "bm_george",
+   "speed": 1.108,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.53,
+   "peak": 0.8913,
+   "rms_db": -16.0,
+   "clipped": 0,
+   "file_hash": "9f3d541394a3eb89",
+   "gen_s": 19.97,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:29",
+     "ref": "c_e3_knife/K2@0.8",
+     "slot": 6.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L1",
+     "slot": 4.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ],
+   "fit": {
+    "slot": 4.6,
+    "unfitted_s": 4.66,
+    "speed_x": 1.055
+   }
+  },
   "malrik/four_wagons_hush_grain_95e6dc4e": {
    "speaker": "malrik",
    "text": "Four wagons, Hush. Grain, arrows, oil, fodder. Hungry armies march slowly.",
@@ -2617,6 +3039,40 @@
      "ref": "L12",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/i_did_not_ask_8e6eb56a": {
+   "speaker": "malrik",
+   "text": "I did not ask you anything.",
+   "text_hash": "8e6eb56a6c11ede3",
+   "path": "res://assets/audio/voice/malrik/i_did_not_ask_8e6eb56a.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 1.792,
+   "peak": 0.8913,
+   "rms_db": -14.0,
+   "clipped": 0,
+   "file_hash": "5efe4a14ff723098",
+   "gen_s": 6.12,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_price.cine:31",
+     "ref": "c_e3_price/P2@3.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_price.json",
+     "ref": "c_e3_price/L1",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
      "speaker_id": "malrik"
     }
    ]
@@ -3206,6 +3662,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_return.cine:26",
+     "ref": "e3m4_return/R3@0.3",
+     "slot": 2.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -3351,6 +3815,40 @@
      "ref": "L10",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/not_who_what_four_ce853308": {
+   "speaker": "malrik",
+   "text": "Not who. What. Four wagons on the south hill, one token each.",
+   "text_hash": "ce85330874981c00",
+   "path": "res://assets/audio/voice/malrik/not_who_what_four_ce853308.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.989,
+   "peak": 0.8913,
+   "rms_db": -14.3,
+   "clipped": 0,
+   "file_hash": "30faa80ce68f4300",
+   "gen_s": 9.74,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:43",
+     "ref": "c_e3_knife/K5@0.5",
+     "slot": 4.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L5",
+     "slot": 4.3,
+     "slot_kind": "cine slot",
      "speaker_id": "malrik"
     }
    ]
@@ -4451,6 +4949,40 @@
     }
    ]
   },
+  "malrik/whose_dead_7d694186": {
+   "speaker": "malrik",
+   "text": "Whose dead?",
+   "text_hash": "7d6941862012f963",
+   "path": "res://assets/audio/voice/malrik/whose_dead_7d694186.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 0.95,
+   "peak": 0.8913,
+   "rms_db": -15.2,
+   "clipped": 0,
+   "file_hash": "c9aac65b74539812",
+   "gen_s": 3.63,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_price.cine:37",
+     "ref": "c_e3_price/P4@0.4",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_price.json",
+     "ref": "c_e3_price/L3",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
   "malrik/you_can_help_by_563a0e83": {
    "speaker": "malrik",
    "text": "You can help by being quiet. Stones are usually good at that.",
@@ -4473,6 +5005,40 @@
      "ref": "L6",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/you_missed_her_at_3a6143b7": {
+   "speaker": "malrik",
+   "text": "You missed her, at Emberfall.",
+   "text_hash": "3a6143b782d0f618",
+   "path": "res://assets/audio/voice/malrik/you_missed_her_at_3a6143b7.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 1.96,
+   "peak": 0.8913,
+   "rms_db": -14.5,
+   "clipped": 0,
+   "file_hash": "73aa70d7e056761a",
+   "gen_s": 5.76,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:35",
+     "ref": "c_e3_knife/K3@0.6",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L2",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
      "speaker_id": "malrik"
     }
    ]
@@ -6699,6 +7265,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_homecoming.cine:17",
+     "ref": "e3m3_homecoming/H1@0.6",
+     "slot": 6.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ],
    "fit": {
@@ -6918,6 +7492,14 @@
      "ref": "L1",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m2_slip.cine:17",
+     "ref": "e3m2_slip/S1@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ],
@@ -7366,6 +7948,14 @@
      "ref": "L1",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_return.cine:19",
+     "ref": "e3m4_return/R1@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ],
@@ -7934,6 +8524,40 @@
     }
    ]
   },
+  "shade/duskbarrow_bishop_the_barrow_e07a6c8e": {
+   "speaker": "shade",
+   "text": "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking.",
+   "text_hash": "e07a6c8ee236a86e",
+   "path": "res://assets/audio/voice/shade/duskbarrow_bishop_the_barrow_e07a6c8e.wav",
+   "voice": "am_onyx",
+   "speed": 0.9,
+   "cast_speed": 0.9,
+   "lang": "en-us",
+   "duration": 4.09,
+   "peak": 0.8913,
+   "rms_db": -18.5,
+   "clipped": 0,
+   "file_hash": "d68a63e79fbb62c0",
+   "gen_s": 9.92,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_price.cine:35",
+     "ref": "c_e3_price/P3@0.4",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "shade"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_price.json",
+     "ref": "c_e3_price/L2",
+     "slot": 5.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "shade"
+    }
+   ]
+  },
   "shade/the_crypt_doors_are_298b8a15": {
    "speaker": "shade",
    "text": "The crypt doors are cracking! The families are inside!",
@@ -8112,6 +8736,40 @@
     }
    ]
   },
+  "shade/yours_4a43feb4": {
+   "speaker": "shade",
+   "text": "Yours.",
+   "text_hash": "4a43feb40470886b",
+   "path": "res://assets/audio/voice/shade/yours_4a43feb4.wav",
+   "voice": "am_onyx",
+   "speed": 0.9,
+   "cast_speed": 0.9,
+   "lang": "en-us",
+   "duration": 0.87,
+   "peak": 0.8913,
+   "rms_db": -14.1,
+   "clipped": 0,
+   "file_hash": "83228488830b4eae",
+   "gen_s": 3.19,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_price.cine:39",
+     "ref": "c_e3_price/P5@0.6",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "shade"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_price.json",
+     "ref": "c_e3_price/L4",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "shade"
+    }
+   ]
+  },
   "torvald/every_dusk_the_old_c9948c31": {
    "speaker": "torvald",
    "text": "Every dusk the old man walks down to the river and looks at us. Then he walks away.",
@@ -8135,6 +8793,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_return.cine:22",
+     "ref": "e3m4_return/R2@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
     }
    ],
    "fit": {
@@ -8142,6 +8808,74 @@
     "unfitted_s": 5.48,
     "speed_x": 1.2
    }
+  },
+  "torvald/go_i_will_keep_2ee86eee": {
+   "speaker": "torvald",
+   "text": "Go. I will keep your ridge cold.",
+   "text_hash": "2ee86eee108d1999",
+   "path": "res://assets/audio/voice/torvald/go_i_will_keep_2ee86eee.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 2.261,
+   "peak": 0.8913,
+   "rms_db": -22.4,
+   "clipped": 0,
+   "file_hash": "ae0f8a7377364731",
+   "gen_s": 6.93,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_price.cine:55",
+     "ref": "c_e3_price/P8@0.6",
+     "slot": 6.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_price.json",
+     "ref": "c_e3_price/L7",
+     "slot": 2.7,
+     "slot_kind": "cine slot",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/he_is_counting_us_ebc179a7": {
+   "speaker": "torvald",
+   "text": "He is counting us.",
+   "text_hash": "ebc179a74ea472bb",
+   "path": "res://assets/audio/voice/torvald/he_is_counting_us_ebc179a7.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 1.27,
+   "peak": 0.8913,
+   "rms_db": -19.6,
+   "clipped": 0,
+   "file_hash": "218778c6d9870c29",
+   "gen_s": 5.2,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_doubt.cine:34",
+     "ref": "c_e3_doubt/D3@0.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_doubt.json",
+     "ref": "c_e3_doubt/L3",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "torvald"
+    }
+   ]
   },
   "torvald/i_gave_the_wood_952c4f0b": {
    "speaker": "torvald",
@@ -8198,6 +8932,40 @@
      "source": "data/voice/lines/ep3_ending.json",
      "ref": "ep3_ending/L2",
      "slot": 3.3,
+     "slot_kind": "cine slot",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/i_know_i_saw_c652a0b1": {
+   "speaker": "torvald",
+   "text": "I know. I saw.",
+   "text_hash": "c652a0b19b3d5358",
+   "path": "res://assets/audio/voice/torvald/i_know_i_saw_c652a0b1.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 1.32,
+   "peak": 0.8913,
+   "rms_db": -21.0,
+   "clipped": 0,
+   "file_hash": "e4c723bfe7326e9b",
+   "gen_s": 5.38,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_doubt.cine:64",
+     "ref": "c_e3_doubt/D8@4.6",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_doubt.json",
+     "ref": "c_e3_doubt/L7",
+     "slot": 2.5,
      "slot_kind": "cine slot",
      "speaker_id": "torvald"
     }
@@ -8410,6 +9178,14 @@
      "ref": "L4",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_return.cine:29",
+     "ref": "e3m4_return/R4@0.2",
+     "slot": 5.3,
+     "slot_kind": "cine shot",
      "speaker_id": "torvald"
     }
    ]
@@ -8811,6 +9587,74 @@
     "unfitted_s": 5.11,
     "speed_x": 1.065
    }
+  },
+  "torvald/what_did_it_cost_62e071ef": {
+   "speaker": "torvald",
+   "text": "What did it cost you, Malrik? In Duskbarrow.",
+   "text_hash": "62e071ef8379a751",
+   "path": "res://assets/audio/voice/torvald/what_did_it_cost_62e071ef.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 2.82,
+   "peak": 0.8913,
+   "rms_db": -20.9,
+   "clipped": 0,
+   "file_hash": "6488d67091284402",
+   "gen_s": 7.65,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_doubt.cine:50",
+     "ref": "c_e3_doubt/D6@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_doubt.json",
+     "ref": "c_e3_doubt/L4",
+     "slot": 3.3,
+     "slot_kind": "cine slot",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/you_send_a_knife_bdde2636": {
+   "speaker": "torvald",
+   "text": "You send a knife at farmers' carts, Malrik.",
+   "text_hash": "bdde263643e6e85d",
+   "path": "res://assets/audio/voice/torvald/you_send_a_knife_bdde2636.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 2.77,
+   "peak": 0.8913,
+   "rms_db": -20.7,
+   "clipped": 0,
+   "file_hash": "cefa8247dfa6712c",
+   "gen_s": 7.72,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e3_knife.cine:49",
+     "ref": "c_e3_knife/K6@0.6",
+     "slot": 6.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e3_knife.json",
+     "ref": "c_e3_knife/L7",
+     "slot": 3.3,
+     "slot_kind": "cine slot",
+     "speaker_id": "torvald"
+    }
+   ]
   },
   "torvald/your_shadows_are_thorough_57f4877c": {
    "speaker": "torvald",

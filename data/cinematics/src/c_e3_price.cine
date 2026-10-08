@@ -1,0 +1,61 @@
+# Between-scene "The Stone's First Price", ~64 s (docs/design/mission-e3-02.md, Cinematic hooks `c_e3_price`; beats for its
+# writer E3M2.D1). That night, Malrik alone on the ridge; the stone pulses without being asked; a rider in Shadow colours:
+# "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking." / "Whose dead?" / "Yours." He looks at the
+# stone; the stone is very quiet. Hush: "Shall I come?" "Always." Torvald, at his door: "Go. I will keep your ridge cold."
+# Plays after e3m2's victory (StoryFlow: CampaignState.STORY_FILMS c_e3_price -> e3m3).
+# Text source for i18n / voices: data/voice/lines/c_e3_price.json (the same text as the lines below).
+# Set: forge_evenmead (marks B01 B14R, puppets malrik / hush / torvald / stone). Night = the ep3_ending dark-blue grade.
+# The rider = a Shade (res://art/units/shadow/shade.tscn), speaker `shade` (e3m3's Shade voice).
+# Axis: the Ep3 rule (every camera east of the Malrik - Ysolde line).
+cine c_e3_price  title="The Stone's First Price"  letterbox=2.39  seed=37  length=58..70
+use set forge_evenmead
+use music res://assets/audio/forge/music/ep3_opening.wav  vol=-22
+env night  moon_yaw=210  moon_pitch=-40  energy=0.4
+cast  shade  res://art/units/shadow/shade.tscn  at=(3.6, 7.434, -33.2)  yaw=232
+
+# ---------------------------------------------------------------- night on the ridge
+# Wide over the valley at night; a few torches along the ridge
+shot B01 9.0  in=fade_black:1.2
+  at 0.0  fade color=#0b0c26 alpha=0.5 time=0.05
+  at 0.0  hide hush
+  at 0.0  teleport torvald  to=(-9.0, 7.4, -39.0)  yaw=70
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
+  at 2.0  vfx t1  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-14, 4.0, -27.2)  life=40  scale=0.12
+  at 3.4  vfx t2  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(-4, 5.2, -28.0)  life=40  scale=0.12
+# Malrik alone; the stone pulses without being asked
+shot P2 8.0  cam=frame "ms on malrik, 3/4 left, low"  push=0.2
+  at 0.0  anim malrik set_expression  arg=neutral
+  at 1.2  vfx pulse  scene=res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn  at=(-0.42, 8.84, -35.38)  life=5.0  scale=0.7
+  at 1.2  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-9
+  at 2.2  anim malrik set_expression  arg=worried
+  at 3.6  line malrik "I did not ask you anything."
+# A rider in Shadow colours comes up the ridge
+shot P3 7.0  cam=frame "ms on shade, 3/4 left, eye"
+  at 0.0  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-12
+  at 0.4  line shade "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking."  dur=5.8
+shot P4 4.0  cam=frame "mcu on malrik, 3/4 left, eye"
+  at 0.4  line malrik "Whose dead?"
+shot P5 4.0  cam=frame "mcu on shade, 3/4 left, eye"
+  at 0.6  line shade "Yours."
+# He looks at the stone; the stone is very quiet
+shot P6 8.0  cam=frame "cu on stone, high"  in=blend:0.3
+  at 0.0  anim malrik set_expression  arg=worried
+  at 0.4  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-18
+# Hush is behind him, as always
+shot P7 8.0  cam=frame "ms on malrik and hush, 3/4 left, eye"
+  at 0.0  teleport hush  to=(0.8, 7.43, -37.4)  yaw=10
+  at 0.0  show hush
+  at 0.0  hide shade
+  at 0.6  line hush "Shall I come?"
+  at 3.6  line malrik "Always."
+  at 3.6  anim malrik set_expression  arg=fierce
+# Torvald at his door
+shot P8 7.0  cam=frame "ms on torvald, 3/4 right, eye"  push=0.15
+  at 0.0  anim torvald set_expression  arg=neutral
+  at 0.6  line torvald "Go. I will keep your ridge cold."
+  at 0.6  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-14
+# The Shadow column leaves the ridge northwards in the dark; fade
+shot B14R 9.0  in=blend:0.4
+  at 0.0  fade color=#0b0c26 alpha=0.6 time=0.05
+  at 0.6  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-14
+  at 7.8  fade alpha=1 time=1.2

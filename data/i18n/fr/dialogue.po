@@ -5,6 +5,121 @@ msgstr ""
 "Language: fr_CA\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#. speaker aldra
+#: data/voice/lines/c_e3_doubt.json:L1
+msgid "The old storm-sword crossed the river twice today."
+msgstr "La vieille épée-tempête a traversé la rivière deux fois aujourd'hui."
+
+#. speaker aldra
+#: data/voice/lines/c_e3_doubt.json:L2
+msgid "He only looked at the ridge. Then he went back."
+msgstr "Il a seulement regardé la crête. Puis il est reparti."
+
+#. speaker torvald
+#: data/voice/lines/c_e3_doubt.json:L3
+msgid "He is counting us."
+msgstr "Il nous compte."
+
+#. speaker torvald
+#: data/voice/lines/c_e3_doubt.json:L4
+msgid "What did it cost you, Malrik? In Duskbarrow."
+msgstr "Combien ça t'a coûté, Malrik ? À Duskbarrow."
+
+#. speaker malrik
+#: data/voice/lines/c_e3_doubt.json:L5
+msgid "A little. Less than you would think."
+msgstr "Un peu. Moins que tu le penses."
+
+#. speaker aldra
+#: data/voice/lines/c_e3_doubt.json:L6
+msgid "It glowed when he lied."
+msgstr "Elle a brillé quand il a menti."
+
+#. speaker torvald
+#: data/voice/lines/c_e3_doubt.json:L7
+msgid "I know. I saw."
+msgstr "Je sais. Je l'ai vu."
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L1
+msgid "Ford mud. My father said the same of grave clay: it never comes off."
+msgstr "La boue du gué. Mon père disait la même chose de la glaise des tombes : ça ne part jamais."
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L2
+msgid "You missed her, at Emberfall."
+msgstr "Tu l'as manquée, à Emberfall."
+
+#. speaker hush
+#: data/voice/lines/c_e3_knife.json:L3
+msgid "Once."
+msgstr "Une fois."
+
+#. speaker hush
+#: data/voice/lines/c_e3_knife.json:L4
+msgid "Once is enough to remember, Bishop. Who is it tonight?"
+msgstr "Une fois, ça suffit pour s'en souvenir, Évêque. C'est qui, ce soir ?"
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L5
+msgid "Not who. What. Four wagons on the south hill, one token each."
+msgstr "Pas qui. Quoi. Quatre chariots sur la colline sud, un jeton chacun."
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L6
+msgid "Bring me back their axle pins."
+msgstr "Rapporte-moi leurs goupilles d'essieu."
+
+#. speaker torvald
+#: data/voice/lines/c_e3_knife.json:L7
+msgid "You send a knife at farmers' carts, Malrik."
+msgstr "Tu envoies un couteau contre des charrettes de paysans, Malrik."
+
+#. speaker malrik
+#: data/voice/lines/c_e3_knife.json:L8
+msgid "At an army's supper, Torvald. Hungry soldiers go home."
+msgstr "Contre le souper d'une armée, Torvald. Les soldats affamés rentrent chez eux."
+
+#. speaker hush
+#: data/voice/lines/c_e3_knife.json:L9
+msgid "Sleep well, Bishop. Someone won't."
+msgstr "Dors bien, Évêque. Quelqu'un, lui, ne dormira pas."
+
+#. speaker malrik
+#: data/voice/lines/c_e3_price.json:L1
+msgid "I did not ask you anything."
+msgstr "Je ne t'ai rien demandé."
+
+#. speaker shade
+#: data/voice/lines/c_e3_price.json:L2
+msgid "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking."
+msgstr "Duskbarrow, Évêque. Les chandelles des tertres se sont éteintes. Les morts marchent."
+
+#. speaker malrik
+#: data/voice/lines/c_e3_price.json:L3
+msgid "Whose dead?"
+msgstr "Les morts de qui ?"
+
+#. speaker shade
+#: data/voice/lines/c_e3_price.json:L4
+msgid "Yours."
+msgstr "Les vôtres."
+
+#. speaker hush
+#: data/voice/lines/c_e3_price.json:L5
+msgid "Shall I come?"
+msgstr "Je viens ?"
+
+#. speaker malrik
+#: data/voice/lines/c_e3_price.json:L6
+msgid "Always."
+msgstr "Toujours."
+
+#. speaker torvald
+#: data/voice/lines/c_e3_price.json:L7
+msgid "Go. I will keep your ridge cold."
+msgstr "Va. Je garderai ta crête froide."
+
 #. speaker reveler
 #: data/voice/lines/ep2_opening.json:L01
 msgid "To Vessa! To the Ember Queen!"

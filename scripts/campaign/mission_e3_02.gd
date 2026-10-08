@@ -618,14 +618,16 @@ func say_l(n: int) -> void:
 	say_line(n)
 
 
+## E1: the slip (e3m2_slip, HOLD 0:15 played as PAUSE; fallback = the camera on Hush + L1), L2-L4, the start hint.
 func _intro() -> void:
 	fire_once(&"E1")
-	if camera_rig and hero_alive():
-		camera_rig.focus_on(hero.global_position)
-	for n in [1, 2, 3, 4]:
-		say_l(n)
-	if hud:
-		hud.show_message(HINT_START, 10.0)
+	play_cutscene(&"e3m2_slip", func() -> void:
+		if camera_rig and hero_alive():
+			camera_rig.focus_on(hero.global_position)
+		for n in [1, 2, 3, 4]:
+			say_l(n)
+		if hud:
+			hud.show_message(HINT_START, 10.0))
 
 
 # ---------------------------------------------------------------- Hush's abilities (phase 1, mission-side)

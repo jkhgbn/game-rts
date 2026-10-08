@@ -1,0 +1,88 @@
+{
+    "cine_id":  "c_e3_knife",
+    "source":  "data/cinematics/src/c_e3_knife.cine (beats: docs/design/mission-e3-02.md, Cinematic hooks)",
+    "note":  "Hand-written with the .cine (2026-10-08): the same text as its lines.",
+    "lines":  [
+                  {
+                      "id":  "L1",
+                      "shot":  "K2",
+                      "at":  0.8,
+                      "dur":  4.6,
+                      "speaker":  "malrik",
+                      "subtitle":  "Ford mud. My father said the same of grave clay: it never comes off.",
+                      "text":  "Ford mud. My father said the same of grave clay: it never comes off."
+                  },
+                  {
+                      "id":  "L2",
+                      "shot":  "K3",
+                      "at":  0.6,
+                      "dur":  2.5,
+                      "speaker":  "malrik",
+                      "subtitle":  "You missed her, at Emberfall.",
+                      "text":  "You missed her, at Emberfall."
+                  },
+                  {
+                      "id":  "L3",
+                      "shot":  "K3",
+                      "at":  4,
+                      "dur":  2.5,
+                      "speaker":  "hush",
+                      "subtitle":  "Once.",
+                      "text":  "Once."
+                  },
+                  {
+                      "id":  "L4",
+                      "shot":  "K4",
+                      "at":  0.4,
+                      "dur":  3.9,
+                      "speaker":  "hush",
+                      "subtitle":  "Once is enough to remember, Bishop. Who is it tonight?",
+                      "text":  "Once is enough to remember, Bishop. Who is it tonight?"
+                  },
+                  {
+                      "id":  "L5",
+                      "shot":  "K5",
+                      "at":  0.5,
+                      "dur":  4.3,
+                      "speaker":  "malrik",
+                      "subtitle":  "Not who. What. Four wagons on the south hill, one token each.",
+                      "text":  "Not who. What. Four wagons on the south hill, one token each."
+                  },
+                  {
+                      "id":  "L6",
+                      "shot":  "K5",
+                      "at":  4.6,
+                      "dur":  2.6,
+                      "speaker":  "malrik",
+                      "subtitle":  "Bring me back their axle pins.",
+                      "text":  "Bring me back their axle pins."
+                  },
+                  {
+                      "id":  "L7",
+                      "shot":  "K6",
+                      "at":  0.6,
+                      "dur":  3.3,
+                      "speaker":  "torvald",
+                      "subtitle":  "You send a knife at farmers\u0027 carts, Malrik.",
+                      "text":  "You send a knife at farmers\u0027 carts, Malrik."
+                  },
+                  {
+                      "id":  "L8",
+                      "shot":  "K7",
+                      "at":  0.4,
+                      "dur":  3.9,
+                      "speaker":  "malrik",
+                      "subtitle":  "At an army\u0027s supper, Torvald. Hungry soldiers go home.",
+                      "text":  "At an army\u0027s supper, Torvald. Hungry soldiers go home."
+                  },
+                  {
+                      "id":  "L9",
+                      "shot":  "K8",
+                      "at":  0.4,
+                      "dur":  2.8,
+                      "speaker":  "hush",
+                      "subtitle":  "Sleep well, Bishop. Someone won\u0027t.",
+                      "text":  "Sleep well, Bishop. Someone won\u0027t."
+                  }
+              ]
+}

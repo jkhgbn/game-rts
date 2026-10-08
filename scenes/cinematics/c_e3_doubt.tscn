@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_7uf3x"]
+[ext_resource type="Resource" path="res://data/cinematics/c_e3_doubt.tres" id="2_k62ky"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_evenmead/forge_evenmead.tscn" id="3_5g2xm"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_w7v0p"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_golden.tres" id="5_g576q"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="6_qr77y"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="7_cy3b1"]
+
+[node name="CE3DoubtStage" type="Node3D" unique_id=1790699945]
+script = ExtResource("1_7uf3x")
+autoplay_script = ExtResource("2_k62ky")
+actor_paths = {
+"army_fire": NodePath("forge_evenmead/Puppets/army_fire"),
+"army_ice": NodePath("forge_evenmead/Puppets/army_ice"),
+"army_nature": NodePath("forge_evenmead/Puppets/army_nature"),
+"army_shadow": NodePath("forge_evenmead/Puppets/army_shadow"),
+"bloom": NodePath("forge_evenmead/Puppets/bloom"),
+"hush": NodePath("forge_evenmead/Puppets/hush"),
+"malrik": NodePath("forge_evenmead/Puppets/malrik"),
+"stone": NodePath("forge_evenmead/Puppets/stone"),
+"torvald": NodePath("forge_evenmead/Puppets/torvald"),
+"vessa": NodePath("forge_evenmead/Puppets/vessa"),
+"vey": NodePath("forge_evenmead/Puppets/vey"),
+"w_birch": NodePath("forge_evenmead/Puppets/w_birch"),
+"w_birds": NodePath("forge_evenmead/Puppets/w_birds"),
+"w_camps": NodePath("forge_evenmead/Puppets/w_camps"),
+"w_far": NodePath("forge_evenmead/Puppets/w_far"),
+"w_farwood": NodePath("forge_evenmead/Puppets/w_farwood"),
+"w_flowers": NodePath("forge_evenmead/Puppets/w_flowers"),
+"w_glow": NodePath("forge_evenmead/Puppets/w_glow"),
+"w_grass_far": NodePath("forge_evenmead/Puppets/w_grass_far"),
+"w_grass_mid": NodePath("forge_evenmead/Puppets/w_grass_mid"),
+"w_grass_near": NodePath("forge_evenmead/Puppets/w_grass_near"),
+"w_grass_tall": NodePath("forge_evenmead/Puppets/w_grass_tall"),
+"w_ground": NodePath("forge_evenmead/Puppets/w_ground"),
+"w_mist": NodePath("forge_evenmead/Puppets/w_mist"),
+"w_oak0": NodePath("forge_evenmead/Puppets/w_oak0"),
+"w_oak1": NodePath("forge_evenmead/Puppets/w_oak1"),
+"w_oak2": NodePath("forge_evenmead/Puppets/w_oak2"),
+"w_rays": NodePath("forge_evenmead/Puppets/w_rays"),
+"w_reeds": NodePath("forge_evenmead/Puppets/w_reeds"),
+"w_river": NodePath("forge_evenmead/Puppets/w_river"),
+"w_riverbed": NodePath("forge_evenmead/Puppets/w_riverbed"),
+"w_shrub0": NodePath("forge_evenmead/Puppets/w_shrub0"),
+"w_shrub1": NodePath("forge_evenmead/Puppets/w_shrub1"),
+"ysolde": NodePath("forge_evenmead/Puppets/ysolde")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_evenmead" type="Node3D" parent="." unique_id=829784083 instance=ExtResource("3_5g2xm")]
+script = ExtResource("4_w7v0p")
+set_id = &"forge_evenmead"
+lighting = ExtResource("5_g576q")
+lights_off = Array[NodePath]([NodePath("Placed/ford_stones"), NodePath("Placed/master_tree"), NodePath("Placed/banner_n"), NodePath("Placed/banner_s"), NodePath("Placed/stone_pt"), NodePath("Placed/bloom_pt"), NodePath("Puppets/malrik"), NodePath("Puppets/torvald"), NodePath("Puppets/hush"), NodePath("Puppets/ysolde"), NodePath("Puppets/vessa"), NodePath("Puppets/vey"), NodePath("Puppets/stone"), NodePath("Puppets/bloom"), NodePath("Puppets/army_shadow"), NodePath("Puppets/army_ice"), NodePath("Puppets/army_nature"), NodePath("Puppets/army_fire"), NodePath("Puppets/w_ground"), NodePath("Puppets/w_grass_near"), NodePath("Puppets/w_grass_mid"), NodePath("Puppets/w_grass_far"), NodePath("Puppets/w_grass_tall"), NodePath("Puppets/w_flowers"), NodePath("Puppets/w_oak0"), NodePath("Puppets/w_oak1"), NodePath("Puppets/w_oak2"), NodePath("Puppets/w_birch"), NodePath("Puppets/w_shrub0"), NodePath("Puppets/w_shrub1"), NodePath("Puppets/w_farwood"), NodePath("Puppets/w_river"), NodePath("Puppets/w_riverbed"), NodePath("Puppets/w_reeds"), NodePath("Puppets/w_camps"), NodePath("Puppets/w_mist"), NodePath("Puppets/w_glow"), NodePath("Puppets/w_rays"), NodePath("Puppets/w_birds"), NodePath("Puppets/w_far")])
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=60865965]
+script = ExtResource("6_qr77y")
+preset = ExtResource("7_cy3b1")

@@ -1,0 +1,25 @@
+# e3m3 E1 "e3m3_homecoming" (docs/design/mission-e3-03.md, Cinematic hooks): ~20 s, mode=pause over the live mission
+# (the spec's HOLD runs as PAUSE until the player supports HOLD). Duskbarrow at violet dusk: north = -Z = the Bishop's
+# Seat (0, -42), the slope falling south to the Great Crypt (0, 0) and the Sexton's lodge (0, 46); barrow doors B1 (-44, 0),
+# B2 (44, 0), B3 (-34, 38), B4 (34, 38), their vigil candles inside. 1) CRANE down from above the Seat: a city of small
+# lit windows, the slope falling south; 2) the four barrow doors, dark; the Weeping Barrow's dead candle (39, 0) in the
+# foreground, a thread of smoke; 3) MS Malrik on the Lantern Road, 3/4-left, his candle unlit (orbits the live hero:
+# tag `malrik`). Cameras on the east side (the Ep3 rule). Line: L1 (narrator, mission DIALOGUE, French in campaign.po).
+# End state (MissionE303._intro): camera on Malrik, L1-L4, the start hint.
+cine e3m3_homecoming  title="Homecoming"  mode=pause  letterbox=2.39  seed=52  length=18..22
+env dusk  moon_yaw=200  moon_pitch=-14  energy=0.7
+cast  malrik    res://art/units/wizards/malrik.tscn  at=(0, 0, -30)  yaw=180
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# CRANE down from above the Seat: candle-lit windows, the city falling away south
+shot H1 7.5  cam=crane  from=(10, 30, -56)  to=(8, 16, -48)  look=(0, 0, -10)>(0, 0, -4)  fov=54>48  in=fade_black:1.0
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-16
+  at 0.6  line narrator "Duskbarrow. The city of the dead, where Malrik learned to read by tombstone light."
+# The barrow doors, dark; a dead candle on its iron stand in the foreground, a thread of smoke
+shot H2 6.0  cam=dolly  from=(46, 2.2, 6)  to=(45, 2.0, 4.5)  look=(39, 0.8, 0)>(39, 1.0, -0.5)  fov=40>36
+  at 0.8  sfx res://assets/audio/forge/sfx/candle_pinch.wav  vol=-10
+  at 1.0  vfx smoke  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(39, 0.9, 0)  life=4.0  scale=0.25
+# MS Malrik on the Lantern Road, 3/4-left, his candle unlit in his hand
+shot H3 6.5  cam=orbit  pivot=malrik  r=4.0  h=1.6  deg=25>38  fov=38
+  at 0.3  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-16
+  at 5.9  fade alpha=1 time=0.6

@@ -1,0 +1,479 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_ne7ms"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_dixa4"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_pkk1l"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_wounu"]
+
+[sub_resource type="Resource" id="Resource_gp4vl"]
+script = ExtResource("4_wounu")
+kind = &"fade"
+params = {
+"alpha": 0.5,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_uhy2h"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_t78ci"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"stone"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_l2j67"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"hush"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_tab2a"]
+script = ExtResource("4_wounu")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_qevfl"]
+script = ExtResource("4_wounu")
+at = 2.0
+kind = &"vfx"
+target = Vector3(-14, 4, -27.2)
+params = {
+"life": 60.0,
+"scale": 0.12,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_f3tb2"]
+script = ExtResource("4_wounu")
+at = 3.0
+kind = &"vfx"
+target = Vector3(-9, 4.6, -27.6)
+params = {
+"life": 60.0,
+"scale": 0.12,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_2003n"]
+script = ExtResource("3_pkk1l")
+id = &"B01"
+duration = 9.0
+camera_mode = 1
+from_pos = Vector3(62, 42, 24)
+to_pos = Vector3(40, 15, 14)
+look_from = Vector3(-6, 2, -6)
+look_to = Vector3(2, 2, -10)
+fov_from = 46.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 1.2
+actions = Array[ExtResource("4_wounu")]([SubResource("Resource_gp4vl"), SubResource("Resource_uhy2h"), SubResource("Resource_t78ci"), SubResource("Resource_l2j67"), SubResource("Resource_tab2a"), SubResource("Resource_qevfl"), SubResource("Resource_f3tb2")])
+stage_set = &"forge_evenmead"
+marker_prefix = &"B01"
+
+[sub_resource type="Resource" id="Resource_nu6py"]
+script = ExtResource("4_wounu")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_uuhmi"]
+script = ExtResource("4_wounu")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_xfnaj"]
+script = ExtResource("1_ne7ms")
+at = 0.6
+speaker = &"aldra"
+text = "The old storm-sword crossed the river twice today."
+voice = "res://assets/audio/voice/aldra/the_old_storm_sword_95684d1b.wav"
+
+[sub_resource type="Resource" id="Resource_cn0x0"]
+script = ExtResource("1_ne7ms")
+at = 4.2
+speaker = &"aldra"
+text = "He only looked at the ridge. Then he went back."
+voice = "res://assets/audio/voice/aldra/he_only_looked_at_665606c4.wav"
+
+[sub_resource type="Resource" id="Resource_og77y"]
+script = ExtResource("3_pkk1l")
+id = &"D2"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(-1.0406096, 8.734231, -35.222073)
+to_pos = Vector3(-1.1604049, 8.734231, -35.312344)
+look_from = Vector3(-3.4, 8.734231, -37)
+look_to = Vector3(-3.4, 8.734231, -37)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_ne7ms")]([SubResource("Resource_xfnaj"), SubResource("Resource_cn0x0")])
+actions = Array[ExtResource("4_wounu")]([SubResource("Resource_nu6py"), SubResource("Resource_uuhmi")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_00nat"]
+script = ExtResource("4_wounu")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_rbvkd"]
+script = ExtResource("1_ne7ms")
+at = 0.6
+speaker = &"torvald"
+text = "He is counting us."
+voice = "res://assets/audio/voice/torvald/he_is_counting_us_ebc179a7.wav"
+
+[sub_resource type="Resource" id="Resource_k0r1b"]
+script = ExtResource("3_pkk1l")
+id = &"D3"
+duration = 5.0
+from_pos = Vector3(-1.8516501, 8.914231, -35.833233)
+to_pos = Vector3(-1.8516501, 8.914231, -35.833233)
+look_from = Vector3(-3.4, 8.914231, -37)
+look_to = Vector3(-3.4, 8.914231, -37)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_ne7ms")]([SubResource("Resource_rbvkd")])
+actions = Array[ExtResource("4_wounu")]([SubResource("Resource_00nat")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_eybmw"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_51e5p"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"stone"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_uje6l"]
+script = ExtResource("4_wounu")
+kind = &"teleport"
+actor = &"hush"
+target = Vector3(0.8, 7.43, -37.4)
+params = {
+"yaw_deg": 10.0
+}
+
+[sub_resource type="Resource" id="Resource_ds58v"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"hush"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_uixr1"]
+script = ExtResource("4_wounu")
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_jwbtn"]
+script = ExtResource("4_wounu")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_2248s"]
+script = ExtResource("4_wounu")
+at = 3.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_xs7cy"]
+script = ExtResource("3_pkk1l")
+id = &"D4"
+duration = 7.0
+from_pos = Vector3(5.1227603, 8.873231, -35.624516)
+to_pos = Vector3(5.1227603, 8.873231, -35.624516)
+look_from = Vector3(1.4, 8.873231, -36.75)
+look_to = Vector3(1.4, 8.873231, -36.75)
+fov_from = 40.0
+fov_to = 40.0
+actions = Array[ExtResource("4_wounu")]([SubResource("Resource_eybmw"), SubResource("Resource_51e5p"), SubResource("Resource_uje6l"), SubResource("Resource_ds58v"), SubResource("Resource_uixr1"), SubResource("Resource_jwbtn"), SubResource("Resource_2248s")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_0b7sv"]
+script = ExtResource("4_wounu")
+at = 0.6
+kind = &"vfx"
+target = Vector3(-0.42, 8.84, -35.38)
+params = {
+"life": 4.4,
+"scale": 0.6,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_m3f67"]
+script = ExtResource("4_wounu")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_vfq6o"]
+script = ExtResource("4_wounu")
+at = 2.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_bnpj7"]
+script = ExtResource("3_pkk1l")
+id = &"D5"
+duration = 6.0
+from_pos = Vector3(-0.42, 9.4246855, -33.995182)
+to_pos = Vector3(-0.42, 9.4246855, -33.995182)
+look_from = Vector3(-0.42, 8.94, -35.38)
+look_to = Vector3(-0.42, 8.94, -35.38)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 3
+transition_time = 0.3
+actions = Array[ExtResource("4_wounu")]([SubResource("Resource_0b7sv"), SubResource("Resource_m3f67"), SubResource("Resource_vfq6o")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_v470o"]
+script = ExtResource("1_ne7ms")
+at = 0.4
+speaker = &"torvald"
+text = "What did it cost you, Malrik? In Duskbarrow."
+voice = "res://assets/audio/voice/torvald/what_did_it_cost_62e071ef.wav"
+
+[sub_resource type="Resource" id="Resource_s5kp7"]
+script = ExtResource("3_pkk1l")
+id = &"D6"
+duration = 6.0
+from_pos = Vector3(-1.0406096, 8.734231, -35.222073)
+to_pos = Vector3(-1.0406096, 8.734231, -35.222073)
+look_from = Vector3(-3.4, 8.734231, -37)
+look_to = Vector3(-3.4, 8.734231, -37)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_ne7ms")]([SubResource("Resource_v470o")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_sxn5f"]
+script = ExtResource("4_wounu")
+kind = &"anim"
+actor = &"malrik"
+params = {
+"arg": "smile",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_gjbyj"]
+script = ExtResource("4_wounu")
+at = 1.4
+kind = &"vfx"
+target = Vector3(-0.42, 8.84, -35.38)
+params = {
+"life": 2.4,
+"scale": 0.7,
+"scene": "res://art/cinematics/stage_sets/forge_ep3_memories/props/heart_pulse.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_0hc4n"]
+script = ExtResource("4_wounu")
+at = 1.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_icmbp"]
+script = ExtResource("1_ne7ms")
+at = 0.5
+speaker = &"malrik"
+text = "A little. Less than you would think."
+voice = "res://assets/audio/voice/malrik/a_little_less_than_e9db75b8.wav"
+
+[sub_resource type="Resource" id="Resource_irli5"]
+script = ExtResource("3_pkk1l")
+id = &"D7"
+duration = 6.0
+from_pos = Vector3(1.3708991, 9.212232, -34.6291)
+to_pos = Vector3(1.3708991, 9.212232, -34.6291)
+look_from = Vector3(0, 9.212232, -36)
+look_to = Vector3(0, 9.212232, -36)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_ne7ms")]([SubResource("Resource_icmbp")])
+actions = Array[ExtResource("4_wounu")]([SubResource("Resource_sxn5f"), SubResource("Resource_gjbyj"), SubResource("Resource_0hc4n")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_mjqaj"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_enr2i"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"stone"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_1khph"]
+script = ExtResource("4_wounu")
+kind = &"visible"
+actor = &"hush"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_qwoic"]
+script = ExtResource("4_wounu")
+at = 4.6
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "worried",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_7v3ji"]
+script = ExtResource("1_ne7ms")
+at = 1.6
+speaker = &"aldra"
+text = "It glowed when he lied."
+voice = "res://assets/audio/voice/aldra/it_glowed_when_he_582df543.wav"
+
+[sub_resource type="Resource" id="Resource_h36mr"]
+script = ExtResource("1_ne7ms")
+at = 4.6
+speaker = &"torvald"
+text = "I know. I saw."
+voice = "res://assets/audio/voice/torvald/i_know_i_saw_c652a0b1.wav"
+
+[sub_resource type="Resource" id="Resource_fnj74"]
+script = ExtResource("3_pkk1l")
+id = &"D8"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(-1.0406096, 8.734231, -35.222073)
+to_pos = Vector3(-1.2003367, 8.734231, -35.342434)
+look_from = Vector3(-3.4, 8.734231, -37)
+look_to = Vector3(-3.4, 8.734231, -37)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_ne7ms")]([SubResource("Resource_7v3ji"), SubResource("Resource_h36mr")])
+actions = Array[ExtResource("4_wounu")]([SubResource("Resource_mjqaj"), SubResource("Resource_enr2i"), SubResource("Resource_1khph"), SubResource("Resource_qwoic")])
+stage_set = &"forge_evenmead"
+
+[sub_resource type="Resource" id="Resource_dmai4"]
+script = ExtResource("4_wounu")
+kind = &"fade"
+params = {
+"alpha": 0.55,
+"color": Color(0.043137256, 0.047058824, 0.14901961, 1),
+"time": 0.05
+}
+
+[sub_resource type="Resource" id="Resource_j60ah"]
+script = ExtResource("4_wounu")
+at = 3.0
+kind = &"vfx"
+target = Vector3(-9, 7.5, 40)
+params = {
+"life": 0.6,
+"scale": 1.0,
+"scene": "res://art/cinematics/fx/sun_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_gnld0"]
+script = ExtResource("4_wounu")
+at = 3.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_qphbh"]
+script = ExtResource("4_wounu")
+at = 8.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_v57ag"]
+script = ExtResource("3_pkk1l")
+id = &"N12"
+duration = 10.0
+from_pos = Vector3(2.2, 9.4, -39)
+to_pos = Vector3(2.2, 9.4, -39)
+look_from = Vector3(-10, 8.5, 40)
+look_to = Vector3(-10, 8.5, 40)
+fov_from = 22.0
+fov_to = 22.0
+transition_in = 3
+transition_time = 0.4
+actions = Array[ExtResource("4_wounu")]([SubResource("Resource_dmai4"), SubResource("Resource_j60ah"), SubResource("Resource_gnld0"), SubResource("Resource_qphbh")])
+stage_set = &"forge_evenmead"
+marker_prefix = &"N12"
+
+[resource]
+script = ExtResource("2_dixa4")
+id = &"c_e3_doubt"
+title = "Torvald's Doubt"
+stage_scene = "res://scenes/cinematics/c_e3_doubt.tscn"
+shots = Array[ExtResource("3_pkk1l")]([SubResource("Resource_2003n"), SubResource("Resource_og77y"), SubResource("Resource_k0r1b"), SubResource("Resource_xs7cy"), SubResource("Resource_bnpj7"), SubResource("Resource_s5kp7"), SubResource("Resource_irli5"), SubResource("Resource_fnj74"), SubResource("Resource_v57ag")])
+music_cue = &"res://assets/audio/forge/music/ep3_opening.wav"
+shake_seed = 38
+music_volume_db = -22.0
+lines_over_cuts = true

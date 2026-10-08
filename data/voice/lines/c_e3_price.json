@@ -1,0 +1,70 @@
+{
+    "cine_id":  "c_e3_price",
+    "source":  "data/cinematics/src/c_e3_price.cine (beats: docs/design/mission-e3-02.md, Cinematic hooks)",
+    "note":  "Hand-written with the .cine (2026-10-08): the same text as its lines.",
+    "lines":  [
+                  {
+                      "id":  "L1",
+                      "shot":  "P2",
+                      "at":  3.6,
+                      "dur":  2.5,
+                      "speaker":  "malrik",
+                      "subtitle":  "I did not ask you anything.",
+                      "text":  "I did not ask you anything."
+                  },
+                  {
+                      "id":  "L2",
+                      "shot":  "P3",
+                      "at":  0.4,
+                      "dur":  5.8,
+                      "speaker":  "shade",
+                      "subtitle":  "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking.",
+                      "text":  "Duskbarrow, Bishop. The barrow candles have gone out. The dead are walking."
+                  },
+                  {
+                      "id":  "L3",
+                      "shot":  "P4",
+                      "at":  0.4,
+                      "dur":  2.5,
+                      "speaker":  "malrik",
+                      "subtitle":  "Whose dead?",
+                      "text":  "Whose dead?"
+                  },
+                  {
+                      "id":  "L4",
+                      "shot":  "P5",
+                      "at":  0.6,
+                      "dur":  2.5,
+                      "speaker":  "shade",
+                      "subtitle":  "Yours.",
+                      "text":  "Yours."
+                  },
+                  {
+                      "id":  "L5",
+                      "shot":  "P7",
+                      "at":  0.6,
+                      "dur":  2.5,
+                      "speaker":  "hush",
+                      "subtitle":  "Shall I come?",
+                      "text":  "Shall I come?"
+                  },
+                  {
+                      "id":  "L6",
+                      "shot":  "P7",
+                      "at":  3.6,
+                      "dur":  2.5,
+                      "speaker":  "malrik",
+                      "subtitle":  "Always.",
+                      "text":  "Always."
+                  },
+                  {
+                      "id":  "L7",
+                      "shot":  "P8",
+                      "at":  0.6,
+                      "dur":  2.7,
+                      "speaker":  "torvald",
+                      "subtitle":  "Go. I will keep your ridge cold.",
+                      "text":  "Go. I will keep your ridge cold."
+                  }
+              ]
+}

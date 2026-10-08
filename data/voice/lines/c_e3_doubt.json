@@ -1,0 +1,70 @@
+{
+    "cine_id":  "c_e3_doubt",
+    "source":  "data/cinematics/src/c_e3_doubt.cine (beats: docs/design/mission-e3-03.md, Cinematic hooks)",
+    "note":  "Hand-written with the .cine (2026-10-08): the same text as its lines.",
+    "lines":  [
+                  {
+                      "id":  "L1",
+                      "shot":  "D2",
+                      "at":  0.6,
+                      "dur":  3.6,
+                      "speaker":  "aldra",
+                      "subtitle":  "The old storm-sword crossed the river twice today.",
+                      "text":  "The old storm-sword crossed the river twice today."
+                  },
+                  {
+                      "id":  "L2",
+                      "shot":  "D2",
+                      "at":  4.2,
+                      "dur":  3.5,
+                      "speaker":  "aldra",
+                      "subtitle":  "He only looked at the ridge. Then he went back.",
+                      "text":  "He only looked at the ridge. Then he went back."
+                  },
+                  {
+                      "id":  "L3",
+                      "shot":  "D3",
+                      "at":  0.6,
+                      "dur":  2.5,
+                      "speaker":  "torvald",
+                      "subtitle":  "He is counting us.",
+                      "text":  "He is counting us."
+                  },
+                  {
+                      "id":  "L4",
+                      "shot":  "D6",
+                      "at":  0.4,
+                      "dur":  3.3,
+                      "speaker":  "torvald",
+                      "subtitle":  "What did it cost you, Malrik? In Duskbarrow.",
+                      "text":  "What did it cost you, Malrik? In Duskbarrow."
+                  },
+                  {
+                      "id":  "L5",
+                      "shot":  "D7",
+                      "at":  0.5,
+                      "dur":  2.9,
+                      "speaker":  "malrik",
+                      "subtitle":  "A little. Less than you would think.",
+                      "text":  "A little. Less than you would think."
+                  },
+                  {
+                      "id":  "L6",
+                      "shot":  "D8",
+                      "at":  1.6,
+                      "dur":  2.5,
+                      "speaker":  "aldra",
+                      "subtitle":  "It glowed when he lied.",
+                      "text":  "It glowed when he lied."
+                  },
+                  {
+                      "id":  "L7",
+                      "shot":  "D8",
+                      "at":  4.6,
+                      "dur":  2.5,
+                      "speaker":  "torvald",
+                      "subtitle":  "I know. I saw.",
+                      "text":  "I know. I saw."
+                  }
+              ]
+}
