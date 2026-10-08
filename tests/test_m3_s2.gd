@@ -366,6 +366,6 @@ func _lines_and_save() -> bool:
 	h.check(loaded.flag("m3_hired") and loaded.flag("m3_stakes_held") and not loaded.flag("m3_mossjaw_slain"),
 			"m3 flags (hired, stakes held, Mossjaw alive)")
 	h.check(loaded.carried_essence() == mini(1500, (essence + 300) / 2), "+300 then 50 %% (%d)" % loaded.carried_essence())
-	h.check(CampaignState.reward_of(&"m03").get("next") == &"m04", "next = m04")
+	h.check(CampaignState.film_target(CampaignState.reward_of(&"m03").get("next", &"")) == &"m04", "next = m04 (after the c3_parley film)")
 	loaded.reset()
 	return true

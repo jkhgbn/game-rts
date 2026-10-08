@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3]
+
+; c3_parley: the parley ground (19.V9 not built). A flat round stone (3.2 m, knee-high) and, 7 m north-west of it,
+; the Fallen Colossus's stone face lying on its side half sunk in the ground: a weathered head block with a brow
+; ridge, two dark eye hollows and a broken crown band, moss on top. Origin = the ground under the flat stone's centre.
+; 0 lights.
+
+[sub_resource type="CylinderMesh" id="Cyl_stone"]
+top_radius = 1.5
+bottom_radius = 1.65
+height = 0.45
+radial_segments = 14
+
+[sub_resource type="StandardMaterial3D" id="Mat_stone"]
+albedo_color = Color(0.48, 0.47, 0.44, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="Box_head"]
+size = Vector3(4.2, 3.6, 3.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_old"]
+albedo_color = Color(0.42, 0.41, 0.38, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="Box_brow"]
+size = Vector3(4.4, 0.6, 0.8)
+
+[sub_resource type="BoxMesh" id="Box_eye"]
+size = Vector3(0.9, 0.6, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_dark"]
+albedo_color = Color(0.08, 0.08, 0.09, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="Box_band"]
+size = Vector3(4.5, 0.5, 4.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_moss"]
+albedo_color = Color(0.28, 0.38, 0.2, 1)
+roughness = 1.0
+
+[node name="parley_stone" type="Node3D"]
+
+[node name="Stone" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("Cyl_stone")
+surface_material_override/0 = SubResource("Mat_stone")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(0.5, -0.766, 0.404, 0.866, 0.442, -0.233, 0, 0.466, 0.885, -5.5, 1.2, -5.5)
+
+[node name="Skull" type="MeshInstance3D" parent="Head"]
+mesh = SubResource("Box_head")
+surface_material_override/0 = SubResource("Mat_old")
+
+[node name="Brow" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1.95)
+mesh = SubResource("Box_brow")
+surface_material_override/0 = SubResource("Mat_old")
+
+[node name="EyeL" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, -0.1, 1.86)
+mesh = SubResource("Box_eye")
+surface_material_override/0 = SubResource("Mat_dark")
+
+[node name="EyeR" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -0.1, 1.86)
+mesh = SubResource("Box_eye")
+surface_material_override/0 = SubResource("Mat_dark")
+
+[node name="Band" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+mesh = SubResource("Box_band")
+surface_material_override/0 = SubResource("Mat_old")
+
+[node name="Moss" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(0.9, 0, 0, 0, 0.3, 0, 0, 0, 0.9, 0, 1.9, 0)
+mesh = SubResource("Box_band")
+surface_material_override/0 = SubResource("Mat_moss")

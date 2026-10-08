@@ -5,6 +5,226 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#. speaker narrator
+#: data/voice/lines/c1_offer.json:L1
+msgid "Two days after Emberfall, the Bishop of Shadow went north."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L2
+msgid "Cold in here. You should let Vessa redecorate. She's very keen on fire."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L3
+msgid "You sent knives after her in the night, and missed. You call that a visit?"
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L4
+msgid "Your lake holds the second relic. She'll come for it. Help me stop her."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L5
+msgid "Ice does not march for your mistakes, Bishop."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L6
+msgid "Not mistakes. Opportunities. Just until the relics are in sensible hands."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L7
+msgid "Sensible hands. Yours."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L8
+msgid "Ours, if you like."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L9
+msgid "No. My lake stays out of your war."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L10
+msgid "And hear me: some doors under Crown Hollow are closed for a reason."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L11
+msgid "For now, then. Doors are only closed until someone opens them."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c1_offer.json:L12
+msgid "Ice said no. For now."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c2_two_fronts.json:L1
+msgid "Two relics. One enemy. One very tired army."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/c2_two_fronts.json:L2
+msgid "Shadow is massing on the Dusk road. Ice keeps to its lakes. Nature has closed its borders."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L3
+msgid "So it's me and Malrik."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/c2_two_fronts.json:L4
+msgid "And whatever he sends in the night, my queen."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L5
+msgid "His scouts are already in Ysolde's wood. The third relic sleeps there."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L6
+msgid "I go before he gets it."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/c2_two_fronts.json:L7
+msgid "Ysolde doesn't take sides."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L8
+msgid "Then she won't mind. I'll ask nicely."
+msgstr ""
+
+#. speaker ashby
+#: data/voice/lines/c2_two_fronts.json:L9
+msgid "With fire?"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L10
+msgid "Nicely. With fire."
+msgstr ""
+
+#. speaker whisper
+#: data/voice/lines/c2_two_fronts.json:L11
+msgid "The third sleeps in the old tree. Bring them together, and you'll never need a friend again."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L12
+msgid "Who's there? ...Great. Now the jewellery talks. Vey would have laughed at me."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c2_two_fronts.json:L13
+msgid "Not you, Vessa. Not Malrik. Not ever."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c2_two_fronts.json:L14
+msgid "The war was coming to the Sighing Wood, invited or not."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c3_parley.json:L1
+msgid "For the first time since the Master left, the four apprentices stood in one place."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L2
+msgid "Look at us. The Master would weep. Mostly at your outfits."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L3
+msgid "The relics aren't a prize. They're a lock."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L4
+msgid "Someone is under Crown Hollow, and he's been whispering to me since Emberfall."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c3_parley.json:L5
+msgid "Obren. The first apprentice. Every battle over the relics feeds him."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c3_parley.json:L6
+msgid "And something down there is still fighting him. I feel it through the roots."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L7
+msgid "A secret apprentice under the lake."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L8
+msgid "And the cure is that I stop the war I'm winning. How convenient."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c3_parley.json:L9
+msgid "She is not lying, Bishop. I have felt it under the ice. Something counting."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L10
+msgid "Then let it count. Whoever holds the Hollow holds the Master's seat. I intend to sit in it."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L11
+msgid "You sent knives in the night. You took Vey from me. You'll have to go through me."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L12
+msgid "That was always the plan, little ember."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L13
+msgid "Help me stop him."
+msgstr ""
+
+#. speaker torvald
+#: data/voice/lines/c3_parley.json:L14
+msgid "Ice stays out of this war."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c3_parley.json:L15
+msgid "Nature too. Win it or lose it without us."
+msgstr ""
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L16
+msgid "Crown Hollow. At dawn."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L17
+msgid "Bring your army. I'll bring mine."
+msgstr ""
+
+#. speaker narrator
+#: data/voice/lines/c3_parley.json:L18
+msgid "At dawn, the war would come home to where it started."
+msgstr ""
+
 #. speaker ysolde
 #: data/voice/lines/c_e2_ashes.json:L1
 msgid "Forty-one. Forty-two. Forty-three."

@@ -1,0 +1,80 @@
+# Between-scene "The Offer", ~80 s (docs/design/story-episode-1.md 7.2 `c1_offer`, mission-02.md Cinematic hooks):
+# after m01's victory, before m02's briefing (StoryFlow: CampaignState.STORY_FILMS c1_offer -> m02). Malrik walks out of
+# violet mist into Torvald's hall, asks Ice to help stop Vessa at Glasswater Mere; Torvald refuses ("some doors under
+# Crown Hollow are closed for a reason") and seals Malrik's shard marker in ice; Malrik melts away: "For now, then."
+# Lines: the spec's (story-episode-1.md 7.2), word for word, except shot 7's line split in two for the 2 x 48 subtitle
+# rule. Text source for i18n / voices: data/voice/lines/c1_offer.json.
+# Set: the Rime Keep throne hall (19.V7) is not built: forge_intro_torvald stands in (the Ice keep inside its pale wall,
+# its gate to the south); the "hall" is the keep's court, Torvald's ice throne set before the keep door. Its prologue
+# puppets that do not belong here (colossus, frostbow, messenger, foe, the two armies) are hidden at 0:00.
+# Props: art/cinematics/props/ep1_between/ (ice_throne, shard_marker, ice_seal) + the ep3 camp table (war_map).
+# Axis: Torvald (on the throne) - Malrik (at the table); every camera stays on the east side of their line.
+cine c1_offer  title="The Offer"  letterbox=2.39  seed=11  length=72..90
+use set forge_intro_torvald
+env night  moon_yaw=200  moon_pitch=-30  energy=0.6  color=#b8d4ff
+prop  throne  res://art/cinematics/props/ep1_between/ice_throne.tscn  at=(0, 0, -9.5)  yaw=0
+prop  table   res://art/cinematics/props/ep3_between/war_map.tscn  at=(2.5, 0, -8.2)  yaw=0  scale=1.4
+cast  shard   res://art/cinematics/props/ep1_between/shard_marker.tscn  at=(2.3, 1.2, -8.15)  hidden=1
+cast  seal    res://art/cinematics/props/ep1_between/ice_seal.tscn      at=(2.3, 1.19, -8.15)  hidden=1
+cast  malrik  res://art/units/wizards/malrik.tscn                       at=(0, 0, -4.6)  yaw=180  hidden=1
+cast  guard_w  res://art/units/ice/rimeshield.tscn  at=(-3.4, 0, -3.0)  yaw=0
+cast  guard_e  res://art/units/ice/rimeshield.tscn  at=(3.4, 0, -3.0)  yaw=0
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# ---------------------------------------------------------------- north, two days after Emberfall
+# Along the outer wall in the snow: the guards at the gate, wind
+shot O1 6.5  cam=dolly  from=(-22, 3.6, 11)  to=(-14, 3.6, 9)  look=(0, 3.0, -7)>(0, 2.6, -5)  fov=44  in=fade_black:1.2  faces=guard_w
+  at 0.0  hide colossus
+  at 0.0  hide frostbow
+  at 0.0  hide messenger
+  at 0.0  hide foe
+  at 0.0  hide army_line
+  at 0.0  hide army_charge
+  at 0.0  teleport torvald  to=(0, 0.5, -10.6)  yaw=0
+  at 0.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-16
+  at 0.5  line narrator "Two days after Emberfall, the Bishop of Shadow went north."
+# From behind the throne, down the court: violet mist at the gate, Malrik steps out of it
+shot O2 8.0  cam=static  from=(0.9, 3.3, -13.6)  look=(0.2, 1.5, -4.8)  fov=42  faces=malrik
+  at 0.6  vfx mist  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(0, 0.4, -4.6)  life=2.6
+  at 0.6  sfx res://assets/audio/sfx/spell_umbral_shroud.wav  vol=-10
+  at 1.4  show malrik
+  at 2.2  line malrik "Cold in here. You should let Vessa redecorate. She's very keen on fire."  dur=5.2
+# CU Torvald: he does not move
+shot O3 8.0  cam=static  from=(2.4, 3.0, -7.3)  look=torvald  fov=30
+  at 0.0  anim torvald set_expression  arg=neutral
+  at 1.0  line torvald "You sent knives after her in the night, and missed. You call that a visit?"  dur=5.6
+  at 1.0  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-18
+# Beside Malrik as he walks to the map table; the violet marker on Glasswater Mere
+shot O4 10.0  cam=dolly  from=(4.6, 1.75, -4.6)  to=(5.0, 1.75, -6.6)  look=malrik  fov=36
+  at 0.0  move malrik  to=(2.5, 0, -7.25)  speed=1.0
+  at 4.4  face malrik  to=torvald  time=0.6
+  at 4.6  line malrik "Your lake holds the second relic. She'll come for it. Help me stop her."  dur=5.0
+  at 5.6  show shard
+  at 5.6  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-20
+# Two-shot over the table
+shot O5 10.0  cam=static  from=(6.3, 2.6, -11.2)  look=(1.25, 1.6, -8.9)  fov=42  faces=torvald,malrik
+  at 0.5  line torvald "Ice does not march for your mistakes, Bishop."  dur=3.4
+  at 4.3  line malrik "Not mistakes. Opportunities. Just until the relics are in sensible hands."  dur=5.4
+# CU Torvald, three seconds of silence first
+shot O6 10.0  cam=dolly  from=(2.9, 3.1, -8.4)  to=(2.75, 3.1, -8.6)  look=torvald  fov=26
+  at 3.0  line torvald "Sensible hands. Yours."  dur=2.8
+  at 6.4  line malrik "Ours, if you like."  dur=2.4
+# Low angle: Torvald rises; frost crawls over the table and seals the marker in ice
+shot O7 12.0  cam=dolly  from=(4.4, 0.55, -9.0)  to=(4.1, 0.6, -9.3)  look=torvald  fov=44
+  at 0.8  anim torvald play_cast
+  at 1.2  vfx frost  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(2.4, 1.2, -8.2)  life=2.4  scale=0.35
+  at 1.2  sfx res://assets/audio/forge/sfx/ice_creak.wav  vol=-10
+  at 2.0  show seal
+  at 2.4  line torvald "No. My lake stays out of your war."  dur=3.0
+  at 5.8  line torvald "And hear me: some doors under Crown Hollow are closed for a reason."  dur=5.2
+# Over Torvald's shoulder on Malrik, half-turned: he melts into mist
+shot O8 10.0  cam=static  from=(-0.5, 4.0, -13.0)  look=malrik  fov=34
+  at 0.0  face malrik  yaw=200  time=0.8
+  at 0.8  line malrik "For now, then. Doors are only closed until someone opens them."  dur=4.8
+  at 6.4  vfx mist2  scene=res://art/cinematics/fx/umbral_shroud.tscn  at=(2.5, 0.4, -7.25)  life=2.6
+  at 6.4  sfx res://assets/audio/sfx/spell_umbral_shroud.wav  vol=-10
+  at 7.0  hide malrik
+# Wide of the court, Torvald alone; the sealed marker glows through the ice
+shot O9 6.5  cam=crane  from=(7.5, 4.6, -12.4)  to=(8.2, 6.0, -11.6)  look=(1.2, 1.2, -9.4)  fov=42  faces=torvald
+  at 0.4  line narrator "Ice said no. For now."  dur=2.6
+  at 5.6  fade alpha=1 time=0.9

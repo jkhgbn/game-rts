@@ -1,0 +1,169 @@
+{
+    "cine_id": "c3_parley",
+    "source": "data/cinematics/src/c3_parley.cine (beats: docs/design/story-episode-1.md 7.2)",
+    "note": "Hand-written with the .cine (2026-10-08): the same text as its lines. Review: docs/design/film-text-review.md.",
+    "lines": [
+        {
+            "id": "L1",
+            "shot": "P1",
+            "at": 0.8,
+            "dur": 5.6,
+            "speaker": "narrator",
+            "subtitle": "For the first time since the Master left, the four apprentices stood in one place.",
+            "text": "For the first time since the Master left, the four apprentices stood in one place."
+        },
+        {
+            "id": "L2",
+            "shot": "P2",
+            "at": 6.2,
+            "dur": 3.6,
+            "speaker": "malrik",
+            "subtitle": "Look at us. The Master would weep. Mostly at your outfits.",
+            "text": "Look at us. The Master would weep. Mostly at your outfits."
+        },
+        {
+            "id": "L3",
+            "shot": "P3",
+            "at": 0.5,
+            "dur": 2.9,
+            "speaker": "vessa",
+            "subtitle": "The relics aren't a prize. They're a lock.",
+            "text": "The relics aren't a prize. They're a lock."
+        },
+        {
+            "id": "L4",
+            "shot": "P3",
+            "at": 3.8,
+            "dur": 5.4,
+            "speaker": "vessa",
+            "subtitle": "Someone is under Crown Hollow, and he's been whispering to me since Emberfall.",
+            "text": "Someone is under Crown Hollow, and he's been whispering to me since Emberfall."
+        },
+        {
+            "id": "L5",
+            "shot": "P4",
+            "at": 0.5,
+            "dur": 4.6,
+            "speaker": "ysolde",
+            "subtitle": "Obren. The first apprentice. Every battle over the relics feeds him.",
+            "text": "Obren. The first apprentice. Every battle over the relics feeds him."
+        },
+        {
+            "id": "L6",
+            "shot": "P4",
+            "at": 5.6,
+            "dur": 5.2,
+            "speaker": "ysolde",
+            "subtitle": "And something down there is still fighting him. I feel it through the roots.",
+            "text": "And something down there is still fighting him. I feel it through the roots."
+        },
+        {
+            "id": "L7",
+            "shot": "P5",
+            "at": 0.5,
+            "dur": 2.6,
+            "speaker": "malrik",
+            "subtitle": "A secret apprentice under the lake.",
+            "text": "A secret apprentice under the lake."
+        },
+        {
+            "id": "L8",
+            "shot": "P5",
+            "at": 3.4,
+            "dur": 4.8,
+            "speaker": "malrik",
+            "subtitle": "And the cure is that I stop the war I'm winning. How convenient.",
+            "text": "And the cure is that I stop the war I'm winning. How convenient."
+        },
+        {
+            "id": "L9",
+            "shot": "P6",
+            "at": 0.5,
+            "dur": 5.0,
+            "speaker": "torvald",
+            "subtitle": "She is not lying, Bishop. I have felt it under the ice. Something counting.",
+            "text": "She is not lying, Bishop. I have felt it under the ice. Something counting."
+        },
+        {
+            "id": "L10",
+            "shot": "P6",
+            "at": 5.8,
+            "dur": 5.8,
+            "speaker": "malrik",
+            "subtitle": "Then let it count. Whoever holds the Hollow holds the Master's seat. I intend to sit in it.",
+            "text": "Then let it count. Whoever holds the Hollow holds the Master's seat. I intend to sit in it."
+        },
+        {
+            "id": "L11",
+            "shot": "P7",
+            "at": 1.4,
+            "dur": 5.6,
+            "speaker": "vessa",
+            "subtitle": "You sent knives in the night. You took Vey from me. You'll have to go through me.",
+            "text": "You sent knives in the night. You took Vey from me. You'll have to go through me."
+        },
+        {
+            "id": "L12",
+            "shot": "P7",
+            "at": 7.6,
+            "dur": 3.0,
+            "speaker": "malrik",
+            "subtitle": "That was always the plan, little ember.",
+            "text": "That was always the plan, little ember."
+        },
+        {
+            "id": "L13",
+            "shot": "P8",
+            "at": 0.4,
+            "dur": 1.9,
+            "speaker": "vessa",
+            "subtitle": "Help me stop him.",
+            "text": "Help me stop him."
+        },
+        {
+            "id": "L14",
+            "shot": "P8",
+            "at": 2.7,
+            "dur": 2.3,
+            "speaker": "torvald",
+            "subtitle": "Ice stays out of this war.",
+            "text": "Ice stays out of this war."
+        },
+        {
+            "id": "L15",
+            "shot": "P8",
+            "at": 5.4,
+            "dur": 3.2,
+            "speaker": "ysolde",
+            "subtitle": "Nature too. Win it or lose it without us.",
+            "text": "Nature too. Win it or lose it without us."
+        },
+        {
+            "id": "L16",
+            "shot": "P9",
+            "at": 0.6,
+            "dur": 2.4,
+            "speaker": "malrik",
+            "subtitle": "Crown Hollow. At dawn.",
+            "text": "Crown Hollow. At dawn."
+        },
+        {
+            "id": "L17",
+            "shot": "P9",
+            "at": 3.4,
+            "dur": 2.8,
+            "speaker": "vessa",
+            "subtitle": "Bring your army. I'll bring mine.",
+            "text": "Bring your army. I'll bring mine."
+        },
+        {
+            "id": "L18",
+            "shot": "P10",
+            "at": 0.6,
+            "dur": 3.8,
+            "speaker": "narrator",
+            "subtitle": "At dawn, the war would come home to where it started.",
+            "text": "At dawn, the war would come home to where it started."
+        }
+    ]
+}

@@ -1,0 +1,133 @@
+{
+    "cine_id": "c2_two_fronts",
+    "source": "data/cinematics/src/c2_two_fronts.cine (beats: docs/design/story-episode-1.md 7.2)",
+    "note": "Hand-written with the .cine (2026-10-08): the same text as its lines. Review: docs/design/film-text-review.md.",
+    "lines": [
+        {
+            "id": "L1",
+            "shot": "S1",
+            "at": 0.6,
+            "dur": 3.8,
+            "speaker": "narrator",
+            "subtitle": "Two relics. One enemy. One very tired army.",
+            "text": "Two relics. One enemy. One very tired army."
+        },
+        {
+            "id": "L2",
+            "shot": "S2",
+            "at": 0.8,
+            "dur": 6.6,
+            "speaker": "ashby",
+            "subtitle": "Shadow is massing on the Dusk road. Ice keeps to its lakes. Nature has closed its borders.",
+            "text": "Shadow is massing on the Dusk road. Ice keeps to its lakes. Nature has closed its borders."
+        },
+        {
+            "id": "L3",
+            "shot": "S3",
+            "at": 0.5,
+            "dur": 2.4,
+            "speaker": "vessa",
+            "subtitle": "So it's me and Malrik.",
+            "text": "So it's me and Malrik."
+        },
+        {
+            "id": "L4",
+            "shot": "S4",
+            "at": 0.4,
+            "dur": 3.2,
+            "speaker": "ashby",
+            "subtitle": "And whatever he sends in the night, my queen.",
+            "text": "And whatever he sends in the night, my queen."
+        },
+        {
+            "id": "L5",
+            "shot": "S5",
+            "at": 0.5,
+            "dur": 4.4,
+            "speaker": "vessa",
+            "subtitle": "His scouts are already in Ysolde's wood. The third relic sleeps there.",
+            "text": "His scouts are already in Ysolde's wood. The third relic sleeps there."
+        },
+        {
+            "id": "L6",
+            "shot": "S5",
+            "at": 5.1,
+            "dur": 2.0,
+            "speaker": "vessa",
+            "subtitle": "I go before he gets it.",
+            "text": "I go before he gets it."
+        },
+        {
+            "id": "L7",
+            "shot": "S5",
+            "at": 7.4,
+            "dur": 2.2,
+            "speaker": "ashby",
+            "subtitle": "Ysolde doesn't take sides.",
+            "text": "Ysolde doesn't take sides."
+        },
+        {
+            "id": "L8",
+            "shot": "S5",
+            "at": 9.9,
+            "dur": 2.7,
+            "speaker": "vessa",
+            "subtitle": "Then she won't mind. I'll ask nicely.",
+            "text": "Then she won't mind. I'll ask nicely."
+        },
+        {
+            "id": "L9",
+            "shot": "S5",
+            "at": 12.9,
+            "dur": 1.4,
+            "speaker": "ashby",
+            "subtitle": "With fire?",
+            "text": "With fire?"
+        },
+        {
+            "id": "L10",
+            "shot": "S5",
+            "at": 14.6,
+            "dur": 2.0,
+            "speaker": "vessa",
+            "subtitle": "Nicely. With fire.",
+            "text": "Nicely. With fire."
+        },
+        {
+            "id": "L11",
+            "shot": "S6",
+            "at": 2.0,
+            "dur": 6.6,
+            "speaker": "whisper",
+            "subtitle": "The third sleeps in the old tree. Bring them together, and you'll never need a friend again.",
+            "text": "The third sleeps in the old tree. Bring them together, and you'll never need a friend again."
+        },
+        {
+            "id": "L12",
+            "shot": "S7",
+            "at": 1.0,
+            "dur": 6.2,
+            "speaker": "vessa",
+            "subtitle": "Who's there? ...Great. Now the jewellery talks. Vey would have laughed at me.",
+            "text": "Who's there? ...Great. Now the jewellery talks. Vey would have laughed at me."
+        },
+        {
+            "id": "L13",
+            "shot": "S8B",
+            "at": 0.6,
+            "dur": 3.6,
+            "speaker": "ysolde",
+            "subtitle": "Not you, Vessa. Not Malrik. Not ever.",
+            "text": "Not you, Vessa. Not Malrik. Not ever."
+        },
+        {
+            "id": "L14",
+            "shot": "S9",
+            "at": 0.5,
+            "dur": 4.2,
+            "speaker": "narrator",
+            "subtitle": "The war was coming to the Sighing Wood, invited or not.",
+            "text": "The war was coming to the Sighing Wood, invited or not."
+        }
+    ]
+}

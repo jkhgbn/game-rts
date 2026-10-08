@@ -1,0 +1,106 @@
+# Between-scene "The Parley", ~105 s (docs/design/story-episode-1.md 7.2 `c3_parley`, mission-03.md Cinematic hooks):
+# after m03's victory, before m04's briefing (StoryFlow: CampaignState.STORY_FILMS c3_parley -> m04). For the first time
+# since the Master left, the four apprentices stand in one place: Vessa tells them the relics are a lock, Ysolde names
+# Obren, Malrik will not stop the war he is winning, Torvald has felt "something counting", Ice and Nature stay out:
+# "Crown Hollow. At dawn."
+# Lines: the spec's word for word, except three long lines split in two (2 x 48 subtitle rule: shots 3, 5). The
+# companion branch (the first-hired living champion 2 m behind Vessa) and the four banner bearers are NOT in this film
+# (StoryFlow cannot branch a film; flagged in docs/design/film-text-review.md). Text source: data/voice/lines/c3_parley.json.
+# Set: the Fallen Colossus parley ground (19.V9) is not built: forge_watch_keep's southern road stands in (flat ground,
+# pines; every camera looks south, away from the keep). Props: art/cinematics/props/ep1_between/parley_stone.tscn (the
+# flat stone + the Colossus's fallen stone face) and the four kingdom banners (forge_citadel parts). The last shot (camp
+# fires on both banks of the Hollowmere, an amber pulse under the isle) becomes a night grade over the empty stone with
+# one amber pulse in it.
+# Axis: Vessa (west) - Malrik (east) across the stone (z = 9); every camera stays on its north side (z < 9), Torvald's.
+cine c3_parley  title="The Parley"  letterbox=2.39  seed=13  length=96..112
+use set forge_watch_keep
+env dusk  moon_yaw=160  moon_pitch=-20  energy=0.55  color=#c8cfe0
+prop  stone   res://art/cinematics/props/ep1_between/parley_stone.tscn  at=(0, 0, 9)  yaw=180
+cast  b_fire    res://art/cinematics/stage_sets/forge_citadel/parts/banner_fire.tscn    at=(-2.6, 0, 11.6)  yaw=0
+cast  b_nature  res://art/cinematics/stage_sets/forge_citadel/parts/banner_nature.tscn  at=(2.6, 0, 11.6)  yaw=0
+cast  b_shadow  res://art/cinematics/stage_sets/forge_citadel/parts/banner_shadow.tscn  at=(2.6, 0, 6.4)  yaw=180
+cast  b_ice     res://art/cinematics/stage_sets/forge_citadel/parts/banner_ice.tscn     at=(-2.6, 0, 6.4)  yaw=180
+cast  malrik   res://art/units/wizards/malrik.tscn   at=(9, 0, 9)     yaw=-90
+cast  torvald  res://art/units/wizards/torvald.tscn  at=(0.5, 0, 0.5)  yaw=0
+cast  ysolde   res://art/units/wizards/ysolde.tscn   at=(0, 0, 17.5)  yaw=180
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# ---------------------------------------------------------------- the parley ground at grey dawn
+# Crane down past the Fallen Colossus's stone face: four banners around a flat stone
+shot P1 8.0  cam=crane  from=(-6, 9, 22)  to=(-3.6, 3.2, 17.0)  look=(3.5, 2.4, 13.5)>(0, 0.8, 9)  fov=46>42  in=fade_black:1.4
+  at 0.0  teleport vessa  to=(-9, 0, 9)  yaw=90
+  at 0.0  hide guard_w
+  at 0.0  hide guard_e
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
+  at 0.8  line narrator "For the first time since the Master left, the four apprentices stood in one place."  dur=5.6
+# Wide, high: the four walk in from four directions and stop around the stone
+shot P2 10.0  cam=crane  from=(-4, 9, 1)  to=(-3, 8, 2)  look=(0, 0.8, 9.6)  fov=46  faces=malrik
+  at 0.0  move vessa  to=(-2.6, 0, 9)  speed=1.6
+  at 0.0  move malrik  to=(2.6, 0, 9)  speed=1.6
+  at 0.0  move torvald  to=(0, 0, 6.4)  speed=1.4
+  at 0.0  move ysolde  to=(0, 0, 11.6)  speed=1.4
+  at 6.2  line malrik "Look at us. The Master would weep. Mostly at your outfits."  dur=3.6
+# CU Vessa
+shot P3 12.0  cam=static  from=(-1.3, 1.85, 7.7)  look=vessa  fov=30
+  at 0.0  face torvald  yaw=0  time=0.1
+  at 0.0  face ysolde  yaw=180  time=0.1
+  at 0.0  face vessa  yaw=90  time=0.1
+  at 0.0  face malrik  yaw=-90  time=0.1
+  at 0.5  line vessa "The relics aren't a prize. They're a lock."  dur=2.9
+  at 3.8  line vessa "Someone is under Crown Hollow, and he's been whispering to me since Emberfall."  dur=5.4
+# CU Ysolde
+shot P4 12.0  cam=static  from=(0.85, 2.0, 8.3)  look=ysolde  fov=30
+  at 0.5  line ysolde "Obren. The first apprentice. Every battle over the relics feeds him."  dur=4.6
+  at 5.6  line ysolde "And something down there is still fighting him. I feel it through the roots."  dur=5.2
+# CU Malrik, amused
+shot P5 10.0  cam=static  from=(1.35, 1.9, 7.7)  look=malrik  fov=30
+  at 0.0  anim malrik set_expression  arg=smile
+  at 0.5  line malrik "A secret apprentice under the lake."  dur=2.6
+  at 3.4  line malrik "And the cure is that I stop the war I'm winning. How convenient."  dur=4.8
+# Two-shot Torvald / Malrik
+shot P6 12.0  cam=static  from=(-3.0, 3.2, 3.4)  look=(1.0, 2.2, 7.6)  fov=42  faces=torvald,malrik
+  at 0.0  face torvald  to=malrik  time=0.6
+  at 0.0  face malrik  to=torvald  time=0.6
+  at 0.0  anim malrik set_expression  arg=neutral
+  at 0.5  line torvald "She is not lying, Bishop. I have felt it under the ice. Something counting."  dur=5.0
+  at 5.8  line malrik "Then let it count. Whoever holds the Hollow holds the Master's seat. I intend to sit in it."  dur=5.8
+# Profile two-shot: Vessa steps nose to nose with Malrik
+shot P7 12.0  cam=dolly  from=(1.0, 2.0, 4.6)  to=(1.0, 2.0, 5.0)  look=(1.6, 1.9, 9)  fov=40  faces=malrik
+  at 0.0  face malrik  yaw=-90  time=0.3
+  at 0.0  teleport vessa  to=(-0.2, 0, 9)  yaw=90
+  at 0.2  move vessa  to=(1.3, 0, 9)  speed=1.2
+  at 1.4  line vessa "You sent knives in the night. You took Vey from me. You'll have to go through me."  dur=5.6
+  at 7.4  anim malrik set_expression  arg=smile
+  at 7.6  line malrik "That was always the plan, little ember."  dur=3.0
+# Vessa turns to the other two
+shot P8 10.0  cam=static  from=(4.6, 2.4, 5.4)  look=(0.2, 1.5, 9.4)  fov=44  faces=vessa,torvald,ysolde
+  at 0.0  teleport vessa  to=(0.6, 0, 9.2)  yaw=180
+  at 0.4  line vessa "Help me stop him."  dur=1.9
+  at 2.7  line torvald "Ice stays out of this war."  dur=2.3
+  at 5.4  line ysolde "Nature too. Win it or lose it without us."  dur=3.2
+
+# ---------------------------------------------------------------- apart
+# Wide as the four walk apart; the banners pulled up
+shot P9 12.0  cam=crane  from=(6, 4, 4.6)  to=(9, 8, 4.0)  look=(0, 1, 9.5)>(0, 0.6, 10)  fov=46  faces=malrik,vessa
+  at 0.0  face malrik  yaw=90  time=0.6
+  at 0.6  line malrik "Crown Hollow. At dawn."  dur=2.4
+  at 3.4  line vessa "Bring your army. I'll bring mine."  dur=2.8
+  at 6.4  move malrik  to=(5.2, 0, 10.6)  speed=1.4
+  at 6.6  move vessa  to=(-9, 0, 9)  speed=1.4
+  at 6.8  move torvald  to=(0, 0, 0.5)  speed=1.3
+  at 7.0  move ysolde  to=(0, 0, 17.5)  speed=1.3
+  at 8.4  hide b_shadow
+  at 8.8  hide b_fire
+  at 9.2  hide b_ice
+  at 9.6  hide b_nature
+# Night over the empty stone: one amber pulse under it
+shot P10 7.0  cam=crane  from=(4, 3, 13)  to=(7, 6.5, 17)  look=(0, 0.5, 9)  fov=44  in=fade_black:1.0
+  at 0.0  fade color=#141b33 alpha=0.45 time=0.05
+  at 0.0  hide vessa
+  at 0.0  hide malrik
+  at 0.0  hide torvald
+  at 0.0  hide ysolde
+  at 1.2  vfx pulse  scene=res://art/cinematics/fx/regalia_burst.tscn  at=(0, 0.3, 9)  life=2.5  scale=0.3
+  at 1.2  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-12
+  at 0.6  line narrator "At dawn, the war would come home to where it started."  dur=3.8
+  at 6.0  fade alpha=1 time=1.0

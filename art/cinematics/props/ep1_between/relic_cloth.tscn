@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3]
+
+; c2_two_fronts shot 6: the Ember Crown and the Stillwater Orb on a cloth by the campfire, pulsing in time (the pulse
+; is the amber emission; the film adds a flare). Origin = the ground at the cloth's centre. 0 lights.
+
+[sub_resource type="BoxMesh" id="Box_cloth"]
+size = Vector3(0.9, 0.01, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_cloth"]
+albedo_color = Color(0.45, 0.12, 0.08, 1)
+roughness = 1.0
+
+[sub_resource type="TorusMesh" id="Torus_crown"]
+inner_radius = 0.1
+outer_radius = 0.14
+rings = 24
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="Mat_gold"]
+albedo_color = Color(1, 0.75, 0.35, 1)
+metallic = 0.8
+roughness = 0.3
+emission_enabled = true
+emission = Color(1, 0.6, 0.25, 1)
+emission_energy_multiplier = 1.6
+
+[sub_resource type="SphereMesh" id="Sphere_orb"]
+radius = 0.09
+height = 0.18
+
+[sub_resource type="StandardMaterial3D" id="Mat_orb"]
+albedo_color = Color(0.75, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(1, 0.65, 0.3, 1)
+emission_energy_multiplier = 1.4
+
+[sub_resource type="BoxMesh" id="Box_spike"]
+size = Vector3(0.03, 0.06, 0.03)
+
+[node name="relic_cloth" type="Node3D"]
+
+[node name="Cloth" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.97, 0, 0.24, 0, 1, 0, -0.24, 0, 0.97, 0, 0.005, 0)
+mesh = SubResource("Box_cloth")
+surface_material_override/0 = SubResource("Mat_cloth")
+
+[node name="Crown" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, 0.03, 0.02)
+mesh = SubResource("Torus_crown")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Spike1" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0.12)
+mesh = SubResource("Box_spike")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Spike2" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, 0.04, -0.06)
+mesh = SubResource("Box_spike")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Spike3" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.104, 0.04, -0.06)
+mesh = SubResource("Box_spike")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Orb" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.095, -0.04)
+mesh = SubResource("Sphere_orb")
+surface_material_override/0 = SubResource("Mat_orb")

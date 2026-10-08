@@ -1,0 +1,86 @@
+# Between-scene "One Front, Two Watchers", ~83 s (docs/design/story-episode-1.md 7.2 `c2_two_fronts`, mission-02.md /
+# mission-03.md Cinematic hooks): after m02's victory, before m03's briefing (StoryFlow: CampaignState.STORY_FILMS
+# c2_two_fronts -> m03). Vessa and Ashby at the war table (Shadow massing, Ice and Nature apart); Vessa will go into
+# Ysolde's wood for the third relic "nicely, with fire"; late at night the relics whisper to her for the first time
+# (amber ???); Ysolde in her grove hides the Signet deeper in the oak: "Not you, Vessa. Not Malrik. Not ever."
+# The Pell branch (shot 4, only if `m1_peddler_freed`) is NOT in this film: StoryFlow cannot branch a film yet, so this
+# is the spec's 1:20 version without Pell (flagged in docs/design/film-text-review.md).
+# Lines: the spec's word for word, except shot 5's first line split in two (2 x 48 subtitle rule). Text source for i18n
+# / voices: data/voice/lines/c2_two_fronts.json.
+# Sets: the war camp (19.V8) is not built: forge_watch_keep stands in (the Fire watch-keep court at night: the war table
+# by the west brazier, the late campfire = the east brazier); shots S8-S9 on forge_intro_ysolde (her grove; its day
+# preset under a blue night grade; its prologue puppets hidden). Props: the ep3 camp table + tokens, the relic cloth.
+# Stand-ins: Ashby = a Flame Guard (as in ep2_opening).
+# Axis: Vessa (south of the table, facing north) - Ashby (its west end); every camp camera stays north of the table.
+cine c2_two_fronts  title="One Front, Two Watchers"  letterbox=2.39  seed=12  length=74..92
+use set forge_watch_keep
+use music res://assets/audio/music/music_menu.wav  vol=-24
+env night  moon_yaw=200  moon_pitch=-30  energy=0.5  color=#9fb4ff
+prop  table   res://art/cinematics/props/ep3_between/war_map.tscn     at=(-7, 0, -1)  yaw=0  scale=1.4
+prop  tokens  res://art/cinematics/props/ep3_between/war_tokens.tscn  at=(-7, 0.31, -1)  yaw=0  scale=1.4
+prop  cloth   res://art/cinematics/props/ep1_between/relic_cloth.tscn  at=(4.3, 0, -3.1)  yaw=30
+cast  ashby   res://art/units/fire/flame_guard.tscn  at=(-8.75, 0, -1.1)  yaw=90
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  whisper   capsule  at=(2, 0, -300)  hidden=1  speaker=whisper
+
+# ---------------------------------------------------------------- the war camp at night
+shot S1 6.0  cam=crane  from=(14, 13, 16)  to=(1, 8.5, 5)  look=(-4, 1.5, -2)>(-6.5, 0.9, -1.2)  fov=46>42  in=fade_black:1.2
+  at 0.0  teleport vessa  to=(-7, 0, 0.05)  yaw=180
+  at 0.0  hide guard_w
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-14
+  at 0.6  line narrator "Two relics. One enemy. One very tired army."  dur=3.8
+# Over the war table: red tokens in the south-west, violet massing in the east, blue and green apart
+shot S2 10.0  cam=static  from=(-7.1, 3.3, -3.1)  look=(-7.5, 1.15, -0.8)  fov=46
+  at 0.8  line ashby "Shadow is massing on the Dusk road. Ice keeps to its lakes. Nature has closed its borders."  dur=6.6
+shot S3 4.5  cam=static  from=(-6.55, 1.8, -2.5)  look=vessa  fov=30
+  at 0.5  line vessa "So it's me and Malrik."  dur=2.4
+shot S4 4.5  cam=static  from=(-7.6, 1.8, -2.55)  look=ashby  fov=30
+  at 0.4  line ashby "And whatever he sends in the night, my queen."  dur=3.2
+# Dolly around the table: Vessa taps the forest between the fronts
+shot S5 17.0  cam=dolly  from=(-5.0, 2.3, -3.3)  to=(-8.4, 2.3, -3.6)  look=(-7.5, 1.3, -0.6)  fov=42  faces=vessa,ashby
+  at 0.3  anim vessa play_cast
+  at 0.5  line vessa "His scouts are already in Ysolde's wood. The third relic sleeps there."  dur=4.4
+  at 5.1  line vessa "I go before he gets it."  dur=2.0
+  at 7.4  line ashby "Ysolde doesn't take sides."  dur=2.2
+  at 9.9  line vessa "Then she won't mind. I'll ask nicely."  dur=2.7
+  at 12.9  line ashby "With fire?"  dur=1.4
+  at 14.6  line vessa "Nicely. With fire."  dur=2.0
+
+# ---------------------------------------------------------------- late night: the relics whisper
+# By the campfire, Vessa alone; the crown and the orb on a cloth beside her pulse in time
+shot S6 10.0  cam=static  from=(3.0, 1.35, -5.9)  look=(4.7, 1.0, -2.9)  fov=40  in=fade_black:1.0  faces=vessa
+  at 0.0  teleport vessa  to=(5.0, 0, -2.6)  yaw=144
+  at 0.0  hide ashby
+  at 0.0  hide guard_e
+  at 1.4  vfx pulse  scene=res://art/cinematics/fx/four_flames.tscn  at=(4.3, 0.2, -3.1)  life=6  scale=0.25
+  at 1.6  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-10
+  at 2.0  line whisper "The third sleeps in the old tree. Bring them together, and you'll never need a friend again."  dur=6.6
+# CU Vessa looking around: the fire pops, nobody there
+shot S7 9.0  cam=dolly  from=(5.7, 1.75, -4.0)  to=(5.65, 1.75, -3.85)  look=vessa  fov=30
+  at 0.4  face vessa  yaw=200  time=0.8
+  at 0.5  sfx res://assets/audio/forge/sfx/stone_thump.wav  vol=-22
+  at 1.0  line vessa "Who's there? ...Great. Now the jewellery talks. Vey would have laughed at me."  dur=6.2
+  at 2.6  face vessa  yaw=120  time=1.0
+
+# ---------------------------------------------------------------- Ysolde's grove
+# Crane down into the grove: Ysolde lays her hand on the old tree; roots close over a glowing ring deep in the trunk
+shot S8 7.0  set=forge_intro_ysolde  cam=crane  from=(3, 8, -2.5)  to=(1.2, 2.6, -5.4)  look=(-1.8, 1.6, -8.8)>(-1.8, 1.4, -8.6)  fov=44  in=fade_black:1.0  faces=ysolde
+  at 0.0  fade color=#16203a alpha=0.4 time=0.05
+  at 0.0  hide ysolde_young
+  at 0.0  hide treant
+  at 0.0  hide vinelasher
+  at 0.0  hide messenger
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vines
+  at 0.0  hide fx_master
+  at 0.0  teleport ysolde  to=(-1.5, 0, -7.6)  yaw=-168
+  at 2.0  anim ysolde play_cast
+  at 2.2  vfx ring  scene=res://art/cinematics/fx/sun_pillar.tscn  at=(-2, 1.0, -9.4)  life=3.0  scale=0.12
+  at 2.6  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-10
+shot S8B 6.5  set=forge_intro_ysolde  cam=static  from=(-0.2, 2.0, -9.1)  look=ysolde  fov=32
+  at 0.6  line ysolde "Not you, Vessa. Not Malrik. Not ever."  dur=3.6
+# Wide on the moonlit forest, wind in the canopy
+shot S9 9.0  set=forge_intro_ysolde  cam=crane  from=(6, 3, 6)  to=(9, 9, 12)  look=(-2, 3, -8)>(-2, 4, -9)  fov=46
+  at 0.5  line narrator "The war was coming to the Sighing Wood, invited or not."  dur=4.2
+  at 8.0  fade alpha=1 time=1.0

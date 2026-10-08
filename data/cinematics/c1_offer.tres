@@ -1,0 +1,486 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_obpm7"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_4318c"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_g2dgv"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_0gqlg"]
+
+[sub_resource type="Resource" id="Resource_a6r48"]
+script = ExtResource("4_0gqlg")
+kind = &"visible"
+actor = &"colossus"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_dr1ep"]
+script = ExtResource("4_0gqlg")
+kind = &"visible"
+actor = &"frostbow"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_3jxqe"]
+script = ExtResource("4_0gqlg")
+kind = &"visible"
+actor = &"messenger"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_cm51h"]
+script = ExtResource("4_0gqlg")
+kind = &"visible"
+actor = &"foe"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_cbp0b"]
+script = ExtResource("4_0gqlg")
+kind = &"visible"
+actor = &"army_line"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_eifon"]
+script = ExtResource("4_0gqlg")
+kind = &"visible"
+actor = &"army_charge"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_3k3dr"]
+script = ExtResource("4_0gqlg")
+kind = &"teleport"
+actor = &"torvald"
+target = Vector3(0, 0.5, -10.6)
+params = {
+"yaw_deg": 0.0
+}
+
+[sub_resource type="Resource" id="Resource_gkb7f"]
+script = ExtResource("4_0gqlg")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_fwoh2"]
+script = ExtResource("1_obpm7")
+at = 0.5
+speaker = &"narrator"
+text = "Two days after Emberfall, the Bishop of Shadow went north."
+voice = "res://assets/audio/voice/narrator/two_days_after_emberfall_c788ebf0.wav"
+
+[sub_resource type="Resource" id="Resource_rm07m"]
+script = ExtResource("3_g2dgv")
+id = &"O1"
+duration = 6.5
+camera_mode = 1
+from_pos = Vector3(-22, 3.6, 11)
+to_pos = Vector3(-14, 3.6, 9)
+look_from = Vector3(0, 3, -7)
+look_to = Vector3(0, 2.6, -5)
+fov_from = 44.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 1.2
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_fwoh2")])
+actions = Array[ExtResource("4_0gqlg")]([SubResource("Resource_a6r48"), SubResource("Resource_dr1ep"), SubResource("Resource_3jxqe"), SubResource("Resource_cm51h"), SubResource("Resource_cbp0b"), SubResource("Resource_eifon"), SubResource("Resource_3k3dr"), SubResource("Resource_gkb7f")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_d74ed"]
+script = ExtResource("4_0gqlg")
+at = 0.6
+kind = &"vfx"
+target = Vector3(0, 0.4, -4.6)
+params = {
+"life": 2.6,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_k0fx7"]
+script = ExtResource("4_0gqlg")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/spell_umbral_shroud.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_3lhim"]
+script = ExtResource("4_0gqlg")
+at = 1.4
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_lu27h"]
+script = ExtResource("1_obpm7")
+at = 2.2
+speaker = &"malrik"
+text = "Cold in here. You should let Vessa redecorate. She's very keen on fire."
+duration = 5.2
+voice = "res://assets/audio/voice/malrik/cold_in_here_you_33bb5ecc.wav"
+
+[sub_resource type="Resource" id="Resource_f8yhc"]
+script = ExtResource("3_g2dgv")
+id = &"O2"
+duration = 8.0
+from_pos = Vector3(0.9, 3.3, -13.6)
+to_pos = Vector3(0.9, 3.3, -13.6)
+look_from = Vector3(0.2, 1.5, -4.8)
+look_to = Vector3(0.2, 1.5, -4.8)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_lu27h")])
+actions = Array[ExtResource("4_0gqlg")]([SubResource("Resource_d74ed"), SubResource("Resource_k0fx7"), SubResource("Resource_3lhim")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_55ao5"]
+script = ExtResource("4_0gqlg")
+kind = &"anim"
+actor = &"torvald"
+params = {
+"arg": "neutral",
+"hook": "set_expression"
+}
+
+[sub_resource type="Resource" id="Resource_ukw6p"]
+script = ExtResource("4_0gqlg")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_ilk8g"]
+script = ExtResource("1_obpm7")
+at = 1.0
+speaker = &"torvald"
+text = "You sent knives after her in the night, and missed. You call that a visit?"
+duration = 5.6
+voice = "res://assets/audio/voice/torvald/you_sent_knives_after_0870ad4c.wav"
+
+[sub_resource type="Resource" id="Resource_4lq2w"]
+script = ExtResource("3_g2dgv")
+id = &"O3"
+duration = 8.0
+from_pos = Vector3(2.4, 3, -7.3)
+to_pos = Vector3(2.4, 3, -7.3)
+look_from = Vector3(0, 2.1, -10.6)
+look_to = Vector3(0, 2.1, -10.6)
+look_actor = &"torvald"
+look_offset = Vector3(0, 1.5999999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_ilk8g")])
+actions = Array[ExtResource("4_0gqlg")]([SubResource("Resource_55ao5"), SubResource("Resource_ukw6p")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_rrqhn"]
+script = ExtResource("4_0gqlg")
+kind = &"move"
+actor = &"malrik"
+target = Vector3(2.5, 0, -7.25)
+params = {
+"speed": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_6uxx6"]
+script = ExtResource("4_0gqlg")
+at = 4.4
+kind = &"face"
+actor = &"malrik"
+params = {
+"look_actor": "torvald",
+"time": 0.6,
+"yaw_deg": 180.0
+}
+
+[sub_resource type="Resource" id="Resource_u1s8i"]
+script = ExtResource("4_0gqlg")
+at = 5.6
+kind = &"visible"
+actor = &"shard"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_bxhfr"]
+script = ExtResource("4_0gqlg")
+at = 5.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -20.0
+}
+
+[sub_resource type="Resource" id="Resource_b8e3c"]
+script = ExtResource("1_obpm7")
+at = 4.6
+speaker = &"malrik"
+text = "Your lake holds the second relic. She'll come for it. Help me stop her."
+duration = 5.0
+voice = "res://assets/audio/voice/malrik/your_lake_holds_the_f902ee86.wav"
+
+[sub_resource type="Resource" id="Resource_dhh4s"]
+script = ExtResource("3_g2dgv")
+id = &"O4"
+duration = 10.0
+camera_mode = 1
+from_pos = Vector3(4.6, 1.75, -4.6)
+to_pos = Vector3(5, 1.75, -6.6)
+look_from = Vector3(0, 1.898, -4.6)
+look_to = Vector3(0, 1.898, -4.6)
+look_actor = &"malrik"
+look_offset = Vector3(0, 1.898, 0)
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_b8e3c")])
+actions = Array[ExtResource("4_0gqlg")]([SubResource("Resource_rrqhn"), SubResource("Resource_6uxx6"), SubResource("Resource_u1s8i"), SubResource("Resource_bxhfr")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_n0rkp"]
+script = ExtResource("1_obpm7")
+at = 0.5
+speaker = &"torvald"
+text = "Ice does not march for your mistakes, Bishop."
+duration = 3.4
+voice = "res://assets/audio/voice/torvald/ice_does_not_march_7aa0021f.wav"
+
+[sub_resource type="Resource" id="Resource_svf68"]
+script = ExtResource("1_obpm7")
+at = 4.3
+speaker = &"malrik"
+text = "Not mistakes. Opportunities. Just until the relics are in sensible hands."
+duration = 5.4
+voice = "res://assets/audio/voice/malrik/not_mistakes_opportunities_j_ee9ff38e.wav"
+
+[sub_resource type="Resource" id="Resource_4wyw3"]
+script = ExtResource("3_g2dgv")
+id = &"O5"
+duration = 10.0
+from_pos = Vector3(6.3, 2.6, -11.2)
+to_pos = Vector3(6.3, 2.6, -11.2)
+look_from = Vector3(1.25, 1.6, -8.9)
+look_to = Vector3(1.25, 1.6, -8.9)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_n0rkp"), SubResource("Resource_svf68")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_osx67"]
+script = ExtResource("1_obpm7")
+at = 3.0
+speaker = &"torvald"
+text = "Sensible hands. Yours."
+duration = 2.8
+voice = "res://assets/audio/voice/torvald/sensible_hands_yours_026d972c.wav"
+
+[sub_resource type="Resource" id="Resource_tjceg"]
+script = ExtResource("1_obpm7")
+at = 6.4
+speaker = &"malrik"
+text = "Ours, if you like."
+duration = 2.4
+voice = "res://assets/audio/voice/malrik/ours_if_you_like_e834ac36.wav"
+
+[sub_resource type="Resource" id="Resource_72qpc"]
+script = ExtResource("3_g2dgv")
+id = &"O6"
+duration = 10.0
+camera_mode = 1
+from_pos = Vector3(2.9, 3.1, -8.4)
+to_pos = Vector3(2.75, 3.1, -8.6)
+look_from = Vector3(0, 2.1, -10.6)
+look_to = Vector3(0, 2.1, -10.6)
+look_actor = &"torvald"
+look_offset = Vector3(0, 1.5999999, 0)
+fov_from = 26.0
+fov_to = 26.0
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_osx67"), SubResource("Resource_tjceg")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_0ktw3"]
+script = ExtResource("4_0gqlg")
+at = 0.8
+kind = &"anim"
+actor = &"torvald"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_csi8w"]
+script = ExtResource("4_0gqlg")
+at = 1.2
+kind = &"vfx"
+target = Vector3(2.4, 1.2, -8.2)
+params = {
+"life": 2.4,
+"scale": 0.35,
+"scene": "res://art/cinematics/fx/freeze_wave.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_givkl"]
+script = ExtResource("4_0gqlg")
+at = 1.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/ice_creak.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_b86lu"]
+script = ExtResource("4_0gqlg")
+at = 2.0
+kind = &"visible"
+actor = &"seal"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_obx13"]
+script = ExtResource("1_obpm7")
+at = 2.4
+speaker = &"torvald"
+text = "No. My lake stays out of your war."
+duration = 3.0
+voice = "res://assets/audio/voice/torvald/no_my_lake_stays_b15d0433.wav"
+
+[sub_resource type="Resource" id="Resource_xqj3b"]
+script = ExtResource("1_obpm7")
+at = 5.8
+speaker = &"torvald"
+text = "And hear me: some doors under Crown Hollow are closed for a reason."
+duration = 5.2
+voice = "res://assets/audio/voice/torvald/and_hear_me_some_bce996e4.wav"
+
+[sub_resource type="Resource" id="Resource_3sdw2"]
+script = ExtResource("3_g2dgv")
+id = &"O7"
+duration = 12.0
+camera_mode = 1
+from_pos = Vector3(4.4, 0.55, -9)
+to_pos = Vector3(4.1, 0.6, -9.3)
+look_from = Vector3(0, 2.1, -10.6)
+look_to = Vector3(0, 2.1, -10.6)
+look_actor = &"torvald"
+look_offset = Vector3(0, 1.5999999, 0)
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_obx13"), SubResource("Resource_xqj3b")])
+actions = Array[ExtResource("4_0gqlg")]([SubResource("Resource_0ktw3"), SubResource("Resource_csi8w"), SubResource("Resource_givkl"), SubResource("Resource_b86lu")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_3a2s5"]
+script = ExtResource("4_0gqlg")
+kind = &"face"
+actor = &"malrik"
+params = {
+"time": 0.8,
+"yaw_deg": 200.0
+}
+
+[sub_resource type="Resource" id="Resource_v42fc"]
+script = ExtResource("4_0gqlg")
+at = 6.4
+kind = &"vfx"
+target = Vector3(2.5, 0.4, -7.25)
+params = {
+"life": 2.6,
+"scene": "res://art/cinematics/fx/umbral_shroud.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ic0eg"]
+script = ExtResource("4_0gqlg")
+at = 6.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/spell_umbral_shroud.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_0d6s3"]
+script = ExtResource("4_0gqlg")
+at = 7.0
+kind = &"visible"
+actor = &"malrik"
+params = {
+"on": false
+}
+
+[sub_resource type="Resource" id="Resource_84b7x"]
+script = ExtResource("1_obpm7")
+at = 0.8
+speaker = &"malrik"
+text = "For now, then. Doors are only closed until someone opens them."
+duration = 4.8
+voice = "res://assets/audio/voice/malrik/for_now_then_doors_efbbc32b.wav"
+
+[sub_resource type="Resource" id="Resource_vnkwe"]
+script = ExtResource("3_g2dgv")
+id = &"O8"
+duration = 10.0
+from_pos = Vector3(-0.5, 4, -13)
+to_pos = Vector3(-0.5, 4, -13)
+look_from = Vector3(2.5, 1.898, -7.25)
+look_to = Vector3(2.5, 1.898, -7.25)
+look_actor = &"malrik"
+look_offset = Vector3(0, 1.898, 0)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_84b7x")])
+actions = Array[ExtResource("4_0gqlg")]([SubResource("Resource_3a2s5"), SubResource("Resource_v42fc"), SubResource("Resource_ic0eg"), SubResource("Resource_0d6s3")])
+stage_set = &"forge_intro_torvald"
+
+[sub_resource type="Resource" id="Resource_0jalm"]
+script = ExtResource("4_0gqlg")
+at = 5.6
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.9
+}
+
+[sub_resource type="Resource" id="Resource_pcdjt"]
+script = ExtResource("1_obpm7")
+at = 0.4
+speaker = &"narrator"
+text = "Ice said no. For now."
+duration = 2.6
+voice = "res://assets/audio/voice/narrator/ice_said_no_for_d9be9b7d.wav"
+
+[sub_resource type="Resource" id="Resource_iga46"]
+script = ExtResource("3_g2dgv")
+id = &"O9"
+duration = 6.5
+camera_mode = 2
+from_pos = Vector3(7.5, 4.6, -12.4)
+to_pos = Vector3(8.2, 6, -11.6)
+look_from = Vector3(1.2, 1.2, -9.4)
+look_to = Vector3(1.2, 1.2, -9.4)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_obpm7")]([SubResource("Resource_pcdjt")])
+actions = Array[ExtResource("4_0gqlg")]([SubResource("Resource_0jalm")])
+stage_set = &"forge_intro_torvald"
+
+[resource]
+script = ExtResource("2_4318c")
+id = &"c1_offer"
+title = "The Offer"
+stage_scene = "res://scenes/cinematics/c1_offer.tscn"
+shots = Array[ExtResource("3_g2dgv")]([SubResource("Resource_rm07m"), SubResource("Resource_f8yhc"), SubResource("Resource_4lq2w"), SubResource("Resource_dhh4s"), SubResource("Resource_4wyw3"), SubResource("Resource_72qpc"), SubResource("Resource_3sdw2"), SubResource("Resource_vnkwe"), SubResource("Resource_iga46")])
+shake_seed = 11
+voice_over = Array[StringName]([&"shard", &"seal", &"malrik", &"narrator"])
+lines_over_cuts = true

@@ -1,0 +1,115 @@
+{
+    "cine_id": "c1_offer",
+    "source": "data/cinematics/src/c1_offer.cine (beats: docs/design/story-episode-1.md 7.2)",
+    "note": "Hand-written with the .cine (2026-10-08): the same text as its lines. Review: docs/design/film-text-review.md.",
+    "lines": [
+        {
+            "id": "L1",
+            "shot": "O1",
+            "at": 0.5,
+            "dur": 4.09,
+            "speaker": "narrator",
+            "subtitle": "Two days after Emberfall, the Bishop of Shadow went north.",
+            "text": "Two days after Emberfall, the Bishop of Shadow went north."
+        },
+        {
+            "id": "L2",
+            "shot": "O2",
+            "at": 2.2,
+            "dur": 5.2,
+            "speaker": "malrik",
+            "subtitle": "Cold in here. You should let Vessa redecorate. She's very keen on fire.",
+            "text": "Cold in here. You should let Vessa redecorate. She's very keen on fire."
+        },
+        {
+            "id": "L3",
+            "shot": "O3",
+            "at": 1.0,
+            "dur": 5.6,
+            "speaker": "torvald",
+            "subtitle": "You sent knives after her in the night, and missed. You call that a visit?",
+            "text": "You sent knives after her in the night, and missed. You call that a visit?"
+        },
+        {
+            "id": "L4",
+            "shot": "O4",
+            "at": 4.6,
+            "dur": 5.0,
+            "speaker": "malrik",
+            "subtitle": "Your lake holds the second relic. She'll come for it. Help me stop her.",
+            "text": "Your lake holds the second relic. She'll come for it. Help me stop her."
+        },
+        {
+            "id": "L5",
+            "shot": "O5",
+            "at": 0.5,
+            "dur": 3.4,
+            "speaker": "torvald",
+            "subtitle": "Ice does not march for your mistakes, Bishop.",
+            "text": "Ice does not march for your mistakes, Bishop."
+        },
+        {
+            "id": "L6",
+            "shot": "O5",
+            "at": 4.3,
+            "dur": 5.4,
+            "speaker": "malrik",
+            "subtitle": "Not mistakes. Opportunities. Just until the relics are in sensible hands.",
+            "text": "Not mistakes. Opportunities. Just until the relics are in sensible hands."
+        },
+        {
+            "id": "L7",
+            "shot": "O6",
+            "at": 3.0,
+            "dur": 2.8,
+            "speaker": "torvald",
+            "subtitle": "Sensible hands. Yours.",
+            "text": "Sensible hands. Yours."
+        },
+        {
+            "id": "L8",
+            "shot": "O6",
+            "at": 6.4,
+            "dur": 2.4,
+            "speaker": "malrik",
+            "subtitle": "Ours, if you like.",
+            "text": "Ours, if you like."
+        },
+        {
+            "id": "L9",
+            "shot": "O7",
+            "at": 2.4,
+            "dur": 3.0,
+            "speaker": "torvald",
+            "subtitle": "No. My lake stays out of your war.",
+            "text": "No. My lake stays out of your war."
+        },
+        {
+            "id": "L10",
+            "shot": "O7",
+            "at": 5.8,
+            "dur": 5.2,
+            "speaker": "torvald",
+            "subtitle": "And hear me: some doors under Crown Hollow are closed for a reason.",
+            "text": "And hear me: some doors under Crown Hollow are closed for a reason."
+        },
+        {
+            "id": "L11",
+            "shot": "O8",
+            "at": 0.8,
+            "dur": 4.8,
+            "speaker": "malrik",
+            "subtitle": "For now, then. Doors are only closed until someone opens them.",
+            "text": "For now, then. Doors are only closed until someone opens them."
+        },
+        {
+            "id": "L12",
+            "shot": "O9",
+            "at": 0.4,
+            "dur": 2.6,
+            "speaker": "narrator",
+            "subtitle": "Ice said no. For now.",
+            "text": "Ice said no. For now."
+        }
+    ]
+}

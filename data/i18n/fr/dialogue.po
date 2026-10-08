@@ -5,6 +5,226 @@ msgstr ""
 "Language: fr_CA\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#. speaker narrator
+#: data/voice/lines/c1_offer.json:L1
+msgid "Two days after Emberfall, the Bishop of Shadow went north."
+msgstr "Deux jours après Emberfall, l'Évêque de l'Ombre est monté vers le nord."
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L2
+msgid "Cold in here. You should let Vessa redecorate. She's very keen on fire."
+msgstr "Il fait froid ici. Tu devrais laisser Vessa refaire la déco. Elle adore le feu."
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L3
+msgid "You sent knives after her in the night, and missed. You call that a visit?"
+msgstr "Tu as envoyé des couteaux après elle en pleine nuit, et tu l'as ratée. Tu appelles ça une visite ?"
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L4
+msgid "Your lake holds the second relic. She'll come for it. Help me stop her."
+msgstr "Ton lac garde la deuxième relique. Elle va venir la chercher. Aide-moi à l'arrêter."
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L5
+msgid "Ice does not march for your mistakes, Bishop."
+msgstr "La Glace ne marche pas pour réparer tes erreurs, l'Évêque."
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L6
+msgid "Not mistakes. Opportunities. Just until the relics are in sensible hands."
+msgstr "Pas des erreurs. Des occasions. Juste le temps que les reliques soient entre des mains raisonnables."
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L7
+msgid "Sensible hands. Yours."
+msgstr "Des mains raisonnables. Les tiennes."
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L8
+msgid "Ours, if you like."
+msgstr "Les nôtres, si tu préfères."
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L9
+msgid "No. My lake stays out of your war."
+msgstr "Non. Mon lac reste en dehors de ta guerre."
+
+#. speaker torvald
+#: data/voice/lines/c1_offer.json:L10
+msgid "And hear me: some doors under Crown Hollow are closed for a reason."
+msgstr "Et écoute-moi bien : certaines portes sous Crown Hollow sont fermées pour une raison."
+
+#. speaker malrik
+#: data/voice/lines/c1_offer.json:L11
+msgid "For now, then. Doors are only closed until someone opens them."
+msgstr "Pour l'instant, alors. Une porte n'est fermée que jusqu'à ce que quelqu'un l'ouvre."
+
+#. speaker narrator
+#: data/voice/lines/c1_offer.json:L12
+msgid "Ice said no. For now."
+msgstr "La Glace a dit non. Pour l'instant."
+
+#. speaker narrator
+#: data/voice/lines/c2_two_fronts.json:L1
+msgid "Two relics. One enemy. One very tired army."
+msgstr "Deux reliques. Un ennemi. Une armée très fatiguée."
+
+#. speaker ashby
+#: data/voice/lines/c2_two_fronts.json:L2
+msgid "Shadow is massing on the Dusk road. Ice keeps to its lakes. Nature has closed its borders."
+msgstr "L'Ombre se masse sur la route de Dusk. La Glace reste à ses lacs. La Nature a fermé ses frontières."
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L3
+msgid "So it's me and Malrik."
+msgstr "Donc c'est moi contre Malrik."
+
+#. speaker ashby
+#: data/voice/lines/c2_two_fronts.json:L4
+msgid "And whatever he sends in the night, my queen."
+msgstr "Et tout ce qu'il enverra dans la nuit, ma reine."
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L5
+msgid "His scouts are already in Ysolde's wood. The third relic sleeps there."
+msgstr "Ses éclaireurs sont déjà dans le bois d'Ysolde. La troisième relique y dort."
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L6
+msgid "I go before he gets it."
+msgstr "J'y vais avant qu'il la prenne."
+
+#. speaker ashby
+#: data/voice/lines/c2_two_fronts.json:L7
+msgid "Ysolde doesn't take sides."
+msgstr "Ysolde ne prend pas parti."
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L8
+msgid "Then she won't mind. I'll ask nicely."
+msgstr "Alors ça ne la dérangera pas. Je vais demander gentiment."
+
+#. speaker ashby
+#: data/voice/lines/c2_two_fronts.json:L9
+msgid "With fire?"
+msgstr "Avec du feu ?"
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L10
+msgid "Nicely. With fire."
+msgstr "Gentiment. Avec du feu."
+
+#. speaker whisper
+#: data/voice/lines/c2_two_fronts.json:L11
+msgid "The third sleeps in the old tree. Bring them together, and you'll never need a friend again."
+msgstr "La troisième dort dans le vieil arbre. Réunis-les, et tu n'auras plus jamais besoin d'un ami."
+
+#. speaker vessa
+#: data/voice/lines/c2_two_fronts.json:L12
+msgid "Who's there? ...Great. Now the jewellery talks. Vey would have laughed at me."
+msgstr "Qui est là ? ...Super. Maintenant les bijoux parlent. Vey aurait ri de moi."
+
+#. speaker ysolde
+#: data/voice/lines/c2_two_fronts.json:L13
+msgid "Not you, Vessa. Not Malrik. Not ever."
+msgstr "Pas toi, Vessa. Pas Malrik. Jamais."
+
+#. speaker narrator
+#: data/voice/lines/c2_two_fronts.json:L14
+msgid "The war was coming to the Sighing Wood, invited or not."
+msgstr "La guerre arrivait au Sighing Wood, invitée ou non."
+
+#. speaker narrator
+#: data/voice/lines/c3_parley.json:L1
+msgid "For the first time since the Master left, the four apprentices stood in one place."
+msgstr "Pour la première fois depuis le départ du Maître, les quatre apprentis se tenaient au même endroit."
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L2
+msgid "Look at us. The Master would weep. Mostly at your outfits."
+msgstr "Regardez-nous. Le Maître en pleurerait. Surtout à cause de vos tenues."
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L3
+msgid "The relics aren't a prize. They're a lock."
+msgstr "Les reliques ne sont pas un trophée. C'est une serrure."
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L4
+msgid "Someone is under Crown Hollow, and he's been whispering to me since Emberfall."
+msgstr "Quelqu'un est sous Crown Hollow, et il me chuchote à l'oreille depuis Emberfall."
+
+#. speaker ysolde
+#: data/voice/lines/c3_parley.json:L5
+msgid "Obren. The first apprentice. Every battle over the relics feeds him."
+msgstr "Obren. Le premier apprenti. Chaque bataille pour les reliques le nourrit."
+
+#. speaker ysolde
+#: data/voice/lines/c3_parley.json:L6
+msgid "And something down there is still fighting him. I feel it through the roots."
+msgstr "Et quelque chose, là-dessous, le combat encore. Je le sens à travers les racines."
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L7
+msgid "A secret apprentice under the lake."
+msgstr "Un apprenti secret sous le lac."
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L8
+msgid "And the cure is that I stop the war I'm winning. How convenient."
+msgstr "Et le remède, c'est que j'arrête la guerre que je suis en train de gagner. Comme c'est pratique."
+
+#. speaker torvald
+#: data/voice/lines/c3_parley.json:L9
+msgid "She is not lying, Bishop. I have felt it under the ice. Something counting."
+msgstr "Elle ne ment pas, l'Évêque. Je l'ai senti sous la glace. Quelque chose qui compte."
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L10
+msgid "Then let it count. Whoever holds the Hollow holds the Master's seat. I intend to sit in it."
+msgstr "Alors qu'il compte. Qui tient le Hollow tient le siège du Maître. J'ai l'intention de m'y asseoir."
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L11
+msgid "You sent knives in the night. You took Vey from me. You'll have to go through me."
+msgstr "Tu as envoyé des couteaux dans la nuit. Tu m'as pris Vey. Il va falloir me passer sur le corps."
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L12
+msgid "That was always the plan, little ember."
+msgstr "C'était le plan depuis le début, petite braise."
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L13
+msgid "Help me stop him."
+msgstr "Aidez-moi à l'arrêter."
+
+#. speaker torvald
+#: data/voice/lines/c3_parley.json:L14
+msgid "Ice stays out of this war."
+msgstr "La Glace reste en dehors de cette guerre."
+
+#. speaker ysolde
+#: data/voice/lines/c3_parley.json:L15
+msgid "Nature too. Win it or lose it without us."
+msgstr "La Nature aussi. Gagnez-la ou perdez-la sans nous."
+
+#. speaker malrik
+#: data/voice/lines/c3_parley.json:L16
+msgid "Crown Hollow. At dawn."
+msgstr "Crown Hollow. À l'aube."
+
+#. speaker vessa
+#: data/voice/lines/c3_parley.json:L17
+msgid "Bring your army. I'll bring mine."
+msgstr "Amène ton armée. J'amènerai la mienne."
+
+#. speaker narrator
+#: data/voice/lines/c3_parley.json:L18
+msgid "At dawn, the war would come home to where it started."
+msgstr "À l'aube, la guerre rentrerait là où elle avait commencé."
+
 #. speaker ysolde
 #: data/voice/lines/c_e2_ashes.json:L1
 msgid "Forty-one. Forty-two. Forty-three."

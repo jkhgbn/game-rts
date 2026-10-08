@@ -62,6 +62,9 @@ const MISSION_SCENES := {
 ## Story films a reward's "next" may name (StoryFilms plays them): film id -> what follows it (a film or a mission).
 ## The victory unlocks the first mission at the end of the chain (film_target).
 const STORY_FILMS := {
+	&"c1_offer": &"m02",            # story-episode-1.md 7.2: "The Offer" after m01, before m02's briefing
+	&"c2_two_fronts": &"m03",       # story-episode-1.md 7.2: "One Front, Two Watchers" after m02 (no Pell branch yet)
+	&"c3_parley": &"m04",           # story-episode-1.md 7.2: "The Parley" after m03 (no companion branch yet)
 	&"c_e2_ashes": &"e2m2",          # mission-e2-01.md: "What the Frost Kept" after e2m1, before e2m2's briefing
 	&"c_e2_lodge": &"e2m3",          # mission-e2-02.md: "The Price of the Road" after e2m2, before e2m3's briefing
 	&"c_e2_stair": &"e2m4",          # mission-e2-03.md: "On the Way Down" after e2m3, before e2m4's briefing
@@ -92,21 +95,21 @@ const MISSION_REWARDS := {
 		"artifact": "ember_crown",
 		"flags": {"m1_peddler_freed": "sec_peddler", "m1_outpost_burned": "sec_outpost"},
 		"bonus_essence": {"sec_outpost": 300},
-		"next": &"m02",
+		"next": &"c1_offer",   # film c1_offer -> m02 (unlocks m02, as before)
 	},
 	# docs/design/mission-02.md "Reward carried to mission 3".
 	&"m02": {
 		"artifact": "stillwater_orb",
 		"flags": {"m2_emberguard_sworn": "sec_emberguard", "m2_dig_under_half": "sec_dig"},
 		"bonus_essence": {"sec_dig": 300},
-		"next": &"m03",
+		"next": &"c2_two_fronts",   # film c2_two_fronts -> m03 (unlocks m03, as before)
 	},
 	# docs/design/mission-03.md "Reward carried to mission 4" (m3_hired: M4 knows whether a companion can exist).
 	&"m03": {
 		"artifact": "masters_signet",
 		"flags": {"m3_mossjaw_slain": "sec_mossjaw", "m3_stakes_held": "sec_stakes", "m3_hired": "sec_champion"},
 		"bonus_essence": {"sec_stakes": 300, "sec_mossjaw": 150},
-		"next": &"m04",
+		"next": &"c3_parley",   # film c3_parley -> m04 (unlocks m04, as before)
 	},
 	# docs/design/mission-04.md "Rewards / Episode 2 carry-over" (m4_malrik_pylons is a mission-computed flag).
 	&"m04": {
