@@ -1,6 +1,6 @@
-# voice_forge build: all
+# voice_forge check: all
 
-2026-10-08 01:32:15 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `9763a673791795d0` (manifest.json (line keys are content hashes))
+2026-10-08 01:43:40 - `tools/voice_forge/run_voice_forge.ps1 check all` - hash `9763a673791795d0` (manifest.json (line keys are content hashes))
 
 ## Result: **WARN** - quality **92 / 100** (previous run 92, +0)
 
@@ -31,7 +31,7 @@
 ## Fit (voice length vs cine slot / subtitle time)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | voice fits its slot | **WARN** 69 | 14 / 983 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
+| F1 | voice fits its slot | **WARN** 69 | 14 / 992 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
 
 ## Audio (format, clipping, trim, size)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -135,6 +135,7 @@
 - source: data/voice/lines/c_e3_doubt.json: 7 lines
 - source: data/voice/lines/c_e3_knife.json: 9 lines
 - source: data/voice/lines/c_e3_price.json: 7 lines
+- source: data/voice/lines/ep2_ending.json: 9 lines
 - source: data/voice/lines/ep2_opening.json: 28 lines
 - source: data/voice/lines/ep3_ending.json: 5 lines
 - source: data/voice/lines/ep3_opening.json: 15 lines

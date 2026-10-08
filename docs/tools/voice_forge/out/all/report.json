@@ -129,17 +129,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.985757884028484,
+			"graded": 0.985887096774194,
 			"group": "fit",
 			"hint": "run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line",
 			"id": "F1",
 			"improve": "the lines listed in the notes",
 			"name": "voice fits its slot",
 			"rule": "voice length <= cine slot / subtitle time",
-			"score": 0.685157680569685,
+			"score": 0.685201612903226,
 			"shot": "",
 			"status": "WARN",
-			"value": "14 / 983 over (0 by > 15 %)",
+			"value": "14 / 992 over (0 by > 15 %)",
 			"weight": 1.0
 		},
 		{
@@ -248,7 +248,7 @@
 	"id": "all",
 	"improve_next": [
 		{
-			"rank": 10.3148423194303,
+			"rank": 10.3147983870968,
 			"source": "F1 voice fits its slot",
 			"status": "WARN",
 			"text": "the lines listed in the notes",
@@ -269,7 +269,7 @@
 			"title": "Voice the cinematics"
 		}
 	],
-	"kind": "build",
+	"kind": "check",
 	"kingdom": "",
 	"notes": [
 		"source: docs/design/episode3-4-opening.md ### 3.1 -> data/voice/lines/ep3_opening.json: 15 lines",
@@ -359,6 +359,7 @@
 		"source: data/voice/lines/c_e3_doubt.json: 7 lines",
 		"source: data/voice/lines/c_e3_knife.json: 9 lines",
 		"source: data/voice/lines/c_e3_price.json: 7 lines",
+		"source: data/voice/lines/ep2_ending.json: 9 lines",
 		"source: data/voice/lines/ep2_opening.json: 28 lines",
 		"source: data/voice/lines/ep3_ending.json: 5 lines",
 		"source: data/voice/lines/ep3_opening.json: 15 lines",
@@ -391,10 +392,10 @@
 	"quality": 92.1,
 	"result": "WARN",
 	"scene": "",
-	"seconds": 2.7,
+	"seconds": 3.4,
 	"shots": {},
-	"started": "2026-10-08 01:32:15",
+	"started": "2026-10-08 01:43:40",
 	"tier": "",
 	"tool": "voice_forge",
-	"verb": "build"
+	"verb": "check"
 }

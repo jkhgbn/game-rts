@@ -89,6 +89,7 @@
   "data/voice/lines/c_e3_doubt.json: 7 lines",
   "data/voice/lines/c_e3_knife.json: 9 lines",
   "data/voice/lines/c_e3_price.json: 7 lines",
+  "data/voice/lines/ep2_ending.json: 9 lines",
   "data/voice/lines/ep2_opening.json: 28 lines",
   "data/voice/lines/ep3_ending.json: 5 lines",
   "data/voice/lines/ep3_opening.json: 15 lines",
@@ -3851,6 +3852,14 @@
      "slot": 3.4,
      "slot_kind": "cine shot",
      "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L6",
+     "slot": 3.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
     }
    ]
   },
@@ -4171,6 +4180,14 @@
      "slot": 4.2,
      "slot_kind": "cine shot",
      "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L3",
+     "slot": 4.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
     }
    ]
   },
@@ -4283,6 +4300,14 @@
      "slot": 3.4,
      "slot_kind": "cine shot",
      "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L4",
+     "slot": 3.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "master"
     }
    ]
   },
@@ -4370,6 +4395,14 @@
      "ref": "ep2_ending/S4@0.4",
      "slot": 3.0,
      "slot_kind": "cine shot",
+     "speaker_id": "master"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L2",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
      "speaker_id": "master"
     }
    ]
@@ -5227,6 +5260,14 @@
      "slot": 3.8,
      "slot_kind": "cine shot",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L9",
+     "slot": 3.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -5602,6 +5643,14 @@
      "ref": "ep2_ending/U1@1",
      "slot": 4.0,
      "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L8",
+     "slot": 4.0,
+     "slot_kind": "cine slot",
      "speaker_id": "narrator"
     }
    ]
@@ -11191,6 +11240,14 @@
      "slot": 3.2,
      "slot_kind": "cine shot",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L1",
+     "slot": 3.2,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -12135,6 +12192,14 @@
      "slot": 2.6,
      "slot_kind": "cine shot",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L5",
+     "slot": 2.6,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -12950,6 +13015,14 @@
      "ref": "ep2_ending/S8@1.6",
      "slot": 3.4,
      "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep2_ending.json",
+     "ref": "ep2_ending/L7",
+     "slot": 3.4,
+     "slot_kind": "cine slot",
      "speaker_id": "vey"
     }
    ]

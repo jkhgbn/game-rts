@@ -113,3 +113,13 @@ stage films (the three between-mission scenes and the credits).
    (19.V7-19.V9) do not exist. A stand-in set changes the look the spec asks for: built only if time allows, flagged.
 4. `ep1_credits`: the credit roll's text is the lead's / JS's call; left as the text card.
 5. Theatre reveals: need TH.D3 shot lists and a Theatre screen; not in scope.
+
+## 4. Filled on 2026-10-08 (same night)
+| Gap | Now | Commit | Test |
+|---|---|---|---|
+| `m3_parting` | mode=pause film, 4 orbit shots on the live Vessa / Ysolde (the last gate falls anywhere); Ysolde's story figure is her wizard model and runs during PAUSE films | 63e9981e | `test_cine_m03_parting` |
+| `c_e2_ashes`, `c_e2_lodge`, `c_e2_stair` | stage films on `forge_intro_ysolde` / `forge_ep2_feast` / `forge_watch_keep`, in StoryFlow after e2m1 / e2m2 / e2m3; lines written from the beats | 33c811c4 | `test_cine_ep2_between` |
+| `c1_offer`, `c2_two_fronts`, `c3_parley` | stage films on stand-in sets (no 19.V7-V9 sets), the spec's lines, in StoryFlow after m01 / m02 / m03; no Pell / companion branch | 0616dc8b | `test_cine_ep1_between` |
+Still open: `ep1_credits` (a text card; the credit roll's content is the lead's call), the 4 Theatre reveals (TH.D3 / TH.C1),
+the real sets 19.V7-V9 for the Ep1 between-scenes, StoryFlow branches (Pell, companion). Every line written or staged
+tonight is in `film-text-review.md` for the game designer.
