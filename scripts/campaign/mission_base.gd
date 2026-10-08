@@ -767,10 +767,9 @@ func _add_continue_button() -> void:
 	var row := hud.end_menu_button.get_parent()
 	if row == null or row.has_node(^"ContinueNext"):
 		return
-	var i := CampaignState.MISSION_ORDER.find(target)
 	var next := Button.new()   # the end screen's own button look (GameHUD._end_button), gold rim: the way on
 	next.name = "ContinueNext"
-	next.text = "Continue" if film or i < 0 else "Continue: Mission %d" % i
+	next.text = continue_label(target, film)
 	if film:
 		next.focus_mode = Control.FOCUS_NONE
 		next.custom_minimum_size = Vector2(200, 38)
@@ -789,6 +788,17 @@ func _add_continue_button() -> void:
 	next.pressed.connect(func() -> void: MenuFlow.start_mission(get_tree(), path, mission_difficulty))
 	row.add_child(next)
 	row.move_child(next, 0)
+
+
+## The victory "Continue" button's text: the mission's number inside its episode, read from its id (m02 = 2,
+## e2m1 = 1, e3m4 = 4); a film or an id without a number says plain "Continue" (review 2026-10-08 LOW 3).
+static func continue_label(target: StringName, film: bool) -> String:
+	var s := String(target)
+	var at := s.rfind("m")
+	var num := s.substr(at + 1) if at >= 0 else ""
+	if film or num == "" or not num.is_valid_int():
+		return "Continue"
+	return "Continue: Mission %d" % int(num)
 
 
 ## MISSION_REWARDS-shaped entry from the config (CampaignState.reward_of reads it when its table has none).

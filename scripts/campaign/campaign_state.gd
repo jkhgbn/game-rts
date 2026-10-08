@@ -494,12 +494,14 @@ func on_mission_victory(mission_id: StringName, level_node: Node) -> Error:
 	return save()
 
 
-## Victory flags, in order: "flags" (flag -> objective id, true when that objective is done), "set_flags"
+## Victory flags, in order: "flags" (flag -> objective id, true when that objective is done; ORed with the saved value
+## so replaying a mission never turns an earned flag back to false, review 2026-10-08 LOW 4), "set_flags"
 ## (constant values), then the mission's own `mission_flags()` (MissionBase.set_mission_flag: computed counters / bools).
 func _apply_reward_flags(reward: Dictionary, level_node: Node, mission_id: String = "") -> void:
 	var reward_flags: Dictionary = reward.get("flags", {})
-	for flag_name: Variant in reward_flags:
-		flags[str(flag_name)] = objective_done(level_node, str(reward_flags[flag_name]))
+	for flag_name: Variant in reward_flags:   # a replay never takes back an earned flag (true stays true)
+		var key := str(flag_name)
+		flags[key] = objective_done(level_node, str(reward_flags[flag_name])) or flags.get(key, false) == true
 	var constant: Variant = reward.get("set_flags", {})
 	if constant is Dictionary:
 		set_flags(constant)

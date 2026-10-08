@@ -47,11 +47,7 @@ static func play_chain(tree: SceneTree, id: StringName, bot_difficulty: int = 1,
 			CampaignState.open().mark_seen(fid)
 			continue_to(tree, next, bot_difficulty), CONNECT_ONE_SHOT | CONNECT_DEFERRED)
 	tree.paused = false
-	var old := tree.current_scene
-	tree.root.add_child(stage)
-	tree.current_scene = stage
-	if old != null and old != stage:
-		old.queue_free()
+	MenuFlow.set_scene(tree, stage)   # the old scene leaves the tree first (review 2026-10-08)
 	return stage
 
 

@@ -57,6 +57,10 @@ func _ready() -> void:
 		_apply_render_scale()
 	if autoplay and autoplay_script != null:
 		_start.call_deferred()
+	elif autoplay and not is_recording():
+		# nothing to play: whoever waits on cinematic_done (StoryFilms, the prologue) must still move on
+		push_warning("[cine] stage %s: no autoplay script" % name)
+		cinematic_done.emit.call_deferred(_film_id(), true)
 
 
 func _exit_tree() -> void:
@@ -94,7 +98,20 @@ func _start() -> String:
 	var err := player.play(autoplay_script, self)
 	if err != "":
 		push_warning("[cine] stage: play refused: %s" % err)
+		if player.finished.is_connected(_on_finished):
+			player.finished.disconnect(_on_finished)
+		# review 2026-10-08 M2: a refused film counts as skipped, so a story chain / the prologue never soft-locks
+		cinematic_done.emit.call_deferred(_film_id(), true)
 	return err
+
+
+## The id `cinematic_done` reports: the script's id, else the stage scene's file name (StoryFilms: `<id>.tscn`).
+func _film_id() -> StringName:
+	if autoplay_script != null and autoplay_script.id != &"":
+		return autoplay_script.id
+	if scene_file_path != "":
+		return StringName(scene_file_path.get_file().get_basename())
+	return StringName(name)
 
 
 func _on_finished(id: StringName, skipped: bool) -> void:

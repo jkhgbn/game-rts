@@ -37,6 +37,9 @@ static var ws_enemy_resolved: StringName = &"shadow"
 const WS_KINGDOMS: Array[StringName] = [&"fire", &"ice", &"nature", &"shadow"]
 static var _enemy_chosen := false             ## True once the menu picked the kingdoms.
 static var _hooked_tree: SceneTree = null
+## The running campaign mission's scene (start_mission): a reload of it (Retry / F9) gets `mission_difficulty` back
+## from the hook before its _ready. "" = not a mission (skirmish, menu).
+static var _mission_path := ""
 
 
 ## Instances the skirmish level of `map` (MT9: a MapCatalog id or &"random"; &"" = GameSettings.map_id; unknown or
@@ -46,6 +49,7 @@ static var _hooked_tree: SceneTree = null
 static func start_skirmish(tree: SceneTree, bot_difficulty: int, enemy: StringName = &"",
 		player: StringName = &"", map: StringName = &"", seats: int = 0) -> Node:
 	difficulty = bot_difficulty
+	_mission_path = ""
 	if enemy != &"":
 		enemy_kingdom = enemy
 		_enemy_chosen = true
@@ -127,9 +131,20 @@ static func start_mission(tree: SceneTree, scene_path: String, bot_difficulty: i
 	if scene_path == "" or not ResourceLoader.exists(scene_path):
 		return null
 	difficulty = bot_difficulty
+	_mission_path = scene_path
 	install_hooks(tree)
 	var level := (load(scene_path) as PackedScene).instantiate()
+	apply_mission_difficulty(level)   # review 2026-10-08 H1: before the level enters the tree
 	return _launch(tree, level, bot_difficulty)
+
+
+## Sets `mission_difficulty` (MissionBase: 0 easy, 1 normal, 2 hard) to the chosen difficulty on a level that has it.
+## True if set.
+static func apply_mission_difficulty(level: Node) -> bool:
+	if level == null or difficulty < 0 or not (&"mission_difficulty" in level):
+		return false
+	level.set(&"mission_difficulty", clampi(difficulty, 0, 2))
+	return true
 
 
 ## Campaign start (2026-09-27): mission 1 is preceded by the 3-minute prologue (in-engine, the baked cine movie on its
@@ -189,12 +204,24 @@ static func _launch(tree: SceneTree, level: Node, bot_difficulty: int) -> Node:
 	if bot != null:
 		bot.set(&"difficulty", bot_difficulty)
 	tree.paused = false
+	set_scene(tree, level)
+	return level
+
+
+## Makes `level` (not in the tree yet) the current scene. The old scene leaves the tree FIRST (then is freed), and
+## `level` is the current scene from its own enter_tree on, so nothing in the new level's _ready (Economy.for_team,
+## current_scene knobs, TierSystem...) resolves to the old level (review 2026-10-08: "Next mission" gave the new
+## keep's pop bonus to the old Economy).
+static func set_scene(tree: SceneTree, level: Node) -> void:
 	var old := tree.current_scene
+	if old != null and old != level and is_instance_valid(old):
+		var parent := old.get_parent()
+		if parent != null:
+			parent.remove_child(old)
+		old.queue_free()
+	level.tree_entered.connect(func() -> void: tree.current_scene = level, CONNECT_ONE_SHOT)
 	tree.root.add_child(level)
 	tree.current_scene = level
-	if old != null and old != level:
-		old.queue_free()
-	return level
 
 
 ## Reloads the current level (the hook re-applies the chosen difficulty).
@@ -205,6 +232,7 @@ static func restart(tree: SceneTree) -> void:
 
 
 static func quit_to_menu(tree: SceneTree) -> void:
+	_mission_path = ""
 	tree.paused = false
 	tree.change_scene_to_file(MAIN_MENU)
 
@@ -217,6 +245,8 @@ static func install_hooks(tree: SceneTree) -> void:
 
 
 static func _on_node_added(node: Node) -> void:
+	if _mission_path != "" and node.scene_file_path == _mission_path and node.get_parent() == node.get_tree().root:
+		apply_mission_difficulty(node)   # Retry / F9 reload of a campaign mission: keep the chosen difficulty
 	if node is RTSCamera:
 		(node as RTSCamera).edge_pan_enabled = GameSettings.edge_pan
 	elif (node.name == &"Skirmish" or node.name == &"LayoutLevel") and node.get_parent() == node.get_tree().root:
