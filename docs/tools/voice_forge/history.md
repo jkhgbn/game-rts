@@ -20,3 +20,6 @@ One row per run (`tools/voice_forge/run_voice_forge.ps1`). Quality 0-100; delta 
 | 2026-10-07 16:44:29 | check | all | 75 (+5) | FAIL (2F 2W) | 9ca82133d7aabb9a | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
 | 2026-10-07 22:56:40 | check | all | 75 (+0) | FAIL (2F 2W) | 93060467a5939223 | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
 | 2026-10-07 22:58:22 | build | all | 75 (+0) | FAIL (2F 2W) | 77f05e5cb84c72ca | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
+| 2026-10-07 23:00:37 | build | all | 73 (-2) | FAIL (2F 3W) | 2d8a2296218e568c | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
+| 2026-10-07 23:02:20 | build | all | 73 (+0) | FAIL (2F 3W) | b5658284ea417a92 | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |
+| 2026-10-07 23:04:30 | build | all | 73 (+0) | FAIL (2F 3W) | ba352aec337ebf1e | voice fits its slot; Hold lines as long as their voice; Voice the cinematics | docs/tools/voice_forge/out/all/report.md |

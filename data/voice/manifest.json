@@ -4,8 +4,8 @@
  "engine": "kokoro-onnx v1.0",
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
- "count": 325,
- "total_seconds": 753.44,
+ "count": 445,
+ "total_seconds": 1177.8,
  "orphans": [],
  "lines": {
   "aldra/cracked_not_broken_torvald_c73e5da5": {
@@ -1399,6 +1399,118 @@
     }
    ]
   },
+  "hush/there_is_always_another_6f458280": {
+   "speaker": "hush",
+   "text": "There is always another night.",
+   "text_hash": "6f458280505cf52c",
+   "path": "res://assets/audio/voice/hush/there_is_always_another_6f458280.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 1.92,
+   "peak": 0.8913,
+   "rms_db": -16.8,
+   "clipped": 0,
+   "file_hash": "136ee1aac2b76bd0",
+   "gen_s": 0.66,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[18]",
+     "ref": "L19",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/there_is_always_another_f7fb47ef": {
+   "speaker": "hush",
+   "text": "There is always another night, Bishop.",
+   "text_hash": "f7fb47efae4cc147",
+   "path": "res://assets/audio/voice/hush/there_is_always_another_f7fb47ef.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.4,
+   "peak": 0.8913,
+   "rms_db": -16.6,
+   "clipped": 0,
+   "file_hash": "e8ce09586571761b",
+   "gen_s": 0.64,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[26]",
+     "ref": "L27",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m2_dawn.cine:22",
+     "ref": "e3m2_dawn/W3@0.3",
+     "slot": 3.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/there_she_sleeps_the_73b03a6b": {
+   "speaker": "hush",
+   "text": "There she sleeps. The little queen. One step, Bishop. Just one.",
+   "text_hash": "73b03a6bbd0283d5",
+   "path": "res://assets/audio/voice/hush/there_she_sleeps_the_73b03a6b.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 3.83,
+   "peak": 0.8913,
+   "rms_db": -20.2,
+   "clipped": 0,
+   "file_hash": "410d58c5eb24fd16",
+   "gen_s": 0.91,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[8]",
+     "ref": "L9",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/whatever_moves_bishop_and_c666e91b": {
+   "speaker": "hush",
+   "text": "Whatever moves, Bishop. And a few things that don't.",
+   "text_hash": "c666e91ba26beaf0",
+   "path": "res://assets/audio/voice/hush/whatever_moves_bishop_and_c666e91b.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 3.08,
+   "peak": 0.8913,
+   "rms_db": -20.8,
+   "clipped": 0,
+   "file_hash": "00698f3f98aed928",
+   "gen_s": 0.82,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[2]",
+     "ref": "L3",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
   "maelis/return_me_to_the_25790529": {
    "speaker": "maelis",
    "text": "Return me... to the oak.",
@@ -1420,6 +1532,40 @@
      "ref": "unit_barks/helper_maelis_death",
      "slot": null,
      "slot_kind": "cine slot",
+     "speaker_id": "maelis"
+    }
+   ]
+  },
+  "maelis/stumpwood_breathes_again_the_c3869844": {
+   "speaker": "maelis",
+   "text": "Stumpwood breathes again. The forest remembers who froze it.",
+   "text_hash": "c3869844401e0cc2",
+   "path": "res://assets/audio/voice/maelis/stumpwood_breathes_again_the_c3869844.wav",
+   "voice": "bf_isabella",
+   "speed": 0.96,
+   "cast_speed": 0.96,
+   "lang": "en-gb",
+   "duration": 3.477,
+   "peak": 0.8913,
+   "rms_db": -16.8,
+   "clipped": 0,
+   "file_hash": "fcafb8faa547e21c",
+   "gen_s": 1.02,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[5]",
+     "ref": "L6",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_first_grove.cine:15",
+     "ref": "e2m2_first_grove/G2@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
      "speaker_id": "maelis"
     }
    ]
@@ -1446,6 +1592,100 @@
      "slot": null,
      "slot_kind": "cine slot",
      "speaker_id": "maelis"
+    }
+   ]
+  },
+  "malrik/a_gardener_and_a_7eb3ea3b": {
+   "speaker": "malrik",
+   "text": "A gardener and a matchstick. Torvald, they are planting trees at us.",
+   "text_hash": "7eb3ea3bdd9eef2b",
+   "path": "res://assets/audio/voice/malrik/a_gardener_and_a_7eb3ea3b.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.331,
+   "peak": 0.8913,
+   "rms_db": -17.4,
+   "clipped": 0,
+   "file_hash": "285aa7b1514b862f",
+   "gen_s": 1.17,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[8]",
+     "ref": "L9",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/a_map_to_the_5b99da9c": {
+   "speaker": "malrik",
+   "text": "A map to the deep. How generous. I'll take it off your body.",
+   "text_hash": "5b99da9c540697f7",
+   "path": "res://assets/audio/voice/malrik/a_map_to_the_5b99da9c.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.71,
+   "peak": 0.8913,
+   "rms_db": -14.7,
+   "clipped": 0,
+   "file_hash": "b4b45fcb79322755",
+   "gen_s": 0.91,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[27]",
+     "ref": "L28",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_paid.cine:20",
+     "ref": "e2m3_paid/P3@0.5",
+     "slot": 7.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/and_every_one_of_e9f01242": {
+   "speaker": "malrik",
+   "text": "And every one of them is mine.",
+   "text_hash": "e9f012425a95a2a2",
+   "path": "res://assets/audio/voice/malrik/and_every_one_of_e9f01242.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.06,
+   "peak": 0.8913,
+   "rms_db": -14.8,
+   "clipped": 0,
+   "file_hash": "e9f9f9798e070eee",
+   "gen_s": 0.55,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[27]",
+     "ref": "L28",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m2_dawn.cine:23",
+     "ref": "e3m2_dawn/W3@4",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -1482,6 +1722,214 @@
     }
    ]
   },
+  "malrik/and_you_brought_fire_4350d292": {
+   "speaker": "malrik",
+   "text": "And you brought fire to a meadow. We all have our gifts, Vessa.",
+   "text_hash": "4350d29254593467",
+   "path": "res://assets/audio/voice/malrik/and_you_brought_fire_4350d292.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.541,
+   "peak": 0.8913,
+   "rms_db": -14.7,
+   "clipped": 0,
+   "file_hash": "35cfdfe7d51196f2",
+   "gen_s": 0.8,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[7]",
+     "ref": "L8",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/bury_me_somewhere_quiet_67c5341c": {
+   "speaker": "malrik",
+   "text": "Bury me... somewhere quiet.",
+   "text_hash": "67c5341cd88e69ae",
+   "path": "res://assets/audio/voice/malrik/bury_me_somewhere_quiet_67c5341c.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 1.83,
+   "peak": 0.8913,
+   "rms_db": -15.5,
+   "clipped": 0,
+   "file_hash": "a1cf579459710eb9",
+   "gen_s": 0.5,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[26]",
+     "ref": "L27",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/crack_do_you_hear_138941bb": {
+   "speaker": "malrik",
+   "text": "Crack. Do you hear it, Vessa? That is the sound of a lock giving up.",
+   "text_hash": "138941bb04330daa",
+   "path": "res://assets/audio/voice/malrik/crack_do_you_hear_138941bb.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.9,
+   "peak": 0.8913,
+   "rms_db": -15.8,
+   "clipped": 0,
+   "file_hash": "3c0164aacfd8184b",
+   "gen_s": 0.89,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[5]",
+     "ref": "L6",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/dying_in_the_dark_fb135b2c": {
+   "speaker": "malrik",
+   "text": "Dying in the dark. Twice in one war. I am starting to keep count.",
+   "text_hash": "fb135b2c98e5e155",
+   "path": "res://assets/audio/voice/malrik/dying_in_the_dark_fb135b2c.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.309,
+   "peak": 0.8913,
+   "rms_db": -16.2,
+   "clipped": 0,
+   "file_hash": "53ed5e0464ed8198",
+   "gen_s": 0.95,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[17]",
+     "ref": "L18",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/even_the_bishops_of_bb562140": {
+   "speaker": "malrik",
+   "text": "Even the bishops. Of course even the bishops.",
+   "text_hash": "bb5621401076677c",
+   "path": "res://assets/audio/voice/malrik/even_the_bishops_of_bb562140.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.94,
+   "peak": 0.8913,
+   "rms_db": -17.1,
+   "clipped": 0,
+   "file_hash": "a583c5ee9f03be95",
+   "gen_s": 0.67,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[14]",
+     "ref": "L15",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/even_thunder_falls_off_e2b72826": {
+   "speaker": "malrik",
+   "text": "Even thunder falls off a horse, old man.",
+   "text_hash": "e2b728266a1cdc7b",
+   "path": "res://assets/audio/voice/malrik/even_thunder_falls_off_e2b72826.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.752,
+   "peak": 0.8913,
+   "rms_db": -16.3,
+   "clipped": 0,
+   "file_hash": "1a0341bf2cd402a7",
+   "gen_s": 0.67,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[31]",
+     "ref": "L32",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/every_road_charges_a_48b23a8d": {
+   "speaker": "malrik",
+   "text": "Every road charges a toll, Vessa. This one charges you.",
+   "text_hash": "48b23a8de7a9aa86",
+   "path": "res://assets/audio/voice/malrik/every_road_charges_a_48b23a8d.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.883,
+   "peak": 0.8913,
+   "rms_db": -15.9,
+   "clipped": 0,
+   "file_hash": "fc18088220a9f07e",
+   "gen_s": 0.94,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[9]",
+     "ref": "L10",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/every_vigil_out_at_11f98382": {
+   "speaker": "malrik",
+   "text": "Every vigil out at once. Someone has been very rude to my dead.",
+   "text_hash": "11f983820ed5a031",
+   "path": "res://assets/audio/voice/malrik/every_vigil_out_at_11f98382.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.19,
+   "peak": 0.8913,
+   "rms_db": -16.0,
+   "clipped": 0,
+   "file_hash": "a5b8cd3bc83a7c4d",
+   "gen_s": 0.96,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[1]",
+     "ref": "L2",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
   "malrik/everyone_tells_my_story_b15bf545": {
    "speaker": "malrik",
    "text": "Everyone tells my story wrong. Let me try.",
@@ -1511,6 +1959,274 @@
      "ref": "ep3_opening/L1",
      "slot": 3.4,
      "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/everything_old_man_i_49ece533": {
+   "speaker": "malrik",
+   "text": "Everything, old man. I took it all. That is the whole secret.",
+   "text_hash": "49ece5333377ecdd",
+   "path": "res://assets/audio/voice/malrik/everything_old_man_i_49ece533.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.05,
+   "peak": 0.8913,
+   "rms_db": -15.1,
+   "clipped": 0,
+   "file_hash": "0073b161ed98cbe2",
+   "gen_s": 0.92,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[20]",
+     "ref": "L21",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/feed_old_stone_take_42ea4b5b": {
+   "speaker": "malrik",
+   "text": "Feed, old stone. Take what you need from me. I have plenty.",
+   "text_hash": "42ea4b5ba10882ad",
+   "path": "res://assets/audio/voice/malrik/feed_old_stone_take_42ea4b5b.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.71,
+   "peak": 0.8913,
+   "rms_db": -17.0,
+   "clipped": 0,
+   "file_hash": "4a87c3c1c6b95d3d",
+   "gen_s": 0.83,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[21]",
+     "ref": "L22",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/four_wagons_hush_grain_95e6dc4e": {
+   "speaker": "malrik",
+   "text": "Four wagons, Hush. Grain, arrows, oil, fodder. Hungry armies march slowly.",
+   "text_hash": "95e6dc4e3359054c",
+   "path": "res://assets/audio/voice/malrik/four_wagons_hush_grain_95e6dc4e.wav",
+   "voice": "bm_george",
+   "speed": 1.162,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.84,
+   "peak": 0.8913,
+   "rms_db": -15.6,
+   "clipped": 0,
+   "file_hash": "c189b7d0b62ce238",
+   "gen_s": 2.23,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[1]",
+     "ref": "L2",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.31,
+    "speed_x": 1.107
+   }
+  },
+  "malrik/go_on_then_run_d5638b5a": {
+   "speaker": "malrik",
+   "text": "Go on, then. Run ahead. I'll be right behind you, with the key you lack.",
+   "text_hash": "d5638b5afb59896a",
+   "path": "res://assets/audio/voice/malrik/go_on_then_run_d5638b5a.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.19,
+   "peak": 0.8913,
+   "rms_db": -16.0,
+   "clipped": 0,
+   "file_hash": "8034103175bf981c",
+   "gen_s": 0.95,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[28]",
+     "ref": "L29",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_sunrise.cine:31",
+     "ref": "e2m4_sunrise/S4@0.3",
+     "slot": 6.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/good_come_home_bring_4f690a73": {
+   "speaker": "malrik",
+   "text": "Good. Come home. Bring the night with you.",
+   "text_hash": "4f690a73c28ff44a",
+   "path": "res://assets/audio/voice/malrik/good_come_home_bring_4f690a73.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.43,
+   "peak": 0.8913,
+   "rms_db": -16.3,
+   "clipped": 0,
+   "file_hash": "177b8d53f2aedbea",
+   "gen_s": 0.58,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[18]",
+     "ref": "L19",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/good_evening_vessa_mind_c8c23dd1": {
+   "speaker": "malrik",
+   "text": "Good evening, Vessa. Mind the statue. It's been waiting a hundred years to stretch its legs.",
+   "text_hash": "c8c23dd12eefc7d2",
+   "path": "res://assets/audio/voice/malrik/good_evening_vessa_mind_c8c23dd1.wav",
+   "voice": "bm_george",
+   "speed": 1.26,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 5.056,
+   "peak": 0.8913,
+   "rms_db": -16.6,
+   "clipped": 0,
+   "file_hash": "4725d17dc39417ed",
+   "gen_s": 3.55,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[3]",
+     "ref": "L4",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_cavern.cine:27",
+     "ref": "e2m5_cavern/C4@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.73,
+    "speed_x": 1.2
+   }
+  },
+  "malrik/he_had_one_he_6b073ea7": {
+   "speaker": "malrik",
+   "text": "He had one. He wore it out honestly.",
+   "text_hash": "6b073ea7a8f53e28",
+   "path": "res://assets/audio/voice/malrik/he_had_one_he_6b073ea7.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.36,
+   "peak": 0.8913,
+   "rms_db": -15.0,
+   "clipped": 0,
+   "file_hash": "c3ae7ab37668899d",
+   "gen_s": 0.59,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[21]",
+     "ref": "L22",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_sexton.cine:26",
+     "ref": "e3m3_sexton/X3@1",
+     "slot": 7.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/he_is_laughing_why_3b87ec97": {
+   "speaker": "malrik",
+   "text": "He is laughing. Why is he laughing?",
+   "text_hash": "3b87ec9779135946",
+   "path": "res://assets/audio/voice/malrik/he_is_laughing_why_3b87ec97.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.209,
+   "peak": 0.8913,
+   "rms_db": -14.4,
+   "clipped": 0,
+   "file_hash": "2f97ad114445e8bf",
+   "gen_s": 0.57,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[11]",
+     "ref": "L12",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/hush_the_old_man_365a3fae": {
+   "speaker": "malrik",
+   "text": "Hush. The old man is with her. Wake the stones before he does.",
+   "text_hash": "365a3fae93a3fd86",
+   "path": "res://assets/audio/voice/malrik/hush_the_old_man_365a3fae.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.94,
+   "peak": 0.8913,
+   "rms_db": -16.5,
+   "clipped": 0,
+   "file_hash": "d5817b7c28ecf806",
+   "gen_s": 0.9,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[11]",
+     "ref": "L12",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "malrik"
     }
    ]
@@ -1615,6 +2331,32 @@
     }
    ]
   },
+  "malrik/i_sent_her_to_1effb834": {
+   "speaker": "malrik",
+   "text": "I sent her to the wagons. You should be flattered she skipped your tent.",
+   "text_hash": "1effb8345bf4491f",
+   "path": "res://assets/audio/voice/malrik/i_sent_her_to_1effb834.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.01,
+   "peak": 0.8913,
+   "rms_db": -15.3,
+   "clipped": 0,
+   "file_hash": "7dd27cdcca1ca86a",
+   "gen_s": 0.94,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[21]",
+     "ref": "L22",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
   "malrik/i_took_the_dark_7ada4fa9": {
    "speaker": "malrik",
    "text": "I took the dark and taught it to kneel. I took knives, and a woman who never misses.",
@@ -1714,6 +2456,126 @@
     }
    ]
   },
+  "malrik/if_i_cant_have_19d09d54": {
+   "speaker": "malrik",
+   "text": "If I can't have the deep road, nobody walks it. Burn the market.",
+   "text_hash": "19d09d54205269f7",
+   "path": "res://assets/audio/voice/malrik/if_i_cant_have_19d09d54.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.968,
+   "peak": 0.8913,
+   "rms_db": -16.4,
+   "clipped": 0,
+   "file_hash": "158923549f1fe971",
+   "gen_s": 0.91,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[19]",
+     "ref": "L20",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/it_is_me_torvald_03cb4e80": {
+   "speaker": "malrik",
+   "text": "It is me, Torvald. It has always been me.",
+   "text_hash": "03cb4e8080833b6d",
+   "path": "res://assets/audio/voice/malrik/it_is_me_torvald_03cb4e80.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.83,
+   "peak": 0.8913,
+   "rms_db": -17.0,
+   "clipped": 0,
+   "file_hash": "a55c37d07f54084c",
+   "gen_s": 0.71,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[16]",
+     "ref": "L17",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_standard.cine:23",
+     "ref": "e3m1_standard/T2@4.8",
+     "slot": 3.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/it_knows_everyones_name_fd543fb1": {
+   "speaker": "malrik",
+   "text": "It knows everyone's name. It is a stone with nothing else to do.",
+   "text_hash": "fd543fb1645b694d",
+   "path": "res://assets/audio/voice/malrik/it_knows_everyones_name_fd543fb1.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.17,
+   "peak": 0.8913,
+   "rms_db": -15.5,
+   "clipped": 0,
+   "file_hash": "0a5d0f62443ce1ef",
+   "gen_s": 0.98,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[18]",
+     "ref": "L19",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_whisper.cine:25",
+     "ref": "e3m4_whisper/H3@2.9",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/it_never_is_that_ed60c05e": {
+   "speaker": "malrik",
+   "text": "It never is. That is what I like about you.",
+   "text_hash": "ed60c05e250a1f1d",
+   "path": "res://assets/audio/voice/malrik/it_never_is_that_ed60c05e.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.944,
+   "peak": 0.8913,
+   "rms_db": -14.4,
+   "clipped": 0,
+   "file_hash": "bc447ed6eb177566",
+   "gen_s": 0.72,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[20]",
+     "ref": "L21",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
   "malrik/it_whispers_let_it_f35c4d4b": {
    "speaker": "malrik",
    "text": "It whispers. Let it. I am the one who listens, and I am the one who decides.",
@@ -1776,6 +2638,66 @@
      "ref": "m1_watchers/H1@0.4",
      "slot": 4.6,
      "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/keep_your_door_vessa_f658e6ec": {
+   "speaker": "malrik",
+   "text": "Keep your door, Vessa. I have the key, and all the time in the world.",
+   "text_hash": "f658e6ec68236fa7",
+   "path": "res://assets/audio/voice/malrik/keep_your_door_vessa_f658e6ec.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.13,
+   "peak": 0.8913,
+   "rms_db": -15.2,
+   "clipped": 0,
+   "file_hash": "5cf1fadc71222fc6",
+   "gen_s": 1.0,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[31]",
+     "ref": "L32",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_fall.cine:20",
+     "ref": "e2m5_fall/F2@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/knights_to_the_shrine_e1873784": {
+   "speaker": "malrik",
+   "text": "Knights, to the shrine glade. Burn whatever grew there twice.",
+   "text_hash": "e1873784a57a7686",
+   "path": "res://assets/audio/voice/malrik/knights_to_the_shrine_e1873784.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.584,
+   "peak": 0.8913,
+   "rms_db": -16.0,
+   "clipped": 0,
+   "file_hash": "693b1e321d3375ce",
+   "gen_s": 1.02,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[23]",
+     "ref": "L24",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "malrik"
     }
    ]
@@ -1871,6 +2793,230 @@
     }
    ]
   },
+  "malrik/looks_not_crosses_47d57334": {
+   "speaker": "malrik",
+   "text": "Looks. Not crosses?",
+   "text_hash": "47d5733458614619",
+   "path": "res://assets/audio/voice/malrik/looks_not_crosses_47d57334.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 1.408,
+   "peak": 0.8913,
+   "rms_db": -15.0,
+   "clipped": 0,
+   "file_hash": "1d0dba95ce48063e",
+   "gen_s": 0.49,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[2]",
+     "ref": "L3",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/not_like_this_not_d42b10b4": {
+   "speaker": "malrik",
+   "text": "Not like this. Not... stopped.",
+   "text_hash": "d42b10b42e3b956f",
+   "path": "res://assets/audio/voice/malrik/not_like_this_not_d42b10b4.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.09,
+   "peak": 0.8913,
+   "rms_db": -17.2,
+   "clipped": 0,
+   "file_hash": "8af503f74d87d324",
+   "gen_s": 0.63,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[24]",
+     "ref": "L25",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/not_today_today_i_c27aa9a4": {
+   "speaker": "malrik",
+   "text": "Not today. Today I have a knife.",
+   "text_hash": "c27aa9a41b81f8b9",
+   "path": "res://assets/audio/voice/malrik/not_today_today_i_c27aa9a4.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.39,
+   "peak": 0.8913,
+   "rms_db": -15.3,
+   "clipped": 0,
+   "file_hash": "f1784dda8a0311ce",
+   "gen_s": 0.72,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[24]",
+     "ref": "L25",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/not_tonight_tonight_we_8a9dc5fc": {
+   "speaker": "malrik",
+   "text": "Not tonight. Tonight we starve them. Knives are for another night.",
+   "text_hash": "8a9dc5fcbdec1200",
+   "path": "res://assets/audio/voice/malrik/not_tonight_tonight_we_8a9dc5fc.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.968,
+   "peak": 0.8913,
+   "rms_db": -16.3,
+   "clipped": 0,
+   "file_hash": "53b86cd957125254",
+   "gen_s": 1.08,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[9]",
+     "ref": "L10",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/not_yet_not_while_cce07bfb": {
+   "speaker": "malrik",
+   "text": "Not yet. Not while it is listening.",
+   "text_hash": "cce07bfb22bd6a4b",
+   "path": "res://assets/audio/voice/malrik/not_yet_not_while_cce07bfb.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.219,
+   "peak": 0.8913,
+   "rms_db": -14.9,
+   "clipped": 0,
+   "file_hash": "50c7cde2fff4aa77",
+   "gen_s": 0.67,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[24]",
+     "ref": "L25",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_rest.cine:24",
+     "ref": "e3m3_rest/R3@3.8",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/old_man_they_told_90dc11f1": {
+   "speaker": "malrik",
+   "text": "Old man. They told me you were dead. I was almost sad.",
+   "text_hash": "90dc11f1cb55adb5",
+   "path": "res://assets/audio/voice/malrik/old_man_they_told_90dc11f1.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.35,
+   "peak": 0.8913,
+   "rms_db": -14.4,
+   "clipped": 0,
+   "file_hash": "bb918a87478f8bfe",
+   "gen_s": 0.95,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[6]",
+     "ref": "L7",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/open_it_mason_let_c67d4853": {
+   "speaker": "malrik",
+   "text": "Open it, Mason. Let me see what the Master was so busy guarding.",
+   "text_hash": "c67d48533ffbd761",
+   "path": "res://assets/audio/voice/malrik/open_it_mason_let_c67d4853.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.925,
+   "peak": 0.8913,
+   "rms_db": -16.0,
+   "clipped": 0,
+   "file_hash": "83fe75ea7d7bac61",
+   "gen_s": 1.09,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[19]",
+     "ref": "L20",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_wake.cine:19",
+     "ref": "e2m5_wake/K1@6",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/out_out_i_decide_ca190619": {
+   "speaker": "malrik",
+   "text": "Out. OUT. I decide. I have always decided.",
+   "text_hash": "ca1906199f76b7b6",
+   "path": "res://assets/audio/voice/malrik/out_out_i_decide_ca190619.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.14,
+   "peak": 0.8913,
+   "rms_db": -15.7,
+   "clipped": 0,
+   "file_hash": "f0475ae3a40ace1e",
+   "gen_s": 0.91,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[12]",
+     "ref": "L13",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
   "malrik/put_it_down_that_da2e3fa9": {
    "speaker": "malrik",
    "text": "Put it down. That crown was never meant for someone who throws fire at her problems.",
@@ -1937,6 +3083,170 @@
     }
    ]
   },
+  "malrik/sleep_you_did_your_12da7ef3": {
+   "speaker": "malrik",
+   "text": "Sleep. You did your share of standing.",
+   "text_hash": "12da7ef3369b0297",
+   "path": "res://assets/audio/voice/malrik/sleep_you_did_your_12da7ef3.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.133,
+   "peak": 0.8913,
+   "rms_db": -14.4,
+   "clipped": 0,
+   "file_hash": "af1cd34a6b697f6e",
+   "gen_s": 0.66,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[7]",
+     "ref": "L8",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/stand_with_me_hush_af4b0136": {
+   "speaker": "malrik",
+   "text": "Stand with me, Hush. In daylight, for once.",
+   "text_hash": "af4b01360f389610",
+   "path": "res://assets/audio/voice/malrik/stand_with_me_hush_af4b0136.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.78,
+   "peak": 0.8913,
+   "rms_db": -15.4,
+   "clipped": 0,
+   "file_hash": "70cf5a9553ace684",
+   "gen_s": 0.71,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[22]",
+     "ref": "L23",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/struck_down_at_sunrise_b828d22f": {
+   "speaker": "malrik",
+   "text": "Struck down at sunrise. How very Vessa.",
+   "text_hash": "b828d22f502c5914",
+   "path": "res://assets/audio/voice/malrik/struck_down_at_sunrise_b828d22f.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.77,
+   "peak": 0.8913,
+   "rms_db": -16.7,
+   "clipped": 0,
+   "file_hash": "b995b93ed3d06cf4",
+   "gen_s": 0.7,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[30]",
+     "ref": "L31",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/struck_down_by_an_15035031": {
+   "speaker": "malrik",
+   "text": "Struck down... by an old man's weather.",
+   "text_hash": "15035031e029a03c",
+   "path": "res://assets/audio/voice/malrik/struck_down_by_an_15035031.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.39,
+   "peak": 0.8913,
+   "rms_db": -17.3,
+   "clipped": 0,
+   "file_hash": "068a3cd5880b7da3",
+   "gen_s": 0.65,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[28]",
+     "ref": "L29",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/tell_me_to_stop_e48f86d6": {
+   "speaker": "malrik",
+   "text": "Tell me to stop again tomorrow, Ysolde. I will not stop.",
+   "text_hash": "e48f86d674788966",
+   "path": "res://assets/audio/voice/malrik/tell_me_to_stop_e48f86d6.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.69,
+   "peak": 0.8913,
+   "rms_db": -16.0,
+   "clipped": 0,
+   "file_hash": "4abd859bfaa924d5",
+   "gen_s": 0.89,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[22]",
+     "ref": "L23",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_dusk.cine:33",
+     "ref": "e3m1_dusk/D5@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/that_bell_he_rang_dbaa4cd0": {
+   "speaker": "malrik",
+   "text": "That bell. He rang it every dusk. Stop wearing my father's bell.",
+   "text_hash": "dbaa4cd020c5a761",
+   "path": "res://assets/audio/voice/malrik/that_bell_he_rang_dbaa4cd0.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.36,
+   "peak": 0.8913,
+   "rms_db": -17.5,
+   "clipped": 0,
+   "file_hash": "71b509e36e265c63",
+   "gen_s": 1.0,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[22]",
+     "ref": "L23",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
   "malrik/that_is_how_a_dfbf8c00": {
    "speaker": "malrik",
    "text": "That is how a gravedigger's son grows strong: he never puts the shovel down.",
@@ -1966,6 +3276,100 @@
      "ref": "ep3_opening/L11",
      "slot": 5.2,
      "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/the_dead_are_up_84123962": {
+   "speaker": "malrik",
+   "text": "The dead are up, Hush. My dead.",
+   "text_hash": "84123962c5220528",
+   "path": "res://assets/audio/voice/malrik/the_dead_are_up_84123962.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.24,
+   "peak": 0.8913,
+   "rms_db": -14.6,
+   "clipped": 0,
+   "file_hash": "22875187713578d5",
+   "gen_s": 0.54,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[15]",
+     "ref": "L16",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/the_ford_is_mine_a16120be": {
+   "speaker": "malrik",
+   "text": "The ford is mine. Write it down, Ysolde. You like things that last.",
+   "text_hash": "a16120be06401e0e",
+   "path": "res://assets/audio/voice/malrik/the_ford_is_mine_a16120be.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.342,
+   "peak": 0.8913,
+   "rms_db": -15.4,
+   "clipped": 0,
+   "file_hash": "5b36c6b832157de3",
+   "gen_s": 0.96,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[9]",
+     "ref": "L10",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_ford.cine:19",
+     "ref": "e3m1_ford/F2@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/the_ford_is_mine_beebbaa5": {
+   "speaker": "malrik",
+   "text": "The ford is mine. The tree is not. Not today.",
+   "text_hash": "beebbaa5b7c5cac3",
+   "path": "res://assets/audio/voice/malrik/the_ford_is_mine_beebbaa5.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.179,
+   "peak": 0.8913,
+   "rms_db": -15.2,
+   "clipped": 0,
+   "file_hash": "b82f6a7181d19078",
+   "gen_s": 0.71,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[21]",
+     "ref": "L22",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_dusk.cine:19",
+     "ref": "e3m1_dusk/D2@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -2003,6 +3407,97 @@
     }
    ]
   },
+  "malrik/the_ridge_is_mine_ebd65d79": {
+   "speaker": "malrik",
+   "text": "The ridge is mine. The valley next. I will not stop.",
+   "text_hash": "ebd65d7980ae0a6a",
+   "path": "res://assets/audio/voice/malrik/the_ridge_is_mine_ebd65d79.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.39,
+   "peak": 0.8913,
+   "rms_db": -15.0,
+   "clipped": 0,
+   "file_hash": "ff033125f7f1cc78",
+   "gen_s": 0.79,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[25]",
+     "ref": "L26",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:29",
+     "ref": "e3m4_field/F4@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/the_shrine_glade_how_c74a206b": {
+   "speaker": "malrik",
+   "text": "The shrine glade. How fitting. Do pray, Ysolde. Nobody answered last time.",
+   "text_hash": "c74a206bb69fcba6",
+   "path": "res://assets/audio/voice/malrik/the_shrine_glade_how_c74a206b.wav",
+   "voice": "bm_george",
+   "speed": 1.146,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.86,
+   "peak": 0.8913,
+   "rms_db": -15.7,
+   "clipped": 0,
+   "file_hash": "ac8d4a7f234be614",
+   "gen_s": 2.22,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[13]",
+     "ref": "L14",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.238,
+    "speed_x": 1.091
+   }
+  },
+  "malrik/then_do_not_wake_124d2124": {
+   "speaker": "malrik",
+   "text": "Then do not wake him further. Be the quiet thing in the dark.",
+   "text_hash": "124d2124b7f9185a",
+   "path": "res://assets/audio/voice/malrik/then_do_not_wake_124d2124.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.39,
+   "peak": 0.8913,
+   "rms_db": -15.9,
+   "clipped": 0,
+   "file_hash": "4dc0307acfa68b83",
+   "gen_s": 0.78,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[7]",
+     "ref": "L8",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
   "malrik/then_he_vanished_and_877f4086": {
    "speaker": "malrik",
    "text": "Then he vanished and left us nothing. So I took. That is the whole secret.",
@@ -2032,6 +3527,32 @@
      "ref": "ep3_opening/L6",
      "slot": 5.0,
      "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/then_the_living_stay_af34c0b4": {
+   "speaker": "malrik",
+   "text": "Then the living stay in the crypt, and the dead go back to bed.",
+   "text_hash": "af34c0b455e1d541",
+   "path": "res://assets/audio/voice/malrik/then_the_living_stay_af34c0b4.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.6,
+   "peak": 0.8913,
+   "rms_db": -15.2,
+   "clipped": 0,
+   "file_hash": "dde56bcaddda9c53",
+   "gen_s": 0.87,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[3]",
+     "ref": "L4",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "malrik"
     }
    ]
@@ -2098,6 +3619,227 @@
      "ref": "ep3_opening/L4",
      "slot": 5.2,
      "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/torvald_now_both_bridges_9a488586": {
+   "speaker": "malrik",
+   "text": "Torvald, now. Both bridges. Let them choose which kingdom to lose.",
+   "text_hash": "9a4885865186fb0a",
+   "path": "res://assets/audio/voice/malrik/torvald_now_both_bridges_9a488586.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.181,
+   "peak": 0.8913,
+   "rms_db": -16.1,
+   "clipped": 0,
+   "file_hash": "417b940f3b3050b1",
+   "gen_s": 1.23,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[14]",
+     "ref": "L15",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/torvald_the_east_bank_0f158a86": {
+   "speaker": "malrik",
+   "text": "Torvald, the east bank is yours. I will take the water. Hush, take whatever moves.",
+   "text_hash": "0f158a8681903fb6",
+   "path": "res://assets/audio/voice/malrik/torvald_the_east_bank_0f158a86.wav",
+   "voice": "bm_george",
+   "speed": 1.199,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.8,
+   "peak": 0.8913,
+   "rms_db": -16.5,
+   "clipped": 0,
+   "file_hash": "9f3a2972afb0d2a8",
+   "gen_s": 2.81,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[1]",
+     "ref": "L2",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.483,
+    "speed_x": 1.142
+   }
+  },
+  "malrik/two_ysolde_will_count_632abf53": {
+   "speaker": "malrik",
+   "text": "Two. Ysolde will count her sacks at dawn and come up short.",
+   "text_hash": "632abf536177e64b",
+   "path": "res://assets/audio/voice/malrik/two_ysolde_will_count_632abf53.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.37,
+   "peak": 0.8913,
+   "rms_db": -17.1,
+   "clipped": 0,
+   "file_hash": "7d249c5bb01526c5",
+   "gen_s": 1.0,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[15]",
+     "ref": "L16",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/useful_do_not_get_30113307": {
+   "speaker": "malrik",
+   "text": "Useful. Do not get comfortable in there.",
+   "text_hash": "30113307955d242b",
+   "path": "res://assets/audio/voice/malrik/useful_do_not_get_30113307.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 2.24,
+   "peak": 0.8913,
+   "rms_db": -14.1,
+   "clipped": 0,
+   "file_hash": "c171d167543fc210",
+   "gen_s": 0.68,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[9]",
+     "ref": "L10",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/vessa_have_you_noticed_99b77995": {
+   "speaker": "malrik",
+   "text": "Vessa. Have you noticed whose side the winter is on now?",
+   "text_hash": "99b779952617d158",
+   "path": "res://assets/audio/voice/malrik/vessa_have_you_noticed_99b77995.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.49,
+   "peak": 0.8913,
+   "rms_db": -16.7,
+   "clipped": 0,
+   "file_hash": "e496c2dbc129bc15",
+   "gen_s": 0.99,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[12]",
+     "ref": "L13",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/wagons_not_tents_i_5e634377": {
+   "speaker": "malrik",
+   "text": "Wagons. Not tents. I grew up burying people who starved in tents.",
+   "text_hash": "5e634377942bb314",
+   "path": "res://assets/audio/voice/malrik/wagons_not_tents_i_5e634377.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 4.288,
+   "peak": 0.8913,
+   "rms_db": -15.5,
+   "clipped": 0,
+   "file_hash": "72d20df1718f55e3",
+   "gen_s": 1.2,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[3]",
+     "ref": "L4",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/you_can_help_by_563a0e83": {
+   "speaker": "malrik",
+   "text": "You can help by being quiet. Stones are usually good at that.",
+   "text_hash": "563a0e83040d654e",
+   "path": "res://assets/audio/voice/malrik/you_can_help_by_563a0e83.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.73,
+   "peak": 0.8913,
+   "rms_db": -16.5,
+   "clipped": 0,
+   "file_hash": "ae0f2edf42e06e05",
+   "gen_s": 1.03,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[5]",
+     "ref": "L6",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  "malrik/you_raised_my_dead_6b92f487": {
+   "speaker": "malrik",
+   "text": "You raised my dead, and now you sell me the shovel.",
+   "text_hash": "6b92f4873ff8afe4",
+   "path": "res://assets/audio/voice/malrik/you_raised_my_dead_6b92f487.wav",
+   "voice": "bm_george",
+   "speed": 1.05,
+   "cast_speed": 1.05,
+   "lang": "en-gb",
+   "duration": 3.157,
+   "peak": 0.8913,
+   "rms_db": -15.0,
+   "clipped": 0,
+   "file_hash": "cf01e849ffb662ad",
+   "gen_s": 0.91,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[5]",
+     "ref": "L6",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_offer.cine:20",
+     "ref": "e3m3_offer/O2@0.2",
+     "slot": 3.7,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -2543,6 +4285,36 @@
      "ref": "prologue_3min/L03",
      "slot": 6.6,
      "slot_kind": "cine slot",
+     "speaker_id": "master"
+    }
+   ]
+  },
+  "master/hold_02e46c4b": {
+   "speaker": "master",
+   "text": "Hold.",
+   "text_hash": "02e46c4b1dd41e7f",
+   "path": "res://assets/audio/voice/master/hold_02e46c4b.wav",
+   "voice": {
+    "bm_lewis": 0.4,
+    "bm_george": 0.35,
+    "bm_fable": 0.25
+   },
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "lang": "en-gb",
+   "duration": 0.89,
+   "peak": 0.8913,
+   "rms_db": -17.2,
+   "clipped": 0,
+   "file_hash": "3bf05b6cf4b47ba5",
+   "gen_s": 0.4,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[23]",
+     "ref": "L24",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "master"
     }
    ]
@@ -3066,6 +4838,36 @@
     }
    ]
   },
+  "master/vessa_830d877a": {
+   "speaker": "master",
+   "text": "...Vessa?",
+   "text_hash": "830d877a3c54b721",
+   "path": "res://assets/audio/voice/master/vessa_830d877a.wav",
+   "voice": {
+    "bm_lewis": 0.4,
+    "bm_george": 0.35,
+    "bm_fable": 0.25
+   },
+   "speed": 0.82,
+   "cast_speed": 0.82,
+   "lang": "en-gb",
+   "duration": 1.03,
+   "peak": 0.8913,
+   "rms_db": -19.4,
+   "clipped": 0,
+   "file_hash": "97042de8cc42080f",
+   "gen_s": 0.44,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[16]",
+     "ref": "L17",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "master"
+    }
+   ]
+  },
   "master/vessa_of_fire_629e6c64": {
    "speaker": "master",
    "text": "Vessa, of Fire.",
@@ -3313,6 +5115,32 @@
     }
    ]
   },
+  "messenger/frost_on_the_road_3b83ebb9": {
+   "speaker": "messenger",
+   "text": "Frost on the road! They're going for the Heartseed!",
+   "text_hash": "3b83ebb98274be67",
+   "path": "res://assets/audio/voice/messenger/frost_on_the_road_3b83ebb9.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 2.43,
+   "peak": 0.8913,
+   "rms_db": -17.9,
+   "clipped": 0,
+   "file_hash": "22b9ce50fb2535eb",
+   "gen_s": 0.72,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[16]",
+     "ref": "L17",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
   "messenger/lady_ysolde_9f770e28": {
    "speaker": "messenger",
    "text": "Lady Ysolde.",
@@ -3375,6 +5203,32 @@
      "ref": "ep2_opening/L08",
      "slot": 1.7,
      "slot_kind": "cine slot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  "messenger/no_its_gone_cold_886f30d3": {
+   "speaker": "messenger",
+   "text": "No. It's gone cold.",
+   "text_hash": "886f30d329e53ebd",
+   "path": "res://assets/audio/voice/messenger/no_its_gone_cold_886f30d3.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 1.46,
+   "peak": 0.8913,
+   "rms_db": -18.2,
+   "clipped": 0,
+   "file_hash": "4dfcfc412d0fd6a1",
+   "gen_s": 0.52,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[30]",
+     "ref": "L31",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "messenger"
     }
    ]
@@ -3478,6 +5332,32 @@
     }
    ]
   },
+  "messenger/thats_everyone_who_could_2b05a4d7": {
+   "speaker": "messenger",
+   "text": "That's everyone who could still walk.",
+   "text_hash": "2b05a4d79d138f38",
+   "path": "res://assets/audio/voice/messenger/thats_everyone_who_could_2b05a4d7.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 1.98,
+   "peak": 0.8913,
+   "rms_db": -20.5,
+   "clipped": 0,
+   "file_hash": "7f0c055b61372c6b",
+   "gen_s": 0.61,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[20]",
+     "ref": "L21",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
   "messenger/the_army_its_gone_ecf8d151": {
    "speaker": "messenger",
    "text": "The army... it's gone.",
@@ -3544,6 +5424,144 @@
     }
    ]
   },
+  "messenger/the_hearts_slowing_please_4543604c": {
+   "speaker": "messenger",
+   "text": "The heart's slowing! Please don't let it stop!",
+   "text_hash": "4543604c42bbb5c0",
+   "path": "res://assets/audio/voice/messenger/the_hearts_slowing_please_4543604c.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 2.17,
+   "peak": 0.8913,
+   "rms_db": -17.6,
+   "clipped": 0,
+   "file_hash": "282528142c2b118d",
+   "gen_s": 0.65,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[24]",
+     "ref": "L25",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  "messenger/the_heartwood_is_past_e8569950": {
+   "speaker": "messenger",
+   "text": "The Heartwood is past the old tree. She's inside it.",
+   "text_hash": "e85699509dc5bbe8",
+   "path": "res://assets/audio/voice/messenger/the_heartwood_is_past_e8569950.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 2.98,
+   "peak": 0.8913,
+   "rms_db": -17.0,
+   "clipped": 0,
+   "file_hash": "ea2fd90ea0a037c5",
+   "gen_s": 0.84,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[2]",
+     "ref": "L3",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_arrival.cine:21",
+     "ref": "e2m1_arrival/A3@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  "messenger/the_heartwoods_down_but_7054cfa7": {
+   "speaker": "messenger",
+   "text": "The Heartwood's down! But we're still with you!",
+   "text_hash": "7054cfa709720d5a",
+   "path": "res://assets/audio/voice/messenger/the_heartwoods_down_but_7054cfa7.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 2.12,
+   "peak": 0.8913,
+   "rms_db": -17.7,
+   "clipped": 0,
+   "file_hash": "330415fd5937c6ee",
+   "gen_s": 0.66,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[30]",
+     "ref": "L31",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  "messenger/the_roots_are_warm_6881b225": {
+   "speaker": "messenger",
+   "text": "The roots are warm again!",
+   "text_hash": "6881b225c52c6a00",
+   "path": "res://assets/audio/voice/messenger/the_roots_are_warm_6881b225.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 1.49,
+   "peak": 0.8913,
+   "rms_db": -16.6,
+   "clipped": 0,
+   "file_hash": "60e0431a0be95d34",
+   "gen_s": 0.48,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[11]",
+     "ref": "L12",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  "messenger/the_shadows_in_the_521a96cb": {
+   "speaker": "messenger",
+   "text": "The Shadow's in the camp! Wake up!",
+   "text_hash": "521a96cb2a74d09b",
+   "path": "res://assets/audio/voice/messenger/the_shadows_in_the_521a96cb.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 1.87,
+   "peak": 0.8913,
+   "rms_db": -16.7,
+   "clipped": 0,
+   "file_hash": "91cfb90b91820bc9",
+   "gen_s": 0.56,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[11]",
+     "ref": "L12",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
   "messenger/the_wood_shadow_came_0780bf02": {
    "speaker": "messenger",
    "text": "The wood... Shadow came.",
@@ -3574,6 +5592,240 @@
      "slot": 1.9,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
+    }
+   ]
+  },
+  "messenger/weve_lost_too_many_3aa0603f": {
+   "speaker": "messenger",
+   "text": "We've lost too many carriers. The seed's running out.",
+   "text_hash": "3aa0603f8c47ce46",
+   "path": "res://assets/audio/voice/messenger/weve_lost_too_many_3aa0603f.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 2.62,
+   "peak": 0.8913,
+   "rms_db": -18.8,
+   "clipped": 0,
+   "file_hash": "e20eeab30afe6b1d",
+   "gen_s": 0.75,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[26]",
+     "ref": "L27",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  "messenger/youre_alive_go_south_50077fa7": {
+   "speaker": "messenger",
+   "text": "You're alive! Go south, follow the red banners!",
+   "text_hash": "50077fa7eda92ed4",
+   "path": "res://assets/audio/voice/messenger/youre_alive_go_south_50077fa7.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 2.41,
+   "peak": 0.8913,
+   "rms_db": -19.5,
+   "clipped": 0,
+   "file_hash": "83e76d2fa8495511",
+   "gen_s": 0.75,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[19]",
+     "ref": "L20",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "messenger"
+    }
+   ]
+  },
+  "narrator/a_hundred_years_the_e560f172": {
+   "speaker": "narrator",
+   "text": "A hundred years the jailer stood over the door. Tonight Malrik's stone told it to open it.",
+   "text_hash": "e560f172c3c71e1e",
+   "path": "res://assets/audio/voice/narrator/a_hundred_years_the_e560f172.wav",
+   "voice": "am_michael",
+   "speed": 1.2,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.92,
+   "peak": 0.8913,
+   "rms_db": -20.7,
+   "clipped": 0,
+   "file_hash": "7ad97c47e7efb278",
+   "gen_s": 4.5,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[18]",
+     "ref": "L19",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_wake.cine:15",
+     "ref": "e2m5_wake/K1@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.58,
+    "speed_x": 1.2
+   }
+  },
+  "narrator/across_the_river_the_5b1fd132": {
+   "speaker": "narrator",
+   "text": "Across the river, the Lark horns call the whole valley to arms.",
+   "text_hash": "5b1fd13241ca4bc1",
+   "path": "res://assets/audio/voice/narrator/across_the_river_the_5b1fd132.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.929,
+   "peak": 0.8913,
+   "rms_db": -18.5,
+   "clipped": 0,
+   "file_hash": "1fdb09d013ae0e73",
+   "gen_s": 1.12,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[10]",
+     "ref": "L11",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/and_for_the_first_887ec3c4": {
+   "speaker": "narrator",
+   "text": "And for the first time in twelve years, the Sunrise Road saw its sunrise.",
+   "text_hash": "887ec3c4ab08cf93",
+   "path": "res://assets/audio/voice/narrator/and_for_the_first_887ec3c4.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.602,
+   "peak": 0.8913,
+   "rms_db": -22.4,
+   "clipped": 0,
+   "file_hash": "5bc47d222de32635",
+   "gen_s": 1.35,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[25]",
+     "ref": "L26",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_sunrise.cine:17",
+     "ref": "e2m4_sunrise/S1@0.5",
+     "slot": 6.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/dawn_came_up_over_260ffe77": {
+   "speaker": "narrator",
+   "text": "Dawn came up over Lark Hill, and the wagons rolled on.",
+   "text_hash": "260ffe77ac0e1481",
+   "path": "res://assets/audio/voice/narrator/dawn_came_up_over_260ffe77.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.57,
+   "peak": 0.8913,
+   "rms_db": -19.4,
+   "clipped": 0,
+   "file_hash": "5a46afff9f32390f",
+   "gen_s": 1.1,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[29]",
+     "ref": "L30",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/duskbarrow_the_city_of_b9659384": {
+   "speaker": "narrator",
+   "text": "Duskbarrow. The city of the dead, where Malrik learned to read by tombstone light.",
+   "text_hash": "b9659384b79c1056",
+   "path": "res://assets/audio/voice/narrator/duskbarrow_the_city_of_b9659384.wav",
+   "voice": "am_michael",
+   "speed": 1.065,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.94,
+   "peak": 0.8913,
+   "rms_db": -21.3,
+   "clipped": 0,
+   "file_hash": "6dbab67a33feb37c",
+   "gen_s": 3.0,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.11,
+    "speed_x": 1.065
+   }
+  },
+  "narrator/evenmead_the_last_green_cabba6e1": {
+   "speaker": "narrator",
+   "text": "Evenmead. The last green country. By sundown, someone will own the ford.",
+   "text_hash": "cabba6e1fe0b0580",
+   "path": "res://assets/audio/voice/narrator/evenmead_the_last_green_cabba6e1.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.8,
+   "peak": 0.8913,
+   "rms_db": -21.6,
+   "clipped": 0,
+   "file_hash": "37b5698bf50c1e2f",
+   "gen_s": 1.42,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -3610,6 +5862,193 @@
     }
    ]
   },
+  "narrator/fire_and_thunder_took_330f899d": {
+   "speaker": "narrator",
+   "text": "Fire and thunder took the ridge, and the Bishop's winter melted away.",
+   "text_hash": "330f899d8922ab89",
+   "path": "res://assets/audio/voice/narrator/fire_and_thunder_took_330f899d.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.04,
+   "peak": 0.8913,
+   "rms_db": -23.2,
+   "clipped": 0,
+   "file_hash": "ff7519e56d7c853c",
+   "gen_s": 1.25,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[29]",
+     "ref": "L30",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/first_light_on_lark_8660f9a5": {
+   "speaker": "narrator",
+   "text": "First light. On Lark Hill, Vessa found her wagons. She did not wait.",
+   "text_hash": "8660f9a51c759fd2",
+   "path": "res://assets/audio/voice/narrator/first_light_on_lark_8660f9a5.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.61,
+   "peak": 0.8913,
+   "rms_db": -17.9,
+   "clipped": 0,
+   "file_hash": "031e760a2f560702",
+   "gen_s": 1.2,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[19]",
+     "ref": "L20",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/nature_had_no_kingdom_ffec5004": {
+   "speaker": "narrator",
+   "text": "Nature had no kingdom left, only seed. Fire had a border, and a frost fort sitting on it.",
+   "text_hash": "ffec500443b30497",
+   "path": "res://assets/audio/voice/narrator/nature_had_no_kingdom_ffec5004.wav",
+   "voice": "am_michael",
+   "speed": 1.2,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 5.38,
+   "peak": 0.8913,
+   "rms_db": -23.8,
+   "clipped": 0,
+   "file_hash": "e70141e4909ad101",
+   "gen_s": 2.87,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_muster.cine:14",
+     "ref": "e2m2_muster/M1@0.4",
+     "slot": 6.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.92,
+    "speed_x": 1.2
+   }
+  },
+  "narrator/night_on_lark_hill_93cdfc64": {
+   "speaker": "narrator",
+   "text": "Night on Lark Hill. Two armies asleep in their armour, and one woman who never sleeps.",
+   "text_hash": "93cdfc6464c6077a",
+   "path": "res://assets/audio/voice/narrator/night_on_lark_hill_93cdfc64.wav",
+   "voice": "am_michael",
+   "speed": 1.146,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 5.03,
+   "peak": 0.8913,
+   "rms_db": -20.3,
+   "clipped": 0,
+   "file_hash": "106d49f2a1f71ce4",
+   "gen_s": 2.39,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.5,
+    "speed_x": 1.146
+   }
+  },
+  "narrator/shadow_from_the_east_be71340a": {
+   "speaker": "narrator",
+   "text": "Shadow from the east, frost from the north. The two new friends close the vice.",
+   "text_hash": "be71340a28ca2a4f",
+   "path": "res://assets/audio/voice/narrator/shadow_from_the_east_be71340a.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.91,
+   "peak": 0.8913,
+   "rms_db": -20.7,
+   "clipped": 0,
+   "file_hash": "0b9962ce662e4128",
+   "gen_s": 1.17,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[22]",
+     "ref": "L23",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/the_ford_fell_at_464edfdf": {
+   "speaker": "narrator",
+   "text": "The ford fell at dusk. The golden tree still stood. Both hills called it a victory.",
+   "text_hash": "464edfdf30c08425",
+   "path": "res://assets/audio/voice/narrator/the_ford_fell_at_464edfdf.wav",
+   "voice": "am_michael",
+   "speed": 1.181,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.84,
+   "peak": 0.8913,
+   "rms_db": -22.3,
+   "clipped": 0,
+   "file_hash": "6673bad0f0c7c01f",
+   "gen_s": 3.56,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[23]",
+     "ref": "L24",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_dusk.cine:28",
+     "ref": "e3m1_dusk/D4@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.38,
+    "speed_x": 1.181
+   }
+  },
   "narrator/the_master_is_gone_e050d7b6": {
    "speaker": "narrator",
    "text": "The Master is gone. His crown is not.",
@@ -3634,6 +6073,201 @@
      "speaker_id": "narrator"
     }
    ]
+  },
+  "narrator/the_ridge_fell_to_caa48395": {
+   "speaker": "narrator",
+   "text": "The ridge fell to Shadow. Torvald had heard the stone say his name. He did not forget it.",
+   "text_hash": "caa48395d84eda06",
+   "path": "res://assets/audio/voice/narrator/the_ridge_fell_to_caa48395.wav",
+   "voice": "am_michael",
+   "speed": 1.2,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 5.02,
+   "peak": 0.8913,
+   "rms_db": -21.1,
+   "clipped": 0,
+   "file_hash": "546f6cd049b7d784",
+   "gen_s": 4.22,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[27]",
+     "ref": "L28",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:36",
+     "ref": "e3m4_field/F6@0.4",
+     "slot": 8.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.56,
+    "speed_x": 1.2
+   }
+  },
+  "narrator/the_salt_road_runs_e832db6b": {
+   "speaker": "narrator",
+   "text": "The Salt Road runs from Emberfall to the sea. Everything on it has a price, even the road.",
+   "text_hash": "e832db6b709cc67d",
+   "path": "res://assets/audio/voice/narrator/the_salt_road_runs_e832db6b.wav",
+   "voice": "am_michael",
+   "speed": 1.2,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 5.28,
+   "peak": 0.8913,
+   "rms_db": -22.0,
+   "clipped": 0,
+   "file_hash": "38629a7fc20e5f17",
+   "gen_s": 3.1,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_road.cine:13",
+     "ref": "e2m3_road/R1@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 6.037,
+    "speed_x": 1.2
+   }
+  },
+  "narrator/the_sighing_wood_kept_058db674": {
+   "speaker": "narrator",
+   "text": "The Sighing Wood kept out of every quarrel for a century. Now it is ash, and the ash is frozen.",
+   "text_hash": "058db6748b40b9a9",
+   "path": "res://assets/audio/voice/narrator/the_sighing_wood_kept_058db674.wav",
+   "voice": "am_michael",
+   "speed": 1.2,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 5.61,
+   "peak": 0.8913,
+   "rms_db": -19.9,
+   "clipped": 0,
+   "file_hash": "d6a1c9a07780acad",
+   "gen_s": 3.25,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_arrival.cine:14",
+     "ref": "e2m1_arrival/A1@0.5",
+     "slot": 7.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 6.36,
+    "speed_x": 1.2
+   }
+  },
+  "narrator/the_sunrise_road_the_27a4fd73": {
+   "speaker": "narrator",
+   "text": "The Sunrise Road. The Master cut it before the kingdoms had names. No one has walked it since.",
+   "text_hash": "27a4fd738c71b1be",
+   "path": "res://assets/audio/voice/narrator/the_sunrise_road_the_27a4fd73.wav",
+   "voice": "am_michael",
+   "speed": 1.2,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 5.333,
+   "peak": 0.8913,
+   "rms_db": -20.0,
+   "clipped": 0,
+   "file_hash": "39712c300b7b1f74",
+   "gen_s": 3.13,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_descent.cine:13",
+     "ref": "e2m4_descent/D1@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 6.187,
+    "speed_x": 1.2
+   }
+  },
+  "narrator/the_vigils_burned_again_c72c8aac": {
+   "speaker": "narrator",
+   "text": "The vigils burned again in Duskbarrow. In the Bishop's pocket, the stone kept count.",
+   "text_hash": "c72c8aac9a2cda9e",
+   "path": "res://assets/audio/voice/narrator/the_vigils_burned_again_c72c8aac.wav",
+   "voice": "am_michael",
+   "speed": 1.077,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 5.03,
+   "peak": 0.8913,
+   "rms_db": -20.4,
+   "clipped": 0,
+   "file_hash": "30f133cda1cad442",
+   "gen_s": 2.91,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[25]",
+     "ref": "L26",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_rest.cine:32",
+     "ref": "e3m3_rest/R4@0.4",
+     "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.17,
+    "speed_x": 1.077
+   }
   },
   "narrator/the_westwatch_fire_rises_d7e80c5e": {
    "speaker": "narrator",
@@ -3668,6 +6302,37 @@
     }
    ]
   },
+  "narrator/three_days_later_malrik_fc11b250": {
+   "speaker": "narrator",
+   "text": "Three days later. Malrik came back from Duskbarrow to a ridge that smelled of thunder.",
+   "text_hash": "fc11b25017c53a47",
+   "path": "res://assets/audio/voice/narrator/three_days_later_malrik_fc11b250.wav",
+   "voice": "am_michael",
+   "speed": 1.2,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.67,
+   "peak": 0.8913,
+   "rms_db": -20.2,
+   "clipped": 0,
+   "file_hash": "dc1aafea752c06af",
+   "gen_s": 4.13,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.37,
+    "speed_x": 1.2
+   }
+  },
   "narrator/three_flames_answer_the_69a75470": {
    "speaker": "narrator",
    "text": "Three flames answer. The seal cracks, and the old wardens wake up grumpy.",
@@ -3701,6 +6366,118 @@
     }
    ]
   },
+  "narrator/two_barrows_sleep_the_beebc31e": {
+   "speaker": "narrator",
+   "text": "Two barrows sleep. The stone does not like the quiet.",
+   "text_hash": "beebc31e4ef3381f",
+   "path": "res://assets/audio/voice/narrator/two_barrows_sleep_the_beebc31e.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.26,
+   "peak": 0.8913,
+   "rms_db": -20.0,
+   "clipped": 0,
+   "file_hash": "143505d02f403313",
+   "gen_s": 1.01,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[18]",
+     "ref": "L19",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/two_kingdoms_on_one_59a004bb": {
+   "speaker": "narrator",
+   "text": "Two kingdoms on one bank, two across the water. Now it is a real war.",
+   "text_hash": "59a004bb8f9f4379",
+   "path": "res://assets/audio/voice/narrator/two_kingdoms_on_one_59a004bb.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.81,
+   "peak": 0.8913,
+   "rms_db": -21.3,
+   "clipped": 0,
+   "file_hash": "b83bd8d589471c94",
+   "gen_s": 1.35,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[21]",
+     "ref": "L22",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "narrator/under_the_roots_of_d20b9974": {
+   "speaker": "narrator",
+   "text": "Under the roots of the world, a door. And on the other side of it, the one who made it.",
+   "text_hash": "d20b9974cdf47b4e",
+   "path": "res://assets/audio/voice/narrator/under_the_roots_of_d20b9974.wav",
+   "voice": "am_michael",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.77,
+   "peak": 0.8913,
+   "rms_db": -19.7,
+   "clipped": 0,
+   "file_hash": "dc3edbd30ba67c3a",
+   "gen_s": 1.38,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[0]",
+     "ref": "L1",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_cavern.cine:16",
+     "ref": "e2m5_cavern/C1@0.4",
+     "slot": 6.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
+    }
+   ]
+  },
+  "pell/a_bazaar_look_at_ecd96f30": {
+   "speaker": "pell",
+   "text": "A Bazaar! Look at it. Smell it. Now put wheels on something and send it somewhere far.",
+   "text_hash": "ecd96f307e792506",
+   "path": "res://assets/audio/voice/pell/a_bazaar_look_at_ecd96f30.wav",
+   "voice": "am_puck",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-us",
+   "duration": 4.22,
+   "peak": 0.8913,
+   "rms_db": -17.3,
+   "clipped": 0,
+   "file_hash": "1ca3972deeebd18f",
+   "gen_s": 1.15,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[5]",
+     "ref": "L6",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    }
+   ]
+  },
   "pell/free_at_last_buy_f2b6c6c4": {
    "speaker": "pell",
    "text": "Free at last! Buy something, would you? Shadow soldiers are terrible customers. They never pay, they just loom.",
@@ -3720,6 +6497,170 @@
      "kind": "mission",
      "source": "scripts/campaign/mission_01.gd:DIALOGUE[5]",
      "ref": "L6",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    }
+   ]
+  },
+  "pell/gold_your_first_gold_b6620284": {
+   "speaker": "pell",
+   "text": "Gold! Your first gold. I'm not crying. It's the salt.",
+   "text_hash": "b6620284ac3c0371",
+   "path": "res://assets/audio/voice/pell/gold_your_first_gold_b6620284.wav",
+   "voice": "am_puck",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-us",
+   "duration": 2.38,
+   "peak": 0.8913,
+   "rms_db": -16.5,
+   "clipped": 0,
+   "file_hash": "5eeb8796f01bed0c",
+   "gen_s": 0.72,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[8]",
+     "ref": "L9",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    }
+   ]
+  },
+  "pell/robbing_malriks_wagons_youre_38f381ac": {
+   "speaker": "pell",
+   "text": "Robbing Malrik's wagons! You're a natural. I've never been prouder.",
+   "text_hash": "38f381ac33e0d98c",
+   "path": "res://assets/audio/voice/pell/robbing_malriks_wagons_youre_38f381ac.wav",
+   "voice": "am_puck",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-us",
+   "duration": 3.08,
+   "peak": 0.8913,
+   "rms_db": -18.1,
+   "clipped": 0,
+   "file_hash": "1703327457fde573",
+   "gen_s": 0.93,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[24]",
+     "ref": "L25",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    }
+   ]
+  },
+  "pell/rocks_become_gold_at_797e0200": {
+   "speaker": "pell",
+   "text": "Rocks become gold at a post, my queen. Gold becomes everything else. Trust a professional.",
+   "text_hash": "797e020010917aa2",
+   "path": "res://assets/audio/voice/pell/rocks_become_gold_at_797e0200.wav",
+   "voice": "am_puck",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-us",
+   "duration": 4.71,
+   "peak": 0.8913,
+   "rms_db": -20.7,
+   "clipped": 0,
+   "file_hash": "12e76138838396c6",
+   "gen_s": 1.31,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[2]",
+     "ref": "L3",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_road.cine:20",
+     "ref": "e2m3_road/R3@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "pell"
+    }
+   ]
+  },
+  "pell/they_took_the_tribute_28a7156d": {
+   "speaker": "pell",
+   "text": "They took the tribute! Get it back! That gold has my fingerprints on it!",
+   "text_hash": "28a7156d907b6052",
+   "path": "res://assets/audio/voice/pell/they_took_the_tribute_28a7156d.wav",
+   "voice": "am_puck",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-us",
+   "duration": 3.42,
+   "peak": 0.8913,
+   "rms_db": -18.0,
+   "clipped": 0,
+   "file_hash": "12f018ff633af387",
+   "gen_s": 0.97,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[14]",
+     "ref": "L15",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    }
+   ]
+  },
+  "pell/you_again_the_fire_a57ffab3": {
+   "speaker": "pell",
+   "text": "You again! The fire one. Last time you let me out of a cage. Today I let you into a market.",
+   "text_hash": "a57ffab351312629",
+   "path": "res://assets/audio/voice/pell/you_again_the_fire_a57ffab3.wav",
+   "voice": "am_puck",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-us",
+   "duration": 4.43,
+   "peak": 0.8913,
+   "rms_db": -19.3,
+   "clipped": 0,
+   "file_hash": "19f8739640f6030a",
+   "gen_s": 1.3,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[4]",
+     "ref": "L5",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    }
+   ]
+  },
+  "pell/you_again_you_left_159865ec": {
+   "speaker": "pell",
+   "text": "You again! You left me in that cage, you know. I escaped. On my own. Thank you for asking.",
+   "text_hash": "159865ec4c8896ac",
+   "path": "res://assets/audio/voice/pell/you_again_you_left_159865ec.wav",
+   "voice": "am_puck",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-us",
+   "duration": 4.18,
+   "peak": 0.8913,
+   "rms_db": -18.1,
+   "clipped": 0,
+   "file_hash": "29e240e53e1f27cb",
+   "gen_s": 1.18,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[33]",
+     "ref": "L34",
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "pell"
@@ -3784,6 +6725,84 @@
     }
    ]
   },
+  "shade/bishop_the_barrows_are_629fbcc7": {
+   "speaker": "shade",
+   "text": "Bishop. The barrows are stirring. The living are in the Great Crypt. All of them.",
+   "text_hash": "629fbcc7fe19672b",
+   "path": "res://assets/audio/voice/shade/bishop_the_barrows_are_629fbcc7.wav",
+   "voice": "am_onyx",
+   "speed": 0.9,
+   "cast_speed": 0.9,
+   "lang": "en-us",
+   "duration": 4.01,
+   "peak": 0.8913,
+   "rms_db": -17.4,
+   "clipped": 0,
+   "file_hash": "7e51f803e452c647",
+   "gen_s": 1.19,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[2]",
+     "ref": "L3",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "shade"
+    }
+   ]
+  },
+  "shade/the_crypt_doors_are_298b8a15": {
+   "speaker": "shade",
+   "text": "The crypt doors are cracking! The families are inside!",
+   "text_hash": "298b8a15ddd896b0",
+   "path": "res://assets/audio/voice/shade/the_crypt_doors_are_298b8a15.wav",
+   "voice": "am_onyx",
+   "speed": 0.9,
+   "cast_speed": 0.9,
+   "lang": "en-us",
+   "duration": 3.2,
+   "peak": 0.8913,
+   "rms_db": -21.0,
+   "clipped": 0,
+   "file_hash": "7241fff768a8a4f3",
+   "gen_s": 1.0,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[17]",
+     "ref": "L18",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "shade"
+    }
+   ]
+  },
+  "shade/the_crypt_is_open_2f2d0565": {
+   "speaker": "shade",
+   "text": "The crypt is open... the dead are among the living!",
+   "text_hash": "2f2d0565472c926e",
+   "path": "res://assets/audio/voice/shade/the_crypt_is_open_2f2d0565.wav",
+   "voice": "am_onyx",
+   "speed": 0.9,
+   "cast_speed": 0.9,
+   "lang": "en-us",
+   "duration": 2.8,
+   "peak": 0.8913,
+   "rms_db": -21.9,
+   "clipped": 0,
+   "file_hash": "7664e9c54047e1dc",
+   "gen_s": 0.89,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[27]",
+     "ref": "L28",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "shade"
+    }
+   ]
+  },
   "shade/the_dark_is_listening_0f332c5a": {
    "speaker": "shade",
    "text": "The dark is listening.",
@@ -3830,6 +6849,32 @@
      "ref": "watch_keep/S5@0.8",
      "slot": 5.2,
      "slot_kind": "cine shot",
+     "speaker_id": "shade"
+    }
+   ]
+  },
+  "shade/the_paupers_field_and_bd671f67": {
+   "speaker": "shade",
+   "text": "The Pauper's Field and the Bishops' Rest are open! Everything is walking!",
+   "text_hash": "bd671f6784f77f55",
+   "path": "res://assets/audio/voice/shade/the_paupers_field_and_bd671f67.wav",
+   "voice": "am_onyx",
+   "speed": 0.9,
+   "cast_speed": 0.9,
+   "lang": "en-us",
+   "duration": 4.16,
+   "peak": 0.8913,
+   "rms_db": -21.8,
+   "clipped": 0,
+   "file_hash": "93dc2e49cea57488",
+   "gen_s": 1.29,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[13]",
+     "ref": "L14",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "shade"
     }
    ]
@@ -3881,6 +6926,443 @@
      "slot": null,
      "slot_kind": "cine slot",
      "speaker_id": "shade"
+    }
+   ]
+  },
+  "torvald/every_dusk_the_old_c9948c31": {
+   "speaker": "torvald",
+   "text": "Every dusk the old man walks down to the river and looks at us. Then he walks away.",
+   "text_hash": "c9948c318b38ac7b",
+   "path": "res://assets/audio/voice/torvald/every_dusk_the_old_c9948c31.wav",
+   "voice": "bm_lewis",
+   "speed": 1.128,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 4.85,
+   "peak": 0.8913,
+   "rms_db": -20.2,
+   "clipped": 0,
+   "file_hash": "3b848ac42fc2db44",
+   "gen_s": 4.39,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[1]",
+     "ref": "L2",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.48,
+    "speed_x": 1.2
+   }
+  },
+  "torvald/i_gave_the_wood_952c4f0b": {
+   "speaker": "torvald",
+   "text": "I gave the wood one winter. I can give it another.",
+   "text_hash": "952c4f0be5e833e7",
+   "path": "res://assets/audio/voice/torvald/i_gave_the_wood_952c4f0b.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 3.179,
+   "peak": 0.8913,
+   "rms_db": -20.1,
+   "clipped": 0,
+   "file_hash": "21b60ea53e807518",
+   "gen_s": 0.94,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[14]",
+     "ref": "L15",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/i_told_malrik_no_ce3f4de1": {
+   "speaker": "torvald",
+   "text": "I told Malrik no, once. Then I watched you carry three keys toward the Hollow.",
+   "text_hash": "ce3f4de18a1e10e7",
+   "path": "res://assets/audio/voice/torvald/i_told_malrik_no_ce3f4de1.wav",
+   "voice": "bm_lewis",
+   "speed": 1.018,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 4.907,
+   "peak": 0.8913,
+   "rms_db": -20.7,
+   "clipped": 0,
+   "file_hash": "2fe04efb181bfee5",
+   "gen_s": 2.75,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[14]",
+     "ref": "L15",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.2,
+    "speed_x": 1.083
+   }
+  },
+  "torvald/i_will_hold_the_1a672c55": {
+   "speaker": "torvald",
+   "text": "I will hold the north stair, Bishop. Do what you came to do, and quickly.",
+   "text_hash": "1a672c556a09fa51",
+   "path": "res://assets/audio/voice/torvald/i_will_hold_the_1a672c55.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 4.28,
+   "peak": 0.8913,
+   "rms_db": -20.1,
+   "clipped": 0,
+   "file_hash": "5de7a53cd2649a70",
+   "gen_s": 1.22,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[9]",
+     "ref": "L10",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/it_knows_my_name_0d484bbc": {
+   "speaker": "torvald",
+   "text": "...It knows my name.",
+   "text_hash": "0d484bbc39b60a31",
+   "path": "res://assets/audio/voice/torvald/it_knows_my_name_0d484bbc.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 1.36,
+   "peak": 0.8913,
+   "rms_db": -20.4,
+   "clipped": 0,
+   "file_hash": "64fb2e3201fe4572",
+   "gen_s": 0.52,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[17]",
+     "ref": "L18",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_whisper.cine:23",
+     "ref": "e3m4_whisper/H3@0.3",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/malrik_that_light_in_7381eb71": {
+   "speaker": "torvald",
+   "text": "Malrik. That light in your hand. It moved before you did.",
+   "text_hash": "7381eb714d1d40f4",
+   "path": "res://assets/audio/voice/torvald/malrik_that_light_in_7381eb71.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 3.797,
+   "peak": 0.8913,
+   "rms_db": -23.0,
+   "clipped": 0,
+   "file_hash": "07829e2d850731f7",
+   "gen_s": 1.11,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[15]",
+     "ref": "L16",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/malrik_your_hand_is_e854d9e4": {
+   "speaker": "torvald",
+   "text": "Malrik. Your hand is shaking. Is that you, or the stone?",
+   "text_hash": "e854d9e433e7def8",
+   "path": "res://assets/audio/voice/torvald/malrik_your_hand_is_e854d9e4.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 3.947,
+   "peak": 0.8913,
+   "rms_db": -21.0,
+   "clipped": 0,
+   "file_hash": "290a9961b96f34d7",
+   "gen_s": 1.12,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[15]",
+     "ref": "L16",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_standard.cine:20",
+     "ref": "e3m1_standard/T2@0.3",
+     "slot": 4.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/no_i_dont_think_a562d51a": {
+   "speaker": "torvald",
+   "text": "No. I don't think you can.",
+   "text_hash": "a562d51ac155a4e2",
+   "path": "res://assets/audio/voice/torvald/no_i_dont_think_a562d51a.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 1.64,
+   "peak": 0.8913,
+   "rms_db": -19.4,
+   "clipped": 0,
+   "file_hash": "420af8963e99332d",
+   "gen_s": 0.57,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[26]",
+     "ref": "L27",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:32",
+     "ref": "e3m4_field/F5@0.6",
+     "slot": 6.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/not_yet_i_think_c4a69176": {
+   "speaker": "torvald",
+   "text": "Not yet. I think he was waiting for you. He is polite like that.",
+   "text_hash": "c4a69176d7bbd668",
+   "path": "res://assets/audio/voice/torvald/not_yet_i_think_c4a69176.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 4.16,
+   "peak": 0.8913,
+   "rms_db": -19.8,
+   "clipped": 0,
+   "file_hash": "2f4a10ae8e7d6d63",
+   "gen_s": 1.17,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[3]",
+     "ref": "L4",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/now_bishop_before_her_572d46a7": {
+   "speaker": "torvald",
+   "text": "Now, Bishop. Before her roots take hold.",
+   "text_hash": "572d46a79efa056a",
+   "path": "res://assets/audio/voice/torvald/now_bishop_before_her_572d46a7.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 2.79,
+   "peak": 0.8913,
+   "rms_db": -22.1,
+   "clipped": 0,
+   "file_hash": "4cc5b73bd4a33314",
+   "gen_s": 0.87,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[22]",
+     "ref": "L23",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/now_bishop_before_the_eb24f578": {
+   "speaker": "torvald",
+   "text": "Now, Bishop. Before the spring remembers itself.",
+   "text_hash": "eb24f5789b6d9242",
+   "path": "res://assets/audio/voice/torvald/now_bishop_before_the_eb24f578.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 3.35,
+   "peak": 0.8913,
+   "rms_db": -23.2,
+   "clipped": 0,
+   "file_hash": "d32a7daadba89550",
+   "gen_s": 0.99,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[23]",
+     "ref": "L24",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/quickly_then_before_that_5a5af6a4": {
+   "speaker": "torvald",
+   "text": "Quickly, then. Before that stone in your pocket finishes its sentence.",
+   "text_hash": "5a5af6a4e4a8bfa1",
+   "path": "res://assets/audio/voice/torvald/quickly_then_before_that_5a5af6a4.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 4.373,
+   "peak": 0.8913,
+   "rms_db": -19.8,
+   "clipped": 0,
+   "file_hash": "5aa6cdba04700252",
+   "gen_s": 1.23,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[3]",
+     "ref": "L4",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/so_the_little_ember_6f0f8efc": {
+   "speaker": "torvald",
+   "text": "So the little ember comes to warm the wood. You are late, child. Winter got here first.",
+   "text_hash": "6f0f8efca062dbed",
+   "path": "res://assets/audio/voice/torvald/so_the_little_ember_6f0f8efc.wav",
+   "voice": "bm_lewis",
+   "speed": 1.128,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 5.12,
+   "peak": 0.8913,
+   "rms_db": -20.0,
+   "clipped": 0,
+   "file_hash": "565b2822dd5a2c55",
+   "gen_s": 2.94,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[8]",
+     "ref": "L9",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_frostwarden.cine:19",
+     "ref": "e2m1_frostwarden/F2@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.803,
+    "speed_x": 1.2
+   }
+  },
+  "torvald/spring_is_stubborn_so_8bfa6d1b": {
+   "speaker": "torvald",
+   "text": "Spring is stubborn. So is winter. This is not over, child.",
+   "text_hash": "8bfa6d1b7577d2b3",
+   "path": "res://assets/audio/voice/torvald/spring_is_stubborn_so_8bfa6d1b.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 4.235,
+   "peak": 0.8913,
+   "rms_db": -20.8,
+   "clipped": 0,
+   "file_hash": "bc71b2edc670c386",
+   "gen_s": 1.2,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[25]",
+     "ref": "L26",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  "torvald/they_have_a_watch_517c05e2": {
+   "speaker": "torvald",
+   "text": "They have a watch. Take it back, or the ridge goes with it.",
+   "text_hash": "517c05e2195d7cf1",
+   "path": "res://assets/audio/voice/torvald/they_have_a_watch_517c05e2.wav",
+   "voice": "bm_lewis",
+   "speed": 0.94,
+   "cast_speed": 0.94,
+   "lang": "en-gb",
+   "duration": 3.53,
+   "peak": 0.8913,
+   "rms_db": -19.4,
+   "clipped": 0,
+   "file_hash": "074325e06a5e2d44",
+   "gen_s": 1.04,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[21]",
+     "ref": "L22",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "torvald"
     }
    ]
   },

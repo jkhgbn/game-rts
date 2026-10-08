@@ -41,7 +41,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "325 entries, 0 bad ",
+			"value": "445 entries, 0 bad ",
 			"weight": 1.0
 		},
 		{
@@ -73,17 +73,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.481481481481481,
+			"graded": 0.659259259259259,
 			"group": "cover",
 			"hint": "run_voice_forge.ps1 build",
 			"id": "C1",
 			"improve": "",
 			"name": "lines with audio",
 			"rule": "every spoken line has a WAV",
-			"score": 0.163703703703704,
+			"score": 0.224148148148148,
 			"shot": "",
 			"status": "FAIL",
-			"value": "325 / 675; missing aldra/through_my_glass_already_f0cbd6ee, aldra/wake_we_have_guests_5f9bbeb6, aldra/you_heard_it_1cc501d1, ashby/my_queen_youre_hurt_c1ff3070, bettany/mind_the_flags_firelady_0c85d80d",
+			"value": "445 / 675; missing aldra/through_my_glass_already_f0cbd6ee, aldra/wake_we_have_guests_5f9bbeb6, aldra/you_heard_it_1cc501d1, ashby/my_queen_youre_hurt_c1ff3070, bettany/mind_the_flags_firelady_0c85d80d",
 			"weight": 1.0
 		},
 		{
@@ -97,7 +97,7 @@
 			"score": 0.0,
 			"shot": "",
 			"status": "FAIL",
-			"value": "55 / 385",
+			"value": "175 / 385",
 			"weight": 1.0
 		},
 		{
@@ -129,17 +129,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.980544747081712,
+			"graded": 0.973170731707317,
 			"group": "fit",
 			"hint": "run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line",
 			"id": "F1",
 			"improve": "the lines listed in the notes",
 			"name": "voice fits its slot",
 			"rule": "voice length <= cine slot / subtitle time",
-			"score": 0.683385214007782,
+			"score": 0.680878048780488,
 			"shot": "",
 			"status": "WARN",
-			"value": "5 / 257 over (0 by > 15 %)",
+			"value": "11 / 410 over (0 by > 15 %)",
 			"weight": 1.0
 		},
 		{
@@ -199,17 +199,17 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.509929275512695,
+			"graded": 0.121317825317383,
 			"group": "audio",
 			"hint": "the import is QOA-compressed (~5x smaller in the build)",
 			"id": "A5",
 			"improve": "",
 			"name": "size",
 			"rule": "<= 40 MB",
-			"score": 0.852978782653809,
+			"score": 0.39124806060791,
 			"shot": "",
-			"status": "PASS",
-			"value": "34.5 MB source WAV, 12.6 min of speech",
+			"status": "WARN",
+			"value": "53.9 MB source WAV, 19.6 min of speech",
 			"weight": 1.0
 		},
 		{
@@ -230,9 +230,9 @@
 	"counts": {
 		"FAIL": 2,
 		"INFO": 1,
-		"PASS": 11,
+		"PASS": 10,
 		"SKIP": 0,
-		"WARN": 2
+		"WARN": 3
 	},
 	"ground": "",
 	"groups": {
@@ -242,13 +242,13 @@
 		"fit": "Fit (voice length vs cine slot / subtitle time)",
 		"hook": "Game hookup"
 	},
-	"hash": "77f05e5cb84c72ca",
+	"hash": "ba352aec337ebf1e",
 	"hash_note": "manifest.json (line keys are content hashes)",
 	"headless": false,
 	"id": "all",
 	"improve_next": [
 		{
-			"rank": 10.3166147859922,
+			"rank": 10.3191219512195,
 			"source": "F1 voice fits its slot",
 			"status": "WARN",
 			"text": "the lines listed in the notes",
@@ -343,22 +343,28 @@
 		"source: data/voice/lines/m04.json: 25 lines",
 		"source: data/voice/lines/prologue_3min.json: 30 lines",
 		"source: data/voice/lines/unit_barks.json: 176 lines",
+		"over slot: malrik/good_evening_vessa_mind_c8c23dd1 L4: 5.06 s > subtitle 5.00 s",
 		"over slot: malrik/look_at_it_the_489223a3 ep3_opening/L12: 4.97 s > cine slot 4.80 s",
 		"over slot: malrik/they_will_stand_there_52f7eb60 ep3_opening/L13: 4.88 s > cine slot 4.50 s",
+		"over slot: narrator/nature_had_no_kingdom_ffec5004 L1: 5.38 s > subtitle 5.00 s",
+		"over slot: narrator/the_salt_road_runs_e832db6b L1: 5.28 s > subtitle 5.00 s",
+		"over slot: narrator/the_sighing_wood_kept_058db674 L1: 5.61 s > subtitle 5.00 s",
+		"over slot: narrator/the_sunrise_road_the_27a4fd73 L1: 5.33 s > subtitle 5.00 s",
 		"over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s",
 		"over slot: narrator/the_westwatch_fire_rises_d7e80c5e m1_westwatch/W1@0.4: 5.23 s > cine shot 5.10 s",
 		"over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s",
-		"this build: 40.0 rendered, 285.0 unchanged",
-		"last render: 40.0 lines, 129.5 s of audio in 35.3 s (x0.27 real time) on [\"CPUExecutionProvider\"], at 2026-10-07 22:58:09",
-		"total: 325 lines, 12.56 min of speech, 3 speed-fitted, 28 with direction tags"
+		"over slot: torvald/so_the_little_ember_6f0f8efc L9: 5.12 s > subtitle 5.00 s",
+		"this build: 40.0 rendered, 405.0 unchanged",
+		"last render: 40.0 lines, 164.7 s of audio in 69.7 s (x0.42 real time) on [\"CPUExecutionProvider\"], at 2026-10-07 23:04:18",
+		"total: 445 lines, 19.63 min of speech, 21 speed-fitted, 28 with direction tags"
 	],
-	"previous_quality": 74.9,
-	"quality": 74.9,
+	"previous_quality": 73.2,
+	"quality": 73.1,
 	"result": "FAIL",
 	"scene": "",
-	"seconds": 1.0,
+	"seconds": 1.5,
 	"shots": {},
-	"started": "2026-10-07 22:58:22",
+	"started": "2026-10-07 23:04:30",
 	"tier": "",
 	"tool": "voice_forge",
 	"verb": "build"
