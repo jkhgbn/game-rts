@@ -1,10 +1,10 @@
 # voice_forge build: all
 
-2026-10-07 23:11:02 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `e63ff6c6a5490165` (manifest.json (line keys are content hashes))
+2026-10-07 23:14:37 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `de07660654de53fc` (manifest.json (line keys are content hashes))
 
-## Result: **FAIL** - quality **74 / 100** (previous run 74, +0)
+## Result: **WARN** - quality **92 / 100** (previous run 74, +18)
 
-2 FAIL, 3 WARN, 10 PASS, 1 info, 0 skipped, 2 s
+0 FAIL, 3 WARN, 12 PASS, 1 info, 0 skipped, 2 s
 
 ## Improve next
 1. **voice fits its slot** (WARN): the lines listed in the notes _(from F1 voice fits its slot)_
@@ -16,22 +16,22 @@
 |---|---|---|---|---|---|
 | D1 | cast.json | PASS 100 | 58 speakers | parses, has speakers |  |
 | D2 | lines found | PASS 100 | 675 unique lines | > 0 |  |
-| D3 | manifest entries | PASS 100 | 574 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
+| D3 | manifest entries | PASS 100 | 675 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
 | D4 | speakers cast | PASS 100 | all cast | every speaker has a voice in cast.json |  |
 | D5 | speakers vs Speakers.TABLE | INFO | dancer, messenger, reveler, unit_ash_hurler, unit_ashveil_saboteur, unit_barrow_ghoul, unit_blaze_rider, unit_bleakbow, unit_bloomtender, unit_bramblehorn, unit_burr_slinger, unit_cinder_arbalest, unit_cinder_hand, unit_ember_archer, unit_flame_guard, unit_frost_mortar, unit_frostbow, unit_gloom_thrall, unit_greenheart_oathkeeper, unit_hexweaver, unit_hoarlight_magebow, unit_hollow_oathsworn, unit_nightblood_reaver, unit_nightbolt, unit_pyre_adept, unit_rime_colossus, unit_rime_hauler, unit_rime_seer, unit_rimeling, unit_rimeshield, unit_scorchbow, unit_scorchling, unit_shadow_knight, unit_shardcaster, unit_shardguard, unit_sprigling, unit_stormbottle_genie, unit_thistle_darter, unit_thornling, unit_vinelasher, unit_wildwood_archer | subtitle names known |  |
 
 ## Coverage (every spoken line has audio)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | lines with audio | **FAIL** 29 | 574 / 675; missing aldra/through_my_glass_already_f0cbd6ee, aldra/wake_we_have_guests_5f9bbeb6, aldra/you_heard_it_1cc501d1, ashby/my_queen_youre_hurt_c1ff3070, bettany/mind_the_flags_firelady_0c85d80d | every spoken line has a WAV | run_voice_forge.ps1 build |
-| C2 | mission lines voiced | **FAIL** 0 | 304 / 385 | all mission dialogue voiced | run_voice_forge.ps1 build |
+| C1 | lines with audio | PASS 100 | 675 / 675 | every spoken line has a WAV |  |
+| C2 | mission lines voiced | PASS 100 | 385 / 385 | all mission dialogue voiced |  |
 | C3 | imported | PASS 100 | 0 not importable | load(path) is AudioStream |  |
 | C4 | orphan WAVs | PASS 100 | 0 | no manifest line without a source |  |
 
 ## Fit (voice length vs cine slot / subtitle time)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | voice fits its slot | **WARN** 68 | 12 / 573 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
+| F1 | voice fits its slot | **WARN** 68 | 14 / 757 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
 
 ## Audio (format, clipping, trim, size)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -40,7 +40,7 @@
 | A2 | clipping | PASS 100 | none | no sample at full scale |  |
 | A3 | peak level | PASS 100 | -1.0..-1.0 dBFS | -2..-0.5 dBFS (target -1) |  |
 | A4 | trimmed | **WARN** 50 | 1 untrimmed unit_rime_hauler/right_ill_have_a_92efb9f7 (0.05 / 0.32 s) | lead <= 0.12 s, tail <= 0.20 s of silence | re-render |
-| A5 | size | **WARN** 35 | 74.0 MB source WAV, 26.9 min of speech | <= 40 MB | the import is QOA-compressed (~5x smaller in the build) |
+| A5 | size | **WARN** 35 | 88.5 MB source WAV, 32.2 min of speech | <= 40 MB | the import is QOA-compressed (~5x smaller in the build) |
 
 ## Game hookup
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -124,6 +124,8 @@
 - over slot: malrik/they_will_stand_there_52f7eb60 ep3_opening/L13: 4.88 s > cine slot 4.50 s
 - over slot: narrator/nature_had_no_kingdom_ffec5004 L1: 5.38 s > subtitle 5.00 s
 - over slot: narrator/the_salt_road_runs_e832db6b L1: 5.28 s > subtitle 5.00 s
+- over slot: narrator/the_sighing_wood_has_86f071de L1: 5.28 s > subtitle 5.00 s
+- over slot: narrator/the_sighing_wood_has_86f071de m03/L1: 5.28 s > cine slot 5.00 s
 - over slot: narrator/the_sighing_wood_kept_058db674 L1: 5.61 s > subtitle 5.00 s
 - over slot: narrator/the_sunrise_road_the_27a4fd73 L1: 5.33 s > subtitle 5.00 s
 - over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s
@@ -131,6 +133,6 @@
 - over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s
 - over slot: torvald/so_the_little_ember_6f0f8efc L9: 5.12 s > subtitle 5.00 s
 - over slot: vey/four_seals_wake_them_904df50c L3: 5.12 s > subtitle 5.00 s
-- this build: 9.0 rendered, 565.0 unchanged
-- last render: 9.0 lines, 31.8 s of audio in 8.3 s (x0.26 real time) on ["CPUExecutionProvider"], at 2026-10-07 23:10:50
-- total: 574 lines, 26.95 min of speech, 33 speed-fitted, 28 with direction tags
+- this build: 101.0 rendered, 574.0 unchanged
+- last render: 101.0 lines, 315.0 s of audio in 109.3 s (x0.35 real time) on ["CPUExecutionProvider"], at 2026-10-07 23:14:24
+- total: 675 lines, 32.20 min of speech, 44 speed-fitted, 28 with direction tags

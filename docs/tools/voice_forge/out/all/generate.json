@@ -1,27 +1,39 @@
 {
- "rendered": 9,
- "unchanged": 565,
- "gen_s": 8.3,
- "audio_s": 31.8,
- "rtf": 0.26,
- "wall_s": 10.2,
+ "rendered": 101,
+ "unchanged": 574,
+ "gen_s": 109.3,
+ "audio_s": 315.0,
+ "rtf": 0.35,
+ "wall_s": 111.3,
  "providers": [
   "CPUExecutionProvider"
  ],
- "model_load_s": 0.9,
- "total_lines": 574,
- "total_audio_s": 1616.8,
+ "model_load_s": 1.0,
+ "total_lines": 675,
+ "total_audio_s": 1931.8,
  "fit": "1",
- "fitted": [],
- "at": "2026-10-07 23:10:50",
+ "fitted": [
+  "bettany/mind_the_flags_firelady_0c85d80d 5.42 -> 4.99 s (slot 5 s, x1.13)",
+  "bettany/the_crooked_lantern_is_5d905cc1 5.55 -> 4.99 s (slot 5 s, x1.20)",
+  "malrik/an_old_man_and_16acc110 5.48 -> 4.82 s (slot 5 s, x1.14)",
+  "malrik/someone_burned_my_barracks_41a81075 5.35 -> 4.97 s (slot 5 s, x1.11)",
+  "master/i_cannot_open_it_0f91d8be 4.43 -> 4.20 s (slot 4.2 s, x1.10)",
+  "narrator/glasswater_mere_has_not_11b716c9 5.57 -> 4.91 s (slot 5 s, x1.16)",
+  "narrator/the_sighing_wood_has_86f071de 5.92 -> 5.28 s (slot 5 s, x1.20)",
+  "pell/you_again_my_wheels_6ee99e5f 6.05 -> 4.27 s (slot 5 s, x1.20)",
+  "torvald/run_little_ember_every_4483f6f4 5.16 -> 4.90 s (slot 5 s, x1.07)",
+  "torvald/that_ice_has_kept_b5c388c1 5.35 -> 4.95 s (slot 5 s, x1.12)",
+  "torvald/two_children_fighting_on_724fb690 5.11 -> 5.00 s (slot 5 s, x1.06)"
+ ],
+ "at": "2026-10-07 23:14:24",
  "last_render": {
-  "rendered": 9,
-  "gen_s": 8.3,
-  "audio_s": 31.8,
-  "rtf": 0.26,
+  "rendered": 101,
+  "gen_s": 109.3,
+  "audio_s": 315.0,
+  "rtf": 0.35,
   "providers": [
    "CPUExecutionProvider"
   ],
-  "at": "2026-10-07 23:10:50"
+  "at": "2026-10-07 23:14:24"
  }
 }
