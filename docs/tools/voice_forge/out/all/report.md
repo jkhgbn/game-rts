@@ -1,8 +1,8 @@
-# voice_forge check: all
+# voice_forge build: all
 
-2026-10-07 16:44:29 - `tools/voice_forge/run_voice_forge.ps1 check all` - hash `9ca82133d7aabb9a` (manifest.json (line keys are content hashes))
+2026-10-07 22:58:22 - `tools/voice_forge/run_voice_forge.ps1 build all` - hash `77f05e5cb84c72ca` (manifest.json (line keys are content hashes))
 
-## Result: **FAIL** - quality **75 / 100** (previous run 70, +5)
+## Result: **FAIL** - quality **75 / 100** (previous run 75, +0)
 
 2 FAIL, 2 WARN, 11 PASS, 1 info, 0 skipped, 1 s
 
@@ -15,23 +15,23 @@
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | D1 | cast.json | PASS 100 | 58 speakers | parses, has speakers |  |
-| D2 | lines found | PASS 100 | 671 unique lines | > 0 |  |
-| D3 | manifest entries | PASS 100 | 285 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
+| D2 | lines found | PASS 100 | 675 unique lines | > 0 |  |
+| D3 | manifest entries | PASS 100 | 325 entries, 0 bad  | text_hash = sha256(speaker\ntext)[:16], path under assets/audio/voice/<speaker>/, duration > 0 |  |
 | D4 | speakers cast | PASS 100 | all cast | every speaker has a voice in cast.json |  |
 | D5 | speakers vs Speakers.TABLE | INFO | dancer, messenger, reveler, unit_ash_hurler, unit_ashveil_saboteur, unit_barrow_ghoul, unit_blaze_rider, unit_bleakbow, unit_bloomtender, unit_bramblehorn, unit_burr_slinger, unit_cinder_arbalest, unit_cinder_hand, unit_ember_archer, unit_flame_guard, unit_frost_mortar, unit_frostbow, unit_gloom_thrall, unit_greenheart_oathkeeper, unit_hexweaver, unit_hoarlight_magebow, unit_hollow_oathsworn, unit_nightblood_reaver, unit_nightbolt, unit_pyre_adept, unit_rime_colossus, unit_rime_hauler, unit_rime_seer, unit_rimeling, unit_rimeshield, unit_scorchbow, unit_scorchling, unit_shadow_knight, unit_shardcaster, unit_shardguard, unit_sprigling, unit_stormbottle_genie, unit_thistle_darter, unit_thornling, unit_vinelasher, unit_wildwood_archer | subtitle names known |  |
 
 ## Coverage (every spoken line has audio)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | lines with audio | **FAIL** 14 | 285 / 671; missing aldra/cracked_not_broken_torvald_c73e5da5, aldra/hold_the_rime_when_a0531061, aldra/rime_on_the_ramp_42787a6c, aldra/the_green_has_stopped_ac1b55c9, aldra/through_my_glass_already_f0cbd6ee | every spoken line has a WAV | run_voice_forge.ps1 build |
-| C2 | mission lines voiced | **FAIL** 0 | 15 / 385 | all mission dialogue voiced | run_voice_forge.ps1 build |
+| C1 | lines with audio | **FAIL** 16 | 325 / 675; missing aldra/through_my_glass_already_f0cbd6ee, aldra/wake_we_have_guests_5f9bbeb6, aldra/you_heard_it_1cc501d1, ashby/my_queen_youre_hurt_c1ff3070, bettany/mind_the_flags_firelady_0c85d80d | every spoken line has a WAV | run_voice_forge.ps1 build |
+| C2 | mission lines voiced | **FAIL** 0 | 55 / 385 | all mission dialogue voiced | run_voice_forge.ps1 build |
 | C3 | imported | PASS 100 | 0 not importable | load(path) is AudioStream |  |
 | C4 | orphan WAVs | PASS 100 | 0 | no manifest line without a source |  |
 
 ## Fit (voice length vs cine slot / subtitle time)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| F1 | voice fits its slot | **WARN** 68 | 4 / 196 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
+| F1 | voice fits its slot | **WARN** 68 | 5 / 257 over (0 by > 15 %) | voice length <= cine slot / subtitle time | run_voice_forge.ps1 build fit=all (speeds the overrunning lines up, <= x1.25), lengthen the slot, or shorten the line |
 
 ## Audio (format, clipping, trim, size)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -40,7 +40,7 @@
 | A2 | clipping | PASS 100 | none | no sample at full scale |  |
 | A3 | peak level | PASS 100 | -1.0..-1.0 dBFS | -2..-0.5 dBFS (target -1) |  |
 | A4 | trimmed | **WARN** 50 | 1 untrimmed unit_rime_hauler/right_ill_have_a_92efb9f7 (0.05 / 0.32 s) | lead <= 0.12 s, tail <= 0.20 s of silence | re-render |
-| A5 | size | PASS 89 | 28.6 MB source WAV, 10.4 min of speech | <= 40 MB |  |
+| A5 | size | PASS 85 | 34.5 MB source WAV, 12.6 min of speech | <= 40 MB |  |
 
 ## Game hookup
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -65,15 +65,52 @@
 - source: scripts/campaign/mission_e3_03.gd: 28 lines
 - source: scripts/campaign/mission_e3_04.gd: 33 lines
 - source: scripts/campaign/mission_skeleton.gd: 3 lines
+- source: data/cinematics/src/e2m1_arrival.cine: 3 lines
+- source: data/cinematics/src/e2m1_frostwarden.cine: 2 lines
+- source: data/cinematics/src/e2m1_ysolde.cine: 2 lines
+- source: data/cinematics/src/e2m2_first_grove.cine: 1 lines
+- source: data/cinematics/src/e2m2_heartwood.cine: 3 lines
+- source: data/cinematics/src/e2m2_muster.cine: 3 lines
+- source: data/cinematics/src/e2m2_two_banners.cine: 2 lines
+- source: data/cinematics/src/e2m3_lodge.cine: 3 lines
+- source: data/cinematics/src/e2m3_paid.cine: 3 lines
+- source: data/cinematics/src/e2m3_road.cine: 3 lines
+- source: data/cinematics/src/e2m4_descent.cine: 3 lines
+- source: data/cinematics/src/e2m4_first_warden.cine: 1 lines
+- source: data/cinematics/src/e2m4_forge.cine: 2 lines
+- source: data/cinematics/src/e2m4_hush.cine: 1 lines
+- source: data/cinematics/src/e2m4_sunrise.cine: 4 lines
+- source: data/cinematics/src/e2m5_answer.cine: 2 lines
+- source: data/cinematics/src/e2m5_breach.cine: 0 lines
+- source: data/cinematics/src/e2m5_cavern.cine: 4 lines
+- source: data/cinematics/src/e2m5_fall.cine: 2 lines
+- source: data/cinematics/src/e2m5_wake.cine: 3 lines
+- source: data/cinematics/src/e3m1_dusk.cine: 3 lines
+- source: data/cinematics/src/e3m1_ford.cine: 1 lines
+- source: data/cinematics/src/e3m1_standard.cine: 3 lines
+- source: data/cinematics/src/e3m2_dawn.cine: 3 lines
+- source: data/cinematics/src/e3m2_embers.cine: 0 lines
+- source: data/cinematics/src/e3m3_offer.cine: 3 lines
+- source: data/cinematics/src/e3m3_rest.cine: 3 lines
+- source: data/cinematics/src/e3m3_sexton.cine: 2 lines
+- source: data/cinematics/src/e3m4_field.cine: 6 lines
+- source: data/cinematics/src/e3m4_whisper.cine: 3 lines
 - source: data/cinematics/src/ep2_ending.cine: 9 lines
 - source: data/cinematics/src/ep2_opening.cine: 28 lines
+- source: data/cinematics/src/ep3_ending.cine: 5 lines
 - source: data/cinematics/src/ep3_opening.cine: 15 lines
 - source: data/cinematics/src/ep4_opening.cine: 15 lines
+- source: data/cinematics/src/m1_crown.cine: 2 lines
+- source: data/cinematics/src/m1_seal.cine: 2 lines
+- source: data/cinematics/src/m1_watchers.cine: 2 lines
+- source: data/cinematics/src/m1_westwatch.cine: 2 lines
+- source: data/cinematics/src/m2_heartfrost.cine: 1 lines
 - source: data/cinematics/src/prologue_3min.cine: 30 lines
 - source: data/cinematics/src/two_wizards.cine: 1 lines
 - source: data/cinematics/src/watch_keep.cine: 4 lines
 - source: data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)
 - source: data/voice/lines/ep2_opening.json: 28 lines
+- source: data/voice/lines/ep3_ending.json: 5 lines
 - source: data/voice/lines/ep3_opening.json: 15 lines
 - source: data/voice/lines/ep4_opening.json: 15 lines
 - source: data/voice/lines/m00.json: 21 lines
@@ -85,7 +122,8 @@
 - over slot: malrik/look_at_it_the_489223a3 ep3_opening/L12: 4.97 s > cine slot 4.80 s
 - over slot: malrik/they_will_stand_there_52f7eb60 ep3_opening/L13: 4.88 s > cine slot 4.50 s
 - over slot: narrator/the_westwatch_fire_rises_d7e80c5e L7: 5.23 s > subtitle 5.00 s
+- over slot: narrator/the_westwatch_fire_rises_d7e80c5e m1_westwatch/W1@0.4: 5.23 s > cine shot 5.10 s
 - over slot: pell/free_at_last_buy_f2b6c6c4 L6: 5.57 s > subtitle 5.00 s
-- this build: 3.0 rendered, 282.0 unchanged
-- last render: 3.0 lines, 12.2 s of audio in 8.3 s (x0.68 real time) on ["CPUExecutionProvider"], at 2026-10-07 16:42:57
-- total: 285 lines, 10.40 min of speech, 1 speed-fitted, 28 with direction tags
+- this build: 40.0 rendered, 285.0 unchanged
+- last render: 40.0 lines, 129.5 s of audio in 35.3 s (x0.27 real time) on ["CPUExecutionProvider"], at 2026-10-07 22:58:09
+- total: 325 lines, 12.56 min of speech, 3 speed-fitted, 28 with direction tags

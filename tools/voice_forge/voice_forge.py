@@ -7,6 +7,7 @@ Run through tools/voice_forge/run_voice_forge.ps1 (it picks the Kokoro venv outs
                      (only=<speaker> replaces that speaker's rows in auditions.md, keeps the others)
   selftest           no Kokoro: direction tags, speed-fit, manifest compatibility, auditions merge
 Options: force=1 (re-render everything), only=<speaker> (limit generate), id=<report id> (default "all"),
+  match=<regex on a source path> / limit=<n> (render one batch), fit_max=<x> (speed-fit cap below x1.25),
   fit=1 (default: new / changed lines are sped up, <= x1.25, to fit their slot) | fit=all (also re-render existing
   lines that overrun) | fit=0 (off).
 Direction tags in a line's text ([scared], [whisper], [angry], [pause] ...: DIRECTIONS) change speed / pauses /
@@ -440,13 +441,13 @@ def min_slot(sources: list):
     return min(slots) if slots else None
 
 
-def fit_speed(duration: float, slot, speed: float, base: float) -> float:
-    """Speed that brings `duration` (rendered at `speed`) to FIT_AIM of `slot`, capped at base * FIT_MAX. Returns
-    `speed` unchanged when the line already fits (or has no slot). Kokoro's length is ~ 1 / speed."""
+def fit_speed(duration: float, slot, speed: float, base: float, cap: float = FIT_MAX) -> float:
+    """Speed that brings `duration` (rendered at `speed`) to FIT_AIM of `slot`, capped at base * cap (FIT_MAX by
+    default). Returns `speed` unchanged when the line already fits (or has no slot). Kokoro's length is ~ 1 / speed."""
     if not slot or duration <= slot + FIT_MARGIN:
         return speed
     want = speed * duration / (slot * FIT_AIM)
-    return round(min(want, base * FIT_MAX), 3)
+    return round(min(want, base * cap), 3)
 
 
 def same_render(prev, cfg: dict, e: dict, path: Path) -> bool:
@@ -470,6 +471,12 @@ def generate(opts: dict) -> int:
     # fit=1 (default): new / changed lines are sped up to fit their slot. fit=all: also re-render existing lines
     # that overrun (opt-in: it changes WARNed WAVs). fit=0: off.
     fit = opts.get("fit", "1")
+    # Batches (2026-10-07): match=<regex> renders only lines with a source path matching it (e.g.
+    # "mission_e2_0[1-5]"), limit=<n> at most n lines this run; the rest stay as they are (re-run for the next batch).
+    # fit_max=<x> lowers the speed-fit cap below FIT_MAX for this run (e.g. 1.2).
+    match = re.compile(opts["match"]) if opts.get("match") else None
+    limit = int(opts.get("limit", "0") or 0)
+    fit_cap = min(FIT_MAX, float(opts.get("fit_max", FIT_MAX)))
     todo, kept, new_lines, refit = [], 0, {}, 0
     for e in idx["lines"]:
         cfg = voice_of(cast, e["speaker"])
@@ -478,7 +485,10 @@ def generate(opts: dict) -> int:
         same = same_render(prev, cfg, e, path)
         overrun = same and fit == "all" and "fit" not in prev and fit_speed(
             float(prev.get("duration", 0)), min_slot(e["sources"]), 1.0, 1.0) != 1.0
-        if (same and not force and not overrun) or (only and e["speaker"] != only):
+        skip = (only and e["speaker"] != only) \
+            or (match and not any(match.search(str(s.get("source", ""))) for s in e["sources"])) \
+            or (limit and len(todo) >= limit)
+        if (same and not force and not overrun) or skip:
             if prev:
                 new_lines[e["id"]] = dict(prev, sources=e["sources"])
                 kept += 1
@@ -501,7 +511,7 @@ def generate(opts: dict) -> int:
             first = len(s) / SR
             if fit != "0":
                 for _ in range(2):   # one step usually lands; the second corrects Kokoro's non-linear timing
-                    sp = fit_speed(len(s) / SR, slot, rcfg["speed"], base)
+                    sp = fit_speed(len(s) / SR, slot, rcfg["speed"], base, fit_cap)
                     if sp == rcfg["speed"]:
                         break
                     rcfg = dict(rcfg, speed=sp)

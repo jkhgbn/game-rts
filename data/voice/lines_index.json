@@ -19,15 +19,52 @@
   "scripts/campaign/mission_e3_03.gd: 28 lines",
   "scripts/campaign/mission_e3_04.gd: 33 lines",
   "scripts/campaign/mission_skeleton.gd: 3 lines",
+  "data/cinematics/src/e2m1_arrival.cine: 3 lines",
+  "data/cinematics/src/e2m1_frostwarden.cine: 2 lines",
+  "data/cinematics/src/e2m1_ysolde.cine: 2 lines",
+  "data/cinematics/src/e2m2_first_grove.cine: 1 lines",
+  "data/cinematics/src/e2m2_heartwood.cine: 3 lines",
+  "data/cinematics/src/e2m2_muster.cine: 3 lines",
+  "data/cinematics/src/e2m2_two_banners.cine: 2 lines",
+  "data/cinematics/src/e2m3_lodge.cine: 3 lines",
+  "data/cinematics/src/e2m3_paid.cine: 3 lines",
+  "data/cinematics/src/e2m3_road.cine: 3 lines",
+  "data/cinematics/src/e2m4_descent.cine: 3 lines",
+  "data/cinematics/src/e2m4_first_warden.cine: 1 lines",
+  "data/cinematics/src/e2m4_forge.cine: 2 lines",
+  "data/cinematics/src/e2m4_hush.cine: 1 lines",
+  "data/cinematics/src/e2m4_sunrise.cine: 4 lines",
+  "data/cinematics/src/e2m5_answer.cine: 2 lines",
+  "data/cinematics/src/e2m5_breach.cine: 0 lines",
+  "data/cinematics/src/e2m5_cavern.cine: 4 lines",
+  "data/cinematics/src/e2m5_fall.cine: 2 lines",
+  "data/cinematics/src/e2m5_wake.cine: 3 lines",
+  "data/cinematics/src/e3m1_dusk.cine: 3 lines",
+  "data/cinematics/src/e3m1_ford.cine: 1 lines",
+  "data/cinematics/src/e3m1_standard.cine: 3 lines",
+  "data/cinematics/src/e3m2_dawn.cine: 3 lines",
+  "data/cinematics/src/e3m2_embers.cine: 0 lines",
+  "data/cinematics/src/e3m3_offer.cine: 3 lines",
+  "data/cinematics/src/e3m3_rest.cine: 3 lines",
+  "data/cinematics/src/e3m3_sexton.cine: 2 lines",
+  "data/cinematics/src/e3m4_field.cine: 6 lines",
+  "data/cinematics/src/e3m4_whisper.cine: 3 lines",
   "data/cinematics/src/ep2_ending.cine: 9 lines",
   "data/cinematics/src/ep2_opening.cine: 28 lines",
+  "data/cinematics/src/ep3_ending.cine: 5 lines",
   "data/cinematics/src/ep3_opening.cine: 15 lines",
   "data/cinematics/src/ep4_opening.cine: 15 lines",
+  "data/cinematics/src/m1_crown.cine: 2 lines",
+  "data/cinematics/src/m1_seal.cine: 2 lines",
+  "data/cinematics/src/m1_watchers.cine: 2 lines",
+  "data/cinematics/src/m1_westwatch.cine: 2 lines",
+  "data/cinematics/src/m2_heartfrost.cine: 1 lines",
   "data/cinematics/src/prologue_3min.cine: 30 lines",
   "data/cinematics/src/two_wizards.cine: 1 lines",
   "data/cinematics/src/watch_keep.cine: 4 lines",
   "data/cinematics/src/watch_keep_bugs.cine: skipped (planted-bug fixture)",
   "data/voice/lines/ep2_opening.json: 28 lines",
+  "data/voice/lines/ep3_ending.json: 5 lines",
   "data/voice/lines/ep3_opening.json: 15 lines",
   "data/voice/lines/ep4_opening.json: 15 lines",
   "data/voice/lines/m00.json: 21 lines",
@@ -37,7 +74,7 @@
   "data/voice/lines/prologue_3min.json: 30 lines",
   "data/voice/lines/unit_barks.json: 176 lines"
  ],
- "count": 671,
+ "count": 675,
  "lines": [
   {
    "id": "aldra/cracked_not_broken_torvald_c73e5da5",
@@ -67,6 +104,14 @@
      "ref": "L8",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_frostwarden.cine:12",
+     "ref": "e2m1_frostwarden/F1@0.3",
+     "slot": 4.7,
+     "slot_kind": "cine shot",
      "speaker_id": "aldra"
     }
    ]
@@ -200,6 +245,30 @@
    ]
   },
   {
+   "id": "aldra/you_heard_it_1cc501d1",
+   "speaker": "aldra",
+   "text": "You heard it.",
+   "text_hash": "1cc501d18c29f45e",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_ending.cine:33",
+     "ref": "ep3_ending/T03@0.6",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_ending.json",
+     "ref": "ep3_ending/L1",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  {
    "id": "ashby/a_masters_forge_my_ca56e44a",
    "speaker": "ashby",
    "text": "A Master's forge! My grandad would weep. Then he'd charge you for it.",
@@ -211,6 +280,14 @@
      "ref": "L14",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_forge.cine:16",
+     "ref": "e2m4_forge/F2@0.3",
+     "slot": 7.7,
+     "slot_kind": "cine shot",
      "speaker_id": "ashby"
     }
    ]
@@ -476,6 +553,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "bettany"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_lodge.cine:17",
+     "ref": "e2m3_lodge/L2@3.8",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "bettany"
     }
    ]
   },
@@ -596,6 +681,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "bettany"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_lodge.cine:11",
+     "ref": "e2m3_lodge/L1@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "bettany"
     }
    ]
   },
@@ -611,6 +704,14 @@
      "ref": "L26",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_paid.cine:12",
+     "ref": "e2m3_paid/P1@0.4",
+     "slot": 7.6,
+     "slot_kind": "cine shot",
      "speaker_id": "bettany"
     }
    ]
@@ -651,6 +752,14 @@
      "ref": "L27",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_paid.cine:16",
+     "ref": "e2m3_paid/P2@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
      "speaker_id": "bettany"
     }
    ]
@@ -836,6 +945,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_rest.cine:23",
+     "ref": "e3m3_rest/R3@0.4",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
     }
    ]
   },
@@ -948,6 +1065,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_hush.cine:16",
+     "ref": "e2m4_hush/H2@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
     }
    ]
   },
@@ -1052,6 +1177,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m2_dawn.cine:22",
+     "ref": "e3m2_dawn/W3@0.3",
+     "slot": 3.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
     }
    ]
   },
@@ -1115,6 +1248,14 @@
      "ref": "L6",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_first_grove.cine:15",
+     "ref": "e2m2_first_grove/G2@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
      "speaker_id": "maelis"
     }
    ]
@@ -1212,6 +1353,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_paid.cine:20",
+     "ref": "e2m3_paid/P3@0.5",
+     "slot": 7.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -1251,6 +1400,14 @@
      "ref": "L28",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m2_dawn.cine:23",
+     "ref": "e3m2_dawn/W3@4",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -1492,6 +1649,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_sunrise.cine:31",
+     "ref": "e2m4_sunrise/S4@0.3",
+     "slot": 6.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -1524,6 +1689,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_cavern.cine:27",
+     "ref": "e2m5_cavern/C4@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -1539,6 +1712,14 @@
      "ref": "L22",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_sexton.cine:26",
+     "ref": "e3m3_sexton/X3@1",
+     "slot": 7.0,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -1583,10 +1764,26 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_ending.cine:54",
+     "ref": "ep3_ending/N12@6",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/cinematics/src/ep3_opening.cine:119",
      "ref": "ep3_opening/N13@0.4",
      "slot": 2.6,
      "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_ending.json",
+     "ref": "ep3_ending/L5",
+     "slot": 2.6,
+     "slot_kind": "cine slot",
      "speaker_id": "malrik"
     }
    ]
@@ -1748,6 +1945,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_standard.cine:23",
+     "ref": "e3m1_standard/T2@4.8",
+     "slot": 3.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -1763,6 +1968,14 @@
      "ref": "L19",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_whisper.cine:25",
+     "ref": "e3m4_whisper/H3@2.9",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -1820,6 +2033,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_watchers.cine:12",
+     "ref": "m1_watchers/H1@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -1835,6 +2056,14 @@
      "ref": "L32",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_fall.cine:20",
+     "ref": "e2m5_fall/F2@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -1867,6 +2096,14 @@
      "ref": "L8",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_westwatch.cine:19",
+     "ref": "m1_westwatch/W2@0.5",
+     "slot": 4.5,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -2036,6 +2273,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_rest.cine:24",
+     "ref": "e3m3_rest/R3@3.8",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -2092,6 +2337,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_wake.cine:19",
+     "ref": "e2m5_wake/K1@6",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -2147,6 +2400,14 @@
      "ref": "L11",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_crown.cine:14",
+     "ref": "m1_crown/C1@0.6",
+     "slot": 5.4,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -2300,6 +2561,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_dusk.cine:33",
+     "ref": "e3m1_dusk/D5@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -2372,6 +2641,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_ford.cine:19",
+     "ref": "e3m1_ford/F2@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -2387,6 +2664,14 @@
      "ref": "L22",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_dusk.cine:19",
+     "ref": "e3m1_dusk/D2@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -2427,6 +2712,14 @@
      "ref": "L26",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:29",
+     "ref": "e3m4_field/F4@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -2546,6 +2839,30 @@
      "source": "data/voice/lines/m04.json",
      "ref": "m04/L2",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "malrik"
+    }
+   ]
+  },
+  {
+   "id": "malrik/tomorrow_5e877905",
+   "speaker": "malrik",
+   "text": "Tomorrow.",
+   "text_hash": "5e877905c794cca4",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_ending.cine:48",
+     "ref": "ep3_ending/N13@1",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_ending.json",
+     "ref": "ep3_ending/L4",
+     "slot": 2.2,
      "slot_kind": "cine slot",
      "speaker_id": "malrik"
     }
@@ -2699,6 +3016,14 @@
      "ref": "L6",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_offer.cine:20",
+     "ref": "e3m3_offer/O2@0.2",
+     "slot": 3.7,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -3836,6 +4161,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "messenger"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_arrival.cine:21",
+     "ref": "e2m1_arrival/A3@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "messenger"
     }
    ]
   },
@@ -3956,6 +4289,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_wake.cine:15",
+     "ref": "e2m5_wake/K1@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -4003,6 +4344,14 @@
      "ref": "L26",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_sunrise.cine:17",
+     "ref": "e2m4_sunrise/S1@0.5",
+     "slot": 6.5,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -4124,6 +4473,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_watchers.cine:16",
+     "ref": "m1_watchers/H2@0.6",
+     "slot": 5.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -4195,6 +4552,14 @@
      "ref": "L1",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_muster.cine:14",
+     "ref": "e2m2_muster/M1@0.4",
+     "slot": 6.1,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -4284,6 +4649,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_dusk.cine:28",
+     "ref": "e3m1_dusk/D4@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -4316,6 +4689,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:36",
+     "ref": "e3m4_field/F6@0.4",
+     "slot": 8.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -4331,6 +4712,14 @@
      "ref": "L1",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_road.cine:13",
+     "ref": "e2m3_road/R1@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -4372,6 +4761,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_arrival.cine:14",
+     "ref": "e2m1_arrival/A1@0.5",
+     "slot": 7.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -4387,6 +4784,14 @@
      "ref": "L1",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_descent.cine:13",
+     "ref": "e2m4_descent/D1@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -4404,6 +4809,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_rest.cine:32",
+     "ref": "e3m3_rest/R4@0.4",
+     "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -4419,6 +4832,14 @@
      "ref": "L7",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_westwatch.cine:15",
+     "ref": "m1_westwatch/W1@0.4",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -4451,6 +4872,14 @@
      "ref": "L9",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_seal.cine:12",
+     "ref": "m1_seal/S1@0.4",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -4523,6 +4952,14 @@
      "ref": "L1",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_cavern.cine:16",
+     "ref": "e2m5_cavern/C1@0.4",
+     "slot": 6.1,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -4651,6 +5088,14 @@
      "ref": "L3",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "pell"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_road.cine:20",
+     "ref": "e2m3_road/R3@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
      "speaker_id": "pell"
     }
    ]
@@ -4928,6 +5373,30 @@
    ]
   },
   {
+   "id": "torvald/i_heard_it_ask_1c2809dd",
+   "speaker": "torvald",
+   "text": "I heard it ask. I did not hear him say no.",
+   "text_hash": "1c2809dd8aeebcc9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_ending.cine:35",
+     "ref": "ep3_ending/T03@3.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_ending.json",
+     "ref": "ep3_ending/L2",
+     "slot": 3.3,
+     "slot_kind": "cine slot",
+     "speaker_id": "torvald"
+    }
+   ]
+  },
+  {
    "id": "torvald/i_told_malrik_no_ce3f4de1",
    "speaker": "torvald",
    "text": "I told Malrik no, once. Then I watched you carry three keys toward the Hollow.",
@@ -4972,6 +5441,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_whisper.cine:23",
+     "ref": "e3m4_whisper/H3@0.3",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
     }
    ]
   },
@@ -5004,6 +5481,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_standard.cine:20",
+     "ref": "e3m1_standard/T2@0.3",
+     "slot": 4.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "torvald"
     }
    ]
   },
@@ -5019,6 +5504,14 @@
      "ref": "L27",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:32",
+     "ref": "e3m4_field/F5@0.6",
+     "slot": 6.4,
+     "slot_kind": "cine shot",
      "speaker_id": "torvald"
     }
    ]
@@ -5147,6 +5640,14 @@
      "ref": "L9",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "torvald"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_frostwarden.cine:19",
+     "ref": "e2m1_frostwarden/F2@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
      "speaker_id": "torvald"
     }
    ]
@@ -8075,6 +8576,14 @@
     },
     {
      "kind": "cine",
+     "source": "data/cinematics/src/m2_heartfrost.cine:23",
+     "ref": "m2_heartfrost/H3@0.2",
+     "slot": 4.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/voice/lines/m02.json",
      "ref": "m02/L9",
      "slot": 5.0,
@@ -8256,6 +8765,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_two_banners.cine:16",
+     "ref": "e2m2_two_banners/B2@5",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -8384,6 +8901,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_wake.cine:32",
+     "ref": "e2m5_wake/K4@0.4",
+     "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -8399,6 +8924,14 @@
      "ref": "L2",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_arrival.cine:17",
+     "ref": "e2m1_arrival/A2@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
    ]
@@ -8568,6 +9101,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_heartwood.cine:23",
+     "ref": "e2m2_heartwood/H3@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -8664,6 +9205,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_ysolde.cine:18",
+     "ref": "e2m1_ysolde/Y2@5",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -8679,6 +9228,14 @@
      "ref": "L10",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_seal.cine:24",
+     "ref": "m1_seal/S3@0.3",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
    ]
@@ -8751,6 +9308,14 @@
      "ref": "L2",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_descent.cine:18",
+     "ref": "e2m4_descent/D2@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
    ]
@@ -9352,6 +9917,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_road.cine:16",
+     "ref": "e2m3_road/R2@0.3",
+     "slot": 7.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -9504,6 +10077,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_cavern.cine:20",
+     "ref": "e2m5_cavern/C2@0.3",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -9592,6 +10173,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_forge.cine:13",
+     "ref": "e2m4_forge/F1@0.6",
+     "slot": 6.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -9640,6 +10229,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_crown.cine:17",
+     "ref": "m1_crown/C2@0.3",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -9655,6 +10252,14 @@
      "ref": "L27",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_answer.cine:16",
+     "ref": "e2m5_answer/A2@0.3",
+     "slot": 6.2,
+     "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
    ]
@@ -9687,6 +10292,14 @@
      "ref": "L28",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_sunrise.cine:27",
+     "ref": "e2m4_sunrise/S3@4.8",
+     "slot": 4.7,
+     "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
    ]
@@ -9775,6 +10388,14 @@
      "ref": "L3",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_muster.cine:20",
+     "ref": "e2m2_muster/M3@0.3",
+     "slot": 6.2,
+     "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
    ]
@@ -9928,6 +10549,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:21",
+     "ref": "e3m4_field/F2@0.3",
+     "slot": 2.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -10023,6 +10652,14 @@
      "ref": "L14",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_lodge.cine:16",
+     "ref": "e2m3_lodge/L2@0.3",
+     "slot": 3.5,
+     "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
    ]
@@ -10304,6 +10941,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_answer.cine:11",
+     "ref": "e2m5_answer/A1@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
     }
    ]
   },
@@ -10335,6 +10980,14 @@
      "ref": "L3",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_cavern.cine:23",
+     "ref": "e2m5_cavern/C3@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
      "speaker_id": "vey"
     }
    ]
@@ -10407,6 +11060,14 @@
      "ref": "L27",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_sunrise.cine:26",
+     "ref": "e2m4_sunrise/S3@0.3",
+     "slot": 4.5,
+     "slot_kind": "cine shot",
      "speaker_id": "vey"
     }
    ]
@@ -10752,6 +11413,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_descent.cine:21",
+     "ref": "e2m4_descent/D3@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
     }
    ]
   },
@@ -10831,6 +11500,14 @@
      "ref": "L23",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:17",
+     "ref": "e3m4_field/F1@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
      "speaker_id": "vey"
     }
    ]
@@ -11008,6 +11685,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_first_warden.cine:15",
+     "ref": "e2m4_first_warden/W2@0.3",
+     "slot": 5.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
     }
    ]
   },
@@ -11055,6 +11740,14 @@
      "ref": "L25",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_field.cine:22",
+     "ref": "e3m4_field/F2@3.2",
+     "slot": 5.8,
+     "slot_kind": "cine shot",
      "speaker_id": "vey"
     }
    ]
@@ -11135,6 +11828,14 @@
      "ref": "L21",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_sexton.cine:20",
+     "ref": "e3m3_sexton/X2@0.5",
+     "slot": 5.5,
+     "slot_kind": "cine shot",
      "speaker_id": "obren"
     }
    ]
@@ -11224,6 +11925,38 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_offer.cine:21",
+     "ref": "e3m3_offer/O2@3.9",
+     "slot": 3.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
+    }
+   ]
+  },
+  {
+   "id": "whisper/now_the_tree_3d30fd03",
+   "speaker": "whisper",
+   "text": "Now the tree.",
+   "text_hash": "3d30fd031b2104f9",
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/ep3_ending.cine:41",
+     "ref": "ep3_ending/N07@1",
+     "slot": 7.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_ending.json",
+     "ref": "ep3_ending/L3",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "obren"
     }
    ]
   },
@@ -11255,6 +11988,14 @@
      "ref": "L15",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m1_standard.cine:16",
+     "ref": "e3m1_standard/T1@0.4",
+     "slot": 4.1,
+     "slot_kind": "cine shot",
      "speaker_id": "obren"
     }
    ]
@@ -11336,6 +12077,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_offer.cine:15",
+     "ref": "e3m3_offer/O1@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "obren"
     }
    ]
   },
@@ -11399,6 +12148,14 @@
      "ref": "L17",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "obren"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m4_whisper.cine:19",
+     "ref": "e3m4_whisper/H2@0.2",
+     "slot": 4.8,
+     "slot_kind": "cine shot",
      "speaker_id": "obren"
     }
    ]
@@ -11695,6 +12452,14 @@
      "ref": "L33",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m5_fall.cine:23",
+     "ref": "e2m5_fall/F3@0.6",
+     "slot": 5.4,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]
@@ -12024,6 +12789,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m2_dawn.cine:19",
+     "ref": "e3m2_dawn/W2@0.4",
+     "slot": 6.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
     }
    ]
   },
@@ -12039,6 +12812,14 @@
      "ref": "L20",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_heartwood.cine:24",
+     "ref": "e2m2_heartwood/H3@5.5",
+     "slot": 4.5,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]
@@ -12112,6 +12893,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_muster.cine:17",
+     "ref": "e2m2_muster/M2@0.3",
+     "slot": 6.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
     }
    ]
   },
@@ -12127,6 +12916,14 @@
      "ref": "L18",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_heartwood.cine:20",
+     "ref": "e2m2_heartwood/H2@0.5",
+     "slot": 5.5,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]
@@ -12192,6 +12989,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_ysolde.cine:17",
+     "ref": "e2m1_ysolde/Y2@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
     }
    ]
   },
@@ -12207,6 +13012,14 @@
      "ref": "L29",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m2_two_banners.cine:15",
+     "ref": "e2m2_two_banners/B2@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
      "speaker_id": "ysolde"
     }
    ]

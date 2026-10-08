@@ -4,13 +4,105 @@
  "engine": "kokoro-onnx v1.0",
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
- "count": 285,
- "total_seconds": 623.91,
- "orphans": [
-  "master/nothing_breaks_him_not_9a4ca6da",
-  "master/once_upon_a_time_74703b43"
- ],
+ "count": 325,
+ "total_seconds": 753.44,
+ "orphans": [],
  "lines": {
+  "aldra/cracked_not_broken_torvald_c73e5da5": {
+   "speaker": "aldra",
+   "text": "Cracked. Not broken. Torvald will hear of this.",
+   "text_hash": "c73e5da5473769e0",
+   "path": "res://assets/audio/voice/aldra/cracked_not_broken_torvald_c73e5da5.wav",
+   "voice": {
+    "bf_lily": 0.6,
+    "bf_alice": 0.4
+   },
+   "speed": 0.95,
+   "cast_speed": 0.95,
+   "lang": "en-gb",
+   "duration": 2.86,
+   "peak": 0.8913,
+   "rms_db": -18.6,
+   "clipped": 0,
+   "file_hash": "f8e7158072a9f797",
+   "gen_s": 0.92,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[9]",
+     "ref": "L10",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  "aldra/hold_the_rime_when_a0531061": {
+   "speaker": "aldra",
+   "text": "Hold the rime. When the green stops beating, the wood is ours.",
+   "text_hash": "a05310614068f039",
+   "path": "res://assets/audio/voice/aldra/hold_the_rime_when_a0531061.wav",
+   "voice": {
+    "bf_lily": 0.6,
+    "bf_alice": 0.4
+   },
+   "speed": 0.95,
+   "cast_speed": 0.95,
+   "lang": "en-gb",
+   "duration": 3.56,
+   "peak": 0.8913,
+   "rms_db": -19.0,
+   "clipped": 0,
+   "file_hash": "580c785c16d5b0ff",
+   "gen_s": 0.8,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[7]",
+     "ref": "L8",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "aldra"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m1_frostwarden.cine:12",
+     "ref": "e2m1_frostwarden/F1@0.3",
+     "slot": 4.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  "aldra/rime_on_the_ramp_42787a6c": {
+   "speaker": "aldra",
+   "text": "Rime on the ramp, Torvald. They will not climb it twice.",
+   "text_hash": "42787a6c6ccf369a",
+   "path": "res://assets/audio/voice/aldra/rime_on_the_ramp_42787a6c.wav",
+   "voice": {
+    "bf_lily": 0.6,
+    "bf_alice": 0.4
+   },
+   "speed": 0.95,
+   "cast_speed": 0.95,
+   "lang": "en-gb",
+   "duration": 3.08,
+   "peak": 0.8913,
+   "rms_db": -17.2,
+   "clipped": 0,
+   "file_hash": "0442bdb66d5293d2",
+   "gen_s": 0.73,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[10]",
+     "ref": "L11",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
   "aldra/still_water_steady_aim_41ed1299": {
    "speaker": "aldra",
    "text": "Still water, steady aim.",
@@ -35,6 +127,35 @@
      "ref": "unit_barks/helper_aldra_select",
      "slot": null,
      "slot_kind": "cine slot",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  "aldra/the_green_has_stopped_ac1b55c9": {
+   "speaker": "aldra",
+   "text": "The green has stopped. Winter keeps this wood now.",
+   "text_hash": "ac1b55c9136450e6",
+   "path": "res://assets/audio/voice/aldra/the_green_has_stopped_ac1b55c9.wav",
+   "voice": {
+    "bf_lily": 0.6,
+    "bf_alice": 0.4
+   },
+   "speed": 0.95,
+   "cast_speed": 0.95,
+   "lang": "en-gb",
+   "duration": 2.9,
+   "peak": 0.8913,
+   "rms_db": -16.9,
+   "clipped": 0,
+   "file_hash": "58ec0e0a064c1e68",
+   "gen_s": 0.68,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[28]",
+     "ref": "L29",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "aldra"
     }
    ]
@@ -67,6 +188,95 @@
     }
    ]
   },
+  "aldra/winter_goes_home_torvald_953915fe": {
+   "speaker": "aldra",
+   "text": "Winter goes home, Torvald. Let the Bishop dig his own grave.",
+   "text_hash": "953915fe8a7f67f4",
+   "path": "res://assets/audio/voice/aldra/winter_goes_home_torvald_953915fe.wav",
+   "voice": {
+    "bf_lily": 0.6,
+    "bf_alice": 0.4
+   },
+   "speed": 0.95,
+   "cast_speed": 0.95,
+   "lang": "en-gb",
+   "duration": 3.75,
+   "peak": 0.8913,
+   "rms_db": -18.0,
+   "clipped": 0,
+   "file_hash": "bfc5f909105b96ac",
+   "gen_s": 0.84,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[28]",
+     "ref": "L29",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "aldra"
+    }
+   ]
+  },
+  "ashby/a_masters_forge_my_ca56e44a": {
+   "speaker": "ashby",
+   "text": "A Master's forge! My grandad would weep. Then he'd charge you for it.",
+   "text_hash": "ca56e44a4ef94e56",
+   "path": "res://assets/audio/voice/ashby/a_masters_forge_my_ca56e44a.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.22,
+   "peak": 0.8913,
+   "rms_db": -16.6,
+   "clipped": 0,
+   "file_hash": "cfb1e85980ac3dd9",
+   "gen_s": 0.89,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[13]",
+     "ref": "L14",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_forge.cine:16",
+     "ref": "e2m4_forge/F2@0.3",
+     "slot": 7.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/built_you_a_tower_51b9f1fe": {
+   "speaker": "ashby",
+   "text": "Built you a tower on the west road, my queen. Learned that at the Millwatch.",
+   "text_hash": "51b9f1fe7bc52dbc",
+   "path": "res://assets/audio/voice/ashby/built_you_a_tower_51b9f1fe.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.69,
+   "peak": 0.8913,
+   "rms_db": -15.2,
+   "clipped": 0,
+   "file_hash": "4183d205b8b29b45",
+   "gen_s": 0.85,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[32]",
+     "ref": "L33",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
   "ashby/emberguard_boots_on_we_41d6a1ed": {
    "speaker": "ashby",
    "text": "Emberguard! Boots on! We march at first light!",
@@ -96,6 +306,58 @@
      "ref": "ep2_opening/L26",
      "slot": 2.9,
      "slot_kind": "cine slot",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/first_batch_out_of_2ebdc632": {
+   "speaker": "ashby",
+   "text": "First batch out of the old forge, my queen! Blades that remember the fire.",
+   "text_hash": "2ebdc6322b6c64c5",
+   "path": "res://assets/audio/voice/ashby/first_batch_out_of_2ebdc632.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.9,
+   "peak": 0.8913,
+   "rms_db": -15.6,
+   "clipped": 0,
+   "file_hash": "7a2947ba44d6f60b",
+   "gen_s": 0.92,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[14]",
+     "ref": "L15",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/my_queen_work_crews_2b047376": {
+   "speaker": "ashby",
+   "text": "My queen! Work crew's on the stair. Find us a hearth to build around!",
+   "text_hash": "2b047376853accfc",
+   "path": "res://assets/audio/voice/ashby/my_queen_work_crews_2b047376.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.44,
+   "peak": 0.8913,
+   "rms_db": -15.6,
+   "clipped": 0,
+   "file_hash": "ab1927871ce018e8",
+   "gen_s": 0.81,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[8]",
+     "ref": "L9",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "ashby"
     }
    ]
@@ -133,6 +395,136 @@
     }
    ]
   },
+  "ashby/shades_sitting_on_millstone_7291178e": {
+   "speaker": "ashby",
+   "text": "Shades sitting on Millstone Cross, my queen. No caravan's getting through there.",
+   "text_hash": "7291178e425af475",
+   "path": "res://assets/audio/voice/ashby/shades_sitting_on_millstone_7291178e.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.968,
+   "peak": 0.8913,
+   "rms_db": -14.8,
+   "clipped": 0,
+   "file_hash": "563064d741bd7d64",
+   "gen_s": 0.9,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[18]",
+     "ref": "L19",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/shadow_at_the_camp_6531003e": {
+   "speaker": "ashby",
+   "text": "Shadow at the camp, my queen! We'll hold the hall. Go!",
+   "text_hash": "6531003e9f9a03e1",
+   "path": "res://assets/audio/voice/ashby/shadow_at_the_camp_6531003e.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 2.62,
+   "peak": 0.8913,
+   "rms_db": -15.6,
+   "clipped": 0,
+   "file_hash": "9522634fa3c85cc0",
+   "gen_s": 0.65,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_01.gd:DIALOGUE[6]",
+     "ref": "L7",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/the_emberwatch_is_burning_7a9e83ae": {
+   "speaker": "ashby",
+   "text": "The Emberwatch is burning! Fall back, fall back!",
+   "text_hash": "7a9e83ae9c5a47ac",
+   "path": "res://assets/audio/voice/ashby/the_emberwatch_is_burning_7a9e83ae.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 2.47,
+   "peak": 0.8913,
+   "rms_db": -14.8,
+   "clipped": 0,
+   "file_hash": "3ffe801060066f04",
+   "gen_s": 0.62,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[31]",
+     "ref": "L32",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/the_forge_is_lost_082ed9e1": {
+   "speaker": "ashby",
+   "text": "The forge is lost! The hearth's gone cold!",
+   "text_hash": "082ed9e16875b2d8",
+   "path": "res://assets/audio/voice/ashby/the_forge_is_lost_082ed9e1.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 2.3,
+   "peak": 0.8913,
+   "rms_db": -14.4,
+   "clipped": 0,
+   "file_hash": "34eb7e426b72864f",
+   "gen_s": 0.57,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[32]",
+     "ref": "L33",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/the_saltwatch_is_lost_b481ccd1": {
+   "speaker": "ashby",
+   "text": "The Saltwatch is lost! Get the queen out!",
+   "text_hash": "b481ccd185d1deb1",
+   "path": "res://assets/audio/voice/ashby/the_saltwatch_is_lost_b481ccd1.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 2.2,
+   "peak": 0.8913,
+   "rms_db": -15.1,
+   "clipped": 0,
+   "file_hash": "b2efe2ead20ad615",
+   "gen_s": 0.58,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[31]",
+     "ref": "L32",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
   "ashby/three_relics_one_colossus_cbec31ed": {
    "speaker": "ashby",
    "text": "Three relics! One Colossus! Drink!",
@@ -163,6 +555,334 @@
      "slot": 3.7,
      "slot_kind": "cine slot",
      "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/up_up_shadow_in_7a36b5e0": {
+   "speaker": "ashby",
+   "text": "Up! Up! Shadow in the camp! Torches, all of you!",
+   "text_hash": "7a36b5e08bcd4f33",
+   "path": "res://assets/audio/voice/ashby/up_up_shadow_in_7a36b5e0.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 2.3,
+   "peak": 0.8913,
+   "rms_db": -14.8,
+   "clipped": 0,
+   "file_hash": "18250d1cbe67f3f2",
+   "gen_s": 0.61,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[10]",
+     "ref": "L11",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "ashby/watchtowers_ours_my_queen_dd96ac81": {
+   "speaker": "ashby",
+   "text": "Watchtower's ours, my queen. We can see clear across the Hollowmere.",
+   "text_hash": "dd96ac81c314dd0f",
+   "path": "res://assets/audio/voice/ashby/watchtowers_ours_my_queen_dd96ac81.wav",
+   "voice": "am_eric",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.39,
+   "peak": 0.8913,
+   "rms_db": -15.4,
+   "clipped": 0,
+   "file_hash": "9aef3ebb2127527b",
+   "gen_s": 0.81,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_02.gd:DIALOGUE[7]",
+     "ref": "L8",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "ashby"
+    }
+   ]
+  },
+  "bettany/arrows_mostly_and_never_aa9c45aa": {
+   "speaker": "bettany",
+   "text": "Arrows, mostly. And never having to go down there again.",
+   "text_hash": "aa9c45aa12273cc9",
+   "path": "res://assets/audio/voice/bettany/arrows_mostly_and_never_aa9c45aa.wav",
+   "voice": "af_sarah",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.126,
+   "peak": 0.8913,
+   "rms_db": -20.7,
+   "clipped": 0,
+   "file_hash": "3f06173798af6329",
+   "gen_s": 0.86,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[35]",
+     "ref": "L36",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_lodge.cine:17",
+     "ref": "e2m3_lodge/L2@3.8",
+     "slot": 5.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "bettany"
+    }
+   ]
+  },
+  "bettany/eight_magpies_the_lodge_31433e94": {
+   "speaker": "bettany",
+   "text": "Eight Magpies. The Lodge remembers who clears its road.",
+   "text_hash": "31433e945921cf9f",
+   "path": "res://assets/audio/voice/bettany/eight_magpies_the_lodge_31433e94.wav",
+   "voice": "af_sarah",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.24,
+   "peak": 0.8913,
+   "rms_db": -20.9,
+   "clipped": 0,
+   "file_hash": "10f135d2481e4dfd",
+   "gen_s": 0.91,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[23]",
+     "ref": "L24",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    }
+   ]
+  },
+  "bettany/guides_are_with_you_e70f4481": {
+   "speaker": "bettany",
+   "text": "Guides are with you. Go before the Bishop buys the next one.",
+   "text_hash": "e70f4481bd5bc376",
+   "path": "res://assets/audio/voice/bettany/guides_are_with_you_e70f4481.wav",
+   "voice": "af_sarah",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.435,
+   "peak": 0.8913,
+   "rms_db": -18.9,
+   "clipped": 0,
+   "file_hash": "990b0a17f315dc86",
+   "gen_s": 1.04,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[28]",
+     "ref": "L29",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    }
+   ]
+  },
+  "bettany/halfway_the_old_hunters_f6dbe445": {
+   "speaker": "bettany",
+   "text": "Halfway. The old hunters are starting to like you. Don't let it go to your head.",
+   "text_hash": "f6dbe445e927149c",
+   "path": "res://assets/audio/voice/bettany/halfway_the_old_hunters_f6dbe445.wav",
+   "voice": "af_sarah",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.07,
+   "peak": 0.8913,
+   "rms_db": -19.9,
+   "clipped": 0,
+   "file_hash": "197c69d3c00d6501",
+   "gen_s": 1.05,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[22]",
+     "ref": "L23",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    }
+   ]
+  },
+  "bettany/heads_up_firelady_the_940c22c7": {
+   "speaker": "bettany",
+   "text": "Heads up, Firelady. The Magpies are out. They like their caravans full and their guards absent.",
+   "text_hash": "940c22c762cab922",
+   "path": "res://assets/audio/voice/bettany/heads_up_firelady_the_940c22c7.wav",
+   "voice": "af_sarah",
+   "speed": 1.185,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.971,
+   "peak": 0.8913,
+   "rms_db": -19.3,
+   "clipped": 0,
+   "file_hash": "19330e64f35a1a47",
+   "gen_s": 2.48,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[6]",
+     "ref": "L7",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.686,
+    "speed_x": 1.185
+   }
+  },
+  "bettany/it_did_the_lodge_b9bed1ca": {
+   "speaker": "bettany",
+   "text": "It did. The Lodge pays better, and nobody here throws fire at the furniture.",
+   "text_hash": "b9bed1ca2e08f720",
+   "path": "res://assets/audio/voice/bettany/it_did_the_lodge_b9bed1ca.wav",
+   "voice": "af_sarah",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.416,
+   "peak": 0.8913,
+   "rms_db": -17.8,
+   "clipped": 0,
+   "file_hash": "e18c78be93c52d38",
+   "gen_s": 1.09,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[34]",
+     "ref": "L35",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    }
+   ]
+  },
+  "bettany/one_wagon_five_to_27f8f10b": {
+   "speaker": "bettany",
+   "text": "One wagon. Five to go. The hunters count slow and they count twice.",
+   "text_hash": "27f8f10b897632b7",
+   "path": "res://assets/audio/voice/bettany/one_wagon_five_to_27f8f10b.wav",
+   "voice": "af_sarah",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.352,
+   "peak": 0.8913,
+   "rms_db": -19.3,
+   "clipped": 0,
+   "file_hash": "5265faf506750b3c",
+   "gen_s": 1.08,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[12]",
+     "ref": "L13",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_lodge.cine:11",
+     "ref": "e2m3_lodge/L1@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "bettany"
+    }
+   ]
+  },
+  "bettany/six_paid_in_full_b206ca67": {
+   "speaker": "bettany",
+   "text": "Six. Paid in full. Here's your road down: a stair under Emberfall, the Sunrise Road.",
+   "text_hash": "b206ca67a0ef0b3a",
+   "path": "res://assets/audio/voice/bettany/six_paid_in_full_b206ca67.wav",
+   "voice": "af_sarah",
+   "speed": 1.085,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 4.8,
+   "peak": 0.8913,
+   "rms_db": -19.0,
+   "clipped": 0,
+   "file_hash": "338beafd78884952",
+   "gen_s": 2.36,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[25]",
+     "ref": "L26",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_paid.cine:12",
+     "ref": "e2m3_paid/P1@0.4",
+     "slot": 7.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "bettany"
+    }
+   ],
+   "fit": {
+    "slot": 5.0,
+    "unfitted_s": 5.21,
+    "speed_x": 1.085
+   }
+  },
+  "bettany/two_of_ours_will_8082354f": {
+   "speaker": "bettany",
+   "text": "Two of ours will guide you. Nobody else has walked it since the Master.",
+   "text_hash": "8082354f1255deff",
+   "path": "res://assets/audio/voice/bettany/two_of_ours_will_8082354f.wav",
+   "voice": "af_sarah",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-us",
+   "duration": 3.883,
+   "peak": 0.8913,
+   "rms_db": -18.9,
+   "clipped": 0,
+   "file_hash": "b3267f6fac117912",
+   "gen_s": 1.0,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_03.gd:DIALOGUE[26]",
+     "ref": "L27",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "bettany"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m3_paid.cine:16",
+     "ref": "e2m3_paid/P2@0.3",
+     "slot": 6.7,
+     "slot_kind": "cine shot",
+     "speaker_id": "bettany"
     }
    ]
   },
@@ -199,6 +919,126 @@
     }
    ]
   },
+  "hush/and_the_people_in_38bfd736": {
+   "speaker": "hush",
+   "text": "And the people in the tents, Bishop?",
+   "text_hash": "38bfd736e7c224d0",
+   "path": "res://assets/audio/voice/hush/and_the_people_in_38bfd736.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.19,
+   "peak": 0.8913,
+   "rms_db": -17.2,
+   "clipped": 0,
+   "file_hash": "2d697eb9fece833f",
+   "gen_s": 0.62,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[2]",
+     "ref": "L3",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/another_night_little_queen_cf1af060": {
+   "speaker": "hush",
+   "text": "Another night, little queen. There is always another night.",
+   "text_hash": "cf1af0605adb4ac9",
+   "path": "res://assets/audio/voice/hush/another_night_little_queen_cf1af060.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 3.4,
+   "peak": 0.8913,
+   "rms_db": -19.7,
+   "clipped": 0,
+   "file_hash": "5089d84d35274fed",
+   "gen_s": 0.83,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_00.gd:DIALOGUE[7]",
+     "ref": "L8",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[13]",
+     "ref": "L14",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/m00.json",
+     "ref": "m00/L08",
+     "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/did_you_miss_me_4ed8c8cb": {
+   "speaker": "hush",
+   "text": "Did you miss me, little ember? I missed you. Twice now.",
+   "text_hash": "4ed8c8cb326ab9d8",
+   "path": "res://assets/audio/voice/hush/did_you_miss_me_4ed8c8cb.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.98,
+   "peak": 0.8913,
+   "rms_db": -16.8,
+   "clipped": 0,
+   "file_hash": "2781ca383586bc36",
+   "gen_s": 0.81,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_05.gd:DIALOGUE[11]",
+     "ref": "L12",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/four_the_camp_will_8abdeae8": {
+   "speaker": "hush",
+   "text": "Four. The camp will wake hungry, Bishop.",
+   "text_hash": "8abdeae8a467c769",
+   "path": "res://assets/audio/voice/hush/four_the_camp_will_8abdeae8.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.63,
+   "peak": 0.8913,
+   "rms_db": -17.8,
+   "clipped": 0,
+   "file_hash": "6ba900f7871e1a8f",
+   "gen_s": 0.7,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[17]",
+     "ref": "L18",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
   "hush/hush_i_am_here_3a8a2133": {
    "speaker": "hush",
    "text": "Hush. I am here.",
@@ -224,6 +1064,152 @@
     }
    ]
   },
+  "hush/hush_now_the_dark_083469dc": {
+   "speaker": "hush",
+   "text": "Hush now. The dark only wants to be listened to.",
+   "text_hash": "083469dcdaa1bc77",
+   "path": "res://assets/audio/voice/hush/hush_now_the_dark_083469dc.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 3.02,
+   "peak": 0.8913,
+   "rms_db": -18.7,
+   "clipped": 0,
+   "file_hash": "d3ff6777b01a9e07",
+   "gen_s": 0.74,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[21]",
+     "ref": "L22",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[4]",
+     "ref": "L5",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/light_it_bishop_just_2e5a0a38": {
+   "speaker": "hush",
+   "text": "Light it, Bishop. Just this once.",
+   "text_hash": "2e5a0a38604f1b24",
+   "path": "res://assets/audio/voice/hush/light_it_bishop_just_2e5a0a38.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.16,
+   "peak": 0.8913,
+   "rms_db": -19.8,
+   "clipped": 0,
+   "file_hash": "db0c67828f784933",
+   "gen_s": 0.59,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[23]",
+     "ref": "L24",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e3m3_rest.cine:23",
+     "ref": "e3m3_rest/R3@0.4",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/old_man_you_still_ebc88833": {
+   "speaker": "hush",
+   "text": "Old man. You still owe me a night.",
+   "text_hash": "ebc8883349dc4710",
+   "path": "res://assets/audio/voice/hush/old_man_you_still_ebc88833.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.24,
+   "peak": 0.8913,
+   "rms_db": -16.8,
+   "clipped": 0,
+   "file_hash": "f87122eba246e60f",
+   "gen_s": 0.61,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[8]",
+     "ref": "L9",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/one_horn_fewer_the_b84447ea": {
+   "speaker": "hush",
+   "text": "One horn fewer. The valley will have to shout.",
+   "text_hash": "b84447eaee0d1c37",
+   "path": "res://assets/audio/voice/hush/one_horn_fewer_the_b84447ea.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.89,
+   "peak": 0.8913,
+   "rms_db": -18.3,
+   "clipped": 0,
+   "file_hash": "81478820a5f581e8",
+   "gen_s": 0.73,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_01.gd:DIALOGUE[11]",
+     "ref": "L12",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/one_wagon_its_wheels_a0dd3082": {
+   "speaker": "hush",
+   "text": "One wagon. Its wheels will not turn again.",
+   "text_hash": "a0dd30829593677c",
+   "path": "res://assets/audio/voice/hush/one_wagon_its_wheels_a0dd3082.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.91,
+   "peak": 0.8913,
+   "rms_db": -18.9,
+   "clipped": 0,
+   "file_hash": "d75d8b3f67e158a2",
+   "gen_s": 0.77,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[5]",
+     "ref": "L6",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
   "hush/quiet_at_last_8a1a5864": {
    "speaker": "hush",
    "text": "Quiet... at last.",
@@ -245,6 +1231,170 @@
      "ref": "unit_barks/helper_hush_death",
      "slot": null,
      "slot_kind": "cine slot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/riders_at_the_reeds_637ae179": {
+   "speaker": "hush",
+   "text": "Riders at the reeds. Quick little sparks.",
+   "text_hash": "637ae179c59c4fa3",
+   "path": "res://assets/audio/voice/hush/riders_at_the_reeds_637ae179.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.78,
+   "peak": 0.8913,
+   "rms_db": -20.1,
+   "clipped": 0,
+   "file_hash": "399f9eed489ba1b3",
+   "gen_s": 0.7,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_04.gd:DIALOGUE[4]",
+     "ref": "L5",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/the_knife_bends_not_c5154be6": {
+   "speaker": "hush",
+   "text": "The knife bends... Not tonight. Not...",
+   "text_hash": "c5154be6a22c472a",
+   "path": "res://assets/audio/voice/hush/the_knife_bends_not_c5154be6.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.35,
+   "peak": 0.8913,
+   "rms_db": -17.6,
+   "clipped": 0,
+   "file_hash": "ebcb9bb22b31e0a3",
+   "gen_s": 0.63,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[28]",
+     "ref": "L29",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/the_little_ember_in_80809961": {
+   "speaker": "hush",
+   "text": "The little ember, in the dark. You're a long way from your braziers.",
+   "text_hash": "808099610999185f",
+   "path": "res://assets/audio/voice/hush/the_little_ember_in_80809961.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 4.07,
+   "peak": 0.8913,
+   "rms_db": -19.1,
+   "clipped": 0,
+   "file_hash": "9ff39025aa50215d",
+   "gen_s": 0.97,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[19]",
+     "ref": "L20",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/e2m4_hush.cine:16",
+     "ref": "e2m4_hush/H2@0.4",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/the_old_man_awake_880df431": {
+   "speaker": "hush",
+   "text": "The old man. Awake, of course. He was awake that night too.",
+   "text_hash": "880df431a6312856",
+   "path": "res://assets/audio/voice/hush/the_old_man_awake_880df431.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 3.94,
+   "peak": 0.8913,
+   "rms_db": -18.4,
+   "clipped": 0,
+   "file_hash": "db885ebe2d28b165",
+   "gen_s": 0.96,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_02.gd:DIALOGUE[6]",
+     "ref": "L7",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/then_they_can_lie_dd75e0d4": {
+   "speaker": "hush",
+   "text": "Then they can lie down again. I'll help them.",
+   "text_hash": "dd75e0d4e6b0af60",
+   "path": "res://assets/audio/voice/hush/then_they_can_lie_dd75e0d4.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 2.55,
+   "peak": 0.8913,
+   "rms_db": -18.3,
+   "clipped": 0,
+   "file_hash": "98cf4d7d48460671",
+   "gen_s": 0.66,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e3_03.gd:DIALOGUE[16]",
+     "ref": "L17",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
+     "speaker_id": "hush"
+    }
+   ]
+  },
+  "hush/there_is_always_another_5a290e4e": {
+   "speaker": "hush",
+   "text": "There is always another night, little ember. Another night.",
+   "text_hash": "5a290e4ef496fdaa",
+   "path": "res://assets/audio/voice/hush/there_is_always_another_5a290e4e.wav",
+   "voice": "af_alloy",
+   "speed": 0.92,
+   "cast_speed": 0.92,
+   "lang": "en-us",
+   "duration": 3.48,
+   "peak": 0.8913,
+   "rms_db": -17.2,
+   "clipped": 0,
+   "file_hash": "e61c61fc7e2eeae3",
+   "gen_s": 0.9,
+   "sources": [
+    {
+     "kind": "mission",
+     "source": "scripts/campaign/mission_e2_04.gd:DIALOGUE[22]",
+     "ref": "L23",
+     "slot": 5.0,
+     "slot_kind": "subtitle",
      "speaker_id": "hush"
     }
    ]
@@ -383,10 +1533,26 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/ep3_ending.cine:54",
+     "ref": "ep3_ending/N12@6",
+     "slot": 2.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
      "source": "data/cinematics/src/ep3_opening.cine:119",
      "ref": "ep3_opening/N13@0.4",
      "slot": 2.6,
      "slot_kind": "cine shot",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/ep3_ending.json",
+     "ref": "ep3_ending/L5",
+     "slot": 2.6,
+     "slot_kind": "cine slot",
      "speaker_id": "malrik"
     }
    ]
@@ -603,6 +1769,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_watchers.cine:12",
+     "ref": "m1_watchers/H1@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "malrik"
     }
    ]
   },
@@ -627,6 +1801,14 @@
      "ref": "L8",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_westwatch.cine:19",
+     "ref": "m1_westwatch/W2@0.5",
+     "slot": 4.5,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -710,6 +1892,14 @@
      "ref": "L11",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "malrik"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_crown.cine:14",
+     "ref": "m1_crown/C1@0.6",
+     "slot": 5.4,
+     "slot_kind": "cine shot",
      "speaker_id": "malrik"
     }
    ]
@@ -2409,6 +3599,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_watchers.cine:16",
+     "ref": "m1_watchers/H2@0.6",
+     "slot": 5.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -2459,6 +3657,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_westwatch.cine:15",
+     "ref": "m1_westwatch/W1@0.4",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "narrator"
     }
    ]
   },
@@ -2483,6 +3689,14 @@
      "ref": "L9",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "narrator"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_seal.cine:12",
+     "ref": "m1_seal/S1@0.4",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
      "speaker_id": "narrator"
     }
    ]
@@ -7222,6 +8436,14 @@
      "slot": 5.0,
      "slot_kind": "subtitle",
      "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_seal.cine:24",
+     "ref": "m1_seal/S3@0.3",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
     }
    ]
   },
@@ -7478,6 +8700,14 @@
      "ref": "L12",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/m1_crown.cine:17",
+     "ref": "m1_crown/C2@0.3",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
      "speaker_id": "vessa"
     }
    ]
