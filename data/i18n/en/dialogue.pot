@@ -5,6 +5,176 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L1
+msgid "Forty-one. Forty-two. Forty-three."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L2
+msgid "No jokes tonight?"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_ashes.json:L3
+msgid "Not tonight."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L4
+msgid "Torvald didn't come for my wood. He came for your relics."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L5
+msgid "Malrik told him the Hollow is waking. He's right. I hear it under the roots."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_ashes.json:L6
+msgid "Then don't stand here alone. Come with us."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L7
+msgid "The wood can't fight this winter. I can."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L8
+msgid "Keep it until the wood can."
+msgstr ""
+
+#. speaker maelis
+#: data/voice/lines/c_e2_ashes.json:L9
+msgid "This is all of us who can still hold a bow."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L10
+msgid "Then it's enough. We march with Fire."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_ashes.json:L11
+msgid "You still owe me a story, old man."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_ashes.json:L12 data/voice/lines/c_e2_stair.json:L9
+msgid "On the way down."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_lodge.json:L1
+msgid "All three of them, pointing at the floor."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L2
+msgid "Not the floor. Under it. The old Warden roads run down there."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L3
+msgid "Nobody living has walked them."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_lodge.json:L4
+msgid "Then we walk in blind."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L5
+msgid "Not quite. The Greywater Lodge has mapped the deep for a hundred years."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L6
+msgid "They sell that map to nobody."
+msgstr ""
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_lodge.json:L7
+msgid "They sell everything to somebody."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L8
+msgid "Gold. Six wagons of it, delivered to their door, past the Magpies and Malrik's knives."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_lodge.json:L9
+msgid "Gold? We have crystals. Lots of crystals."
+msgstr ""
+
+#. speaker pell
+#: data/voice/lines/c_e2_lodge.json:L10
+msgid "Did somebody say a trade road?"
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L1
+msgid "Ashby says the seal was older than the keep."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L2
+msgid "Older than the kingdom. He sealed it the day he took the throne."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L3
+msgid "You talk about the Master like you knew him before we did."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L4
+msgid "Before the four of you, there was a sword. I was the sword."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L5
+msgid "I stood behind his throne when kings still knelt to it."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L6
+msgid "And the lightning? No kingdom throws lightning."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L7
+msgid "It's his storm, not mine. He lent it to me to keep you four alive."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L8
+msgid "And when were you going to tell me?"
+msgstr ""
+
+#. speaker wren
+#: data/voice/lines/c_e2_stair.json:L10
+msgid "Vessa! Word from Ysolde."
+msgstr ""
+
+#. speaker wren
+#: data/voice/lines/c_e2_stair.json:L11
+msgid "Nature's army follows you down. All of it that can still walk."
+msgstr ""
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L12
+msgid "Then we don't keep them waiting."
+msgstr ""
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L13
+msgid "Mind the seventh step. It bites."
+msgstr ""
+
 #. speaker aldra
 #: data/voice/lines/c_e3_doubt.json:L1
 msgid "The old storm-sword crossed the river twice today."

@@ -1,0 +1,97 @@
+{
+    "cine_id": "c_e2_lodge",
+    "source": "data/cinematics/src/c_e2_lodge.cine (beats: docs/design/mission-e2-02.md, Cinematic hooks)",
+    "note": "Hand-written with the .cine (2026-10-08): the same text as its lines. Review: docs/design/film-text-review.md.",
+    "lines": [
+        {
+            "id": "L1",
+            "shot": "L2",
+            "at": 1.0,
+            "dur": 3.15,
+            "speaker": "vessa",
+            "subtitle": "All three of them, pointing at the floor.",
+            "text": "All three of them, pointing at the floor."
+        },
+        {
+            "id": "L2",
+            "shot": "L3",
+            "at": 0.4,
+            "dur": 4.25,
+            "speaker": "vey",
+            "subtitle": "Not the floor. Under it. The old Warden roads run down there.",
+            "text": "Not the floor. Under it. The old Warden roads run down there."
+        },
+        {
+            "id": "L3",
+            "shot": "L3",
+            "at": 5.2,
+            "dur": 2.55,
+            "speaker": "vey",
+            "subtitle": "Nobody living has walked them.",
+            "text": "Nobody living has walked them."
+        },
+        {
+            "id": "L4",
+            "shot": "L4",
+            "at": 0.4,
+            "dur": 2.5,
+            "speaker": "vessa",
+            "subtitle": "Then we walk in blind.",
+            "text": "Then we walk in blind."
+        },
+        {
+            "id": "L5",
+            "shot": "L4",
+            "at": 2.8,
+            "dur": 4.8,
+            "speaker": "vey",
+            "subtitle": "Not quite. The Greywater Lodge has mapped the deep for a hundred years.",
+            "text": "Not quite. The Greywater Lodge has mapped the deep for a hundred years."
+        },
+        {
+            "id": "L6",
+            "shot": "L4",
+            "at": 7.0,
+            "dur": 2.0,
+            "speaker": "vey",
+            "subtitle": "They sell that map to nobody.",
+            "text": "They sell that map to nobody."
+        },
+        {
+            "id": "L7",
+            "shot": "L5",
+            "at": 0.5,
+            "dur": 2.71,
+            "speaker": "ysolde",
+            "subtitle": "They sell everything to somebody.",
+            "text": "They sell everything to somebody."
+        },
+        {
+            "id": "L8",
+            "shot": "L6",
+            "at": 0.4,
+            "dur": 6.4,
+            "speaker": "vey",
+            "subtitle": "Gold. Six wagons of it, delivered to their door, past the Magpies and Malrik's knives.",
+            "text": "Gold. Six wagons of it, delivered to their door, past the Magpies and Malrik's knives."
+        },
+        {
+            "id": "L9",
+            "shot": "L7",
+            "at": 0.4,
+            "dur": 3.15,
+            "speaker": "vessa",
+            "subtitle": "Gold? We have crystals. Lots of crystals.",
+            "text": "Gold? We have crystals. Lots of crystals."
+        },
+        {
+            "id": "L10",
+            "shot": "L8",
+            "at": 6.0,
+            "dur": 2.55,
+            "speaker": "pell",
+            "subtitle": "Did somebody say a trade road?",
+            "text": "Did somebody say a trade road?"
+        }
+    ]
+}

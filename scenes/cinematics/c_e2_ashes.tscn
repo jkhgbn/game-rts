@@ -1,0 +1,111 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_stage.gd" id="1_ar6io"]
+[ext_resource type="Resource" path="res://data/cinematics/c_e2_ashes.tres" id="2_dihp0"]
+[ext_resource type="PackedScene" path="res://art/cinematics/stage_sets/forge_intro_ysolde/forge_intro_ysolde.tscn" id="3_t4vdm"]
+[ext_resource type="Script" path="res://art/cinematics/stage_sets/forge_common/forge_stage_set.gd" id="4_3nbju"]
+[ext_resource type="Resource" path="res://art/cinematics/stage_sets/forge_intro_ysolde/mood_ysolde.tres" id="5_eqtfa"]
+[ext_resource type="PackedScene" path="res://art/cinematics/props/ep2_between/seed_pod.tscn" id="6_yvcos"]
+[ext_resource type="PackedScene" path="res://art/units/wizards/vessa.tscn" id="7_1xo7h"]
+[ext_resource type="Script" path="res://art/units/wizards/vessa.gd" id="8_funa5"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_vey/helper_vey.tscn" id="9_nkwcl"]
+[ext_resource type="Script" path="res://art/units/helpers/helper_vey/helper_vey.gd" id="10_di32q"]
+[ext_resource type="PackedScene" path="res://art/units/helpers/helper_maelis/helper_maelis.tscn" id="11_llrpd"]
+[ext_resource type="Script" path="res://art/units/helpers/helper_maelis/maelis.gd" id="12_fhix1"]
+[ext_resource type="PackedScene" path="res://art/units/nature/wildwood_archer/wildwood_archer.tscn" id="13_5ynw7"]
+[ext_resource type="Script" path="res://art/units/nature/wildwood_archer/wildwood_archer.gd" id="14_4lr3c"]
+[ext_resource type="Script" path="res://art/environment/lighting/lighting_rig.gd" id="15_lha8t"]
+[ext_resource type="Resource" path="res://art/environment/lighting/preset_warm.tres" id="16_li7bm"]
+
+[node name="CE2AshesStage" type="Node3D" unique_id=1813802437]
+script = ExtResource("1_ar6io")
+autoplay_script = ExtResource("2_dihp0")
+actor_paths = {
+"army_fallen": NodePath("forge_intro_ysolde/Puppets/army_fallen"),
+"army_host": NodePath("forge_intro_ysolde/Puppets/army_host"),
+"fx_master": NodePath("forge_intro_ysolde/Puppets/fx_master"),
+"fx_tree": NodePath("forge_intro_ysolde/Puppets/fx_tree"),
+"fx_vines": NodePath("forge_intro_ysolde/Puppets/fx_vines"),
+"maelis": NodePath("Maelis"),
+"messenger": NodePath("forge_intro_ysolde/Puppets/messenger"),
+"pod": NodePath("Pod"),
+"s1": NodePath("S1"),
+"s2": NodePath("S2"),
+"treant": NodePath("forge_intro_ysolde/Puppets/treant"),
+"vessa": NodePath("Vessa"),
+"vey": NodePath("Vey"),
+"vinelasher": NodePath("forge_intro_ysolde/Puppets/vinelasher"),
+"ysolde": NodePath("forge_intro_ysolde/Puppets/ysolde"),
+"ysolde_young": NodePath("forge_intro_ysolde/Puppets/ysolde_young")
+}
+lighting_rig = NodePath("LightingRig")
+
+[node name="forge_intro_ysolde" type="Node3D" parent="." unique_id=1393269904 instance=ExtResource("3_t4vdm")]
+script = ExtResource("4_3nbju")
+set_id = &"forge_intro_ysolde"
+lighting = ExtResource("5_eqtfa")
+lights_off = Array[NodePath]([NodePath("Placed/keep"), NodePath("Placed/giant_stump_1"), NodePath("Placed/wildfire"), NodePath("Placed/smoke"), NodePath("Puppets/ysolde"), NodePath("Puppets/ysolde_young"), NodePath("Puppets/treant"), NodePath("Puppets/vinelasher"), NodePath("Puppets/messenger"), NodePath("Puppets/army_host"), NodePath("Puppets/army_fallen"), NodePath("Puppets/fx_tree"), NodePath("Puppets/fx_vines"), NodePath("Puppets/fx_master")])
+
+[node name="Pod" type="Node3D" parent="." unique_id=1032824029 instance=ExtResource("6_yvcos")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3, 1.05, 2.5)
+
+[node name="Vessa" type="Node3D" parent="." unique_id=189493896 instance=ExtResource("7_1xo7h")]
+transform = Transform3D(-0.57500005, 0, 0.9959292, 0, 1.15, 0, -0.9959292, 0, -0.57500005, 0.5, 0, 7.5)
+script = ExtResource("8_funa5")
+body_height = 3.0
+attack_style = &"wizard_bolt"
+attack_windup = 0.12
+stride_speed = 4.6
+
+[node name="Vey" type="Node3D" parent="." unique_id=83215443 instance=ExtResource("9_nkwcl")]
+transform = Transform3D(-0.34202012, 0, 0.9396926, 0, 1, 0, -0.9396926, 0, -0.34202012, 2, 0, 7.6)
+script = ExtResource("10_di32q")
+light_energy = 0.0
+body_height = 2.0
+attack_style = &"sword_slash"
+stride_speed = 4.8
+leg_swing_deg = 30.0
+
+[node name="Maelis" type="Node3D" parent="." unique_id=1408949064 instance=ExtResource("11_llrpd")]
+transform = Transform3D(-0.50000006, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.50000006, -6, 0, 16)
+visible = false
+script = ExtResource("12_fhix1")
+body_height = 2.0
+attack_style = &"thorn_bolt"
+attack_windup = 0.15
+stride_time = 0.6
+stride_speed = 4.9
+idle_period = 3.8
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 22.0
+walk_bounce = 0.03
+
+[node name="S1" type="Node3D" parent="." unique_id=2048496762 instance=ExtResource("13_5ynw7")]
+transform = Transform3D(-0.50000006, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.50000006, -7, 0, 17)
+visible = false
+script = ExtResource("14_4lr3c")
+fidget_every = 9.0
+attack_style = &"bow_draw"
+attack_windup = 0.15
+stride_time = 0.5
+stride_speed = 4.8
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 30.0
+walk_bounce = 0.05
+
+[node name="S2" type="Node3D" parent="." unique_id=477404964 instance=ExtResource("13_5ynw7")]
+transform = Transform3D(-0.50000006, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.50000006, -5, 0, 18)
+visible = false
+script = ExtResource("14_4lr3c")
+fidget_every = 9.0
+attack_style = &"bow_draw"
+attack_windup = 0.15
+stride_time = 0.5
+stride_speed = 4.8
+kingdom_color = Color(0.35, 0.7, 0.25, 1)
+leg_swing_deg = 30.0
+walk_bounce = 0.05
+
+[node name="LightingRig" type="Node3D" parent="." unique_id=32242195]
+script = ExtResource("15_lha8t")
+preset = ExtResource("16_li7bm")

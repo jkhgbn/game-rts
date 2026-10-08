@@ -1,27 +1,30 @@
 {
- "rendered": 5,
- "unchanged": 704,
- "gen_s": 7.4,
- "audio_s": 16.2,
- "rtf": 0.46,
- "wall_s": 9.3,
+ "rendered": 33,
+ "unchanged": 709,
+ "gen_s": 214.9,
+ "audio_s": 84.1,
+ "rtf": 2.56,
+ "wall_s": 217.1,
  "providers": [
   "CPUExecutionProvider"
  ],
- "model_load_s": 0.9,
- "total_lines": 709,
- "total_audio_s": 2016.5,
+ "model_load_s": 1.2,
+ "total_lines": 742,
+ "total_audio_s": 2100.5,
  "fit": "1",
- "fitted": [],
- "at": "2026-10-08 00:39:59",
+ "fitted": [
+  "vey/not_quite_the_greywater_5a1019db 4.37 -> 4.15 s (slot 4.2 s, x1.08)",
+  "vey/they_sell_that_map_61cf27c2 2.20 -> 1.91 s (slot 2 s, x1.15)"
+ ],
+ "at": "2026-10-08 01:05:00",
  "last_render": {
-  "rendered": 5,
-  "gen_s": 7.4,
-  "audio_s": 16.2,
-  "rtf": 0.46,
+  "rendered": 33,
+  "gen_s": 214.9,
+  "audio_s": 84.1,
+  "rtf": 2.56,
   "providers": [
    "CPUExecutionProvider"
   ],
-  "at": "2026-10-08 00:39:59"
+  "at": "2026-10-08 01:05:00"
  }
 }

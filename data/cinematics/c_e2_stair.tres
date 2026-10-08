@@ -1,0 +1,476 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_bib56"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_hk4ow"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_jj8h4"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_kv7k6"]
+
+[sub_resource type="Resource" id="Resource_tuu6b"]
+script = ExtResource("4_kv7k6")
+kind = &"teleport"
+actor = &"vessa"
+target = Vector3(4.4, 0, -2.2)
+params = {
+"yaw_deg": 180.0
+}
+
+[sub_resource type="Resource" id="Resource_k17bm"]
+script = ExtResource("4_kv7k6")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_yjgo5"]
+script = ExtResource("4_kv7k6")
+at = 3.0
+kind = &"anim"
+actor = &"guide1"
+params = {
+"hook": "play_cast"
+}
+
+[sub_resource type="Resource" id="Resource_hnxhs"]
+script = ExtResource("4_kv7k6")
+at = 5.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -20.0
+}
+
+[sub_resource type="Resource" id="Resource_gyqok"]
+script = ExtResource("3_jj8h4")
+id = &"T1"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(15, 10, 17)
+to_pos = Vector3(10, 5.5, 9)
+look_from = Vector3(4, 1, -4)
+look_to = Vector3(5, 0.6, -4.5)
+fov_from = 46.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 1.2
+actions = Array[ExtResource("4_kv7k6")]([SubResource("Resource_tuu6b"), SubResource("Resource_k17bm"), SubResource("Resource_yjgo5"), SubResource("Resource_hnxhs")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_hj5jy"]
+script = ExtResource("1_bib56")
+at = 0.6
+speaker = &"vessa"
+text = "Ashby says the seal was older than the keep."
+voice = "res://assets/audio/voice/vessa/ashby_says_the_seal_7c46b03d.wav"
+
+[sub_resource type="Resource" id="Resource_s23tr"]
+script = ExtResource("3_jj8h4")
+id = &"T2"
+duration = 6.5
+camera_mode = 1
+from_pos = Vector3(4.3, 1, -4.7)
+to_pos = Vector3(4.3, 1.05, -4.4)
+look_from = Vector3(4.4, 1.6639999, -2.2)
+look_to = Vector3(4.4, 1.6639999, -2.2)
+look_actor = &"vessa"
+look_offset = Vector3(0, 1.6639999, 0)
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_hj5jy")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_q3h7r"]
+script = ExtResource("4_kv7k6")
+kind = &"face"
+actor = &"vessa"
+params = {
+"look_actor": "vey",
+"time": 0.6,
+"yaw_deg": 82.40535484183935
+}
+
+[sub_resource type="Resource" id="Resource_aagx7"]
+script = ExtResource("4_kv7k6")
+kind = &"face"
+actor = &"vey"
+params = {
+"look_actor": "vessa",
+"time": 0.6,
+"yaw_deg": -97.59464515816066
+}
+
+[sub_resource type="Resource" id="Resource_435nn"]
+script = ExtResource("1_bib56")
+at = 0.6
+speaker = &"vey"
+text = "Older than the kingdom. He sealed it the day he took the throne."
+voice = "res://assets/audio/voice/vey/older_than_the_kingdom_9d294cbd.wav"
+
+[sub_resource type="Resource" id="Resource_fsinv"]
+script = ExtResource("3_jj8h4")
+id = &"T3"
+duration = 8.0
+camera_mode = 1
+from_pos = Vector3(5.3, 1.55, -5.9)
+to_pos = Vector3(5.2, 1.55, -5.5)
+look_from = Vector3(5.15, 1.6, -2.1)
+look_to = Vector3(5.15, 1.6, -2.1)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_435nn")])
+actions = Array[ExtResource("4_kv7k6")]([SubResource("Resource_q3h7r"), SubResource("Resource_aagx7")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_pvwo5"]
+script = ExtResource("1_bib56")
+at = 0.4
+speaker = &"vessa"
+text = "You talk about the Master like you knew him before we did."
+voice = "res://assets/audio/voice/vessa/you_talk_about_the_4ca6e30e.wav"
+
+[sub_resource type="Resource" id="Resource_6v70w"]
+script = ExtResource("3_jj8h4")
+id = &"T4"
+duration = 5.0
+from_pos = Vector3(5.25, 1.62, -3.75)
+to_pos = Vector3(5.25, 1.62, -3.75)
+look_from = Vector3(4.4, 1.6639999, -2.2)
+look_to = Vector3(4.4, 1.6639999, -2.2)
+look_actor = &"vessa"
+look_offset = Vector3(0, 1.6639999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_pvwo5")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_7y3ko"]
+script = ExtResource("1_bib56")
+at = 0.5
+speaker = &"vey"
+text = "Before the four of you, there was a sword. I was the sword."
+voice = "res://assets/audio/voice/vey/before_the_four_of_c84cffb8.wav"
+
+[sub_resource type="Resource" id="Resource_l8pa5"]
+script = ExtResource("1_bib56")
+at = 5.0
+speaker = &"vey"
+text = "I stood behind his throne when kings still knelt to it."
+voice = "res://assets/audio/voice/vey/i_stood_behind_his_ee1b3480.wav"
+
+[sub_resource type="Resource" id="Resource_sjdsb"]
+script = ExtResource("3_jj8h4")
+id = &"T5"
+duration = 10.0
+camera_mode = 1
+from_pos = Vector3(4.95, 1.72, -3.55)
+to_pos = Vector3(5, 1.72, -3.4)
+look_from = Vector3(5.9, 1.5649999, -2)
+look_to = Vector3(5.9, 1.5649999, -2)
+look_actor = &"vey"
+look_offset = Vector3(0, 1.5649999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_7y3ko"), SubResource("Resource_l8pa5")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_gvdw2"]
+script = ExtResource("4_kv7k6")
+at = 4.2
+kind = &"fade"
+params = {
+"alpha": 0.28,
+"color": Color(1, 0.9647059, 0.8627451, 1),
+"time": 0.12
+}
+
+[sub_resource type="Resource" id="Resource_nw7uo"]
+script = ExtResource("4_kv7k6")
+at = 4.5
+kind = &"fade"
+params = {
+"alpha": 0.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.5
+}
+
+[sub_resource type="Resource" id="Resource_nvotv"]
+script = ExtResource("4_kv7k6")
+at = 4.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/stone_thump.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_a6lj5"]
+script = ExtResource("1_bib56")
+at = 0.4
+speaker = &"vessa"
+text = "And the lightning? No kingdom throws lightning."
+voice = "res://assets/audio/voice/vessa/and_the_lightning_no_08fd5787.wav"
+
+[sub_resource type="Resource" id="Resource_2qo2u"]
+script = ExtResource("1_bib56")
+at = 3.9
+speaker = &"vey"
+text = "It's his storm, not mine. He lent it to me to keep you four alive."
+voice = "res://assets/audio/voice/vey/its_his_storm_not_dd511696.wav"
+
+[sub_resource type="Resource" id="Resource_q2f1g"]
+script = ExtResource("3_jj8h4")
+id = &"T6"
+duration = 9.5
+camera_mode = 1
+from_pos = Vector3(4.6, 1.45, -5)
+to_pos = Vector3(4.75, 1.45, -4.7)
+look_from = Vector3(5.15, 1.6, -2.1)
+look_to = Vector3(5.15, 1.6, -2.1)
+fov_from = 38.0
+fov_to = 38.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_a6lj5"), SubResource("Resource_2qo2u")])
+actions = Array[ExtResource("4_kv7k6")]([SubResource("Resource_gvdw2"), SubResource("Resource_nw7uo"), SubResource("Resource_nvotv")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_s8c6t"]
+script = ExtResource("1_bib56")
+at = 0.4
+speaker = &"vessa"
+text = "And when were you going to tell me?"
+voice = "res://assets/audio/voice/vessa/and_when_were_you_ec6fc968.wav"
+
+[sub_resource type="Resource" id="Resource_ly8of"]
+script = ExtResource("3_jj8h4")
+id = &"T7"
+duration = 4.5
+from_pos = Vector3(5.3, 1.6, -3.7)
+to_pos = Vector3(5.3, 1.6, -3.7)
+look_from = Vector3(4.4, 1.6639999, -2.2)
+look_to = Vector3(4.4, 1.6639999, -2.2)
+look_actor = &"vessa"
+look_offset = Vector3(0, 1.6639999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_s8c6t")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_qppek"]
+script = ExtResource("1_bib56")
+at = 1.0
+speaker = &"vey"
+text = "On the way down."
+voice = "res://assets/audio/voice/vey/on_the_way_down_3eba2270.wav"
+
+[sub_resource type="Resource" id="Resource_7f2tw"]
+script = ExtResource("3_jj8h4")
+id = &"T8"
+duration = 4.5
+from_pos = Vector3(4.95, 1.72, -3.5)
+to_pos = Vector3(4.95, 1.72, -3.5)
+look_from = Vector3(5.9, 1.5649999, -2)
+look_to = Vector3(5.9, 1.5649999, -2)
+look_actor = &"vey"
+look_offset = Vector3(0, 1.5649999, 0)
+fov_from = 28.0
+fov_to = 28.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_qppek")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_dn3ig"]
+script = ExtResource("4_kv7k6")
+kind = &"teleport"
+actor = &"wren"
+target = Vector3(0.4, 0, 8)
+params = {
+"yaw_deg": 180.0
+}
+
+[sub_resource type="Resource" id="Resource_3l2lu"]
+script = ExtResource("4_kv7k6")
+kind = &"visible"
+actor = &"wren"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_xy70j"]
+script = ExtResource("4_kv7k6")
+at = 0.2
+kind = &"move"
+actor = &"wren"
+target = Vector3(2.6, 0, -0.6)
+params = {
+"speed": 3.2
+}
+
+[sub_resource type="Resource" id="Resource_u4hc3"]
+script = ExtResource("4_kv7k6")
+at = 1.0
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/snow_step.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_u05o8"]
+script = ExtResource("4_kv7k6")
+at = 2.2
+kind = &"face"
+actor = &"vessa"
+params = {
+"look_actor": "wren",
+"time": 0.5,
+"yaw_deg": -17.216074156458053
+}
+
+[sub_resource type="Resource" id="Resource_utpg2"]
+script = ExtResource("4_kv7k6")
+at = 2.2
+kind = &"face"
+actor = &"vey"
+params = {
+"look_actor": "wren",
+"time": 0.5,
+"yaw_deg": -22.85194818034896
+}
+
+[sub_resource type="Resource" id="Resource_m51lo"]
+script = ExtResource("1_bib56")
+at = 2.6
+speaker = &"wren"
+text = "Vessa! Word from Ysolde."
+voice = "res://assets/audio/voice/messenger/vessa_word_from_ysolde_a716e06f.wav"
+
+[sub_resource type="Resource" id="Resource_ku8x1"]
+script = ExtResource("3_jj8h4")
+id = &"T9"
+duration = 7.0
+from_pos = Vector3(4.8, 2.2, -6.2)
+to_pos = Vector3(4.8, 2.2, -6.2)
+look_from = Vector3(2.6, 1.3, 0.2)
+look_to = Vector3(2.6, 1.3, 0.2)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_m51lo")])
+actions = Array[ExtResource("4_kv7k6")]([SubResource("Resource_dn3ig"), SubResource("Resource_3l2lu"), SubResource("Resource_xy70j"), SubResource("Resource_u4hc3"), SubResource("Resource_u05o8"), SubResource("Resource_utpg2")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_jtexj"]
+script = ExtResource("1_bib56")
+at = 0.5
+speaker = &"wren"
+text = "Nature's army follows you down. All of it that can still walk."
+voice = "res://assets/audio/voice/messenger/natures_army_follows_you_36ae7119.wav"
+
+[sub_resource type="Resource" id="Resource_g12so"]
+script = ExtResource("3_jj8h4")
+id = &"T10"
+duration = 7.0
+camera_mode = 1
+from_pos = Vector3(3.4, 1.5, -3.4)
+to_pos = Vector3(3.3, 1.5, -3.2)
+look_from = Vector3(2.6, 1.5446444, -0.6)
+look_to = Vector3(2.6, 1.5446444, -0.6)
+look_actor = &"wren"
+look_offset = Vector3(0, 1.5446444, 0)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_jtexj")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_ggamx"]
+script = ExtResource("4_kv7k6")
+kind = &"face"
+actor = &"vessa"
+params = {
+"time": 0.8,
+"yaw_deg": 180.0
+}
+
+[sub_resource type="Resource" id="Resource_5r1w1"]
+script = ExtResource("1_bib56")
+at = 0.6
+speaker = &"vessa"
+text = "Then we don't keep them waiting."
+voice = "res://assets/audio/voice/vessa/then_we_dont_keep_11ebfc58.wav"
+
+[sub_resource type="Resource" id="Resource_jye1y"]
+script = ExtResource("3_jj8h4")
+id = &"T11"
+duration = 5.0
+from_pos = Vector3(4, 1.55, -4.6)
+to_pos = Vector3(4, 1.55, -4.6)
+look_from = Vector3(4.4, 1.6639999, -2.2)
+look_to = Vector3(4.4, 1.6639999, -2.2)
+look_actor = &"vessa"
+look_offset = Vector3(0, 1.6639999, 0)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_5r1w1")])
+actions = Array[ExtResource("4_kv7k6")]([SubResource("Resource_ggamx")])
+stage_set = &"forge_watch_keep"
+
+[sub_resource type="Resource" id="Resource_k3grm"]
+script = ExtResource("4_kv7k6")
+at = 0.4
+kind = &"move"
+actor = &"vessa"
+target = Vector3(4.6, 0.55, -3.9)
+params = {
+"speed": 0.9
+}
+
+[sub_resource type="Resource" id="Resource_lo2ay"]
+script = ExtResource("4_kv7k6")
+at = 0.9
+kind = &"move"
+actor = &"vey"
+target = Vector3(5.5, 0.55, -3.9)
+params = {
+"speed": 0.9
+}
+
+[sub_resource type="Resource" id="Resource_lpnm2"]
+script = ExtResource("4_kv7k6")
+at = 9.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_0hmsg"]
+script = ExtResource("1_bib56")
+at = 1.2
+speaker = &"vey"
+text = "Mind the seventh step. It bites."
+voice = "res://assets/audio/voice/vey/mind_the_seventh_step_e39996fe.wav"
+
+[sub_resource type="Resource" id="Resource_qb25g"]
+script = ExtResource("3_jj8h4")
+id = &"T12"
+duration = 10.0
+camera_mode = 2
+from_pos = Vector3(5.2, 3.4, 1.4)
+to_pos = Vector3(5.1, 2.4, -0.4)
+look_from = Vector3(5, 0.6, -4.2)
+look_to = Vector3(5, 0.3, -5.2)
+fov_from = 44.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_bib56")]([SubResource("Resource_0hmsg")])
+actions = Array[ExtResource("4_kv7k6")]([SubResource("Resource_k3grm"), SubResource("Resource_lo2ay"), SubResource("Resource_lpnm2")])
+stage_set = &"forge_watch_keep"
+
+[resource]
+script = ExtResource("2_hk4ow")
+id = &"c_e2_stair"
+title = "On the Way Down"
+stage_scene = "res://scenes/cinematics/c_e2_stair.tscn"
+shots = Array[ExtResource("3_jj8h4")]([SubResource("Resource_gyqok"), SubResource("Resource_s23tr"), SubResource("Resource_fsinv"), SubResource("Resource_6v70w"), SubResource("Resource_sjdsb"), SubResource("Resource_q2f1g"), SubResource("Resource_ly8of"), SubResource("Resource_7f2tw"), SubResource("Resource_ku8x1"), SubResource("Resource_g12so"), SubResource("Resource_jye1y"), SubResource("Resource_qb25g")])
+music_cue = &"res://assets/audio/music/music_menu.wav"
+shake_seed = 43
+music_volume_db = -24.0
+voice_over = Array[StringName]([&"wren"])
+lines_over_cuts = true

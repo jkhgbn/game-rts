@@ -1,0 +1,60 @@
+# Between-scene "The Price of the Road", ~62 s (docs/design/mission-e2-02.md Cinematic hooks `c_e2_lodge`,
+# campaign-outline.md 3.2): after e2m2's victory, before e2m3's briefing (StoryFlow: CampaignState.STORY_FILMS
+# c_e2_lodge -> e2m3). Night; the three relics on the map table glow white-gold and all point DOWN, under Emberfall;
+# Vey: the old Warden roads go down there, nobody living has walked them, but the Greywater Lodge mapped the deep for a
+# hundred years and sells the map to nobody; Ysolde: "They sell everything to somebody"; Vey: six wagons of gold past
+# the Magpies and Malrik's knives; Vessa has never had gold ("We have crystals. Lots of crystals."); Pell's cart rolls
+# in: "Did somebody say a trade road?"
+# Text source for i18n / voices: data/voice/lines/c_e2_lodge.json (the same text as the lines below). Lines written
+# from the spec's beats and draft lines on 2026-10-08: every line is in docs/design/film-text-review.md.
+# Set: forge_ep2_feast stands in for the Emberwatch war-room (no war-room set): the same watch-keep courtyard after the
+# feast, empty, the table set before the keep door. Prop: art/cinematics/props/ep2_between/relic_table.tscn at (3,0,6).
+# The spec's last beat ("cut to the salt road at dawn") is left to e2m3_road, the mission's first scene.
+# Stand-ins: Pell's cart = the caravan model (tag pell, the speaker).
+# Axis: Vessa (north of the table, facing it) - Vey / Ysolde at its ends; every talk camera stays SOUTH of the table
+# (+Z, between it and the keep), looking north at their faces; the bonfire and the gate behind them.
+cine c_e2_lodge  title="The Price of the Road"  letterbox=2.39  seed=42  length=56..72
+use set forge_ep2_feast
+env night  moon_yaw=200  moon_pitch=-30  energy=0.55  color=#9fb4ff
+prop  table   res://art/cinematics/props/ep2_between/relic_table.tscn  at=(3, 0, 6)  yaw=0  scale=1.5
+cast  vessa   res://art/units/wizards/vessa.tscn                       at=(3, 0, 4.6)  yaw=0
+cast  vey     res://art/units/helpers/helper_vey/helper_vey.tscn       at=(5.05, 0, 6.15)  yaw=-90
+cast  ysolde  res://art/units/wizards/ysolde.tscn                      at=(0.95, 0, 6.3)  yaw=90
+cast  pell    res://art/units/caravan/caravan.tscn                     at=(0.6, 0, -30)  yaw=0  hidden=1
+
+# ---------------------------------------------------------------- the war-room table at night
+# Crane down from over the keep door: the empty courtyard, the bonfire low, three small white-gold lights on the table
+shot L1 7.0  cam=crane  from=(6, 9, 15)  to=(4.5, 3.4, 10.5)  look=(3, 0.9, 5.5)>(3, 0.95, 5.8)  fov=46>40  in=fade_black:1.2
+  at 0.0  sfx res://assets/audio/forge/sfx/evenmead_amb.wav  vol=-16
+# CU the relics: crown, orb, signet, each driving a thin light DOWN through the map
+shot L2 6.0  cam=dolly  from=(3.1, 2.2, 7.75)  to=(3.05, 2.05, 7.4)  look=(3, 1.3, 5.95)  fov=34
+  at 0.6  sfx res://assets/audio/forge/sfx/obren_whisper.wav  vol=-20
+  at 1.0  line vessa "All three of them, pointing at the floor."
+# Vey at the table's east end
+shot L3 9.0  cam=dolly  from=(3.45, 1.8, 7.15)  to=(3.5, 1.8, 7.0)  look=vey  fov=32
+  at 0.4  line vey "Not the floor. Under it. The old Warden roads run down there."
+  at 5.2  line vey "Nobody living has walked them."
+# Wide three-shot: Vessa across the table, Ysolde and Vey at the ends
+shot L4 9.0  cam=dolly  from=(3.0, 2.0, 10.6)  to=(3.0, 1.95, 10.2)  look=(3, 1.35, 5.6)  fov=47  faces=vessa,vey,ysolde
+  at 0.4  line vessa "Then we walk in blind."
+  at 2.8  line vey "Not quite. The Greywater Lodge has mapped the deep for a hundred years."
+  at 7.0  line vey "They sell that map to nobody."  dur=2.0
+shot L5 4.5  cam=static  from=(2.55, 1.7, 7.05)  look=ysolde  fov=30
+  at 0.5  line ysolde "They sell everything to somebody."
+shot L6 7.5  cam=dolly  from=(3.5, 1.82, 7.3)  to=(3.55, 1.82, 7.1)  look=vey  fov=30
+  at 0.4  line vey "Gold. Six wagons of it, delivered to their door, past the Magpies and Malrik's knives."  dur=6.4
+shot L7 5.5  cam=static  from=(3.45, 1.9, 7.4)  look=vessa  fov=30
+  at 0.4  line vessa "Gold? We have crystals. Lots of crystals."
+
+# ---------------------------------------------------------------- Pell
+# Over the table toward the gate: a cart rattles in out of the dark
+shot L8 8.0  cam=static  from=(6.0, 2.3, 8.2)  look=(1.0, 1.2, -6)  fov=44  faces=pell
+  at 0.0  show pell
+  at 0.0  move pell  to=(1.0, 0, -6)  speed=3.4
+  at 0.3  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-16
+  at 0.0  face vessa  yaw=180  time=0.8
+  at 0.2  face vey  yaw=200  time=0.8
+  at 0.4  face ysolde  yaw=160  time=0.8
+  at 6.0  line pell "Did somebody say a trade road?"
+shot L9 5.0  cam=static  from=(3.0, 2.2, 10.4)  look=(3, 1.4, 4.4)  fov=44  faces=vessa,vey,ysolde
+  at 4.0  fade alpha=1 time=1.0

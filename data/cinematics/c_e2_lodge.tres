@@ -1,0 +1,304 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_n3w8t"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_ttlg1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_cpt1l"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_gb8dw"]
+
+[sub_resource type="Resource" id="Resource_ppbnt"]
+script = ExtResource("4_gb8dw")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_bdjqm"]
+script = ExtResource("3_cpt1l")
+id = &"L1"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(6, 9, 15)
+to_pos = Vector3(4.5, 3.4, 10.5)
+look_from = Vector3(3, 0.9, 5.5)
+look_to = Vector3(3, 0.95, 5.8)
+fov_from = 46.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 1.2
+actions = Array[ExtResource("4_gb8dw")]([SubResource("Resource_ppbnt")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_4ko63"]
+script = ExtResource("4_gb8dw")
+at = 0.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/obren_whisper.wav",
+"volume_db": -20.0
+}
+
+[sub_resource type="Resource" id="Resource_7j3dj"]
+script = ExtResource("1_n3w8t")
+at = 1.0
+speaker = &"vessa"
+text = "All three of them, pointing at the floor."
+voice = "res://assets/audio/voice/vessa/all_three_of_them_d1fcc2e5.wav"
+
+[sub_resource type="Resource" id="Resource_ck2nl"]
+script = ExtResource("3_cpt1l")
+id = &"L2"
+duration = 6.0
+camera_mode = 1
+from_pos = Vector3(3.1, 2.2, 7.75)
+to_pos = Vector3(3.05, 2.05, 7.4)
+look_from = Vector3(3, 1.3, 5.95)
+look_to = Vector3(3, 1.3, 5.95)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_n3w8t")]([SubResource("Resource_7j3dj")])
+actions = Array[ExtResource("4_gb8dw")]([SubResource("Resource_4ko63")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_st3xl"]
+script = ExtResource("1_n3w8t")
+at = 0.4
+speaker = &"vey"
+text = "Not the floor. Under it. The old Warden roads run down there."
+voice = "res://assets/audio/voice/vey/not_the_floor_under_fd27c446.wav"
+
+[sub_resource type="Resource" id="Resource_g2yom"]
+script = ExtResource("1_n3w8t")
+at = 5.2
+speaker = &"vey"
+text = "Nobody living has walked them."
+voice = "res://assets/audio/voice/vey/nobody_living_has_walked_a1da114d.wav"
+
+[sub_resource type="Resource" id="Resource_djjch"]
+script = ExtResource("3_cpt1l")
+id = &"L3"
+duration = 9.0
+camera_mode = 1
+from_pos = Vector3(3.45, 1.8, 7.15)
+to_pos = Vector3(3.5, 1.8, 7)
+look_from = Vector3(5.05, 1.5649999, 6.15)
+look_to = Vector3(5.05, 1.5649999, 6.15)
+look_actor = &"vey"
+look_offset = Vector3(0, 1.5649999, 0)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_n3w8t")]([SubResource("Resource_st3xl"), SubResource("Resource_g2yom")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_4nw4a"]
+script = ExtResource("1_n3w8t")
+at = 0.4
+speaker = &"vessa"
+text = "Then we walk in blind."
+voice = "res://assets/audio/voice/vessa/then_we_walk_in_be929054.wav"
+
+[sub_resource type="Resource" id="Resource_4ipgm"]
+script = ExtResource("1_n3w8t")
+at = 2.8
+speaker = &"vey"
+text = "Not quite. The Greywater Lodge has mapped the deep for a hundred years."
+voice = "res://assets/audio/voice/vey/not_quite_the_greywater_5a1019db.wav"
+
+[sub_resource type="Resource" id="Resource_7ab28"]
+script = ExtResource("1_n3w8t")
+at = 7.0
+speaker = &"vey"
+text = "They sell that map to nobody."
+duration = 2.0
+voice = "res://assets/audio/voice/vey/they_sell_that_map_61cf27c2.wav"
+
+[sub_resource type="Resource" id="Resource_iomnv"]
+script = ExtResource("3_cpt1l")
+id = &"L4"
+duration = 9.0
+camera_mode = 1
+from_pos = Vector3(3, 2, 10.6)
+to_pos = Vector3(3, 1.95, 10.2)
+look_from = Vector3(3, 1.35, 5.6)
+look_to = Vector3(3, 1.35, 5.6)
+fov_from = 47.0
+fov_to = 47.0
+lines = Array[ExtResource("1_n3w8t")]([SubResource("Resource_4nw4a"), SubResource("Resource_4ipgm"), SubResource("Resource_7ab28")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_2vw4l"]
+script = ExtResource("1_n3w8t")
+at = 0.5
+speaker = &"ysolde"
+text = "They sell everything to somebody."
+voice = "res://assets/audio/voice/ysolde/they_sell_everything_to_9e03bd91.wav"
+
+[sub_resource type="Resource" id="Resource_bdxxk"]
+script = ExtResource("3_cpt1l")
+id = &"L5"
+duration = 4.5
+from_pos = Vector3(2.55, 1.7, 7.05)
+to_pos = Vector3(2.55, 1.7, 7.05)
+look_from = Vector3(0.95, 1.675, 6.3)
+look_to = Vector3(0.95, 1.675, 6.3)
+look_actor = &"ysolde"
+look_offset = Vector3(0, 1.675, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_n3w8t")]([SubResource("Resource_2vw4l")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_i5pv0"]
+script = ExtResource("1_n3w8t")
+at = 0.4
+speaker = &"vey"
+text = "Gold. Six wagons of it, delivered to their door, past the Magpies and Malrik's knives."
+duration = 6.4
+voice = "res://assets/audio/voice/vey/gold_six_wagons_of_473fd2af.wav"
+
+[sub_resource type="Resource" id="Resource_1kq0e"]
+script = ExtResource("3_cpt1l")
+id = &"L6"
+duration = 7.5
+camera_mode = 1
+from_pos = Vector3(3.5, 1.82, 7.3)
+to_pos = Vector3(3.55, 1.82, 7.1)
+look_from = Vector3(5.05, 1.5649999, 6.15)
+look_to = Vector3(5.05, 1.5649999, 6.15)
+look_actor = &"vey"
+look_offset = Vector3(0, 1.5649999, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_n3w8t")]([SubResource("Resource_i5pv0")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_yx1t6"]
+script = ExtResource("1_n3w8t")
+at = 0.4
+speaker = &"vessa"
+text = "Gold? We have crystals. Lots of crystals."
+voice = "res://assets/audio/voice/vessa/gold_we_have_crystals_0acf36c0.wav"
+
+[sub_resource type="Resource" id="Resource_f6oqe"]
+script = ExtResource("3_cpt1l")
+id = &"L7"
+duration = 5.5
+from_pos = Vector3(3.45, 1.9, 7.4)
+to_pos = Vector3(3.45, 1.9, 7.4)
+look_from = Vector3(3, 1.87985, 4.6)
+look_to = Vector3(3, 1.87985, 4.6)
+look_actor = &"vessa"
+look_offset = Vector3(0, 1.87985, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_n3w8t")]([SubResource("Resource_yx1t6")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_hwrcr"]
+script = ExtResource("4_gb8dw")
+kind = &"visible"
+actor = &"pell"
+params = {
+"on": true
+}
+
+[sub_resource type="Resource" id="Resource_6syjd"]
+script = ExtResource("4_gb8dw")
+kind = &"move"
+actor = &"pell"
+target = Vector3(1, 0, -6)
+params = {
+"speed": 3.4
+}
+
+[sub_resource type="Resource" id="Resource_77wwt"]
+script = ExtResource("4_gb8dw")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_po0ij"]
+script = ExtResource("4_gb8dw")
+kind = &"face"
+actor = &"vessa"
+params = {
+"time": 0.8,
+"yaw_deg": 180.0
+}
+
+[sub_resource type="Resource" id="Resource_8xpgc"]
+script = ExtResource("4_gb8dw")
+at = 0.2
+kind = &"face"
+actor = &"vey"
+params = {
+"time": 0.8,
+"yaw_deg": 200.0
+}
+
+[sub_resource type="Resource" id="Resource_b0fa2"]
+script = ExtResource("4_gb8dw")
+at = 0.4
+kind = &"face"
+actor = &"ysolde"
+params = {
+"time": 0.8,
+"yaw_deg": 160.0
+}
+
+[sub_resource type="Resource" id="Resource_f8byg"]
+script = ExtResource("1_n3w8t")
+at = 6.0
+speaker = &"pell"
+text = "Did somebody say a trade road?"
+voice = "res://assets/audio/voice/pell/did_somebody_say_a_22f514a8.wav"
+
+[sub_resource type="Resource" id="Resource_yxr7o"]
+script = ExtResource("3_cpt1l")
+id = &"L8"
+duration = 8.0
+from_pos = Vector3(6, 2.3, 8.2)
+to_pos = Vector3(6, 2.3, 8.2)
+look_from = Vector3(1, 1.2, -6)
+look_to = Vector3(1, 1.2, -6)
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_n3w8t")]([SubResource("Resource_f8byg")])
+actions = Array[ExtResource("4_gb8dw")]([SubResource("Resource_hwrcr"), SubResource("Resource_6syjd"), SubResource("Resource_77wwt"), SubResource("Resource_po0ij"), SubResource("Resource_8xpgc"), SubResource("Resource_b0fa2")])
+stage_set = &"forge_ep2_feast"
+
+[sub_resource type="Resource" id="Resource_0pkl5"]
+script = ExtResource("4_gb8dw")
+at = 4.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_e3ssu"]
+script = ExtResource("3_cpt1l")
+id = &"L9"
+duration = 5.0
+from_pos = Vector3(3, 2.2, 10.4)
+to_pos = Vector3(3, 2.2, 10.4)
+look_from = Vector3(3, 1.4, 4.4)
+look_to = Vector3(3, 1.4, 4.4)
+fov_from = 44.0
+fov_to = 44.0
+actions = Array[ExtResource("4_gb8dw")]([SubResource("Resource_0pkl5")])
+stage_set = &"forge_ep2_feast"
+
+[resource]
+script = ExtResource("2_ttlg1")
+id = &"c_e2_lodge"
+title = "The Price of the Road"
+stage_scene = "res://scenes/cinematics/c_e2_lodge.tscn"
+shots = Array[ExtResource("3_cpt1l")]([SubResource("Resource_bdjqm"), SubResource("Resource_ck2nl"), SubResource("Resource_djjch"), SubResource("Resource_iomnv"), SubResource("Resource_bdxxk"), SubResource("Resource_1kq0e"), SubResource("Resource_f6oqe"), SubResource("Resource_yxr7o"), SubResource("Resource_e3ssu")])
+shake_seed = 42
+voice_over = Array[StringName]([&"pell"])
+lines_over_cuts = true

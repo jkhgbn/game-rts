@@ -5,6 +5,176 @@ msgstr ""
 "Language: fr_CA\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L1
+msgid "Forty-one. Forty-two. Forty-three."
+msgstr "Quarante et un. Quarante-deux. Quarante-trois."
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L2
+msgid "No jokes tonight?"
+msgstr "Pas de blagues ce soir ?"
+
+#. speaker vessa
+#: data/voice/lines/c_e2_ashes.json:L3
+msgid "Not tonight."
+msgstr "Pas ce soir."
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L4
+msgid "Torvald didn't come for my wood. He came for your relics."
+msgstr "Torvald n'est pas venu pour mon bois. Il est venu pour tes reliques."
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L5
+msgid "Malrik told him the Hollow is waking. He's right. I hear it under the roots."
+msgstr "Malrik lui a dit que le Hollow s'éveille. Il a raison. Je l'entends sous les racines."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_ashes.json:L6
+msgid "Then don't stand here alone. Come with us."
+msgstr "Alors ne reste pas seule ici. Viens avec nous."
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L7
+msgid "The wood can't fight this winter. I can."
+msgstr "Le bois ne peut pas combattre cet hiver. Moi, je peux."
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L8
+msgid "Keep it until the wood can."
+msgstr "Garde-la jusqu'à ce que le bois puisse la garder."
+
+#. speaker maelis
+#: data/voice/lines/c_e2_ashes.json:L9
+msgid "This is all of us who can still hold a bow."
+msgstr "Voici tous ceux d'entre nous qui peuvent encore tenir un arc."
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_ashes.json:L10
+msgid "Then it's enough. We march with Fire."
+msgstr "Alors ça suffit. Nous marchons avec le Feu."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_ashes.json:L11
+msgid "You still owe me a story, old man."
+msgstr "Tu me dois encore une histoire, vieil homme."
+
+#. speaker vey
+#: data/voice/lines/c_e2_ashes.json:L12 data/voice/lines/c_e2_stair.json:L9
+msgid "On the way down."
+msgstr "En descendant."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_lodge.json:L1
+msgid "All three of them, pointing at the floor."
+msgstr "Les trois. Et elles pointent toutes le plancher."
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L2
+msgid "Not the floor. Under it. The old Warden roads run down there."
+msgstr "Pas le plancher. En dessous. Les vieilles routes des Wardens passent là-dessous."
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L3
+msgid "Nobody living has walked them."
+msgstr "Personne de vivant ne les a parcourues."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_lodge.json:L4
+msgid "Then we walk in blind."
+msgstr "Alors on y va à l'aveugle."
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L5
+msgid "Not quite. The Greywater Lodge has mapped the deep for a hundred years."
+msgstr "Pas tout à fait. Le Greywater Lodge cartographie les profondeurs depuis cent ans."
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L6
+msgid "They sell that map to nobody."
+msgstr "Cette carte, ils ne la vendent à personne."
+
+#. speaker ysolde
+#: data/voice/lines/c_e2_lodge.json:L7
+msgid "They sell everything to somebody."
+msgstr "Ils vendent tout à quelqu'un."
+
+#. speaker vey
+#: data/voice/lines/c_e2_lodge.json:L8
+msgid "Gold. Six wagons of it, delivered to their door, past the Magpies and Malrik's knives."
+msgstr "De l'or. Six chariots, livrés à leur porte, au nez des Magpies et des couteaux de Malrik."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_lodge.json:L9
+msgid "Gold? We have crystals. Lots of crystals."
+msgstr "De l'or ? On a des cristaux. Plein de cristaux."
+
+#. speaker pell
+#: data/voice/lines/c_e2_lodge.json:L10
+msgid "Did somebody say a trade road?"
+msgstr "Quelqu'un a parlé d'une route de commerce ?"
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L1
+msgid "Ashby says the seal was older than the keep."
+msgstr "Ashby dit que le sceau était plus vieux que le donjon."
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L2
+msgid "Older than the kingdom. He sealed it the day he took the throne."
+msgstr "Plus vieux que le royaume. Il l'a scellé le jour où il a pris le trône."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L3
+msgid "You talk about the Master like you knew him before we did."
+msgstr "Tu parles du Maître comme si tu l'avais connu avant nous."
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L4
+msgid "Before the four of you, there was a sword. I was the sword."
+msgstr "Avant vous quatre, il y avait une épée. J'étais cette épée."
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L5
+msgid "I stood behind his throne when kings still knelt to it."
+msgstr "Je me tenais derrière son trône quand les rois s'y agenouillaient encore."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L6
+msgid "And the lightning? No kingdom throws lightning."
+msgstr "Et la foudre ? Aucun royaume ne lance la foudre."
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L7
+msgid "It's his storm, not mine. He lent it to me to keep you four alive."
+msgstr "C'est sa tempête, pas la mienne. Il me l'a prêtée pour vous garder en vie, tous les quatre."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L8
+msgid "And when were you going to tell me?"
+msgstr "Et tu comptais me le dire quand ?"
+
+#. speaker wren
+#: data/voice/lines/c_e2_stair.json:L10
+msgid "Vessa! Word from Ysolde."
+msgstr "Vessa ! Un message d'Ysolde."
+
+#. speaker wren
+#: data/voice/lines/c_e2_stair.json:L11
+msgid "Nature's army follows you down. All of it that can still walk."
+msgstr "L'armée de la Nature te suit en bas. Tout ce qui peut encore marcher."
+
+#. speaker vessa
+#: data/voice/lines/c_e2_stair.json:L12
+msgid "Then we don't keep them waiting."
+msgstr "Alors on ne les fait pas attendre."
+
+#. speaker vey
+#: data/voice/lines/c_e2_stair.json:L13
+msgid "Mind the seventh step. It bites."
+msgstr "Attention à la septième marche. Elle mord."
+
 #. speaker aldra
 #: data/voice/lines/c_e3_doubt.json:L1
 msgid "The old storm-sword crossed the river twice today."

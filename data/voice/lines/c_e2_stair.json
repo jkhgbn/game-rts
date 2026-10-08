@@ -1,0 +1,124 @@
+{
+    "cine_id": "c_e2_stair",
+    "source": "data/cinematics/src/c_e2_stair.cine (beats: docs/design/mission-e2-03.md, Cinematic hooks)",
+    "note": "Hand-written with the .cine (2026-10-08): the same text as its lines. Review: docs/design/film-text-review.md.",
+    "lines": [
+        {
+            "id": "L1",
+            "shot": "T2",
+            "at": 0.6,
+            "dur": 3.32,
+            "speaker": "vessa",
+            "subtitle": "Ashby says the seal was older than the keep.",
+            "text": "Ashby says the seal was older than the keep."
+        },
+        {
+            "id": "L2",
+            "shot": "T3",
+            "at": 0.6,
+            "dur": 4.42,
+            "speaker": "vey",
+            "subtitle": "Older than the kingdom. He sealed it the day he took the throne.",
+            "text": "Older than the kingdom. He sealed it the day he took the throne."
+        },
+        {
+            "id": "L3",
+            "shot": "T4",
+            "at": 0.4,
+            "dur": 4.09,
+            "speaker": "vessa",
+            "subtitle": "You talk about the Master like you knew him before we did.",
+            "text": "You talk about the Master like you knew him before we did."
+        },
+        {
+            "id": "L4",
+            "shot": "T5",
+            "at": 0.5,
+            "dur": 4.15,
+            "speaker": "vey",
+            "subtitle": "Before the four of you, there was a sword. I was the sword.",
+            "text": "Before the four of you, there was a sword. I was the sword."
+        },
+        {
+            "id": "L5",
+            "shot": "T5",
+            "at": 5.0,
+            "dur": 3.92,
+            "speaker": "vey",
+            "subtitle": "I stood behind his throne when kings still knelt to it.",
+            "text": "I stood behind his throne when kings still knelt to it."
+        },
+        {
+            "id": "L6",
+            "shot": "T6",
+            "at": 0.4,
+            "dur": 3.48,
+            "speaker": "vessa",
+            "subtitle": "And the lightning? No kingdom throws lightning.",
+            "text": "And the lightning? No kingdom throws lightning."
+        },
+        {
+            "id": "L7",
+            "shot": "T6",
+            "at": 3.9,
+            "dur": 4.53,
+            "speaker": "vey",
+            "subtitle": "It's his storm, not mine. He lent it to me to keep you four alive.",
+            "text": "It's his storm, not mine. He lent it to me to keep you four alive."
+        },
+        {
+            "id": "L8",
+            "shot": "T7",
+            "at": 0.4,
+            "dur": 2.83,
+            "speaker": "vessa",
+            "subtitle": "And when were you going to tell me?",
+            "text": "And when were you going to tell me?"
+        },
+        {
+            "id": "L9",
+            "shot": "T8",
+            "at": 1.0,
+            "dur": 2.5,
+            "speaker": "vey",
+            "subtitle": "On the way down.",
+            "text": "On the way down."
+        },
+        {
+            "id": "L10",
+            "shot": "T9",
+            "at": 2.6,
+            "dur": 2.5,
+            "speaker": "wren",
+            "subtitle": "Vessa! Word from Ysolde.",
+            "text": "Vessa! Word from Ysolde."
+        },
+        {
+            "id": "L11",
+            "shot": "T10",
+            "at": 0.5,
+            "dur": 4.31,
+            "speaker": "wren",
+            "subtitle": "Nature's army follows you down. All of it that can still walk.",
+            "text": "Nature's army follows you down. All of it that can still walk."
+        },
+        {
+            "id": "L12",
+            "shot": "T11",
+            "at": 0.6,
+            "dur": 2.66,
+            "speaker": "vessa",
+            "subtitle": "Then we don't keep them waiting.",
+            "text": "Then we don't keep them waiting."
+        },
+        {
+            "id": "L13",
+            "shot": "T12",
+            "at": 1.2,
+            "dur": 2.66,
+            "speaker": "vey",
+            "subtitle": "Mind the seventh step. It bites.",
+            "text": "Mind the seventh step. It bites."
+        }
+    ]
+}

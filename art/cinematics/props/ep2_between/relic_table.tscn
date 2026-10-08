@@ -1,0 +1,151 @@
+[gd_scene load_steps=16 format=3]
+
+; c_e2_lodge: the Emberwatch war-room table. A trestle top with a map of Emberfall (the burnt observatory inked at its
+; centre) and the three relics on it, Ember Crown, Stillwater Orb, Master's Signet, glowing white-gold; under each a thin
+; light-spike drives DOWN through the map (the relics all point under Emberfall), and a pale halo pools on the parchment.
+; Origin = the ground under the table's centre. 0 lights (emissive only). Relic children are named for `hide` in films.
+
+[sub_resource type="BoxMesh" id="Box_top"]
+size = Vector3(2.2, 0.07, 1.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.32, 0.21, 0.13, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Box_leg"]
+size = Vector3(0.1, 0.8, 1.0)
+
+[sub_resource type="BoxMesh" id="Box_map"]
+size = Vector3(1.8, 0.006, 1.05)
+
+[sub_resource type="StandardMaterial3D" id="Mat_map"]
+albedo_color = Color(0.52, 0.44, 0.32, 1)
+roughness = 1.0
+
+[sub_resource type="CylinderMesh" id="Cyl_tower"]
+top_radius = 0.09
+bottom_radius = 0.09
+height = 0.003
+radial_segments = 16
+
+[sub_resource type="StandardMaterial3D" id="Mat_ink"]
+albedo_color = Color(0.22, 0.14, 0.16, 1)
+roughness = 1.0
+
+[sub_resource type="TorusMesh" id="Torus_crown"]
+inner_radius = 0.07
+outer_radius = 0.1
+rings = 24
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="Mat_gold"]
+albedo_color = Color(1, 0.82, 0.42, 1)
+metallic = 0.8
+roughness = 0.3
+emission_enabled = true
+emission = Color(1, 0.86, 0.55, 1)
+emission_energy_multiplier = 2.2
+
+[sub_resource type="SphereMesh" id="Sphere_orb"]
+radius = 0.07
+height = 0.14
+
+[sub_resource type="StandardMaterial3D" id="Mat_orb"]
+albedo_color = Color(0.85, 0.95, 1, 1)
+emission_enabled = true
+emission = Color(1, 0.94, 0.75, 1)
+emission_energy_multiplier = 2.6
+
+[sub_resource type="TorusMesh" id="Torus_signet"]
+inner_radius = 0.025
+outer_radius = 0.045
+rings = 20
+ring_segments = 8
+
+[sub_resource type="CylinderMesh" id="Cyl_spike"]
+top_radius = 0.012
+bottom_radius = 0.0
+height = 0.6
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="Mat_spike"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.9, 0.6, 0.8)
+
+[sub_resource type="QuadMesh" id="Quad_halo"]
+size = Vector2(0.42, 0.42)
+orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="Mat_halo"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.88, 0.55, 0.16)
+
+[node name="relic_table" type="Node3D"]
+
+[node name="Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83, 0)
+mesh = SubResource("Box_top")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="LegW" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.4, 0)
+mesh = SubResource("Box_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="LegE" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.4, 0)
+mesh = SubResource("Box_leg")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="Map" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.996, 0, 0.087, 0, 1, 0, -0.087, 0, 0.996, 0, 0.868, 0)
+mesh = SubResource("Box_map")
+surface_material_override/0 = SubResource("Mat_map")
+
+[node name="Observatory" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.004, 0)
+mesh = SubResource("Cyl_tower")
+surface_material_override/0 = SubResource("Mat_ink")
+
+[node name="Halo" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.4, 0, 0, 0, 1, 0, 0, 0, 2.4, 0, 0.874, 0)
+cast_shadow = 0
+mesh = SubResource("Quad_halo")
+surface_material_override/0 = SubResource("Mat_halo")
+
+[node name="Crown" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.9, 0.12)
+mesh = SubResource("Torus_crown")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Spike" type="MeshInstance3D" parent="Crown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.28, 0)
+cast_shadow = 0
+mesh = SubResource("Cyl_spike")
+surface_material_override/0 = SubResource("Mat_spike")
+
+[node name="Orb" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0.945, -0.16)
+mesh = SubResource("Sphere_orb")
+surface_material_override/0 = SubResource("Mat_orb")
+
+[node name="Spike" type="MeshInstance3D" parent="Orb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34, 0)
+cast_shadow = 0
+mesh = SubResource("Cyl_spike")
+surface_material_override/0 = SubResource("Mat_spike")
+
+[node name="Signet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36, 0.885, 0.1)
+mesh = SubResource("Torus_signet")
+surface_material_override/0 = SubResource("Mat_gold")
+
+[node name="Spike" type="MeshInstance3D" parent="Signet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.27, 0)
+cast_shadow = 0
+mesh = SubResource("Cyl_spike")
+surface_material_override/0 = SubResource("Mat_spike")

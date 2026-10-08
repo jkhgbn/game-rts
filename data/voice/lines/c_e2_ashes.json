@@ -1,0 +1,115 @@
+{
+    "cine_id": "c_e2_ashes",
+    "source": "data/cinematics/src/c_e2_ashes.cine (beats: docs/design/mission-e2-01.md, Cinematic hooks)",
+    "note": "Hand-written with the .cine (2026-10-08): the same text as its lines. Review: docs/design/film-text-review.md.",
+    "lines": [
+        {
+            "id": "L1",
+            "shot": "A2",
+            "at": 0.8,
+            "dur": 4.0,
+            "speaker": "ysolde",
+            "subtitle": "Forty-one. Forty-two. Forty-three.",
+            "text": "Forty-one. Forty-two. Forty-three."
+        },
+        {
+            "id": "L2",
+            "shot": "A3",
+            "at": 4.6,
+            "dur": 2.2,
+            "speaker": "ysolde",
+            "subtitle": "No jokes tonight?",
+            "text": "No jokes tonight?"
+        },
+        {
+            "id": "L3",
+            "shot": "A3",
+            "at": 7.0,
+            "dur": 1.8,
+            "speaker": "vessa",
+            "subtitle": "Not tonight.",
+            "text": "Not tonight."
+        },
+        {
+            "id": "L4",
+            "shot": "A4",
+            "at": 0.8,
+            "dur": 4.04,
+            "speaker": "ysolde",
+            "subtitle": "Torvald didn't come for my wood. He came for your relics.",
+            "text": "Torvald didn't come for my wood. He came for your relics."
+        },
+        {
+            "id": "L5",
+            "shot": "A4",
+            "at": 5.4,
+            "dur": 5.4,
+            "speaker": "ysolde",
+            "subtitle": "Malrik told him the Hollow is waking. He's right. I hear it under the roots.",
+            "text": "Malrik told him the Hollow is waking. He's right. I hear it under the roots."
+        },
+        {
+            "id": "L6",
+            "shot": "A5",
+            "at": 0.5,
+            "dur": 3.21,
+            "speaker": "vessa",
+            "subtitle": "Then don't stand here alone. Come with us.",
+            "text": "Then don't stand here alone. Come with us."
+        },
+        {
+            "id": "L7",
+            "shot": "A6",
+            "at": 0.6,
+            "dur": 3.1,
+            "speaker": "ysolde",
+            "subtitle": "The wood can't fight this winter. I can.",
+            "text": "The wood can't fight this winter. I can."
+        },
+        {
+            "id": "L8",
+            "shot": "A6",
+            "at": 4.6,
+            "dur": 3.0,
+            "speaker": "ysolde",
+            "subtitle": "Keep it until the wood can.",
+            "text": "Keep it until the wood can."
+        },
+        {
+            "id": "L9",
+            "shot": "A7",
+            "at": 4.4,
+            "dur": 3.27,
+            "speaker": "maelis",
+            "subtitle": "This is all of us who can still hold a bow.",
+            "text": "This is all of us who can still hold a bow."
+        },
+        {
+            "id": "L10",
+            "shot": "A8",
+            "at": 0.5,
+            "dur": 2.94,
+            "speaker": "ysolde",
+            "subtitle": "Then it's enough. We march with Fire.",
+            "text": "Then it's enough. We march with Fire."
+        },
+        {
+            "id": "L11",
+            "shot": "A9",
+            "at": 2.0,
+            "dur": 2.77,
+            "speaker": "vessa",
+            "subtitle": "You still owe me a story, old man.",
+            "text": "You still owe me a story, old man."
+        },
+        {
+            "id": "L12",
+            "shot": "A9",
+            "at": 5.4,
+            "dur": 2.5,
+            "speaker": "vey",
+            "subtitle": "On the way down.",
+            "text": "On the way down."
+        }
+    ]
+}

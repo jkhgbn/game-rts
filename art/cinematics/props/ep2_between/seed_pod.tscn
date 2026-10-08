@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3]
+
+; c_e2_ashes: Ysolde's seed-pod token ("Keep it until the wood can."). A palm-sized pod, bark-brown with a green
+; seam that glows faintly, on a short cord loop. Origin = the pod's centre (place it in a hand / at hand height).
+
+[sub_resource type="SphereMesh" id="Sphere_pod"]
+radius = 0.05
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="Mat_pod"]
+albedo_color = Color(0.38, 0.26, 0.15, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="Cyl_seam"]
+top_radius = 0.052
+bottom_radius = 0.052
+height = 0.01
+radial_segments = 16
+
+[sub_resource type="StandardMaterial3D" id="Mat_seam"]
+shading_mode = 0
+albedo_color = Color(0.6, 1, 0.45, 1)
+emission_enabled = true
+emission = Color(0.55, 1, 0.4, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="TorusMesh" id="Torus_cord"]
+inner_radius = 0.035
+outer_radius = 0.042
+rings = 16
+ring_segments = 6
+
+[node name="seed_pod" type="Node3D"]
+
+[node name="Pod" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.85, 0, 0, 0, 1.25, 0, 0, 0, 0.85, 0, 0, 0)
+mesh = SubResource("Sphere_pod")
+surface_material_override/0 = SubResource("Mat_pod")
+
+[node name="Seam" type="MeshInstance3D" parent="Pod"]
+transform = Transform3D(1, 0, 0, 0, 0.12, 0.99, 0, -0.99, 0.12, 0, 0, 0)
+mesh = SubResource("Cyl_seam")
+surface_material_override/0 = SubResource("Mat_seam")
+
+[node name="Cord" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0.09, 0)
+mesh = SubResource("Torus_cord")
+surface_material_override/0 = SubResource("Mat_pod")

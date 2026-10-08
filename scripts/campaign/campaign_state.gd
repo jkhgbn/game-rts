@@ -62,6 +62,9 @@ const MISSION_SCENES := {
 ## Story films a reward's "next" may name (StoryFilms plays them): film id -> what follows it (a film or a mission).
 ## The victory unlocks the first mission at the end of the chain (film_target).
 const STORY_FILMS := {
+	&"c_e2_ashes": &"e2m2",          # mission-e2-01.md: "What the Frost Kept" after e2m1, before e2m2's briefing
+	&"c_e2_lodge": &"e2m3",          # mission-e2-02.md: "The Price of the Road" after e2m2, before e2m3's briefing
+	&"c_e2_stair": &"e2m4",          # mission-e2-03.md: "On the Way Down" after e2m3, before e2m4's briefing
 	&"ep2_ending": &"ep3_opening",   # mission-e2-05.md: "All Four, or None", then the Ep3 card
 	&"ep3_opening": &"e3m1",         # mission-e3-01.md E1: the opening plays before the briefing
 	&"c_e3_knife": &"e3m2",          # mission-e3-02.md: "The Bishop's Knife" after e3m1, before e3m2's briefing
@@ -118,21 +121,21 @@ const MISSION_REWARDS := {
 				"e2m1_vey_called": "sec_storm"},
 		"bonus_essence": {"sec_folk": 300, "sec_frosthall": 150},
 		"set_flags": {"helper_vey_unlocked": true},
-		"next": &"e2m2",
+		"next": &"c_e2_ashes",   # film c_e2_ashes -> e2m2 (unlocks e2m2, as before)
 	},
 	# docs/design/mission-e2-02.md "Reward carried to e2m3".
 	&"e2m2": {
 		"flags": {"e2m2_carriers_kept": "sec_carriers", "e2m2_points_held": "sec_points"},
 		"bonus_essence": {"sec_carriers": 300, "sec_points": 150},
 		"set_flags": {"ep2_nature_allied": true},
-		"next": &"e2m3",
+		"next": &"c_e2_lodge",   # film c_e2_lodge -> e2m3 (unlocks e2m3, as before)
 	},
 	# docs/design/mission-e2-03.md "Reward carried to e2m4" (gold is never carried).
 	&"e2m3": {
 		"flags": {"e2m3_magpies_hunted": "sec_magpies", "e2m3_malrik_robbed": "sec_raid", "e2m3_toll_broken": "sec_toll"},
 		"bonus_essence": {"sec_magpies": 150, "sec_raid": 300, "sec_toll": 150},
 		"set_flags": {"e2m3_lodge_paid": true},
-		"next": &"e2m4",
+		"next": &"c_e2_stair",   # film c_e2_stair -> e2m4 (unlocks e2m4, as before)
 	},
 	# docs/design/mission-e2-04.md "Reward carried to e2m5" (research is never carried).
 	&"e2m4": {

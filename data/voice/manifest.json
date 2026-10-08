@@ -4,8 +4,8 @@
  "engine": "kokoro-onnx v1.0",
  "sample_rate": 24000,
  "format": "mono PCM16, trimmed, peak -1 dBFS",
- "count": 709,
- "total_seconds": 2016.45,
+ "count": 742,
+ "total_seconds": 2100.55,
  "orphans": [],
  "lines": {
   "aldra/cracked_not_broken_torvald_c73e5da5": {
@@ -2120,6 +2120,40 @@
      "source": "data/voice/lines/unit_barks.json",
      "ref": "unit_barks/helper_maelis_select",
      "slot": null,
+     "slot_kind": "cine slot",
+     "speaker_id": "maelis"
+    }
+   ]
+  },
+  "maelis/this_is_all_of_ce049be9": {
+   "speaker": "maelis",
+   "text": "This is all of us who can still hold a bow.",
+   "text_hash": "ce049be9ab43bcec",
+   "path": "res://assets/audio/voice/maelis/this_is_all_of_ce049be9.wav",
+   "voice": "bf_isabella",
+   "speed": 0.96,
+   "cast_speed": 0.96,
+   "lang": "en-gb",
+   "duration": 2.34,
+   "peak": 0.8913,
+   "rms_db": -16.1,
+   "clipped": 0,
+   "file_hash": "918eb1d43bd143c7",
+   "gen_s": 0.76,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:80",
+     "ref": "c_e2_ashes/A7@4.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "maelis"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L9",
+     "slot": 3.27,
      "slot_kind": "cine slot",
      "speaker_id": "maelis"
     }
@@ -6573,6 +6607,40 @@
     }
    ]
   },
+  "messenger/natures_army_follows_you_36ae7119": {
+   "speaker": "messenger",
+   "text": "Nature's army follows you down. All of it that can still walk.",
+   "text_hash": "36ae7119b919df35",
+   "path": "res://assets/audio/voice/messenger/natures_army_follows_you_36ae7119.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 3.39,
+   "peak": 0.8913,
+   "rms_db": -17.8,
+   "clipped": 0,
+   "file_hash": "b166d9ce36b435ea",
+   "gen_s": 0.81,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:70",
+     "ref": "c_e2_stair/T10@0.5",
+     "slot": 6.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "wren"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L11",
+     "slot": 4.31,
+     "slot_kind": "cine slot",
+     "speaker_id": "wren"
+    }
+   ]
+  },
   "messenger/no_its_gone_cold_886f30d3": {
    "speaker": "messenger",
    "text": "No. It's gone cold.",
@@ -6958,6 +7026,40 @@
      "slot": 1.9,
      "slot_kind": "cine slot",
      "speaker_id": "messenger"
+    }
+   ]
+  },
+  "messenger/vessa_word_from_ysolde_a716e06f": {
+   "speaker": "messenger",
+   "text": "Vessa! Word from Ysolde.",
+   "text_hash": "a716e06f2d11469d",
+   "path": "res://assets/audio/voice/messenger/vessa_word_from_ysolde_a716e06f.wav",
+   "voice": "bf_alice",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-gb",
+   "duration": 1.68,
+   "peak": 0.8913,
+   "rms_db": -19.2,
+   "clipped": 0,
+   "file_hash": "956c5f2cf9abd766",
+   "gen_s": 0.45,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:68",
+     "ref": "c_e2_stair/T9@2.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "wren"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L10",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "wren"
     }
    ]
   },
@@ -8215,6 +8317,40 @@
      "source": "data/voice/lines/m03.json",
      "ref": "m03/L20",
      "slot": 5.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "pell"
+    }
+   ]
+  },
+  "pell/did_somebody_say_a_22f514a8": {
+   "speaker": "pell",
+   "text": "Did somebody say a trade road?",
+   "text_hash": "22f514a849a84a70",
+   "path": "res://assets/audio/voice/pell/did_somebody_say_a_22f514a8.wav",
+   "voice": "am_puck",
+   "speed": 1.15,
+   "cast_speed": 1.15,
+   "lang": "en-us",
+   "duration": 1.47,
+   "peak": 0.8913,
+   "rms_db": -18.8,
+   "clipped": 0,
+   "file_hash": "06618a8e0a313fc9",
+   "gen_s": 0.54,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:58",
+     "ref": "c_e2_lodge/L8@6",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "pell"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L10",
+     "slot": 2.55,
      "slot_kind": "cine slot",
      "speaker_id": "pell"
     }
@@ -14312,6 +14448,40 @@
     }
    ]
   },
+  "vessa/all_three_of_them_d1fcc2e5": {
+   "speaker": "vessa",
+   "text": "All three of them, pointing at the floor.",
+   "text_hash": "d1fcc2e5f8095c6b",
+   "path": "res://assets/audio/voice/vessa/all_three_of_them_d1fcc2e5.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 1.98,
+   "peak": 0.8913,
+   "rms_db": -18.7,
+   "clipped": 0,
+   "file_hash": "30f8ae6a682528df",
+   "gen_s": 0.54,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:32",
+     "ref": "c_e2_lodge/L2@1",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L1",
+     "slot": 3.15,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
   "vessa/an_ember_crown_in_b9772779": {
    "speaker": "vessa",
    "text": "An Ember Crown, in a place called Emberfall. Nobody said it was left for me. Nobody said it wasn't.",
@@ -14342,6 +14512,108 @@
     "unfitted_s": 5.653,
     "speed_x": 1.178
    }
+  },
+  "vessa/and_the_lightning_no_08fd5787": {
+   "speaker": "vessa",
+   "text": "And the lightning? No kingdom throws lightning.",
+   "text_hash": "08fd5787f2bc6288",
+   "path": "res://assets/audio/voice/vessa/and_the_lightning_no_08fd5787.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 2.36,
+   "peak": 0.8913,
+   "rms_db": -16.9,
+   "clipped": 0,
+   "file_hash": "9617b0e14638484d",
+   "gen_s": 0.63,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:49",
+     "ref": "c_e2_stair/T6@0.4",
+     "slot": 3.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L6",
+     "slot": 3.48,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  "vessa/and_when_were_you_ec6fc968": {
+   "speaker": "vessa",
+   "text": "And when were you going to tell me?",
+   "text_hash": "ec6fc968605cfa95",
+   "path": "res://assets/audio/voice/vessa/and_when_were_you_ec6fc968.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 1.41,
+   "peak": 0.8913,
+   "rms_db": -16.7,
+   "clipped": 0,
+   "file_hash": "fa80ad2ae67e470d",
+   "gen_s": 3.77,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:55",
+     "ref": "c_e2_stair/T7@0.4",
+     "slot": 4.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L8",
+     "slot": 2.83,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  "vessa/ashby_says_the_seal_7c46b03d": {
+   "speaker": "vessa",
+   "text": "Ashby says the seal was older than the keep.",
+   "text_hash": "7c46b03d3d73eb8c",
+   "path": "res://assets/audio/voice/vessa/ashby_says_the_seal_7c46b03d.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 2.1,
+   "peak": 0.8913,
+   "rms_db": -20.7,
+   "clipped": 0,
+   "file_hash": "e4c8d24450b66d5f",
+   "gen_s": 6.6,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:34",
+     "ref": "c_e2_stair/T2@0.6",
+     "slot": 5.9,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L1",
+     "slot": 3.32,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
   },
   "vessa/bettany_i_thought_your_87aa3e78": {
    "speaker": "vessa",
@@ -14841,6 +15113,40 @@
      "source": "data/voice/lines/m00.json",
      "ref": "m00/C7",
      "slot": 3.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  "vessa/gold_we_have_crystals_0acf36c0": {
+   "speaker": "vessa",
+   "text": "Gold? We have crystals. Lots of crystals.",
+   "text_hash": "0acf36c007dc4175",
+   "path": "res://assets/audio/voice/vessa/gold_we_have_crystals_0acf36c0.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 2.389,
+   "peak": 0.8913,
+   "rms_db": -18.5,
+   "clipped": 0,
+   "file_hash": "3cb2e2b1a0d08b58",
+   "gen_s": 7.0,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:47",
+     "ref": "c_e2_lodge/L7@0.4",
+     "slot": 5.1,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L9",
+     "slot": 3.15,
      "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
@@ -15851,10 +16157,26 @@
    "sources": [
     {
      "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:52",
+     "ref": "c_e2_ashes/A3@7",
+     "slot": 1.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
      "source": "data/cinematics/src/watch_keep.cine:36",
      "ref": "watch_keep/S7@1.2",
      "slot": 3.8,
      "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L3",
+     "slot": 1.8,
+     "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
    ]
@@ -16728,6 +17050,40 @@
     }
    ]
   },
+  "vessa/then_dont_stand_here_6582116e": {
+   "speaker": "vessa",
+   "text": "Then don't stand here alone. Come with us.",
+   "text_hash": "6582116e81781eea",
+   "path": "res://assets/audio/voice/vessa/then_dont_stand_here_6582116e.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 2.133,
+   "peak": 0.8913,
+   "rms_db": -17.8,
+   "clipped": 0,
+   "file_hash": "54665208e70be7bb",
+   "gen_s": 6.5,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:60",
+     "ref": "c_e2_ashes/A5@0.5",
+     "slot": 4.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L6",
+     "slot": 3.21,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
   "vessa/then_help_me_stop_72fbf18f": {
    "speaker": "vessa",
    "text": "Then help me stop it. Please.",
@@ -16873,6 +17229,40 @@
     }
    ]
   },
+  "vessa/then_we_dont_keep_11ebfc58": {
+   "speaker": "vessa",
+   "text": "Then we don't keep them waiting.",
+   "text_hash": "11ebfc58e89562d0",
+   "path": "res://assets/audio/voice/vessa/then_we_dont_keep_11ebfc58.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 1.36,
+   "peak": 0.8913,
+   "rms_db": -15.1,
+   "clipped": 0,
+   "file_hash": "31374a35e77abb41",
+   "gen_s": 4.97,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:73",
+     "ref": "c_e2_stair/T11@0.6",
+     "slot": 4.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L12",
+     "slot": 2.66,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
   "vessa/then_we_go_faster_c1e4b702": {
    "speaker": "vessa",
    "text": "Then we go faster. Wardens, with me. We're going to fetch the Master.",
@@ -16903,6 +17293,40 @@
      "ref": "e2m4_sunrise/S3@4.8",
      "slot": 4.7,
      "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  "vessa/then_we_walk_in_be929054": {
+   "speaker": "vessa",
+   "text": "Then we walk in blind.",
+   "text_hash": "be9290547bdfa042",
+   "path": "res://assets/audio/voice/vessa/then_we_walk_in_be929054.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 1.14,
+   "peak": 0.8913,
+   "rms_db": -15.4,
+   "clipped": 0,
+   "file_hash": "7318a08777b1d751",
+   "gen_s": 4.43,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:39",
+     "ref": "c_e2_lodge/L4@0.4",
+     "slot": 2.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L4",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
      "speaker_id": "vessa"
     }
    ]
@@ -17573,6 +17997,74 @@
     }
    ]
   },
+  "vessa/you_still_owe_me_df52e267": {
+   "speaker": "vessa",
+   "text": "You still owe me a story, old man.",
+   "text_hash": "df52e2679326dc69",
+   "path": "res://assets/audio/voice/vessa/you_still_owe_me_df52e267.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 1.68,
+   "peak": 0.8913,
+   "rms_db": -17.7,
+   "clipped": 0,
+   "file_hash": "df9905f9848f7bdb",
+   "gen_s": 6.35,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:88",
+     "ref": "c_e2_ashes/A9@2",
+     "slot": 3.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L11",
+     "slot": 2.77,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
+  "vessa/you_talk_about_the_4ca6e30e": {
+   "speaker": "vessa",
+   "text": "You talk about the Master like you knew him before we did.",
+   "text_hash": "4ca6e30eae41bb4b",
+   "path": "res://assets/audio/voice/vessa/you_talk_about_the_4ca6e30e.wav",
+   "voice": "af_heart",
+   "speed": 1.12,
+   "cast_speed": 1.12,
+   "lang": "en-us",
+   "duration": 2.61,
+   "peak": 0.8913,
+   "rms_db": -17.2,
+   "clipped": 0,
+   "file_hash": "fca390c20854097a",
+   "gen_s": 7.13,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:42",
+     "ref": "c_e2_stair/T4@0.4",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vessa"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L3",
+     "slot": 4.09,
+     "slot_kind": "cine slot",
+     "speaker_id": "vessa"
+    }
+   ]
+  },
   "vessa/you_want_me_come_5ba1f2f4": {
    "speaker": "vessa",
    "text": "You want me? Come and get me. ALL of you.",
@@ -17751,6 +18243,43 @@
      "ref": "L10",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  "vey/before_the_four_of_c84cffb8": {
+   "speaker": "vey",
+   "text": "Before the four of you, there was a sword. I was the sword.",
+   "text_hash": "c84cffb8b38c948e",
+   "path": "res://assets/audio/voice/vey/before_the_four_of_c84cffb8.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 3.56,
+   "peak": 0.8913,
+   "rms_db": -19.7,
+   "clipped": 0,
+   "file_hash": "30d476b4ed1bf248",
+   "gen_s": 8.78,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:45",
+     "ref": "c_e2_stair/T5@0.5",
+     "slot": 4.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L4",
+     "slot": 4.15,
+     "slot_kind": "cine slot",
      "speaker_id": "vey"
     }
    ]
@@ -17989,6 +18518,43 @@
     "speed_x": 1.2
    }
   },
+  "vey/gold_six_wagons_of_473fd2af": {
+   "speaker": "vey",
+   "text": "Gold. Six wagons of it, delivered to their door, past the Magpies and Malrik's knives.",
+   "text_hash": "473fd2afa3df49cc",
+   "path": "res://assets/audio/voice/vey/gold_six_wagons_of_473fd2af.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 5.611,
+   "peak": 0.8913,
+   "rms_db": -17.8,
+   "clipped": 0,
+   "file_hash": "4c28abc9405095c5",
+   "gen_s": 12.05,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:45",
+     "ref": "c_e2_lodge/L6@0.4",
+     "slot": 6.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L8",
+     "slot": 6.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
   "vey/good_light_pushes_back_e5c39d8b": {
    "speaker": "vey",
    "text": "Good. Light pushes back the dark. Always has.",
@@ -18215,6 +18781,43 @@
     }
    ]
   },
+  "vey/i_stood_behind_his_ee1b3480": {
+   "speaker": "vey",
+   "text": "I stood behind his throne when kings still knelt to it.",
+   "text_hash": "ee1b3480a30511b7",
+   "path": "res://assets/audio/voice/vey/i_stood_behind_his_ee1b3480.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 3.45,
+   "peak": 0.8913,
+   "rms_db": -17.8,
+   "clipped": 0,
+   "file_hash": "bf61af786a834f14",
+   "gen_s": 8.26,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:46",
+     "ref": "c_e2_stair/T5@5",
+     "slot": 5.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L5",
+     "slot": 3.92,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
   "vey/ill_ride_the_north_81a39f19": {
    "speaker": "vey",
    "text": "I'll ride the north road and see what Torvald brought. Light the beacon when you want the storm.",
@@ -18282,6 +18885,43 @@
     "unfitted_s": 5.1,
     "speed_x": 1.062
    }
+  },
+  "vey/its_his_storm_not_dd511696": {
+   "speaker": "vey",
+   "text": "It's his storm, not mine. He lent it to me to keep you four alive.",
+   "text_hash": "dd511696f1a97875",
+   "path": "res://assets/audio/voice/vey/its_his_storm_not_dd511696.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 4.22,
+   "peak": 0.8913,
+   "rms_db": -18.3,
+   "clipped": 0,
+   "file_hash": "752a6cfcce8d7947",
+   "gen_s": 8.91,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:50",
+     "ref": "c_e2_stair/T6@3.9",
+     "slot": 5.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L7",
+     "slot": 4.53,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
   },
   "vey/just_resting_my_knees_d19fc930": {
    "speaker": "vey",
@@ -18415,6 +19055,43 @@
     }
    ]
   },
+  "vey/mind_the_seventh_step_e39996fe": {
+   "speaker": "vey",
+   "text": "Mind the seventh step. It bites.",
+   "text_hash": "e39996fed1664359",
+   "path": "res://assets/audio/voice/vey/mind_the_seventh_step_e39996fe.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 2.39,
+   "peak": 0.8913,
+   "rms_db": -17.4,
+   "clipped": 0,
+   "file_hash": "4729ece3b11ef0e6",
+   "gen_s": 6.57,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:80",
+     "ref": "c_e2_stair/T12@1.2",
+     "slot": 8.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L13",
+     "slot": 2.66,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
   "vey/no_knives_at_our_373a8a0e": {
    "speaker": "vey",
    "text": "No knives at our backs tonight. Hush is still licking her wounds. Good.",
@@ -18440,6 +19117,122 @@
      "ref": "L36",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  "vey/nobody_living_has_walked_a1da114d": {
+   "speaker": "vey",
+   "text": "Nobody living has walked them.",
+   "text_hash": "a1da114d3fd07036",
+   "path": "res://assets/audio/voice/vey/nobody_living_has_walked_a1da114d.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 2.25,
+   "peak": 0.8913,
+   "rms_db": -18.6,
+   "clipped": 0,
+   "file_hash": "c13099bab8ffe352",
+   "gen_s": 7.33,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:36",
+     "ref": "c_e2_lodge/L3@5.2",
+     "slot": 3.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L3",
+     "slot": 2.55,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  "vey/not_quite_the_greywater_5a1019db": {
+   "speaker": "vey",
+   "text": "Not quite. The Greywater Lodge has mapped the deep for a hundred years.",
+   "text_hash": "5a1019db1402a0b1",
+   "path": "res://assets/audio/voice/vey/not_quite_the_greywater_5a1019db.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.922,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 4.15,
+   "peak": 0.8913,
+   "rms_db": -18.2,
+   "clipped": 0,
+   "file_hash": "db31b4c8f3117b20",
+   "gen_s": 19.23,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:40",
+     "ref": "c_e2_lodge/L4@2.8",
+     "slot": 4.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L5",
+     "slot": 4.8,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ],
+   "fit": {
+    "slot": 4.2,
+    "unfitted_s": 4.375,
+    "speed_x": 1.085
+   }
+  },
+  "vey/not_the_floor_under_fd27c446": {
+   "speaker": "vey",
+   "text": "Not the floor. Under it. The old Warden roads run down there.",
+   "text_hash": "fd27c4466ea66e7c",
+   "path": "res://assets/audio/voice/vey/not_the_floor_under_fd27c446.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 4.056,
+   "peak": 0.8913,
+   "rms_db": -18.2,
+   "clipped": 0,
+   "file_hash": "69386f84f68c6ed4",
+   "gen_s": 8.92,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:35",
+     "ref": "c_e2_lodge/L3@0.4",
+     "slot": 4.8,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L2",
+     "slot": 4.25,
+     "slot_kind": "cine slot",
      "speaker_id": "vey"
     }
    ]
@@ -18503,6 +19296,96 @@
      "ref": "L13",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  "vey/older_than_the_kingdom_9d294cbd": {
+   "speaker": "vey",
+   "text": "Older than the kingdom. He sealed it the day he took the throne.",
+   "text_hash": "9d294cbd6a0ac75a",
+   "path": "res://assets/audio/voice/vey/older_than_the_kingdom_9d294cbd.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 4.05,
+   "peak": 0.8913,
+   "rms_db": -17.4,
+   "clipped": 0,
+   "file_hash": "dcea51f5907c62b9",
+   "gen_s": 10.02,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:39",
+     "ref": "c_e2_stair/T3@0.6",
+     "slot": 7.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L2",
+     "slot": 4.42,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ]
+  },
+  "vey/on_the_way_down_3eba2270": {
+   "speaker": "vey",
+   "text": "On the way down.",
+   "text_hash": "3eba2270201bb481",
+   "path": "res://assets/audio/voice/vey/on_the_way_down_3eba2270.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.85,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 1.611,
+   "peak": 0.8913,
+   "rms_db": -15.7,
+   "clipped": 0,
+   "file_hash": "5f1671b75b00f593",
+   "gen_s": 5.43,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:89",
+     "ref": "c_e2_ashes/A9@5.4",
+     "slot": 3.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_stair.cine:57",
+     "ref": "c_e2_stair/T8@1",
+     "slot": 3.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L12",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_stair.json",
+     "ref": "c_e2_stair/L9",
+     "slot": 2.5,
+     "slot_kind": "cine slot",
      "speaker_id": "vey"
     }
    ]
@@ -18980,6 +19863,48 @@
      "speaker_id": "vey"
     }
    ]
+  },
+  "vey/they_sell_that_map_61cf27c2": {
+   "speaker": "vey",
+   "text": "They sell that map to nobody.",
+   "text_hash": "61cf27c270ba53f2",
+   "path": "res://assets/audio/voice/vey/they_sell_that_map_61cf27c2.wav",
+   "voice": {
+    "bm_daniel": 0.6,
+    "bm_lewis": 0.4
+   },
+   "speed": 0.974,
+   "cast_speed": 0.85,
+   "lang": "en-gb",
+   "duration": 1.91,
+   "peak": 0.8913,
+   "rms_db": -15.6,
+   "clipped": 0,
+   "file_hash": "d3fc2cd4213df7e9",
+   "gen_s": 12.38,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:41",
+     "ref": "c_e2_lodge/L4@7",
+     "slot": 2.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "vey"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L6",
+     "slot": 2.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "vey"
+    }
+   ],
+   "fit": {
+    "slot": 2.0,
+    "unfitted_s": 2.2,
+    "speed_x": 1.146
+   }
   },
   "vey/theyre_throwing_everything_a_428dbc7c": {
    "speaker": "vey",
@@ -20279,6 +21204,40 @@
     }
    ]
   },
+  "ysolde/forty_one_forty_two_84d63c57": {
+   "speaker": "ysolde",
+   "text": "Forty-one. Forty-two. Forty-three.",
+   "text_hash": "84d63c57b5d874de",
+   "path": "res://assets/audio/voice/ysolde/forty_one_forty_two_84d63c57.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 2.09,
+   "peak": 0.8913,
+   "rms_db": -17.2,
+   "clipped": 0,
+   "file_hash": "c60a24cd3a80005f",
+   "gen_s": 7.01,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:43",
+     "ref": "c_e2_ashes/A2@0.8",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L1",
+     "slot": 4.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
   "ysolde/he_said_show_me_79d79140": {
    "speaker": "ysolde",
    "text": "He said: show me again. So I did, for twenty years, until he was gone.",
@@ -20504,6 +21463,40 @@
     }
    ]
   },
+  "ysolde/keep_it_until_the_fa0a0b05": {
+   "speaker": "ysolde",
+   "text": "Keep it until the wood can.",
+   "text_hash": "fa0a0b05386504d3",
+   "path": "res://assets/audio/voice/ysolde/keep_it_until_the_fa0a0b05.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 1.61,
+   "peak": 0.8913,
+   "rms_db": -15.9,
+   "clipped": 0,
+   "file_hash": "5798dfb6474faa44",
+   "gen_s": 5.91,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:66",
+     "ref": "c_e2_ashes/A6@4.6",
+     "slot": 3.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L8",
+     "slot": 3.0,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
   "ysolde/last_winter_they_burned_e017cf01": {
    "speaker": "ysolde",
    "text": "Last winter they burned my wood and froze the ashes. My army with it.",
@@ -20636,6 +21629,40 @@
     }
    ]
   },
+  "ysolde/malrik_told_him_the_8409bb82": {
+   "speaker": "ysolde",
+   "text": "Malrik told him the Hollow is waking. He's right. I hear it under the roots.",
+   "text_hash": "8409bb826ab09738",
+   "path": "res://assets/audio/voice/ysolde/malrik_told_him_the_8409bb82.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 4.278,
+   "peak": 0.8913,
+   "rms_db": -17.4,
+   "clipped": 0,
+   "file_hash": "39b0ba33a7ac37c8",
+   "gen_s": 9.51,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:58",
+     "ref": "c_e2_ashes/A4@5.4",
+     "slot": 5.4,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L5",
+     "slot": 5.4,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
   "ysolde/malrik_you_burned_my_54c71dfd": {
    "speaker": "ysolde",
    "text": "Malrik. You burned my people. You will not have their seed.",
@@ -20743,6 +21770,40 @@
      "ref": "m3_parting/P2@4.6",
      "slot": 4.4,
      "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  "ysolde/no_jokes_tonight_a7f5fbd9": {
+   "speaker": "ysolde",
+   "text": "No jokes tonight?",
+   "text_hash": "a7f5fbd91db63151",
+   "path": "res://assets/audio/voice/ysolde/no_jokes_tonight_a7f5fbd9.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 1.35,
+   "peak": 0.8913,
+   "rms_db": -15.2,
+   "clipped": 0,
+   "file_hash": "bfeb24cb1b585c79",
+   "gen_s": 5.42,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:51",
+     "ref": "c_e2_ashes/A3@4.6",
+     "slot": 2.2,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L2",
+     "slot": 2.2,
+     "slot_kind": "cine slot",
      "speaker_id": "ysolde"
     }
    ]
@@ -21004,6 +22065,74 @@
     }
    ]
   },
+  "ysolde/the_wood_cant_fight_317f2f0d": {
+   "speaker": "ysolde",
+   "text": "The wood can't fight this winter. I can.",
+   "text_hash": "317f2f0dcd7bced7",
+   "path": "res://assets/audio/voice/ysolde/the_wood_cant_fight_317f2f0d.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 2.432,
+   "peak": 0.8913,
+   "rms_db": -17.9,
+   "clipped": 0,
+   "file_hash": "c1bec91d9b13df80",
+   "gen_s": 7.38,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:63",
+     "ref": "c_e2_ashes/A6@0.6",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L7",
+     "slot": 3.1,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  "ysolde/then_its_enough_we_87dc6ab7": {
+   "speaker": "ysolde",
+   "text": "Then it's enough. We march with Fire.",
+   "text_hash": "87dc6ab75e7d0e37",
+   "path": "res://assets/audio/voice/ysolde/then_its_enough_we_87dc6ab7.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 2.027,
+   "peak": 0.8913,
+   "rms_db": -15.7,
+   "clipped": 0,
+   "file_hash": "5899dd520315c4f2",
+   "gen_s": 7.32,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:82",
+     "ref": "c_e2_ashes/A8@0.5",
+     "slot": 5.5,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L10",
+     "slot": 2.94,
+     "slot_kind": "cine slot",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
   "ysolde/then_the_people_go_b065c387": {
    "speaker": "ysolde",
    "text": "Then the people go south today. All of them. The road is safer than this hill.",
@@ -21127,6 +22256,40 @@
      "ref": "L26",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  "ysolde/they_sell_everything_to_9e03bd91": {
+   "speaker": "ysolde",
+   "text": "They sell everything to somebody.",
+   "text_hash": "9e03bd91344aa7f6",
+   "path": "res://assets/audio/voice/ysolde/they_sell_everything_to_9e03bd91.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 1.87,
+   "peak": 0.8913,
+   "rms_db": -20.1,
+   "clipped": 0,
+   "file_hash": "27b43712fc43c30a",
+   "gen_s": 5.6,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_lodge.cine:43",
+     "ref": "c_e2_lodge/L5@0.5",
+     "slot": 4.0,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_lodge.json",
+     "ref": "c_e2_lodge/L7",
+     "slot": 2.71,
+     "slot_kind": "cine slot",
      "speaker_id": "ysolde"
     }
    ]
@@ -21273,6 +22436,40 @@
      "ref": "L25",
      "slot": 5.0,
      "slot_kind": "subtitle",
+     "speaker_id": "ysolde"
+    }
+   ]
+  },
+  "ysolde/torvald_didnt_come_for_ec361a15": {
+   "speaker": "ysolde",
+   "text": "Torvald didn't come for my wood. He came for your relics.",
+   "text_hash": "ec361a15a0391667",
+   "path": "res://assets/audio/voice/ysolde/torvald_didnt_come_for_ec361a15.wav",
+   "voice": "bf_emma",
+   "speed": 1.0,
+   "cast_speed": 1.0,
+   "lang": "en-gb",
+   "duration": 3.136,
+   "peak": 0.8913,
+   "rms_db": -16.6,
+   "clipped": 0,
+   "file_hash": "fb551ce05c2f423a",
+   "gen_s": 8.38,
+   "sources": [
+    {
+     "kind": "cine",
+     "source": "data/cinematics/src/c_e2_ashes.cine:57",
+     "ref": "c_e2_ashes/A4@0.8",
+     "slot": 4.6,
+     "slot_kind": "cine shot",
+     "speaker_id": "ysolde"
+    },
+    {
+     "kind": "cine",
+     "source": "data/voice/lines/c_e2_ashes.json",
+     "ref": "c_e2_ashes/L4",
+     "slot": 4.04,
+     "slot_kind": "cine slot",
      "speaker_id": "ysolde"
     }
    ]

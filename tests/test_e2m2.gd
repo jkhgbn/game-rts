@@ -288,7 +288,7 @@ func _victory() -> bool:
 	_ok(h.ended == 1, "victory (ended %d)" % h.ended)
 	_ok(main.said.has(28) and main.said.has(29) and main.said.has(30), "L28-L30")
 	var r: Dictionary = CampaignState.reward_of(&"e2m2")
-	_ok(r.get("next") == &"e2m3" and (r.get("set_flags", {}) as Dictionary).get("ep2_nature_allied") == true, "rewards %s" % str(r))
+	_ok(CampaignState.film_target(r.get("next", &"")) == &"e2m3" and (r.get("set_flags", {}) as Dictionary).get("ep2_nature_allied") == true, "rewards %s" % str(r))
 	_ok(CampaignState.MISSION_SCENES.has(&"e2m2") and CampaignState.MISSION_ORDER.has(&"e2m2"), "registered")
 	return true
 

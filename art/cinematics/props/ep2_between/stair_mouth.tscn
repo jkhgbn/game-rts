@@ -1,0 +1,131 @@
+[gd_scene load_steps=12 format=3]
+
+; c_e2_stair: the old stair under the Emberfall observatory, unsealed. A squat stone stair-house (walls 0.9 m high
+; around a 2.0 x 3.4 m well), seven steps dropping from the rim into the dark toward -Z, the broken seal slab leaning
+; on the east wall, two Greywater lanterns on the steps and a faint white-gold glow card at the far end (the light
+; below). Origin = ground at the centre of the opening; the stair descends toward -Z. 0 lights (emissive only).
+
+[sub_resource type="StandardMaterial3D" id="Mat_stone"]
+albedo_color = Color(0.36, 0.34, 0.33, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="Mat_dark"]
+albedo_color = Color(0.05, 0.045, 0.05, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_step"]
+albedo_color = Color(0.22, 0.2, 0.2, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="Box_wall_side"]
+size = Vector3(0.45, 0.9, 3.9)
+
+[sub_resource type="BoxMesh" id="Box_wall_end"]
+size = Vector3(2.9, 0.9, 0.45)
+
+[sub_resource type="BoxMesh" id="Box_step"]
+size = Vector3(2.0, 0.12, 0.42)
+
+[sub_resource type="BoxMesh" id="Box_floor"]
+size = Vector3(2.0, 0.02, 3.4)
+
+[sub_resource type="BoxMesh" id="Box_slab"]
+size = Vector3(1.6, 0.14, 1.1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_seal"]
+albedo_color = Color(0.5, 0.45, 0.38, 1)
+emission_enabled = true
+emission = Color(0.9, 0.75, 0.4, 1)
+emission_energy_multiplier = 0.25
+
+[sub_resource type="QuadMesh" id="Quad_glow"]
+size = Vector2(1.9, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="Mat_glow"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.88, 0.55, 0.55)
+disable_receive_shadows = true
+
+[sub_resource type="SphereMesh" id="Sphere_lamp"]
+radius = 0.07
+height = 0.14
+
+[node name="stair_mouth" type="Node3D"]
+
+[node name="WallW" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.225, 0.45, 0)
+mesh = SubResource("Box_wall_side")
+surface_material_override/0 = SubResource("Mat_stone")
+
+[node name="WallE" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.225, 0.45, 0)
+mesh = SubResource("Box_wall_side")
+surface_material_override/0 = SubResource("Mat_stone")
+
+[node name="WallBack" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -1.95)
+mesh = SubResource("Box_wall_end")
+surface_material_override/0 = SubResource("Mat_stone")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.012, 0)
+mesh = SubResource("Box_floor")
+surface_material_override/0 = SubResource("Mat_dark")
+
+[node name="Step1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 1.45)
+mesh = SubResource("Box_step")
+surface_material_override/0 = SubResource("Mat_step")
+
+[node name="Step2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66, 1.05)
+mesh = SubResource("Box_step")
+surface_material_override/0 = SubResource("Mat_step")
+
+[node name="Step3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54, 0.65)
+mesh = SubResource("Box_step")
+surface_material_override/0 = SubResource("Mat_step")
+
+[node name="Step4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0.25)
+mesh = SubResource("Box_step")
+surface_material_override/0 = SubResource("Mat_step")
+
+[node name="Step5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.15)
+mesh = SubResource("Box_step")
+surface_material_override/0 = SubResource("Mat_step")
+
+[node name="Step6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, -0.55)
+mesh = SubResource("Box_step")
+surface_material_override/0 = SubResource("Mat_step")
+
+[node name="Step7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -0.95)
+mesh = SubResource("Box_step")
+surface_material_override/0 = SubResource("Mat_step")
+
+[node name="SealSlab" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.94, -0.342, 0, 0.342, 0.94, 0, 0, 0, 1, 1.95, 0.42, 0.4)
+mesh = SubResource("Box_slab")
+surface_material_override/0 = SubResource("Mat_seal")
+
+[node name="Glow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62, -1.7)
+cast_shadow = 0
+mesh = SubResource("Quad_glow")
+surface_material_override/0 = SubResource("Mat_glow")
+
+[node name="Lamp1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.8, 0.65)
+mesh = SubResource("Sphere_lamp")
+surface_material_override/0 = SubResource("Mat_glow")
+
+[node name="Lamp2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 0.42, -0.55)
+mesh = SubResource("Sphere_lamp")
+surface_material_override/0 = SubResource("Mat_glow")

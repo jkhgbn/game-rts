@@ -250,7 +250,7 @@ func _victory() -> bool:
 	_ok(not main.torvald.is_alive() or Unit.in_truce(main.torvald, main.hero) or main.torvald.has_meta(MissionBase.META_MODE),
 			"Torvald withdraws")
 	var r: Dictionary = CampaignState.reward_of(&"e2m1")
-	_ok(r.get("next") == &"e2m2" and (r.get("set_flags", {}) as Dictionary).get("helper_vey_unlocked") == true,
+	_ok(CampaignState.film_target(r.get("next", &"")) == &"e2m2" and (r.get("set_flags", {}) as Dictionary).get("helper_vey_unlocked") == true,
 			"rewards e2m1 %s" % str(r))
 	_ok(bool(main.mission_flags().get("spotlight_seen_helper_vey", false)) == main.has_fired(&"spotlight"),
 			"the spotlight seen flag follows the card")

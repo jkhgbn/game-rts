@@ -229,7 +229,7 @@ func _victory() -> bool:
 		return false
 	_ok(h.ended == 1, "victory (%d)" % h.ended)
 	var r: Dictionary = CampaignState.reward_of(&"e2m3")
-	_ok(r.get("next") == &"e2m4" and (r.get("set_flags", {}) as Dictionary).get("e2m3_lodge_paid") == true, "rewards %s" % str(r))
+	_ok(CampaignState.film_target(r.get("next", &"")) == &"e2m4" and (r.get("set_flags", {}) as Dictionary).get("e2m3_lodge_paid") == true, "rewards %s" % str(r))
 	return true
 
 

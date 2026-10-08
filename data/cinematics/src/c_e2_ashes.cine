@@ -1,0 +1,90 @@
+# Between-scene "What the Frost Kept", ~78 s (docs/design/mission-e2-01.md Cinematic hooks `c_e2_ashes`,
+# campaign-outline.md 3.2): after e2m1's victory, before e2m2's briefing (StoryFlow: CampaignState.STORY_FILMS
+# c_e2_ashes -> e2m2). Night in the Heartglade: Ysolde counts her dead; Vessa offers no jokes; Ysolde: Torvald chose
+# Malrik because of the relics, the Hollow is waking; she gives Vessa the seed-pod token ("Keep it until the wood can");
+# she joins Fire (Maelis walks in with what is left of Nature's army); Vey and Vessa: "On the way down." (the road to
+# e2m2; c_e2_stair pays it off).
+# Text source for i18n / voices: data/voice/lines/c_e2_ashes.json (the same text as the lines below). The spec gives
+# beats only: every line was written on 2026-10-08 and is in docs/design/film-text-review.md for the game designer.
+# Set: forge_intro_ysolde stands in for the Heartglade (her old wood, its burn path at (4,-2)-(12,8)); the set has only
+# its green-gold day preset, so night is a blue full-screen grade (the c_e3_knife trick). Its prologue puppets that do
+# not belong here are hidden at 0:00. Prop: the seed pod (art/cinematics/props/ep2_between/seed_pod.tscn).
+# Stand-ins: Nature's survivors = two Wildwood Archers.
+# Axis: Vessa (west) - Ysolde (east) at the burn's edge; every talk camera stays on the south side of their line.
+cine c_e2_ashes  title="What the Frost Kept"  letterbox=2.39  seed=41  length=66..90
+use set forge_intro_ysolde
+use music res://assets/audio/forge/music/ep4_opening.wav  vol=-24
+env night  moon_yaw=200  moon_pitch=-30  energy=0.5  color=#9fb4ff
+cast  pod     res://art/cinematics/props/ep2_between/seed_pod.tscn  at=(6.3, 1.05, 2.5)  yaw=0
+cast  vessa   res://art/units/wizards/vessa.tscn                    at=(0.5, 0, 7.5)   yaw=120
+cast  vey     res://art/units/helpers/helper_vey/helper_vey.tscn    at=(2.0, 0, 7.6)   yaw=110
+cast  maelis  res://art/units/helpers/helper_maelis/helper_maelis.tscn       at=(-6, 0, 16)  yaw=120  hidden=1
+cast  s1      res://art/units/nature/wildwood_archer/wildwood_archer.tscn    at=(-7, 0, 17)  yaw=120  hidden=1
+cast  s2      res://art/units/nature/wildwood_archer/wildwood_archer.tscn    at=(-5, 0, 18)  yaw=120  hidden=1
+
+# ---------------------------------------------------------------- night in the Heartglade
+# Wide crane over the burn under frost: Ysolde alone at its edge
+shot A1 8.0  cam=crane  from=(-4, 9, 16)  to=(0, 4, 11)  look=(6, 0.8, 1.5)>(6.6, 0.9, 2)  fov=46>40  in=fade_black:1.4
+  at 0.0  fade color=#16203a alpha=0.42 time=0.05
+  at 0.0  hide ysolde_young
+  at 0.0  hide treant
+  at 0.0  hide vinelasher
+  at 0.0  hide messenger
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_tree
+  at 0.0  hide fx_vines
+  at 0.0  hide fx_master
+  at 0.0  hide pod
+  at 0.0  teleport ysolde  to=(7, 0, 2)  yaw=60
+  at 0.0  sfx res://assets/audio/forge/sfx/snow_step.wav  vol=-18
+# MS Ysolde at the burn, counting
+shot A2 8.0  cam=dolly  from=(8.6, 1.3, 4.6)  to=(8.4, 1.3, 4.3)  look=ysolde  fov=34
+  at 0.8  line ysolde "Forty-one. Forty-two. Forty-three."  dur=4.0
+  at 1.0  vfx d1  scene=res://art/cinematics/fx/blossom.tscn  at=(8.4, 0.1, 1.2)  life=5  scale=0.3
+  at 2.4  vfx d2  scene=res://art/cinematics/fx/blossom.tscn  at=(9.2, 0.1, 2.6)  life=4  scale=0.3
+  at 3.8  vfx d3  scene=res://art/cinematics/fx/blossom.tscn  at=(8.0, 0.1, 3.4)  life=3  scale=0.3
+# Vessa walks up and stops beside her; no joke
+shot A3 9.0  cam=static  from=(6.4, 1.5, 6.6)  look=(6.1, 1.4, 2.6)  fov=40  faces=ysolde
+  at 0.0  move vessa  to=(5.2, 0, 3.2)  speed=1.4
+  at 0.0  move vey  to=(2.6, 0, 5.4)  speed=1.0
+  at 4.6  line ysolde "No jokes tonight?"  dur=2.2
+  at 7.0  line vessa "Not tonight."  dur=1.8
+# Ysolde turns to her: Torvald, the relics, the Hollow
+shot A4 11.0  cam=dolly  from=(6.6, 1.65, 4.75)  to=(6.65, 1.65, 4.55)  look=ysolde  fov=30
+  at 0.0  face ysolde  to=vessa  time=0.8
+  at 0.0  face vessa  to=ysolde  time=0.6
+  at 0.8  line ysolde "Torvald didn't come for my wood. He came for your relics."
+  at 5.4  line ysolde "Malrik told him the Hollow is waking. He's right. I hear it under the roots."  dur=5.4
+shot A5 5.0  cam=static  from=(6.75, 1.65, 3.95)  look=vessa  fov=32
+  at 0.5  line vessa "Then don't stand here alone. Come with us."
+# Two-shot: the seed pod
+shot A6 10.0  cam=dolly  from=(6.9, 1.45, 6.6)  to=(6.8, 1.45, 6.2)  look=(6.1, 1.45, 2.6)  fov=36  faces=vessa,ysolde
+  at 0.6  line ysolde "The wood can't fight this winter. I can."
+  at 3.8  show pod
+  at 3.8  sfx res://assets/audio/forge/sfx/sapling_creak.wav  vol=-14
+  at 4.6  line ysolde "Keep it until the wood can."  dur=3.0
+  at 4.6  anim vessa play_cast
+
+# ---------------------------------------------------------------- what is left of Nature
+# Wide from the burn: Maelis walks out of the dark with the survivors
+shot A7 9.0  cam=static  from=(8.4, 2.4, 6.4)  look=(0, 1.3, 9)  fov=46  faces=maelis
+  at 0.0  show maelis
+  at 0.0  show s1
+  at 0.0  show s2
+  at 0.0  move maelis  to=(1.5, 0, 9.4)  speed=1.6
+  at 0.2  move s1  to=(0.2, 0, 10.6)  speed=1.6
+  at 0.4  move s2  to=(1.0, 0, 11.6)  speed=1.6
+  at 0.0  face ysolde  to=(1.5, 0, 9.4)  time=0.8
+  at 0.0  face vessa  to=(1.5, 0, 9.4)  time=0.8
+  at 4.4  line maelis "This is all of us who can still hold a bow."
+shot A8 6.0  cam=static  from=(7.6, 1.6, 4.2)  look=ysolde  fov=32
+  at 0.5  line ysolde "Then it's enough. We march with Fire."
+# Vey and Vessa, aside
+shot A9 9.0  cam=dolly  from=(5.0, 1.6, 6.8)  to=(4.85, 1.6, 6.55)  look=(3.1, 1.6, 4.7)  fov=40  in=fade_black:0.6  faces=vessa,vey
+  at 0.0  teleport vessa  to=(3.6, 0, 4.0)
+  at 0.0  face vessa  to=vey  time=0.1
+  at 0.0  face vey  to=vessa  time=0.1
+  at 2.0  line vessa "You still owe me a story, old man."
+  at 5.4  line vey "On the way down."
+  at 8.0  fade alpha=1 time=1.0
