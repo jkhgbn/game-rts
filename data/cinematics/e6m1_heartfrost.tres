@@ -1,0 +1,164 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_k28af"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_auxoh"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_7wvwf"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_jv1g2"]
+
+[sub_resource type="Resource" id="Resource_7rk0a"]
+script = ExtResource("4_jv1g2")
+at = 0.4
+kind = &"fade"
+params = {
+"alpha": 0.25,
+"color": Color(0.101960786, 0.14117648, 0.2509804, 1),
+"time": 5.0
+}
+
+[sub_resource type="Resource" id="Resource_qg6yb"]
+script = ExtResource("1_k28af")
+at = 0.4
+speaker = &"narrator"
+text = "A hundred winters ago, the lake had no name, and the north had one keeper."
+voice = "res://assets/audio/voice/narrator/a_hundred_winters_ago_27c450eb.wav"
+
+[sub_resource type="Resource" id="Resource_2yed2"]
+script = ExtResource("3_7wvwf")
+id = &"H1"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(30, 26, 34)
+to_pos = Vector3(24, 16, 26)
+fov_from = 52.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_k28af")]([SubResource("Resource_qg6yb")])
+actions = Array[ExtResource("4_jv1g2")]([SubResource("Resource_7rk0a")])
+
+[sub_resource type="Resource" id="Resource_olqdq"]
+script = ExtResource("4_jv1g2")
+at = 1.6
+kind = &"fade"
+params = {
+"alpha": 0.45,
+"color": Color(0.8627451, 0.9372549, 1, 1),
+"time": 0.2
+}
+
+[sub_resource type="Resource" id="Resource_fagri"]
+script = ExtResource("4_jv1g2")
+at = 1.9
+kind = &"fade"
+params = {
+"alpha": 0.2,
+"color": Color(0.101960786, 0.14117648, 0.2509804, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_2ckx0"]
+script = ExtResource("3_7wvwf")
+id = &"H2"
+duration = 4.0
+from_pos = Vector3(8, 3, 9)
+to_pos = Vector3(8, 3, 9)
+look_from = Vector3(0, 1.5, 0)
+look_to = Vector3(0, 1.5, 0)
+fov_from = 36.0
+fov_to = 36.0
+actions = Array[ExtResource("4_jv1g2")]([SubResource("Resource_olqdq"), SubResource("Resource_fagri")])
+
+[sub_resource type="Resource" id="Resource_jwdet"]
+script = ExtResource("1_k28af")
+at = 0.2
+speaker = &"master"
+text = "Keep this cold, Torvald. Keep it until I come back for it."
+voice = "res://assets/audio/voice/master/keep_this_cold_torvald_64738927.wav"
+
+[sub_resource type="Resource" id="Resource_uxovo"]
+script = ExtResource("1_k28af")
+at = 5.2
+speaker = &"torvald"
+text = "What is it?"
+voice = "res://assets/audio/voice/torvald/what_is_it_06d479d9.wav"
+
+[sub_resource type="Resource" id="Resource_b3vcd"]
+script = ExtResource("1_k28af")
+at = 8.0
+speaker = &"master"
+text = "A promise I made to a stone. Something will come for it. Every winter."
+voice = "res://assets/audio/voice/master/a_promise_i_made_64b7204a.wav"
+
+[sub_resource type="Resource" id="Resource_fl3xs"]
+script = ExtResource("3_7wvwf")
+id = &"H3"
+duration = 16.2
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(-6, 0, 6)
+orbit_radius = 5.0
+orbit_height = 1.6
+orbit_from_deg = 30.0
+orbit_to_deg = 42.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_k28af")]([SubResource("Resource_jwdet"), SubResource("Resource_uxovo"), SubResource("Resource_b3vcd")])
+
+[sub_resource type="Resource" id="Resource_40oqr"]
+script = ExtResource("4_jv1g2")
+at = 14.6
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_isepb"]
+script = ExtResource("1_k28af")
+at = 0.2
+speaker = &"aldra"
+text = "My lord? The ice is singing. Can you hear it?"
+voice = "res://assets/audio/voice/aldra/my_lord_the_ice_62c8e28f.wav"
+
+[sub_resource type="Resource" id="Resource_nmjag"]
+script = ExtResource("1_k28af")
+at = 5.0
+speaker = &"torvald"
+text = "Go home, girl. Winter is coming, and it is bringing guests."
+voice = "res://assets/audio/voice/torvald/go_home_girl_winter_b28eac14.wav"
+
+[sub_resource type="Resource" id="Resource_gfmf7"]
+script = ExtResource("1_k28af")
+at = 10.2
+speaker = &"aldra"
+text = "This is my home. I'll stay, if it's all the same to you."
+voice = "res://assets/audio/voice/aldra/this_is_my_home_baf39936.wav"
+
+[sub_resource type="Resource" id="Resource_g32bc"]
+script = ExtResource("3_7wvwf")
+id = &"H4"
+duration = 15.8
+camera_mode = 3
+look_offset = Vector3(0, 1.7789999, 0)
+pivot_actor = &"aldra"
+pivot = Vector3(-10, 0, 10)
+orbit_radius = 4.2
+orbit_height = 1.5
+orbit_from_deg = 40.0
+orbit_to_deg = 52.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_k28af")]([SubResource("Resource_isepb"), SubResource("Resource_nmjag"), SubResource("Resource_gfmf7")])
+actions = Array[ExtResource("4_jv1g2")]([SubResource("Resource_40oqr")])
+
+[resource]
+script = ExtResource("2_auxoh")
+id = &"e6m1_heartfrost"
+title = "The Heartfrost"
+world_mode = 1
+shots = Array[ExtResource("3_7wvwf")]([SubResource("Resource_2yed2"), SubResource("Resource_2ckx0"), SubResource("Resource_fl3xs"), SubResource("Resource_g32bc")])
+shake_seed = 611
+voice_over = Array[StringName]([&"narrator", &"master"])
+lines_over_cuts = true

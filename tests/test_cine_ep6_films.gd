@@ -1,9 +1,11 @@
 extends SceneTree
 ## Episode 6 stage films (docs/design/script-episodes-4-8.md, shot lists in script-episodes-4-8/e6m*.md): the
 ## episode opening ep6_opening (3:00), the between-scenes c_e6_lake, c_e6_gate (open branch) + c_e6_gate_shut (shut
-## branch, flag e6m2_town_saved: no film-by-flag pick yet), c_e6_seed, and the episode ending ep6_ending. Each passes cine's checks (0 FAIL), has its baked script and stage, every line
-## translated and voiced (tests/helpers/cine_film_check.gd). Missions e6m1-e6m4 are not built: the films are not in
-## CampaignState.STORY_FILMS yet; one is played alone (StoryFilms.play_only), seeked, skipped -> main menu, marked seen.
+## branch: CampaignState.FILM_BRANCHES picks it when e6m2_gate_opened is false, tests/test_e6m2.gd), c_e6_seed, and the
+## episode ending ep6_ending. Each passes cine's checks (0 FAIL), has its baked script and stage, every line translated
+## and voiced (tests/helpers/cine_film_check.gd). The chain lives in CampaignState.STORY_FILMS (ep5_ending ->
+## ep6_opening -> e6m1 ... e6m4 -> ep6_ending); here one is played alone (StoryFilms.play_only), seeked, skipped -> main
+## menu, marked seen.
 ## Run:  godot --headless --path . -s tests/test_cine_ep6_films.gd --fixed-fps 60 --quit-after 6000
 ## Dev:  add  -- --report  to print each film's length and every WARN row (checks only, no play).
 

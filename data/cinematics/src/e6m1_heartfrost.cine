@@ -1,0 +1,35 @@
+# e6m1 E1 "e6m1_heartfrost" (docs/design/mission-e6-01.md, Cinematic hooks; script-episodes-4-8/e6m1.md 1): mode=pause
+# over the live mission at 0:00 (the spec's HOLD runs as PAUSE). The mission puts Torvald at (-6, 6) and Aldra at
+# (-10, 10) before it plays (the spec's teleports at at == 0). 1) WIDE crane down over the snowbanks onto the night-blue
+# lake: L1; 2) the lake's heart where the Master (not an actor yet) sets the Heartfrost down; 3) LOW over the ice: the
+# freeze wave (a white flash); 4) two-shot the Master / Torvald (orbits the live hero, tag `torvald`): L2-L4; 5) MS Aldra
+# at the edge of the light (orbits the live `aldra`): L5-L7; FADE_BLACK. Q8: L1-L7 are 36 s of slots, the film runs
+# ~42 s. The cast stands at the mission's marks for cine's checks.
+# Axis: the Master - Torvald line north-east / south-west; every camera stays on its SOUTH-EAST side.
+# Fallback: the end state moves Torvald to (-30, 30), Aldra to (-32, 33), says L1-L7 and shows the first hint.
+cine e6m1_heartfrost  title="The Heartfrost"  mode=pause  letterbox=2.39  seed=611  length=38..46
+env dusk  moon_yaw=225  moon_pitch=-28  energy=0.75
+cast  torvald   res://art/units/wizards/torvald.tscn                    at=(-6, 0, 6)    yaw=45
+cast  aldra     res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(-10, 0, 10)  yaw=45
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  master    capsule  at=(0, 0, -310)  hidden=1
+
+# WIDE crane down over the snowbanks onto the night-blue lake
+shot H1 6.0  cam=crane  from=(30, 26, 34)  to=(24, 16, 26)  look=(0, 0, 0)>(0, 0, 0)  fov=52>46  in=fade_black:0.8
+  at 0.4  line narrator "A hundred winters ago, the lake had no name, and the north had one keeper."
+  at 0.4  fade color=#1a2440 alpha=0.25 time=5.0
+# The lake's heart: the block of blue ice set down, the orb's glow inside
+shot H2 4.0  cam=static  from=(8, 3.0, 9)  look=(0, 1.5, 0)  fov=36
+  at 1.6  fade color=#dcefff alpha=0.45 time=0.2
+  at 1.9  fade color=#1a2440 alpha=0.2 time=1.2
+# Two-shot the Master / Torvald, from the south-east
+shot H3 16.2  cam=orbit  pivot=torvald  r=5.0  h=1.6  deg=30>42
+  at 0.2  line master "Keep this cold, Torvald. Keep it until I come back for it."
+  at 5.2  line torvald "What is it?"
+  at 8.0  line master "A promise I made to a stone. Something will come for it. Every winter."
+# MS Aldra at the edge of the light; the Master walks away north-east into the snow
+shot H4 15.8  cam=orbit  pivot=aldra  r=4.2  h=1.5  deg=40>52
+  at 0.2  line aldra "My lord? The ice is singing. Can you hear it?"
+  at 5.0  line torvald "Go home, girl. Winter is coming, and it is bringing guests."
+  at 10.2  line aldra "This is my home. I'll stay, if it's all the same to you."
+  at 14.6  fade alpha=1 time=1.2

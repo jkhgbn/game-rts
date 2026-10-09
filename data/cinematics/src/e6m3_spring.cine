@@ -1,0 +1,35 @@
+# e6m3 E12 "e6m3_spring" (docs/design/mission-e6-03.md, Cinematic hooks; script-episodes-4-8/e6m3.md 1): mode=pause at
+# spring (16:00), then the victory. The mission kneels Ysolde at (-15, 47) by the frost sapling (-16, 48.5) before it
+# plays. 1) WIDE: a warm wind, the snow melting off Lark Hill's living gardens; 2) the thaw mist where the Master (not an
+# actor yet) walks up the hill; 3) LOW in the snow, the prologue S26 frame (orbits the live hero, tag `ysolde`): L17-L18;
+# 4) CU the cupped hands round the sapling: L19; 5) the leaves turn gold (a gold flash): L20; 6) CRANE up and out, the
+# whole hill green: L21; FADE_BLACK. The cast kneels at the mark for cine's checks.
+# Axis: the Ysolde - Master line east-west at the sapling; every camera stays on its SOUTH side (downhill, looking up).
+# Fallback: the end state says L17-L21, swaps in the gold sapling, then the victory.
+cine e6m3_spring  title="Show Me Again"  mode=pause  letterbox=2.39  seed=631  length=30..52
+env day  moon_yaw=150  moon_pitch=-22  energy=0.95
+cast  ysolde    res://art/units/wizards/ysolde.tscn  at=(-15, 0, 47)  yaw=0
+cast  master    capsule  at=(0, 0, -300)  hidden=1
+cast  narrator  capsule  at=(0, 0, -310)  hidden=1
+
+# WIDE: a warm wind; the snow melts outward from each living garden
+shot P1 6.0  cam=crane  from=(10, 22, 76)  to=(4, 16, 68)  look=(-10, 0, 34)>(-12, 0, 40)  fov=50>46  in=fade_black:0.8
+  at 0.3  fade color=#ffe2a8 alpha=0.18 time=5.0
+# The thaw mist on the hill: the Master walks up out of it
+shot P2 4.0  cam=static  from=(-6, 2.5, 64)  look=(-12, 1.5, 48)  fov=40
+# LOW in the snow (prologue S26): he kneels beside her
+shot P3 11.0  cam=orbit  pivot=ysolde  r=3.4  h=0.8  deg=170>180  fov=40
+  at 0.3  line master "A sapling, coaxed through the frost. In this cold?"
+  at 5.4  line ysolde "It wants to grow. It only needs someone to wait with it."
+# CU the cupped hands round the sapling: it grows a hand-span
+shot P4 3.4  cam=static  from=(-15.6, 1.1, 50.2)  look=(-16, 0.3, 48.5)  fov=30
+  at 0.4  line master "Show me."
+# It grows again; its leaves turn gold
+shot P5 4.6  cam=static  from=(-14.8, 1.4, 51.0)  look=(-16, 0.6, 48.5)  fov=32
+  at 0.3  line master "...Show me again."
+  at 1.6  fade color=#ffd75a alpha=0.35 time=0.3
+  at 2.0  fade color=#ffe2a8 alpha=0.1 time=1.4
+# CRANE up and out: the whole hill green, a small gold tree at its heart
+shot P6 7.0  cam=crane  from=(-12, 6, 58)  to=(-6, 26, 74)  look=(-16, 0, 48)>(-14, 0, 42)  fov=44>54
+  at 0.3  line narrator "She did. For twenty years, until he was gone."
+  at 5.8  fade alpha=1 time=1.2

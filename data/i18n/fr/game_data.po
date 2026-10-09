@@ -216,11 +216,6 @@ msgid "Kilnwarden"
 msgstr "Kilnwarden"
 
 #. name (glossary: stays English)
-#: data/units/magpie.tres:9 scripts/world/hunters_guild.gd:581
-msgid "Magpie"
-msgstr "Magpie"
-
-#. name (glossary: stays English)
 #: data/units/mirefang.tres:9
 msgid "Mirefang"
 msgstr "Mirefang"
@@ -296,11 +291,6 @@ msgid "Rimeshield"
 msgstr "Rimeshield"
 
 #. name (glossary: stays English)
-#: data/units/ruin_warden.tres:9
-msgid "Ruin Warden"
-msgstr "Ruin Warden"
-
-#. name (glossary: stays English)
 #: data/units/sapling.tres:10 scripts/spells/spell_caster.gd:612
 msgid "Sapling"
 msgstr "Sapling"
@@ -314,11 +304,6 @@ msgstr "Scorchbow"
 #: data/units/scorchling.tres:9
 msgid "Scorchling"
 msgstr "Scorchling"
-
-#. name (glossary: stays English)
-#: data/units/shade.tres:9
-msgid "Shade"
-msgstr "Shade"
 
 #. name (glossary: stays English)
 #: data/units/shadow_knight.tres:9
@@ -444,11 +429,6 @@ msgstr "Frost Hall"
 #: data/buildings/ice_forge.tres:8
 msgid "Frost Forge"
 msgstr "Frost Forge"
-
-#. name (glossary: stays English)
-#: data/buildings/ice_keep.tres:9
-msgid "Rime Keep"
-msgstr "Rime Keep"
 
 #. name (glossary: stays English)
 #: data/buildings/ice_lodge.tres:10
@@ -904,3 +884,23 @@ msgstr "L'Appeleuse sauvage"
 #: data/helpers/helper_vey.tres:10
 msgid "The Storm-Sword"
 msgstr "L'Épée-Tempête"
+
+#. name (glossary: stays English)
+#: data/units/magpie.tres:9 scripts/world/hunters_guild.gd:581
+#~ msgid "Magpie"
+#~ msgstr "Magpie"
+
+#. name (glossary: stays English)
+#: data/units/shade.tres:9
+#~ msgid "Shade"
+#~ msgstr "Shade"
+
+#. name (glossary: stays English)
+#: data/units/ruin_warden.tres:9
+#~ msgid "Ruin Warden"
+#~ msgstr "Ruin Warden"
+
+#. name (glossary: stays English)
+#: data/buildings/ice_keep.tres:9
+#~ msgid "Rime Keep"
+#~ msgstr "Rime Keep"

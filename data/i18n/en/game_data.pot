@@ -291,11 +291,6 @@ msgid "Rimeshield"
 msgstr ""
 
 #. name (glossary: stays English)
-#: data/units/ruin_warden.tres:9
-msgid "Ruin Warden"
-msgstr ""
-
-#. name (glossary: stays English)
 #: data/units/sapling.tres:10 scripts/spells/spell_caster.gd:612
 msgid "Sapling"
 msgstr ""
@@ -433,11 +428,6 @@ msgstr ""
 #. name (glossary: stays English)
 #: data/buildings/ice_forge.tres:8
 msgid "Frost Forge"
-msgstr ""
-
-#. name (glossary: stays English)
-#: data/buildings/ice_keep.tres:9
-msgid "Rime Keep"
 msgstr ""
 
 #. name (glossary: stays English)

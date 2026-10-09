@@ -1,0 +1,189 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_i38sv"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_4u7kq"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_5pve7"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_2f3xf"]
+
+[sub_resource type="Resource" id="Resource_80khb"]
+script = ExtResource("4_2f3xf")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.2,
+"color": Color(0.84705883, 0.8627451, 0.9019608, 1),
+"time": 4.0
+}
+
+[sub_resource type="Resource" id="Resource_vv4x4"]
+script = ExtResource("3_5pve7")
+id = &"R1"
+duration = 5.0
+camera_mode = 2
+from_pos = Vector3(30, 20, 30)
+to_pos = Vector3(26, 16, 26)
+look_to = Vector3(0, 1, 0)
+fov_from = 50.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.8
+actions = Array[ExtResource("4_2f3xf")]([SubResource("Resource_80khb")])
+
+[sub_resource type="Resource" id="Resource_7rxfn"]
+script = ExtResource("3_5pve7")
+id = &"R2"
+duration = 4.0
+from_pos = Vector3(12, 3, 10)
+to_pos = Vector3(12, 3, 10)
+look_from = Vector3(8, 1.5, -6)
+look_to = Vector3(8, 1.5, -6)
+fov_from = 34.0
+fov_to = 34.0
+
+[sub_resource type="Resource" id="Resource_lkm6d"]
+script = ExtResource("1_i38sv")
+at = 0.2
+speaker = &"master"
+text = "Three winters, and not one stone stood on your ice."
+voice = "res://assets/audio/voice/master/three_winters_and_not_885c5243.wav"
+
+[sub_resource type="Resource" id="Resource_3ppx3"]
+script = ExtResource("1_i38sv")
+at = 4.8
+speaker = &"torvald"
+text = "They will come back."
+voice = "res://assets/audio/voice/torvald/they_will_come_back_e76bab96.wav"
+
+[sub_resource type="Resource" id="Resource_70es6"]
+script = ExtResource("1_i38sv")
+at = 9.4
+speaker = &"master"
+text = "Then so will you. Every winter. You are my patience, Torvald."
+voice = "res://assets/audio/voice/master/then_so_will_you_67e66592.wav"
+
+[sub_resource type="Resource" id="Resource_yfpri"]
+script = ExtResource("3_5pve7")
+id = &"R3"
+duration = 15.0
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(-4, 0, 4)
+orbit_radius = 4.6
+orbit_height = 1.6
+orbit_from_deg = 35.0
+orbit_to_deg = 45.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_i38sv")]([SubResource("Resource_lkm6d"), SubResource("Resource_3ppx3"), SubResource("Resource_70es6")])
+
+[sub_resource type="Resource" id="Resource_b8gpx"]
+script = ExtResource("4_2f3xf")
+at = 3.0
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.62352943, 0.9490196, 0.8784314, 1),
+"time": 0.2
+}
+
+[sub_resource type="Resource" id="Resource_nsmtu"]
+script = ExtResource("4_2f3xf")
+at = 3.3
+kind = &"fade"
+params = {
+"alpha": 0.1,
+"color": Color(0.84705883, 0.8627451, 0.9019608, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_mcss8"]
+script = ExtResource("1_i38sv")
+at = 0.2
+speaker = &"master"
+text = "Aldra Stillwater. Stay with it. The ice keeps its wardens."
+voice = "res://assets/audio/voice/master/aldra_stillwater_stay_with_3d554aaa.wav"
+
+[sub_resource type="Resource" id="Resource_v8gqt"]
+script = ExtResource("1_i38sv")
+at = 5.0
+speaker = &"aldra"
+text = "Then I will keep it right back."
+voice = "res://assets/audio/voice/aldra/then_i_will_keep_485c9782.wav"
+
+[sub_resource type="Resource" id="Resource_vcpsl"]
+script = ExtResource("3_5pve7")
+id = &"R4"
+duration = 10.0
+camera_mode = 3
+look_offset = Vector3(0, 1.7789999, 0)
+pivot_actor = &"aldra"
+pivot = Vector3(-7, 0, 6)
+orbit_radius = 3.8
+orbit_height = 1.5
+orbit_from_deg = 40.0
+orbit_to_deg = 50.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_i38sv")]([SubResource("Resource_mcss8"), SubResource("Resource_v8gqt")])
+actions = Array[ExtResource("4_2f3xf")]([SubResource("Resource_b8gpx"), SubResource("Resource_nsmtu")])
+
+[sub_resource type="Resource" id="Resource_eebay"]
+script = ExtResource("3_5pve7")
+id = &"R5"
+duration = 4.0
+from_pos = Vector3(-14, 4, 32)
+to_pos = Vector3(-14, 4, 32)
+look_from = Vector3(-24, 1.5, 24)
+look_to = Vector3(-24, 1.5, 24)
+fov_from = 40.0
+fov_to = 40.0
+
+[sub_resource type="Resource" id="Resource_grmr8"]
+script = ExtResource("4_2f3xf")
+at = 0.3
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(1, 1, 1, 1),
+"time": 5.0
+}
+
+[sub_resource type="Resource" id="Resource_6yees"]
+script = ExtResource("4_2f3xf")
+at = 6.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_lknxq"]
+script = ExtResource("1_i38sv")
+at = 0.3
+speaker = &"narrator"
+text = "The lake froze around the Heartfrost that night. It did not thaw for a hundred winters."
+voice = "res://assets/audio/voice/narrator/the_lake_froze_around_7b259b0b.wav"
+
+[sub_resource type="Resource" id="Resource_6wmgx"]
+script = ExtResource("3_5pve7")
+id = &"R6"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(10, 8, 12)
+to_pos = Vector3(16, 30, 18)
+fov_from = 44.0
+fov_to = 54.0
+lines = Array[ExtResource("1_i38sv")]([SubResource("Resource_lknxq")])
+actions = Array[ExtResource("4_2f3xf")]([SubResource("Resource_grmr8"), SubResource("Resource_6yees")])
+
+[resource]
+script = ExtResource("2_4u7kq")
+id = &"e6m1_return"
+title = "Not One Stone"
+world_mode = 1
+shots = Array[ExtResource("3_5pve7")]([SubResource("Resource_vv4x4"), SubResource("Resource_7rxfn"), SubResource("Resource_yfpri"), SubResource("Resource_vcpsl"), SubResource("Resource_eebay"), SubResource("Resource_6wmgx")])
+shake_seed = 612
+voice_over = Array[StringName]([&"narrator", &"master"])
+lines_over_cuts = true

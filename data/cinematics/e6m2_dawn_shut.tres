@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_c4iuw"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_6nsnj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_w86nw"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_e5o3s"]
+
+[sub_resource type="Resource" id="Resource_kes00"]
+script = ExtResource("4_e5o3s")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.2,
+"color": Color(0.78431374, 0.8, 0.8392157, 1),
+"time": 4.0
+}
+
+[sub_resource type="Resource" id="Resource_nky5o"]
+script = ExtResource("3_w86nw")
+id = &"S1"
+duration = 5.0
+from_pos = Vector3(8, 2, -2)
+to_pos = Vector3(8, 2, -2)
+look_from = Vector3(4, 0.3, -5)
+look_to = Vector3(4, 0.3, -5)
+fov_from = 34.0
+fov_to = 34.0
+transition_in = 1
+transition_time = 0.8
+actions = Array[ExtResource("4_e5o3s")]([SubResource("Resource_kes00")])
+
+[sub_resource type="Resource" id="Resource_nckop"]
+script = ExtResource("1_c4iuw")
+at = 0.4
+speaker = &"torvald"
+text = "The lake is safe. The lake is always safe."
+voice = "res://assets/audio/voice/torvald/the_lake_is_safe_95df75ae.wav"
+
+[sub_resource type="Resource" id="Resource_6cbod"]
+script = ExtResource("3_w86nw")
+id = &"S2"
+duration = 6.0
+from_pos = Vector3(4, 6, -14)
+to_pos = Vector3(4, 6, -14)
+look_from = Vector3(0, 2, 28)
+look_to = Vector3(0, 2, 28)
+fov_from = 20.0
+fov_to = 20.0
+lines = Array[ExtResource("1_c4iuw")]([SubResource("Resource_nckop")])
+
+[sub_resource type="Resource" id="Resource_vj27w"]
+script = ExtResource("4_e5o3s")
+at = 9.6
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.4
+}
+
+[sub_resource type="Resource" id="Resource_15ewc"]
+script = ExtResource("1_c4iuw")
+at = 0.4
+speaker = &"aldra"
+text = "And the town?"
+voice = "res://assets/audio/voice/aldra/and_the_town_cafccb72.wav"
+
+[sub_resource type="Resource" id="Resource_anfw4"]
+script = ExtResource("1_c4iuw")
+at = 4.0
+speaker = &"torvald"
+text = "...Ask me in a hundred winters."
+voice = "res://assets/audio/voice/torvald/ask_me_in_a_e46e0600.wav"
+
+[sub_resource type="Resource" id="Resource_8ytwn"]
+script = ExtResource("3_w86nw")
+id = &"S3"
+duration = 11.0
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(0, 0, -16)
+orbit_radius = 4.0
+orbit_height = 1.8
+orbit_from_deg = 140.0
+orbit_to_deg = 150.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_c4iuw")]([SubResource("Resource_15ewc"), SubResource("Resource_anfw4")])
+actions = Array[ExtResource("4_e5o3s")]([SubResource("Resource_vj27w")])
+
+[resource]
+script = ExtResource("2_6nsnj")
+id = &"e6m2_dawn_shut"
+title = "Ask Me in a Hundred Winters"
+world_mode = 1
+shots = Array[ExtResource("3_w86nw")]([SubResource("Resource_nky5o"), SubResource("Resource_6cbod"), SubResource("Resource_8ytwn")])
+shake_seed = 623
+voice_over = Array[StringName]([&"aldra", &"narrator"])
+lines_over_cuts = true

@@ -181,7 +181,7 @@ msgid "The Reeve"
 msgstr ""
 
 #. &"rider": ["Bren", Color(0.80, 0.82, 0.88)],          # Bren of Hearthwick (mission-e6-02.md: shown "Bren")
-#: scripts/ui/cinematic/speakers.gd:32
+#: scripts/ui/cinematic/speakers.gd:32 scripts/campaign/mission_e6_02.gd:85
 msgid "Bren"
 msgstr ""
 

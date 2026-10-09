@@ -1,0 +1,106 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_l72c5"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_xyxi7"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_8uvuy"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_vcx74"]
+
+[sub_resource type="Resource" id="Resource_pjmto"]
+script = ExtResource("4_vcx74")
+at = 0.3
+kind = &"fade"
+params = {
+"alpha": 0.12,
+"color": Color(1, 0.6039216, 0.2901961, 1),
+"time": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_yeqyg"]
+script = ExtResource("3_8uvuy")
+id = &"G1"
+duration = 3.0
+from_pos = Vector3(4, 6, -14)
+to_pos = Vector3(4, 6, -14)
+look_from = Vector3(0, 1.5, 24)
+look_to = Vector3(0, 1.5, 24)
+fov_from = 22.0
+fov_to = 22.0
+transition_in = 1
+actions = Array[ExtResource("4_vcx74")]([SubResource("Resource_pjmto")])
+
+[sub_resource type="Resource" id="Resource_yhsxm"]
+script = ExtResource("1_l72c5")
+at = 0.2
+speaker = &"rider"
+text = "Lord Torvald! Open the gate! The stone-men are in Hearthwick!"
+voice = "res://assets/audio/voice/rider/lord_torvald_open_the_4bb78f73.wav"
+
+[sub_resource type="Resource" id="Resource_hsdwy"]
+script = ExtResource("3_8uvuy")
+id = &"G2"
+duration = 5.4
+from_pos = Vector3(7, 0.8, -2)
+to_pos = Vector3(7, 0.8, -2)
+look_from = Vector3(2, 2, -9)
+look_to = Vector3(2, 2, -9)
+fov_from = 38.0
+fov_to = 38.0
+lines = Array[ExtResource("1_l72c5")]([SubResource("Resource_yhsxm")])
+
+[sub_resource type="Resource" id="Resource_m6f4e"]
+script = ExtResource("4_vcx74")
+at = 13.8
+kind = &"fade"
+params = {
+"alpha": 0.6,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_366mg"]
+script = ExtResource("1_l72c5")
+at = 0.2
+speaker = &"rider"
+text = "They're burning the houses. Two hundred people, my lord. Children."
+voice = "res://assets/audio/voice/rider/theyre_burning_the_houses_e800f63b.wav"
+
+[sub_resource type="Resource" id="Resource_0eoif"]
+script = ExtResource("1_l72c5")
+at = 5.0
+speaker = &"aldra"
+text = "It is bait. They want the gate open. They want the mere."
+voice = "res://assets/audio/voice/aldra/it_is_bait_they_7d1f9055.wav"
+
+[sub_resource type="Resource" id="Resource_mf4c1"]
+script = ExtResource("1_l72c5")
+at = 9.8
+speaker = &"torvald"
+text = "I know what they want."
+voice = "res://assets/audio/voice/torvald/i_know_what_they_52c865a2.wav"
+
+[sub_resource type="Resource" id="Resource_2t1wc"]
+script = ExtResource("3_8uvuy")
+id = &"G3"
+duration = 15.0
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(0, 0, -16)
+orbit_radius = 3.2
+orbit_height = 2.2
+orbit_from_deg = 150.0
+orbit_to_deg = 160.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_l72c5")]([SubResource("Resource_366mg"), SubResource("Resource_0eoif"), SubResource("Resource_mf4c1")])
+actions = Array[ExtResource("4_vcx74")]([SubResource("Resource_m6f4e")])
+
+[resource]
+script = ExtResource("2_xyxi7")
+id = &"e6m2_rider"
+title = "The Rider at the Gate"
+world_mode = 1
+shots = Array[ExtResource("3_8uvuy")]([SubResource("Resource_yeqyg"), SubResource("Resource_hsdwy"), SubResource("Resource_2t1wc")])
+shake_seed = 621
+voice_over = Array[StringName]([&"rider", &"narrator"])
+lines_over_cuts = true

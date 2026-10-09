@@ -1,0 +1,38 @@
+# e6m1 E12 "e6m1_return" (docs/design/mission-e6-01.md, Cinematic hooks; script-episodes-4-8/e6m1.md 1): mode=pause
+# over the live mission when winter 3 ends, then the victory. The mission moves Torvald to (-4, 4) and Aldra to (-7, 6)
+# before it plays. 1) WIDE: the snow stops, grey dawn over the lake; 2) the mist on the lake where the Master (not an
+# actor yet) walks in; 3) MS two-shot Torvald and the Master (orbits the live hero, tag `torvald`): L22-L24; 4) MS Aldra
+# (orbits the live `aldra`), a glass-teal flash down her sleeve: L25-L26; 5) the Sentinel stones on the south-west shore;
+# 6) CRANE up, the lake whitening to the shore: L27; FADE_BLACK. The cast stands at the mission's marks.
+# Axis: the Master - Torvald line north-east / south-west; every camera stays on its SOUTH-EAST side.
+# Fallback: the end state says L22-L27, the Sentinels sleep, then the victory.
+cine e6m1_return  title="Not One Stone"  mode=pause  letterbox=2.39  seed=612  length=40..46
+env dusk  moon_yaw=135  moon_pitch=-10  energy=0.85
+cast  torvald   res://art/units/wizards/torvald.tscn                    at=(-4, 0, 4)  yaw=45
+cast  aldra     res://art/units/helpers/helper_aldra/helper_aldra.tscn  at=(-7, 0, 6)  yaw=45
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  master    capsule  at=(0, 0, -310)  hidden=1
+
+# WIDE: the snow stops, grey dawn over the lake
+shot R1 5.0  cam=crane  from=(30, 20, 30)  to=(26, 16, 26)  look=(0, 0, 0)>(0, 1, 0)  fov=50>46  in=fade_black:0.8
+  at 0.2  fade color=#d8dce6 alpha=0.2 time=4.0
+# The mist on the lake: the Master walks in from the north-east
+shot R2 4.0  cam=static  from=(12, 3.0, 10)  look=(8, 1.5, -6)  fov=34
+# MS two-shot Torvald and the Master
+shot R3 15.0  cam=orbit  pivot=torvald  r=4.6  h=1.6  deg=35>45
+  at 0.2  line master "Three winters, and not one stone stood on your ice."
+  at 4.8  line torvald "They will come back."
+  at 9.4  line master "Then so will you. Every winter. You are my patience, Torvald."
+# MS Aldra, the Master's hand on her shoulder; glass-teal frost down her sleeve
+shot R4 10.0  cam=orbit  pivot=aldra  r=3.8  h=1.5  deg=40>50
+  at 0.2  line master "Aldra Stillwater. Stay with it. The ice keeps its wardens."
+  at 3.0  fade color=#9ff2e0 alpha=0.3 time=0.2
+  at 3.3  fade color=#d8dce6 alpha=0.1 time=0.8
+  at 5.0  line aldra "Then I will keep it right back."
+# The Sentinel stones on the south-west shore: ice shells close
+shot R5 4.0  cam=static  from=(-14, 4.0, 32)  look=(-24, 1.5, 24)  fov=40
+# CRANE up: the lake whitens to the shore; FADE_BLACK
+shot R6 7.0  cam=crane  from=(10, 8, 12)  to=(16, 30, 18)  look=(0, 0, 0)>(0, 0, 0)  fov=44>54
+  at 0.3  line narrator "The lake froze around the Heartfrost that night. It did not thaw for a hundred winters."
+  at 0.3  fade color=#ffffff alpha=0.3 time=5.0
+  at 6.0  fade alpha=1 time=1.0

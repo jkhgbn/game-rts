@@ -27,6 +27,19 @@ static func opening_of(mission_id: StringName) -> StringName:
 	return &""
 
 
+## The film the campaign's flags pick in place of `id` (CampaignState.FILM_BRANCHES: c_e6_gate -> c_e6_gate_shut when
+## e6m2_gate_opened is false), else `id` itself. A flag missing from the save keeps `id`.
+static func branch_of(id: StringName) -> StringName:
+	var row: Variant = CampaignState.FILM_BRANCHES.get(StringName(id))
+	if not row is Array:
+		return id
+	var flags := CampaignState.open().flags
+	var key := String((row as Array)[0])
+	if flags.has(key) and flags[key] == (row as Array)[1]:
+		return StringName((row as Array)[2])
+	return id
+
+
 ## Plays the film `id` alone (Campaign menu "Watch opening"), marks it seen, then back to the main menu.
 static func play_only(tree: SceneTree, id: StringName) -> Node:
 	return play_chain(tree, id, 1, true)
@@ -36,6 +49,7 @@ static func play_only(tree: SceneTree, id: StringName) -> Node:
 ## with `bot_difficulty`), or the main menu (always the menu when `menu_after`). Returns the new current scene (null
 ## when nothing could start).
 static func play_chain(tree: SceneTree, id: StringName, bot_difficulty: int = 1, menu_after := false) -> Node:
+	id = branch_of(id)
 	var next := &"" if menu_after else CampaignState.film_next(id)
 	if not available(id):
 		return continue_to(tree, next, bot_difficulty)

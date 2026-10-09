@@ -1,0 +1,21 @@
+# e6m4 E6 "e6m4_first_crack" (docs/design/mission-e6-04.md, Cinematic hooks; script-episodes-4-8/e6m4.md 1): mode=pause
+# when the hold reaches 50 %. 1) TOP-DOWN on the isle: a cross-shaped amber crack splits it (an amber flash) (L9);
+# 2) LOW inside the pillar ring: the Breakers haul themselves up out of the light (L10-L11). Lines run 15 s (spec
+# 0:12). The end state spawns the 2 Breakers + 6 Wardens inside the ring and orders Torvald's half-army.
+# Axis: the West Bridge - East Bridge line; every camera on its SOUTH-WEST side.
+# Fallback: the end state says L9-L11, spawns the First Crack and orders the push.
+cine e6m4_first_crack  title="The Isle Splits"  mode=pause  letterbox=2.39  seed=642  length=14..19
+env dusk  moon_yaw=225  moon_pitch=-12  energy=0.8
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  ysolde    capsule  at=(0, 0, -310)  hidden=1
+cast  torvald   capsule  at=(0, 0, -320)  hidden=1
+
+# TOP-DOWN on the isle: the amber crack splits it
+shot F1 5.4  cam=static  from=(-4, 26, 4)  look=(0, 0, 0)  fov=42  in=fade_black:0.3
+  at 0.2  line narrator "Then the isle split, and the amber came up through the stones."
+  at 1.0  fade color=#ffa040 alpha=0.35 time=0.3
+  at 1.4  fade color=#ffa040 alpha=0.12 time=1.5
+# LOW inside the pillar ring: two Breakers haul themselves up out of the light
+shot F2 10.6  cam=static  from=(-5, 0.7, 5)  look=(2, 1.8, -2)  fov=40
+  at 0.2  line ysolde "Torvald! It's breaking on our side!"
+  at 5.2  line torvald "Then I am on your side. Hold."

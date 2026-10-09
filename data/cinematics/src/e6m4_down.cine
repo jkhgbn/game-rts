@@ -1,0 +1,40 @@
+# e6m4 E13 "e6m4_down" (docs/design/mission-e6-04.md, Cinematic hooks; script-episodes-4-8/e6m4.md 1): mode=pause at
+# 100 %, then the victory; StoryFlow plays ep6_ending next. The mission moves Ysolde to (-4, 5) and Torvald to (4, -5)
+# and crumbles every Host unit before it plays. 1) CU the Master's hands: the cracks close, amber fading to grey; 2) he
+# stands for the first time, MLS from behind the two; 3) MS two-shot (orbits the live hero, tag `ysolde`): L17-L18;
+# 4) CU the Master (L19), Torvald (tag `torvald`, L20), the Master (L21); 5) WIDE: a white-gold flash, he is gone;
+# 6) CRANE up, night falling (L22); FADE_BLACK. Lines run 29 s (spec 0:45 with the flash).
+# Axis: the West Bridge - East Bridge line; every camera on its SOUTH-WEST side.
+# Fallback: the end state says L17-L22, then the victory.
+cine e6m4_down  title="From Below"  mode=pause  letterbox=2.39  seed=643  length=36..46
+env dusk  moon_yaw=225  moon_pitch=-6  energy=0.7
+cast  ysolde    res://art/units/wizards/ysolde.tscn   at=(-4, 0, 5)  yaw=-140
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(4, 0, -5)  yaw=40
+cast  master    capsule  at=(0, 0, -300)  hidden=1
+cast  narrator  capsule  at=(0, 0, -310)  hidden=1
+
+# CU the Master's hands on the stone: the cracks close, amber fading to grey
+shot D1 4.0  cam=static  from=(-1.6, 1.0, 1.8)  look=(0, 0.6, 0)  fov=30  in=fade_black:0.6
+  at 0.5  fade color=#c8c4be alpha=0.15 time=3.0
+# He stands, very tall, MLS from behind the two
+shot D2 3.0  cam=static  from=(-9, 2.2, 9)  look=(0, 2.4, 0)  fov=40
+# MS two-shot Ysolde / Torvald
+shot D3 13.0  cam=orbit  pivot=ysolde  r=4.6  h=1.6  deg=220>230
+  at 0.2  line master "Listen, both of you. Tell no one what sleeps here. If the world knows, the world will dig."
+  at 6.6  line master "My regalia are its keys. When I go, they will scatter. Never let them sit in one hand."
+# CU the Master
+shot D4 6.6  cam=static  from=(-2.0, 2.4, 2.6)  look=(0, 2.6, 0)  fov=30
+  at 0.3  line master "Ysolde, my heart: keep growing things. Torvald, my patience: wait for me."
+# CU Torvald
+shot D5 2.6  cam=orbit  pivot=torvald  r=2.6  h=1.7  deg=215>220  fov=32
+  at 0.2  line torvald "How long?"
+# CU the Master, a faint smile; the white-gold flash; he is gone
+shot D6 5.0  cam=static  from=(-2.0, 2.4, 2.6)  look=(0, 2.6, 0)  fov=30
+  at 0.2  line master "Not too long."
+  at 3.4  fade color=#fff6dc alpha=1 time=0.3
+  at 3.9  fade color=#fff6dc alpha=0 time=0.8
+# CRANE up, night falling; the two alone on the darkening isle
+shot D7 7.0  cam=crane  from=(-8, 6, 8)  to=(-16, 24, 16)  look=(0, 0, 0)>(0, 0, 0)  fov=44>54
+  at 0.3  line narrator "He went down that same night, to hold the door from below. He never said for how long."
+  at 0.3  fade color=#101830 alpha=0.3 time=6.0
+  at 6.0  fade alpha=1 time=1.0

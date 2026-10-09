@@ -1,0 +1,172 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_c1uke"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_ej1k2"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_t3qsp"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_xumjw"]
+
+[sub_resource type="Resource" id="Resource_n1npk"]
+script = ExtResource("4_xumjw")
+at = 0.3
+kind = &"fade"
+params = {
+"alpha": 0.18,
+"color": Color(1, 0.8862745, 0.65882355, 1),
+"time": 5.0
+}
+
+[sub_resource type="Resource" id="Resource_i26h1"]
+script = ExtResource("3_t3qsp")
+id = &"P1"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(10, 22, 76)
+to_pos = Vector3(4, 16, 68)
+look_from = Vector3(-10, 0, 34)
+look_to = Vector3(-12, 0, 40)
+fov_from = 50.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.8
+actions = Array[ExtResource("4_xumjw")]([SubResource("Resource_n1npk")])
+
+[sub_resource type="Resource" id="Resource_lpd13"]
+script = ExtResource("3_t3qsp")
+id = &"P2"
+duration = 4.0
+from_pos = Vector3(-6, 2.5, 64)
+to_pos = Vector3(-6, 2.5, 64)
+look_from = Vector3(-12, 1.5, 48)
+look_to = Vector3(-12, 1.5, 48)
+fov_from = 40.0
+fov_to = 40.0
+
+[sub_resource type="Resource" id="Resource_e05v2"]
+script = ExtResource("1_c1uke")
+at = 0.3
+speaker = &"master"
+text = "A sapling, coaxed through the frost. In this cold?"
+voice = "res://assets/audio/voice/master/a_sapling_coaxed_through_e4c497e1.wav"
+
+[sub_resource type="Resource" id="Resource_73t8e"]
+script = ExtResource("1_c1uke")
+at = 5.4
+speaker = &"ysolde"
+text = "It wants to grow. It only needs someone to wait with it."
+voice = "res://assets/audio/voice/ysolde/it_wants_to_grow_ecad2a19.wav"
+
+[sub_resource type="Resource" id="Resource_u0f8i"]
+script = ExtResource("3_t3qsp")
+id = &"P3"
+duration = 11.0
+camera_mode = 3
+look_offset = Vector3(0, 1.77, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(-15, 0, 47)
+orbit_radius = 3.4
+orbit_height = 0.8
+orbit_from_deg = 170.0
+orbit_to_deg = 180.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_c1uke")]([SubResource("Resource_e05v2"), SubResource("Resource_73t8e")])
+
+[sub_resource type="Resource" id="Resource_xa3mj"]
+script = ExtResource("1_c1uke")
+at = 0.4
+speaker = &"master"
+text = "Show me."
+voice = "res://assets/audio/voice/master/show_me_012b34e1.wav"
+
+[sub_resource type="Resource" id="Resource_pgxpe"]
+script = ExtResource("3_t3qsp")
+id = &"P4"
+duration = 3.4
+from_pos = Vector3(-15.6, 1.1, 50.2)
+to_pos = Vector3(-15.6, 1.1, 50.2)
+look_from = Vector3(-16, 0.3, 48.5)
+look_to = Vector3(-16, 0.3, 48.5)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_c1uke")]([SubResource("Resource_xa3mj")])
+
+[sub_resource type="Resource" id="Resource_0kqlv"]
+script = ExtResource("4_xumjw")
+at = 1.6
+kind = &"fade"
+params = {
+"alpha": 0.35,
+"color": Color(1, 0.84313726, 0.3529412, 1),
+"time": 0.3
+}
+
+[sub_resource type="Resource" id="Resource_ncybs"]
+script = ExtResource("4_xumjw")
+at = 2.0
+kind = &"fade"
+params = {
+"alpha": 0.1,
+"color": Color(1, 0.8862745, 0.65882355, 1),
+"time": 1.4
+}
+
+[sub_resource type="Resource" id="Resource_e3vdl"]
+script = ExtResource("1_c1uke")
+at = 0.3
+speaker = &"master"
+text = "...Show me again."
+voice = "res://assets/audio/voice/master/show_me_again_fb6d7d95.wav"
+
+[sub_resource type="Resource" id="Resource_7hrin"]
+script = ExtResource("3_t3qsp")
+id = &"P5"
+duration = 4.6
+from_pos = Vector3(-14.8, 1.4, 51)
+to_pos = Vector3(-14.8, 1.4, 51)
+look_from = Vector3(-16, 0.6, 48.5)
+look_to = Vector3(-16, 0.6, 48.5)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_c1uke")]([SubResource("Resource_e3vdl")])
+actions = Array[ExtResource("4_xumjw")]([SubResource("Resource_0kqlv"), SubResource("Resource_ncybs")])
+
+[sub_resource type="Resource" id="Resource_4twe5"]
+script = ExtResource("4_xumjw")
+at = 5.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_kk8gn"]
+script = ExtResource("1_c1uke")
+at = 0.3
+speaker = &"narrator"
+text = "She did. For twenty years, until he was gone."
+voice = "res://assets/audio/voice/narrator/she_did_for_twenty_46abbae6.wav"
+
+[sub_resource type="Resource" id="Resource_pev4f"]
+script = ExtResource("3_t3qsp")
+id = &"P6"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(-12, 6, 58)
+to_pos = Vector3(-6, 26, 74)
+look_from = Vector3(-16, 0, 48)
+look_to = Vector3(-14, 0, 42)
+fov_from = 44.0
+fov_to = 54.0
+lines = Array[ExtResource("1_c1uke")]([SubResource("Resource_kk8gn")])
+actions = Array[ExtResource("4_xumjw")]([SubResource("Resource_4twe5")])
+
+[resource]
+script = ExtResource("2_ej1k2")
+id = &"e6m3_spring"
+title = "Show Me Again"
+world_mode = 1
+shots = Array[ExtResource("3_t3qsp")]([SubResource("Resource_i26h1"), SubResource("Resource_lpd13"), SubResource("Resource_u0f8i"), SubResource("Resource_pgxpe"), SubResource("Resource_7hrin"), SubResource("Resource_pev4f")])
+shake_seed = 631
+voice_over = Array[StringName]([&"master", &"narrator"])
+lines_over_cuts = true

@@ -1,0 +1,83 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_qmedf"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_aerrq"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_qtcwg"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_2wskn"]
+
+[sub_resource type="Resource" id="Resource_hn44w"]
+script = ExtResource("1_qmedf")
+at = 0.5
+speaker = &"torvald"
+text = "Close it now. Gently. Everyone is home."
+voice = "res://assets/audio/voice/torvald/close_it_now_gently_926bcfeb.wav"
+
+[sub_resource type="Resource" id="Resource_v3swq"]
+script = ExtResource("3_qtcwg")
+id = &"D1"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(10, 8, -20)
+to_pos = Vector3(9, 10, -22)
+look_from = Vector3(0, 2, -10)
+look_to = Vector3(0, 2, -10)
+fov_from = 44.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_qmedf")]([SubResource("Resource_hn44w")])
+
+[sub_resource type="Resource" id="Resource_ih5pe"]
+script = ExtResource("3_qtcwg")
+id = &"D2"
+duration = 6.0
+from_pos = Vector3(14, 7, -26)
+to_pos = Vector3(14, 7, -26)
+look_from = Vector3(0, 1, -36)
+look_to = Vector3(0, 1, -36)
+fov_from = 46.0
+fov_to = 46.0
+
+[sub_resource type="Resource" id="Resource_3ptjg"]
+script = ExtResource("4_2wskn")
+at = 7.8
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.2
+}
+
+[sub_resource type="Resource" id="Resource_f28n6"]
+script = ExtResource("1_qmedf")
+at = 0.4
+speaker = &"rider"
+text = "Hearthwick will remember this gate, my lord."
+voice = "res://assets/audio/voice/rider/hearthwick_will_remember_thi_82c76659.wav"
+
+[sub_resource type="Resource" id="Resource_8p2ge"]
+script = ExtResource("3_qtcwg")
+id = &"D3"
+duration = 9.0
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(0, 0, -30)
+orbit_radius = 4.2
+orbit_height = 1.6
+orbit_from_deg = 60.0
+orbit_to_deg = 70.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_qmedf")]([SubResource("Resource_f28n6")])
+actions = Array[ExtResource("4_2wskn")]([SubResource("Resource_3ptjg")])
+
+[resource]
+script = ExtResource("2_aerrq")
+id = &"e6m2_dawn_open"
+title = "Everyone Is Home"
+world_mode = 1
+shots = Array[ExtResource("3_qtcwg")]([SubResource("Resource_v3swq"), SubResource("Resource_ih5pe"), SubResource("Resource_8p2ge")])
+shake_seed = 622
+voice_over = Array[StringName]([&"rider", &"narrator"])
+lines_over_cuts = true

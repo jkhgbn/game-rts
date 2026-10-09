@@ -42,7 +42,8 @@ const COMPANION_PURSE_CAP := 300
 const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
 const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3", &"e2m4", &"e2m5",
-		&"e3m1", &"e3m2", &"e3m3", &"e3m4", &"e4m1", &"e4m2", &"e4m3", &"e4m4", &"e5m1", &"e5m2", &"e5m3", &"e5m4"]
+		&"e3m1", &"e3m2", &"e3m3", &"e3m4", &"e4m1", &"e4m2", &"e4m3", &"e4m4", &"e5m1", &"e5m2", &"e5m3", &"e5m4",
+		&"e6m1", &"e6m2", &"e6m3", &"e6m4"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
@@ -66,6 +67,10 @@ const MISSION_SCENES := {
 	&"e5m2": "res://missions/mission_e5_02.tscn",
 	&"e5m3": "res://missions/mission_e5_03.tscn",
 	&"e5m4": "res://missions/mission_e5_04.tscn",
+	&"e6m1": "res://missions/mission_e6_01.tscn",
+	&"e6m2": "res://missions/mission_e6_02.tscn",
+	&"e6m3": "res://missions/mission_e6_03.tscn",
+	&"e6m4": "res://missions/mission_e6_04.tscn",
 }
 ## Story films a reward's "next" may name (StoryFilms plays them): film id -> what follows it (a film or a mission).
 ## The victory unlocks the first mission at the end of the chain (film_target).
@@ -89,7 +94,18 @@ const STORY_FILMS := {
 	&"ep4_ending": &"ep5_opening",   # mission-e4-04.md: "Winter's End", then the Ep5 card
 	&"ep5_opening": &"e5m1",         # mission-e5-01.md F8: "The Spark and the Candle" plays before e5m1's briefing
 	&"c_e5_turn": &"e5m3",           # mission-e5-03.md E0: "By One Candle" after e5m2, before e5m3's briefing
-	&"ep5_ending": &"",              # mission-e5-04.md D9: "No Problem at All", then the main menu (Episode 6 not built)
+	&"ep5_ending": &"ep6_opening",   # mission-e5-04.md D9: "No Problem at All", then the Ep6 card
+	&"ep6_opening": &"e6m1",         # mission-e6-01.md: "Patience and Heart" plays before e6m1's briefing
+	&"c_e6_lake": &"e6m2",           # mission-e6-01.md: "The Ice Has Stopped Singing" after e6m1, before e6m2's briefing
+	&"c_e6_gate": &"e6m3",           # mission-e6-02.md: the gate film after e6m2 (open branch; FILM_BRANCHES picks the shut cut)
+	&"c_e6_gate_shut": &"e6m3",      # mission-e6-02.md: the shut branch's cut of c_e6_gate
+	&"c_e6_seed": &"e6m4",           # mission-e6-03.md: after e6m3, before e6m4's briefing
+	&"ep6_ending": &"",              # mission-e6-04.md: the night the Master went down, then the main menu (Episode 7 not built)
+}
+## Films picked by a campaign flag (mission-e6-02.md D4 / D5): film id -> [flag, value, the film played instead]. A
+## chain that reaches the key film plays the other one when CampaignState.flag(flag) == value.
+const FILM_BRANCHES := {
+	&"c_e6_gate": ["e6m2_gate_opened", false, &"c_e6_gate_shut"],
 }
 ## Malrik's track (campaign-outline D8; per-wizard item tracks are not built): Ep3 victories are flags-only
 ## ("save_items": false, Vessa's items untouched) and carry Malrik's essence (50 %, cap 1 500) in this int flag.
@@ -250,7 +266,31 @@ const MISSION_REWARDS := {
 	&"e5m4": {
 		"flags": {"e5m4_took_home": "sec_take", "e5m4_unseen": "sec_unseen"},
 		"set_flags": {"ep5_complete": true},
-		"next": &"ep5_ending",   # film ep5_ending, then the main menu (Episode 6 not built)
+		"next": &"ep5_ending",   # film chain ep5_ending -> ep6_opening -> e6m1 (unlocks e6m1)
+		"save_items": false,
+	},
+	# Episode 6 (origins, mission-e6-01.md ER3): flags only, nothing carried in or out. Times / counts are
+	# mission-computed (e6m1_time, e6m2_gate_opened, e6m2_town_saved, e6m2_saved_count...).
+	&"e6m1": {
+		"flags": {"e6m1_sentinels": "sec_sentinels"},
+		"set_flags": {"ep6_started": true},
+		"next": &"c_e6_lake",   # film c_e6_lake -> e6m2
+		"save_items": false,
+	},
+	&"e6m2": {
+		"flags": {"e6m2_gates_broken": "sec_gates", "e6m2_lake_kept": "sec_lake"},
+		"next": &"c_e6_gate",   # film c_e6_gate (or c_e6_gate_shut, FILM_BRANCHES) -> e6m3
+		"save_items": false,
+	},
+	&"e6m3": {
+		"flags": {"e6m3_all_gardens": "sec_all", "e6m3_whitepelt": "sec_whitepelt"},
+		"next": &"c_e6_seed",   # film c_e6_seed -> e6m4
+		"save_items": false,
+	},
+	&"e6m4": {
+		"flags": {"e6m4_seal_unbroken": "sec_unbroken", "e6m4_gates": "sec_gates"},
+		"set_flags": {"ep6_complete": true},
+		"next": &"ep6_ending",   # film ep6_ending, then the main menu (Episode 7 not built)
 		"save_items": false,
 	},
 }

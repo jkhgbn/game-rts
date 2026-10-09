@@ -1,0 +1,21 @@
+# e6m2 E10 (open) "e6m2_dawn_open" (docs/design/mission-e6-02.md, Cinematic hooks; script-episodes-4-8/e6m2.md 1):
+# mode=pause at dawn when the gate was opened in the window, then the victory. 1) dawn over the wall; the Frostgate closes
+# on the empty road (L21); 2) WIDE inside: the townsfolk round the keep's fires; 3) MS Torvald (orbits the live hero, tag
+# `torvald`): Bren bows, Torvald nods once (L22); FADE_BLACK. The cast stands at the keep for cine's checks.
+# Axis: the gate line (north-south road); every camera stays on its EAST side.
+# Fallback: the end state says L21-L22, then the victory.
+cine e6m2_dawn_open  title="Everyone Is Home"  mode=pause  letterbox=2.39  seed=622  length=18..32
+env dusk  moon_yaw=120  moon_pitch=-8  energy=0.9
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(0, 0, -30)  yaw=0
+cast  rider     capsule  at=(0, 0, -300)  hidden=1
+cast  narrator  capsule  at=(0, 0, -310)  hidden=1
+
+# Dawn over the wall: the Frostgate closes slowly on the empty road
+shot D1 7.0  cam=crane  from=(10, 8, -20)  to=(9, 10, -22)  look=(0, 2, -10)>(0, 2, -10)  fov=44>40  in=fade_black:0.8
+  at 0.5  line torvald "Close it now. Gently. Everyone is home."
+# WIDE inside: the townsfolk round the keep's fires
+shot D2 6.0  cam=static  from=(14, 7, -26)  look=(0, 1, -36)  fov=46
+# MS Bren bows to Torvald; Torvald nods once
+shot D3 9.0  cam=orbit  pivot=torvald  r=4.2  h=1.6  deg=60>70
+  at 0.4  line rider "Hearthwick will remember this gate, my lord."
+  at 7.8  fade alpha=1 time=1.2

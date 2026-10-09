@@ -1,0 +1,23 @@
+# e6m2 E10 (shut) "e6m2_dawn_shut" (docs/design/mission-e6-02.md, Cinematic hooks; script-episodes-4-8/e6m2.md 1):
+# mode=pause at dawn when the gate stayed shut through the window (even if opened later), then the victory. 1) grey dawn:
+# the buried signal fire, a hump of snow; 2) LONG LENS: thin smoke over Hearthwick's rubble (L23); 3) MS Torvald alone on
+# the wall (orbits the live hero, tag `torvald`), Aldra walking up behind him (L24-L25); FADE_BLACK.
+# Axis: the gate line (north-south road); every camera stays on its EAST side.
+# Fallback: the end state says L23-L25, then the victory.
+cine e6m2_dawn_shut  title="Ask Me in a Hundred Winters"  mode=pause  letterbox=2.39  seed=623  length=18..32
+env dusk  moon_yaw=120  moon_pitch=-6  energy=0.7
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(0, 0, -16)  yaw=180
+cast  aldra     capsule  at=(0, 0, -300)  hidden=1
+cast  narrator  capsule  at=(0, 0, -310)  hidden=1
+
+# Grey dawn: the buried signal fire, a hump of snow
+shot S1 5.0  cam=static  from=(8, 2.0, -2)  look=(4, 0.3, -5)  fov=34  in=fade_black:0.8
+  at 0.2  fade color=#c8ccd6 alpha=0.2 time=4.0
+# LONG LENS: thin smoke over Hearthwick's rubble
+shot S2 6.0  cam=static  from=(4, 6.0, -14)  look=(0, 2.0, 28)  fov=20
+  at 0.4  line torvald "The lake is safe. The lake is always safe."
+# MS Torvald alone on the wall; Aldra walks up behind him
+shot S3 11.0  cam=orbit  pivot=torvald  r=4.0  h=1.8  deg=140>150
+  at 0.4  line aldra "And the town?"
+  at 4.0  line torvald "...Ask me in a hundred winters."
+  at 9.6  fade alpha=1 time=1.4

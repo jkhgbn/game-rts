@@ -1,0 +1,25 @@
+# e6m2 E4 "e6m2_rider" (docs/design/mission-e6-02.md, Cinematic hooks; script-episodes-4-8/e6m2.md 1): mode=pause over
+# the live mission at 5:30 (the spec's HOLD runs as PAUSE). The mission puts Torvald on the wall at (0, -16) and Bren at
+# his signal fire (4, -5) before it plays. 1) LONG LENS down the road: Hearthwick burning behind; 2) LOW at the gate: he
+# hammers the ice (L6); 3) OVER TORVALD'S SHOULDER on the wall (prologue S24's frame, orbits the live hero, tag
+# `torvald`): the rider by his fire looks up (L7-L9). The lines run 20 s: the film is ~22 s (spec 0:15).
+# Axis: the gate line (the north-south road); every camera stays on its EAST side.
+# Fallback: the end state says L6-L9, opens the window and shows the buttons.
+cine e6m2_rider  title="The Rider at the Gate"  mode=pause  letterbox=2.39  seed=621  length=20..25
+env dusk  moon_yaw=200  moon_pitch=-20  energy=0.6
+cast  torvald   res://art/units/wizards/torvald.tscn  at=(0, 0, -16)  yaw=0
+cast  rider     capsule  at=(4, 0, -5)  hidden=1
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# LONG LENS down the road from the wall: a lone rider through the snow, Hearthwick burning behind
+shot G1 3.0  cam=static  from=(4, 6.0, -14)  look=(0, 1.5, 24)  fov=22  in=fade_black:0.5
+  at 0.3  fade color=#ff9a4a alpha=0.12 time=2.0
+# LOW at the gate: he hammers the ice with a fist
+shot G2 5.4  cam=static  from=(7, 0.8, -2)  look=(2, 2.0, -9)  fov=38
+  at 0.2  line rider "Lord Torvald! Open the gate! The stone-men are in Hearthwick!"
+# Over Torvald's shoulder on the wall: the rider lights his fire and looks up
+shot G3 15.0  cam=orbit  pivot=torvald  r=3.2  h=2.2  deg=150>160  fov=40
+  at 0.2  line rider "They're burning the houses. Two hundred people, my lord. Children."
+  at 5.0  line aldra "It is bait. They want the gate open. They want the mere."
+  at 9.8  line torvald "I know what they want."
+  at 13.8  fade alpha=0.6 time=1.0

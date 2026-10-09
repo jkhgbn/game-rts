@@ -1,0 +1,202 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_74q74"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_moays"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_1csnj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_3es1e"]
+
+[sub_resource type="Resource" id="Resource_xyiht"]
+script = ExtResource("4_3es1e")
+at = 0.5
+kind = &"fade"
+params = {
+"alpha": 0.15,
+"color": Color(0.78431374, 0.76862746, 0.74509805, 1),
+"time": 3.0
+}
+
+[sub_resource type="Resource" id="Resource_c5baq"]
+script = ExtResource("3_1csnj")
+id = &"D1"
+duration = 4.0
+from_pos = Vector3(-1.6, 1, 1.8)
+to_pos = Vector3(-1.6, 1, 1.8)
+look_from = Vector3(0, 0.6, 0)
+look_to = Vector3(0, 0.6, 0)
+fov_from = 30.0
+fov_to = 30.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_3es1e")]([SubResource("Resource_xyiht")])
+
+[sub_resource type="Resource" id="Resource_fkssr"]
+script = ExtResource("3_1csnj")
+id = &"D2"
+duration = 3.0
+from_pos = Vector3(-9, 2.2, 9)
+to_pos = Vector3(-9, 2.2, 9)
+look_from = Vector3(0, 2.4, 0)
+look_to = Vector3(0, 2.4, 0)
+fov_from = 40.0
+fov_to = 40.0
+
+[sub_resource type="Resource" id="Resource_cm34u"]
+script = ExtResource("1_74q74")
+at = 0.2
+speaker = &"master"
+text = "Listen, both of you. Tell no one what sleeps here. If the world knows, the world will dig."
+voice = "res://assets/audio/voice/master/listen_both_of_you_b938da9c.wav"
+
+[sub_resource type="Resource" id="Resource_s4hao"]
+script = ExtResource("1_74q74")
+at = 6.6
+speaker = &"master"
+text = "My regalia are its keys. When I go, they will scatter. Never let them sit in one hand."
+voice = "res://assets/audio/voice/master/my_regalia_are_its_7580d6b2.wav"
+
+[sub_resource type="Resource" id="Resource_vbuon"]
+script = ExtResource("3_1csnj")
+id = &"D3"
+duration = 13.0
+camera_mode = 3
+look_offset = Vector3(0, 1.77, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(-4, 0, 5)
+orbit_radius = 4.6
+orbit_height = 1.6
+orbit_from_deg = 220.0
+orbit_to_deg = 230.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_74q74")]([SubResource("Resource_cm34u"), SubResource("Resource_s4hao")])
+
+[sub_resource type="Resource" id="Resource_mobqy"]
+script = ExtResource("1_74q74")
+at = 0.3
+speaker = &"master"
+text = "Ysolde, my heart: keep growing things. Torvald, my patience: wait for me."
+voice = "res://assets/audio/voice/master/ysolde_my_heart_keep_32ac3d92.wav"
+
+[sub_resource type="Resource" id="Resource_wjoat"]
+script = ExtResource("3_1csnj")
+id = &"D4"
+duration = 6.6
+from_pos = Vector3(-2, 2.4, 2.6)
+to_pos = Vector3(-2, 2.4, 2.6)
+look_from = Vector3(0, 2.6, 0)
+look_to = Vector3(0, 2.6, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_74q74")]([SubResource("Resource_mobqy")])
+
+[sub_resource type="Resource" id="Resource_t45cc"]
+script = ExtResource("1_74q74")
+at = 0.2
+speaker = &"torvald"
+text = "How long?"
+voice = "res://assets/audio/voice/torvald/how_long_59320b9b.wav"
+
+[sub_resource type="Resource" id="Resource_qg8ak"]
+script = ExtResource("3_1csnj")
+id = &"D5"
+duration = 2.6
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(4, 0, -5)
+orbit_radius = 2.6
+orbit_height = 1.7
+orbit_from_deg = 215.0
+orbit_to_deg = 220.0
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_74q74")]([SubResource("Resource_t45cc")])
+
+[sub_resource type="Resource" id="Resource_4a1j1"]
+script = ExtResource("4_3es1e")
+at = 3.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(1, 0.9647059, 0.8627451, 1),
+"time": 0.3
+}
+
+[sub_resource type="Resource" id="Resource_207l1"]
+script = ExtResource("4_3es1e")
+at = 3.9
+kind = &"fade"
+params = {
+"alpha": 0.0,
+"color": Color(1, 0.9647059, 0.8627451, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_sef21"]
+script = ExtResource("1_74q74")
+at = 0.2
+speaker = &"master"
+text = "Not too long."
+voice = "res://assets/audio/voice/master/not_too_long_d5e752af.wav"
+
+[sub_resource type="Resource" id="Resource_vmcrj"]
+script = ExtResource("3_1csnj")
+id = &"D6"
+duration = 5.0
+from_pos = Vector3(-2, 2.4, 2.6)
+to_pos = Vector3(-2, 2.4, 2.6)
+look_from = Vector3(0, 2.6, 0)
+look_to = Vector3(0, 2.6, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_74q74")]([SubResource("Resource_sef21")])
+actions = Array[ExtResource("4_3es1e")]([SubResource("Resource_4a1j1"), SubResource("Resource_207l1")])
+
+[sub_resource type="Resource" id="Resource_1dt1p"]
+script = ExtResource("4_3es1e")
+at = 0.3
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.0627451, 0.09411765, 0.1882353, 1),
+"time": 6.0
+}
+
+[sub_resource type="Resource" id="Resource_7rb0s"]
+script = ExtResource("4_3es1e")
+at = 6.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_n8tqk"]
+script = ExtResource("1_74q74")
+at = 0.3
+speaker = &"narrator"
+text = "He went down that same night, to hold the door from below. He never said for how long."
+voice = "res://assets/audio/voice/narrator/he_went_down_that_97d4ba9b.wav"
+
+[sub_resource type="Resource" id="Resource_p0y1g"]
+script = ExtResource("3_1csnj")
+id = &"D7"
+duration = 7.0
+camera_mode = 2
+from_pos = Vector3(-8, 6, 8)
+to_pos = Vector3(-16, 24, 16)
+fov_from = 44.0
+fov_to = 54.0
+lines = Array[ExtResource("1_74q74")]([SubResource("Resource_n8tqk")])
+actions = Array[ExtResource("4_3es1e")]([SubResource("Resource_1dt1p"), SubResource("Resource_7rb0s")])
+
+[resource]
+script = ExtResource("2_moays")
+id = &"e6m4_down"
+title = "From Below"
+world_mode = 1
+shots = Array[ExtResource("3_1csnj")]([SubResource("Resource_c5baq"), SubResource("Resource_fkssr"), SubResource("Resource_vbuon"), SubResource("Resource_wjoat"), SubResource("Resource_qg8ak"), SubResource("Resource_vmcrj"), SubResource("Resource_p0y1g")])
+shake_seed = 643
+voice_over = Array[StringName]([&"master", &"narrator"])
+lines_over_cuts = true

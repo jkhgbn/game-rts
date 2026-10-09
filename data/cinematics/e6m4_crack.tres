@@ -1,0 +1,160 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_a51cu"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_7qd5p"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_562ks"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_3070e"]
+
+[sub_resource type="Resource" id="Resource_fx5ki"]
+script = ExtResource("4_3070e")
+at = 2.0
+kind = &"fade"
+params = {
+"alpha": 0.15,
+"color": Color(1, 0.627451, 0.2509804, 1),
+"time": 3.0
+}
+
+[sub_resource type="Resource" id="Resource_xg04v"]
+script = ExtResource("1_a51cu")
+at = 0.4
+speaker = &"narrator"
+text = "Twelve years ago. The Master sent for two of his four. Only two."
+voice = "res://assets/audio/voice/narrator/twelve_years_ago_the_f792a063.wav"
+
+[sub_resource type="Resource" id="Resource_4movv"]
+script = ExtResource("3_562ks")
+id = &"K1"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(-26, 26, 22)
+to_pos = Vector3(-18, 16, 16)
+fov_from = 50.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_a51cu")]([SubResource("Resource_xg04v")])
+actions = Array[ExtResource("4_3070e")]([SubResource("Resource_fx5ki")])
+
+[sub_resource type="Resource" id="Resource_gm778"]
+script = ExtResource("1_a51cu")
+at = 0.3
+speaker = &"master"
+text = "Ysolde. Torvald. Hold the isle. Whatever climbs out of the water must not touch this stone."
+voice = "res://assets/audio/voice/master/ysolde_torvald_hold_the_437f2c53.wav"
+
+[sub_resource type="Resource" id="Resource_68h2n"]
+script = ExtResource("3_562ks")
+id = &"K2"
+duration = 6.6
+from_pos = Vector3(-3, 0.9, 4)
+to_pos = Vector3(-3, 0.9, 4)
+look_from = Vector3(0, 1.2, 0)
+look_to = Vector3(0, 1.2, 0)
+fov_from = 38.0
+fov_to = 38.0
+lines = Array[ExtResource("1_a51cu")]([SubResource("Resource_gm778")])
+
+[sub_resource type="Resource" id="Resource_x3jj1"]
+script = ExtResource("3_562ks")
+id = &"K3"
+duration = 3.0
+from_pos = Vector3(-20, 4, 2)
+to_pos = Vector3(-20, 4, 2)
+look_from = Vector3(-9, 0.5, -9)
+look_to = Vector3(-9, 0.5, -9)
+fov_from = 40.0
+fov_to = 40.0
+
+[sub_resource type="Resource" id="Resource_nfxf0"]
+script = ExtResource("1_a51cu")
+at = 0.2
+speaker = &"torvald"
+text = "What is under it?"
+voice = "res://assets/audio/voice/torvald/what_is_under_it_e05b321b.wav"
+
+[sub_resource type="Resource" id="Resource_oqwxk"]
+script = ExtResource("1_a51cu")
+at = 5.2
+speaker = &"master"
+text = "My first mistake. His name was Obren."
+voice = "res://assets/audio/voice/master/my_first_mistake_his_9bfeba82.wav"
+
+[sub_resource type="Resource" id="Resource_8c4gk"]
+script = ExtResource("3_562ks")
+id = &"K4"
+duration = 10.4
+camera_mode = 3
+look_offset = Vector3(0, 1.77, 0)
+pivot_actor = &"ysolde"
+pivot = Vector3(-14, 0, 14)
+orbit_radius = 4.2
+orbit_height = 1.5
+orbit_from_deg = 200.0
+orbit_to_deg = 212.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_a51cu")]([SubResource("Resource_nfxf0"), SubResource("Resource_oqwxk")])
+
+[sub_resource type="Resource" id="Resource_dxfrr"]
+script = ExtResource("1_a51cu")
+at = 0.2
+speaker = &"ysolde"
+text = "Should we send for Vessa and Malrik?"
+voice = "res://assets/audio/voice/ysolde/should_we_send_for_1da7315a.wav"
+
+[sub_resource type="Resource" id="Resource_84tqn"]
+script = ExtResource("3_562ks")
+id = &"K5"
+duration = 5.4
+camera_mode = 3
+look_offset = Vector3(0, 1.85, 0)
+pivot_actor = &"torvald"
+pivot = Vector3(14, 0, -14)
+orbit_radius = 4.4
+orbit_height = 1.6
+orbit_from_deg = 200.0
+orbit_to_deg = 210.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_a51cu")]([SubResource("Resource_dxfrr")])
+
+[sub_resource type="Resource" id="Resource_63f1j"]
+script = ExtResource("4_3070e")
+at = 6.0
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_tmwav"]
+script = ExtResource("1_a51cu")
+at = 0.3
+speaker = &"master"
+text = "Vessa would burn it open to see inside. Malrik would ask what it pays. No."
+voice = "res://assets/audio/voice/master/vessa_would_burn_it_8f9ea272.wav"
+
+[sub_resource type="Resource" id="Resource_huh4b"]
+script = ExtResource("3_562ks")
+id = &"K6"
+duration = 7.0
+from_pos = Vector3(-2.2, 1.6, 2.4)
+to_pos = Vector3(-2.2, 1.6, 2.4)
+look_from = Vector3(0, 1.3, 0)
+look_to = Vector3(0, 1.3, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_a51cu")]([SubResource("Resource_tmwav")])
+actions = Array[ExtResource("4_3070e")]([SubResource("Resource_63f1j")])
+
+[resource]
+script = ExtResource("2_7qd5p")
+id = &"e6m4_crack"
+title = "The First Crack"
+world_mode = 1
+shots = Array[ExtResource("3_562ks")]([SubResource("Resource_4movv"), SubResource("Resource_68h2n"), SubResource("Resource_x3jj1"), SubResource("Resource_8c4gk"), SubResource("Resource_84tqn"), SubResource("Resource_huh4b")])
+shake_seed = 641
+voice_over = Array[StringName]([&"master", &"narrator"])
+lines_over_cuts = true
