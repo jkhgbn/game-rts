@@ -104,6 +104,8 @@ const STATUSES := {
 	&"hazed": {"mods": {}, "damage_taken": 1.0, "range_cap": 2.5, "sight_cap": 4.0, "no_mark": true,
 			"color": Color(0.92, 0.80, 0.28)},
 	&"tithed": {"mods": {}, "damage_taken": 1.0, "no_mark": true, "color": Color(0.84, 0.26, 0.92)},
+	# e3m2 (mission-e3-02.md "Stealth"): out of fire-light, refreshed by the mission every tick; is_concealed() reads it.
+	&"concealed": {"mods": {}, "damage_taken": 1.0, "no_mark": true, "color": Color(0.45, 0.35, 0.70)},
 }
 const FROZEN_IMMUNITY := 2.0     # after `frozen` ends, no new `frozen` for this long
 const IDLE_REGEN_DELAY := 4.0    # UnitType.idle_regen_pct starts this long after the last damage
@@ -136,6 +138,9 @@ const TRUCE_META := &"truce"        # MissionBase.set_truce: meta id shared by n
 const TRUCE_ALL := &"all"           # a truce id at peace with everyone (withdrawn seats)
 const LOOT_META := &"loot"          # a Magpie's carried gold (market-trade.md 5.1): get_loot / set_loot
 const RETARGET_INTERVAL := 0.25
+const IDLE_SLIDE_EVERY := 8         # a still unit on the floor runs move_and_slide once per this many physics frames
+const IDLE_SLIDE_EPS2 := 1.0e-6     # (m/s)^2: below this the avoidance velocity counts as standing still
+const FACE_EPSILON := 0.0005        # rad: _face stops writing the model's rotation once this close to the goal
 const MAX_UNIT_RADIUS := 1.1     # biggest unit radius (Grizzlemaw 1.1); held units search this far past their range
 const DEFAULT_BOLT_SPEED := 25.0 # m/s of an auto-attack bolt when the UnitType has no projectile_speed
 const DEFAULT_TARGET_RADIUS := 2.5   # for attack targets (buildings) without target_radius()
@@ -249,6 +254,7 @@ var _cooldown_left := 0.0
 var _retarget_left := 0.0
 var _last_nav_target := Vector3.INF
 var _vertical_speed := 0.0
+var _slide_phase := 0            # stagger of the idle move_and_slide refresh (from the instance id)
 var _hit_flash := 0.0
 var _dead := false
 var _left_map := false
@@ -277,6 +283,7 @@ func _ready() -> void:
 	_apply_team_wares()
 	hp = max_hp
 	_anchor = global_position
+	_slide_phase = int(get_instance_id() % IDLE_SLIDE_EVERY)
 	add_to_group("units")
 	collision_layer = 2   # "units" layer, so clicks can find us
 	collision_mask = 1    # only collide with the world, avoidance keeps units apart
@@ -681,6 +688,11 @@ func is_disguised_for(viewer_team: int) -> bool:
 
 func is_hidden_from_auto_target() -> bool:
 	return _hidden_auto_left > 0.0
+
+
+## e3m2: the `concealed` status runs (a squad unit out of fire-light; the mission sets it and the auto-target hiding).
+func is_concealed() -> bool:
+	return _statuses.has(&"concealed")
 
 
 ## False for units the player may never order (champions: they act on their own; Greywater Trackers:
@@ -1900,7 +1912,12 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	if _hold or not _can_move_flag:
 		safe_velocity = Vector3.ZERO   # avoidance must not push a held / frozen / rooted unit around
 	velocity = Vector3(safe_velocity.x, _vertical_speed, safe_velocity.z)
-	move_and_slide()
+	# Perf pass 2026-10-09 (~10 us per call at 300 units): a unit standing still on the floor skips the slide, which
+	# would not move it; every IDLE_SLIDE_EVERY physics frames (staggered per unit) it still runs once so floor
+	# snapping / depenetration keep working.
+	var still := safe_velocity.x * safe_velocity.x + safe_velocity.z * safe_velocity.z <= IDLE_SLIDE_EPS2
+	if not still or _vertical_speed != 0.0 or not is_on_floor() or (Engine.get_physics_frames() + _slide_phase) % IDLE_SLIDE_EVERY == 0:
+		move_and_slide()
 	var flat := Vector3(velocity.x, 0.0, velocity.z)
 	var speed := flat.length()
 	if speed > 0.3:
@@ -2138,6 +2155,8 @@ func _in_attack_range(target: Node3D) -> bool:
 static func radius_of(target: Node3D) -> float:
 	if target == null or not is_instance_valid(target):
 		return 0.0
+	if target is Unit:   # perf pass 2026-10-09: typed call for the common case (same method)
+		return (target as Unit).target_radius()
 	if target.has_method(&"target_radius"):
 		return float(target.call(&"target_radius"))
 	return DEFAULT_TARGET_RADIUS
@@ -2145,6 +2164,8 @@ static func radius_of(target: Node3D) -> float:
 
 ## Untyped on purpose: a freed node may be passed (typed parameters reject freed instances).
 static func _target_alive(target: Variant) -> bool:
+	if is_instance_valid(target) and target is Unit:   # perf pass 2026-10-09: typed call for the common case
+		return (target as Unit).is_alive()
 	return target != null and is_instance_valid(target) and (target as Object).has_method(&"is_alive") \
 			and bool((target as Object).call(&"is_alive"))
 
@@ -2164,6 +2185,8 @@ func _find_nearest_enemy_building(max_distance: float) -> Node3D:
 	for node in get_tree().get_nodes_in_group(&"buildings"):
 		var b := node as Node3D
 		if b == null or not is_enemy_of(b) or not _target_alive(b) or not _in_leash(b):
+			continue
+		if b.is_in_group(&"noncombatant"):   # e3m2 villager tents / wagons: only an explicit attack order hits them
 			continue
 		var d := _flat_distance(b.global_position) - radius_of(b)
 		if d < best_dist:
@@ -2212,7 +2235,10 @@ func _face(direction: Vector3) -> void:
 	if direction.length() < 0.01:
 		return
 	var goal := atan2(direction.x, direction.z)
-	_visual.rotation.y = lerp_angle(_visual.rotation.y, goal, 0.25)
+	var cur := _visual.rotation.y
+	# Perf pass 2026-10-09: no write once facing the goal (a rotation write re-transforms the whole model subtree).
+	if absf(angle_difference(cur, goal)) > FACE_EPSILON:
+		_visual.rotation.y = lerp_angle(cur, goal, 0.25)
 
 
 ## Turns the unit's look (model) to `direction` at once (flat). Dashes and leaps that move the unit by

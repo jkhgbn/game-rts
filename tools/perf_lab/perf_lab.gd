@@ -11,6 +11,7 @@ extends SceneTree
 ##   --pair=P:E     kingdoms (default fire:shadow)
 ##   --profile=1    band profiler on (hot list; ~1 us per marker per pass of overhead, listed in the result)
 ##   --warmup=S --measure=S   override the scenario's game seconds
+##   --army=P:E     override the scenario's army sizes (player:enemy soldiers)
 ##   --upscaler=off|fsr1|fsr2 --render-scale=0.67   the game's 3D upscaler (default off = native, like before;
 ##                  the player's saved setting is never used here, so runs stay comparable)
 ##   --out=PATH     the JSON line is written there     --commit=ID  copied into the JSON     --run=N  repeat index
@@ -374,6 +375,10 @@ func _start_scenario() -> void:
 	if cam is Node:
 		(cam as Node).set(&"edge_pan_enabled", false)
 	var army: Array = spec.get("army", [0, 0])
+	if args.has("army"):   # --army=P:E overrides the scenario's army sizes (unit-count sweeps, perf pass 2026-10-09)
+		var pe := String(args["army"]).split(":")
+		if pe.size() == 2:
+			army = [pe[0].to_int(), pe[1].to_int()]
 	if int(army[0]) + int(army[1]) > 0:
 		_spawn_armies(int(army[0]), int(army[1]))
 	if int(spec.get("titans", 0)) > 0:

@@ -144,7 +144,7 @@ func _spotted() -> bool:
 			return true
 	for n in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u == null or not u.is_alive() or not unit.is_enemy_of(u):
+		if u == null or u.team == unit.team or not u.is_alive() or not unit.is_enemy_of(u):
 			continue
 		if (u.is_in_group(&"heroes") or u.is_in_group(&"enemy_heroes") or u.is_in_group(&"champions")) \
 				and _flat(u.global_position, at) <= float(DISGUISE["reveal_hero"]):
@@ -423,12 +423,18 @@ func tempest_bolt(target: Unit) -> void:
 
 func _enemies_near(at: Vector3, r: float) -> Array[Unit]:
 	var out: Array[Unit] = []
+	# Perf pass 2026-10-09: the cheap distance test first, the virtual alive / enemy checks only in range. Same result.
 	for n in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u == null or u == unit or not u.is_alive() or not unit.is_enemy_of(u):
+		if u == null or u == unit or u.team == unit.team:   # same team is never an enemy (Unit.is_enemy_of)
 			continue
-		if _flat(u.global_position, at) <= r + u.radius:
-			out.append(u)
+		var p := u.global_position
+		var lim := r + u.radius
+		var dx := p.x - at.x
+		var dz := p.z - at.z
+		if dx * dx + dz * dz > lim * lim or not u.is_alive() or not unit.is_enemy_of(u):
+			continue
+		out.append(u)
 	return out
 
 

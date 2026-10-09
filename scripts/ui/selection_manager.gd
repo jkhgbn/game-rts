@@ -179,6 +179,11 @@ var _last_group_key := 0
 var _last_group_time := -10.0
 var _last_idle_worker: Unit = null     # F3 cycles on from this one
 var _last_army_time := -10.0           # F2 twice = centre on the army
+const TYPES_CACHE_FRAMES := 30
+var _types_cache: Array[StringName] = []
+var _types_key := 0
+var _types_frame := -1000
+var _types_version := 0
 var _active_unit_type: StringName = &""  # the Tab subgroup (see active_unit_type)
 var _box_ui: Control
 var _target_ring: MeshInstance3D
@@ -195,6 +200,7 @@ var _range_ring: MeshInstance3D                # the aiming caster's range ring
 
 
 func _ready() -> void:
+	selection_changed.connect(_bump_types_version)
 	var layer := CanvasLayer.new()
 	layer.layer = 5
 	add_child(layer)
@@ -2265,7 +2271,27 @@ func unit_type_rank(u: Unit) -> int:
 
 
 ## The selected unit subgroups (type keys) in Tab order.
+## Perf pass 2026-10-09: the HUD asks several times per frame (1+ ms with 150 units selected); the answer is cached
+## and rebuilt when the selection changes (selection_changed, size, first / last unit), the unit priority setting
+## changes, or at least every TYPES_CACHE_FRAMES frames.
 func selected_unit_types() -> Array[StringName]:
+	var key := [_types_version, selected.size(), GameSettings.unit_priority().hash(),
+			selected[0].get_instance_id() if not selected.is_empty() and is_instance_valid(selected[0]) else 0,
+			selected[-1].get_instance_id() if not selected.is_empty() and is_instance_valid(selected[-1]) else 0].hash()
+	var frame := Engine.get_process_frames()
+	if key == _types_key and frame - _types_frame < TYPES_CACHE_FRAMES:
+		return _types_cache.duplicate()
+	_types_key = key
+	_types_frame = frame
+	_types_cache = _selected_unit_types_uncached()
+	return _types_cache.duplicate()
+
+
+func _bump_types_version() -> void:
+	_types_version += 1
+
+
+func _selected_unit_types_uncached() -> Array[StringName]:
 	var first := {}
 	for u in orderable_units():
 		var k := unit_type_key(u)

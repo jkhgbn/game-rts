@@ -143,6 +143,16 @@ var _tier: int = 0
 var _tier_timer: float = 0.0
 var _frozen: bool = false
 var _force_write: bool = true
+## Perf pass 2026-10-09: a model outside the game camera's view (+ OFFSCREEN_MARGIN m) stops animating like a tier-2
+## one, but keeps its pose and walk phase (nobody sees it) and resumes seamlessly. On-screen models re-check every
+## OFFSCREEN_CHECK s, frozen ones every frame (no frozen pose when the camera jumps). Only in the root viewport (the
+## game); portraits, the menu diorama and labs in SubViewports never use it.
+const OFFSCREEN_MARGIN := 6.0
+const OFFSCREEN_CHECK := 0.1
+static var _fr_frame: int = -1
+static var _fr_planes: Array[Plane] = []
+var _offscreen: bool = false
+var _off_timer: float = 0.0
 
 var _action: StringName = &""   # &"attack", &"cast", &"mine"
 var _action_t: float = 0.0
@@ -876,14 +886,20 @@ func _process(delta: float) -> void:
 		_update_tier()
 	if _rd_on:
 		_rd_sync()   # seated: tier, half-rate parity and freeze follow the mount
+	_off_timer -= delta
+	if _off_timer <= 0.0 or _offscreen:
+		_off_timer = OFFSCREEN_CHECK
+		_offscreen = _outside_view()
 	var busy: bool = _dead or _action != &"" or _hit_t < HIT_LEN or _level_t < LEVEL_LEN or _wk_pop_t < WEAPON_POP_LEN \
 		or _rd_busy
-	if _tier == 2 and not busy:
-		if not _frozen:
+	# A dance (victory / surrender emote) plays on even off-screen; only the far tier pauses it.
+	if (_tier == 2 or (_offscreen and _dn_clip == &"" and _dn_w == 0.0)) and not busy:
+		if not _frozen or (_tier == 2 and _walk_w != 0.0):
 			_frozen = true
 			_acc = 0.0
-			_walk_w = 0.0
-			_animate(0.0)
+			if _tier == 2:   # far: settle into the idle pose (an off-screen model keeps its pose and phase)
+				_walk_w = 0.0
+				_animate(0.0)
 		return
 	_frozen = false
 	_acc += delta
@@ -1291,6 +1307,29 @@ func _apply_glow(force: bool) -> void:
 	_glow_written = g
 	for gi: GeometryInstance3D in _glow_nodes:
 		gi.set_instance_shader_parameter(&"glow_boost", g)
+
+
+## True when this model is outside the root viewport camera's frustum by more than OFFSCREEN_MARGIN m (planes cached
+## once per frame for every model). False in SubViewports or without a camera.
+func _outside_view() -> bool:
+	if not is_inside_tree():
+		return false
+	var vp := get_viewport()
+	if vp == null or vp != get_tree().root:
+		return false
+	var f := Engine.get_process_frames()
+	if f != _fr_frame:
+		_fr_frame = f
+		var cam := vp.get_camera_3d()
+		if cam != null:
+			_fr_planes.assign(cam.get_frustum())
+		else:
+			_fr_planes.clear()
+	var p := global_position
+	for pl: Plane in _fr_planes:
+		if pl.distance_to(p) > OFFSCREEN_MARGIN:
+			return true
+	return false
 
 
 func _update_tier() -> void:

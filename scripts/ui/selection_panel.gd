@@ -116,6 +116,8 @@ var _icon_mana_strips: Array[ColorRect] = []   ## Casters: the 3 px mana strip a
 var _icon_dots: Array = []          ## Array[Array[ColorRect]]: 3 veterancy dots per icon.
 var _icon_status_dots: Array = []   ## Array[Dictionary]: status id -> coloured dot, per icon.
 var _icon_units: Array[Unit] = []
+var _icon_sig: Array = []                    ## Per icon: _icon_signature() of what it shows (0 = hidden)
+var _icon_status_ids: Array[StringName] = [] ## The status ids that have a dot (same keys on every icon)
 
 ## Champion view (9.C7, champions.md 9, ui-champions.md 4): read-only, nothing can be ordered from it. Positions are
 ## relative to the selection area's top-left (588, 670). The command card's "Champions act on their own." text is
@@ -1816,14 +1818,23 @@ func _update_multi(units: Array[Unit]) -> void:
 	var active_key: StringName = &""
 	if selection != null and selection.selected_unit_types().size() >= 2:
 		active_key = selection.active_unit_type()
+	if _icon_sig.size() != MAX_ICONS:
+		_icon_sig.resize(MAX_ICONS)
 	for i in MAX_ICONS:
 		var b := icons[i]
 		if i >= units.size():
 			b.visible = false
+			_icon_sig[i] = 0
 			continue
 		var u := units[i]
 		_icon_units.append(u)
 		b.visible = true
+		# Perf pass 2026-10-09: the icon is rebuilt only when something it shows changed (24 icons x text, tooltip,
+		# strips and dots every frame cost ~1 ms with a big army selected). Same output.
+		var sig := _icon_signature(u, active_key)
+		if _icon_sig[i] == sig:
+			continue
+		_icon_sig[i] = sig
 		var gold := active_key != &"" and SelectionManager.unit_type_key(u) == active_key
 		if _icon_gold.size() <= i:
 			_icon_gold.resize(MAX_ICONS)
@@ -1860,6 +1871,24 @@ func _update_multi(units: Array[Unit]) -> void:
 		for id: StringName in status_dots:
 			(status_dots[id] as ColorRect).visible = has and u.has_status(id)
 		_icon_coins[i].visible = u.is_in_group(&"caravans") and u.has_method(&"is_loaded") and bool(u.call(&"is_loaded"))
+
+
+## Everything a multi-selection icon shows of `u` (hash): identity, HP, lifetime, mana, level, statuses, coins, gold.
+func _icon_signature(u: Unit, active_key: StringName) -> int:
+	var life := lifetime_of(u)
+	var cab := CasterKit.ability_of(u)
+	if _icon_status_ids.is_empty() and not _icon_status_dots.is_empty():
+		_icon_status_ids.assign((_icon_status_dots[0] as Dictionary).keys())
+	var st := 0
+	if u.has_method(&"has_status"):
+		var bit := 1
+		for id: StringName in _icon_status_ids:
+			if u.has_status(id):
+				st |= bit
+			bit <<= 1
+	return [u.get_instance_id(), u.hp, u.max_hp, u.unit_name, life, cab.mana if cab else -1.0,
+			cab.max_mana() if cab else -1.0, u.get("level"), st, active_key, Loc.language,
+			u.is_in_group(&"caravans") and u.has_method(&"is_loaded") and bool(u.call(&"is_loaded"))].hash()
 
 
 func _update_keep(keep: Node3D) -> void:

@@ -105,9 +105,14 @@ func _find_target() -> Node3D:
 
 
 ## True for what towers and keeps never shoot: epic beasts (group "beasts", map-fill.md 5.5: nobody can farm a
-## beast from behind a tower).
+## beast from behind a tower), and e3m2's concealed squad units no enemy sees (mission-e3-02.md: the crest spires and
+## keeps "shoot only lit / exposed squad units").
 static func is_ignored(t: Node) -> bool:
-	return t != null and is_instance_valid(t) and t.is_in_group(BEAST_GROUP)
+	if t == null or not is_instance_valid(t):
+		return false
+	if t is Unit and (t as Unit).is_concealed() and (t as Unit).is_hidden_from_auto_target():
+		return true
+	return t.is_in_group(BEAST_GROUP)
 
 
 func _in_range(t: Node3D) -> bool:
