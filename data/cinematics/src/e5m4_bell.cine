@@ -1,0 +1,31 @@
+# e5m4 E14 "e5m4_bell" (docs/design/mission-e5-04.md, Cinematic hooks; script-episodes-4-8/e5m4.md 1): 30 s when Malrik's
+# count completes, then the victory; StoryFlow plays ep5_ending next. mode=pause over the live mission. 1) the bell's
+# last toll (the terrace view down the field, a bell sound); 2) MS Malrik on the last banner he took, 3/4 from the east
+# (orbits the live hero, tag `malrik`): L17-L18; 3) LOW from the field up to the terrace (the Master stands; his line):
+# L19; 4) MS Vessa storming up (orbits the live `vessa`): L20; 5) WS the terrace, the Master turning to the orrery
+# dome: L21; FADE_WHITE (into ep5_ending's first shot). The cast stands on the Fire Banner for cine's checks.
+# Axis: the Malrik - terrace line north-south; every camera on its EAST side.
+# Fallback: the end state says L17-L21, then the victory.
+cine e5m4_bell  title="Well Played"  mode=pause  letterbox=2.39  seed=542  length=28..32
+env day  moon_yaw=135  moon_pitch=-18  energy=0.95
+cast  malrik    res://art/units/wizards/malrik.tscn  at=(22, 0, 20)  yaw=0
+cast  vessa     res://art/units/wizards/vessa.tscn   at=(26, 0, 26)  yaw=200
+cast  master    capsule  at=(0, 0, -310)  hidden=1
+
+# The bell's last toll, from the terrace down the field
+shot B1 3.0  cam=static  from=(4, 16, -62)  look=(2, 4, -40)  fov=36  in=fade_black:0.4
+  at 0.3  sfx res://assets/audio/forge/sfx/evenmead_horns.wav  vol=-10
+# MS Malrik on the banner he took, 3/4 from the east
+shot B2 10.0  cam=orbit  pivot=malrik  r=4.2  h=1.5  deg=10>20
+  at 0.3  line master "Malrik wins. By taking."
+  at 3.4  line malrik "You taught us to use what we were given. I was given leftovers. I used them."
+# LOW from the field up to the terrace: the Master stands; a long pause
+shot B3 5.0  cam=static  from=(6, 1.0, -36)  look=(0, 14, -64)  fov=30
+  at 1.4  line master "...Yes. Well played."
+# MS Vessa storming up, soot and grass on her
+shot B4 5.0  cam=orbit  pivot=vessa  r=4.0  h=1.5  deg=-20>-10
+  at 0.3  line vessa "Rematch. Now. Best of three. Best of five!"
+# WS the terrace: the Master turns toward the orrery dome; FADE_WHITE
+shot B5 7.0  cam=static  from=(10, 18, -50)  look=(0, 12, -64)  fov=42
+  at 0.3  line master "Later, my joy. Both of you, come up to the orrery. I have something for you."
+  at 5.6  fade color=#ffffff alpha=1 time=1.4

@@ -42,7 +42,7 @@ const COMPANION_PURSE_CAP := 300
 const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the mission start.
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
 const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3", &"e2m4", &"e2m5",
-		&"e3m1", &"e3m2", &"e3m3", &"e3m4", &"e4m1", &"e4m2", &"e4m3", &"e4m4"]
+		&"e3m1", &"e3m2", &"e3m3", &"e3m4", &"e4m1", &"e4m2", &"e4m3", &"e4m4", &"e5m1", &"e5m2", &"e5m3", &"e5m4"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
@@ -62,6 +62,10 @@ const MISSION_SCENES := {
 	&"e4m2": "res://missions/mission_e4_02.tscn",
 	&"e4m3": "res://missions/mission_e4_03.tscn",
 	&"e4m4": "res://missions/mission_e4_04.tscn",
+	&"e5m1": "res://missions/mission_e5_01.tscn",
+	&"e5m2": "res://missions/mission_e5_02.tscn",
+	&"e5m3": "res://missions/mission_e5_03.tscn",
+	&"e5m4": "res://missions/mission_e5_04.tscn",
 }
 ## Story films a reward's "next" may name (StoryFilms plays them): film id -> what follows it (a film or a mission).
 ## The victory unlocks the first mission at the end of the chain (film_target).
@@ -82,7 +86,10 @@ const STORY_FILMS := {
 	&"c_e4_refuge": &"e4m2",         # mission-e4-01.md: "What the Tree Saw" after e4m1, before e4m2's briefing
 	&"c_e4_turnback": &"e4m3",       # mission-e4-02.md: "The Way Back" after e4m2, before e4m3's briefing
 	&"c_e4_frontier": &"e4m4",       # mission-e4-03.md: "The Wall" after e4m3, before e4m4's briefing
-	&"ep4_ending": &"",              # mission-e4-04.md: "Winter's End", then the main menu (Episode 5 not built)
+	&"ep4_ending": &"ep5_opening",   # mission-e4-04.md: "Winter's End", then the Ep5 card
+	&"ep5_opening": &"e5m1",         # mission-e5-01.md F8: "The Spark and the Candle" plays before e5m1's briefing
+	&"c_e5_turn": &"e5m3",           # mission-e5-03.md E0: "By One Candle" after e5m2, before e5m3's briefing
+	&"ep5_ending": &"",              # mission-e5-04.md D9: "No Problem at All", then the main menu (Episode 6 not built)
 }
 ## Malrik's track (campaign-outline D8; per-wizard item tracks are not built): Ep3 victories are flags-only
 ## ("save_items": false, Vessa's items untouched) and carry Malrik's essence (50 %, cap 1 500) in this int flag.
@@ -218,7 +225,32 @@ const MISSION_REWARDS := {
 	&"e4m4": {
 		"flags": {"e4m4_elder_woken": "sec_elder", "e4m4_halls_broken": "sec_halls"},
 		"set_flags": {"ep4_complete": true, "torvald_stayed_aldra": true, "elder_treant_unlocked_nature": true},
-		"next": &"ep4_ending",   # film ep4_ending, then the main menu
+		"next": &"ep4_ending",   # film chain ep4_ending -> ep5_opening -> e5m1 (unlocks e5m1)
+		"save_items": false,
+	},
+	# Episode 5 (origins, mission-e5-01.md F1): flags only under the ep5 track (nothing carried in or out; items and
+	# essence at the end are discarded; Vessa's, Malrik's and Ysolde's tracks untouched). Times / counters are
+	# mission-computed (e5m1_time, e5m2_bands_sprung, e5m3_pocketed, e5m4_spoils...).
+	&"e5m1": {
+		"flags": {"e5m1_farms_saved": "sec_farms", "e5m1_tents_burned": "sec_tents"},
+		"set_flags": {"ep5_started": true},
+		"next": &"e5m2",
+		"save_items": false,
+	},
+	&"e5m2": {
+		"flags": {"e5m2_patient": "sec_patience", "e5m2_towers_burned": "sec_towers"},
+		"next": &"c_e5_turn",   # film c_e5_turn -> e5m3
+		"save_items": false,
+	},
+	&"e5m3": {
+		"flags": {"e5m3_quiet": "sec_quiet", "e5m3_hands_clean": "sec_hands"},
+		"next": &"e5m4",
+		"save_items": false,
+	},
+	&"e5m4": {
+		"flags": {"e5m4_took_home": "sec_take", "e5m4_unseen": "sec_unseen"},
+		"set_flags": {"ep5_complete": true},
+		"next": &"ep5_ending",   # film ep5_ending, then the main menu (Episode 6 not built)
 		"save_items": false,
 	},
 }

@@ -1,0 +1,178 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_q65ex"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_c5h8e"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_bn48d"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_v3ari"]
+
+[sub_resource type="Resource" id="Resource_7b1e7"]
+script = ExtResource("4_v3ari")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -18.0
+}
+
+[sub_resource type="Resource" id="Resource_s6jlw"]
+script = ExtResource("4_v3ari")
+at = 2.5
+kind = &"vfx"
+target = Vector3(35, 0, 28)
+params = {
+"life": 5.5,
+"scale": 1.2,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_ugxed"]
+script = ExtResource("4_v3ari")
+at = 2.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_hit.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_pymqa"]
+script = ExtResource("1_q65ex")
+at = 0.5
+speaker = &"narrator"
+text = "Rookhold burned until morning. So, by accident, did the grain it had stolen."
+voice = "res://assets/audio/voice/narrator/rookhold_burned_until_mornin_4a4a3143.wav"
+
+[sub_resource type="Resource" id="Resource_iauoe"]
+script = ExtResource("3_bn48d")
+id = &"M1"
+duration = 9.0
+camera_mode = 2
+from_pos = Vector3(-4, 22, 0)
+to_pos = Vector3(2, 18, 4)
+look_from = Vector3(30, 2, 28)
+look_to = Vector3(34, 2, 30)
+fov_from = 48.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_q65ex")]([SubResource("Resource_pymqa")])
+actions = Array[ExtResource("4_v3ari")]([SubResource("Resource_7b1e7"), SubResource("Resource_s6jlw"), SubResource("Resource_ugxed")])
+
+[sub_resource type="Resource" id="Resource_hjt2d"]
+script = ExtResource("1_q65ex")
+at = 0.3
+speaker = &"vessa"
+text = "Ashby. That was the grain. That was the grain we came here to take back."
+voice = "res://assets/audio/voice/vessa/ashby_that_was_the_2dae09a2.wav"
+
+[sub_resource type="Resource" id="Resource_7gmxq"]
+script = ExtResource("1_q65ex")
+at = 5.6
+speaker = &"ashby"
+text = "It was, my lady. It's toast now. Very good toast."
+voice = "res://assets/audio/voice/ashby/it_was_my_lady_b2f0ecaa.wav"
+
+[sub_resource type="Resource" id="Resource_c23ok"]
+script = ExtResource("3_bn48d")
+id = &"M2"
+duration = 12.0
+camera_mode = 3
+look_offset = Vector3(0, 2.047, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(18, 0, 20)
+orbit_radius = 4.6
+orbit_height = 1.4
+orbit_from_deg = 190.0
+orbit_to_deg = 198.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_q65ex")]([SubResource("Resource_hjt2d"), SubResource("Resource_7gmxq")])
+
+[sub_resource type="Resource" id="Resource_6p8n2"]
+script = ExtResource("4_v3ari")
+at = 1.2
+kind = &"vfx"
+target = Vector3(21, 0, 22)
+params = {
+"life": 4.0,
+"scale": 0.4,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_y8uw7"]
+script = ExtResource("3_bn48d")
+id = &"M3"
+duration = 6.0
+from_pos = Vector3(16.5, 2.2, 21)
+to_pos = Vector3(16.5, 2.2, 21)
+look_from = Vector3(21, 2.4, 22)
+look_to = Vector3(21, 2.4, 22)
+fov_from = 30.0
+fov_to = 30.0
+actions = Array[ExtResource("4_v3ari")]([SubResource("Resource_6p8n2")])
+
+[sub_resource type="Resource" id="Resource_h5kpb"]
+script = ExtResource("1_q65ex")
+at = 0.4
+speaker = &"vessa"
+text = "The Master's going to say it. I know he is. \"Fire that will not wait...\""
+duration = 5.0
+voice = "res://assets/audio/voice/vessa/the_masters_going_to_206de570.wav"
+
+[sub_resource type="Resource" id="Resource_o1bj1"]
+script = ExtResource("3_bn48d")
+id = &"M4"
+duration = 9.0
+camera_mode = 3
+look_offset = Vector3(0, 2.047, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(18, 0, 20)
+orbit_radius = 2.2
+orbit_height = 1.6
+orbit_from_deg = 185.0
+orbit_to_deg = 188.0
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_q65ex")]([SubResource("Resource_h5kpb")])
+
+[sub_resource type="Resource" id="Resource_ihn3g"]
+script = ExtResource("4_v3ari")
+at = 7.3
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.5
+}
+
+[sub_resource type="Resource" id="Resource_hb40h"]
+script = ExtResource("1_q65ex")
+at = 0.4
+speaker = &"ashby"
+text = "\"...burns its own house.\" Yes, my lady. We've all heard him say it."
+duration = 5.0
+voice = "res://assets/audio/voice/ashby/burns_its_own_house_141f3457.wav"
+
+[sub_resource type="Resource" id="Resource_plhm4"]
+script = ExtResource("3_bn48d")
+id = &"M5"
+duration = 9.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5232, 0)
+pivot_actor = &"ashby"
+pivot = Vector3(18, 0, 22)
+orbit_height = 1.8
+orbit_from_deg = 200.0
+orbit_to_deg = 210.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_q65ex")]([SubResource("Resource_hb40h")])
+actions = Array[ExtResource("4_v3ari")]([SubResource("Resource_ihn3g")])
+
+[resource]
+script = ExtResource("2_c5h8e")
+id = &"e5m2_morning"
+title = "Very Good Toast"
+world_mode = 1
+shots = Array[ExtResource("3_bn48d")]([SubResource("Resource_iauoe"), SubResource("Resource_c23ok"), SubResource("Resource_y8uw7"), SubResource("Resource_o1bj1"), SubResource("Resource_plhm4")])
+shake_seed = 513
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

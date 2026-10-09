@@ -1,0 +1,39 @@
+# e5m1 E15 "e5m1_watch" (docs/design/mission-e5-01.md, Cinematic hooks; script-episodes-4-8/e5m1.md 1): 40 s, then the
+# victory. mode=pause over the live mission. 1) WIDE at dusk down the vale from above Valewatch: the five beacons burning
+# (the six riders of the south watch are not actors yet: the sound of their horses only); 2) MS two-shot Vessa (soot on
+# her face, beaming) and Vey, 3/4, eye: L20-L22; 3) Vessa turns to the riders (orbit pulls back); 4) CU Vey alone, slow
+# push: one white-gold flicker down his blade (a pale flash over the frame + a faint crackle; Vessa does not see it, F6);
+# 5) LOW long lens up the cliff to the citadel terrace (the Master is not in the mission: the terrace, his line over it);
+# FADE_BLACK. Vessa / Vey shots orbit the live actors (tags `vessa`, `vey`); the cast stands on Bellmouth's hill
+# (26, 34) for cine's checks. Axis: the Vessa - Vey line east-west; every camera stays on its SOUTH side.
+# Lines: L19 (narrator), L20-L22 (Vey / Vessa), L23 (the Master, voice-over).
+# Fallback: the end state says L19-L23 as dialogue cards, then the victory.
+cine e5m1_watch  title="A Road of Fire"  mode=pause  letterbox=2.39  seed=502  length=38..42
+env dusk  moon_yaw=230  moon_pitch=-12  energy=0.8
+cast  vessa     res://art/units/wizards/vessa.tscn                   at=(23, 0, 31)  yaw=10
+cast  vey       res://art/units/helpers/helper_vey/helper_vey.tscn  at=(25, 0, 31)  yaw=10
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  master    capsule  at=(0, 0, -310)  hidden=1
+
+# WIDE at dusk from above Valewatch down the vale: the beacons burning, the watch's horses on the road
+shot W1 8.0  cam=crane  from=(-52, 30, -58)  to=(-46, 26, -52)  look=(-2, 2, -4)>(8, 1, 8)  fov=50>46  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-12
+  at 0.5  line narrator "At dusk the south watch rode home along a road of fire."
+  at 0.5  fade color=#2a1838 alpha=0.22 time=6.0
+# MS two-shot Vessa and Vey, 3/4 from the south, eye height
+shot W2 13.0  cam=orbit  pivot=vessa  r=4.6  h=1.4  deg=58>66
+  at 0.3  line vey "Not bad, girl. Remember it: the spark first. Then the storm."
+  at 4.8  line vessa "What storm? I don't have a storm. Do YOU have a storm?"
+  at 9.0  line vey "Ha. Go and wash your face. You look like a chimney."
+# Vessa turns to the riders; the camera pulls back
+shot W3 4.0  cam=orbit  pivot=vessa  r=7.5  h=2.2  deg=100>112
+  at 0.4  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-14
+# CU Vey alone, slow push: one white-gold flicker down his blade, then dark
+shot W4 6.0  cam=orbit  pivot=vey  r=2.4  h=1.7  deg=95>101  fov=32
+  at 2.6  fade color=#fff6dc alpha=0.35 time=0.1
+  at 2.6  sfx res://assets/audio/sfx/atk_storm.wav  vol=-26
+  at 2.75  fade color=#2a1838 alpha=0.22 time=0.5
+# LOW long lens up the cliff to the citadel terrace; the Master's line over it; FADE_BLACK
+shot W5 9.0  cam=static  from=(-4, 1.2, -38)  look=(0, 14, -64)  fov=24
+  at 0.5  line master "Not yet, old friend. Let her find her own fire first."
+  at 6.5  fade alpha=1 time=1.5

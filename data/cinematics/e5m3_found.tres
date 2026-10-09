@@ -1,0 +1,180 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_5a6ot"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_j44xm"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_wpn2a"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_bq8vd"]
+
+[sub_resource type="Resource" id="Resource_0kp1j"]
+script = ExtResource("4_bq8vd")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_hit.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_dbwc4"]
+script = ExtResource("3_wpn2a")
+id = &"F1"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.5232, 0)
+pivot_actor = &"reeve"
+pivot = Vector3(0, 0, 4)
+orbit_radius = 4.5
+orbit_height = 1.2
+orbit_from_deg = 20.0
+orbit_to_deg = 32.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_bq8vd")]([SubResource("Resource_0kp1j")])
+
+[sub_resource type="Resource" id="Resource_3dm11"]
+script = ExtResource("4_bq8vd")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_fthav"]
+script = ExtResource("3_wpn2a")
+id = &"F2"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(22, 10, 14)
+to_pos = Vector3(18, 8, 12)
+look_from = Vector3(0, 2, 6)
+look_to = Vector3(0, 1.5, 8)
+fov_from = 46.0
+fov_to = 42.0
+actions = Array[ExtResource("4_bq8vd")]([SubResource("Resource_3dm11")])
+
+[sub_resource type="Resource" id="Resource_auq7m"]
+script = ExtResource("4_bq8vd")
+at = 0.6
+kind = &"fade"
+params = {
+"alpha": 0.18,
+"color": Color(1, 0.83137256, 0.5411765, 1),
+"time": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_yof2w"]
+script = ExtResource("1_5a6ot")
+at = 0.4
+speaker = &"malrik"
+text = "You're not one of the Reeve's. Who are you? ...You're very tall."
+voice = "res://assets/audio/voice/malrik/youre_not_one_of_a1c1c21d.wav"
+
+[sub_resource type="Resource" id="Resource_jpb11"]
+script = ExtResource("1_5a6ot")
+at = 5.6
+speaker = &"master"
+text = "Reading tombstones by one candle, at midnight. And they told you everything."
+voice = "res://assets/audio/voice/master/reading_tombstones_by_one_53799388.wav"
+
+[sub_resource type="Resource" id="Resource_q1xih"]
+script = ExtResource("1_5a6ot")
+at = 11.2
+speaker = &"malrik"
+text = "The dead don't lie. They've got nothing left to want."
+voice = "res://assets/audio/voice/malrik/the_dead_dont_lie_56b18d5f.wav"
+
+[sub_resource type="Resource" id="Resource_2xwxq"]
+script = ExtResource("3_wpn2a")
+id = &"F3"
+duration = 16.0
+camera_mode = 3
+look_offset = Vector3(0, 1.93, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(1, 0, 9)
+orbit_height = 1.6
+orbit_from_deg = 10.0
+orbit_to_deg = 20.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_5a6ot")]([SubResource("Resource_yof2w"), SubResource("Resource_jpb11"), SubResource("Resource_q1xih")])
+actions = Array[ExtResource("4_bq8vd")]([SubResource("Resource_auq7m")])
+
+[sub_resource type="Resource" id="Resource_6yo41"]
+script = ExtResource("4_bq8vd")
+at = 0.6
+kind = &"fade"
+params = {
+"alpha": 0.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_vcre7"]
+script = ExtResource("1_5a6ot")
+at = 0.6
+speaker = &"master"
+text = "This one, too."
+voice = "res://assets/audio/voice/master/this_one_too_dbe0853a.wav"
+
+[sub_resource type="Resource" id="Resource_xhbkv"]
+script = ExtResource("3_wpn2a")
+id = &"F4"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.93, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(1, 0, 9)
+orbit_radius = 2.0
+orbit_height = 1.3
+orbit_from_deg = -10.0
+orbit_to_deg = -4.0
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_5a6ot")]([SubResource("Resource_vcre7")])
+actions = Array[ExtResource("4_bq8vd")]([SubResource("Resource_6yo41")])
+
+[sub_resource type="Resource" id="Resource_ebj7y"]
+script = ExtResource("4_bq8vd")
+at = 6.5
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 2.0
+}
+
+[sub_resource type="Resource" id="Resource_74qhx"]
+script = ExtResource("1_5a6ot")
+at = 0.4
+speaker = &"narrator"
+text = "He pinched out his candle. In the dark, he was not afraid. He never had been."
+voice = "res://assets/audio/voice/narrator/he_pinched_out_his_4c73a198.wav"
+
+[sub_resource type="Resource" id="Resource_4tt8o"]
+script = ExtResource("3_wpn2a")
+id = &"F5"
+duration = 11.0
+camera_mode = 3
+look_offset = Vector3(0, 1.93, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(1, 0, 9)
+orbit_radius = 2.2
+orbit_height = 1.5
+orbit_from_deg = 15.0
+orbit_to_deg = 17.0
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_5a6ot")]([SubResource("Resource_74qhx")])
+actions = Array[ExtResource("4_bq8vd")]([SubResource("Resource_ebj7y")])
+
+[resource]
+script = ExtResource("2_j44xm")
+id = &"e5m3_found"
+title = "This One, Too"
+world_mode = 1
+shots = Array[ExtResource("3_wpn2a")]([SubResource("Resource_dbwc4"), SubResource("Resource_fthav"), SubResource("Resource_2xwxq"), SubResource("Resource_xhbkv"), SubResource("Resource_4tt8o")])
+shake_seed = 532
+voice_over = Array[StringName]([&"narrator", &"master"])
+lines_over_cuts = true

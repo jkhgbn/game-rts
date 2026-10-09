@@ -102,7 +102,8 @@ msgstr ""
 
 #. &"master": ["The Master", Color(0.95, 0.93, 0.85)],
 #: scripts/ui/cinematic/speakers.gd:16 scripts/campaign/mission_03.gd:157
-#: scripts/campaign/mission_e2_05.gd:167
+#: scripts/campaign/mission_e2_05.gd:167 scripts/campaign/mission_e5_01.gd:112
+#: scripts/campaign/mission_e5_03.gd:119 scripts/campaign/mission_e5_04.gd:93
 msgid "The Master"
 msgstr ""
 
@@ -143,7 +144,7 @@ msgstr ""
 #. &"aldra": ["Aldra", Color(0.62, 0.95, 0.88)],   # mission-02.md (M9.U1): Torvald's voice on the Glass Ridge
 #: scripts/ui/cinematic/speakers.gd:22 scripts/campaign/mission_02.gd:139
 #: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_05.gd:166
-#: scripts/campaign/mission_e4_03.gd:112 scripts/campaign/mission_e4_04.gd:119
+#: scripts/campaign/mission_e4_03.gd:122 scripts/campaign/mission_e4_04.gd:122
 msgid "Aldra"
 msgstr ""
 

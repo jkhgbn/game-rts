@@ -1,0 +1,194 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_vcxub"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_jb436"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_lhnsi"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_ibuy3"]
+
+[sub_resource type="Resource" id="Resource_335dm"]
+script = ExtResource("4_ibuy3")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -12.0
+}
+
+[sub_resource type="Resource" id="Resource_71bxg"]
+script = ExtResource("4_ibuy3")
+at = 0.5
+kind = &"fade"
+params = {
+"alpha": 0.22,
+"color": Color(0.16470589, 0.09411765, 0.21960784, 1),
+"time": 6.0
+}
+
+[sub_resource type="Resource" id="Resource_wsbyc"]
+script = ExtResource("1_vcxub")
+at = 0.5
+speaker = &"narrator"
+text = "At dusk the south watch rode home along a road of fire."
+voice = "res://assets/audio/voice/narrator/at_dusk_the_south_3f40d6d0.wav"
+
+[sub_resource type="Resource" id="Resource_ti2gr"]
+script = ExtResource("3_lhnsi")
+id = &"W1"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(-52, 30, -58)
+to_pos = Vector3(-46, 26, -52)
+look_from = Vector3(-2, 2, -4)
+look_to = Vector3(8, 1, 8)
+fov_from = 50.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.8
+lines = Array[ExtResource("1_vcxub")]([SubResource("Resource_wsbyc")])
+actions = Array[ExtResource("4_ibuy3")]([SubResource("Resource_335dm"), SubResource("Resource_71bxg")])
+
+[sub_resource type="Resource" id="Resource_mthlh"]
+script = ExtResource("1_vcxub")
+at = 0.3
+speaker = &"vey"
+text = "Not bad, girl. Remember it: the spark first. Then the storm."
+voice = "res://assets/audio/voice/vey/not_bad_girl_remember_074526d1.wav"
+
+[sub_resource type="Resource" id="Resource_fn31q"]
+script = ExtResource("1_vcxub")
+at = 4.8
+speaker = &"vessa"
+text = "What storm? I don't have a storm. Do YOU have a storm?"
+voice = "res://assets/audio/voice/vessa/what_storm_i_dont_bfa7fb9a.wav"
+
+[sub_resource type="Resource" id="Resource_jce2h"]
+script = ExtResource("1_vcxub")
+at = 9.0
+speaker = &"vey"
+text = "Ha. Go and wash your face. You look like a chimney."
+voice = "res://assets/audio/voice/vey/ha_go_and_wash_9860a2c2.wav"
+
+[sub_resource type="Resource" id="Resource_0siej"]
+script = ExtResource("3_lhnsi")
+id = &"W2"
+duration = 13.0
+camera_mode = 3
+look_offset = Vector3(0, 2.047, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(23, 0, 31)
+orbit_radius = 4.6
+orbit_height = 1.4
+orbit_from_deg = 58.0
+orbit_to_deg = 66.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_vcxub")]([SubResource("Resource_mthlh"), SubResource("Resource_fn31q"), SubResource("Resource_jce2h")])
+
+[sub_resource type="Resource" id="Resource_w3om0"]
+script = ExtResource("4_ibuy3")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -14.0
+}
+
+[sub_resource type="Resource" id="Resource_bhrq4"]
+script = ExtResource("3_lhnsi")
+id = &"W3"
+duration = 4.0
+camera_mode = 3
+look_offset = Vector3(0, 2.047, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(23, 0, 31)
+orbit_radius = 7.5
+orbit_height = 2.2
+orbit_from_deg = 100.0
+orbit_to_deg = 112.0
+fov_from = 40.0
+fov_to = 40.0
+actions = Array[ExtResource("4_ibuy3")]([SubResource("Resource_w3om0")])
+
+[sub_resource type="Resource" id="Resource_ax1u2"]
+script = ExtResource("4_ibuy3")
+at = 2.6
+kind = &"fade"
+params = {
+"alpha": 0.35,
+"color": Color(1, 0.9647059, 0.8627451, 1),
+"time": 0.1
+}
+
+[sub_resource type="Resource" id="Resource_yv2sd"]
+script = ExtResource("4_ibuy3")
+at = 2.6
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/atk_storm.wav",
+"volume_db": -26.0
+}
+
+[sub_resource type="Resource" id="Resource_y0p2g"]
+script = ExtResource("4_ibuy3")
+at = 2.75
+kind = &"fade"
+params = {
+"alpha": 0.22,
+"color": Color(0.16470589, 0.09411765, 0.21960784, 1),
+"time": 0.5
+}
+
+[sub_resource type="Resource" id="Resource_83yea"]
+script = ExtResource("3_lhnsi")
+id = &"W4"
+duration = 6.0
+camera_mode = 3
+look_offset = Vector3(0, 1.74, 0)
+pivot_actor = &"vey"
+pivot = Vector3(25, 0, 31)
+orbit_radius = 2.4
+orbit_height = 1.7
+orbit_from_deg = 95.0
+orbit_to_deg = 101.0
+fov_from = 32.0
+fov_to = 32.0
+actions = Array[ExtResource("4_ibuy3")]([SubResource("Resource_ax1u2"), SubResource("Resource_yv2sd"), SubResource("Resource_y0p2g")])
+
+[sub_resource type="Resource" id="Resource_02fk2"]
+script = ExtResource("4_ibuy3")
+at = 6.5
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.5
+}
+
+[sub_resource type="Resource" id="Resource_7pvmn"]
+script = ExtResource("1_vcxub")
+at = 0.5
+speaker = &"master"
+text = "Not yet, old friend. Let her find her own fire first."
+voice = "res://assets/audio/voice/master/not_yet_old_friend_97e676b0.wav"
+
+[sub_resource type="Resource" id="Resource_ykuti"]
+script = ExtResource("3_lhnsi")
+id = &"W5"
+duration = 9.0
+from_pos = Vector3(-4, 1.2, -38)
+to_pos = Vector3(-4, 1.2, -38)
+look_from = Vector3(0, 14, -64)
+look_to = Vector3(0, 14, -64)
+fov_from = 24.0
+fov_to = 24.0
+lines = Array[ExtResource("1_vcxub")]([SubResource("Resource_7pvmn")])
+actions = Array[ExtResource("4_ibuy3")]([SubResource("Resource_02fk2")])
+
+[resource]
+script = ExtResource("2_jb436")
+id = &"e5m1_watch"
+title = "A Road of Fire"
+world_mode = 1
+shots = Array[ExtResource("3_lhnsi")]([SubResource("Resource_ti2gr"), SubResource("Resource_0siej"), SubResource("Resource_bhrq4"), SubResource("Resource_83yea"), SubResource("Resource_ykuti")])
+shake_seed = 502
+voice_over = Array[StringName]([&"narrator", &"master"])
+lines_over_cuts = true

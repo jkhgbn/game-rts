@@ -1,0 +1,82 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_f431f"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_lva0k"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_wbam3"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_cvt7d"]
+
+[sub_resource type="Resource" id="Resource_4s5yx"]
+script = ExtResource("4_cvt7d")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_naaqm"]
+script = ExtResource("1_f431f")
+at = 0.5
+speaker = &"narrator"
+text = "Three summers on, the reivers built a fort in the fens. Vessa was sent to knock."
+voice = "res://assets/audio/voice/narrator/three_summers_on_the_275b65a7.wav"
+
+[sub_resource type="Resource" id="Resource_bilku"]
+script = ExtResource("3_wbam3")
+id = &"K1"
+duration = 8.0
+camera_mode = 2
+from_pos = Vector3(-6, 1.4, -4)
+to_pos = Vector3(0, 6, 0)
+look_from = Vector3(8, 1, 8)
+look_to = Vector3(30, 3, 30)
+fov_from = 44.0
+fov_to = 38.0
+transition_in = 1
+transition_time = 0.6
+lines = Array[ExtResource("1_f431f")]([SubResource("Resource_naaqm")])
+actions = Array[ExtResource("4_cvt7d")]([SubResource("Resource_4s5yx")])
+
+[sub_resource type="Resource" id="Resource_2um5n"]
+script = ExtResource("4_cvt7d")
+at = 0.4
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/army_armour.wav",
+"volume_db": -16.0
+}
+
+[sub_resource type="Resource" id="Resource_ls4w2"]
+script = ExtResource("4_cvt7d")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_ca1tc"]
+script = ExtResource("3_wbam3")
+id = &"K2"
+duration = 7.0
+camera_mode = 3
+look_offset = Vector3(0, 2.047, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(-32, 0, -32)
+orbit_radius = 5.0
+orbit_height = 1.4
+orbit_from_deg = 200.0
+orbit_to_deg = 190.0
+fov_from = 40.0
+fov_to = 40.0
+actions = Array[ExtResource("4_cvt7d")]([SubResource("Resource_2um5n"), SubResource("Resource_ls4w2")])
+
+[resource]
+script = ExtResource("2_lva0k")
+id = &"e5m2_rookhold"
+title = "Rookhold"
+world_mode = 1
+shots = Array[ExtResource("3_wbam3")]([SubResource("Resource_bilku"), SubResource("Resource_ca1tc")])
+shake_seed = 511
+voice_over = Array[StringName]([&"narrator"])
+lines_over_cuts = true

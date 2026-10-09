@@ -1,0 +1,91 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_y85k2"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_2uehr"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_xhh3i"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_sshqk"]
+
+[sub_resource type="Resource" id="Resource_cnivn"]
+script = ExtResource("4_sshqk")
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_amb.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_iucfn"]
+script = ExtResource("1_y85k2")
+at = 0.4
+speaker = &"narrator"
+text = "Five years later, below the citadel. A friendly match. Supposedly."
+voice = "res://assets/audio/voice/narrator/five_years_later_below_309cfb16.wav"
+
+[sub_resource type="Resource" id="Resource_s1f1s"]
+script = ExtResource("3_xhh3i")
+id = &"G1"
+duration = 6.0
+camera_mode = 2
+from_pos = Vector3(8, 30, -66)
+to_pos = Vector3(10, 24, -58)
+look_to = Vector3(0, 0, 6)
+fov_from = 52.0
+fov_to = 48.0
+transition_in = 1
+transition_time = 0.6
+lines = Array[ExtResource("1_y85k2")]([SubResource("Resource_iucfn")])
+actions = Array[ExtResource("4_sshqk")]([SubResource("Resource_cnivn")])
+
+[sub_resource type="Resource" id="Resource_ygvsv"]
+script = ExtResource("1_y85k2")
+at = 0.2
+speaker = &"master"
+text = "Five banners. The first to hold three while the bell counts thirty wins. Nobody gets hurt."
+voice = "res://assets/audio/voice/master/five_banners_the_first_3b662c48.wav"
+
+[sub_resource type="Resource" id="Resource_1il2e"]
+script = ExtResource("3_xhh3i")
+id = &"G2"
+duration = 5.0
+from_pos = Vector3(6, 14, -60)
+to_pos = Vector3(6, 14, -60)
+look_from = Vector3(0, 2, -20)
+look_to = Vector3(0, 2, -20)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_y85k2")]([SubResource("Resource_ygvsv")])
+
+[sub_resource type="Resource" id="Resource_v5kjy"]
+script = ExtResource("4_sshqk")
+at = 3.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_i5jhg"]
+script = ExtResource("3_xhh3i")
+id = &"G3"
+duration = 4.0
+camera_mode = 3
+look_offset = Vector3(0, 1.93, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(-34, 0, -34)
+orbit_radius = 4.6
+orbit_height = 1.5
+orbit_from_deg = 20.0
+orbit_to_deg = 30.0
+fov_from = 40.0
+fov_to = 40.0
+actions = Array[ExtResource("4_sshqk")]([SubResource("Resource_v5kjy")])
+
+[resource]
+script = ExtResource("2_2uehr")
+id = &"e5m4_green"
+title = "The Proving Green"
+world_mode = 1
+shots = Array[ExtResource("3_xhh3i")]([SubResource("Resource_s1f1s"), SubResource("Resource_1il2e"), SubResource("Resource_i5jhg")])
+shake_seed = 541
+voice_over = Array[StringName]([&"narrator", &"master"])
+lines_over_cuts = true

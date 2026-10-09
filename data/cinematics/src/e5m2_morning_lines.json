@@ -1,0 +1,12 @@
+{
+    "cine_id": "e5m2_morning",
+    "note": "LineTrack (tools/cine README: use lines): the two e5m2_morning lines whose text holds straight double quotes, which a .cine line cannot quote. Same text as data/voice/lines/e5m2.json L22 / L23.",
+    "lines": {
+        "M4": [
+            {"at": 0.4, "speaker": "vessa", "text": "The Master's going to say it. I know he is. \"Fire that will not wait...\"", "duration": 5.0}
+        ],
+        "M5": [
+            {"at": 0.4, "speaker": "ashby", "text": "\"...burns its own house.\" Yes, my lady. We've all heard him say it.", "duration": 5.0}
+        ]
+    }
+}

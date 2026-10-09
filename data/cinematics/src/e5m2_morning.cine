@@ -1,0 +1,32 @@
+# e5m2 E15 "e5m2_morning" (docs/design/mission-e5-02.md, Cinematic hooks; script-episodes-4-8/e5m2.md 1): 45 s, then the
+# victory. mode=pause over the live mission. 1) WIDE at dawn: Rookhold smoking, the granary (35, 28) going up (a fire
+# pillar on it): L19; 2) MS two-shot Vessa and Ashby by the breach, 3/4 from the west: L20-L21; 3) CU her banner in the
+# breach (the camera on the Rook Gate's spot, a fire burst on the pole: the banner catches); 4) STATIC CU Vessa: she
+# laughs, soot on her face: L22; 5) WS Ashby shaking his head, smiling: L23; FADE_BLACK. Vessa / Ashby shots orbit the
+# live actors (tags `vessa`, `ashby`); the cast stands at the Rook Gate for cine's checks. Axis: the Vessa - Ashby line
+# north-south; every camera on its WEST side. L22 / L23 hold straight quotes: they come from e5m2_morning_lines.json. Fallback: the end state says L19-L23, then the victory.
+cine e5m2_morning  title="Very Good Toast"  mode=pause  letterbox=2.39  seed=513  length=43..47
+env dusk  moon_yaw=120  moon_pitch=-10  energy=0.75
+use lines data/cinematics/src/e5m2_morning_lines.json
+cast  vessa     res://art/units/wizards/vessa.tscn     at=(18, 0, 20)  yaw=60
+cast  ashby     res://art/units/fire/flame_guard.tscn  at=(18, 0, 22)  yaw=60
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+
+# WIDE at dawn: Rookhold smoking, the granary roof goes up in flame
+shot M1 9.0  cam=crane  from=(-4, 22, 0)  to=(2, 18, 4)  look=(30, 2, 28)>(34, 2, 30)  fov=48>44  in=fade_black:0.8
+  at 0.0  sfx res://assets/audio/forge/sfx/army_armour.wav  vol=-18
+  at 0.5  line narrator "Rookhold burned until morning. So, by accident, did the grain it had stolen."
+  at 2.5  vfx granary  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(35, 0, 28)  life=5.5  scale=1.2
+  at 2.6  sfx res://assets/audio/sfx/building_hit.wav  vol=-10
+# MS two-shot Vessa and Ashby by the breach, 3/4 from the west
+shot M2 12.0  cam=orbit  pivot=vessa  r=4.6  h=1.4  deg=190>198
+  at 0.3  line vessa "Ashby. That was the grain. That was the grain we came here to take back."
+  at 5.6  line ashby "It was, my lady. It's toast now. Very good toast."
+# CU the banner in the breach: the fire creeps up the pole and catches it
+shot M3 6.0  cam=static  from=(16.5, 2.2, 21.0)  look=(21, 2.4, 22)  fov=30
+  at 1.2  vfx banner  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(21, 0, 22)  life=4.0  scale=0.4
+# STATIC CU Vessa: she looks at it and laughs
+shot M4 9.0  cam=orbit  pivot=vessa  r=2.2  h=1.6  deg=185>188  fov=34
+# WS Ashby shaking his head, smiling; FADE_BLACK
+shot M5 9.0  cam=orbit  pivot=ashby  r=6.0  h=1.8  deg=200>210
+  at 7.3  fade alpha=1 time=1.5

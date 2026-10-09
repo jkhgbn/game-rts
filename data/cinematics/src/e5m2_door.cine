@@ -1,0 +1,16 @@
+# e5m2 E11 "e5m2_door" (docs/design/mission-e5-02.md, Cinematic hooks; script-episodes-4-8/e5m2.md 1): 8 s when the first
+# door burns (the Rook Gate, the Postern or any palisade block), mode=pause over the live mission. MS on Vessa at the
+# breach, burning timber falling (a fire burst at the cast's breach, the north-west gate (22, 22)); the 3 nearest
+# soldiers step 4 m inside and Vessa's red banner stands in the breach (the end state does both). The shot orbits the
+# live hero (tag `vessa`, wherever the door burned); the cast stands at the Rook Gate for cine's checks.
+# Line: L14 (L15 follows as control returns). Fallback: the end state says L14-L15.
+cine e5m2_door  title="A Door"  mode=pause  letterbox=2.39  seed=512  length=7..9
+env day  moon_yaw=200  moon_pitch=-55  energy=0.85
+cast  vessa  res://art/units/wizards/vessa.tscn  at=(17, 0, 17)  yaw=45
+
+# MS on the breach: burning timber falls inward, Vessa in front of it
+shot D1 8.0  cam=orbit  pivot=vessa  r=5.5  h=1.6  deg=215>200  in=fade_black:0.3
+  at 0.2  sfx res://assets/audio/sfx/building_hit.wav  vol=-8
+  at 0.3  vfx burst  scene=res://art/cinematics/fx/fire_pillar.tscn  at=(21, 0, 21)  life=3.0  scale=0.8
+  at 0.8  line vessa "See? A door! I said there'd be a door!"
+  at 7.4  fade alpha=1 time=0.5

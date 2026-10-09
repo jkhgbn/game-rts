@@ -1,0 +1,71 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_u7wew"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_dubit"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_4qeph"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_vxfc7"]
+
+[sub_resource type="Resource" id="Resource_w76qy"]
+script = ExtResource("4_vxfc7")
+at = 0.2
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/sfx/building_hit.wav",
+"volume_db": -8.0
+}
+
+[sub_resource type="Resource" id="Resource_lbbwd"]
+script = ExtResource("4_vxfc7")
+at = 0.3
+kind = &"vfx"
+target = Vector3(21, 0, 21)
+params = {
+"life": 3.0,
+"scale": 0.8,
+"scene": "res://art/cinematics/fx/fire_pillar.tscn"
+}
+
+[sub_resource type="Resource" id="Resource_oxrxa"]
+script = ExtResource("4_vxfc7")
+at = 7.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 0.5
+}
+
+[sub_resource type="Resource" id="Resource_8w7en"]
+script = ExtResource("1_u7wew")
+at = 0.8
+speaker = &"vessa"
+text = "See? A door! I said there'd be a door!"
+voice = "res://assets/audio/voice/vessa/see_a_door_i_d0461c9e.wav"
+
+[sub_resource type="Resource" id="Resource_li7ab"]
+script = ExtResource("3_4qeph")
+id = &"D1"
+duration = 8.0
+camera_mode = 3
+look_offset = Vector3(0, 2.047, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(17, 0, 17)
+orbit_radius = 5.5
+orbit_height = 1.6
+orbit_from_deg = 215.0
+orbit_to_deg = 200.0
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_u7wew")]([SubResource("Resource_8w7en")])
+actions = Array[ExtResource("4_vxfc7")]([SubResource("Resource_w76qy"), SubResource("Resource_lbbwd"), SubResource("Resource_oxrxa")])
+
+[resource]
+script = ExtResource("2_dubit")
+id = &"e5m2_door"
+title = "A Door"
+world_mode = 1
+shots = Array[ExtResource("3_4qeph")]([SubResource("Resource_li7ab")])
+shake_seed = 512
+lines_over_cuts = true

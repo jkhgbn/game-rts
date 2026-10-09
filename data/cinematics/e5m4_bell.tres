@@ -1,0 +1,141 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_jhoyw"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_1jp2b"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_uka5j"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_qcuaq"]
+
+[sub_resource type="Resource" id="Resource_4vw35"]
+script = ExtResource("4_qcuaq")
+at = 0.3
+kind = &"sfx"
+params = {
+"path": "res://assets/audio/forge/sfx/evenmead_horns.wav",
+"volume_db": -10.0
+}
+
+[sub_resource type="Resource" id="Resource_psulv"]
+script = ExtResource("3_uka5j")
+id = &"B1"
+duration = 3.0
+from_pos = Vector3(4, 16, -62)
+to_pos = Vector3(4, 16, -62)
+look_from = Vector3(2, 4, -40)
+look_to = Vector3(2, 4, -40)
+fov_from = 36.0
+fov_to = 36.0
+transition_in = 1
+transition_time = 0.4
+actions = Array[ExtResource("4_qcuaq")]([SubResource("Resource_4vw35")])
+
+[sub_resource type="Resource" id="Resource_i2khw"]
+script = ExtResource("1_jhoyw")
+at = 0.3
+speaker = &"master"
+text = "Malrik wins. By taking."
+voice = "res://assets/audio/voice/master/malrik_wins_by_taking_44aff8a1.wav"
+
+[sub_resource type="Resource" id="Resource_uv80i"]
+script = ExtResource("1_jhoyw")
+at = 3.4
+speaker = &"malrik"
+text = "You taught us to use what we were given. I was given leftovers. I used them."
+voice = "res://assets/audio/voice/malrik/you_taught_us_to_cdd26f26.wav"
+
+[sub_resource type="Resource" id="Resource_vhpqs"]
+script = ExtResource("3_uka5j")
+id = &"B2"
+duration = 10.0
+camera_mode = 3
+look_offset = Vector3(0, 1.93, 0)
+pivot_actor = &"malrik"
+pivot = Vector3(22, 0, 20)
+orbit_radius = 4.2
+orbit_height = 1.5
+orbit_from_deg = 10.0
+orbit_to_deg = 20.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_jhoyw")]([SubResource("Resource_i2khw"), SubResource("Resource_uv80i")])
+
+[sub_resource type="Resource" id="Resource_355em"]
+script = ExtResource("1_jhoyw")
+at = 1.4
+speaker = &"master"
+text = "...Yes. Well played."
+voice = "res://assets/audio/voice/master/yes_well_played_e1db1555.wav"
+
+[sub_resource type="Resource" id="Resource_2oxr1"]
+script = ExtResource("3_uka5j")
+id = &"B3"
+duration = 5.0
+from_pos = Vector3(6, 1, -36)
+to_pos = Vector3(6, 1, -36)
+look_from = Vector3(0, 14, -64)
+look_to = Vector3(0, 14, -64)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_jhoyw")]([SubResource("Resource_355em")])
+
+[sub_resource type="Resource" id="Resource_p5i01"]
+script = ExtResource("1_jhoyw")
+at = 0.3
+speaker = &"vessa"
+text = "Rematch. Now. Best of three. Best of five!"
+voice = "res://assets/audio/voice/vessa/rematch_now_best_of_df5f3839.wav"
+
+[sub_resource type="Resource" id="Resource_nvt0v"]
+script = ExtResource("3_uka5j")
+id = &"B4"
+duration = 5.0
+camera_mode = 3
+look_offset = Vector3(0, 2.047, 0)
+pivot_actor = &"vessa"
+pivot = Vector3(26, 0, 26)
+orbit_radius = 4.0
+orbit_height = 1.5
+orbit_from_deg = -20.0
+orbit_to_deg = -10.0
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_jhoyw")]([SubResource("Resource_p5i01")])
+
+[sub_resource type="Resource" id="Resource_fh1j2"]
+script = ExtResource("4_qcuaq")
+at = 5.6
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(1, 1, 1, 1),
+"time": 1.4
+}
+
+[sub_resource type="Resource" id="Resource_vqd0o"]
+script = ExtResource("1_jhoyw")
+at = 0.3
+speaker = &"master"
+text = "Later, my joy. Both of you, come up to the orrery. I have something for you."
+voice = "res://assets/audio/voice/master/later_my_joy_both_e73c3f4a.wav"
+
+[sub_resource type="Resource" id="Resource_pu4uk"]
+script = ExtResource("3_uka5j")
+id = &"B5"
+duration = 7.0
+from_pos = Vector3(10, 18, -50)
+to_pos = Vector3(10, 18, -50)
+look_from = Vector3(0, 12, -64)
+look_to = Vector3(0, 12, -64)
+fov_from = 42.0
+fov_to = 42.0
+lines = Array[ExtResource("1_jhoyw")]([SubResource("Resource_vqd0o")])
+actions = Array[ExtResource("4_qcuaq")]([SubResource("Resource_fh1j2")])
+
+[resource]
+script = ExtResource("2_1jp2b")
+id = &"e5m4_bell"
+title = "Well Played"
+world_mode = 1
+shots = Array[ExtResource("3_uka5j")]([SubResource("Resource_psulv"), SubResource("Resource_vhpqs"), SubResource("Resource_2oxr1"), SubResource("Resource_nvt0v"), SubResource("Resource_pu4uk")])
+shake_seed = 542
+voice_over = Array[StringName]([&"master"])
+lines_over_cuts = true

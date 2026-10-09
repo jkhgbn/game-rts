@@ -216,11 +216,6 @@ msgid "Kilnwarden"
 msgstr ""
 
 #. name (glossary: stays English)
-#: data/units/magpie.tres:9 scripts/world/hunters_guild.gd:581
-msgid "Magpie"
-msgstr ""
-
-#. name (glossary: stays English)
 #: data/units/mirefang.tres:9
 msgid "Mirefang"
 msgstr ""
@@ -313,11 +308,6 @@ msgstr ""
 #. name (glossary: stays English)
 #: data/units/scorchling.tres:9
 msgid "Scorchling"
-msgstr ""
-
-#. name (glossary: stays English)
-#: data/units/shade.tres:9
-msgid "Shade"
 msgstr ""
 
 #. name (glossary: stays English)
