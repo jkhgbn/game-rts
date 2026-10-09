@@ -49,6 +49,10 @@ enum MalrikJoins { NEVER, SECOND_ATTACK_OR_STRENGTH, EVERY_ATTACK }
 @export var tower2_time := 480.0             ## S2 at this time.
 @export var expand_time := 300.0             ## X1 at this time...
 @export var expand_home_below := 0           ## ...or when the home nodes hold fewer crystals (0 = half of the start).
+## 2026-10-09 (Ice income fix): extra home Halls (rows H2 / H3, 0 = none). Each is placed when every own Hall's queue
+## is full and the bank holds extra_hall_bank crystals (the slow Frost Hall floated 400-1 300 crystals by 3:00).
+@export var extra_halls := 0
+@export var extra_hall_bank := 300
 @export var build_walls := false             ## Ice hard: 2 walls beside S1 (kingdom-ice.md 7 "Walls").
 @export var wall_path_ratio := 1.5           ## Walls only while keep -> rally path < this x the straight line.
 ## Target share of soldier pop per barracks slot (card order), default / vs ranged / vs melee.
@@ -215,6 +219,7 @@ static func ice(difficulty: int) -> AIProfile:
 	p.expand_time = 330.0     # balance-2 2b: X1 at 5:30 (was 7:00)...
 	p.expand_home_below = 0   # ...or home nodes under half of the start (the stale 700 is gone)
 	p.build_walls = difficulty >= 2
+	p.extra_halls = 2 if difficulty >= 1 else 0   # 2026-10-09: turn a floating bank into more Frost Halls
 	# Rimeshield / Shardcaster / Rime Seer / Rime Colossus (Frost Hall card order Z X C V).
 	p.mix_default = PackedFloat32Array([0.40, 0.30, 0.10, 0.20])
 	p.mix_vs_ranged = PackedFloat32Array([0.50, 0.20, 0.10, 0.20])

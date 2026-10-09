@@ -1,0 +1,9 @@
+{
+	"name": "fg_ice_halls_off",
+	"notes": "Ice income fix check (2026-10-09): the bots WITHOUT the extra home Halls (AIProfile.extra_halls 0 on both sides) = the Commander before the fix. Compare with baseline (Ice extra_halls 2). No unit or building stat changes.",
+	"fg": {
+		"ai": {
+			"extra_halls": 0
+		}
+	}
+}

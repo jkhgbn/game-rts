@@ -208,6 +208,8 @@ const ROWS: Array[Dictionary] = [
 	{"id": &"S4", "kind": &"tower", "pos": Vector3(37.0, 0.0, 45.0), "builders": 1, "slot": &"S4", "trade": true},
 	{"id": &"X2", "kind": &"barracks", "pos": X2_SPOT, "builders": 2},
 ]
+## 2026-10-09 (Ice income fix, AIProfile.extra_halls): extra home Halls H2 / H3, right after V1 in the row order.
+const EXTRA_HALL_SPOTS: Array[Vector3] = [Vector3(27.0, 0.0, -53.0), Vector3(19.0, 0.0, -45.0)]
 ## 7.A1 Ice walls (hard): offsets from the S1 tower, Shadow side (mirrored for the other side).
 const WALL_OFFSETS: Array[Vector3] = [Vector3(-2.0, 0.0, 0.0), Vector3(2.0, 0.0, 0.0)]
 const ADOPT_RADIUS := 4.0           ## A standing own building this close to a slot fills it (missions).
@@ -625,6 +627,11 @@ func _build_rows() -> void:
 			if house == null or house.max_count < int(row["min_houses"]):
 				continue   # V3-V9: only while the kingdom's house max_count allows that many
 		_rows.append(row)
+		if row["id"] == &"V1":
+			for i in mini(ai.extra_halls, EXTRA_HALL_SPOTS.size()):
+				var hid := "H%d" % (i + 2)
+				if ai.build_rows.is_empty() or ai.build_rows.has(hid):
+					_rows.append({"id": StringName(hid), "kind": &"barracks", "pos": EXTRA_HALL_SPOTS[i], "builders": 1})
 		if row["id"] == &"S1" and ai.build_walls and _types.has(&"wall"):
 			for i in WALL_OFFSETS.size():
 				_rows.append({"id": StringName("W%d" % (i + 1)), "kind": &"wall", "pos": WALL_OFFSETS[i],
@@ -1403,6 +1410,8 @@ func _row_trigger(row: Dictionary) -> bool:
 	match String(row["id"]):
 		"H1":
 			return true
+		"H2", "H3":
+			return _extra_hall_due(String(row["id"]).substr(1).to_int())
 		"V1":
 			return pop_tight
 		"V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9":
@@ -1448,6 +1457,20 @@ func _row_crystals(row: Dictionary, type: BuildingType) -> int:
 		&"S3", &"S4":
 			return AITrade.tower_crystals(type.cost)
 	return type.cost
+
+
+## 2026-10-09 (Ice income fix): extra home Hall H`n` (2, 3) while ai.extra_halls allows it (read live: a lab patch can
+## turn it off), once the previous H row stands finished, every finished Hall's queue is full and the bank still holds
+## ai.extra_hall_bank crystals (income the Halls cannot turn into army).
+func _extra_hall_due(n: int) -> bool:
+	if n - 1 > ai.extra_halls or (n > 2 and not _slot_done(StringName("H%d" % (n - 1)))):
+		return false
+	if _eco.crystals < ai.extra_hall_bank or _barracks.is_empty():
+		return false
+	for b in _barracks:
+		if b.queue.size() < ai.queue_depth:
+			return false
+	return true
 
 
 ## An own Hall (kind barracks) is completed.
