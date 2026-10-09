@@ -328,6 +328,8 @@ func _apply_meshes() -> void:
 		body.mesh = GM.body_mesh(v)
 	if _head_gi is MeshInstance3D:
 		(_head_gi as MeshInstance3D).mesh = GM.head_mesh(v, _enraged)
+		if _face:   # the face goes back into the new head now, not at the next animated frame (half-rate tiers skip one)
+			_face.auto_any(self)
 	if _jaw_mi:
 		_jaw_mi.mesh = GM.jaw_mesh(v)
 	for k: int in 4:

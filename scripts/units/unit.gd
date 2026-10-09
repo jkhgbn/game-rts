@@ -254,7 +254,7 @@ var _cooldown_left := 0.0
 var _retarget_left := 0.0
 var _last_nav_target := Vector3.INF
 var _vertical_speed := 0.0
-var _slide_phase := 0            # stagger of the idle move_and_slide refresh (from the instance id)
+var _slide_phase := -1           # stagger of the idle move_and_slide refresh (-1 = not set; from the first position)
 var _hit_flash := 0.0
 var _dead := false
 var _left_map := false
@@ -283,7 +283,6 @@ func _ready() -> void:
 	_apply_team_wares()
 	hp = max_hp
 	_anchor = global_position
-	_slide_phase = int(get_instance_id() % IDLE_SLIDE_EVERY)
 	add_to_group("units")
 	collision_layer = 2   # "units" layer, so clicks can find us
 	collision_mask = 1    # only collide with the world, avoidance keeps units apart
@@ -1915,6 +1914,11 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	# Perf pass 2026-10-09 (~10 us per call at 300 units): a unit standing still on the floor skips the slide, which
 	# would not move it; every IDLE_SLIDE_EVERY physics frames (staggered per unit) it still runs once so floor
 	# snapping / depenetration keep working.
+	# The stagger comes from where the unit stood on its first slide (replay-stable: instance ids are not the same
+	# from one process to the next, so a stagger from them broke replay determinism, fix 2026-10-09).
+	if _slide_phase < 0:
+		var gp := global_position
+		_slide_phase = posmod(int(floorf(gp.x * 4.0)) * 7 + int(floorf(gp.z * 4.0)) * 13, IDLE_SLIDE_EVERY)
 	var still := safe_velocity.x * safe_velocity.x + safe_velocity.z * safe_velocity.z <= IDLE_SLIDE_EPS2
 	if not still or _vertical_speed != 0.0 or not is_on_floor() or (Engine.get_physics_frames() + _slide_phase) % IDLE_SLIDE_EVERY == 0:
 		move_and_slide()
@@ -2356,6 +2360,8 @@ func _build_model() -> void:
 	# The walk plays at rate 1 at this unit's base speed (haste simply speeds the legs up).
 	if &"stride_speed" in m:
 		m.set(&"stride_speed", maxf(0.5, get_base_stat(&"move_speed")))
+	if &"offscreen_freeze" in m:   # a game unit's model may pause off-camera (perf pass 2026-10-09)
+		m.set(&"offscreen_freeze", true)
 	_visual.add_child(m)
 	_model_has_moving = m.has_method(&"set_moving")
 	_model_has_attack = m.has_method(&"play_attack")

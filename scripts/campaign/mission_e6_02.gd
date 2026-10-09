@@ -212,6 +212,9 @@ class FrostGate:
 			_add_leaves(true)
 		else:
 			if _leaves and is_instance_valid(_leaves):
+				# out of the tree now: the rebake's geometry parse can run this same frame (before queue_free lands)
+				if _leaves.get_parent():
+					_leaves.get_parent().remove_child(_leaves)
 				_leaves.queue_free()
 			_leaves = null
 			if _look:
@@ -421,6 +424,7 @@ func _build_map() -> void:
 	gate.build_grid = build_grid
 	gate.max_hp = GATE_HP
 	gate.hp = GATE_HP
+	gate.position = GATE_POS   # before add_child: _ready places the leaves at the gate (they sat at the origin before)
 	nav_region.add_child(gate)
 	gate.global_position = GATE_POS
 	gate.shattered.connect(_on_gate_shattered)

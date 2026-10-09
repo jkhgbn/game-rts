@@ -146,11 +146,14 @@ var _force_write: bool = true
 ## Perf pass 2026-10-09: a model outside the game camera's view (+ OFFSCREEN_MARGIN m) stops animating like a tier-2
 ## one, but keeps its pose and walk phase (nobody sees it) and resumes seamlessly. On-screen models re-check every
 ## OFFSCREEN_CHECK s, frozen ones every frame (no frozen pose when the camera jumps). Only in the root viewport (the
-## game); portraits, the menu diorama and labs in SubViewports never use it.
+## game); portraits, the menu diorama and labs in SubViewports never use it. Fix 2026-10-09: opt-in, only a model a Unit
+## built (Unit._build_model sets offscreen_freeze); bare models in tests / labs / scenes animate as before.
 const OFFSCREEN_MARGIN := 6.0
 const OFFSCREEN_CHECK := 0.1
 static var _fr_frame: int = -1
 static var _fr_planes: Array[Plane] = []
+## Set by Unit._build_model: this model may pause while off-camera (see OFFSCREEN_MARGIN). Default off.
+var offscreen_freeze: bool = false
 var _offscreen: bool = false
 var _off_timer: float = 0.0
 
@@ -886,10 +889,13 @@ func _process(delta: float) -> void:
 		_update_tier()
 	if _rd_on:
 		_rd_sync()   # seated: tier, half-rate parity and freeze follow the mount
-	_off_timer -= delta
-	if _off_timer <= 0.0 or _offscreen:
-		_off_timer = OFFSCREEN_CHECK
-		_offscreen = _outside_view()
+	if offscreen_freeze:
+		_off_timer -= delta
+		if _off_timer <= 0.0 or _offscreen:
+			_off_timer = OFFSCREEN_CHECK
+			_offscreen = _outside_view()
+	elif _offscreen:
+		_offscreen = false
 	var busy: bool = _dead or _action != &"" or _hit_t < HIT_LEN or _level_t < LEVEL_LEN or _wk_pop_t < WEAPON_POP_LEN \
 		or _rd_busy
 	# A dance (victory / surrender emote) plays on even off-screen; only the far tier pauses it.
