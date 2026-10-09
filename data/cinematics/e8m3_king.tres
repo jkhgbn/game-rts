@@ -1,0 +1,108 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_i8xch"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_kjo2s"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_c8d4k"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_13ure"]
+
+[sub_resource type="Resource" id="Resource_ie5qb"]
+script = ExtResource("1_i8xch")
+at = 0.2
+speaker = &"narrator"
+text = "The last thing Obren ever built climbed out of the dark, and it was wearing his throne."
+voice = "res://assets/audio/voice/narrator/the_last_thing_obren_c3bdfaca.wav"
+
+[sub_resource type="Resource" id="Resource_rvows"]
+script = ExtResource("1_i8xch")
+at = 5.6
+speaker = &"obren"
+text = "A thousand years he held it. A hundred I lay under it. Now I hold everything."
+voice = "res://assets/audio/voice/whisper/a_thousand_years_he_a7feb6e7.wav"
+
+[sub_resource type="Resource" id="Resource_mm6mv"]
+script = ExtResource("3_c8d4k")
+id = &"S1"
+duration = 11.4
+from_pos = Vector3(0, 26, 10)
+to_pos = Vector3(0, 26, 10)
+look_from = Vector3(0, 2, 0)
+look_to = Vector3(0, 2, 0)
+fov_from = 52.0
+fov_to = 52.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_i8xch")]([SubResource("Resource_ie5qb"), SubResource("Resource_rvows")])
+
+[sub_resource type="Resource" id="Resource_l6qeh"]
+script = ExtResource("1_i8xch")
+at = 0.2
+speaker = &"vey"
+text = "Chains on every limb. The keys are holding him. Keep the keys standing, and he stays bound."
+voice = "res://assets/audio/voice/vey/chains_on_every_limb_6a960cec.wav"
+
+[sub_resource type="Resource" id="Resource_xk6kr"]
+script = ExtResource("3_c8d4k")
+id = &"S2"
+duration = 6.0
+from_pos = Vector3(-12, 3, 26)
+to_pos = Vector3(-12, 3, 26)
+look_from = Vector3(0, 6, 0)
+look_to = Vector3(0, 6, 0)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_i8xch")]([SubResource("Resource_l6qeh")])
+
+[sub_resource type="Resource" id="Resource_4ryds"]
+script = ExtResource("1_i8xch")
+at = 0.2
+speaker = &"vessa"
+text = "So we hit him when the chains pull. And we don't let go. I can do that. Probably."
+voice = "res://assets/audio/voice/vessa/so_we_hit_him_36e5db58.wav"
+
+[sub_resource type="Resource" id="Resource_qqd60"]
+script = ExtResource("1_i8xch")
+at = 5.6
+speaker = &"torvald"
+text = "Hold the line. Ice knows how. The rest of you, copy me."
+voice = "res://assets/audio/voice/torvald/hold_the_line_ice_d0fbd6bf.wav"
+
+[sub_resource type="Resource" id="Resource_xsg03"]
+script = ExtResource("3_c8d4k")
+id = &"S3"
+duration = 11.4
+from_pos = Vector3(4, 4, 8)
+to_pos = Vector3(4, 4, 8)
+look_from = Vector3(0, 6, 0)
+look_to = Vector3(0, 6, 0)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_i8xch")]([SubResource("Resource_4ryds"), SubResource("Resource_qqd60")])
+
+[sub_resource type="Resource" id="Resource_o7mni"]
+script = ExtResource("1_i8xch")
+at = 0.2
+speaker = &"malrik"
+text = "Four people who hate each other, holding one rope. What could possibly go wrong."
+voice = "res://assets/audio/voice/malrik/four_people_who_hate_75d36660.wav"
+
+[sub_resource type="Resource" id="Resource_kf7hw"]
+script = ExtResource("3_c8d4k")
+id = &"S4"
+duration = 6.0
+from_pos = Vector3(-14, 1.9, 22)
+to_pos = Vector3(-14, 1.9, 22)
+look_from = Vector3(-17.5, 1.5, 17.5)
+look_to = Vector3(-17.5, 1.5, 17.5)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_i8xch")]([SubResource("Resource_o7mni")])
+
+[resource]
+script = ExtResource("2_kjo2s")
+id = &"e8m3_king"
+title = "The Hollow King"
+world_mode = 1
+shots = Array[ExtResource("3_c8d4k")]([SubResource("Resource_mm6mv"), SubResource("Resource_xk6kr"), SubResource("Resource_xsg03"), SubResource("Resource_kf7hw")])
+shake_seed = 861
+voice_over = Array[StringName]([&"narrator", &"obren", &"vey", &"vessa", &"torvald", &"malrik"])
+lines_over_cuts = true

@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_72ob1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_j6rkh"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_kr4we"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_4psrt"]
+
+[sub_resource type="Resource" id="Resource_hcplj"]
+script = ExtResource("1_72ob1")
+at = 0.2
+speaker = &"torvald"
+text = "Go south. Don't look back. There's nothing back there worth the look."
+voice = "res://assets/audio/voice/torvald/go_south_dont_look_80d1e968.wav"
+
+[sub_resource type="Resource" id="Resource_o4ode"]
+script = ExtResource("3_kr4we")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(20, 10, 30)
+to_pos = Vector3(20, 10, 30)
+look_from = Vector3(44, 0, 54)
+look_to = Vector3(44, 0, 54)
+fov_from = 50.0
+fov_to = 50.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_72ob1")]([SubResource("Resource_hcplj")])
+
+[sub_resource type="Resource" id="Resource_6rwcy"]
+script = ExtResource("1_72ob1")
+at = 0.2
+speaker = &"aldra"
+text = "The orb is warm. It hasn't been warm in a hundred years."
+voice = "res://assets/audio/voice/aldra/the_orb_is_warm_844e4ceb.wav"
+
+[sub_resource type="Resource" id="Resource_d0l1b"]
+script = ExtResource("3_kr4we")
+id = &"S2"
+duration = 6.0
+from_pos = Vector3(36, 1.9, 48)
+to_pos = Vector3(36, 1.9, 48)
+look_from = Vector3(40, 1.6, 52)
+look_to = Vector3(40, 1.6, 52)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_72ob1")]([SubResource("Resource_6rwcy")])
+
+[sub_resource type="Resource" id="Resource_j32ln"]
+script = ExtResource("1_72ob1")
+at = 0.2
+speaker = &"torvald"
+text = "Crown Hollow, then. Vessa waited. I can hurry. Watch me."
+voice = "res://assets/audio/voice/torvald/crown_hollow_then_vessa_b49e6086.wav"
+
+[sub_resource type="Resource" id="Resource_dsfa7"]
+script = ExtResource("3_kr4we")
+id = &"S3"
+duration = 6.0
+from_pos = Vector3(30, 4, 40)
+to_pos = Vector3(30, 4, 40)
+look_from = Vector3(56, 2, 60)
+look_to = Vector3(56, 2, 60)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_72ob1")]([SubResource("Resource_j32ln")])
+
+[resource]
+script = ExtResource("2_j6rkh")
+id = &"e8m1_ice_south"
+title = "South"
+world_mode = 1
+shots = Array[ExtResource("3_kr4we")]([SubResource("Resource_o4ode"), SubResource("Resource_d0l1b"), SubResource("Resource_dsfa7")])
+shake_seed = 832
+voice_over = Array[StringName]([&"torvald", &"aldra"])
+lines_over_cuts = true

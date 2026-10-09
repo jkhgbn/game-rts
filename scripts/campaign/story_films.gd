@@ -31,13 +31,30 @@ static func opening_of(mission_id: StringName) -> StringName:
 ## e6m2_gate_opened is false), else `id` itself. A flag missing from the save keeps `id`.
 static func branch_of(id: StringName) -> StringName:
 	var row: Variant = CampaignState.FILM_BRANCHES.get(StringName(id))
-	if not row is Array:
+	if not row is Array or (row as Array).is_empty():
 		return id
 	var flags := CampaignState.open().flags
+	if (row as Array)[0] is Array:   # a list of rows [{flag: value, ...}, film] (Episode 8's ending)
+		for r: Variant in row:
+			var conds: Dictionary = (r as Array)[0]
+			var ok := true
+			for k: Variant in conds:
+				if not flags.has(str(k)) or not _same(flags[str(k)], conds[k]):
+					ok = false
+					break
+			if ok:
+				return StringName((r as Array)[1])
+		return id
 	var key := String((row as Array)[0])
 	if flags.has(key) and flags[key] == (row as Array)[1]:
 		return StringName((row as Array)[2])
 	return id
+
+
+static func _same(a: Variant, b: Variant) -> bool:
+	if (a is int or a is float) and (b is int or b is float):
+		return int(a) == int(b)
+	return a == b
 
 
 ## Plays the film `id` alone (Campaign menu "Watch opening"), marks it seen, then back to the main menu.
@@ -69,6 +86,13 @@ static func play_chain(tree: SceneTree, id: StringName, bot_difficulty: int = 1,
 static func continue_to(tree: SceneTree, id: StringName, bot_difficulty: int = 1) -> Node:
 	if id != &"" and CampaignState.is_film(id):
 		return play_chain(tree, id, bot_difficulty)
+	if CampaignState.STORY_SCREENS.has(id) and ResourceLoader.exists(String(CampaignState.STORY_SCREENS[id])):
+		var screen := (load(String(CampaignState.STORY_SCREENS[id])) as PackedScene).instantiate()
+		if &"bot_difficulty" in screen:
+			screen.set(&"bot_difficulty", bot_difficulty)
+		tree.paused = false
+		MenuFlow.set_scene(tree, screen)
+		return screen
 	var path := CampaignState.mission_scene(id) if id != &"" else ""
 	if path != "" and ResourceLoader.exists(path):
 		return MenuFlow.start_mission(tree, path, bot_difficulty)

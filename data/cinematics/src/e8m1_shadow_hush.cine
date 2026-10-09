@@ -1,0 +1,11 @@
+# e8m1_shadow E11: Hush on one knee, then gone into smoke (B.9).
+# Lines from data/voice/lines/e8m1_shadow.json; the mission's end state says them again (shown once). Fallback: the end state.
+cine e8m1_shadow_hush  title="Go, Then"  mode=pause  letterbox=2.39  seed=823  length=9..16
+env dusk  moon_yaw=120  moon_pitch=-30  energy=0.9
+cast  hush  capsule  at=(0, 0, -300)  hidden=1
+cast  malrik  capsule  at=(10, 0, -300)  hidden=1
+
+shot S1 6.0  cam=static  from=(26, 1.6, -22)  look=(30, 1.0, -26)  fov=30  in=fade_black:0.3
+  at 0.2  line hush "You'll want me back. When the dark gets loud."
+shot S2 6.0  cam=static  from=(24, 1.9, -20)  look=(30, 1.4, -26)  fov=34
+  at 0.2  line malrik "Go, then. Keep your knives sharp. I may need a friend who isn't a rock."

@@ -1,0 +1,137 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_867x8"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_w2v3o"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_tum3w"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_2dgmt"]
+
+[sub_resource type="Resource" id="Resource_fy3fx"]
+script = ExtResource("1_867x8")
+at = 0.2
+speaker = &"narrator"
+text = "Four keyholes, four colours, one ring of light around the isle."
+voice = "res://assets/audio/voice/narrator/four_keyholes_four_colours_9a156d45.wav"
+
+[sub_resource type="Resource" id="Resource_jwrsi"]
+script = ExtResource("3_tum3w")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(0, 30, 6)
+to_pos = Vector3(0, 30, 6)
+fov_from = 56.0
+fov_to = 56.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_867x8")]([SubResource("Resource_fy3fx")])
+
+[sub_resource type="Resource" id="Resource_07o4y"]
+script = ExtResource("1_867x8")
+at = 0.2
+speaker = &"master"
+text = "Now. All four of you. Turn them, and do not let go."
+voice = "res://assets/audio/voice/master/now_all_four_of_a723a2aa.wav"
+
+[sub_resource type="Resource" id="Resource_lacgm"]
+script = ExtResource("3_tum3w")
+id = &"S2"
+duration = 6.0
+from_pos = Vector3(4, 1, 4)
+to_pos = Vector3(4, 1, 4)
+look_from = Vector3(0, -2, 0)
+look_to = Vector3(0, -2, 0)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_867x8")]([SubResource("Resource_07o4y")])
+
+[sub_resource type="Resource" id="Resource_nakoy"]
+script = ExtResource("1_867x8")
+at = 0.2
+speaker = &"vessa"
+text = "Master?! That's... that's him! Turn them!"
+voice = "res://assets/audio/voice/vessa/master_thats_thats_him_366b5b40.wav"
+
+[sub_resource type="Resource" id="Resource_g44ph"]
+script = ExtResource("3_tum3w")
+id = &"S3"
+duration = 6.0
+from_pos = Vector3(-14, 1.9, 22)
+to_pos = Vector3(-14, 1.9, 22)
+look_from = Vector3(-17.5, 1.5, 17.5)
+look_to = Vector3(-17.5, 1.5, 17.5)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_867x8")]([SubResource("Resource_nakoy")])
+
+[sub_resource type="Resource" id="Resource_iwqao"]
+script = ExtResource("1_867x8")
+at = 0.2
+speaker = &"malrik"
+text = "Of course he waits until the last minute to speak. Family trait."
+voice = "res://assets/audio/voice/malrik/of_course_he_waits_e35d5553.wav"
+
+[sub_resource type="Resource" id="Resource_1wxhn"]
+script = ExtResource("3_tum3w")
+id = &"S4"
+duration = 6.0
+from_pos = Vector3(-14, 1.9, -22)
+to_pos = Vector3(-14, 1.9, -22)
+look_from = Vector3(-17.5, 1.5, -17.5)
+look_to = Vector3(-17.5, 1.5, -17.5)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_867x8")]([SubResource("Resource_iwqao")])
+
+[sub_resource type="Resource" id="Resource_nemwu"]
+script = ExtResource("1_867x8")
+at = 0.2
+speaker = &"obren"
+text = "You opened my door with your own hands. Thank you. Now I come up."
+voice = "res://assets/audio/voice/whisper/you_opened_my_door_ceb98175.wav"
+
+[sub_resource type="Resource" id="Resource_l1jyw"]
+script = ExtResource("3_tum3w")
+id = &"S5"
+duration = 6.0
+from_pos = Vector3(12, 4, 12)
+to_pos = Vector3(12, 4, 12)
+look_from = Vector3(0, 3, 0)
+look_to = Vector3(0, 3, 0)
+fov_from = 44.0
+fov_to = 44.0
+lines = Array[ExtResource("1_867x8")]([SubResource("Resource_nemwu")])
+
+[sub_resource type="Resource" id="Resource_sw45t"]
+script = ExtResource("1_867x8")
+at = 0.2
+speaker = &"torvald"
+text = "Then let him come. We are four. We hold."
+voice = "res://assets/audio/voice/torvald/then_let_him_come_b61f0dae.wav"
+
+[sub_resource type="Resource" id="Resource_bfxs1"]
+script = ExtResource("1_867x8")
+at = 5.6
+speaker = &"ysolde"
+text = "Together."
+voice = "res://assets/audio/voice/ysolde/together_f0f8e06a.wav"
+
+[sub_resource type="Resource" id="Resource_epihh"]
+script = ExtResource("3_tum3w")
+id = &"S6"
+duration = 8.4
+from_pos = Vector3(14, 1.9, -22)
+to_pos = Vector3(14, 1.9, -22)
+look_from = Vector3(17.5, 1.5, -17.5)
+look_to = Vector3(17.5, 1.5, -17.5)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_867x8")]([SubResource("Resource_sw45t"), SubResource("Resource_bfxs1")])
+
+[resource]
+script = ExtResource("2_w2v3o")
+id = &"e8m2_turn"
+title = "The Turn"
+world_mode = 1
+shots = Array[ExtResource("3_tum3w")]([SubResource("Resource_jwrsi"), SubResource("Resource_lacgm"), SubResource("Resource_g44ph"), SubResource("Resource_1wxhn"), SubResource("Resource_l1jyw"), SubResource("Resource_epihh")])
+shake_seed = 853
+voice_over = Array[StringName]([&"narrator", &"master", &"vessa", &"malrik", &"obren", &"torvald", &"ysolde"])
+lines_over_cuts = true

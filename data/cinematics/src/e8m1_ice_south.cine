@@ -1,0 +1,13 @@
+# e8m1_ice E13: the column winds south into sun (C.9).
+# Lines from data/voice/lines/e8m1_ice.json; the mission's end state says them again (shown once). Fallback: the end state.
+cine e8m1_ice_south  title="South"  mode=pause  letterbox=2.39  seed=832  length=15..22
+env dusk  moon_yaw=120  moon_pitch=-30  energy=0.9
+cast  torvald  capsule  at=(0, 0, -300)  hidden=1
+cast  aldra  capsule  at=(10, 0, -300)  hidden=1
+
+shot S1 6.0  cam=static  from=(20, 10, 30)  look=(44, 0, 54)  fov=50  in=fade_black:0.3
+  at 0.2  line torvald "Go south. Don't look back. There's nothing back there worth the look."
+shot S2 6.0  cam=static  from=(36, 1.9, 48)  look=(40, 1.6, 52)  fov=32
+  at 0.2  line aldra "The orb is warm. It hasn't been warm in a hundred years."
+shot S3 6.0  cam=static  from=(30, 4, 40)  look=(56, 2, 60)  fov=30
+  at 0.2  line torvald "Crown Hollow, then. Vessa waited. I can hurry. Watch me."

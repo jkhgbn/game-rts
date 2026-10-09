@@ -157,8 +157,9 @@ msgstr "Wren"
 
 #. &"shade": ["Shade Captain", Color(0.62, 0.58, 0.70)],
 #: scripts/ui/cinematic/speakers.gd:26 scripts/campaign/mission_e3_03.gd:85
+#: scripts/campaign/mission_e8_01_shadow.gd:88 scripts/campaign/mission_e8_base.gd:46
 msgid "Shade Captain"
-msgstr "Capitaine Shade"
+msgstr "Capitaine des Ombres"
 
 #. &"reveler": ["Reveler", Color(0.95, 0.62, 0.38)],   # a Flame Guard at the Ep2 feast (Fire)
 #: scripts/ui/cinematic/speakers.gd:27

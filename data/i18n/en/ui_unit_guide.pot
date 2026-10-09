@@ -440,6 +440,7 @@ msgstr ""
 
 #. var stables_name := stables.display_name if stables else "Stables"
 #: scripts/ui/menus/unit_guide_data.gd:73 scripts/ui/menus/unit_guide_data.gd:333
+#: scripts/campaign/mission_e8_02.gd:104 scripts/campaign/mission_e8_03.gd:131
 msgid "Stables"
 msgstr ""
 

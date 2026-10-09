@@ -1,0 +1,16 @@
+# e8m1_fire E1: the six Storm Stakes, Vey walks into the crack (mission-e8-01.md A.9).
+# Lines from data/voice/lines/e8m1_fire.json; the mission's end state says them again (shown once). Fallback: the end state.
+cine e8m1_fire_stakes  title="The Stakes"  mode=pause  letterbox=2.39  seed=811  length=25..32
+env dusk  moon_yaw=120  moon_pitch=-30  energy=0.9
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  vessa  capsule  at=(10, 0, -300)  hidden=1
+cast  vey  capsule  at=(20, 0, -300)  hidden=1
+
+shot S1 6.0  cam=static  from=(-2, 14, 8)  look=(6, 0, -6)  fov=48  in=fade_black:0.3
+  at 0.2  line narrator "Spring at Crown Hollow. Three keys are still on the road. One is already here, of course."
+shot S2 11.4  cam=static  from=(-14, 2.2, 2)  look=(-17, 1.2, -3)  fov=34
+  at 0.2  line vessa "Two days early. I'm always early. That's the problem, isn't it?"
+  at 5.6  line vey "Six stakes, one line. The Hollow can't feed on this bank. Don't hand it the other one."
+shot S3 11.4  cam=static  from=(-10, 1.9, 12)  look=(-6, 1.5, 6)  fov=32
+  at 0.2  line vessa "So I just... stand here. For fourteen minutes."
+  at 5.6  line vey "The spark first, then the storm. Today the spark waits. I'll be below, talking to the sky."

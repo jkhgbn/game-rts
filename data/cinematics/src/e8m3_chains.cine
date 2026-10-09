@@ -1,0 +1,11 @@
+# e8m3 E10: the four chains drag the King back to his knees (8.1).
+# Lines from data/voice/lines/e8m3.json; the mission's end state says them again (shown once). Fallback: the end state.
+cine e8m3_chains  title="The Chains"  mode=pause  letterbox=2.39  seed=863  length=9..16
+env dusk  moon_yaw=120  moon_pitch=-30  energy=0.9
+cast  maelis  capsule  at=(0, 0, -300)  hidden=1
+cast  master  capsule  at=(10, 0, -300)  hidden=1
+
+shot S1 6.0  cam=static  from=(0, 14, 22)  look=(0, 2, 0)  fov=50  in=fade_black:0.3
+  at 0.2  line maelis "The chains! They're dragging him back! The keys remember who they belong to!"
+shot S2 6.0  cam=static  from=(3, 1.0, 6)  look=(0, -1, 0)  fov=34
+  at 0.2  line master "Hold him there. I am almost with you."

@@ -10,6 +10,1114 @@ msgstr ""
 msgid "Ember Crown"
 msgstr ""
 
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e6_02.gd:88
+#: scripts/campaign/mission_e6_02.gd:749 scripts/campaign/mission_e8_02.gd:185
+msgid "L5b"
+msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e6_01.gd:92
+#: scripts/campaign/mission_e6_01.gd:746
+msgid "L28b"
+msgstr ""
+
+#. [&"narrator", "Spring at Crown Hollow. Three keys are still on the road. One is already here, of course."],
+#: scripts/campaign/e8_lines.gd:17 data/voice/lines/e8m1_fire.json:L1
+msgid "Spring at Crown Hollow. Three keys are still on the road. One is already here, of course."
+msgstr ""
+
+#. [&"vessa", "Two days early. I'm always early. That's the problem, isn't it?"],
+#: scripts/campaign/e8_lines.gd:18 data/voice/lines/e8m1_fire.json:L2
+msgid "Two days early. I'm always early. That's the problem, isn't it?"
+msgstr ""
+
+#. [&"vey", "Six stakes, one line. The Hollow can't feed on this bank. Don't hand it the other one."],
+#: scripts/campaign/e8_lines.gd:19 data/voice/lines/e8m1_fire.json:L3
+msgid "Six stakes, one line. The Hollow can't feed on this bank. Don't hand it the other one."
+msgstr ""
+
+#. [&"vessa", "So I just... stand here. For fourteen minutes."],
+#: scripts/campaign/e8_lines.gd:20 data/voice/lines/e8m1_fire.json:L4
+msgid "So I just... stand here. For fourteen minutes."
+msgstr ""
+
+#. [&"vey", "The spark first, then the storm. Today the spark waits. I'll be below, talking to the sky."],
+#: scripts/campaign/e8_lines.gd:21 data/voice/lines/e8m1_fire.json:L5
+msgid "The spark first, then the storm. Today the spark waits. I'll be below, talking to the sky."
+msgstr ""
+
+#. [&"obren", "Little ember. You came alone. You always come alone."],
+#: scripts/campaign/e8_lines.gd:22 data/voice/lines/e8m1_fire.json:L6
+msgid "Little ember. You came alone. You always come alone."
+msgstr ""
+
+#. [&"vessa", "Not alone. Early. There's a difference. I'm told."],
+#: scripts/campaign/e8_lines.gd:23 data/voice/lines/e8m1_fire.json:L7
+msgid "Not alone. Early. There's a difference. I'm told."
+msgstr ""
+
+#. [&"obren", "My door is open, Queen of Fire. Come and close it. You know you want to."],
+#: scripts/campaign/e8_lines.gd:24 data/voice/lines/e8m1_fire.json:L8
+msgid "My door is open, Queen of Fire. Come and close it. You know you want to."
+msgstr ""
+
+#. [&"vessa", "I really do. I'm not going to. Somebody write that down."],
+#: scripts/campaign/e8_lines.gd:25 data/voice/lines/e8m1_fire.json:L9
+msgid "I really do. I'm not going to. Somebody write that down."
+msgstr ""
+
+#. [&"vey", "Girl! The water is the line. Every step past it, it eats."],
+#: scripts/campaign/e8_lines.gd:26 data/voice/lines/e8m1_fire.json:L10
+msgid "Girl! The water is the line. Every step past it, it eats."
+msgstr ""
+
+#. [&"obren", "Yes. Closer. Hungry fire feeds me best."],
+#: scripts/campaign/e8_lines.gd:27 data/voice/lines/e8m1_fire.json:L11
+msgid "Yes. Closer. Hungry fire feeds me best."
+msgstr ""
+
+#. [&"ashby", "Scouts on the far bank, my queen! Pinned at the old wagon road!"],
+#: scripts/campaign/e8_lines.gd:28 data/voice/lines/e8m1_fire.json:L12
+msgid "Scouts on the far bank, my queen! Pinned at the old wagon road!"
+msgstr ""
+
+#. [&"vessa", "Hold the ford for them. They run to us. We do NOT run to them."],
+#: scripts/campaign/e8_lines.gd:29 data/voice/lines/e8m1_fire.json:L13
+msgid "Hold the ford for them. They run to us. We do NOT run to them."
+msgstr ""
+
+#. [&"ashby", "Did the queen just say \"we do not run\"? I'm putting that in the regiment book."],
+#: scripts/campaign/e8_lines.gd:30 data/voice/lines/e8m1_fire.json:L14
+msgid "Did the queen just say \"we do not run\"? I'm putting that in the regiment book."
+msgstr ""
+
+#. [&"ashby", "Every rider home! The queen waited! Somebody ring a bell!"],
+#: scripts/campaign/e8_lines.gd:31 data/voice/lines/e8m1_fire.json:L15
+msgid "Every rider home! The queen waited! Somebody ring a bell!"
+msgstr ""
+
+#. [&"vessa", "Vey! I called. And look: still on my side of the river."],
+#: scripts/campaign/e8_lines.gd:32 data/voice/lines/e8m1_fire.json:L16
+msgid "Vey! I called. And look: still on my side of the river."
+msgstr ""
+
+#. [&"vey", "I see it. First time in twenty years. Don't spoil it."],
+#: scripts/campaign/e8_lines.gd:33 data/voice/lines/e8m1_fire.json:L17
+msgid "I see it. First time in twenty years. Don't spoil it."
+msgstr ""
+
+#. [&"vey", "That's what waiting buys you, girl. Lightning, on time."],
+#: scripts/campaign/e8_lines.gd:34 data/voice/lines/e8m1_fire.json:L18
+msgid "That's what waiting buys you, girl. Lightning, on time."
+msgstr ""
+
+#. [&"obren", "The line is broken. Feed me, little ember. Feed me everything."],
+#: scripts/campaign/e8_lines.gd:35 data/voice/lines/e8m1_fire.json:L19
+msgid "The line is broken. Feed me, little ember. Feed me everything."
+msgstr ""
+
+#. [&"narrator", "The last tide climbs out of the Hollow. On the hills behind it, three banners rise."],
+#: scripts/campaign/e8_lines.gd:36 data/voice/lines/e8m1_fire.json:L20
+msgid "The last tide climbs out of the Hollow. On the hills behind it, three banners rise."
+msgstr ""
+
+#. [&"torvald", "Ice, on the north road. You waited for us, child? Truly?"],
+#: scripts/campaign/e8_lines.gd:37 data/voice/lines/e8m1_fire.json:L21
+msgid "Ice, on the north road. You waited for us, child? Truly?"
+msgstr ""
+
+#. [&"ysolde", "She waited. I watched her do it. I may need to sit down."],
+#: scripts/campaign/e8_lines.gd:38 data/voice/lines/e8m1_fire.json:L22
+msgid "She waited. I watched her do it. I may need to sit down."
+msgstr ""
+
+#. [&"malrik", "Don't all stare. I was invited. Especially, I'm told."],
+#: scripts/campaign/e8_lines.gd:39 data/voice/lines/e8m1_fire.json:L23
+msgid "Don't all stare. I was invited. Especially, I'm told."
+msgstr ""
+
+#. [&"vessa", "Four keys. One hole in the ground. Let's go and knock."],
+#: scripts/campaign/e8_lines.gd:40 data/voice/lines/e8m1_fire.json:L24
+msgid "Four keys. One hole in the ground. Let's go and knock."
+msgstr ""
+
+#. [&"vessa", "Too early... too early again..."],
+#: scripts/campaign/e8_lines.gd:41 data/voice/lines/e8m1_fire.json:L25
+msgid "Too early... too early again..."
+msgstr ""
+
+#. [&"ashby", "They're at the keep! Emberguard, hold! HOLD!"],
+#: scripts/campaign/e8_lines.gd:42 data/voice/lines/e8m1_fire.json:L26
+msgid "They're at the keep! Emberguard, hold! HOLD!"
+msgstr ""
+
+#. [&"narrator", "Duskbarrow, city of crypts. Its bishop came home with a stone, and the dead got up to meet it."
+#: scripts/campaign/e8_lines.gd:45 data/voice/lines/e8m1_shadow.json:L1
+msgid "Duskbarrow, city of crypts. Its bishop came home with a stone, and the dead got up to meet it."
+msgstr ""
+
+#. [&"malrik", "Every grave here, I dug, or my father did. They know my shovel. They don't know this."],
+#: scripts/campaign/e8_lines.gd:46 data/voice/lines/e8m1_shadow.json:L2
+msgid "Every grave here, I dug, or my father did. They know my shovel. They don't know this."
+msgstr ""
+
+#. [&"obren", "They are yours, Bishop. Take them back. Use me. Just a little."],
+#: scripts/campaign/e8_lines.gd:47 data/voice/lines/e8m1_shadow.json:L3
+msgid "They are yours, Bishop. Take them back. Use me. Just a little."
+msgstr ""
+
+#. [&"malrik", "A little. You always say a little."],
+#: scripts/campaign/e8_lines.gd:48 data/voice/lines/e8m1_shadow.json:L4
+msgid "A little. You always say a little."
+msgstr ""
+
+#. [&"shade", "Bishop, the Old Ossuary is open. The dead are wearing amber."],
+#: scripts/campaign/e8_lines.gd:49 data/voice/lines/e8m1_shadow.json:L5
+msgid "Bishop, the Old Ossuary is open. The dead are wearing amber."
+msgstr ""
+
+#. [&"malrik", "Then we put them back to bed. Gently. They were somebody's."],
+#: scripts/campaign/e8_lines.gd:50 data/voice/lines/e8m1_shadow.json:L6
+msgid "Then we put them back to bed. Gently. They were somebody's."
+msgstr ""
+
+#. [&"obren", "There. Doesn't that feel like enough? It never is. Again."],
+#: scripts/campaign/e8_lines.gd:51 data/voice/lines/e8m1_shadow.json:L7
+msgid "There. Doesn't that feel like enough? It never is. Again."
+msgstr ""
+
+#. [&"malrik", "I know what you are. You're the last biscuit in the tin, forever."],
+#: scripts/campaign/e8_lines.gd:52 data/voice/lines/e8m1_shadow.json:L8
+msgid "I know what you are. You're the last biscuit in the tin, forever."
+msgstr ""
+
+#. [&"malrik", "Rest. I'm sorry they woke you. It wasn't me. It was what I was holding."],
+#: scripts/campaign/e8_lines.gd:53 data/voice/lines/e8m1_shadow.json:L9
+msgid "Rest. I'm sorry they woke you. It wasn't me. It was what I was holding."
+msgstr ""
+
+#. [&"malrik", "Father. You taught me where to dig. You never taught me when to stop."],
+#: scripts/campaign/e8_lines.gd:54 data/voice/lines/e8m1_shadow.json:L10
+msgid "Father. You taught me where to dig. You never taught me when to stop."
+msgstr ""
+
+#. [&"obren", "Use me, and he will stand up and answer you. One question. Any question."],
+#: scripts/campaign/e8_lines.gd:55 data/voice/lines/e8m1_shadow.json:L10b
+msgid "Use me, and he will stand up and answer you. One question. Any question."
+msgstr ""
+
+#. [&"malrik", "I'm learning, late. You'd say that's the family way. Sleep, old man."],
+#: scripts/campaign/e8_lines.gd:56 data/voice/lines/e8m1_shadow.json:L11
+msgid "I'm learning, late. You'd say that's the family way. Sleep, old man."
+msgstr ""
+
+#. [&"hush", "Bishop. You taught me the knife. The stone taught me the rest."],
+#: scripts/campaign/e8_lines.gd:57 data/voice/lines/e8m1_shadow.json:L12
+msgid "Bishop. You taught me the knife. The stone taught me the rest."
+msgstr ""
+
+#. [&"hush", "Give it to me. You never use it right. You use it SMALL."],
+#: scripts/campaign/e8_lines.gd:58 data/voice/lines/e8m1_shadow.json:L13
+msgid "Give it to me. You never use it right. You use it SMALL."
+msgstr ""
+
+#. [&"malrik", "That's the only way to use it, Hush. Small. Then never."],
+#: scripts/campaign/e8_lines.gd:59 data/voice/lines/e8m1_shadow.json:L14
+msgid "That's the only way to use it, Hush. Small. Then never."
+msgstr ""
+
+#. [&"hush", "There is always another night, Bishop!"],
+#: scripts/campaign/e8_lines.gd:60 data/voice/lines/e8m1_shadow.json:L15
+msgid "There is always another night, Bishop!"
+msgstr ""
+
+#. [&"malrik", "There is. I'd like to sleep through one of them."],
+#: scripts/campaign/e8_lines.gd:61 data/voice/lines/e8m1_shadow.json:L16
+msgid "There is. I'd like to sleep through one of them."
+msgstr ""
+
+#. [&"hush", "You'll want me back. When the dark gets loud."],
+#: scripts/campaign/e8_lines.gd:62 data/voice/lines/e8m1_shadow.json:L17
+msgid "You'll want me back. When the dark gets loud."
+msgstr ""
+
+#. [&"malrik", "Go, then. Keep your knives sharp. I may need a friend who isn't a rock."],
+#: scripts/campaign/e8_lines.gd:63 data/voice/lines/e8m1_shadow.json:L18
+msgid "Go, then. Keep your knives sharp. I may need a friend who isn't a rock."
+msgstr ""
+
+#. [&"obren", "You will use me at the end. Everyone does. Your Master did."],
+#: scripts/campaign/e8_lines.gd:64 data/voice/lines/e8m1_shadow.json:L19
+msgid "You will use me at the end. Everyone does. Your Master did."
+msgstr ""
+
+#. [&"malrik", "Then I'll be the first who didn't. I do so like being first."],
+#: scripts/campaign/e8_lines.gd:65 data/voice/lines/e8m1_shadow.json:L20
+msgid "Then I'll be the first who didn't. I do so like being first."
+msgstr ""
+
+#. [&"malrik", "I'm not using you. I'm carrying you. Like a parcel. To the hole you came from."],
+#: scripts/campaign/e8_lines.gd:66 data/voice/lines/e8m1_shadow.json:L21
+msgid "I'm not using you. I'm carrying you. Like a parcel. To the hole you came from."
+msgstr ""
+
+#. [&"narrator", "The Bishop walked out of his city with the stone in his fist, and for once the fist stayed shut
+#: scripts/campaign/e8_lines.gd:67 data/voice/lines/e8m1_shadow.json:L22
+msgid "The Bishop walked out of his city with the stone in his fist, and for once the fist stayed shut."
+msgstr ""
+
+#. [&"malrik", "Hungry... to the very last..."],
+#: scripts/campaign/e8_lines.gd:68 data/voice/lines/e8m1_shadow.json:L23
+msgid "Hungry... to the very last..."
+msgstr ""
+
+#. [&"obren", "Not once? Not ONCE? ...What ARE you?"],
+#: scripts/campaign/e8_lines.gd:69 data/voice/lines/e8m1_shadow.json:L24
+msgid "Not once? Not ONCE? ...What ARE you?"
+msgstr ""
+
+#. [&"malrik", "Full, apparently. Who knew."],
+#: scripts/campaign/e8_lines.gd:70 data/voice/lines/e8m1_shadow.json:L25
+msgid "Full, apparently. Who knew."
+msgstr ""
+
+#. [&"narrator", "The Hundredwinter Gate. Someone is knocking on it. Someone always was."],
+#: scripts/campaign/e8_lines.gd:73 data/voice/lines/e8m1_ice.json:L1
+msgid "The Hundredwinter Gate. Someone is knocking on it. Someone always was."
+msgstr ""
+
+#. [&"aldra", "We don't know what follows them. We could wait. Just until we see."],
+#: scripts/campaign/e8_lines.gd:74 data/voice/lines/e8m1_ice.json:L2
+msgid "We don't know what follows them. We could wait. Just until we see."
+msgstr ""
+
+#. [&"torvald", "I always waited until I saw. Then there was nothing left to see."],
+#: scripts/campaign/e8_lines.gd:75 data/voice/lines/e8m1_ice.json:L3
+msgid "I always waited until I saw. Then there was nothing left to see."
+msgstr ""
+
+#. [&"torvald", "Not this year. Open the gate, Aldra. Or no. I will. My hands, this time."],
+#: scripts/campaign/e8_lines.gd:76 data/voice/lines/e8m1_ice.json:L4
+msgid "Not this year. Open the gate, Aldra. Or no. I will. My hands, this time."
+msgstr ""
+
+#. [&"torvald", "Come in. Get warm. There is soup, I'm told. I've never been told that before."],
+#: scripts/campaign/e8_lines.gd:77 data/voice/lines/e8m1_ice.json:L5
+msgid "Come in. Get warm. There is soup, I'm told. I've never been told that before."
+msgstr ""
+
+#. [&"narrator", "Out of the cracked north comes a long dark line: carts, old men, children, and the hunt behind.
+#: scripts/campaign/e8_lines.gd:78 data/voice/lines/e8m1_ice.json:L6
+msgid "Out of the cracked north comes a long dark line: carts, old men, children, and the hunt behind."
+msgstr ""
+
+#. [&"narrator", "Kettlewick stands. It remembers who opened the gate once. Its shields come too."],
+#: scripts/campaign/e8_lines.gd:79 data/voice/lines/e8m1_ice.json:L7
+msgid "Kettlewick stands. It remembers who opened the gate once. Its shields come too."
+msgstr ""
+
+#. [&"torvald", "Kettlewick. Twice now. Perhaps it's a habit."],
+#: scripts/campaign/e8_lines.gd:80 data/voice/lines/e8m1_ice.json:L8
+msgid "Kettlewick. Twice now. Perhaps it's a habit."
+msgstr ""
+
+#. [&"narrator", "Kettlewick is a ruin. The gate stayed shut that winter. This column is what's left."],
+#: scripts/campaign/e8_lines.gd:81 data/voice/lines/e8m1_ice.json:L9b
+msgid "Kettlewick is a ruin. The gate stayed shut that winter. This column is what's left."
+msgstr ""
+
+#. [&"aldra", "Torvald, they're at the gate. Whatever you're waiting for, it's here."],
+#: scripts/campaign/e8_lines.gd:82 data/voice/lines/e8m1_ice.json:L9
+msgid "Torvald, they're at the gate. Whatever you're waiting for, it's here."
+msgstr ""
+
+#. [&"torvald", "That's the last of them. Close it behind them. Gates are for closing too."],
+#: scripts/campaign/e8_lines.gd:83 data/voice/lines/e8m1_ice.json:L10
+msgid "That's the last of them. Close it behind them. Gates are for closing too."
+msgstr ""
+
+#. [&"torvald", "They rest here. Four minutes. They walked for three days. We hold for four minutes."],
+#: scripts/campaign/e8_lines.gd:84 data/voice/lines/e8m1_ice.json:L11
+msgid "They rest here. Four minutes. They walked for three days. We hold for four minutes."
+msgstr ""
+
+#. [&"aldra", "You called. Before I asked. Winter's changing."],
+#: scripts/campaign/e8_lines.gd:85 data/voice/lines/e8m1_ice.json:L12
+msgid "You called. Before I asked. Winter's changing."
+msgstr ""
+
+#. [&"obren", "The ice cracks, Torvald. Even yours. Especially yours."],
+#: scripts/campaign/e8_lines.gd:86 data/voice/lines/e8m1_ice.json:L13
+msgid "The ice cracks, Torvald. Even yours. Especially yours."
+msgstr ""
+
+#. [&"torvald", "Then it cracks. Ice was never the point. The line was."],
+#: scripts/campaign/e8_lines.gd:87 data/voice/lines/e8m1_ice.json:L14
+msgid "Then it cracks. Ice was never the point. The line was."
+msgstr ""
+
+#. [&"aldra", "Both flanks! They want the children. Hold the stair!"],
+#: scripts/campaign/e8_lines.gd:88 data/voice/lines/e8m1_ice.json:L15
+msgid "Both flanks! They want the children. Hold the stair!"
+msgstr ""
+
+#. [&"torvald", "Twenty. That's enough to be a town. Keep them coming."],
+#: scripts/campaign/e8_lines.gd:89 data/voice/lines/e8m1_ice.json:L16
+msgid "Twenty. That's enough to be a town. Keep them coming."
+msgstr ""
+
+#. [&"torvald", "Go south. Don't look back. There's nothing back there worth the look."],
+#: scripts/campaign/e8_lines.gd:90 data/voice/lines/e8m1_ice.json:L17
+msgid "Go south. Don't look back. There's nothing back there worth the look."
+msgstr ""
+
+#. [&"aldra", "The orb is warm. It hasn't been warm in a hundred years."],
+#: scripts/campaign/e8_lines.gd:91 data/voice/lines/e8m1_ice.json:L18
+msgid "The orb is warm. It hasn't been warm in a hundred years."
+msgstr ""
+
+#. [&"torvald", "Crown Hollow, then. Vessa waited. I can hurry. Watch me."],
+#: scripts/campaign/e8_lines.gd:92 data/voice/lines/e8m1_ice.json:L19
+msgid "Crown Hollow, then. Vessa waited. I can hurry. Watch me."
+msgstr ""
+
+#. [&"torvald", "Too slow... once more..."],
+#: scripts/campaign/e8_lines.gd:93 data/voice/lines/e8m1_ice.json:L20
+msgid "Too slow... once more..."
+msgstr ""
+
+#. [&"aldra", "Too many lost. The road is closed to them now."],
+#: scripts/campaign/e8_lines.gd:94 data/voice/lines/e8m1_ice.json:L21
+msgid "Too many lost. The road is closed to them now."
+msgstr ""
+
+#. [&"narrator", "The Closed Road. For a hundred years nobody came in. For a hundred years she never went out."],
+#: scripts/campaign/e8_lines.gd:97 data/voice/lines/e8m1_nature.json:L1
+msgid "The Closed Road. For a hundred years nobody came in. For a hundred years she never went out."
+msgstr ""
+
+#. [&"ysolde", "I grew these walls to keep the war out. They did. They kept everything out."],
+#: scripts/campaign/e8_lines.gd:98 data/voice/lines/e8m1_nature.json:L2
+msgid "I grew these walls to keep the war out. They did. They kept everything out."
+msgstr ""
+
+#. [&"maelis", "They'll fight you, child. They only know the one word you taught them."],
+#: scripts/campaign/e8_lines.gd:99 data/voice/lines/e8m1_nature.json:L3
+msgid "They'll fight you, child. They only know the one word you taught them."
+msgstr ""
+
+#. [&"ysolde", "Then I'll teach them a second word. It's a short one. Open."],
+#: scripts/campaign/e8_lines.gd:100 data/voice/lines/e8m1_nature.json:L4
+msgid "Then I'll teach them a second word. It's a short one. Open."
+msgstr ""
+
+#. [&"ysolde", "One down. It felt like pulling out my own hair. Two more."],
+#: scripts/campaign/e8_lines.gd:101 data/voice/lines/e8m1_nature.json:L5
+msgid "One down. It felt like pulling out my own hair. Two more."
+msgstr ""
+
+#. [&"messenger", "My lady! Pipwell... Pipwell's burning. They... they asked for you. By name."],
+#: scripts/campaign/e8_lines.gd:102 data/voice/lines/e8m1_nature.json:L6
+msgid "My lady! Pipwell... Pipwell's burning. They... they asked for you. By name."
+msgstr ""
+
+#. [&"ysolde", "Nobody burns while I watch. Not any more. Go home, Pipwell. Grow it back."],
+#: scripts/campaign/e8_lines.gd:103 data/voice/lines/e8m1_nature.json:L7
+msgid "Nobody burns while I watch. Not any more. Go home, Pipwell. Grow it back."
+msgstr ""
+
+#. [&"ysolde", "Too slow. I was always too slow for the ones at the border."],
+#: scripts/campaign/e8_lines.gd:104 data/voice/lines/e8m1_nature.json:L8
+msgid "Too slow. I was always too slow for the ones at the border."
+msgstr ""
+
+#. [&"messenger", "Fernby! The... the old stones are walking. Into the houses!"],
+#: scripts/campaign/e8_lines.gd:105 data/voice/lines/e8m1_nature.json:L9
+msgid "Fernby! The... the old stones are walking. Into the houses!"
+msgstr ""
+
+#. [&"ysolde", "Two. I'm taking a side, Maelis. It's theirs."],
+#: scripts/campaign/e8_lines.gd:106 data/voice/lines/e8m1_nature.json:L10
+msgid "Two. I'm taking a side, Maelis. It's theirs."
+msgstr ""
+
+#. [&"maelis", "You called me out of the wood. I've waited forty years to hear that."],
+#: scripts/campaign/e8_lines.gd:107 data/voice/lines/e8m1_nature.json:L11
+msgid "You called me out of the wood. I've waited forty years to hear that."
+msgstr ""
+
+#. [&"ysolde", "The last root. My first wall. Goodbye."],
+#: scripts/campaign/e8_lines.gd:108 data/voice/lines/e8m1_nature.json:L12
+msgid "The last root. My first wall. Goodbye."
+msgstr ""
+
+#. [&"messenger", "Hollins Cross... please. Please, they're... they're at the mill."],
+#: scripts/campaign/e8_lines.gd:109 data/voice/lines/e8m1_nature.json:L13
+msgid "Hollins Cross... please. Please, they're... they're at the mill."
+msgstr ""
+
+#. [&"ysolde", "Three messengers, three answers. I could get used to answering."],
+#: scripts/campaign/e8_lines.gd:110 data/voice/lines/e8m1_nature.json:L14
+msgid "Three messengers, three answers. I could get used to answering."
+msgstr ""
+
+#. [&"obren", "Stay in your garden, gardener. You were always so good at it."],
+#: scripts/campaign/e8_lines.gd:111 data/voice/lines/e8m1_nature.json:L15
+msgid "Stay in your garden, gardener. You were always so good at it."
+msgstr ""
+
+#. [&"ysolde", "I've left the garden. Show me again, Master. I'm showing you."],
+#: scripts/campaign/e8_lines.gd:112 data/voice/lines/e8m1_nature.json:L16
+msgid "I've left the garden. Show me again, Master. I'm showing you."
+msgstr ""
+
+#. [&"narrator", "For the first time in a hundred years, the green went out of its own border."],
+#: scripts/campaign/e8_lines.gd:113 data/voice/lines/e8m1_nature.json:L17
+msgid "For the first time in a hundred years, the green went out of its own border."
+msgstr ""
+
+#. [&"ysolde", "The Signet's warm. It's pointing at the others. Let's not keep them waiting."],
+#: scripts/campaign/e8_lines.gd:114 data/voice/lines/e8m1_nature.json:L18
+msgid "The Signet's warm. It's pointing at the others. Let's not keep them waiting."
+msgstr ""
+
+#. [&"messenger", "My lady... you're really coming? Out here? With us?"],
+#: scripts/campaign/e8_lines.gd:115 data/voice/lines/e8m1_nature.json:L19
+msgid "My lady... you're really coming? Out here? With us?"
+msgstr ""
+
+#. [&"ysolde", "Burn it, then. It grows back. That's the one thing I've always known."],
+#: scripts/campaign/e8_lines.gd:116 data/voice/lines/e8m1_nature.json:L20
+msgid "Burn it, then. It grows back. That's the one thing I've always known."
+msgstr ""
+
+#. [&"ysolde", "I left... too late..."],
+#: scripts/campaign/e8_lines.gd:117 data/voice/lines/e8m1_nature.json:L21
+msgid "I left... too late..."
+msgstr ""
+
+#. [&"narrator", "Four kingdoms on one field, and every banner pointed the same way. It had never happened."],
+#: scripts/campaign/e8_lines.gd:120 data/voice/lines/e8m2.json:L1
+msgid "Four kingdoms on one field, and every banner pointed the same way. It had never happened."
+msgstr ""
+
+#. [&"vey", "Well. Look at the four of you. Thirty years I waited to see this, and it's ugly. I love it."],
+#: scripts/campaign/e8_lines.gd:121 data/voice/lines/e8m2.json:L2
+msgid "Well. Look at the four of you. Thirty years I waited to see this, and it's ugly. I love it."
+msgstr ""
+
+#. [&"vessa", "Fire takes its bank. Or wherever I'm standing. I'm flexible."],
+#: scripts/campaign/e8_lines.gd:122 data/voice/lines/e8m2.json:L3
+msgid "Fire takes its bank. Or wherever I'm standing. I'm flexible."
+msgstr ""
+
+#. [&"torvald", "Ice holds its bank. Malrik, if that stone so much as hums, I'm freezing your pocket."],
+#: scripts/campaign/e8_lines.gd:123 data/voice/lines/e8m2.json:L4
+msgid "Ice holds its bank. Malrik, if that stone so much as hums, I'm freezing your pocket."
+msgstr ""
+
+#. [&"malrik", "Noted. Ysolde, try not to plant anything on my keyhole."],
+#: scripts/campaign/e8_lines.gd:124 data/voice/lines/e8m2.json:L5
+msgid "Noted. Ysolde, try not to plant anything on my keyhole."
+msgstr ""
+
+#. [&"ysolde", "No promises. Spring is busy."],
+#: scripts/campaign/e8_lines.gd:125 data/voice/lines/e8m2.json:L5b
+msgid "No promises. Spring is busy."
+msgstr ""
+
+#. [&"obren", "Four of you. FOUR. I only needed one to come close. You brought me a feast."],
+#: scripts/campaign/e8_lines.gd:126 data/voice/lines/e8m2.json:L6
+msgid "Four of you. FOUR. I only needed one to come close. You brought me a feast."
+msgstr ""
+
+#. [&"vey", "Gates on every road. He's been building while we argued. Mason to the end."],
+#: scripts/campaign/e8_lines.gd:127 data/voice/lines/e8m2.json:L7
+msgid "Gates on every road. He's been building while we argued. Mason to the end."
+msgstr ""
+
+#. [&"vey", "The pylon's down! Now the Hollow knows your key is coming. Hold the ring!"],
+#: scripts/campaign/e8_lines.gd:128 data/voice/lines/e8m2.json:L8
+msgid "The pylon's down! Now the Hollow knows your key is coming. Hold the ring!"
+msgstr ""
+
+#. [&"vessa", "They're all over my keyhole! I could use a hand. Or ten."],
+#: scripts/campaign/e8_lines.gd:129 data/voice/lines/e8m2.json:L10
+msgid "They're all over my keyhole! I could use a hand. Or ten."
+msgstr ""
+
+#. [&"malrik", "The Bishop requests assistance. Politely. Once."],
+#: scripts/campaign/e8_lines.gd:130 data/voice/lines/e8m2.json:L11
+msgid "The Bishop requests assistance. Politely. Once."
+msgstr ""
+
+#. [&"torvald", "My line is bending. Help me hold it. I'm asking. Note that."],
+#: scripts/campaign/e8_lines.gd:131 data/voice/lines/e8m2.json:L12
+msgid "My line is bending. Help me hold it. I'm asking. Note that."
+msgstr ""
+
+#. [&"ysolde", "They're in my roots! Please. Now, not in a season."],
+#: scripts/campaign/e8_lines.gd:132 data/voice/lines/e8m2.json:L13
+msgid "They're in my roots! Please. Now, not in a season."
+msgstr ""
+
+#. [&"vessa", "That's what friends are for. Apparently. Don't tell Malrik."],
+#: scripts/campaign/e8_lines.gd:133 data/voice/lines/e8m2.json:L14
+msgid "That's what friends are for. Apparently. Don't tell Malrik."
+msgstr ""
+
+#. [&"malrik", "Hm. Help that arrives on time. Unsettling. Thank you."],
+#: scripts/campaign/e8_lines.gd:134 data/voice/lines/e8m2.json:L15
+msgid "Hm. Help that arrives on time. Unsettling. Thank you."
+msgstr ""
+
+#. [&"torvald", "You came quickly. I'll try to learn how that's done."],
+#: scripts/campaign/e8_lines.gd:135 data/voice/lines/e8m2.json:L16
+msgid "You came quickly. I'll try to learn how that's done."
+msgstr ""
+
+#. [&"ysolde", "You came. I always hoped someone would, when it was me."],
+#: scripts/campaign/e8_lines.gd:136 data/voice/lines/e8m2.json:L17
+msgid "You came. I always hoped someone would, when it was me."
+msgstr ""
+
+#. [&"obren", "Every one who falls is a step on my stair. Keep climbing for me."],
+#: scripts/campaign/e8_lines.gd:137 data/voice/lines/e8m2.json:L18
+msgid "Every one who falls is a step on my stair. Keep climbing for me."
+msgstr ""
+
+#. [&"vey", "Stop feeding it! Fight smart, or fight later. Later is worse."],
+#: scripts/campaign/e8_lines.gd:138 data/voice/lines/e8m2.json:L19
+msgid "Stop feeding it! Fight smart, or fight later. Later is worse."
+msgstr ""
+
+#. [&"vessa", "Marching now! Fire on the bridge. Somebody watch my back, I won't."],
+#: scripts/campaign/e8_lines.gd:139 data/voice/lines/e8m2.json:L20
+msgid "Marching now! Fire on the bridge. Somebody watch my back, I won't."
+msgstr ""
+
+#. [&"malrik", "Shadow marches. The stone stays in my pocket. Mostly I'm telling myself."],
+#: scripts/campaign/e8_lines.gd:140 data/voice/lines/e8m2.json:L21
+msgid "Shadow marches. The stone stays in my pocket. Mostly I'm telling myself."
+msgstr ""
+
+#. [&"torvald", "Ice is moving. I know. Write it down somewhere."],
+#: scripts/campaign/e8_lines.gd:141 data/voice/lines/e8m2.json:L22
+msgid "Ice is moving. I know. Write it down somewhere."
+msgstr ""
+
+#. [&"ysolde", "Nature marches out. Again. It's getting easier."],
+#: scripts/campaign/e8_lines.gd:142 data/voice/lines/e8m2.json:L23
+msgid "Nature marches out. Again. It's getting easier."
+msgstr ""
+
+#. [&"vessa", "Fire's key is in! Don't make me wait. I'm terrible at it."],
+#: scripts/campaign/e8_lines.gd:143 data/voice/lines/e8m2.json:L24
+msgid "Fire's key is in! Don't make me wait. I'm terrible at it."
+msgstr ""
+
+#. [&"malrik", "Shadow's lock is turned. You may thank me in writing."],
+#: scripts/campaign/e8_lines.gd:144 data/voice/lines/e8m2.json:L25
+msgid "Shadow's lock is turned. You may thank me in writing."
+msgstr ""
+
+#. [&"torvald", "Ice is set. That was quick, for me."],
+#: scripts/campaign/e8_lines.gd:145 data/voice/lines/e8m2.json:L26
+msgid "Ice is set. That was quick, for me."
+msgstr ""
+
+#. [&"ysolde", "Nature's key is home. The roots are holding it."],
+#: scripts/campaign/e8_lines.gd:146 data/voice/lines/e8m2.json:L27
+msgid "Nature's key is home. The roots are holding it."
+msgstr ""
+
+#. [&"pell", "Last stall before the end of the world! Again! I'm getting good at these."],
+#: scripts/campaign/e8_lines.gd:147 data/voice/lines/e8m2.json:L28
+msgid "Last stall before the end of the world! Again! I'm getting good at these."
+msgstr ""
+
+#. [&"pell", "Genuine relic polish! For your keys! Four keys, four customers, I can't lose."],
+#: scripts/campaign/e8_lines.gd:148 data/voice/lines/e8m2.json:L28b
+msgid "Genuine relic polish! For your keys! Four keys, four customers, I can't lose."
+msgstr ""
+
+#. [&"malrik", "Those are mine. Were mine. They followed the stone. They'll follow it into the ground."],
+#: scripts/campaign/e8_lines.gd:149 data/voice/lines/e8m2.json:L29
+msgid "Those are mine. Were mine. They followed the stone. They'll follow it into the ground."
+msgstr ""
+
+#. [&"vey", "Renegades on the Shadow side! Whoever's nearest, lend the Bishop a blade."],
+#: scripts/campaign/e8_lines.gd:150 data/voice/lines/e8m2.json:L30
+msgid "Renegades on the Shadow side! Whoever's nearest, lend the Bishop a blade."
+msgstr ""
+
+#. [&"obren", "Too slow, all of you. I'm already climbing."],
+#: scripts/campaign/e8_lines.gd:151 data/voice/lines/e8m2.json:L31
+msgid "Too slow, all of you. I'm already climbing."
+msgstr ""
+
+#. [&"vey", "One gate less. Build something on the rubble. He'd hate that."],
+#: scripts/campaign/e8_lines.gd:152 data/voice/lines/e8m2.json:L32
+msgid "One gate less. Build something on the rubble. He'd hate that."
+msgstr ""
+
+#. [&"narrator", "Four keyholes, four colours, one ring of light around the isle."],
+#: scripts/campaign/e8_lines.gd:153 data/voice/lines/e8m2.json:L33
+msgid "Four keyholes, four colours, one ring of light around the isle."
+msgstr ""
+
+#. [&"master", "Now. All four of you. Turn them, and do not let go."],
+#: scripts/campaign/e8_lines.gd:154 data/voice/lines/e8m2.json:L34
+msgid "Now. All four of you. Turn them, and do not let go."
+msgstr ""
+
+#. [&"vessa", "Master?! That's... that's him! Turn them!"],
+#: scripts/campaign/e8_lines.gd:155 data/voice/lines/e8m2.json:L35
+msgid "Master?! That's... that's him! Turn them!"
+msgstr ""
+
+#. [&"malrik", "Of course he waits until the last minute to speak. Family trait."],
+#: scripts/campaign/e8_lines.gd:156 data/voice/lines/e8m2.json:L36
+msgid "Of course he waits until the last minute to speak. Family trait."
+msgstr ""
+
+#. [&"obren", "You opened my door with your own hands. Thank you. Now I come up."],
+#: scripts/campaign/e8_lines.gd:157 data/voice/lines/e8m2.json:L37
+msgid "You opened my door with your own hands. Thank you. Now I come up."
+msgstr ""
+
+#. [&"torvald", "Then let him come. We are four. We hold."],
+#: scripts/campaign/e8_lines.gd:158 data/voice/lines/e8m2.json:L38
+msgid "Then let him come. We are four. We hold."
+msgstr ""
+
+#. [&"vey", "Your keep's burning! Pull back and hold it, then go again."],
+#: scripts/campaign/e8_lines.gd:159 data/voice/lines/e8m2.json:L40
+msgid "Your keep's burning! Pull back and hold it, then go again."
+msgstr ""
+
+#. [&"vessa", "My key's in. I waited for it, too. Who's next?"],
+#: scripts/campaign/e8_lines.gd:160 data/voice/lines/e8m2.json:L9_vessa
+msgid "My key's in. I waited for it, too. Who's next?"
+msgstr ""
+
+#. [&"malrik", "The stone is in its lock. Not in my hand. Who's next?"],
+#: scripts/campaign/e8_lines.gd:161 data/voice/lines/e8m2.json:L9_malrik
+msgid "The stone is in its lock. Not in my hand. Who's next?"
+msgstr ""
+
+#. [&"torvald", "The orb is turned. Quickly. For me. Who's next?"],
+#: scripts/campaign/e8_lines.gd:162 data/voice/lines/e8m2.json:L9_torvald
+msgid "The orb is turned. Quickly. For me. Who's next?"
+msgstr ""
+
+#. [&"ysolde", "The Signet is home. I'm still out here. Who's next?"],
+#: scripts/campaign/e8_lines.gd:163 data/voice/lines/e8m2.json:L9_ysolde
+msgid "The Signet is home. I'm still out here. Who's next?"
+msgstr ""
+
+#. [&"ysolde", "Together."],
+#: scripts/campaign/e8_lines.gd:164 data/voice/lines/e8m2.json:L38b
+#: data/voice/lines/ep8_ending_a.json:L3
+msgid "Together."
+msgstr ""
+
+#. [&"vessa", "Not now... not when we're finally together..."],
+#: scripts/campaign/e8_lines.gd:165 data/voice/lines/e8m2.json:L39_vessa
+msgid "Not now... not when we're finally together..."
+msgstr ""
+
+#. [&"malrik", "Of course. Just as it got interesting."],
+#: scripts/campaign/e8_lines.gd:166 data/voice/lines/e8m2.json:L39_malrik
+msgid "Of course. Just as it got interesting."
+msgstr ""
+
+#. [&"torvald", "Too late... again..."],
+#: scripts/campaign/e8_lines.gd:167 data/voice/lines/e8m2.json:L39_torvald
+msgid "Too late... again..."
+msgstr ""
+
+#. [&"ysolde", "I came out... for this..."],
+#: scripts/campaign/e8_lines.gd:168 data/voice/lines/e8m2.json:L39_ysolde
+msgid "I came out... for this..."
+msgstr ""
+
+#. [&"narrator", "The last thing Obren ever built climbed out of the dark, and it was wearing his throne."],
+#: scripts/campaign/e8_lines.gd:171 data/voice/lines/e8m3.json:L1
+msgid "The last thing Obren ever built climbed out of the dark, and it was wearing his throne."
+msgstr ""
+
+#. [&"obren", "A thousand years he held it. A hundred I lay under it. Now I hold everything."],
+#: scripts/campaign/e8_lines.gd:172 data/voice/lines/e8m3.json:L2
+msgid "A thousand years he held it. A hundred I lay under it. Now I hold everything."
+msgstr ""
+
+#. [&"vey", "Chains on every limb. The keys are holding him. Keep the keys standing, and he stays bound."],
+#: scripts/campaign/e8_lines.gd:173 data/voice/lines/e8m3.json:L3
+msgid "Chains on every limb. The keys are holding him. Keep the keys standing, and he stays bound."
+msgstr ""
+
+#. [&"vessa", "So we hit him when the chains pull. And we don't let go. I can do that. Probably."],
+#: scripts/campaign/e8_lines.gd:174 data/voice/lines/e8m3.json:L4
+msgid "So we hit him when the chains pull. And we don't let go. I can do that. Probably."
+msgstr ""
+
+#. [&"torvald", "Hold the line. Ice knows how. The rest of you, copy me."],
+#: scripts/campaign/e8_lines.gd:175 data/voice/lines/e8m3.json:L5
+msgid "Hold the line. Ice knows how. The rest of you, copy me."
+msgstr ""
+
+#. [&"malrik", "Four people who hate each other, holding one rope. What could possibly go wrong."],
+#: scripts/campaign/e8_lines.gd:176 data/voice/lines/e8m3.json:L6
+msgid "Four people who hate each other, holding one rope. What could possibly go wrong."
+msgstr ""
+
+#. [&"ysolde", "They're coming up the ramps. Every keyhole, every side. Hold yours!"],
+#: scripts/campaign/e8_lines.gd:177 data/voice/lines/e8m3.json:L7
+msgid "They're coming up the ramps. Every keyhole, every side. Hold yours!"
+msgstr ""
+
+#. [&"obren", "Pull, little keys. Pull all you like. Chains are stone, and stone is mine."],
+#: scripts/campaign/e8_lines.gd:178 data/voice/lines/e8m3.json:L8
+msgid "Pull, little keys. Pull all you like. Chains are stone, and stone is mine."
+msgstr ""
+
+#. [&"vey", "Watch the chains! When all four pull, he's bound. That's your window."],
+#: scripts/campaign/e8_lines.gd:179 data/voice/lines/e8m3.json:L9
+msgid "Watch the chains! When all four pull, he's bound. That's your window."
+msgstr ""
+
+#. [&"obren", "One chain gone. One limb free. Feel how much stronger I am already?"],
+#: scripts/campaign/e8_lines.gd:180 data/voice/lines/e8m3.json:L12
+msgid "One chain gone. One limb free. Feel how much stronger I am already?"
+msgstr ""
+
+#. [&"malrik", "More of mine, wearing amber. I'm running out of ways to say I'm sorry about them."],
+#: scripts/campaign/e8_lines.gd:181 data/voice/lines/e8m3.json:L14
+msgid "More of mine, wearing amber. I'm running out of ways to say I'm sorry about them."
+msgstr ""
+
+#. [&"obren", "Enough of your little ring. I will walk to the weakest of you and sit on it."],
+#: scripts/campaign/e8_lines.gd:182 data/voice/lines/e8m3.json:L15
+msgid "Enough of your little ring. I will walk to the weakest of you and sit on it."
+msgstr ""
+
+#. [&"vey", "He's out! Don't feed him: whatever dies near him, he eats. Fight from range!"],
+#: scripts/campaign/e8_lines.gd:183 data/voice/lines/e8m3.json:L16
+msgid "He's out! Don't feed him: whatever dies near him, he eats. Fight from range!"
+msgstr ""
+
+#. [&"aldra", "His leg is cracking! The glass sees it. Again, there!"],
+#: scripts/campaign/e8_lines.gd:184 data/voice/lines/e8m3.json:L17
+msgid "His leg is cracking! The glass sees it. Again, there!"
+msgstr ""
+
+#. [&"maelis", "The chains! They're dragging him back! The keys remember who they belong to!"],
+#: scripts/campaign/e8_lines.gd:185 data/voice/lines/e8m3.json:L18
+msgid "The chains! They're dragging him back! The keys remember who they belong to!"
+msgstr ""
+
+#. [&"master", "Hold him there. I am almost with you."],
+#: scripts/campaign/e8_lines.gd:186 data/voice/lines/e8m3.json:L19
+msgid "Hold him there. I am almost with you."
+msgstr ""
+
+#. [&"hush", "I said you'd want me back, Bishop. The dark got very loud."],
+#: scripts/campaign/e8_lines.gd:187 data/voice/lines/e8m3.json:L20
+msgid "I said you'd want me back, Bishop. The dark got very loud."
+msgstr ""
+
+#. [&"malrik", "It did. Take my keyhole's left side. And Hush... thank you."],
+#: scripts/campaign/e8_lines.gd:188 data/voice/lines/e8m3.json:L21
+msgid "It did. Take my keyhole's left side. And Hush... thank you."
+msgstr ""
+
+#. [&"master", "Again. All four. I am right beneath you."],
+#: scripts/campaign/e8_lines.gd:189 data/voice/lines/e8m3.json:L22
+msgid "Again. All four. I am right beneath you."
+msgstr ""
+
+#. [&"obren", "His light? HIS? Through MY throne? You'll break it! You'll break everything!"],
+#: scripts/campaign/e8_lines.gd:190 data/voice/lines/e8m3.json:L23
+msgid "His light? HIS? Through MY throne? You'll break it! You'll break everything!"
+msgstr ""
+
+#. [&"torvald", "Some things should break. Once. Properly."],
+#: scripts/campaign/e8_lines.gd:191 data/voice/lines/e8m3.json:L24
+msgid "Some things should break. Once. Properly."
+msgstr ""
+
+#. [&"master", "One more turn, my four. Then I will come up, and we will talk."],
+#: scripts/campaign/e8_lines.gd:192 data/voice/lines/e8m3.json:L25
+msgid "One more turn, my four. Then I will come up, and we will talk."
+msgstr ""
+
+#. [&"vey", "Keep your helpers close! If one of them's away, the pulse breaks the turn!"],
+#: scripts/campaign/e8_lines.gd:193 data/voice/lines/e8m3.json:L26
+msgid "Keep your helpers close! If one of them's away, the pulse breaks the turn!"
+msgstr ""
+
+#. [&"vey", "Your helper's down! Bring them back, or time the turn right after the pulse!"],
+#: scripts/campaign/e8_lines.gd:194 data/voice/lines/e8m3.json:L27
+msgid "Your helper's down! Bring them back, or time the turn right after the pulse!"
+msgstr ""
+
+#. [&"obren", "Two chains, two limbs. I'm free. I was always going to be free."],
+#: scripts/campaign/e8_lines.gd:195 data/voice/lines/e8m3.json:L29
+msgid "Two chains, two limbs. I'm free. I was always going to be free."
+msgstr ""
+
+#. [&"vey", "He's coming for YOUR keep! Pull back and meet him at the walls!"],
+#: scripts/campaign/e8_lines.gd:196 data/voice/lines/e8m3.json:L30
+msgid "He's coming for YOUR keep! Pull back and meet him at the walls!"
+msgstr ""
+
+#. [&"ysolde", "He's bending! Everyone, everything you have!"],
+#: scripts/campaign/e8_lines.gd:197 data/voice/lines/e8m3.json:L31
+msgid "He's bending! Everyone, everything you have!"
+msgstr ""
+
+#. [&"obren", "You fed me, Bishop. Every time you used me, I grew. Thank you."],
+#: scripts/campaign/e8_lines.gd:198 data/voice/lines/e8m3.json:L32
+msgid "You fed me, Bishop. Every time you used me, I grew. Thank you."
+msgstr ""
+
+#. [&"vessa", "NOW! Hit him while he's tied!"],
+#: scripts/campaign/e8_lines.gd:199 data/voice/lines/e8m3.json:L10_vessa
+msgid "NOW! Hit him while he's tied!"
+msgstr ""
+
+#. [&"malrik", "There. Bound. Make it count."],
+#: scripts/campaign/e8_lines.gd:200 data/voice/lines/e8m3.json:L10_malrik
+msgid "There. Bound. Make it count."
+msgstr ""
+
+#. [&"torvald", "He is held. Strike, all of you."],
+#: scripts/campaign/e8_lines.gd:201 data/voice/lines/e8m3.json:L10_torvald
+msgid "He is held. Strike, all of you."
+msgstr ""
+
+#. [&"ysolde", "The roots have him! Now!"],
+#: scripts/campaign/e8_lines.gd:202 data/voice/lines/e8m3.json:L10_ysolde
+msgid "The roots have him! Now!"
+msgstr ""
+
+#. [&"vey", "A keyhole's below half! The chains won't pull until it's healed!"],
+#: scripts/campaign/e8_lines.gd:203 data/voice/lines/e8m3.json:L11_vey
+msgid "A keyhole's below half! The chains won't pull until it's healed!"
+msgstr ""
+
+#. [&"vessa", "My keyhole's cracking! No surge till you help!"],
+#: scripts/campaign/e8_lines.gd:204 data/voice/lines/e8m3.json:L11_vessa
+msgid "My keyhole's cracking! No surge till you help!"
+msgstr ""
+
+#. [&"malrik", "My lock is wobbling. Assistance would be... efficient."],
+#: scripts/campaign/e8_lines.gd:205 data/voice/lines/e8m3.json:L11_malrik
+msgid "My lock is wobbling. Assistance would be... efficient."
+msgstr ""
+
+#. [&"torvald", "My ward is failing. Help me hold it."],
+#: scripts/campaign/e8_lines.gd:206 data/voice/lines/e8m3.json:L11_torvald
+msgid "My ward is failing. Help me hold it."
+msgstr ""
+
+#. [&"ysolde", "My keyhole's bleeding sap! Please!"],
+#: scripts/campaign/e8_lines.gd:207 data/voice/lines/e8m3.json:L11_ysolde
+msgid "My keyhole's bleeding sap! Please!"
+msgstr ""
+
+#. [&"vessa", "Back on! Sorry, chain."],
+#: scripts/campaign/e8_lines.gd:208 data/voice/lines/e8m3.json:L13_vessa
+msgid "Back on! Sorry, chain."
+msgstr ""
+
+#. [&"malrik", "Relit. Nobody saw that."],
+#: scripts/campaign/e8_lines.gd:209 data/voice/lines/e8m3.json:L13_malrik
+msgid "Relit. Nobody saw that."
+msgstr ""
+
+#. [&"torvald", "Mended. Slowly. But mended."],
+#: scripts/campaign/e8_lines.gd:210 data/voice/lines/e8m3.json:L13_torvald
+msgid "Mended. Slowly. But mended."
+msgstr ""
+
+#. [&"ysolde", "It grew back. They always do."],
+#: scripts/campaign/e8_lines.gd:211 data/voice/lines/e8m3.json:L13_ysolde
+msgid "It grew back. They always do."
+msgstr ""
+
+#. [&"vessa", "Hold... hold it... without me..."],
+#: scripts/campaign/e8_lines.gd:212 data/voice/lines/e8m3.json:L28_vessa
+msgid "Hold... hold it... without me..."
+msgstr ""
+
+#. [&"malrik", "Carry the stone... somebody..."],
+#: scripts/campaign/e8_lines.gd:213 data/voice/lines/e8m3.json:L28_malrik
+msgid "Carry the stone... somebody..."
+msgstr ""
+
+#. [&"torvald", "Too slow... at the end..."],
+#: scripts/campaign/e8_lines.gd:214 data/voice/lines/e8m3.json:L28_torvald
+msgid "Too slow... at the end..."
+msgstr ""
+
+#. [&"ysolde", "It grows back... it has to..."],
+#: scripts/campaign/e8_lines.gd:215 data/voice/lines/e8m3.json:L28_ysolde
+msgid "It grows back... it has to..."
+msgstr ""
+
+#. _title(Loc.t("Whose road do you walk?"))
+#: scripts/campaign/e8_story_screen.gd:101
+msgid "Whose road do you walk?"
+msgstr ""
+
+#. _line(Loc.t("Four keys. One door. Each wizard walks their own road to Crown Hollow; the others open for replay
+#: scripts/campaign/e8_story_screen.gd:102
+msgid "Four keys. One door. Each wizard walks their own road to Crown Hollow; the others open for replay after the ending."
+msgstr ""
+
+#. var b := _button(Loc.t("{wizard}: {title}", {"wizard": Loc.t(String(row[1])), "title": Loc.t(String(row[2]))})
+#: scripts/campaign/e8_story_screen.gd:106
+msgid "{wizard}: {title}"
+msgstr ""
+
+#. _button(Loc.t("Back to the menu"), func() -> void: MenuFlow.quit_to_menu(get_tree()))
+#: scripts/campaign/e8_story_screen.gd:111 scripts/campaign/e8_story_screen.gd:212
+msgid "Back to the menu"
+msgstr ""
+
+#. _title(Loc.t("Choose, all four of you."))
+#: scripts/campaign/e8_story_screen.gd:154
+msgid "Choose, all four of you."
+msgstr ""
+
+#. _line(Loc.t("The throne remembers every time you held the stone."), 16, Color(0.95, 0.65, 0.30))
+#: scripts/campaign/e8_story_screen.gd:157
+msgid "The throne remembers every time you held the stone."
+msgstr ""
+
+#. var b := _button(Loc.t("Break the throne"), choose.bind(CampaignState.CHOICE_BREAK))
+#: scripts/campaign/e8_story_screen.gd:158
+msgid "Break the throne"
+msgstr ""
+
+#. _line(Loc.t("Four hands keep the peace, not one."), 16)
+#: scripts/campaign/e8_story_screen.gd:159
+msgid "Four hands keep the peace, not one."
+msgstr ""
+
+#. _button(Loc.t("Take the seat"), choose.bind(CampaignState.CHOICE_TAKE))
+#: scripts/campaign/e8_story_screen.gd:160
+msgid "Take the seat"
+msgstr ""
+
+#. _line(Loc.t("Keep the peace yourself."), 16)
+#: scripts/campaign/e8_story_screen.gd:161
+msgid "Keep the peace yourself."
+msgstr ""
+
+#. _title(Loc.t("Episode 8 complete. The story is told."))
+#: scripts/campaign/e8_story_screen.gd:209
+msgid "Episode 8 complete. The story is told."
+msgstr ""
+
+#. _line(Loc.t("The throne is broken") if broken else Loc.t("The throne is full"), 22, UIStyle.GOLD)
+#: scripts/campaign/e8_story_screen.gd:211
+msgid "The throne is broken"
+msgstr ""
+
+#. _line(Loc.t("The throne is broken") if broken else Loc.t("The throne is full"), 22, UIStyle.GOLD)
+#: scripts/campaign/e8_story_screen.gd:211
+msgid "The throne is full"
+msgstr ""
+
+#. [&"fire", "Vessa", "The Spark Waits", "She never waits."],
+#: scripts/campaign/e8_story_screen.gd:16 scripts/campaign/mission_e8_01_fire.gd:68
+msgid "The Spark Waits"
+msgstr ""
+
+#. [&"fire", "Vessa", "The Spark Waits", "She never waits."],
+#: scripts/campaign/e8_story_screen.gd:16
+msgid "She never waits."
+msgstr ""
+
+#. [&"shadow", "Malrik", "Put Down the Shovel", "He is never full."],
+#: scripts/campaign/e8_story_screen.gd:17 scripts/campaign/mission_e8_01_shadow.gd:61
+msgid "Put Down the Shovel"
+msgstr ""
+
+#. [&"shadow", "Malrik", "Put Down the Shovel", "He is never full."],
+#: scripts/campaign/e8_story_screen.gd:17
+msgid "He is never full."
+msgstr ""
+
+#. [&"ice", "Torvald", "The Gate Opens", "He waits too long."],
+#: scripts/campaign/e8_story_screen.gd:18 scripts/campaign/mission_e8_01_ice.gd:74
+msgid "The Gate Opens"
+msgstr ""
+
+#. [&"ice", "Torvald", "The Gate Opens", "He waits too long."],
+#: scripts/campaign/e8_story_screen.gd:18
+msgid "He waits too long."
+msgstr ""
+
+#. [&"nature", "Ysolde", "Take a Side", "She will not take a side."],
+#: scripts/campaign/e8_story_screen.gd:19 scripts/campaign/mission_e8_01_nature.gd:68
+msgid "Take a Side"
+msgstr ""
+
+#. [&"nature", "Ysolde", "Take a Side", "She will not take a side."],
+#: scripts/campaign/e8_story_screen.gd:19
+msgid "She will not take a side."
+msgstr ""
+
+#. const TEMPTATION := {&"fire": "I could stop every war. Keep everyone safe.", &"shadow": "Full. At last. Just o
+#: scripts/campaign/e8_story_screen.gd:21 data/voice/lines/ep8_throne_vessa.json:L1
+msgid "I could stop every war. Keep everyone safe."
+msgstr ""
+
+#. const TEMPTATION := {&"fire": "I could stop every war. Keep everyone safe.", &"shadow": "Full. At last. Just o
+#: scripts/campaign/e8_story_screen.gd:21 data/voice/lines/ep8_throne_malrik.json:L1
+msgid "Full. At last. Just once, to be full."
+msgstr ""
+
+#. &"ice": "A peace that never melts. Never breaks.", &"nature": "Everything would grow. Everywhere. Always."}
+#: scripts/campaign/e8_story_screen.gd:22 data/voice/lines/ep8_throne_torvald.json:L1
+msgid "A peace that never melts. Never breaks."
+msgstr ""
+
+#. &"ice": "A peace that never melts. Never breaks.", &"nature": "Everything would grow. Everywhere. Always."}
+#: scripts/campaign/e8_story_screen.gd:22 data/voice/lines/ep8_throne_ysolde.json:L1
+msgid "Everything would grow. Everywhere. Always."
+msgstr ""
+
+#. const CREDITS: Array[String] = ["Thank you for playing Four Wizards.", "Four apprentices, one storm, and you a
+#: scripts/campaign/e8_story_screen.gd:23
+msgid "Thank you for playing Four Wizards."
+msgstr ""
+
+#. const CREDITS: Array[String] = ["Thank you for playing Four Wizards.", "Four apprentices, one storm, and you a
+#: scripts/campaign/e8_story_screen.gd:23
+msgid "Four apprentices, one storm, and you at the table."
+msgstr ""
+
+#. "Every battle you fought is part of this tale now.", "Made with care, many playtests, and one very patient wiz
+#: scripts/campaign/e8_story_screen.gd:24
+msgid "Every battle you fought is part of this tale now."
+msgstr ""
+
+#. "Every battle you fought is part of this tale now.", "Made with care, many playtests, and one very patient wiz
+#: scripts/campaign/e8_story_screen.gd:24
+msgid "Made with care, many playtests, and one very patient wizard."
+msgstr ""
+
+#. "The storm chooses its own. Thank you for choosing it."]
+#: scripts/campaign/e8_story_screen.gd:25
+msgid "The storm chooses its own. Thank you for choosing it."
+msgstr ""
+
 #. const MSG_SEALED := "The Ember Crown is sealed until 6:00"
 #: scripts/campaign/ember_crown.gd:23
 msgid "The Ember Crown is sealed until 6:00"
@@ -43,7 +1151,7 @@ msgid "Keystone Colossus"
 msgstr ""
 
 #. _pylon_type.display_name = "Keystone Pylon"
-#: scripts/campaign/m04_keystone.gd:144
+#: scripts/campaign/m04_keystone.gd:144 scripts/campaign/mission_e8_02.gd:130
 msgid "Keystone Pylon"
 msgstr ""
 
@@ -1391,7 +2499,7 @@ msgid "Turn the key: Vessa by the Colossus's heart, with Old Vey beside her"
 msgstr ""
 
 #. return "The Fire keep must stand"
-#: scripts/campaign/mission_04.gd:519
+#: scripts/campaign/mission_04.gd:519 scripts/campaign/mission_e8_01_fire.gd:187
 msgid "The Fire keep must stand"
 msgstr ""
 
@@ -1476,7 +2584,8 @@ msgid "The keep has fallen"
 msgstr ""
 
 #. @export var victory_banner := "VICTORY"
-#: scripts/campaign/mission_config.gd:25 scripts/world/skirmish.gd:1700
+#: scripts/campaign/mission_config.gd:25 scripts/campaign/mission_e8_muster.gd:89
+#: scripts/world/skirmish.gd:1700
 msgid "VICTORY"
 msgstr ""
 
@@ -1797,7 +2906,7 @@ msgid "Shatter Torvald's Frost Hall"
 msgstr ""
 
 #. return "Raise a Citadel and call Old Vey"
-#: scripts/campaign/mission_e2_01.gd:760
+#: scripts/campaign/mission_e2_01.gd:760 scripts/campaign/mission_e8_01_fire.gd:198
 msgid "Raise a Citadel and call Old Vey"
 msgstr ""
 
@@ -3614,6 +4723,7 @@ msgstr ""
 #. return "Malrik must survive"
 #: scripts/campaign/mission_e3_01.gd:713 scripts/campaign/mission_e3_02.gd:601
 #: scripts/campaign/mission_e3_03.gd:476 scripts/campaign/mission_e3_04.gd:662
+#: scripts/campaign/mission_e8_01_shadow.gd:196
 msgid "Malrik must survive"
 msgstr ""
 
@@ -7173,11 +8283,6 @@ msgstr ""
 msgid "A Hundred Winters"
 msgstr ""
 
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
-#: scripts/campaign/mission_e6_01.gd:92 scripts/campaign/mission_e6_01.gd:746
-msgid "L28b"
-msgstr ""
-
 #. [&"narrator", "A hundred winters ago, the lake had no name, and the north had one keeper."],
 #: scripts/campaign/mission_e6_01.gd:94 data/voice/lines/e6m1.json:L1
 msgid "A hundred winters ago, the lake had no name, and the north had one keeper."
@@ -7464,7 +8569,7 @@ msgstr ""
 #. return "Torvald must survive"
 #: scripts/campaign/mission_e6_01.gd:528 scripts/campaign/mission_e6_02.gd:507
 #: scripts/campaign/mission_e7_01.gd:387 scripts/campaign/mission_e7_02.gd:368
-#: scripts/campaign/mission_e7_03.gd:423 scripts/campaign/mission_e7_04.gd:413
+#: scripts/campaign/mission_e7_03.gd:423 scripts/campaign/mission_e7_04.gd:415
 msgid "Torvald must survive"
 msgstr ""
 
@@ -7486,11 +8591,6 @@ msgstr ""
 #. const MISSION_TITLE := "The Rider at the Gate"
 #: scripts/campaign/mission_e6_02.gd:23
 msgid "The Rider at the Gate"
-msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L9", "L10", "L11", "L
-#: scripts/campaign/mission_e6_02.gd:88 scripts/campaign/mission_e6_02.gd:749
-msgid "L5b"
 msgstr ""
 
 #. [&"narrator", "Forty winters ago. The gate had stood for sixty years, and never once opened."],
@@ -8237,7 +9337,7 @@ msgid "Torvald falls back to the north shore"
 msgstr ""
 
 #. c.keep_lost_message = "The Heartwood has fallen."
-#: scripts/campaign/mission_e6_04.gd:163
+#: scripts/campaign/mission_e6_04.gd:163 scripts/campaign/mission_e8_01_nature.gd:109
 msgid "The Heartwood has fallen."
 msgstr ""
 
@@ -8317,7 +9417,8 @@ msgid "Warden Breaker"
 msgstr ""
 
 #. local_unit("ruin_warden", WARDEN_ID, "Ruin Warden", {"aggro_range": 9.0, "commandable": false, "cost": 120,
-#: scripts/campaign/mission_e6_base.gd:129 data/units/ruin_warden.tres:9
+#: scripts/campaign/mission_e6_base.gd:129 scripts/campaign/mission_e8_base.gd:123
+#: data/units/ruin_warden.tres:9
 msgid "Ruin Warden"
 msgstr ""
 
@@ -8327,7 +9428,7 @@ msgid "The Dragon Auction"
 msgstr ""
 
 #. const A_NAMES: Array[String] = ["Kesh", "Morrow-of-Glass", "Ossavar"]
-#: scripts/campaign/mission_e7_01.gd:27 scripts/campaign/mission_e7_04.gd:38
+#: scripts/campaign/mission_e7_01.gd:27 scripts/campaign/mission_e7_04.gd:40
 #: scripts/campaign/mission_e7_base.gd:155
 msgid "Kesh"
 msgstr ""
@@ -8593,7 +9694,7 @@ msgid "Riders on the Gold Shoal: they want your caravans"
 msgstr ""
 
 #. const MSG_AUCTION_SOON := "A dragon is landing on the Tollrock. Auction in 0:30: bid with the Bid buttons"
-#: scripts/campaign/mission_e7_01.gd:131 scripts/campaign/mission_e7_04.gd:141
+#: scripts/campaign/mission_e7_01.gd:131 scripts/campaign/mission_e7_04.gd:143
 msgid "A dragon is landing on the Tollrock. Auction in 0:30: bid with the Bid buttons"
 msgstr ""
 
@@ -8619,7 +9720,7 @@ msgstr ""
 
 #. c.keep_lost_message = "The Rime Keep has fallen."
 #: scripts/campaign/mission_e7_01.gd:181 scripts/campaign/mission_e7_02.gd:192
-#: scripts/campaign/mission_e7_04.gd:201
+#: scripts/campaign/mission_e7_04.gd:203 scripts/campaign/mission_e8_01_ice.gd:117
 msgid "The Rime Keep has fallen."
 msgstr ""
 
@@ -8994,7 +10095,7 @@ msgid "Break the Sun Barricade"
 msgstr ""
 
 #. return "Take the Tollrock"
-#: scripts/campaign/mission_e7_02.gd:358 scripts/campaign/mission_e7_04.gd:397
+#: scripts/campaign/mission_e7_02.gd:358 scripts/campaign/mission_e7_04.gd:399
 msgid "Take the Tollrock"
 msgstr ""
 
@@ -9389,405 +10490,405 @@ msgid "Not while the Outwall's people are walking"
 msgstr ""
 
 #. rows.append([Loc.t("Pay {name} home ({price})", {"name": PAY_NAMES[id], "price": pay_price(id)}),
-#: scripts/campaign/mission_e7_04.gd:694
+#: scripts/campaign/mission_e7_04.gd:696
 msgid "Pay {name} home ({price})"
 msgstr ""
 
 #. const MISSION_TITLE := "The Year of Two Skies"
-#: scripts/campaign/mission_e7_04.gd:21
+#: scripts/campaign/mission_e7_04.gd:23
 msgid "The Year of Two Skies"
 msgstr ""
 
 #. const PAY_NAMES := {"gilt_dragon": "Kesh", "prism_dragon": "Morrow", "sunwake": "Sunwake"}
-#: scripts/campaign/mission_e7_04.gd:38
+#: scripts/campaign/mission_e7_04.gd:40
 msgid "Morrow"
 msgstr ""
 
 #. const PAY_NAMES := {"gilt_dragon": "Kesh", "prism_dragon": "Morrow", "sunwake": "Sunwake"}
-#: scripts/campaign/mission_e7_04.gd:38 scripts/campaign/mission_e7_04.gd:485
+#: scripts/campaign/mission_e7_04.gd:40 scripts/campaign/mission_e7_04.gd:487
 #: scripts/campaign/mission_e7_base.gd:157
 msgid "Sunwake"
 msgstr ""
 
 #. [&"ossavar", "The Year of Two Skies comes round again. Every ship. Every dragon. One strait."],
-#: scripts/campaign/mission_e7_04.gd:81 data/voice/lines/e7m4.json:L1
+#: scripts/campaign/mission_e7_04.gd:83 data/voice/lines/e7m4.json:L1
 msgid "The Year of Two Skies comes round again. Every ship. Every dragon. One strait."
 msgstr ""
 
 #. [&"malrik", "Today we finish Aurivane, Torvald. Take the rock. I will handle the sky."],
-#: scripts/campaign/mission_e7_04.gd:82 data/voice/lines/e7m4.json:L2
+#: scripts/campaign/mission_e7_04.gd:84 data/voice/lines/e7m4.json:L2
 msgid "Today we finish Aurivane, Torvald. Take the rock. I will handle the sky."
 msgstr ""
 
 #. [&"torvald", "You handled the Laurel too, Malrik. I have not forgotten whose knives they were."],
-#: scripts/campaign/mission_e7_04.gd:83 data/voice/lines/e7m4.json:L3
+#: scripts/campaign/mission_e7_04.gd:85 data/voice/lines/e7m4.json:L3
 msgid "You handled the Laurel too, Malrik. I have not forgotten whose knives they were."
 msgstr ""
 
 #. [&"malrik", "Then remember it after we win. Victory is a wonderful eraser."],
-#: scripts/campaign/mission_e7_04.gd:84 data/voice/lines/e7m4.json:L4
+#: scripts/campaign/mission_e7_04.gd:86 data/voice/lines/e7m4.json:L4
 msgid "Then remember it after we win. Victory is a wonderful eraser."
 msgstr ""
 
 #. [&"aldra", "Crimson sails on the water. They will shell the shore road. Sink them, or stay off it."],
-#: scripts/campaign/mission_e7_04.gd:85 data/voice/lines/e7m4.json:L5
+#: scripts/campaign/mission_e7_04.gd:87 data/voice/lines/e7m4.json:L5
 msgid "Crimson sails on the water. They will shell the shore road. Sink them, or stay off it."
 msgstr ""
 
 #. [&"vessa", "Last chance to pick the right side, Torvald! I'm told I'm very forgiving!"],
-#: scripts/campaign/mission_e7_04.gd:86 data/voice/lines/e7m4.json:L6
+#: scripts/campaign/mission_e7_04.gd:88 data/voice/lines/e7m4.json:L6
 msgid "Last chance to pick the right side, Torvald! I'm told I'm very forgiving!"
 msgstr ""
 
 #. [&"torvald", "You are told many things, Vessa. Most of them by people standing behind you."],
-#: scripts/campaign/mission_e7_04.gd:87 data/voice/lines/e7m4.json:L7
+#: scripts/campaign/mission_e7_04.gd:89 data/voice/lines/e7m4.json:L7
 msgid "You are told many things, Vessa. Most of them by people standing behind you."
 msgstr ""
 
 #. [&"ossavar", "One small sale before the great one. Sunwake, Aurivane's pride. Who pays?"],
-#: scripts/campaign/mission_e7_04.gd:88 data/voice/lines/e7m4.json:L8
+#: scripts/campaign/mission_e7_04.gd:90 data/voice/lines/e7m4.json:L8
 msgid "One small sale before the great one. Sunwake, Aurivane's pride. Who pays?"
 msgstr ""
 
 #. [&"torvald", "Sunwake flies with us. For the morning, at least."],
-#: scripts/campaign/mission_e7_04.gd:89 data/voice/lines/e7m4.json:L9
+#: scripts/campaign/mission_e7_04.gd:91 data/voice/lines/e7m4.json:L9
 msgid "Sunwake flies with us. For the morning, at least."
 msgstr ""
 
 #. [&"ossavar", "Sunwake keeps her old masters. For now."],
-#: scripts/campaign/mission_e7_04.gd:90 data/voice/lines/e7m4.json:L10
+#: scripts/campaign/mission_e7_04.gd:92 data/voice/lines/e7m4.json:L10
 msgid "Sunwake keeps her old masters. For now."
 msgstr ""
 
 #. [&"ysolde", "Malrik! Every grave you dig, I will plant over. Every single one!"],
-#: scripts/campaign/mission_e7_04.gd:91 data/voice/lines/e7m4.json:L11
+#: scripts/campaign/mission_e7_04.gd:93 data/voice/lines/e7m4.json:L11
 msgid "Malrik! Every grave you dig, I will plant over. Every single one!"
 msgstr ""
 
 #. [&"malrik", "Then you will be a very busy gardener, Ysolde."],
-#: scripts/campaign/mission_e7_04.gd:92 data/voice/lines/e7m4.json:L12
+#: scripts/campaign/mission_e7_04.gd:94 data/voice/lines/e7m4.json:L12
 msgid "Then you will be a very busy gardener, Ysolde."
 msgstr ""
 
 #. [&"aldra", "One red sail under. The sea keeps the coin, as usual."],
-#: scripts/campaign/mission_e7_04.gd:93 data/voice/lines/e7m4.json:L13
+#: scripts/campaign/mission_e7_04.gd:95 data/voice/lines/e7m4.json:L13
 msgid "One red sail under. The sea keeps the coin, as usual."
 msgstr ""
 
 #. [&"seraphine", "The rock is Adamarch's! The Archon is watching from the spire, Ice-king. So is everyone."],
-#: scripts/campaign/mission_e7_04.gd:94 data/voice/lines/e7m4.json:L14
+#: scripts/campaign/mission_e7_04.gd:96 data/voice/lines/e7m4.json:L14
 msgid "The rock is Adamarch's! The Archon is watching from the spire, Ice-king. So is everyone."
 msgstr ""
 
 #. [&"diamond_archon", "Empty the pits. All of them. Let the sky be white and silver by noon."],
-#: scripts/campaign/mission_e7_04.gd:95 data/voice/lines/e7m4.json:L15
+#: scripts/campaign/mission_e7_04.gd:97 data/voice/lines/e7m4.json:L15
 msgid "Empty the pits. All of them. Let the sky be white and silver by noon."
 msgstr ""
 
 #. [&"ossavar", "Every dragon on the Coinwater changes sides in one morning. I have seen this before."],
-#: scripts/campaign/mission_e7_04.gd:96 data/voice/lines/e7m4.json:L16
+#: scripts/campaign/mission_e7_04.gd:98 data/voice/lines/e7m4.json:L16
 msgid "Every dragon on the Coinwater changes sides in one morning. I have seen this before."
 msgstr ""
 
 #. [&"vessa", "He bought the whole SKY? Ysolde, pull back! Everyone, back to the ships!"],
-#: scripts/campaign/mission_e7_04.gd:97 data/voice/lines/e7m4.json:L17
+#: scripts/campaign/mission_e7_04.gd:99 data/voice/lines/e7m4.json:L17
 msgid "He bought the whole SKY? Ysolde, pull back! Everyone, back to the ships!"
 msgstr ""
 
 #. [&"dacian", "Enough. Seraphine, the cloth. We end this on the sand, the old way."],
-#: scripts/campaign/mission_e7_04.gd:98 data/voice/lines/e7m4.json:L18
+#: scripts/campaign/mission_e7_04.gd:100 data/voice/lines/e7m4.json:L18
 msgid "Enough. Seraphine, the cloth. We end this on the sand, the old way."
 msgstr ""
 
 #. [&"seraphine", "A truce, Sunblade. No bets. No knives. Just us."],
-#: scripts/campaign/mission_e7_04.gd:99 data/voice/lines/e7m4.json:L19
+#: scripts/campaign/mission_e7_04.gd:101 data/voice/lines/e7m4.json:L19
 msgid "A truce, Sunblade. No bets. No knives. Just us."
 msgstr ""
 
 #. [&"malrik", "Burn them. Both fleets, the sand, the cloth. A strait of dead feeds the stone for years."],
-#: scripts/campaign/mission_e7_04.gd:100 data/voice/lines/e7m4.json:L20
+#: scripts/campaign/mission_e7_04.gd:102 data/voice/lines/e7m4.json:L20
 msgid "Burn them. Both fleets, the sand, the cloth. A strait of dead feeds the stone for years."
 msgstr ""
 
 #. [&"obren", "Yes, Bishop. A whole sea of them. Feed me, and I will crown you king of the deep."],
-#: scripts/campaign/mission_e7_04.gd:101 data/voice/lines/e7m4.json:L21
+#: scripts/campaign/mission_e7_04.gd:103 data/voice/lines/e7m4.json:L21
 msgid "Yes, Bishop. A whole sea of them. Feed me, and I will crown you king of the deep."
 msgstr ""
 
 #. [&"torvald", "No."],
-#: scripts/campaign/mission_e7_04.gd:102 data/voice/lines/c_e4_frontier.json:L4
+#: scripts/campaign/mission_e7_04.gd:104 data/voice/lines/c_e4_frontier.json:L4
 #: data/voice/lines/e7m4.json:L22
 msgid "No."
 msgstr ""
 
 #. [&"malrik", "You said that once before, in your hall. \"For now,\" you said."],
-#: scripts/campaign/mission_e7_04.gd:103 data/voice/lines/e7m4.json:L23
+#: scripts/campaign/mission_e7_04.gd:105 data/voice/lines/e7m4.json:L23
 msgid "You said that once before, in your hall. \"For now,\" you said."
 msgstr ""
 
 #. [&"torvald", "I am done waiting, Malrik. Aldra. Everyone. To the rock."],
-#: scripts/campaign/mission_e7_04.gd:104 data/voice/lines/e7m4.json:L24
+#: scripts/campaign/mission_e7_04.gd:106 data/voice/lines/e7m4.json:L24
 msgid "I am done waiting, Malrik. Aldra. Everyone. To the rock."
 msgstr ""
 
 #. [&"ossavar", "You paid me once, Ice-king, in clean coin. That bond still holds. I fly with you."],
-#: scripts/campaign/mission_e7_04.gd:105 data/voice/lines/e7m4.json:L25
+#: scripts/campaign/mission_e7_04.gd:107 data/voice/lines/e7m4.json:L25
 msgid "You paid me once, Ice-king, in clean coin. That bond still holds. I fly with you."
 msgstr ""
 
 #. [&"ossavar", "You never bought me, Ice-king. That is why I will fly with you."],
-#: scripts/campaign/mission_e7_04.gd:106 data/voice/lines/e7m4.json:L25a
+#: scripts/campaign/mission_e7_04.gd:108 data/voice/lines/e7m4.json:L25a
 msgid "You never bought me, Ice-king. That is why I will fly with you."
 msgstr ""
 
 #. [&"ossavar", "And you sheltered the Outwall when nobody paid. I remember debts."],
-#: scripts/campaign/mission_e7_04.gd:107 data/voice/lines/e7m4.json:L25b
+#: scripts/campaign/mission_e7_04.gd:109 data/voice/lines/e7m4.json:L25b
 msgid "And you sheltered the Outwall when nobody paid. I remember debts."
 msgstr ""
 
 #. [&"vessa", "Torvald? You're fighting HIM? ...Fine. Aurivane stands down. Don't make me regret it."],
-#: scripts/campaign/mission_e7_04.gd:108 data/voice/lines/e7m4.json:L26
+#: scripts/campaign/mission_e7_04.gd:110 data/voice/lines/e7m4.json:L26
 msgid "Torvald? You're fighting HIM? ...Fine. Aurivane stands down. Don't make me regret it."
 msgstr ""
 
 #. [&"malrik", "Kesh. Morrow. Sunwake. I filled your hoards to the brim. Earn them."],
-#: scripts/campaign/mission_e7_04.gd:109 data/voice/lines/e7m4.json:L27
+#: scripts/campaign/mission_e7_04.gd:111 data/voice/lines/e7m4.json:L27
 msgid "Kesh. Morrow. Sunwake. I filled your hoards to the brim. Earn them."
 msgstr ""
 
 #. [&"aldra", "My lord, the Bazaar. A dragon serves whoever filled the hoard last. Pay them to fly away."],
-#: scripts/campaign/mission_e7_04.gd:110 data/voice/lines/e7m4.json:L28
+#: scripts/campaign/mission_e7_04.gd:112 data/voice/lines/e7m4.json:L28
 msgid "My lord, the Bazaar. A dragon serves whoever filled the hoard last. Pay them to fly away."
 msgstr ""
 
 #. [&"ossavar", "Paid to go home. The one price he never tried."],
-#: scripts/campaign/mission_e7_04.gd:111 data/voice/lines/e7m4.json:L29
+#: scripts/campaign/mission_e7_04.gd:113 data/voice/lines/e7m4.json:L29
 msgid "Paid to go home. The one price he never tried."
 msgstr ""
 
 #. [&"hush", "There is always another night, Ice-king. Tonight it is yours."],
-#: scripts/campaign/mission_e7_04.gd:112 data/voice/lines/e7m4.json:L30
+#: scripts/campaign/mission_e7_04.gd:114 data/voice/lines/e7m4.json:L30
 msgid "There is always another night, Ice-king. Tonight it is yours."
 msgstr ""
 
 #. [&"torvald", "Then I will spend it awake."],
-#: scripts/campaign/mission_e7_04.gd:113 data/voice/lines/e7m4.json:L31
+#: scripts/campaign/mission_e7_04.gd:115 data/voice/lines/e7m4.json:L31
 msgid "Then I will spend it awake."
 msgstr ""
 
 #. [&"brannet", "Those oars were ours! Nobody from the Outwall rows for the candle-man!"],
-#: scripts/campaign/mission_e7_04.gd:114 data/voice/lines/e7m4.json:L32
+#: scripts/campaign/mission_e7_04.gd:116 data/voice/lines/e7m4.json:L32
 msgid "Those oars were ours! Nobody from the Outwall rows for the candle-man!"
 msgstr ""
 
 #. [&"aldra", "Silver sinks the same as crimson, my lord. Slower, perhaps. Heavier pride."],
-#: scripts/campaign/mission_e7_04.gd:115 data/voice/lines/e7m4.json:L32b
+#: scripts/campaign/mission_e7_04.gd:117 data/voice/lines/e7m4.json:L32b
 msgid "Silver sinks the same as crimson, my lord. Slower, perhaps. Heavier pride."
 msgstr ""
 
 #. [&"obren", "More, Bishop. The sea is generous tonight."],
-#: scripts/campaign/mission_e7_04.gd:116 data/voice/lines/e7m4.json:L33
+#: scripts/campaign/mission_e7_04.gd:118 data/voice/lines/e7m4.json:L33
 msgid "More, Bishop. The sea is generous tonight."
 msgstr ""
 
 #. [&"malrik", "Do you hear it, Torvald? Every one of them is mine now. Every single one."],
-#: scripts/campaign/mission_e7_04.gd:117 data/voice/lines/e7m4.json:L33b
+#: scripts/campaign/mission_e7_04.gd:119 data/voice/lines/e7m4.json:L33b
 msgid "Do you hear it, Torvald? Every one of them is mine now. Every single one."
 msgstr ""
 
 #. [&"ossavar", "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light."],
-#: scripts/campaign/mission_e7_04.gd:118 data/voice/lines/e7m4.json:L34
+#: scripts/campaign/mission_e7_04.gd:120 data/voice/lines/e7m4.json:L34
 msgid "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light."
 msgstr ""
 
 #. [&"aldra", "The west water is glass. Their galleys are stuck fast."],
-#: scripts/campaign/mission_e7_04.gd:119 data/voice/lines/e7m4.json:L35
+#: scripts/campaign/mission_e7_04.gd:121 data/voice/lines/e7m4.json:L35
 msgid "The west water is glass. Their galleys are stuck fast."
 msgstr ""
 
 #. [&"seraphine", "The east is frozen! Dacian, back to back!"],
-#: scripts/campaign/mission_e7_04.gd:120 data/voice/lines/e7m4.json:L36
+#: scripts/campaign/mission_e7_04.gd:122 data/voice/lines/e7m4.json:L36
 msgid "The east is frozen! Dacian, back to back!"
 msgstr ""
 
 #. [&"malrik", "Torvald! You never said no to anyone in your life. Why start with me?"],
-#: scripts/campaign/mission_e7_04.gd:121 data/voice/lines/e7m4.json:L37
+#: scripts/campaign/mission_e7_04.gd:123 data/voice/lines/e7m4.json:L37
 msgid "Torvald! You never said no to anyone in your life. Why start with me?"
 msgstr ""
 
 #. [&"torvald", "Because I finally saw what you were buying."],
-#: scripts/campaign/mission_e7_04.gd:122 data/voice/lines/e7m4.json:L38
+#: scripts/campaign/mission_e7_04.gd:124 data/voice/lines/e7m4.json:L38
 msgid "Because I finally saw what you were buying."
 msgstr ""
 
 #. [&"torvald", "Enough."],
-#: scripts/campaign/mission_e7_04.gd:123 data/voice/lines/e7m4.json:L39
+#: scripts/campaign/mission_e7_04.gd:125 data/voice/lines/e7m4.json:L39
 #: data/voice/lines/ep7_opening.json:L22
 msgid "Enough."
 msgstr ""
 
 #. [&"ossavar", "I have heard that word once before. It sounded better from you."],
-#: scripts/campaign/mission_e7_04.gd:124 data/voice/lines/e7m4.json:L40
+#: scripts/campaign/mission_e7_04.gd:126 data/voice/lines/e7m4.json:L40
 msgid "I have heard that word once before. It sounded better from you."
 msgstr ""
 
 #. [&"torvald", "The sea... was never mine to hold."],
-#: scripts/campaign/mission_e7_04.gd:125 data/voice/lines/e7m4.json:L41
+#: scripts/campaign/mission_e7_04.gd:127 data/voice/lines/e7m4.json:L41
 msgid "The sea... was never mine to hold."
 msgstr ""
 
 #. [&"aldra", "The rock is his. The stone will drink the whole strait now."],
-#: scripts/campaign/mission_e7_04.gd:126 data/voice/lines/e7m4.json:L42
+#: scripts/campaign/mission_e7_04.gd:128 data/voice/lines/e7m4.json:L42
 msgid "The rock is his. The stone will drink the whole strait now."
 msgstr ""
 
 #. [&"hush", "The Bishop sends his regrets. I will deliver them in person, later."],
-#: scripts/campaign/mission_e7_04.gd:127 data/voice/lines/e7m4.json:L43
+#: scripts/campaign/mission_e7_04.gd:129 data/voice/lines/e7m4.json:L43
 msgid "The Bishop sends his regrets. I will deliver them in person, later."
 msgstr ""
 
 #. "Nearly four hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and 
-#: scripts/campaign/mission_e7_04.gd:130
+#: scripts/campaign/mission_e7_04.gd:132
 msgid "Nearly four hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and every dragon on the Coinwater changed sides by morning. Tonight the Diamond Archon signs the same order, with Malrik's hand on her pen."
 msgstr ""
 
 #. "At dawn both cities sail everything they own into the strait. Aurivane holds the Tollrock with Vessa and Ysol
-#: scripts/campaign/mission_e7_04.gd:131
+#: scripts/campaign/mission_e7_04.gd:133
 msgid "At dawn both cities sail everything they own into the strait. Aurivane holds the Tollrock with Vessa and Ysolde. Adamarch attacks it with Torvald and Malrik. The truce of the Stilled Sea is a hundred and thirty years old, and it ends today."
 msgstr ""
 
 #. "Torvald knows whose knives broke the Laurel. He knows whose masks walked out of the old adit. He has waited f
-#: scripts/campaign/mission_e7_04.gd:132
+#: scripts/campaign/mission_e7_04.gd:134
 msgid "Torvald knows whose knives broke the Laurel. He knows whose masks walked out of the old adit. He has waited for Malrik to become someone else. Today he will find out how long a patient man can wait."
 msgstr ""
 
 #. const BRIEFING_LINE := "Crimson galleys shell the shore: sink them or stay off the shore road."
-#: scripts/campaign/mission_e7_04.gd:134
+#: scripts/campaign/mission_e7_04.gd:136
 msgid "Crimson galleys shell the shore: sink them or stay off the shore road."
 msgstr ""
 
 #. const HINT_START := "Crimson galleys shell the shore. Shardcasters on the bank, Frost Mortars and Rime Spires 
-#: scripts/campaign/mission_e7_04.gd:135
+#: scripts/campaign/mission_e7_04.gd:137
 msgid "Crimson galleys shell the shore. Shardcasters on the bank, Frost Mortars and Rime Spires reach them."
 msgstr ""
 
 #. const HINT_PAY := "Dragons serve whoever filled the hoard last. Pay them home with the buttons on the right (a
-#: scripts/campaign/mission_e7_04.gd:136
+#: scripts/campaign/mission_e7_04.gd:138
 msgid "Dragons serve whoever filled the hoard last. Pay them home with the buttons on the right (a Bazaar is needed)."
 msgstr ""
 
 #. const MSG_GRACE := "Malrik pulls back to his harbour"
-#: scripts/campaign/mission_e7_04.gd:137
+#: scripts/campaign/mission_e7_04.gd:139
 msgid "Malrik pulls back to his harbour"
 msgstr ""
 
 #. const MSG_MALRIK_FELL := "Malrik sinks into the shadows of his hull"
-#: scripts/campaign/mission_e7_04.gd:138
+#: scripts/campaign/mission_e7_04.gd:140
 msgid "Malrik sinks into the shadows of his hull"
 msgstr ""
 
 #. const MSG_SURGE := "Hollow Surge: Malrik's soldiers strike harder"
-#: scripts/campaign/mission_e7_04.gd:139
+#: scripts/campaign/mission_e7_04.gd:141
 msgid "Hollow Surge: Malrik's soldiers strike harder"
 msgstr ""
 
 #. const MSG_STAGE_READY := "The lighthouse is ready: channel the next stage"
-#: scripts/campaign/mission_e7_04.gd:140
+#: scripts/campaign/mission_e7_04.gd:142
 msgid "The lighthouse is ready: channel the next stage"
 msgstr ""
 
 #. _galley_type_red = MissionE5Base.local_building("fire_tower", "crimson_galley", "Crimson Galley", 900.0)
-#: scripts/campaign/mission_e7_04.gd:189
+#: scripts/campaign/mission_e7_04.gd:191
 msgid "Crimson Galley"
 msgstr ""
 
 #. _galley_type_silver = MissionE5Base.local_building("shadow_tower", "silver_galley", "Silver Galley", 900.0)
-#: scripts/campaign/mission_e7_04.gd:190
+#: scripts/campaign/mission_e7_04.gd:192
 msgid "Silver Galley"
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nThe sea is still"
-#: scripts/campaign/mission_e7_04.gd:211
+#: scripts/campaign/mission_e7_04.gd:213
 msgid "VICTORY\nThe sea is still"
 msgstr ""
 
 #. c.spotlight = {"id": &"shardguard", "trigger": &"manual", "key_hint": "Rime Keep: C",
-#: scripts/campaign/mission_e7_04.gd:217
+#: scripts/campaign/mission_e7_04.gd:219
 msgid "Rime Keep: C"
 msgstr ""
 
 #. "card": "Shardguard. The halberd that says no: charges stop, divers turn, archers live."}
-#: scripts/campaign/mission_e7_04.gd:218
+#: scripts/campaign/mission_e7_04.gd:220
 msgid "Shardguard. The halberd that says no: charges stop, divers turn, archers live."
 msgstr ""
 
 #. return "Episode 7, Mission 4: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e7_04.gd:223
+#: scripts/campaign/mission_e7_04.gd:225
 msgid "Episode 7, Mission 4: %s"
 msgstr ""
 
 #. return "Guard the truce on the sand"
-#: scripts/campaign/mission_e7_04.gd:401
+#: scripts/campaign/mission_e7_04.gd:403
 msgid "Guard the truce on the sand"
 msgstr ""
 
 #. return "Hold the Tollrock against Malrik (lost for %d s)" % int(rock_lost_for)
-#: scripts/campaign/mission_e7_04.gd:404
+#: scripts/campaign/mission_e7_04.gd:406
 msgid "Hold the Tollrock against Malrik (lost for %d s)"
 msgstr ""
 
 #. return "Hold the Tollrock against Malrik (the stone's hunger %d %%)" % int(meter)
-#: scripts/campaign/mission_e7_04.gd:406
+#: scripts/campaign/mission_e7_04.gd:408
 msgid "Hold the Tollrock against Malrik (the stone's hunger %d %%)"
 msgstr ""
 
 #. return "Hold the Tollrock against Malrik"
-#: scripts/campaign/mission_e7_04.gd:407
+#: scripts/campaign/mission_e7_04.gd:409
 msgid "Hold the Tollrock against Malrik"
 msgstr ""
 
 #. return "Still the sea at the lighthouse (%d / 3)" % stage
-#: scripts/campaign/mission_e7_04.gd:410
+#: scripts/campaign/mission_e7_04.gd:412
 msgid "Still the sea at the lighthouse (%d / 3)"
 msgstr ""
 
 #. return "Still the sea at the lighthouse"
-#: scripts/campaign/mission_e7_04.gd:411
+#: scripts/campaign/mission_e7_04.gd:413
 msgid "Still the sea at the lighthouse"
 msgstr ""
 
 #. return "Sink Aurivane's crimson galleys (%d / 3)" % red_sunk
-#: scripts/campaign/mission_e7_04.gd:416
+#: scripts/campaign/mission_e7_04.gd:418
 msgid "Sink Aurivane's crimson galleys (%d / 3)"
 msgstr ""
 
 #. return "Sink Aurivane's crimson galleys"
-#: scripts/campaign/mission_e7_04.gd:417
+#: scripts/campaign/mission_e7_04.gd:419
 msgid "Sink Aurivane's crimson galleys"
 msgstr ""
 
 #. return "Pay Malrik's dragons home (%d / 3)" % paid.size()
-#: scripts/campaign/mission_e7_04.gd:420
+#: scripts/campaign/mission_e7_04.gd:422
 msgid "Pay Malrik's dragons home (%d / 3)"
 msgstr ""
 
 #. return "Pay Malrik's dragons home"
-#: scripts/campaign/mission_e7_04.gd:421
+#: scripts/campaign/mission_e7_04.gd:423
 msgid "Pay Malrik's dragons home"
 msgstr ""
 
 #. return "Sink Malrik's silver galleys (%d / %d)" % [silver_sunk, silver_goal()]
-#: scripts/campaign/mission_e7_04.gd:424
+#: scripts/campaign/mission_e7_04.gd:426
 msgid "Sink Malrik's silver galleys (%d / %d)"
 msgstr ""
 
 #. return "Sink Malrik's silver galleys"
-#: scripts/campaign/mission_e7_04.gd:425
+#: scripts/campaign/mission_e7_04.gd:427
 msgid "Sink Malrik's silver galleys"
 msgstr ""
 
 #. return "Not during the turn"
-#: scripts/campaign/mission_e7_04.gd:1048
+#: scripts/campaign/mission_e7_04.gd:1050
 msgid "Not during the turn"
 msgstr ""
 
@@ -9909,6 +11010,761 @@ msgstr ""
 #. rock.display_name = "The Tollrock"
 #: scripts/campaign/mission_e7_base.gd:465
 msgid "The Tollrock"
+msgstr ""
+
+#. const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s).
+#: scripts/campaign/mission_e8_01.gd:29
+msgid "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s). It opens the kingdom's tier-3 unit (C) and lets you call your helper (V)."
+msgstr ""
+
+#. const BRIEFING_LINE := "Four keys. One door. Yours is on this road."
+#: scripts/campaign/mission_e8_01.gd:30
+msgid "Four keys. One door. Yours is on this road."
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nThe road is open"
+#: scripts/campaign/mission_e8_01.gd:117
+msgid "VICTORY\nThe road is open"
+msgstr ""
+
+#. return "Episode 8, Mission 1: %s" % _road_title()
+#: scripts/campaign/mission_e8_01.gd:125
+msgid "Episode 8, Mission 1: %s"
+msgstr ""
+
+#. return Loc.t("Hold the west bank until the keys arrive ({time}) (paused)", {"time": mmss(hold_left)})
+#: scripts/campaign/mission_e8_01_fire.gd:181
+msgid "Hold the west bank until the keys arrive ({time}) (paused)"
+msgstr ""
+
+#. return Loc.t("Hold the west bank until the keys arrive ({time})", {"time": mmss(hold_left)})
+#: scripts/campaign/mission_e8_01_fire.gd:182
+msgid "Hold the west bank until the keys arrive ({time})"
+msgstr ""
+
+#. return Loc.t("The spark waits: keep the Hollow under 50 % (now {pct} %, storm {storm} %)",
+#: scripts/campaign/mission_e8_01_fire.gd:190
+msgid "The spark waits: keep the Hollow under 50 % (now {pct} %, storm {storm} %)"
+msgstr ""
+
+#. return Loc.t("Bring Ashby's scouts home ({n} / 4)", {"n": scouts_home})
+#: scripts/campaign/mission_e8_01_fire.gd:195
+msgid "Bring Ashby's scouts home ({n} / 4)"
+msgstr ""
+
+#. const MSG_WARM := "The water is warm under your feet."
+#: scripts/campaign/mission_e8_01_fire.gd:41
+msgid "The water is warm under your feet."
+msgstr ""
+
+#. const MSG_FLICKER := "The stakes are flickering."
+#: scripts/campaign/mission_e8_01_fire.gd:42
+msgid "The stakes are flickering."
+msgstr ""
+
+#. const MSG_SURGE := "The Hollow surges! The stakes go dark."
+#: scripts/campaign/mission_e8_01_fire.gd:43
+msgid "The Hollow surges! The stakes go dark."
+msgstr ""
+
+#. const MSG_STORM := "Vey's storm strikes!"
+#: scripts/campaign/mission_e8_01_fire.gd:44
+msgid "Vey's storm strikes!"
+msgstr ""
+
+#. const HINT_START := "The Hollow can't feed on the west bank. Hold the line at the water: crossing feeds it."
+#: scripts/campaign/mission_e8_01_fire.gd:45
+msgid "The Hollow can't feed on the west bank. Hold the line at the water: crossing feeds it."
+msgstr ""
+
+#. local_unit("blaze_rider", "ashby_scout", "Ashby's Scout", {"commandable": false, "pop": 0, "move_speed": 6.0})
+#: scripts/campaign/mission_e8_01_fire.gd:101
+msgid "Ashby's Scout"
+msgstr ""
+
+#. c.keep_lost_message = "The Fire keep has fallen."
+#: scripts/campaign/mission_e8_01_fire.gd:108
+msgid "The Fire keep has fallen."
+msgstr ""
+
+#. c.spotlight = {"id": &"pyre_adept", "trigger": &"manual", "key_hint": "Ember Hall",
+#: scripts/campaign/mission_e8_01_fire.gd:109 data/buildings/fire_barracks.tres:15
+msgid "Ember Hall"
+msgstr ""
+
+#. "card": "Pyre Adept. A battle mage for crowds: let them bunch up in the water, then burn the bunch."}
+#: scripts/campaign/mission_e8_01_fire.gd:110
+msgid "Pyre Adept. A battle mage for crowds: let them bunch up in the water, then burn the bunch."
+msgstr ""
+
+#. return "Hold the west bank until the keys arrive"
+#: scripts/campaign/mission_e8_01_fire.gd:183
+msgid "Hold the west bank until the keys arrive"
+msgstr ""
+
+#. return "The spark waits: keep the Hollow under 50 %"
+#: scripts/campaign/mission_e8_01_fire.gd:192
+msgid "The spark waits: keep the Hollow under 50 %"
+msgstr ""
+
+#. return "Bring Ashby's scouts home"
+#: scripts/campaign/mission_e8_01_fire.gd:196
+msgid "Bring Ashby's scouts home"
+msgstr ""
+
+#. return Loc.t("Bring the column south ({saved} / {needed}, lost {lost})", {"saved": saved, "needed": needed(), 
+#: scripts/campaign/mission_e8_01_ice.gd:188
+msgid "Bring the column south ({saved} / {needed}, lost {lost})"
+msgstr ""
+
+#. const HINT_START := "Open the gate: Torvald at the lever for 3 s. The column arrives at 5:30, hunters close be
+#: scripts/campaign/mission_e8_01_ice.gd:43
+msgid "Open the gate: Torvald at the lever for 3 s. The column arrives at 5:30, hunters close behind."
+msgstr ""
+
+#. const MSG_DYING := "They're dying at the gate."
+#: scripts/campaign/mission_e8_01_ice.gd:44
+msgid "They're dying at the gate."
+msgstr ""
+
+#. const MSG_OPEN := "The Hundredwinter Gate opens"
+#: scripts/campaign/mission_e8_01_ice.gd:45
+msgid "The Hundredwinter Gate opens"
+msgstr ""
+
+#. const MSG_SHUT := "The Hundredwinter Gate closes"
+#: scripts/campaign/mission_e8_01_ice.gd:46
+msgid "The Hundredwinter Gate closes"
+msgstr ""
+
+#. local_unit("rime_hauler", "refugee", "Refugee", {"is_worker": false, "max_hp": 60.0, "armor": 0.0, "attack_dam
+#: scripts/campaign/mission_e8_01_ice.gd:106
+msgid "Refugee"
+msgstr ""
+
+#. local_unit("blaze_rider", "gate_rider", "Rider", {"attack_damage": 0.0, "aggro_range": 0.0, "pop": 0, "kill_xp
+#: scripts/campaign/mission_e8_01_ice.gd:110
+msgid "Rider"
+msgstr ""
+
+#. local_unit("rimeshield", "kettlewick_militia", "Kettlewick Militia", {"pop": 0})
+#: scripts/campaign/mission_e8_01_ice.gd:112
+msgid "Kettlewick Militia"
+msgstr ""
+
+#. c.spotlight = {"id": &"frost_mortar", "trigger": &"manual", "key_hint": "Frost Hall",
+#: scripts/campaign/mission_e8_01_ice.gd:118 data/buildings/ice_barracks.tres:10
+msgid "Frost Hall"
+msgstr ""
+
+#. "card": "Frost Mortar. Far and heavy: when they bunch up, one shell freezes the lot."}
+#: scripts/campaign/mission_e8_01_ice.gd:119
+msgid "Frost Mortar. Far and heavy: when they bunch up, one shell freezes the lot."
+msgstr ""
+
+#. return "Open the Hundredwinter Gate"
+#: scripts/campaign/mission_e8_01_ice.gd:185
+msgid "Open the Hundredwinter Gate"
+msgstr ""
+
+#. return "Bring the column south"
+#: scripts/campaign/mission_e8_01_ice.gd:189
+msgid "Bring the column south"
+msgstr ""
+
+#. return "The Rime Keep must stand"
+#: scripts/campaign/mission_e8_01_ice.gd:193
+msgid "The Rime Keep must stand"
+msgstr ""
+
+#. return "The gate opens: open it before the column reaches it"
+#: scripts/campaign/mission_e8_01_ice.gd:195
+msgid "The gate opens: open it before the column reaches it"
+msgstr ""
+
+#. return "Bring 30 of the 40 south"
+#: scripts/campaign/mission_e8_01_ice.gd:197
+msgid "Bring 30 of the 40 south"
+msgstr ""
+
+#. return "Close the gate behind them"
+#: scripts/campaign/mission_e8_01_ice.gd:199
+msgid "Close the gate behind them"
+msgstr ""
+
+#. return Loc.t("Unweave your own walls ({n} / 3)", {"n": knots_open})
+#: scripts/campaign/mission_e8_01_nature.gd:179
+msgid "Unweave your own walls ({n} / 3)"
+msgstr ""
+
+#. return Loc.t("Answer the messengers ({n} / 3)", {"n": hamlets_saved})
+#: scripts/campaign/mission_e8_01_nature.gd:187
+msgid "Answer the messengers ({n} / 3)"
+msgstr ""
+
+#. const HAMLETS := [["Pipwell", Vector3(-14.0, 0.0, -30.0), Vector3(-14.0, 0.0, -56.0), [["shade", 4], ["grave_h
+#: scripts/campaign/mission_e8_01_nature.gd:18
+msgid "Pipwell"
+msgstr ""
+
+#. ["Fernby", Vector3(4.0, 0.0, 36.0), Vector3(4.0, 0.0, 56.0), [["warden", 3], ["shade", 3], ["nightbolt", 1]]],
+#: scripts/campaign/mission_e8_01_nature.gd:19
+msgid "Fernby"
+msgstr ""
+
+#. ["Hollins Cross", Vector3(18.0, 0.0, -34.0), Vector3(20.0, 0.0, -56.0), [["warden", 4], ["sentinel", 1]]]]
+#: scripts/campaign/mission_e8_01_nature.gd:20
+msgid "Hollins Cross"
+msgstr ""
+
+#. const BRIDGE_NAMES := {&"north": "North Bridge", &"road": "Road Bridge", &"south": "South Bridge"}
+#: scripts/campaign/mission_e8_01_nature.gd:26
+msgid "North Bridge"
+msgstr ""
+
+#. const BRIDGE_NAMES := {&"north": "North Bridge", &"road": "Road Bridge", &"south": "South Bridge"}
+#: scripts/campaign/mission_e8_01_nature.gd:26
+msgid "Road Bridge"
+msgstr ""
+
+#. const BRIDGE_NAMES := {&"north": "North Bridge", &"road": "Road Bridge", &"south": "South Bridge"}
+#: scripts/campaign/mission_e8_01_nature.gd:26
+msgid "South Bridge"
+msgstr ""
+
+#. const HINT_START := "Unweave the knot on the road: Ysolde within 4 m for 5 s. Your old ward spires still guard
+#: scripts/campaign/mission_e8_01_nature.gd:37
+msgid "Unweave the knot on the road: Ysolde within 4 m for 5 s. Your old ward spires still guard it."
+msgstr ""
+
+#. const MSG_GATE_SOON := "The Host is raising a gate on the {bridge} (1:00)."
+#: scripts/campaign/mission_e8_01_nature.gd:38
+msgid "The Host is raising a gate on the {bridge} (1:00)."
+msgstr ""
+
+#. const MSG_GATE_UP := "The {bridge} is closed: break its gate."
+#: scripts/campaign/mission_e8_01_nature.gd:39
+msgid "The {bridge} is closed: break its gate."
+msgstr ""
+
+#. const MSG_REGROW := "The Heartwood will grow back."
+#: scripts/campaign/mission_e8_01_nature.gd:40
+msgid "The Heartwood will grow back."
+msgstr ""
+
+#. const MSG_ROAD_SHUT := "The road to Crown Hollow opens at 18:00: the Signet is still waking"
+#: scripts/campaign/mission_e8_01_nature.gd:41
+msgid "The road to Crown Hollow opens at 18:00: the Signet is still waking"
+msgstr ""
+
+#. const MSG_ARMY := "Bring your army: 12 population within 15 m of Ysolde"
+#: scripts/campaign/mission_e8_01_nature.gd:42
+msgid "Bring your army: 12 population within 15 m of Ysolde"
+msgstr ""
+
+#. const MSG_KNOT_SPIRES := "Your old ward spires still guard this knot"
+#: scripts/campaign/mission_e8_01_nature.gd:43
+msgid "Your old ward spires still guard this knot"
+msgstr ""
+
+#. const MSG_KNOT_TIGHT := "This knot is older and still holds fast: it loosens at {time}"
+#: scripts/campaign/mission_e8_01_nature.gd:44
+msgid "This knot is older and still holds fast: it loosens at {time}"
+msgstr ""
+
+#. local_unit("wildwood_archer", "militia_archer", "Hamlet Archer", {"pop": 0})
+#: scripts/campaign/mission_e8_01_nature.gd:101
+msgid "Hamlet Archer"
+msgstr ""
+
+#. local_unit("thornling", "militia_thornling", "Hamlet Militia", {"pop": 0})
+#: scripts/campaign/mission_e8_01_nature.gd:102
+msgid "Hamlet Militia"
+msgstr ""
+
+#. _spire_type = MissionE5Base.local_building("nature_tower", "briar_ward_spire", "Briar Ward Spire", 540.0)
+#: scripts/campaign/mission_e8_01_nature.gd:103
+msgid "Briar Ward Spire"
+msgstr ""
+
+#. c.spotlight = {"id": &"greenheart_oathkeeper", "trigger": &"manual", "key_hint": "Grove Hall",
+#: scripts/campaign/mission_e8_01_nature.gd:110 data/buildings/nature_barracks.tres:9
+msgid "Grove Hall"
+msgstr ""
+
+#. "card": "Greenheart Oathkeeper. A sworn blade: it calls the divers to itself and doesn't let them pass."}
+#: scripts/campaign/mission_e8_01_nature.gd:111
+msgid "Greenheart Oathkeeper. A sworn blade: it calls the divers to itself and doesn't let them pass."
+msgstr ""
+
+#. return "Unweave your own walls"
+#: scripts/campaign/mission_e8_01_nature.gd:180
+msgid "Unweave your own walls"
+msgstr ""
+
+#. return "Cross the Thistlewater and take the road to Crown Hollow"
+#: scripts/campaign/mission_e8_01_nature.gd:182
+msgid "Cross the Thistlewater and take the road to Crown Hollow"
+msgstr ""
+
+#. return "Answer the messengers"
+#: scripts/campaign/mission_e8_01_nature.gd:188
+msgid "Answer the messengers"
+msgstr ""
+
+#. return "Cross before the last bridge closes"
+#: scripts/campaign/mission_e8_01_nature.gd:190
+msgid "Cross before the last bridge closes"
+msgstr ""
+
+#. _gift_panel = mission_button_panel("GiftPanel", [[Loc.t("The Stone's Gift (40 s)"), func() -> void:
+#: scripts/campaign/mission_e8_01_shadow.gd:175
+msgid "The Stone's Gift (40 s)"
+msgstr ""
+
+#. return Loc.t("Lay the dead of Duskbarrow to rest ({n} / 3)", {"n": laid.size()})
+#: scripts/campaign/mission_e8_01_shadow.gd:189
+msgid "Lay the dead of Duskbarrow to rest ({n} / 3)"
+msgstr ""
+
+#. const DOOR_NAMES := {&"bd1": "The Old Ossuary", &"bd2": "Candle Row", &"bd3": "The Gravedigger's Yard"}
+#: scripts/campaign/mission_e8_01_shadow.gd:14
+msgid "The Old Ossuary"
+msgstr ""
+
+#. const DOOR_NAMES := {&"bd1": "The Old Ossuary", &"bd2": "Candle Row", &"bd3": "The Gravedigger's Yard"}
+#: scripts/campaign/mission_e8_01_shadow.gd:14
+msgid "Candle Row"
+msgstr ""
+
+#. const DOOR_NAMES := {&"bd1": "The Old Ossuary", &"bd2": "Candle Row", &"bd3": "The Gravedigger's Yard"}
+#: scripts/campaign/mission_e8_01_shadow.gd:14
+msgid "The Gravedigger's Yard"
+msgstr ""
+
+#. const HINT_START := "Lay each Barrow Door to rest: Malrik within 3 m for 5 s, with the yard cleared."
+#: scripts/campaign/mission_e8_01_shadow.gd:31
+msgid "Lay each Barrow Door to rest: Malrik within 3 m for 5 s, with the yard cleared."
+msgstr ""
+
+#. const HINT_OFFER := "The stone offers. You can say no."
+#: scripts/campaign/mission_e8_01_shadow.gd:32
+msgid "The stone offers. You can say no."
+msgstr ""
+
+#. const MSG_CLEAR := "Clear the yard first"
+#: scripts/campaign/mission_e8_01_shadow.gd:33
+msgid "Clear the yard first"
+msgstr ""
+
+#. const MSG_WARD := "The Stair Gate's amber ward holds until moonset"
+#: scripts/campaign/mission_e8_01_shadow.gd:34
+msgid "The Stair Gate's amber ward holds until moonset"
+msgstr ""
+
+#. const MSG_GATE_STANDS := "The Stair Gate still stands"
+#: scripts/campaign/mission_e8_01_shadow.gd:35
+msgid "The Stair Gate still stands"
+msgstr ""
+
+#. const MSG_GIFT_WAIT := "The stone is still warm"
+#: scripts/campaign/mission_e8_01_shadow.gd:36
+msgid "The stone is still warm"
+msgstr ""
+
+#. local_unit("mother_hush", "hush_boss", "Mother Hush, Stone-sworn", {"max_hp": 3200.0, "armor": 10.0,
+#: scripts/campaign/mission_e8_01_shadow.gd:89
+msgid "Mother Hush, Stone-sworn"
+msgstr ""
+
+#. local_unit("barrow_ghoul", "gift_ghoul", "Risen Ghoul", {"pop": 0, "kill_xp": 0, "commandable": true})
+#: scripts/campaign/mission_e8_01_shadow.gd:92
+msgid "Risen Ghoul"
+msgstr ""
+
+#. c.keep_lost_message = "The Bishop's Keep has fallen."
+#: scripts/campaign/mission_e8_01_shadow.gd:97
+msgid "The Bishop's Keep has fallen."
+msgstr ""
+
+#. c.spotlight = {"id": &"hexweaver", "trigger": &"manual", "key_hint": "Gloom Hall",
+#: scripts/campaign/mission_e8_01_shadow.gd:98 data/buildings/shadow_barracks.tres:15
+msgid "Gloom Hall"
+msgstr ""
+
+#. "card": "Hexweaver. A curse for the big ones: heroes, knights and anything worth more than its friends."}
+#: scripts/campaign/mission_e8_01_shadow.gd:99
+msgid "Hexweaver. A curse for the big ones: heroes, knights and anything worth more than its friends."
+msgstr ""
+
+#. stair.display_name = "Stair Gate"
+#: scripts/campaign/mission_e8_01_shadow.gd:118
+msgid "Stair Gate"
+msgstr ""
+
+#. var tent_type := MissionE5Base.local_building("shadow_hovel", "stone_tent", "Stone-sworn Tent", 600.0)
+#: scripts/campaign/mission_e8_01_shadow.gd:121
+msgid "Stone-sworn Tent"
+msgstr ""
+
+#. return "Lay the dead of Duskbarrow to rest"
+#: scripts/campaign/mission_e8_01_shadow.gd:190
+msgid "Lay the dead of Duskbarrow to rest"
+msgstr ""
+
+#. return "Break the Stair Gate and face Mother Hush"
+#: scripts/campaign/mission_e8_01_shadow.gd:192
+msgid "Break the Stair Gate and face Mother Hush"
+msgstr ""
+
+#. return "Carry the stone up the Gravedigger's Stair"
+#: scripts/campaign/mission_e8_01_shadow.gd:194
+msgid "Carry the stone up the Gravedigger's Stair"
+msgstr ""
+
+#. return "The Bishop's Keep must stand"
+#: scripts/campaign/mission_e8_01_shadow.gd:198
+msgid "The Bishop's Keep must stand"
+msgstr ""
+
+#. return "Put down the shovel: never use the stone's power"
+#: scripts/campaign/mission_e8_01_shadow.gd:200
+msgid "Put down the shovel: never use the stone's power"
+msgstr ""
+
+#. return "Burn the Stone-sworn camp"
+#: scripts/campaign/mission_e8_01_shadow.gd:202
+msgid "Burn the Stone-sworn camp"
+msgstr ""
+
+#. return Loc.t("Light all four keyholes ({n} / 4) · the Hollow stirs: {pct} %", {"n": lit.size(), "pct": int(hol
+#: scripts/campaign/mission_e8_02.gd:207
+msgid "Light all four keyholes ({n} / 4) · the Hollow stirs: {pct} %"
+msgstr ""
+
+#. return Loc.t("{wizard} must survive", {"wizard": Loc.t(wizard_name())})
+#: scripts/campaign/mission_e8_02.gd:210 scripts/campaign/mission_e8_03.gd:277
+msgid "{wizard} must survive"
+msgstr ""
+
+#. parts.append(Loc.t("{wizard}: key turned", {"wizard": Loc.t(String(WIZARD_NAME[seat_kind[s]]))}))
+#: scripts/campaign/mission_e8_02.gd:218
+msgid "{wizard}: key turned"
+msgstr ""
+
+#. parts.append(Loc.t("{wizard} musters {pct} %", {"wizard": Loc.t(String(WIZARD_NAME[seat_kind[s]])),
+#: scripts/campaign/mission_e8_02.gd:220
+msgid "{wizard} musters {pct} %"
+msgstr ""
+
+#. return Loc.t("Muster together: help every ally ({n} / 3) · {list}", {"n": _helped(), "list": " · ".join(parts)
+#: scripts/campaign/mission_e8_02.gd:222
+msgid "Muster together: help every ally ({n} / 3) · {list}"
+msgstr ""
+
+#. const MISSION_TITLE := "The Last Muster"
+#: scripts/campaign/mission_e8_02.gd:16
+msgid "The Last Muster"
+msgstr ""
+
+#. "They came by four roads, and for one evening they stood on the same hill: fire, shadow, ice and green. Nobody
+#: scripts/campaign/mission_e8_02.gd:49
+msgid "They came by four roads, and for one evening they stood on the same hill: fire, shadow, ice and green. Nobody drew a blade. Old Vey said it was the first miracle he had seen in thirty years."
+msgstr ""
+
+#. "Below them, Crown Hollow is splitting open. Four keyholes have pushed up out of the earth, one on each bank, 
+#: scripts/campaign/mission_e8_02.gd:50
+msgid "Below them, Crown Hollow is splitting open. Four keyholes have pushed up out of the earth, one on each bank, and the Hollow's pylons stand on every one of them. The Host is climbing out of the isle by the thousand."
+msgstr ""
+
+#. "Each of you carries a key. Walk it to your keyhole. Help the others walk theirs. Every soldier who falls here
+#: scripts/campaign/mission_e8_02.gd:51
+msgid "Each of you carries a key. Walk it to your keyhole. Help the others walk theirs. Every soldier who falls here falls into the Hollow, and something under the isle is counting."
+msgstr ""
+
+#. const BRIEFING_LINE := "Every death feeds the Hollow."
+#: scripts/campaign/mission_e8_02.gd:53
+msgid "Every death feeds the Hollow."
+msgstr ""
+
+#. const HINT_START := "Break the pylon on your keyhole, then stand on it with your wizard for 5 s. Fight in an a
+#: scripts/campaign/mission_e8_02.gd:54
+msgid "Break the pylon on your keyhole, then stand on it with your wizard for 5 s. Fight in an ally's quarter to make them muster faster."
+msgstr ""
+
+#. const MSG_KEYHOLE_OPEN := "The {kingdom} keyhole is open."
+#: scripts/campaign/mission_e8_02.gd:55
+msgid "The {kingdom} keyhole is open."
+msgstr ""
+
+#. const MSG_HELP := "{wizard} calls for help!"
+#: scripts/campaign/mission_e8_02.gd:56
+msgid "{wizard} calls for help!"
+msgstr ""
+
+#. const MSG_BREATH := "The isle is breathing."
+#: scripts/campaign/mission_e8_02.gd:57
+msgid "The isle is breathing."
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nFour keys turned"
+#: scripts/campaign/mission_e8_02.gd:101
+msgid "VICTORY\nFour keys turned"
+msgstr ""
+
+#. "card": "Heavy riders: break the Rush before it reaches the keyhole."}
+#: scripts/campaign/mission_e8_02.gd:105
+msgid "Heavy riders: break the Rush before it reaches the keyhole."
+msgstr ""
+
+#. return "Episode 8, Mission 2: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e8_02.gd:110
+msgid "Episode 8, Mission 2: %s"
+msgstr ""
+
+#. hg.display_name = "Hollow Gate"
+#: scripts/campaign/mission_e8_02.gd:135
+msgid "Hollow Gate"
+msgstr ""
+
+#. return "Turn your key: break the pylon, then stand at your keyhole"
+#: scripts/campaign/mission_e8_02.gd:204
+msgid "Turn your key: break the pylon, then stand at your keyhole"
+msgstr ""
+
+#. return "Light all four keyholes"
+#: scripts/campaign/mission_e8_02.gd:208
+msgid "Light all four keyholes"
+msgstr ""
+
+#. return "Your keep must stand"
+#: scripts/campaign/mission_e8_02.gd:212 scripts/campaign/mission_e8_03.gd:279
+msgid "Your keep must stand"
+msgstr ""
+
+#. return "Muster together: help every ally"
+#: scripts/campaign/mission_e8_02.gd:223
+msgid "Muster together: help every ally"
+msgstr ""
+
+#. return "Keep the Hollow under 75 %"
+#: scripts/campaign/mission_e8_02.gd:225
+msgid "Keep the Hollow under 75 %"
+msgstr ""
+
+#. return "Break your Hollow Gate"
+#: scripts/campaign/mission_e8_02.gd:227
+msgid "Break your Hollow Gate"
+msgstr ""
+
+#. parts.append(Loc.t("{kingdom} broken", {"kingdom": k}))
+#: scripts/campaign/mission_e8_03.gd:239
+msgid "{kingdom} broken"
+msgstr ""
+
+#. return Loc.t("The King is climbing: hold the four keyholes ({time})", {"time": mmss(maxf(0.0, float(by_difficu
+#: scripts/campaign/mission_e8_03.gd:250
+msgid "The King is climbing: hold the four keyholes ({time})"
+msgstr ""
+
+#. why = Loc.t("Chain Surge: strike!")
+#: scripts/campaign/mission_e8_03.gd:256
+msgid "Chain Surge: strike!"
+msgstr ""
+
+#. why = Loc.t("waiting: the {kingdom} keyhole is below half", {"kingdom": Loc.t(String(seat_kind[_surge_blocker(
+#: scripts/campaign/mission_e8_03.gd:258
+msgid "waiting: the {kingdom} keyhole is below half"
+msgstr ""
+
+#. why = Loc.t("Next Chain Surge {time}", {"time": mmss(maxf(0.0, surge_next - t))})
+#: scripts/campaign/mission_e8_03.gd:260
+msgid "Next Chain Surge {time}"
+msgstr ""
+
+#. return Loc.t("Strike when the chains pull together ({hp} %) · {why}", {"hp": _king_pct(), "why": why})
+#: scripts/campaign/mission_e8_03.gd:261
+msgid "Strike when the chains pull together ({hp} %) · {why}"
+msgstr ""
+
+#. return Loc.t("Stop the King before he reaches a keep ({hp} %)", {"hp": _king_pct()})
+#: scripts/campaign/mission_e8_03.gd:265
+msgid "Stop the King before he reaches a keep ({hp} %)"
+msgstr ""
+
+#. return Loc.t("Hold together: all four at your keyholes ({hp} %, turn {fill} %)", {"hp": _king_pct(),
+#: scripts/campaign/mission_e8_03.gd:269
+msgid "Hold together: all four at your keyholes ({hp} %, turn {fill} %)"
+msgstr ""
+
+#. return Loc.t("Never let two keyholes fall at once ({wards})", {"wards": _wards_text()})
+#: scripts/campaign/mission_e8_03.gd:274
+msgid "Never let two keyholes fall at once ({wards})"
+msgstr ""
+
+#. return Loc.t("Feed him nothing: he heals less than 1 500 while he walks ({n})", {"n": int(fed)})
+#: scripts/campaign/mission_e8_03.gd:284
+msgid "Feed him nothing: he heals less than 1 500 while he walks ({n})"
+msgstr ""
+
+#. const MISSION_TITLE := "The Hollow King"
+#: scripts/campaign/mission_e8_03.gd:20 scripts/campaign/mission_e8_03.gd:112
+msgid "The Hollow King"
+msgstr ""
+
+#. const LIMB := {Unit.Team.PLAYER: "right arm", Teams.ALLY: "left arm", Unit.Team.ENEMY: "left leg", Teams.ENEMY
+#: scripts/campaign/mission_e8_03.gd:54
+msgid "right arm"
+msgstr ""
+
+#. const LIMB := {Unit.Team.PLAYER: "right arm", Teams.ALLY: "left arm", Unit.Team.ENEMY: "left leg", Teams.ENEMY
+#: scripts/campaign/mission_e8_03.gd:54
+msgid "left arm"
+msgstr ""
+
+#. const LIMB := {Unit.Team.PLAYER: "right arm", Teams.ALLY: "left arm", Unit.Team.ENEMY: "left leg", Teams.ENEMY
+#: scripts/campaign/mission_e8_03.gd:54
+msgid "left leg"
+msgstr ""
+
+#. const LIMB := {Unit.Team.PLAYER: "right arm", Teams.ALLY: "left arm", Unit.Team.ENEMY: "left leg", Teams.ENEMY
+#: scripts/campaign/mission_e8_03.gd:54
+msgid "right leg"
+msgstr ""
+
+#. "The four keys turned, and Crown Hollow fell in on itself. Out of the dust climbed the last thing Obren ever b
+#: scripts/campaign/mission_e8_03.gd:57
+msgid "The four keys turned, and Crown Hollow fell in on itself. Out of the dust climbed the last thing Obren ever built: a king of rubble eighteen metres tall, with the Hollow Throne for a heart and four chains of light dragging at his limbs."
+msgstr ""
+
+#. "The chains hold only while the keyholes hold. Every time the four pull together, the King is bound and can be
+#: scripts/campaign/mission_e8_03.gd:58
+msgid "The chains hold only while the keyholes hold. Every time the four pull together, the King is bound and can be hurt. Let one keyhole weaken and the chains go slack; let two fall at once and he is free."
+msgstr ""
+
+#. "Somewhere under the pit, a white-gold light is climbing toward the surface. The Master is coming up. Hold the
+#: scripts/campaign/mission_e8_03.gd:59
+msgid "Somewhere under the pit, a white-gold light is climbing toward the surface. The Master is coming up. Hold the King until he gets there, and then, all four of you, turn the keys together."
+msgstr ""
+
+#. const BRIEFING_LINE := "Every death near the King feeds him."
+#: scripts/campaign/mission_e8_03.gd:61
+msgid "Every death near the King feeds him."
+msgstr ""
+
+#. const HINT_START := "The King climbs for 4:30. Hold your keyhole. When the chains pull together, strike."
+#: scripts/campaign/mission_e8_03.gd:62
+msgid "The King climbs for 4:30. Hold your keyhole. When the chains pull together, strike."
+msgstr ""
+
+#. const HINT_TOGETHER := "All four stand at your keyholes. Keep your helper beside you: the Hollow Pulse breaks 
+#: scripts/campaign/mission_e8_03.gd:63
+msgid "All four stand at your keyholes. Keep your helper beside you: the Hollow Pulse breaks the turn unless every helper grounds it."
+msgstr ""
+
+#. const MSG_SURGE := "The chains pull! Strike now!"
+#: scripts/campaign/mission_e8_03.gd:64
+msgid "The chains pull! Strike now!"
+msgstr ""
+
+#. const MSG_WAITING := "The chains wait: the {kingdom} keyhole is below half"
+#: scripts/campaign/mission_e8_03.gd:65
+msgid "The chains wait: the {kingdom} keyhole is below half"
+msgstr ""
+
+#. const MSG_BROKEN := "The {kingdom} chain is broken! The King's {limb} is free!"
+#: scripts/campaign/mission_e8_03.gd:66
+msgid "The {kingdom} chain is broken! The King's {limb} is free!"
+msgstr ""
+
+#. const MSG_STAGGER := "The King staggers!"
+#: scripts/campaign/mission_e8_03.gd:67
+msgid "The King staggers!"
+msgstr ""
+
+#. const MSG_OPEN := "The King is open!"
+#: scripts/campaign/mission_e8_03.gd:68
+msgid "The King is open!"
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nThe King falls"
+#: scripts/campaign/mission_e8_03.gd:127
+msgid "VICTORY\nThe King falls"
+msgstr ""
+
+#. "card": "Your elite riders: the King's tearing at that chain. Ride."}
+#: scripts/campaign/mission_e8_03.gd:132
+msgid "Your elite riders: the King's tearing at that chain. Ride."
+msgstr ""
+
+#. return "Episode 8, Mission 3: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e8_03.gd:137
+msgid "Episode 8, Mission 3: %s"
+msgstr ""
+
+#. return "The King is climbing: hold the four keyholes"
+#: scripts/campaign/mission_e8_03.gd:251
+msgid "The King is climbing: hold the four keyholes"
+msgstr ""
+
+#. return "Strike when the chains pull together"
+#: scripts/campaign/mission_e8_03.gd:262
+msgid "Strike when the chains pull together"
+msgstr ""
+
+#. return "Stop the King before he reaches a keep"
+#: scripts/campaign/mission_e8_03.gd:266
+msgid "Stop the King before he reaches a keep"
+msgstr ""
+
+#. return "Hold together: all four at your keyholes"
+#: scripts/campaign/mission_e8_03.gd:271
+msgid "Hold together: all four at your keyholes"
+msgstr ""
+
+#. return "Never let two keyholes fall at once"
+#: scripts/campaign/mission_e8_03.gd:275
+msgid "Never let two keyholes fall at once"
+msgstr ""
+
+#. return "Keep every chain bound"
+#: scripts/campaign/mission_e8_03.gd:281
+msgid "Keep every chain bound"
+msgstr ""
+
+#. return "Feed him nothing: he heals less than 1 500 while he walks"
+#: scripts/campaign/mission_e8_03.gd:285
+msgid "Feed him nothing: he heals less than 1 500 while he walks"
+msgstr ""
+
+#. waves_fired.append("Last tide")
+#: scripts/campaign/mission_e8_03.gd:452
+msgid "Last tide"
+msgstr ""
+
+#. const MSG_KEY_LOCKED := "Your key. It goes where you go."
+#: scripts/campaign/mission_e8_base.gd:48
+msgid "Your key. It goes where you go."
+msgstr ""
+
+#. const MSG_SLOT_EMPTY := "The relics went home. The road provides."
+#: scripts/campaign/mission_e8_base.gd:49
+msgid "The relics went home. The road provides."
+msgstr ""
+
+#. local_unit("ruin_warden", SENTINEL, "Rubble Sentinel", {"max_hp": 900.0, "armor": 20.0, "attack_damage": 30.0,
+#: scripts/campaign/mission_e8_base.gd:125
+msgid "Rubble Sentinel"
+msgstr ""
+
+#. local_unit(id, "sworn_" + id, "Stone-sworn %s" % base.display_name, {"max_hp": base.max_hp * 1.15,
+#: scripts/campaign/mission_e8_base.gd:133
+msgid "Stone-sworn %s"
+msgstr ""
+
+#. c.keep_lost_message = "Your keep has fallen."
+#: scripts/campaign/mission_e8_muster.gd:83
+msgid "Your keep has fallen."
 msgstr ""
 
 #. t.display_name = "Grove"

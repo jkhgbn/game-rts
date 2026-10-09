@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_mat5k"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_j3uq6"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_agl4t"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_kwl33"]
+
+[sub_resource type="Resource" id="Resource_1dsd3"]
+script = ExtResource("3_agl4t")
+id = &"S1"
+duration = 2.4
+from_pos = Vector3(16, 6, 16)
+to_pos = Vector3(16, 6, 16)
+fov_from = 48.0
+fov_to = 48.0
+transition_in = 1
+transition_time = 0.3
+
+[sub_resource type="Resource" id="Resource_ttwwy"]
+script = ExtResource("1_mat5k")
+at = 0.2
+speaker = &"obren"
+text = "Too slow, all of you. I'm already climbing."
+voice = "res://assets/audio/voice/whisper/too_slow_all_of_c2385cae.wav"
+
+[sub_resource type="Resource" id="Resource_jq1ia"]
+script = ExtResource("3_agl4t")
+id = &"S2"
+duration = 4.6
+from_pos = Vector3(10, 3, 12)
+to_pos = Vector3(10, 3, 12)
+look_from = Vector3(0, 4, 0)
+look_to = Vector3(0, 4, 0)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_mat5k")]([SubResource("Resource_ttwwy")])
+
+[resource]
+script = ExtResource("2_j3uq6")
+id = &"e8m2_hand"
+title = "The Hand"
+world_mode = 1
+shots = Array[ExtResource("3_agl4t")]([SubResource("Resource_1dsd3"), SubResource("Resource_jq1ia")])
+shake_seed = 852
+voice_over = Array[StringName]([&"obren"])
+lines_over_cuts = true

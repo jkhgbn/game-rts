@@ -1,0 +1,82 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_onma5"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_77edb"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_f3bhe"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_xjaqn"]
+
+[sub_resource type="Resource" id="Resource_rpavv"]
+script = ExtResource("1_onma5")
+at = 0.2
+speaker = &"narrator"
+text = "The Hundredwinter Gate. Someone is knocking on it. Someone always was."
+voice = "res://assets/audio/voice/narrator/the_hundredwinter_gate_someo_cc22a4d4.wav"
+
+[sub_resource type="Resource" id="Resource_66sql"]
+script = ExtResource("3_f3bhe")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(0, 2.2, -26)
+to_pos = Vector3(0, 2.2, -26)
+look_from = Vector3(0, 2, -18)
+look_to = Vector3(0, 2, -18)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_onma5")]([SubResource("Resource_rpavv")])
+
+[sub_resource type="Resource" id="Resource_t3uxc"]
+script = ExtResource("1_onma5")
+at = 0.2
+speaker = &"aldra"
+text = "We don't know what follows them. We could wait. Just until we see."
+voice = "res://assets/audio/voice/aldra/we_dont_know_what_d0f0e649.wav"
+
+[sub_resource type="Resource" id="Resource_i14jq"]
+script = ExtResource("1_onma5")
+at = 5.6
+speaker = &"torvald"
+text = "I always waited until I saw. Then there was nothing left to see."
+voice = "res://assets/audio/voice/torvald/i_always_waited_until_b5388a57.wav"
+
+[sub_resource type="Resource" id="Resource_287is"]
+script = ExtResource("3_f3bhe")
+id = &"S2"
+duration = 11.4
+from_pos = Vector3(4, 1.9, -8)
+to_pos = Vector3(4, 1.9, -8)
+look_from = Vector3(0, 1.6, -12)
+look_to = Vector3(0, 1.6, -12)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_onma5")]([SubResource("Resource_t3uxc"), SubResource("Resource_i14jq")])
+
+[sub_resource type="Resource" id="Resource_je76s"]
+script = ExtResource("1_onma5")
+at = 0.2
+speaker = &"torvald"
+text = "Not this year. Open the gate, Aldra. Or no. I will. My hands, this time."
+voice = "res://assets/audio/voice/torvald/not_this_year_open_e536b1ad.wav"
+
+[sub_resource type="Resource" id="Resource_ibjxc"]
+script = ExtResource("3_f3bhe")
+id = &"S3"
+duration = 6.0
+from_pos = Vector3(2, 1.4, -10)
+to_pos = Vector3(2, 1.4, -10)
+look_from = Vector3(0, 1, -12)
+look_to = Vector3(0, 1, -12)
+fov_from = 24.0
+fov_to = 24.0
+lines = Array[ExtResource("1_onma5")]([SubResource("Resource_je76s")])
+
+[resource]
+script = ExtResource("2_77edb")
+id = &"e8m1_ice_gate"
+title = "The Knock"
+world_mode = 1
+shots = Array[ExtResource("3_f3bhe")]([SubResource("Resource_66sql"), SubResource("Resource_287is"), SubResource("Resource_ibjxc")])
+shake_seed = 831
+voice_over = Array[StringName]([&"narrator", &"aldra", &"torvald"])
+lines_over_cuts = true

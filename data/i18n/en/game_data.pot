@@ -386,11 +386,6 @@ msgid "Wildwood Archer"
 msgstr ""
 
 #. name (glossary: stays English)
-#: data/buildings/fire_barracks.tres:15
-msgid "Ember Hall"
-msgstr ""
-
-#. name (glossary: stays English)
 #: data/buildings/fire_forge.tres:8
 msgid "Ember Forge"
 msgstr ""
@@ -418,11 +413,6 @@ msgstr ""
 #. name (glossary: stays English)
 #: data/buildings/fire_watch_keep.tres:9
 msgid "Emberfall Watch"
-msgstr ""
-
-#. name (glossary: stays English)
-#: data/buildings/ice_barracks.tres:10
-msgid "Frost Hall"
 msgstr ""
 
 #. name (glossary: stays English)
@@ -456,11 +446,6 @@ msgid "Ice Wall"
 msgstr ""
 
 #. name (glossary: stays English)
-#: data/buildings/nature_barracks.tres:9
-msgid "Grove Hall"
-msgstr ""
-
-#. name (glossary: stays English)
 #: data/buildings/nature_forge.tres:8
 msgid "Grove Forge"
 msgstr ""
@@ -488,11 +473,6 @@ msgstr ""
 #. name (glossary: stays English)
 #: data/buildings/nature_tower.tres:9
 msgid "Bramble Spire"
-msgstr ""
-
-#. name (glossary: stays English)
-#: data/buildings/shadow_barracks.tres:15
-msgid "Gloom Hall"
 msgstr ""
 
 #. name (glossary: stays English)

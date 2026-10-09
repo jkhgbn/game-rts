@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_6od40"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_lda5j"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_ci6lf"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_j7lpt"]
+
+[sub_resource type="Resource" id="Resource_i48c3"]
+script = ExtResource("1_6od40")
+at = 0.2
+speaker = &"narrator"
+text = "The last tide climbs out of the Hollow. On the hills behind it, three banners rise."
+voice = "res://assets/audio/voice/narrator/the_last_tide_climbs_29dceb4d.wav"
+
+[sub_resource type="Resource" id="Resource_hra58"]
+script = ExtResource("3_ci6lf")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(-20, 9, 30)
+to_pos = Vector3(-20, 9, 30)
+look_from = Vector3(10, 0, -4)
+look_to = Vector3(10, 0, -4)
+fov_from = 52.0
+fov_to = 52.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_6od40")]([SubResource("Resource_i48c3")])
+
+[sub_resource type="Resource" id="Resource_yovdt"]
+script = ExtResource("1_6od40")
+at = 0.2
+speaker = &"torvald"
+text = "Ice, on the north road. You waited for us, child? Truly?"
+voice = "res://assets/audio/voice/torvald/ice_on_the_north_4d67898f.wav"
+
+[sub_resource type="Resource" id="Resource_o6nh1"]
+script = ExtResource("3_ci6lf")
+id = &"S2"
+duration = 6.0
+from_pos = Vector3(-30, 3, 20)
+to_pos = Vector3(-30, 3, 20)
+look_from = Vector3(20, -6, -40)
+look_to = Vector3(20, -6, -40)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_6od40")]([SubResource("Resource_yovdt")])
+
+[sub_resource type="Resource" id="Resource_q3p8s"]
+script = ExtResource("1_6od40")
+at = 0.2
+speaker = &"ysolde"
+text = "She waited. I watched her do it. I may need to sit down."
+voice = "res://assets/audio/voice/ysolde/she_waited_i_watched_f9ba8365.wav"
+
+[sub_resource type="Resource" id="Resource_mf7l3"]
+script = ExtResource("3_ci6lf")
+id = &"S3"
+duration = 6.0
+from_pos = Vector3(-30, 3, 30)
+to_pos = Vector3(-30, 3, 30)
+look_from = Vector3(-50, 1, 50)
+look_to = Vector3(-50, 1, 50)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_6od40")]([SubResource("Resource_q3p8s")])
+
+[sub_resource type="Resource" id="Resource_eyjt1"]
+script = ExtResource("1_6od40")
+at = 0.2
+speaker = &"malrik"
+text = "Don't all stare. I was invited. Especially, I'm told."
+voice = "res://assets/audio/voice/malrik/dont_all_stare_i_669c1ce4.wav"
+
+[sub_resource type="Resource" id="Resource_cgvn7"]
+script = ExtResource("3_ci6lf")
+id = &"S4"
+duration = 6.0
+from_pos = Vector3(-20, 3, 20)
+to_pos = Vector3(-20, 3, 20)
+look_from = Vector3(44, 2, -44)
+look_to = Vector3(44, 2, -44)
+fov_from = 28.0
+fov_to = 28.0
+lines = Array[ExtResource("1_6od40")]([SubResource("Resource_eyjt1")])
+
+[sub_resource type="Resource" id="Resource_p24qc"]
+script = ExtResource("1_6od40")
+at = 0.2
+speaker = &"vessa"
+text = "Four keys. One hole in the ground. Let's go and knock."
+voice = "res://assets/audio/voice/vessa/four_keys_one_hole_1d2aa590.wav"
+
+[sub_resource type="Resource" id="Resource_tpbqm"]
+script = ExtResource("3_ci6lf")
+id = &"S5"
+duration = 6.0
+from_pos = Vector3(-34, 1.9, 36)
+to_pos = Vector3(-34, 1.9, 36)
+look_from = Vector3(-36, 1.6, 34)
+look_to = Vector3(-36, 1.6, 34)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_6od40")]([SubResource("Resource_p24qc")])
+
+[resource]
+script = ExtResource("2_lda5j")
+id = &"e8m1_fire_storm"
+title = "The Great Storm"
+world_mode = 1
+shots = Array[ExtResource("3_ci6lf")]([SubResource("Resource_hra58"), SubResource("Resource_o6nh1"), SubResource("Resource_mf7l3"), SubResource("Resource_cgvn7"), SubResource("Resource_tpbqm")])
+shake_seed = 812
+voice_over = Array[StringName]([&"narrator", &"torvald", &"ysolde", &"malrik", &"vessa"])
+lines_over_cuts = true

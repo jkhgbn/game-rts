@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_yxpqj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_d5mth"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_70c5g"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_dhfuc"]
+
+[sub_resource type="Resource" id="Resource_ad4oj"]
+script = ExtResource("3_70c5g")
+id = &"S1"
+from_pos = Vector3(16, 2, 18)
+to_pos = Vector3(16, 2, 18)
+look_from = Vector3(0, 3, 0)
+look_to = Vector3(0, 3, 0)
+fov_from = 46.0
+fov_to = 46.0
+transition_in = 1
+transition_time = 0.3
+
+[sub_resource type="Resource" id="Resource_o3eq7"]
+script = ExtResource("1_yxpqj")
+at = 0.2
+speaker = &"obren"
+text = "Enough of your little ring. I will walk to the weakest of you and sit on it."
+voice = "res://assets/audio/voice/whisper/enough_of_your_little_913f6586.wav"
+
+[sub_resource type="Resource" id="Resource_fypcl"]
+script = ExtResource("3_70c5g")
+id = &"S2"
+duration = 5.8
+from_pos = Vector3(6, 1.2, 10)
+to_pos = Vector3(6, 1.2, 10)
+look_from = Vector3(0, 4, 0)
+look_to = Vector3(0, 4, 0)
+fov_from = 40.0
+fov_to = 40.0
+lines = Array[ExtResource("1_yxpqj")]([SubResource("Resource_o3eq7")])
+
+[resource]
+script = ExtResource("2_d5mth")
+id = &"e8m3_walk"
+title = "The King Walks"
+world_mode = 1
+shots = Array[ExtResource("3_70c5g")]([SubResource("Resource_ad4oj"), SubResource("Resource_fypcl")])
+shake_seed = 862
+voice_over = Array[StringName]([&"obren"])
+lines_over_cuts = true

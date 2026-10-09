@@ -43,7 +43,8 @@ const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the m
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
 const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3", &"e2m4", &"e2m5",
 		&"e3m1", &"e3m2", &"e3m3", &"e3m4", &"e4m1", &"e4m2", &"e4m3", &"e4m4", &"e5m1", &"e5m2", &"e5m3", &"e5m4",
-		&"e6m1", &"e6m2", &"e6m3", &"e6m4", &"e7m1", &"e7m2", &"e7m3", &"e7m4"]
+		&"e6m1", &"e6m2", &"e6m3", &"e6m4", &"e7m1", &"e7m2", &"e7m3", &"e7m4", &"e8m1", &"e8m1_fire", &"e8m1_shadow",
+		&"e8m1_ice", &"e8m1_nature", &"e8m2", &"e8m3"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
@@ -75,6 +76,13 @@ const MISSION_SCENES := {
 	&"e7m2": "res://missions/mission_e7_02.tscn",
 	&"e7m3": "res://missions/mission_e7_03.tscn",
 	&"e7m4": "res://missions/mission_e7_04.tscn",
+	&"e8m1": "res://missions/e8_road_choice.tscn",       # mission-e8-01.md: the road picker (outline 4.1)
+	&"e8m1_fire": "res://missions/mission_e8_01_fire.tscn",
+	&"e8m1_shadow": "res://missions/mission_e8_01_shadow.tscn",
+	&"e8m1_ice": "res://missions/mission_e8_01_ice.tscn",
+	&"e8m1_nature": "res://missions/mission_e8_01_nature.tscn",
+	&"e8m2": "res://missions/mission_e8_02.tscn",
+	&"e8m3": "res://missions/mission_e8_03.tscn",
 }
 ## Story films a reward's "next" may name (StoryFilms plays them): film id -> what follows it (a film or a mission).
 ## The victory unlocks the first mission at the end of the chain (film_target).
@@ -110,14 +118,45 @@ const STORY_FILMS := {
 	&"c_e7_mask": &"e7m3",           # mission-e7-02.md: "Mourning" after e7m2, before e7m3's briefing
 	&"c_e7_pits": &"e7m4",           # mission-e7-03.md: "The Year Comes Round" (people cut; FILM_BRANCHES picks the pits cut)
 	&"c_e7_pits_pits": &"e7m4",      # mission-e7-03.md: the pits cut of c_e7_pits (Ossavar leaves)
-	&"ep7_ending": &"",              # mission-e7-04.md: "No. Not for Now.", then the main menu (Episode 8 not built)
+	&"ep7_ending": &"ep8_opening",   # mission-e7-04.md: "No. Not for Now.", then the Ep8 card
+	&"ep8_opening": &"e8m1",         # outline 4.1: "The Four Keys", then the road picker (e8m1 = its screen)
+	&"c_e8_muster": &"e8m2",         # mission-e8-02.md: "Especially Malrik" after the road, before e8m2's briefing
+	&"ep8_ending_a": &"ep8_throne_vessa",   # mission-e8-03.md 8.2: the last turn; FILM_BRANCHES picks the throne shot
+	&"ep8_throne_vessa": &"ep8_choice",
+	&"ep8_throne_malrik": &"ep8_choice",
+	&"ep8_throne_torvald": &"ep8_choice",
+	&"ep8_throne_ysolde": &"ep8_choice",
+	&"ep8_ending_b": &"ep8_bookend",       # canon (Break the throne); FILM_BRANCHES picks ep8_dark_<k> on Take the seat
+	&"ep8_dark_fire": &"ep8_bookend",
+	&"ep8_dark_shadow": &"ep8_bookend",
+	&"ep8_dark_ice": &"ep8_bookend",
+	&"ep8_dark_nature": &"ep8_bookend",
+	&"ep8_bookend": &"ep8_credits",        # FILM_BRANCHES picks ep8_bookend_dark on Take the seat
+	&"ep8_bookend_dark": &"ep8_credits",
 }
-## Films picked by a campaign flag (mission-e6-02.md D4 / D5): film id -> [flag, value, the film played instead]. A
-## chain that reaches the key film plays the other one when CampaignState.flag(flag) == value.
+## Story screens a film chain may reach (not missions, never unlocked): id -> scene. The ending's choice card writes
+## `ep8_choice` and goes on with ep8_ending_b; the credits end on the main menu.
+const STORY_SCREENS := {
+	&"ep8_choice": "res://missions/ep8_choice.tscn",
+	&"ep8_credits": "res://missions/ep8_credits.tscn",
+}
+## Films picked by campaign flags (mission-e6-02.md D4 / D5): film id -> [flag, value, the film played instead], or a
+## list of rows [{flag: value, ...}, film] (every flag must match; the first matching row wins). A chain that reaches
+## the key film plays the other one; no match (or a flag missing from the save) keeps the key film.
 const FILM_BRANCHES := {
 	&"c_e6_gate": ["e6m2_gate_opened", false, &"c_e6_gate_shut"],
 	&"c_e7_pits": ["e7m3_people", false, &"c_e7_pits_pits"],   # mission-e7-03.md: the Outwall was not sheltered
+	# mission-e8-03.md 8.2: e8_road = 0 fire / 1 shadow / 2 ice / 3 nature; ep8_choice = 1 break / 2 take.
+	&"ep8_throne_vessa": [[{"e8_road": 1}, &"ep8_throne_malrik"], [{"e8_road": 2}, &"ep8_throne_torvald"],
+			[{"e8_road": 3}, &"ep8_throne_ysolde"]],
+	&"ep8_ending_b": [[{"ep8_choice": 2, "e8_road": 0}, &"ep8_dark_fire"], [{"ep8_choice": 2, "e8_road": 1}, &"ep8_dark_shadow"],
+			[{"ep8_choice": 2, "e8_road": 2}, &"ep8_dark_ice"], [{"ep8_choice": 2, "e8_road": 3}, &"ep8_dark_nature"],
+			[{"ep8_choice": 2}, &"ep8_dark_fire"]],
+	&"ep8_bookend": [[{"ep8_choice": 2}, &"ep8_bookend_dark"]],
 }
+## The ending choice (mission-e8-03.md 8.2): the `ep8_choice` values.
+const CHOICE_BREAK := 1
+const CHOICE_TAKE := 2
 ## Malrik's track (campaign-outline D8; per-wizard item tracks are not built): Ep3 victories are flags-only
 ## ("save_items": false, Vessa's items untouched) and carry Malrik's essence (50 %, cap 1 500) in this int flag.
 const MALRIK_ESSENCE_FLAG := "malrik_essence"
@@ -329,8 +368,43 @@ const MISSION_REWARDS := {
 	&"e7m4": {
 		"flags": {"e7m4_red_sunk": "sec_red", "e7m4_silver_sunk": "sec_silver", "e7m4_all_paid": "sec_dragons"},
 		"set_flags": {"e7_turned": true, "episode7_complete": true, "ossavar_ring_owned": true},
-		"next": &"ep7_ending",   # film ep7_ending, then the main menu (Episode 8 not built)
+		"next": &"ep7_ending",   # film chain ep7_ending -> ep8_opening -> the road picker (e8m1)
 		"save_items": false,
+	},
+	# Episode 8 (the chosen wizard's track, mission-e8-01.md D2 / 1.5): items, key relic, essence 50 % cap 1 500 and the
+	# companion are saved; e8_road (int), e8_road_<k>, e8m1_done, e8_hush_fled and the counters are mission-computed.
+	&"e8m1_fire": {
+		"flags": {"e8m1_fire_waited": "sec_waited", "e8m1_fire_scouts": "sec_scouts", "e8m1_fire_vey_called": "sec_storm"},
+		"bonus_essence": {"sec_waited": 300, "sec_scouts": 200},
+		"next": &"c_e8_muster",   # film c_e8_muster -> e8m2
+	},
+	&"e8m1_shadow": {
+		"flags": {"e8m1_shadow_shovel": "sec_shovel", "e8m1_shadow_raids": "sec_raids"},
+		"bonus_essence": {"sec_shovel": 400, "sec_raids": 150},
+		"next": &"c_e8_muster",
+	},
+	&"e8m1_ice": {
+		"flags": {"e8m1_ice_open_early": "sec_early", "e8m1_ice_thirty": "sec_thirty", "e8m1_ice_shut": "sec_shut"},
+		"bonus_essence": {"sec_early": 300, "sec_thirty": 300},
+		"next": &"c_e8_muster",
+	},
+	&"e8m1_nature": {
+		"flags": {"e8m1_nature_hamlets": "sec_hamlets", "e8m1_nature_bridge": "sec_bridge"},
+		"bonus_essence": {"sec_hamlets": 300, "sec_bridge": 200},
+		"next": &"c_e8_muster",
+	},
+	# mission-e8-02.md 10 (e8m2_early_rise / e8m2_hollow_peak / e8m2_time are mission-computed).
+	&"e8m2": {
+		"flags": {"e8m2_helped_all": "sec_help", "e8m2_hollow_low": "sec_hollow", "e8m2_gate_broken": "sec_gate"},
+		"bonus_essence": {"sec_help": 300, "sec_hollow": 300, "sec_gate": 150},
+		"next": &"e8m3",
+	},
+	# mission-e8-03.md 9: the end of every track; the closing film chain, the choice card and the credits follow.
+	&"e8m3": {
+		"flags": {"e8m3_chains_held": "sec_chains", "e8m3_unfed": "sec_fed", "e8m3_titan": "sec_titan"},
+		"set_flags": {"ep8_complete": true, "campaign_complete": true},
+		"unlock": [&"e8m1_fire", &"e8m1_shadow", &"e8m1_ice", &"e8m1_nature"],
+		"next": &"ep8_ending_a",
 	},
 }
 
@@ -389,6 +463,8 @@ static func film_next(id: StringName) -> StringName:
 static func film_target(id: StringName) -> StringName:
 	var at := StringName(id)
 	for i in 8:
+		if STORY_SCREENS.has(at):
+			return &""   # the ending's choice card / credits: nothing to unlock
 		if not is_film(at):
 			return at
 		at = film_next(at)

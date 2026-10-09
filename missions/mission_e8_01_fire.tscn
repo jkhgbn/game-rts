@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/campaign/mission_e8_01_fire.gd" id="1_mission"]
+[ext_resource type="Script" path="res://art/vfx/spell_vfx.gd" id="2_vfx"]
+[ext_resource type="Script" path="res://art/vfx/combat_vfx.gd" id="3_combat"]
+
+[node name="MissionE8_01Fire" type="Node3D"]
+script = ExtResource("1_mission")
+
+[node name="SpellVfx" type="Node3D" parent="."]
+script = ExtResource("2_vfx")
+
+[node name="CombatVfx" type="Node3D" parent="."]
+script = ExtResource("3_combat")

@@ -386,11 +386,6 @@ msgid "Wildwood Archer"
 msgstr "Wildwood Archer"
 
 #. name (glossary: stays English)
-#: data/buildings/fire_barracks.tres:15
-msgid "Ember Hall"
-msgstr "Ember Hall"
-
-#. name (glossary: stays English)
 #: data/buildings/fire_forge.tres:8
 msgid "Ember Forge"
 msgstr "Ember Forge"
@@ -419,11 +414,6 @@ msgstr "Ember Spire"
 #: data/buildings/fire_watch_keep.tres:9
 msgid "Emberfall Watch"
 msgstr "Emberfall Watch"
-
-#. name (glossary: stays English)
-#: data/buildings/ice_barracks.tres:10
-msgid "Frost Hall"
-msgstr "Frost Hall"
 
 #. name (glossary: stays English)
 #: data/buildings/ice_forge.tres:8
@@ -456,11 +446,6 @@ msgid "Ice Wall"
 msgstr "Ice Wall"
 
 #. name (glossary: stays English)
-#: data/buildings/nature_barracks.tres:9
-msgid "Grove Hall"
-msgstr "Grove Hall"
-
-#. name (glossary: stays English)
 #: data/buildings/nature_forge.tres:8
 msgid "Grove Forge"
 msgstr "Grove Forge"
@@ -489,11 +474,6 @@ msgstr "Grove Stables"
 #: data/buildings/nature_tower.tres:9
 msgid "Bramble Spire"
 msgstr "Bramble Spire"
-
-#. name (glossary: stays English)
-#: data/buildings/shadow_barracks.tres:15
-msgid "Gloom Hall"
-msgstr "Gloom Hall"
 
 #. name (glossary: stays English)
 #: data/buildings/shadow_forge.tres:8
@@ -896,11 +876,31 @@ msgstr "L'Épée-Tempête"
 #~ msgstr "Shade"
 
 #. name (glossary: stays English)
+#: data/buildings/ice_keep.tres:9
+#~ msgid "Rime Keep"
+#~ msgstr "Rime Keep"
+
+#. name (glossary: stays English)
 #: data/units/ruin_warden.tres:9
 #~ msgid "Ruin Warden"
 #~ msgstr "Ruin Warden"
 
 #. name (glossary: stays English)
-#: data/buildings/ice_keep.tres:9
-#~ msgid "Rime Keep"
-#~ msgstr "Rime Keep"
+#: data/buildings/shadow_barracks.tres:15
+#~ msgid "Gloom Hall"
+#~ msgstr "Gloom Hall"
+
+#. name (glossary: stays English)
+#: data/buildings/nature_barracks.tres:9
+#~ msgid "Grove Hall"
+#~ msgstr "Grove Hall"
+
+#. name (glossary: stays English)
+#: data/buildings/ice_barracks.tres:10
+#~ msgid "Frost Hall"
+#~ msgstr "Frost Hall"
+
+#. name (glossary: stays English)
+#: data/buildings/fire_barracks.tres:15
+#~ msgid "Ember Hall"
+#~ msgstr "Ember Hall"

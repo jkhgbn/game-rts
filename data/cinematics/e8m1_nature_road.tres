@@ -1,0 +1,82 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_djbsn"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_54k85"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_37nsl"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_dfkw2"]
+
+[sub_resource type="Resource" id="Resource_ak8am"]
+script = ExtResource("1_djbsn")
+at = 0.2
+speaker = &"narrator"
+text = "The Closed Road. For a hundred years nobody came in. For a hundred years she never went out."
+voice = "res://assets/audio/voice/narrator/the_closed_road_for_c5842138.wav"
+
+[sub_resource type="Resource" id="Resource_7i7xu"]
+script = ExtResource("3_37nsl")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(-14, 2, 14)
+to_pos = Vector3(-14, 2, 14)
+look_from = Vector3(-24, 1.5, 14)
+look_to = Vector3(-24, 1.5, 14)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_djbsn")]([SubResource("Resource_ak8am")])
+
+[sub_resource type="Resource" id="Resource_ew7u3"]
+script = ExtResource("1_djbsn")
+at = 0.2
+speaker = &"ysolde"
+text = "I grew these walls to keep the war out. They did. They kept everything out."
+voice = "res://assets/audio/voice/ysolde/i_grew_these_walls_3eff56ad.wav"
+
+[sub_resource type="Resource" id="Resource_wvka6"]
+script = ExtResource("1_djbsn")
+at = 5.6
+speaker = &"maelis"
+text = "They'll fight you, child. They only know the one word you taught them."
+voice = "res://assets/audio/voice/maelis/theyll_fight_you_child_513b461f.wav"
+
+[sub_resource type="Resource" id="Resource_sk31w"]
+script = ExtResource("3_37nsl")
+id = &"S2"
+duration = 11.4
+from_pos = Vector3(-28, 1.9, 18)
+to_pos = Vector3(-28, 1.9, 18)
+look_from = Vector3(-24, 1.6, 14)
+look_to = Vector3(-24, 1.6, 14)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_djbsn")]([SubResource("Resource_ew7u3"), SubResource("Resource_wvka6")])
+
+[sub_resource type="Resource" id="Resource_gx1bn"]
+script = ExtResource("1_djbsn")
+at = 0.2
+speaker = &"ysolde"
+text = "Then I'll teach them a second word. It's a short one. Open."
+voice = "res://assets/audio/voice/ysolde/then_ill_teach_them_af88fa3b.wav"
+
+[sub_resource type="Resource" id="Resource_gu4x0"]
+script = ExtResource("3_37nsl")
+id = &"S3"
+duration = 6.0
+from_pos = Vector3(-40, 6, 20)
+to_pos = Vector3(-40, 6, 20)
+look_from = Vector3(20, 0, 0)
+look_to = Vector3(20, 0, 0)
+fov_from = 46.0
+fov_to = 46.0
+lines = Array[ExtResource("1_djbsn")]([SubResource("Resource_gx1bn")])
+
+[resource]
+script = ExtResource("2_54k85")
+id = &"e8m1_nature_road"
+title = "The Closed Road"
+world_mode = 1
+shots = Array[ExtResource("3_37nsl")]([SubResource("Resource_7i7xu"), SubResource("Resource_sk31w"), SubResource("Resource_gu4x0")])
+shake_seed = 841
+voice_over = Array[StringName]([&"narrator", &"ysolde", &"maelis"])
+lines_over_cuts = true

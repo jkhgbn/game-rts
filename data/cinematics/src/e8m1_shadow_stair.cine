@@ -1,0 +1,11 @@
+# e8m1_shadow E13: the Bishop climbs with the stone in his fist (B.9).
+# Lines from data/voice/lines/e8m1_shadow.json; the mission's end state says them again (shown once). Fallback: the end state.
+cine e8m1_shadow_stair  title="The Stair"  mode=pause  letterbox=2.39  seed=824  length=9..16
+env dusk  moon_yaw=120  moon_pitch=-30  energy=0.9
+cast  malrik  capsule  at=(0, 0, -300)  hidden=1
+cast  narrator  capsule  at=(10, 0, -300)  hidden=1
+
+shot S1 6.0  cam=static  from=(44, 2.5, -42)  look=(50, 2.0, -50)  fov=36  in=fade_black:0.3
+  at 0.2  line malrik "I'm not using you. I'm carrying you. Like a parcel. To the hole you came from."
+shot S2 6.0  cam=static  from=(54, 8, -54)  look=(0, 0, 0)  fov=50
+  at 0.2  line narrator "The Bishop walked out of his city with the stone in his fist, and for once the fist stayed shut."

@@ -1637,74 +1637,9 @@ msgstr "Impossible"
 msgid "Can't"
 msgstr "Impossible"
 
-#. return "build %s to start trade: worker, %s (%d crystals, needs %s)" \
-#: scripts/ui/next_step_hint.gd:315
-#~ msgid "build %s to start trade: worker, %s (%d crystals, needs %s)"
-#~ msgstr ""
-
-#. + "Delete: cancel a site    %s: walk %s    %s: spells\n"
-#: scripts/ui/hud.gd:476
-#~ msgid "Delete: cancel a site    %s: walk %s    %s: spells\n"
-#~ msgstr ""
-
-#. + "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
-#: scripts/ui/hud.gd:474
-#~ msgid "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
-#~ msgstr ""
-
-#. middle = ("Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
-#: scripts/ui/hud.gd:472
-#~ msgid "Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
-#~ msgstr ""
-
-#. + "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n"
-#: scripts/ui/hud.gd:494
-#~ msgid "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop"
-#~ msgstr ""
-
-#. line += " (from %s)" % TierSystem.clock(float(st["from"]))
-#: scripts/ui/command_card.gd:952
-#~ msgid " (from %s)"
-#~ msgstr ""
-
-#. var line := "Upgrade your %s to a %s: select it, press %s" % [keep_name, st["name"], KeyLabels.of(KEY_X)]
-#: scripts/ui/command_card.gd:949
-#~ msgid "Upgrade your %s to a %s: select it, press %s"
-#~ msgstr ""
-
-#. return "Blocks the way.%s" % (" Max %d." % type.max_count if type.max_count > 0 else "")
-#: scripts/ui/command_card.gd:774
-#~ msgid "Blocks the way.%s"
-#~ msgstr ""
-
-#. line += "  ·  Paused: right-click it with workers"
-#: scripts/ui/selection_panel.gd:1892
-#~ msgid "  ·  Paused: right-click it with workers"
-#~ msgstr ""
-
-#. hero_badge.tooltip_text = "Level %d%s · %d spell point%s" % [level, xp_part, points, "" if points == 1 else "s
-#: scripts/ui/selection_panel.gd:791
-#~ msgid "Level %d%s · %d spell point%s"
-#~ msgstr ""
-
-#. am_tip += "\n%s works too." % KeyLabels.of(KEY_X)
-#: scripts/ui/command_card.gd:704
-#~ msgid "\n%s works too."
-#~ msgstr ""
-
-#. return "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s" % [refund, unpaid - refund, pursuers,
-#: scripts/ui/command_card.gd:675
-#~ msgid "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s"
-#~ msgstr ""
-
-#. var tip: String = "%s  [%s]\n%s" % [names[st], key, lines[st]] + ("\n(current)" if helper.stance == st else ""
-#: scripts/ui/command_card.gd:605
-#~ msgid "\n(current)"
-#~ msgstr ""
-
-#. return "%d unit%s dancing (%s)" % [n, "" if n == 1 else "s", ["victory", "I give up", "random"][int(words[1])
-#: scripts/ui/chat_line.gd:129
-#~ msgid "%d unit%s dancing (%s)"
+#. var t := "Next: " + step_text(step, kingdom, s)
+#: scripts/ui/next_step_hint.gd:135
+#~ msgid "Next: "
 #~ msgstr ""
 
 #. return "+%d population.%s" % [type.pop_bonus, limit]
@@ -1712,9 +1647,74 @@ msgstr "Impossible"
 #~ msgid "+%d population.%s"
 #~ msgstr ""
 
-#. var t := "Next: " + step_text(step, kingdom, s)
-#: scripts/ui/next_step_hint.gd:135
-#~ msgid "Next: "
+#. return "%d unit%s dancing (%s)" % [n, "" if n == 1 else "s", ["victory", "I give up", "random"][int(words[1])
+#: scripts/ui/chat_line.gd:129
+#~ msgid "%d unit%s dancing (%s)"
+#~ msgstr ""
+
+#. var tip: String = "%s  [%s]\n%s" % [names[st], key, lines[st]] + ("\n(current)" if helper.stance == st else ""
+#: scripts/ui/command_card.gd:605
+#~ msgid "\n(current)"
+#~ msgstr ""
+
+#. return "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s" % [refund, unpaid - refund, pursuers,
+#: scripts/ui/command_card.gd:675
+#~ msgid "Remove  [Delete]\nRefund %d (50 %%) · %d to the %d pursuer%s"
+#~ msgstr ""
+
+#. am_tip += "\n%s works too." % KeyLabels.of(KEY_X)
+#: scripts/ui/command_card.gd:704
+#~ msgid "\n%s works too."
+#~ msgstr ""
+
+#. hero_badge.tooltip_text = "Level %d%s · %d spell point%s" % [level, xp_part, points, "" if points == 1 else "s
+#: scripts/ui/selection_panel.gd:791
+#~ msgid "Level %d%s · %d spell point%s"
+#~ msgstr ""
+
+#. line += "  ·  Paused: right-click it with workers"
+#: scripts/ui/selection_panel.gd:1892
+#~ msgid "  ·  Paused: right-click it with workers"
+#~ msgstr ""
+
+#. return "Blocks the way.%s" % (" Max %d." % type.max_count if type.max_count > 0 else "")
+#: scripts/ui/command_card.gd:774
+#~ msgid "Blocks the way.%s"
+#~ msgstr ""
+
+#. var line := "Upgrade your %s to a %s: select it, press %s" % [keep_name, st["name"], KeyLabels.of(KEY_X)]
+#: scripts/ui/command_card.gd:949
+#~ msgid "Upgrade your %s to a %s: select it, press %s"
+#~ msgstr ""
+
+#. line += " (from %s)" % TierSystem.clock(float(st["from"]))
+#: scripts/ui/command_card.gd:952
+#~ msgid " (from %s)"
+#~ msgstr ""
+
+#. + "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n"
+#: scripts/ui/hud.gd:494
+#~ msgid "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender\n%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop"
+#~ msgstr ""
+
+#. middle = ("Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
+#: scripts/ui/hud.gd:472
+#~ msgid "Right click: move / attack / gather / rally    %s: attack-move    %s: stop\n"
+#~ msgstr ""
+
+#. + "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
+#: scripts/ui/hud.gd:474
+#~ msgid "%s: hold    %s: gather    %s: build (workers)    %s: train\n"
+#~ msgstr ""
+
+#. + "Delete: cancel a site    %s: walk %s    %s: spells\n"
+#: scripts/ui/hud.gd:476
+#~ msgid "Delete: cancel a site    %s: walk %s    %s: spells\n"
+#~ msgstr ""
+
+#. return "build %s to start trade: worker, %s (%d crystals, needs %s)" \
+#: scripts/ui/next_step_hint.gd:315
+#~ msgid "build %s to start trade: worker, %s (%d crystals, needs %s)"
 #~ msgstr ""
 
 #. + "Attack-move: %s + click    %s: hold    %s: gather    %s: build\n"
@@ -1797,74 +1797,9 @@ msgstr "Impossible"
 #~ msgid "Maj+%s"
 #~ msgstr ""
 
-#. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
-#: scripts/ui/key_labels.gd:77
-#~ msgid "Shift+%s"
-#~ msgstr ""
-
-#. return text.replace("[%s]" % qwerty, "[%s]" % shown).replace("Ctrl+%s" % qwerty, "Ctrl+" + shown) \
-#: scripts/ui/key_labels.gd:76
-#~ msgid "Ctrl+"
-#~ msgstr ""
-
-#. return text.replace("[%s]" % qwerty, "[%s]" % shown).replace("Ctrl+%s" % qwerty, "Ctrl+" + shown) \
-#: scripts/ui/key_labels.gd:76
-#~ msgid "Ctrl+%s"
-#~ msgstr ""
-
-#. out[1] = _slot("remove", "RM", "Del", remove_tooltip(flag), func() -> void: sel.remove_selected_bounty())
-#: scripts/ui/command_card.gd:666 scripts/ui/command_card.gd:884
-#~ msgid "Del"
-#~ msgstr ""
-
-#. &"enrage": ["Enrage", "EN", "Below 30 % HP", "Attacks 30 % faster", 0.0],
-#: scripts/ui/selection_panel.gd:230
-#~ msgid "Enrage"
-#~ msgstr ""
-
-#. &"rending_roar": ["Rending Roar", "RR", "At 50 % HP, then every 30 s",
-#: scripts/ui/selection_panel.gd:228
-#~ msgid "Rending Roar"
-#~ msgstr ""
-
-#. &"hamstring": ["Hamstring", "HS", "Passive", "Its hits slow by 25 % for 3 s", 0.0],
-#: scripts/ui/selection_panel.gd:226
-#~ msgid "Hamstring"
-#~ msgstr ""
-
-#. &"pounce": ["Pounce", "PO", "Every 9 s (Moonpelt: 6 s) · a target 5-10 m away",
-#: scripts/ui/selection_panel.gd:224
-#~ msgid "Pounce"
-#~ msgstr ""
-
-#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it",
-#: scripts/ui/selection_panel.gd:223
-#~ msgid "Updraft"
-#~ msgstr ""
-
-#. &"shrieking_dive": ["Shrieking Dive", "SD", "Every 10 s · leaps up to 12 m",
-#: scripts/ui/selection_panel.gd:221
-#~ msgid "Shrieking Dive"
-#~ msgstr ""
-
-#. &"gale_swoop": ["Gale Swoop", "GS", "Every 10 s · leaps up to 12 m",
-#: scripts/ui/selection_panel.gd:219
-#~ msgid "Gale Swoop"
-#~ msgstr ""
-
-#. &"bristle_hide": ["Bristle Hide", "BH", "Passive", "Melee attackers take 4 damage per hit", 0.0],
-#: scripts/ui/selection_panel.gd:218
-#~ msgid "Bristle Hide"
-#~ msgstr ""
-
-#. &"gore_charge": ["Gore Charge", "GC", "Every 12 s · a target 6-14 m away",
-#: scripts/ui/selection_panel.gd:216
-#~ msgid "Gore Charge"
-#~ msgstr ""
-
-#. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
-#: scripts/ui/key_labels.gd:77
-#~ msgid "Shift+"
+#. line += " · Armor %s" % _num(armor)
+#: scripts/ui/selection_panel.gd:863
+#~ msgid " · Armor %s"
 #~ msgstr ""
 
 #. _set_segments(single_extra_rows[1], [["Roams the " + lair, muted]] if lair != "" else [])
@@ -1872,9 +1807,74 @@ msgstr "Impossible"
 #~ msgid "Roams the "
 #~ msgstr ""
 
-#. line += " · Armor %s" % _num(armor)
-#: scripts/ui/selection_panel.gd:863
-#~ msgid " · Armor %s"
+#. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
+#: scripts/ui/key_labels.gd:77
+#~ msgid "Shift+"
+#~ msgstr ""
+
+#. &"gore_charge": ["Gore Charge", "GC", "Every 12 s · a target 6-14 m away",
+#: scripts/ui/selection_panel.gd:216
+#~ msgid "Gore Charge"
+#~ msgstr ""
+
+#. &"bristle_hide": ["Bristle Hide", "BH", "Passive", "Melee attackers take 4 damage per hit", 0.0],
+#: scripts/ui/selection_panel.gd:218
+#~ msgid "Bristle Hide"
+#~ msgstr ""
+
+#. &"gale_swoop": ["Gale Swoop", "GS", "Every 10 s · leaps up to 12 m",
+#: scripts/ui/selection_panel.gd:219
+#~ msgid "Gale Swoop"
+#~ msgstr ""
+
+#. &"shrieking_dive": ["Shrieking Dive", "SD", "Every 10 s · leaps up to 12 m",
+#: scripts/ui/selection_panel.gd:221
+#~ msgid "Shrieking Dive"
+#~ msgstr ""
+
+#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it",
+#: scripts/ui/selection_panel.gd:223
+#~ msgid "Updraft"
+#~ msgstr ""
+
+#. &"pounce": ["Pounce", "PO", "Every 9 s (Moonpelt: 6 s) · a target 5-10 m away",
+#: scripts/ui/selection_panel.gd:224
+#~ msgid "Pounce"
+#~ msgstr ""
+
+#. &"hamstring": ["Hamstring", "HS", "Passive", "Its hits slow by 25 % for 3 s", 0.0],
+#: scripts/ui/selection_panel.gd:226
+#~ msgid "Hamstring"
+#~ msgstr ""
+
+#. &"rending_roar": ["Rending Roar", "RR", "At 50 % HP, then every 30 s",
+#: scripts/ui/selection_panel.gd:228
+#~ msgid "Rending Roar"
+#~ msgstr ""
+
+#. &"enrage": ["Enrage", "EN", "Below 30 % HP", "Attacks 30 % faster", 0.0],
+#: scripts/ui/selection_panel.gd:230
+#~ msgid "Enrage"
+#~ msgstr ""
+
+#. out[1] = _slot("remove", "RM", "Del", remove_tooltip(flag), func() -> void: sel.remove_selected_bounty())
+#: scripts/ui/command_card.gd:666 scripts/ui/command_card.gd:884
+#~ msgid "Del"
+#~ msgstr ""
+
+#. return text.replace("[%s]" % qwerty, "[%s]" % shown).replace("Ctrl+%s" % qwerty, "Ctrl+" + shown) \
+#: scripts/ui/key_labels.gd:76
+#~ msgid "Ctrl+%s"
+#~ msgstr ""
+
+#. return text.replace("[%s]" % qwerty, "[%s]" % shown).replace("Ctrl+%s" % qwerty, "Ctrl+" + shown) \
+#: scripts/ui/key_labels.gd:76
+#~ msgid "Ctrl+"
+#~ msgstr ""
+
+#. .replace("Shift+%s" % qwerty, "Shift+" + shown).replace("Maj+%s" % qwerty, "Maj+" + shown)   # French tooltips
+#: scripts/ui/key_labels.gd:77
+#~ msgid "Shift+%s"
 #~ msgstr ""
 
 #. var line := "Damage %s · Range %.1f · Speed %.1f" % [_num(dmg), u.attack_range, u.move_speed]

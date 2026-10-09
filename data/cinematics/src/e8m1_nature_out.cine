@@ -1,0 +1,14 @@
+# e8m1_nature E13: the army crosses, the Hollow haze to the east (D.9).
+# Lines from data/voice/lines/e8m1_nature.json; the mission's end state says them again (shown once). Fallback: the end state.
+cine e8m1_nature_out  title="Out"  mode=pause  letterbox=2.39  seed=842  length=15..22
+env dusk  moon_yaw=120  moon_pitch=-30  energy=0.9
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  ysolde  capsule  at=(10, 0, -300)  hidden=1
+cast  messenger  capsule  at=(20, 0, -300)  hidden=1
+
+shot S1 6.0  cam=static  from=(30, 1.5, 6)  look=(24, 1.0, -2)  fov=40  in=fade_black:0.3
+  at 0.2  line narrator "For the first time in a hundred years, the green went out of its own border."
+shot S2 6.0  cam=static  from=(46, 1.9, 0)  look=(52, 1.6, -4)  fov=32
+  at 0.2  line ysolde "The Signet's warm. It's pointing at the others. Let's not keep them waiting."
+shot S3 6.0  cam=static  from=(40, 6, -4)  look=(80, 2, -4)  fov=48
+  at 0.2  line messenger "My lady... you're really coming? Out here? With us?"

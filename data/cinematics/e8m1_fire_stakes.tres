@@ -1,0 +1,89 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_ilagu"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_1mag5"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_cg0qh"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_a8g3m"]
+
+[sub_resource type="Resource" id="Resource_diric"]
+script = ExtResource("1_ilagu")
+at = 0.2
+speaker = &"narrator"
+text = "Spring at Crown Hollow. Three keys are still on the road. One is already here, of course."
+voice = "res://assets/audio/voice/narrator/spring_at_crown_hollow_b83e0d12.wav"
+
+[sub_resource type="Resource" id="Resource_gui6w"]
+script = ExtResource("3_cg0qh")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(-2, 14, 8)
+to_pos = Vector3(-2, 14, 8)
+look_from = Vector3(6, 0, -6)
+look_to = Vector3(6, 0, -6)
+fov_from = 48.0
+fov_to = 48.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_ilagu")]([SubResource("Resource_diric")])
+
+[sub_resource type="Resource" id="Resource_b84ol"]
+script = ExtResource("1_ilagu")
+at = 0.2
+speaker = &"vessa"
+text = "Two days early. I'm always early. That's the problem, isn't it?"
+voice = "res://assets/audio/voice/vessa/two_days_early_im_df85b485.wav"
+
+[sub_resource type="Resource" id="Resource_hp52d"]
+script = ExtResource("1_ilagu")
+at = 5.6
+speaker = &"vey"
+text = "Six stakes, one line. The Hollow can't feed on this bank. Don't hand it the other one."
+voice = "res://assets/audio/voice/vey/six_stakes_one_line_fd9aca9a.wav"
+
+[sub_resource type="Resource" id="Resource_hxww4"]
+script = ExtResource("3_cg0qh")
+id = &"S2"
+duration = 11.4
+from_pos = Vector3(-14, 2.2, 2)
+to_pos = Vector3(-14, 2.2, 2)
+look_from = Vector3(-17, 1.2, -3)
+look_to = Vector3(-17, 1.2, -3)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_ilagu")]([SubResource("Resource_b84ol"), SubResource("Resource_hp52d")])
+
+[sub_resource type="Resource" id="Resource_hqaws"]
+script = ExtResource("1_ilagu")
+at = 0.2
+speaker = &"vessa"
+text = "So I just... stand here. For fourteen minutes."
+voice = "res://assets/audio/voice/vessa/so_i_just_stand_ae4ac09b.wav"
+
+[sub_resource type="Resource" id="Resource_hopkb"]
+script = ExtResource("1_ilagu")
+at = 5.6
+speaker = &"vey"
+text = "The spark first, then the storm. Today the spark waits. I'll be below, talking to the sky."
+voice = "res://assets/audio/voice/vey/the_spark_first_then_ced7e7e8.wav"
+
+[sub_resource type="Resource" id="Resource_55s16"]
+script = ExtResource("3_cg0qh")
+id = &"S3"
+duration = 11.4
+from_pos = Vector3(-10, 1.9, 12)
+to_pos = Vector3(-10, 1.9, 12)
+look_from = Vector3(-6, 1.5, 6)
+look_to = Vector3(-6, 1.5, 6)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_ilagu")]([SubResource("Resource_hqaws"), SubResource("Resource_hopkb")])
+
+[resource]
+script = ExtResource("2_1mag5")
+id = &"e8m1_fire_stakes"
+title = "The Stakes"
+world_mode = 1
+shots = Array[ExtResource("3_cg0qh")]([SubResource("Resource_gui6w"), SubResource("Resource_hxww4"), SubResource("Resource_55s16")])
+shake_seed = 811
+voice_over = Array[StringName]([&"narrator", &"vessa", &"vey"])
+lines_over_cuts = true

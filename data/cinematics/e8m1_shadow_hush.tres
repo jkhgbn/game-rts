@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_v2jyd"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_dfnyo"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_whubs"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_hgqqp"]
+
+[sub_resource type="Resource" id="Resource_2flap"]
+script = ExtResource("1_v2jyd")
+at = 0.2
+speaker = &"hush"
+text = "You'll want me back. When the dark gets loud."
+voice = "res://assets/audio/voice/hush/youll_want_me_back_e5a4f69e.wav"
+
+[sub_resource type="Resource" id="Resource_po5f2"]
+script = ExtResource("3_whubs")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(26, 1.6, -22)
+to_pos = Vector3(26, 1.6, -22)
+look_from = Vector3(30, 1, -26)
+look_to = Vector3(30, 1, -26)
+fov_from = 30.0
+fov_to = 30.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_v2jyd")]([SubResource("Resource_2flap")])
+
+[sub_resource type="Resource" id="Resource_l4n4p"]
+script = ExtResource("1_v2jyd")
+at = 0.2
+speaker = &"malrik"
+text = "Go, then. Keep your knives sharp. I may need a friend who isn't a rock."
+voice = "res://assets/audio/voice/malrik/go_then_keep_your_e8004770.wav"
+
+[sub_resource type="Resource" id="Resource_rd6kb"]
+script = ExtResource("3_whubs")
+id = &"S2"
+duration = 6.0
+from_pos = Vector3(24, 1.9, -20)
+to_pos = Vector3(24, 1.9, -20)
+look_from = Vector3(30, 1.4, -26)
+look_to = Vector3(30, 1.4, -26)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_v2jyd")]([SubResource("Resource_l4n4p")])
+
+[resource]
+script = ExtResource("2_dfnyo")
+id = &"e8m1_shadow_hush"
+title = "Go, Then"
+world_mode = 1
+shots = Array[ExtResource("3_whubs")]([SubResource("Resource_po5f2"), SubResource("Resource_rd6kb")])
+shake_seed = 823
+voice_over = Array[StringName]([&"hush", &"malrik"])
+lines_over_cuts = true

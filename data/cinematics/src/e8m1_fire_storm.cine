@@ -1,0 +1,20 @@
+# e8m1_fire E13: the storm walks the east bank, three banners rise (A.9).
+# Lines from data/voice/lines/e8m1_fire.json; the mission's end state says them again (shown once). Fallback: the end state.
+cine e8m1_fire_storm  title="The Great Storm"  mode=pause  letterbox=2.39  seed=812  length=27..33
+env dusk  moon_yaw=120  moon_pitch=-30  energy=0.9
+cast  narrator  capsule  at=(0, 0, -300)  hidden=1
+cast  torvald  capsule  at=(10, 0, -300)  hidden=1
+cast  ysolde  capsule  at=(20, 0, -300)  hidden=1
+cast  malrik  capsule  at=(30, 0, -300)  hidden=1
+cast  vessa  capsule  at=(40, 0, -300)  hidden=1
+
+shot S1 6.0  cam=static  from=(-20, 9, 30)  look=(10, 0, -4)  fov=52  in=fade_black:0.3
+  at 0.2  line narrator "The last tide climbs out of the Hollow. On the hills behind it, three banners rise."
+shot S2 6.0  cam=static  from=(-30, 3, 20)  look=(20, -6, -40)  fov=30
+  at 0.2  line torvald "Ice, on the north road. You waited for us, child? Truly?"
+shot S3 6.0  cam=static  from=(-30, 3, 30)  look=(-50, 1, 50)  fov=30
+  at 0.2  line ysolde "She waited. I watched her do it. I may need to sit down."
+shot S4 6.0  cam=static  from=(-20, 3, 20)  look=(44, 2, -44)  fov=28
+  at 0.2  line malrik "Don't all stare. I was invited. Especially, I'm told."
+shot S5 6.0  cam=static  from=(-34, 1.9, 36)  look=(-36, 1.6, 34)  fov=30
+  at 0.2  line vessa "Four keys. One hole in the ground. Let's go and knock."

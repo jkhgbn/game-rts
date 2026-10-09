@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_ql0kq"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_685xa"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_3da1d"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_w7pqm"]
+
+[sub_resource type="Resource" id="Resource_y4qdo"]
+script = ExtResource("1_ql0kq")
+at = 0.2
+speaker = &"maelis"
+text = "The chains! They're dragging him back! The keys remember who they belong to!"
+voice = "res://assets/audio/voice/maelis/the_chains_theyre_dragging_574c7e18.wav"
+
+[sub_resource type="Resource" id="Resource_fbbna"]
+script = ExtResource("3_3da1d")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(0, 14, 22)
+to_pos = Vector3(0, 14, 22)
+look_from = Vector3(0, 2, 0)
+look_to = Vector3(0, 2, 0)
+fov_from = 50.0
+fov_to = 50.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_ql0kq")]([SubResource("Resource_y4qdo")])
+
+[sub_resource type="Resource" id="Resource_4keri"]
+script = ExtResource("1_ql0kq")
+at = 0.2
+speaker = &"master"
+text = "Hold him there. I am almost with you."
+voice = "res://assets/audio/voice/master/hold_him_there_i_25d68e6a.wav"
+
+[sub_resource type="Resource" id="Resource_jnv68"]
+script = ExtResource("3_3da1d")
+id = &"S2"
+duration = 6.0
+from_pos = Vector3(3, 1, 6)
+to_pos = Vector3(3, 1, 6)
+look_from = Vector3(0, -1, 0)
+look_to = Vector3(0, -1, 0)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_ql0kq")]([SubResource("Resource_4keri")])
+
+[resource]
+script = ExtResource("2_685xa")
+id = &"e8m3_chains"
+title = "The Chains"
+world_mode = 1
+shots = Array[ExtResource("3_3da1d")]([SubResource("Resource_fbbna"), SubResource("Resource_jnv68")])
+shake_seed = 863
+voice_over = Array[StringName]([&"maelis", &"master"])
+lines_over_cuts = true

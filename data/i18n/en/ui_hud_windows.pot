@@ -1497,8 +1497,8 @@ msgstr ""
 
 #. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
 #: scripts/ui/item_tooltip.gd:216 scripts/ui/spell_info.gd:149 scripts/campaign/mission_e3_03.gd:133
-#: scripts/campaign/mission_e3_04.gd:176 scripts/units/champion_abilities.gd:61
-#: scripts/units/creature_abilities.gd:60
+#: scripts/campaign/mission_e3_04.gd:176 scripts/campaign/mission_e8_01_shadow.gd:323
+#: scripts/units/champion_abilities.gd:61
 msgid "Dead"
 msgstr ""
 

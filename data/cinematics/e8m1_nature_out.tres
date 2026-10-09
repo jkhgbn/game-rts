@@ -1,0 +1,75 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_r0xaf"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_mctu4"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_fqi62"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_v7qsk"]
+
+[sub_resource type="Resource" id="Resource_fnkk3"]
+script = ExtResource("1_r0xaf")
+at = 0.2
+speaker = &"narrator"
+text = "For the first time in a hundred years, the green went out of its own border."
+voice = "res://assets/audio/voice/narrator/for_the_first_time_95ef5652.wav"
+
+[sub_resource type="Resource" id="Resource_pj7vi"]
+script = ExtResource("3_fqi62")
+id = &"S1"
+duration = 6.0
+from_pos = Vector3(30, 1.5, 6)
+to_pos = Vector3(30, 1.5, 6)
+look_from = Vector3(24, 1, -2)
+look_to = Vector3(24, 1, -2)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_r0xaf")]([SubResource("Resource_fnkk3")])
+
+[sub_resource type="Resource" id="Resource_84sr1"]
+script = ExtResource("1_r0xaf")
+at = 0.2
+speaker = &"ysolde"
+text = "The Signet's warm. It's pointing at the others. Let's not keep them waiting."
+voice = "res://assets/audio/voice/ysolde/the_signets_warm_its_38863c73.wav"
+
+[sub_resource type="Resource" id="Resource_72pm2"]
+script = ExtResource("3_fqi62")
+id = &"S2"
+duration = 6.0
+from_pos = Vector3(46, 1.9, 0)
+to_pos = Vector3(46, 1.9, 0)
+look_from = Vector3(52, 1.6, -4)
+look_to = Vector3(52, 1.6, -4)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_r0xaf")]([SubResource("Resource_84sr1")])
+
+[sub_resource type="Resource" id="Resource_iil3h"]
+script = ExtResource("1_r0xaf")
+at = 0.2
+speaker = &"messenger"
+text = "My lady... you're really coming? Out here? With us?"
+voice = "res://assets/audio/voice/messenger/my_lady_youre_really_066bd5bf.wav"
+
+[sub_resource type="Resource" id="Resource_7k22i"]
+script = ExtResource("3_fqi62")
+id = &"S3"
+duration = 6.0
+from_pos = Vector3(40, 6, -4)
+to_pos = Vector3(40, 6, -4)
+look_from = Vector3(80, 2, -4)
+look_to = Vector3(80, 2, -4)
+fov_from = 48.0
+fov_to = 48.0
+lines = Array[ExtResource("1_r0xaf")]([SubResource("Resource_iil3h")])
+
+[resource]
+script = ExtResource("2_mctu4")
+id = &"e8m1_nature_out"
+title = "Out"
+world_mode = 1
+shots = Array[ExtResource("3_fqi62")]([SubResource("Resource_pj7vi"), SubResource("Resource_72pm2"), SubResource("Resource_7k22i")])
+shake_seed = 842
+voice_over = Array[StringName]([&"narrator", &"ysolde", &"messenger"])
+lines_over_cuts = true
