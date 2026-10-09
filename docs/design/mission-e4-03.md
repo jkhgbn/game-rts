@@ -339,6 +339,23 @@ and this seed in slot 2 by default.
 Dependencies: e2m1's map variant and props (E2M1.S1: `MissionHeartwood`, `RimeTotem`, the burnt-wood generator), Ysolde's
 track (E4M1.S3, E4M2.S2), the helper roster with `helper_start_called` (TH + E4M3.G1), Briar Roc (TH), `MissionBase`.
 
+## Built (2026-10-08)
+`missions/mission_e4_03.tscn` + `scripts/campaign/mission_e4_03.gd` (`MissionE4_03`, its header lists the build
+deviations), tests `tests/test_e4m3.gd`, `tests/test_e4m3_sim.gd` (paced) and `tests/test_e4m3_rush_sim.gd` (rush; both
+on the slow list). **Balance pass (JS 2026-10-08)**: at the spec's numbers a player who rushed every grove with the start
+army won in ~7:00 (the guards fell in seconds). Changes:
+- Grove guards are rime-bound: x2.15 HP, x1.1 damage, +5 armour, and one unit more (Stagwatch + Rime Seer, the
+  Heartglade / Fernhollow + Shardguard, Mossgate + Shardguard and a Rime Colossus; easy drops the Colossus / Shardguard).
+- Rime Totems 3 000 HP (spec 400) with the Verdant regrowth (2 % / s, 10 s after the last hit).
+- A grown-out grove (meter full) is **rooting**: it counts as grown only after being held 30 s by the capture rules
+  (our soldiers or Ysolde alone = progress, both sides = frozen, nobody = -10 % / s, the enemy alone re-rimes it as in a
+  growing grove). Hint `HINT_ROOTING` once; the objective detail shows `rooting N %`.
+- Home nodes 4 000 / 4 000 / 3 500 (spec 2 500 each): with the sturdier guards a player who keeps losing armies ran dry
+  at ~20:00 with a grove still frozen (a soft-lock).
+- Scripted runs (normal, seeds 1-3): paced sim (the spec's push times) victory at 21:52 / 24:16 / 23:01 mission time
+  (23:04 / 25:28 / 24:13 with the cutscenes); rush sim (no clock: it attacks a guarded grove with 40+ free soldiers, +8
+  after a repulse) victory at 21:45 / 31:53 / 27:10 (before: ~7:00). Rushing is now no faster than the paced play.
+
 ## Spotlight (`unit-spotlights.md`)
 The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
 - **Unit:** Briar Roc (first trained e4m2).

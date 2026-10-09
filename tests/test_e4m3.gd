@@ -2,8 +2,9 @@ extends SceneTree
 ## Mission e4m3 "The Frozen Ashes" (docs/design/mission-e4-03.md, scripted through MissionHarness; the real-fight
 ## timing run is tests/test_e4m3_sim.gd). Parts:
 ##   start   Ysolde L5 + 4 points cap 8, 400 crystals, essence 150 + 600 (no save), Heartwood tier 2, Maelis called at
-##           0:00, Torvald L6, Aldra, 5 frozen groves with 11 totems, the Glass Spire.
-##   grow    Hollowfen: totem down -> thawed; plant 4 s; grows in 60 s alone, ~30 s with 4 soldiers.
+##           0:00, Torvald L6, Aldra, 5 frozen groves with 11 totems (TOTEM_HP), sturdier guards, the Glass Spire.
+##   grow    Hollowfen: totem down -> thawed; plant 4 s; grows in 60 s alone, ~30 s with 4 soldiers; then it roots:
+##           held 30 s (nobody in it = no progress) before it counts as grown.
 ##   rime    an enemy in a growing grove pauses it and re-rimes it after 10 s; a destroyed Grove Heart can be
 ##           replanted 30 s later.
 ##   win     five grown -> obj_hold 1:30 -> victory; flags (heartwood_seed_owned, Ysolde's essence).
@@ -111,6 +112,10 @@ func _start() -> bool:
 		totems += (main.groves[id]["totems"] as Array).size()
 		_ok(main.grove_state(id) == &"frozen", "%s frozen" % id)
 	_ok(main.groves.size() == 5 and totems == 11, "5 groves, 11 totems (%d)" % totems)
+	_ok(is_equal_approx((main.groves[&"stagwatch"]["totems"][0] as Building).max_hp, MissionE4_03.TOTEM_HP), "totem HP")
+	var gd: Unit = main.groves[&"stagwatch"]["guards"][0]
+	_ok(gd.max_hp > gd.unit_type.max_hp * (MissionE4_03.GUARD_HP_MULT - 0.05), "sturdier guards (%.0f / %.0f)" % [
+			gd.max_hp, gd.unit_type.max_hp])
 	_ok(main.glass_spire != null, "the Glass Spire")
 	return true
 
@@ -136,10 +141,23 @@ func _grow_alone() -> bool:
 			if u and int(u.team) == 0 and u != main.hero and MissionBase._flat(u.global_position, at) < 10.0:
 				MissionHarness.put(u, at + Vector3(0.0, 0.0, 16.0))
 		return false
+	if main.grove_state(id) == &"rooting" and not _v.has("r0"):
+		_v["r0"] = main.mission_time()
+		var took := main.mission_time() - float(_v["g0"])
+		_ok(absf(took - 60.0) <= 3.0, "60 s alone (%.1f)" % took)
+		return false
+	if not _v.has("r0"):
+		return false
+	if not _v.has("held") and main.mission_time() - float(_v["r0"]) > 5.0:
+		_v["held"] = main.mission_time()
+		_ok(main.grove_state(id) == &"rooting" and float(main.groves[id]["root"]) < 0.01, "no rooting while nobody holds it")
+		MissionHarness.put(main.hero, at)
+		main.hero.command_stop()
+		return false
 	if main.grove_state(id) != &"grown":
 		return false
-	var took := main.mission_time() - float(_v["g0"])
-	_ok(absf(took - 60.0) <= 3.0, "60 s alone (%.1f)" % took)
+	var rooted := main.mission_time() - float(_v["held"])
+	_ok(absf(rooted - MissionE4_03.ROOT_TIME) <= 3.0, "rooted after ~30 s held (%.1f)" % rooted)
 	_ok(main.has_fired(&"E4") and main.objective_state("sec_unbroken") == "active", "E4, sec_unbroken")
 	return true
 
@@ -163,10 +181,15 @@ func _grow_helped() -> bool:
 			MissionHarness.put(th[i], at + Vector3(i * 0.9 - 1.5, 0.0, 1.0))
 			(th[i] as Unit).command_stop()
 		return false
+	if main.grove_state(id) == &"rooting" and not _v.has("s1"):
+		_v["s1"] = main.mission_time()
+		var took := main.mission_time() - float(_v["s0"])
+		_ok(absf(took - 30.0) <= 3.0, "~30 s with 4 soldiers (%.1f)" % took)
+		return false
 	if main.grove_state(id) != &"grown":
 		return false
-	var took := main.mission_time() - float(_v["s0"])
-	_ok(absf(took - 30.0) <= 3.0, "~30 s with 4 soldiers (%.1f)" % took)
+	_ok(_v.has("s1") and absf(main.mission_time() - float(_v["s1"]) - MissionE4_03.ROOT_TIME) <= 3.0,
+			"the soldiers root it in ~30 s (%.1f)" % (main.mission_time() - float(_v.get("s1", 0.0))))
 	return true
 
 
@@ -260,6 +283,8 @@ func _win() -> bool:
 		if g["state"] == &"thawed":
 			g["state"] = &"growing"
 			g["meter"] = 0.99
+		elif g["state"] == &"rooting":
+			main._grow(id)
 		var hv: Variant = g["heart"]
 		if hv != null and is_instance_valid(hv):
 			(hv as Building).hp = (hv as Building).max_hp

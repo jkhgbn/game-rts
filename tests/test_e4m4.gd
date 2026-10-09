@@ -7,7 +7,7 @@ extends SceneTree
 ##   wall    a Thornling does 35 % of its damage to a piece, an Elder Treant 100 %; a piece regrows while the
 ##           Winterheart stands and not after the thaw.
 ##   elder   both totems down + Ysolde 4 s at the shell = a free Elder Treant, sec_elder.
-##   heart   the Winterheart takes no damage until both Wallwardens die (a gate under 50 % wakes its warden).
+##   heart   the Winterheart is frost-bound until both Wallwardens die AND 19:00 (a gate under 50 % wakes its warden).
 ##   win     the Winterheart down = the thaw (gates open), obj_spire; Ysolde at the spire = victory; flags.
 ## Run: godot --headless --path . -s tests/test_e4m4.gd --fixed-fps 60 --quit-after 60000 [-- --only=start|...]
 
@@ -71,7 +71,7 @@ func _open_next() -> void:
 		"elder":
 			h.steps.add("wake the Sleeping Elder", _elder, 2000)
 		"heart":
-			h.steps.add("frost-bound until both wardens fall", _heart, 2000)
+			h.steps.add("frost-bound until both wardens fall and 19:00", _heart, 2000)
 		"win":
 			h.steps.add("the thaw, the spire, victory", _win, 6000)
 
@@ -190,7 +190,15 @@ func _heart() -> bool:
 		return false
 	if main.wardens_down < 2:
 		return false
-	_ok(not main.winterheart.has_meta(Unit.TRUCE_META) and main.said.has("L21"), "open once both wardens fell (L21)")
+	if not _v.has("late"):
+		_v["late"] = true
+		_ok(main.mission_time() < MissionE4_04.HEART_OPEN_AT and main.winterheart.has_meta(Unit.TRUCE_META)
+				and not main.heart_open and main.said.has("L21"), "still frost-bound before 19:00 with both wardens down (L21)")
+		main.heart_opens_at = main.mission_time()   # stands in for reaching 19:00
+		return false
+	if not main.heart_open:
+		return false
+	_ok(not main.winterheart.has_meta(Unit.TRUCE_META), "open once both wardens fell and 19:00 came")
 	return true
 
 

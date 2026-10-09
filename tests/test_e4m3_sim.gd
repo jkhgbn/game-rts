@@ -6,8 +6,12 @@ extends SceneTree
 ## The scripted player (human-like): Spriglings to 11, Seed Hollows, a second Grove Hall, the Citadel when it can, 2 Briar
 ## Rocs, Thornlings / Burr Slingers / Vinelashers / Oathkeepers / Bloomtenders; the army takes the groves in order
 ## (Hollowfen, Stagwatch, the Heartglade, Fernhollow, Mossgate): guards and totems first, then Ysolde plants; 3 keepers
-## stay on every planted grove; once all five are green the army answers whichever grove is attacked. Aldra and Torvald
-## are focused by the ranged units.
+## stay on every planted grove (they also hold it while it takes root); once all five are green the army answers
+## whichever grove is attacked. Aldra and Torvald are focused by the ranged units.
+## `-- --rush` (tests/test_e4m3_rush_sim.gd): the same player pushes every grove at once from 0:00 (no PUSH_AT pacing);
+## it must still win and take at least RUSH_MIN game-minutes. It attacks a guarded grove once its free army reaches
+## RUSH_ARMY, waits for 8 more after each repulse (army under half of that; it goes anyway once the army has stopped
+## growing for a minute), and pulls Ysolde back at 60 % HP.
 ## `-- --seed N`, `-- --verbose`. Slow. Run: godot --headless --path . -s tests/test_e4m3_sim.gd --fixed-fps 60
 ## --quit-after 130000
 
@@ -17,8 +21,12 @@ const CUTSCENE_SECONDS := {&"arrival": 15.0, &"aldra": 10.0, &"shoot": 12.0, &"s
 const ORDER: Array[StringName] = [&"hollowfen", &"stagwatch", &"heartglade", &"fernhollow", &"mossgate"]
 ## Human pacing (the spec's intended rhythm: Hollowfen at once, Stagwatch ~5:00, the Heartglade after the Citadel,
 ## Fernhollow ~14:00, Mossgate with the Rocs ~19:00): the army builds up before each push. A player who rushes every
-## grove at once finishes in ~7 minutes (2026-10-08 run: all five green by 4:07): see the mission header.
+## grove at once finished in ~7 minutes at the spec's numbers (2026-10-08 run: all five green by 4:07); since the
+## sturdier guards / totems and the 30 s rooting hold it must take at least RUSH_MIN (see the mission header).
 const PUSH_AT: Array[float] = [0.0, 300.0, 570.0, 840.0, 1140.0]
+const RUSH_MIN := 960.0
+const RUSH_ARMY := 40      ## the rusher first attacks a frozen grove with this many free soldiers (no clock), +8 per repulse
+const RUSH_FLOOR := 12     ## ... but with at least this many it goes once the army stopped growing for a minute
 const RALLY := Vector3(30.0, 0.0, 30.0)
 const WORKERS := 11
 const KEEPERS := 3
@@ -26,6 +34,11 @@ const HOLLOWS: Array[Vector3] = [Vector3(56.0, 0.0, 40.0), Vector3(54.0, 0.0, 60
 const HALL2 := Vector3(30.0, 0.0, 40.0)
 
 var verbose := false
+var rush := false
+var _rush_need := RUSH_ARMY
+var _rush_best := 0
+var _rush_push := 0        ## free army when the current push started
+var _rush_best_at := 0.0
 var h := MissionHarness.new()
 var main: MissionE4_03
 var phase := &"build"
@@ -46,13 +59,20 @@ var killers := {}
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
 	verbose = args.has("--verbose")
+	rush = rush or args.has("--rush")
 	var i := args.find("--seed")
 	if i >= 0 and i + 1 < args.size():
 		seed(int(args[i + 1]))
-	h.task_id = TASK_ID
+	h.task_id = "e4m3_rush_sim" if rush else TASK_ID
 	h.protect_hero = false
 	h.timeout_frames = 125000
-	main = h.open(self, MISSION, {"difficulty": 1, "set": {"campaign_save_path": "user://test_e4m3_sim_none.json"}}) as MissionE4_03
+	var sets := {"campaign_save_path": "user://test_e4m3_sim_none.json"}
+	for a in args:   # tuning: -- --ghp=3.0 --gdmg=1.4
+		if a.begins_with("--ghp="):
+			sets["guard_hp_mult"] = float(a.trim_prefix("--ghp="))
+		elif a.begins_with("--gdmg="):
+			sets["guard_dmg_mult"] = float(a.trim_prefix("--gdmg="))
+	main = h.open(self, MISSION, {"difficulty": 1, "set": sets}) as MissionE4_03
 	h.steps.add("play", _play, 124000)
 	var ev := root.get_node_or_null("Events")
 	if ev:
@@ -103,6 +123,8 @@ func _play() -> bool:
 		print("  objectives %s" % str(h.objective_log))
 		print("  Nature losses by killer: %s" % str(killers))
 		h.check(h.ended == 1, "defeat at %.0f s (%s)" % [t, phase])
+		if rush and h.ended == 1:
+			h.check(t >= RUSH_MIN, "the rush won too fast (%s < %s)" % [_mmss(t), _mmss(RUSH_MIN)])
 		return true
 	_tick -= 1.0 / 60.0
 	if _tick > 0.0:
@@ -118,12 +140,27 @@ func _play() -> bool:
 		var st := []
 		for id in ORDER:
 			var g: Dictionary = m.groves[id]
-			st.append("%s%s" % [String(g["state"]).left(4), ("%d" % int(100.0 * float(g["meter"]))) if g["state"] == &"growing" else ""])
+			var pct := ""
+			if g["state"] == &"growing":
+				pct = "%d" % int(100.0 * float(g["meter"]))
+			elif g["state"] == &"rooting":
+				pct = "%d" % int(100.0 * float(g["root"]))
+			st.append("%s%s" % [String(g["state"]).left(4), pct])
 		print("    t=%s %s ysolde %3.0f/%3.0f L%d | army %2d (w%d) T%d | crystals %4d pop %d/%d | groves %s | hold %.0f" % [
 				_mmss(m.mission_time()), phase, m.hero.hp, m.hero.max_hp, m.hero.level, _soldiers().size(),
 				_workers().size(), m.keep.tier if m.keep else 0, eco.crystals, eco.pop_used, eco.pop_cap, str(st), m.hold_left])
 		if not killers.is_empty():
 			print("      losses so far: %s" % str(killers))
+		for id in ORDER:
+			if m.groves[id]["state"] == &"thawed":
+				var near: Array[String] = []
+				for n in m.get_tree().get_nodes_in_group(&"units"):
+					var e := n as Unit
+					if e and e.is_alive() and int(e.team) == Unit.Team.ENEMY and MissionBase._flat(e.global_position, MissionE4_03.GROVES[id][1]) <= 10.0:
+						near.append("%s%s%s hp %d" % [e.unit_type.id if e.unit_type else e.name, " dormant" if m.is_dormant(e) else "",
+								" truce" if e.has_meta(Unit.TRUCE_META) else "", int(e.hp)])
+				print("      %s thawed: enemies within 10 m %s; Ysolde %.1f m" % [id, str(near),
+						MissionBase._flat(m.hero.global_position, MissionE4_03.GROVES[id][1])])
 	_economy()
 	_spells()
 	_plan()
@@ -220,7 +257,7 @@ func _economy() -> void:
 	var eco := Economy.for_team(Unit.Team.PLAYER)
 	var workers := _workers()
 	var node: CrystalNode = null
-	for suffix in ["a", "b", "x", "y"]:
+	for suffix in ["a", "b", "x", "y", "c", "d"]:
 		node = m.node_of(0, suffix)
 		if node:
 			break
@@ -298,7 +335,7 @@ func _spells() -> void:
 func _plan() -> void:
 	var m := main
 	var hero := m.hero
-	if not _retreat and hero.hp < hero.max_hp * 0.45:
+	if not _retreat and hero.hp < hero.max_hp * (0.6 if rush else 0.45):
 		_retreat = true
 	if _retreat and hero.hp >= hero.max_hp * 0.85:
 		_retreat = false
@@ -307,7 +344,7 @@ func _plan() -> void:
 	for id in ORDER:
 		var g: Dictionary = m.groves[id]
 		var list: Array = (_keepers.get(id, []) as Array).filter(func(u: Variant) -> bool: return is_instance_valid(u) and (u as Unit).is_alive())
-		if g["state"] == &"growing" or g["state"] == &"grown":
+		if MissionE4_03._planted(g):
 			if list.size() < KEEPERS:
 				for u in _soldiers():
 					if list.size() >= KEEPERS:
@@ -325,14 +362,14 @@ func _plan() -> void:
 	var target := &""
 	for i in ORDER.size():
 		var st: StringName = m.groves[ORDER[i]]["state"]
-		if (st == &"frozen" or st == &"thawed") and m.mission_time() >= PUSH_AT[i]:
+		if (st == &"frozen" or st == &"thawed") and (rush or m.mission_time() >= PUSH_AT[i]):
 			target = ORDER[i]
 			break
 	# A planted grove under attack comes first.
 	var threatened := &""
 	for id in ORDER:
 		var st: StringName = m.groves[id]["state"]
-		if (st == &"growing" or st == &"grown") and _enemies_near(MissionE4_03.GROVES[id][1], 12.0).size() >= 2:
+		if MissionE4_03._planted(m.groves[id]) and _enemies_near(MissionE4_03.GROVES[id][1], 12.0).size() >= 2:
 			threatened = id
 			break
 	if threatened != &"":
@@ -340,11 +377,20 @@ func _plan() -> void:
 		var at: Vector3 = MissionE4_03.GROVES[threatened][1]
 		_hold(army, at, 16.0)
 		goal = at + Vector3(6.0, 0.0, 6.0)
+	elif target != &"" and rush and m.groves[target]["state"] == &"frozen" \
+			and (m.groves[target]["guards"] as Array).any(func(u: Variant) -> bool: return is_instance_valid(u) and (u as Unit).is_alive()) \
+			and _rush_waits(army.size(), target):
+		_set_phase(&"rush_regroup")
+		_hold(army, RALLY, 16.0)
+		goal = RALLY + Vector3(0.0, 0.0, 6.0)
 	elif target != &"":
 		_set_phase(StringName("take_%s" % target))
 		var at: Vector3 = MissionE4_03.GROVES[target][1]
-		var busy := _hold(army, at, 14.0)
 		var g: Dictionary = m.groves[target]
+		# Thawed: the army stands on the far side (away from home, where Ysolde comes from): a big army packed on the
+		# centre or on her way blocks her from the planting spot.
+		var aside: Vector3 = at + (at - RALLY).normalized() * 12.0
+		var busy := _hold(army, aside if g["state"] == &"thawed" else at, 16.0 if g["state"] == &"thawed" else 14.0)
 		if not busy and g["state"] == &"frozen":
 			var totems: Array = (g["totems"] as Array).filter(func(t: Variant) -> bool: return is_instance_valid(t) and (t as Building).is_alive())
 			if not totems.is_empty():
@@ -355,16 +401,42 @@ func _plan() -> void:
 		if g["state"] == &"thawed" and _enemies_near(at, 10.0).is_empty():
 			goal = at   # plant
 		else:
-			goal = at + Vector3(7.0, 0.0, 7.0)
+			goal = at + (Vector3(11.0, 0.0, 11.0) if rush else Vector3(7.0, 0.0, 7.0))
 	else:
 		_set_phase(&"hold" if m.objective_state("obj_hold") == "active" else &"guard")
-		var at: Vector3 = MissionE4_03.GROVES[&"heartglade"][1]
+		var at: Vector3 = MissionE4_03.GROVES[&"heartglade"][1] if MissionE4_03._planted(m.groves[&"heartglade"]) else RALLY
+		for id in ORDER:   # a grove still taking root needs holders more than anything
+			if m.groves[id]["state"] == &"rooting":
+				at = MissionE4_03.GROVES[id][1]
+				break
 		_hold(army, at, 18.0)
 		goal = at + Vector3(5.0, 0.0, 5.0)
 	if _retreat:
 		_hero_to(RALLY, 3.0)
 	elif goal != Vector3.INF:
 		_hero_to(goal, 1.5)
+
+
+## The rusher still needs an army: it goes as soon as it has _rush_need free soldiers; beaten back (under half of
+## what it went in with), it learns and waits for 8 more next time.
+func _rush_waits(n: int, target: StringName) -> bool:
+	if phase == StringName("take_%s" % target):
+		if _rush_push == 0:
+			_rush_push = n
+		if n >= float(_rush_push) * 0.5:
+			return false
+		_rush_need = mini(_rush_need + 8, 70)
+		_rush_best = 0
+		_rush_push = 0
+		return true
+	_rush_push = 0
+	if n > _rush_best:
+		_rush_best = n
+		_rush_best_at = main.mission_time()
+	# The army stopped growing for a minute (the income is gone): go with what there is.
+	if n >= RUSH_FLOOR and main.mission_time() - _rush_best_at > 60.0:
+		return false
+	return n < _rush_need
 
 
 func _in_keepers(u: Unit) -> bool:

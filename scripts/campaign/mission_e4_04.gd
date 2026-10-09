@@ -18,9 +18,11 @@ extends MissionBase
 ## - Wallwarden = a Rime Colossus copy at the spec's numbers (no 1.6 scale); its Avalanche Stomp is mission-side.
 ## - Aldra is the helper_aldra Helper on the enemy team escorting an invisible anchor (e4m3's rule); Torvald waits behind
 ##   the Heart Gate (truce) until I2.
-## - Balance note (2026-10-08 scripted runs): a player who rushes the Wall with the whole army at ~7:00 (the start army
-##   plus 11 workers' income is ~60 units by then) breaks it and reaches the spire by ~13:30; the spec's 24-30 min needs
-##   the paced play of tests/test_e4m4_sim.gd. A designer call: Seed Hollow cap, gate HP or wave timing.
+## - Balance (JS 2026-10-08, after the scripted run won at 14:33): a sturdier Wall (PIECE_HP / GATE_HP / WARDEN_HP
+##   raised, a Rime Colossus in each garrison G1-G3), the Winterheart 20 000 HP with the Wall's damage factors
+##   (soldiers x0.35: the Treants and spells break it) and frost-bound until HEART_OPEN_AT
+##   (19:00, a minute after I3) even once both wardens are down (MSG_HEART_BOUND / MSG_HEART_OPEN), a bigger spire guard, and
+##   fuller home nodes (9 000 / 9 000 / west 6 000) so a player waiting for 19:00 is not starved.
 
 const MISSION_ID := &"e4m4"
 const MISSION_TITLE := "Winter's End"
@@ -41,8 +43,8 @@ const FIRE_KEEP := Vector3(46.0, 0.0, 48.0)
 const EMBER_HALL := Vector3(32.0, 0.0, 50.0)
 const HEARTHS: Array[Vector3] = [Vector3(58.0, 0.0, 56.0), Vector3(44.0, 0.0, 62.0)]
 const VESSA_RALLY := Vector3(30.0, 0.0, 28.0)
-const NODES := [[&"e4m4_home_a", Vector3(-55.0, 0.0, 42.0), 2500], [&"e4m4_home_b", Vector3(-40.0, 0.0, 57.0), 2500],
-		[&"e4m4_west", Vector3(-60.0, 0.0, 14.0), 2500], [&"e4m4_fire_a", Vector3(55.0, 0.0, 42.0), 2500],
+const NODES := [[&"e4m4_home_a", Vector3(-55.0, 0.0, 42.0), 9000], [&"e4m4_home_b", Vector3(-40.0, 0.0, 57.0), 9000],
+		[&"e4m4_west", Vector3(-60.0, 0.0, 14.0), 6000], [&"e4m4_fire_a", Vector3(55.0, 0.0, 42.0), 2500],
 		[&"e4m4_fire_b", Vector3(40.0, 0.0, 57.0), 2500], [&"e4m4_east", Vector3(60.0, 0.0, 14.0), 2000],
 		[&"e4m4_rime_a", Vector3(-8.0, 0.0, -62.0), 2000], [&"e4m4_rime_b", Vector3(10.0, 0.0, -62.0), 2000]]
 const ELDER := Vector3(-24.0, 0.0, 18.0)
@@ -54,9 +56,9 @@ const WALL_SPIRES: Array[float] = [-60.0, -24.0, 24.0, 60.0]
 const WINTERHEART := Vector3(0.0, 0.0, -16.0)
 const ALCOVES := {&"west": Vector3(-44.0, 0.0, -16.0), &"east": Vector3(44.0, 0.0, -16.0)}
 const GARRISONS := {
-	&"G1": [Vector3(-44.0, 0.0, -14.0), [["shardcaster", 3], ["frostbow", 2]]],
-	&"G2": [Vector3(0.0, 0.0, -22.0), [["shardcaster", 2], ["frostbow", 2], ["frost_mortar", 1]]],
-	&"G3": [Vector3(44.0, 0.0, -14.0), [["shardcaster", 3], ["rime_seer", 1], ["frostbow", 1]]],
+	&"G1": [Vector3(-44.0, 0.0, -14.0), [["shardcaster", 3], ["frostbow", 2], ["rime_colossus", 1]]],
+	&"G2": [Vector3(0.0, 0.0, -22.0), [["shardcaster", 2], ["frostbow", 2], ["frost_mortar", 1], ["rime_colossus", 1]]],
+	&"G3": [Vector3(44.0, 0.0, -14.0), [["shardcaster", 3], ["rime_seer", 1], ["frostbow", 1], ["rime_colossus", 1]]],
 }
 const RIME_KEEP := Vector3(0.0, 0.0, -54.0)
 const FROST_HALLS: Array[Vector3] = [Vector3(-16.0, 0.0, -48.0), Vector3(16.0, 0.0, -48.0)]
@@ -80,6 +82,7 @@ const I2_AT := 600.0
 const WARDEN_WAKE: Array[float] = [960.0, 840.0, 720.0]
 const S2_AT := 900.0
 const I3_AT := 1080.0
+const HEART_OPEN_AT := 1140.0   ## the Winterheart stays frost-bound until 19:00 (a minute after I3) even with both wardens down
 const HALLS_CUT := 0.4
 const ALDRA_FLEE := 0.27
 const ALDRA_BACK := 90.0
@@ -92,10 +95,10 @@ const ESSENCE_CAP := 1500
 const NO_SAVE_ESSENCE := 700
 const COUNT_MULT: Array[float] = [0.6, 1.0, 1.4]
 const START_CRYSTALS: Array[int] = [550, 450, 350]
-const PIECE_HP: Array[float] = [900.0, 1200.0, 1400.0]
-const GATE_HP: Array[float] = [1800.0, 2400.0, 2800.0]
-const HEART_HP: Array[float] = [2200.0, 3000.0, 3600.0]
-const WARDEN_HP: Array[float] = [1900.0, 2600.0, 3200.0]
+const PIECE_HP: Array[float] = [1100.0, 1500.0, 1800.0]
+const GATE_HP: Array[float] = [2600.0, 3600.0, 4200.0]
+const HEART_HP: Array[float] = [14000.0, 20000.0, 24000.0]
+const WARDEN_HP: Array[float] = [2400.0, 3300.0, 4000.0]
 const REGROW: Array[float] = [0.5, 1.0, 1.5]
 const WIZARD_LEVEL: Array[int] = [6, 7, 8]
 const VESSA_SOLDIERS: Array[int] = [11, 9, 7]
@@ -108,7 +111,7 @@ const WAVES := {
 	&"I2": [["rimeshield", 4], ["shardcaster", 2], ["frost_mortar", 1], ["shardguard", 1]],
 	&"S2": [["shade", 6], ["nightbolt", 3], ["shadow_knight", 1], ["gloom_deacon", 1]],
 	&"I3": [["rimeshield", 4], ["shardguard", 2], ["hoarlight_magebow", 2], ["frost_mortar", 1]],
-	&"SPIRE": [["rimeshield", 6], ["shardcaster", 3], ["shardguard", 2], ["rime_colossus", 1]],
+	&"SPIRE": [["rimeshield", 8], ["shardcaster", 4], ["shardguard", 2], ["rime_colossus", 2]],
 	&"G0": [["rimeshield", 3], ["rime_seer", 1]],
 }
 
@@ -171,6 +174,8 @@ const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Heartwoo
 const HINT_TREANT := "Elder Treant: it hits the Wall far harder than soldiers. Send it at a gate."
 const MSG_TORVALD_FELL := "Torvald has fallen, the frost will bring him back"
 const MSG_VESSA_FELL := "Vessa falls back to the Heartwood"
+const MSG_HEART_BOUND := "The Winterheart is still frost-bound. Its frost breaks after the glass host comes (19:00)."
+const MSG_HEART_OPEN := "The Winterheart's frost cracks: break it now"
 const MSG_CLEAR := "Clear the glade first: the roots won't open while the enemy stands in it"
 
 ## Read only.
@@ -182,6 +187,8 @@ var wall_spires: Array = []
 var winterheart: Building
 var wallwardens := {}                    ## id -> Unit (dormant until woken)
 var wardens_down := 0
+var heart_open := false
+var heart_opens_at := HEART_OPEN_AT   ## tests may lower it
 var garrisons := {}
 var elder_totems: Array = []
 var elder_progress := 0.0
@@ -545,7 +552,14 @@ func _build_wall() -> void:
 		else:
 			_wall_piece(_wall_small_type, Vector3(2.0 * i + 1.0, 0.0, WALL_Z))
 			i += 1
-	winterheart = build_grid.spawn_complete(_heart_type, WINTERHEART, ICE_SEAT)
+	# The Winterheart takes the Wall's damage factors (soldiers x0.35, titans x1.0, siege x1.5, spells x1.0), JS
+	# 2026-10-08: it is a WinterWall node outside the `wall` list (the thaw does not touch it); no regrowth.
+	var wh := WinterWall.new()
+	wh.building_type = _heart_type
+	wh.team = ICE_SEAT
+	wh.position = build_grid.snap(WINTERHEART, _heart_type.footprint)
+	nav_region.add_child(wh, true)
+	winterheart = wh
 	if winterheart:
 		mark_scripted(winterheart)
 		winterheart.destroyed.connect(_on_winterheart_destroyed)
@@ -790,7 +804,7 @@ func objective_text(id: StringName, with_counter := true) -> String:
 	match id:
 		&"obj_wall":
 			if with_counter:
-				if wardens_down >= 2:
+				if heart_open:
 					return "Break the Wall of a Hundred Winters (Wallwardens %d / 2 · Winterheart open)" % wardens_down
 				return "Break the Wall of a Hundred Winters (Wallwardens %d / 2 · Winterheart frost-bound)" % wardens_down
 			return "Break the Wall of a Hundred Winters"
@@ -1022,7 +1036,7 @@ func _refresh_wave_unit(u: Unit, mode: StringName, _hero_at: Vector3) -> bool:
 				_push(u, (GATES[gate] as Vector3) + Vector3(0.0, 0.0, -10.0), 5.0)
 			elif thawed:
 				_push(u, GLASS_SPIRE + Vector3(0.0, 0.0, 10.0), 6.0)
-			elif _alive(winterheart) and wardens_down >= 2:
+			elif _alive(winterheart) and heart_open:
 				if u.attack_target == null:
 					u.command_attack(winterheart)
 			else:
@@ -1135,12 +1149,25 @@ func _on_wallwarden_died(_u: Unit, id: StringName) -> void:
 	if wardens_down >= 2:
 		fire_once(&"E15")
 		say_l("L21")
-		if _alive(winterheart):
-			set_truce([winterheart], false, Unit.TRUCE_ALL)
-			flash_ring(WINTERHEART, 3.0)
+		if not _try_open_heart() and hud:
+			hud.show_message(MSG_HEART_BOUND, 8.0)
 	set_objective(&"obj_wall", "active")
 	if id == &"east" and vessa_target == &"east":
 		vessa_target = &"heart"
+
+
+## The Winterheart opens once both wardens are down AND at heart_opens_at (19:00): true once open.
+func _try_open_heart() -> bool:
+	if heart_open:
+		return true
+	if wardens_down < 2 or mission_time() < heart_opens_at or not _alive(winterheart):
+		return false
+	heart_open = true
+	set_truce([winterheart], false, Unit.TRUCE_ALL)
+	flash_ring(WINTERHEART, 3.0)
+	if hud and mission_time() > 1.0 and not is_ending():
+		hud.show_message(MSG_HEART_OPEN, 6.0)
+	return true
 
 
 ## The Wallwardens' brain: the nearest Elder Treant, else the largest side-0 group within 30 m of the Wall; never more
@@ -1333,6 +1360,7 @@ func _physics_process(delta: float) -> void:
 	if _tick <= 0.0:
 		_tick_elder(0.5 - _tick)
 		_tick = 0.5
+		_try_open_heart()
 		_tick_torvald()
 		if maelis == null or not is_instance_valid(maelis):
 			maelis = _find_maelis()

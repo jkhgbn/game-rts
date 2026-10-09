@@ -17,10 +17,14 @@ extends MissionBase
 ## - The Glass Spire is an Ice tower copy (2 500 HP, 14 damage, range 11). Emberwatch is a Fire fort building of the
 ##   player's team (invulnerable, no shop).
 ## - The Heartwood Seed: `heartwood_seed_owned` flag (data/items has no heartwood_seed ItemType yet).
-## - Balance note (2026-10-08 scripted runs): at the spec's numbers a player who rushes every grove with the start army
-##   has all five green by ~4:00 and wins at ~7:00 (the guards fall in seconds, the waves come later); the 22-26 min
-##   length needs the spec's paced play (tests/test_e4m3_sim.gd PUSH_AT). A designer call: tougher guards / totems or
-##   waves keyed to plantings.
+## - Balance (JS 2026-10-08, after a rush won in ~7:00 at the spec's numbers): grove guards are rime-bound
+##   (GUARD_HP_MULT x HP, GUARD_DMG_MULT x damage, +GUARD_ARMOR armour) and one unit bigger (Stagwatch + Rime Seer,
+##   the Heartglade / Fernhollow / Mossgate + Shardguard, Mossgate + Rime Colossus); Rime Totems 3 000 HP with the
+##   Verdant regrowth (TOTEM_REGEN). A grown-out grove is "rooting": it must be held ROOT_TIME (30 s) by the capture
+##   rules (ours alone = progress, both = frozen, nobody = decay, the enemy alone re-rimes it) before it counts as
+##   grown. The home nodes hold 4 000 / 4 000 / 3 500 (spec 2 500 each): a player who loses armies to the sturdier
+##   guards ran dry at ~20:00 with a grove still frozen. Checked by tests/test_e4m3_sim.gd (paced) and
+##   tests/test_e4m3_rush_sim.gd (rush, >= 16:00).
 
 const MISSION_ID := &"e4m3"
 const MISSION_TITLE := "The Frozen Ashes"
@@ -31,8 +35,8 @@ const HEARTWOOD := Vector3(43.0, 0.0, 43.0)
 const GROVE_HALL := Vector3(43.0, 0.0, 27.0)
 const SEED_HOLLOWS: Array[Vector3] = [Vector3(56.0, 0.0, 50.0), Vector3(46.0, 0.0, 58.0)]
 const ARMY_POS := Vector3(36.0, 0.0, 32.0)
-const NODES := [[&"e4m3_green_a", Vector3(52.0, 0.0, 35.0), 2500], [&"e4m3_green_b", Vector3(35.0, 0.0, 50.0), 2500],
-		[&"e4m3_charred", Vector3(26.0, 0.0, 28.0), 2500], [&"e2m1_south", Vector3(4.0, 0.0, 50.0), 2000],
+const NODES := [[&"e4m3_green_a", Vector3(52.0, 0.0, 35.0), 4000], [&"e4m3_green_b", Vector3(35.0, 0.0, 50.0), 4000],
+		[&"e4m3_charred", Vector3(26.0, 0.0, 28.0), 3500], [&"e2m1_south", Vector3(4.0, 0.0, 50.0), 2000],
 		[&"e4m3_ember_a", Vector3(-46.0, 0.0, 34.0), 1500], [&"e4m3_ember_b", Vector3(-34.0, 0.0, 46.0), 1500],
 		[&"e4m3_rime_a", Vector3(-46.0, 0.0, -34.0), 2000], [&"e4m3_rime_b", Vector3(-34.0, 0.0, -46.0), 2000]]
 const EMBERWATCH := Vector3(-43.0, 0.0, 43.0)
@@ -51,13 +55,13 @@ const HUSH_ENTRY := Vector3(58.0, 0.0, 0.0)
 const GROVES := {
 	&"hollowfen": ["Hollowfen", Vector3(18.0, 0.0, 44.0), [Vector3(18.0, 0.0, 37.0)], []],
 	&"stagwatch": ["Stagwatch", Vector3(44.0, 0.0, 14.0), [Vector3(38.0, 0.0, 9.0), Vector3(50.0, 0.0, 9.0)],
-			[["rimeshield", 3], ["shardcaster", 2]]],
+			[["rimeshield", 3], ["shardcaster", 2], ["rime_seer", 1]]],
 	&"heartglade": ["Heartglade", Vector3(0.0, 0.0, 9.0), [Vector3(-7.0, 0.0, 9.0), Vector3(7.0, 0.0, 9.0), Vector3(0.0, 0.0, 16.0)],
-			[["rimeshield", 4], ["shardcaster", 2], ["rime_seer", 1], ["frost_mortar", 1]]],
+			[["rimeshield", 4], ["shardcaster", 2], ["rime_seer", 1], ["frost_mortar", 1], ["shardguard", 1]]],
 	&"fernhollow": ["Fernhollow", Vector3(-30.0, 0.0, -4.0), [Vector3(-35.0, 0.0, -9.0), Vector3(-25.0, 0.0, -9.0)],
-			[["rimeling", 3], ["shardcaster", 2], ["rimecarver", 1]]],
+			[["rimeling", 3], ["shardcaster", 2], ["rimecarver", 1], ["shardguard", 1]]],
 	&"mossgate": ["Mossgate", Vector3(-44.0, 0.0, -18.0), [Vector3(-50.0, 0.0, -14.0), Vector3(-38.0, 0.0, -14.0),
-			Vector3(-44.0, 0.0, -11.0)], [["rimeshield", 4], ["hoarlight_magebow", 2], ["shardguard", 1]]],
+			Vector3(-44.0, 0.0, -11.0)], [["rimeshield", 4], ["hoarlight_magebow", 2], ["shardguard", 1], ["rime_colossus", 1]]],
 }
 const GROVE_R := 8.0
 const PLANT_R := 4.0
@@ -66,7 +70,13 @@ const PLANT_CLEAR := 10.0
 const REPLANT_AFTER := 30.0
 const HEART_HP := 900.0
 const SAP_STATS := {"hp_regen": 3.0}
-const TOTEM_HP := 400.0
+const TOTEM_HP := 3000.0
+const TOTEM_REGEN := 2.0                 ## % of max HP per s, 10 s after the last hit (the Verdant rule)
+const GUARD_HP_MULT := 2.15             ## grove guards: rime-bound, much sturdier than a wave (tests may override)
+const GUARD_DMG_MULT := 1.1
+const GUARD_ARMOR := 5.0
+const ROOT_TIME := 30.0                 ## a grown-out grove must be held this long (capture rules) before it counts
+const ROOT_DECAY := 0.10                ## of the bar per s when nobody holds it
 const GROW_TIME: Array[float] = [45.0, 60.0, 75.0]
 const RERIME_TIME: Array[float] = [15.0, 10.0, 7.0]
 const HOLD_TIME: Array[float] = [60.0, 90.0, 120.0]
@@ -153,13 +163,16 @@ const HINT_START := "Break the Rime Totems at a glade, then hold Ysolde at its c
 const HINT_SAGE := "Bramblesage: Snagroot pulls a shield-caster out of the frost. Pollen Haze silences archers while you break totems."
 const HINT_GROWN := "A green grove heals your soldiers. The Ice will come to freeze it again."
 const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Heartwood and press X (300 crystals, 90 s). It opens the Briar Roc (C): its Seed Storm roots from the air, out of the totems' reach."
+const HINT_ROOTING := "A grove that has grown out must take root: keep soldiers or Ysolde in it for 30 s with no enemy inside."
 const MSG_CLEAR := "Clear the glade first: the roots won't open while the enemy stands in it"
 const MSG_TORVALD_FELL := "Torvald has fallen, the frost will bring him back"
 
 ## Read only.
 var flag_override: Dictionary = {}
 var no_save_fallback := false
-var groves := {}                  ## id -> {state, meter, plant, rime, heart, totems, guards, replant_at, grown_once}
+var groves := {}                  ## id -> {state, meter, plant, rime, root, heart, totems, guards, replant_at, grown_once}
+var guard_hp_mult := GUARD_HP_MULT
+var guard_dmg_mult := GUARD_DMG_MULT
 var grown_count := 0              ## groves that became grown at least once (counter-waves)
 var hold_left := -1.0
 var hold_paused := false
@@ -273,6 +286,7 @@ func _make_totem_type() -> BuildingType:
 	t.faction = &"ice"
 	t.kind = &"totem"
 	t.max_hp = TOTEM_HP
+	t.idle_regen_pct = TOTEM_REGEN
 	t.footprint = Vector2i(1, 1)
 	t.height = 2.6
 	t.sight_radius = 6.0
@@ -406,7 +420,7 @@ func _build_map() -> void:
 				mark_scripted(t)
 				t.destroyed.connect(_on_totem_destroyed.bind(id))
 				totems.append(t)
-		groves[id] = {"state": &"frozen", "meter": 0.0, "plant": 0.0, "rime": 0.0, "heart": null, "totems": totems,
+		groves[id] = {"state": &"frozen", "meter": 0.0, "plant": 0.0, "rime": 0.0, "root": 0.0, "heart": null, "totems": totems,
 				"guards": [], "replant_at": -1.0, "grown_once": false}
 
 
@@ -461,6 +475,12 @@ func _on_navigation_ready() -> void:
 		if (GROVES[id][3] as Array).is_empty():
 			continue
 		groves[id]["guards"] = spawn_group(GROVES[id][3], GROVES[id][1] + Vector3(0.0, 0.0, -2.0), 3.5, ENEMY, true)
+		for v: Variant in groves[id]["guards"]:
+			var gu := v as Unit
+			gu.set_base_stat(&"max_hp", gu.get_base_stat(&"max_hp") * guard_hp_mult)
+			gu.set_base_stat(&"attack_damage", gu.get_base_stat(&"attack_damage") * guard_dmg_mult)
+			gu.set_base_stat(&"armor", gu.get_base_stat(&"armor") + GUARD_ARMOR)
+			gu.hp = gu.max_hp
 	_add_events()
 	begin_mission([&"obj_groves", &"obj_ysolde", &"sec_spire"])
 	maelis = _find_maelis()
@@ -646,6 +666,8 @@ func _objective_extra(id: StringName, _o: Dictionary) -> Dictionary:
 				var st := String(g["state"])
 				if g["state"] == &"growing":
 					st = "%d %%" % int(100.0 * float(g["meter"]))
+				elif g["state"] == &"rooting":
+					st = "rooting %d %%" % int(100.0 * float(g["root"]))
 				parts.append("%s: %s" % [Loc.sink(String(GROVES[gid][0])), Loc.sink(st)])
 			return {"counter": groves_grown(), "goal": 5, "detail": " · ".join(parts)}
 		&"obj_hold":
@@ -688,7 +710,7 @@ func _add_events() -> void:
 		after(HUSH_AT, _fire_wave.bind(&"HUSH"))
 	after(FROST_AT, func() -> void:
 		var hg: Dictionary = groves[&"heartglade"]
-		if hg["state"] == &"grown" or hg["state"] == &"growing" and float(hg["meter"]) > 0.5:
+		if hg["state"] == &"grown" or hg["state"] == &"rooting" or hg["state"] == &"growing" and float(hg["meter"]) > 0.5:
 			_fire_wave(&"FROST")
 		else:
 			add_event(&"frost_late", func() -> bool: return groves[&"heartglade"]["state"] == &"grown",
@@ -719,8 +741,9 @@ func target_grove(from: Vector3) -> Vector3:
 	var m := -1.0
 	for id: StringName in groves:
 		var g: Dictionary = groves[id]
-		if g["state"] == &"growing" and float(g["meter"]) > m:
-			m = float(g["meter"])
+		var gm := 1.0 + float(g["root"]) if g["state"] == &"rooting" else float(g["meter"])
+		if (g["state"] == &"growing" or g["state"] == &"rooting") and gm > m:
+			m = gm
 			best = GROVES[id][1]
 	if best != Vector3.INF:
 		return best
@@ -816,7 +839,7 @@ func _fire_wave(id: StringName) -> void:
 			if torvald and is_instance_valid(torvald) and torvald.is_alive():
 				units.append(torvald)
 			var hg: Dictionary = groves[&"heartglade"]
-			var to: Vector3 = GROVES[&"heartglade"][1] if hg["state"] == &"growing" or hg["state"] == &"grown" else target_grove(at)
+			var to: Vector3 = GROVES[&"heartglade"][1] if _planted(hg) else target_grove(at)
 			for u in units:
 				order_wave(u as Unit, &"march", to)
 		&"FINAL":
@@ -884,8 +907,8 @@ func _refresh_wave_unit(u: Unit, mode: StringName, _hero_at: Vector3) -> bool:
 			return true
 		&"march", &"heartglade":
 			var hg: Dictionary = groves[&"heartglade"]
-			var to: Vector3 = GROVES[&"heartglade"][1] if mode == &"heartglade" or hg["state"] == &"growing" \
-					or hg["state"] == &"grown" else target_grove(u.global_position)
+			var to: Vector3 = GROVES[&"heartglade"][1] if mode == &"heartglade" or _planted(hg) \
+					else target_grove(u.global_position)
 			_push(u, to, 3.0)
 			return true
 		&"hold":
@@ -975,12 +998,44 @@ func _tick_groves(dt: float) -> void:
 				var mult := minf(2.0, 1.0 + 0.25 * own)
 				g["meter"] = minf(1.0, float(g["meter"]) + dt * mult / grow_time)
 				if float(g["meter"]) >= 1.0:
+					g["state"] = &"rooting"
+					g["root"] = 0.0
+					if hud and fire_once(&"rooting_hint"):
+						hud.show_message(HINT_ROOTING, 8.0)
+			&"rooting":
+				# The capture rules (MissionZone): ours alone = progress, both = frozen, nobody = decay; the enemy
+				# alone re-rimes it as in a growing grove.
+				var foes := _enemy_within(at, GROVE_R)
+				var own := _own_within(at, GROVE_R) + (1 if hero_alive() and _flat(hero.global_position, at) <= GROVE_R else 0)
+				if foes > 0:
+					if own == 0:
+						g["rime"] = float(g["rime"]) + dt
+						if float(g["rime"]) >= rerime:
+							g["state"] = &"thawed"
+							g["meter"] = 0.0
+							g["root"] = 0.0
+							g["rime"] = 0.0
+							if fire_once(&"E7"):
+								say_l(10)
+					continue
+				g["rime"] = 0.0
+				if own == 0:
+					g["root"] = maxf(0.0, float(g["root"]) - ROOT_DECAY * dt)
+					continue
+				g["root"] = minf(1.0, float(g["root"]) + dt / ROOT_TIME)
+				if float(g["root"]) >= 1.0:
 					_grow(id)
+
+
+## Planted: growing, rooting or grown.
+static func _planted(g: Dictionary) -> bool:
+	return g["state"] == &"growing" or g["state"] == &"rooting" or g["state"] == &"grown"
 
 
 func _grow(id: StringName) -> void:
 	var g: Dictionary = groves[id]
 	g["state"] = &"grown"
+	g["root"] = 0.0
 	var heart := MissionGrove.new()
 	heart.building_type = MissionGrove.make_type(HEART_HP, GROVE_R, SAP_STATS)
 	heart.name = "GroveHeart_%s" % String(id)
@@ -1144,5 +1199,5 @@ func _grove_sig() -> String:
 	var s := ""
 	for id: StringName in groves:
 		var g: Dictionary = groves[id]
-		s += "%s%d," % [String(g["state"]).left(2), int(10.0 * float(g["meter"]))]
+		s += "%s%d%d," % [String(g["state"]).left(2), int(10.0 * float(g["meter"])), int(10.0 * float(g["root"]))]
 	return s

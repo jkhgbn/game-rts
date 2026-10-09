@@ -367,6 +367,21 @@ factors; step 18b), the Elder Treant and Elder Circle (`cavalry-mounts.md`, step
 `helper_start_called` (E4M3.G1), Ysolde's track with the Heartwood Seed (E4M3.S2 / I1), `MissionBase`, World Forge map
 mode (tool 6).
 
+## Built (2026-10-08)
+`missions/mission_e4_04.tscn` + `scripts/campaign/mission_e4_04.gd` (`MissionE4_04`, its header lists the build
+deviations), tests `tests/test_e4m4.gd` and `tests/test_e4m4_sim.gd` (slow list). **Balance pass (JS 2026-10-08)**: the
+scripted run won at 14:33 (spec 24-30). Changes:
+- A sturdier Wall: pieces 1 100 / 1 500 / 1 800 HP, Winter Gates 2 600 / 3 600 / 4 200, Wallwardens 2 400 / 3 300 /
+  4 000 (easy / normal / hard); a Rime Colossus in each garrison G1-G3 (none on easy); the spire guard is 8 Rimeshields,
+  4 Shardcasters, 2 Shardguards, 2 Rime Colossi.
+- The Winterheart stays **frost-bound until 19:00** (`HEART_OPEN_AT`, a minute after I3) even once both wardens are down
+  (`The Winterheart is still frost-bound...` when the second warden falls early, `The Winterheart's frost cracks: break it
+  now` when it opens); it takes the Wall's damage factors (soldiers x0.35, titans x1.0, siege x1.5, spells x1.0) and has
+  14 000 / 20 000 / 24 000 HP. The Wall keeps regrowing while it waits: the army may have to breach again.
+- Fuller home nodes so a player waiting for 19:00 is not starved: 9 000 / 9 000, the west node 6 000.
+- Scripted runs (normal, seeds 1-3): victory at 24:32 / 23:21 / 22:01 mission time (25:47 / 24:36 / 23:16 with the
+  cutscenes; before: 14:33). The army waits ~8 min at home for the Winterheart; `HEART_OPEN_AT` is the knob for more.
+
 ## Spotlight (`unit-spotlights.md`)
 The one unit this mission shows at its best (framework hook: `mission-framework.md` 7).
 - **Unit:** Elder Treant (Nature titan).

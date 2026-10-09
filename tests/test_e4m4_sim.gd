@@ -23,14 +23,14 @@ const HOLLOWS: Array[Vector3] = [Vector3(-60.0, 0.0, 40.0), Vector3(-52.0, 0.0, 
 const HALL2 := Vector3(-24.0, 0.0, 42.0)
 ## Human pacing (the spec's rhythm: the Elder ~2:00-4:30, the West Gate from 9:00, then the Heart Gate and the East
 ## Gate with Vessa, the Winterheart as soon as both wardens fall): the army builds up before the first push and
-## regroups at home (out of the Wall's reach) under 25 soldiers. This mission runs SHORT of the spec (see the mission
-## header): a rush at 7:00 wins at ~14:30; waiting until I3 (19:00) to hit the Winterheart, with the home nodes dry by
-## ~15:00, lost the army.
+## regroups at home (out of the Wall's reach) under 25 soldiers. Before JS's 2026-10-08 changes this ran short (14:33);
+## now the Wall is sturdier (gates / pieces / wardens, a Rime Colossus per garrison) and the Winterheart stays
+## frost-bound until 19:00 (MissionE4_04.HEART_OPEN_AT), with fuller home nodes so the wait does not starve the army:
+## the army breaks the gates and the wardens, waits at home, then hits the Winterheart when it opens.
 const ELDER_AT := 120.0
 const WEST_AT := 540.0
 const HEART_GATE_AT := 600.0
 const EAST_AT := 660.0
-const WINTERHEART_AT := 0.0   ## at once: waiting for I3 (18:00) with a dried-up economy lost the army (2026-10-08 run)
 
 var verbose := false
 var h := MissionHarness.new()
@@ -365,9 +365,12 @@ func _plan() -> void:
 			RALLY, _wounded, 0.5)
 	var goal := Vector3.INF
 	var warden := _awake_warden()
-	if army.size() < REGROUP_BELOW and t > 400.0:
+	# Once the Winterheart is open the income is thinning: regroup only a broken army, and not for long.
+	var below := 12 if m.heart_open else REGROUP_BELOW
+	var until := 22 if m.heart_open else REGROUP_UNTIL
+	if army.size() < below and t > 400.0:
 		_regroup = true
-	elif army.size() >= REGROUP_UNTIL:
+	elif army.size() >= until:
 		_regroup = false
 	if not m.elder_woken and t >= ELDER_AT and t < 420.0:
 		_set_phase(&"elder")
@@ -402,11 +405,15 @@ func _plan() -> void:
 		_set_phase(&"regroup")
 		_hold(army, RALLY, 16.0)
 		goal = RALLY + Vector3(0.0, 0.0, 6.0)
-	elif _alive(m.gates.get(&"west")) and t >= WEST_AT:
+	elif m.wardens_down >= 2 and _alive(m.winterheart) and not m.heart_open:
+		_set_phase(&"wait_heart")   # both wardens down, the Winterheart frost-bound until 19:00: build up at home
+		_hold(army, RALLY, 18.0)
+		goal = RALLY
+	elif _alive(m.gates.get(&"west")) and t >= WEST_AT and m.wardens_down < 2:
 		_set_phase(&"west_gate")
 		_siege(army, m.gates[&"west"])
 		goal = (MissionE4_04.GATES[&"west"] as Vector3) + Vector3(0.0, 0.0, 10.0)
-	elif not _alive(m.gates.get(&"west")) and _alive(m.gates.get(&"heart")) and t >= HEART_GATE_AT:
+	elif not _alive(m.gates.get(&"west")) and _alive(m.gates.get(&"heart")) and t >= HEART_GATE_AT and m.wardens_down < 2:
 		_set_phase(&"heart_gate")
 		_siege(army, m.gates[&"heart"])
 		goal = (MissionE4_04.GATES[&"heart"] as Vector3) + Vector3(0.0, 0.0, 10.0)
@@ -418,7 +425,13 @@ func _plan() -> void:
 		_set_phase(&"warden_north")
 		_hold(army, warden.global_position, 14.0)
 		goal = warden.global_position + Vector3(0.0, 0.0, 10.0)
-	elif m.wardens_down >= 2 and _alive(m.winterheart) and t >= WINTERHEART_AT:
+	elif m.wardens_down >= 2 and _alive(m.winterheart) and m.heart_open and _alive(m.gates.get(&"west")) \
+			and _alive(m.gates.get(&"heart")) and _alive(m.gates.get(&"east")):
+		# The Wall regrew every breach while the army waited for 19:00: break the Heart Gate again first.
+		_set_phase(&"rebreach")
+		_siege(army, m.gates[&"heart"])
+		goal = (MissionE4_04.GATES[&"heart"] as Vector3) + Vector3(0.0, 0.0, 12.0)
+	elif m.wardens_down >= 2 and _alive(m.winterheart) and m.heart_open:
 		_set_phase(&"winterheart")
 		_siege(army, m.winterheart)
 		goal = MissionE4_04.WINTERHEART + Vector3(0.0, 0.0, 12.0)
