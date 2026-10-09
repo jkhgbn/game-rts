@@ -1,0 +1,294 @@
+{
+	"name": "fg_c3_workers2x_a2",
+	"notes": "Faster games C3 = C1 (6 start workers) + A2 (fg_a2_strong: buildings -40 % HP, towers -40 % damage, training 30 % / workers 40 % faster, bot aggression knobs).",
+	"units": {
+		"ash_hurler": {
+			"train_time": "x0.7"
+		},
+		"ashveil_saboteur": {
+			"train_time": "x0.7"
+		},
+		"barrow_ghoul": {
+			"train_time": "x0.7"
+		},
+		"barrow_knight": {
+			"train_time": "x0.7"
+		},
+		"blaze_rider": {
+			"train_time": "x0.7"
+		},
+		"bleakbow": {
+			"train_time": "x0.7"
+		},
+		"bloomtender": {
+			"train_time": "x0.7"
+		},
+		"bramble_harrier": {
+			"train_time": "x0.7"
+		},
+		"bramblehorn": {
+			"train_time": "x0.7"
+		},
+		"bramblesage": {
+			"train_time": "x0.7"
+		},
+		"briar_roc": {
+			"train_time": "x0.7"
+		},
+		"burr_slinger": {
+			"train_time": "x0.7"
+		},
+		"cinder_arbalest": {
+			"train_time": "x0.7"
+		},
+		"cinder_hand": {
+			"train_time": "x0.6"
+		},
+		"duskbolt_harrier": {
+			"train_time": "x0.7"
+		},
+		"ember_archer": {
+			"train_time": "x0.7"
+		},
+		"emberdart_harrier": {
+			"train_time": "x0.7"
+		},
+		"flame_guard": {
+			"train_time": "x0.7"
+		},
+		"frost_mortar": {
+			"train_time": "x0.7"
+		},
+		"frostbow": {
+			"train_time": "x0.7"
+		},
+		"frostcrown_juggernaut": {
+			"train_time": "x0.7"
+		},
+		"glade_outrider": {
+			"train_time": "x0.7"
+		},
+		"gloam_rider": {
+			"train_time": "x0.7"
+		},
+		"gloom_deacon": {
+			"train_time": "x0.7"
+		},
+		"gloom_thrall": {
+			"train_time": "x0.6"
+		},
+		"grave_hound": {
+			"train_time": "x0.7"
+		},
+		"greenheart_oathkeeper": {
+			"train_time": "x0.7"
+		},
+		"hexweaver": {
+			"train_time": "x0.7"
+		},
+		"hoarlight_magebow": {
+			"train_time": "x0.7"
+		},
+		"hollow_oathsworn": {
+			"train_time": "x0.7"
+		},
+		"kilnwarden": {
+			"train_time": "x0.7"
+		},
+		"nightblood_reaver": {
+			"train_time": "x0.7"
+		},
+		"nightbolt": {
+			"train_time": "x0.7"
+		},
+		"pyre_adept": {
+			"train_time": "x0.7"
+		},
+		"pyrehoof_lancer": {
+			"train_time": "x0.7"
+		},
+		"rime_colossus": {
+			"train_time": "x0.7"
+		},
+		"rime_harrier": {
+			"train_time": "x0.7"
+		},
+		"rime_hauler": {
+			"train_time": "x0.6"
+		},
+		"rime_seer": {
+			"train_time": "x0.7"
+		},
+		"rimecarver": {
+			"train_time": "x0.7"
+		},
+		"rimehorn_rider": {
+			"train_time": "x0.7"
+		},
+		"rimeling": {
+			"train_time": "x0.7"
+		},
+		"rimeshield": {
+			"train_time": "x0.7"
+		},
+		"scorchbow": {
+			"train_time": "x0.7"
+		},
+		"scorchling": {
+			"train_time": "x0.7"
+		},
+		"shade": {
+			"train_time": "x0.7"
+		},
+		"shadow_knight": {
+			"train_time": "x0.7"
+		},
+		"shardcaster": {
+			"train_time": "x0.7"
+		},
+		"shardguard": {
+			"train_time": "x0.7"
+		},
+		"snowdrift_rider": {
+			"train_time": "x0.7"
+		},
+		"sprigling": {
+			"train_time": "x0.6"
+		},
+		"stagrunner": {
+			"train_time": "x0.7"
+		},
+		"sunforge_cataphract": {
+			"train_time": "x0.7"
+		},
+		"thistle_darter": {
+			"train_time": "x0.7"
+		},
+		"thornback_charger": {
+			"train_time": "x0.7"
+		},
+		"thornling": {
+			"train_time": "x0.7"
+		},
+		"veilborn_dreadrider": {
+			"train_time": "x0.7"
+		},
+		"vinelasher": {
+			"train_time": "x0.7"
+		},
+		"wildwood_archer": {
+			"train_time": "x0.7"
+		}
+	},
+	"buildings": {
+		"fire_barracks": {
+			"max_hp": "x0.6"
+		},
+		"fire_forge": {
+			"max_hp": "x0.6"
+		},
+		"fire_hearth": {
+			"max_hp": "x0.6"
+		},
+		"fire_keep": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		},
+		"fire_market": {
+			"max_hp": "x0.6"
+		},
+		"fire_stables": {
+			"max_hp": "x0.6"
+		},
+		"fire_tower": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		},
+		"fire_watch_keep": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		},
+		"ice_barracks": {
+			"max_hp": "x0.6"
+		},
+		"ice_forge": {
+			"max_hp": "x0.6"
+		},
+		"ice_keep": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		},
+		"ice_lodge": {
+			"max_hp": "x0.6"
+		},
+		"ice_market": {
+			"max_hp": "x0.6"
+		},
+		"ice_stables": {
+			"max_hp": "x0.6"
+		},
+		"ice_tower": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		},
+		"ice_wall": {
+			"max_hp": "x0.5"
+		},
+		"nature_barracks": {
+			"max_hp": "x0.6"
+		},
+		"nature_forge": {
+			"max_hp": "x0.6"
+		},
+		"nature_hollow": {
+			"max_hp": "x0.6"
+		},
+		"nature_keep": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		},
+		"nature_market": {
+			"max_hp": "x0.6"
+		},
+		"nature_stables": {
+			"max_hp": "x0.6"
+		},
+		"nature_tower": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		},
+		"shadow_barracks": {
+			"max_hp": "x0.6"
+		},
+		"shadow_forge": {
+			"max_hp": "x0.6"
+		},
+		"shadow_hovel": {
+			"max_hp": "x0.6"
+		},
+		"shadow_keep": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		},
+		"shadow_market": {
+			"max_hp": "x0.6"
+		},
+		"shadow_stables": {
+			"max_hp": "x0.6"
+		},
+		"shadow_tower": {
+			"max_hp": "x0.6",
+			"attack_damage": "x0.6"
+		}
+	},
+	"fg": {
+		"ai": {
+			"attack_ratio": "x0.85",
+			"attack_ratio_floor": "x0.85",
+			"attack_patience": 60,
+			"attack_full_pop": 16,
+			"first_attack_by": 420
+		},
+		"start_workers": 6
+	}
+}

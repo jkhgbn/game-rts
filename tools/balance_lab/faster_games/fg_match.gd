@@ -11,6 +11,11 @@ extends "../balance_match.gd"
 ##                                                        bowman; the 3 new-units-12 slots follow) and to UnitType.find
 ##     "bot_share": {"<unit id>": 0.15},                  the bots' target share of soldier pop for that Hall slot
 ##     "ai": {"<AIProfile knob>": 12 | "x0.8" | "+5"}     bot knobs (both sides)
+##     "start_workers": 6,                                workers each side starts with (skirmish: 3); the extras are
+##                                                        spawned at match start beside the first three, on the home
+##                                                        nodes a / b in the same 2:1 pattern (faster_games_2026-10-08.md)
+##     "start_crystals": "+150" | 400 | "workers"         starting crystals (Economy.START_CRYSTALS = 250); "workers" =
+##                                                        + the crystal cost of the extra start workers
 ##   }
 ## Nothing in data/ or scripts/ is written; the default game never sees any of it.
 ## Always recorded (any arm, baseline too) in the JSON line under "fg": every building destroyed {t, team, id, kind,
@@ -34,6 +39,7 @@ var _in_bonus := false
 var _tick_left := 0.0
 var _last_t := 0.0
 var _added: Array = []
+var _start_log := {}           # side -> {workers, crystals} after the start boost (only when the variant has one)
 
 
 func apply_variant(data: Dictionary) -> void:
@@ -56,6 +62,8 @@ func apply_variant(data: Dictionary) -> void:
 	for row: Variant in fg.get("add_units", []):
 		if row is Dictionary:
 			_add_unit(row as Dictionary)
+	print("FG variant %s: start workers %s, start crystals %s" % [variant_name, str(fg.get("start_workers", "-")),
+			str(fg.get("start_crystals", "-"))])
 	print("FG variant %s: siege %s, prefer %s, added %s, shares %s, ai %s" % [variant_name, str(_siege_mult), _prefer,
 			str(_added), str(_bot_share), str(_ai_mods)])
 
@@ -154,6 +162,46 @@ func _patch_bots() -> void:
 				continue
 			var v := resolve_value(float(old), _ai_mods[k])
 			(ai as Resource).set(StringName(k), roundi(v) if old is int else v)
+
+
+## Start boost (JS 2026-10-08 "start with more workers"): runs once, on the lab's match-start frame (the skirmish has
+## spawned its 3 workers per side in _on_navigation_ready just before).
+func _on_match_started() -> void:
+	super._on_match_started()
+	if not fg.has("start_workers") and not fg.has("start_crystals"):
+		return
+	for team in [PLAYER, ENEMY]:
+		var have: Array = main.call(&"workers_of", team)
+		var extra := 0
+		var wtype: UnitType = null
+		if not have.is_empty():
+			wtype = (have[0] as Unit).unit_type
+		var want := int(fg.get("start_workers", have.size()))
+		var side_sign := 1.0 if team == PLAYER else -1.0
+		var start: Vector3 = main.call(&"start_position", team)
+		for i in range(have.size(), want):
+			if wtype == null:
+				variant_errors.append("fg.start_workers: no worker type for team %d" % team)
+				break
+			var offset := Vector3(-4.0 + i * 1.2, 0.0, 4.0 - i * 1.2) * side_sign
+			var u: Unit = main.call(&"_spawn", Worker.make_unit(wtype), team, start + offset)
+			var node: Variant = main.call(&"node_of", team, "a" if i % 3 < 2 else "b")
+			if node != null:
+				u.call(&"command_gather", node)
+			extra += 1
+		var eco: Node = _economy(team)
+		if eco != null and fg.has("start_crystals"):
+			var spec: Variant = fg["start_crystals"]
+			var old := int(eco.get(&"crystals"))
+			var v := old
+			if str(spec) == "workers":
+				v = old + extra * (wtype.cost if wtype != null else 0)
+			else:
+				v = roundi(resolve_value(float(old), spec))
+			eco.set(&"crystals", v)
+		_start_log[SIDES[team]] = {"workers": (main.call(&"workers_of", team) as Array).size(),
+				"crystals": int(eco.get(&"crystals")) if eco != null else -1}
+	print("FG start boost: %s" % str(_start_log))
 
 
 func _on_node_added(node: Node) -> void:
@@ -287,7 +335,7 @@ func _finish(reason: String, winner: int, error: String) -> bool:
 		sides[SIDES[team]] = {"buildings_lost": lost, "first_building_lost": first, "first_tower_lost": first_tower,
 				"first_production_lost": first_prod, "siege_bonus_dmg": roundi(_bonus[team]),
 				"siege_building_dmg": roundi(_siege_hits[team]), "siege_units": seen}
-	data["fg"] = {"active": not fg.is_empty(), "sides": sides, "deaths": _b_deaths, "added": _added}
+	data["fg"] = {"active": not fg.is_empty(), "sides": sides, "deaths": _b_deaths, "added": _added, "start": _start_log}
 	var w := FileAccess.open(out_path, FileAccess.WRITE)
 	if w:
 		w.store_line(JSON.stringify(data))

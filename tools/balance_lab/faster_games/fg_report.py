@@ -82,6 +82,16 @@ def load(runs):
 	return rows
 
 
+def is_rush(r):
+	return "rusher" in str(r.get("style", ""))
+
+
+def first_attack(r):
+	v = [float(r["stats"][s].get("first_attack", -1)) for s in ("player", "enemy") if s in (r.get("stats") or {})]
+	v = [x for x in v if x >= 0]
+	return min(v) if v else None
+
+
 def cell_stats(rs):
 	n = len(rs)
 	t = [float(r["end_time"]) for r in rs]
@@ -156,7 +166,7 @@ def main():
 	print("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
 	for arm in arms:
 		for lv in levels:
-			rs = [r for r in rows if r["_arm"] == arm and (lv == "all" or r["_level"] == lv)]
+			rs = [r for r in rows if r["_arm"] == arm and (lv == "all" or r["_level"] == lv) and not is_rush(r)]
 			if not rs:
 				continue
 			c = cell_stats(rs)
@@ -188,7 +198,7 @@ def main():
 	for arm in arms:
 		cols = []
 		for k in KINGDOMS:
-			t = [float(r["end_time"]) for r in rows if r["_arm"] == arm and k in (r["player"], r["enemy"])]
+			t = [float(r["end_time"]) for r in rows if r["_arm"] == arm and k in (r["player"], r["enemy"]) and not is_rush(r)]
 			cols.append(clock(q(t, 0.5)))
 		print(f"| {arm} | " + " | ".join(cols) + " |")
 	# median change vs baseline, same level: bootstrap 90 % interval (2000 resamples, fixed seed) + Mann-Whitney p
@@ -198,13 +208,13 @@ def main():
 	print("| Arm | Level | N arm / base | Median change | 90 % interval | Mann-Whitney p (two-sided, normal approx.) |")
 	print("|---|---|---|---|---|---|")
 	for lv in levels[:-1]:
-		base = [float(r["end_time"]) for r in rows if r["_arm"] == "baseline" and r["_level"] == lv]
+		base = [float(r["end_time"]) for r in rows if r["_arm"] == "baseline" and r["_level"] == lv and not is_rush(r)]
 		if not base:
 			continue
 		for arm in arms:
 			if arm == "baseline":
 				continue
-			xs = [float(r["end_time"]) for r in rows if r["_arm"] == arm and r["_level"] == lv]
+			xs = [float(r["end_time"]) for r in rows if r["_arm"] == arm and r["_level"] == lv and not is_rush(r)]
 			if not xs:
 				continue
 			d0 = q(xs, 0.5) - q(base, 0.5)
@@ -212,6 +222,83 @@ def main():
 			lo, hi = ds[100], ds[1899]
 			print(f"| {arm} | {lv} | {len(xs)} / {len(base)} | {'+' if d0 >= 0 else '-'}{clock(abs(d0))} | "
 				f"{'+' if lo >= 0 else '-'}{clock(abs(lo))} .. {'+' if hi >= 0 else '-'}{clock(abs(hi))} | {mwu_p(xs, base):.3f} |")
+	# timing / rush-risk numbers (balanced-vs-balanced games only)
+	print("\n## Early numbers (Balanced vs Balanced)\n")
+	print("| Arm | Level | N | Ends before 8:00 | Before 12:00 | Median first attack (per side) | Workers at 3:00 (mean/side) | Gathered at 3:00 (mean/side) |")
+	print("|---|---|---|---|---|---|---|---|")
+	for arm in arms:
+		for lv in levels[:-1]:
+			rs = [r for r in rows if r["_arm"] == arm and r["_level"] == lv and not is_rush(r)]
+			if not rs:
+				continue
+			# per side that attacked at all (same definition as the 2026-10-06 table)
+			fa = [float(r["stats"][sd]["first_attack"]) for r in rs for sd in ("player", "enemy")
+				if float((r.get("stats") or {}).get(sd, {}).get("first_attack", -1)) >= 0]
+			w3 = [r["at"]["180"][s]["workers"] for r in rs for s in ("player", "enemy") if "180" in (r.get("at") or {})]
+			g3 = [r["at"]["180"][s]["gathered"] for r in rs for s in ("player", "enemy") if "180" in (r.get("at") or {})]
+			print(f"| {arm} | {lv} | {len(rs)} | {sum(1 for r in rs if float(r['end_time']) < 480 and r['end_reason'] in ('kill', 'concede'))} / {len(rs)} | "
+				f"{sum(1 for r in rs if float(r['end_time']) < 720 and r['end_reason'] in ('kill', 'concede'))} / {len(rs)} | {clock(q(fa, 0.5))} | "
+				f"{st.mean(w3) if w3 else 0:.1f} | {st.mean(g3) if g3 else 0:.0f} |")
+	# early aggression, Balanced vs Balanced (the Commander has no rusher style: lab_match "style_applied" false)
+	print("\n## Early aggression (Balanced vs Balanced)\n")
+	print("| Arm | Level | N | Worker kills by the enemy before 8:00 (per game) | 7:00 lead >= 1.10 x | ... and that side wins | First attacker wins | First attacker wins before 12:00 |")
+	print("|---|---|---|---|---|---|---|---|")
+	for arm in arms:
+		for lv in levels[:-1]:
+			rs = [r for r in rows if r["_arm"] == arm and r["_level"] == lv and not is_rush(r)]
+			if not rs:
+				continue
+			wk, lead, lead_won, fa_n, fa_won, fa_fast = 0, 0, 0, 0, 0, 0
+			for r in rs:
+				for pt in (r.get("worker_deaths") or {}).get("pts", []):
+					if pt[0] < 480 and str(pt[4]).startswith("enemy"):
+						wk += 1
+				at7 = (r.get("at") or {}).get("420")
+				w = r.get("winner_team", -1)
+				if at7:
+					for t, sd, ot in ((0, "player", "enemy"), (1, "enemy", "player")):
+						if at7[ot]["worth"] > 0 and at7[sd]["worth"] >= 1.10 * at7[ot]["worth"]:
+							lead += 1
+							lead_won += (w == t)
+				fa = [float(r["stats"][sd].get("first_attack", -1)) for sd in ("player", "enemy")]
+				if min(fa) >= 0 or max(fa) >= 0:
+					t = 0 if (fa[1] < 0 or (0 <= fa[0] <= fa[1])) else 1
+					fa_n += 1
+					fa_won += (w == t)
+					fa_fast += (w == t and float(r["end_time"]) < 720)
+			print(f"| {arm} | {lv} | {len(rs)} | {wk / len(rs):.1f} | {pct(lead, len(rs))} | {pct(lead_won, lead)} | "
+				f"{pct(fa_won, fa_n)} | {fa_fast} / {fa_n} |")
+	# rush batches (rush-balance.md 8): one side rusher, the other balanced
+	rush = [r for r in rows if is_rush(r)]
+	if rush:
+		print("\n## Rush batches (rusher vs Balanced, rush-balance.md 8 targets)\n")
+		print("| Arm | N | Rusher wins | Rush success (worth at 7:00 >= 1.10 x, or win before 12:00) | Ends before 8:00 | Median length | Rusher win % F / S / I / N |")
+		print("|---|---|---|---|---|---|---|")
+		for arm in arms:
+			rs = [r for r in rush if r["_arm"] == arm]
+			if not rs:
+				continue
+			wins, succ, early8 = 0, 0, 0
+			kw = defaultdict(lambda: [0, 0])
+			for r in rs:
+				rt = 0 if "player:rusher" in r["style"] else 1
+				side, other = ("player", "enemy") if rt == 0 else ("enemy", "player")
+				k = r[side]
+				kw[k][1] += 1
+				won = r.get("winner_team") == rt
+				if won:
+					wins += 1
+					kw[k][0] += 1
+				at7 = (r.get("at") or {}).get("420")
+				ok = won and float(r["end_time"]) < 720
+				if at7 and at7[other]["worth"] > 0 and at7[side]["worth"] >= 1.10 * at7[other]["worth"]:
+					ok = True
+				succ += ok
+				if float(r["end_time"]) < 480 and r["end_reason"] in ("kill", "concede"):
+					early8 += 1
+			t = [float(r["end_time"]) for r in rs]
+			kws = "/".join(f"{100 * kw[k][0] / kw[k][1]:.0f}" if kw[k][1] else "-" for k in KINGDOMS)
+			print(f"| {arm} | {len(rs)} | {pct(wins, len(rs))} | {pct(succ, len(rs))} | {early8} / {len(rs)} | {clock(q(t, 0.5))} | {kws} |")
 	if a.json:
 		with open(a.json, "w", encoding="utf-8") as f:
 			json.dump(out, f, indent=1)

@@ -1,0 +1,7 @@
+{
+	"name": "fg_c1_workers2x",
+	"notes": "Faster games C1 (JS 2026-10-08, docs/balance/faster_games_2026-10-08.md): each side starts with 6 workers instead of 3 (2 on node a, 1 on node b per 3). Starting crystals unchanged (250). No unit or building stat changes.",
+	"fg": {
+		"start_workers": 6
+	}
+}

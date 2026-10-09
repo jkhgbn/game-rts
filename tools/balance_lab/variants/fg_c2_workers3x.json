@@ -1,0 +1,7 @@
+{
+	"name": "fg_c2_workers3x",
+	"notes": "Faster games C2: each side starts with 9 workers instead of 3. Starting crystals unchanged (250). No unit or building stat changes.",
+	"fg": {
+		"start_workers": 9
+	}
+}

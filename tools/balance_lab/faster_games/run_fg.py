@@ -45,6 +45,7 @@ def main():
 	ap.add_argument("--seeds", default="1-3")
 	ap.add_argument("--parallel", type=int, default=4)
 	ap.add_argument("--tick", type=int, default=60)
+	ap.add_argument("--style", default="balanced", help='lab_match --style, e.g. "player:rusher,enemy:balanced"')
 	ap.add_argument("--limit", type=int, default=1800)
 	ap.add_argument("--early", default="1")
 	ap.add_argument("--timeout-min", type=int, default=60)
@@ -88,16 +89,22 @@ def main():
 	running = []
 	finished = 0
 	t0 = time.time()
+	jobs_by_name = {j[0]: j for j in todo}
+	tries = {}
+	err_streak = 0
+	pause_until = 0.0
 	while todo or running:
 		if stop and dt.datetime.now() >= stop and todo:
 			print(f"stop time reached: {len(todo)} matches not started")
 			todo = []
 		while todo and len(running) < a.parallel:
 			name, arm, path, lv, p, s = todo.pop(0)
+			if done(os.path.join(out_dir, name + ".json")):   # finished or placeholder-skipped since the queue was built
+				continue
 			js = os.path.join(out_dir, name + ".json").replace("\\", "/")
 			cmd = (f"& '{GATE}' --headless --path '{REPO}' -s {SCRIPT} --fixed-fps {a.tick} --quit-after {quit_after} "
 				f"'--' --pair={p} --seed={s} --difficulty={lv} --sim=1 --limit={a.limit} --early={a.early} --tick={a.tick} "
-				f"'--variant={path}' '--out={js}'")
+				f"'--style={a.style}' '--variant={path}' '--out={js}'")
 			log = open(os.path.join(out_dir, name + ".log"), "w", encoding="utf-8", errors="replace")
 			proc = subprocess.Popen(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", cmd],
 				stdout=log, stderr=subprocess.STDOUT)
@@ -115,6 +122,18 @@ def main():
 			res = summary(os.path.join(out_dir, name + ".json"))
 			el = (time.time() - t0) / 60
 			print(f"[{finished}] {name}: {res} ({(time.time() - start):.0f} s real; {el:.0f} min elapsed)", flush=True)
+			# live repo mid-edit by another agent (parse errors -> "navigation never finished baking"): requeue the job
+			# and pause new launches a while; at most 6 tries per job
+			if res.startswith("none error") or res == "NO RESULT":
+				tries[name] = tries.get(name, 0) + 1
+				err_streak += 1
+				if tries[name] < 6 and name in jobs_by_name:
+					todo.append(jobs_by_name[name])
+				if err_streak >= 2:
+					pause_until = time.time() + 180
+					print("errors in a row: pausing launches 3 min (repo probably mid-edit)", flush=True)
+			else:
+				err_streak = 0
 		running = still
 	print(f"done in {(time.time() - t0) / 60:.1f} min")
 
@@ -122,7 +141,8 @@ def main():
 def done(path):
 	try:
 		with open(path, encoding="utf-8") as f:
-			return f.readline().startswith("{")
+			line = f.readline()
+			return line.startswith("{") and '"end_reason":"error"' not in line
 	except OSError:
 		return False
 

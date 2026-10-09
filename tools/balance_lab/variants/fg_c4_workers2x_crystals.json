@@ -1,0 +1,8 @@
+{
+	"name": "fg_c4_workers2x_crystals",
+	"notes": "Faster games C4 = C1 (6 start workers) + starting crystals raised by the 3 extra workers' cost (+150; Nature +120): 250 -> 400 / 370.",
+	"fg": {
+		"start_workers": 6,
+		"start_crystals": "workers"
+	}
+}
