@@ -330,6 +330,9 @@ const DEFAULT_ENEMY_KINGDOM := &"shadow"
 ## Step 16a: match time limit in seconds (0 = off; the menu's "Time limit" 30 / 45 min, the bot-vs-bot test 1800).
 ## At the limit the match ends and the higher ScoreKeeper score wins (a tie goes to the enemy, like "both at once").
 @export var time_limit_s := 0.0
+## Pace "Fast (test)" (A2 of docs/balance/faster_games_2026-10-06.md, PaceSwitch): the menu's Pace row sets it before
+## the node enters the tree (off by default; missions never set it). Saved with the match (SaveGame.LEVEL_PROPS).
+@export var fast_pace := false
 ## Keep tiers T1 -> Stronghold -> Citadel (docs/design/tiers.md, TierSystem). Skirmish true, missions false (no
 ## TierSystem node = nothing is tier-gated).
 @export var tiers_enabled := true
@@ -397,6 +400,7 @@ func _ready() -> void:
 	player_kingdom = _resolve_kingdom(player_kingdom, DEFAULT_PLAYER_KINGDOM)
 	enemy_kingdom = _resolve_kingdom(enemy_kingdom, DEFAULT_ENEMY_KINGDOM)
 	UIStyle.set_kingdom(player_kingdom)   # the HUD skin (GameHUD.setup confirms it from the wizard)
+	PaceSwitch.setup(self, fast_pace)   # before any unit or building: Fast edits the types in memory
 	if trade_enabled:
 		_create_gold_banks()   # before any unit or building: Unit._ready applies the team's wares through them
 	if tiers_enabled and TierSystem.ENABLED:   # before any building: the gates read it (tiers.md)

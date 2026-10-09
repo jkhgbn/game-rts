@@ -39,6 +39,7 @@ var quit_button: Button
 var start_button: Button
 var difficulty_buttons: Array[Button] = []
 var time_limit_buttons: Array[Button] = []   ## 16a: Off / 30 min / 45 min (GameSettings.TIME_LIMIT_CHOICES order).
+var pace_buttons: Array[Button] = []   ## Pace: Normal, Fast (test) (GameSettings.pace_fast).
 var kingdom_buttons: Array[Button] = []   ## The 4 "You" KingdomCards (KingdomCard.ORDER).
 var enemy_buttons: Array[Button] = []     ## The 4 "Enemy" KingdomCards (KingdomCard.ORDER).
 var foe_label: Label                      ## The matchup line: "Vessa of Fire  vs  Malrik of Shadow".
@@ -762,6 +763,27 @@ func _build_skirmish_panel(parent: Control) -> PanelContainer:
 		lb.set_pressed_no_signal(GameSettings.time_limit_min == minutes)
 		lb.pressed.connect(func() -> void: GameSettings.set_time_limit(minutes))
 		time_limit_buttons.append(lb)
+
+	# Pace (faster_games_2026-10-06.md, A2): Normal (default) or Fast (test), applied in memory at match start. On the
+	# trade row, so the panel still fits 1600 x 900 (test_mt9_map_picker).
+	var pace_row := trade_row
+	var gap := Control.new()
+	gap.custom_minimum_size = Vector2(18, 0)
+	pace_row.add_child(gap)
+	var pace_title := UIStyle.label("Pace", 20)
+	pace_title.custom_minimum_size = Vector2(0, 44)
+	pace_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	pace_row.add_child(pace_title)
+	var pace_group := ButtonGroup.new()
+	pace_buttons.clear()
+	for fast: bool in [false, true]:
+		var pb := _toggle_button(pace_row, "Fast (test)" if fast else "Normal", pace_group)
+		pb.tooltip_text = "Normal: the usual game." if not fast else 				"Fast (test): buildings have less HP, towers hit softer, units train faster
+" 				+ "and the bots attack sooner (skirmish only)."
+		pb.custom_minimum_size = Vector2(120, 44)
+		pb.set_pressed_no_signal(GameSettings.pace_fast == fast)
+		pb.pressed.connect(func() -> void: GameSettings.set_pace_fast(fast))
+		pace_buttons.append(pb)
 
 	var actions := HBoxContainer.new()
 	actions.alignment = BoxContainer.ALIGNMENT_CENTER

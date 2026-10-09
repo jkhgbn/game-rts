@@ -29,6 +29,9 @@ static var trade_enabled := true
 ## and the higher score wins. Set on the Skirmish as `time_limit_s` before it enters the tree (`apply_time_limit`).
 static var time_limit_min := 0
 const TIME_LIMIT_CHOICES: Array[int] = [0, 30, 45]
+## Skirmish option "Pace" (docs/balance/faster_games_2026-10-06.md, A2): false = Normal (default), true = Fast (test):
+## the A2 values applied in memory at match start (PaceSwitch). Set on the Skirmish as `fast_pace` (`apply_pace`).
+static var pace_fast := false
 ## Skirmish map (MT9, map-production.md 2.8): a MapCatalog id (&"crown_hollow" default) or &"random" (resolved to a
 ## ready map of the picker's seat filter at start). The menu's map picker sets it; MenuFlow.start_skirmish reads it.
 static var map_id: StringName = &"crown_hollow"
@@ -104,6 +107,7 @@ static func reset_defaults() -> void:
 	ui_scale = 1.0
 	trade_enabled = true
 	time_limit_min = 0
+	pace_fast = false
 	map_id = &"crown_hollow"
 	control_scheme = CONTROLS_CLASSIC
 	map_detail = MAP_DETAIL_HIGH
@@ -195,6 +199,23 @@ static func set_time_limit(minutes: int) -> void:
 	save_settings()
 
 
+## Sets the "Pace" option (false = Normal, true = Fast (test)) and saves the file.
+static func set_pace_fast(on: bool) -> void:
+	if not _loaded:
+		load_settings()
+	pace_fast = on
+	save_settings()
+
+
+## Sets `fast_pace` on a skirmish level when it has that property (before it enters the tree; the restart hook
+## calls it again). True if set.
+static func apply_pace(level: Node) -> bool:
+	if level == null or not (&"fast_pace" in level):
+		return false
+	level.set(&"fast_pace", pace_fast)
+	return true
+
+
 ## Sets the skirmish map (a MapCatalog id or &"random"; empty = Crown Hollow) and saves the file.
 static func set_map_id(value: StringName, save := true) -> void:
 	if not _loaded:
@@ -237,6 +258,7 @@ static func load_settings() -> void:
 	trade_enabled = bool(cfg.get_value(SECTION, "trade_enabled", trade_enabled))
 	var limit := int(cfg.get_value(SECTION, "time_limit_min", time_limit_min))
 	time_limit_min = limit if TIME_LIMIT_CHOICES.has(limit) else 0
+	pace_fast = bool(cfg.get_value(SECTION, "pace_fast", false))
 	var saved_map := str(cfg.get_value(SECTION, "map_id", String(map_id))).strip_edges()
 	map_id = StringName(saved_map) if saved_map != "" else &"crown_hollow"
 	control_scheme = control_scheme_from_id(str(cfg.get_value(SECTION, "control_scheme",
@@ -305,6 +327,7 @@ static func save_settings() -> Error:
 	cfg.set_value(SECTION, "ui_scale", ui_scale)
 	cfg.set_value(SECTION, "trade_enabled", trade_enabled)
 	cfg.set_value(SECTION, "time_limit_min", time_limit_min)
+	cfg.set_value(SECTION, "pace_fast", pace_fast)
 	cfg.set_value(SECTION, "map_id", String(map_id))
 	cfg.set_value(SECTION, "control_scheme", CONTROL_SCHEME_IDS[clampi(control_scheme, 0, CONTROL_SCHEME_IDS.size() - 1)])
 	cfg.set_value(SECTION, "map_detail", String(map_detail_from_id(String(map_detail))))

@@ -12,7 +12,7 @@ msgstr ""
 
 #. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
 #: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e6_02.gd:88
-#: scripts/campaign/mission_e6_02.gd:749 scripts/campaign/mission_e8_02.gd:185
+#: scripts/campaign/mission_e6_02.gd:749 scripts/campaign/mission_e8_02.gd:187
 msgid "L5b"
 msgstr ""
 
@@ -1151,7 +1151,7 @@ msgid "Keystone Colossus"
 msgstr ""
 
 #. _pylon_type.display_name = "Keystone Pylon"
-#: scripts/campaign/m04_keystone.gd:144 scripts/campaign/mission_e8_02.gd:130
+#: scripts/campaign/m04_keystone.gd:144 scripts/campaign/mission_e8_02.gd:132
 msgid "Keystone Pylon"
 msgstr ""
 
@@ -1587,7 +1587,7 @@ msgid "new units"
 msgstr ""
 
 #. hud.show_message("%s wears the %s" % [EmberCrown.short_name(by), claimed.artifact_name], 4.0)
-#: scripts/campaign/mission_01.gd:668 scripts/world/skirmish.gd:1648
+#: scripts/campaign/mission_01.gd:668 scripts/world/skirmish.gd:1652
 msgid "%s wears the %s"
 msgstr ""
 
@@ -2585,7 +2585,7 @@ msgstr ""
 
 #. @export var victory_banner := "VICTORY"
 #: scripts/campaign/mission_config.gd:25 scripts/campaign/mission_e8_muster.gd:89
-#: scripts/world/skirmish.gd:1700
+#: scripts/world/skirmish.gd:1704
 msgid "VICTORY"
 msgstr ""
 
@@ -11438,27 +11438,27 @@ msgid "Burn the Stone-sworn camp"
 msgstr ""
 
 #. return Loc.t("Light all four keyholes ({n} / 4) · the Hollow stirs: {pct} %", {"n": lit.size(), "pct": int(hol
-#: scripts/campaign/mission_e8_02.gd:207
+#: scripts/campaign/mission_e8_02.gd:209
 msgid "Light all four keyholes ({n} / 4) · the Hollow stirs: {pct} %"
 msgstr ""
 
 #. return Loc.t("{wizard} must survive", {"wizard": Loc.t(wizard_name())})
-#: scripts/campaign/mission_e8_02.gd:210 scripts/campaign/mission_e8_03.gd:277
+#: scripts/campaign/mission_e8_02.gd:212 scripts/campaign/mission_e8_03.gd:277
 msgid "{wizard} must survive"
 msgstr ""
 
 #. parts.append(Loc.t("{wizard}: key turned", {"wizard": Loc.t(String(WIZARD_NAME[seat_kind[s]]))}))
-#: scripts/campaign/mission_e8_02.gd:218
+#: scripts/campaign/mission_e8_02.gd:220
 msgid "{wizard}: key turned"
 msgstr ""
 
 #. parts.append(Loc.t("{wizard} musters {pct} %", {"wizard": Loc.t(String(WIZARD_NAME[seat_kind[s]])),
-#: scripts/campaign/mission_e8_02.gd:220
+#: scripts/campaign/mission_e8_02.gd:222
 msgid "{wizard} musters {pct} %"
 msgstr ""
 
 #. return Loc.t("Muster together: help every ally ({n} / 3) · {list}", {"n": _helped(), "list": " · ".join(parts)
-#: scripts/campaign/mission_e8_02.gd:222
+#: scripts/campaign/mission_e8_02.gd:224
 msgid "Muster together: help every ally ({n} / 3) · {list}"
 msgstr ""
 
@@ -11468,92 +11468,92 @@ msgid "The Last Muster"
 msgstr ""
 
 #. "They came by four roads, and for one evening they stood on the same hill: fire, shadow, ice and green. Nobody
-#: scripts/campaign/mission_e8_02.gd:49
+#: scripts/campaign/mission_e8_02.gd:50
 msgid "They came by four roads, and for one evening they stood on the same hill: fire, shadow, ice and green. Nobody drew a blade. Old Vey said it was the first miracle he had seen in thirty years."
 msgstr ""
 
 #. "Below them, Crown Hollow is splitting open. Four keyholes have pushed up out of the earth, one on each bank, 
-#: scripts/campaign/mission_e8_02.gd:50
+#: scripts/campaign/mission_e8_02.gd:51
 msgid "Below them, Crown Hollow is splitting open. Four keyholes have pushed up out of the earth, one on each bank, and the Hollow's pylons stand on every one of them. The Host is climbing out of the isle by the thousand."
 msgstr ""
 
 #. "Each of you carries a key. Walk it to your keyhole. Help the others walk theirs. Every soldier who falls here
-#: scripts/campaign/mission_e8_02.gd:51
+#: scripts/campaign/mission_e8_02.gd:52
 msgid "Each of you carries a key. Walk it to your keyhole. Help the others walk theirs. Every soldier who falls here falls into the Hollow, and something under the isle is counting."
 msgstr ""
 
 #. const BRIEFING_LINE := "Every death feeds the Hollow."
-#: scripts/campaign/mission_e8_02.gd:53
+#: scripts/campaign/mission_e8_02.gd:54
 msgid "Every death feeds the Hollow."
 msgstr ""
 
 #. const HINT_START := "Break the pylon on your keyhole, then stand on it with your wizard for 5 s. Fight in an a
-#: scripts/campaign/mission_e8_02.gd:54
+#: scripts/campaign/mission_e8_02.gd:55
 msgid "Break the pylon on your keyhole, then stand on it with your wizard for 5 s. Fight in an ally's quarter to make them muster faster."
 msgstr ""
 
 #. const MSG_KEYHOLE_OPEN := "The {kingdom} keyhole is open."
-#: scripts/campaign/mission_e8_02.gd:55
+#: scripts/campaign/mission_e8_02.gd:56
 msgid "The {kingdom} keyhole is open."
 msgstr ""
 
 #. const MSG_HELP := "{wizard} calls for help!"
-#: scripts/campaign/mission_e8_02.gd:56
+#: scripts/campaign/mission_e8_02.gd:57
 msgid "{wizard} calls for help!"
 msgstr ""
 
 #. const MSG_BREATH := "The isle is breathing."
-#: scripts/campaign/mission_e8_02.gd:57
+#: scripts/campaign/mission_e8_02.gd:58
 msgid "The isle is breathing."
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nFour keys turned"
-#: scripts/campaign/mission_e8_02.gd:101
+#: scripts/campaign/mission_e8_02.gd:103
 msgid "VICTORY\nFour keys turned"
 msgstr ""
 
 #. "card": "Heavy riders: break the Rush before it reaches the keyhole."}
-#: scripts/campaign/mission_e8_02.gd:105
+#: scripts/campaign/mission_e8_02.gd:107
 msgid "Heavy riders: break the Rush before it reaches the keyhole."
 msgstr ""
 
 #. return "Episode 8, Mission 2: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e8_02.gd:110
+#: scripts/campaign/mission_e8_02.gd:112
 msgid "Episode 8, Mission 2: %s"
 msgstr ""
 
 #. hg.display_name = "Hollow Gate"
-#: scripts/campaign/mission_e8_02.gd:135
+#: scripts/campaign/mission_e8_02.gd:137
 msgid "Hollow Gate"
 msgstr ""
 
 #. return "Turn your key: break the pylon, then stand at your keyhole"
-#: scripts/campaign/mission_e8_02.gd:204
+#: scripts/campaign/mission_e8_02.gd:206
 msgid "Turn your key: break the pylon, then stand at your keyhole"
 msgstr ""
 
 #. return "Light all four keyholes"
-#: scripts/campaign/mission_e8_02.gd:208
+#: scripts/campaign/mission_e8_02.gd:210
 msgid "Light all four keyholes"
 msgstr ""
 
 #. return "Your keep must stand"
-#: scripts/campaign/mission_e8_02.gd:212 scripts/campaign/mission_e8_03.gd:279
+#: scripts/campaign/mission_e8_02.gd:214 scripts/campaign/mission_e8_03.gd:279
 msgid "Your keep must stand"
 msgstr ""
 
 #. return "Muster together: help every ally"
-#: scripts/campaign/mission_e8_02.gd:223
+#: scripts/campaign/mission_e8_02.gd:225
 msgid "Muster together: help every ally"
 msgstr ""
 
 #. return "Keep the Hollow under 75 %"
-#: scripts/campaign/mission_e8_02.gd:225
+#: scripts/campaign/mission_e8_02.gd:227
 msgid "Keep the Hollow under 75 %"
 msgstr ""
 
 #. return "Break your Hollow Gate"
-#: scripts/campaign/mission_e8_02.gd:227
+#: scripts/campaign/mission_e8_02.gd:229
 msgid "Break your Hollow Gate"
 msgstr ""
 

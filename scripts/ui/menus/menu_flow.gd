@@ -62,6 +62,7 @@ static func start_skirmish(tree: SceneTree, bot_difficulty: int, enemy: StringNa
 	apply_kingdoms(level)
 	GameSettings.apply_trade(level)
 	GameSettings.apply_time_limit(level)
+	GameSettings.apply_pace(level)
 	return _launch(tree, level, bot_difficulty)
 
 
@@ -256,6 +257,7 @@ static func _on_node_added(node: Node) -> void:
 			node.set(&"layout_path", map_layout_path)
 		GameSettings.apply_trade(node)   # restart / reload: keep the trade setting
 		GameSettings.apply_time_limit(node)   # and the time limit (16a)
+		GameSettings.apply_pace(node)   # and the pace (Fast test, PaceSwitch)
 		if _enemy_chosen:
 			apply_kingdoms(node)   # restart / reload: keep the chosen kingdoms
 	elif node.name == &"WaveStrike" and node.get_parent() == node.get_tree().root and &"autopilot_player" in node:
