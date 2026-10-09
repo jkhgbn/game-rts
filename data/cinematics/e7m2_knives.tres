@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_vn57r"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_7swp3"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_w86ol"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_hpbor"]
+
+[sub_resource type="Resource" id="Resource_x0stm"]
+script = ExtResource("4_hpbor")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.22,
+"color": Color(0.5411765, 0.3137255, 0.8156863, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_1hm6r"]
+script = ExtResource("1_vn57r")
+at = 0.2
+speaker = &"hush"
+text = "Hush now, Sunblade. The war only needs one more death."
+voice = "res://assets/audio/voice/hush/hush_now_sunblade_the_1bbad2cf.wav"
+
+[sub_resource type="Resource" id="Resource_0nv22"]
+script = ExtResource("1_vn57r")
+at = 5.2
+speaker = &"seraphine"
+text = "Behind you, Dacian! The knives again!"
+voice = "res://assets/audio/voice/seraphine/behind_you_dacian_the_93b526e8.wav"
+
+[sub_resource type="Resource" id="Resource_te3if"]
+script = ExtResource("3_w86ol")
+id = &"K1"
+duration = 10.4
+from_pos = Vector3(7.5, 2, 0.5)
+to_pos = Vector3(7.5, 2, 0.5)
+look_from = Vector3(3.5, 1.4, -3.5)
+look_to = Vector3(3.5, 1.4, -3.5)
+fov_from = 36.0
+fov_to = 36.0
+transition_in = 1
+transition_time = 0.2
+lines = Array[ExtResource("1_vn57r")]([SubResource("Resource_1hm6r"), SubResource("Resource_0nv22")])
+actions = Array[ExtResource("4_hpbor")]([SubResource("Resource_x0stm")])
+
+[resource]
+script = ExtResource("2_7swp3")
+id = &"e7m2_knives"
+title = "Hush Now"
+world_mode = 1
+shots = Array[ExtResource("3_w86ol")]([SubResource("Resource_te3if")])
+shake_seed = 724
+voice_over = Array[StringName]([&"hush", &"seraphine"])
+lines_over_cuts = true

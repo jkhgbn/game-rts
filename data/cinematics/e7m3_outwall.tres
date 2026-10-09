@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_1f36f"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_rctv1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_yxda5"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_8ds3j"]
+
+[sub_resource type="Resource" id="Resource_rllkg"]
+script = ExtResource("1_1f36f")
+at = 0.3
+speaker = &"ossavar"
+text = "The Outwall. Where the coin is earned, and never spent."
+voice = "res://assets/audio/voice/ossavar/the_outwall_where_the_6f744ab5.wav"
+
+[sub_resource type="Resource" id="Resource_vmwcy"]
+script = ExtResource("3_yxda5")
+id = &"O1"
+duration = 5.6
+camera_mode = 2
+from_pos = Vector3(-18, 16, -30)
+to_pos = Vector3(-22, 6, -14)
+look_from = Vector3(-18, 6, -46)
+look_to = Vector3(-14, 0.5, -8)
+fov_from = 48.0
+fov_to = 42.0
+transition_in = 1
+lines = Array[ExtResource("1_1f36f")]([SubResource("Resource_rllkg")])
+
+[sub_resource type="Resource" id="Resource_f8ikf"]
+script = ExtResource("1_1f36f")
+at = 0.2
+speaker = &"brannet"
+text = "You're the ice-king? We've had kings before. They stand on the wall and watch."
+voice = "res://assets/audio/voice/brannet/youre_the_ice_king_cd3a8473.wav"
+
+[sub_resource type="Resource" id="Resource_pljyg"]
+script = ExtResource("3_yxda5")
+id = &"O2"
+duration = 5.8
+from_pos = Vector3(-10, 1.8, -3)
+to_pos = Vector3(-10, 1.8, -3)
+look_from = Vector3(-12.5, 1.4, -6.5)
+look_to = Vector3(-12.5, 1.4, -6.5)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_1f36f")]([SubResource("Resource_f8ikf")])
+
+[sub_resource type="Resource" id="Resource_j5m5r"]
+script = ExtResource("3_yxda5")
+id = &"O3"
+duration = 3.0
+from_pos = Vector3(-42, 2, -24)
+to_pos = Vector3(-42, 2, -24)
+look_from = Vector3(-48, 1.4, -30)
+look_to = Vector3(-48, 1.4, -30)
+fov_from = 38.0
+fov_to = 38.0
+
+[resource]
+script = ExtResource("2_rctv1")
+id = &"e7m3_outwall"
+title = "The Outwall"
+world_mode = 1
+shots = Array[ExtResource("3_yxda5")]([SubResource("Resource_vmwcy"), SubResource("Resource_pljyg"), SubResource("Resource_j5m5r")])
+shake_seed = 731
+voice_over = Array[StringName]([&"ossavar", &"brannet"])
+lines_over_cuts = true

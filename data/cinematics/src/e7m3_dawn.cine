@@ -1,0 +1,19 @@
+# e7m3 E17 "e7m3_dawn" (docs/design/mission-e7-03.md, Cinematic hooks): mode=pause at 22:00, then the victory and
+# c_e7_pits (or its pits cut). 1) WIDE crane over the Outwall at grey-gold dawn, the raiders' boats pulling away;
+# 2) MS Torvald on the Tar Steps; 3) Ossavar landing on a shanty roof above him (L28); FADE_BLACK. The outcome lines
+# (L25 / L26 / L27, L29) are said by the end state, by what the night saved.
+# Axis: the Tar Steps - sea line; every camera on its WEST side.
+# Fallback: the end state says the outcome lines and L28, then the victory.
+cine e7m3_dawn  title="Nobody Paid"  mode=pause  letterbox=2.39  seed=734  length=14..24
+env dusk  moon_yaw=110  moon_pitch=-6  energy=0.7
+cast  ossavar  capsule  at=(0, 0, -300)  hidden=1
+
+# WIDE crane over the Outwall at dawn
+shot W1 5.0  cam=crane  from=(-30, 10, 10)  to=(-20, 22, 0)  look=(0, 0, 20)>(0, 0, 30)  fov=50>54  in=fade_black:0.6
+  at 0.2  fade color=#ffd8a0 alpha=0.15 time=4.0
+# MS Torvald on the Tar Steps
+shot W2 3.0  cam=static  from=(10, 1.8, 30)  look=(14, 1.5, 27)  fov=36
+# Ossavar on a shanty roof above him
+shot W3 7.6  cam=static  from=(9, 1.2, 31)  look=(16, 4.0, 22)  fov=34
+  at 0.2  line ossavar "You did not pay for that, Ice-king. Nobody paid for that. I will remember."
+  at 6.6  fade alpha=1 time=1.0

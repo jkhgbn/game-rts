@@ -7463,6 +7463,8 @@ msgstr ""
 
 #. return "Torvald must survive"
 #: scripts/campaign/mission_e6_01.gd:528 scripts/campaign/mission_e6_02.gd:507
+#: scripts/campaign/mission_e7_01.gd:387 scripts/campaign/mission_e7_02.gd:368
+#: scripts/campaign/mission_e7_03.gd:423 scripts/campaign/mission_e7_04.gd:413
 msgid "Torvald must survive"
 msgstr ""
 
@@ -8317,6 +8319,1596 @@ msgstr ""
 #. local_unit("ruin_warden", WARDEN_ID, "Ruin Warden", {"aggro_range": 9.0, "commandable": false, "cost": 120,
 #: scripts/campaign/mission_e6_base.gd:129 data/units/ruin_warden.tres:9
 msgid "Ruin Warden"
+msgstr ""
+
+#. const MISSION_TITLE := "The Dragon Auction"
+#: scripts/campaign/mission_e7_01.gd:23
+msgid "The Dragon Auction"
+msgstr ""
+
+#. const A_NAMES: Array[String] = ["Kesh", "Morrow-of-Glass", "Ossavar"]
+#: scripts/campaign/mission_e7_01.gd:27 scripts/campaign/mission_e7_04.gd:38
+#: scripts/campaign/mission_e7_base.gd:155
+msgid "Kesh"
+msgstr ""
+
+#. const A_NAMES: Array[String] = ["Kesh", "Morrow-of-Glass", "Ossavar"]
+#: scripts/campaign/mission_e7_01.gd:27 scripts/campaign/mission_e7_base.gd:156
+msgid "Morrow-of-Glass"
+msgstr ""
+
+#. [&"ossavar", "Two harbours, one rock, a sky for sale. Bring gold. I take no promises."],
+#: scripts/campaign/mission_e7_01.gd:77 data/voice/lines/e7m1.json:L1
+msgid "Two harbours, one rock, a sky for sale. Bring gold. I take no promises."
+msgstr ""
+
+#. [&"malrik", "The west harbour is yours, Torvald, the east is mine. Together we outbid the sun."],
+#: scripts/campaign/mission_e7_01.gd:78 data/voice/lines/e7m1.json:L2
+msgid "The west harbour is yours, Torvald, the east is mine. Together we outbid the sun."
+msgstr ""
+
+#. [&"torvald", "I came to keep the Coinwater's peace, Malrik. Not to buy a dragon like a cart-horse."],
+#: scripts/campaign/mission_e7_01.gd:79 data/voice/lines/e7m1.json:L3
+msgid "I came to keep the Coinwater's peace, Malrik. Not to buy a dragon like a cart-horse."
+msgstr ""
+
+#. [&"aldra", "Then keep it with gold, my lord. Winter is patient. Markets are not."],
+#: scripts/campaign/mission_e7_01.gd:80 data/voice/lines/e7m1.json:L4
+msgid "Then keep it with gold, my lord. Winter is patient. Markets are not."
+msgstr ""
+
+#. [&"aldra", "Send the wagons to the harbour. And watch the shoals. The sun's riders are faster than ice."],
+#: scripts/campaign/mission_e7_01.gd:81 data/voice/lines/e7m1.json:L5
+msgid "Send the wagons to the harbour. And watch the shoals. The sun's riders are faster than ice."
+msgstr ""
+
+#. [&"aldra", "The first coin is home. It smells of fish and diamonds."],
+#: scripts/campaign/mission_e7_01.gd:82 data/voice/lines/e7m1.json:L6
+msgid "The first coin is home. It smells of fish and diamonds."
+msgstr ""
+
+#. [&"vessa", "Torvald! You came south for the sunshine? I'll show you sunshine."],
+#: scripts/campaign/mission_e7_01.gd:83 data/voice/lines/e7m1.json:L7
+msgid "Torvald! You came south for the sunshine? I'll show you sunshine."
+msgstr ""
+
+#. [&"torvald", "Vessa. Still never waiting. One day, child, the road will be longer than you are."],
+#: scripts/campaign/mission_e7_01.gd:84 data/voice/lines/e7m1.json:L8
+msgid "Vessa. Still never waiting. One day, child, the road will be longer than you are."
+msgstr ""
+
+#. [&"herald", "The rock is held! By the old law, its master speaks last at the hammer."],
+#: scripts/campaign/mission_e7_01.gd:85 data/voice/lines/e7m1.json:L9
+msgid "The rock is held! By the old law, its master speaks last at the hammer."
+msgstr ""
+
+#. [&"ossavar", "The first of my brood. Kesh burns bright, and cheap. Who pays?"],
+#: scripts/campaign/mission_e7_01.gd:86 data/voice/lines/e7m1.json:L10
+msgid "The first of my brood. Kesh burns bright, and cheap. Who pays?"
+msgstr ""
+
+#. [&"torvald", "Fly with us, then. And try not to enjoy it."],
+#: scripts/campaign/mission_e7_01.gd:87 data/voice/lines/e7m1.json:L11
+msgid "Fly with us, then. And try not to enjoy it."
+msgstr ""
+
+#. [&"ossavar", "Gold from the south. Kesh, burn the north."],
+#: scripts/campaign/mission_e7_01.gd:88 data/voice/lines/e7m1.json:L12
+msgid "Gold from the south. Kesh, burn the north."
+msgstr ""
+
+#. [&"herald", "The Laurel at noon! By the Truce of the Stilled Sea: first blood, and no further!"],
+#: scripts/campaign/mission_e7_01.gd:89 data/voice/lines/e7m1.json:L13
+msgid "The Laurel at noon! By the Truce of the Stilled Sea: first blood, and no further!"
+msgstr ""
+
+#. [&"dacian", "No crowd worth the name today, Diamond Wall. Just us, and a great deal of money."],
+#: scripts/campaign/mission_e7_01.gd:90 data/voice/lines/e7m1.json:L14
+msgid "No crowd worth the name today, Diamond Wall. Just us, and a great deal of money."
+msgstr ""
+
+#. [&"seraphine", "Then let us disappoint the money."],
+#: scripts/campaign/mission_e7_01.gd:91 data/voice/lines/e7m1.json:L15
+msgid "Then let us disappoint the money."
+msgstr ""
+
+#. [&"seraphine", "Gold cloaks, behind me. So this is how Aurivane wins now."],
+#: scripts/campaign/mission_e7_01.gd:92 data/voice/lines/e7m1.json:L16
+msgid "Gold cloaks, behind me. So this is how Aurivane wins now."
+msgstr ""
+
+#. [&"dacian", "Those aren't mine! Seraphine, those are NOT mine!"],
+#: scripts/campaign/mission_e7_01.gd:93 data/voice/lines/e7m1.json:L17
+msgid "Those aren't mine! Seraphine, those are NOT mine!"
+msgstr ""
+
+#. [&"torvald", "That smoke is violet. Gold cloaks do not bleed violet."],
+#: scripts/campaign/mission_e7_01.gd:94 data/voice/lines/e7m1.json:L16b
+msgid "That smoke is violet. Gold cloaks do not bleed violet."
+msgstr ""
+
+#. [&"seraphine", "Walls don't run, Ice-king. But they can walk, if you walk beside them."],
+#: scripts/campaign/mission_e7_01.gd:95 data/voice/lines/e7m1.json:L18
+msgid "Walls don't run, Ice-king. But they can walk, if you walk beside them."
+msgstr ""
+
+#. [&"seraphine", "The harbour, then. I will hold it. It is the one thing today that hasn't lied to me."],
+#: scripts/campaign/mission_e7_01.gd:96 data/voice/lines/e7m1.json:L19
+msgid "The harbour, then. I will hold it. It is the one thing today that hasn't lied to me."
+msgstr ""
+
+#. [&"malrik", "For the second bid, Torvald. A gift. Two hundred, in good gold."],
+#: scripts/campaign/mission_e7_01.gd:97 data/voice/lines/e7m1.json:L20
+msgid "For the second bid, Torvald. A gift. Two hundred, in good gold."
+msgstr ""
+
+#. [&"torvald", "This coin carries the Outwall's stamp, Malrik. Dockers' wages. Where did you find it?"],
+#: scripts/campaign/mission_e7_01.gd:98 data/voice/lines/e7m1.json:L21
+msgid "This coin carries the Outwall's stamp, Malrik. Dockers' wages. Where did you find it?"
+msgstr ""
+
+#. [&"malrik", "Lying in the street, Torvald. Where coin usually lies."],
+#: scripts/campaign/mission_e7_01.gd:99 data/voice/lines/e7m1.json:L22
+msgid "Lying in the street, Torvald. Where coin usually lies."
+msgstr ""
+
+#. [&"obren", "Count it, Ice-king. Count all of it. Someone is counting you."],
+#: scripts/campaign/mission_e7_01.gd:100 data/voice/lines/e7m1.json:L22b
+msgid "Count it, Ice-king. Count all of it. Someone is counting you."
+msgstr ""
+
+#. [&"ossavar", "Morrow-of-Glass, my daughter. She remembers both your grandfathers' coin."],
+#: scripts/campaign/mission_e7_01.gd:101 data/voice/lines/e7m1.json:L23a
+msgid "Morrow-of-Glass, my daughter. She remembers both your grandfathers' coin."
+msgstr ""
+
+#. [&"torvald", "Glass and frost. At least one of us will match the banners."],
+#: scripts/campaign/mission_e7_01.gd:102 data/voice/lines/e7m1.json:L23
+msgid "Glass and frost. At least one of us will match the banners."
+msgstr ""
+
+#. [&"ossavar", "Diamonds were never enough for her. Morrow, fly south."],
+#: scripts/campaign/mission_e7_01.gd:103 data/voice/lines/e7m1.json:L24
+msgid "Diamonds were never enough for her. Morrow, fly south."
+msgstr ""
+
+#. [&"ysolde", "Torvald. You let me go once, on your wall. I remember. I will not hold back today."],
+#: scripts/campaign/mission_e7_01.gd:104 data/voice/lines/e7m1.json:L25
+msgid "Torvald. You let me go once, on your wall. I remember. I will not hold back today."
+msgstr ""
+
+#. [&"torvald", "Good. Holding back has always been my fault, not yours."],
+#: scripts/campaign/mission_e7_01.gd:105 data/voice/lines/e7m1.json:L26
+msgid "Good. Holding back has always been my fault, not yours."
+msgstr ""
+
+#. [&"ossavar", "And now the old price. Me. Whoever pays the most, I burn for."],
+#: scripts/campaign/mission_e7_01.gd:106 data/voice/lines/e7m1.json:L27
+msgid "And now the old price. Me. Whoever pays the most, I burn for."
+msgstr ""
+
+#. [&"torvald", "I have never owned anything this old. Except my regrets."],
+#: scripts/campaign/mission_e7_01.gd:107 data/voice/lines/e7m1.json:L28
+msgid "I have never owned anything this old. Except my regrets."
+msgstr ""
+
+#. [&"ossavar", "Twice each, I said. Let us make it three."],
+#: scripts/campaign/mission_e7_01.gd:108 data/voice/lines/e7m1.json:L29
+msgid "Twice each, I said. Let us make it three."
+msgstr ""
+
+#. [&"vessa", "Everything we have, Ysolde! Take that harbour while the sky is still for sale!"],
+#: scripts/campaign/mission_e7_01.gd:109 data/voice/lines/e7m1.json:L30
+msgid "Everything we have, Ysolde! Take that harbour while the sky is still for sale!"
+msgstr ""
+
+#. [&"seraphine", "Adamarch will remember who stood on the quay with her. Even if the Archon will not."],
+#: scripts/campaign/mission_e7_01.gd:110 data/voice/lines/e7m1.json:L31
+msgid "Adamarch will remember who stood on the quay with her. Even if the Archon will not."
+msgstr ""
+
+#. [&"torvald", "Remember who paid for it, Seraphine. I would like to know myself."],
+#: scripts/campaign/mission_e7_01.gd:111 data/voice/lines/e7m1.json:L32
+msgid "Remember who paid for it, Seraphine. I would like to know myself."
+msgstr ""
+
+#. [&"ossavar", "The Laurel was broken by knives. Gold cloaks. Violet smoke. Somebody lied on my rock."],
+#: scripts/campaign/mission_e7_01.gd:112 data/voice/lines/e7m1.json:L34
+msgid "The Laurel was broken by knives. Gold cloaks. Violet smoke. Somebody lied on my rock."
+msgstr ""
+
+#. [&"ossavar", "The sky has chosen its master, and it is not you."],
+#: scripts/campaign/mission_e7_01.gd:113 data/voice/lines/e7m1.json:L33
+msgid "The sky has chosen its master, and it is not you."
+msgstr ""
+
+#. [&"aldra", "The harbour is burning, my lord. Adamarch does not forgive a guest who loses its harbour."],
+#: scripts/campaign/mission_e7_01.gd:114 data/voice/lines/e7m1.json:L35
+msgid "The harbour is burning, my lord. Adamarch does not forgive a guest who loses its harbour."
+msgstr ""
+
+#. [&"dacian", "No... she was the best of us. Both cities killed her today."],
+#: scripts/campaign/mission_e7_01.gd:115 data/voice/lines/e7m1.json:L36
+msgid "No... she was the best of us. Both cities killed her today."
+msgstr ""
+
+#. [&"torvald", "Too slow. Again... the ice gives way."],
+#: scripts/campaign/mission_e7_01.gd:116 data/voice/lines/e7m1.json:L37
+msgid "Too slow. Again... the ice gives way."
+msgstr ""
+
+#. [&"aldra", "Steel and quilting. Adamarch's coin, wearing our colours."],
+#: scripts/campaign/mission_e7_01.gd:117 data/voice/lines/e7m1.json:L38
+msgid "Steel and quilting. Adamarch's coin, wearing our colours."
+msgstr ""
+
+#. "The winter truce holds on the green fields of Evenmead. It says nothing about the south. On the Coinwater, tw
+#: scripts/campaign/mission_e7_01.gd:120
+msgid "The winter truce holds on the green fields of Evenmead. It says nothing about the south. On the Coinwater, two harbour cities who have hated each other for a thousand years have just watched their duel end, and a dragon land on the Master's empty chair."
+msgstr ""
+
+#. "Ossavar the Twice-Sold has named the old price: gold for fire. Three auctions, three skies for sale. Adamarch
+#: scripts/campaign/mission_e7_01.gd:121
+msgid "Ossavar the Twice-Sold has named the old price: gold for fire. Three auctions, three skies for sale. Adamarch, the Diamond City, has opened its harbour to Malrik and to Torvald. Across the water, Aurivane flies Vessa's red sails and Ysolde's green ones."
+msgstr ""
+
+#. "Torvald came to keep a peace. Malrik came to buy a war. Hold the Diamond Harbour, win the sky, and count the 
+#: scripts/campaign/mission_e7_01.gd:122
+msgid "Torvald came to keep a peace. Malrik came to buy a war. Hold the Diamond Harbour, win the sky, and count the coin carefully. Somebody else is counting too."
+msgstr ""
+
+#. const BRIEFING_LINE := "Gold comes by caravan from the Diamond Harbour. Bid when a dragon lands on the Tollroc
+#: scripts/campaign/mission_e7_01.gd:124
+msgid "Gold comes by caravan from the Diamond Harbour. Bid when a dragon lands on the Tollrock (the Bid buttons, top right)."
+msgstr ""
+
+#. const HINT_START := "Your gold comes from the Diamond Harbour. Build a Frost Bazaar near the Keep (worker B, t
+#: scripts/campaign/mission_e7_01.gd:125
+msgid "Your gold comes from the Diamond Harbour. Build a Frost Bazaar near the Keep (worker B, then B) and train caravans (Z)."
+msgstr ""
+
+#. const HINT_POSTS := "Posts open at 2:00. Caravans walk the ring road: the Diamond Harbour is near, the Admiral
+#: scripts/campaign/mission_e7_01.gd:126
+msgid "Posts open at 2:00. Caravans walk the ring road: the Diamond Harbour is near, the Admiralty Quay pays more per trip."
+msgstr ""
+
+#. const HINT_STRONGHOLD := "Your Rime Keep can become a Stronghold: select it and press X (200 crystals). It ope
+#: scripts/campaign/mission_e7_01.gd:127
+msgid "Your Rime Keep can become a Stronghold: select it and press X (200 crystals). It opens Hoarlight Magebow, Frost Mortar (Frost Hall) and the Rimecarver (Keep)."
+msgstr ""
+
+#. const HINT_ROCK := "Hold the Tollrock when the hammer falls: its master wins a bid within 10 %."
+#: scripts/campaign/mission_e7_01.gd:128
+msgid "Hold the Tollrock when the hammer falls: its master wins a bid within 10 %."
+msgstr ""
+
+#. const HINT_CARVER := "Rimecarver: Z Rime Bulwark raises a wall for 8 s (two close a causeway). V Scrying Rune 
+#: scripts/campaign/mission_e7_01.gd:129
+msgid "Rimecarver: Z Rime Bulwark raises a wall for 8 s (two close a causeway). V Scrying Rune sees through fog."
+msgstr ""
+
+#. const MSG_RIDERS := "Riders on the Gold Shoal: they want your caravans"
+#: scripts/campaign/mission_e7_01.gd:130
+msgid "Riders on the Gold Shoal: they want your caravans"
+msgstr ""
+
+#. const MSG_AUCTION_SOON := "A dragon is landing on the Tollrock. Auction in 0:30: bid with the Bid buttons"
+#: scripts/campaign/mission_e7_01.gd:131 scripts/campaign/mission_e7_04.gd:141
+msgid "A dragon is landing on the Tollrock. Auction in 0:30: bid with the Bid buttons"
+msgstr ""
+
+#. const MSG_LAUREL := "The Laurel duel begins at noon on the Tollrock (12:00)"
+#: scripts/campaign/mission_e7_01.gd:132
+msgid "The Laurel duel begins at noon on the Tollrock (12:00)"
+msgstr ""
+
+#. const MSG_RING := "The Laurel ring is closed to soldiers."
+#: scripts/campaign/mission_e7_01.gd:133
+msgid "The Laurel ring is closed to soldiers."
+msgstr ""
+
+#. const MSG_GIFT := "Malrik adds 200 gold to your coffers"
+#: scripts/campaign/mission_e7_01.gd:134
+msgid "Malrik adds 200 gold to your coffers"
+msgstr ""
+
+#. const MSG_MALRIK_FELL := "Malrik falls back to the Admiralty"
+#: scripts/campaign/mission_e7_01.gd:135
+msgid "Malrik falls back to the Admiralty"
+msgstr ""
+
+#. c.keep_lost_message = "The Rime Keep has fallen."
+#: scripts/campaign/mission_e7_01.gd:181 scripts/campaign/mission_e7_02.gd:192
+#: scripts/campaign/mission_e7_04.gd:201
+msgid "The Rime Keep has fallen."
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nThe sky is Adamarch's"
+#: scripts/campaign/mission_e7_01.gd:190
+msgid "VICTORY\nThe sky is Adamarch's"
+msgstr ""
+
+#. c.spotlight = {"id": &"rimecarver", "trigger": &"manual", "key_hint": "Rime Keep: B",
+#: scripts/campaign/mission_e7_01.gd:196
+msgid "Rime Keep: B"
+msgstr ""
+
+#. "card": "Rimecarver. The wall comes to you: close a door in front of the charge, see what hides behind it."}
+#: scripts/campaign/mission_e7_01.gd:197
+msgid "Rimecarver. The wall comes to you: close a door in front of the charge, see what hides behind it."
+msgstr ""
+
+#. return "Episode 7, Mission 1: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e7_01.gd:202
+msgid "Episode 7, Mission 1: %s"
+msgstr ""
+
+#. harbour = add_target(HARBOUR, float(by_difficulty(HARBOUR_HP)), HARBOUR_REGEN, _harbour_mends, "The Diamond Ha
+#: scripts/campaign/mission_e7_01.gd:235
+msgid "The Diamond Harbour"
+msgstr ""
+
+#. return "Win the Dragon Auctions (2 of 3)"
+#: scripts/campaign/mission_e7_01.gd:369
+msgid "Win the Dragon Auctions (2 of 3)"
+msgstr ""
+
+#. return "Win the Dragon Auctions (%d / 2 of 3), next at %s" % [wins, mmss(A_TIMES[i])]
+#: scripts/campaign/mission_e7_01.gd:374
+msgid "Win the Dragon Auctions (%d / 2 of 3), next at %s"
+msgstr ""
+
+#. return "Win the Dragon Auctions (%d / 2 of 3)" % wins
+#: scripts/campaign/mission_e7_01.gd:375
+msgid "Win the Dragon Auctions (%d / 2 of 3)"
+msgstr ""
+
+#. return "Hold the Diamond Harbour (%d %%)" % int(round(harbour.ratio() * 100.0))
+#: scripts/campaign/mission_e7_01.gd:378
+msgid "Hold the Diamond Harbour (%d %%)"
+msgstr ""
+
+#. return "Hold the Diamond Harbour"
+#: scripts/campaign/mission_e7_01.gd:379
+msgid "Hold the Diamond Harbour"
+msgstr ""
+
+#. return "Keep Seraphine alive: bring her to the Diamond Harbour"
+#: scripts/campaign/mission_e7_01.gd:381
+msgid "Keep Seraphine alive: bring her to the Diamond Harbour"
+msgstr ""
+
+#. return "Hold the harbour until Aurivane's fleet turns (%s)" % mmss(hold_started + float(by_difficulty(HOLD_LEN
+#: scripts/campaign/mission_e7_01.gd:384
+msgid "Hold the harbour until Aurivane's fleet turns (%s)"
+msgstr ""
+
+#. return "Hold the harbour until Aurivane's fleet turns"
+#: scripts/campaign/mission_e7_01.gd:385
+msgid "Hold the harbour until Aurivane's fleet turns"
+msgstr ""
+
+#. return "Hold the Tollrock when the hammer falls (%d / 3)" % rock_hammers
+#: scripts/campaign/mission_e7_01.gd:390
+msgid "Hold the Tollrock when the hammer falls (%d / 3)"
+msgstr ""
+
+#. return "Hold the Tollrock when the hammer falls"
+#: scripts/campaign/mission_e7_01.gd:391
+msgid "Hold the Tollrock when the hammer falls"
+msgstr ""
+
+#. return "Arm Adamarch's guests: buy 2 wares (%d / 2)" % mini(wares_bought, 2)
+#: scripts/campaign/mission_e7_01.gd:394
+msgid "Arm Adamarch's guests: buy 2 wares (%d / 2)"
+msgstr ""
+
+#. return "Arm Adamarch's guests: buy 2 wares"
+#: scripts/campaign/mission_e7_01.gd:395
+msgid "Arm Adamarch's guests: buy 2 wares"
+msgstr ""
+
+#. const MISSION_TITLE := "First Blood, and No Further"
+#: scripts/campaign/mission_e7_02.gd:23
+msgid "First Blood, and No Further"
+msgstr ""
+
+#. [&"ossavar", "Two cities, two lies, one rock. The rock, at least, is honest."],
+#: scripts/campaign/mission_e7_02.gd:79 data/voice/lines/e7m2.json:L1
+msgid "Two cities, two lies, one rock. The rock, at least, is honest."
+msgstr ""
+
+#. [&"seraphine", "They say Adamarch staged it. I bled on that sand, Ice-king. I would like to know for whom."],
+#: scripts/campaign/mission_e7_02.gd:80 data/voice/lines/e7m2.json:L2
+msgid "They say Adamarch staged it. I bled on that sand, Ice-king. I would like to know for whom."
+msgstr ""
+
+#. [&"torvald", "So would I. Malrik sailed home before the blood was dry. That is not mourning."],
+#: scripts/campaign/mission_e7_02.gd:81 data/voice/lines/e7m2.json:L3
+msgid "So would I. Malrik sailed home before the blood was dry. That is not mourning."
+msgstr ""
+
+#. [&"aldra", "The bettors fled with their strongboxes and dropped half of them. Coin always runs downhill."],
+#: scripts/campaign/mission_e7_02.gd:82 data/voice/lines/e7m2.json:L4
+msgid "The bettors fled with their strongboxes and dropped half of them. Coin always runs downhill."
+msgstr ""
+
+#. [&"vessa", "Back again, Torvald? You're the slowest man I know, and you're still everywhere."],
+#: scripts/campaign/mission_e7_02.gd:83 data/voice/lines/e7m2.json:L5
+msgid "Back again, Torvald? You're the slowest man I know, and you're still everywhere."
+msgstr ""
+
+#. [&"torvald", "The Citadel stands. Aldra. I would rather not do this one alone."],
+#: scripts/campaign/mission_e7_02.gd:84 data/voice/lines/e7m2.json:L6
+msgid "The Citadel stands. Aldra. I would rather not do this one alone."
+msgstr ""
+
+#. [&"aldra", "You never do anything alone, my lord. You only think you do."],
+#: scripts/campaign/mission_e7_02.gd:85 data/voice/lines/e7m2.json:L7
+msgid "You never do anything alone, my lord. You only think you do."
+msgstr ""
+
+#. [&"seraphine", "The barricade is down. Walls should know when to fall. Ours never did."],
+#: scripts/campaign/mission_e7_02.gd:86 data/voice/lines/e7m2.json:L8
+msgid "The barricade is down. Walls should know when to fall. Ours never did."
+msgstr ""
+
+#. [&"ossavar", "You hold my rock. Look under the cloths. The dead are poor liars."],
+#: scripts/campaign/mission_e7_02.gd:87 data/voice/lines/e7m2.json:L9
+msgid "You hold my rock. Look under the cloths. The dead are poor liars."
+msgstr ""
+
+#. [&"torvald", "Aurivane's cloaks, on knives forged in the dark. The edges drink the light. Shadow steel."],
+#: scripts/campaign/mission_e7_02.gd:88 data/voice/lines/e7m2.json:L10
+msgid "Aurivane's cloaks, on knives forged in the dark. The edges drink the light. Shadow steel."
+msgstr ""
+
+#. [&"torvald", "The boat my rune saw left violet smoke. Gold cloaks do not row from the north."],
+#: scripts/campaign/mission_e7_02.gd:89 data/voice/lines/e7m2.json:L10b
+msgid "The boat my rune saw left violet smoke. Gold cloaks do not row from the north."
+msgstr ""
+
+#. [&"aldra", "The bettors' ledger. Someone wagered against both cities, on the same night, before the duel."],
+#: scripts/campaign/mission_e7_02.gd:90 data/voice/lines/e7m2.json:L11
+msgid "The bettors' ledger. Someone wagered against both cities, on the same night, before the duel."
+msgstr ""
+
+#. [&"torvald", "A man who bets on the war, not the winner. I know only one with that much patience."],
+#: scripts/campaign/mission_e7_02.gd:91 data/voice/lines/e7m2.json:L12
+msgid "A man who bets on the war, not the winner. I know only one with that much patience."
+msgstr ""
+
+#. [&"herald", "Don't hurt me! I only read the names! I saw the boat, a black boat, from the north side!"],
+#: scripts/campaign/mission_e7_02.gd:92 data/voice/lines/e7m2.json:L13
+msgid "Don't hurt me! I only read the names! I saw the boat, a black boat, from the north side!"
+msgstr ""
+
+#. [&"torvald", "Easy. Who stepped out of it?"],
+#: scripts/campaign/mission_e7_02.gd:93 data/voice/lines/e7m2.json:L14
+msgid "Easy. Who stepped out of it?"
+msgstr ""
+
+#. [&"herald", "A woman in a white mask. She never said a word. The knives followed her like ducklings."],
+#: scripts/campaign/mission_e7_02.gd:94 data/voice/lines/e7m2.json:L15
+msgid "A woman in a white mask. She never said a word. The knives followed her like ducklings."
+msgstr ""
+
+#. [&"torvald", "A white mask. Then I know the knife, and I know the hand that throws it."],
+#: scripts/campaign/mission_e7_02.gd:95 data/voice/lines/e7m2.json:L16
+msgid "A white mask. Then I know the knife, and I know the hand that throws it."
+msgstr ""
+
+#. [&"dacian", "You want the truth told on my sand, Ice-king? Then by the old rule. First blood, and no further."
+#: scripts/campaign/mission_e7_02.gd:96 data/voice/lines/e7m2.json:L17
+msgid "You want the truth told on my sand, Ice-king? Then by the old rule. First blood, and no further."
+msgstr ""
+
+#. [&"dacian", "Well struck. Twice now an Adamarch guest has cut me. I am starting to take it personally."],
+#: scripts/campaign/mission_e7_02.gd:97 data/voice/lines/e7m2.json:L18a
+msgid "Well struck. Twice now an Adamarch guest has cut me. I am starting to take it personally."
+msgstr ""
+
+#. [&"dacian", "First blood to the Sun. Now say your truth, Ice-king, and I will listen."],
+#: scripts/campaign/mission_e7_02.gd:98 data/voice/lines/e7m2.json:L18b
+msgid "First blood to the Sun. Now say your truth, Ice-king, and I will listen."
+msgstr ""
+
+#. [&"herald", "Neither bleeds! By the law, it is a draw, and the sand is quiet!"],
+#: scripts/campaign/mission_e7_02.gd:99 data/voice/lines/e7m2.json:L18c
+msgid "Neither bleeds! By the law, it is a draw, and the sand is quiet!"
+msgstr ""
+
+#. [&"hush", "Hush now, Sunblade. The war only needs one more death."],
+#: scripts/campaign/mission_e7_02.gd:100 data/voice/lines/e7m2.json:L19
+msgid "Hush now, Sunblade. The war only needs one more death."
+msgstr ""
+
+#. [&"seraphine", "Behind you, Dacian! The knives again!"],
+#: scripts/campaign/mission_e7_02.gd:101 data/voice/lines/e7m2.json:L20
+msgid "Behind you, Dacian! The knives again!"
+msgstr ""
+
+#. [&"vessa", "I know those knives. I've had them at my throat. Hush! I owe you a night!"],
+#: scripts/campaign/mission_e7_02.gd:102 data/voice/lines/e7m2.json:L21
+msgid "I know those knives. I've had them at my throat. Hush! I owe you a night!"
+msgstr ""
+
+#. [&"hush", "There is always another night, Ice-king. Ask your friend how he spends his."],
+#: scripts/campaign/mission_e7_02.gd:103 data/voice/lines/e7m2.json:L22
+msgid "There is always another night, Ice-king. Ask your friend how he spends his."
+msgstr ""
+
+#. [&"dacian", "Those were never ours. You knew before you came to the sand."],
+#: scripts/campaign/mission_e7_02.gd:104 data/voice/lines/e7m2.json:L23
+msgid "Those were never ours. You knew before you came to the sand."
+msgstr ""
+
+#. [&"torvald", "Mother Hush. I have stood beside this mask in Malrik's camp. They were my ally's knives."],
+#: scripts/campaign/mission_e7_02.gd:105 data/voice/lines/e7m2.json:L24
+msgid "Mother Hush. I have stood beside this mask in Malrik's camp. They were my ally's knives."
+msgstr ""
+
+#. [&"seraphine", "Then your ally broke a truce that held for a hundred and thirty years. For what?"],
+#: scripts/campaign/mission_e7_02.gd:106 data/voice/lines/e7m2.json:L25
+msgid "Then your ally broke a truce that held for a hundred and thirty years. For what?"
+msgstr ""
+
+#. [&"torvald", "For a war that does not end. Wars are good for business, and better for that stone."],
+#: scripts/campaign/mission_e7_02.gd:107 data/voice/lines/e7m2.json:L26
+msgid "For a war that does not end. Wars are good for business, and better for that stone."
+msgstr ""
+
+#. [&"ossavar", "First blood, and no further. The cities forgot. Let us see if you remember."],
+#: scripts/campaign/mission_e7_02.gd:108 data/voice/lines/e7m2.json:L27
+msgid "First blood, and no further. The cities forgot. Let us see if you remember."
+msgstr ""
+
+#. [&"aldra", "Bettors' gold. It spends the same as honest gold, which is the whole trouble with gold."],
+#: scripts/campaign/mission_e7_02.gd:109 data/voice/lines/e7m2.json:L28
+msgid "Bettors' gold. It spends the same as honest gold, which is the whole trouble with gold."
+msgstr ""
+
+#. [&"seraphine", "The Sunblade is down. Every bell in both cities will ring for war now."],
+#: scripts/campaign/mission_e7_02.gd:110 data/voice/lines/e7m2.json:L29
+msgid "The Sunblade is down. Every bell in both cities will ring for war now."
+msgstr ""
+
+#. [&"torvald", "Too late. I always arrive... too late."],
+#: scripts/campaign/mission_e7_02.gd:111 data/voice/lines/e7m2.json:L30
+msgid "Too late. I always arrive... too late."
+msgstr ""
+
+#. "The morning after the Laurel, the Coinwater woke to two lies. Aurivane says Adamarch faked an attack to steal
+#: scripts/campaign/mission_e7_02.gd:114
+msgid "The morning after the Laurel, the Coinwater woke to two lies. Aurivane says Adamarch faked an attack to steal the duel. Adamarch says Aurivane hid knives in gold cloaks. Aurivane's spears now hold the Tollrock, and a barricade shuts the North Causeway."
+msgstr ""
+
+#. "Malrik sailed home to the Admiralty \"to mourn\". Seraphine did not: she stands at Torvald's camp with a band
+#: scripts/campaign/mission_e7_02.gd:115
+msgid "Malrik sailed home to the Admiralty \"to mourn\". Seraphine did not: she stands at Torvald's camp with a bandaged hand and one question. Ossavar, on the Master's chair, gave his own advice: ask the herald where the knives came from."
+msgstr ""
+
+#. "Take the rock. Find what the knives left behind. Then settle it the only way both cities still respect: first
+#: scripts/campaign/mission_e7_02.gd:116
+msgid "Take the rock. Find what the knives left behind. Then settle it the only way both cities still respect: first blood, and no further."
+msgstr ""
+
+#. const BRIEFING_LINE := "The herald saw the knives arrive. He fled to the far shore."
+#: scripts/campaign/mission_e7_02.gd:118
+msgid "The herald saw the knives arrive. He fled to the far shore."
+msgstr ""
+
+#. const HINT_START := "Break the Sun Barricade on the North Causeway. Frost Mortars hit walls hard; a Rimecarver
+#: scripts/campaign/mission_e7_02.gd:119
+msgid "Break the Sun Barricade on the North Causeway. Frost Mortars hit walls hard; a Rimecarver's Scrying Rune shows what is behind it."
+msgstr ""
+
+#. const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s).
+#: scripts/campaign/mission_e7_02.gd:120
+msgid "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s). It opens the Shardguard (C) and lets you call Aldra (V)."
+msgstr ""
+
+#. const HINT_CALL := "Call Aldra: select the Keep and press V. She fights on her own; her card sets where (Escor
+#: scripts/campaign/mission_e7_02.gd:121
+msgid "Call Aldra: select the Keep and press V. She fights on her own; her card sets where (Escort / Vanguard / Hold home)."
+msgstr ""
+
+#. const HINT_CLUE := "Hold Torvald beside a clue (4 s) with no enemy near to read it."
+#: scripts/campaign/mission_e7_02.gd:122
+msgid "Hold Torvald beside a clue (4 s) with no enemy near to read it."
+msgstr ""
+
+#. const HINT_SHARDGUARD := "A Shardguard beside Dacian stops her blink and freezes her."
+#: scripts/campaign/mission_e7_02.gd:123
+msgid "A Shardguard beside Dacian stops her blink and freezes her."
+msgstr ""
+
+#. const MSG_ISLE_SHUT := "The Sun Barricade still stands: the isle is closed."
+#: scripts/campaign/mission_e7_02.gd:124
+msgid "The Sun Barricade still stands: the isle is closed."
+msgstr ""
+
+#. const MSG_DACIAN := "Dacian comes to the sand."
+#: scripts/campaign/mission_e7_02.gd:125
+msgid "Dacian comes to the sand."
+msgstr ""
+
+#. const MSG_DACIAN_BELL := "Dacian will come to the sand at the afternoon bell (%s)."
+#: scripts/campaign/mission_e7_02.gd:126
+msgid "Dacian will come to the sand at the afternoon bell (%s)."
+msgstr ""
+
+#. const MSG_RING := "The Laurel ring is for the duellists alone."
+#: scripts/campaign/mission_e7_02.gd:127
+msgid "The Laurel ring is for the duellists alone."
+msgstr ""
+
+#. const MSG_CLUE_REFUSED := "Not with the enemy this close."
+#: scripts/campaign/mission_e7_02.gd:128
+msgid "Not with the enemy this close."
+msgstr ""
+
+#. const MSG_VESSA_FELL := "Vessa falls back to the Sun Gate"
+#: scripts/campaign/mission_e7_02.gd:129
+msgid "Vessa falls back to the Sun Gate"
+msgstr ""
+
+#. const MSG_STAND_DOWN := "Aurivane lowers its spears for the Laurel."
+#: scripts/campaign/mission_e7_02.gd:130
+msgid "Aurivane lowers its spears for the Laurel."
+msgstr ""
+
+#. local_building_into("fire_barracks", "sun_barricade", "Sun Barricade")
+#: scripts/campaign/mission_e7_02.gd:172
+msgid "Sun Barricade"
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nFirst blood, and no further"
+#: scripts/campaign/mission_e7_02.gd:202
+msgid "VICTORY\nFirst blood, and no further"
+msgstr ""
+
+#. c.spotlight = {"id": &"helper_aldra", "trigger": &"manual", "key_hint": "Rime Keep: V",
+#: scripts/campaign/mission_e7_02.gd:205
+msgid "Rime Keep: V"
+msgstr ""
+
+#. "card": "Aldra. The Glass Warden: she shields the army's walk and shatters the line at the end of it."}
+#: scripts/campaign/mission_e7_02.gd:206
+msgid "Aldra. The Glass Warden: she shields the army's walk and shatters the line at the end of it."
+msgstr ""
+
+#. return "Episode 7, Mission 2: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e7_02.gd:211
+msgid "Episode 7, Mission 2: %s"
+msgstr ""
+
+#. return "Break the Sun Barricade (%d / 2)" % (2 - barricades_left())
+#: scripts/campaign/mission_e7_02.gd:355
+msgid "Break the Sun Barricade (%d / 2)"
+msgstr ""
+
+#. return "Break the Sun Barricade"
+#: scripts/campaign/mission_e7_02.gd:356
+msgid "Break the Sun Barricade"
+msgstr ""
+
+#. return "Take the Tollrock"
+#: scripts/campaign/mission_e7_02.gd:358 scripts/campaign/mission_e7_04.gd:397
+msgid "Take the Tollrock"
+msgstr ""
+
+#. return "Find the truth (%d / 3): the knives, the ledger, the herald" % clues_found.size()
+#: scripts/campaign/mission_e7_02.gd:361
+msgid "Find the truth (%d / 3): the knives, the ledger, the herald"
+msgstr ""
+
+#. return "Find the truth: the knives, the ledger, the herald"
+#: scripts/campaign/mission_e7_02.gd:362
+msgid "Find the truth: the knives, the ledger, the herald"
+msgstr ""
+
+#. return "Meet Dacian on the sand: first blood, and no further"
+#: scripts/campaign/mission_e7_02.gd:364
+msgid "Meet Dacian on the sand: first blood, and no further"
+msgstr ""
+
+#. return "Keep Dacian alive"
+#: scripts/campaign/mission_e7_02.gd:366
+msgid "Keep Dacian alive"
+msgstr ""
+
+#. return "Raise a Citadel and call Aldra"
+#: scripts/campaign/mission_e7_02.gd:370
+msgid "Raise a Citadel and call Aldra"
+msgstr ""
+
+#. return "Seize the bettors' strongboxes (%d / 3)" % boxes_open
+#: scripts/campaign/mission_e7_02.gd:373
+msgid "Seize the bettors' strongboxes (%d / 3)"
+msgstr ""
+
+#. return "Seize the bettors' strongboxes"
+#: scripts/campaign/mission_e7_02.gd:374
+msgid "Seize the bettors' strongboxes"
+msgstr ""
+
+#. return "Draw first blood"
+#: scripts/campaign/mission_e7_02.gd:376
+msgid "Draw first blood"
+msgstr ""
+
+#. return "Not during the Laurel"
+#: scripts/campaign/mission_e7_02.gd:908
+msgid "Not during the Laurel"
+msgstr ""
+
+#. const MISSION_TITLE := "The Outwall"
+#: scripts/campaign/mission_e7_03.gd:20
+msgid "The Outwall"
+msgstr ""
+
+#. const ROW_NAMES := {&"R1": "Rope Row", &"R2": "Net Lane", &"R3": "Saltpan Court", &"R4": "Low Quay", &"R5": "T
+#: scripts/campaign/mission_e7_03.gd:35
+msgid "Rope Row"
+msgstr ""
+
+#. const ROW_NAMES := {&"R1": "Rope Row", &"R2": "Net Lane", &"R3": "Saltpan Court", &"R4": "Low Quay", &"R5": "T
+#: scripts/campaign/mission_e7_03.gd:35
+msgid "Net Lane"
+msgstr ""
+
+#. const ROW_NAMES := {&"R1": "Rope Row", &"R2": "Net Lane", &"R3": "Saltpan Court", &"R4": "Low Quay", &"R5": "T
+#: scripts/campaign/mission_e7_03.gd:35
+msgid "Saltpan Court"
+msgstr ""
+
+#. const ROW_NAMES := {&"R1": "Rope Row", &"R2": "Net Lane", &"R3": "Saltpan Court", &"R4": "Low Quay", &"R5": "T
+#: scripts/campaign/mission_e7_03.gd:35
+msgid "Low Quay"
+msgstr ""
+
+#. const ROW_NAMES := {&"R1": "Rope Row", &"R2": "Net Lane", &"R3": "Saltpan Court", &"R4": "Low Quay", &"R5": "T
+#: scripts/campaign/mission_e7_03.gd:35
+msgid "Tar Steps"
+msgstr ""
+
+#. [&"ossavar", "The Outwall. Where the coin is earned, and never spent."],
+#: scripts/campaign/mission_e7_03.gd:88 data/voice/lines/e7m3.json:L1
+msgid "The Outwall. Where the coin is earned, and never spent."
+msgstr ""
+
+#. [&"brannet", "You're the ice-king? We've had kings before. They stand on the wall and watch."],
+#: scripts/campaign/mission_e7_03.gd:89 data/voice/lines/e7m3.json:L2
+msgid "You're the ice-king? We've had kings before. They stand on the wall and watch."
+msgstr ""
+
+#. [&"torvald", "Then I will stand down here. Ring your bells when I tell you, and bring your people to me."],
+#: scripts/campaign/mission_e7_03.gd:90 data/voice/lines/e7m3.json:L3
+msgid "Then I will stand down here. Ring your bells when I tell you, and bring your people to me."
+msgstr ""
+
+#. [&"aldra", "The Glass Hall is open, my lord. It holds more than you think. Winter is roomy."],
+#: scripts/campaign/mission_e7_03.gd:91 data/voice/lines/e7m3.json:L4
+msgid "The Glass Hall is open, my lord. It holds more than you think. Winter is roomy."
+msgstr ""
+
+#. [&"brannet", "Rope Row's coming. Mind the old ones, they walk slow. Like you, no offence."],
+#: scripts/campaign/mission_e7_03.gd:92 data/voice/lines/e7m3.json:L5
+msgid "Rope Row's coming. Mind the old ones, they walk slow. Like you, no offence."
+msgstr ""
+
+#. [&"aldra", "Crimson lanterns on the water. Aurivane burns what it cannot buy."],
+#: scripts/campaign/mission_e7_03.gd:93 data/voice/lines/e7m3.json:L6
+msgid "Crimson lanterns on the water. Aurivane burns what it cannot buy."
+msgstr ""
+
+#. [&"brannet", "Facetguards, turned back by an ice-king. I'll be telling that one in the tavern for years."],
+#: scripts/campaign/mission_e7_03.gd:94 data/voice/lines/e7m3.json:L7
+msgid "Facetguards, turned back by an ice-king. I'll be telling that one in the tavern for years."
+msgstr ""
+
+#. [&"brannet", "The Archon's press took a whole lane. They'll dig till they drop, and nobody'll count them."],
+#: scripts/campaign/mission_e7_03.gd:95 data/voice/lines/e7m3.json:L7b
+msgid "The Archon's press took a whole lane. They'll dig till they drop, and nobody'll count them."
+msgstr ""
+
+#. [&"aldra", "Men in grey masks, out of the old adit. They do not take coin. They take people."],
+#: scripts/campaign/mission_e7_03.gd:96 data/voice/lines/e7m3.json:L8
+msgid "Men in grey masks, out of the old adit. They do not take coin. They take people."
+msgstr ""
+
+#. [&"diamond_archon", "Ice-king. Adamarch did not open its harbour to you so you could herd fishermen."],
+#: scripts/campaign/mission_e7_03.gd:97 data/voice/lines/e7m3.json:L9
+msgid "Ice-king. Adamarch did not open its harbour to you so you could herd fishermen."
+msgstr ""
+
+#. [&"diamond_archon", "Guard my pits. The diamonds pay for your dragons. The Outwall can look after itself."],
+#: scripts/campaign/mission_e7_03.gd:98 data/voice/lines/e7m3.json:L10
+msgid "Guard my pits. The diamonds pay for your dragons. The Outwall can look after itself."
+msgstr ""
+
+#. [&"torvald", "It has been looking after itself for a thousand years, Your Radiance. Look where it got them."],
+#: scripts/campaign/mission_e7_03.gd:99 data/voice/lines/e7m3.json:L11
+msgid "It has been looking after itself for a thousand years, Your Radiance. Look where it got them."
+msgstr ""
+
+#. [&"aldra", "Diamond tithe. Every minute you stand there, my lord, the Archon pays. Every minute."],
+#: scripts/campaign/mission_e7_03.gd:100 data/voice/lines/e7m3.json:L12
+msgid "Diamond tithe. Every minute you stand there, my lord, the Archon pays. Every minute."
+msgstr ""
+
+#. [&"diamond_archon", "Those beasts are the property of the Diamond Hall. You will answer for them."],
+#: scripts/campaign/mission_e7_03.gd:101 data/voice/lines/e7m3.json:L13
+msgid "Those beasts are the property of the Diamond Hall. You will answer for them."
+msgstr ""
+
+#. [&"torvald", "Then I will answer for them. They will answer to nobody."],
+#: scripts/campaign/mission_e7_03.gd:102 data/voice/lines/e7m3.json:L14
+msgid "Then I will answer for them. They will answer to nobody."
+msgstr ""
+
+#. [&"brannet", "Net Lane, out! Follow the cold, it's the only thing tonight that isn't lying to us."],
+#: scripts/campaign/mission_e7_03.gd:103 data/voice/lines/e7m3.json:L15
+msgid "Net Lane, out! Follow the cold, it's the only thing tonight that isn't lying to us."
+msgstr ""
+
+#. [&"brannet", "The boats are in. Two crews, sixteen souls, and the whole night coming for them."],
+#: scripts/campaign/mission_e7_03.gd:104 data/voice/lines/e7m3.json:L16
+msgid "The boats are in. Two crews, sixteen souls, and the whole night coming for them."
+msgstr ""
+
+#. [&"seraphine", "The Archon forbade this. The Hall of Silence can fine me. These are Adamarch's people too."],
+#: scripts/campaign/mission_e7_03.gd:105 data/voice/lines/e7m3.json:L17
+msgid "The Archon forbade this. The Hall of Silence can fine me. These are Adamarch's people too."
+msgstr ""
+
+#. [&"torvald", "Pits to the east, fishers to the south. Aldra, I cannot stand in two places."],
+#: scripts/campaign/mission_e7_03.gd:106 data/voice/lines/e7m3.json:L18
+msgid "Pits to the east, fishers to the south. Aldra, I cannot stand in two places."
+msgstr ""
+
+#. [&"aldra", "Their captain comes himself. Break his mask, my lord. I want to see what is under it."],
+#: scripts/campaign/mission_e7_03.gd:107 data/voice/lines/e7m3.json:L19
+msgid "Their captain comes himself. Break his mask, my lord. I want to see what is under it."
+msgstr ""
+
+#. [&"torvald", "Violet. And a candle sigil. Malrik, you are taking rowers from the gutter now."],
+#: scripts/campaign/mission_e7_03.gd:108 data/voice/lines/e7m3.json:L20
+msgid "Violet. And a candle sigil. Malrik, you are taking rowers from the gutter now."
+msgstr ""
+
+#. [&"aldra", "His gift at the auction was their wages. Tonight he came back for the men."],
+#: scripts/campaign/mission_e7_03.gd:109 data/voice/lines/e7m3.json:L21
+msgid "His gift at the auction was their wages. Tonight he came back for the men."
+msgstr ""
+
+#. [&"ossavar", "The last tide, Ice-king. The cities always send the biggest boats just before morning."],
+#: scripts/campaign/mission_e7_03.gd:110 data/voice/lines/e7m3.json:L22
+msgid "The last tide, Ice-king. The cities always send the biggest boats just before morning."
+msgstr ""
+
+#. [&"brannet", "Half the Outwall gone! Ice-king, whatever you're guarding, it isn't us!"],
+#: scripts/campaign/mission_e7_03.gd:111 data/voice/lines/e7m3.json:L23
+msgid "Half the Outwall gone! Ice-king, whatever you're guarding, it isn't us!"
+msgstr ""
+
+#. [&"brannet", "Every bell's rung. I never heard all five at once. Sounds like a festival."],
+#: scripts/campaign/mission_e7_03.gd:112 data/voice/lines/e7m3.json:L24
+msgid "Every bell's rung. I never heard all five at once. Sounds like a festival."
+msgstr ""
+
+#. [&"brannet", "Dawn, and the Outwall's still here. Nobody on the wall will ever thank you. So: thank you."],
+#: scripts/campaign/mission_e7_03.gd:113 data/voice/lines/e7m3.json:L25
+msgid "Dawn, and the Outwall's still here. Nobody on the wall will ever thank you. So: thank you."
+msgstr ""
+
+#. [&"diamond_archon", "The pits held. Adamarch pays its debts, Ice-king. It never forgets them, either."],
+#: scripts/campaign/mission_e7_03.gd:114 data/voice/lines/e7m3.json:L26
+msgid "The pits held. Adamarch pays its debts, Ice-king. It never forgets them, either."
+msgstr ""
+
+#. [&"diamond_archon", "My pits stood empty all night. Remember that I asked you, and that you chose."],
+#: scripts/campaign/mission_e7_03.gd:115 data/voice/lines/e7m3.json:L27
+msgid "My pits stood empty all night. Remember that I asked you, and that you chose."
+msgstr ""
+
+#. [&"ossavar", "You did not pay for that, Ice-king. Nobody paid for that. I will remember."],
+#: scripts/campaign/mission_e7_03.gd:116 data/voice/lines/e7m3.json:L28
+msgid "You did not pay for that, Ice-king. Nobody paid for that. I will remember."
+msgstr ""
+
+#. [&"torvald", "I waited too long again. The lanes are quiet. Too quiet, for a morning."],
+#: scripts/campaign/mission_e7_03.gd:117 data/voice/lines/e7m3.json:L29
+msgid "I waited too long again. The lanes are quiet. Too quiet, for a morning."
+msgstr ""
+
+#. [&"torvald", "Not here... not in front of them..."],
+#: scripts/campaign/mission_e7_03.gd:118 data/voice/lines/e7m3.json:L30
+msgid "Not here... not in front of them..."
+msgstr ""
+
+#. [&"aldra", "The lanes are empty, my lord. There is nobody left to shelter."],
+#: scripts/campaign/mission_e7_03.gd:119 data/voice/lines/e7m3.json:L31
+msgid "The lanes are empty, my lord. There is nobody left to shelter."
+msgstr ""
+
+#. "Adamarch admits nobody who has not paid in gold and proved it in blood. Everyone else lives outside the white
+#: scripts/campaign/mission_e7_03.gd:122
+msgid "Adamarch admits nobody who has not paid in gold and proved it in blood. Everyone else lives outside the white wall, in the Outwall: dockers, net-menders, rowers, the hands that make the Diamond City rich. Tonight nobody is guarding them."
+msgstr ""
+
+#. "Aurivane's boats are landing raiders on the quays. Adamarch's own press-gangs are emptying the lanes to dig t
+#: scripts/campaign/mission_e7_03.gd:123
+msgid "Aurivane's boats are landing raiders on the quays. Adamarch's own press-gangs are emptying the lanes to dig the pits deeper. And masked men come out of the old diamond adit and take people into the dark."
+msgstr ""
+
+#. "Torvald camps against the wall with Aldra and what is left of his army. The Diamond Archon will send her orde
+#: scripts/campaign/mission_e7_03.gd:124
+msgid "Torvald camps against the wall with Aldra and what is left of his army. The Diamond Archon will send her orders soon. He already knows what she will ask. He does not yet know what he will answer."
+msgstr ""
+
+#. const BRIEFING_LINE := "Ring a Dock Bell and its lane follows you to the shelter by your Keep."
+#: scripts/campaign/mission_e7_03.gd:126
+msgid "Ring a Dock Bell and its lane follows you to the shelter by your Keep."
+msgstr ""
+
+#. const HINT_START := "Ring a Dock Bell: hold Torvald beside it (3 s). Its lane walks to the shelter by your Kee
+#: scripts/campaign/mission_e7_03.gd:127
+msgid "Ring a Dock Bell: hold Torvald beside it (3 s). Its lane walks to the shelter by your Keep. Raiders hunt anyone walking."
+msgstr ""
+
+#. const MSG_MASKS := "Masked men out of the old adit"
+#: scripts/campaign/mission_e7_03.gd:128
+msgid "Masked men out of the old adit"
+msgstr ""
+
+#. const MSG_DUSK := "The fishing crews are home. The Night Tide comes at 17:00."
+#: scripts/campaign/mission_e7_03.gd:129
+msgid "The fishing crews are home. The Night Tide comes at 17:00."
+msgstr ""
+
+#. const MSG_EMPTYING := "The Outwall is emptying: 10 more lost and the night is lost"
+#: scripts/campaign/mission_e7_03.gd:130
+msgid "The Outwall is emptying: 10 more lost and the night is lost"
+msgstr ""
+
+#. const MSG_BELL_REFUSED := "The lane won't open its doors with raiders in the street"
+#: scripts/campaign/mission_e7_03.gd:131
+msgid "The lane won't open its doors with raiders in the street"
+msgstr ""
+
+#. const MSG_BURNT := "%s burns"
+#: scripts/campaign/mission_e7_03.gd:132
+msgid "%s burns"
+msgstr ""
+
+#. const MSG_SEIZED := "Masks take %s into the dark"
+#: scripts/campaign/mission_e7_03.gd:133
+msgid "Masks take %s into the dark"
+msgstr ""
+
+#. const MSG_PRESSED := "The Archon's press takes %s"
+#: scripts/campaign/mission_e7_03.gd:134
+msgid "The Archon's press takes %s"
+msgstr ""
+
+#. const MSG_TITHE := "The pits pay their tithe while you hold them (+%d gold / min each)"
+#: scripts/campaign/mission_e7_03.gd:135
+msgid "The pits pay their tithe while you hold them (+%d gold / min each)"
+msgstr ""
+
+#. const HINT_MAMMOTHS := "Two hauling mammoths are chained in the Hauling Yard: hold Torvald at the chain post (
+#: scripts/campaign/mission_e7_03.gd:136
+msgid "Two hauling mammoths are chained in the Hauling Yard: hold Torvald at the chain post (4 s) to free them."
+msgstr ""
+
+#. c.keep_lost_message = "The Glass Hall has fallen."
+#: scripts/campaign/mission_e7_03.gd:190
+msgid "The Glass Hall has fallen."
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nDawn over the Outwall"
+#: scripts/campaign/mission_e7_03.gd:200
+msgid "VICTORY\nDawn over the Outwall"
+msgstr ""
+
+#. c.spotlight = {"id": &"war_mammoth", "trigger": &"manual", "key_hint": "Free them at the Hauling Yard",
+#: scripts/campaign/mission_e7_03.gd:203
+msgid "Free them at the Hauling Yard"
+msgstr ""
+
+#. "card": "War Mammoth. A titan of the far north: it walks through a line like snow through a fence."}
+#: scripts/campaign/mission_e7_03.gd:204
+msgid "War Mammoth. A titan of the far north: it walks through a line like snow through a fence."
+msgstr ""
+
+#. return "Episode 7, Mission 3: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e7_03.gd:217
+msgid "Episode 7, Mission 3: %s"
+msgstr ""
+
+#. return "Ring the Dock Bells (%d / 5): sheltered %d, lost %d, pressed %d (of 40)" % [bells_rung.size(), shelter
+#: scripts/campaign/mission_e7_03.gd:412
+msgid "Ring the Dock Bells (%d / 5): sheltered %d, lost %d, pressed %d (of 40)"
+msgstr ""
+
+#. return "Ring the Dock Bells"
+#: scripts/campaign/mission_e7_03.gd:413
+msgid "Ring the Dock Bells"
+msgstr ""
+
+#. return "Hold the Outwall until dawn (%s)" % mmss(DAWN_AT - mission_time())
+#: scripts/campaign/mission_e7_03.gd:416
+msgid "Hold the Outwall until dawn (%s)"
+msgstr ""
+
+#. return "Hold the Outwall until dawn"
+#: scripts/campaign/mission_e7_03.gd:417
+msgid "Hold the Outwall until dawn"
+msgstr ""
+
+#. return "Do not lose %d of the Outwall's 40 people (lost %d)" % [lost_limit(), lost]
+#: scripts/campaign/mission_e7_03.gd:420
+msgid "Do not lose %d of the Outwall's 40 people (lost %d)"
+msgstr ""
+
+#. return "Do not lose 30 of the Outwall's 40 people"
+#: scripts/campaign/mission_e7_03.gd:421
+msgid "Do not lose 30 of the Outwall's 40 people"
+msgstr ""
+
+#. return "Shelter %d of the Outwall's people" % int(by_difficulty(PEOPLE_NEED))
+#: scripts/campaign/mission_e7_03.gd:425
+msgid "Shelter %d of the Outwall's people"
+msgstr ""
+
+#. return "Hold the Diamond Archon's pits at dawn (%d / 3)" % _held_count()
+#: scripts/campaign/mission_e7_03.gd:428
+msgid "Hold the Diamond Archon's pits at dawn (%d / 3)"
+msgstr ""
+
+#. return "Hold the Diamond Archon's pits at dawn"
+#: scripts/campaign/mission_e7_03.gd:429
+msgid "Hold the Diamond Archon's pits at dawn"
+msgstr ""
+
+#. return "Free the hauling mammoths"
+#: scripts/campaign/mission_e7_03.gd:431
+msgid "Free the hauling mammoths"
+msgstr ""
+
+#. return "Unmask the Mask Captain"
+#: scripts/campaign/mission_e7_03.gd:433
+msgid "Unmask the Mask Captain"
+msgstr ""
+
+#. return "Not while the Outwall's people are walking"
+#: scripts/campaign/mission_e7_03.gd:1006
+msgid "Not while the Outwall's people are walking"
+msgstr ""
+
+#. rows.append([Loc.t("Pay {name} home ({price})", {"name": PAY_NAMES[id], "price": pay_price(id)}),
+#: scripts/campaign/mission_e7_04.gd:694
+msgid "Pay {name} home ({price})"
+msgstr ""
+
+#. const MISSION_TITLE := "The Year of Two Skies"
+#: scripts/campaign/mission_e7_04.gd:21
+msgid "The Year of Two Skies"
+msgstr ""
+
+#. const PAY_NAMES := {"gilt_dragon": "Kesh", "prism_dragon": "Morrow", "sunwake": "Sunwake"}
+#: scripts/campaign/mission_e7_04.gd:38
+msgid "Morrow"
+msgstr ""
+
+#. const PAY_NAMES := {"gilt_dragon": "Kesh", "prism_dragon": "Morrow", "sunwake": "Sunwake"}
+#: scripts/campaign/mission_e7_04.gd:38 scripts/campaign/mission_e7_04.gd:485
+#: scripts/campaign/mission_e7_base.gd:157
+msgid "Sunwake"
+msgstr ""
+
+#. [&"ossavar", "The Year of Two Skies comes round again. Every ship. Every dragon. One strait."],
+#: scripts/campaign/mission_e7_04.gd:81 data/voice/lines/e7m4.json:L1
+msgid "The Year of Two Skies comes round again. Every ship. Every dragon. One strait."
+msgstr ""
+
+#. [&"malrik", "Today we finish Aurivane, Torvald. Take the rock. I will handle the sky."],
+#: scripts/campaign/mission_e7_04.gd:82 data/voice/lines/e7m4.json:L2
+msgid "Today we finish Aurivane, Torvald. Take the rock. I will handle the sky."
+msgstr ""
+
+#. [&"torvald", "You handled the Laurel too, Malrik. I have not forgotten whose knives they were."],
+#: scripts/campaign/mission_e7_04.gd:83 data/voice/lines/e7m4.json:L3
+msgid "You handled the Laurel too, Malrik. I have not forgotten whose knives they were."
+msgstr ""
+
+#. [&"malrik", "Then remember it after we win. Victory is a wonderful eraser."],
+#: scripts/campaign/mission_e7_04.gd:84 data/voice/lines/e7m4.json:L4
+msgid "Then remember it after we win. Victory is a wonderful eraser."
+msgstr ""
+
+#. [&"aldra", "Crimson sails on the water. They will shell the shore road. Sink them, or stay off it."],
+#: scripts/campaign/mission_e7_04.gd:85 data/voice/lines/e7m4.json:L5
+msgid "Crimson sails on the water. They will shell the shore road. Sink them, or stay off it."
+msgstr ""
+
+#. [&"vessa", "Last chance to pick the right side, Torvald! I'm told I'm very forgiving!"],
+#: scripts/campaign/mission_e7_04.gd:86 data/voice/lines/e7m4.json:L6
+msgid "Last chance to pick the right side, Torvald! I'm told I'm very forgiving!"
+msgstr ""
+
+#. [&"torvald", "You are told many things, Vessa. Most of them by people standing behind you."],
+#: scripts/campaign/mission_e7_04.gd:87 data/voice/lines/e7m4.json:L7
+msgid "You are told many things, Vessa. Most of them by people standing behind you."
+msgstr ""
+
+#. [&"ossavar", "One small sale before the great one. Sunwake, Aurivane's pride. Who pays?"],
+#: scripts/campaign/mission_e7_04.gd:88 data/voice/lines/e7m4.json:L8
+msgid "One small sale before the great one. Sunwake, Aurivane's pride. Who pays?"
+msgstr ""
+
+#. [&"torvald", "Sunwake flies with us. For the morning, at least."],
+#: scripts/campaign/mission_e7_04.gd:89 data/voice/lines/e7m4.json:L9
+msgid "Sunwake flies with us. For the morning, at least."
+msgstr ""
+
+#. [&"ossavar", "Sunwake keeps her old masters. For now."],
+#: scripts/campaign/mission_e7_04.gd:90 data/voice/lines/e7m4.json:L10
+msgid "Sunwake keeps her old masters. For now."
+msgstr ""
+
+#. [&"ysolde", "Malrik! Every grave you dig, I will plant over. Every single one!"],
+#: scripts/campaign/mission_e7_04.gd:91 data/voice/lines/e7m4.json:L11
+msgid "Malrik! Every grave you dig, I will plant over. Every single one!"
+msgstr ""
+
+#. [&"malrik", "Then you will be a very busy gardener, Ysolde."],
+#: scripts/campaign/mission_e7_04.gd:92 data/voice/lines/e7m4.json:L12
+msgid "Then you will be a very busy gardener, Ysolde."
+msgstr ""
+
+#. [&"aldra", "One red sail under. The sea keeps the coin, as usual."],
+#: scripts/campaign/mission_e7_04.gd:93 data/voice/lines/e7m4.json:L13
+msgid "One red sail under. The sea keeps the coin, as usual."
+msgstr ""
+
+#. [&"seraphine", "The rock is Adamarch's! The Archon is watching from the spire, Ice-king. So is everyone."],
+#: scripts/campaign/mission_e7_04.gd:94 data/voice/lines/e7m4.json:L14
+msgid "The rock is Adamarch's! The Archon is watching from the spire, Ice-king. So is everyone."
+msgstr ""
+
+#. [&"diamond_archon", "Empty the pits. All of them. Let the sky be white and silver by noon."],
+#: scripts/campaign/mission_e7_04.gd:95 data/voice/lines/e7m4.json:L15
+msgid "Empty the pits. All of them. Let the sky be white and silver by noon."
+msgstr ""
+
+#. [&"ossavar", "Every dragon on the Coinwater changes sides in one morning. I have seen this before."],
+#: scripts/campaign/mission_e7_04.gd:96 data/voice/lines/e7m4.json:L16
+msgid "Every dragon on the Coinwater changes sides in one morning. I have seen this before."
+msgstr ""
+
+#. [&"vessa", "He bought the whole SKY? Ysolde, pull back! Everyone, back to the ships!"],
+#: scripts/campaign/mission_e7_04.gd:97 data/voice/lines/e7m4.json:L17
+msgid "He bought the whole SKY? Ysolde, pull back! Everyone, back to the ships!"
+msgstr ""
+
+#. [&"dacian", "Enough. Seraphine, the cloth. We end this on the sand, the old way."],
+#: scripts/campaign/mission_e7_04.gd:98 data/voice/lines/e7m4.json:L18
+msgid "Enough. Seraphine, the cloth. We end this on the sand, the old way."
+msgstr ""
+
+#. [&"seraphine", "A truce, Sunblade. No bets. No knives. Just us."],
+#: scripts/campaign/mission_e7_04.gd:99 data/voice/lines/e7m4.json:L19
+msgid "A truce, Sunblade. No bets. No knives. Just us."
+msgstr ""
+
+#. [&"malrik", "Burn them. Both fleets, the sand, the cloth. A strait of dead feeds the stone for years."],
+#: scripts/campaign/mission_e7_04.gd:100 data/voice/lines/e7m4.json:L20
+msgid "Burn them. Both fleets, the sand, the cloth. A strait of dead feeds the stone for years."
+msgstr ""
+
+#. [&"obren", "Yes, Bishop. A whole sea of them. Feed me, and I will crown you king of the deep."],
+#: scripts/campaign/mission_e7_04.gd:101 data/voice/lines/e7m4.json:L21
+msgid "Yes, Bishop. A whole sea of them. Feed me, and I will crown you king of the deep."
+msgstr ""
+
+#. [&"torvald", "No."],
+#: scripts/campaign/mission_e7_04.gd:102 data/voice/lines/c_e4_frontier.json:L4
+#: data/voice/lines/e7m4.json:L22
+msgid "No."
+msgstr ""
+
+#. [&"malrik", "You said that once before, in your hall. \"For now,\" you said."],
+#: scripts/campaign/mission_e7_04.gd:103 data/voice/lines/e7m4.json:L23
+msgid "You said that once before, in your hall. \"For now,\" you said."
+msgstr ""
+
+#. [&"torvald", "I am done waiting, Malrik. Aldra. Everyone. To the rock."],
+#: scripts/campaign/mission_e7_04.gd:104 data/voice/lines/e7m4.json:L24
+msgid "I am done waiting, Malrik. Aldra. Everyone. To the rock."
+msgstr ""
+
+#. [&"ossavar", "You paid me once, Ice-king, in clean coin. That bond still holds. I fly with you."],
+#: scripts/campaign/mission_e7_04.gd:105 data/voice/lines/e7m4.json:L25
+msgid "You paid me once, Ice-king, in clean coin. That bond still holds. I fly with you."
+msgstr ""
+
+#. [&"ossavar", "You never bought me, Ice-king. That is why I will fly with you."],
+#: scripts/campaign/mission_e7_04.gd:106 data/voice/lines/e7m4.json:L25a
+msgid "You never bought me, Ice-king. That is why I will fly with you."
+msgstr ""
+
+#. [&"ossavar", "And you sheltered the Outwall when nobody paid. I remember debts."],
+#: scripts/campaign/mission_e7_04.gd:107 data/voice/lines/e7m4.json:L25b
+msgid "And you sheltered the Outwall when nobody paid. I remember debts."
+msgstr ""
+
+#. [&"vessa", "Torvald? You're fighting HIM? ...Fine. Aurivane stands down. Don't make me regret it."],
+#: scripts/campaign/mission_e7_04.gd:108 data/voice/lines/e7m4.json:L26
+msgid "Torvald? You're fighting HIM? ...Fine. Aurivane stands down. Don't make me regret it."
+msgstr ""
+
+#. [&"malrik", "Kesh. Morrow. Sunwake. I filled your hoards to the brim. Earn them."],
+#: scripts/campaign/mission_e7_04.gd:109 data/voice/lines/e7m4.json:L27
+msgid "Kesh. Morrow. Sunwake. I filled your hoards to the brim. Earn them."
+msgstr ""
+
+#. [&"aldra", "My lord, the Bazaar. A dragon serves whoever filled the hoard last. Pay them to fly away."],
+#: scripts/campaign/mission_e7_04.gd:110 data/voice/lines/e7m4.json:L28
+msgid "My lord, the Bazaar. A dragon serves whoever filled the hoard last. Pay them to fly away."
+msgstr ""
+
+#. [&"ossavar", "Paid to go home. The one price he never tried."],
+#: scripts/campaign/mission_e7_04.gd:111 data/voice/lines/e7m4.json:L29
+msgid "Paid to go home. The one price he never tried."
+msgstr ""
+
+#. [&"hush", "There is always another night, Ice-king. Tonight it is yours."],
+#: scripts/campaign/mission_e7_04.gd:112 data/voice/lines/e7m4.json:L30
+msgid "There is always another night, Ice-king. Tonight it is yours."
+msgstr ""
+
+#. [&"torvald", "Then I will spend it awake."],
+#: scripts/campaign/mission_e7_04.gd:113 data/voice/lines/e7m4.json:L31
+msgid "Then I will spend it awake."
+msgstr ""
+
+#. [&"brannet", "Those oars were ours! Nobody from the Outwall rows for the candle-man!"],
+#: scripts/campaign/mission_e7_04.gd:114 data/voice/lines/e7m4.json:L32
+msgid "Those oars were ours! Nobody from the Outwall rows for the candle-man!"
+msgstr ""
+
+#. [&"aldra", "Silver sinks the same as crimson, my lord. Slower, perhaps. Heavier pride."],
+#: scripts/campaign/mission_e7_04.gd:115 data/voice/lines/e7m4.json:L32b
+msgid "Silver sinks the same as crimson, my lord. Slower, perhaps. Heavier pride."
+msgstr ""
+
+#. [&"obren", "More, Bishop. The sea is generous tonight."],
+#: scripts/campaign/mission_e7_04.gd:116 data/voice/lines/e7m4.json:L33
+msgid "More, Bishop. The sea is generous tonight."
+msgstr ""
+
+#. [&"malrik", "Do you hear it, Torvald? Every one of them is mine now. Every single one."],
+#: scripts/campaign/mission_e7_04.gd:117 data/voice/lines/e7m4.json:L33b
+msgid "Do you hear it, Torvald? Every one of them is mine now. Every single one."
+msgstr ""
+
+#. [&"ossavar", "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light."],
+#: scripts/campaign/mission_e7_04.gd:118 data/voice/lines/e7m4.json:L34
+msgid "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light."
+msgstr ""
+
+#. [&"aldra", "The west water is glass. Their galleys are stuck fast."],
+#: scripts/campaign/mission_e7_04.gd:119 data/voice/lines/e7m4.json:L35
+msgid "The west water is glass. Their galleys are stuck fast."
+msgstr ""
+
+#. [&"seraphine", "The east is frozen! Dacian, back to back!"],
+#: scripts/campaign/mission_e7_04.gd:120 data/voice/lines/e7m4.json:L36
+msgid "The east is frozen! Dacian, back to back!"
+msgstr ""
+
+#. [&"malrik", "Torvald! You never said no to anyone in your life. Why start with me?"],
+#: scripts/campaign/mission_e7_04.gd:121 data/voice/lines/e7m4.json:L37
+msgid "Torvald! You never said no to anyone in your life. Why start with me?"
+msgstr ""
+
+#. [&"torvald", "Because I finally saw what you were buying."],
+#: scripts/campaign/mission_e7_04.gd:122 data/voice/lines/e7m4.json:L38
+msgid "Because I finally saw what you were buying."
+msgstr ""
+
+#. [&"torvald", "Enough."],
+#: scripts/campaign/mission_e7_04.gd:123 data/voice/lines/e7m4.json:L39
+#: data/voice/lines/ep7_opening.json:L22
+msgid "Enough."
+msgstr ""
+
+#. [&"ossavar", "I have heard that word once before. It sounded better from you."],
+#: scripts/campaign/mission_e7_04.gd:124 data/voice/lines/e7m4.json:L40
+msgid "I have heard that word once before. It sounded better from you."
+msgstr ""
+
+#. [&"torvald", "The sea... was never mine to hold."],
+#: scripts/campaign/mission_e7_04.gd:125 data/voice/lines/e7m4.json:L41
+msgid "The sea... was never mine to hold."
+msgstr ""
+
+#. [&"aldra", "The rock is his. The stone will drink the whole strait now."],
+#: scripts/campaign/mission_e7_04.gd:126 data/voice/lines/e7m4.json:L42
+msgid "The rock is his. The stone will drink the whole strait now."
+msgstr ""
+
+#. [&"hush", "The Bishop sends his regrets. I will deliver them in person, later."],
+#: scripts/campaign/mission_e7_04.gd:127 data/voice/lines/e7m4.json:L43
+msgid "The Bishop sends his regrets. I will deliver them in person, later."
+msgstr ""
+
+#. "Nearly four hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and 
+#: scripts/campaign/mission_e7_04.gd:130
+msgid "Nearly four hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and every dragon on the Coinwater changed sides by morning. Tonight the Diamond Archon signs the same order, with Malrik's hand on her pen."
+msgstr ""
+
+#. "At dawn both cities sail everything they own into the strait. Aurivane holds the Tollrock with Vessa and Ysol
+#: scripts/campaign/mission_e7_04.gd:131
+msgid "At dawn both cities sail everything they own into the strait. Aurivane holds the Tollrock with Vessa and Ysolde. Adamarch attacks it with Torvald and Malrik. The truce of the Stilled Sea is a hundred and thirty years old, and it ends today."
+msgstr ""
+
+#. "Torvald knows whose knives broke the Laurel. He knows whose masks walked out of the old adit. He has waited f
+#: scripts/campaign/mission_e7_04.gd:132
+msgid "Torvald knows whose knives broke the Laurel. He knows whose masks walked out of the old adit. He has waited for Malrik to become someone else. Today he will find out how long a patient man can wait."
+msgstr ""
+
+#. const BRIEFING_LINE := "Crimson galleys shell the shore: sink them or stay off the shore road."
+#: scripts/campaign/mission_e7_04.gd:134
+msgid "Crimson galleys shell the shore: sink them or stay off the shore road."
+msgstr ""
+
+#. const HINT_START := "Crimson galleys shell the shore. Shardcasters on the bank, Frost Mortars and Rime Spires 
+#: scripts/campaign/mission_e7_04.gd:135
+msgid "Crimson galleys shell the shore. Shardcasters on the bank, Frost Mortars and Rime Spires reach them."
+msgstr ""
+
+#. const HINT_PAY := "Dragons serve whoever filled the hoard last. Pay them home with the buttons on the right (a
+#: scripts/campaign/mission_e7_04.gd:136
+msgid "Dragons serve whoever filled the hoard last. Pay them home with the buttons on the right (a Bazaar is needed)."
+msgstr ""
+
+#. const MSG_GRACE := "Malrik pulls back to his harbour"
+#: scripts/campaign/mission_e7_04.gd:137
+msgid "Malrik pulls back to his harbour"
+msgstr ""
+
+#. const MSG_MALRIK_FELL := "Malrik sinks into the shadows of his hull"
+#: scripts/campaign/mission_e7_04.gd:138
+msgid "Malrik sinks into the shadows of his hull"
+msgstr ""
+
+#. const MSG_SURGE := "Hollow Surge: Malrik's soldiers strike harder"
+#: scripts/campaign/mission_e7_04.gd:139
+msgid "Hollow Surge: Malrik's soldiers strike harder"
+msgstr ""
+
+#. const MSG_STAGE_READY := "The lighthouse is ready: channel the next stage"
+#: scripts/campaign/mission_e7_04.gd:140
+msgid "The lighthouse is ready: channel the next stage"
+msgstr ""
+
+#. _galley_type_red = MissionE5Base.local_building("fire_tower", "crimson_galley", "Crimson Galley", 900.0)
+#: scripts/campaign/mission_e7_04.gd:189
+msgid "Crimson Galley"
+msgstr ""
+
+#. _galley_type_silver = MissionE5Base.local_building("shadow_tower", "silver_galley", "Silver Galley", 900.0)
+#: scripts/campaign/mission_e7_04.gd:190
+msgid "Silver Galley"
+msgstr ""
+
+#. c.victory_banner = "VICTORY\nThe sea is still"
+#: scripts/campaign/mission_e7_04.gd:211
+msgid "VICTORY\nThe sea is still"
+msgstr ""
+
+#. c.spotlight = {"id": &"shardguard", "trigger": &"manual", "key_hint": "Rime Keep: C",
+#: scripts/campaign/mission_e7_04.gd:217
+msgid "Rime Keep: C"
+msgstr ""
+
+#. "card": "Shardguard. The halberd that says no: charges stop, divers turn, archers live."}
+#: scripts/campaign/mission_e7_04.gd:218
+msgid "Shardguard. The halberd that says no: charges stop, divers turn, archers live."
+msgstr ""
+
+#. return "Episode 7, Mission 4: %s" % MISSION_TITLE
+#: scripts/campaign/mission_e7_04.gd:223
+msgid "Episode 7, Mission 4: %s"
+msgstr ""
+
+#. return "Guard the truce on the sand"
+#: scripts/campaign/mission_e7_04.gd:401
+msgid "Guard the truce on the sand"
+msgstr ""
+
+#. return "Hold the Tollrock against Malrik (lost for %d s)" % int(rock_lost_for)
+#: scripts/campaign/mission_e7_04.gd:404
+msgid "Hold the Tollrock against Malrik (lost for %d s)"
+msgstr ""
+
+#. return "Hold the Tollrock against Malrik (the stone's hunger %d %%)" % int(meter)
+#: scripts/campaign/mission_e7_04.gd:406
+msgid "Hold the Tollrock against Malrik (the stone's hunger %d %%)"
+msgstr ""
+
+#. return "Hold the Tollrock against Malrik"
+#: scripts/campaign/mission_e7_04.gd:407
+msgid "Hold the Tollrock against Malrik"
+msgstr ""
+
+#. return "Still the sea at the lighthouse (%d / 3)" % stage
+#: scripts/campaign/mission_e7_04.gd:410
+msgid "Still the sea at the lighthouse (%d / 3)"
+msgstr ""
+
+#. return "Still the sea at the lighthouse"
+#: scripts/campaign/mission_e7_04.gd:411
+msgid "Still the sea at the lighthouse"
+msgstr ""
+
+#. return "Sink Aurivane's crimson galleys (%d / 3)" % red_sunk
+#: scripts/campaign/mission_e7_04.gd:416
+msgid "Sink Aurivane's crimson galleys (%d / 3)"
+msgstr ""
+
+#. return "Sink Aurivane's crimson galleys"
+#: scripts/campaign/mission_e7_04.gd:417
+msgid "Sink Aurivane's crimson galleys"
+msgstr ""
+
+#. return "Pay Malrik's dragons home (%d / 3)" % paid.size()
+#: scripts/campaign/mission_e7_04.gd:420
+msgid "Pay Malrik's dragons home (%d / 3)"
+msgstr ""
+
+#. return "Pay Malrik's dragons home"
+#: scripts/campaign/mission_e7_04.gd:421
+msgid "Pay Malrik's dragons home"
+msgstr ""
+
+#. return "Sink Malrik's silver galleys (%d / %d)" % [silver_sunk, silver_goal()]
+#: scripts/campaign/mission_e7_04.gd:424
+msgid "Sink Malrik's silver galleys (%d / %d)"
+msgstr ""
+
+#. return "Sink Malrik's silver galleys"
+#: scripts/campaign/mission_e7_04.gd:425
+msgid "Sink Malrik's silver galleys"
+msgstr ""
+
+#. return "Not during the turn"
+#: scripts/campaign/mission_e7_04.gd:1048
+msgid "Not during the turn"
+msgstr ""
+
+#. _bid_panel = mission_button_panel("AuctionPanel", [[Loc.t("Bid +50"), func() -> void: _ui_bid(50)],
+#: scripts/campaign/mission_e7_base.gd:675
+msgid "Bid +50"
+msgstr ""
+
+#. [Loc.t("Bid +100"), func() -> void: _ui_bid(100)]])
+#: scripts/campaign/mission_e7_base.gd:676
+msgid "Bid +100"
+msgstr ""
+
+#. return Loc.t("Auction for {name}: you {mine} · Aurivane {theirs} · {left}", {"name": auction["name"],
+#: scripts/campaign/mission_e7_base.gd:777
+msgid "Auction for {name}: you {mine} · Aurivane {theirs} · {left}"
+msgstr ""
+
+#. const POST_NAMES := {&"heron_ford": "Diamond Harbour", &"saltgate": "Admiralty Quay", &"millstone_cross": "Gil
+#: scripts/campaign/mission_e7_base.gd:53
+msgid "Diamond Harbour"
+msgstr ""
+
+#. const POST_NAMES := {&"heron_ford": "Diamond Harbour", &"saltgate": "Admiralty Quay", &"millstone_cross": "Gil
+#: scripts/campaign/mission_e7_base.gd:53
+msgid "Admiralty Quay"
+msgstr ""
+
+#. const POST_NAMES := {&"heron_ford": "Diamond Harbour", &"saltgate": "Admiralty Quay", &"millstone_cross": "Gil
+#: scripts/campaign/mission_e7_base.gd:53
+msgid "Gilt Quay"
+msgstr ""
+
+#. &"lantern_wharf": "Sun Harbour"}
+#: scripts/campaign/mission_e7_base.gd:54
+msgid "Sun Harbour"
+msgstr ""
+
+#. const MSG_LEAD := "You already lead"
+#: scripts/campaign/mission_e7_base.gd:76
+msgid "You already lead"
+msgstr ""
+
+#. const MSG_NO_AUCTION := "No auction"
+#: scripts/campaign/mission_e7_base.gd:77
+msgid "No auction"
+msgstr ""
+
+#. const MSG_SHORT := "Your coffers are short"
+#: scripts/campaign/mission_e7_base.gd:78
+msgid "Your coffers are short"
+msgstr ""
+
+#. const MSG_HESITATES := "Aurivane hesitates..."
+#: scripts/campaign/mission_e7_base.gd:79
+msgid "Aurivane hesitates..."
+msgstr ""
+
+#. local_unit("flame_guard", "gilded_spear", "Gilded Spear", {"max_hp": 180.0, "armor": 10.0, "attack_damage": 14
+#: scripts/campaign/mission_e7_base.gd:140
+msgid "Gilded Spear"
+msgstr ""
+
+#. local_unit("rimeshield", "facetguard", "Facetguard", {"max_hp": 220.0, "armor": 20.0, "attack_damage": 16.0,
+#: scripts/campaign/mission_e7_base.gd:143
+msgid "Facetguard"
+msgstr ""
+
+#. local_unit("shade", "gold_knife", "Gold-cloaked Knife", {"max_hp": 150.0, "armor": 5.0, "attack_damage": 14.0,
+#: scripts/campaign/mission_e7_base.gd:146
+msgid "Gold-cloaked Knife"
+msgstr ""
+
+#. local_unit("rime_hauler", "outwall_docker", "Outwall Docker", {"is_worker": false, "max_hp": 45.0, "armor": 0.
+#: scripts/campaign/mission_e7_base.gd:165
+msgid "Outwall Docker"
+msgstr ""
+
+#. local_unit("hollow_oathsworn", "mask_captain", "Mask Captain", {"max_hp": 900.0, "armor": 15.0,
+#: scripts/campaign/mission_e7_base.gd:170
+msgid "Mask Captain"
+msgstr ""
+
+#. local_unit("ironhide_tusker", "war_mammoth", "War Mammoth", {"max_hp": 2000.0, "armor": 30.0, "attack_damage":
+#: scripts/campaign/mission_e7_base.gd:173
+msgid "War Mammoth"
+msgstr ""
+
+#. for row: Array in [["shade", "Masked Shade"], ["grave_hound", "Masked Hound"], ["nightbolt", "Masked Nightbolt
+#: scripts/campaign/mission_e7_base.gd:176
+msgid "Masked Shade"
+msgstr ""
+
+#. for row: Array in [["shade", "Masked Shade"], ["grave_hound", "Masked Hound"], ["nightbolt", "Masked Nightbolt
+#: scripts/campaign/mission_e7_base.gd:176
+msgid "Masked Hound"
+msgstr ""
+
+#. for row: Array in [["shade", "Masked Shade"], ["grave_hound", "Masked Hound"], ["nightbolt", "Masked Nightbolt
+#: scripts/campaign/mission_e7_base.gd:176
+msgid "Masked Nightbolt"
+msgstr ""
+
+#. ["barrow_ghoul", "Masked Ghoul"], ["hexweaver", "Masked Hexweaver"], ["shadow_knight", "Masked Knight"]]:
+#: scripts/campaign/mission_e7_base.gd:177
+msgid "Masked Ghoul"
+msgstr ""
+
+#. ["barrow_ghoul", "Masked Ghoul"], ["hexweaver", "Masked Hexweaver"], ["shadow_knight", "Masked Knight"]]:
+#: scripts/campaign/mission_e7_base.gd:177
+msgid "Masked Hexweaver"
+msgstr ""
+
+#. ["barrow_ghoul", "Masked Ghoul"], ["hexweaver", "Masked Hexweaver"], ["shadow_knight", "Masked Knight"]]:
+#: scripts/campaign/mission_e7_base.gd:177
+msgid "Masked Knight"
+msgstr ""
+
+#. rock.display_name = "The Tollrock"
+#: scripts/campaign/mission_e7_base.gd:465
+msgid "The Tollrock"
 msgstr ""
 
 #. t.display_name = "Grove"

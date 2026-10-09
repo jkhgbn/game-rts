@@ -1,0 +1,82 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_i0rdu"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_clt8v"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_mboe0"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_j010l"]
+
+[sub_resource type="Resource" id="Resource_hqwpb"]
+script = ExtResource("4_j010l")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.15,
+"color": Color(1, 0.84705883, 0.627451, 1),
+"time": 4.0
+}
+
+[sub_resource type="Resource" id="Resource_s32xy"]
+script = ExtResource("3_mboe0")
+id = &"W1"
+duration = 5.0
+camera_mode = 2
+from_pos = Vector3(-30, 10, 10)
+to_pos = Vector3(-20, 22, 0)
+look_from = Vector3(0, 0, 20)
+look_to = Vector3(0, 0, 30)
+fov_from = 50.0
+fov_to = 54.0
+transition_in = 1
+transition_time = 0.6
+actions = Array[ExtResource("4_j010l")]([SubResource("Resource_hqwpb")])
+
+[sub_resource type="Resource" id="Resource_k12pi"]
+script = ExtResource("3_mboe0")
+id = &"W2"
+duration = 3.0
+from_pos = Vector3(10, 1.8, 30)
+to_pos = Vector3(10, 1.8, 30)
+look_from = Vector3(14, 1.5, 27)
+look_to = Vector3(14, 1.5, 27)
+fov_from = 36.0
+fov_to = 36.0
+
+[sub_resource type="Resource" id="Resource_dam2y"]
+script = ExtResource("4_j010l")
+at = 6.6
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_e8o6r"]
+script = ExtResource("1_i0rdu")
+at = 0.2
+speaker = &"ossavar"
+text = "You did not pay for that, Ice-king. Nobody paid for that. I will remember."
+voice = "res://assets/audio/voice/ossavar/you_did_not_pay_f509b897.wav"
+
+[sub_resource type="Resource" id="Resource_gajh4"]
+script = ExtResource("3_mboe0")
+id = &"W3"
+duration = 7.6
+from_pos = Vector3(9, 1.2, 31)
+to_pos = Vector3(9, 1.2, 31)
+look_from = Vector3(16, 4, 22)
+look_to = Vector3(16, 4, 22)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_i0rdu")]([SubResource("Resource_e8o6r")])
+actions = Array[ExtResource("4_j010l")]([SubResource("Resource_dam2y")])
+
+[resource]
+script = ExtResource("2_clt8v")
+id = &"e7m3_dawn"
+title = "Nobody Paid"
+world_mode = 1
+shots = Array[ExtResource("3_mboe0")]([SubResource("Resource_s32xy"), SubResource("Resource_k12pi"), SubResource("Resource_gajh4")])
+shake_seed = 734
+voice_over = Array[StringName]([&"ossavar"])
+lines_over_cuts = true

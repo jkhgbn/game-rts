@@ -1,0 +1,23 @@
+# e7m1 E19 "e7m1_dusk" (docs/design/mission-e7-01.md, Cinematic hooks; script-episodes-4-8/e7m1.md 1): mode=pause when
+# the hold ends, then the victory; StoryFlow plays c_e7_ledger next. 1) WIDE from the Diamond Harbour over the strait at
+# golden dusk, the crimson sails turning away; 2) MS two-shot Seraphine + Torvald on the quay, 3/4 (L31, L32); 3) long
+# lens to the Tollrock: Ossavar by the chair, head turned to the west shore (L34); FADE_BLACK.
+# Axis: the harbour - isle line; every camera on its SOUTH side.
+# Fallback: the end state says L31, L32, L34, then the victory.
+cine e7m1_dusk  title="Somebody Lied"  mode=pause  letterbox=2.39  seed=713  length=18..32
+env dusk  moon_yaw=250  moon_pitch=-8  energy=0.8
+cast  seraphine  capsule  at=(0, 0, -300)  hidden=1
+cast  torvald    capsule  at=(0, 0, -310)  hidden=1
+cast  ossavar    capsule  at=(0, 0, -320)  hidden=1
+
+# WIDE from the Diamond Harbour west over the strait at golden dusk
+shot D1 4.0  cam=static  from=(-58, 8, 20)  look=(-10, 0, 0)  fov=50  in=fade_black:0.5
+  at 0.2  fade color=#ffb060 alpha=0.18 time=3.0
+# MS two-shot Seraphine + Torvald on the quay
+shot D2 10.6  cam=static  from=(-49, 1.9, 17)  look=(-54, 1.4, 12)  fov=36
+  at 0.2  line seraphine "Adamarch will remember who stood on the quay with her. Even if the Archon will not."
+  at 5.3  line torvald "Remember who paid for it, Seraphine. I would like to know myself."
+# Long lens to the Tollrock: Ossavar by the chair, head turned west
+shot D3 7.4  cam=static  from=(-30, 3.0, 22)  look=(-5, 2.0, 5)  fov=24
+  at 0.2  line ossavar "The Laurel was broken by knives. Gold cloaks. Violet smoke. Somebody lied on my rock."
+  at 6.4  fade alpha=1 time=1.0

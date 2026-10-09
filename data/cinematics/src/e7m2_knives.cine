@@ -1,0 +1,15 @@
+# e7m2 E13 "e7m2_knives" (docs/design/mission-e7-02.md, Cinematic hooks): mode=pause 2 s after the duel ends (spec HOLD
+# 0:06). One shot: MS on Dacian, a violet ring blooms behind him; the knives drop from the rim (L19-L20). The end state
+# spawns Hush and the knives, all on Dacian, and opens obj_dacian.
+# Axis: the Torvald - Dacian line; the camera on its SOUTH-EAST side.
+# Fallback: the end state says L19-L20.
+cine e7m2_knives  title="Hush Now"  mode=pause  letterbox=2.39  seed=724  length=8..13
+env day  moon_yaw=210  moon_pitch=-50  energy=1.0
+cast  hush       capsule  at=(0, 0, -300)  hidden=1
+cast  seraphine  capsule  at=(0, 0, -310)  hidden=1
+
+# MS on Dacian, a violet ring behind him; the knives drop
+shot K1 10.4  cam=static  from=(7.5, 2.0, 0.5)  look=(3.5, 1.4, -3.5)  fov=36  in=fade_black:0.2
+  at 0.2  fade color=#8a50d0 alpha=0.22 time=0.8
+  at 0.2  line hush "Hush now, Sunblade. The war only needs one more death."
+  at 5.2  line seraphine "Behind you, Dacian! The knives again!"

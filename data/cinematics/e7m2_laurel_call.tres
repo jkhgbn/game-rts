@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_658rx"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_fluy7"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_uvqjp"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_lwx40"]
+
+[sub_resource type="Resource" id="Resource_2rb88"]
+script = ExtResource("3_uvqjp")
+id = &"C1"
+duration = 2.6
+from_pos = Vector3(9, 5, 9)
+to_pos = Vector3(9, 5, 9)
+look_from = Vector3(0, 0.8, 0)
+look_to = Vector3(0, 0.8, 0)
+fov_from = 44.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 0.3
+
+[sub_resource type="Resource" id="Resource_5ysen"]
+script = ExtResource("3_uvqjp")
+id = &"C2"
+duration = 3.4
+from_pos = Vector3(7, 1.8, 1)
+to_pos = Vector3(7, 1.8, 1)
+look_from = Vector3(3.5, 1.5, -3.5)
+look_to = Vector3(3.5, 1.5, -3.5)
+fov_from = 34.0
+fov_to = 34.0
+
+[sub_resource type="Resource" id="Resource_krp4n"]
+script = ExtResource("3_uvqjp")
+id = &"C3"
+from_pos = Vector3(-0.5, 1.8, 6.5)
+to_pos = Vector3(-0.5, 1.8, 6.5)
+look_from = Vector3(-3.5, 1.8, 3.5)
+look_to = Vector3(-3.5, 1.8, 3.5)
+fov_from = 26.0
+fov_to = 26.0
+
+[resource]
+script = ExtResource("2_fluy7")
+id = &"e7m2_laurel_call"
+title = "By the Old Rule"
+world_mode = 1
+shots = Array[ExtResource("3_uvqjp")]([SubResource("Resource_2rb88"), SubResource("Resource_5ysen"), SubResource("Resource_krp4n")])
+shake_seed = 723
+voice_over = Array[StringName]([&"dacian"])
+lines_over_cuts = true

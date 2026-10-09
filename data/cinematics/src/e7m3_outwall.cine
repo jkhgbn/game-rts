@@ -1,0 +1,17 @@
+# e7m3 E1 "e7m3_outwall" (docs/design/mission-e7-03.md, Cinematic hooks): mode=pause at 0:00 (spec HOLD 0:15).
+# 1) CRANE down the white wall's face to the Outwall's lantern-lit lanes (L1); 2) MS Brannet at Net Lane's bell, arms
+# crossed (L2); 3) MS Torvald and Aldra at the Glass Hall's door. Axis: the keep - Net Lane line; every camera on its
+# SOUTH side. Fallback: the end state says L1-L4 and shows the first hint.
+cine e7m3_outwall  title="The Outwall"  mode=pause  letterbox=2.39  seed=731  length=12..19
+env night  moon_yaw=200  moon_pitch=-35  energy=0.5  color=#9fb4ff
+cast  ossavar  capsule  at=(0, 0, -300)  hidden=1
+cast  brannet  capsule  at=(0, 0, -310)  hidden=1
+
+# CRANE down the white wall to the lanes
+shot O1 5.6  cam=crane  from=(-18, 16, -30)  to=(-22, 6, -14)  look=(-18, 6, -46)>(-14, 0.5, -8)  fov=48>42  in=fade_black:0.5
+  at 0.3  line ossavar "The Outwall. Where the coin is earned, and never spent."
+# MS Brannet at Net Lane's bell
+shot O2 5.8  cam=static  from=(-10, 1.8, -3)  look=(-12.5, 1.4, -6.5)  fov=34
+  at 0.2  line brannet "You're the ice-king? We've had kings before. They stand on the wall and watch."
+# MS Torvald and Aldra at the Glass Hall's door
+shot O3 3.0  cam=static  from=(-42, 2.0, -24)  look=(-48, 1.4, -30)  fov=38

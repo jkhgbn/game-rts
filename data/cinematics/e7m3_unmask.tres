@@ -1,0 +1,78 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_lxwby"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_id1io"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_y7cjo"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_5cwt6"]
+
+[sub_resource type="Resource" id="Resource_l0buf"]
+script = ExtResource("3_y7cjo")
+id = &"U1"
+duration = 1.6
+from_pos = Vector3(52, 1.6, -36)
+to_pos = Vector3(52, 1.6, -36)
+look_from = Vector3(56, 0.3, -38)
+look_to = Vector3(56, 0.3, -38)
+fov_from = 36.0
+fov_to = 36.0
+transition_in = 1
+transition_time = 0.3
+
+[sub_resource type="Resource" id="Resource_shxbk"]
+script = ExtResource("4_5cwt6")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.18,
+"color": Color(0.5411765, 0.3137255, 0.8156863, 1),
+"time": 0.8
+}
+
+[sub_resource type="Resource" id="Resource_c0rtk"]
+script = ExtResource("1_lxwby")
+at = 0.2
+speaker = &"torvald"
+text = "Violet. And a candle sigil. Malrik, you are taking rowers from the gutter now."
+voice = "res://assets/audio/voice/torvald/violet_and_a_candle_7d062b15.wav"
+
+[sub_resource type="Resource" id="Resource_mjugh"]
+script = ExtResource("3_y7cjo")
+id = &"U2"
+duration = 5.4
+from_pos = Vector3(54.5, 0.9, -37)
+to_pos = Vector3(54.5, 0.9, -37)
+look_from = Vector3(56, 0.2, -38)
+look_to = Vector3(56, 0.2, -38)
+fov_from = 24.0
+fov_to = 24.0
+lines = Array[ExtResource("1_lxwby")]([SubResource("Resource_c0rtk")])
+actions = Array[ExtResource("4_5cwt6")]([SubResource("Resource_shxbk")])
+
+[sub_resource type="Resource" id="Resource_dhf3p"]
+script = ExtResource("1_lxwby")
+at = 0.2
+speaker = &"aldra"
+text = "His gift at the auction was their wages. Tonight he came back for the men."
+voice = "res://assets/audio/voice/aldra/his_gift_at_the_544fa59f.wav"
+
+[sub_resource type="Resource" id="Resource_sefhe"]
+script = ExtResource("3_y7cjo")
+id = &"U3"
+duration = 5.4
+from_pos = Vector3(51, 1.8, -34)
+to_pos = Vector3(51, 1.8, -34)
+look_from = Vector3(53, 1.6, -36.5)
+look_to = Vector3(53, 1.6, -36.5)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_lxwby")]([SubResource("Resource_dhf3p")])
+
+[resource]
+script = ExtResource("2_id1io")
+id = &"e7m3_unmask"
+title = "Violet Under Grey"
+world_mode = 1
+shots = Array[ExtResource("3_y7cjo")]([SubResource("Resource_l0buf"), SubResource("Resource_mjugh"), SubResource("Resource_sefhe")])
+shake_seed = 733
+voice_over = Array[StringName]([&"torvald", &"aldra"])
+lines_over_cuts = true

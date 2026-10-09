@@ -1,0 +1,31 @@
+# e7m2 E16 "e7m2_mask" (docs/design/mission-e7-02.md, Cinematic hooks; script-episodes-4-8/e7m2.md S4: L23 opens, L24
+# answers): mode=pause when Hush is gone, every knife dead and Dacian alive; then the victory and c_e7_mask. 1) MS on
+# the sand: a white mask where Hush vanished; 2) MS two-shot Dacian + Seraphine, back to back, lowering blades (L23);
+# 3) CU Torvald's hand picks up the mask (L24); 4) two-shot again (L25); 5) CU Torvald (L26); 6) WS from the chair:
+# Ossavar (L27); FADE_BLACK. Axis: the Torvald - Dacian line; every camera on its SOUTH-EAST side.
+# Fallback: the end state says L23-L27, then the victory.
+cine e7m2_mask  title="Mourning Mask"  mode=pause  letterbox=2.39  seed=725  length=26..36
+env day  moon_yaw=210  moon_pitch=-34  energy=0.9
+cast  dacian     capsule  at=(0, 0, -300)  hidden=1
+cast  torvald    capsule  at=(0, 0, -310)  hidden=1
+cast  seraphine  capsule  at=(0, 0, -320)  hidden=1
+cast  ossavar    capsule  at=(0, 0, -330)  hidden=1
+
+# MS on the sand: a white mask lies where Hush vanished
+shot X1 2.2  cam=static  from=(4, 1.4, 4)  look=(1, 0.1, -1)  fov=34  in=fade_black:0.4
+# MS two-shot Dacian + Seraphine, back to back, lowering blades
+shot X2 5.4  cam=static  from=(8, 1.8, 2)  look=(3, 1.4, -2)  fov=38
+  at 0.2  line dacian "Those were never ours. You knew before you came to the sand."
+# CU Torvald's hand picks up the mask
+shot X3 5.6  cam=static  from=(0.5, 1.5, 6)  look=(-2, 1.2, 3)  fov=30
+  at 0.2  line torvald "Mother Hush. I have stood beside this mask in Malrik's camp. They were my ally's knives."
+# Two-shot again
+shot X4 5.4  cam=static  from=(8, 1.8, 2)  look=(3, 1.4, -2)  fov=38
+  at 0.2  line seraphine "Then your ally broke a truce that held for a hundred and thirty years. For what?"
+# CU Torvald
+shot X5 5.4  cam=static  from=(0.5, 1.7, 6)  look=(-2, 1.6, 3)  fov=28
+  at 0.2  line torvald "For a war that does not end. Wars are good for business, and better for that stone."
+# WS from the chair: Ossavar; FADE_BLACK
+shot X6 7.4  cam=static  from=(-9, 3.5, 9)  look=(0, 1.0, 0)  fov=46
+  at 0.2  line ossavar "First blood, and no further. The cities forgot. Let us see if you remember."
+  at 6.4  fade alpha=1 time=1.0

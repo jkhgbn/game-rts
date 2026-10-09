@@ -1,0 +1,23 @@
+# e7m4 E21 "e7m4_still" (docs/design/mission-e7-04.md, Cinematic hooks): mode=pause when the third stage is done, then
+# the victory; StoryFlow plays ep7_ending. 1) TOP-DOWN crane up from the lighthouse: the moat turns to glass in a ring;
+# 2) CU Torvald at the lighthouse, staff crystal blazing (L39); 3) WS on the glass: every soldier stops, the dragons land
+# heads bowed; 4) MS Ossavar by the chair (L40); FADE_WHITE.
+# Axis: the isle's north-south line; every camera on its EAST side.
+# Fallback: the end state says L39-L40, then the victory.
+cine e7m4_still  title="Enough"  mode=pause  letterbox=2.39  seed=744  length=14..24
+env day  moon_yaw=120  moon_pitch=-40  energy=1.0
+cast  torvald  capsule  at=(0, 0, -300)  hidden=1
+cast  ossavar  capsule  at=(0, 0, -310)  hidden=1
+
+# TOP-DOWN crane up from the lighthouse: the moat turns to glass
+shot S1 4.0  cam=crane  from=(2, 8, 2)  to=(4, 26, 4)  look=(0, 0, 0)>(0, 0, 0)  fov=50>56  in=fade_black:0.4
+  at 0.3  fade color=#e0f4ff alpha=0.3 time=3.0
+# CU Torvald at the lighthouse, staff crystal blazing
+shot S2 3.0  cam=static  from=(2.5, 1.7, 1.5)  look=(0, 1.6, 0)  fov=28
+  at 0.4  line torvald "Enough."
+# WS on the glass: every soldier stops
+shot S3 3.0  cam=static  from=(14, 6, 6)  look=(0, 0.5, 0)  fov=50
+# MS Ossavar by the chair; FADE_WHITE
+shot S4 6.6  cam=static  from=(1, 2.4, 9)  look=(-5, 2.0, 5)  fov=34
+  at 0.2  line ossavar "I have heard that word once before. It sounded better from you."
+  at 5.6  fade color=#ffffff alpha=1 time=1.0

@@ -1,0 +1,135 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_kll1x"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_pi638"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_kwe80"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_8jsyi"]
+
+[sub_resource type="Resource" id="Resource_kmbvj"]
+script = ExtResource("3_kwe80")
+id = &"X1"
+duration = 2.2
+from_pos = Vector3(4, 1.4, 4)
+to_pos = Vector3(4, 1.4, 4)
+look_from = Vector3(1, 0.1, -1)
+look_to = Vector3(1, 0.1, -1)
+fov_from = 34.0
+fov_to = 34.0
+transition_in = 1
+transition_time = 0.4
+
+[sub_resource type="Resource" id="Resource_6j2kq"]
+script = ExtResource("1_kll1x")
+at = 0.2
+speaker = &"dacian"
+text = "Those were never ours. You knew before you came to the sand."
+voice = "res://assets/audio/voice/dacian/those_were_never_ours_15f08abd.wav"
+
+[sub_resource type="Resource" id="Resource_olt5j"]
+script = ExtResource("3_kwe80")
+id = &"X2"
+duration = 5.4
+from_pos = Vector3(8, 1.8, 2)
+to_pos = Vector3(8, 1.8, 2)
+look_from = Vector3(3, 1.4, -2)
+look_to = Vector3(3, 1.4, -2)
+fov_from = 38.0
+fov_to = 38.0
+lines = Array[ExtResource("1_kll1x")]([SubResource("Resource_6j2kq")])
+
+[sub_resource type="Resource" id="Resource_vwbye"]
+script = ExtResource("1_kll1x")
+at = 0.2
+speaker = &"torvald"
+text = "Mother Hush. I have stood beside this mask in Malrik's camp. They were my ally's knives."
+voice = "res://assets/audio/voice/torvald/mother_hush_i_have_bea3ce02.wav"
+
+[sub_resource type="Resource" id="Resource_g40jw"]
+script = ExtResource("3_kwe80")
+id = &"X3"
+duration = 5.6
+from_pos = Vector3(0.5, 1.5, 6)
+to_pos = Vector3(0.5, 1.5, 6)
+look_from = Vector3(-2, 1.2, 3)
+look_to = Vector3(-2, 1.2, 3)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_kll1x")]([SubResource("Resource_vwbye")])
+
+[sub_resource type="Resource" id="Resource_j4fx7"]
+script = ExtResource("1_kll1x")
+at = 0.2
+speaker = &"seraphine"
+text = "Then your ally broke a truce that held for a hundred and thirty years. For what?"
+voice = "res://assets/audio/voice/seraphine/then_your_ally_broke_6ed047c0.wav"
+
+[sub_resource type="Resource" id="Resource_lomsb"]
+script = ExtResource("3_kwe80")
+id = &"X4"
+duration = 5.4
+from_pos = Vector3(8, 1.8, 2)
+to_pos = Vector3(8, 1.8, 2)
+look_from = Vector3(3, 1.4, -2)
+look_to = Vector3(3, 1.4, -2)
+fov_from = 38.0
+fov_to = 38.0
+lines = Array[ExtResource("1_kll1x")]([SubResource("Resource_j4fx7")])
+
+[sub_resource type="Resource" id="Resource_re3k3"]
+script = ExtResource("1_kll1x")
+at = 0.2
+speaker = &"torvald"
+text = "For a war that does not end. Wars are good for business, and better for that stone."
+voice = "res://assets/audio/voice/torvald/for_a_war_that_f990bd9e.wav"
+
+[sub_resource type="Resource" id="Resource_bds7q"]
+script = ExtResource("3_kwe80")
+id = &"X5"
+duration = 5.4
+from_pos = Vector3(0.5, 1.7, 6)
+to_pos = Vector3(0.5, 1.7, 6)
+look_from = Vector3(-2, 1.6, 3)
+look_to = Vector3(-2, 1.6, 3)
+fov_from = 28.0
+fov_to = 28.0
+lines = Array[ExtResource("1_kll1x")]([SubResource("Resource_re3k3")])
+
+[sub_resource type="Resource" id="Resource_rikk7"]
+script = ExtResource("4_8jsyi")
+at = 6.4
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(0, 0, 0, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_ke683"]
+script = ExtResource("1_kll1x")
+at = 0.2
+speaker = &"ossavar"
+text = "First blood, and no further. The cities forgot. Let us see if you remember."
+voice = "res://assets/audio/voice/ossavar/first_blood_and_no_453ba0a2.wav"
+
+[sub_resource type="Resource" id="Resource_xje10"]
+script = ExtResource("3_kwe80")
+id = &"X6"
+duration = 7.4
+from_pos = Vector3(-9, 3.5, 9)
+to_pos = Vector3(-9, 3.5, 9)
+look_from = Vector3(0, 1, 0)
+look_to = Vector3(0, 1, 0)
+fov_from = 46.0
+fov_to = 46.0
+lines = Array[ExtResource("1_kll1x")]([SubResource("Resource_ke683")])
+actions = Array[ExtResource("4_8jsyi")]([SubResource("Resource_rikk7")])
+
+[resource]
+script = ExtResource("2_pi638")
+id = &"e7m2_mask"
+title = "Mourning Mask"
+world_mode = 1
+shots = Array[ExtResource("3_kwe80")]([SubResource("Resource_kmbvj"), SubResource("Resource_olt5j"), SubResource("Resource_g40jw"), SubResource("Resource_lomsb"), SubResource("Resource_bds7q"), SubResource("Resource_xje10")])
+shake_seed = 725
+voice_over = Array[StringName]([&"dacian", &"torvald", &"seraphine", &"ossavar"])
+lines_over_cuts = true

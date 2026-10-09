@@ -1,0 +1,89 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_kq02o"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_igsbx"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_31w56"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_kplou"]
+
+[sub_resource type="Resource" id="Resource_kbw7c"]
+script = ExtResource("3_31w56")
+id = &"K1"
+duration = 3.0
+from_pos = Vector3(7, 3, 7)
+to_pos = Vector3(7, 3, 7)
+look_from = Vector3(0, 1.2, 0)
+look_to = Vector3(0, 1.2, 0)
+fov_from = 40.0
+fov_to = 40.0
+transition_in = 1
+transition_time = 0.3
+
+[sub_resource type="Resource" id="Resource_0ayrt"]
+script = ExtResource("1_kq02o")
+at = 0.2
+speaker = &"seraphine"
+text = "Gold cloaks, behind me. So this is how Aurivane wins now."
+voice = "res://assets/audio/voice/seraphine/gold_cloaks_behind_me_7d1ded5d.wav"
+
+[sub_resource type="Resource" id="Resource_7gnkl"]
+script = ExtResource("3_31w56")
+id = &"K2"
+duration = 5.4
+from_pos = Vector3(0.5, 1.7, 5.5)
+to_pos = Vector3(0.5, 1.7, 5.5)
+look_from = Vector3(-2.5, 1.5, 2.5)
+look_to = Vector3(-2.5, 1.5, 2.5)
+fov_from = 30.0
+fov_to = 30.0
+lines = Array[ExtResource("1_kq02o")]([SubResource("Resource_0ayrt")])
+
+[sub_resource type="Resource" id="Resource_uhy1k"]
+script = ExtResource("1_kq02o")
+at = 0.2
+speaker = &"dacian"
+text = "Those aren't mine! Seraphine, those are NOT mine!"
+voice = "res://assets/audio/voice/dacian/those_arent_mine_seraphine_76f215d9.wav"
+
+[sub_resource type="Resource" id="Resource_qw27m"]
+script = ExtResource("3_31w56")
+id = &"K3"
+duration = 5.4
+from_pos = Vector3(5.5, 1.8, 0.5)
+to_pos = Vector3(5.5, 1.8, 0.5)
+look_from = Vector3(2.5, 1.4, -2.5)
+look_to = Vector3(2.5, 1.4, -2.5)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_kq02o")]([SubResource("Resource_uhy1k")])
+
+[sub_resource type="Resource" id="Resource_pas2q"]
+script = ExtResource("4_kplou")
+at = 0.2
+kind = &"fade"
+params = {
+"alpha": 0.25,
+"color": Color(0.5411765, 0.3137255, 0.8156863, 1),
+"time": 0.6
+}
+
+[sub_resource type="Resource" id="Resource_elj62"]
+script = ExtResource("3_31w56")
+id = &"K4"
+duration = 1.6
+from_pos = Vector3(4, 0.6, 4.6)
+to_pos = Vector3(4, 0.6, 4.6)
+look_from = Vector3(3, 0.1, 3)
+look_to = Vector3(3, 0.1, 3)
+fov_from = 28.0
+fov_to = 28.0
+actions = Array[ExtResource("4_kplou")]([SubResource("Resource_pas2q")])
+
+[resource]
+script = ExtResource("2_igsbx")
+id = &"e7m1_laurel"
+title = "Gold Cloaks"
+world_mode = 1
+shots = Array[ExtResource("3_31w56")]([SubResource("Resource_kbw7c"), SubResource("Resource_7gnkl"), SubResource("Resource_qw27m"), SubResource("Resource_elj62")])
+shake_seed = 712
+voice_over = Array[StringName]([&"seraphine", &"dacian"])
+lines_over_cuts = true

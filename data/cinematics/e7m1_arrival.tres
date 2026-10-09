@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_fj8i7"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_otpeq"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_qxokp"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_34sem"]
+
+[sub_resource type="Resource" id="Resource_p5vja"]
+script = ExtResource("3_qxokp")
+id = &"A1"
+duration = 4.4
+camera_mode = 2
+from_pos = Vector3(-6, 26, 30)
+to_pos = Vector3(-22, 12, 44)
+look_from = Vector3(-20, 0, 20)
+look_to = Vector3(-34, 0, 34)
+fov_from = 50.0
+fov_to = 44.0
+transition_in = 1
+transition_time = 0.4
+
+[sub_resource type="Resource" id="Resource_2a1xn"]
+script = ExtResource("1_fj8i7")
+at = 0.3
+speaker = &"ossavar"
+text = "Two harbours, one rock, a sky for sale. Bring gold. I take no promises."
+voice = "res://assets/audio/voice/ossavar/two_harbours_one_rock_f9b4e237.wav"
+
+[sub_resource type="Resource" id="Resource_pyl22"]
+script = ExtResource("3_qxokp")
+id = &"A2"
+duration = 6.0
+from_pos = Vector3(-31, 2, 41)
+to_pos = Vector3(-31, 2, 41)
+look_from = Vector3(-36, 1.4, 36)
+look_to = Vector3(-36, 1.4, 36)
+fov_from = 38.0
+fov_to = 38.0
+lines = Array[ExtResource("1_fj8i7")]([SubResource("Resource_2a1xn")])
+
+[sub_resource type="Resource" id="Resource_tsiwq"]
+script = ExtResource("3_qxokp")
+id = &"A3"
+duration = 4.2
+from_pos = Vector3(-30, 3, 30)
+to_pos = Vector3(-30, 3, 30)
+look_from = Vector3(-5, 1.5, 5)
+look_to = Vector3(-5, 1.5, 5)
+fov_from = 24.0
+fov_to = 24.0
+
+[resource]
+script = ExtResource("2_otpeq")
+id = &"e7m1_arrival"
+title = "Two Harbours"
+world_mode = 1
+shots = Array[ExtResource("3_qxokp")]([SubResource("Resource_p5vja"), SubResource("Resource_pyl22"), SubResource("Resource_tsiwq")])
+shake_seed = 711
+voice_over = Array[StringName]([&"ossavar", &"torvald"])
+lines_over_cuts = true

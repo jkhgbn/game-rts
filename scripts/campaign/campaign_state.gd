@@ -43,7 +43,7 @@ const COMPANION_OFFSET := Vector3(2.0, 0.0, 2.0)   ## Beside the wizard at the m
 ## Mission order and scenes. A mission whose scene does not exist yet is unlocked but not playable.
 const MISSION_ORDER: Array[StringName] = [&"m00", &"m01", &"m02", &"m03", &"m04", &"e2m1", &"e2m2", &"e2m3", &"e2m4", &"e2m5",
 		&"e3m1", &"e3m2", &"e3m3", &"e3m4", &"e4m1", &"e4m2", &"e4m3", &"e4m4", &"e5m1", &"e5m2", &"e5m3", &"e5m4",
-		&"e6m1", &"e6m2", &"e6m3", &"e6m4"]
+		&"e6m1", &"e6m2", &"e6m3", &"e6m4", &"e7m1", &"e7m2", &"e7m3", &"e7m4"]
 const MISSION_SCENES := {
 	&"m00": "res://missions/mission_00.tscn",
 	&"m01": "res://missions/mission_01.tscn",
@@ -71,6 +71,10 @@ const MISSION_SCENES := {
 	&"e6m2": "res://missions/mission_e6_02.tscn",
 	&"e6m3": "res://missions/mission_e6_03.tscn",
 	&"e6m4": "res://missions/mission_e6_04.tscn",
+	&"e7m1": "res://missions/mission_e7_01.tscn",
+	&"e7m2": "res://missions/mission_e7_02.tscn",
+	&"e7m3": "res://missions/mission_e7_03.tscn",
+	&"e7m4": "res://missions/mission_e7_04.tscn",
 }
 ## Story films a reward's "next" may name (StoryFilms plays them): film id -> what follows it (a film or a mission).
 ## The victory unlocks the first mission at the end of the chain (film_target).
@@ -100,18 +104,27 @@ const STORY_FILMS := {
 	&"c_e6_gate": &"e6m3",           # mission-e6-02.md: the gate film after e6m2 (open branch; FILM_BRANCHES picks the shut cut)
 	&"c_e6_gate_shut": &"e6m3",      # mission-e6-02.md: the shut branch's cut of c_e6_gate
 	&"c_e6_seed": &"e6m4",           # mission-e6-03.md: after e6m3, before e6m4's briefing
-	&"ep6_ending": &"",              # mission-e6-04.md: the night the Master went down, then the main menu (Episode 7 not built)
+	&"ep6_ending": &"ep7_opening",   # mission-e6-04.md: the night the Master went down, then the Ep7 card
+	&"ep7_opening": &"e7m1",         # mission-e7-01.md: "Gold for Fire" plays before e7m1's briefing
+	&"c_e7_ledger": &"e7m2",         # mission-e7-01.md: "Clean Coin" after e7m1, before e7m2's briefing
+	&"c_e7_mask": &"e7m3",           # mission-e7-02.md: "Mourning" after e7m2, before e7m3's briefing
+	&"c_e7_pits": &"e7m4",           # mission-e7-03.md: "The Year Comes Round" (people cut; FILM_BRANCHES picks the pits cut)
+	&"c_e7_pits_pits": &"e7m4",      # mission-e7-03.md: the pits cut of c_e7_pits (Ossavar leaves)
+	&"ep7_ending": &"",              # mission-e7-04.md: "No. Not for Now.", then the main menu (Episode 8 not built)
 }
 ## Films picked by a campaign flag (mission-e6-02.md D4 / D5): film id -> [flag, value, the film played instead]. A
 ## chain that reaches the key film plays the other one when CampaignState.flag(flag) == value.
 const FILM_BRANCHES := {
 	&"c_e6_gate": ["e6m2_gate_opened", false, &"c_e6_gate_shut"],
+	&"c_e7_pits": ["e7m3_people", false, &"c_e7_pits_pits"],   # mission-e7-03.md: the Outwall was not sheltered
 }
 ## Malrik's track (campaign-outline D8; per-wizard item tracks are not built): Ep3 victories are flags-only
 ## ("save_items": false, Vessa's items untouched) and carry Malrik's essence (50 %, cap 1 500) in this int flag.
 const MALRIK_ESSENCE_FLAG := "malrik_essence"
 ## Ysolde's track (Episode 4, the same rule): flags only, her essence (50 %, cap 1 500) in this int flag.
 const YSOLDE_ESSENCE_FLAG := "ysolde_essence"
+## Torvald's track (Episode 7, the same rule): flags only, his essence (50 %, cap 1 500) in this int flag.
+const TORVALD_ESSENCE_FLAG := "torvald_essence"
 ## What each victory gives: an artifact (owned, equipped in slot 1 by default), flags set from
 ## objectives ("flag": "objective id"), essence added before the 50 % cut per done objective, next mission.
 ## Optional keys (docs/design/mission-framework.md): "set_flags" (constant values), "items" (extra owned artifacts),
@@ -290,7 +303,33 @@ const MISSION_REWARDS := {
 	&"e6m4": {
 		"flags": {"e6m4_seal_unbroken": "sec_unbroken", "e6m4_gates": "sec_gates"},
 		"set_flags": {"ep6_complete": true},
-		"next": &"ep6_ending",   # film ep6_ending, then the main menu (Episode 7 not built)
+		"next": &"ep6_ending",   # film chain ep6_ending -> ep7_opening -> e7m1 (unlocks e7m1)
+		"save_items": false,
+	},
+	# Episode 7 (Torvald's track, campaign-outline D8): flags only, his essence (secondary bonuses included, 50 %, cap
+	# 1 500) in TORVALD_ESSENCE_FLAG, written by the mission; times / counts are mission-computed (e7m1_auctions_won,
+	# e7m3_sheltered, e7m4_dragons_paid...). The Heartfrost Splinter / Ossavar's Ring have no ItemType yet: flags.
+	&"e7m1": {
+		"flags": {"e7m1_rock_held": "sec_rock", "e7m1_wares": "sec_wares"},
+		"set_flags": {"ep7_started": true, "heartfrost_splinter_owned": true},
+		"next": &"c_e7_ledger",   # film c_e7_ledger -> e7m2
+		"save_items": false,
+	},
+	&"e7m2": {
+		"flags": {"e7m2_aldra_called": "sec_aldra", "e7m2_boxes": "sec_boxes", "e7m2_duel_won": "sec_duel"},
+		"set_flags": {"helper_aldra_unlocked": true, "e7_truth_known": true},
+		"next": &"c_e7_mask",   # film c_e7_mask -> e7m3
+		"save_items": false,
+	},
+	&"e7m3": {
+		"flags": {"e7m3_people": "sec_people", "e7m3_pits": "sec_pits", "e7m3_mask": "sec_mask"},
+		"next": &"c_e7_pits",   # film c_e7_pits (or c_e7_pits_pits, FILM_BRANCHES) -> e7m4
+		"save_items": false,
+	},
+	&"e7m4": {
+		"flags": {"e7m4_red_sunk": "sec_red", "e7m4_silver_sunk": "sec_silver", "e7m4_all_paid": "sec_dragons"},
+		"set_flags": {"e7_turned": true, "episode7_complete": true, "ossavar_ring_owned": true},
+		"next": &"ep7_ending",   # film ep7_ending, then the main menu (Episode 8 not built)
 		"save_items": false,
 	},
 }

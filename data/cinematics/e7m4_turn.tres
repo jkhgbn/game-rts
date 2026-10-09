@@ -1,0 +1,105 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_la8wj"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_5dkm1"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_einno"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_yq8oj"]
+
+[sub_resource type="Resource" id="Resource_llc25"]
+script = ExtResource("4_yq8oj")
+at = 0.6
+kind = &"fade"
+params = {
+"alpha": 0.12,
+"color": Color(1, 0.627451, 0.2509804, 1),
+"time": 1.5
+}
+
+[sub_resource type="Resource" id="Resource_rib5h"]
+script = ExtResource("1_la8wj")
+at = 0.2
+speaker = &"malrik"
+text = "Burn them. Both fleets, the sand, the cloth. A strait of dead feeds the stone for years."
+voice = "res://assets/audio/voice/malrik/burn_them_both_fleets_d02db0d5.wav"
+
+[sub_resource type="Resource" id="Resource_psfm1"]
+script = ExtResource("3_einno")
+id = &"N1"
+duration = 6.4
+from_pos = Vector3(-12, 1.9, 16)
+to_pos = Vector3(-12, 1.9, 16)
+look_from = Vector3(-15, 1.5, 12)
+look_to = Vector3(-15, 1.5, 12)
+fov_from = 36.0
+fov_to = 36.0
+transition_in = 1
+transition_time = 0.3
+lines = Array[ExtResource("1_la8wj")]([SubResource("Resource_rib5h")])
+actions = Array[ExtResource("4_yq8oj")]([SubResource("Resource_llc25")])
+
+[sub_resource type="Resource" id="Resource_wq8we"]
+script = ExtResource("1_la8wj")
+at = 0.2
+speaker = &"obren"
+text = "Yes, Bishop. A whole sea of them. Feed me, and I will crown you king of the deep."
+voice = "res://assets/audio/voice/whisper/yes_bishop_a_whole_f519d99c.wav"
+
+[sub_resource type="Resource" id="Resource_5xilr"]
+script = ExtResource("3_einno")
+id = &"N2"
+duration = 6.4
+from_pos = Vector3(-14, 1.4, 13)
+to_pos = Vector3(-14, 1.4, 13)
+look_from = Vector3(-15, 1.2, 12)
+look_to = Vector3(-15, 1.2, 12)
+fov_from = 22.0
+fov_to = 22.0
+lines = Array[ExtResource("1_la8wj")]([SubResource("Resource_wq8we")])
+
+[sub_resource type="Resource" id="Resource_iire6"]
+script = ExtResource("1_la8wj")
+at = 2.4
+speaker = &"torvald"
+text = "No."
+voice = "res://assets/audio/voice/torvald/no_b20dcba1.wav"
+
+[sub_resource type="Resource" id="Resource_4vt3n"]
+script = ExtResource("3_einno")
+id = &"N3"
+duration = 4.2
+from_pos = Vector3(-30, 1.8, 30)
+to_pos = Vector3(-30, 1.8, 30)
+look_from = Vector3(-34, 1.7, 34)
+look_to = Vector3(-34, 1.7, 34)
+fov_from = 28.0
+fov_to = 28.0
+lines = Array[ExtResource("1_la8wj")]([SubResource("Resource_iire6")])
+
+[sub_resource type="Resource" id="Resource_dy10e"]
+script = ExtResource("1_la8wj")
+at = 0.2
+speaker = &"torvald"
+text = "I am done waiting, Malrik. Aldra. Everyone. To the rock."
+voice = "res://assets/audio/voice/torvald/i_am_done_waiting_9b431c0f.wav"
+
+[sub_resource type="Resource" id="Resource_r5u2t"]
+script = ExtResource("3_einno")
+id = &"N4"
+duration = 5.6
+from_pos = Vector3(-33, 2.2, 36)
+to_pos = Vector3(-33, 2.2, 36)
+look_from = Vector3(-15, 1.5, 12)
+look_to = Vector3(-15, 1.5, 12)
+fov_from = 32.0
+fov_to = 32.0
+lines = Array[ExtResource("1_la8wj")]([SubResource("Resource_dy10e")])
+
+[resource]
+script = ExtResource("2_5dkm1")
+id = &"e7m4_turn"
+title = "No"
+world_mode = 1
+shots = Array[ExtResource("3_einno")]([SubResource("Resource_psfm1"), SubResource("Resource_5xilr"), SubResource("Resource_4vt3n"), SubResource("Resource_r5u2t")])
+shake_seed = 743
+voice_over = Array[StringName]([&"malrik", &"obren", &"torvald"])
+lines_over_cuts = true

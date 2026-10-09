@@ -186,32 +186,37 @@ msgid "Bren"
 msgstr ""
 
 #. &"ossavar": ["Ossavar", Color(0.95, 0.70, 0.30)],     # the gold-fire elder dragon
-#: scripts/ui/cinematic/speakers.gd:33
+#: scripts/ui/cinematic/speakers.gd:33 scripts/campaign/mission_e7_01.gd:27
+#: scripts/campaign/mission_e7_base.gd:70 scripts/campaign/mission_e7_base.gd:158
 msgid "Ossavar"
 msgstr ""
 
 #. &"herald": ["Herald", Color(0.85, 0.80, 0.60)],
-#: scripts/ui/cinematic/speakers.gd:34
+#: scripts/ui/cinematic/speakers.gd:34 scripts/campaign/mission_e7_base.gd:71
+#: scripts/campaign/mission_e7_base.gd:161
 msgid "Herald"
 msgstr ""
 
 #. &"dacian": ["Dacian", Color(1.00, 0.80, 0.35)],       # Aurivane's Sunblade (gold)
-#: scripts/ui/cinematic/speakers.gd:35
+#: scripts/ui/cinematic/speakers.gd:35 scripts/campaign/mission_e7_base.gd:71
+#: scripts/campaign/mission_e7_base.gd:151
 msgid "Dacian"
 msgstr ""
 
 #. &"seraphine": ["Seraphine", Color(0.80, 0.88, 1.00)], # Adamarch's Diamond Wall (white-blue)
-#: scripts/ui/cinematic/speakers.gd:36
+#: scripts/ui/cinematic/speakers.gd:36 scripts/campaign/mission_e7_base.gd:71
+#: scripts/campaign/mission_e7_base.gd:148
 msgid "Seraphine"
 msgstr ""
 
 #. &"brannet": ["Brannet", Color(0.75, 0.62, 0.45)],     # Outwall foreman
-#: scripts/ui/cinematic/speakers.gd:37
+#: scripts/ui/cinematic/speakers.gd:37 scripts/campaign/mission_e7_base.gd:72
+#: scripts/campaign/mission_e7_base.gd:168
 msgid "Brannet"
 msgstr ""
 
 #. &"diamond_archon": ["The Diamond Archon", Color(0.92, 0.94, 1.00)],   # Adamarch white
-#: scripts/ui/cinematic/speakers.gd:38
+#: scripts/ui/cinematic/speakers.gd:38 scripts/campaign/mission_e7_base.gd:72
 msgid "The Diamond Archon"
 msgstr ""
 

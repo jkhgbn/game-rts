@@ -1,0 +1,18 @@
+# e7m1 E1 "e7m1_arrival" (docs/design/mission-e7-01.md, Cinematic hooks; script-episodes-4-8/e7m1.md 1): mode=pause at
+# 0:00 (spec HOLD 0:15). Two Harbours is Crown Hollow re-dressed: the river is the strait, the Crown Isle the Tollrock.
+# 1) CRANE down from the strait to the west (Adamarch) shore; 2) MS on Torvald's quay at (-36, 36), Aldra a step
+# behind (L1); 3) long lens (fov 24) across the water: the isle, the Master's empty chair, Ossavar beside it.
+# Axis: the harbour - isle line; every camera on its SOUTH side.
+# Fallback: the end state says L1-L4 and shows the first hint.
+cine e7m1_arrival  title="Two Harbours"  mode=pause  letterbox=2.39  seed=711  length=12..18
+env day  moon_yaw=225  moon_pitch=-30  energy=0.95
+cast  ossavar  capsule  at=(0, 0, -300)  hidden=1
+cast  torvald  capsule  at=(0, 0, -310)  hidden=1
+
+# CRANE down from the strait to the west shore
+shot A1 4.4  cam=crane  from=(-6, 26, 30)  to=(-22, 12, 44)  look=(-20, 0, 20)>(-34, 0, 34)  fov=50>44  in=fade_black:0.4
+# MS Torvald stepping off the quay, Aldra a step behind
+shot A2 6.0  cam=static  from=(-31, 2.0, 41)  look=(-36, 1.4, 36)  fov=38
+  at 0.3  line ossavar "Two harbours, one rock, a sky for sale. Bring gold. I take no promises."
+# Long lens across the water: the isle and the empty chair
+shot A3 4.2  cam=static  from=(-30, 3.0, 30)  look=(-5, 1.5, 5)  fov=24

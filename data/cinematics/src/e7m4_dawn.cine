@@ -1,0 +1,17 @@
+# e7m4 E1 "e7m4_dawn" (docs/design/mission-e7-04.md, Cinematic hooks): mode=pause at 0:00 (spec HOLD 0:15). 1) CRANE up
+# over the strait at dawn, the galleys in battle lines (L1); 2) MS Malrik and Torvald on the quay, Hush in Malrik's
+# shadow (L2); 3) long lens: Ossavar by the Master's chair. Axis: the keep - isle line; every camera on its SOUTH side.
+# Fallback: the end state says L1-L5 and shows the first hint.
+cine e7m4_dawn  title="Two Skies Again"  mode=pause  letterbox=2.39  seed=741  length=12..19
+env dusk  moon_yaw=100  moon_pitch=-8  energy=0.8
+cast  ossavar  capsule  at=(0, 0, -300)  hidden=1
+cast  malrik   capsule  at=(0, 0, -310)  hidden=1
+
+# CRANE up over the strait at dawn
+shot D1 6.6  cam=crane  from=(-20, 6, 26)  to=(-26, 20, 34)  look=(0, 0, 0)>(4, 0, -4)  fov=46>52  in=fade_black:0.5
+  at 0.3  line ossavar "The Year of Two Skies comes round again. Every ship. Every dragon. One strait."
+# MS Malrik and Torvald on the quay
+shot D2 5.6  cam=static  from=(-30, 1.9, 40)  look=(-35, 1.5, 35)  fov=36
+  at 0.2  line malrik "Today we finish Aurivane, Torvald. Take the rock. I will handle the sky."
+# Long lens: Ossavar by the chair
+shot D3 2.4  cam=static  from=(-26, 3.0, 22)  look=(-5, 2.0, 5)  fov=24

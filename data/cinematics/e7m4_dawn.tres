@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_uus4g"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_s8kvw"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_vy4ek"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_54ldv"]
+
+[sub_resource type="Resource" id="Resource_ehuk1"]
+script = ExtResource("1_uus4g")
+at = 0.3
+speaker = &"ossavar"
+text = "The Year of Two Skies comes round again. Every ship. Every dragon. One strait."
+voice = "res://assets/audio/voice/ossavar/the_year_of_two_ce069fdf.wav"
+
+[sub_resource type="Resource" id="Resource_d77h1"]
+script = ExtResource("3_vy4ek")
+id = &"D1"
+duration = 6.6
+camera_mode = 2
+from_pos = Vector3(-20, 6, 26)
+to_pos = Vector3(-26, 20, 34)
+look_to = Vector3(4, 0, -4)
+fov_from = 46.0
+fov_to = 52.0
+transition_in = 1
+lines = Array[ExtResource("1_uus4g")]([SubResource("Resource_ehuk1")])
+
+[sub_resource type="Resource" id="Resource_0bnmd"]
+script = ExtResource("1_uus4g")
+at = 0.2
+speaker = &"malrik"
+text = "Today we finish Aurivane, Torvald. Take the rock. I will handle the sky."
+voice = "res://assets/audio/voice/malrik/today_we_finish_aurivane_64ae5f40.wav"
+
+[sub_resource type="Resource" id="Resource_hmgv1"]
+script = ExtResource("3_vy4ek")
+id = &"D2"
+duration = 5.6
+from_pos = Vector3(-30, 1.9, 40)
+to_pos = Vector3(-30, 1.9, 40)
+look_from = Vector3(-35, 1.5, 35)
+look_to = Vector3(-35, 1.5, 35)
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_uus4g")]([SubResource("Resource_0bnmd")])
+
+[sub_resource type="Resource" id="Resource_58ibm"]
+script = ExtResource("3_vy4ek")
+id = &"D3"
+duration = 2.4
+from_pos = Vector3(-26, 3, 22)
+to_pos = Vector3(-26, 3, 22)
+look_from = Vector3(-5, 2, 5)
+look_to = Vector3(-5, 2, 5)
+fov_from = 24.0
+fov_to = 24.0
+
+[resource]
+script = ExtResource("2_s8kvw")
+id = &"e7m4_dawn"
+title = "Two Skies Again"
+world_mode = 1
+shots = Array[ExtResource("3_vy4ek")]([SubResource("Resource_d77h1"), SubResource("Resource_hmgv1"), SubResource("Resource_58ibm")])
+shake_seed = 741
+voice_over = Array[StringName]([&"ossavar", &"malrik"])
+lines_over_cuts = true

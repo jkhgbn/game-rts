@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_lpuel"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_0bdrv"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_7vecm"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_bp5c8"]
+
+[sub_resource type="Resource" id="Resource_cbj81"]
+script = ExtResource("1_lpuel")
+at = 0.2
+speaker = &"ossavar"
+text = "Two cities, two lies, one rock. The rock, at least, is honest."
+voice = "res://assets/audio/voice/ossavar/two_cities_two_lies_eb7137d4.wav"
+
+[sub_resource type="Resource" id="Resource_au7wf"]
+script = ExtResource("3_7vecm")
+id = &"M1"
+duration = 5.4
+from_pos = Vector3(-34, 4, 30)
+to_pos = Vector3(-34, 4, 30)
+look_from = Vector3(-12, 1.5, 10)
+look_to = Vector3(-12, 1.5, 10)
+fov_from = 26.0
+fov_to = 26.0
+transition_in = 1
+transition_time = 0.4
+lines = Array[ExtResource("1_lpuel")]([SubResource("Resource_cbj81")])
+
+[sub_resource type="Resource" id="Resource_xrmu1"]
+script = ExtResource("1_lpuel")
+at = 0.2
+speaker = &"seraphine"
+text = "They say Adamarch staged it. I bled on that sand, Ice-king. I would like to know for whom."
+voice = "res://assets/audio/voice/seraphine/they_say_adamarch_staged_e03a0607.wav"
+
+[sub_resource type="Resource" id="Resource_0r0p5"]
+script = ExtResource("3_7vecm")
+id = &"M2"
+duration = 6.0
+from_pos = Vector3(-30, 1.9, 39)
+to_pos = Vector3(-30, 1.9, 39)
+look_from = Vector3(-35, 1.4, 34)
+look_to = Vector3(-35, 1.4, 34)
+fov_from = 36.0
+fov_to = 36.0
+lines = Array[ExtResource("1_lpuel")]([SubResource("Resource_xrmu1")])
+
+[sub_resource type="Resource" id="Resource_ab48k"]
+script = ExtResource("3_7vecm")
+id = &"M3"
+from_pos = Vector3(-9, 2.5, 9)
+to_pos = Vector3(-9, 2.5, 9)
+look_from = Vector3(-5, 1.8, 5)
+look_to = Vector3(-5, 1.8, 5)
+fov_from = 28.0
+fov_to = 28.0
+
+[resource]
+script = ExtResource("2_0bdrv")
+id = &"e7m2_morning"
+title = "Two Lies"
+world_mode = 1
+shots = Array[ExtResource("3_7vecm")]([SubResource("Resource_au7wf"), SubResource("Resource_0r0p5"), SubResource("Resource_ab48k")])
+shake_seed = 721
+voice_over = Array[StringName]([&"ossavar", &"seraphine"])
+lines_over_cuts = true

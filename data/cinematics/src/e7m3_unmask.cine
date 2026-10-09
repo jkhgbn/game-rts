@@ -1,0 +1,18 @@
+# e7m3 E13 "e7m3_unmask" (docs/design/mission-e7-03.md, Cinematic hooks): mode=pause when the Mask Captain falls.
+# 1) MS on the fallen Captain, his grey half-mask cracked; 2) ECU: violet cloth beneath, a candle sigil (L20);
+# 3) CU Torvald, 3/4 (L21 Aldra over it). Shot at the old adit's mouth (the NT2 spawn), cameras on its WEST side.
+# Fallback: the end state says L20-L21; sec_mask is done.
+cine e7m3_unmask  title="Violet Under Grey"  mode=pause  letterbox=2.39  seed=733  length=10..16
+env night  moon_yaw=200  moon_pitch=-30  energy=0.45  color=#9fb4ff
+cast  torvald  capsule  at=(0, 0, -300)  hidden=1
+cast  aldra    capsule  at=(0, 0, -310)  hidden=1
+
+# MS on the fallen Captain
+shot U1 1.6  cam=static  from=(52, 1.6, -36)  look=(56, 0.3, -38)  fov=36  in=fade_black:0.3
+# ECU: violet cloth beneath the grey
+shot U2 5.4  cam=static  from=(54.5, 0.9, -37)  look=(56, 0.2, -38)  fov=24
+  at 0.2  fade color=#8a50d0 alpha=0.18 time=0.8
+  at 0.2  line torvald "Violet. And a candle sigil. Malrik, you are taking rowers from the gutter now."
+# CU Torvald, 3/4
+shot U3 5.4  cam=static  from=(51, 1.8, -34)  look=(53, 1.6, -36.5)  fov=30
+  at 0.2  line aldra "His gift at the auction was their wages. Tonight he came back for the men."

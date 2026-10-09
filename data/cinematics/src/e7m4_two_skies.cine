@@ -1,0 +1,27 @@
+# e7m4 E8 "e7m4_two_skies" (docs/design/mission-e7-04.md, Cinematic hooks): mode=pause when the Tollrock falls (or 11:00).
+# 1) The Admiralty spire throws its rainbow, diamonds pour (L15); 2) EWS sky: the whole flock wheels toward Adamarch
+# (L16); 3) MS Vessa on the far shore shouting (L17); 4) the sand: Dacian and Seraphine walk out with a white cloth
+# (L18-L19). Axis: the isle's north-south line; every camera on its EAST side (the e7o rule).
+# Fallback: the end state says L15-L19, Aurivane withdraws, the truce runs.
+cine e7m4_two_skies  title="The Whole Sky"  mode=pause  letterbox=2.39  seed=742  length=24..34
+env day  moon_yaw=120  moon_pitch=-30  energy=0.95
+cast  diamond_archon  capsule  at=(0, 0, -300)  hidden=1
+cast  ossavar         capsule  at=(0, 0, -310)  hidden=1
+cast  vessa           capsule  at=(0, 0, -320)  hidden=1
+cast  dacian          capsule  at=(0, 0, -330)  hidden=1
+cast  seraphine       capsule  at=(0, 0, -340)  hidden=1
+
+# The Admiralty spire: diamonds pour
+shot T1 5.4  cam=static  from=(-14, 4, -40)  look=(-28, 6, -36)  fov=40  in=fade_black:0.3
+  at 0.2  line diamond_archon "Empty the pits. All of them. Let the sky be white and silver by noon."
+  at 0.4  fade color=#e8f4ff alpha=0.15 time=2.0
+# EWS sky: the flock wheels toward Adamarch
+shot T2 6.4  cam=static  from=(10, 3, 10)  look=(-20, 18, -20)  fov=56
+  at 0.2  line ossavar "Every dragon on the Coinwater changes sides in one morning. I have seen this before."
+# MS Vessa on the far shore, shouting
+shot T3 5.4  cam=static  from=(20, 1.9, 22)  look=(24, 1.5, 26)  fov=36
+  at 0.2  line vessa "He bought the whole SKY? Ysolde, pull back! Everyone, back to the ships!"
+# The sand: Dacian and Seraphine with the white cloth
+shot T4 10.6  cam=static  from=(7, 2.2, 3)  look=(-2, 1.3, 1)  fov=40
+  at 0.2  line dacian "Enough. Seraphine, the cloth. We end this on the sand, the old way."
+  at 5.3  line seraphine "A truce, Sunblade. No bets. No knives. Just us."

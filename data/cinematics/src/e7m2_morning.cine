@@ -1,0 +1,18 @@
+# e7m2 E1 "e7m2_morning" (docs/design/mission-e7-02.md, Cinematic hooks; script-episodes-4-8/e7m2.md): mode=pause at 0:00
+# (spec HOLD 0:12). 1) Long lens from the Diamond Harbour side to the Tollrock: the gold barricades across the west ways
+# onto the isle (L1); 2) MS Seraphine and Torvald on the quay, her hand bandaged (L2); 3) insert: Ossavar by the chair,
+# one eye open. Axis: the keep - isle line; every camera on its SOUTH side.
+# Fallback: the end state says L1-L3 and shows the first hint.
+cine e7m2_morning  title="Two Lies"  mode=pause  letterbox=2.39  seed=721  length=10..17
+env day  moon_yaw=210  moon_pitch=-40  energy=0.95
+cast  ossavar    capsule  at=(0, 0, -300)  hidden=1
+cast  seraphine  capsule  at=(0, 0, -310)  hidden=1
+
+# Long lens: the gold barricades on the west ways onto the isle
+shot M1 5.4  cam=static  from=(-34, 4, 30)  look=(-12, 1.5, 10)  fov=26  in=fade_black:0.4
+  at 0.2  line ossavar "Two cities, two lies, one rock. The rock, at least, is honest."
+# MS Seraphine and Torvald on the quay
+shot M2 6.0  cam=static  from=(-30, 1.9, 39)  look=(-35, 1.4, 34)  fov=36
+  at 0.2  line seraphine "They say Adamarch staged it. I bled on that sand, Ice-king. I would like to know for whom."
+# Insert: Ossavar by the chair, one eye open
+shot M3 2.0  cam=static  from=(-9, 2.5, 9)  look=(-5, 1.8, 5)  fov=28

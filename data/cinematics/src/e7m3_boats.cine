@@ -1,0 +1,13 @@
+# e7m3 E10 "e7m3_boats" (docs/design/mission-e7-03.md, Cinematic hooks): mode=pause at dusk, 16:30 (spec HOLD 0:08).
+# 1) LOW on the water: two fishing boats glide to the quays (L16); 2) MS: a small girl with a lantern runs up toward the
+# Tar Steps bell. Axis: the Low Quay - Tar Steps line; every camera on its NORTH side.
+# Fallback: the end state says L16; the fishers wait at the Low Quay and the Tar Steps.
+cine e7m3_boats  title="The Boats Are In"  mode=pause  letterbox=2.39  seed=732  length=7..12
+env night  moon_yaw=200  moon_pitch=-30  energy=0.5  color=#9fb4ff
+cast  brannet  capsule  at=(0, 0, -300)  hidden=1
+
+# LOW on the water: two boats glide in
+shot B1 5.6  cam=static  from=(-8, 0.8, 30)  look=(-8, 0.4, 42)  fov=46  in=fade_black:0.3
+  at 0.2  line brannet "The boats are in. Two crews, sixteen souls, and the whole night coming for them."
+# MS: the girl with a lantern runs up toward the Tar Steps bell
+shot B2 3.0  cam=static  from=(10, 1.4, 22)  look=(14, 0.8, 28)  fov=34

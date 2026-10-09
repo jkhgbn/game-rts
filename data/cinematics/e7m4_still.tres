@@ -1,0 +1,99 @@
+[gd_resource type="Resource" script_class="CinematicScript" format=3]
+
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_line.gd" id="1_fmuap"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_script.gd" id="2_wm1ol"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_shot.gd" id="3_bdbk6"]
+[ext_resource type="Script" path="res://scripts/cinematics/cinematic_action.gd" id="4_1gh2f"]
+
+[sub_resource type="Resource" id="Resource_ygkqq"]
+script = ExtResource("4_1gh2f")
+at = 0.3
+kind = &"fade"
+params = {
+"alpha": 0.3,
+"color": Color(0.8784314, 0.95686275, 1, 1),
+"time": 3.0
+}
+
+[sub_resource type="Resource" id="Resource_1p3ba"]
+script = ExtResource("3_bdbk6")
+id = &"S1"
+duration = 4.0
+camera_mode = 2
+from_pos = Vector3(2, 8, 2)
+to_pos = Vector3(4, 26, 4)
+fov_from = 50.0
+fov_to = 56.0
+transition_in = 1
+transition_time = 0.4
+actions = Array[ExtResource("4_1gh2f")]([SubResource("Resource_ygkqq")])
+
+[sub_resource type="Resource" id="Resource_wdkdv"]
+script = ExtResource("1_fmuap")
+at = 0.4
+speaker = &"torvald"
+text = "Enough."
+voice = "res://assets/audio/voice/torvald/enough_35e81c50.wav"
+
+[sub_resource type="Resource" id="Resource_5ona5"]
+script = ExtResource("3_bdbk6")
+id = &"S2"
+duration = 3.0
+from_pos = Vector3(2.5, 1.7, 1.5)
+to_pos = Vector3(2.5, 1.7, 1.5)
+look_from = Vector3(0, 1.6, 0)
+look_to = Vector3(0, 1.6, 0)
+fov_from = 28.0
+fov_to = 28.0
+lines = Array[ExtResource("1_fmuap")]([SubResource("Resource_wdkdv")])
+
+[sub_resource type="Resource" id="Resource_raitu"]
+script = ExtResource("3_bdbk6")
+id = &"S3"
+duration = 3.0
+from_pos = Vector3(14, 6, 6)
+to_pos = Vector3(14, 6, 6)
+look_from = Vector3(0, 0.5, 0)
+look_to = Vector3(0, 0.5, 0)
+fov_from = 50.0
+fov_to = 50.0
+
+[sub_resource type="Resource" id="Resource_w4twq"]
+script = ExtResource("4_1gh2f")
+at = 5.6
+kind = &"fade"
+params = {
+"alpha": 1.0,
+"color": Color(1, 1, 1, 1),
+"time": 1.0
+}
+
+[sub_resource type="Resource" id="Resource_1rg15"]
+script = ExtResource("1_fmuap")
+at = 0.2
+speaker = &"ossavar"
+text = "I have heard that word once before. It sounded better from you."
+voice = "res://assets/audio/voice/ossavar/i_have_heard_that_9a73700c.wav"
+
+[sub_resource type="Resource" id="Resource_bxofu"]
+script = ExtResource("3_bdbk6")
+id = &"S4"
+duration = 6.6
+from_pos = Vector3(1, 2.4, 9)
+to_pos = Vector3(1, 2.4, 9)
+look_from = Vector3(-5, 2, 5)
+look_to = Vector3(-5, 2, 5)
+fov_from = 34.0
+fov_to = 34.0
+lines = Array[ExtResource("1_fmuap")]([SubResource("Resource_1rg15")])
+actions = Array[ExtResource("4_1gh2f")]([SubResource("Resource_w4twq")])
+
+[resource]
+script = ExtResource("2_wm1ol")
+id = &"e7m4_still"
+title = "Enough"
+world_mode = 1
+shots = Array[ExtResource("3_bdbk6")]([SubResource("Resource_1p3ba"), SubResource("Resource_5ona5"), SubResource("Resource_raitu"), SubResource("Resource_bxofu")])
+shake_seed = 744
+voice_over = Array[StringName]([&"torvald", &"ossavar"])
+lines_over_cuts = true

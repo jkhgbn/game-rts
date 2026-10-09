@@ -1,0 +1,16 @@
+# e7m2 E12 "e7m2_laurel_call" (docs/design/mission-e7-02.md, Cinematic hooks): mode=pause when Torvald meets Dacian on
+# the sand. 1) WS of the sand at noon; 2) MS Dacian draws the Sunblade; 3) CU Torvald's staff crystal snapping
+# into a star. The end state puts both at their marks (-3.5, 3.5) / (3.5, -3.5) and starts the duel.
+# Axis: the Torvald - Dacian line; every camera on its SOUTH-EAST side (the e7o rule).
+# L17 (96 characters: three subtitle rows) is said by the end state as dialogue.
+# Fallback: the end state says L17 and starts the duel.
+cine e7m2_laurel_call  title="By the Old Rule"  mode=pause  letterbox=2.39  seed=723  length=6..12
+env day  moon_yaw=210  moon_pitch=-50  energy=1.0
+cast  dacian  capsule  at=(0, 0, -300)  hidden=1
+
+# WS of the sand at noon
+shot C1 2.6  cam=static  from=(9, 5, 9)  look=(0, 0.8, 0)  fov=44  in=fade_black:0.3
+# MS Dacian draws the Sunblade
+shot C2 3.4  cam=static  from=(7, 1.8, 1)  look=(3.5, 1.5, -3.5)  fov=34
+# CU Torvald's staff crystal
+shot C3 2.0  cam=static  from=(-0.5, 1.8, 6.5)  look=(-3.5, 1.8, 3.5)  fov=26
