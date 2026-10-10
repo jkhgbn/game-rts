@@ -94,6 +94,17 @@ const RECALL_RATIO := 1.5
 const HIT_MEMORY := 3.0             ## A hit on a building / worker triggers the defence this long.
 const WORKER_DANGER := 10.0
 const WORKER_CALM := 6.0
+## Worker safety (2026-10-09, Thornwater fairness study: ~11 workers per seat per game died walking past the Stag Glade
+## to the rich node, 4-9 to champion raids at the natural). A node is "unsafe" for new workers while a strong living
+## camp sits on the keep -> node walk, while NODE_LOSS_MAX own workers died going to / at it within NODE_LOSS_WINDOW,
+## or while an enemy fighter stands near it; its own gatherers leave when an enemy fighter comes near the node.
+const PATH_CAMP_CLEAR := 12.0       ## A living camp whose spot is this close to the keep -> node walk blocks the node...
+const PATH_CAMP_MIN := 300.0        ## ...when its strength() is at least this (Stag Glade 700; a Wallow 200: not).
+const PATH_CHECK_EVERY := 10.0      ## Seconds a node's path check is kept.
+const NODE_LOSS_WINDOW := 120.0
+const NODE_LOSS_MAX := 2
+const NODE_THREAT := 14.0           ## An enemy fighter this close to a node: its gatherers leave, no new worker goes.
+const FLEE_CLEAR := 20.0            ## A fleeing worker runs to a drop-off at least this far from the threat (else the keep).
 const RALLY_RADIUS := 12.0
 const RALLY_HOME := 9.0             ## Rally units further than this (and idle) walk back.
 const RALLY_SHARE := 0.8
@@ -344,6 +355,11 @@ var _hit_time := -INF
 var _worker_hp := {}                      # id -> hp last tick
 var _worker_hit := {}                     # id -> time of the last hit
 var _fleeing := {}                        # id -> [worker, node to go back to]
+var _worker_target := {}                  # id -> CrystalNode / construction site it was last sent to (losses)
+var _node_losses := {}                    # node / site instance id -> match times an own worker died going to / at it
+var _path_block := {}                     # node instance id -> [time checked, blocking camp or null]
+var _threatened := {}                     # node instance id -> true: an enemy fighter near it this tick
+var worker_losses := 0                    ## Read only: own workers killed (labs / tests).
 var _expansion_moved := false
 var _x2_moved := false
 
@@ -891,6 +907,14 @@ func _track_workers() -> void:
 	for w in _workers:
 		var id := w.get_instance_id()
 		seen_ids[id] = true
+		if not w.died.is_connected(_on_worker_died):
+			w.died.connect(_on_worker_died)
+		if _fleeing.has(id):
+			_worker_target[id] = (_fleeing[id] as Array)[1]
+		elif w.is_building() and is_instance_valid(w.build_site):
+			_worker_target[id] = w.build_site
+		else:
+			_worker_target[id] = w.gather_node if is_instance_valid(w.gather_node) else null
 		var before: float = _worker_hp.get(id, w.hp)
 		if w.hp < before - 0.01 and w != _scout and not _group_ids.has(id):   # away from home: no defence
 			_worker_hit[id] = _now
@@ -910,9 +934,93 @@ func _track_workers() -> void:
 			if not seen_ids.has(id):
 				_worker_hp.erase(id)
 				_worker_hit.erase(id)
+		for id in _worker_target.keys():
+			if not seen_ids.has(id):
+				_worker_target.erase(id)
 		for id in _orders.keys():
 			if not is_instance_id_valid(id):
 				_orders.erase(id)
+
+
+## Worker safety: a dead worker counts against the node (or construction site) it was going to / working / fled from.
+func _on_worker_died(u: Unit) -> void:
+	var id := u.get_instance_id()
+	var n: Variant = _worker_target.get(id)
+	_worker_target.erase(id)
+	worker_losses += 1
+	if n == null or not is_instance_valid(n):
+		return
+	var key := (n as Object).get_instance_id()
+	var times: Array = _node_losses.get(key, [])
+	times.append(_level.match_time() if _level != null and is_instance_valid(_level) else _now)
+	_node_losses[key] = times
+
+
+## Worker safety: no new worker goes to node / site `n` (see PATH_CAMP_CLEAR): a strong living camp on the walk there,
+## recent losses there, or (nodes) an enemy fighter near it.
+func _node_unsafe(n: Node3D) -> bool:
+	if n == null:
+		return false
+	var key := n.get_instance_id()
+	if _threatened.has(key):
+		return true
+	var times: Array = _node_losses.get(key, [])
+	while not times.is_empty() and _now - float(times[0]) > NODE_LOSS_WINDOW:
+		times.pop_front()
+	if times.size() >= NODE_LOSS_MAX:
+		return true
+	return _path_camp(n) != null
+
+
+## The living camp (strength >= PATH_CAMP_MIN) whose spot lies within PATH_CAMP_CLEAR of the navmesh walk from the
+## keep to `n`, else null. Kept PATH_CHECK_EVERY s per node.
+func _path_camp(n: Node3D) -> Node3D:
+	var key := n.get_instance_id()
+	var c: Array = _path_block.get(key, [])
+	if not c.is_empty() and _now - float(c[0]) < PATH_CHECK_EVERY:
+		var camp: Variant = c[1]
+		return camp as Node3D if camp != null and is_instance_valid(camp) else null
+	var found := _path_camp_now(n)
+	_path_block[key] = [_now, found]
+	return found
+
+
+func _path_camp_now(n: Node3D) -> Node3D:
+	if _keep == null or not is_instance_valid(_keep) or not _keep.is_inside_tree():
+		return null
+	var camps: Array[Node3D] = []
+	for c in get_tree().get_nodes_in_group(&"neutral_camps"):
+		var camp := c as Node3D
+		if camp == null or not camp.has_method(&"creatures") or not camp.has_method(&"strength"):
+			continue
+		if camp.has_method(&"is_cleared") and bool(camp.call(&"is_cleared")):
+			continue
+		if float(camp.call(&"strength")) < PATH_CAMP_MIN or not _camp_has_creature(camp):
+			continue
+		camps.append(camp)
+	if camps.is_empty():
+		return null
+	var from := _keep.drop_off_point()
+	var path := NavigationServer3D.map_get_path(_level.get_world_3d().navigation_map, from, n.global_position, true)
+	if path.size() < 2:
+		path = PackedVector3Array([from, n.global_position])
+	for camp in camps:
+		var at := Vector2(camp.global_position.x, camp.global_position.z)
+		for i in range(1, path.size()):
+			var a := Vector2(path[i - 1].x, path[i - 1].z)
+			var b := Vector2(path[i].x, path[i].z)
+			if at.distance_to(Geometry2D.get_closest_point_to_segment(at, a, b)) <= PATH_CAMP_CLEAR:
+				return camp
+	return null
+
+
+static func _camp_has_creature(camp: Node3D) -> bool:
+	var v: Variant = camp.call(&"creatures")
+	if v is Array:
+		for c: Variant in v:
+			if c is Unit and is_instance_valid(c) and (c as Unit).is_alive():
+				return true
+	return false
 
 
 ## A hostile seat (the lane opponent or the other hostile 2v2 seat); NEUTRAL is not one.
@@ -1053,24 +1161,61 @@ func _home_strength() -> float:
 
 
 ## Workers near an enemy soldier or just hit flee to the drop-off, then go back after 6 calm s.
+## Worker safety: the gatherers of a node with an enemy fighter near it leave too; a fleeing worker runs to a drop-off
+## away from the threat (else the keep) and goes back only once its node is safe again (else to the best safe node).
 func _protect_workers() -> void:
+	_threatened.clear()
+	for w in _workers:
+		var n := w.gather_node
+		if is_instance_valid(n) and not _threatened.has(n.get_instance_id()) \
+				and _nearest_enemy_fighter(n.global_position, NODE_THREAT) != null:
+			_threatened[n.get_instance_id()] = true
 	for w in _workers:
 		var id := w.get_instance_id()
 		if w == _scout or _group_ids.has(id):
 			continue
-		var danger := _nearest_enemy_fighter(w.global_position, WORKER_DANGER) != null
+		var foe := _nearest_enemy_fighter(w.global_position, WORKER_DANGER)
+		var danger := foe != null
 		var hit := _now - float(_worker_hit.get(id, -INF)) <= ai.decision_interval + 0.01
 		if _fleeing.has(id):
 			var calm := not danger and _now - float(_worker_hit.get(id, -INF)) >= WORKER_CALM
 			if calm:
+				var back_node: Variant = (_fleeing[id] as Array)[1]
+				if is_instance_valid(back_node) and _threatened.has((back_node as Object).get_instance_id()):
+					var alt := _best_node()
+					if alt == null or _threatened.has(alt.get_instance_id()):
+						continue   # nowhere safe to go yet: wait at the drop-off
 				_release_worker(id)
 			continue
-		if danger or hit:
+		var node_threat := is_instance_valid(w.gather_node) and _threatened.has(w.gather_node.get_instance_id())
+		if danger or hit or node_threat:
 			var back: Variant = w.gather_node if w.is_gathering() else null
 			_fleeing[id] = [w, back]
-			var drop := Building.nearest_drop_off(int(team), w.global_position)
-			var to: Vector3 = drop.call(&"drop_off_point") if drop else _level.base_center(int(team))
-			w.command_move(to)
+			var threat := w.global_position
+			if foe != null:
+				threat = foe.global_position
+			elif node_threat:
+				threat = w.gather_node.global_position
+			w.command_move(_flee_point(w, threat))
+
+
+## Worker safety: the drop-off point nearest to `w` standing at least FLEE_CLEAR from `threat`, else the keep's.
+func _flee_point(w: Worker, threat: Vector3) -> Vector3:
+	var best := INF
+	var to := _level.base_center(int(team))
+	if _keep != null and is_instance_valid(_keep):
+		to = _keep.drop_off_point()
+	for b in _buildings:
+		if not b.is_constructed() or not b.is_drop_off() or not b.has_method(&"drop_off_point"):
+			continue
+		var p: Vector3 = b.call(&"drop_off_point")
+		if _flat(p, threat) < FLEE_CLEAR:
+			continue
+		var d := _flat(p, w.global_position)
+		if d < best:
+			best = d
+			to = p
+	return to
 
 
 func _release_worker(id: int) -> void:
@@ -1082,7 +1227,7 @@ func _release_worker(id: int) -> void:
 	if not w.is_alive() or w.is_building():
 		return
 	var node: CrystalNode = entry[1] if is_instance_valid(entry[1]) else null
-	if node == null or node.is_depleted():
+	if node == null or node.is_depleted() or _node_unsafe(node):
 		node = _best_node()
 	if node:
 		w.command_gather(node)
@@ -1205,7 +1350,7 @@ func _expansion_workers() -> void:
 	_rich_workers()
 	var mid := _own_node("mid")
 	if _x1_done():
-		if _expansion_moved or mid == null:
+		if _expansion_moved or mid == null or _node_unsafe(mid):
 			return
 		_expansion_moved = true
 		var moved := 0
@@ -1251,6 +1396,8 @@ func _safe_far_node_now(home: Vector3) -> CrystalNode:
 		if d >= best_d or memory.nearest_building(n.global_position, FOCUS_SEARCH) != null \
 				or memory.fighter_near(n.global_position, SIGHT_UNIT, _now, ai.memory_seconds):
 			continue
+		if _node_unsafe(n):
+			continue   # worker safety: a strong camp on the walk, or workers lost there lately
 		best_d = d
 		best = n
 	return best
@@ -1285,7 +1432,7 @@ func _slot_done(id: StringName) -> bool:
 ## balance-1.md 2f: X2 finished -> the 3 newest free workers gather the rich node (once).
 func _rich_workers() -> void:
 	var rich := _own_node("rich")
-	if _x2_moved or rich == null or not _slot_done(&"X2"):
+	if _x2_moved or rich == null or not _slot_done(&"X2") or _node_unsafe(rich):
 		return
 	_x2_moved = true
 	var moved := 0
@@ -1317,6 +1464,13 @@ func _best_node() -> CrystalNode:
 		if rich and _slot_done(&"X2"):
 			return rich
 		return _safe_far_node(home)
+	# Worker safety: only safe nodes while there is one (else every node, as before).
+	var safe: Array[CrystalNode] = []
+	for n in nodes:
+		if not _node_unsafe(n):
+			safe.append(n)
+	if not safe.is_empty():
+		nodes = safe
 	var counts := {}
 	for w in _workers:
 		if w.gather_node != null and is_instance_valid(w.gather_node):
@@ -1437,6 +1591,8 @@ func _row_trigger(row: Dictionary) -> bool:
 		"X2":
 			if not ai.second_expansion or _own_node("rich") == null or _group_out() or not _x1_done():
 				return false
+			if _path_camp(_own_node("rich")) != null:
+				return false   # worker safety: a strong camp guards the walk to the rich node (creeped first)
 			return (_home_left() < X2_HOME_SHARE * _home_start or _now >= X2_TIME) \
 					and _eco.crystals >= X2_MIN_CRYSTALS
 		"M1":
@@ -1646,6 +1802,8 @@ func _maintain_sites() -> void:
 	for b in _buildings:
 		if b.is_constructed() or b.builder_count() > 0:
 			continue
+		if _node_unsafe(b):
+			continue   # worker safety: builders died on the way / a strong camp guards the walk: wait
 		var coming := false
 		for w in _workers:
 			if w.build_site == b:
@@ -3148,7 +3306,9 @@ func _launch_sortie() -> void:
 	var group_strength := 0.0
 	for u in group:
 		group_strength += AIMemory.strength_of(u)
-	var t := mapfill_ai.creep_target(_now, own_strength, _rally, group_strength)
+	var t := _blocking_camp_target(group_strength)
+	if t.is_empty():
+		t = mapfill_ai.creep_target(_now, own_strength, _rally, group_strength)
 	if t.is_empty():
 		return
 	var joins: bool = t["kind"] == &"beast" or int(t["tier"]) == 1 or _malrik_joins()
@@ -3159,6 +3319,36 @@ func _launch_sortie() -> void:
 			own_strength, float(t["strength"]), group_strength / maxf(float(t["strength"]), 1.0),
 			" + wizard" if joins else ""])
 	_drive_attack()
+
+
+## Worker safety: the camp that blocks the walk to an own expansion node (natural after X1, rich once X1 is done)
+## comes first as a creep target, at the profile's creep ratio (no 11c Stag own-strength floor), else {}.
+func _blocking_camp_target(group_strength: float) -> Dictionary:
+	if not ai.map_fill or _now < ai.creep_start:
+		return {}
+	var nodes: Array[CrystalNode] = []
+	var mid := _own_node("mid")
+	if mid and _x1_done():
+		nodes.append(mid)
+	var rich := _own_node("rich")
+	if rich and ai.second_expansion and _x1_done():
+		nodes.append(rich)
+	for n in nodes:
+		var camp := _path_camp(n)
+		if camp == null:
+			continue
+		var st := mapfill_ai.camp_strength(camp)
+		if group_strength < ai.creep_ratio * st:
+			continue
+		if memory.fighter_near(camp.global_position, AIMapFill.CAMP_ENEMY_RADIUS, _now, AIMapFill.ENEMY_MEMORY):
+			continue
+		var tier: Variant = camp.get(&"tier")
+		var kind: Variant = camp.get(&"kind")
+		var dn: Variant = camp.get(&"display_name")
+		return {"kind": &"camp", "node": camp, "pos": camp.global_position,
+				"name": str(dn) if dn != null and str(dn) != "" else String(camp.name),
+				"tier": int(tier) if tier != null else 1, "strength": st, "camp_kind": kind if kind != null else &""}
+	return {}
 
 
 ## Stage CREEP / POINT with `group` against `target` (Commander's attack-group machinery: retreat, recall, rally).

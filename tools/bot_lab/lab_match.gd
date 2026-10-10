@@ -19,6 +19,7 @@ extends SceneTree
 ##   --ui=off              HUD, camera, selection and pause menu stop processing (they still exist; lab experiment)
 ##   --bake=real           (default) while a navmesh rebake runs, frames are paced at real time, so the rebake lands
 ##                         after as much game time as in a real game; --bake=fast = no pacing (docs/plan/bot-lab.md)
+##   --champions=0         taverns / champions off (the level's tavern_enabled = false; seat-bias diagnostics)
 ##   --out=PATH            the JSON line is written there (one file per match)
 ##   --profile=1           one perf line per game minute;  --log=1  the bots' decision logs
 ##   --commit=ID           copied into the JSON (the runner reads the lab worktree's HEAD)
@@ -152,6 +153,9 @@ func _initialize() -> void:
 	if _flag("swap-sides", false) and &"swap_sides" in main:
 		main.set(&"swap_sides", true)
 		_swap_sides = true
+	# --champions=0 (seat-bias diagnostics): no taverns, so no champion hires or raids
+	if not _flag("champions", true) and &"tavern_enabled" in main:
+		main.set(&"tavern_enabled", false)
 	main.set(&"player_kingdom", StringName(kingdoms[PLAYER]))
 	main.set(&"enemy_kingdom", StringName(kingdoms[ENEMY]))
 	if &"time_limit_s" in main:
@@ -804,6 +808,7 @@ func _finish(reason: String, winner: int, error: String) -> bool:
 		"style_applied": style_applied[0] and style_applied[1],
 		"sim": _sim_text(), "frozen_art": _frozen, "tick": tick, "ui": "off" if ui_off else "on", "bake": "real" if bake_real else "fast",
 		"commit": String(args.get("commit", "")), "map": String(args.get("layout", "crown_hollow")),
+		"champions": _flag("champions", true),
 		"winner_team": winner, "winner": kingdoms[winner] if winner == PLAYER or winner == ENEMY else "none",
 		"winner_side": SIDES[winner] if winner == PLAYER or winner == ENEMY else "none",
 		# the layout seat (side 0 / 1) the winner played: the team's own side, flipped by --swap-sides (map gate G5)
