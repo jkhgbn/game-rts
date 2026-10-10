@@ -48,3 +48,5 @@ When JS asks for something new, add a line here first, then work on it.
 - 2026-10-08: "pour les parties plus courtes, pourquoi ne pas commencer avec plus de recolteurs" -> faster-games experiment C: more starting workers (and combo with A2), measured like A/B; nothing enabled by default.
 
 - 2026-10-10: "maybe in the future add a blitz mode where game and all is faster" -> future idea: Blitz mode (whole game faster: economy, production, movement, timers, maybe game speed x1.25-1.5), building on the Pace Fast (test) switch (f4d9d4a0). Not started.
+
+- 2026-10-10: "work on blitz for the rest, i want like 9 worker start and 8 to 12 min game avg" -> Blitz mode started: 9 starting workers, tuned so bot-vs-bot median is 8-12 min with fair kingdoms; built on the Pace switch.
