@@ -46,3 +46,5 @@ When JS asks for something new, add a line here first, then work on it.
 - 2026-10-08: "maybe sometime it zoom and its not on the item they say" -> framing audit of all films: shots that zoom on the wrong subject vs the line spoken; fix camera targets. Plan unchanged.
 
 - 2026-10-08: "pour les parties plus courtes, pourquoi ne pas commencer avec plus de recolteurs" -> faster-games experiment C: more starting workers (and combo with A2), measured like A/B; nothing enabled by default.
+
+- 2026-10-10: "maybe in the future add a blitz mode where game and all is faster" -> future idea: Blitz mode (whole game faster: economy, production, movement, timers, maybe game speed x1.25-1.5), building on the Pace Fast (test) switch (f4d9d4a0). Not started.
