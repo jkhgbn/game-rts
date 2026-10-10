@@ -314,7 +314,7 @@ func _on_navigation_ready() -> void:
 	hush = make_unit("hush_story")
 	_spawn(hush, Teams.ALLY as Unit.Team, MALRIK_START + Vector3(2.0, 0.0, 2.0))
 	mark_scripted(hush)
-	guard_life(hush, func(_u: Unit) -> void: _hush_flees())
+	guard_life(hush, _on_hush_down)
 	_malrik_cmd = add_seat_commander(Teams.ALLY, ally_profile(TORVALD_PROFILE, int(MALRIK_SOLDIERS[diff])))
 	add_seat(&"malrik", Teams.ALLY, _malrik_cmd)
 	# Aurivane.
@@ -524,12 +524,18 @@ func _tick_enemy_wizards() -> void:
 func _on_enemy_wizard_died(_u: Unit, w: Wizard) -> void:
 	_guards.erase(w)
 	_wave_units.erase(w)
-	after(60.0, func() -> void:
-		if is_instance_valid(w) and not w.is_alive() and not is_ending():
+	w.set_meta(&"e7_back_at", mission_time() + 60.0)
+	after(60.0, _enemy_wizards_back)
+
+
+## The enemy wizards come back 60 s after their fall (a named timer: saving stays allowed, review 2026-10-10 #8).
+func _enemy_wizards_back() -> void:
+	for w: Wizard in [vessa, ysolde]:
+		if w and is_instance_valid(w) and not w.is_alive() and not is_ending() 				and mission_time() >= float(w.get_meta(&"e7_back_at", 0.0)) - 0.05:
 			w.respawn(VESSA_KEEP if w == vessa else YSOLDE_KEEP)
 			_guards.append(w)
 			if phase > 1:
-				set_truce([w], true, Unit.TRUCE_ALL))
+				set_truce([w], true, Unit.TRUCE_ALL)
 
 
 func _ally_push(at: Vector3) -> void:
@@ -663,12 +669,7 @@ func _turn_end() -> void:
 			set_dormant(u, false)
 			u.set_meta(META_HOME, ROCK + Vector3(randf_range(-3.0, 3.0), 0.0, randf_range(-3.0, 3.0)))
 			_guards.append(u)
-			guard_life(u, func(x: Unit) -> void:
-				set_dormant(x, true)
-				after(10.0, func() -> void:
-					if is_instance_valid(x):
-						x.hp = x.max_hp * 0.5
-						set_dormant(x, false)))
+			guard_life(u, _on_rock_holder_down)
 	# the silver galleys
 	var ids: Array = [&"SG-W", &"SG-E"] if people else [&"SG-W", &"SG-E", &"SG-M"]
 	for id: StringName in ids:
@@ -858,6 +859,24 @@ func _on_any_unit_died(u: Node) -> void:
 				break
 
 
+func _on_hush_down(_u: Unit) -> void:
+	_hush_flees()
+
+
+## Dacian / Seraphine on the rock: they kneel 10 s, then stand at half HP (named methods: the pause survives a save).
+func _on_rock_holder_down(x: Unit) -> void:
+	set_dormant(x, true)
+	x.set_meta(&"e7_up_at", mission_time() + 10.0)
+	after(10.0, _rock_holders_up)
+
+
+func _rock_holders_up() -> void:
+	for x: Unit in [dacian, seraphine]:
+		if x and is_instance_valid(x) and x.is_alive() and is_dormant(x) 				and mission_time() >= float(x.get_meta(&"e7_up_at", 0.0)) - 0.05:
+			x.hp = x.max_hp * 0.5
+			set_dormant(x, false)
+
+
 func _hush_flees() -> void:
 	if hush == null or not is_instance_valid(hush) or bool(hush.get_meta(&"fled", false)):
 		return
@@ -894,12 +913,15 @@ func _tick_hush() -> void:
 func _on_malrik_died(_u: Unit) -> void:
 	if hud and not is_ending():
 		hud.show_message(MSG_MALRIK_FELL, 4.0)
-	after(60.0, func() -> void:
-		if malrik and is_instance_valid(malrik) and not malrik.is_alive() and not is_ending():
-			malrik.respawn(MALRIK_KEEP + Vector3(4.0, 0.0, 4.0))
-			malrik.set_meta(META_HOME, MALRIK_RALLY)
-			if not _guards.has(malrik):
-				_guards.append(malrik))
+	after(60.0, _malrik_back)
+
+
+func _malrik_back() -> void:
+	if malrik and is_instance_valid(malrik) and not malrik.is_alive() and not is_ending():
+		malrik.respawn(MALRIK_KEEP + Vector3(4.0, 0.0, 4.0))
+		malrik.set_meta(META_HOME, MALRIK_RALLY)
+		if not _guards.has(malrik):
+			_guards.append(malrik)
 
 
 # ---------------------------------------------------------------- P5: Still the Sea
@@ -1043,6 +1065,18 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	meter = float(m.get("meter", 0.0))
 	meter_peak = float(m.get("peak", 0.0))
 	stage = int(m.get("stage", 0))
+	# Review 2026-10-10 #3: guards and hooks on units the load rebuilt (a seat that changed sides spawns new ones).
+	if malrik and is_instance_valid(malrik) and not malrik.died.is_connected(_on_malrik_died):
+		malrik.died.connect(_on_malrik_died)
+	if hush and is_instance_valid(hush):
+		guard_life(hush, _on_hush_down)
+	if turn_time >= 0.0:
+		for u: Unit in [dacian, seraphine]:
+			if u and is_instance_valid(u):
+				guard_life(u, _on_rock_holder_down)
+		for g: Variant in silver.values():
+			if g is Building and is_instance_valid(g) and (g as Building).is_alive() 					and not (g as Building).destroyed.is_connected(_on_silver_sunk):
+				(g as Building).destroyed.connect(_on_silver_sunk)
 
 
 func save_block_reason() -> String:

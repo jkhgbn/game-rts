@@ -372,6 +372,16 @@ func _bridge_spawn(g: WardenGate) -> void:
 	host_wave([["warden", 3]], g.front_point(), [], hero_pos())
 
 
+## Load (review 2026-10-10 #2): a bridge gate raised before the save comes back (MissionE6Base then puts its saved
+## state on it, a broken one stays broken) and is listed in bridge_gates, so _tick_bridges does not raise it again.
+func _restore_missing_gate(id: StringName) -> WardenGate:
+	if not BRIDGES.has(id) or bridge_gates.has(id):
+		return null
+	var g := add_warden_gate(id, BRIDGES[id], hero_pos(), 1800.0, 45.0, _bridge_spawn)
+	bridge_gates[id] = g
+	return g
+
+
 # ---------------------------------------------------------------- the Heartwood, the exit
 
 func _tick_heartwood() -> void:

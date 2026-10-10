@@ -641,19 +641,28 @@ func _on_enemy_wizard_died(_u: Unit, w: Wizard) -> void:
 	_retreating.erase(w)
 	_guards.erase(w)
 	_wave_units.erase(w)
-	after(60.0, func() -> void:
-		if is_instance_valid(w) and not w.is_alive() and not is_ending():
+	w.set_meta(&"e7_back_at", mission_time() + 60.0)
+	after(60.0, _enemy_wizards_back)
+
+
+## The enemy wizards come back 60 s after their fall (a named timer: saving stays allowed, review 2026-10-10 #8).
+func _enemy_wizards_back() -> void:
+	for w: Wizard in [vessa, ysolde]:
+		if w and is_instance_valid(w) and not w.is_alive() and not is_ending() 				and mission_time() >= float(w.get_meta(&"e7_back_at", 0.0)) - 0.05:
 			w.respawn(VESSA_KEEP if w == vessa else YSOLDE_KEEP)
 			w.command_move(VESSA_RALLY if w == vessa else YSOLDE_RALLY)
-			_retreating[w] = true)
+			_retreating[w] = true
 
 
 func _on_malrik_died(_u: Unit) -> void:
 	if hud and not is_ending():
 		hud.show_message(MSG_MALRIK_FELL, 4.0)
-	after(45.0, func() -> void:
-		if malrik and is_instance_valid(malrik) and not malrik.is_alive() and not is_ending():
-			malrik.respawn(respawn_point(Teams.ALLY)))
+	after(45.0, _malrik_back)
+
+
+func _malrik_back() -> void:
+	if malrik and is_instance_valid(malrik) and not malrik.is_alive() and not is_ending():
+		malrik.respawn(respawn_point(Teams.ALLY))
 
 
 ## Malrik's scripted pushes (A1 / A3: the North Causeway foot; W4: the shore road; the Final: the harbour's side).
@@ -756,10 +765,7 @@ func _tick_seraphine() -> void:
 		say_l("L19")
 		set_objective(&"obj_seraphine", "done")
 		_guards.erase(seraphine)
-		guard_life(seraphine, func(_u: Unit) -> void:
-			if _kneel_until <= 0.0:
-				_kneel_until = mission_time() + 10.0
-				set_dormant(seraphine, true))
+		guard_life(seraphine, _on_seraphine_home_down)
 		return
 	if seraphine.attack_target != null and is_instance_valid(seraphine.attack_target):
 		return
@@ -767,6 +773,13 @@ func _tick_seraphine() -> void:
 	var goal := lead if _flat(lead, HARBOUR) > 6.0 and _flat(seraphine.global_position, lead) > 4.0 else HARBOUR
 	if _flat(seraphine.global_position, goal) > 3.0:
 		seraphine.command_move(goal)
+
+
+## Seraphine at home: she kneels 10 s instead of dying.
+func _on_seraphine_home_down(_u: Unit) -> void:
+	if _kneel_until <= 0.0:
+		_kneel_until = mission_time() + 10.0
+		set_dormant(seraphine, true)
 
 
 func _on_seraphine_died(_u: Unit) -> void:
@@ -910,6 +923,12 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		harbour.hp = float(m["harbour"])
 	if tier_system:
 		tier_system.max_tier = 2 if has_fired(&"E4") else 1
+	# Review 2026-10-10 #3: the hooks set mid-mission (_laurel_end, Seraphine home) are not part of the rebuilt start.
+	if seraphine and is_instance_valid(seraphine) and has_fired(&"E11"):
+		if not seraphine.died.is_connected(_on_seraphine_died):
+			seraphine.died.connect(_on_seraphine_died)
+		if seraphine_home:
+			guard_life(seraphine, _on_seraphine_home_down)
 
 
 # ---------------------------------------------------------------- every frame

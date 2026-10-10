@@ -632,7 +632,7 @@ func _ambush() -> void:
 	mark_scripted(hush)
 	hush.add_modifier(&"e7_difficulty", {"max_hp": float(by_difficulty(HUSH_HP)) - 1100.0})
 	hush.hp = hush.max_hp
-	guard_life(hush, func(_u: Unit) -> void: _hush_flees())
+	guard_life(hush, _on_hush_down)
 	order_wave(hush, &"dacian", DUEL_D)
 	knives = spawn_rows(WAVES[&"knives"], ROCK + Vector3(6.0, 0.0, 0.0), 2.5, Unit.Team.ENEMY, false)
 	for v: Variant in knives:
@@ -730,6 +730,10 @@ func _record_flags() -> void:
 	record_torvald_essence(bonus)
 
 
+func _on_hush_down(_u: Unit) -> void:
+	_hush_flees()
+
+
 func _on_dacian_died(_u: Unit) -> void:
 	if is_ending():
 		return
@@ -797,13 +801,17 @@ func _on_vessa_died(_u: Unit) -> void:
 	_wave_units.erase(vessa)
 	if hud and not is_ending():
 		hud.show_message(MSG_VESSA_FELL, 4.0)
-	after(60.0, func() -> void:
-		if is_instance_valid(vessa) and not vessa.is_alive() and not is_ending():
-			vessa.respawn(YSOLDE_KEEP + Vector3(-6.0, 0.0, 6.0))
-			vessa.command_move(VESSA_HOME)
-			_guards.append(vessa)
-			if has_fired(&"E12"):
-				set_truce([vessa], true, Unit.TRUCE_ALL))
+	after(60.0, _vessa_back)
+
+
+## Vessa comes back 60 s after her fall (a named timer: saving stays allowed, review 2026-10-10 #8).
+func _vessa_back() -> void:
+	if is_instance_valid(vessa) and not vessa.is_alive() and not is_ending():
+		vessa.respawn(YSOLDE_KEEP + Vector3(-6.0, 0.0, 6.0))
+		vessa.command_move(VESSA_HOME)
+		_guards.append(vessa)
+		if has_fired(&"E12"):
+			set_truce([vessa], true, Unit.TRUCE_ALL)
 
 
 # ---------------------------------------------------------------- allies, boxes, events
@@ -901,6 +909,12 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	dacian_arrived = bool(m.get("dacian_arrived", false))
 	if tier_system:
 		tier_system.max_tier = 3 if has_fired(&"E4") else 2
+	# Review 2026-10-10 #3: the ambush hooks (Dacian's death, Hush's guard) are set mid-mission.
+	if has_fired(&"ambush"):
+		if dacian and is_instance_valid(dacian) and not dacian.died.is_connected(_on_dacian_died):
+			dacian.died.connect(_on_dacian_died)
+		if hush and is_instance_valid(hush):
+			guard_life(hush, _on_hush_down)
 
 
 func save_block_reason() -> String:

@@ -59,6 +59,7 @@ const MSG_BREATH := "The isle is breathing."
 
 ## Read only.
 var pylons := {}                 ## seat -> WardenGate
+var push_due := {}               ## seat -> mission time its push ends
 var lit := {}                    ## seat -> true
 var key_progress := 0.0
 var ally_channel := {}           ## seat -> progress
@@ -398,7 +399,8 @@ func _tick_muster(dt: float) -> void:
 			var g: WardenGate = gates[s]
 			if g and g.is_alive():
 				ally_order(s, g.global_position, &"push")
-				after(60.0, _push_home.bind(s))
+				push_due[s] = mission_time() + 60.0
+				after(60.0, _push_homes)
 		if float(muster[s]) >= 100.0 and busy != &"march" and t >= float(MARCH_FLOOR[s][diff]):
 			_march(s)
 		elif busy == &"march":
@@ -417,6 +419,14 @@ func _tick_muster(dt: float) -> void:
 func _push_home(s: int) -> void:
 	if ally_busy.get(s, &"") == &"push":
 		ally_home(s)
+
+
+## The seats whose 60 s push ran out go home (a named timer: saving stays allowed, review 2026-10-10 #8).
+func _push_homes() -> void:
+	for s: Variant in push_due.keys():
+		if mission_time() >= float(push_due[s]) - 0.05:
+			push_due.erase(s)
+			_push_home(int(s))
 
 
 func _march(s: int) -> void:

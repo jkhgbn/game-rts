@@ -873,12 +873,7 @@ func _seraphine_arrives() -> void:
 	mark_scripted(seraphine)
 	seraphine.set_meta(META_HOME, seraphine.global_position)
 	_guards.append(seraphine)
-	guard_life(seraphine, func(u: Unit) -> void:
-		set_dormant(u, true)
-		after(10.0, func() -> void:
-			if is_instance_valid(u):
-				u.hp = u.max_hp * 0.5
-				set_dormant(u, false)))
+	guard_life(seraphine, _on_seraphine_down)
 	var guards: Array = []
 	for i in 4:
 		var f := make_unit("facetguard")
@@ -889,6 +884,18 @@ func _seraphine_arrives() -> void:
 		guards.append(f)
 	say_l("L17")
 	say_l("L18")
+
+
+## Seraphine falls: she kneels 10 s, then stands at half HP (named methods: the pause survives a save).
+func _on_seraphine_down(u: Unit) -> void:
+	set_dormant(u, true)
+	after(10.0, _seraphine_up)
+
+
+func _seraphine_up() -> void:
+	if seraphine and is_instance_valid(seraphine):
+		seraphine.hp = seraphine.max_hp * 0.5
+		set_dormant(seraphine, false)
 
 
 func _on_captain_died(_u: Unit) -> void:
@@ -999,6 +1006,13 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	mammoths_free = bool(m.get("free", false))
 	walkers.clear()
 	_gangs.clear()
+	# Review 2026-10-10 #3: guards and hooks set mid-mission are not part of the rebuilt start.
+	if brannet and is_instance_valid(brannet):
+		guard_life(brannet)
+	if seraphine and is_instance_valid(seraphine):
+		guard_life(seraphine, _on_seraphine_down)
+	if captain and is_instance_valid(captain) and captain.is_alive() and not captain.died.is_connected(_on_captain_died):
+		captain.died.connect(_on_captain_died)
 
 
 func save_block_reason() -> String:

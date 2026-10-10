@@ -764,5 +764,20 @@ func load_snapshot_late(d: Dictionary, nodes: Dictionary, crystal_nodes: Diction
 	_sync_mana_stats()
 	mana = clampf(float(w.get("mana", mana)), 0.0, max_mana)
 	if not bool(d.get("alive", true)) and is_alive():
+		# Review 2026-10-10 #7: the guard the rebuilt start gave her comes back after the kill, and the mission's own
+		# died handlers ("Vessa fell", story events) do not run for a death that happened before the save.
+		var guard := death_guard
+		var muted: Array = []
+		for c: Dictionary in died.get_connections():
+			var cb := c["callable"] as Callable
+			var target := cb.get_object()
+			if target != null and &"save_restoring" in target:
+				muted.append(c)
+				died.disconnect(cb)
 		death_guard = Callable()
 		take_damage(hp + max_hp * 100.0, null)   # the level's respawn timer is restored after this
+		death_guard = guard
+		for c: Dictionary in muted:
+			var cb := c["callable"] as Callable
+			if cb.is_valid() and not died.is_connected(cb):
+				died.connect(cb, int(c["flags"]))

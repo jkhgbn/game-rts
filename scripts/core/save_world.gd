@@ -262,7 +262,9 @@ static func _apply_buildings(level: Node, rows: Array, ctx: Dictionary) -> void:
 				best = b
 		if best == null and grid is BuildGrid:
 			var type := BuildingType.find(String(row["type"]))
-			if type:
+			if type and float(row.get("progress", 1.0)) < 1.0:
+				best = (grid as BuildGrid).spawn_site(type, row["pos"], int(row["team"]))   # review 2026-10-10 #5
+			elif type:
 				best = (grid as BuildGrid).spawn_complete(type, row["pos"], int(row["team"]))
 		if best == null:
 			push_warning("Save: building %s could not be rebuilt" % row["type"])

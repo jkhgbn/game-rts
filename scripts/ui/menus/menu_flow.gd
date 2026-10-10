@@ -225,6 +225,12 @@ static func set_scene(tree: SceneTree, level: Node) -> void:
 	tree.current_scene = level
 
 
+## The running level is the campaign mission `scene_path` ("" = not a mission): a Retry / F9 reload of it gets
+## `difficulty` back as its mission_difficulty (SaveGame.launch of a mission save, review 2026-10-10 #6).
+static func remember_mission(scene_path: String) -> void:
+	_mission_path = scene_path
+
+
 ## Reloads the current level (the hook re-applies the chosen difficulty).
 static func restart(tree: SceneTree) -> void:
 	install_hooks(tree)

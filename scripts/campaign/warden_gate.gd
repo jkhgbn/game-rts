@@ -111,6 +111,34 @@ func close_tide() -> void:
 	is_open = false
 
 
+## Save row (MissionE6Base.save_state): [hp, dead, open, tides, tide_left].
+func save_row() -> Array:
+	return [hp, _dead, is_open, tides, _tide_left]
+
+
+## Puts a save_row() back on the rebuilt gate. A dead gate crumbles quietly (no gate_down: the mission's counters come
+## from its own saved variables).
+func load_row(row: Array) -> void:
+	if row.size() < 5:
+		return
+	hp = clampf(float(row[0]), 0.0, max_hp)
+	tides = int(row[3])
+	if bool(row[1]) or hp <= 0.0:
+		hp = 0.0
+		if not _dead:
+			_dead = true
+			is_open = false
+			_crumble()
+		_update_bar()
+		return
+	if bool(row[2]):
+		open()
+	else:
+		is_open = false
+	_tide_left = float(row[4])
+	_update_bar()
+
+
 func _physics_process(delta: float) -> void:
 	if not is_open or _dead:
 		return

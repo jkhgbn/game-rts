@@ -1332,8 +1332,11 @@ func _outside_view() -> bool:
 		else:
 			_fr_planes.clear()
 	var p := global_position
+	# Review 2026-10-10 #9: a big model (Hollow King x 2.2, colossi) casts a long shadow into the view: the margin grows
+	# with its scale.
+	var margin := OFFSCREEN_MARGIN * maxf(1.0, absf(global_basis.get_scale().y))
 	for pl: Plane in _fr_planes:
-		if pl.distance_to(p) > OFFSCREEN_MARGIN:
+		if pl.distance_to(p) > margin:
 			return true
 	return false
 

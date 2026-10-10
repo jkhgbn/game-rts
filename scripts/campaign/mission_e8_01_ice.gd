@@ -309,6 +309,15 @@ func _on_refugee_died(_u: Unit) -> void:
 	_check_doom()
 
 
+## Load (review 2026-10-10 #3): the refugees are spawned mid-mission, their died hook is not part of the rebuilt start.
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	super(d, nodes)
+	for v: Variant in alive_refugees():
+		var r := v as Unit
+		if not r.died.is_connected(_on_refugee_died):
+			r.died.connect(_on_refugee_died)
+
+
 func _check_doom() -> void:
 	if is_ending() or spawned < COLUMN_N:
 		return

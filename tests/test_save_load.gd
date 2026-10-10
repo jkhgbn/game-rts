@@ -6,6 +6,9 @@ extends SceneTree
 ##     the hero's spot; a lambda timer blocks the save;
 ##  C. a save of another version is refused (nothing launched), a missing slot too; the pause menu lists 4 slots;
 ##  D. Wave Strike round trip (bots on both seats): clock, horn, cards, lane units, crystals.
+##  Review 2026-10-10: a saved site is rebuilt as a site (never complete first, #5); a dead wizard keeps its
+##  death_guard and its mission died handlers stay quiet (#7); launching a mission save remembers the mission for Retry
+##  with its saved difficulty (#6).
 ## Run: tools/godot_run.ps1 --headless --path . -s tests/test_save_load.gd --fixed-fps 60 --quit-after 30000
 ## Prints "PASS save_load" or "FAIL save_load: <reasons>".
 
@@ -22,10 +25,13 @@ var total := 0
 var data: Dictionary = {}
 var expect: Dictionary = {}
 var restorer_done := false
+var watch_sites := false
+var sites_born_complete := 0
 
 
 func _initialize() -> void:
 	print("test_save_load: start")
+	node_added.connect(_on_node_added)
 	level = load("res://scenes/skirmish.tscn").instantiate()
 	level.set(&"time_limit_s", 0.0)
 	root.add_child(level)
@@ -52,12 +58,19 @@ func _process(_delta: float) -> bool:
 				_skirmish_save()
 				_goto("skirmish_reload")
 		"skirmish_reload":
+			watch_sites = true
+			sites_born_complete = 0
 			_reload_from(data)
 			_goto("skirmish_wait")
 		"skirmish_wait":
 			if restorer_done:
+				watch_sites = false
+				if sites_born_complete > 0:
+					_fail("a saved construction site was rebuilt complete first (%d)" % sites_born_complete)
 				_bots_off()
 				_skirmish_compare()
+				_dead_wizard_check()
+				_launch_retry_check()
 				_check_pause_menu()
 				_version_checks()
 				_mission_start()
@@ -137,6 +150,69 @@ func _reload_from(d: Dictionary) -> void:
 			_fail("the restorer reported a failure"))
 	root.add_child(level)
 	current_scene = level
+
+
+## Review 2026-10-10 #5: a hearth site entering the tree during the load must already be a site.
+func _on_node_added(n: Node) -> void:
+	if watch_sites and n is Building and (n as Building).building_type 			and (n as Building).building_type.id == &"fire_hearth" and (n as Building).is_constructed():
+		sites_born_complete += 1
+
+
+## A died listener on a mission (it has save_restoring): muted while a load kills a wizard that was dead at the save.
+class MutedListener:
+	extends RefCounted
+	var save_restoring := true
+	var calls := 0
+
+	func on_died(_u: Unit) -> void:
+		calls += 1
+
+
+## Review 2026-10-10 #7: restoring a dead wizard keeps the guard the rebuilt start gave it and does not run the
+## mission's died handlers.
+func _dead_wizard_check() -> void:
+	var w := level.call(&"wizard_of", 1) as Wizard if level.has_method(&"wizard_of") else null
+	if w == null or not w.is_alive():
+		w = level.get(&"hero") as Wizard   # a skirmish respawns it (no enemy wizard on this map setup)
+	if w and not w.is_alive():
+		w = null
+	if w == null:
+		_fail("no living wizard for the dead-wizard check")
+		return
+	var guard := func(_a: Variant) -> bool: return true
+	w.death_guard = guard
+	var muted := MutedListener.new()
+	w.died.connect(muted.on_died)
+	w.load_snapshot_late({"alive": false, "wizard": {}}, {}, {})
+	if w.is_alive():
+		_fail("a wizard saved dead is alive after load_snapshot_late")
+	if w.death_guard != guard:
+		_fail("load_snapshot_late of a dead wizard wiped its death_guard")
+	if muted.calls != 0:
+		_fail("a mission died handler ran for a wizard dead at the save")
+	if not w.died.is_connected(muted.on_died):
+		_fail("the muted died handler was not connected back")
+	else:
+		w.died.disconnect(muted.on_died)
+	w.death_guard = Callable()
+
+
+## Review 2026-10-10 #6: SaveGame.launch of a mission save sets the menu's mission path and difficulty (Retry). A scene
+## that does not exist builds nothing, but the menu state is set before.
+func _launch_retry_check() -> void:
+	var keep_diff := MenuFlow.difficulty
+	var keep_map := MenuFlow.map_id
+	var keep_layout := MenuFlow.map_layout_path
+	var path := "res://missions/_no_such_mission.tscn"
+	var d := {"level": {"mode": "mission", "scene": path, "props": {"mission_difficulty": 2}, "difficulty": 0}}
+	if SaveGame.launch(self, d) != null:
+		_fail("launch built a level from a missing scene")
+	if MenuFlow.difficulty != 2 or MenuFlow._mission_path != path:
+		_fail("launch of a mission save: difficulty %d, mission path '%s'" % [MenuFlow.difficulty, MenuFlow._mission_path])
+	MenuFlow.remember_mission("")
+	MenuFlow.difficulty = keep_diff
+	MenuFlow.map_id = keep_map
+	MenuFlow.map_layout_path = keep_layout
 
 
 # ---------------------------------------------------------------- A. skirmish

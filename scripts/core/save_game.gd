@@ -197,6 +197,12 @@ static func launch(tree: SceneTree, data: Dictionary) -> Node:
 		MenuFlow.kingdom = MenuFlow.player_kingdom
 		MenuFlow.enemy_kingdom = StringName(str(info.get("enemy_kingdom", MenuFlow.enemy_kingdom)))
 	var props: Dictionary = info.get("props", {})
+	if String(info.get("mode", "")) == "mission":
+		# Retry after the load restarts this mission at the saved difficulty (review 2026-10-10 #6).
+		MenuFlow.difficulty = clampi(int(props.get("mission_difficulty", 1)), 0, 2)
+		MenuFlow.remember_mission(String(info.get("scene", "")))
+	else:
+		MenuFlow.remember_mission("")
 	if String(info.get("mode", "")) == "wave_strike":
 		MenuFlow.ws_kingdom = StringName(str(props.get("player_kingdom", MenuFlow.ws_kingdom)))
 		MenuFlow.ws_enemy_resolved = StringName(str(props.get("enemy_kingdom", MenuFlow.ws_enemy_resolved)))

@@ -280,6 +280,16 @@ func spawn_complete(type: BuildingType, center: Vector3, team: int) -> Building:
 	return b
 
 
+## A construction site with no cost, no workers and no building_placed (a save load: Building.load_snapshot then puts
+## its progress back). It never passes through a completed state, so no completion signal fires before it is built.
+func spawn_site(type: BuildingType, center: Vector3, team: int) -> Building:
+	var b := create_building(type)
+	b.team = team as Unit.Team
+	b.make_site()
+	_add_to_world(b, snap(center, type.footprint))
+	return b
+
+
 ## The right node for a type: Keep, TrainingBuilding (barracks), Tower, Market (Bazaar) or a plain Building.
 static func create_building(type: BuildingType) -> Building:
 	var b: Building

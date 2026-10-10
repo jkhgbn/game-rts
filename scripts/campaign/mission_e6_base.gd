@@ -251,6 +251,49 @@ func add_warden_gate(id: StringName, pos: Vector3, face: Vector3, hp: float, eve
 	return g
 
 
+## This mission's Warden Gates (and pylons built on them), by gate_id.
+func warden_gates() -> Dictionary:
+	var out := {}
+	for n in get_tree().get_nodes_in_group(&"warden_gates"):
+		var g := n as WardenGate
+		if g and is_ancestor_of(g) and g.gate_id != &"":
+			out[g.gate_id] = g
+	return out
+
+
+# ---------------------------------------------------------------- save / load (review 2026-10-10 #2)
+
+## Warden Gates are StaticBody3D nodes (no save rows of their own): their state is written here by gate_id.
+func save_state(ids: Dictionary = {}) -> Dictionary:
+	var d := super(ids)
+	var rows := {}
+	var gates := warden_gates()
+	for id: StringName in gates:
+		rows[String(id)] = (gates[id] as WardenGate).save_row()
+	d["e6_wgates"] = rows
+	return d
+
+
+## Gates the rebuilt start made get their saved HP / broken / open state back. A mission that raises gates mid-mission
+## re-creates them first (`_restore_missing_gate`).
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	super(d, nodes)
+	var rows: Dictionary = d.get("e6_wgates", {})
+	var gates := warden_gates()
+	for key: Variant in rows:
+		var id := StringName(str(key))
+		var g: WardenGate = gates.get(id)
+		if g == null:
+			g = _restore_missing_gate(id)
+		if g:
+			g.load_row(rows[key] as Array)
+
+
+## Override: re-create a gate the mission raised after its start (null = unknown id, skipped).
+func _restore_missing_gate(_id: StringName) -> WardenGate:
+	return null
+
+
 ## An invisible, sleeping anchor unit at `at` (a story helper escorts it: "hold the mere", "keeper of the well"; the
 ## e4m3 pattern). Move it to move the helper's post.
 func story_anchor(at: Vector3) -> Unit:

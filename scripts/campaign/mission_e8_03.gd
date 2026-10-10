@@ -14,7 +14,7 @@ extends MissionE8Muster
 ## the Hollow Pulse checks the player's helper only. No titans (sec_titan dropped). Story floors: phase 2 opens no
 ## earlier than 17:00 and phase 3 no earlier than 25:30, and the King falls on the third turn at the earliest (normal),
 ## so the scripted run lands in the 28-35 min target. Tuning: the chains themselves hit him (8 % per Surge and per turn,
-## 5 % per lash every 60 s while he walks) and the Hurl hits 45 on at most 6 (a scripted army cannot dodge); his crush is 40 (spec 90). Tuning: the chains themselves hit him (8 % per Surge and per turn,`n## 5 % per lash every 60 s while he walks) and the Hurl hits 45 on at most 6 (a scripted army cannot dodge); his crush is 40 (spec 90).
+## 5 % per lash every 60 s while he walks) and the Hurl hits 45 on at most 6 (a scripted army cannot dodge); his crush is 40 (spec 90).
 
 const MISSION_ID := &"e8m3"
 const MISSION_TITLE := "The Hollow King"
@@ -172,10 +172,7 @@ func _on_navigation_ready() -> void:
 	arm_enemy(king)
 	king.add_to_group(&"boss")
 	king.damage_taken.connect(_on_king_hit)
-	king.death_guard = func(_a: Variant) -> bool:
-		king.hp = 1.0
-		_check_fall()
-		return true
+	king.death_guard = _king_guard
 	surge_next = float(RISE[diff]) + float(SURGE_EVERY[diff]) * 0.5
 	for p: Vector3 in [CRACK, keyhole_of(Teams.ALLY), keyhole_of(Unit.Team.ENEMY), keyhole_of(Teams.ENEMY_2)]:
 		fog.reveal(Unit.Team.PLAYER, p, 8.0)
@@ -315,7 +312,16 @@ func _king_mult() -> float:
 	return 0.0
 
 
+## The King never dies by damage: he holds at 1 HP and falls through _check_fall.
+func _king_guard(_a: Variant) -> bool:
+	king.hp = 1.0
+	_check_fall()
+	return true
+
+
 func _on_king_hit(amount: float, _attacker: Node3D) -> void:
+	if is_ending():   # review 2026-10-10 #1: a pending defeat must not start the fall / a film
+		return
 	var m := _king_mult()
 	if m < 1.0:
 		king.hp = minf(king.max_hp, king.hp + amount * (1.0 - m))
@@ -341,6 +347,8 @@ func chain_hit(frac: float) -> void:
 
 
 func _check_fall() -> void:
+	if is_ending():
+		return
 	if phase != 3:
 		king.hp = maxf(king.hp, king.max_hp * (0.6 if phase <= 1 else 0.25))
 		return
@@ -436,6 +444,8 @@ func _tick_phase1(dt: float) -> void:
 
 
 func _phase2() -> void:
+	if is_ending():
+		return
 	if phase != 1 or not fire_once(&"E8"):
 		return
 	phase = 2
@@ -517,6 +527,8 @@ func _tick_phase2(dt: float) -> void:
 
 
 func _phase3() -> void:
+	if is_ending():
+		return
 	if phase != 2 or not fire_once(&"E10"):
 		return
 	phase = 3
@@ -638,6 +650,8 @@ func _exposed() -> void:
 
 
 func _fall() -> void:
+	if is_ending():   # hold_world during a pending lose() would freeze its timer forever
+		return
 	if not fire_once(&"E14"):
 		return
 	victory_time = mission_time()
@@ -726,7 +740,18 @@ func _hurl(dt: float, every: float, at_hero := false) -> void:
 	if target == Vector3.INF:
 		return
 	flash_ring(target, HURL_R)
-	after(1.6, _hurl_land.bind(target))
+	_hurl_at = target
+	after(1.6, _hurl_land_pending)   # a named timer: saving stays allowed (review 2026-10-10 #8)
+
+
+var _hurl_at := Vector3.INF
+
+
+func _hurl_land_pending() -> void:
+	var at := _hurl_at
+	_hurl_at = Vector3.INF
+	if at != Vector3.INF:
+		_hurl_land(at)
 
 
 func _hurl_land(at: Vector3) -> void:
@@ -775,6 +800,18 @@ func _on_player_hero_fell() -> void:
 	say_w("L28")
 	set_objective(&"obj_wizard", "failed")
 	super()
+
+
+## Load (review 2026-10-10 #3): the King's gates and guard (kept by a matched King, re-made on a respawned one) and
+## Hush's guard (set by _chains_end, mid-mission).
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	super(d, nodes)
+	if king and is_instance_valid(king):
+		if not king.damage_taken.is_connected(_on_king_hit):
+			king.damage_taken.connect(_on_king_hit)
+		king.death_guard = _king_guard
+	if hush and is_instance_valid(hush):
+		guard_life(hush)
 
 
 func save_block_reason() -> String:

@@ -6,6 +6,10 @@ extends SceneTree
 ## save_supported = false is reported "unsupported". Slow (every mission bakes twice): tools/ci/slow_tests.txt.
 ## Run: tools/godot_run.ps1 --headless --path . -s tests/test_save_load_missions.gd --fixed-fps 60 --quit-after 200000
 ## Options after '--': only=<substring> (one mission). Prints "PASS save_load_missions" or "FAIL ...".
+## Review 2026-10-10 regressions (set up right before the save, checked after the load): Warden Gates / pylons keep
+## their broken state (#2, one gate broken; E8m1 Nature: a raised bridge gate, broken, comes back once and broken);
+## mid-mission hooks and guards are made again (#3: E7m1 Seraphine's died hook after the knives, E7m3 Brannet's guard,
+## E8m1 Ice refugees' died hook, E8m3 the King's guard and damage gate).
 
 const TASK_ID := "save_load_missions"
 const SAVE_FROM := 600     ## frames after the match starts before the first save try
@@ -55,6 +59,8 @@ func _next() -> void:
 	current_scene = level
 	step = "start"
 	frames = 0
+	_prepared = false
+	_gates_expect.clear()
 
 
 func _process(_delta: float) -> bool:
@@ -79,7 +85,12 @@ func _process(_delta: float) -> bool:
 		"play":
 			if frames >= SAVE_FROM and frames % 30 == 0:
 				var why := SaveGame.block_reason(level)
+				if why == "" and not _prepared:
+					_prepared = true
+					_prepare(name)
+					why = SaveGame.block_reason(level)
 				if why == "":
+					_record()
 					data = SaveGame.capture(level)
 					expect = _state()
 					_reload()
@@ -142,9 +153,96 @@ func _state() -> Dictionary:
 	return {"objs": objs, "teams": teams, "time": (level as MissionBase).mission_time()}
 
 
+# ---------------------------------------------------------------- review 2026-10-10 regressions
+
+var _gates_expect := {}   ## gate id -> alive at the save
+var _prepared := false
+
+
+## Sets up the state the load must keep. Timers the setup adds that cannot be saved (lambdas) are dropped.
+func _prepare(name: String) -> void:
+	var m := level as MissionBase
+	var timers: Array = m.get(&"_timers")
+	var before := timers.size()
+	if name == "mission_e7_01":
+		m.fire_once(&"E11")
+		m.call(&"_laurel_end")
+		MissionHarness.kill(m.get(&"knives") as Array)   # Seraphine must live through the reload
+	if name == "mission_e8_01_ice" and m.has_method(&"_spawn_column") and (m.get(&"refugees") as Array).is_empty():
+		m.call(&"_spawn_column")
+	if name == "mission_e8_01_nature":
+		var g: Variant = m.call(&"_restore_missing_gate", &"north")
+		if g == null:
+			fails.append("%s: could not raise the north bridge gate" % name)
+	if m.has_method(&"warden_gates"):
+		var gates: Dictionary = m.call(&"warden_gates")
+		var ids := gates.keys()
+		ids.sort()
+		for i in ids.size():
+			var g := gates[ids[i]] as WardenGate
+			if i == 0 or ids[i] == &"north":
+				g.open()
+				g.take_damage(1.0e7, null)
+	for i in range(timers.size() - 1, before - 1, -1):
+		var c := timers[i][1] as Callable
+		if not (c.is_standard() and c.get_object() == m):
+			timers.remove_at(i)
+
+
+## The gates' alive states at the save.
+func _record() -> void:
+	_gates_expect.clear()
+	if level.has_method(&"warden_gates"):
+		var gates: Dictionary = level.call(&"warden_gates")
+		for id: StringName in gates:
+			_gates_expect[String(id)] = (gates[id] as WardenGate).is_alive()
+
+
+func _verify(name: String) -> Array[String]:
+	var bad: Array[String] = []
+	var m := level as MissionBase
+	if not _gates_expect.is_empty():
+		var gates: Dictionary = m.call(&"warden_gates")
+		for id: String in _gates_expect:
+			var g: WardenGate = gates.get(StringName(id))
+			if g == null:
+				bad.append("gate %s missing" % id)
+			elif g.is_alive() and not bool(_gates_expect[id]):
+				bad.append("gate %s broken at the save stands again" % id)
+		var n := 0
+		for x in get_nodes_in_group(&"warden_gates"):
+			if (x as WardenGate).gate_id == &"north" and m.is_ancestor_of(x):
+				n += 1
+		if name == "mission_e8_01_nature" and (n != 1 or not (m.get(&"bridge_gates") as Dictionary).has(&"north")):
+			bad.append("north bridge gate: %d after the load, listed %s" % [n, (m.get(&"bridge_gates") as Dictionary).has(&"north")])
+	match name:
+		"mission_e7_01":
+			var sr: Unit = m.get(&"seraphine")
+			if sr == null or not sr.died.is_connected(Callable(m, &"_on_seraphine_died")):
+				bad.append("Seraphine's died hook lost")
+		"mission_e7_03":
+			var b: Unit = m.get(&"brannet")
+			if b == null or not b.death_guard.is_valid():
+				bad.append("Brannet's guard lost")
+		"mission_e8_01_ice":
+			var refs: Array = m.call(&"alive_refugees")
+			if refs.is_empty():
+				bad.append("no refugees after the load")
+			for r: Variant in refs:
+				if not (r as Unit).died.is_connected(Callable(m, &"_on_refugee_died")):
+					bad.append("a refugee's died hook lost")
+					break
+		"mission_e8_03":
+			var k: Unit = m.get(&"king")
+			if k == null or not k.death_guard.is_valid() or not k.damage_taken.is_connected(Callable(m, &"_on_king_hit")):
+				bad.append("the King's guard / damage gate lost")
+	return bad
+
+
 func _compare() -> String:
 	var got := _state()
 	var bad: Array[String] = []
+	bad.append_array(_verify(missions[index].get_file().get_basename()))
 	if bool(level.get(&"game_over")):
 		bad.append("game over after the load")
 	for id: String in expect["objs"]:
