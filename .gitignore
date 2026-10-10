@@ -4,3 +4,18 @@ docs/art/lab/**/*.import
 
 # parked add-on leftover (archive in Documentsour-wizards-parked); keeps ci_quick -Changed from widening
 addons/limboai/
+
+# generated tool outputs (untracked runs only; tracked runs such as docs/ci/playtest-* stay tracked)
+docs/ci/2026-*/
+docs/ci/casters_merge_*/
+docs/ci/fix22_*/
+docs/ci/iceNature_*/
+docs/ci/verify_merge_*/
+docs/tools/cine/out/e[4-8]m[0-9]_*/
+tools/map_lab/balance/dataset/
+tools/map_lab/balance/labels/
+data/maps/gen/*_s[0-9]*.map
+data/maps/gen/*_s[0-9]*_layout.tres
+!data/maps/gen/thornwater_s4.map
+art/blender/**/__pycache__/
+*.blend1

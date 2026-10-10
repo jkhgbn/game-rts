@@ -7,7 +7,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 ## The user
 - Talk to the user in **Québec French**. Code, file names, comments, docs and the game's text stay in English.
 - The user plays on Windows with an AZERTY keyboard: define keys with **physical** keycodes.
-- The user playtests at the end of every wave (see `docs/plan/waves.md`).
+- The user playtests at the end of each block of requests (his asks: `docs/ideas/jss_asks.md`; the old wave plan `docs/plan/waves.md` is history).
 
 ## Run and test
 - Godot (console build, for headless checks):
@@ -29,6 +29,12 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `-Matrix`, `-Variants` = Balance Lab variants; presets C1-C7 = caster-units.md 7.2), scorecards in
   `docs/balance/unit_lab/<run>/`. Sandbox (dev only, SC2-style): `scenes/unit_lab.tscn`, or the game with `-- --unit-lab`,
   or Ctrl+Shift+U on the main menu (debug builds).
+- **Game Health** (2026-10-06, `docs/design/health-and-playtests.md`): `tools\health\run_health.ps1 [-Refresh] [-Open]` =
+  one score 0-100 + 8 area sub-scores + top 3 problems from the labs' LATEST outputs (nothing re-run; `-Refresh` runs only
+  Data Lab + map balance), `docs/health/latest.md|html`, trend in `docs/health/history.jsonl`. **Playtest Recorder**:
+  Settings "Playtest data" (off by default) -> `user://playtests/<date>_<mode>.jsonl` (skirmish + missions via
+  `ReplayHooks.match_started`; another mode calls `ReplayHooks.start_playtest(level, mode)`); report
+  `tools\playtest\analyze.ps1 [-Latest N]` -> `docs/playtests/<name>.md` + heatmap PNGs.
 - Test scripts compile **before autoloads exist**: never write `Events` in a test. In game code, reach
   autoloads with `get_node_or_null(^"/root/Events")` so tests that use `Unit`, `Wizard`... still compile.
 - Play: desktop shortcut "Four Wizards - Play", or open the editor ("Four Wizards - Editor") and press F5.
@@ -40,7 +46,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 - Public functions for other systems to call (`command_move`, `command_attack`). Prefix private ones with `_`.
   Other systems never call `_private` functions.
 - Signals for events other systems react to (`died`, `claimed`, `selection_changed`), global ones on `Events`.
-- Unit stats live in data (`UNIT_TYPES` in `scripts/world/main.gd`, moving to `data/units/*.tres` in task 1.G1).
+- Unit stats live in data: `data/units/*.tres` (UnitType resources).
 - Placeholder art is built in code. Keep an `@export var model_scene: PackedScene` so real models can drop in later.
 - Everything must be original: no names, characters or art from existing games.
 - Physics layers: 1 world, 2 units, 3 caster walls (Rime Bulwark; ground units collide, flyers do not).
@@ -130,7 +136,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   Kits: `T3Kit.enabled_here()` reads the scene's `t3_enabled`, `T3Kit.helpers_here()` its `helpers_enabled`;
   `TierSystem.set_start_tier(team, tier)` / `Keep.set_start_tier(t)` (quiet); `HelperRoster.set_call_price`, `grant()`;
   `Inventory.use_artifact_power(i)` + signal `artifact_power_used(item_id)`. Tests: `tests/helpers/mission_harness.gd`.
-  Save via `scripts/campaign/campaign_items.gd`.
+  Save via `scripts/campaign/campaign_items.gd`. `CampaignState.STORY_SCREENS` (id -> scene, e.g. `ep8_choice`, `ep8_credits`)
+  and `FILM_BRANCHES` (film id -> [flag, value, other film] or rows [{flag: value}, film]; first match wins, no match = key film).
 - **Wizard direct control**: `Wizard.set_move_input(dir: Vector3)` (world space, length 0-1, `ZERO` = released).
   While non-zero she walks that way and drops her current order; released = stands still, auto-aggro resumes.
 - **Controls setting** (UX.1, `GameSettings.control_scheme`): **Classic (default)** = right-click moves the wizard like any
@@ -138,7 +145,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   walk the wizard, X = attack-move. Key labels shown layout-aware (`KeyLabels`). Tab / Shift+Tab = next / previous active building when 2+ buildings are selected (control groups can hold buildings; mounts need another key).
 - **Keys** (physical keycodes; AZERTY prints other letters). In Hero WASD mode: **W A S D** = the player's wizard walks (camera-relative,
   the camera follows her while a key is held), **F / Q / E** = Vessa's spells 1 / 2 / 3, **Ctrl+F / Q / E** = learn or rank up that spell, Space = centre on Vessa,
-  F1 = select Vessa, F9 = restart, Esc = cancel targeting. Units selected: right-click = move / attack / gather,
+  F1 = select Vessa, F9 = restart, F12 = quicksave, Ctrl+F12 = quickload (SaveGame, docs/design/save-load.md; missions
+  save through MissionBase save hooks), Esc = cancel targeting. Units selected: right-click = move / attack / gather,
   **X** = attack-move, **C** = stop, **H** = hold, **G** = gather, **B** = build menu (workers only) then
   **Z / X / C** = Hearth / Hall / Spire, **Z / V** = caster spells (Ctrl+Z / Ctrl+V autocast; any selection holding
   casters). Building selected: **Z X C V B** = its training slots 1-5 (keep **B** = caster, T2), right-click = rally.
@@ -251,11 +259,33 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   2026-10-04: Thornwater / Quartermeet stay ready with G5 FAIL / not run, see map-production.md MT8). A stopped
   gate goes on with `-Resume` (keeps each difficulty's `results.jsonl`, plays only the missing seeds; only while the
   map and the bot code are unchanged). `-SkipBots` / `-SkipPerf` give PARTIAL at best; exit 0 PASS / PARTIAL, 1 FAIL.
+  **Balance model** (2026-10-05, `docs/tools/map_gate/balance_model.md`): `run_world_forge.ps1 balance <map>` = internal
+  balance score 0-100 (per-seat navmesh / geometric features, top asymmetries) + predicted G5 seat-0 win rate per difficulty
+  with a 90 % interval and a verdict (clearly fair / uncertain / likely biased), ~25 s, no bot games. Code in
+  `tools/map_lab/balance/` (fit: `run_balance.ps1 fit`; labels: `run_labels.ps1`); run it before spending G5 games.
+- **Wave Strike** (second mode, M1 2026-10-06, `docs/design/wave-strike.md` 13): `scenes/wave_strike.tscn` =
+  `WaveStrikeLevel` (`scripts/world/wave_strike/`, extends main.gd, NOT Skirmish; set `player_kingdom` / `enemy_kingdom`
+  (&"fire" / &"shadow" in M1), `personalities`, `rules`, `autopilot_player`, `wizards_enabled` before it enters the tree;
+  `result` {winner, reason bastion / time, time}, `stats`, `bastion_ratio(team)`, `lane_for(team)`, `spawn_lane_unit`).
+  `WaveStrikeRules` (`data/wave_strike/rules_default.tres`, `load_default()` = a copy), `WaveCardTable`
+  (`data/wave_strike/card_prices.tres`: cards per kingdom, `mode_mult`, `price_override`: **card prices change here,
+  never in data/units**), `WaveDirector` (group `"wave_director"`: `time`, `horn_index`, `time_to_next_horn()`,
+  signals `horn(index)`, `horn_soon(s)`), `WaveBank` (`for_seat`, `crystals`, `income`, `buy_coffer`),
+  `MusterRoster` (group `"rosters"`, `for_seat`: `buy / sell / rank_up / can_* -> String`, `pop_used`, `cap`, `tier`,
+  `upgrade`), `LaneSpawner`, `Bastion extends Keep`, `LaneMarch` (`scripts/units/lane_march.gd`, child "LaneMarch" of a
+  lane unit; static `stall_events`), `WaveBot` (`scripts/ai/wave_bot.gd`). Lane units use a `commandable = false` copy of
+  their UnitType. Keys: Z X C V cards (Ctrl = rank up, Alt = sell), B Coffer, N next tier. `MapCatalog` entries with
+  `mode: "wave_strike"` are never listed / drawn by the skirmish picker (`list(seats, ready, mode)`).
+  Tests: `test_ws_director`, `test_ws_match` (`-- --seed=N`), `test_ws_perf`; batch `tools\wave_strike\run_ws_batch.ps1`,
+  shots `tools/wave_strike/ws_shots.gd` (windowed).
 - **Score** (step 16a): `ScoreKeeper` (`scripts/world/score_keeper.gd`, group `"score"`, `instance(tree)`, `score(team)`,
   `breakdown(team)`, `history(team)`, `leader()`, `margin()`, `table_text()`; WEIGHTS table at the top). Every skirmish
   end shows the Score tab (`GameHUD.show_score`, `select_end_tab`); the match still ends on kill / concede, score decides
   only at `Skirmish.time_limit_s` (0 = off; `ended_on_score`), set from `GameSettings.time_limit_min` (0 / 30 / 45).
-  `GameHUD.is_message_shown() -> bool`. Bot-vs-bot tests end on score at 30:00 ("PASS … (on score)").
+  `GameHUD.is_message_shown() -> bool`. **Pace row** (skirmish menu): Normal / Fast (test) / Blitz = `GameSettings.pace_fast` /
+  `pace_blitz` (blitz wins) -> `Skirmish.fast_pace` / `blitz_pace` (saved with the match) -> `PaceSwitch.setup(level, fast, blitz)`
+  (`scripts/world/pace_switch.gd`; docs/balance/faster_games_2026-10-06.md, blitz_2026-10-10.md). Missions never set it.
+  Bot-vs-bot tests end on score at 30:00 ("PASS … (on score)").
 - **STR / INT path** (2026-09-27, `docs/design/level-boons.md` 14): `StrIntPath` (`scripts/units/str_int_path.gd`, child of each skirmish wizard; switch `StrIntPath.ENABLED`): mandatory STR or INT pick at match start, locked; STR +15 % attack_damage / +20 % max_hp + Vigor (regen), INT +15 spell_power / +25 % max_mana + Snow Shield; `ABILITY_DURATION` / `ABILITY_COOLDOWN` constants; key **J** (physical) = use the path ability. Bots pick in `scripts/ai/ai_str_int.gd`. Missions: off.
 - **Keep tiers** (`docs/design/tiers.md`): `TierSystem` (`scripts/buildings/tier_system.gd`, group `"tier_systems"`, one
   per game; switch `ENABLED`): `tier_of(team)` (1-3; 3 without a TierSystem), `instance()`, `gate_reason(needed, team)`,
@@ -282,6 +312,12 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `.tres` at runtime) + hand text `data/ui/unit_guide.json` (role, class, 3 pros, 2-3 cons, tags; rank claims like
   "Highest HP in the Fire army" are verified). **A new player unit / champion / helper needs a JSON block**:
   `tools/unit_guide/gen_guide.gd '--' write` makes the skeleton, then edit it; `tests/test_unit_guide.gd` fails otherwise.
+- **Localization** (2026-10-06, `docs/design/localization.md`): English text = the key (gettext msgid), French in
+  `data/i18n/fr/<area>.po` (glossary `data/i18n/glossary_fr.md`). Static label / button / tooltip text is translated by
+  Godot itself; text built in code goes through `Loc.t("... {name}", {...})` / `Loc.tn` (plurals), logic text (reasons,
+  messages, objectives, dialogue) stays English in the logic and is shown through `Loc.sink(text)`. Never concatenate
+  sentence fragments. After adding player text: `tools/i18n/extract_strings.gd '--' merge`, translate, `tests/test_i18n.gd`.
+  Settings > Language (`GameSettings.language`); tests / labs run English unless `-- --lang=fr` (UI Lab: `lang=fr`).
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
 - **SelectionManager**: `select_units(units)`, `formation_move(center)` are public (the smoke test uses them).
@@ -302,35 +338,34 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 
 Agents only edit what they own (plus their own `tests/test_<task-id>.gd`). Requests to another owner go in
 `docs/handoff/for-<agent>.md`. The `-high` agents (`gameplay-coder-high`, `systems-coder-high`,
-`items-coder-high`) are the same agents with high effort, only for tasks tagged **[H]**.
+`items-coder-high`) are the same agents with high effort (unused since the 09-30 effort rule below).
 
 ## Lead playbook (for the main session)
 You are the lead. You plan, delegate, merge and check. You write only glue code and the files you own.
 
-When the user says "run wave N session X":
+Work comes as the user's requests (`docs/ideas/jss_asks.md`) -> labs / agents -> green tests -> commit.
+(The old "run wave N session X" flow and `docs/plan/waves.md` are history.) For each block of work:
 1. **Budget check first.** Read the plan limits yourself with the desktop app's usage tool
-   (`get_usage`: weekly all-models %, weekly Fable %, 5-hour %). Compare with the pace line in
-   `docs/plan/waves.md`. If above it, or the 5-hour meter is above 70%, say so and offer the "slow down"
-   options instead of starting.
-2. Read `docs/plan/waves.md` and pick the tasks marked for this session. Nothing else.
-3. Delegate each task to its owner agent (the `-high` one for [H] tasks) with a short prompt: task id, the
+   (`get_usage`: weekly %, 5-hour %). If the 5-hour meter is above 70 % or the weekly one is near its cap, say so
+   and offer the "slow down" options instead of starting.
+2. Pick the asks to do now from `docs/ideas/jss_asks.md` (status `todo` / `doing`). Nothing else.
+3. Delegate each task (Opus 5.5 MEDIUM, see the effort rule) with a short prompt: the ask, the files it owns, the
    spec file to read and the "done when" list. **No time box any more** (user request 2026-09-26): quality first, especially art.
    Up to **6 agents at the same time** while the 5-hour meter is under 50 % (3 above that, 0 above 80 %),
    only agents whose files don't overlap. **Art is split into small sub-elements** (one agent per character, building, effect family, lighting...) so each gets time and attention. Agents never run git.
 4. Git: `C:\Program Files\Git\cmd\git.exe` (add it to PATH in the shell). Agents work directly in this folder.
-   Remote: `origin` = https://github.com/jkhgbn/game-rts (push needs the user's GitHub sign-in once).
+   Remote: `origin` = https://github.com/jkhgbn/game-rts (private). **Push only when the user says so.**
 5. When the agents return: run the import, smoke test, perf test and each task test. If one fails, send the
    failure back to the same agent once; if it still fails, stop and tell the user. Relay API changes between
    running agents with SendMessage.
-6. Green: tick the tasks in `docs/plan/waves.md`, add a line to `docs/plan/usage-log.md` (usage before/after),
-   commit only the finished agents' folders, tag `wave<N>-<session>-green`, push if signed in.
+6. Green: set the asks' status in `docs/ideas/jss_asks.md`, add a line to `docs/plan/usage-log.md` (usage before/after),
+   commit only the finished agents' files (no push without the user's word).
 7. Tell the user in 3-5 lines (Québec French) what changed and what to playtest.
 
 **Godot gate (2026-09-26):** agents and scripts launch Godot through `tools/godot_run.ps1` (same arguments as the
 exe; at most 4 runs at once via a named semaphore, waits while 6+ Godot processes run, 15-min max wait). Today 20-30
 parallel Godot runs made every test slow and every perf number noise.
 **Model rule (user 2026-09-27, after a trial):** never use Haiku; art = Opus MEDIUM (blind effort trial winner); AI / perf / contracts = Opus high.
-**Effort rule (user 2026-09-26):** HIGH effort for complex code (river / nav, AI, contracts, labs like Replay),
-debugging and design specs; MEDIUM effort for serial art / VFX (another rider, a decor set in the known format),
-small test fixes and simple docs — the Art / Perf labs catch quality issues. Saves ~20-30 % of the budget on art.
-Design tasks go to `game-designer` (Opus 5.5, high effort), except UI / HUD / menu layout specs, which go to `ui-designer` (Opus 5.5 — the user asked not to use Fable any more; the existing Fable-made specs stay). Code tasks go to the owner agent (Opus 5.5); visuals in `art/` go to `tech-artist`.
+**Effort rule (user 2026-09-30, replaces the 09-26 HIGH / MEDIUM split and the "Opus high" part of the model rule):**
+ALL agents run on Opus 5.5 at MEDIUM effort (`fw-art-medium` agent type, any task); the labs catch quality issues.
+Design tasks go to `game-designer` (Opus 5.5), except UI / HUD / menu layout specs, which go to `ui-designer` (Opus 5.5 — the user asked not to use Fable any more; the existing Fable-made specs stay). Code tasks go to the owner agent (Opus 5.5); visuals in `art/` go to `tech-artist`.
