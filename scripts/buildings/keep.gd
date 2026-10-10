@@ -72,7 +72,7 @@ func upgrade_cost() -> int:
 
 
 func upgrade_time() -> float:
-	return float((TierSystem.UPGRADES.get(tier + 1, {}) as Dictionary).get("time", 0.0))
+	return TierSystem.upgrade_seconds(tier + 1)
 
 
 ## "" if the next upgrade can start now, else the reason (tiers off, destroyed, max, in progress, time, Hall, crystals).
@@ -135,7 +135,7 @@ func is_upgrading() -> bool:
 func upgrade_progress() -> float:
 	if _up_to == 0:
 		return 0.0
-	var total := float((TierSystem.UPGRADES[_up_to] as Dictionary)["time"])
+	var total := TierSystem.upgrade_seconds(_up_to)
 	return clampf(1.0 - _up_left / maxf(total, 0.01), 0.0, 1.0)
 
 

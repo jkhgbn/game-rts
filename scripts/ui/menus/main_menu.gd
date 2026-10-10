@@ -39,7 +39,7 @@ var quit_button: Button
 var start_button: Button
 var difficulty_buttons: Array[Button] = []
 var time_limit_buttons: Array[Button] = []   ## 16a: Off / 30 min / 45 min (GameSettings.TIME_LIMIT_CHOICES order).
-var pace_buttons: Array[Button] = []   ## Pace: Normal, Fast (test) (GameSettings.pace_fast).
+var pace_buttons: Array[Button] = []   ## Pace: Normal, Fast (test), Blitz (GameSettings.pace_mode()).
 var kingdom_buttons: Array[Button] = []   ## The 4 "You" KingdomCards (KingdomCard.ORDER).
 var enemy_buttons: Array[Button] = []     ## The 4 "Enemy" KingdomCards (KingdomCard.ORDER).
 var foe_label: Label                      ## The matchup line: "Vessa of Fire  vs  Malrik of Shadow".
@@ -776,13 +776,18 @@ func _build_skirmish_panel(parent: Control) -> PanelContainer:
 	pace_row.add_child(pace_title)
 	var pace_group := ButtonGroup.new()
 	pace_buttons.clear()
-	for fast: bool in [false, true]:
-		var pb := _toggle_button(pace_row, "Fast (test)" if fast else "Normal", pace_group)
-		pb.tooltip_text = "Normal: the usual game." if not fast else 				"Fast (test): buildings have less HP, towers hit softer, units train faster
-" 				+ "and the bots attack sooner (skirmish only)."
+	var pace_names: Array[String] = ["Normal", "Fast (test)", "Blitz"]
+	var pace_tips: Array[String] = ["Normal: the usual game.",
+			"Fast (test): buildings have less HP, towers hit softer, units train faster
+and the bots attack sooner (skirmish only).",
+			"Blitz: 9 starting workers, weaker buildings, faster training and keep upgrades,
+bolder bots and a 30 % faster clock. Games last about 8 to 12 minutes (skirmish only)."]
+	for mode in 3:
+		var pb := _toggle_button(pace_row, pace_names[mode], pace_group)
+		pb.tooltip_text = pace_tips[mode]
 		pb.custom_minimum_size = Vector2(120, 44)
-		pb.set_pressed_no_signal(GameSettings.pace_fast == fast)
-		pb.pressed.connect(func() -> void: GameSettings.set_pace_fast(fast))
+		pb.set_pressed_no_signal(GameSettings.pace_mode() == mode)
+		pb.pressed.connect(func() -> void: GameSettings.set_pace_mode(mode))
 		pace_buttons.append(pb)
 
 	var actions := HBoxContainer.new()

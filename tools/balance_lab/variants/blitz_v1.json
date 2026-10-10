@@ -1,0 +1,5 @@
+{
+	"name": "blitz_v1",
+	"notes": "Blitz pace as shipped in PaceSwitch.BLITZ (no tuning override).",
+	"fg": {"blitz": {}}
+}

@@ -16,6 +16,9 @@ extends "../balance_match.gd"
 ##                                                        nodes a / b in the same 2:1 pattern (faster_games_2026-10-08.md)
 ##     "start_crystals": "+150" | 400 | "workers"         starting crystals (Economy.START_CRYSTALS = 250); "workers" =
 ##                                                        + the crystal cost of the extra start workers
+##     "blitz": {} | {"<PaceSwitch.BLITZ key>": value}    the REAL Blitz pace (Skirmish.blitz_pace = true, PaceSwitch);
+##                                                        keys given replace PaceSwitch.BLITZ's (PaceSwitch.tuning) to
+##                                                        tune it (docs/balance/blitz_2026-10-10.md)
 ##   }
 ## Nothing in data/ or scripts/ is written; the default game never sees any of it.
 ## Always recorded (any arm, baseline too) in the JSON line under "fg": every building destroyed {t, team, id, kind,
@@ -39,6 +42,7 @@ var _in_bonus := false
 var _tick_left := 0.0
 var _last_t := 0.0
 var _added: Array = []
+var _blitz_on := false         # fg "blitz": the level plays the real Blitz pace
 var _start_log := {}           # side -> {workers, crystals} after the start boost (only when the variant has one)
 
 
@@ -59,6 +63,10 @@ func apply_variant(data: Dictionary) -> void:
 	var mods: Variant = fg.get("ai", {})
 	if mods is Dictionary:
 		_ai_mods = mods
+	if fg.get("blitz") is Dictionary:
+		_blitz_on = true
+		PaceSwitch.tuning = (fg["blitz"] as Dictionary).duplicate(true)
+		print("FG variant %s: blitz, tuning %s" % [variant_name, str(PaceSwitch.tuning)])
 	for row: Variant in fg.get("add_units", []):
 		if row is Dictionary:
 			_add_unit(row as Dictionary)
@@ -205,6 +213,8 @@ func _on_match_started() -> void:
 
 
 func _on_node_added(node: Node) -> void:
+	if _blitz_on and node == main and &"blitz_pace" in node:
+		node.set(&"blitz_pace", true)   # before the level's _ready (PaceSwitch.setup reads it there)
 	super._on_node_added(node)
 	if node.has_signal(&"damaged") and node.has_signal(&"destroyed") and node.has_method(&"target_radius"):
 		node.connect(&"damaged", _on_building_damaged.bind(node))
@@ -335,7 +345,8 @@ func _finish(reason: String, winner: int, error: String) -> bool:
 		sides[SIDES[team]] = {"buildings_lost": lost, "first_building_lost": first, "first_tower_lost": first_tower,
 				"first_production_lost": first_prod, "siege_bonus_dmg": roundi(_bonus[team]),
 				"siege_building_dmg": roundi(_siege_hits[team]), "siege_units": seen}
-	data["fg"] = {"active": not fg.is_empty(), "sides": sides, "deaths": _b_deaths, "added": _added, "start": _start_log}
+	data["fg"] = {"active": not fg.is_empty(), "sides": sides, "deaths": _b_deaths, "added": _added, "start": _start_log,
+			"blitz": {"on": PaceSwitch.is_blitz(), "tuning": PaceSwitch.tuning}}
 	var w := FileAccess.open(out_path, FileAccess.WRITE)
 	if w:
 		w.store_line(JSON.stringify(data))

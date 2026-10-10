@@ -32,7 +32,7 @@ const MSG_LOADED := "Game loaded"
 const LEVEL_PROPS: Array[StringName] = [&"player_kingdom", &"enemy_kingdom", &"trade_enabled", &"time_limit_s",
 		&"mission_difficulty", &"layout_path", &"personalities", &"autopilot_player", &"wizards_enabled",
 		&"tiers_enabled", &"tavern_enabled", &"river_enabled", &"points_enabled", &"camps_enabled", &"beasts_enabled",
-		&"fast_pace"]
+		&"fast_pace", &"blitz_pace"]
 
 
 static func slot_path(slot: StringName) -> String:

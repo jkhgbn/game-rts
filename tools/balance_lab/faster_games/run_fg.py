@@ -50,6 +50,7 @@ def main():
 	ap.add_argument("--early", default="1")
 	ap.add_argument("--timeout-min", type=int, default=60)
 	ap.add_argument("--stop-at", default="")
+	ap.add_argument("--layout", default="", help="res:// path of a map layout (e.g. Thornwater); default Crown Hollow")
 	ap.add_argument("--dry-run", action="store_true")
 	a = ap.parse_args()
 
@@ -104,7 +105,7 @@ def main():
 			js = os.path.join(out_dir, name + ".json").replace("\\", "/")
 			cmd = (f"& '{GATE}' --headless --path '{REPO}' -s {SCRIPT} --fixed-fps {a.tick} --quit-after {quit_after} "
 				f"'--' --pair={p} --seed={s} --difficulty={lv} --sim=1 --limit={a.limit} --early={a.early} --tick={a.tick} "
-				f"'--style={a.style}' '--variant={path}' '--out={js}'")
+				f"'--style={a.style}' '--variant={path}' '--out={js}'" + (f" '--layout={a.layout}'" if a.layout else ""))
 			log = open(os.path.join(out_dir, name + ".log"), "w", encoding="utf-8", errors="replace")
 			proc = subprocess.Popen(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", cmd],
 				stdout=log, stderr=subprocess.STDOUT)

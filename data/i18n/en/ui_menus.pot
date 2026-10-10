@@ -6,32 +6,32 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:68
+#: scripts/ui/menus/game_settings.gd:71
 msgid "Off (native)"
 msgstr ""
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:68
+#: scripts/ui/menus/game_settings.gd:71
 msgid "FSR 1 (fast)"
 msgstr ""
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:68
+#: scripts/ui/menus/game_settings.gd:71
 msgid "FSR 2 (best quality)"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:81
+#: scripts/ui/menus/game_settings.gd:84
 msgid "Classic"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:81
+#: scripts/ui/menus/game_settings.gd:84
 msgid "Hero WASD"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:81 scripts/ui/menus/settings_panel.gd:366
+#: scripts/ui/menus/game_settings.gd:84 scripts/ui/menus/settings_panel.gd:366
 msgid "RTS camera (WASD)"
 msgstr ""
 
@@ -264,12 +264,12 @@ msgid "%d min"
 msgstr ""
 
 #. var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
-#: scripts/ui/menus/main_menu.gd:815 scripts/ui/menus/main_menu.gd:712
+#: scripts/ui/menus/main_menu.gd:820 scripts/ui/menus/main_menu.gd:712
 msgid "YOU"
 msgstr ""
 
 #. var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
-#: scripts/ui/menus/main_menu.gd:815 scripts/ui/menus/main_menu.gd:715
+#: scripts/ui/menus/main_menu.gd:820 scripts/ui/menus/main_menu.gd:715
 msgid "ENEMY"
 msgstr ""
 
@@ -284,7 +284,7 @@ msgid "Easy"
 msgstr ""
 
 #. const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty order
-#: scripts/ui/menus/main_menu.gd:11 scripts/ui/menus/main_menu.gd:780
+#: scripts/ui/menus/main_menu.gd:11 scripts/ui/menus/main_menu.gd:779
 msgid "Normal"
 msgstr ""
 
@@ -385,7 +385,7 @@ msgid "Watch opening"
 msgstr ""
 
 #. prologue_button.text = "Watch opening" if film != &"" else "Watch prologue"
-#: scripts/ui/menus/main_menu.gd:587 scripts/ui/menus/main_menu.gd:881
+#: scripts/ui/menus/main_menu.gd:587 scripts/ui/menus/main_menu.gd:886
 msgid "Watch prologue"
 msgstr ""
 
@@ -395,7 +395,7 @@ msgid "The episode's opening film. Plays before this mission the first time."
 msgstr ""
 
 #. else "The story so far (3 min). Plays before mission 1 the first time."
-#: scripts/ui/menus/main_menu.gd:589 scripts/ui/menus/main_menu.gd:883
+#: scripts/ui/menus/main_menu.gd:589 scripts/ui/menus/main_menu.gd:888
 msgid "The story so far (3 min). Plays before mission 1 the first time."
 msgstr ""
 
@@ -415,7 +415,7 @@ msgid "Buy cards, send waves down one lane, break the enemy Bastion (new mode, 1
 msgstr ""
 
 #. campaign_button = _menu_button(box, "Campaign")
-#: scripts/ui/menus/main_menu.gd:673 scripts/ui/menus/main_menu.gd:840
+#: scripts/ui/menus/main_menu.gd:673 scripts/ui/menus/main_menu.gd:845
 msgid "Campaign"
 msgstr ""
 
@@ -446,7 +446,7 @@ msgid "The bot"
 msgstr ""
 
 #. var diff_title := UIStyle.label("Opponent difficulty", 20)
-#: scripts/ui/menus/main_menu.gd:721 scripts/ui/menus/main_menu.gd:863
+#: scripts/ui/menus/main_menu.gd:721 scripts/ui/menus/main_menu.gd:868
 msgid "Opponent difficulty"
 msgstr ""
 
@@ -485,34 +485,44 @@ msgstr ""
 msgid "Pace"
 msgstr ""
 
-#. var pb := _toggle_button(pace_row, "Fast (test)" if fast else "Normal", pace_group)
-#: scripts/ui/menus/main_menu.gd:780
+#. var pace_names: Array[String] = ["Normal", "Fast (test)", "Blitz"]
+#: scripts/ui/menus/main_menu.gd:779
 msgid "Fast (test)"
 msgstr ""
 
-#. pb.tooltip_text = "Normal: the usual game." if not fast else 				"Fast (test): buildings have less HP, towers 
-#: scripts/ui/menus/main_menu.gd:781
+#. var pace_names: Array[String] = ["Normal", "Fast (test)", "Blitz"]
+#: scripts/ui/menus/main_menu.gd:779
+msgid "Blitz"
+msgstr ""
+
+#. var pace_tips: Array[String] = ["Normal: the usual game.",
+#: scripts/ui/menus/main_menu.gd:780
 msgid "Normal: the usual game."
 msgstr ""
 
-#. pb.tooltip_text = "Normal: the usual game." if not fast else 				"Fast (test): buildings have less HP, towers 
+#. "Fast (test): buildings have less HP, towers hit softer, units train faster
 #: scripts/ui/menus/main_menu.gd:781
 msgid "Fast (test): buildings have less HP, towers hit softer, units train faster\nand the bots attack sooner (skirmish only)."
 msgstr ""
 
+#. "Blitz: 9 starting workers, weaker buildings, faster training and keep upgrades,
+#: scripts/ui/menus/main_menu.gd:783
+msgid "Blitz: 9 starting workers, weaker buildings, faster training and keep upgrades,\nbolder bots and a 30 % faster clock. Games last about 8 to 12 minutes (skirmish only)."
+msgstr ""
+
 #. start_button = _menu_button(actions, "Start")
-#: scripts/ui/menus/main_menu.gd:795 scripts/ui/menus/main_menu.gd:886
+#: scripts/ui/menus/main_menu.gd:800 scripts/ui/menus/main_menu.gd:891
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:117
 msgid "Start"
 msgstr ""
 
 #. var who := UIStyle.label("Vessa, apprentice of Fire", 17)
-#: scripts/ui/menus/main_menu.gd:844
+#: scripts/ui/menus/main_menu.gd:849
 msgid "Vessa, apprentice of Fire"
 msgstr ""
 
 #. box.add_child(UIStyle.label("Mission", 20))
-#: scripts/ui/menus/main_menu.gd:849 scripts/ui/mission/briefing_screen.gd:103
+#: scripts/ui/menus/main_menu.gd:854 scripts/ui/mission/briefing_screen.gd:103
 msgid "Mission"
 msgstr ""
 

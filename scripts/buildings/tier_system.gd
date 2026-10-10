@@ -43,6 +43,9 @@ var time_gates := true
 ## numbers).
 var max_tier := 3
 var bots_upgrade := true
+## Pace factor on the tier timeline (PaceSwitch.tier_time_x: Blitz < 1): the earliest start ("from"), the upgrade
+## time and the bot timeline (BOT_START) are multiplied by it. 1.0 = tiers.md values.
+var pace_time_x := 1.0
 
 var _tiers: Dictionary = {}          # team (int) -> cached tier (int)
 var _forced: Dictionary = {}         # team -> tier set by set_tier() for a team without a keep
@@ -270,7 +273,13 @@ func upgrade_reason(team: int, to_tier: int) -> String:
 
 ## Earliest match time (s) the upgrade to `to_tier` may start (UPGRADES "from").
 func start_time(to_tier: int) -> float:
-	return float((UPGRADES.get(to_tier, {}) as Dictionary).get("from", 0.0))
+	return float((UPGRADES.get(to_tier, {}) as Dictionary).get("from", 0.0)) * pace_time_x
+
+
+## Seconds the upgrade to `to_tier` takes here (UPGRADES "time" x the game's pace_time_x; Keep reads this).
+static func upgrade_seconds(to_tier: int) -> float:
+	var ts := instance()
+	return float((UPGRADES.get(to_tier, {}) as Dictionary).get("time", 0.0)) * (ts.pace_time_x if ts else 1.0)
 
 
 ## "3:30".
@@ -343,7 +352,7 @@ func _bot_step(team: int, keep: Keep, eco: Economy, difficulty: int) -> bool:
 		return false
 	var t := now()
 	var times: Array = BOT_START.get(clampi(difficulty, 0, 2), BOT_START[1])
-	if t < float(times[keep.tier - 1]) or t < float(_bot_hold.get(team, 0.0)):
+	if t < float(times[keep.tier - 1]) * pace_time_x or t < float(_bot_hold.get(team, 0.0)):
 		return false
 	var reason := keep.can_upgrade()
 	if reason == "":

@@ -1,0 +1,33 @@
+{
+	"name": "blitz_v7",
+	"notes": "Blitz tuning arm (docs/balance/blitz_2026-10-10.md): v5 + kingdom start bank.",
+	"fg": {
+		"blitz": {
+			"wall_hp_x": 0.4,
+			"turret_damage_x": 0.5,
+			"keep_damage_x": 0.6,
+			"tier_time_x": 0.5,
+			"soldier_train_x": 0.5,
+			"start_crystals_add": {
+				"fire": 0,
+				"nature": 100,
+				"shadow": 300,
+				"ice": 300
+			},
+			"building_hp_x": 0.35,
+			"keep_hp_x": 0.45,
+			"game_speed": 1.25,
+			"ai": {
+				"attack_ratio": "x0.75",
+				"attack_ratio_floor": "x0.75",
+				"attack_patience": 45,
+				"attack_full_pop": 10,
+				"first_attack_by": 300,
+				"worker_target_home": 9,
+				"worker_target_expanded": 12,
+				"worker_target_x2": 14,
+				"retreat_hp": 0.25
+			}
+		}
+	}
+}

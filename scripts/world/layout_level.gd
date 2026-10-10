@@ -934,15 +934,16 @@ func _on_navigation_ready() -> void:
 	var workers := {}
 	for team: int in [Unit.Team.PLAYER, Unit.Team.ENEMY]:
 		workers[team] = _worker_type_for(kingdom_of(team), _keep_type(team))
-	for i in 3:
+	for i in PaceSwitch.start_workers(blitz_pace):   # 3; Blitz more (same line, a / b 2:1)
 		var offset := Vector3(-4.0 + i * 1.2, 0.0, 4.0 - i * 1.2)   # Crown Hollow's, turned onto each seat
-		var suffix := "a" if i < 2 else "b"
+		var suffix := "a" if i % 3 < 2 else "b"
 		for team: int in [Unit.Team.PLAYER, Unit.Team.ENEMY]:
 			var start: Vector3 = _start_pos[team]
 			var w := _spawn(Worker.make_unit(workers[team]), team, start + _seat_frame(team).basis * (_canon_rot * offset))
 			var node := node_of(team, suffix)
 			if node:
 				w.call(&"command_gather", node)
+	_add_pace_start_crystals()
 	if not _first("crown").is_empty():
 		_spawn_wardens()
 		crown = EmberCrown.new()

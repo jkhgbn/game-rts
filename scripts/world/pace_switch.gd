@@ -9,6 +9,9 @@ extends Node
 ## match (or a mission) sees the normal data. Values are copied from fg_a2_strong.json (tools/ is not exported);
 ## tests/test_pace_switch.gd checks they still match it.
 ## Use: `PaceSwitch.setup(level, fast)` from the level's _ready. One PaceSwitch node rides along with a Fast level.
+## Blitz (JS 2026-10-10, docs/balance/blitz_2026-10-10.md): `PaceSwitch.setup(level, false, true)`. Same mechanism with
+## the BLITZ values (stronger than A2: start workers, start crystals, faster keep tiers, own keep / tower factors, own
+## bot knobs); the level reads `start_workers()` / `start_crystals_add()` / `tier_time_x()` while it builds the start.
 
 const UNIT_DIR := "res://data/units/"
 const BUILDING_DIR := "res://data/buildings/"
@@ -40,22 +43,43 @@ const TURRETS: Array[String] = ["fire_keep", "fire_tower", "fire_watch_keep", "i
 ## AIProfile knobs: a number = set, "x0.85" = multiply (same format as the Balance Lab variants).
 const AI_KNOBS := {"attack_ratio": "x0.85", "attack_ratio_floor": "x0.85", "attack_patience": 60,
 		"attack_full_pop": 16, "first_attack_by": 420}
+## Blitz values (docs/balance/blitz_2026-10-10.md, tuned with the faster-games lab arm "blitz").
+const BLITZ := {
+	"soldier_train_x": {"fire": 0.9, "ice": 0.35, "default": 0.5},   # per kingdom (Fire's lead in Blitz, Ice's lag)
+	"worker_train_x": 0.6, "worker_hp_x": 2.0,   # sturdier workers: 9 in a line must survive an early raid
+	"building_hp_x": 0.3, "wall_hp_x": 0.4, "turret_damage_x": 0.5,
+	"keep_hp_x": 0.4, "keep_damage_x": 0.6,   # the four kingdom keeps (own factors)
+	"start_workers": 9,
+	"start_crystals_add": {"fire": 0, "nature": 100, "shadow": 300, "ice": 800},   # per kingdom (balance lever)
+	"tier_time_x": 0.5,
+	"game_speed": 1.3,   # Engine.time_scale while the Blitz level runs (1.0 = real time)
+	"ai": {"attack_ratio": "x0.75", "attack_ratio_floor": "x0.75", "attack_patience": 45, "attack_full_pop": 10,
+			"first_attack_by": 300, "retreat_hp": 0.25, "worker_target_home": 9, "worker_target_expanded": 12,
+			"worker_target_x2": 14},
+}
+const KEEPS: Array[String] = ["fire_keep", "ice_keep", "nature_keep", "shadow_keep"]
 const BOT_CHECK_FRAMES := 15   ## physics frames between two looks for a new bot profile
 
+## Lab only (tools/balance_lab/faster_games, fg "blitz" block): keys here replace BLITZ's while tuning. Empty in game.
+static var tuning: Dictionary = {}
 static var _holders := 0
+static var _blitz := false   # the applied values are the Blitz ones
+static var _old_time_scale := -1.0   # Engine.time_scale before Blitz changed it (-1 = untouched)
 static var _originals: Array = []   # [[Resource, field, old value]] while applied
 static var _held: Array[Resource] = []
 
+var blitz := false
 var _patched := {}   # AIProfile instance id -> true
 var _frames := 0
 
 
 ## Call from the level's _ready before anything is built. `fast` true: apply the A2 values (once per run of Fast
 ## levels) and add the PaceSwitch node that patches the bots and undoes everything when the level leaves.
-static func setup(level: Node, fast: bool) -> PaceSwitch:
-	if not fast or level == null:
+static func setup(level: Node, fast: bool, blitz_on := false) -> PaceSwitch:
+	if not (fast or blitz_on) or level == null:
 		return null
 	var node := PaceSwitch.new()
+	node.blitz = blitz_on
 	node.name = "PaceSwitch"
 	level.add_child(node)
 	return node
@@ -69,13 +93,19 @@ static func is_applied() -> bool:
 func _enter_tree() -> void:
 	_holders += 1
 	if _holders == 1:
-		apply_resources()
+		apply_resources(blitz)
+		if blitz and not is_equal_approx(float(blitz_value("game_speed")), 1.0):
+			_old_time_scale = Engine.time_scale
+			Engine.time_scale = float(blitz_value("game_speed"))
 
 
 func _exit_tree() -> void:
 	_holders = maxi(0, _holders - 1)
 	if _holders == 0:
 		restore_resources()
+		if _old_time_scale > 0.0:
+			Engine.time_scale = _old_time_scale
+			_old_time_scale = -1.0
 
 
 func _physics_process(_delta: float) -> void:
@@ -97,33 +127,89 @@ func patch_bots(level: Node) -> void:
 		if ai == null or _patched.has(ai.get_instance_id()):
 			continue
 		_patched[ai.get_instance_id()] = true
-		patch_ai(ai)
+		patch_ai(ai, blitz_value("ai") if blitz else AI_KNOBS)
 
 
-## The A2 aggression knobs on one profile (in place).
-static func patch_ai(ai: AIProfile) -> void:
-	for k: String in AI_KNOBS:
+## The A2 aggression knobs (or `knobs`, e.g. Blitz's) on one profile (in place).
+static func patch_ai(ai: AIProfile, knobs: Dictionary = AI_KNOBS) -> void:
+	for k: String in knobs:
 		if not (StringName(k) in ai):
 			continue
 		var old: Variant = ai.get(StringName(k))
-		var v := _resolve(float(old), AI_KNOBS[k])
+		var v := _resolve(float(old), knobs[k])
 		ai.set(StringName(k), roundi(v) if old is int else v)
 
 
-## Edits the cached resources (no-op when already applied).
-static func apply_resources() -> void:
+## A Blitz value (BLITZ, or the lab's `tuning` override).
+static func blitz_value(key: String) -> Variant:
+	return tuning.get(key, BLITZ[key])
+
+
+## True while the applied values are the Blitz ones.
+static func is_blitz() -> bool:
+	return is_applied() and _blitz
+
+
+## Workers each side starts with: 3, or Blitz's start_workers.
+static func start_workers(blitz_on: bool) -> int:
+	return maxi(3, int(blitz_value("start_workers"))) if blitz_on else 3
+
+
+## Crystals added to a side's start bank (0 outside Blitz). BLITZ "start_crystals_add" is a number (every kingdom) or
+## a Dictionary kingdom -> number (the Blitz kingdom balance lever: a missing kingdom gets 0).
+static func start_crystals_add(blitz_on: bool, kingdom: StringName = &"") -> int:
+	if not blitz_on:
+		return 0
+	var v: Variant = blitz_value("start_crystals_add")
+	if v is Dictionary:
+		return int((v as Dictionary).get(String(kingdom), 0))
+	return int(v)
+
+
+## Keep tier-up time factor (TierSystem.pace_time_x): earliest start, upgrade time, bot timeline. 1.0 outside Blitz.
+static func tier_time_x(blitz_on: bool) -> float:
+	return float(blitz_value("tier_time_x")) if blitz_on else 1.0
+
+
+## Edits the cached resources (no-op when already applied). `blitz_on`: the Blitz values instead of A2.
+static func apply_resources(blitz_on := false) -> void:
 	if is_applied():
 		return
+	_blitz = blitz_on
+	var f := func(key: String, a2: float) -> float: return float(blitz_value(key)) if blitz_on else a2
 	for id in SOLDIERS:
-		_edit(UNIT_DIR, id, &"train_time", SOLDIER_TRAIN_X)
+		var x := SOLDIER_TRAIN_X
+		if blitz_on:
+			x = kingdom_factor(blitz_value("soldier_train_x"), _faction_of(UNIT_DIR + id + ".tres"))
+		_edit(UNIT_DIR, id, &"train_time", x)
 	for id in WORKERS:
-		_edit(UNIT_DIR, id, &"train_time", WORKER_TRAIN_X)
+		_edit(UNIT_DIR, id, &"train_time", f.call("worker_train_x", WORKER_TRAIN_X))
+		if blitz_on:
+			_edit(UNIT_DIR, id, &"max_hp", float(blitz_value("worker_hp_x")))
 	for id in BUILDINGS:
-		_edit(BUILDING_DIR, id, &"max_hp", BUILDING_HP_X)
+		var hp_x: float = f.call("keep_hp_x", BUILDING_HP_X) if KEEPS.has(id) else f.call("building_hp_x", BUILDING_HP_X)
+		_edit(BUILDING_DIR, id, &"max_hp", hp_x)
 	for id in WALLS:
-		_edit(BUILDING_DIR, id, &"max_hp", WALL_HP_X)
+		_edit(BUILDING_DIR, id, &"max_hp", f.call("wall_hp_x", WALL_HP_X))
 	for id in TURRETS:
-		_edit(BUILDING_DIR, id, &"attack_damage", TURRET_DAMAGE_X)
+		var dmg_x: float = f.call("keep_damage_x", TURRET_DAMAGE_X) if KEEPS.has(id) 				else f.call("turret_damage_x", TURRET_DAMAGE_X)
+		_edit(BUILDING_DIR, id, &"attack_damage", dmg_x)
+
+
+## A Blitz factor that is a number (every kingdom) or a Dictionary {"fire": 0.6, ..., "default": 0.5} (the Blitz
+## kingdom balance lever; a kingdom not listed takes "default", else 1.0).
+static func kingdom_factor(spec: Variant, faction: StringName) -> float:
+	if spec is Dictionary:
+		var d := spec as Dictionary
+		return float(d.get(String(faction), d.get("default", 1.0)))
+	return float(spec)
+
+
+static func _faction_of(path: String) -> StringName:
+	if not ResourceLoader.exists(path):
+		return &""
+	var res := load(path) as Resource
+	return StringName(res.get(&"faction")) if res != null and &"faction" in res else &""
 
 
 ## Puts every edited value back (no-op when nothing is applied).
@@ -133,6 +219,7 @@ static func restore_resources() -> void:
 		(row[0] as Resource).set(row[1], row[2])
 	_originals.clear()
 	_held.clear()
+	_blitz = false
 
 
 static func _edit(dir: String, id: String, field: StringName, mult: float) -> void:
@@ -144,6 +231,8 @@ static func _edit(dir: String, id: String, field: StringName, mult: float) -> vo
 		return
 	var old: Variant = res.get(field)
 	if not (old is int or old is float):
+		return
+	if is_equal_approx(mult, 1.0):
 		return
 	_held.append(res)   # keep the edited resource referenced so the cache keeps it
 	_originals.append([res, field, old])

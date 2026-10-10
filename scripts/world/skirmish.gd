@@ -333,6 +333,10 @@ const DEFAULT_ENEMY_KINGDOM := &"shadow"
 ## Pace "Fast (test)" (A2 of docs/balance/faster_games_2026-10-06.md, PaceSwitch): the menu's Pace row sets it before
 ## the node enters the tree (off by default; missions never set it). Saved with the match (SaveGame.LEVEL_PROPS).
 @export var fast_pace := false
+## Pace "Blitz" (docs/balance/blitz_2026-10-10.md, PaceSwitch.BLITZ): more start workers, stronger A2-like values,
+## faster keep tiers, earlier bot attacks. Set by the menu before the node enters the tree (off by default; missions
+## never set it; wins over fast_pace). Saved with the match (SaveGame.LEVEL_PROPS).
+@export var blitz_pace := false
 ## Keep tiers T1 -> Stronghold -> Citadel (docs/design/tiers.md, TierSystem). Skirmish true, missions false (no
 ## TierSystem node = nothing is tier-gated).
 @export var tiers_enabled := true
@@ -400,18 +404,30 @@ func _ready() -> void:
 	player_kingdom = _resolve_kingdom(player_kingdom, DEFAULT_PLAYER_KINGDOM)
 	enemy_kingdom = _resolve_kingdom(enemy_kingdom, DEFAULT_ENEMY_KINGDOM)
 	UIStyle.set_kingdom(player_kingdom)   # the HUD skin (GameHUD.setup confirms it from the wizard)
-	PaceSwitch.setup(self, fast_pace)   # before any unit or building: Fast edits the types in memory
+	PaceSwitch.setup(self, fast_pace and not blitz_pace, blitz_pace)   # before any unit or building: edits the types in memory
 	if trade_enabled:
 		_create_gold_banks()   # before any unit or building: Unit._ready applies the team's wares through them
 	if tiers_enabled and TierSystem.ENABLED:   # before any building: the gates read it (tiers.md)
 		tier_system = TierSystem.new()
 		tier_system.name = "TierSystem"
 		tier_system.match_time_source = match_time
+		tier_system.pace_time_x = PaceSwitch.tier_time_x(blitz_pace)
 		add_child(tier_system)
 	super()
 
 
 # ---------------------------------------------------------------- public helpers (bot, UI, tests)
+
+## Blitz start bank: PaceSwitch.start_crystals_add(kingdom) more crystals per side (nothing outside Blitz).
+func _add_pace_start_crystals() -> void:
+	if not blitz_pace:
+		return
+	for team: int in [Unit.Team.PLAYER, Unit.Team.ENEMY]:
+		var extra := PaceSwitch.start_crystals_add(true, kingdom_of(team))
+		var eco := Economy.for_team(team)
+		if eco and extra != 0:
+			eco.add(extra)
+
 
 ## The other kingdom (PLAYER <-> ENEMY).
 ## 2v2 (scripts/core/teams.gd): the seat's lane opponent (`Teams.opponent_of`); 1v1 unchanged.
@@ -1289,13 +1305,14 @@ func _on_navigation_ready() -> void:
 	var workers := {}
 	for team: int in [Unit.Team.PLAYER, Unit.Team.ENEMY]:
 		workers[team] = _worker_type_for(kingdom_of(team), _keep_type(team))
-	for i in 3:
+	for i in PaceSwitch.start_workers(blitz_pace):   # 3; Blitz more (the extras go on in the same line, a / b 2:1)
 		var offset := Vector3(-4.0 + i * 1.2, 0.0, 4.0 - i * 1.2)
-		var suffix := "a" if i < 2 else "b"
+		var suffix := "a" if i % 3 < 2 else "b"
 		var mine := _spawn(Worker.make_unit(workers[Unit.Team.PLAYER]), Unit.Team.PLAYER, PLAYER_START + offset)
 		mine.call(&"command_gather", node_of(Unit.Team.PLAYER, suffix))
 		var theirs := _spawn(Worker.make_unit(workers[Unit.Team.ENEMY]), Unit.Team.ENEMY, SHADOW_START - offset)
 		theirs.call(&"command_gather", node_of(Unit.Team.ENEMY, suffix))
+	_add_pace_start_crystals()
 	_spawn_wardens()
 
 	crown = EmberCrown.new()
