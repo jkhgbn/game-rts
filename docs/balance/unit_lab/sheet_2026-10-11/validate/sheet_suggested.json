@@ -1,0 +1,16 @@
+{
+	"name": "sheet_suggested",
+	"notes": "Unit balance sheet 2026-10-11: the suggested small changes of the top outliers, applied together (in memory, Unit Lab A/B only).",
+	"units": {
+		"frostcrown_juggernaut": {"max_hp": 665.0},
+		"vinelasher": {"max_hp": 145.0},
+		"bramblehorn": {"max_hp": 325.0},
+		"pyre_adept": {"max_hp": 70.0},
+		"rimeshield": {"max_hp": 130.0},
+		"rime_colossus": {"max_hp": 440.0},
+		"shade": {"max_hp": 95.0},
+		"greenheart_oathkeeper": {"max_hp": 260.0},
+		"shardguard": {"max_hp": 495.0},
+		"briar_roc": {"max_hp": 785.0}
+	}
+}

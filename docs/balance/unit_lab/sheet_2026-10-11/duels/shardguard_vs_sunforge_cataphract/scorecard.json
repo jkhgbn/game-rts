@@ -1,0 +1,69 @@
+{
+	"checks": [],
+	"fights": 20,
+	"stats": {
+		"baseline": {
+			"equal": {
+				"a_wins": 0,
+				"alive": [
+					0.0,
+					1.8
+				],
+				"b_wins": 20,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 0.161130130290985,
+				"hp_left_pct": [
+					0.0,
+					0.423984613212874
+				],
+				"lo": 0.0,
+				"n": 20,
+				"score": 0.0,
+				"time_median": 35.575,
+				"trade": [
+					0.524172222222222,
+					1.90776992294729
+				],
+				"ttk_median": 35.575,
+				"types": [
+					{
+						"shardguard": {
+							"dealt": 913.41,
+							"dealt_per_100": 101.49,
+							"dps": 8.77856799615569,
+							"kills": 0.2,
+							"kills_per_100": 0.0222222222222222,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 1768.8
+						}
+					},
+					{
+						"sunforge_cataphract": {
+							"dealt": 1768.8,
+							"dealt_per_100": 221.1,
+							"dps": 25.1339253996448,
+							"kills": 4.0,
+							"kills_per_100": 0.5,
+							"per_fight": 2.0,
+							"summon": false,
+							"survival": 0.9,
+							"taken": 913.41
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "sheet_2026-10-11_duel_shardguard_vs_sunforge_cataphract",
+	"variants": {}
+}

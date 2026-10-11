@@ -1,0 +1,69 @@
+{
+	"checks": [],
+	"fights": 20,
+	"stats": {
+		"baseline": {
+			"equal": {
+				"a_wins": 17,
+				"alive": [
+					1.25,
+					0.15
+				],
+				"b_wins": 3,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 0.947632193565369,
+				"hp_left_pct": [
+					0.261657786657787,
+					0.00729591836734694
+				],
+				"lo": 0.639576733112335,
+				"n": 20,
+				"score": 0.85,
+				"time_median": 44.625,
+				"trade": [
+					1.25895580929138,
+					0.794309055663251
+				],
+				"ttk_median": 44.625,
+				"types": [
+					{
+						"frostcrown_juggernaut": {
+							"dealt": 1441.775,
+							"dealt_per_100": 171.639880952381,
+							"dps": 21.6077182465343,
+							"kills": 1.85,
+							"kills_per_100": 0.220238095238095,
+							"per_fight": 2.0,
+							"summon": false,
+							"survival": 0.625,
+							"taken": 1257.67
+						}
+					},
+					{
+						"sunforge_cataphract": {
+							"dealt": 1257.67,
+							"dealt_per_100": 157.20875,
+							"dps": 19.6311558573324,
+							"kills": 0.75,
+							"kills_per_100": 0.09375,
+							"per_fight": 2.0,
+							"summon": false,
+							"survival": 0.075,
+							"taken": 1441.775
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "sheet_2026-10-11_duel_frostcrown_juggernaut_vs_sunforge_cataphract",
+	"variants": {}
+}

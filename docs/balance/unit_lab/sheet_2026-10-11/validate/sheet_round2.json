@@ -1,0 +1,16 @@
+{
+	"name": "sheet_round2",
+	"notes": "Unit balance sheet 2026-10-11, round 2 (round 1 = -15 % HP alone barely moved the per-pop scores): HP plus damage, armour for the Juggernaut, supply for the Vinelasher.",
+	"units": {
+		"frostcrown_juggernaut": {"max_hp": 700.0, "armor": 28.0},
+		"vinelasher": {"pop": 2},
+		"bramblehorn": {"max_hp": 325.0, "attack_damage": 16.0},
+		"pyre_adept": {"max_hp": 70.0, "attack_damage": 9.0},
+		"rimeshield": {"max_hp": 130.0, "attack_damage": 10.0},
+		"rime_colossus": {"max_hp": 440.0, "attack_damage": 25.0},
+		"shade": {"max_hp": 95.0},
+		"greenheart_oathkeeper": {"max_hp": 260.0},
+		"shardguard": {"max_hp": 495.0, "attack_damage": 24.0},
+		"briar_roc": {"attack_damage": 23.0}
+	}
+}

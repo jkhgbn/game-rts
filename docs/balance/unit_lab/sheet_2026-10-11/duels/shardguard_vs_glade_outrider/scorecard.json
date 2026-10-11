@@ -1,0 +1,69 @@
+{
+	"checks": [],
+	"fights": 20,
+	"stats": {
+		"baseline": {
+			"equal": {
+				"a_wins": 0,
+				"alive": [
+					0.0,
+					1.95
+				],
+				"b_wins": 20,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 0.161130130290985,
+				"hp_left_pct": [
+					0.0,
+					0.277391995901395
+				],
+				"lo": 0.0,
+				"n": 20,
+				"score": 0.0,
+				"time_median": 39.725,
+				"trade": [
+					0.741435555555556,
+					1.3487348866763
+				],
+				"ttk_median": 39.725,
+				"types": [
+					{
+						"shardguard": {
+							"dealt": 1283.615,
+							"dealt_per_100": 114.099111111111,
+							"dps": 10.067568627451,
+							"kills": 1.05,
+							"kills_per_100": 0.0933333333333333,
+							"per_fight": 5.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 2246.2
+						}
+					},
+					{
+						"glade_outrider": {
+							"dealt": 2246.2,
+							"dealt_per_100": 197.035087719298,
+							"dps": 23.8792324456493,
+							"kills": 5.0,
+							"kills_per_100": 0.43859649122807,
+							"per_fight": 3.0,
+							"summon": false,
+							"survival": 0.65,
+							"taken": 1283.615
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "sheet_2026-10-11_duel_shardguard_vs_glade_outrider",
+	"variants": {}
+}

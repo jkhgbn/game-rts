@@ -1,0 +1,3 @@
+{"name": "sheet validate cost", "seeds": "1-4",
+ "matrix": {"kingdoms": ["fire", "ice", "nature", "shadow"], "tiers": [1, 2, 3], "casters": true, "budget": 720, "basis": "cost",
+  "focus": ["frostcrown_juggernaut", "vinelasher", "bramblehorn", "pyre_adept", "rimeshield", "rime_colossus", "shade", "greenheart_oathkeeper", "shardguard", "briar_roc"]}}

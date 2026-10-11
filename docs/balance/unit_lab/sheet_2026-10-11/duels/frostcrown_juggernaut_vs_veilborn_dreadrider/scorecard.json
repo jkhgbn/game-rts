@@ -1,0 +1,69 @@
+{
+	"checks": [],
+	"fights": 20,
+	"stats": {
+		"baseline": {
+			"equal": {
+				"a_wins": 20,
+				"alive": [
+					1.15,
+					0.0
+				],
+				"b_wins": 0,
+				"casts": [
+					{},
+					{}
+				],
+				"draws": 0,
+				"first_cast": [
+					{},
+					{}
+				],
+				"hi": 1.0,
+				"hp_left_pct": [
+					0.238208874458875,
+					0.0
+				],
+				"lo": 0.838869869709015,
+				"n": 20,
+				"score": 1.0,
+				"time_median": 40.95,
+				"trade": [
+					1.22606303496579,
+					0.81561875
+				],
+				"ttk_median": 40.95,
+				"types": [
+					{
+						"frostcrown_juggernaut": {
+							"dealt": 1355.25,
+							"dealt_per_100": 161.339285714286,
+							"dps": 22.2884631198092,
+							"kills": 2.0,
+							"kills_per_100": 0.238095238095238,
+							"per_fight": 2.0,
+							"summon": false,
+							"survival": 0.575,
+							"taken": 1311.22
+						}
+					},
+					{
+						"veilborn_dreadrider": {
+							"dealt": 1311.22,
+							"dealt_per_100": 163.9025,
+							"dps": 21.924922665329,
+							"kills": 0.85,
+							"kills_per_100": 0.10625,
+							"per_fight": 2.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 1355.25
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "sheet_2026-10-11_duel_frostcrown_juggernaut_vs_veilborn_dreadrider",
+	"variants": {}
+}
