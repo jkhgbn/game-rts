@@ -1531,6 +1531,10 @@ func _next_row() -> Dictionary:
 	for b in _buildings:
 		if not b.is_constructed():
 			return {}
+	if ai.expand_first:   # 2026-10-11 (Ice economy fix): a due X1 before every other row
+		for row: Dictionary in _rows:
+			if row["id"] == &"X1" and not _row_built(row) and _row_trigger(row):
+				return row
 	for row: Dictionary in _rows:
 		if not _row_built(row) and _row_trigger(row):
 			return row
@@ -1586,7 +1590,8 @@ func _row_trigger(row: Dictionary) -> bool:
 				return false
 			var low := _home_left() < ai.expand_home_below if ai.expand_home_below > 0 \
 					else _home_left() < EXPAND_HOME_SHARE * _home_start
-			return (low or _now >= ai.expand_time) and (not _camp_alive() or own_strength >= EXPAND_STRENGTH)
+			var bank := ai.expand_bank > 0 and _eco.crystals >= ai.expand_bank
+			return (low or bank or _now >= ai.expand_time) and (not _camp_alive() or own_strength >= EXPAND_STRENGTH)
 		"W1", "W2":
 			return _slot_done(&"S1")
 		"X2":
@@ -1621,6 +1626,8 @@ func _row_crystals(row: Dictionary, type: BuildingType) -> int:
 ## ai.extra_hall_bank crystals (income the Halls cannot turn into army).
 func _extra_hall_due(n: int) -> bool:
 	if n - 1 > ai.extra_halls or (n > 2 and not _slot_done(StringName("H%d" % (n - 1)))):
+		return false
+	if ai.extra_hall_after_x1 and not _x1_done():
 		return false
 	if _eco.crystals < ai.extra_hall_bank or _barracks.is_empty():
 		return false

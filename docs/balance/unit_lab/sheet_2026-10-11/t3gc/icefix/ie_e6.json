@@ -1,0 +1,22 @@
+{
+ "name": "ie_e6",
+ "notes": "Ice eco: X1 on a 300 bank or 4:30, X1 first, extra halls after X1, 7 home workers + f6 mix",
+ "units": {},
+ "fg": {
+  "ai_kingdom": {
+   "ice": {
+    "expand_time": 270,
+    "worker_target_home": 7,
+    "expand_first": true,
+    "extra_hall_after_x1": true,
+    "expand_bank": 300
+   }
+  },
+  "bot_share": {
+   "rime_seer": 0.0,
+   "shardcaster": 0.3,
+   "rimeshield": 0.35,
+   "rime_colossus": 0.35
+  }
+ }
+}

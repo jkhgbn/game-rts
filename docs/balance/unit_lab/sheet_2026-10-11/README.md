@@ -340,3 +340,60 @@ Seer 40 / 40 / 0 / 20) 22 %, `ice_f2` 22 %, `ice_comp_noseer` 25 %, `ice_f4` / `
   à cause de **Thornwater** (20 / 24, problème déjà noté dans `docs/balance/blitz_2026-10-10.md`), pas d'Ice.
 - Avec ± 13 points par royaume, aucun changement d'unité ou de mix testé ne passe Ice au-dessus de 35 de façon fiable. La suite
   est côté bot (ai-coder) : l'économie d'Ice avant 7:00 et le nombre d'attaques, puis Fire sur Thornwater.
+
+## Économie du bot Ice (2026-10-11, appliqué)
+
+Suite de la section d'avant : la cause est côté bot, pas côté unités. Aucune stat d'unité touchée (`data/units` intact,
+feuille Unit Lab inchangée).
+
+### La cause
+Les journaux du bot (`--log=1`) et les stats par minute des 96 parties de base (`fg-icefix-ch` / `-tw`) montrent que le bot
+Ice prend son expansion **trop tard** :
+- Mêmes 6 travailleurs que les autres jusqu'à X1, mais X1 posé à 4:30-5:20 et fini à 5:25-6:00 (Frost Hall : 54 s), contre
+  4:20-4:40 / 4:50-5:15 pour Fire, Shadow et Nature. Les 3 travailleurs de plus (cible 9) arrivent donc ~45 s plus tard.
+- Avant X1, la banque d'Ice flotte (290-530 cristaux vers 2:30-3:20) : le Frost Hall lent ne la dépense pas. La règle des Halls
+  en plus (7bf098b9) la dépensait sur **H2** à ~2:00 (150 cristaux + un bâtisseur 54 s), placé **avant** S1 et X1 dans l'ordre
+  des rangées, ce qui repoussait encore X1.
+- Résultat (Ice moins l'adversaire, base) : cristaux récoltés -90 à -135 à 5:00, -370 à -460 à 7:00, -840 à -850 à 10:00
+  contre Fire / Shadow; contre Nature (7 travailleurs, X1 4:30) -590 / -1 490 / -2 180. Les travailleurs morts d'Ice viennent
+  surtout de 6:00-8:00 (2,0 par partie, le héros ennemi 1,3) : la naturelle prise en retard, quand l'ennemi attaque déjà.
+- Les règles de sécurité des travailleurs (ccb9227b) ne sont pas la cause : rien dans les journaux ne montre Ice sautant ses
+  nœuds plus que les autres avant 7:00.
+
+### Le changement (Ice normal et difficile seulement; facile, Fire, Shadow, Nature : rien ne change)
+Trois nouveaux boutons `AIProfile` (défaut = comportement d'avant), réglés dans `AIProfile.ice()` et `data/ai/ice_{normal,hard}.tres` :
+- `expand_bank = 300` : X1 se déclenche aussi dès que la banque tient 300 cristaux (en pratique ~2:30-3:00); `expand_time`
+  reste 5:30 en filet.
+- `expand_first = true` : un X1 dû passe avant toutes les autres rangées (maisons, Halls en plus, tours).
+- `extra_hall_after_x1 = true` : H2 / H3 attendent que X1 soit fini.
+- `worker_target_home` 6 -> 7 (comme Nature; expansion / X2 inchangés 9 / 12).
+
+Code : `scripts/ai/commander.gd` (`_next_row`, `_row_trigger` X1, `_extra_hall_due`). Outil : `fg_match.gd` accepte
+`"fg": {"ai_kingdom": {"ice": {...}}}` (boutons d'un seul royaume, pour les bras A/B).
+
+### Résultats (normal, Crown Hollow + Thornwater, 6 paires avec Ice x 4 graines = 48 parties Ice; parties sans Ice = la base)
+| Royaume | Base | `ie_e` (le changement + X1 4:30) | `ie_e6` (`ie_e` + mix `ice_f6`) | **Appliqué** (`fg-iceeco2`) |
+|---|---|---|---|---|
+| Fire | 71 % (CH 58 / TW 83) | 60 % | 75 % | **67 %** (62 / 71) |
+| Ice | 23 % (17 / 29) | 44 % | 38 % | **40 %** (38 / 42) |
+| Nature | 65 % (67 / 62) | 58 % | 54 % | **58 %** (58 / 58) |
+| Shadow | 42 % (58 / 25) | 38 % | 33 % | **35 %** (42 / 29) |
+| Ice récolté à 10:00 contre l'adversaire | -21 % | +10 % | +6 % | **+6 %** |
+| Attaques d'Ice par partie | 1,8 | 3,2 | 3,2 | 2,8 |
+
+Ice contre l'adversaire (appliqué, cristaux récoltés 5:00 / 7:00 / 10:00) : contre Fire +370 / +770 / +500 (6 / 16), contre
+Shadow +420 / +840 / +890 (9 / 16), contre Nature -160 / -350 / -480 (4 / 16, était 1 / 16 et -2 180 à 10:00).
+- **Ice passe de 23 à 40 %**, dans 35-65, et son économie rattrape (de -21 % à +6 % à 10:00).
+- Fire baisse (71 -> 67, toujours au-dessus à cause de Thornwater, 71 % là), Nature 65 -> 58. Shadow 42 -> 35, au bord :
+  le gain d'Ice contre Shadow (6 -> 9 sur 16) lui coûte 3 victoires. ± 13 points par royaume.
+- Le mix `ice_f6` en plus n'aide pas (Ice 38 %, Fire 75 %, Shadow 33 %) : **pas appliqué**.
+- La différence `ie_e` (X1 au plus tard 4:30) / appliqué (5:30) est dans le bruit : la banque déclenche X1 avant dans tous
+  les journaux; `expand_time` 330 reste pour `test_8_b3`.
+
+### Reste à faire
+Ice contre Nature reste à 4 / 16 : Nature attaque ~5 fois de plus par partie et Ice perd ses travailleurs de 6:00 à 8:00
+(héros ennemi). C'est la défense de la naturelle, pas l'économie. Shadow est à surveiller (35 %).
+
+### Tests
+`test_casters_bots`, `test_tiers`, `test_7_a1`, `test_mt10_bot_slots`, `test_2_a1_rules`, `test_8_b3` : PASS.
+Variantes : `t3gc/icefix/ie_e.json`, `ie_e6.json`. Runs : `..\four-wizards-lab-runs\fg-iceeco-ch|tw` (bras `ie_e`, `ie_e6`), `fg-iceeco2-ch|tw` (le code appliqué).

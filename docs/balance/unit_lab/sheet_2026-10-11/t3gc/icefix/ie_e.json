@@ -1,0 +1,1 @@
+{"name": "ie_e", "notes": "Ice eco: X1 on a 300 bank or 4:30, X1 first, extra halls after X1, 7 home workers", "units": {}, "fg": {"ai_kingdom": {"ice": {"expand_time": 270, "worker_target_home": 7, "expand_first": true, "extra_hall_after_x1": true, "expand_bank": 300}}}}

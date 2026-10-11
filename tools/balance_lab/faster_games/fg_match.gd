@@ -11,6 +11,7 @@ extends "../balance_match.gd"
 ##                                                        bowman; the 3 new-units-12 slots follow) and to UnitType.find
 ##     "bot_share": {"<unit id>": 0.15},                  the bots' target share of soldier pop for that Hall slot
 ##     "ai": {"<AIProfile knob>": 12 | "x0.8" | "+5"}     bot knobs (both sides)
+##     "ai_kingdom": {"ice": {"<knob>": 12 | true}}       bot knobs of that kingdom's bot only (a bool knob takes a bool)
 ##     "start_workers": 6,                                workers each side starts with (skirmish: 3); the extras are
 ##                                                        spawned at match start beside the first three, on the home
 ##                                                        nodes a / b in the same 2:1 pattern (faster_games_2026-10-08.md)
@@ -32,6 +33,7 @@ var _siege_mult := {}          # unit id -> building damage factor
 var _prefer := false
 var _bot_share := {}           # unit id -> soldier pop share
 var _ai_mods := {}
+var _ai_kingdom := {}          # kingdom -> {knob: value} (only that kingdom's bot)
 var _patched_ai: Array = []    # AIProfile objects already patched (instance ids)
 var _hall_order := {}          # kingdom -> Array[UnitType] (what TrainingBuilding.trainable_types lists for a Hall)
 var _b_deaths: Array = []
@@ -63,6 +65,9 @@ func apply_variant(data: Dictionary) -> void:
 	var mods: Variant = fg.get("ai", {})
 	if mods is Dictionary:
 		_ai_mods = mods
+	var kmods: Variant = fg.get("ai_kingdom", {})
+	if kmods is Dictionary:
+		_ai_kingdom = kmods
 	if fg.get("blitz") is Dictionary:
 		_blitz_on = true
 		PaceSwitch.tuning = (fg["blitz"] as Dictionary).duplicate(true)
@@ -128,7 +133,7 @@ func _hall_types(kingdom: String) -> Array:
 
 ## Bot profile patch (the Commander swaps its preset for the kingdom profile on its first tick: patched again then).
 func _patch_bots() -> void:
-	if _bot_share.is_empty() and _ai_mods.is_empty():
+	if _bot_share.is_empty() and _ai_mods.is_empty() and _ai_kingdom.is_empty():
 		return
 	for team in [PLAYER, ENEMY]:
 		var bot: Node = bots[team]
@@ -170,6 +175,18 @@ func _patch_bots() -> void:
 				continue
 			var v := resolve_value(float(old), _ai_mods[k])
 			(ai as Resource).set(StringName(k), roundi(v) if old is int else v)
+		var own: Variant = _ai_kingdom.get(String(kingdoms[team]), {})
+		if own is Dictionary:
+			for k: String in own:
+				if not (StringName(k) in ai):
+					variant_errors.append("fg.ai_kingdom.%s: no such AIProfile knob" % k)
+					continue
+				var old2: Variant = (ai as Resource).get(StringName(k))
+				if old2 is bool:
+					(ai as Resource).set(StringName(k), bool(own[k]))
+				elif old2 is int or old2 is float:
+					var v2 := resolve_value(float(old2), own[k])
+					(ai as Resource).set(StringName(k), roundi(v2) if old2 is int else v2)
 
 
 ## Start boost (JS 2026-10-08 "start with more workers"): runs once, on the lab's match-start frame (the skirmish has

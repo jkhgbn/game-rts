@@ -55,6 +55,14 @@ enum MalrikJoins { NEVER, SECOND_ATTACK_OR_STRENGTH, EVERY_ATTACK }
 ## is full and the bank holds extra_hall_bank crystals (the slow Frost Hall floated 400-1 300 crystals by 3:00).
 @export var extra_halls := 0
 @export var extra_hall_bank := 300
+## 2026-10-11 (Ice economy fix): the extra Halls also wait for X1 to stand finished (the expansion comes first).
+@export var extra_hall_after_x1 := false
+## 2026-10-11 (Ice economy fix): X1, once its trigger holds, goes before every other build row (houses, extra Halls,
+## towers): the slow Frost Hall otherwise lands the natural ~45 s after the other kingdoms.
+@export var expand_first := false
+## 2026-10-11 (Ice economy fix): X1 also triggers once the bank holds this many crystals (0 = off): a bank the Halls
+## cannot spend becomes the natural (a Hall too) instead of waiting for expand_time.
+@export var expand_bank := 0
 @export var build_walls := false             ## Ice hard: 2 walls beside S1 (kingdom-ice.md 7 "Walls").
 @export var wall_path_ratio := 1.5           ## Walls only while keep -> rally path < this x the straight line.
 ## Target share of soldier pop per barracks slot (card order), default / vs ranged / vs melee.
@@ -207,7 +215,8 @@ static func nature(difficulty: int) -> AIProfile:
 
 
 ## kingdom-ice.md section 7 + balance-2 2b: the difficulty preset (no attack bonuses since 2026-10-10), defend
-## 32 m, retreat 40 %, S1 3:30, S2 7:00, X1 5:30 or home nodes < half, Ice mix, walls on hard, Torvald's items.
+## 32 m, retreat 40 %, S1 3:30, S2 7:00, X1 5:30 or home nodes < half (normal / hard: or a 300 bank, X1 first, 7 home
+## workers, extra Halls after X1), Ice mix, walls on hard, Torvald's items.
 static func ice(difficulty: int) -> AIProfile:
 	var p := for_difficulty(difficulty)
 	p.profile_id = &"ice_default"
@@ -221,6 +230,13 @@ static func ice(difficulty: int) -> AIProfile:
 	p.expand_home_below = 0   # ...or home nodes under half of the start (the stale 700 is gone)
 	p.build_walls = difficulty >= 2
 	p.extra_halls = 2 if difficulty >= 1 else 0   # 2026-10-09: turn a floating bank into more Frost Halls
+	if difficulty >= 1:
+		# 2026-10-11 (Ice economy fix, unit_lab/sheet_2026-10-11): the natural first. X1 on a 300 bank (~2:30 instead
+		# of 4:30-5:20), before every other row, the extra Halls only after it, one more home worker (7 / 9 / 12).
+		p.worker_target_home += 1
+		p.expand_first = true
+		p.expand_bank = 300
+		p.extra_hall_after_x1 = true
 	# Rimeshield / Shardcaster / Rime Seer / Rime Colossus (Frost Hall card order Z X C V).
 	p.mix_default = PackedFloat32Array([0.40, 0.30, 0.10, 0.20])
 	p.mix_vs_ranged = PackedFloat32Array([0.50, 0.20, 0.10, 0.20])
