@@ -1,0 +1,55 @@
+entry,tier,exemption,before_crystals,before_pop,before_both,after_crystals,after_pop,after_both,t3_vs_t12_before_crystals,t3_vs_t12_before_pop,t3_vs_t12_before_both,t3_vs_t12_after_crystals,t3_vs_t12_after_pop,t3_vs_t12_after_both
+ash_hurler,1,siege,5,39,8,6,43,5
+blaze_rider,1,,67,73,78,68,82,85
+ember_archer,1,T1 archer,18,22,25,18,20,24
+emberdart_harrier,1,,35,28,43,37,34,42
+flame_guard,1,,73,80,86,70,78,84
+scorchbow,1,bowman,12,43,21,12,49,17
+scorchling,1,swarm (judged on both),95,32,40,96,29,40
+frostbow,1,bowman,15,62,25,17,85,20
+rime_colossus,1,,77,92,86,60,76,74
+rime_harrier,1,,36,23,42,37,32,43
+rime_seer,1,support,0,6,0,0,4,0
+rimeling,1,swarm (judged on both),70,13,29,88,15,32
+rimeshield,1,,89,94,96,92,96,96
+shardcaster,1,T1 archer,11,34,16,10,34,19
+snowdrift_rider,1,,83,77,84,71,69,73
+bloomtender,1,support,7,6,11,6,7,11
+bramble_harrier,1,,33,18,36,40,33,43
+bramblehorn,1,,80,95,95,54,82,75
+burr_slinger,1,T1 archer,25,3,8,23,2,8
+stagrunner,1,,49,50,55,71,55,63
+thistle_darter,1,T1 archer,26,0,7,27,0,6
+thornling,1,swarm (judged on both),69,23,38,83,20,34
+wildwood_archer,1,T1 archer,19,11,20,20,11,23
+barrow_ghoul,1,swarm (judged on both),82,39,44,91,36,44
+bleakbow,1,bowman,10,33,20,13,30,17
+duskbolt_harrier,1,,35,29,41,35,29,42
+gloam_rider,1,,68,79,82,68,79,83
+grave_hound,1,,69,43,47,67,44,51
+nightbolt,1,T1 archer,20,22,26,18,22,26
+shade,1,,88,73,74,87,82,86
+shadow_knight,1,,76,77,86,59,67,72
+cinder_arbalest,2,,30,79,40,29,89,46
+kilnwarden+flame_guard,2,,62,59,61,57,54,59
+pyre_adept,2,,76,93,73,72,95,75
+pyrehoof_lancer,2,,57,74,71,57,73,74
+frost_mortar,2,,76,76,76,67,73,74
+hoarlight_magebow,2,bowman,33,47,51,32,49,54
+rimecarver+rimeshield,2,,57,58,64,68,77,82
+rimehorn_rider,2,,61,75,80,61,75,84
+bramblesage+thornling,2,,46,7,12,51,8,15
+greenheart_oathkeeper,2,,87,73,89,72,65,78
+thornback_charger,2,,62,73,71,60,75,82
+vinelasher,2,,69,98,86,67,33,43
+barrow_knight,2,,61,73,79,64,78,81
+gloom_deacon+shade,2,,80,51,58,83,58,68
+hexweaver,2,debuff,4,30,7,4,25,7
+hollow_oathsworn,2,,51,63,67,63,78,86
+sunforge_cataphract,3,,75,83,83,79,67,71,100,100,100,100,100,100
+frostcrown_juggernaut,3,,100,96,92,51,68,57,100,100,100,98,100,100
+shardguard,3,,14,0,8,35,67,38,76,53,60,99,100,100
+briar_roc,3,,3,17,8,35,44,36,77,84,79,100,100,100
+glade_outrider,3,,33,38,33,39,38,42,95,96,91,100,100,100
+nightblood_reaver,3,,53,46,50,56,15,56,99,97,100,99,100,100
+veilborn_dreadrider,3,,72,71,75,56,51,51,100,100,100,100,100,100

@@ -18,7 +18,7 @@ const CHARGE := {"cd": 45.0, "reach": 2.5, "plant": 3.0, "fuse": 5.0, "damage": 
 const NIGHTBLOOD := {"drink": 0.35, "sunburn_mult": 0.5, "sunburn": 4.0}
 const FRENZY := {"cd": 30.0, "hp_pct": 0.4, "time": 5.0, "attack_cooldown_pct": -0.23, "drink": 0.6}
 const FRENZY_MOD := &"ability:blood_frenzy"
-const HOLD := {"radius": 2.4, "every": 10.0, "freeze": 1.0, "fast": 7.5, "jump": 3.0}
+const HOLD := {"radius": 2.4, "every": 10.0, "freeze": 1.0, "fast": 5.8, "jump": 3.0, "lead": 0.9}
 const CHALLENGE := {"cd": 14.0, "radius": 5.0, "taunt": 2.5}
 const SEED_STORM := {"cd": 16.0, "range": 8.0, "radius": 3.0, "damage": 30.0, "root": 1.0}
 const GENIE_CHAIN := {"radius": 5.0, "damage": [22.0, 16.0]}
@@ -327,7 +327,13 @@ func _watch_charges() -> void:
 			continue
 		var moved := _flat(e.global_position, _last_pos[key])
 		var fast := moved / TICK >= float(HOLD["fast"]) or moved >= float(HOLD["jump"])
-		if fast and _flat(e.global_position, at) <= float(HOLD["radius"]) + e.radius:
+		# 2026-10-11 fix: a melee rider stops at its own reach (2.1-2.2 m + both radii), never inside 2.4 m, and the
+		# old 7.5 m/s bar was faster than every T3 rider: the ability could not fire in a real charge. Now a fast melee
+		# enemy within one tick ("lead") of landing its hit on the Shardguard is stopped.
+		var reach := float(HOLD["radius"])
+		if e.attack_range <= 3.0:
+			reach = maxf(reach, e.attack_range + unit.radius + float(HOLD["lead"]))
+		if fast and _flat(e.global_position, at) <= reach + e.radius:
 			hold_the_line(e)
 	_last_pos = seen
 

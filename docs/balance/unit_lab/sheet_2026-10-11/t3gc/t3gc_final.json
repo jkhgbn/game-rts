@@ -1,0 +1,124 @@
+{
+	"name": "t3gc_final",
+	"notes": "Values written to data/units/*.tres on 2026-10-11 (T3 game changers + T1/T2 outliers).",
+	"units": {
+		"frostcrown_juggernaut": {
+			"max_hp": 665,
+			"armor": 24,
+			"attack_damage": 38
+		},
+		"sunforge_cataphract": {
+			"max_hp": 625
+		},
+		"veilborn_dreadrider": {
+			"max_hp": 600,
+			"attack_damage": 45
+		},
+		"glade_outrider": {
+			"max_hp": 620,
+			"armor": 15,
+			"attack_damage": 37
+		},
+		"shardguard": {
+			"pop": 2,
+			"attack_damage": 22,
+			"max_hp": 470
+		},
+		"briar_roc": {
+			"attack_damage": 31,
+			"max_hp": 820,
+			"armor": 13
+		},
+		"flame_guard": {
+			"max_hp": 105,
+			"attack_damage": 10
+		},
+		"blaze_rider": {
+			"max_hp": 205,
+			"attack_damage": 17
+		},
+		"pyre_adept": {
+			"max_hp": 65,
+			"attack_damage": 9
+		},
+		"cinder_arbalest": {
+			"attack_damage": 18,
+			"cost": 125
+		},
+		"pyrehoof_lancer": {
+			"max_hp": 305,
+			"attack_damage": 25
+		},
+		"rimeshield": {
+			"max_hp": 140
+		},
+		"snowdrift_rider": {
+			"max_hp": 200,
+			"attack_damage": 14
+		},
+		"rime_colossus": {
+			"max_hp": 410,
+			"attack_damage": 24
+		},
+		"frost_mortar": {
+			"max_hp": 135,
+			"attack_damage": 24
+		},
+		"rimehorn_rider": {
+			"max_hp": 300,
+			"attack_damage": 22
+		},
+		"bramblehorn": {
+			"max_hp": 305,
+			"attack_damage": 15
+		},
+		"vinelasher": {
+			"pop": 2,
+			"cost": 135,
+			"max_hp": 180
+		},
+		"greenheart_oathkeeper": {
+			"max_hp": 245,
+			"attack_damage": 14
+		},
+		"thornback_charger": {
+			"max_hp": 345,
+			"attack_damage": 23
+		},
+		"shade": {
+			"max_hp": 100
+		},
+		"gloam_rider": {
+			"max_hp": 215,
+			"attack_damage": 15
+		},
+		"shadow_knight": {
+			"max_hp": 400,
+			"attack_damage": 24
+		},
+		"barrow_knight": {
+			"attack_damage": 26
+		},
+		"hollow_oathsworn": {
+			"max_hp": 185
+		},
+		"grave_hound": {
+			"cost": 75
+		},
+		"rimeling": {
+			"max_hp": 70
+		},
+		"emberdart_harrier": {
+			"attack_damage": 15
+		},
+		"rime_harrier": {
+			"attack_damage": 14
+		},
+		"bramble_harrier": {
+			"max_hp": 195
+		},
+		"duskbolt_harrier": {
+			"attack_damage": 16
+		}
+	}
+}

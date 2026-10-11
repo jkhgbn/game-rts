@@ -1,0 +1,94 @@
+{
+ "t3": {
+  "t3gc_k": {
+   "frostcrown_juggernaut": {
+    "max_hp": 665,
+    "armor": 24,
+    "attack_damage": 37
+   },
+   "sunforge_cataphract": {
+    "max_hp": 610,
+    "attack_damage": 42
+   },
+   "veilborn_dreadrider": {
+    "max_hp": 600,
+    "attack_damage": 45
+   },
+   "glade_outrider": {
+    "max_hp": 615,
+    "armor": 15,
+    "attack_damage": 37
+   },
+   "shardguard": {
+    "pop": 2,
+    "attack_damage": 22,
+    "max_hp": 470
+   },
+   "briar_roc": {
+    "attack_damage": 32,
+    "max_hp": 820,
+    "armor": 14
+   }
+  },
+  "t3gc_l": {
+   "frostcrown_juggernaut": {
+    "max_hp": 665,
+    "armor": 24,
+    "attack_damage": 37
+   },
+   "sunforge_cataphract": {
+    "max_hp": 615,
+    "attack_damage": 42
+   },
+   "veilborn_dreadrider": {
+    "max_hp": 600,
+    "attack_damage": 45
+   },
+   "glade_outrider": {
+    "max_hp": 615,
+    "armor": 15,
+    "attack_damage": 37
+   },
+   "shardguard": {
+    "pop": 2,
+    "attack_damage": 22,
+    "max_hp": 470
+   },
+   "briar_roc": {
+    "attack_damage": 33,
+    "max_hp": 820,
+    "armor": 14
+   }
+  },
+  "t3gc_m": {
+   "frostcrown_juggernaut": {
+    "max_hp": 665,
+    "armor": 24,
+    "attack_damage": 38
+   },
+   "sunforge_cataphract": {
+    "max_hp": 610,
+    "attack_damage": 42
+   },
+   "veilborn_dreadrider": {
+    "max_hp": 600,
+    "attack_damage": 45
+   },
+   "glade_outrider": {
+    "max_hp": 615,
+    "armor": 15,
+    "attack_damage": 37
+   },
+   "shardguard": {
+    "pop": 2,
+    "attack_damage": 22,
+    "max_hp": 470
+   },
+   "briar_roc": {
+    "attack_damage": 32,
+    "max_hp": 820,
+    "armor": 14
+   }
+  }
+ }
+}

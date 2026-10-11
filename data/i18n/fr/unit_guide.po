@@ -2643,3 +2643,48 @@ msgstr "Vraies armées"
 #: data/ui/unit_guide.json:greywater_tracker
 msgid "Trade routes"
 msgstr "Routes de commerce"
+
+#. pros
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Highest HP in the Ice army"
+msgstr "Plus de PV de l'armée de Glace"
+
+#. pros
+#: data/ui/unit_guide.json:shardguard
+msgid "Best HP per crystal in the Ice army"
+msgstr "Meilleurs PV par cristal de l'armée de Glace"
+
+#. cons
+#: data/ui/unit_guide.json:shardguard
+msgid "Low damage for a tier-3 unit"
+msgstr "Peu de dégâts pour une unité de tier 3"
+
+#. cons
+#: data/ui/unit_guide.json:briar_roc
+msgid "Short reach for a ranged unit"
+msgstr "Courte portée pour une unité à distance"
+
+#. pros
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Hits hard for a tier-1 unit"
+msgstr "Frappe fort pour une unité de tier 1"
+
+#. pros
+#: data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Armoured front line for 2 pop"
+msgstr "Ligne de front blindée pour 2 pop"
+
+#. pros
+#: data/ui/unit_guide.json:shadow_knight
+msgid "Top 3 for HP per crystal in the Shadow army"
+msgstr "Top 3 en PV par cristal dans l'armée d'Ombre"
+
+#. pros
+#: data/ui/unit_guide.json:stagrunner
+msgid "Hits fast for a tier-1 rider"
+msgstr "Frappe vite pour un cavalier de tier 1"
+
+#. pros
+#: data/ui/unit_guide.json:thornback_charger
+msgid "Top 3 for HP in the Nature army"
+msgstr "Top 3 en PV dans l'armée de Nature"

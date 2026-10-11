@@ -1,0 +1,727 @@
+{
+	"checks": [],
+	"fights": 144,
+	"stats": {
+		"baseline": {
+			"fire.ice": {
+				"a_wins": 7,
+				"alive": [
+					1.20833333333333,
+					2.91666666666667
+				],
+				"b_wins": 17,
+				"casts": [
+					{
+						"slag_rain": 1.91666666666667
+					},
+					{
+						"rime_bulwark": 1.54166666666667
+					}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"slag_rain": {
+							"fights": 24,
+							"median": 2.37
+						}
+					},
+					{
+						"rime_bulwark": {
+							"fights": 24,
+							"median": 2.87
+						}
+					}
+				],
+				"hi": 0.49168062210083,
+				"hp_left_pct": [
+					0.0679949063554764,
+					0.169888187948171
+				],
+				"lo": 0.149144604802132,
+				"n": 24,
+				"score": 0.291666666666667,
+				"time_median": 27.855,
+				"trade": [
+					0.875565898032579,
+					1.14211848845076
+				],
+				"ttk_median": 27.855,
+				"types": [
+					{
+						"ember_archer": {
+							"dealt": 422.145833333333,
+							"dealt_per_100": 105.536458333333,
+							"dps": 5.79704754820621,
+							"kills": 3.125,
+							"kills_per_100": 0.78125,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.135416666666667,
+							"taken": 249.333333333333
+						},
+						"flame_guard": {
+							"dealt": 468.341666666667,
+							"dealt_per_100": 86.7299382716049,
+							"dps": 4.46234467426258,
+							"kills": 3.91666666666667,
+							"kills_per_100": 0.725308641975309,
+							"per_fight": 6.0,
+							"summon": false,
+							"survival": 0.111111111111111,
+							"taken": 606.883333333333
+						},
+						"kilnwarden": {
+							"dealt": 60.5625,
+							"dealt_per_100": 50.46875,
+							"dps": 8.39688041594454,
+							"kills": 0.0416666666666667,
+							"kills_per_100": 0.0347222222222222,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 100.0
+						}
+					},
+					{
+						"rimecarver": {
+							"dealt": 22.5833333333333,
+							"dealt_per_100": 18.8194444444444,
+							"dps": 1.70172684458399,
+							"kills": 0.125,
+							"kills_per_100": 0.104166666666667,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0416666666666667,
+							"taken": 87.4416666666667
+						},
+						"rimeshield": {
+							"dealt": 481.641666666667,
+							"dealt_per_100": 101.398245614035,
+							"dps": 5.63928188115914,
+							"kills": 5.125,
+							"kills_per_100": 1.07894736842105,
+							"per_fight": 5.0,
+							"summon": false,
+							"survival": 0.316666666666667,
+							"taken": 607.370833333333
+						},
+						"shardcaster": {
+							"dealt": 451.991666666667,
+							"dealt_per_100": 102.725378787879,
+							"dps": 5.17918357603247,
+							"kills": 4.54166666666667,
+							"kills_per_100": 1.03219696969697,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.322916666666667,
+							"taken": 256.208333333333
+						}
+					}
+				]
+			},
+			"fire.nature": {
+				"a_wins": 4,
+				"alive": [
+					0.416666666666667,
+					4.625
+				],
+				"b_wins": 20,
+				"casts": [
+					{
+						"slag_rain": 2.0
+					},
+					{
+						"pollen_haze": 0.208333333333333,
+						"snagroot": 0.791666666666667
+					}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"slag_rain": {
+							"fights": 24,
+							"median": 2.0
+						}
+					},
+					{
+						"pollen_haze": {
+							"fights": 5,
+							"median": 3.37
+						},
+						"snagroot": {
+							"fights": 19,
+							"median": 2.53
+						}
+					}
+				],
+				"hi": 0.358534693717957,
+				"hp_left_pct": [
+					0.0158570320324694,
+					0.193621991135068
+				],
+				"lo": 0.0667856782674789,
+				"n": 24,
+				"score": 0.166666666666667,
+				"time_median": 21.475,
+				"trade": [
+					0.850952264948902,
+					1.17515404939906
+				],
+				"ttk_median": 21.475,
+				"types": [
+					{
+						"ember_archer": {
+							"dealt": 331.520833333333,
+							"dealt_per_100": 82.8802083333333,
+							"dps": 5.70031523140851,
+							"kills": 4.66666666666667,
+							"kills_per_100": 1.16666666666667,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.0416666666666667,
+							"taken": 277.533333333333
+						},
+						"flame_guard": {
+							"dealt": 461.2125,
+							"dealt_per_100": 85.4097222222222,
+							"dps": 6.45240454677936,
+							"kills": 6.625,
+							"kills_per_100": 1.22685185185185,
+							"per_fight": 6.0,
+							"summon": false,
+							"survival": 0.0416666666666667,
+							"taken": 633.75
+						},
+						"kilnwarden": {
+							"dealt": 72.3333333333333,
+							"dealt_per_100": 60.2777777777778,
+							"dps": 13.9662107803701,
+							"kills": 0.0833333333333333,
+							"kills_per_100": 0.0694444444444444,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 100.0
+						}
+					},
+					{
+						"bramblesage": {
+							"dealt": 9.375,
+							"dealt_per_100": 7.8125,
+							"dps": 1.34892086330935,
+							"kills": 0.0,
+							"kills_per_100": 0.0,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 85.0
+						},
+						"burr_slinger": {
+							"dealt": 427.8875,
+							"dealt_per_100": 101.877976190476,
+							"dps": 4.66023779270285,
+							"kills": 4.375,
+							"kills_per_100": 1.04166666666667,
+							"per_fight": 6.0,
+							"summon": false,
+							"survival": 0.277777777777778,
+							"taken": 254.454166666667
+						},
+						"thornling": {
+							"dealt": 574.020833333333,
+							"dealt_per_100": 106.300154320988,
+							"dps": 4.93392307141322,
+							"kills": 6.20833333333333,
+							"kills_per_100": 1.14969135802469,
+							"per_fight": 9.0,
+							"summon": false,
+							"survival": 0.328703703703704,
+							"taken": 526.129166666666
+						}
+					}
+				]
+			},
+			"fire.shadow": {
+				"a_wins": 16,
+				"alive": [
+					2.91666666666667,
+					1.25
+				],
+				"b_wins": 8,
+				"casts": [
+					{
+						"slag_rain": 2.0
+					},
+					{
+						"blood_tithe": 1.79166666666667
+					}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"slag_rain": {
+							"fights": 24,
+							"median": 2.03
+						}
+					},
+					{
+						"blood_tithe": {
+							"fights": 23,
+							"median": 1.65
+						}
+					}
+				],
+				"hi": 0.820280194282532,
+				"hp_left_pct": [
+					0.156764509556187,
+					0.0596326247170959
+				],
+				"lo": 0.467059582471848,
+				"n": 24,
+				"score": 0.666666666666667,
+				"time_median": 21.21,
+				"trade": [
+					1.16834469655692,
+					0.855911789514664
+				],
+				"ttk_median": 21.21,
+				"types": [
+					{
+						"ember_archer": {
+							"dealt": 371.55,
+							"dealt_per_100": 92.8875,
+							"dps": 5.96109365599305,
+							"kills": 4.04166666666667,
+							"kills_per_100": 1.01041666666667,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.385416666666667,
+							"taken": 196.1875
+						},
+						"flame_guard": {
+							"dealt": 560.320833333333,
+							"dealt_per_100": 103.763117283951,
+							"dps": 6.8467491471921,
+							"kills": 6.70833333333333,
+							"kills_per_100": 1.24228395061728,
+							"per_fight": 6.0,
+							"summon": false,
+							"survival": 0.229166666666667,
+							"taken": 585.604166666667
+						},
+						"kilnwarden": {
+							"dealt": 99.3333333333334,
+							"dealt_per_100": 82.7777777777778,
+							"dps": 16.7533380182713,
+							"kills": 0.0,
+							"kills_per_100": 0.0,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 100.0
+						}
+					},
+					{
+						"gloom_deacon": {
+							"dealt": 7.35833333333333,
+							"dealt_per_100": 6.13194444444445,
+							"dps": 1.96004439511654,
+							"kills": 0.0,
+							"kills_per_100": 0.0,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 100.0
+						},
+						"nightbolt": {
+							"dealt": 232.954166666667,
+							"dealt_per_100": 58.2385416666667,
+							"dps": 6.07706521739131,
+							"kills": 1.66666666666667,
+							"kills_per_100": 0.416666666666667,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.0416666666666667,
+							"taken": 257.270833333333
+						},
+						"shade": {
+							"dealt": 641.4875,
+							"dealt_per_100": 114.551339285714,
+							"dps": 6.27601809954751,
+							"kills": 6.41666666666667,
+							"kills_per_100": 1.14583333333333,
+							"per_fight": 7.0,
+							"summon": false,
+							"survival": 0.154761904761905,
+							"taken": 673.933333333333
+						}
+					}
+				]
+			},
+			"ice.nature": {
+				"a_wins": 8,
+				"alive": [
+					1.04166666666667,
+					3.95833333333333
+				],
+				"b_wins": 16,
+				"casts": [
+					{
+						"rime_bulwark": 1.08333333333333
+					},
+					{
+						"pollen_haze": 0.166666666666667,
+						"snagroot": 1.0
+					}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"rime_bulwark": {
+							"fights": 24,
+							"median": 2.7
+						}
+					},
+					{
+						"pollen_haze": {
+							"fights": 4,
+							"median": 4.02
+						},
+						"snagroot": {
+							"fights": 24,
+							"median": 2.87
+						}
+					}
+				],
+				"hi": 0.53294038772583,
+				"hp_left_pct": [
+					0.0615881128260089,
+					0.172579619184932
+				],
+				"lo": 0.179719790816307,
+				"n": 24,
+				"score": 0.333333333333333,
+				"time_median": 27.125,
+				"trade": [
+					0.916944388591083,
+					1.09057867897151
+				],
+				"ttk_median": 27.125,
+				"types": [
+					{
+						"rimecarver": {
+							"dealt": 18.9583333333333,
+							"dealt_per_100": 15.7986111111111,
+							"dps": 1.82730923694779,
+							"kills": 0.166666666666667,
+							"kills_per_100": 0.138888888888889,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 90.0
+						},
+						"rimeshield": {
+							"dealt": 473.591666666667,
+							"dealt_per_100": 99.7035087719298,
+							"dps": 5.73153144067369,
+							"kills": 7.16666666666667,
+							"kills_per_100": 1.50877192982456,
+							"per_fight": 5.0,
+							"summon": false,
+							"survival": 0.108333333333333,
+							"taken": 678.754166666667
+						},
+						"shardcaster": {
+							"dealt": 384.2,
+							"dealt_per_100": 87.3181818181818,
+							"dps": 5.24177136035473,
+							"kills": 4.70833333333333,
+							"kills_per_100": 1.07007575757576,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.125,
+							"taken": 299.966666666667
+						}
+					},
+					{
+						"bramblesage": {
+							"dealt": 8.41666666666667,
+							"dealt_per_100": 7.01388888888889,
+							"dps": 0.958709065021357,
+							"kills": 0.0833333333333333,
+							"kills_per_100": 0.0694444444444444,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 85.3333333333333
+						},
+						"burr_slinger": {
+							"dealt": 464.983333333333,
+							"dealt_per_100": 110.710317460317,
+							"dps": 4.03675167299693,
+							"kills": 3.625,
+							"kills_per_100": 0.863095238095238,
+							"per_fight": 6.0,
+							"summon": false,
+							"survival": 0.319444444444444,
+							"taken": 225.795833333333
+						},
+						"thornling": {
+							"dealt": 595.304166666667,
+							"dealt_per_100": 110.241512345679,
+							"dps": 3.91701165181631,
+							"kills": 5.25,
+							"kills_per_100": 0.972222222222222,
+							"per_fight": 9.0,
+							"summon": false,
+							"survival": 0.226851851851852,
+							"taken": 565.620833333333
+						}
+					}
+				]
+			},
+			"ice.shadow": {
+				"a_wins": 14,
+				"alive": [
+					2.125,
+					1.70833333333333
+				],
+				"b_wins": 10,
+				"casts": [
+					{
+						"rime_bulwark": 1.33333333333333
+					},
+					{
+						"blood_tithe": 2.125
+					}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"rime_bulwark": {
+							"fights": 24,
+							"median": 3.03
+						}
+					},
+					{
+						"blood_tithe": {
+							"fights": 24,
+							"median": 2.05
+						}
+					}
+				],
+				"hi": 0.755326509475708,
+				"hp_left_pct": [
+					0.123551413091461,
+					0.0844587538264798
+				],
+				"lo": 0.38834336400032,
+				"n": 24,
+				"score": 0.583333333333333,
+				"time_median": 27.34,
+				"trade": [
+					1.07698845333126,
+					0.92851506151888
+				],
+				"ttk_median": 27.34,
+				"types": [
+					{
+						"rimecarver": {
+							"dealt": 19.5041666666667,
+							"dealt_per_100": 16.2534722222222,
+							"dps": 1.64015416958655,
+							"kills": 0.0833333333333333,
+							"kills_per_100": 0.0694444444444444,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 90.0
+						},
+						"rimeshield": {
+							"dealt": 577.9125,
+							"dealt_per_100": 121.665789473684,
+							"dps": 6.72284426348699,
+							"kills": 6.45833333333333,
+							"kills_per_100": 1.35964912280702,
+							"per_fight": 5.0,
+							"summon": false,
+							"survival": 0.275,
+							"taken": 637.970833333333
+						},
+						"shardcaster": {
+							"dealt": 411.45,
+							"dealt_per_100": 93.5113636363636,
+							"dps": 5.25450965785133,
+							"kills": 3.75,
+							"kills_per_100": 0.852272727272727,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.1875,
+							"taken": 274.845833333333
+						}
+					},
+					{
+						"gloom_deacon": {
+							"dealt": 8.05416666666667,
+							"dealt_per_100": 6.71180555555556,
+							"dps": 1.79313543599258,
+							"kills": 0.0,
+							"kills_per_100": 0.0,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 100.0
+						},
+						"nightbolt": {
+							"dealt": 352.879166666667,
+							"dealt_per_100": 88.2197916666667,
+							"dps": 5.66950060249029,
+							"kills": 2.16666666666667,
+							"kills_per_100": 0.541666666666667,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.208333333333333,
+							"taken": 221.375
+						},
+						"shade": {
+							"dealt": 641.8875,
+							"dealt_per_100": 114.622767857143,
+							"dps": 5.05821513002364,
+							"kills": 5.70833333333333,
+							"kills_per_100": 1.01934523809524,
+							"per_fight": 7.0,
+							"summon": false,
+							"survival": 0.125,
+							"taken": 687.491666666667
+						}
+					}
+				]
+			},
+			"nature.shadow": {
+				"a_wins": 12,
+				"alive": [
+					2.29166666666667,
+					2.45833333333333
+				],
+				"b_wins": 12,
+				"casts": [
+					{
+						"pollen_haze": 0.333333333333333,
+						"snagroot": 0.875
+					},
+					{
+						"blood_tithe": 1.83333333333333
+					}
+				],
+				"draws": 0,
+				"first_cast": [
+					{
+						"pollen_haze": {
+							"fights": 8,
+							"median": 3.97
+						},
+						"snagroot": {
+							"fights": 21,
+							"median": 2.53
+						}
+					},
+					{
+						"blood_tithe": {
+							"fights": 22,
+							"median": 2.05
+						}
+					}
+				],
+				"hi": 0.685728669166565,
+				"hp_left_pct": [
+					0.0915593987453089,
+					0.127972317699531
+				],
+				"lo": 0.314271330833435,
+				"n": 24,
+				"score": 0.5,
+				"time_median": 22.695,
+				"trade": [
+					0.948227121179468,
+					1.05459966042327
+				],
+				"ttk_median": 22.695,
+				"types": [
+					{
+						"bramblesage": {
+							"dealt": 8.95833333333333,
+							"dealt_per_100": 7.46527777777778,
+							"dps": 1.34459036898061,
+							"kills": 0.0,
+							"kills_per_100": 0.0,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 85.0
+						},
+						"burr_slinger": {
+							"dealt": 408.804166666667,
+							"dealt_per_100": 97.3343253968254,
+							"dps": 4.6127409496944,
+							"kills": 3.625,
+							"kills_per_100": 0.863095238095238,
+							"per_fight": 6.0,
+							"summon": false,
+							"survival": 0.152777777777778,
+							"taken": 271.508333333333
+						},
+						"thornling": {
+							"dealt": 544.466666666667,
+							"dealt_per_100": 100.827160493827,
+							"dps": 5.05500967117988,
+							"kills": 5.91666666666667,
+							"kills_per_100": 1.09567901234568,
+							"per_fight": 9.0,
+							"summon": false,
+							"survival": 0.152777777777778,
+							"taken": 596.595833333333
+						}
+					},
+					{
+						"gloom_deacon": {
+							"dealt": 10.5875,
+							"dealt_per_100": 8.82291666666667,
+							"dps": 2.1424957841484,
+							"kills": 0.0,
+							"kills_per_100": 0.0,
+							"per_fight": 1.0,
+							"summon": false,
+							"survival": 0.0,
+							"taken": 100.0
+						},
+						"nightbolt": {
+							"dealt": 361.308333333333,
+							"dealt_per_100": 90.3270833333333,
+							"dps": 5.82012215584939,
+							"kills": 4.83333333333333,
+							"kills_per_100": 1.20833333333333,
+							"per_fight": 4.0,
+							"summon": false,
+							"survival": 0.28125,
+							"taken": 209.1875
+						},
+						"shade": {
+							"dealt": 581.216666666667,
+							"dealt_per_100": 103.78869047619,
+							"dps": 6.22509817922171,
+							"kills": 8.875,
+							"kills_per_100": 1.58482142857143,
+							"per_fight": 7.0,
+							"summon": false,
+							"survival": 0.19047619047619,
+							"taken": 653.041666666667
+						}
+					}
+				]
+			}
+		}
+	},
+	"title": "t3gc_after_mix",
+	"variants": {}
+}

@@ -177,7 +177,7 @@
 		},
 		"frostcrown_juggernaut": {
 			"role": "cavalry", "class": "Elite juggernaut",
-			"pros": ["Highest HP in any army", "Most armour in any army", "Highest DPS in the Ice army"],
+			"pros": ["Highest HP in the Ice army", "Highest DPS in the Ice army", "Every hit chills its target"],
 			"cons": ["Most expensive unit in any army", "Needs a Citadel and 4 pop each"],
 			"strong_against": ["Heavy melee", "Line infantry", "Archers"], "weak_against": ["Slag Rain", "Wither Hex", "Kiting + roots"], "good_with": ["Rime Seer", "Rimecarver"]
 		},
@@ -190,8 +190,8 @@
 		"shardguard": {
 			"role": "melee", "class": "Halberdier",
 			"abilities": [{"name": "Hold the Line", "key": "Auto", "text": "Stops a charging rider in reach and freezes it for a moment."}, {"name": "Challenge", "key": "Auto", "text": "Taunts nearby enemies onto itself."}],
-			"pros": ["Best HP per crystal in any army", "Hold the Line stops charging riders cold", "Challenge taunts divers off your archers"],
-			"cons": ["Slow: easy to kite", "Low damage for 3 pop"],
+			"pros": ["Best HP per crystal in the Ice army", "Hold the Line stops charging riders cold", "Challenge taunts divers off your archers"],
+			"cons": ["Slow: easy to kite", "Low damage for a tier-3 unit"],
 			"strong_against": ["Cavalry", "Divers", "Heavy melee"], "weak_against": ["Kiting archers", "Slag Rain", "Casters"], "good_with": ["Frostbow", "Frost Mortar"]
 		},
 		"helper_aldra": {
@@ -235,7 +235,7 @@
 		"bramblehorn": {
 			"summary": "Heavy beast of the Grove Hall: big HP, fast regeneration.",
 			"role": "melee", "class": "Heavy beast",
-			"pros": ["Best HP per crystal in the Nature army", "Top 3 for damage per hit in the Nature army", "Fast regeneration out of combat"],
+			"pros": ["Solid HP for its price", "Hits hard for a tier-1 unit", "Fast regeneration out of combat"],
 			"cons": ["No armour despite its size", "Slow: easy to kite"],
 			"strong_against": ["Line infantry", "Ranged in reach"], "weak_against": ["Kiting archers", "Wither Hex", "Bleed / burn"], "good_with": ["Bloomtender", "Burr Slinger"]
 		},
@@ -261,13 +261,13 @@
 		},
 		"greenheart_oathkeeper": {
 			"role": "melee", "class": "Oath swordsman",
-			"pros": ["Most armour in the Nature army", "Grove Oath taunts nearby foes and braces", "Top 3 for HP per crystal in the Nature army"],
+			"pros": ["Most armour in the Nature army", "Grove Oath taunts nearby foes and braces", "Armoured front line for 2 pop"],
 			"cons": ["Slowest unit in the Nature army", "Low damage: a wall, not a killer"],
 			"strong_against": ["Divers", "Cavalry", "Melee rushes"], "weak_against": ["Slag Rain", "Kiting archers"], "good_with": ["Wildwood Archer", "Bloomtender"]
 		},
 		"stagrunner": {
 			"role": "cavalry", "class": "Stag skirmisher",
-			"pros": ["Fastest unit in any army", "Top 3 for DPS in the Nature army", "Regenerates between raids"],
+			"pros": ["Fastest unit in any army", "Hits fast for a tier-1 rider", "Regenerates between raids"],
 			"cons": ["No armour: towers and archers hurt", "Chill and roots stop it short"],
 			"strong_against": ["Archers", "Workers", "Casters"], "weak_against": ["Chill / roots", "Towers", "Heavy melee"], "good_with": ["Bramble Harrier", "Wildwood Archer"]
 		},
@@ -279,7 +279,7 @@
 		},
 		"thornback_charger": {
 			"role": "cavalry", "class": "Heavy stag charger",
-			"pros": ["Top 3 for DPS in the Nature army", "Top 3 for armour in the Nature army", "Regenerates fast out of combat"],
+			"pros": ["Top 3 for DPS in the Nature army", "Top 3 for HP in the Nature army", "Regenerates fast out of combat"],
 			"cons": ["Expensive and heavy on pop", "Kiting and roots waste its time"],
 			"strong_against": ["Line infantry", "Archers", "Siege"], "weak_against": ["Chill / roots", "Slag Rain", "Wither Hex"], "good_with": ["Bloomtender", "Wildwood Archer"]
 		},
@@ -299,7 +299,7 @@
 			"role": "ranged", "class": "Thorn bird (flyer)",
 			"abilities": [{"name": "Flight", "key": "Passive", "text": "Flies: Rime Bulwark walls do not stop it."}, {"name": "Seed Storm", "key": "Auto", "text": "A seed burst on a cooldown that hurts and roots ground enemies."}],
 			"pros": ["Highest HP in the Nature army", "Flies over Rime Bulwark walls", "Seed Storm roots ground enemies"],
-			"cons": ["Most expensive unit in the Nature army", "Low DPS for its price"],
+			"cons": ["Most expensive unit in the Nature army", "Short reach for a ranged unit"],
 			"strong_against": ["Melee clumps", "Walls and chokes"], "weak_against": ["Massed archers", "Wither Hex", "Focus fire"], "good_with": ["Thornback Charger", "Bramblesage"]
 		},
 		"helper_maelis": {
@@ -342,7 +342,7 @@
 		"shadow_knight": {
 			"summary": "Heavy elite of the Gloom Hall: lots of HP, slow.",
 			"role": "melee", "class": "Heavy elite",
-			"pros": ["Best HP per crystal in the Shadow army", "Top 3 for HP in the Shadow army", "A heavy you can train from tier 1"],
+			"pros": ["Top 3 for HP per crystal in the Shadow army", "Top 3 for HP in the Shadow army", "A heavy you can train from tier 1"],
 			"cons": ["Slowest unit in the Shadow army", "No armour for a heavy"],
 			"strong_against": ["Line infantry", "Light cavalry"], "weak_against": ["Kiting archers", "Chill / roots", "Wither Hex"], "good_with": ["Gloom Deacon", "Nightbolt"]
 		},

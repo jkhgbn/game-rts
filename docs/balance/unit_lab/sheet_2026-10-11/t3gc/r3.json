@@ -1,0 +1,128 @@
+{
+ "t3": {
+  "t3gc_g": {
+   "frostcrown_juggernaut": {
+    "max_hp": 665,
+    "armor": 24,
+    "attack_damage": 37
+   },
+   "sunforge_cataphract": {
+    "max_hp": 625,
+    "attack_damage": 42
+   },
+   "veilborn_dreadrider": {
+    "max_hp": 600,
+    "attack_damage": 45
+   },
+   "glade_outrider": {
+    "max_hp": 610,
+    "armor": 15,
+    "attack_damage": 37
+   },
+   "shardguard": {
+    "pop": 2,
+    "attack_damage": 22,
+    "max_hp": 470
+   },
+   "briar_roc": {
+    "attack_damage": 31,
+    "max_hp": 810,
+    "armor": 13
+   }
+  },
+  "t3gc_h": {
+   "frostcrown_juggernaut": {
+    "max_hp": 665,
+    "armor": 24,
+    "attack_damage": 37
+   },
+   "sunforge_cataphract": {
+    "max_hp": 640,
+    "attack_damage": 42
+   },
+   "veilborn_dreadrider": {
+    "max_hp": 610,
+    "attack_damage": 46
+   },
+   "glade_outrider": {
+    "max_hp": 600,
+    "armor": 14,
+    "attack_damage": 37
+   },
+   "shardguard": {
+    "pop": 2,
+    "attack_damage": 22,
+    "max_hp": 470
+   },
+   "briar_roc": {
+    "attack_damage": 31,
+    "max_hp": 810,
+    "armor": 13
+   }
+  },
+  "t3gc_i": {
+   "frostcrown_juggernaut": {
+    "max_hp": 670,
+    "armor": 25,
+    "attack_damage": 37
+   },
+   "sunforge_cataphract": {
+    "max_hp": 625,
+    "attack_damage": 42
+   },
+   "veilborn_dreadrider": {
+    "max_hp": 600,
+    "attack_damage": 45
+   },
+   "glade_outrider": {
+    "max_hp": 610,
+    "armor": 15,
+    "attack_damage": 37
+   },
+   "shardguard": {
+    "pop": 2,
+    "attack_damage": 22,
+    "max_hp": 470
+   },
+   "briar_roc": {
+    "attack_damage": 31,
+    "max_hp": 810,
+    "armor": 13
+   },
+   "nightblood_reaver": {
+    "max_hp": 470,
+    "attack_damage": 26
+   }
+  },
+  "t3gc_j": {
+   "frostcrown_juggernaut": {
+    "max_hp": 665,
+    "armor": 24,
+    "attack_damage": 37
+   },
+   "sunforge_cataphract": {
+    "max_hp": 625,
+    "attack_damage": 42
+   },
+   "veilborn_dreadrider": {
+    "max_hp": 590,
+    "attack_damage": 44
+   },
+   "glade_outrider": {
+    "max_hp": 620,
+    "armor": 15,
+    "attack_damage": 37
+   },
+   "shardguard": {
+    "pop": 2,
+    "attack_damage": 22,
+    "max_hp": 480
+   },
+   "briar_roc": {
+    "attack_damage": 31,
+    "max_hp": 810,
+    "armor": 13
+   }
+  }
+ }
+}

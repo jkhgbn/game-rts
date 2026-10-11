@@ -2643,3 +2643,48 @@ msgstr ""
 #: data/ui/unit_guide.json:greywater_tracker
 msgid "Trade routes"
 msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+msgid "Highest HP in the Ice army"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:shardguard
+msgid "Best HP per crystal in the Ice army"
+msgstr ""
+
+#. cons
+#: data/ui/unit_guide.json:shardguard
+msgid "Low damage for a tier-3 unit"
+msgstr ""
+
+#. cons
+#: data/ui/unit_guide.json:briar_roc
+msgid "Short reach for a ranged unit"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:bramblehorn
+msgid "Hits hard for a tier-1 unit"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Armoured front line for 2 pop"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:shadow_knight
+msgid "Top 3 for HP per crystal in the Shadow army"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:stagrunner
+msgid "Hits fast for a tier-1 rider"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:thornback_charger
+msgid "Top 3 for HP in the Nature army"
+msgstr ""

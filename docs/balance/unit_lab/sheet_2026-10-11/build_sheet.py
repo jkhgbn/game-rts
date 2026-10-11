@@ -7,7 +7,8 @@ from collections import defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))
 RUNS = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(REPO), "four-wizards-lab-runs")
-TAG = "unit-lab-sheet_2026-10-11_"
+# SHEET_TAG = another run family (t3gc/: the after-pass runs "unit-lab-t3gc_after_<basis>").
+TAG = os.environ.get("SHEET_TAG", "unit-lab-sheet_2026-10-11_")
 BASES = ["cost", "pop", "both"]
 KINGDOM_ORDER = ["fire", "ice", "nature", "shadow"]
 
@@ -97,7 +98,8 @@ def main():
         units[e] = u
     # judged field: T1/T2 entries vs the T1/T2 field (as in the earlier passes), T3 vs the other T3; "all" = vs everyone
     for e, u in units.items():
-        field = [o for o in entries if o != e and (units[o]["tier"] == 3) == (u["tier"] == 3)]
+        # the spy (Ashveil Saboteur) is left out of the T3 field: 0 % head-on by design (t3gc/, 2026-10-11)
+        field = [o for o in entries if o != e and (units[o]["tier"] == 3) == (u["tier"] == 3) and o != "ashveil_saboteur"]
         for b in BASES:
             for tag, opp in (("", field), ("all_", [o for o in entries if o != e])):
                 cs = [mats[b][(e, o)] for o in opp if mats[b][(e, o)][1] > 0]
@@ -233,7 +235,7 @@ def verdict(u):
             nd = max(1, round(u["damage"] * k / 100))
             u["change"] = "small buff: attack_damage %g -> %g (+%d%%; weak per pop only)" % (
                 u["damage"], u["damage"] + nd, k)
-    if u["entry"] in VALIDATED:
+    if u["entry"] in VALIDATED and "SHEET_TAG" not in os.environ:
         u["change"] = VALIDATED[u["entry"]]
         u["note"] = (u["note"] + " suggestion tested (validate/)").strip()
     if "+" in u["entry"]:
