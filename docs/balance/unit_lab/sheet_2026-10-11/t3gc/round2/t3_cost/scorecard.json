@@ -1,0 +1,156 @@
+{
+	"fights": 126,
+	"title": "t3gc_r2_cost_t3x",
+	"variants": {
+		"baseline": {
+			"games": {
+				"briar_roc": 36,
+				"frostcrown_juggernaut": 36,
+				"glade_outrider": 36,
+				"nightblood_reaver": 36,
+				"shardguard": 36,
+				"sunforge_cataphract": 36,
+				"veilborn_dreadrider": 36
+			},
+			"mean": {
+				"briar_roc": 0.5,
+				"frostcrown_juggernaut": 0.388888888888889,
+				"glade_outrider": 0.444444444444444,
+				"nightblood_reaver": 0.694444444444445,
+				"shardguard": 0.5,
+				"sunforge_cataphract": 0.5,
+				"veilborn_dreadrider": 0.472222222222222
+			},
+			"outliers": [
+				{
+					"dev": 0.194444444444445,
+					"entry": "nightblood_reaver",
+					"kingdom": "shadow",
+					"losses": [
+						1,
+						6
+					],
+					"mean": 0.694444444444445,
+					"trade": 1.26689040660599,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						4,
+						6
+					]
+				},
+				{
+					"dev": 0.111111111111111,
+					"entry": "frostcrown_juggernaut",
+					"kingdom": "ice",
+					"losses": [
+						3,
+						6
+					],
+					"mean": 0.388888888888889,
+					"trade": 0.837566994193836,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						6
+					]
+				},
+				{
+					"dev": 0.0555555555555555,
+					"entry": "glade_outrider",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						6
+					],
+					"mean": 0.444444444444444,
+					"trade": 1.0432087965069,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						6
+					]
+				},
+				{
+					"dev": 0.0277777777777777,
+					"entry": "veilborn_dreadrider",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						6
+					],
+					"mean": 0.472222222222222,
+					"trade": 0.982178392451123,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						2,
+						6
+					]
+				},
+				{
+					"dev": 0.000000000000000111022302462516,
+					"entry": "sunforge_cataphract",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						6
+					],
+					"mean": 0.5,
+					"trade": 0.995485861810849,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						2,
+						6
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "shardguard",
+					"kingdom": "ice",
+					"losses": [
+						3,
+						6
+					],
+					"mean": 0.5,
+					"trade": 0.863893241091458,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						3,
+						6
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "briar_roc",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						6
+					],
+					"mean": 0.5,
+					"trade": 1.0896367983063,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						2,
+						6
+					]
+				}
+			],
+			"trade": {
+				"briar_roc": 1.0896367983063,
+				"frostcrown_juggernaut": 0.837566994193836,
+				"glade_outrider": 1.0432087965069,
+				"nightblood_reaver": 1.26689040660599,
+				"shardguard": 0.863893241091458,
+				"sunforge_cataphract": 0.995485861810849,
+				"veilborn_dreadrider": 0.982178392451123
+			}
+		}
+	}
+}

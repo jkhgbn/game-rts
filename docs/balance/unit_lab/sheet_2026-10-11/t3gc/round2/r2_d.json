@@ -1,0 +1,27 @@
+{
+	"name": "r2_d",
+	"notes": "T3 game changers round 2 (deltas on the values written 2026-10-11).",
+	"units": {
+		"sunforge_cataphract": {
+			"max_hp": 615
+		},
+		"briar_roc": {
+			"attack_damage": 32
+		},
+		"shardguard": {
+			"max_hp": 480
+		},
+		"glade_outrider": {
+			"armor": 16
+		},
+		"flame_guard": {
+			"max_hp": 115
+		},
+		"hollow_oathsworn": {
+			"attack_damage": 16
+		},
+		"nightbolt": {
+			"max_hp": 70
+		}
+	}
+}

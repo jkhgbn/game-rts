@@ -1,0 +1,8 @@
+variant,row,nightblood_reaver,sunforge_cataphract,shardguard,briar_roc,veilborn_dreadrider,glade_outrider,frostcrown_juggernaut
+baseline,nightblood_reaver,,0.167,0.833,0.833,0.5,1.0,0.833
+baseline,sunforge_cataphract,0.833,,0.0,0.333,0.5,0.5,0.833
+baseline,shardguard,0.167,1.0,,0.0,1.0,0.0,0.833
+baseline,briar_roc,0.167,0.667,1.0,,0.167,0.5,0.5
+baseline,veilborn_dreadrider,0.5,0.5,0.0,0.833,,0.833,0.167
+baseline,glade_outrider,0.0,0.5,1.0,0.5,0.167,,0.5
+baseline,frostcrown_juggernaut,0.167,0.167,0.167,0.5,0.833,0.5,

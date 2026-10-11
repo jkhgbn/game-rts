@@ -197,3 +197,100 @@ variantes essayées), `score.py` (score par entrée, champ jugé), `compare.py` 
 trois budgets, T3 aussi contre T1/T2), `after_cost/`, `after_pop/`, `after_both/`, `after_mix/`, `mix_n/` (scorecards) et
 `before/` (les CSV de la feuille avant la passe). JSONL : `..\four-wizards-lab-runs\unit-lab-t3gc_*`. Pour refaire la feuille
 d'après : `SHEET_TAG=unit-lab-t3gc_after_ python build_sheet.py`.
+
+## Ronde 2 (2026-10-11, appliquée)
+
+Suite de la passe « T3 game changers » : les « prochaines étapes » ci-dessus, essayées en variantes
+(`t3gc/round2/r2_a..d.json`, en mémoire), puis écrites une seule fois dans `data/units/*.tres` (7 fichiers).
+
+| Unité | Changement | Pourquoi |
+|---|---|---|
+| Sunforge Cataphract | max_hp 625 -> **615** | 79 dans le champ T3 |
+| Briar Roc | attack_damage 31 -> **32** | 35 dans le champ T3 |
+| Shardguard | max_hp 470 -> **480** | 35 à cristaux |
+| Glade Outrider | armor 15 -> **16** | 39 dans le champ T3 |
+| Flame Guard | max_hp 105 -> **115** (dégâts 10 gardés) | mix Fire à 38 |
+| Hollow Oathsworn | max_hp 185 -> **175**, attack_damage 17 -> **16** | 63 / 78 / 86 (dégâts 16 seuls : 57 / 63 / 76; les deux : 51 / 61 / 71) |
+| Nightbolt | max_hp 65 -> **70** (comme l'Ember Archer) | mix Shadow à 36-39 avec le Flame Guard à 115 |
+
+### T3 entre eux (champ T3 sans le Saboteur; c / p / b)
+24 graines par paire : 12 de la variante `r2_a` (mêmes valeurs T3) + 12 sur les valeurs écrites (graines 1-6 de la matrice
+complète, 7-12 en T3 seuls). Sur les 12 graines écrites seules : Veilborn 53 / 51 / **35**, Shardguard 43 / **82** / 47
+(bruit de ± 10 par entrée à 12 graines, la courbe reste raide).
+
+| T3 | Ronde 1 (12 graines) | **Ronde 2 (24 graines)** | vs T1/T2 (c / p / b) |
+|---|---|---|---|
+| Frostcrown Juggernaut | 51 / 68 / 57 | **42 / 51 / 47** | 98 / 100 / 100 |
+| Sunforge Cataphract | 79 / 67 / 71 | **51 / 55 / 51** | 100 / 100 / 100 |
+| Veilborn Dreadrider | 56 / 51 / 51 | **46 / 52 / 44** | 100 / 100 / 100 |
+| Nightblood Reaver | 56 / 15 / 56 | **59 / 16 / 58** | 99 / 100 / 100 |
+| Glade Outrider | 39 / 38 / 42 | **50 / 47 / 45** | 100 / 100 / 100 |
+| Shardguard | 35 / 67 / 38 | **43 / 75 / 47** | 98 / 100 / 100 |
+| Briar Roc | 35 / 44 / 36 | **58 / 54 / 57** | 100 / 100 / 100 |
+
+- **Cristaux et both : les 7 T3 sont dans 40-60.** Tous restent >= 98 contre le champ T1/T2.
+- **À pop égale, deux limites de structure, en miroir** : le Reaver (pop 3 : 4 Reavers contre 2 T3 de pop 4, voir plus haut)
+  à 16, et le Shardguard (pop 2 : 4 Shardguards contre 2 T3) à 75. Ses stats ne règlent pas ça (67 à 470 PV, 75-82 à 480).
+  Si on veut les deux dans 40-60 à pop, c'est une décision de pop (Reaver 3 -> 4, Shardguard 2 -> 3 avec un prix plus bas).
+
+### T1/T2 touchés (champ T1/T2, 6 graines)
+| T1/T2 | Ronde 1 (c / p / b) | Ronde 2 |
+|---|---|---|
+| Flame Guard | 70 / 78 / 84 | 77 / 87 / 91 (voulu : le mix d'abord) |
+| Hollow Oathsworn | 63 / 78 / 86 | **50 / 64 / 68** |
+| Nightbolt (archer, exempté) | 18 / 22 / 26 | 21 / 23 / 26 |
+
+Les autres T1/T2 bougent de moins de 4 points (seules leurs cases contre ces trois unités changent).
+Moyennes par royaume (`kingdoms.csv`, tous tiers) : Fire 45 / 54 / 47, Ice 49 / 58 / 54, Nature 48 / 35 / 43, Shadow 54 / 49 / 53.
+
+### Armées mixtes (`mix_line_check`)
+| | Fire | Ice | Nature | Shadow |
+|---|---|---|---|---|
+| Ronde 1 (valeurs écrites) | 38 | 54 | 67 | 42 |
+| Variante `r2_a` (Flame Guard 115, Nightbolt 65) | 52 | 52 | 57 | **39** |
+| **Ronde 2 écrite (48 parties par bras)** | **58** | **46** | **54** | **42** |
+
+Les 4 mixes sont dans 40-60. Le bras le plus déséquilibré reste fire.shadow (Fire 81 %). Le run se répète mal d'une fois
+à l'autre (mêmes valeurs, 24 graines : Shadow 47 puis 36) : jugez sur les 48 parties.
+
+### Méthode et fichiers (`t3gc/round2/`)
+`r2_a..d.json` (variantes), `before_r2/` (les CSV de la feuille avant la ronde 2), `t3_*`, `focus_*`, `after_mix/`
+(scorecards), `focus_merge.py` (A/B d'une liste d'unités contre la matrice complète), `merge_runs.py`, `mix_score.py`.
+Les matrices complètes n'ont pas été rejouées : `merge_runs.py` garde les cases de la matrice « after » qui ne touchent aucune
+des 7 unités changées et ajoute un run `-Focus` de ces 7 unités (toutes leurs paires, 6 graines, 3 budgets) sur les
+valeurs écrites; les autres unités n'ayant pas changé, c'est équivalent à rejouer la matrice. JSONL :
+`..\four-wizards-lab-runs\unit-lab-t3gc_rnd2_*` (+ `_t3x`), `unit-lab-t3gc_r2*`. Pour refaire la feuille :
+`python t3gc/round2/merge_runs.py` puis `SHEET_TAG=unit-lab-t3gc_rnd2_ python build_sheet.py`.
+
+### Escarmouche bot contre bot après les deux rondes (faster-games, normal, Crown Hollow)
+`run_fg.py --run r2units --arms baseline --levels normal --seeds 1-2 --tick 60` : 12 paires ordonnées x 2 graines, 24 parties,
+12 par royaume (± 14 points). Référence : `fg-icebot` (2026-10-10, même protocole, avant la passe d'unités; le code a aussi
+bougé entre les deux, donc l'écart n'est pas que la passe).
+
+| Royaume | `fg-icebot` (10-10) | **Après la ronde 2** |
+|---|---|---|
+| Fire | 9 / 12 (75 %) | 8 / 12 (67 %) |
+| Ice | 5 / 12 (42 %) | **1 / 12 (8 %)** |
+| Nature | 8 / 12 (67 %) | 8 / 12 (67 %) |
+| Shadow | 2 / 12 (17 %) | **7 / 12 (58 %)** |
+| Durée médiane | 14:21 | 16:11 |
+
+Ice ne gagne qu'une partie (nature-ice s1, côté ennemi); il perd ses 4 parties contre Fire au score anticipé. Les nerfs Ice de
+la ronde 1 (Rimeshield, Snowdrift, Rime Colossus, Frost Mortar, Rimehorn, Juggernaut) sont le suspect n° 1, à confirmer avec
+plus de graines. Shadow remonte de 17 à 58 %.
+
+### Sims de campagne (une fois chacune, normal)
+PASS : e4m1 (22:01), e4m3 (22:03), e4m3_rush (28:11), e4m4 (23:35), e6m3 (16:01), e7m4 (23:51), e8m1_nature.
+e4m2 (temps écoulé) et e7m1 (défaite à 20:48, 1 enchère sur 3) ont échoué au premier passage, sous une charge de 4 Godot;
+relancés une fois : **PASS** (e4m2 17:24, 40 / 40; e7m1 22:46, 3 enchères sur 3, les mêmes temps que la revue du 10-11).
+e3m1 : FAIL (temps écoulé), le bogue de test déjà connu (`docs/reviews/campaign-notes-2026-10-11.md` : le joueur scripté
+reste en « regroup », seuil `REGROUP_LEAVE = 32` inatteignable), pas cette passe.
+
+### Unit Guide
+Glade Outrider (armure 16) passe le Greenheart Oathkeeper (15) : « Most armour in the Nature army » du Greenheart devient
+« Top 3 for armour in the Nature army » (`data/ui/unit_guide.json`, chaîne déjà traduite; références mises à jour dans
+`data/i18n/fr/unit_guide.po` et `data/i18n/en/unit_guide.pot`). `test_unit_guide` passe (70 unités).
+
+### Tests (ronde 2)
+`test_unit_guide`, `test_t3`, `test_tiers`, `test_unit_lab`, `test_data_lab` : PASS (le Data Lab sur les vraies données garde
+ses 3 FAIL T8 déjà connus dans `campaign.po`).

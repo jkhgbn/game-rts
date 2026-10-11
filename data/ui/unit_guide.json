@@ -261,7 +261,7 @@
 		},
 		"greenheart_oathkeeper": {
 			"role": "melee", "class": "Oath swordsman",
-			"pros": ["Most armour in the Nature army", "Grove Oath taunts nearby foes and braces", "Armoured front line for 2 pop"],
+			"pros": ["Top 3 for armour in the Nature army", "Grove Oath taunts nearby foes and braces", "Armoured front line for 2 pop"],
 			"cons": ["Slowest unit in the Nature army", "Low damage: a wall, not a killer"],
 			"strong_against": ["Divers", "Cavalry", "Melee rushes"], "weak_against": ["Slag Rain", "Kiting archers"], "good_with": ["Wildwood Archer", "Bloomtender"]
 		},

@@ -1583,11 +1583,6 @@ msgstr "Épéiste assermenté"
 
 #. pros
 #: data/ui/unit_guide.json:greenheart_oathkeeper
-msgid "Most armour in the Nature army"
-msgstr "Plus d'armure de l'armée de Nature"
-
-#. pros
-#: data/ui/unit_guide.json:greenheart_oathkeeper
 msgid "Grove Oath taunts nearby foes and braces"
 msgstr "Grove Oath provoque les ennemis proches et se raffermit"
 
@@ -1657,7 +1652,7 @@ msgid "Heavy stag charger"
 msgstr "Chargeur lourd sur cerf"
 
 #. pros
-#: data/ui/unit_guide.json:thornback_charger
+#: data/ui/unit_guide.json:greenheart_oathkeeper data/ui/unit_guide.json:thornback_charger
 msgid "Top 3 for armour in the Nature army"
 msgstr "Top 3 en armure dans l'armée de Nature"
 
