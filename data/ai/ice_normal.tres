@@ -5,8 +5,6 @@
 [resource]
 script = ExtResource("1_b2ydn")
 id = &"ice_normal"
-attack_ratio = 1.4
-min_attack_pop = 8
 spell_order = PackedStringArray("Q1", "F2", "E1", "F3", "Q2", "Q3", "E2")
 item_build = PackedStringArray("frostglass_shard", "ironbark_plate", "rimebound_bracers", "ember_draught", "frostglass_shard", "mana_thread", "glacier_heart", "bone_charm", "ironbark_plate", "warlords_horn", "winterwall_aegis")
 profile_id = &"ice_default"

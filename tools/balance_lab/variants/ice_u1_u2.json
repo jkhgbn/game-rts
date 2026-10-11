@@ -1,0 +1,14 @@
+{
+	"name": "ice_u1_u2",
+	"notes": "Ice suggestions U1 + U2 (docs/ideas/ice-suggestions-2026-10-10.md): Frost Hall build 54 -> 45 s, Rimeshield train 22 -> 19 s. Run on top of B1-B3 (code).",
+	"units": {
+		"rimeshield": {
+			"train_time": 19.0
+		}
+	},
+	"buildings": {
+		"ice_barracks": {
+			"build_time": 45.0
+		}
+	}
+}

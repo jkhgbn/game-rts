@@ -162,3 +162,47 @@ Ordre, en arrêtant dès qu'un bras atteint le critère :
 3. **U1 + U2 : Frost Hall 54 -> 45 s et Rimeshield 22 -> 19 s.** Ça comble le retard de 2,5 pop à 3:00 sans toucher aux
    PV, aux dégâts ni aux coûts, donc sans bouger les matrices du 06. À faire seulement si 1 et 2 ne suffisent pas, parce que
    le joueur humain le sentira aussi.
+
+## 6. Résultats : B1 + B2 + B3 appliqués (2026-10-10, approuvé par JS)
+
+Changements (skirmish normal, tous niveaux) :
+- **B1 + B3** : `ai_profile.gd` `ice()` sans `attack_ratio` +0,1 / +0,2 ni `min_attack_pop` +2 ; `data/ai/ice_*.tres` alignés
+  (facile 1,8 / 8, normal 1,3 / 6, difficile 1,1 / 5). `tests/test_8_b3.gd` attend maintenant 1,3 pour `ice_normal`.
+- **B2** (tous les royaumes) : `commander.gd` règle 7, la réserve garde jusqu'à `ai.attack_reserve` (2) **pop** à la maison,
+  les plus sains d'abord, et jamais une unité de pop >= 3 (`RESERVE_SKIP_POP`) : le Colossus et les lourds T3 partent.
+  Note : le bouton `attack_reserve` (ajouté par l'agent du Blitz) compte donc en pop, plus en unités.
+- Labo : `tools/bot_lab/lab_match.gd` écrit `attack_blocks` (règle 7 : raison -> ticks) dans les stats de chaque camp.
+
+Mesure : `run_fg.py`, Crown Hollow, normal, 12 paires ordonnées x 2 graines (24 parties, 12 par royaume), tick 60.
+« Avant » = même code avec les 3 changements retirés temporairement (`fg-icebefore`), « après » = `fg-icebot`.
+À 12 parties par royaume, un taux porte environ ±14 points.
+
+| Royaume | Victoires avant | après | Attaques / partie avant | après | Parties sans attaque avant | après | 1re attaque (méd.) avant | après |
+|---|---|---|---|---|---|---|---|---|
+| Feu | 83 % | 75 % | 2,58 | 2,92 | 2 / 12 | 1 / 12 | 10:56 | 4:56 |
+| Ombre | 25 % | **17 %** | 3,08 | 2,83 | 3 / 12 | 3 / 12 | 7:53 | 4:31 |
+| **Glace** | **17 %** | **42 %** | **0,50** | **1,75** | **8 / 12** | **2 / 12** | 16:16 | 3:53 |
+| Nature | 75 % | 67 % | 6,67 | 5,83 | 0 / 12 | 0 / 12 | 3:54 | 3:29 |
+| Durée médiane | 16:55 | 14:21 | | | | | | |
+
+Blocages de Glace (part des ticks) : « pop » 17 % -> 15 % ; le blocage dominant est « no army » (~42 %) puis « defending » (~32 %).
+Le « pop » n'était donc pas le blocage le plus fréquent en ticks, mais retirer la porte a fait passer Glace de 0,5 à 1,75 attaque.
+
+Critères : Glace entre 35 et 65 % (oui, 42 %) ; Glace >= 2 attaques / partie (presque : 1,75) ; parties sans attaque <= 25 %
+(oui, 17 %). **Pas encore** « chaque royaume 35-65 % » : Ombre est bas (25 % avant, 17 % après) et Feu haut (83 % -> 75 %),
+mais c'était déjà le cas avant ce changement ; ce n'est pas causé par B1-B3. La durée médiane baisse de 2:30 (attaques plus tôt
+chez tout le monde, effet de B2).
+
+**Suggestion 3 essayée (U1 + U2, variante `tools/balance_lab/variants/ice_u1_u2.json`, rien d'écrit dans `data/`)** par-dessus
+B1-B3, mêmes 24 parties (`fg-iceu`) : Glace 17 %, 1,08 attaque, 4 parties sans attaque ; Feu 58 %, Ombre 58 %, Nature 67 %,
+médiane 16:38. Aucun gain pour Glace (dans le bruit) : **U1 / U2 non appliqués.**
+
+Petit lot difficile (après seulement, 12 parties = 6 par royaume, `fg-icehard`) : Feu 6 / 6, Ombre 2 / 6, Glace 1 / 6
+(2,33 attaques, 1 partie sans attaque), Nature 3 / 6, médiane 16:59. Le seul « avant » difficile sur disque est `fg-c8h`
+(code du 10-08, avant plusieurs commits) : Glace 4 / 6 sur les mêmes graines. Trop peu de parties pour conclure ; à refaire
+avec un vrai « avant » sur le même code et plus de graines.
+
+Tests : test_casters_bots, test_tiers, test_7_a1, test_mt10_bot_slots, test_2_a1_rules, test_unit_lab, test_8_a1, test_8_b3 : PASS.
+
+Prochaines étapes possibles : plus de graines (N >= 36 par royaume) pour confirmer le 42 % ; regarder Ombre (17-25 %) et Feu
+(75-83 %) en normal, qui sortent de 35-65 % indépendamment de Glace ; le difficile avec un vrai « avant ».

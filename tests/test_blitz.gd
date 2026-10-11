@@ -157,6 +157,8 @@ func _check_values() -> void:
 	# Blitz: every value = default x its Blitz factor.
 	var node := PaceSwitch.setup(lvl, false, true)
 	_expect(node != null and PaceSwitch.is_blitz(), "Blitz did not apply")
+	_expect(is_equal_approx(PaceSwitch.worker_spell_x, float(PaceSwitch.BLITZ["worker_spell_x"])),
+			"Blitz worker spell factor not applied")
 	for e: Array in _entries():
 		var k := _key(e[0], e[1], e[2])
 		if not _defaults.has(k):
@@ -167,12 +169,20 @@ func _check_values() -> void:
 		_expect(is_equal_approx(float(now), float(expect)), "%s: %s, want %s" % [k, str(now), str(expect)])
 	lvl.free()
 	_expect(not PaceSwitch.is_applied() and _changed_from_defaults().is_empty(), "defaults not restored after Blitz")
+	_expect(is_equal_approx(PaceSwitch.worker_spell_x, 1.0), "worker spell factor not restored after Blitz")
 	# Bot knobs: Blitz's own dictionary.
 	var ai := AIProfile.normal()
 	PaceSwitch.patch_ai(ai, PaceSwitch.BLITZ["ai"])
 	var knobs: Dictionary = PaceSwitch.BLITZ["ai"]
 	if knobs.has("first_attack_by"):
 		_expect(is_equal_approx(ai.first_attack_by, float(knobs["first_attack_by"])), "Blitz first_attack_by")
+	# Per-kingdom knobs (Blitz "ai_kingdom") on top of the shared ones.
+	var per: Dictionary = PaceSwitch.BLITZ["ai_kingdom"]
+	for kingdom: String in per:
+		var kai := AIProfile.normal()
+		PaceSwitch.patch_ai(kai, per[kingdom])
+		for k: String in per[kingdom]:
+			_expect(StringName(k) in kai, "ai_kingdom.%s.%s: no such AIProfile knob" % [kingdom, k])
 
 
 ## The running Blitz skirmish: start workers, tier factor, keep HP, bot knobs (after the bot's first tick).

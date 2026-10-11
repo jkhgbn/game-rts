@@ -865,6 +865,8 @@ func _final_stats(team: int) -> Dictionary:
 	if bot != null and is_instance_valid(bot):
 		out["attacks"] = int(bot.get(&"attacks_launched"))
 		out["first_attack"] = snappedf(float(bot.get(&"first_attack_time")), 1.0)
+		var blocks: Variant = bot.get(&"attack_blocks")   # rule 7: why it did not launch -> think ticks
+		out["attack_blocks"] = (blocks as Dictionary).duplicate() if blocks is Dictionary else {}
 		out["bot_tick_ms"] = snappedf(float(bot.call(&"tick_usec_average")) / 1000.0, 0.001) \
 				if bot.has_method(&"tick_usec_average") else 0.0
 	return out

@@ -1051,6 +1051,8 @@ func _pick_lance_target(hp: float, max_hp: float) -> Node3D:
 
 ## Damage `target` (unit or building) and return what was really dealt (capped by its HP).
 static func deal_damage(target: Node3D, amount: float, attacker: Node3D) -> float:
+	if PaceSwitch.spell_mods_on:
+		amount *= PaceSwitch.spell_damage_x(target, attacker)   # Blitz only (blitz_2026-10-10.md)
 	var before: Variant = target.get(&"hp")
 	target.call(&"take_damage", amount, attacker)
 	var after: Variant = target.get(&"hp")

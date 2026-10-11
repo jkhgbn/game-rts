@@ -30,6 +30,8 @@ enum MalrikJoins { NEVER, SECOND_ATTACK_OR_STRENGTH, EVERY_ATTACK }
 @export var scout_interval := 120.0
 @export var malrik_joins: MalrikJoins = MalrikJoins.SECOND_ATTACK_OR_STRENGTH
 @export var malrik_join_strength := 800.0   ## SECOND_ATTACK_OR_STRENGTH: also joins from this strength.
+## Soldiers (the healthiest) kept home when the army leaves (Commander.RESERVE; Blitz Ice uses fewer).
+@export var attack_reserve := 2
 @export var no_reserve_at_cap := false      ## Hard: no home reserve when pop_used >= pop_cap - 2.
 @export var malrik_join_level := 4          ## SECOND_ATTACK_OR_STRENGTH: also joins from this wizard level.
 ## levels.md "The bot": spell point spending order, "<slot><rank>" with slot F / Q / E = spell 1 / 2 / 3.
@@ -204,14 +206,13 @@ static func nature(difficulty: int) -> AIProfile:
 	return p
 
 
-## kingdom-ice.md section 7 + balance-2 2b: the difficulty preset + attack_ratio +0.2, min_attack_pop +2, defend
+## kingdom-ice.md section 7 + balance-2 2b: the difficulty preset (no attack bonuses since 2026-10-10), defend
 ## 32 m, retreat 40 %, S1 3:30, S2 7:00, X1 5:30 or home nodes < half, Ice mix, walls on hard, Torvald's items.
 static func ice(difficulty: int) -> AIProfile:
 	var p := for_difficulty(difficulty)
 	p.profile_id = &"ice_default"
 	p.id = StringName("ice_" + DIFFICULTY_NAMES[clampi(difficulty, 0, 2)])
-	p.attack_ratio += 0.1 if difficulty == 1 else 0.2   # balance-2 section 5 (8.B4): normal 1.5 -> 1.4
-	p.min_attack_pop += 2
+	# 2026-10-10 (ice-suggestions B1 + B3): no more caution bonuses (attack_ratio +0.1 / +0.2, min_attack_pop +2).
 	p.defend_radius = 32.0
 	p.retreat_hp = 0.4        # balance-2 2b (was 0.3)
 	p.tower1_time = 210.0

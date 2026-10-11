@@ -96,7 +96,7 @@ func _part0() -> void:
 		"nature_normal": {"worker_target_home": 7, "worker_target_expanded": 9, "worker_target_x2": 12, "regrow_wait": 45.0},
 		"nature_hard": {"worker_target_home": 7, "worker_target_expanded": 9, "worker_target_x2": 12, "regrow_wait": 45.0},
 		"ice_easy": {"expand_time": 330.0, "expand_home_below": 0, "retreat_hp": 0.4},
-		"ice_normal": {"expand_time": 330.0, "expand_home_below": 0, "retreat_hp": 0.4, "attack_ratio": 1.4},   # 8.B4
+		"ice_normal": {"expand_time": 330.0, "expand_home_below": 0, "retreat_hp": 0.4, "attack_ratio": 1.3},   # 8.B4, B3 2026-10-10
 		"ice_hard": {"expand_time": 330.0, "expand_home_below": 0, "retreat_hp": 0.4},
 	}
 	for name: String in want:

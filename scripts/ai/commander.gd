@@ -143,6 +143,7 @@ const FOCUS_RADIUS := 12.0
 const FOCUS_SEARCH := 25.0
 const FOCUS_UNITS := 3
 const RESERVE := 2
+const RESERVE_SKIP_POP := 3   ## Rule 7: units of this pop or more never stay in the home reserve (2026-10-10).
 const HERO_LOW := 0.35
 const HERO_OK := 0.7
 const HERO_HEAL_MAX := 60.0
@@ -2231,15 +2232,25 @@ func _rule_attack() -> void:
 	var capped := _eco.pop_cap > 0 and _eco.pop_used >= _eco.pop_cap - 2 and not _can_grow()
 	# The reserve (the healthiest soldiers) stays home; the rest must make min_attack_pop.
 	home.sort_custom(func(a: Unit, b: Unit) -> bool: return a.hp > b.hp)
-	var reserve := RESERVE
+	var reserve := maxi(0, ai.attack_reserve)   # AIProfile knob (default RESERVE = 2), in pop since 2026-10-10
 	if (ai.no_reserve_at_cap and capped) or broke:
 		reserve = 0
-	if home.size() <= reserve:
+	# 2026-10-10 (ice-suggestions B2): the reserve keeps up to `reserve` POP home and never a unit of pop >= 3 (the
+	# Rime Colossus / T3 heavies go with the attack); it used to keep the 2 healthiest units, ~4 pop for Ice.
+	var leaving: Array[Unit] = []
+	var kept_pop := 0
+	for u in home:
+		var upop: int = u.unit_type.pop if u.unit_type else 1
+		if upop < RESERVE_SKIP_POP and kept_pop + upop <= reserve:
+			kept_pop += upop
+		else:
+			leaving.append(u)
+	if leaving.is_empty():
 		_block("no army")
 		return
 	var pop := 0
-	for i in range(reserve, home.size()):
-		pop += home[i].unit_type.pop if home[i].unit_type else 1
+	for u in leaving:
+		pop += u.unit_type.pop if u.unit_type else 1
 	# 20.A3: the strength check compares like with like and grows impatient (see _attack_ratio_now / _attack_power).
 	var gathered := pop >= ai.min_attack_pop and float(near) >= RALLY_SHARE * home.size()
 	if gathered and _gathered_since < 0.0:
@@ -2251,7 +2262,7 @@ func _rule_attack() -> void:
 	var power := _attack_power()
 	var full := ai.attack_full_pop > 0 and pop >= ai.attack_full_pop
 	var ready := gathered and (power >= need or full)
-	if not ready and not (capped and home.size() - reserve >= 2) and not broke:
+	if not ready and not (capped and leaving.size() >= 2) and not broke:
 		if pop < ai.min_attack_pop:
 			_block("pop")
 		elif float(near) < RALLY_SHARE * home.size():
@@ -2265,17 +2276,17 @@ func _rule_attack() -> void:
 		_block("all-in gather")
 		return
 	var avg_hp := 0.0
-	for i in range(reserve, home.size()):
-		avg_hp += home[i].hp / maxf(home[i].max_hp, 1.0)
-	avg_hp /= float(home.size() - reserve)
+	for u in leaving:
+		avg_hp += u.hp / maxf(u.max_hp, 1.0)
+	avg_hp /= float(leaving.size())
 	if not broke and not _regrow_ready(avg_hp):
 		_block("regrow")
 		return
 	var waited := _now - _regrow_since if _regrow_since >= 0.0 else -1.0
 	_regrow_since = -1.0
 	_group = []
-	for i in range(reserve, home.size()):
-		_group.append(home[i])
+	for u in leaving:
+		_group.append(u)
 	_group_ids.clear()
 	_launch_hp = 0.0
 	for u in _group:

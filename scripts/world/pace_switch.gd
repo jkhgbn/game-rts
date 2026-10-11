@@ -53,9 +53,17 @@ const BLITZ := {
 	"start_crystals_add": {"fire": 0, "nature": 100, "shadow": 300, "ice": 800},   # per kingdom (balance lever)
 	"tier_time_x": 0.5,
 	"game_speed": 1.3,   # Engine.time_scale while the Blitz level runs (1.0 = real time)
-	"ai": {"attack_ratio": "x0.75", "attack_ratio_floor": "x0.75", "attack_patience": 45, "attack_full_pop": 10,
+	"ai": {"attack_ratio": "x0.9", "attack_ratio_floor": "x0.9", "attack_patience": 45, "attack_full_pop": 10,
 			"first_attack_by": 300, "retreat_hp": 0.25, "worker_target_home": 9, "worker_target_expanded": 12,
 			"worker_target_x2": 14},
+	## 10-10 v20: attack_ratio / floor x0.9 (x0.75 sent armies into the defender, who won 67-75 %).
+	## Per-kingdom bot knobs on top of "ai" (same format), e.g. {"ice": {"attack_ratio": "x0.8"}}.
+	"ai_kingdom": {"ice": {"min_attack_pop": 6, "attack_ratio": "x0.8", "attack_ratio_floor": "x0.8",
+			"attack_reserve": 1}},   # v18: the Ice bot sat on ~12 pop at home (min pop 8 + a 2-soldier reserve)
+	## Spell damage taken by workers (SpellCaster.deal_damage): AoE spells on a 9-worker line.
+	"worker_spell_x": 0.5,
+	## Wizard spell damage by the caster's kingdom (SpellCaster.deal_damage), e.g. {"fire": 0.75}; missing = 1.0.
+	"spell_damage_x": {},
 }
 const KEEPS: Array[String] = ["fire_keep", "ice_keep", "nature_keep", "shadow_keep"]
 const BOT_CHECK_FRAMES := 15   ## physics frames between two looks for a new bot profile
@@ -67,9 +75,14 @@ static var _blitz := false   # the applied values are the Blitz ones
 static var _old_time_scale := -1.0   # Engine.time_scale before Blitz changed it (-1 = untouched)
 static var _originals: Array = []   # [[Resource, field, old value]] while applied
 static var _held: Array[Resource] = []
+## Spell damage factor on workers while Blitz is applied (1.0 otherwise); read by SpellCaster.deal_damage.
+static var worker_spell_x := 1.0
+static var spell_x_by_kingdom := {}   ## Blitz "spell_damage_x" while applied ({} otherwise)
+static var spell_mods_on := false     ## any of the two above differs from 1.0 (cheap check in deal_damage)
 
 var blitz := false
 var _patched := {}   # AIProfile instance id -> true
+var _patched_kingdom := {}   # AIProfile instance id -> true (Blitz "ai_kingdom", once the faction is known)
 var _frames := 0
 
 
@@ -124,10 +137,17 @@ func patch_bots(level: Node) -> void:
 		if not (c is Commander):
 			continue
 		var ai := (c as Commander).ai
-		if ai == null or _patched.has(ai.get_instance_id()):
+		if ai == null:
 			continue
-		_patched[ai.get_instance_id()] = true
-		patch_ai(ai, blitz_value("ai") if blitz else AI_KNOBS)
+		if not _patched.has(ai.get_instance_id()):
+			_patched[ai.get_instance_id()] = true
+			patch_ai(ai, blitz_value("ai") if blitz else AI_KNOBS)
+		var faction := (c as Commander).faction
+		if blitz and faction != &"" and not _patched_kingdom.has(ai.get_instance_id()):
+			_patched_kingdom[ai.get_instance_id()] = true
+			var per: Dictionary = blitz_value("ai_kingdom")
+			if per.has(String(faction)):
+				patch_ai(ai, per[String(faction)])
 
 
 ## The A2 aggression knobs (or `knobs`, e.g. Blitz's) on one profile (in place).
@@ -176,6 +196,9 @@ static func apply_resources(blitz_on := false) -> void:
 	if is_applied():
 		return
 	_blitz = blitz_on
+	worker_spell_x = float(blitz_value("worker_spell_x")) if blitz_on else 1.0
+	spell_x_by_kingdom = (blitz_value("spell_damage_x") as Dictionary).duplicate() if blitz_on else {}
+	spell_mods_on = not is_equal_approx(worker_spell_x, 1.0) or not spell_x_by_kingdom.is_empty()
 	var f := func(key: String, a2: float) -> float: return float(blitz_value(key)) if blitz_on else a2
 	for id in SOLDIERS:
 		var x := SOLDIER_TRAIN_X
@@ -194,6 +217,16 @@ static func apply_resources(blitz_on := false) -> void:
 	for id in TURRETS:
 		var dmg_x: float = f.call("keep_damage_x", TURRET_DAMAGE_X) if KEEPS.has(id) 				else f.call("turret_damage_x", TURRET_DAMAGE_X)
 		_edit(BUILDING_DIR, id, &"attack_damage", dmg_x)
+
+
+## Blitz spell damage factor for one hit (worker_spell_x on workers, spell_damage_x by the caster's kingdom).
+static func spell_damage_x(target: Node3D, attacker: Node3D) -> float:
+	var x := 1.0
+	if target is Unit and (target as Unit).is_worker():
+		x *= worker_spell_x
+	if not spell_x_by_kingdom.is_empty() and attacker != null and is_instance_valid(attacker) and &"kingdom" in attacker:
+		x *= float(spell_x_by_kingdom.get(String(attacker.get(&"kingdom")), 1.0))
+	return x
 
 
 ## A Blitz factor that is a number (every kingdom) or a Dictionary {"fire": 0.6, ..., "default": 0.5} (the Blitz
@@ -220,6 +253,9 @@ static func restore_resources() -> void:
 	_originals.clear()
 	_held.clear()
 	_blitz = false
+	worker_spell_x = 1.0
+	spell_x_by_kingdom = {}
+	spell_mods_on = false
 
 
 static func _edit(dir: String, id: String, field: StringName, mult: float) -> void:
@@ -246,4 +282,6 @@ static func _resolve(old: float, spec: Variant) -> float:
 	var s := String(spec)
 	if s.begins_with("x"):
 		return old * s.substr(1).to_float()
+	if s.begins_with("+"):
+		return old + s.substr(1).to_float()
 	return s.to_float()
