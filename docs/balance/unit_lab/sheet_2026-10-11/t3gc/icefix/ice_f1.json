@@ -1,0 +1,6 @@
+{
+	"name": "ice_f1",
+	"notes": "Ice fix candidate F1: Rimeshield max_hp 140 -> 150 (round-1 nerf reverted) + Ice bot Frost Hall mix without the Rime Seer (40 / 40 / 0 / 20).",
+	"units": {"rimeshield": {"max_hp": 150}},
+	"fg": {"bot_share": {"rime_seer": 0.0, "shardcaster": 0.40, "rimeshield": 0.40, "rime_colossus": 0.20}}
+}

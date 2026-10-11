@@ -1,0 +1,6 @@
+{
+	"name": "ice_towers",
+	"notes": "Ice fix diagnostic: Ice bot towers at the default times (S1 5:00, S2 8:00 instead of 3:30 / 7:00). Absolute values = the other kingdoms' normal values, so only Ice changes.",
+	"units": {},
+	"fg": {"ai": {"tower1_time": 300, "tower2_time": 480}}
+}

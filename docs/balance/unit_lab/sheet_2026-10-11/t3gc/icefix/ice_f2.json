@@ -1,0 +1,6 @@
+{
+	"name": "ice_f2",
+	"notes": "Ice fix candidate F2: F1 + Rime Colossus max_hp 410 -> 460, attack_damage 24 -> 26 (half of the round-1 nerf back).",
+	"units": {"rimeshield": {"max_hp": 150}, "rime_colossus": {"max_hp": 460, "attack_damage": 26}},
+	"fg": {"bot_share": {"rime_seer": 0.0, "shardcaster": 0.40, "rimeshield": 0.40, "rime_colossus": 0.20}}
+}

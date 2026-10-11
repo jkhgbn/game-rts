@@ -1,0 +1,5 @@
+{
+	"name": "icefix_u450",
+	"notes": "Ice fix Unit Lab check: Rimeshield max_hp 150, Rime Colossus 450 HP / 26 damage.",
+	"units": {"rimeshield": {"max_hp": 150}, "rime_colossus": {"max_hp": 450, "attack_damage": 26}}
+}

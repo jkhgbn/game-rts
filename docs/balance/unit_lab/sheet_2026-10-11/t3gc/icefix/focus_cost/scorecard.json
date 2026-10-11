@@ -1,0 +1,2226 @@
+{
+	"fights": 1284,
+	"title": "icefix_focus_cost",
+	"variants": {
+		"icefix_u450": {
+			"games": {
+				"ash_hurler": 12,
+				"ashveil_saboteur": 12,
+				"barrow_ghoul": 12,
+				"barrow_knight": 12,
+				"blaze_rider": 12,
+				"bleakbow": 12,
+				"bloomtender": 12,
+				"bramble_harrier": 12,
+				"bramblehorn": 12,
+				"bramblesage+thornling": 12,
+				"briar_roc": 12,
+				"burr_slinger": 12,
+				"cinder_arbalest": 12,
+				"duskbolt_harrier": 12,
+				"ember_archer": 12,
+				"emberdart_harrier": 12,
+				"flame_guard": 12,
+				"frost_mortar": 12,
+				"frostbow": 12,
+				"frostcrown_juggernaut": 12,
+				"glade_outrider": 12,
+				"gloam_rider": 12,
+				"gloom_deacon+shade": 12,
+				"grave_hound": 12,
+				"greenheart_oathkeeper": 12,
+				"hexweaver": 12,
+				"hoarlight_magebow": 12,
+				"hollow_oathsworn": 12,
+				"kilnwarden+flame_guard": 12,
+				"nightblood_reaver": 12,
+				"nightbolt": 12,
+				"pyre_adept": 12,
+				"pyrehoof_lancer": 12,
+				"rime_colossus": 324,
+				"rime_harrier": 12,
+				"rime_seer": 12,
+				"rimecarver+rimeshield": 12,
+				"rimehorn_rider": 12,
+				"rimeling": 12,
+				"rimeshield": 324,
+				"scorchbow": 12,
+				"scorchling": 12,
+				"shade": 12,
+				"shadow_knight": 12,
+				"shardcaster": 12,
+				"shardguard": 12,
+				"snowdrift_rider": 12,
+				"stagrunner": 12,
+				"sunforge_cataphract": 12,
+				"thistle_darter": 12,
+				"thornback_charger": 12,
+				"thornling": 12,
+				"veilborn_dreadrider": 12,
+				"vinelasher": 12,
+				"wildwood_archer": 12
+			},
+			"mean": {
+				"ash_hurler": 0.0,
+				"ashveil_saboteur": 0.0,
+				"barrow_ghoul": 0.5,
+				"barrow_knight": 0.0,
+				"blaze_rider": 0.5,
+				"bleakbow": 0.0,
+				"bloomtender": 0.0,
+				"bramble_harrier": 0.0,
+				"bramblehorn": 0.0,
+				"bramblesage+thornling": 0.0833333333333333,
+				"briar_roc": 1.0,
+				"burr_slinger": 0.0,
+				"cinder_arbalest": 0.0,
+				"duskbolt_harrier": 0.0,
+				"ember_archer": 0.0,
+				"emberdart_harrier": 0.0,
+				"flame_guard": 0.5,
+				"frost_mortar": 0.333333333333333,
+				"frostbow": 0.0,
+				"frostcrown_juggernaut": 1.0,
+				"glade_outrider": 1.0,
+				"gloam_rider": 0.0,
+				"gloom_deacon+shade": 0.5,
+				"grave_hound": 0.416666666666667,
+				"greenheart_oathkeeper": 0.25,
+				"hexweaver": 0.0,
+				"hoarlight_magebow": 0.0,
+				"hollow_oathsworn": 0.0,
+				"kilnwarden+flame_guard": 0.0833333333333333,
+				"nightblood_reaver": 1.0,
+				"nightbolt": 0.0,
+				"pyre_adept": 0.333333333333333,
+				"pyrehoof_lancer": 0.0,
+				"rime_colossus": 0.641975308641975,
+				"rime_harrier": 0.0,
+				"rime_seer": 0.0,
+				"rimecarver+rimeshield": 0.5,
+				"rimehorn_rider": 0.0,
+				"rimeling": 0.5,
+				"rimeshield": 0.827160493827161,
+				"scorchbow": 0.0,
+				"scorchling": 1.0,
+				"shade": 0.5,
+				"shadow_knight": 0.0,
+				"shardcaster": 0.0,
+				"shardguard": 1.0,
+				"snowdrift_rider": 0.166666666666667,
+				"stagrunner": 0.0833333333333333,
+				"sunforge_cataphract": 1.0,
+				"thistle_darter": 0.0,
+				"thornback_charger": 0.0,
+				"thornling": 0.5,
+				"veilborn_dreadrider": 1.0,
+				"vinelasher": 0.0833333333333333,
+				"wildwood_archer": 0.0
+			},
+			"outliers": [
+				{
+					"dev": 0.5,
+					"entry": "frostbow",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.360684523809524,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "ash_hurler",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.295367063492064,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "nightbolt",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.334217948717949,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bleakbow",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.310884057971015,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "duskbolt_harrier",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.472177328843995,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "gloam_rider",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.572059202059202,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "shadow_knight",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.598514957264957,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "hexweaver",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.236748717948718,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "hollow_oathsworn",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.616718106995885,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "barrow_knight",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.569910714285714,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "scorchbow",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.2932,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "ember_archer",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.320525641025641,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "rime_seer",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.135520833333333,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "shardcaster",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.333517316017316,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "cinder_arbalest",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.429866666666667,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "thornback_charger",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.616872427983539,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "rime_harrier",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.5196632996633,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bramblehorn",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.51902380952381,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bramble_harrier",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.581409796893668,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bloomtender",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.251646090534979,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "wildwood_archer",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.35765737874097,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "burr_slinger",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.31435817805383,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "thistle_darter",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.323968253968254,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "pyrehoof_lancer",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.573118908382066,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "ashveil_saboteur",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.222238095238095,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "rimehorn_rider",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.560636363636364,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "hoarlight_magebow",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.438111455108359,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "scorchling",
+					"kingdom": "fire",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.8288920056101,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "veilborn_dreadrider",
+					"kingdom": "shadow",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.84284906726964,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "nightblood_reaver",
+					"kingdom": "shadow",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 2.21126887944289,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "glade_outrider",
+					"kingdom": "nature",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 2.02580939163577,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "briar_roc",
+					"kingdom": "nature",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 2.33012484513485,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "frostcrown_juggernaut",
+					"kingdom": "ice",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.42016218663813,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "sunforge_cataphract",
+					"kingdom": "fire",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.65546659444454,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "shardguard",
+					"kingdom": "ice",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.82376237623762,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "emberdart_harrier",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.452188552188552,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.416666666666667,
+					"entry": "stagrunner",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0833333333333333,
+					"trade": 0.672642793448163,
+					"verdict": "too weak",
+					"why": "mean score 8 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.416666666666667,
+					"entry": "vinelasher",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0833333333333333,
+					"trade": 0.753673361224191,
+					"verdict": "too weak",
+					"why": "mean score 8 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.416666666666667,
+					"entry": "kilnwarden+flame_guard",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0833333333333333,
+					"trade": 0.793026544821584,
+					"verdict": "too weak",
+					"why": "mean score 8 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.416666666666667,
+					"entry": "bramblesage+thornling",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0833333333333333,
+					"trade": 0.667796518249363,
+					"verdict": "too weak",
+					"why": "mean score 8 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.333333333333333,
+					"entry": "snowdrift_rider",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.166666666666667,
+					"trade": 0.759016280035051,
+					"verdict": "too weak",
+					"why": "mean score 17 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.327160493827161,
+					"entry": "rimeshield",
+					"kingdom": "ice",
+					"losses": [
+						10,
+						54
+					],
+					"mean": 0.827160493827161,
+					"trade": 1.7412017187522,
+					"verdict": "too strong",
+					"why": "mean score 83 % >= 70 %",
+					"wins": [
+						44,
+						54
+					]
+				},
+				{
+					"dev": 0.25,
+					"entry": "greenheart_oathkeeper",
+					"kingdom": "nature",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.25,
+					"trade": 0.861034342152954,
+					"verdict": "too weak",
+					"why": "mean score 25 % <= 30 %",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.166666666666667,
+					"entry": "frost_mortar",
+					"kingdom": "ice",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.333333333333333,
+					"trade": 0.940192615872917,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.166666666666667,
+					"entry": "pyre_adept",
+					"kingdom": "fire",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.333333333333333,
+					"trade": 0.817761510306299,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.141975308641975,
+					"entry": "rime_colossus",
+					"kingdom": "ice",
+					"losses": [
+						18,
+						54
+					],
+					"mean": 0.641975308641975,
+					"trade": 1.16887000953543,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						35,
+						54
+					]
+				},
+				{
+					"dev": 0.0833333333333333,
+					"entry": "grave_hound",
+					"kingdom": "shadow",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.416666666666667,
+					"trade": 0.829588767689088,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "gloom_deacon+shade",
+					"kingdom": "shadow",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.05885085696272,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "shade",
+					"kingdom": "shadow",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.17374093786601,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "barrow_ghoul",
+					"kingdom": "shadow",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.0959592683876,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "thornling",
+					"kingdom": "nature",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.04723212242095,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "rimecarver+rimeshield",
+					"kingdom": "ice",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.10523820186241,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "flame_guard",
+					"kingdom": "fire",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 0.971592817465444,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "blaze_rider",
+					"kingdom": "fire",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 0.842242010534521,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "rimeling",
+					"kingdom": "ice",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.25403768506057,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				}
+			],
+			"trade": {
+				"ash_hurler": 0.295367063492064,
+				"ashveil_saboteur": 0.222238095238095,
+				"barrow_ghoul": 1.0959592683876,
+				"barrow_knight": 0.569910714285714,
+				"blaze_rider": 0.842242010534521,
+				"bleakbow": 0.310884057971015,
+				"bloomtender": 0.251646090534979,
+				"bramble_harrier": 0.581409796893668,
+				"bramblehorn": 0.51902380952381,
+				"bramblesage+thornling": 0.667796518249363,
+				"briar_roc": 2.33012484513485,
+				"burr_slinger": 0.31435817805383,
+				"cinder_arbalest": 0.429866666666667,
+				"duskbolt_harrier": 0.472177328843995,
+				"ember_archer": 0.320525641025641,
+				"emberdart_harrier": 0.452188552188552,
+				"flame_guard": 0.971592817465444,
+				"frost_mortar": 0.940192615872917,
+				"frostbow": 0.360684523809524,
+				"frostcrown_juggernaut": 1.42016218663813,
+				"glade_outrider": 2.02580939163577,
+				"gloam_rider": 0.572059202059202,
+				"gloom_deacon+shade": 1.05885085696272,
+				"grave_hound": 0.829588767689088,
+				"greenheart_oathkeeper": 0.861034342152954,
+				"hexweaver": 0.236748717948718,
+				"hoarlight_magebow": 0.438111455108359,
+				"hollow_oathsworn": 0.616718106995885,
+				"kilnwarden+flame_guard": 0.793026544821584,
+				"nightblood_reaver": 2.21126887944289,
+				"nightbolt": 0.334217948717949,
+				"pyre_adept": 0.817761510306299,
+				"pyrehoof_lancer": 0.573118908382066,
+				"rime_colossus": 1.16887000953543,
+				"rime_harrier": 0.5196632996633,
+				"rime_seer": 0.135520833333333,
+				"rimecarver+rimeshield": 1.10523820186241,
+				"rimehorn_rider": 0.560636363636364,
+				"rimeling": 1.25403768506057,
+				"rimeshield": 1.7412017187522,
+				"scorchbow": 0.2932,
+				"scorchling": 1.8288920056101,
+				"shade": 1.17374093786601,
+				"shadow_knight": 0.598514957264957,
+				"shardcaster": 0.333517316017316,
+				"shardguard": 1.82376237623762,
+				"snowdrift_rider": 0.759016280035051,
+				"stagrunner": 0.672642793448163,
+				"sunforge_cataphract": 1.65546659444454,
+				"thistle_darter": 0.323968253968254,
+				"thornback_charger": 0.616872427983539,
+				"thornling": 1.04723212242095,
+				"veilborn_dreadrider": 1.84284906726964,
+				"vinelasher": 0.753673361224191,
+				"wildwood_archer": 0.35765737874097
+			}
+		},
+		"icefix_u480": {
+			"games": {
+				"ash_hurler": 12,
+				"ashveil_saboteur": 12,
+				"barrow_ghoul": 12,
+				"barrow_knight": 12,
+				"blaze_rider": 12,
+				"bleakbow": 12,
+				"bloomtender": 12,
+				"bramble_harrier": 12,
+				"bramblehorn": 12,
+				"bramblesage+thornling": 12,
+				"briar_roc": 12,
+				"burr_slinger": 12,
+				"cinder_arbalest": 12,
+				"duskbolt_harrier": 12,
+				"ember_archer": 12,
+				"emberdart_harrier": 12,
+				"flame_guard": 12,
+				"frost_mortar": 12,
+				"frostbow": 12,
+				"frostcrown_juggernaut": 12,
+				"glade_outrider": 12,
+				"gloam_rider": 12,
+				"gloom_deacon+shade": 12,
+				"grave_hound": 12,
+				"greenheart_oathkeeper": 12,
+				"hexweaver": 12,
+				"hoarlight_magebow": 12,
+				"hollow_oathsworn": 12,
+				"kilnwarden+flame_guard": 12,
+				"nightblood_reaver": 12,
+				"nightbolt": 12,
+				"pyre_adept": 12,
+				"pyrehoof_lancer": 12,
+				"rime_colossus": 324,
+				"rime_harrier": 12,
+				"rime_seer": 12,
+				"rimecarver+rimeshield": 12,
+				"rimehorn_rider": 12,
+				"rimeling": 12,
+				"rimeshield": 324,
+				"scorchbow": 12,
+				"scorchling": 12,
+				"shade": 12,
+				"shadow_knight": 12,
+				"shardcaster": 12,
+				"shardguard": 12,
+				"snowdrift_rider": 12,
+				"stagrunner": 12,
+				"sunforge_cataphract": 12,
+				"thistle_darter": 12,
+				"thornback_charger": 12,
+				"thornling": 12,
+				"veilborn_dreadrider": 12,
+				"vinelasher": 12,
+				"wildwood_archer": 12
+			},
+			"mean": {
+				"ash_hurler": 0.0,
+				"ashveil_saboteur": 0.0,
+				"barrow_ghoul": 0.5,
+				"barrow_knight": 0.0,
+				"blaze_rider": 0.166666666666667,
+				"bleakbow": 0.0,
+				"bloomtender": 0.0,
+				"bramble_harrier": 0.0,
+				"bramblehorn": 0.0,
+				"bramblesage+thornling": 0.0,
+				"briar_roc": 1.0,
+				"burr_slinger": 0.0,
+				"cinder_arbalest": 0.0,
+				"duskbolt_harrier": 0.0,
+				"ember_archer": 0.0,
+				"emberdart_harrier": 0.0,
+				"flame_guard": 0.416666666666667,
+				"frost_mortar": 0.333333333333333,
+				"frostbow": 0.0,
+				"frostcrown_juggernaut": 1.0,
+				"glade_outrider": 1.0,
+				"gloam_rider": 0.0,
+				"gloom_deacon+shade": 0.5,
+				"grave_hound": 0.166666666666667,
+				"greenheart_oathkeeper": 0.0833333333333333,
+				"hexweaver": 0.0,
+				"hoarlight_magebow": 0.0,
+				"hollow_oathsworn": 0.0,
+				"kilnwarden+flame_guard": 0.0,
+				"nightblood_reaver": 1.0,
+				"nightbolt": 0.0,
+				"pyre_adept": 0.5,
+				"pyrehoof_lancer": 0.0,
+				"rime_colossus": 0.700617283950618,
+				"rime_harrier": 0.0,
+				"rime_seer": 0.0,
+				"rimecarver+rimeshield": 0.416666666666667,
+				"rimehorn_rider": 0.0,
+				"rimeling": 0.5,
+				"rimeshield": 0.817901234567901,
+				"scorchbow": 0.0,
+				"scorchling": 1.0,
+				"shade": 0.5,
+				"shadow_knight": 0.0,
+				"shardcaster": 0.0,
+				"shardguard": 1.0,
+				"snowdrift_rider": 0.0,
+				"stagrunner": 0.0,
+				"sunforge_cataphract": 1.0,
+				"thistle_darter": 0.0,
+				"thornback_charger": 0.0,
+				"thornling": 0.416666666666667,
+				"veilborn_dreadrider": 1.0,
+				"vinelasher": 0.0,
+				"wildwood_archer": 0.0
+			},
+			"outliers": [
+				{
+					"dev": 0.5,
+					"entry": "nightbolt",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.329192307692308,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "ash_hurler",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.281488095238095,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "hexweaver",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.2088,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "emberdart_harrier",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.442020202020202,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bramblesage+thornling",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.619100529100529,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "hollow_oathsworn",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.526882716049383,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "cinder_arbalest",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.422102564102564,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "thornback_charger",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.545792181069959,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "barrow_knight",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.514176587301587,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "kilnwarden+flame_guard",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.742886178861789,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "ashveil_saboteur",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.216619047619048,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "shardcaster",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.311363636363636,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "rime_seer",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.129178240740741,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "frostbow",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.342301587301587,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "rime_harrier",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.42658810325477,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "snowdrift_rider",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.624466230936819,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "hoarlight_magebow",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.417750257997936,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "rimehorn_rider",
+					"kingdom": "ice",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.493080808080808,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "pyrehoof_lancer",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.502855750487329,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "thistle_darter",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.313626373626374,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "burr_slinger",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.309989648033126,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "wildwood_archer",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.335325077399381,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bloomtender",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.171440329218107,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bramble_harrier",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.499522102747909,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "stagrunner",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.594456018518519,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bramblehorn",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.481392857142857,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "vinelasher",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.620796857463524,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "scorchling",
+					"kingdom": "fire",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.38172673457566,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "veilborn_dreadrider",
+					"kingdom": "shadow",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.68301497160558,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "nightblood_reaver",
+					"kingdom": "shadow",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.99714110680008,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "glade_outrider",
+					"kingdom": "nature",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 2.00024542888698,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "briar_roc",
+					"kingdom": "nature",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 2.14935607226056,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "frostcrown_juggernaut",
+					"kingdom": "ice",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.37126049974827,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "shardguard",
+					"kingdom": "ice",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.64764392285949,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "sunforge_cataphract",
+					"kingdom": "fire",
+					"losses": [
+						0,
+						2
+					],
+					"mean": 1.0,
+					"trade": 1.56530089628681,
+					"verdict": "too strong",
+					"why": "mean score 100 % >= 70 %, beats 2 / 2",
+					"wins": [
+						2,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "shadow_knight",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.553205128205128,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "ember_archer",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.313948717948718,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "scorchbow",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.27854358974359,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "bleakbow",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.290927536231884,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "duskbolt_harrier",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.414758698092031,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.5,
+					"entry": "gloam_rider",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0,
+					"trade": 0.546846846846847,
+					"verdict": "too weak",
+					"why": "mean score 0 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.416666666666667,
+					"entry": "greenheart_oathkeeper",
+					"kingdom": "nature",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.0833333333333333,
+					"trade": 0.768978018246936,
+					"verdict": "too weak",
+					"why": "mean score 8 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.333333333333333,
+					"entry": "grave_hound",
+					"kingdom": "shadow",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.166666666666667,
+					"trade": 0.721814282109513,
+					"verdict": "too weak",
+					"why": "mean score 17 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.333333333333333,
+					"entry": "blaze_rider",
+					"kingdom": "fire",
+					"losses": [
+						2,
+						2
+					],
+					"mean": 0.166666666666667,
+					"trade": 0.746654533775827,
+					"verdict": "too weak",
+					"why": "mean score 17 % <= 30 %, loses to 2 / 2",
+					"wins": [
+						0,
+						2
+					]
+				},
+				{
+					"dev": 0.317901234567901,
+					"entry": "rimeshield",
+					"kingdom": "ice",
+					"losses": [
+						10,
+						54
+					],
+					"mean": 0.817901234567901,
+					"trade": 1.73491791548514,
+					"verdict": "too strong",
+					"why": "mean score 82 % >= 70 %",
+					"wins": [
+						44,
+						54
+					]
+				},
+				{
+					"dev": 0.200617283950618,
+					"entry": "rime_colossus",
+					"kingdom": "ice",
+					"losses": [
+						16,
+						54
+					],
+					"mean": 0.700617283950618,
+					"trade": 1.33028931723449,
+					"verdict": "too strong",
+					"why": "mean score 70 % >= 70 %",
+					"wins": [
+						38,
+						54
+					]
+				},
+				{
+					"dev": 0.166666666666667,
+					"entry": "frost_mortar",
+					"kingdom": "ice",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.333333333333333,
+					"trade": 0.892285124090651,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0833333333333333,
+					"entry": "thornling",
+					"kingdom": "nature",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.416666666666667,
+					"trade": 0.974857525980557,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0833333333333333,
+					"entry": "rimecarver+rimeshield",
+					"kingdom": "ice",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.416666666666667,
+					"trade": 1.01317282549706,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0833333333333333,
+					"entry": "flame_guard",
+					"kingdom": "fire",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.416666666666667,
+					"trade": 0.866668970442555,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "shade",
+					"kingdom": "shadow",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.15757071790159,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "gloom_deacon+shade",
+					"kingdom": "shadow",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 0.999044610524694,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "barrow_ghoul",
+					"kingdom": "shadow",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.07675913068751,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "rimeling",
+					"kingdom": "ice",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 1.19565911267156,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				},
+				{
+					"dev": 0.0,
+					"entry": "pyre_adept",
+					"kingdom": "fire",
+					"losses": [
+						1,
+						2
+					],
+					"mean": 0.5,
+					"trade": 0.801087857065668,
+					"verdict": "",
+					"why": "",
+					"wins": [
+						1,
+						2
+					]
+				}
+			],
+			"trade": {
+				"ash_hurler": 0.281488095238095,
+				"ashveil_saboteur": 0.216619047619048,
+				"barrow_ghoul": 1.07675913068751,
+				"barrow_knight": 0.514176587301587,
+				"blaze_rider": 0.746654533775827,
+				"bleakbow": 0.290927536231884,
+				"bloomtender": 0.171440329218107,
+				"bramble_harrier": 0.499522102747909,
+				"bramblehorn": 0.481392857142857,
+				"bramblesage+thornling": 0.619100529100529,
+				"briar_roc": 2.14935607226056,
+				"burr_slinger": 0.309989648033126,
+				"cinder_arbalest": 0.422102564102564,
+				"duskbolt_harrier": 0.414758698092031,
+				"ember_archer": 0.313948717948718,
+				"emberdart_harrier": 0.442020202020202,
+				"flame_guard": 0.866668970442555,
+				"frost_mortar": 0.892285124090651,
+				"frostbow": 0.342301587301587,
+				"frostcrown_juggernaut": 1.37126049974827,
+				"glade_outrider": 2.00024542888698,
+				"gloam_rider": 0.546846846846847,
+				"gloom_deacon+shade": 0.999044610524694,
+				"grave_hound": 0.721814282109513,
+				"greenheart_oathkeeper": 0.768978018246936,
+				"hexweaver": 0.2088,
+				"hoarlight_magebow": 0.417750257997936,
+				"hollow_oathsworn": 0.526882716049383,
+				"kilnwarden+flame_guard": 0.742886178861789,
+				"nightblood_reaver": 1.99714110680008,
+				"nightbolt": 0.329192307692308,
+				"pyre_adept": 0.801087857065668,
+				"pyrehoof_lancer": 0.502855750487329,
+				"rime_colossus": 1.33028931723449,
+				"rime_harrier": 0.42658810325477,
+				"rime_seer": 0.129178240740741,
+				"rimecarver+rimeshield": 1.01317282549706,
+				"rimehorn_rider": 0.493080808080808,
+				"rimeling": 1.19565911267156,
+				"rimeshield": 1.73491791548514,
+				"scorchbow": 0.27854358974359,
+				"scorchling": 1.38172673457566,
+				"shade": 1.15757071790159,
+				"shadow_knight": 0.553205128205128,
+				"shardcaster": 0.311363636363636,
+				"shardguard": 1.64764392285949,
+				"snowdrift_rider": 0.624466230936819,
+				"stagrunner": 0.594456018518519,
+				"sunforge_cataphract": 1.56530089628681,
+				"thistle_darter": 0.313626373626374,
+				"thornback_charger": 0.545792181069959,
+				"thornling": 0.974857525980557,
+				"veilborn_dreadrider": 1.68301497160558,
+				"vinelasher": 0.620796857463524,
+				"wildwood_archer": 0.335325077399381
+			}
+		}
+	}
+}

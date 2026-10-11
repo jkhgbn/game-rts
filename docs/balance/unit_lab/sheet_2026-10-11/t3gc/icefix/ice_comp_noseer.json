@@ -1,0 +1,6 @@
+{
+	"name": "ice_comp_noseer",
+	"notes": "Ice fix A/B: Ice bot Frost Hall mix without the Rime Seer (its 10 % goes to the Shardcaster): 40 / 40 / 0 / 20 in all three mixes.",
+	"units": {},
+	"fg": {"bot_share": {"rime_seer": 0.0, "shardcaster": 0.40, "rimeshield": 0.40, "rime_colossus": 0.20}}
+}

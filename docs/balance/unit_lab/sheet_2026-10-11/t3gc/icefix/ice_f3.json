@@ -1,0 +1,6 @@
+{
+	"name": "ice_f3",
+	"notes": "Ice fix candidate F3 (lead's analyst suggestion): Rimeshield max_hp 150, Rime Colossus 480 HP / 28 damage, Ice bot mix toward the Colossus (35 / 30 / 0 / 35).",
+	"units": {"rimeshield": {"max_hp": 150}, "rime_colossus": {"max_hp": 480, "attack_damage": 28}},
+	"fg": {"bot_share": {"rime_seer": 0.0, "shardcaster": 0.30, "rimeshield": 0.35, "rime_colossus": 0.35}}
+}

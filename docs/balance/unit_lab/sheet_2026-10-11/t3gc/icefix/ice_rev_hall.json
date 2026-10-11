@@ -1,0 +1,8 @@
+{
+	"name": "ice_rev_hall",
+	"notes": "Ice fix A/B: Frost Hall units of the bot mix reverted (Rimeshield 150 HP, Rime Colossus 520 / 28).",
+	"units": {
+		"rimeshield": {"max_hp": 150},
+		"rime_colossus": {"max_hp": 520, "attack_damage": 28}
+	}
+}

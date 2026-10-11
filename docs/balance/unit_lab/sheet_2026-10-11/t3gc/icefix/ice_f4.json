@@ -1,0 +1,6 @@
+{
+	"name": "ice_f4",
+	"notes": "Ice fix candidate F4: Rimeshield max_hp 140 -> 150, Shardcaster attack_damage 9 -> 10 (6.4 -> 7.1 DPS, weakest T1 archer), Ice bot mix without the Rime Seer (40 / 40 / 0 / 20).",
+	"units": {"rimeshield": {"max_hp": 150}, "shardcaster": {"attack_damage": 10}},
+	"fg": {"bot_share": {"rime_seer": 0.0, "shardcaster": 0.40, "rimeshield": 0.40, "rime_colossus": 0.20}}
+}

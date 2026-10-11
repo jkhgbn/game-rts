@@ -294,3 +294,49 @@ Glade Outrider (armure 16) passe le Greenheart Oathkeeper (15) : « Most armour 
 ### Tests (ronde 2)
 `test_unit_guide`, `test_t3`, `test_tiers`, `test_unit_lab`, `test_data_lab` : PASS (le Data Lab sur les vraies données garde
 ses 3 FAIL T8 déjà connus dans `campaign.po`).
+
+## Ice en escarmouche après les deux rondes (2026-10-11, rien d'appliqué)
+
+Le run `fg-r2units` donnait Ice à 1 / 12. Refait plus gros : faster-games, normal, **Crown Hollow + Thornwater**, les 12 paires
+x 4 graines (96 parties, 48 par royaume, ± 13 points), puis des bras A/B sur les 6 paires avec Ice (24 à 48 parties Ice par
+bras). Variantes et vérifs Unit Lab : `t3gc/icefix/`. Runs : `..\four-wizards-lab-runs\fg-icefix-ch`, `fg-icefix-tw`.
+
+### Ce qu'on a trouvé
+- **Ice est à 23 % (11 / 48), pas à 8 %.** Le 1 / 12 était surtout du bruit sur un bot Ice déjà faible (le 42 % du 10-10 aussi,
+  dans l'autre sens). Ice contre Nature : 1 / 16 dans **tous** les bras.
+- **Les nerfs Ice de la ronde 1 n'expliquent qu'une petite partie.** Tout remettre (`ice_rev_all`) : 31 %; seulement le Frost
+  Hall du bot, Rimeshield 150 PV + Rime Colossus 520 / 28 (`ice_rev_hall`) : 33 %; les unités Stables / T3 / Forge ne changent
+  rien (le bot en fait peu). La part du score d'Ice en fin de partie reste à 42-45 % dans **tous** les bras (43,6 en base) :
+  aucun changement d'unité ne bouge vraiment la partie.
+- **La vraie cause est l'économie du bot Ice** : à 10:00, -1 100 cristaux récoltés et -6 de pop d'armée contre l'adversaire,
+  dans chaque bras; environ 2 attaques par partie (Nature 6,8, Fire 4,5), beaucoup de blocages « defending ». Les tours plus
+  tard (S1 5:00 / S2 8:00, `ice_towers`) : 25 %, rien.
+- **Remonter le Colossus casse la feuille** (focus Unit Lab, 6 graines, contre la matrice de la ronde 2) : 480 / 28 donne
+  80 / 96 / 91 (c / p / b, avant 60 / 78 / 73), 450 / 26 donne 73 / 94 / 86. Rimeshield 150 PV ne bouge presque pas
+  (92 / 96 / 96 -> 94-95 / 98 / 98). Donc pas de changement d'unité.
+
+### Meilleur candidat, essayé puis **pas gardé**
+Mix du Frost Hall du bot Ice (`AIProfile.ice()` + `data/ai/ice_{easy,normal,hard}.tres`) : Rimeshield / Shardcaster /
+Rime Seer / Rime Colossus **35 / 30 / 0 / 35** dans les trois cas (aujourd'hui 40 / 30 / 10 / 20, contre ranged 50 / 20 / 10 / 20,
+contre mêlée 30 / 40 / 15 / 15) : bras `ice_f6`. Aucune stat d'unité touchée, donc matrices Unit Lab et `mix_line_check`
+inchangées. Les tests demandés passaient avec ce mix (`test_unit_guide`, `test_unit_lab`, `test_tiers`, `test_8_b3`,
+`test_casters_bots`). Il n'est **pas** gardé : il fait passer Ice de 23 à 31 % mais Shadow de 42 à 31 %, donc un seul royaume
+dans 35-65 au lieu de deux. Le code et les données sont revenus à leurs valeurs d'avant.
+
+### Base contre `ice_f6` (normal, CH + TW, 4 graines; `ice_f6` = ses parties Ice + les parties sans Ice de la base)
+| Royaume | `fg-r2units` (CH, 2 graines) | Base (96 parties) | `ice_f6` | CH base -> f6 | TW base -> f6 |
+|---|---|---|---|---|---|
+| Fire | 67 % | 71 % (34 / 48) | 73 % (35 / 48) | 58 -> 63 | 83 -> 83 |
+| Ice | 8 % | 23 % (11 / 48) | **31 % (15 / 48)** | 17 -> 38 | 29 -> 25 |
+| Nature | 67 % | 65 % (31 / 48) | 65 % (31 / 48) | 67 -> 67 | 63 -> 63 |
+| Shadow | 58 % | 42 % (20 / 48) | 31 % (15 / 48) | 58 -> 33 | 25 -> 29 |
+
+Autres bras (parties Ice) : `ice_f3` (même mix + Rimeshield 150 + Colossus 480 / 28) 29 %, `ice_f1` (Rimeshield 150, mix sans
+Seer 40 / 40 / 0 / 20) 22 %, `ice_f2` 22 %, `ice_comp_noseer` 25 %, `ice_f4` / `ice_f5` (+ Shardcaster 10 dégâts) 8-9 % sur
+13 parties (arrêtés).
+
+### Cible 35-65 : pas atteinte, rien d'appliqué
+- Avec `ice_f6`, Ice 31 % et Shadow 31 % restent sous 35; dans la base, Ice 23 % (le gain d'Ice vient surtout de Shadow : 6 -> 11 victoires d'Ice sur 16). Fire est à 71-73 %
+  à cause de **Thornwater** (20 / 24, problème déjà noté dans `docs/balance/blitz_2026-10-10.md`), pas d'Ice.
+- Avec ± 13 points par royaume, aucun changement d'unité ou de mix testé ne passe Ice au-dessus de 35 de façon fiable. La suite
+  est côté bot (ai-coder) : l'économie d'Ice avant 7:00 et le nombre d'attaques, puis Fire sur Thornwater.

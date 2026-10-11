@@ -1,0 +1,6 @@
+{
+	"name": "ice_f5",
+	"notes": "Ice fix candidate F5: F4 + Rime Colossus max_hp 410 -> 450, attack_damage 24 -> 26.",
+	"units": {"rimeshield": {"max_hp": 150}, "shardcaster": {"attack_damage": 10}, "rime_colossus": {"max_hp": 450, "attack_damage": 26}},
+	"fg": {"bot_share": {"rime_seer": 0.0, "shardcaster": 0.40, "rimeshield": 0.40, "rime_colossus": 0.20}}
+}

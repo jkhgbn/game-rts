@@ -1,0 +1,12 @@
+{
+	"name": "ice_rev_all",
+	"notes": "Ice fix A/B (2026-10-11): every round-1 Ice nerf reverted (pre-dcfb1f69 values). Shardguard / Rimeling / Rime Harrier buffs kept.",
+	"units": {
+		"rimeshield": {"max_hp": 150},
+		"rime_colossus": {"max_hp": 520, "attack_damage": 28},
+		"snowdrift_rider": {"max_hp": 240, "attack_damage": 15},
+		"rimehorn_rider": {"max_hp": 320, "attack_damage": 24},
+		"frost_mortar": {"max_hp": 160, "attack_damage": 26},
+		"frostcrown_juggernaut": {"max_hp": 780, "attack_damage": 40, "armor": 35}
+	}
+}
