@@ -766,9 +766,9 @@ func seat_profile(seat: int) -> AIProfile:
 	var p: AIProfile
 	match seat_kingdoms.get(seat, &"shadow"):
 		&"ice":
-			p = AIProfile.ice(diff)
+			p = MissionBase.frozen_ice_profile(diff)
 		&"nature":
-			p = AIProfile.nature(diff)
+			p = MissionBase.frozen_nature_profile(diff)
 		_:
 			p = AIProfile.for_difficulty(diff)
 	p.id = StringName("mission_e4_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))

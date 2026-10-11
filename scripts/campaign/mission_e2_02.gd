@@ -13,6 +13,10 @@ extends MissionBase
 ## - The grove card's "Send Ysolde here" is a 3-button panel ("Send Ysolde: <grove>") + Alt+click on a site
 ##   (AllyChannel first cut); after E14 the ally plays a Commander (never attacks) plus this mission's L1 / L2 rules.
 ## - `obj_groves` stays done once done; a destroyed grove pauses the Vice countdown `(paused: replant)` until 3 stand.
+## - Emberwatch reserve (campaign notes 2026-10-11, safety net): an army wiped at Rimehold left 0-5 soldiers and ~50
+##   crystals for 4 minutes (a near soft-lock). From RESERVE_FROM, when Fire has RESERVE_BELOW soldiers or fewer and under
+##   RESERVE_BROKE crystals, Captain Ashby marches the Emberwatch reserve in (RESERVE_ROWS + RESERVE_CRYSTALS) at most
+##   RESERVE_MAX times, RESERVE_GAP s apart.
 
 const MISSION_ID := &"e2m2"
 const MISSION_TITLE := "Roots and Embers"
@@ -175,7 +179,7 @@ const DIALOGUE := [
 	[&"vessa", "Three trees? I can do three trees. Torvald brought a whole fort. That one's mine."],
 	[&"ysolde", "This one I can do alone. Keep them off me, and do not set it on fire."],
 	[&"vessa", "One time. I set ONE tree on fire, one time."],
-	[&"maelis", "Stumpwood breathes again. The forest has opinions, and today they are about winter."],
+	[&"maelis", "Stumpwood breathes again. The forest remembers who froze it."],
 	[&"ysolde", "Point, and I will go. I am done waiting for wars to pass my wood by."],
 	[&"ashby", "Watchtower's ours, my queen. We can see clear across the Hollowmere."],
 	[&"malrik", "A gardener and a matchstick. Torvald, they are planting trees at us."],
@@ -191,7 +195,7 @@ const DIALOGUE := [
 	[&"vessa", "Huh. You grow a castle out of a seed. I have to build mine out of rocks."],
 	[&"ysolde", "Then we each keep the other's. Fire and Nature, one front."],
 	[&"vessa", "Rimehold's down. Torvald, you left your fort on my bank. I put it back."],
-	[&"narrator", "Two kingdoms on one bank, two across the water. The war has its true shape now."],
+	[&"narrator", "Two kingdoms on one bank, two across the water. Now it is a real war."],
 	[&"torvald", "Now, Bishop. Before her roots take hold."],
 	[&"malrik", "Knights, to the shrine glade. Burn whatever grew there twice."],
 	[&"ysolde", "Three stones in our hands. The land listens to whoever stands on it."],
@@ -199,7 +203,7 @@ const DIALOGUE := [
 	[&"messenger", "We've lost too many carriers. The seed's running out."],
 	[&"torvald", "Two banners on one bank. Malrik, I begin to see why you feared her."],
 	[&"ysolde", "You came when I called, Vessa. Next time, I come when you do."],
-	[&"vessa", "Deal. And next time, I bring marshmallows. Kidding. Mostly."],
+	[&"vessa", "Deal. And next time, I'll leave your trees alone."],
 	[&"vessa", "Ysolde... keep... planting..."],
 	[&"ashby", "The Emberwatch is burning! Fall back, fall back!"],
 	[&"ysolde", "The roots are cut. All of them. I am sorry, Vessa."],
@@ -211,6 +215,15 @@ const BRIEFING_PARAGRAPHS: Array[String] = [
 	"Plant three groves along Fire's line and Nature grows back beside it. Then break the frost fort. Two against two, at last. Ysolde says it will be slow. Vessa says that is what the fire is for.",
 ]
 const BRIEFING_PING_LINE := "Ping a grove site to send Ysolde's column there (Alt+click the site, or the \"Send Ysolde\" buttons)."
+## The Emberwatch reserve (header).
+const RESERVE_FROM := 360.0
+const RESERVE_BELOW := 5
+const RESERVE_BROKE := 200
+const RESERVE_MAX := 2
+const RESERVE_GAP := 150.0
+const RESERVE_ROWS := [["flame_guard", 4], ["ember_archer", 3]]
+const RESERVE_CRYSTALS := 150
+const MSG_RESERVE := "Captain Ashby brings up the Emberwatch reserve. Rebuild before you strike again."
 const HINT_GROVE_A := "Ysolde plants, you guard. Keep the enemy out of the grove ring."
 const HINT_NEXT_GROVE := "Send Ysolde to the next grove: Alt+click its site, or press \"Send Ysolde\" for it (top right)."
 const HINT_POINTS := "Capture points: stand in the ring with no enemy inside. Watchtowers see far, wells pay essence, the shrine blesses your army."
@@ -285,6 +298,8 @@ var _plant_acc := 0.0                  ## planting runs every PLANT_TICK s on th
 var _resupply_at := -1.0               ## mission time of the next resupply carrier (-1 = none needed)
 var _ally_order := {}                  ## {pos, until, calm} of the ally's current L1 / L2 answer
 var _relief_sent := false
+var reserves_sent := 0                 ## Read only: Emberwatch reserves marched in (header)
+var _reserve_at := 0.0                 ## mission time of the last reserve
 var _grove_types := {}
 var _hall_type: BuildingType
 
@@ -690,9 +705,9 @@ func seat_profile(seat: int) -> AIProfile:
 	var p: AIProfile
 	match seat_kingdoms.get(seat, &"shadow"):
 		&"ice":
-			p = AIProfile.ice(diff)
+			p = MissionBase.frozen_ice_profile(diff)
 		&"nature":
-			p = AIProfile.nature(diff)
+			p = MissionBase.frozen_nature_profile(diff)
 		_:
 			p = AIProfile.for_difficulty(diff)
 	p.id = StringName("mission_e2_02_%s" % SEAT_NAMES.get(seat, "bot"))
@@ -1702,6 +1717,36 @@ func _send_relief() -> void:
 		order_wave(u as Unit, &"relief", RIMEHOLD_HALL)
 
 
+## The Emberwatch reserve (header): the safety net after a wiped army.
+func _tick_reserve() -> void:
+	if reserves_sent >= RESERVE_MAX or mission_time() < RESERVE_FROM or mission_time() - _reserve_at < RESERVE_GAP 			or not hero_alive():
+		return
+	var eco := Economy.for_team(PLAYER_SEAT)
+	if eco == null or eco.crystals >= RESERVE_BROKE:
+		return
+	var soldiers := 0
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u and u.team == PLAYER_SEAT and u.is_alive() and u != hero and not u.has_method(&"command_gather") 				and u.is_commandable():
+			soldiers += 1
+			if soldiers > RESERVE_BELOW:
+				return
+	reserves_sent += 1
+	_reserve_at = mission_time()
+	var at := RALLY_SPOT
+	if keep != null and is_instance_valid(keep) and keep.is_alive():
+		at = keep.global_position + (RALLY_SPOT - keep.global_position).normalized() * 6.0
+	var i := 0
+	for row: Array in RESERVE_ROWS:
+		for k in int(row[1]):
+			var a := float(i) * 2.39996
+			var r := 1.0 + 0.45 * sqrt(float(i))
+			_spawn(make_unit(String(row[0])), PLAYER_SEAT, at + Vector3(cos(a) * r, 0.0, sin(a) * r))
+			i += 1
+	eco.add(RESERVE_CRYSTALS)
+	hud.show_message(MSG_RESERVE, 6.0)
+
+
 # ---------------------------------------------------------------- waves
 
 func _side_spawn(side: StringName) -> Vector3:
@@ -2202,6 +2247,7 @@ func _physics_process(delta: float) -> void:
 		_tick_wizards_home()
 		_tick_eavesdrop()
 		_check_ally_out()
+		_tick_reserve()
 		points_peak = maxi(points_peak, points_held())
 		var t := "%s|%s|%s|%s" % [objective_text(&"obj_groves"), objective_text(&"obj_vice"), objective_text(&"sec_points"),
 				objective_text(&"sec_carriers")]

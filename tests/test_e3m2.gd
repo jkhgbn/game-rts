@@ -14,7 +14,7 @@ const TASK_ID := "e3m2"
 const MISSION := "res://missions/mission_e3_02.tscn"
 const GAP_FRAMES := 3
 
-var _parts: Array[String] = ["start", "night", "dawn", "death"]
+var _parts: Array[String] = ["start", "night", "camp", "dawn", "death"]
 var _part := ""
 var h: MissionHarness
 var main: MissionE3_02
@@ -69,6 +69,11 @@ func _open_next() -> void:
 			h.steps.add("snuff in 2 s", _snuff, 600)
 			h.steps.add("sabotage rules", _sabotage, 900)
 			h.steps.add("spotted -> Alarm 1", _alarm, 900)
+		"camp":
+			h.steps.add("concealed status + Hush's kit", _kit, 600)
+			h.steps.add("a tent hit fails sec_villagers", _tent, 900)
+			h.steps.add("a destroyed wagon is spoiled, loud", _wagon_loud, 900)
+			h.steps.add("Alarm 3: sight 12 m, concealment 8 m", _camp_up, 600)
 		"dawn":
 			h.steps.add("4 wagons -> phase 2", _phase2, 300)
 			h.steps.add("the hold -> victory", _hold, 12000)
@@ -173,6 +178,79 @@ func _alarm() -> bool:
 	if main.alarms < 1:
 		return false
 	_ok(main.objective_state("sec_unseen") == "failed", "sec_unseen failed at Alarm 1")
+	return true
+
+
+func _kit() -> bool:
+	_calm()
+	var hush := main.hush_hero
+	if not _v.has("k"):
+		_v["k"] = main.mission_time()
+		_ok(hush is HushCommando and hush.level == 5, "Hush a HushCommando at level 5")
+		var before := hush.level
+		hush.add_xp(5000)
+		_ok(hush.level == before, "Hush gains no XP")
+		for s: Variant in main.squad:
+			MissionHarness.put(s as Unit, Vector3(-60.0, 0.0, 0.0) + Vector3(randf_range(-3.0, 3.0), 0.0, randf_range(-3.0, 3.0)))
+		MissionHarness.put(hush, Vector3(-56.0, 0.0, -4.0))
+		return false
+	if main.mission_time() - float(_v["k"]) < 4.5:
+		return false
+	var s := _shade()
+	_ok(s.is_concealed(), "a Shade in the dark has the concealed status")
+	_ok(hush.is_veiled() and main.veiled, "Hush veiled after 4 s idle")
+	_ok(hush.command_cast(&"hush_smoke", null) == "" and hush.cooldown_left(&"hush_smoke") > 20.0, "Smoke Cloak (Q) casts, no mana")
+	_ok(hush.command_cast(&"hush_smoke", null) == HushCommando.REFUSE_RECHARGING, "Smoke Cloak recharging")
+	return true
+
+
+func _tent() -> bool:
+	_calm()
+	var t: Building = main._tents[2]   # VT3 (2, 52)
+	var s := _shade()
+	if not _v.has("t0"):
+		_v["t0"] = true
+		MissionHarness.immortal(s)
+		MissionHarness.put(s, t.global_position + Vector3(3.5, 0.0, 0.0))
+		_v["t1"] = main.mission_time()
+		return false
+	if not _v.has("auto"):
+		MissionHarness.put(s, t.global_position + Vector3(3.5, 0.0, 0.0))
+		if main.mission_time() - float(_v["t1"]) < 3.0:
+			return false
+		_v["auto"] = true
+		_ok(t.hp >= t.max_hp and main.villagers_hit == 0, "a Shade beside a tent never auto-attacks it")
+		s.command_attack(t)
+		return false
+	if main.villagers_hit == 0:
+		return false
+	_ok(main.objective_state("sec_villagers") == "failed", "sec_villagers failed")
+	_ok(main.alarms >= 1, "an instant alarm")
+	s.command_stop()
+	return true
+
+
+func _wagon_loud() -> bool:
+	var w: Building = main.wagons[&"WG3"]
+	if not _v.has("w"):
+		_v["w"] = main.alarms
+		w.take_damage(1.0e6, main.hush_hero)
+		return false
+	if not main.spoiled.has(&"WG3"):
+		return false
+	_ok(main.alarms > int(_v["w"]) or main.alert_left > 0.0, "a destroyed wagon raises an alarm")
+	return true
+
+
+func _camp_up() -> bool:
+	var s := _shade()
+	var before := main.seen_within(s)
+	main.alarms = 2
+	main.alert_left = 0.0
+	main.raise_alarm(Vector3(30.0, 0.0, 40.0))
+	_ok(main.vessa_awake, "the 3rd alarm wakes Vessa")
+	var lit := not main.is_concealed(s)
+	_ok(main.seen_within(s) == (12.0 if lit else 8.0) and before != main.seen_within(s), "sight after Alarm 3 (%.0f -> %.0f)" % [before, main.seen_within(s)])
 	return true
 
 

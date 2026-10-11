@@ -684,7 +684,7 @@ func _carry_essence() -> void:
 
 func seat_profile(seat: int) -> AIProfile:
 	var diff := clampi(mission_difficulty, 0, 2)
-	var p: AIProfile = AIProfile.ice(diff) if seat == ICE_SEAT else AIProfile.for_difficulty(diff)
+	var p: AIProfile = MissionBase.frozen_ice_profile(diff) if seat == ICE_SEAT else AIProfile.for_difficulty(diff)
 	p.id = StringName("mission_e4_04_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
 	p.profile_id = p.id
 	p.min_attack_pop = 99

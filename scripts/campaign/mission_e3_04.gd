@@ -17,6 +17,13 @@ extends MissionBase
 ##   base, the titans/nightmare_knight model); its Charge = +90 and dazed 0.6 s on the first hit after a 6 m run.
 ## - Heart of the Hollow / the stone's hold: the e3m3 mission-side rules (J / button). No cine timelines; no ep3_ending
 ##   film (rewards next = e4m1, not built).
+## - Wizard AoE tuning (2026-10-07, this mission only, `aoe_tuning`): Vessa's mana regen x 0.5 (VESSA_MANA_REGEN_PCT):
+##   at L6 her 5.25 mana / s paid a 40-mana Fireball every 7.6 s on top of her pool and one assault's Fireballs killed
+##   ~25 of a spread 40-unit Shadow army in the scripted runs; each Fireball also takes 30 more mana (FIREBALL_SURCHARGE:
+##   her 150-mana pool paid 3-4 casts at the start of every assault, ~15 kills in storm 1 even with the regen halved), so
+##   two from a full pool, then one every ~27 s. A storm is
+##   worn down, never reset: Vey never flees and never heals while it runs (`_tick_storm_wear`: escorting Vessa home he
+##   rested back to 3 600 HP, and storm 1 never broke in 2 of 3 runs). Vey's helper kit at level 4 (VEY_LEVEL).
 
 const MISSION_ID := &"e3m4"
 const MISSION_TITLE := "The Storm on the Ridge"
@@ -60,7 +67,8 @@ const PADDOCK_AT := 240.0
 const PADDOCK_COST := 300
 const VEY_HP := 3600.0
 const VEY_ARMOR := 25.0
-const VEY_LEVEL := 5   ## The helper kit scales with level: at 8 his Chain / Stormcall cut a 40-unit army to 4 in A1
+const VEY_LEVEL := 4   ## The helper kit scales with level: at 8 his Chain / Stormcall cut a 40-unit army to 4 in A1; at 5 he still
+                       ## killed ~18 of a spread army per storm (2026-10-07 second pass: 4)
 const KNEEL := 3.0
 const REST := 75.0
 const BREAK_ESSENCE := 200
@@ -91,6 +99,8 @@ const START_CRYSTALS: Array[int] = [600, 450, 350]
 const MALRIK_SPELLS := [&"shadow_lance", &"shadow_lance", &"soul_siphon", &"soul_siphon", &"umbral_shroud"]
 const TORVALD_SPELLS := [&"rime_bolt", &"rime_bolt", &"flash_freeze", &"flash_freeze", &"rime_aegis"]
 const VESSA_SPELLS := [&"fireball", &"fireball", &"ember_step", &"ember_step", &"kindle"]
+const VESSA_MANA_REGEN_PCT := -0.5   ## mission-only wizard AoE tuning (see the header): her Fireball rate
+const FIREBALL_SURCHARGE := 30.0     ## mission-only: extra mana each Fireball takes from her (40 + 30)
 
 const WAVES := {
 	&"RAID": [["blaze_rider", 3]],
@@ -169,6 +179,8 @@ const REFUSE_RECHARGING := "Recharging"
 const REFUSE_ENDING := "The fight is over"   ## the mission is ending (the victory / defeat delay)
 
 var flag_override: Dictionary = {}
+var aoe_tuning := true                 ## the mission-only wizard AoE tuning (header); false = the raw kit (tests)
+var _vey_worn_hp := -1.0
 
 ## Read only.
 var watch := {}                        ## id -> MissionZone
@@ -497,6 +509,11 @@ func _on_navigation_ready() -> void:
 	shadow_hero = vessa
 	if vessa:
 		vessa.level_cap = int(by_difficulty([6, 6, 7]))
+		if aoe_tuning:
+			vessa.add_modifier(&"mission:aoe_tuning", {"mana_regen_pct": VESSA_MANA_REGEN_PCT})
+			vessa.spell_cast.connect(func(id: StringName) -> void:
+				if id == &"fireball":   # the surcharge: a Fireball costs her 40 + 30 mana in this mission
+					vessa.mana = maxf(0.0, vessa.mana - FIREBALL_SURCHARGE))
 		mark_scripted(vessa)
 		vessa.died.connect(_on_bot_wizard_died.bind(FIRE_SEAT))
 	_add_seat_commander(FIRE_SEAT)
@@ -567,7 +584,7 @@ func _hold_birch(u: Unit) -> void:
 
 func seat_profile(seat: int) -> AIProfile:
 	var diff := clampi(mission_difficulty, 0, 2)
-	var p: AIProfile = AIProfile.ice(diff) if seat == ALLY_SEAT else AIProfile.for_difficulty(diff)
+	var p: AIProfile = MissionBase.frozen_ice_profile(diff) if seat == ALLY_SEAT else AIProfile.for_difficulty(diff)
 	p.id = StringName("mission_e3_04_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
 	p.profile_id = p.id
 	p.min_attack_pop = 99
@@ -807,6 +824,8 @@ func _vey_arrives() -> void:
 	vey.set_base_stat(&"max_hp", VEY_HP)
 	vey.set_base_stat(&"armor", VEY_ARMOR)
 	vey.hp = vey.max_hp
+	if aoe_tuning:
+		vey.flee_pct = 0.0   # a storm is worn down, not reset: no running home to rest (_tick_storm_wear)
 	vey.remove_modifier(&"storm:power")
 	if storm >= 2:
 		vey.add_modifier(&"storm:power", {"attack_damage_pct": 0.1 * float(storm - 1)})
@@ -1224,6 +1243,18 @@ func _on_player_hero_fell() -> void:
 
 # ---------------------------------------------------------------- every frame
 
+## A storm is worn down, never reset (aoe_tuning): while Vey fights, his HP never climbs back (no rest at Vessa's keep
+## when he escorts her home, no helper regen). 2026-10-07: storm 1 healed from ~600 to 3 600 twice in a scripted run.
+func _tick_storm_wear() -> void:
+	if not aoe_tuning or vey == null or not is_instance_valid(vey) or vey_state != &"fighting":
+		_vey_worn_hp = -1.0
+		return
+	if _vey_worn_hp < 0.0 or vey.hp < _vey_worn_hp:
+		_vey_worn_hp = vey.hp
+	elif vey.hp > _vey_worn_hp:
+		vey.hp = _vey_worn_hp
+
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if not match_started or game_over or world_is_held:
@@ -1233,6 +1264,7 @@ func _physics_process(delta: float) -> void:
 		return
 	_tick_stone(delta)
 	_tick_thunder(delta)
+	_tick_storm_wear()
 	_zone_tick -= delta
 	if _zone_tick <= 0.0:
 		_zone_tick = 0.25

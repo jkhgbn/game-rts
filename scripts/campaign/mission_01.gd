@@ -97,8 +97,8 @@ const SPEAKER_NAMES := {&"vessa": "Vessa", &"malrik": "Malrik", &"narrator": "Na
 ## L1-L15 (index 0 = L1).
 const DIALOGUE := [
 	[&"narrator", "The Master is gone. His crown is not."],
-	[&"vessa", "An Ember Crown, in a place called Emberfall. I'm not saying it was left for me. I'm not NOT saying it."],
-	[&"vessa", "Three braziers, one seal. How hard can it be to light things? It's my whole personality."],
+	[&"vessa", "An Ember Crown, in a place called Emberfall. Nobody said it was left for me. Nobody said it wasn't."],
+	[&"vessa", "Three braziers, one seal. I've been lighting things since before I could talk."],
 	[&"malrik", "Little Vessa. You came a long way to lose something you never had."],
 	[&"vessa", "One lit. Malrik, you still dress like a funeral that got lost on the way."],
 	[&"pell", "Free at last! Buy something, would you? Shadow soldiers are terrible customers. They never pay, they just loom."],

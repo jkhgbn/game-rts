@@ -271,3 +271,7 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** shadow zones: hidden units are seen only within 2.5 m; Lab 88 / 70 / 78; the honest cost: it burns in light.
 - **Moment:** E4, the first grave called: 2 Shades take a lone Gravewarden out of a yew shadow while a lit patrol walks past.
 - **Intro card:** `Shade. Cheap, quiet, many: in the dark they are everywhere. In the light they burn.`
+
+## After the bell (2026-10-11, campaign notes)
+A careful scripted run lost to the Final at 12:05: cries during the Reeve fight pulled hunting wardens in. After the
+bell a warden's cry no longer calls its neighbours, and the Reeve's own cry calls nobody: only the Final fights.

@@ -324,7 +324,9 @@ func _play_phase() -> void:
 			# 13:00-16:00): wait at home until ASSAULT_ARMY units or W3's 15:00.
 			_army_to(HOME, 5.0)
 			_hero_to(m.keep.global_position + Vector3(4.0, 0.0, -4.0), 3.0)
-			if _army().size() >= ASSAULT_ARMY or m.mission_time() >= 900.0:
+			# 2026-10-11: the Heartfrost's core holds until Mission02.CORE_THAW_AT; a player who has seen that message
+			# does not sit on the lake under G3 / Malrik / W3 for minutes (a 6:00 assault died breaking the walls).
+			if (_army().size() >= ASSAULT_ARMY and m.mission_time() >= Mission02.CORE_THAW_AT - 120.0) or m.mission_time() >= 900.0:
 				_set_phase(&"lake")
 		&"lake":
 			var foes := _enemies_near(Vector3.ZERO, 16.0)

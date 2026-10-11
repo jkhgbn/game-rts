@@ -23,10 +23,13 @@ const HALL2 := Vector3(-24.0, 0.0, -28.0)
 const GUARDS := 5
 const PUSH_AT := 690.0
 const PUSH_ARMY := 36
+const PUSH_EARLIEST := 540.0   ## never before 9:00 (the Stronghold units in the army), even with 36 Shades
 const EXPANSION_HALL := Vector3(-41.0, 0.0, -36.0)   ## The west expansion's hall spot (a drop-off by e3_ridge_w).
 const BANK_HOLD := Vector3(4.0, 0.0, -8.5)   ## North bank, out of the ford: where the army meets W3 (spec answer).
 const STANDARD_ORDER: Array[StringName] = [&"std_well", &"std_clover", &"std_ysolde"]   ## the one between the crest spires last
-const REGROUP_ARMY := 24   ## after the ford: rebuild to this before the next standard
+const REGROUP_ARMY := 22   ## after the ford: under this, rebuild...
+const REGROUP_LEAVE := 24  ## ...to this before the next standard (32 was out of reach: 40 pop, 14 workers = ~26 soldiers)
+const REGROUP_SPOT := Vector3(4.0, 0.0, -12.0)   ## north of the Stone Ford
 
 var verbose := false
 var h := MissionHarness.new()
@@ -43,6 +46,9 @@ var _home_guard: Array = []
 var _sites: Array = []
 var _pushing := false
 var _w3_hero_hp := 1.0
+var _wounded := {}
+var _regrouping := false
+var _fighting: Array = []   ## the army minus the wounded walking back (this tick)
 var killers := {}
 
 
@@ -195,12 +201,30 @@ func _enemies_near(at: Vector3, r: float) -> Array[Unit]:
 	return out
 
 
+## After the ford: a loose line at `at` facing the way the army walks (SimTactics: 4.2 m apart, melee in front, ranged
+## behind), never the old random +-4 m pile that one Thornburst / Fireball emptied. Before it: the old push (`spread`).
 func _army_to(at: Vector3, spread := 4.0) -> void:
-	for u in _army():
-		if u.attack_target != null and is_instance_valid(u.attack_target):
-			continue
-		if MissionBase._flat(u.global_position, at) > spread + 2.0:
-			u.command_attack_move(at + Vector3(randf_range(-spread, spread), 0.0, randf_range(-spread, spread)))
+	var army: Array = _fighting
+	if not main.has_fired(&"E7"):
+		# The ford: one push together (a loose line trickled into the ford's slow water and lost 30 of 40 to the Nature
+		# line's Burr Slinger splash); the loose line is for the standards and the hold, where the wizards' AoE lands.
+		for v: Variant in army:
+			var u := v as Unit
+			if u.attack_target != null and is_instance_valid(u.attack_target):
+				continue
+			if MissionBase._flat(u.global_position, at) > spread + 2.0:
+				u.command_attack_move(at + Vector3(randf_range(-spread, spread), 0.0, randf_range(-spread, spread)))
+		return
+	var c := SimTactics.centroid(army)
+	if c == Vector3.INF:
+		return
+	SimTactics.spread_to(army, at, at - c if MissionBase._flat(at, c) > 3.0 else Vector3(0.0, 0.0, 1.0))
+
+
+## True when the player cannot train more (pop cap reached, no room for one more soldier).
+func _pop_capped() -> bool:
+	var eco := Economy.for_team(Unit.Team.PLAYER)
+	return eco != null and eco.pop_cap > 0 and eco.pop_used >= eco.pop_cap - 1
 
 
 func _hero_to(at: Vector3, near := 2.0) -> void:
@@ -327,7 +351,9 @@ func _economy() -> void:
 		if hall == null or not hall.is_alive() or not hall.is_constructed() or hall.building_type.id != &"shadow_barracks" \
 				or hall.queue.size() >= 2 or eco.crystals < 110:
 			continue
-		var want: String = ["shade", "nightbolt", "shade", "shadow_knight", "hexweaver", "nightbolt", "shade", "hollow_oathsworn"][_train_i % 8]
+		# Unit Guide picks: Knights and Oathsworn (HP, armour) in the Shade front line, Hexweavers on the heroes,
+		# Nightbolts for reach (a Nightbolt-heavy army fed the Burr Slingers' splash at the ford).
+		var want: String = ["shade", "nightbolt", "shadow_knight", "shade", "hollow_oathsworn", "hexweaver", "shade", "nightbolt"][_train_i % 8]
 		if hall.queue_unit(UnitType.find(want)) != "":
 			hall.queue_unit(UnitType.find("shade"))
 		_train_i += 1
@@ -365,25 +391,22 @@ func _guard_home() -> void:
 
 # ---------------------------------------------------------------- the plan
 
-## The enemy wizards (Ysolde, Vessa) near the army are its first target (the e2m5 rule for Malrik).
+## The enemy wizards (Ysolde, Vessa) near the army: its ranged units, Hexweavers and Hounds go for her (Unit Guide:
+## "shuts down heroes", "reaches casters"); the melee keep their line and only join when she is within 8 m of them.
+## Returns true while a wizard is focused (the melee still follow the plan).
 func _focus_wizard() -> bool:
-	var army := _army()
+	var army := _fighting
 	if army.is_empty():
 		return false
-	var c := Vector3.ZERO
-	for u in army:
-		c += u.global_position
-	c /= float(army.size())
-	for w: Variant in [main.ysolde, main.vessa]:
-		if w == null or not is_instance_valid(w) or not (w as Wizard).is_alive():
-			continue
-		var wiz := w as Wizard
-		if MissionBase._flat(wiz.global_position, c) <= 14.0 and not main.is_dormant(wiz) and not wiz.has_meta(Unit.TRUCE_META):
-			for u in army:
-				if u.attack_target != wiz and (u.attack_target == null or not (u.attack_target is Wizard)):
-					u.command_attack(wiz)
-			return true
-	return false
+	var ranged: Array = army.filter(func(u: Unit) -> bool: return SimTactics.is_ranged(u) or u.unit_type.id == &"grave_hound")
+	var awake := func(w: Unit) -> bool: return not main.is_dormant(w)
+	var w := SimTactics.focus_wizards(ranged, [main.ysolde, main.vessa], 15.0, awake)
+	if w == null:
+		return false
+	for u: Unit in army:
+		if not ranged.has(u) and u.attack_target != w and MissionBase._flat(u.global_position, w.global_position) <= 8.0:
+			u.command_attack(w)
+	return true
 
 
 func _plan() -> void:
@@ -395,7 +418,10 @@ func _plan() -> void:
 		_hero_to(RALLY if not m.has_fired(&"E7") else Vector3(4.0, 0.0, -10.0), 3.0)
 		if hero.hp >= hero.max_hp * 0.8:
 			_retreat = false
-	var army := _army()
+	# The wounded (under 30 %) walk back behind the line: to the rally, north of the river once the ford is ours.
+	var safe := RALLY if not m.has_fired(&"E7") else Vector3(4.0, 0.0, -12.0)
+	_fighting = SimTactics.pull_back_wounded(_army(), safe, _wounded, 0.5)
+	var army: Array = _fighting
 	if not _pushing:
 		_set_phase(&"build")
 		var raid := _enemies_near(RALLY, 20.0)
@@ -405,16 +431,13 @@ func _plan() -> void:
 			_army_to(RALLY, 4.0)
 		if not _retreat:
 			_hero_to(RALLY + Vector3(0.0, 0.0, -4.0), 3.0)
-		if m.mission_time() >= PUSH_AT or army.size() >= PUSH_ARMY:
+		if m.mission_time() >= PUSH_AT or army.size() >= PUSH_ARMY and m.mission_time() >= PUSH_EARLIEST:
 			_pushing = true
 		return
 	if not m.has_fired(&"E7"):
 		_set_phase(&"ford")
-		if _focus_wizard():
-			if not _retreat:
-				_hero_to(BANK_HOLD + Vector3(0.0, 0.0, -5.0), 2.5)
-			return
-		for u in army:
+		_focus_wizard()
+		for u: Unit in army:
 			if u.global_position.z > 14.0:
 				u.command_move(MissionE3_01.FORD_LANDING)   # never chase up the hill into the crest spires
 		var zone := _enemies_near(MissionE3_01.FORD_ZONE, 12.0)
@@ -438,12 +461,17 @@ func _plan() -> void:
 		if not _retreat:
 			_hero_to(MissionE3_01.FORD_ZONE + Vector3(-1.0, 0.0, -3.0) if zone.size() <= 2 else BANK_HOLD + Vector3(0.0, 0.0, -4.0), 2.5)
 		return
-	if _focus_wizard():
-		return
-	if m.objective_state("obj_hold") != "active" and army.size() < REGROUP_ARMY and m.standards_owned(0) < 3:
-		_set_phase(&"regroup")   # rebuild on the south landing before the next standard (the ford is ours for good)
-		var near := _enemies_near(MissionE3_01.FORD_LANDING, 12.0)
-		_army_to(near[0].global_position if not near.is_empty() else MissionE3_01.FORD_LANDING, 4.0)
+	_focus_wizard()
+	if army.size() < REGROUP_ARMY:
+		_regrouping = true
+	elif army.size() >= REGROUP_LEAVE or (army.size() >= REGROUP_ARMY and _pop_capped()):
+		_regrouping = false   # also at the pop cap: waiting cannot grow the army (campaign notes 2026-10-11)
+	if m.objective_state("obj_hold") != "active" and _regrouping and m.standards_owned(0) < 3:
+		# Rebuild behind the river before the next standard (the ford is ours for good): whatever comes has to wade the
+		# ford's slow water into the line (on the south landing W4 and the crest caught a half-built army in the open).
+		_set_phase(&"regroup")
+		var near := _enemies_near(REGROUP_SPOT, 12.0)
+		_army_to(near[0].global_position if not near.is_empty() else REGROUP_SPOT, 4.0)
 		if not _retreat:
 			_hero_to(MissionE3_01.FORD_ZONE + Vector3(0.0, 0.0, -2.0), 3.0)
 		return

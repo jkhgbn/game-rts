@@ -16,6 +16,9 @@ const HOVELS: Array[Vector3] = [Vector3(-30.0, 0.0, -50.0), Vector3(-4.0, 0.0, -
 		Vector3(8.0, 0.0, -56.0)]
 const HALL2 := Vector3(-20.0, 0.0, -32.0)
 const WORKERS := 11
+const HOME := Vector3(-14.0, 0.0, -48.0)   ## between the two home nodes
+const HOME_GUARDS := 5
+const SPIRES: Array[Vector3] = [Vector3(-16.0, 0.0, -42.0), Vector3(-2.0, 0.0, -52.0)]
 
 var verbose := false
 var h := MissionHarness.new()
@@ -29,6 +32,9 @@ var _train_i := 0
 var _phase_log: Array[String] = []
 var _retreat := false
 var _sites: Array = []
+var _wounded := {}
+var _home_guard: Array = []
+var _tower_i := 0
 var killers := {}
 
 
@@ -113,11 +119,12 @@ func _play() -> bool:
 			print("      losses so far: %s" % str(killers))
 	_economy()
 	_lance()
+	_guard_home()
 	_plan()
 	return false
 
 
-func _army() -> Array[Unit]:
+func _all_soldiers() -> Array[Unit]:
 	var out: Array[Unit] = []
 	for n in main.get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
@@ -125,6 +132,35 @@ func _army() -> Array[Unit]:
 				and u.is_commandable() and not u is Helper:
 			out.append(u)
 	return out
+
+
+func _army() -> Array[Unit]:
+	var out: Array[Unit] = []
+	for u in _all_soldiers():
+		if not _home_guard.has(u):
+			out.append(u)
+	return out
+
+
+## A home guard on the Thralls against the Blaze Rider raids (every 2:30 from 3:00): without it the raids emptied the
+## mines by A3 and the economy never came back (a human keeps a few units home).
+func _guard_home() -> void:
+	_home_guard = _home_guard.filter(func(u: Variant) -> bool: return is_instance_valid(u) and (u as Unit).is_alive())
+	if _home_guard.size() < HOME_GUARDS and main.mission_time() > 150.0:
+		for u in _all_soldiers():
+			if _home_guard.size() >= HOME_GUARDS:
+				break
+			if not _home_guard.has(u) and u.unit_type.id in [&"shadow_knight", &"hollow_oathsworn", &"nightbolt"]:
+				_home_guard.append(u)
+	var foes := _enemies_near(HOME, 24.0)
+	for g: Variant in _home_guard:
+		var u := g as Unit
+		if u.attack_target != null and is_instance_valid(u.attack_target):
+			continue
+		if not foes.is_empty():
+			u.command_attack(foes[0])
+		elif MissionBase._flat(u.global_position, HOME) > 6.0:
+			u.command_attack_move(HOME + Vector3(randf_range(-3.0, 3.0), 0.0, randf_range(-3.0, 3.0)))
 
 
 func _workers() -> Array[Unit]:
@@ -165,8 +201,10 @@ func _lance() -> void:
 		return
 	var best: Unit = foes[0]
 	for u in foes:
-		if u.hp < best.hp:
+		if u is Wizard or u.hp < best.hp:
 			best = u
+			if u is Wizard:
+				break
 	if hero.mana > 45.0:
 		hero.command_cast(&"shadow_lance", best)
 	if foes.size() >= 3 and hero.mana > 60.0:
@@ -258,13 +296,18 @@ func _economy() -> void:
 		reserve = 400 if m.knights < 3 else 0
 	elif m.mission_time() > 200.0 and m.paddock == null:
 		reserve = 300
-	if eco.pop_cap - eco.pop_used < 6 and _hovel_i < HOVELS.size() and eco.crystals >= 80 + reserve:
+	if eco.pop_cap - eco.pop_used < 8 and _hovel_i < HOVELS.size() and eco.crystals >= 80:   # supply first (a 60/60 cap at A1 cost ~10 soldiers)
 		_build("shadow_hovel", HOVELS[_hovel_i], workers[0])
 		_hovel_i += 1
 	var halls := Building.for_team(0).filter(func(b: Building) -> bool: return b.is_alive() and b.building_type \
 			and b.building_type.id == &"shadow_barracks").size()
 	if halls < 2 and eco.crystals >= 200 + reserve and m.mission_time() > 60.0:
 		_build("shadow_barracks", HALL2, workers[0])
+	# Night Spires on the mines against the Blaze Rider raids (2:30 apart from 3:00; they killed 30 Thralls and guards
+	# in a run without them).
+	if _tower_i < SPIRES.size() and m.mission_time() > 150.0 and eco.crystals >= 120 + reserve:
+		if _build("shadow_tower", SPIRES[_tower_i], workers[0]):
+			_tower_i += 1
 	if eco.crystals - reserve < 110:
 		return
 	for b in Building.for_team(Unit.Team.PLAYER):
@@ -272,62 +315,92 @@ func _economy() -> void:
 		if hall == null or not hall.is_alive() or not hall.is_constructed() or hall.building_type.id != &"shadow_barracks" \
 				or hall.queue.size() >= 2:
 			continue
-		var want: String = ["shade", "nightbolt", "shade", "shadow_knight", "hexweaver", "nightbolt", "shade", "hollow_oathsworn"][_train_i % 8]
+		# Unit Guide counters to a Fireball line: Knights / Oathsworn (HP, armour) over 110-HP Shades, Hexweavers on the
+		# heroes, Nightbolts for reach, Hounds to reach a caster.
+		var want: String = ["shadow_knight", "nightbolt", "hollow_oathsworn", "hexweaver", "nightbolt", "shade", "grave_hound", "hollow_oathsworn"][_train_i % 8]
 		if hall.queue_unit(UnitType.find(want)) != "":
 			hall.queue_unit(UnitType.find("shade"))
 		_train_i += 1
 		hall.set_rally_point(RALLY)
 
 
+## The human-like player (2026-10-07, SimTactics): the army stands in a loose line just south of the watch point
+## (melee in front, ranged behind, 4.2 m apart: one Fireball catches 1-2 units, not a blob), never chases Vessa into
+## her column, puts its ranged units and Hounds on her whenever she is within reach (Hexweavers "shut down heroes"),
+## walks its wounded back behind the line, and only the melee + Knights go for Vey while he fights.
 func _plan() -> void:
 	var m := main
 	var hero := m.hero
-	if not _retreat and hero.hp < hero.max_hp * 0.5:
+	# Malrik is the mission: Vessa or Vey within 16 m and hurt = Umbral Shroud and back to the keep.
+	var danger := false
+	for d: Variant in [m.vessa, m.vey]:
+		if d != null and is_instance_valid(d) and (d as Unit).is_alive() and not m.is_dormant(d) \
+				and MissionBase._flat((d as Unit).global_position, hero.global_position) <= 16.0:
+			danger = true
+	if danger and hero.hp < hero.max_hp * 0.75:
+		hero.command_cast(&"umbral_shroud", null)
+	if not _retreat and (hero.hp < hero.max_hp * 0.6 or danger and hero.hp < hero.max_hp * 0.85):
 		_retreat = true
+	var goal := _goal()
 	if _retreat:
 		_hero_to(MissionE3_04.DUSK_KEEP + Vector3(6.0, 0.0, 6.0), 3.0)
 		if hero.hp >= hero.max_hp * 0.8:
 			_retreat = false
-	var army := _army()
+	var army: Array = SimTactics.pull_back_wounded(_army(), goal + Vector3(0.0, 0.0, -14.0), _wounded, 0.5)
 	# Thunderhead: leave its ring.
 	var ring := m.thunder_ring()
 	if ring != Vector3.INF:
-		for u in army:
+		for u: Unit in army:
 			if MissionBase._flat(u.global_position, ring) <= MissionE3_04.WATCH_R + 1.0:
 				u.command_move(u.global_position + (u.global_position - ring).normalized() * 9.0)
-	# Vessa first when she is near the army (her Fireball melts a Shade line), then Vey.
+	var ranged: Array = army.filter(func(u: Unit) -> bool: return SimTactics.is_ranged(u) or u.unit_type.id == &"grave_hound")
+	var melee: Array = army.filter(func(u: Unit) -> bool: return not ranged.has(u))
 	var vs := m.vessa
-	if vs and is_instance_valid(vs) and vs.is_alive() and not m.is_dormant(vs) and not army.is_empty():
-		var c := Vector3.ZERO
-		for u in army:
-			c += u.global_position
-		c /= float(army.size())
-		if MissionBase._flat(vs.global_position, c) <= 16.0 and vs.global_position.z < 14.0:
-			_set_phase(&"vessa")
-			for u in army:
-				if u.attack_target != vs and u.unit_type.id != &"nightmare_knight":
-					u.command_attack(vs)
-			return
-	# Vey fighting: everyone on him (the Knights charge from where they stand).
-	if m.vey and is_instance_valid(m.vey) and m.vey_state == &"fighting" and m.vey.global_position.z < 12.0:
+	var vessa_up := vs != null and is_instance_valid(vs) and vs.is_alive() and not m.is_dormant(vs)
+	var vey_up := m.vey != null and is_instance_valid(m.vey) and m.vey_state == &"fighting" and (m.vey.global_position.z < 12.0 \
+			and MissionBase._flat(m.vey.global_position, goal) <= 22.0   # at the line: chasing him south fed the riders
+			or m.vey.hp < m.vey.max_hp * 0.35 and MissionBase._flat(m.vey.global_position, goal) <= 45.0)   # ...unless he is nearly broken
+	var line := goal + Vector3(0.0, 0.0, 3.0)
+	# Vessa within reach of the line: the ranged units and Hounds on her (never past the line + 12 m).
+	var on_vessa: Unit = null
+	if vessa_up and MissionBase._flat(vs.global_position, line) <= 16.0:
+		on_vessa = SimTactics.focus_wizards(ranged, [vs], 16.0)
+	if vey_up:
 		_set_phase(&"storm%d" % (m.breaks + 1))
-		for u in army:
+		for u: Unit in melee:
 			if u.attack_target != m.vey:
 				u.command_attack(m.vey)
+		if on_vessa == null:
+			for u: Unit in ranged:
+				if u.attack_target != m.vey:
+					u.command_attack(m.vey)
 		if not _retreat:
-			_hero_to(m.vey.global_position + (m.hero.global_position - m.vey.global_position).normalized() * 15.0, 3.0)
+			_hero_to(goal + Vector3(0.0, 0.0, -12.0), 3.0)
 		return
-	# The watch point under threat (side 1 on it or capturing), else the Bishop's Crest.
-	var goal: Vector3 = MissionE3_04.WATCH[&"W1"][1]
+	# A raid in the mines and no storm on the line: half the army goes home (the Thralls are the economy).
+	var raid := _enemies_near(HOME, 26.0)
+	if not raid.is_empty() and on_vessa == null:
+		_set_phase(&"raid")
+		var half := army.slice(0, maxi(4, army.size() / 2))
+		for u: Unit in half:
+			if u.attack_target == null or not is_instance_valid(u.attack_target):
+				u.command_attack(raid[0])
+		army = army.slice(half.size())
+		melee = melee.filter(func(u: Unit) -> bool: return army.has(u))
+	_set_phase(&"vessa" if on_vessa else (&"hold" if raid.is_empty() else &"raid"))
+	SimTactics.spread_to(melee if on_vessa else army, line, Vector3(0.0, 0.0, 1.0))
+	SimTactics.unclump(army, [vs if vessa_up else null, m.vey])
+	if not _retreat:
+		_hero_to(goal + Vector3(0.0, 0.0, -10.0), 3.0)   # behind the line, out of Vessa's Fireball reach from it
+
+
+## The watch point under threat (side 1 on it or capturing), else the Bishop's Crest.
+func _goal() -> Vector3:
+	var m := main
 	for id: StringName in [&"W1", &"W2", &"W3"]:
 		var z := m.watch[id] as MissionZone
 		if z.owner_side != 0 or z.capture_side == 1 or not _enemies_near(z.global_position, 10.0).is_empty():
 			if id == &"W3" and z.owner_side == 0 and m.torvald and m.torvald.is_alive():
 				continue   # Torvald's post
-			goal = z.global_position
-			break
-	_set_phase(&"hold")
-	var foes := _enemies_near(goal, 14.0)
-	_army_to(foes[0].global_position if not foes.is_empty() else goal, 4.0)
-	if not _retreat:
-		_hero_to(goal + Vector3(0.0, 0.0, -6.0), 3.0)
+			return z.global_position
+	return MissionE3_04.WATCH[&"W1"][1]

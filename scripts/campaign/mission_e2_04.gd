@@ -179,7 +179,7 @@ const DIALOGUE := [
 	[&"vessa", "Then we go faster. Wardens, with me. We're going to fetch the Master."],
 	[&"malrik", "Go on, then. Run ahead. I'll be right behind you, with the key you lack."],
 	[&"vey", "Eight of his Wardens, awake for you. He'd have liked that."],
-	[&"vessa", "Every stone lit. Okay, the Master had good taste in caves."],
+	[&"vessa", "Every stone lit. I'll admit it, the Master had good taste in caves."],
 	[&"vessa", "Vey... the light... it's going out..."],
 	[&"ashby", "The forge is lost! The hearth's gone cold!"],
 	[&"vessa", "Shades in the dark. I know that smoke. She ran from me once."],

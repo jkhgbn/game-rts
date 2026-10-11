@@ -45,6 +45,8 @@ var melter_hero: Node3D = null
 ## Read only: seconds since the last accepted damage (INF = never hit).
 var since_fire_damage := INF
 var is_melted := false
+## Mission-set rush floor (m02, campaign notes 2026-10-11): damage never takes hp below this (0 = off).
+var hp_floor := 0.0
 
 var _ice: Node3D
 var _orb: MeshInstance3D
@@ -97,7 +99,7 @@ func accepts_damage_from(attacker: Node3D) -> bool:
 func take_damage(amount: float, attacker: Node3D = null) -> void:
 	if not is_alive() or amount <= 0.0 or not accepts_damage_from(attacker):
 		return
-	hp = maxf(0.0, hp - amount)
+	hp = maxf(minf(hp_floor, hp), hp - amount)   # the rush floor holds (never heals what is already below it)
 	since_fire_damage = 0.0
 	damaged.emit(amount, attacker)
 	_update_look()

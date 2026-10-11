@@ -402,3 +402,8 @@ The one unit this mission shows at its best (framework hook: `mission-framework.
 - **Why here:** only Vessa and Hurlers damage the Heartfrost; hits crack floes; range 12 > Night Spire 11; a static dig camp; Lab 8 / 41 / 4 (exempt siege: it needs exactly this job).
 - **Moment:** W1 (5:00) on floe F2: "Ash Hurlers crack the ice: shell the floe under them.".
 - **Intro card:** `Ash Hurler. Slow, far, and it melts what swords can't: ice, towers, camps.`
+
+## Rush floor (2026-10-11, campaign notes)
+The scripted run won at 7:48 by rushing the orb (target 18-24). The Heartfrost's core is Torvald's own winter: damage
+never takes it below 40 % HP (`HEARTFROST_CORE`, `Heartfrost.hp_floor`) until his storm B1 has blown over (11:45,
+`CORE_THAW_AT`); one message when the player first reaches the core, one when it gives. W3 still fires at 50 %.

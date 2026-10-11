@@ -15,6 +15,10 @@ extends MissionBase
 ## - Hush is a bonded story Helper (helper_hush at Malrik's level, Escort), back at the keep 45 s after a fall.
 ## - Heartbeat is mission-side (Events.unit_died within 10 m of Malrik: +3 mana, 0.5 s gate).
 ## - Hovels keep the kingdom cap (no per-mission max_count). No cine timelines (fallback end states).
+## - Wizard AoE tuning (2026-10-07, this mission only, `aoe_tuning`): Ysolde's and Vessa's mana regen x 0.5
+##   (WIZARD_MANA_REGEN_PCT): their Thornburst / Fireball every few seconds took most of the scripted army's losses
+##   at the ford and on the standards; each AoE also takes extra mana (AOE_SURCHARGE: Fireball +30, Thornburst +25), so a
+##   full pool pays two or three, then one every ~25 s.
 
 const MISSION_ID := &"e3m1"
 const MISSION_TITLE := "Take the Ford"
@@ -107,6 +111,8 @@ const TORVALD_SPELLS := [&"rime_bolt", &"rime_bolt", &"flash_freeze", &"rime_aeg
 ## Thornburst r1 (2026-10-07 scripted runs: at r2 she killed ~10 soldiers per W3 fight; the spec gives no ranks).
 const YSOLDE_SPELLS := [&"thornburst", &"wild_bloom", &"wild_bloom", &"call_the_thicket"]
 const VESSA_SPELLS := [&"fireball", &"fireball", &"ember_step", &"kindle"]
+const WIZARD_MANA_REGEN_PCT := -0.5   ## mission-only wizard AoE tuning (header): Ysolde's and Vessa's cast rate
+const AOE_SURCHARGE := {&"fireball": 30.0, &"thornburst": 25.0}   ## mission-only: extra mana per AoE cast (header)
 const ESSENCE_CAP := 1500
 
 const GUARDS := {
@@ -165,7 +171,7 @@ const DIALOGUE := [
 const BRIEFING_PARAGRAPHS: Array[String] = [
 	"This spring the Master's door held, and the war came up out of the deep looking for open ground. It found Evenmead: knee-high flowers, one slow river, two hills, and the Master's golden tree on the far one.",
 	"Malrik holds the north ridge with Torvald's winter at his side. On Lark Hill wait Ysolde, who has nothing left but this valley, and Vessa, who never waits for anything. Between them runs the river, and one stone ford.",
-	"Take the ford. Then take the foot of their hill, and let them watch from the top. In Malrik's pocket, Obren's heart-stone beats, and has opinions.",
+	"Take the ford. Then take the foot of their hill, and let them watch from the top. In Malrik's pocket, Obren's heart-stone beats, and whispers to him.",
 ]
 const HINT_START := "Take the Stone Ford, due south. Fords slow every unit inside: win the fight on the bank, then cross."
 const HINT_STRONGHOLD := "Your Dusk Keep can become a Stronghold: select it and press X (200 crystals). It opens Hexweaver, Hollow Oathsworn (Gloom Hall) · Gloom Deacon (Keep)."
@@ -177,6 +183,7 @@ const MSG_KEEP_BURNS := "Lark Hill burns, but its people hold the crest"
 const MSG_HUSH_BACK := "Mother Hush is back at the Dusk Keep"
 
 ## Read only.
+var aoe_tuning := true                 ## the mission-only wizard AoE tuning (header); false = the raw kit (tests)
 var ford_zone: MissionZone
 var standards := {}                    ## id -> MissionZone
 var horns := {}                        ## id -> Building (Horn Spires)
@@ -539,6 +546,12 @@ func _on_navigation_ready() -> void:
 			mark_scripted(w as Node)
 			(w as Wizard).set_meta(META_HOME, (w as Wizard).global_position)
 			(w as Wizard).level_cap = 4   # the Final raises them (L5, hard L6)
+			if aoe_tuning:
+				var wz := w as Wizard
+				wz.add_modifier(&"mission:aoe_tuning", {"mana_regen_pct": WIZARD_MANA_REGEN_PCT})
+				wz.spell_cast.connect(func(id: StringName) -> void:
+					if AOE_SURCHARGE.has(id):   # the AoE surcharge: Fireball 40 + 30, Thornburst 35 + 25 mana here
+						wz.mana = maxf(0.0, wz.mana - float(AOE_SURCHARGE[id])))
 			(w as Wizard).died.connect(_on_bot_wizard_died.bind(int((w as Wizard).team)))
 	_add_seat_commander(NATURE_SEAT)
 	_add_seat_commander(FIRE_SEAT)
@@ -587,9 +600,9 @@ func seat_profile(seat: int) -> AIProfile:
 	var p: AIProfile
 	match seat_kingdoms.get(seat, &"shadow"):
 		&"ice":
-			p = AIProfile.ice(diff)
+			p = MissionBase.frozen_ice_profile(diff)
 		&"nature":
-			p = AIProfile.nature(diff)
+			p = MissionBase.frozen_nature_profile(diff)
 		_:
 			p = AIProfile.for_difficulty(diff)
 	p.id = StringName("mission_e3_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))

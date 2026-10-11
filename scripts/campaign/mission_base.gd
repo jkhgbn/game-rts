@@ -1604,6 +1604,84 @@ func flash_ring(pos: Vector3, radius: float) -> void:
 	tween.tween_callback(mi.queue_free)
 
 
+# ---------------------------------------------------------------- frozen bot kingdom presets
+## Campaign notes 2026-10-11: missions build their Ice / Nature seat bots from these copies of AIProfile.ice() /
+## AIProfile.nature() as they stood at e021764f (2026-10-10, before the skirmish Ice patch 56e1c316), so skirmish bot
+## tuning cannot change a mission's balance. Only the kingdom layer is frozen (AIProfile.for_difficulty and the
+## Commander itself are still shared). Change these only together with the missions' sims.
+
+static func frozen_nature_profile(difficulty: int) -> AIProfile:
+	var p := AIProfile.for_difficulty(difficulty)
+	p.profile_id = &"nature_default"
+	p.id = StringName("nature_" + AIProfile.DIFFICULTY_NAMES[clampi(difficulty, 0, 2)])
+	p.attack_ratio -= 0.1
+	p.worker_target_home += 1   # balance-2 2a: only the home count; expanded / X2 = every kingdom's
+	p.opening_workers = 3
+	p.expand_time = 270.0
+	# Thornling / Burr Slinger / Bloomtender / Bramblehorn (Grove Hall card order Z X C V).
+	p.mix_default = PackedFloat32Array([0.45, 0.25, 0.15, 0.15])
+	p.mix_vs_ranged = PackedFloat32Array([0.55, 0.10, 0.10, 0.25])
+	p.mix_vs_melee = PackedFloat32Array([0.30, 0.40, 0.15, 0.15])
+	p.heavy_crystals = 200
+	p.heavy_soldier_pop = 6
+	p.retreat_hp = 0.5
+	p.regrow_hp = 0.85
+	p.regrow_wait = 45.0   # balance-2 2a
+	p.first_scout_time = 90.0
+	p.scout_worker_before = 0.0
+	p.scout_fast = true
+	p.retreat_spell = &"wild_bloom"
+	var normal_items := PackedStringArray(["verdant_seed", "duskglass", "bloomcaller_staff", "ember_draught",
+			"bone_charm", "ironbark_plate", "warlords_horn", "heart_of_the_grove", "swiftsoles", "wisp_lantern",
+			"ashen_greaves"])
+	match difficulty:
+		0:
+			p.item_build = normal_items.slice(0, 4)
+		2:
+			var hard_items := normal_items.duplicate()
+			hard_items.insert(hard_items.find("heart_of_the_grove") + 1, "ember_draught")
+			p.item_build = hard_items
+		_:
+			p.item_build = normal_items
+	return p
+
+
+static func frozen_ice_profile(difficulty: int) -> AIProfile:
+	var p := AIProfile.for_difficulty(difficulty)
+	p.profile_id = &"ice_default"
+	p.id = StringName("ice_" + AIProfile.DIFFICULTY_NAMES[clampi(difficulty, 0, 2)])
+	p.attack_ratio += 0.1 if difficulty == 1 else 0.2   # balance-2 section 5 (8.B4): normal 1.5 -> 1.4
+	p.min_attack_pop += 2
+	p.defend_radius = 32.0
+	p.retreat_hp = 0.4        # balance-2 2b (was 0.3)
+	p.tower1_time = 210.0
+	p.tower2_time = 420.0
+	p.expand_time = 330.0     # balance-2 2b: X1 at 5:30 (was 7:00)...
+	p.expand_home_below = 0   # ...or home nodes under half of the start (the stale 700 is gone)
+	p.build_walls = difficulty >= 2
+	p.extra_halls = 2 if difficulty >= 1 else 0   # 2026-10-09: turn a floating bank into more Frost Halls
+	# Rimeshield / Shardcaster / Rime Seer / Rime Colossus (Frost Hall card order Z X C V).
+	p.mix_default = PackedFloat32Array([0.40, 0.30, 0.10, 0.20])
+	p.mix_vs_ranged = PackedFloat32Array([0.50, 0.20, 0.10, 0.20])
+	p.mix_vs_melee = PackedFloat32Array([0.30, 0.40, 0.15, 0.15])
+	p.scout_worker_before = 90.0
+	p.scout_fast = false
+	p.retreat_spell = &"rime_aegis"
+	var normal_items := PackedStringArray(["frostglass_shard", "ironbark_plate", "rimebound_bracers",
+			"ember_draught", "frostglass_shard", "mana_thread", "glacier_heart", "bone_charm", "ironbark_plate",
+			"warlords_horn", "winterwall_aegis"])
+	match difficulty:
+		0:
+			p.item_build = normal_items.slice(0, 5)
+		2:
+			var hard_items := normal_items.duplicate()
+			hard_items.insert(hard_items.find("glacier_heart") + 1, "ember_draught")
+			p.item_build = hard_items
+		_:
+			p.item_build = normal_items
+	return p
+
+
 # ---------------------------------------------------------------- helpers
 
 func hero_alive() -> bool:

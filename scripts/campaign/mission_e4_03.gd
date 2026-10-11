@@ -515,7 +515,7 @@ func _add_commander_e4m3() -> void:
 	var script := load(path) as Script
 	if script == null or not script.can_instantiate():
 		return
-	var p := AIProfile.ice(clampi(mission_difficulty, 0, 2))
+	var p := MissionBase.frozen_ice_profile(clampi(mission_difficulty, 0, 2))
 	p.id = &"mission_e4_03"
 	p.profile_id = p.id
 	p.min_attack_pop = 99

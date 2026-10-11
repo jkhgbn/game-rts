@@ -11,13 +11,19 @@ extends MissionBase
 ## - The Evenmead map of e3m1 in code (river, fords, bases, the tree); the night layer at the spec's positions with
 ##   placeholder looks (fire rings, wagon boxes, tents); flat ground; no sight scale (FogOfWar.sight_scale is not built):
 ##   concealment is mission-side (`Unit.hide_from_auto_target` + the spotting rule below).
-## - Hush in phase 1 is a plain Wizard set up as Hush (900 HP, 34 damage, the helper_hush model, no spells); her three
-##   abilities are mission-side (buttons + F / Q / E caught by the mission): Blink Strike (nearest enemy within 14 m),
-##   Smoke Cloak, Night of Knives; the veil = 4 s without attacking or being hit.
-## - Villager tents and wagons are under a full truce (nothing can hit them: sec_villagers cannot fail, a wagon is spoiled
-##   by sabotage only, never destroyed);
-##   army-tent sleepers are dormant units; posts and patrols are mission-driven guards; Vey's vigil = an invulnerable
-##   Ruin Warden stand-in in Vey's colours (no Helper brain), detection = instant alarm + an 80 hit.
+## - Hush in phase 1 is the `HushCommando` story hero (scripts/units/hush_commando.gd: level 5 fixed, the veil, F / Q / E
+##   = Blink Strike / Smoke Cloak / Night of Knives as code, no SpellType resources); the mission keeps the buttons and
+##   the F / Q / E keys and decides what concealment means. Squad units out of fire-light get the `concealed` status.
+## - Wagons and villager tents are attackable but in group "noncombatant" (auto-aggro skips them): a destroyed wagon is
+##   spoiled loudly (alarm), a hit tent fails sec_villagers (+ an instant alarm). The camp's other buildings are also
+##   skipped by the squad's auto-aggro at night; attacking one is an instant alarm. Towers / keeps never shoot a concealed
+##   squad unit no enemy sees.
+## - Army-tent sleepers are dormant units; posts and patrols are mission-driven guards; Vey's vigil = an invulnerable
+##   Ruin Warden stand-in in Vey's colours (no Helper brain), detection = instant alarm + one 80 Lunge (12 s cooldown).
+## - Alarm 3 "the camp is up": sight 12 m, concealment 8 m. Inside Smoke Cloak no spotter sees a squad unit.
+## - The safe line also holds for camp units: one that followed a squad unit north of z 22 (away from its post) walks
+##   back; Vey's lure stops at z 26. Posted guards stay at an alarm for the whole 45 s alert.
+## - The squad ring starts 2 m north of Hush (at the spec's spot its south edge stood in F2's light).
 ## - No cine timelines (fallback end states); the e3m2_embers end state is applied at once.
 
 const MISSION_ID := &"e3m2"
@@ -70,10 +76,14 @@ const FIRE_LIGHT := 9.0
 const CONCEAL_NEAR := 6.0
 const VEIL_NEAR := 3.0
 const SPOT_RANGE := 9.0
+const CONCEAL_NEAR_UP := 8.0   ## Alarm 3 "the camp is up": concealment only beyond 8 m
+const SPOT_RANGE_UP := 12.0    ## Alarm 3: enemy sight x 0.8 (15 x 0.8) instead of x 0.6 (9 m)
+const SMOKE_SEEN := 0.0        ## inside Smoke Cloak no spotter sees a squad unit (spec: "spotters looking into it lose sight")
 const SNUFF_R := 2.0
 const SNUFF_TIME := 2.0
 const RELIGHT_R := 4.0
 const SABOTAGE_R := 2.0
+const SABOTAGE_REACH := SABOTAGE_R + 2.5   ## from the wagon's centre: its half length (2) + the 2 m + a body (0.5)
 const SABOTAGE_TIME := 4.0
 const SABOTAGE_HUSH := 2.0
 const WAGON_HP := 500.0
@@ -87,12 +97,8 @@ const HOLD_LIGHT: Array[float] = [120.0, 150.0, 180.0]
 const PHASE2_CRYSTALS: Array[int] = [800, 600, 500]
 const HUSH_HP: Array[float] = [1100.0, 900.0, 750.0]
 const BLINK_DAMAGE: Array[float] = [75.0, 65.0, 60.0]
-const VEIL_BONUS := 1.6
-const VEIL_IDLE := 4.0
-const BLINK_COOLDOWN := 10.0
-const SMOKE_COOLDOWN := 22.0
-const KNIVES_COOLDOWN := 75.0
 const VEY_DETECT: Array = [[7.0, 4.0, 2.0], [9.0, 5.0, 3.0], [11.0, 6.0, 3.0]]
+const VEY_LUNGE_COOLDOWN := 12.0   ## helper_vey's Lightning Lunge cooldown (HelperAbilities: 12 s)
 const R1_AT := 40.0
 const R2_AT := 100.0
 const DEFEAT_DELAY := 3.0
@@ -163,7 +169,7 @@ var flag_override: Dictionary = {}
 
 ## Read only.
 var phase := 1                         ## 1 the night, 2 first light
-var hush_hero: Wizard = null
+var hush_hero: HushCommando = null
 var malrik: Wizard = null
 var torvald: Wizard = null
 var vessa: Wizard = null
@@ -179,18 +185,13 @@ var alert_at := Vector3.INF
 var vessa_awake := false
 var dawn_left := -1.0
 var light_left := -1.0
-var veiled := false
-var blink_left := 0.0
-var smoke_left := 0.0
-var knives_left := 0.0
-var smoke_at := Vector3.INF
-var smoke_time := 0.0
+var veiled := false                   ## Hush's Mouthless Veil (HushCommando.is_veiled(), mirrored each frame)
+var villagers_hit := 0                 ## hits taken by the villager tents (sec_villagers fails at the first)
 var said: Array[int] = []
 var victory_time := -1.0
 
 var _said := {}
 var _tick := 0.0
-var _idle := 0.0
 var _exposed := {}                     ## unit -> seconds left exposed
 var _fuses := {}                       ## spotter -> seconds watching
 var _sleepers := {}                    ## tent id -> Array of dormant units
@@ -198,6 +199,7 @@ var _patrols: Array = []               ## [units, waypoints, index]
 var _vey_i := 0
 var _vey_pause := 0.0
 var _vessa_hunt := 0.0
+var _vey_lunge_at := -100.0
 var _tents: Array = []
 var _wagon_type: BuildingType
 var _tent_type: BuildingType
@@ -418,15 +420,15 @@ func _build_map() -> void:
 			mark_scripted(w)
 			w.add_to_group(&"wagons")
 			w.destroyed.connect(_on_wagon_destroyed.bind(id))
+			w.add_to_group(&"noncombatant")   # never auto-targeted; an explicit attack destroys it (loud)
 			wagons[id] = w
-	set_truce(wagons.values(), true, Unit.TRUCE_ALL)   # spoiled by sabotage only (deviation: no loud destroy)
 	for p in VILLAGER_TENTS:
 		var t := build_grid.spawn_complete(_tent_type, p, NATURE_SEAT) if _tent_type else null
 		if t:
 			mark_scripted(t)
-			t.add_to_group(&"noncombatant")
+			t.add_to_group(&"noncombatant")   # auto-aggro skips them; an explicit attack fails sec_villagers + alarm
+			t.damaged.connect(_on_tent_damaged)
 			_tents.append(t)
-	set_truce(_tents, true, Unit.TRUCE_ALL)   # noncombatant: no auto-target (deviation: no explicit attack either)
 	for p in FIRES:
 		fires.append([p, true, 0.0, 0.0, _fire_look(p)])
 	MissionE3_01.add_golden_tree(self)
@@ -461,33 +463,27 @@ func _on_navigation_ready() -> void:
 	for p: Vector3 in [MissionE3_01.FORD_STONE, MissionE3_01.FORD_REED, MissionE3_01.FORD_BIRCH, SQUAD_START]:
 		fog.reveal(PLAYER_SEAT, p, 8.0)
 	_setup_champions()
-	# --- Hush, the night's hero (a Wizard set up as her: the helper model, no spells; abilities mission-side).
-	hush_hero = Wizard.new()
-	hush_hero.unit_name = "Mother Hush"
-	hush_hero.kingdom = &"shadow"
-	var empty: Array[StringName] = []
-	hush_hero.default_spell_ids = empty
-	hush_hero.default_model_path = "res://art/units/helpers/helper_hush/helper_hush.tscn"
+	# --- Hush, the night's hero: the HushCommando story hero (F / Q / E = her three abilities, level 5 fixed, the veil).
+	hush_hero = HushCommando.new()
 	hush_hero.max_hp = float(by_difficulty(HUSH_HP))
-	hush_hero.attack_damage = 34.0
-	hush_hero.attack_range = 1.6
-	hush_hero.attack_cooldown = 1.0
-	hush_hero.move_speed = 5.4
+	hush_hero.blink_damage = float(by_difficulty(BLINK_DAMAGE))
+	hush_hero.foe_filter = func(u: Unit) -> bool: return u != vey_vigil and not is_dormant(u) and int(u.team) != Unit.Team.NEUTRAL
 	hero = hush_hero
 	_spawn(hush_hero, PLAYER_SEAT, SQUAD_START)
 	hush_hero.set_base_stat(&"armor", 10.0)
 	_claim_wizard(hush_hero, PLAYER_SEAT)
-	hush_hero.level_cap = 1
 	hush_hero.damage_taken.connect(_on_squad_hurt.bind(hush_hero))
-	hush_hero.attack_landed.connect(func(_t: Node3D, _a: float) -> void:
-		_idle = 0.0
-		_exposed[hush_hero] = 3.0)
+	hush_hero.exposed.connect(func(s: float) -> void: _exposed[hush_hero] = s)
+	hush_hero.smoke_cloak_cast.connect(_on_smoke)
 	var rows := [["shade", 4], ["grave_hound", 2], ["nightblood_reaver", 2]]
 	var k := 0
 	for row: Array in rows:
 		for j in int(row[1]):
+			# The ring stands 2 m north of Hush (spec: ring r 3 around her): at the spec's spot its south edge (z 22) was
+			# 8.2 m from F2 (0, 30), inside the fire's 9 m light, and the P2 post spotted the squad in the first seconds.
 			var a := TAU * float(k) / 8.0
-			var u := _spawn(make_unit(String(row[0])), PLAYER_SEAT, SQUAD_START + Vector3(cos(a) * 3.0, 0.0, sin(a) * 3.0))
+			var u := _spawn(make_unit(String(row[0])), PLAYER_SEAT, SQUAD_START + Vector3(cos(a) * 3.0, 0.0, sin(a) * 3.0 - 2.0))
+			u.hide_from_auto_target(1.0)
 			u.set_meta(&"veterancy", 2)
 			u.attack_landed.connect(func(_t: Node3D, _a: float) -> void: _exposed[u] = 3.0)
 			u.damage_taken.connect(_on_squad_hurt.bind(u))
@@ -520,6 +516,7 @@ func _on_navigation_ready() -> void:
 		set_dormant(vessa, true)   # asleep in her tent
 		vessa.died.connect(_on_vessa_died)
 	_spawn_night()
+	_quiet_camp(true)
 	lock_base(true)
 	var bank := EssenceBank.for_team(PLAYER_SEAT)
 	if bank:
@@ -675,28 +672,11 @@ func _foes_near(at: Vector3, r: float) -> Array[Unit]:
 	return out
 
 
-## Blink Strike (F, 10 s): behind the weakest enemy within 14 m, 65 (out of the veil x 1.6: 104).
+## Blink Strike (F, 10 s): behind `target` (default the weakest enemy within 14 m), 65 (out of the veil x 1.6: 104).
 func blink_strike(target: Unit = null) -> String:
 	if phase != 1 or not hero_alive():
 		return REFUSE_NOT_NOW
-	if blink_left > 0.0:
-		return REFUSE_RECHARGING
-	if target == null:
-		var foes := _foes_near(hero.global_position, 14.0)
-		for u in foes:
-			if target == null or u.hp < target.hp:
-				target = u
-	if target == null:
-		return REFUSE_NO_TARGET
-	blink_left = BLINK_COOLDOWN
-	var back := (target.global_position - hero.global_position)
-	back.y = 0.0
-	hero.global_position = target.global_position + back.normalized() * 1.2
-	var dmg := float(by_difficulty(BLINK_DAMAGE)) * (VEIL_BONUS if veiled else 1.0)
-	target.take_damage(dmg, hero)
-	hero.command_attack(target)
-	_idle = 0.0
-	return ""
+	return hush_hero.blink_strike(target)
 
 
 ## Smoke Cloak (Q, 22 s): smoke r 4 for 5 s at her spot: squad units inside are concealed even in fire-light; spotters
@@ -704,33 +684,27 @@ func blink_strike(target: Unit = null) -> String:
 func smoke_cloak() -> String:
 	if phase != 1 or not hero_alive():
 		return REFUSE_NOT_NOW
-	if smoke_left > 0.0:
-		return REFUSE_RECHARGING
-	smoke_left = SMOKE_COOLDOWN
-	smoke_at = hero.global_position
-	smoke_time = 5.0
-	hero.apply_status(&"shroud", 3.0, true)
+	return hush_hero.smoke_cloak()
+
+
+## Smoke Cloak landed: every fuse cancels, and enemies targeting a squad unit inside the smoke drop it.
+func _on_smoke(at: Vector3) -> void:
 	_fuses.clear()
-	flash_ring(smoke_at, 4.0)
-	return ""
+	flash_ring(at, HushCommando.SMOKE_RADIUS)
+	var inside := _squad_alive().filter(func(u: Unit) -> bool: return hush_hero.smoke_covers(u.global_position))
+	for u: Unit in inside:
+		u.hide_from_auto_target(0.6)   # at once: a target dropped before the next night tick was picked up again
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var e := n as Unit
+		if e and e.is_alive() and Teams.is_hostile(int(e.team), PLAYER_SEAT) and inside.has(e.attack_target):
+			e.command_stop()
 
 
 ## Night of Knives (E, 75 s): 6 strikes of 46 on up to 6 enemies within 10 m (heroes x 1.5); exposes her 3 s.
 func night_of_knives() -> String:
 	if phase != 1 or not hero_alive():
 		return REFUSE_NOT_NOW
-	if knives_left > 0.0:
-		return REFUSE_RECHARGING
-	var foes := _foes_near(hero.global_position, 10.0)
-	if foes.is_empty():
-		return REFUSE_NO_TARGET
-	knives_left = KNIVES_COOLDOWN
-	for i in mini(6, foes.size()):
-		var u := foes[i]
-		u.take_damage(46.0 * (1.5 if u is Wizard else 1.0), hero)
-	_exposed[hero] = 3.0
-	_idle = 0.0
-	return ""
+	return hush_hero.night_of_knives()
 
 
 # ---------------------------------------------------------------- the night: light, concealment, spotting
@@ -745,18 +719,23 @@ func lit_at(p: Vector3) -> bool:
 func is_concealed(u: Unit) -> bool:
 	if u == null or not u.is_alive():
 		return false
-	if smoke_time > 0.0 and _flat(u.global_position, smoke_at) <= 4.0:
+	if hush_hero and is_instance_valid(hush_hero) and hush_hero.smoke_covers(u.global_position):
 		return true
 	if float(_exposed.get(u, 0.0)) > 0.0 or lit_at(u.global_position):
 		return false
 	return true
 
 
-## The radius an enemy sees `u` at: concealed 6 m (veiled Hush 3 m), else the night sight.
+## The radius an enemy sees `u` at: inside Hush's smoke 0 ("spotters looking into it lose sight"); concealed 6 m
+## (veiled Hush 3 m), else the night sight 9 m; after Alarm 3 ("the camp is up") concealed 8 m and sight 12 m (x 0.8).
 func seen_within(u: Unit) -> float:
+	if hush_hero and is_instance_valid(hush_hero) and hush_hero.smoke_covers(u.global_position):
+		return SMOKE_SEEN
 	if is_concealed(u):
-		return VEIL_NEAR if (u == hush_hero and veiled) else CONCEAL_NEAR
-	return SPOT_RANGE
+		if u == hush_hero and veiled:
+			return VEIL_NEAR
+		return CONCEAL_NEAR_UP if vessa_awake else CONCEAL_NEAR
+	return SPOT_RANGE_UP if vessa_awake else SPOT_RANGE
 
 
 func _squad_alive() -> Array[Unit]:
@@ -791,6 +770,15 @@ func _tick_night(dt: float) -> void:
 				break
 		if not seen:
 			u.hide_from_auto_target(0.6)
+		if is_concealed(u):
+			u.apply_status(&"concealed", 0.6, true)
+	# Smoke Cloak: whoever still targets a squad unit inside it drops it (spec: "enemies targeting her drop her").
+	if hush_hero and is_instance_valid(hush_hero) and hush_hero.smoke_left > 0.0:
+		for n in get_tree().get_nodes_in_group(&"units"):
+			var e := n as Unit
+			if e and e.is_alive() and Teams.is_hostile(int(e.team), PLAYER_SEAT) and e.attack_target is Unit \
+					and mine.has(e.attack_target) and hush_hero.smoke_covers((e.attack_target as Unit).global_position):
+				e.command_stop()
 	for e: Variant in _fuses.keys():
 		if not spotters.has(e) or not is_instance_valid(e) or not (e as Unit).is_alive():
 			_fuses.erase(e)
@@ -841,6 +829,11 @@ func raise_alarm(at: Vector3) -> void:
 		var e := n as Unit
 		if e and e.is_alive() and Teams.is_hostile(int(e.team), PLAYER_SEAT) and not is_dormant(e) and e != vey_vigil \
 				and _flat(e.global_position, at) <= ALERT_R and e.has_meta(&"night"):
+			# A posted guard stays at the alarm for the whole alert (45 s, the spec), not just until it gets there: out
+			# of the guard list (which walked it home at once) until the alert ends.
+			if _guards.has(e):
+				_guards.erase(e)
+				e.set_meta(&"alert_guard", true)
 			order_wave(e, &"alert", at)
 	if vey_vigil and _flat(at, MissionE3_01.GOLDEN_TREE) >= 25.0:
 		vey_vigil.set_meta(&"lured", ALERT_TIME)
@@ -917,13 +910,13 @@ func _tick_wagons(dt: float) -> void:
 			continue
 		var row: Array = sabotage.get(id, [null, 0.0])
 		var who: Unit = row[0] if row[0] != null and is_instance_valid(row[0]) else null
-		if who == null or not who.is_alive() or _flat(who.global_position, w.global_position) > SABOTAGE_R + 2.0:
+		if who == null or not who.is_alive() or _flat(who.global_position, w.global_position) > SABOTAGE_REACH:
 			who = null
 			row[1] = 0.0
 			for u in mine:
 				if u.unit_type and u.unit_type.id == &"grave_hound":
 					continue
-				if _flat(u.global_position, w.global_position) <= SABOTAGE_R + 2.0:
+				if _flat(u.global_position, w.global_position) <= SABOTAGE_REACH:
 					who = u
 					break
 		row[0] = who
@@ -937,7 +930,6 @@ func _tick_wagons(dt: float) -> void:
 
 ## A saboteur that takes damage starts over (its channel resets).
 func _on_squad_hurt(_amount: float, _attacker: Node3D, u: Unit) -> void:
-	_idle = 0.0 if u == hush_hero else _idle
 	for id: StringName in sabotage:
 		var row: Array = sabotage[id]
 		if row[0] == u:
@@ -948,6 +940,40 @@ func _on_wagon_destroyed(_b: Building, id: StringName) -> void:
 	if spoiled.has(id) or phase != 1 or is_ending():   # no dawn switch / film over a pending defeat
 		return
 	_spoil(id, true)
+
+
+## A villager tent hit (only an explicit attack order can): sec_villagers fails, an instant alarm at the tent.
+func _on_tent_damaged(_amount: float, attacker: Node3D) -> void:
+	if phase != 1 or is_ending():
+		return
+	villagers_hit += 1
+	if objective_state("sec_villagers") == "active":
+		set_objective(&"sec_villagers", "failed")
+	if alert_left <= 0.0:
+		raise_alarm(attacker.global_position if attacker and is_instance_valid(attacker) else hero_pos())
+
+
+## Any other camp building attacked in the night (keeps, halls, crest spires): an instant alarm (one per alert).
+func _on_camp_building_damaged(_amount: float, attacker: Node3D) -> void:
+	if phase != 1 or is_ending() or alert_left > 0.0:
+		return
+	if attacker == null or not is_instance_valid(attacker) or int(attacker.get(&"team")) != PLAYER_SEAT:
+		return
+	raise_alarm(attacker.global_position)
+
+
+## The night's camp buildings: never auto-targeted by the squad (stealth), an attack on one is an instant alarm.
+func _quiet_camp(on: bool) -> void:
+	for b in get_tree().get_nodes_in_group(&"buildings"):
+		var bb := b as Building
+		if bb == null or wagons.values().has(bb) or _tents.has(bb) or not Teams.is_hostile(int(bb.team), PLAYER_SEAT):
+			continue
+		if on:
+			bb.add_to_group(&"noncombatant")
+			if not bb.damaged.is_connected(_on_camp_building_damaged):
+				bb.damaged.connect(_on_camp_building_damaged)
+		elif bb.is_in_group(&"noncombatant"):
+			bb.remove_from_group(&"noncombatant")
 
 
 func _spoil(id: StringName, loud: bool) -> void:
@@ -981,6 +1007,10 @@ func _spoil(id: StringName, loud: bool) -> void:
 # ---------------------------------------------------------------- the camp: patrols, Vey, alerts
 
 func _tick_camp(dt: float) -> void:
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var e := n as Unit
+		if e and e.is_alive() and e.has_meta(&"night") and e.global_position.z <= SAFE_Z:
+			_past_safe_line(e)
 	if alert_left > 0.0:
 		alert_left -= dt
 		if alert_left <= 0.0:
@@ -990,6 +1020,10 @@ func _tick_camp(dt: float) -> void:
 					e.set_meta(META_MODE, &"posted")
 					if e.has_meta(META_HOME):
 						e.command_move(e.get_meta(META_HOME))
+					if e.has_meta(&"alert_guard"):
+						e.remove_meta(&"alert_guard")
+						if not _guards.has(e):
+							_guards.append(e)
 	for row: Array in _patrols:
 		var units: Array = (row[0] as Array).filter(func(u: Variant) -> bool: return is_instance_valid(u) and (u as Unit).is_alive())
 		row[0] = units
@@ -997,6 +1031,17 @@ func _tick_camp(dt: float) -> void:
 			continue
 		var lead := units[0] as Unit
 		if lead.get_meta(META_MODE, &"") == &"alert":
+			continue
+		# A patrol passing a snuffed fire stops by it until it is relit (_tick_fires: 3 s within 4 m).
+		var by_fire := false
+		for f: Array in fires:
+			if not f[1] and _flat(lead.global_position, f[0]) <= RELIGHT_R - 0.3:
+				by_fire = true
+				break
+		if by_fire:
+			for u: Variant in units:
+				if (u as Unit).attack_target == null and (u as Unit).has_move_order():
+					(u as Unit).command_stop()
 			continue
 		var pts: Array = row[1]
 		var goal: Vector3 = pts[int(row[2])]
@@ -1024,7 +1069,9 @@ func _tick_vey(dt: float) -> void:
 	if lured > 0.0:
 		vey_vigil.set_meta(&"lured", lured - dt)
 		if not vey_vigil.has_move_order() and alert_at != Vector3.INF:
-			vey_vigil.command_move(alert_at)
+			# Never past the safe line (z <= 22): the spec's hunters stop there, and an alarm at the foot used to walk
+			# him into the waiting squad (an instant detection alarm on top of the lure).
+			vey_vigil.command_move(Vector3(alert_at.x, 0.0, maxf(alert_at.z, SAFE_Z + 4.0)))
 		return
 	var goal: Vector3 = VEY_PATH[_vey_i]
 	if _flat(vey_vigil.global_position, goal) <= 1.0:
@@ -1042,8 +1089,11 @@ func _tick_vey(dt: float) -> void:
 		if _flat(u.global_position, vey_vigil.global_position) <= r:
 			if fire_once(&"E8"):
 				say_l(15)
-			u.take_damage(80.0, vey_vigil)
-			u.apply_status(&"dazed", 0.5)
+			if mission_time() - _vey_lunge_at >= VEY_LUNGE_COOLDOWN:
+				# One Lightning Lunge (80, dazed 0.5 s), then its cooldown (it used to land every 0.25 s tick: 320 / s).
+				_vey_lunge_at = mission_time()
+				u.take_damage(80.0, vey_vigil)
+				u.apply_status(&"dazed", 0.5)
 			if alert_left <= 0.0:
 				raise_alarm(u.global_position)
 			break
@@ -1054,9 +1104,27 @@ func _tick_vey(dt: float) -> void:
 			hud.show_message(HINT_VEY, 8.0)
 
 
+## The safe line (z <= 22) for alerts and posts: a camp unit that has followed a squad unit north of the line drops it
+## and walks back (home, or the alert point). True when it was turned back.
+func _past_safe_line(u: Unit) -> bool:
+	if phase != 1 or u.global_position.z > SAFE_Z or not u.has_meta(&"night"):
+		return false
+	var t: Variant = u.attack_target
+	if t == null or not is_instance_valid(t) or int((t as Node).get(&"team")) != PLAYER_SEAT or (t as Node3D).global_position.z > SAFE_Z:
+		return false
+	if u.has_meta(META_HOME) and _flat(u.global_position, u.get_meta(META_HOME)) <= 8.0:
+		return false   # a post north of the line (P6) still fights at its own spot
+	var back: Vector3 = u.get_meta(META_HOME) if u.has_meta(META_HOME) else (alert_at if alert_at != Vector3.INF else FIRE_KEEP)
+	back.z = maxf(back.z, SAFE_Z + 4.0)
+	u.command_move(back)
+	return true
+
+
 func _refresh_wave_unit(u: Unit, mode: StringName, _hero_at: Vector3) -> bool:
 	match mode:
 		&"alert":
+			if _past_safe_line(u):
+				return true
 			if u.attack_target == null and not u.is_attack_moving() and alert_at != Vector3.INF:
 				u.command_attack_move(alert_at)
 			return true
@@ -1093,6 +1161,7 @@ func _end_night() -> void:
 func _dawn() -> void:
 	phase = 2
 	dawn_left = -1.0
+	_quiet_camp(false)
 	if hud:
 		hud.show_message(MSG_DAWN_LIGHT, 4.0)
 	clear_waves()
@@ -1270,7 +1339,7 @@ func _on_vessa_died(_u: Unit) -> void:
 
 
 func seat_profile(seat: int) -> AIProfile:
-	var p: AIProfile = AIProfile.ice(clampi(mission_difficulty, 0, 2))
+	var p: AIProfile = MissionBase.frozen_ice_profile(clampi(mission_difficulty, 0, 2))
 	p.id = &"mission_e3_02_ally"
 	p.profile_id = p.id
 	p.min_attack_pop = 99
@@ -1327,12 +1396,7 @@ func _physics_process(delta: float) -> void:
 	if is_ending():
 		return
 	if phase == 1:
-		blink_left = maxf(0.0, blink_left - delta)
-		smoke_left = maxf(0.0, smoke_left - delta)
-		knives_left = maxf(0.0, knives_left - delta)
-		smoke_time = maxf(0.0, smoke_time - delta)
-		_idle += delta
-		veiled = _idle >= VEIL_IDLE
+		veiled = hush_hero != null and is_instance_valid(hush_hero) and hush_hero.is_veiled()
 		dawn_left = maxf(0.0, dawn_left - delta)
 		if dawn_left <= 0.0 and wagons_spoiled() < 4 and fire_once(&"E18"):
 			say_l(30)

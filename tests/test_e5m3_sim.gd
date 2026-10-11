@@ -245,6 +245,17 @@ func _plan() -> void:
 		if hero.attack_target == null or not is_instance_valid(hero.attack_target):
 			hero.command_attack(foes[0])
 		return
+	# Three or more on him (a waking town): a careful player runs for the dark instead of trading blows (it hides and
+	# heals him; 2026-10-11, a run that fought four hunters at 2:31 died). Not in the Final: the Reeve is the goal.
+	if foes.size() > 2 and not _retreat and not rush and _step < _route().size():
+		_set_phase("flee")
+		_candle(false)
+		var dark := _safe_shadow(hero.global_position, foes)
+		if dark == Vector3.INF:
+			_go_home()
+		elif MissionBase._flat(hero.global_position, dark) > 1.0:
+			hero.command_move(dark)
+		return
 	if _retreat:
 		_set_phase("heal")
 		if not foes.is_empty() and MissionBase._flat(hero.global_position, MissionE5_03.HUT) < 7.0:

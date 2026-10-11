@@ -425,9 +425,17 @@ func _plan() -> void:
 					return
 			var _g := g1
 		&"grove_c":
-			if m.column_target != &"C" and not (m.sites[&"C"] as GroveSite).is_planted():
-				m.send_ysolde(&"C")
-			_guard(_site_pos(&"C"))
+			# C first, then any grove lost meanwhile (2026-10-11: Stumpwood fell during Rimehold and the run waited at a
+			# planted C for 20 minutes; the Heartwood needs three standing).
+			var want := &"C"
+			if (m.sites[&"C"] as GroveSite).is_planted():
+				for id: StringName in [&"A", &"B"]:
+					if not (m.sites[id] as GroveSite).is_planted():
+						want = id
+						break
+			if m.column_target != want and not (m.sites[want] as GroveSite).is_planted():
+				m.send_ysolde(want)
+			_guard(_site_pos(want))
 			if m.ally_active:
 				_set_phase(&"vice")
 		&"vice":

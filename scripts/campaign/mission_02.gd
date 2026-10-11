@@ -94,6 +94,10 @@ const B1_WARN := 650.0
 const B1_TIME := 660.0
 const B1_LENGTH := 45.0
 const W3_TIME := 900.0
+## Rush floor (campaign notes 2026-10-11: the Orb fell at 7:48 for a 18-24 min mission): the Heartfrost's core is
+## Torvald's own winter and holds at HEARTFROST_CORE of its HP until his storm (B1) has blown over the lake.
+const HEARTFROST_CORE := 0.4
+const CORE_THAW_AT := B1_TIME + B1_LENGTH
 const PURSUIT_SECOND := 40.0
 const ALDRA_STAY := 45.0
 const DEFEAT_DELAY := 3.0
@@ -146,9 +150,9 @@ const DIALOGUE := [
 	[&"torvald", "Two children, fighting on my lake. Finish it quickly, and leave my ice alone."],
 	[&"pell", "You again! My wheels froze to the road, so I suppose I'm open. Take this, it's on the house. The house is frozen too."],
 	[&"vessa", "Pell's cart, and no Pell. Maybe I should have opened that cage. Well. Finders keepers."],
-	[&"vessa", "Emberguard, on your feet! Stamp a bit. Your toes will come back. Probably."],
+	[&"vessa", "Emberguard, on your feet! Stamp your boots until you can feel your toes."],
 	[&"malrik", "More diggers, more knives. You should have burned my hall when you had the chance."],
-	[&"malrik", "Someone burned my barracks, so I brought fewer friends. Very petty. I respect it."],
+	[&"malrik", "Someone burned my barracks, so I brought fewer friends. Petty, little ember. I approve."],
 	[&"vessa", "Thin ice! Ha! I am absolutely doing that again."],
 	[&"torvald", "That ice has kept a secret for a hundred winters, ember. Think before you melt it."],
 	[&"vessa", "A hundred winters of ice, and it took me one afternoon. Somebody write that down."],
@@ -170,6 +174,8 @@ const BRIEFING_DIG_LINE := "Malrik's diggers are cutting toward the orb. Do not 
 const HINT_START := "Ash Hurlers (V at the Ember Hall) melt ice. Fireballs crack it."
 const HINT_E11 := "Torvald's walls and Sentinels attack both armies. Break through and bring the orb home."
 const MSG_STORM := "Torvald's storm is coming"
+const MSG_CORE_HOLDS := "The Heartfrost's core is Torvald's own winter: it will not give until his storm has passed"
+const MSG_CORE_THAWS := "Torvald's storm is spent. The Heartfrost's core can melt now"
 const MSG_ONLY_FIRE := "Only fire melts the Heartfrost (Vessa, Ash Hurlers)"
 const MSG_OATH := "The Emberguard captain swears the Oath of Embers"
 const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
@@ -217,6 +223,7 @@ var _w2_due := false
 var _dig_msgs: Dictionary = {}
 var _said: Dictionary = {}
 var _heartfrost_msg_shown := false
+var _core_msg_shown := false
 var _last_dig_pct := -1
 var _last_melt_pct := -1
 var _tick := 0.0
@@ -445,6 +452,7 @@ func _build_map() -> void:
 	heartfrost = Heartfrost.new()
 	heartfrost.name = "Heartfrost"
 	heartfrost.setup(HEARTFROST_HP[diff], HEARTFROST_REGEN[diff])
+	heartfrost.hp_floor = HEARTFROST_HP[diff] * HEARTFROST_CORE   # the rush floor (header): lifted at CORE_THAW_AT
 	nav_region.add_child(heartfrost)
 	heartfrost.position = HEARTFROST_POS
 
@@ -1011,10 +1019,28 @@ func _physics_process(delta: float) -> void:
 		_tick_malrik()
 		_check_stronghold_hint()
 		_refresh_counters()
+		_tick_core()
 		if not waves_fired.has(&"W3") and heartfrost and heartfrost.is_alive() and heartfrost.hp < heartfrost.max_hp * 0.5:
 			_fire_w3()
 	if _orb_mesh and is_instance_valid(_orb_mesh) and not orb_taken:
 		_orb_mesh.position.y = ORB_POS.y + sin(mission_time() * 2.0) * 0.12
+
+
+## The rush floor (header): the core holds at HEARTFROST_CORE until CORE_THAW_AT; one message when the player first
+## reaches it, one when it gives (only if it held someone back).
+func _tick_core() -> void:
+	if heartfrost == null or not heartfrost.is_alive():
+		return
+	var holding := mission_time() < CORE_THAW_AT
+	if holding:
+		heartfrost.hp_floor = heartfrost.max_hp * HEARTFROST_CORE
+		if not _core_msg_shown and heartfrost.hp <= heartfrost.hp_floor + 1.0 and heartfrost.since_fire_damage < 2.0:
+			_core_msg_shown = true
+			hud.show_message(MSG_CORE_HOLDS, 5.0)
+	elif heartfrost.hp_floor > 0.0:
+		heartfrost.hp_floor = 0.0
+		if _core_msg_shown:
+			hud.show_message(MSG_CORE_THAWS, 4.0)
 
 
 ## Working dig Thralls: alive, within 5 m of the Heartfrost (max 4).

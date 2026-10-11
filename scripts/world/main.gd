@@ -43,7 +43,7 @@ var seat_opponents: Dictionary = {}
 ## Start camera focus, relative to the player's keep: the keep sits a little left of and just
 ## below the screen centre, the workers and both home nodes are above the bottom HUD panels.
 const START_FOCUS_FROM_KEEP := Vector3(3.0, 0.0, -1.0)
-const START_HINT := "Click your Keep (bottom-left) to train workers — select workers and press B to build"
+const START_HINT := "Click your Keep (bottom-left) to train workers, then select workers and press B to build"
 
 
 func _ready() -> void:

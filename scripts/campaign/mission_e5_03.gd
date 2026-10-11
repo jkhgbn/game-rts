@@ -30,6 +30,9 @@ extends MissionE5Base
 ##   alarm drops 1 every 60 s (spec 90). The Reeve has 350 / 450 / 600 HP and hits for 12 (spec 18); wardens see 5 / 6 / 7 m (spec 7 / 8 / 9).
 ## - The dark looks after its own (mission rule, the theme of pro. S21): Malrik regains 3 % HP / s while hidden and seen by
 ##   nobody, so hiding is how he recovers from a fight (else only the hut's fire healed him, a long walk past the lanterns).
+## - After the bell only the Final hunts (2026-10-11): a patrol's cry no longer calls its neighbours (a cry while the
+##   Reeve fought pulled 2-3 hunting wardens into the Final and a careful scripted run lost at 12:05); the Reeve's cry
+##   then calls nobody else either.
 
 const MISSION_ID := &"e5m3"
 const MISSION_TITLE := "Tombstones by Candlelight"
@@ -623,6 +626,11 @@ func _tick_stealth(dt: float) -> void:
 
 ## A warden (or the Reeve) sees a player unit: "Hoy!", he and every warden within 20 m hunt there; the alarm +1.
 func _cry(by: Unit, target: Unit) -> void:
+	# After the bell only the Final hunts (campaign notes 2026-10-11: a cry pulled its neighbours into the Reeve fight
+	# and a careful run that had read everything lost at 12:05): the bell drowns every other "Hoy!", and the Reeve's
+	# own cry calls nobody else (below).
+	if has_fired(&"E13") and by != reeve and by.get_meta(&"e5_mode", &"") != &"final":
+		return
 	var t := mission_time()
 	_last_seen = target.global_position
 	if t - float(by.get_meta(&"e5_cry_at", -100.0)) < CRY_EVERY:
@@ -638,7 +646,7 @@ func _cry(by: Unit, target: Unit) -> void:
 		if not is_instance_valid(w) or not (w as Unit).is_alive() or is_dormant(w):
 			continue
 		var wu := w as Unit
-		if wu == by or _flat(wu.global_position, by.global_position) <= CRY_R:
+		if wu == by or (_flat(wu.global_position, by.global_position) <= CRY_R and not has_fired(&"E13")):
 			wu.set_meta(&"e5_mode", &"hunt")
 			wu.set_meta(&"e5_hunt", target.global_position)
 			wu.set_meta(&"e5_seen_at", t)

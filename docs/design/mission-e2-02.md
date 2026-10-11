@@ -425,3 +425,6 @@ tests `tests/test_e2m2.gd` (checks 1-8) and `tests/test_e2m2_sim.gd` (check 9, s
   follows the spec's rhythm (Rimehold from 9:00, Grove C from 14:00): W1 leaves 13-15 of 15, 0-1 carriers lost (3 runs);
   victory 15:00 / 15:01 (16:13 with cutscenes, old rhythm) and 17:31 (18:44, spec rhythm, Vey not called that run):
   still under 22-28 (the Vice is 2:30 and the Heartwood lands ~14:50).
+- **Emberwatch reserve (2026-10-11, campaign notes)**: a scripted army wiped at Rimehold sat at 0-5 soldiers with ~50
+  crystals for 4 minutes (one run timed out). From 6:00, when Fire has 5 soldiers or fewer and under 200 crystals,
+  Captain Ashby brings 4 Flame Guards + 3 Ember Archers and 150 crystals; at most twice, 150 s apart (`RESERVE_*`).

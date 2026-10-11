@@ -264,7 +264,7 @@ func tower_slot(_team: int, _which: StringName) -> Vector3:
 
 func seat_profile(seat: int) -> AIProfile:
 	var diff := clampi(mission_difficulty, 0, 2)
-	var p := AIProfile.ice(diff)
+	var p := MissionBase.frozen_ice_profile(diff)
 	p.id = &"mission_e6_04_ally"
 	p.profile_id = p.id
 	p.min_attack_pop = 99

@@ -24,6 +24,12 @@ const DAIS_HOLD := Vector3(-8.0, 0.0, 22.0)   ## South of the dais rim (the host
 const REGROUP := Vector3(-6.0, 0.0, 20.0)      ## Off the dais, south: where the army waits out the wake.
 const SAFE := Vector3(-12.0, 0.0, 28.0)        ## Off the dais and the sunstones' south road: the army's wait spot.
 const BOSS_LINE := Vector3(0.0, 0.0, 8.5)
+const WEST_PASS := Vector3(-13.0, 0.0, -1.0)   ## B2: the way north to Malrik, 13 m from the boss at the Door's north rim
+## B2: go for Malrik's tether with the melee strike team and Vessa (false = burn the boss through it from the ranged arc:
+## with x 0.5 damage and 10 HP / s of heal the boss barely moved and the Quake / Stonehurl / Wardens ate the army; the
+## whole army walking to his spot lost ~30 units, the archers to his Lance and Siphon).
+const HUNT_TETHER := true
+const TETHER_FIRE_SPOT := Vector3(-11.0, 0.0, -14.0)   ## Vessa's spot in B2: 15 m from Malrik (out of his Lance), 13 m from the boss
 
 var verbose := false
 var noseals := false
@@ -41,6 +47,7 @@ var _retreat := false
 var _home_guard: Array = []
 var _sites: Array = []
 var _door_min := 100.0
+var _wounded := {}
 var killers := {}
 
 
@@ -353,7 +360,8 @@ func _economy() -> void:
 		if hall == null or not hall.is_alive() or not hall.is_constructed() or hall.building_type.id != &"fire_barracks" \
 				or hall.queue.size() >= 2:
 			continue
-		var want: String = ["flame_guard", "ember_archer", "flame_guard", "pyre_adept", "ember_archer", "cinder_arbalest"][_train_i % 6]
+		# Ranged-heavy for the boss (Unit Guide: archers / arbalests outrange it; a Flame Guard line only feeds its Quake).
+		var want: String = ["ember_archer", "flame_guard", "cinder_arbalest", "ember_archer", "pyre_adept", "flame_guard"][_train_i % 6]
 		var why := hall.queue_unit(UnitType.find(want))
 		if why != "" and verbose and _train_i % 20 == 0:
 			print("      hall refused %s: %s" % [want, why])
@@ -394,11 +402,13 @@ func _seal_to_kindle() -> StringName:
 func _plan() -> void:
 	var m := main
 	var hero := m.hero
-	if not _retreat and hero.hp < hero.max_hp * 0.3:
+	# (B3: Vessa does not heal at the rally, and only her Sunlance finishes the boss: she stays at the Door unless dying.)
+	var floor_pct := 0.12 if m.boss_phase == 3 else 0.3
+	if not _retreat and hero.hp < hero.max_hp * floor_pct:
 		_retreat = true
 	if _retreat:
 		_hero_to(MissionE2_05.RALLY, 3.0)
-		if hero.hp >= hero.max_hp * 0.75:
+		if hero.hp >= hero.max_hp * 0.75 or m.boss_phase == 3 and hero.hp >= hero.max_hp * 0.2:
 			_retreat = false
 	if not m.woke:
 		_plan_seals()
@@ -406,35 +416,115 @@ func _plan() -> void:
 	var boss := m.boss
 	if boss == null or not is_instance_valid(boss) or not boss.is_alive():
 		return
-	# The wake push and the amber Wardens first (south of the Door, then around the boss), then the boss.
+	# The human-like boss fight (2026-10-07, SimTactics): never a blob on the Door. The wounded walk back to SAFE; the
+	# ranged units shoot the boss from an arc at their full range (outside the Quake's 8 m, 3+ m apart so a Stonehurl
+	# catches one); the melee take the adds and the amber Wardens in a loose line, and hit the boss only outside B2 (the
+	# Quake needs 4 units within 8 m); B2 with the tether: everyone goes for Malrik by the west edge of the dais (13 m
+	# from the boss), never past the Door.
+	var army: Array = SimTactics.pull_back_wounded(_army(), SAFE, _wounded, 0.5, 0.3, 0.8, 30.0)
+	var ranged: Array = army.filter(func(u: Unit) -> bool: return SimTactics.is_ranged(u))
+	var melee: Array = army.filter(func(u: Unit) -> bool: return not SimTactics.is_ranged(u))
 	var adds := _enemies_near(Vector3(0.0, 0.0, 10.0), 14.0).filter(func(u: Unit) -> bool: return u != boss)
 	if adds.size() < 3:
 		adds = _enemies_near(boss.global_position, 12.0).filter(func(u: Unit) -> bool: return u != boss)
-	if m.boss_phase == 2 and not noseals and m.tether_on and m.shadow_hero and m.shadow_hero.is_alive():
+	if m.boss_phase == 2:
+		# B2: the Wardens guarding the boss stand inside its Quake (r 8) and Fist: the melee wait for the ones that come
+		# out instead of walking in (16 of 27 soldiers died beside the boss in B2 in the 2026-10-07 run, seed 2).
+		adds = adds.filter(func(u: Unit) -> bool: return MissionBase._flat(u.global_position, boss.global_position) > MissionE2_05.QUAKE_R + 1.5)
+	if HUNT_TETHER and m.boss_phase == 2 and not noseals and m.tether_on and m.shadow_hero and m.shadow_hero.is_alive():
 		_set_phase(&"tether")
-		for u in _army():
-			if u.attack_target != m.shadow_hero:
-				u.command_attack(m.shadow_hero)   # the whole army on Malrik: the tether breaks the moment he dies
+		var mk := m.shadow_hero
+		# The strike team is the melee (the Flame Guards and the 1 400-HP Cinder Dragon) with Vessa's Fireballs; the archers,
+		# which his Lance and Siphon killed by the dozen, wait out of the boss's reach (25 m) south of the Door.
+		# (A strike team under 4 melee: the archers join it, the stalemate let the tether heal the boss back to full.)
+		if melee.size() < 4:
+			melee = army
+			ranged = []
+		for u: Unit in ranged:
+			if MissionBase._flat(u.global_position, SAFE) > 6.0 and (u.attack_target == null or not is_instance_valid(u.attack_target)):
+				u.command_move(SAFE + Vector3(randf_range(-5.0, 5.0), 0.0, randf_range(-3.0, 3.0)))
+		for u: Unit in melee:
+			if u.global_position.z > 1.0 and MissionBase._flat(u.global_position, WEST_PASS) > 3.0 and u.attack_target != mk:
+				if not u.has_move_order():
+					u.command_move(WEST_PASS + Vector3(randf_range(-2.0, 2.0), 0.0, randf_range(-2.0, 2.0)))
+			elif u.attack_target != mk and (u.attack_target == null or not is_instance_valid(u.attack_target)):
+				u.command_attack(mk)   # the tether breaks the moment he dies (the melee may finish his guard first)
 		if not _retreat:
-			_hero_to(BOSS_LINE + Vector3(-4.0, 0.0, 4.0), 3.0)
+			_hero_to(TETHER_FIRE_SPOT, 2.0)   # Fireball reach on Malrik's spot, out of his Lance
+			if MissionBase._flat(m.hero.global_position, mk.global_position) <= 16.0 and m.hero.mana >= 40.0:
+				m.hero.command_cast(&"fireball", mk.global_position)
 		return
 	_set_phase(&"boss%d" % m.boss_phase)
-	if adds.size() >= 3:
-		_army_to(adds[0].global_position, 3.0)
-	elif m.mission_time() - m.wake_time < 35.0:
-		_army_to(REGROUP, 4.0)   # the wake: stand off the dais until the push arrives
+	var wake_wait := m.mission_time() - m.wake_time < 35.0
+	if wake_wait and adds.size() < 3:
+		SimTactics.spread_to(army, REGROUP, Vector3(0.0, 0.0, -1.0))   # the wake: off the dais until the push arrives
 	else:
-		_army_attack(boss)
+		# Malrik or Torvald walking into the army: everyone near on him first (the wizard is worth more than 10 s of boss).
+		var wiz := SimTactics.focus_wizards(army, [m.shadow_hero, m.torvald], 14.0, func(w: Unit) -> bool: return not m.is_dormant(w))
+		if wiz == null:
+			_shoot_boss(ranged, boss)
+		if adds.size() >= 3:
+			var c := SimTactics.centroid(adds)
+			SimTactics.spread_to(melee, c, c - SimTactics.centroid(melee))
+		elif m.boss_phase != 3 or m.exposed_left <= 0.0:
+			# B1 / B2: the melee hold a loose line 10 m south of the boss (its Fist, melee and the B2 Quake hit what stands
+			# beside it) and take the Wardens that come out; B3 while Exposed (x 1.5, 8 s after each Sunlance): all on it.
+			SimTactics.spread_to(melee, boss.global_position + Vector3(0.0, 0.0, 10.0), Vector3(0.0, 0.0, -1.0))
+			if m.boss_phase == 2:
+				# The line's attack-move picks the boss itself up: B2's Quake (r 8) and Fist killed 23 melee beside it
+				# (2026-10-07, seed 2). Anyone drifting inside 9.5 m of it walks back out to the line.
+				for u: Unit in melee:
+					if MissionBase._flat(u.global_position, boss.global_position) < MissionE2_05.QUAKE_R + 1.5 and not u.has_move_order():
+						u.command_move(boss.global_position + Vector3(randf_range(-8.0, 8.0), 0.0, 11.0))
+		else:
+			for u: Unit in melee:
+				var t: Variant = u.attack_target
+				if t != boss and (t == null or not is_instance_valid(t) or not bool((t as Node).call(&"is_alive"))):
+					u.command_attack(boss)
 	if _retreat:
 		return
 	if m.boss_phase == 3:
-		_hero_to(MissionE2_05.SOUTH_RIM + Vector3(0.0, 0.0, 1.5), 1.5)
+		# A moving target: the Stonehurl lands where she stood 1.6 s earlier (r 2.5), so she steps 4 m side to side.
+		var side := -2.0 if int(m.mission_time() / 1.5) % 2 == 0 else 2.0
+		_hero_to(MissionE2_05.SOUTH_RIM + Vector3(side, 0.0, 1.5), 0.6)
 		if m.vey and is_instance_valid(m.vey) and m.vey.is_alive() and m.vey.attack_target == null 				and MissionBase._flat(m.vey.global_position, hero.global_position) > 6.0:
 			m.vey.command_move(hero.global_position + Vector3(2.0, 0.0, 1.0))
 	elif m.mission_time() - m.wake_time < 35.0:
 		_hero_to(REGROUP + Vector3(0.0, 0.0, 4.0), 3.0)
 	else:
 		_hero_to(BOSS_LINE + Vector3(0.0, 0.0, 4.0), 3.0)
+
+
+## The ranged units on an arc south of the boss at their full reach (its body radius + their range - 1 m), 3.2 m apart
+## (one Stonehurl r 2.5 catches one), outside the Quake (8 m): walk to the slot, then shoot from it.
+func _shoot_boss(ranged: Array, boss: Unit) -> void:
+	if ranged.is_empty():
+		return
+	var n := ranged.size()
+	# Slots 3.2 m apart on 270 degrees around the boss (not the north quarter: Malrik's tether spot), an outer ring at
+	# the archers' reach and an inner one 2.5 m closer (still outside the Quake's 8 m): 30 archers on one half-ring stood
+	# 1.1 m apart and each Stonehurl took 4-5 of them.
+	var slots: Array[Vector3] = []
+	for r: float in [11.5, 9.0]:
+		var count := int(floor(1.5 * PI * r / 3.2))
+		for k in count:
+			var a := -PI * 0.25 + 1.5 * PI * (float(k) + 0.5) / float(count)   # -45..225 degrees: all but the north quarter
+			slots.append(boss.global_position + Vector3(cos(a) * r, 0.0, sin(a) * r))
+	ranged.sort_custom(func(a: Unit, b: Unit) -> bool: return atan2(a.global_position.z - boss.global_position.z, a.global_position.x - boss.global_position.x) \
+			< atan2(b.global_position.z - boss.global_position.z, b.global_position.x - boss.global_position.x))
+	for i in n:
+		var u := ranged[i] as Unit
+		# spread the units over the outer ring first (every other slot), then the inner one
+		var slot: Vector3 = slots[mini(slots.size() - 1, int(float(i) * float(slots.size()) / float(maxi(n, 1))))]
+		var d_slot := MissionBase._flat(u.global_position, slot)
+		if u.attack_target == boss and MissionBase._flat(u.global_position, boss.global_position) >= MissionE2_05.QUAKE_R + 0.5 \
+				and d_slot <= 4.0:
+			continue   # already shooting from about its slot
+		if d_slot > 1.5:
+			if not u.has_move_order():
+				u.command_move(slot)
+		elif u.attack_target != boss:
+			u.command_attack(boss)
 
 
 ## Phase 1, the careful player: kindle S then W only while Malrik is off the dais, Torvald's cover is not running and

@@ -19,6 +19,11 @@ extends MissionBase
 ##   (amber seals x 0.85 each, tether x 0.5, Exposed x 1.5) are applied on `damage_taken` (heal back / extra hit).
 ## - The bots are Commanders that never attack (the scripted waves are their attacks); Ysolde is scripted for the E seal
 ##   and the Door order; Maelis and Aldra are bonded story helpers back 45 s after a fall. No cine timelines.
+## - Wizard AoE tuning (2026-10-07, this mission only, `aoe_tuning`): Malrik's and Torvald's mana regen x 0.5
+##   (WIZARD_MANA_REGEN_PCT): in B2 Malrik's Soul Siphon / Lance took 12 of the ~40 soldiers that came for his tether in
+##   a minute; now his pool runs dry after a few casts. Malrik's Soul Siphon costs 30 more mana and his Shadow Lance 25
+##   more (AOE_SURCHARGE), and B2's Stonehurl comes every 14 s instead of 10 (STONEHURL_EVERY_B2_TUNED): in the scripted
+##   runs B2 alone (the boss + Malrik on the tether) still took 20-30 of ~40 soldiers.
 
 const MISSION_ID := &"e2m5"
 const MISSION_TITLE := "The Light Below"
@@ -130,6 +135,9 @@ const DOOR_PER_SEAL: Array[float] = [600.0, 500.0, 400.0]
 const WAKE_BASE: Array[float] = [0.08, 0.10, 0.12]
 const WAKE_CAP: Array[float] = [1080.0, 960.0, 840.0]
 const WIZARD_LEVEL: Array[int] = [5, 6, 7]
+const WIZARD_MANA_REGEN_PCT := -0.5   ## mission-only wizard AoE tuning (header): Malrik's and Torvald's cast rate
+const AOE_SURCHARGE := {&"soul_siphon": 30.0, &"shadow_lance": 25.0}   ## mission-only: extra mana per Malrik AoE (header)
+const STONEHURL_EVERY_B2_TUNED := 14.0   ## mission-only AoE tuning (header): B2's Stonehurl every 14 s (B1's 10 s)
 const COUNT_MULT: Array[float] = [0.6, 1.0, 1.4]
 const START_CRYSTALS: Array[int] = [600, 500, 400]
 const MALRIK_SPELLS := [&"shadow_lance", &"shadow_lance", &"soul_siphon", &"soul_siphon", &"umbral_shroud"]
@@ -220,6 +228,7 @@ const REFUSE_SPOT := "No room for the Roost"
 
 ## Test / menu switch (before the tree): campaign flags to use instead of the save ({} = read the save).
 var flag_override: Dictionary = {}
+var aoe_tuning := true                 ## the mission-only wizard AoE tuning (header); false = the raw kit (tests)
 
 ## Read only.
 var seals := {}                        ## id -> &"grey" / &"gold" / &"amber"
@@ -766,6 +775,12 @@ func _on_navigation_ready() -> void:
 	_claim_wizard(shadow_hero, SHADOW_SEAT)
 	raise_wizard(shadow_hero, WIZARD_LEVEL[diff], MALRIK_SPELLS)
 	shadow_hero.level_cap = WIZARD_LEVEL[diff]
+	if aoe_tuning:
+		shadow_hero.add_modifier(&"mission:aoe_tuning", {"mana_regen_pct": WIZARD_MANA_REGEN_PCT})
+		var mk := shadow_hero
+		mk.spell_cast.connect(func(id: StringName) -> void:
+			if AOE_SURCHARGE.has(id):   # the AoE surcharge (header): Soul Siphon 45 + 30, Shadow Lance + 25 mana here
+				mk.mana = maxf(0.0, mk.mana - float(AOE_SURCHARGE[id])))
 	ItemDrops.ensure_inventory(shadow_hero)
 	mark_scripted(shadow_hero)
 	shadow_hero.died.connect(_on_malrik_died)
@@ -792,6 +807,8 @@ func _on_navigation_ready() -> void:
 	torvald = ice.get("wizard") as Wizard
 	if torvald:
 		torvald.level_cap = WIZARD_LEVEL[diff]
+		if aoe_tuning:
+			torvald.add_modifier(&"mission:aoe_tuning", {"mana_regen_pct": WIZARD_MANA_REGEN_PCT})
 		mark_scripted(torvald)
 		torvald.died.connect(_on_torvald_died)
 		aldra = _story_helper(&"helper_aldra", torvald, ICE_SEAT)
@@ -862,9 +879,9 @@ func seat_profile(seat: int) -> AIProfile:
 	var p: AIProfile
 	match seat_kingdoms.get(seat, &"shadow"):
 		&"ice":
-			p = AIProfile.ice(diff)
+			p = MissionBase.frozen_ice_profile(diff)
 		&"nature":
-			p = AIProfile.nature(diff)
+			p = MissionBase.frozen_nature_profile(diff)
 		_:
 			p = AIProfile.for_difficulty(diff)
 	p.id = StringName("mission_e2_05_%s" % SEAT_NAMES.get(seat, "bot"))
@@ -1255,7 +1272,8 @@ func _tick_boss(delta: float) -> void:
 		_door_slam()
 	_hurl_left -= delta
 	if _hurl_left <= 0.0:
-		_hurl_left = STONEHURL_EVERY_B3 if boss_phase == 3 else STONEHURL_EVERY_B1
+		_hurl_left = STONEHURL_EVERY_B3 if boss_phase == 3 else (STONEHURL_EVERY_B2_TUNED if boss_phase == 2 and aoe_tuning \
+				else STONEHURL_EVERY_B1)
 		_stonehurl()
 	_call_left -= delta
 	if _call_left <= 0.0:
