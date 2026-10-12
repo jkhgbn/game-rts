@@ -27,14 +27,20 @@ $report = Join-Path $ReportDir "$day.txt"
 $lines = New-Object System.Collections.Generic.List[string]
 $lines.Add("Four Wizards nightly CI $day (started $(Get-Date -Format HH:mm), machine $env:COMPUTERNAME)")
 
+# git prints progress on stderr: with "Stop", PowerShell 5.1 would turn that into an exception, so judge by exit code only.
+function Invoke-Git([string]$what) {
+	$prev = $ErrorActionPreference; $ErrorActionPreference = "Continue"
+	$o = & $git @args 2>&1 | ForEach-Object { "$_" }
+	$code = $LASTEXITCODE; $ErrorActionPreference = $prev
+	if ($code) { throw "$what failed ($code): $(($o | Select-Object -Last 2) -join ' / ')" }
+}
+
 try {
-	if (-not $NoFetch) { & $git -C $Repo fetch origin 2>&1 | Out-Null; if ($LASTEXITCODE) { throw "git fetch failed ($LASTEXITCODE)" } }
+	if (-not $NoFetch) { Invoke-Git "git fetch" -C $Repo fetch origin }
 	if (-not (Test-Path (Join-Path $CiDir ".git"))) {
-		& $git -C $Repo worktree add --detach $CiDir $Ref 2>&1 | Out-Null
-		if ($LASTEXITCODE) { throw "git worktree add $CiDir failed ($LASTEXITCODE)" }
+		Invoke-Git "git worktree add $CiDir" -C $Repo worktree add --detach $CiDir $Ref
 	} else {
-		& $git -C $CiDir checkout --detach --force $Ref 2>&1 | Out-Null
-		if ($LASTEXITCODE) { throw "git checkout $Ref in $CiDir failed ($LASTEXITCODE)" }
+		Invoke-Git "git checkout $Ref in $CiDir" -C $CiDir checkout --detach --force $Ref
 	}
 	$head = (& $git -C $CiDir log -1 --format="%h %ad %s" --date=short)
 	$lines.Add("commit: $head")
