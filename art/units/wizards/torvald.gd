@@ -11,15 +11,19 @@ extends WizardModel
 ## and crown blaze, frost rises around him). The snowflake snaps into a star on every cast.
 ## Idle life: slow deep breathing, frost breath puffs, and every 8-14 s (near the camera) a flourish: strokes his
 ## beard, taps his staff or surveys the field. Death style fall; the snowflake shatters when the glows die.
-## Glow points: snowflake 3.0 (ice_glow_hero), crown gem + irises (vertex-colour glow on the FaceKit Face node, cyan). Materials: the Ice palette
+## Glow points: snowflake 2.2 (torvald_flake), crown gem + irises (vertex-colour glow on the FaceKit Face node, cyan). Materials: the Ice palette
 ## (art/units/ice/materials/) plus the hero-only art/units/wizards/torvald_*.tres (shader torvald_frost.gdshader:
 ## a unit_painted variant with frost dusting, rimed hem, fur streaks and a crystal look; same instance uniforms).
 ## Cost: 7 merged pivots + staff mesh + snowflake + 1 light; 1 looping emitter (8) + 5 pre-built one-shots (<= 16).
 ## Hooks: those of CharacterModel / WizardModel, unchanged.
 ## In-game grade pass (2026-09-30): he vanished in his own white spell domes. One dark-blue mass now (deep robe,
-## mantle and cape in torvald_cloth_dark / torvald_cape), a darker stole, a saturated cyan staff snowflake + orb light,
+## mantle and cape in torvald_cloth_dark / torvald_cape; robe / mantle superseded 2026-10-12, below), a darker stole, a saturated cyan staff snowflake + orb light,
 ## cyan crown crystals; vertices cut (tori 8 rings, arcs 10 segments, the snowflake bars are flat double-sided quads)
 ## with the FaceKit face untouched.
+## Ice readability pass (2026-10-12): in game the team recolour turned torvald_cloth_dark into a mid team blue and
+## ice_glow_hero bloomed near-white. Robe, torso and mantle now wear torvald_robe (deep Ice blue, NOT a *_cloth name,
+## so the team recolour leaves it: the team colour stays on sleeves, front panel, cap and cape); the snowflake wears
+## torvald_flake (red-free cyan, energy 2.2) so it stays cyan under the bloom.
 
 const SPIN := 30.0 * DEG
 const FROST := Color(0.75, 0.92, 1.0)
@@ -76,7 +80,8 @@ func _build_parts() -> void:
 	var arm_l: Node3D = $Root/Chest/ArmL
 	var arm_r: Node3D = $Root/Chest/ArmR
 	var cloth := _mat(&"torvald_cloth")
-	var dark := _mat(&"torvald_cloth_dark")
+	var dark := _mat(&"torvald_cloth_dark")   # team-tinted (cap)
+	var robe := _mat(&"torvald_robe")         # fixed deep Ice blue: the one dark mass, whatever the team colour
 	var pale := _mat(&"torvald_fur_pale")
 	var beard := _mat(&"torvald_beard")
 	var crystal := _mat(&"torvald_crystal")
@@ -84,10 +89,10 @@ func _build_parts() -> void:
 	var iron := _mat(&"torvald_iron")
 	var leather := IceModel.ice(&"ice_leather")
 	var skin := IceModel.ice(&"ice_skin")
-	var gem := IceModel.ice(&"ice_glow_hero")
+	var gem := _mat(&"torvald_flake")         # saturated cyan (ice_glow_hero blooms near-white in game)
 
 	# --- Hips: heavy bell robe, dark front panel with a silver medallion, belt, thick fur hem.
-	add_part(hips, cyl(0.42, 0.66, 0.94, 10), dark, Vector3(0, 0.47, 0))
+	add_part(hips, cyl(0.42, 0.66, 0.94, 10), robe, Vector3(0, 0.47, 0))
 	add_part(hips, box(Vector3(0.32, 0.86, 0.05)), cloth, Vector3(0, 0.48, 0.555), Vector3(-14.3, 0, 0))
 	add_part(hips, cyl(0.11, 0.11, 0.04, 6), metal, Vector3(0, 0.66, 0.535), Vector3(75.7, 0, 0))
 	add_part(hips, torus(0.36, 0.49, TR), leather, Vector3(0, 0.94, 0))
@@ -98,9 +103,9 @@ func _build_parts() -> void:
 	add_part(leg_r, box(Vector3(0.22, 0.16, 0.34)), leather, Vector3(0.2, 0.08, 0.30))
 
 	# --- Chest: barrel torso, the wide team mantle with a silver rim, frosted fur collar, cape.
-	add_part(chest, cyl(0.46, 0.38, 0.62, 8), dark, Vector3(0, 1.25, 0))
+	add_part(chest, cyl(0.46, 0.38, 0.62, 8), robe, Vector3(0, 1.25, 0))
 	# the mantle and the fur stole are open at the front so the beard flows down over the chest
-	add_part(chest, _cone_arc(0.34, 0.73, 0.30, 70.0, 10), dark, Vector3(0, 1.44, 0))
+	add_part(chest, _cone_arc(0.34, 0.73, 0.30, 70.0, 10), robe, Vector3(0, 1.44, 0))
 	add_part(chest, _tube_arc(0.735, 0.04, 70.0, 10, 4), metal, Vector3(0, 1.295, 0))
 	add_part(chest, _tube_arc(0.36, 0.14, 84.0, 10, 6), pale, Vector3(0, 1.60, -0.01))
 	for sx: float in [-1.0, 1.0]:   # tufted ends of the stole
