@@ -450,9 +450,12 @@ func _enemy_unit_inside(rect: Rect2, team: int) -> bool:
 	return false
 
 
-## Own and allied units standing in the footprint walk to the nearest point 1 m outside it (the builders
-## get their own order right after).
+## Own and allied units standing in the footprint leave it (the builders get their own order right after).
+## Only an own, commandable unit with no work (not gathering / building / trading) is ordered to walk to the
+## nearest point 1 m outside it; every other unit (gathering workers, caravans, champions, helpers, the 2v2
+## ally's units) is set down at that point and keeps its orders (review 2026-10-12 R4-2).
 func _push_units_out(rect: Rect2, team: int, workers: Array) -> void:
+	var blockers := _building_rects()
 	for node in get_tree().get_nodes_in_group("units"):
 		var u := node as Unit
 		if u == null or not Teams.is_allied_fast(int(u.team), team) or not u.is_alive() or workers.has(u):
@@ -460,14 +463,75 @@ func _push_units_out(rect: Rect2, team: int, workers: Array) -> void:
 		var p := Vector2(u.global_position.x, u.global_position.z)
 		if not rect.grow(u.radius).has_point(p):
 			continue
-		var to_edges := [p.x - rect.position.x, rect.end.x - p.x, p.y - rect.position.y, rect.end.y - p.y]
-		var dirs := [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
-		var best := 0
-		for i in 4:
-			if to_edges[i] < to_edges[best]:
-				best = i
-		var out: Vector2 = p + dirs[best] * (float(to_edges[best]) + PUSH_OUT + u.radius)
-		u.command_move(Vector3(out.x, 0.0, out.y))
+		var out := _push_point(rect, p, u.radius, blockers)
+		if out == Vector3.INF:
+			continue   # no free point near: left where it is (never set down inside another building)
+		if _push_may_order(u, team):
+			u.command_move(Vector3(out.x, 0.0, out.z))
+		else:
+			# TODO(set_down): use Unit.set_down(pos) once gameplay-coder adds it (resets _last_nav_target / _anchor).
+			u.global_position = Vector3(out.x, u.global_position.y, out.z)
+			u.velocity = Vector3.ZERO
+
+
+# True when moving `u` by an order loses nothing: own team, commandable, not working.
+func _push_may_order(u: Unit, team: int) -> bool:
+	if int(u.team) != team or not u.is_commandable():
+		return false
+	if u.has_method(&"is_gathering") and bool(u.call(&"is_gathering")):
+		return false
+	if u.has_method(&"is_building") and bool(u.call(&"is_building")):
+		return false
+	return not u.has_method(&"command_trade")
+
+
+# The footprint rects of every live building (sites placed this frame included: the navmesh does not know them yet).
+func _building_rects() -> Array[Rect2]:
+	var out: Array[Rect2] = []
+	for node in get_tree().get_nodes_in_group(&"buildings"):
+		var b := node as Building
+		if b == null or not b.is_alive() or not b.is_inside_tree():
+			continue
+		if b.building_type != null:
+			out.append(_rect(b.global_position, b.building_type.footprint))
+		else:
+			var r := b.target_radius()
+			out.append(Rect2(Vector2(b.global_position.x - r, b.global_position.z - r), Vector2(r * 2.0, r * 2.0)))
+	return out
+
+
+# The nearest free point outside `rect` (sides nearest first, PUSH_OUT then 2 and 4 m further): on the navmesh
+# and outside every building in `blockers` (grown by the unit radius). Vector3.INF when none is free.
+func _push_point(rect: Rect2, p: Vector2, unit_radius: float, blockers: Array[Rect2]) -> Vector3:
+	var to_edges: Array[float] = [p.x - rect.position.x, rect.end.x - p.x, p.y - rect.position.y, rect.end.y - p.y]
+	var dirs: Array[Vector2] = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
+	var order: Array[int] = [0, 1, 2, 3]
+	order.sort_custom(func(a: int, b: int) -> bool: return to_edges[a] < to_edges[b])
+	var map := RID()
+	if nav_region != null and nav_region.is_inside_tree():
+		map = nav_region.get_navigation_map()
+		if not map.is_valid() or NavigationServer3D.map_get_iteration_id(map) <= 0:
+			map = RID()
+	for extra: float in [0.0, 2.0, 4.0]:
+		for i in order:
+			var o: Vector2 = p + dirs[i] * (to_edges[i] + PUSH_OUT + unit_radius + extra)
+			var at := Vector3(o.x, 0.0, o.y)
+			if map.is_valid():
+				var q := NavigationServer3D.map_get_closest_point(map, at)
+				if Vector2(q.x - at.x, q.z - at.z).length() > 0.6:
+					continue
+				at = Vector3(q.x, 0.0, q.z)
+			if not rect.grow(unit_radius).has_point(Vector2(at.x, at.z)) and _push_free(at, unit_radius, blockers):
+				return at
+	return Vector3.INF
+
+
+func _push_free(at: Vector3, unit_radius: float, blockers: Array[Rect2]) -> bool:
+	var p := Vector2(at.x, at.z)
+	for r in blockers:
+		if r.grow(unit_radius).has_point(p):
+			return false
+	return true
 
 
 func _watch(node: Node) -> void:

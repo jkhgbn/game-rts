@@ -7,6 +7,7 @@ live in each spec's "User decisions" section (`docs/design/*.md`) and in `docs/p
 ## How we work
 | Date | Decision | Who | Source |
 |---|---|---|---|
+| 2026-10-12 | New Unit API `set_down(pos)` (instant reposition that resets nav target / anchor, keeps orders) for BuildGrid pushes; gameplay-coder adds it in the fix batches, CLAUDE.md Unit contract updated then | lead | code review R4-2 |
 | 2026-10-12 | (replaces the 3 h build plan) The build waits for the WHOLE code review of scripts/ (gameplay, world, ui, campaign, vfx / cinematics) and all its verified fixes; then balance re-check, tag, full CI, export, zip Desktop + OneDrive | JS | lead session 2026-10-12 |
 | 2026-10-12 | Playable build for the desktop in ~3 h: tag after the Commander fixes, ci_quick (no slow sims) on the tag, export, zip to Desktop + OneDrive; balance re-check after the export; full CI = tonight's nightly. Code review limited to scripts/ (no tools/) | JS | lead session 2026-10-12 |
 | 2026-10-12 | Nightly CI tests the local `main` (not origin/main); confirmation balance run after the bot fixes, then tag + full CI + play5 | JS | lead session 2026-10-12 |

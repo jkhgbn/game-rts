@@ -118,3 +118,61 @@ a crash or game-breaking: those are fixed before the tag.
 
 ### Recurring class across R4-1, R5-1, R5-2: non-`_` metas saved by `SaveCodec.encode_metas` (markers, absolute times).
 Root-cause pass wanted: a rule / test that flags metas set from code that are saved but not meant to be.
+
+### W3: map fill, river, Wave Strike
+1. `epic_beasts.gd:243-248, 436` + `save_world.gd:304-306, 361-382` beasts duplicated after a load (saved beasts come
+   back as plain NEUTRAL units without brain / group; then all 8 lairs spawn again): up to 16, towers shoot the orphans.
+   Fix: EpicBeasts load hook (adopt by type + lair, restore spawns / next_at). (high)
+2. `neutral_camp.gd:256-270` late camps (Gloomcap 2:30, Stag 3:30) duplicated after a load; `camp_level` lost for all.
+   Fix: save camp level / alive / respawn; re-attach creature rows. (high)
+3. `wave_strike_level.gd:354-359, 652-663` + `save_world.gd:150 / 181` Wave Strike lane units rebuilt at rank 1 (rosters
+   restored after units); `ws_rank` modifier not saved. (high)
+4. Wave Strike `LaneSpawner._queue` and Last Horns bastion armour not saved. (high, minor)
+5. `capture_points.gd:523-548` all shrines wake in a burst after a load (`_shrine_wave` = 0 vs restored clock). (high, minor)
+6. Contract: `capture_points.gd:182, 193, 229, 251, 326` call private `FogOfWar._layer(team)`. (minor)
+7. `capture_points.gd:287-299` presence cached 1 s vs 4 Hz progress (capture moves up to 1 s after units leave). (medium, minor)
+- Clean: river math / ford modifier / amphibious, capture rules / blessing, camp rewards / underdog / respawn, beasts 1 per
+  lair, critters, Wave Strike horns / income / roster refunds / pop / tiers / lane units / bastion end, no attack_target writes.
+
+### Theme so far: save / load of a skirmish is the weakest area (R2-2, R3-3, R4-1/3/4, R5-1/2/3/5, R1-4, W3-1..5, meta
+class). One owner pass ("save/load hardening", systems-coder + lead for scripts/core) rather than scattered fixes.
+
+### W2: guilds, trade, bounties
+1. `bounty_board.gd` (place 217 / raise 314): active bounties never saved: stakes lost on load (no refund), pursuers /
+   GUARD ticks lost. Fix: save / rebuild, or refund `unpaid()` into the saved essence. (high) [save/load]
+2. `bounty_board.gd:185-191` `kind_for` compares raw team ids: in missions with an ALLY seat (team 3: e2_02, e2_05, e3_01,
+   e3_02, e3_04, e4_01, e4_04, e6_04, e7_01, e7_04) R on the ally places a HUNT flag (75+ essence locked; champions may
+   be paid for an ally's death); ally can't get ESCORT / GUARD. Fix: `Teams.is_ally` / `is_hostile`. (high)
+3. `champion_guild.gd:416-417` revive in progress (`reviving` / `revive_left`) not saved: paid revive lost on load. (high) [save/load]
+4. `champion_guild.gd:107, 191` `hires_made` not saved: mission 3's free first hire is free again after a load
+   (mission_03.gd:674). (medium-high) [save/load]
+5. `champion_guild.gd:120, 255` hire waiting at the tavern door (3 s `_pending`) lost on load with its payment. (minor) [save/load]
+6. `save_world.gd:409-410` loading a fallen champion re-runs the death path (`died`, `Events.unit_died`, "X has fallen",
+   "X joins you"): death counters +1 per load. Fix: restore as already fallen. (medium, minor) [save/load]
+7. Announcements / timers restart after a load (tavern `_open`, trade_network announced flags, thieves_guild `_announced`,
+   lost_cache `_wait_left`, skirmish `_taverns_announced`). Fix: seed from `match_time()`. (medium, minor) [save/load]
+8. `champion_guild.gd:244-249` hire spends crystals / gold before essence: partial charge if essence fails (not reachable
+   today). (medium, minor)
+- Clean: hire / revive / dismiss costs, max 3 / pop 2, taverns 2:00, bounty raise / refund / ticks, Magpie timing (no pay
+  API), Hunters' Guild, trade ledger, loot sacks, no private calls / attack_target writes.
+
+### Lead decisions during the review
+- R4-2 follow-up: new public `Unit.set_down(pos)` (gameplay-coder) resetting `_last_nav_target` / `_anchor`; BuildGrid
+  uses it instead of writing `global_position` (TODO(set_down) left there). CLAUDE.md Unit contract gets the line.
+
+### W1: skirmish, levels, fog, pace
+1. `skirmish.gd:1614-1619, 1651-1655` (+ `respawn_point` 633-641): the respawn timer is erased before `_respawn_wizard`;
+   if every keep / Hall died during the timer (side alive through towers / houses), the wizard never comes back, even
+   after a new Hall. Fix: keep the team in `_respawn_left` and retry while the point is INF. (high) near game-breaking
+2. `skirmish.gd:1879-1898` + `score_keeper.gd:80-124`: score not saved; after a load most counted stats restart at 0, the
+   time-limit end can pick the wrong winner; restored essence counted as "gained"; history burst (one point / frame up to
+   now). Fix: ScoreKeeper save / load state. (high) [save/load]
+3. `menu_flow.gd:259-268` (ui-coder) + main.gd:208 + save_game.gd:190-230: F9 after loading a save from the menu replays
+   the scene defaults (`_enemy_chosen` never set) and current settings (pace / trade / time limit) instead of the save's.
+   (high) — same as R5-9 [save/load]
+4. Lost Caches not saved (`lost_cache.gd:22-45`): save / load re-arms all 4 and replays the same loot rolls. (high, minor) [save/load]
+5. = part of 2 (history burst). 
+6. `env_props.gd:14, 57-61` 16 road slots: Kinhearth Vale's 28 segments get cut (map not ready yet). (high, minor, latent)
+- Clean: win / loss rules, double end, concede, time-limit end, one respawn timer per team, PaceSwitch symmetry and
+  Engine.time_scale restore, Fireball edit restore, MapInfo / Teams release, CasterKit reset, layout_error gating, bot
+  points, fog layers, map catalog, forest.
