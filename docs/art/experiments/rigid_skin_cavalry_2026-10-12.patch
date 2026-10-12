@@ -1,0 +1,324 @@
+diff --git a/art/units/nature/glade_outrider/glade_outrider_rider.gd b/art/units/nature/glade_outrider/glade_outrider_rider.gd
+index 69baccfd..ec8c1572 100644
+--- a/art/units/nature/glade_outrider/glade_outrider_rider.gd
++++ b/art/units/nature/glade_outrider/glade_outrider_rider.gd
+@@ -21,6 +21,8 @@ extends NatureModel
+ ## draw_amount() -> float, authored_mesh_count() -> int; signal arrow_released(from: Vector3, dir: Vector3) (world, at
+ ## the loose). Budget (cavalry rider, section 12): 11 authored meshes, 11 draw instances (7 merged pivots + ForearmR,
+ ## Bow (5 cached draw variants, swapped), Arrow, Cloak), no blob (the stag's shows), 0 lights, 0 particles.
++## 2026-10-12: 7 draw instances + the face (rigid skins: Hips + legs, ArmR + ForearmR, Chest + Cloak; the rider + stag
++## pair 20 -> 16, Art Lab B2).
+ 
+ signal arrow_released(from: Vector3, dir: Vector3)
+ 
+@@ -112,6 +114,10 @@ var _fore_q_w: Quaternion = Quaternion(0, 0, 0, 0)
+ # IK scratch (no allocation per frame)
+ var _ik_u: Basis = Basis.IDENTITY
+ var _ik_f: Basis = Basis.IDENTITY
++# Rigid skins (in-game grade 2026-10-12, B2 20 -> 16): Hips + LegL + LegR, ArmR + ForearmR, Chest + Cloak each drawn
++# as one MeshInstance3D (stagrunner/rigid_skin.gd); every node still moves as before.
++const RIGID_SKIN := preload("res://art/units/nature/stagrunner/rigid_skin.gd")
++var _skins: Array = []
+ 
+ 
+ # ================================================================ public hooks
+@@ -202,6 +208,39 @@ func _build_parts() -> void:
+ 	_cloak = _sculpt(chest, "gor_cloak_v1", _cloak_sculpt, CLOAK_O, true, "Cloak")
+ 
+ 
++## After the kit merge: the rigid skins (B2). The parts' nodes keep their transforms; their meshes move to the host.
++func _after_ready() -> void:
++	super._after_ready()
++	var ll: Node3D = $Root/Hips/LegL
++	var lr: Node3D = $Root/Hips/LegR
++	var ll_m := ll.get_node_or_null(^"Merged") as MeshInstance3D
++	var lr_m := lr.get_node_or_null(^"Merged") as MeshInstance3D
++	for sk: RefCounted in [
++			RIGID_SKIN.make("gor_skin_hips_v1", get_node_or_null(^"Root/Hips/Merged") as MeshInstance3D,
++				[[ll_m, [ll, ll_m]], [lr_m, [lr, lr_m]]]),
++			RIGID_SKIN.make("gor_skin_arm_r_v1", get_node_or_null(^"Root/Chest/ArmR/Merged") as MeshInstance3D,
++				[[_fore, [_fore]]]),
++			RIGID_SKIN.make("gor_skin_chest_v1", get_node_or_null(^"Root/Chest/Merged") as MeshInstance3D,
++				[[_cloak, [_cloak]]])]:
++		if sk:
++			_skins.append(sk)
++	# A team colour set before _ready was applied to the old meshes: once more on the skinned hosts.
++	if _wk_team != null and not _skins.is_empty():
++		_recolor(self, _wk_team)
++
++
++func _process(delta: float) -> void:
++	super._process(delta)
++	for sk: RefCounted in _skins:
++		sk.call(&"update")
++
++
++func _notification(what: int) -> void:
++	if what == NOTIFICATION_PREDELETE:
++		for sk: RefCounted in _skins:
++			sk.call(&"free_skeleton")
++
++
+ ## One authored part from a multi-material sculpt (MountModel's builders). Static parts are skipped once the pivot's
+ ## merge is cached; keep_separate parts get their cached mesh every instance. `at` = the node's model position (the
+ ## mesh is then in node-local coordinates) or ZERO for a model-space mesh.
+diff --git a/art/units/nature/stagrunner/rigid_skin.gd b/art/units/nature/stagrunner/rigid_skin.gd
+new file mode 100644
+index 00000000..86e2d2d2
+--- /dev/null
++++ b/art/units/nature/stagrunner/rigid_skin.gd
+@@ -0,0 +1,189 @@
++extends RefCounted
++## RIGID SKIN (in-game grade 2026-10-12, Art Lab B2 "draw instances at rest" on the two Nature cavalry riders): draws
++## a kit pivot's Merged mesh AND the parts that move under it (child pivots, keep_separate nodes) as ONE
++## MeshInstance3D. Each part's vertices are weighted 100 % to one bone of a RenderingServer skeleton (no Skeleton3D
++## node, no Skin), and every bone gets the part's live transform relative to the host, so every pose, pivot and hook
++## stays exactly as authored: the parts' nodes keep moving (the kit and the rider's solver write them as before), only
++## their meshes are cleared and drawn by the host. Used by stagrunner_rider.gd and glade_outrider_rider.gd.
++## Rules: the host is a kit "Merged" node at identity under its pivot; each member is [mesh source MeshInstance3D,
++## chain of Node3D whose local transforms multiply into the part's transform in the host's space]. Surfaces are
++## regrouped by material (fewer surfaces than before). The combined mesh is cached per key (shared by every
++## instance, like the kit's merged meshes); the skeleton RID is per instance (free() on the model's predelete).
++## Same material on host and parts -> the kit's instance uniforms (hit flash, glow, ao) reach every part through the
++## host. Cost: one compute skinning pass per animated frame for this instance (the bones are written only when a
++## part's transform changed: an idle or frozen model writes nothing).
++
++static var _mesh_cache: Dictionary = {}    # key -> ArrayMesh (null = nothing to skin)
++## Kill switch / A-B: false = make() does nothing (the parts draw as separate nodes, as before 2026-10-12).
++static var enabled: bool = true
++
++var host: MeshInstance3D
++var _chains: Array = []                    # per bone (bone 0 = the host, identity): Array of Node3D
++var _last: Array[Transform3D] = []
++var _skel: RID
++
++
++## Builds (or reuses) the combined mesh, swaps it onto `host`, clears the members' meshes and attaches the skeleton.
++## Returns null (nothing changed) when the host or a member mesh is missing.
++static func make(key: String, host_mi: MeshInstance3D, members: Array) -> RefCounted:
++	if not enabled or host_mi == null or host_mi.mesh == null:
++		return null
++	for mb: Array in members:
++		if mb[0] == null or (mb[0] as MeshInstance3D).mesh == null:
++			return null
++	var mesh: ArrayMesh
++	if _mesh_cache.has(key):
++		mesh = _mesh_cache[key]
++	else:
++		mesh = _combine(host_mi, members)
++		_mesh_cache[key] = mesh
++	if mesh == null:
++		return null
++	var rs = load("res://art/units/nature/stagrunner/rigid_skin.gd").new()
++	rs._init_on(host_mi, members, mesh)
++	return rs
++
++
++func _init_on(host_mi: MeshInstance3D, members: Array, mesh: ArrayMesh) -> void:
++	host = host_mi
++	_chains.append([])
++	for mb: Array in members:
++		_chains.append(mb[1])
++		(mb[0] as MeshInstance3D).mesh = null
++	host.mesh = mesh
++	for s: int in host.get_surface_override_material_count():
++		host.set_surface_override_material(s, null)
++	_last.resize(_chains.size())
++	_skel = RenderingServer.skeleton_create()
++	RenderingServer.skeleton_allocate_data(_skel, _chains.size())
++	for b: int in _chains.size():
++		_last[b] = _pose(b)
++		RenderingServer.skeleton_bone_set_transform(_skel, b, _last[b])
++	_attach()
++	host.tree_entered.connect(_attach)
++
++
++## MeshInstance3D re-attaches its own (empty) skeleton when it enters the tree: put ours back.
++func _attach() -> void:
++	if is_instance_valid(host):
++		RenderingServer.instance_attach_skeleton(host.get_instance(), _skel)
++
++
++func _pose(b: int) -> Transform3D:
++	var xf := Transform3D.IDENTITY
++	for n: Node3D in _chains[b]:
++		xf = xf * n.transform
++	return xf
++
++
++## Call after the kit wrote the pivots (the rider's _process after super): writes the bones that moved.
++func update() -> void:
++	for b: int in range(1, _chains.size()):
++		var xf := _pose(b)
++		if xf != _last[b]:
++			_last[b] = xf
++			RenderingServer.skeleton_bone_set_transform(_skel, b, xf)
++
++
++func free_skeleton() -> void:
++	if _skel.is_valid():
++		if is_instance_valid(host):
++			RenderingServer.instance_attach_skeleton(host.get_instance(), RID())
++		RenderingServer.free_rid(_skel)
++		_skel = RID()
++
++
++# ---------------------------------------------------------------- mesh
++
++static func _combine(host_mi: MeshInstance3D, members: Array) -> ArrayMesh:
++	var by_mat: Dictionary = {}    # Material (or null) -> {"v", "n", "c", "uv", "i", "b", "w", "has_c", "has_uv"}
++	var order: Array = []
++	var srcs: Array = [host_mi]
++	for mb: Array in members:
++		srcs.append(mb[0])
++	for bone: int in srcs.size():
++		var mi: MeshInstance3D = srcs[bone]
++		var m: Mesh = mi.mesh
++		for s: int in m.get_surface_count():
++			if m.surface_get_primitive_type(s) != Mesh.PRIMITIVE_TRIANGLES:
++				return null
++			# The authored material (a team variant set before _ready goes back to its base: the mesh is shared by
++			# every instance; the rider re-applies its team colour on the host afterwards).
++			var mat: Material = mi.material_override if mi.material_override else m.surface_get_material(s)
++			if mat and mat.has_meta(&"team_base"):
++				mat = mat.get_meta(&"team_base") as Material
++			if not by_mat.has(mat):
++				by_mat[mat] = {"v": PackedVector3Array(), "n": PackedVector3Array(), "c": PackedColorArray(),
++					"uv": PackedVector2Array(), "i": PackedInt32Array(), "b": PackedInt32Array(),
++					"w": PackedFloat32Array(), "has_c": false, "has_uv": false, "parts": []}
++				order.append(mat)
++			(by_mat[mat]["parts"] as Array).append([m.surface_get_arrays(s), bone])
++	for mat: Variant in order:
++		var g: Dictionary = by_mat[mat]
++		for p: Array in g["parts"]:
++			var a: Array = p[0]
++			if a[Mesh.ARRAY_COLOR] != null and (a[Mesh.ARRAY_COLOR] as PackedColorArray).size() > 0:
++				g["has_c"] = true
++			if a[Mesh.ARRAY_TEX_UV] != null and (a[Mesh.ARRAY_TEX_UV] as PackedVector2Array).size() > 0:
++				g["has_uv"] = true
++	var out := ArrayMesh.new()
++	for mat: Variant in order:
++		var g: Dictionary = by_mat[mat]
++		var v := PackedVector3Array()
++		var nrm := PackedVector3Array()
++		var col := PackedColorArray()
++		var uv := PackedVector2Array()
++		var idx := PackedInt32Array()
++		var bones := PackedInt32Array()
++		var wts := PackedFloat32Array()
++		for p: Array in g["parts"]:
++			var a: Array = p[0]
++			var bone: int = p[1]
++			var base: int = v.size()
++			var pv: PackedVector3Array = a[Mesh.ARRAY_VERTEX]
++			var cnt: int = pv.size()
++			v.append_array(pv)
++			var pn: Variant = a[Mesh.ARRAY_NORMAL]
++			if pn != null and (pn as PackedVector3Array).size() == cnt:
++				nrm.append_array(pn)
++			else:
++				for k: int in cnt:
++					nrm.append(Vector3.UP)
++			if g["has_c"]:
++				var pc: Variant = a[Mesh.ARRAY_COLOR]
++				if pc != null and (pc as PackedColorArray).size() == cnt:
++					col.append_array(pc)
++				else:
++					for k: int in cnt:
++						col.append(Color.WHITE)
++			if g["has_uv"]:
++				var pu: Variant = a[Mesh.ARRAY_TEX_UV]
++				if pu != null and (pu as PackedVector2Array).size() == cnt:
++					uv.append_array(pu)
++				else:
++					for k: int in cnt:
++						uv.append(Vector2.ZERO)
++			var pi: Variant = a[Mesh.ARRAY_INDEX]
++			if pi != null and (pi as PackedInt32Array).size() > 0:
++				for k: int in (pi as PackedInt32Array):
++					idx.append(base + k)
++			else:
++				for k: int in cnt:
++					idx.append(base + k)
++			for k: int in cnt:
++				bones.append_array([bone, 0, 0, 0])
++				wts.append_array([1.0, 0.0, 0.0, 0.0])
++		var arr: Array = []
++		arr.resize(Mesh.ARRAY_MAX)
++		arr[Mesh.ARRAY_VERTEX] = v
++		arr[Mesh.ARRAY_NORMAL] = nrm
++		if g["has_c"]:
++			arr[Mesh.ARRAY_COLOR] = col
++		if g["has_uv"]:
++			arr[Mesh.ARRAY_TEX_UV] = uv
++		arr[Mesh.ARRAY_INDEX] = idx
++		arr[Mesh.ARRAY_BONES] = bones
++		arr[Mesh.ARRAY_WEIGHTS] = wts
++		out.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
++		out.surface_set_material(out.get_surface_count() - 1, mat as Material)
++	return out
+diff --git a/art/units/nature/stagrunner/stagrunner_rider.gd b/art/units/nature/stagrunner/stagrunner_rider.gd
+index 9c38ef33..9e8b9cb1 100644
+--- a/art/units/nature/stagrunner/stagrunner_rider.gd
++++ b/art/units/nature/stagrunner/stagrunner_rider.gd
+@@ -23,7 +23,8 @@ extends NatureModel
+ ## spear_elevation() -> float (deg, world), authored_mesh_count() -> int; signal spear_struck(tip, dir, charge)
+ ## (world, one frame after the strike frame so the pose is applied).
+ ## Budget (cavalry rider, section 10): 11 authored meshes, 11 draw instances (7 merged pivots + ForearmR, Spear,
+-## Cloak, CloakTail), no blob (the stag's shows), 0 lights, 0 particles.
++## Cloak, CloakTail), no blob (the stag's shows), 0 lights, 0 particles. 2026-10-12: 7 draw instances + the face
++## (rigid skins: Hips + legs, ArmR + ForearmR, Cloak + CloakTail; the rider + stag pair 20 -> 16, Art Lab B2).
+ 
+ signal spear_struck(tip: Vector3, dir: Vector3, charge: bool)
+ 
+@@ -96,6 +97,10 @@ var _glow_w: float = -1.0
+ # IK scratch
+ var _ik_u: Basis = Basis.IDENTITY
+ var _ik_f: Basis = Basis.IDENTITY
++# Rigid skins (in-game grade 2026-10-12, B2 20 -> 16): Hips + LegL + LegR, ArmR + ForearmR, Cloak + CloakTail each
++# drawn as one MeshInstance3D (rigid_skin.gd); every node still moves as before.
++const RIGID_SKIN := preload("res://art/units/nature/stagrunner/rigid_skin.gd")
++var _skins: Array = []
+ 
+ 
+ # ================================================================ public hooks
+@@ -181,6 +186,39 @@ func _build_parts() -> void:
+ 	_tail = _sculpt(_cloak, "sgr_tail_v1", _tail_sculpt, TAIL_O, true, "CloakTail")
+ 
+ 
++## After the kit merge: the rigid skins (B2). The parts' nodes keep their transforms; their meshes move to the host.
++func _after_ready() -> void:
++	super._after_ready()
++	var hips: Node3D = $Root/Hips
++	var ll: Node3D = $Root/Hips/LegL
++	var lr: Node3D = $Root/Hips/LegR
++	var arm_r: Node3D = $Root/Chest/ArmR
++	var ll_m := ll.get_node_or_null(^"Merged") as MeshInstance3D
++	var lr_m := lr.get_node_or_null(^"Merged") as MeshInstance3D
++	for sk: RefCounted in [
++			RIGID_SKIN.make("sgr_skin_hips_v1", hips.get_node_or_null(^"Merged") as MeshInstance3D,
++				[[ll_m, [ll, ll_m]], [lr_m, [lr, lr_m]]]),
++			RIGID_SKIN.make("sgr_skin_arm_r_v1", arm_r.get_node_or_null(^"Merged") as MeshInstance3D, [[_fore, [_fore]]]),
++			RIGID_SKIN.make("sgr_skin_cloak_v1", _cloak, [[_tail, [_tail]]])]:
++		if sk:
++			_skins.append(sk)
++	# A team colour set before _ready was applied to the old meshes: once more on the skinned hosts.
++	if _wk_team != null and not _skins.is_empty():
++		_recolor(self, _wk_team)
++
++
++func _process(delta: float) -> void:
++	super._process(delta)
++	for sk: RefCounted in _skins:
++		sk.call(&"update")
++
++
++func _notification(what: int) -> void:
++	if what == NOTIFICATION_PREDELETE:
++		for sk: RefCounted in _skins:
++			sk.call(&"free_skeleton")
++
++
+ ## One authored part from a multi-material sculpt (MountModel's builders). Static parts are skipped once the pivot's
+ ## merge is cached; keep_separate parts get their cached mesh every instance. `at` = the node's model position (the
+ ## mesh is then in node-local coordinates) or ZERO for a model-space mesh.
