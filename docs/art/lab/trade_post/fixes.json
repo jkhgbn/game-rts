@@ -1,0 +1,145 @@
+{
+	"asset": "trade_post",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-4716",
+					"material_path": "",
+					"to": "StandardMaterial3D#-62964",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-62964",
+					"material_path": "",
+					"to": "StandardMaterial3D#-82008",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-82008",
+					"material_path": "",
+					"to": "StandardMaterial3D#-21286",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "ShaderMaterial#-81451",
+					"material_path": "",
+					"to": "ShaderMaterial#-35885",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 0.0,
+					"material": "ShaderMaterial#-58668",
+					"material_path": "",
+					"to": "ShaderMaterial#-13102",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 4.2,
+					"material": "ShaderMaterial#-49800",
+					"material_path": "",
+					"to": "ShaderMaterial#-44753",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 6.3,
+					"material": "ShaderMaterial#-35885",
+					"material_path": "",
+					"to": "ShaderMaterial#-67536",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 8.1,
+					"material": "ShaderMaterial#-90319",
+					"material_path": "",
+					"to": "ShaderMaterial#-76404",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 13.7,
+					"material": "ShaderMaterial#-27017",
+					"material_path": "",
+					"to": "ShaderMaterial#-21970",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 14.4,
+					"material": "ShaderMaterial#-4234",
+					"material_path": "",
+					"to": "ShaderMaterial#-76404",
+					"to_path": ""
+				},
+				{
+					"albedo_dE": 14.7,
+					"material": "ShaderMaterial#-44753",
+					"material_path": "",
+					"to": "ShaderMaterial#-21970",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 22
+			},
+			"predicted": {
+				"materials": 11
+			},
+			"proposal": "22 -> 11 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-4716` -> `StandardMaterial3D#-62964` (dE 0.0), `StandardMaterial3D#-62964` -> `StandardMaterial3D#-82008` (dE 0.0), `StandardMaterial3D#-82008` -> `StandardMaterial3D#-21286` (dE 0.0), `ShaderMaterial#-81451` -> `ShaderMaterial#-35885` (dE 0.0), `ShaderMaterial#-58668` -> `ShaderMaterial#-13102` (dE 0.0), `ShaderMaterial#-49800` -> `ShaderMaterial#-44753` (dE 4.2), `ShaderMaterial#-35885` -> `ShaderMaterial#-67536` (dE 6.3), `ShaderMaterial#-90319` -> `ShaderMaterial#-76404` (dE 8.1), `ShaderMaterial#-27017` -> `ShaderMaterial#-21970` (dE 13.7), `ShaderMaterial#-4234` -> `ShaderMaterial#-76404` (dE 14.4), `ShaderMaterial#-44753` -> `ShaderMaterial#-21970` (dE 14.7); 5 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B8 22 -> 11 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-4716` -> `StandardMaterial3D#-62964` (dE 0.0), `StandardMaterial3D#-62964` -> `StandardMaterial3D#-82008` (dE 0.0), `StandardMaterial3D#-82008` -> `StandardMaterial3D#-21286` (dE 0.0), `ShaderMaterial#-81451` -> `ShaderMaterial#-35885` (dE 0.0), `ShaderMaterial#-58668` -> `ShaderMaterial#-13102` (dE 0.0), `ShaderMaterial#-49800` -> `ShaderMaterial#-44753` (dE 4.2), `ShaderMaterial#-35885` -> `ShaderMaterial#-67536` (dE 6.3), `ShaderMaterial#-90319` -> `ShaderMaterial#-76404` (dE 8.1), `ShaderMaterial#-27017` -> `ShaderMaterial#-21970` (dE 13.7), `ShaderMaterial#-4234` -> `ShaderMaterial#-76404` (dE 14.4), `ShaderMaterial#-44753` -> `ShaderMaterial#-21970` (dE 14.7); 5 more to cut: no other pair is a look-alike (the rest differ by dE > 15), so fold per-part copies into the palette materials instead of merging different colours",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 6"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9",
+			"computed": false,
+			"measured": {
+				"value": "19 material(s), 5 mesh(es) not shared by a 2nd instance"
+			},
+			"predicted": {},
+			"proposal": "Materials built per instance: Share the 19 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B9 Materials built per instance: Share the 19 per-instance material(s) (static cache) so 200 units do not build 200 copies",
+			"title": "Materials built per instance",
+			"wanted": {
+				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A1",
+			"computed": false,
+			"measured": {
+				"value": "missing: set_construction_progress, set_health_ratio, play_destroyed"
+			},
+			"predicted": {},
+			"proposal": "Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"rank": 3,
+			"status": "WARN",
+			"text": "A1 Standard hooks: Implement set_construction_progress, set_health_ratio, play_destroyed",
+			"title": "Standard hooks",
+			"wanted": {
+				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 85.1,
+	"result": "WARN",
+	"scene": "res://art/buildings/trade_post/trade_post.tscn",
+	"tier": "small",
+	"version": "1.0"
+}

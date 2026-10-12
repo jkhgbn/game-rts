@@ -1,0 +1,140 @@
+{
+	"asset": "ruin_warden",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.099,
+					"from": 2.0,
+					"material": "warden_glow",
+					"material_path": "res://art/units/kit/materials/warden_glow.tres",
+					"node": "Root/Chest/ArmR/Merged",
+					"param": "shader_parameter/energy",
+					"peak_x_bloom": 4.55,
+					"to": 0.198,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 2 point(s), peak 4.55 x the level",
+					"words": "energy 2.0 -> 0.2 on Merged (dim under the bloom level: 2 point(s), peak 4.55 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 4,
+				"points_this_phase": 4,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Chest/Core",
+						"peak_x_bloom": 4.86,
+						"px": 38
+					},
+					{
+						"above": true,
+						"part": "Root/Chest/ArmR/Merged",
+						"peak_x_bloom": 4.55,
+						"px": 19
+					},
+					{
+						"above": true,
+						"part": "Root/Chest/ArmL/Merged",
+						"peak_x_bloom": 4.52,
+						"px": 12
+					},
+					{
+						"above": true,
+						"part": "Root/Chest/ArmR/Merged",
+						"peak_x_bloom": 4.55,
+						"px": 5
+					}
+				],
+				"value": "4 point(s) above the bloom level 1.2 (median of 4/3/4): Core, Merged x3, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 3"
+			},
+			"predicted": {
+				"points": 2
+			},
+			"proposal": "Glow points 4 -> 2 (want 1-3): warden_glow energy 2.0 -> 0.2 on Merged (dim under the bloom level: 2 point(s), peak 4.55 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 4 -> 2 (want 1-3): warden_glow energy 2.0 -> 0.2 on Merged (dim under the bloom level: 2 point(s), peak 4.55 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-3 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.5,
+					"node": "res://data/units/ruin_warden.tres",
+					"param": "radius",
+					"to": 0.56
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.5,
+				"x_m": 0.98,
+				"z_m": 0.72
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.5 -> 0.56, or pull the widest parts in to x <= 0.88 / z <= 0.88 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.5 -> 0.56, or pull the widest parts in to x <= 0.88 / z <= 0.88 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.88",
+				"z_m": "<= 0.88"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 1462,
+					"node": "Root/Chest/Merged",
+					"to": 731,
+					"words": "`Merged` 1462 -> 731 verts"
+				},
+				{
+					"from": 863,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 617,
+					"words": "`Merged` 863 -> 617 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3430
+			},
+			"predicted": {
+				"verts": 2453
+			},
+			"proposal": "3430 -> 2453 (want <= 2500): `Merged` 1462 -> 731 verts; `Merged` 863 -> 617 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 3430 -> 2453 (want <= 2500): `Merged` 1462 -> 731 verts; `Merged` 863 -> 617 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 90.4,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/ruin_warden.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

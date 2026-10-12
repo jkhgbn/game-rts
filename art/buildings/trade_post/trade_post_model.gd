@@ -320,17 +320,19 @@ static func _box(size: Vector3) -> Mesh:
 	return _mesh_cache[key]
 
 
-static func _cyl(top_r: float, bot_r: float, h: float, segs: int) -> Mesh:
-	var key: String = "c%.3f_%.3f_%.3f_%d" % [top_r, bot_r, h, segs]
+## B4 (in-game grade 2026-10-12): rings 0 (no mid ring), `caps` 0 none / 1 top only / 2 both (bottom caps of
+## upright parts face the ground and are never seen from the RTS camera).
+static func _cyl(top_r: float, bot_r: float, h: float, segs: int, caps: int = 2) -> Mesh:
+	var key: String = "c%.3f_%.3f_%.3f_%d_%d" % [top_r, bot_r, h, segs, caps]
 	if not _mesh_cache.has(key):
 		var m := CylinderMesh.new()
 		m.top_radius = top_r
 		m.bottom_radius = bot_r
 		m.height = h
 		m.radial_segments = segs
-		m.rings = 1
-		m.cap_top = top_r > 0.0
-		m.cap_bottom = bot_r > 0.0
+		m.rings = 0
+		m.cap_top = top_r > 0.0 and caps >= 1
+		m.cap_bottom = bot_r > 0.0 and caps >= 2
 		_mesh_cache[key] = m
 	return _mesh_cache[key]
 
@@ -356,16 +358,76 @@ static func _prism(size: Vector3) -> Mesh:
 	return _mesh_cache[key]
 
 
-static func _torus(inner: float, outer: float, rings: int = 16) -> Mesh:
-	var key: String = "t%.3f_%.3f_%d" % [inner, outer, rings]
+static func _torus(inner: float, outer: float, rings: int = 8, ring_segs: int = 4) -> Mesh:
+	var key: String = "t%.3f_%.3f_%d_%d" % [inner, outer, rings, ring_segs]
 	if not _mesh_cache.has(key):
 		var m := TorusMesh.new()
 		m.inner_radius = inner
 		m.outer_radius = outer
 		m.rings = rings
-		m.ring_segments = 6
+		m.ring_segments = ring_segs
 		_mesh_cache[key] = m
 	return _mesh_cache[key]
+
+
+## B4 (in-game grade 2026-10-12): a box without its bottom face (20 verts instead of 24); _it / _itx swap every
+## upright box (local Y up) to it, the RTS camera never sees a downward face.
+static func _box_open(size: Vector3) -> Mesh:
+	var key: String = "bo%s" % size
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var h: Vector3 = size * 0.5
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var faces: Array[Vector3] = [Vector3.UP, Vector3.RIGHT, Vector3.LEFT, Vector3.BACK, Vector3.FORWARD]
+	for n: Vector3 in faces:
+		var u: Vector3 = Vector3.FORWARD if absf(n.y) > 0.5 else Vector3.UP
+		var v: Vector3 = n.cross(u)
+		var c: Vector3 = n * h
+		var du: Vector3 = u * h
+		var dv: Vector3 = v * h
+		var p := [c - du - dv, c + du - dv, c + du + dv, c - du + dv]
+		_tri(st, p[0], p[1], p[2], n)
+		_tri(st, p[0], p[2], p[3], n)
+	st.index()
+	var m: ArrayMesh = st.commit()
+	_mesh_cache[key] = m
+	return m
+
+
+## Flat cards facing local +Z (emblem relief, scallops): a w x h quad, a unit disc / annulus fan, a triangle with its
+## apex up (the PrismMesh outline). 4 / segs+1 / 2*segs / 3 verts.
+static func _flat_mesh(kind: String, a: float, b: float, segs: int = 8) -> Mesh:
+	var key: String = "f%s_%.3f_%.3f_%d" % [kind, a, b, segs]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var n := Vector3.BACK
+	match kind:
+		"card":
+			var p := [Vector3(-a, -b, 0) * 0.5, Vector3(a, -b, 0) * 0.5, Vector3(a, b, 0) * 0.5, Vector3(-a, b, 0) * 0.5]
+			_tri(st, p[0], p[1], p[2], n)
+			_tri(st, p[0], p[2], p[3], n)
+		"tri":
+			_tri(st, Vector3(-a * 0.5, -b * 0.5, 0), Vector3(a * 0.5, -b * 0.5, 0), Vector3(0, b * 0.5, 0), n)
+		"disc", "ring":
+			for i: int in segs:
+				var t0: float = TAU * i / segs
+				var t1: float = TAU * (i + 1) / segs
+				var o0 := Vector3(cos(t0), sin(t0), 0) * b
+				var o1 := Vector3(cos(t1), sin(t1), 0) * b
+				if kind == "disc":
+					_tri(st, Vector3.ZERO, o0, o1, n)
+				else:
+					var i0: Vector3 = o0 * (a / b)
+					var i1: Vector3 = o1 * (a / b)
+					_tri(st, i0, o0, o1, n)
+					_tri(st, i0, o1, i1, n)
+	st.index()
+	var m: ArrayMesh = st.commit()
+	_mesh_cache[key] = m
+	return m
 
 
 ## A convex polygon (points (x, z)) extruded from y0 to y1: flat-shaded sides + top cap, indexed.
@@ -456,10 +518,14 @@ static func _tri(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, n: Vector3
 # --- Item helpers (BuildingMerge items: [mesh, xf, material]) ---
 
 func _it(mesh: Mesh, pos: Vector3, mat: String, rot_deg: Vector3 = Vector3.ZERO, scale: Vector3 = Vector3.ONE) -> Array:
+	if mesh is BoxMesh and absf(rot_deg.x) < 8.0 and absf(rot_deg.z) < 8.0:
+		mesh = _box_open((mesh as BoxMesh).size)
 	return BMG.item(mesh, pos, _mat(mat), rot_deg, scale)
 
 
 func _itx(mesh: Mesh, xf: Transform3D, mat: String) -> Array:
+	if mesh is BoxMesh and xf.basis.y.normalized().y > 0.99:
+		mesh = _box_open((mesh as BoxMesh).size)
 	return BMG.item_xf(mesh, xf, _mat(mat))
 
 
@@ -487,10 +553,10 @@ func _bar(a: Vector3, b: Vector3, w: float, d: float, mat: String) -> Array:
 
 
 ## A round rod (radius `r`) from `a` to `b`.
-func _rod(a: Vector3, b: Vector3, r: float, mat: String, extra: float = 0.0, segs: int = 8) -> Array:
+func _rod(a: Vector3, b: Vector3, r: float, mat: String, extra: float = 0.0, segs: int = 8, caps: int = 2) -> Array:
 	var e: Vector3 = b - a
 	var bs := Basis(Quaternion(Vector3.UP, e.normalized()))
-	return _itx(_cyl(r, r, snappedf(e.length() + extra, 0.01), segs), Transform3D(bs, (a + b) * 0.5), mat)
+	return _itx(_cyl(r, r, snappedf(e.length() + extra, 0.01), segs, caps), Transform3D(bs, (a + b) * 0.5), mat)
 
 
 func _merge(nm: String, key: String, items: Array, parent: Node3D, ao_height: float = HEIGHT) -> MeshInstance3D:
@@ -537,8 +603,10 @@ func _add_plinth(it: Array) -> void:
 			if x + w > 2.75:
 				w = 2.75 - x
 			if w > 0.3:
-				it.append(_it(_box(Vector3(w - 0.07, 0.07, 0.58)), Vector3(x + w * 0.5, Y_PLINTH + 0.02 + rng.randf() * 0.02, z),
-					"stone", Vector3(0, rng.randf_range(-3.0, 3.0), 0)))
+				# B4: flagstones are top cards (their 7 cm sides do not read from the RTS camera).
+				var fp := Vector3(x + w * 0.5, Y_PLINTH + 0.055 + rng.randf() * 0.02, z)
+				var fb := Basis(Vector3.UP, deg_to_rad(rng.randf_range(-3.0, 3.0))) * Basis(Vector3.RIGHT, -PI * 0.5)
+				it.append(_itx(_flat_mesh("card", w - 0.07, 0.58), Transform3D(fb, fp), "stone"))
 			x += w
 	# Front edge: a worn step along the forecourt.
 	it.append(_it(_box(Vector3(3.2, 0.12, 0.42)), Vector3(-0.1, 0.06, 3.02), "dark"))
@@ -598,24 +666,16 @@ func _add_roof(it: Array) -> void:
 	var top: float = yr + ROOF_THICK + 0.05
 	it.append(_it(_cyl(0.13, 0.13, rx * 2.0 + 0.3, 8), Vector3(0, top, zr), "roof", Vector3(0, 0, 90)))
 	for sx: float in [-1.0, 1.0]:
-		it.append(_it(_sphere(0.17, 8, 4), Vector3(sx * (rx + 0.15), top + 0.03, zr), "roof"))
+		it.append(_it(_sphere(0.17, 6, 3), Vector3(sx * (rx + 0.15), top + 0.03, zr), "roof"))
 		for ez: float in [ez0, ez1]:
-			it.append(_rod(Vector3(sx * rx, top - 0.02, zr), Vector3(sx * ex, ye + ROOF_THICK + 0.04, ez), 0.08, "roof", 0.05, 6))
+			it.append(_rod(Vector3(sx * rx, top - 0.02, zr), Vector3(sx * ex, ye + ROOF_THICK + 0.04, ez), 0.08, "roof", 0.05, 6, 1))
 	# Fascia boards along the eaves (dark line under the tiles) and rafter tails front and back.
 	var fy: float = ye + ROOF_THICK * 0.5 - 0.06
 	it.append(_it(_box(Vector3(ex * 2.0 + 0.1, 0.2, 0.08)), Vector3(0, fy, ez1 + 0.03), "timber"))
 	it.append(_it(_box(Vector3(ex * 2.0 + 0.1, 0.2, 0.08)), Vector3(0, fy, ez0 - 0.03), "timber"))
 	for sx2: float in [-1.0, 1.0]:
 		it.append(_it(_box(Vector3(0.08, 0.2, ez1 - ez0 + 0.1)), Vector3(sx2 * (ex + 0.03), fy, zr), "timber"))
-	var ang: float = deg_to_rad(ROOF_DEG)
-	for i: int in 7:
-		var x: float = -HALL_X + 0.1 + i * (HALL_X * 2.0 - 0.2) / 6.0
-		for s: float in [1.0, -1.0]:
-			var z0: float = (HALL_Z1 if s > 0.0 else HALL_Z0)
-			var p0 := Vector3(x, Y_PLATE_TOP - 0.02, z0)
-			var p1 := Vector3(x, Y_PLATE_TOP - 0.02 - (EAVE - 0.1) * slope, z0 + s * (EAVE - 0.1))
-			it.append(_itx(_box(Vector3(0.11, 0.13, (EAVE - 0.1) / cos(ang) + 0.1)),
-				Transform3D(Basis(Vector3.RIGHT, s * ang), (p0 + p1) * 0.5), "timber"))
+	# B4 (in-game grade 2026-10-12): the rafter tails sat under the roof slab, never seen from the RTS camera: removed.
 
 
 func _add_counter(it: Array) -> void:
@@ -629,34 +689,34 @@ func _add_counter(it: Array) -> void:
 		it.append(_beam(Vector3(x, 0.62, z + 0.32), Vector3(x, 0.96, z + 0.12), 0.08, "timber"))
 	# Goods on the counter: bolts of striped cloth, a small strongbox, a jar, a coin tray.
 	for i: int in 3:
-		it.append(_it(_cyl(0.12, 0.12, 0.58, 10), Vector3(-1.2 + i * 0.05, 1.19 + i * 0.2, z - 0.05 + (i % 2) * 0.1),
+		it.append(_it(_cyl(0.12, 0.12, 0.58, 6), Vector3(-1.2 + i * 0.05, 1.19 + i * 0.2, z - 0.05 + (i % 2) * 0.1),
 			"canvas", Vector3(0, 0, 90)))
 	it.append(_it(_box(Vector3(0.5, 0.3, 0.36)), Vector3(0.35, 1.22, z - 0.02), "wood", Vector3(0, -12, 0)))
 	it.append(_it(_box(Vector3(0.54, 0.07, 0.4)), Vector3(0.35, 1.38, z - 0.02), "iron", Vector3(0, -12, 0)))
 	it.append(_it(_box(Vector3(0.12, 0.14, 0.05)), Vector3(0.37, 1.24, z + 0.17), "gold", Vector3(0, -12, 0)))
-	it.append(_it(_sphere(0.17, 8, 5), Vector3(1.15, 1.22, z), "clay", Vector3.ZERO, Vector3(1, 1.25, 1)))
-	it.append(_it(_cyl(0.07, 0.1, 0.12, 8), Vector3(1.15, 1.46, z), "clay"))
-	it.append(_it(_cyl(0.2, 0.2, 0.05, 12), Vector3(-0.45, 1.1, z + 0.05), "gold"))
+	it.append(_it(_sphere(0.17, 6, 4), Vector3(1.15, 1.22, z), "clay", Vector3.ZERO, Vector3(1, 1.25, 1)))
+	it.append(_it(_cyl(0.07, 0.1, 0.12, 6, 1), Vector3(1.15, 1.46, z), "clay"))
+	it.append(_it(_cyl(0.2, 0.2, 0.05, 8, 1), Vector3(-0.45, 1.1, z + 0.05), "gold"))
 
 
 func _barrel(it: Array, xf: Transform3D) -> void:
-	it.append(_itx(_cyl(0.34, 0.28, 0.42, 10), xf * Transform3D(Basis.IDENTITY, Vector3(0, 0.21, 0)), "wood"))
-	it.append(_itx(_cyl(0.28, 0.34, 0.42, 10), xf * Transform3D(Basis.IDENTITY, Vector3(0, 0.63, 0)), "wood"))
-	it.append(_itx(_cyl(0.285, 0.285, 0.04, 10), xf * Transform3D(Basis.IDENTITY, Vector3(0, 0.84, 0)), "timber"))
+	# B4: 7 sides, the two halves share their hidden waist (no caps there), open hoops, no separate lid.
+	it.append(_itx(_cyl(0.34, 0.28, 0.42, 7, 2), xf * Transform3D(Basis.IDENTITY, Vector3(0, 0.21, 0)), "wood"))
+	it.append(_itx(_cyl(0.28, 0.34, 0.42, 7, 1), xf * Transform3D(Basis.IDENTITY, Vector3(0, 0.63, 0)), "wood"))
 	for y: float in [0.13, 0.71]:
-		it.append(_itx(_cyl(0.315, 0.315, 0.07, 10), xf * Transform3D(Basis.IDENTITY, Vector3(0, y, 0)), "iron"))
+		it.append(_itx(_cyl(0.315, 0.315, 0.07, 7, 0), xf * Transform3D(Basis.IDENTITY, Vector3(0, y, 0)), "iron"))
 
 
 func _crate(it: Array, pos: Vector3, s: float, yaw: float) -> void:
 	it.append(_it(_box(Vector3(s, s, s)), pos + Vector3(0, s * 0.5, 0), "wood", Vector3(0, yaw, 0)))
 	var b := Basis(Vector3.UP, deg_to_rad(yaw))
-	for dy: float in [0.08, s - 0.08]:
-		it.append(_itx(_box(Vector3(s + 0.04, 0.07, s + 0.04)), Transform3D(b, pos + Vector3(0, dy, 0)), "timber"))
+	# B4: one dark band near the lid (the foot band hid in the crate's own contact shade).
+	it.append(_itx(_box(Vector3(s + 0.04, 0.07, s + 0.04)), Transform3D(b, pos + Vector3(0, s - 0.08, 0)), "timber"))
 
 
 func _sack(it: Array, pos: Vector3, s: float, yaw: float) -> void:
-	it.append(_it(_sphere(0.3 * s, 8, 5), pos + Vector3(0, 0.2 * s, 0), "burlap", Vector3(0, yaw, 8), Vector3(1.0, 0.85, 0.8)))
-	it.append(_it(_cyl(0.05 * s, 0.1 * s, 0.14 * s, 6), pos + Vector3(0, 0.46 * s, 0), "burlap", Vector3(0, yaw, 0)))
+	it.append(_it(_sphere(0.3 * s, 6, 4), pos + Vector3(0, 0.2 * s, 0), "burlap", Vector3(0, yaw, 8), Vector3(1.0, 0.85, 0.8)))
+	it.append(_it(_cyl(0.05 * s, 0.1 * s, 0.14 * s, 5, 1), pos + Vector3(0, 0.46 * s, 0), "burlap", Vector3(0, yaw, 0)))
 
 
 func _add_goods(it: Array) -> void:
@@ -672,12 +732,12 @@ func _add_goods(it: Array) -> void:
 	_sack(it, Vector3(-1.55, y, -0.2), 1.0, -30.0)
 	_sack(it, Vector3(-1.55, y + 0.36, -0.5), 0.9, 60.0)
 	for p: Vector3 in [Vector3(0.9, y, -0.2), Vector3(1.3, y, 0.1)]:
-		it.append(_it(_sphere(0.22, 8, 5), p + Vector3(0, 0.3, 0), "clay", Vector3.ZERO, Vector3(1, 1.3, 1)))
-		it.append(_it(_cyl(0.08, 0.13, 0.16, 8), p + Vector3(0, 0.62, 0), "clay"))
+		it.append(_it(_sphere(0.22, 6, 4), p + Vector3(0, 0.3, 0), "clay", Vector3.ZERO, Vector3(1, 1.3, 1)))
+		it.append(_it(_cyl(0.08, 0.13, 0.16, 6, 1), p + Vector3(0, 0.62, 0), "clay"))
 	# Bolts of cloth on a rack along the back wall.
 	it.append(_it(_box(Vector3(1.1, 0.08, 0.36)), Vector3(0.1, 1.72, HALL_Z0 + 0.14), "timber"))
 	for i: int in 3:
-		it.append(_it(_cyl(0.1, 0.1, 0.9, 10), Vector3(0.1, 1.86 + (i % 2) * 0.18, HALL_Z0 + 0.1 + i * 0.07), "canvas",
+		it.append(_it(_cyl(0.1, 0.1, 0.9, 6), Vector3(0.1, 1.86 + (i % 2) * 0.18, HALL_Z0 + 0.1 + i * 0.07), "canvas",
 			Vector3(0, 0, 90)))
 
 
@@ -687,12 +747,12 @@ func _add_mast(it: Array) -> void:
 	it.append(_it(_box(Vector3(0.66, 0.42, 0.66)), m + Vector3(0, 0.21, 0), "stone", Vector3(0, 8, 0)))
 	it.append(_it(_box(Vector3(0.5, 0.12, 0.5)), m + Vector3(0, 0.47, 0), "dark", Vector3(0, 8, 0)))
 	var h: float = MAST_TOP - 0.53 - 0.2
-	it.append(_it(_cyl(0.12, 0.17, h, 8), m + Vector3(0, 0.53 + h * 0.5, 0), "timber"))
+	it.append(_it(_cyl(0.12, 0.17, h, 8, 0), m + Vector3(0, 0.53 + h * 0.5, 0), "timber"))
 	for y: float in [1.25, 2.9, 4.75]:
-		it.append(_it(_cyl(0.185, 0.185, 0.09, 8), m + Vector3(0, y, 0), "iron"))
-	it.append(_it(_cyl(0.05, 0.13, 0.14, 8), m + Vector3(0, MAST_TOP - 0.13, 0), "iron"))
-	it.append(_it(_sphere(0.15, 10, 5), m + Vector3(0, MAST_TOP + 0.02, 0), "gold"))
-	it.append(_it(_cyl(0.0, 0.05, 0.28, 6), m + Vector3(0, MAST_TOP + 0.28, 0), "gold"))
+		it.append(_it(_cyl(0.185, 0.185, 0.09, 8, 1), m + Vector3(0, y, 0), "iron"))
+	it.append(_it(_cyl(0.05, 0.13, 0.14, 8, 0), m + Vector3(0, MAST_TOP - 0.13, 0), "iron"))
+	it.append(_it(_sphere(0.15, 8, 4), m + Vector3(0, MAST_TOP + 0.02, 0), "gold"))
+	it.append(_it(_cyl(0.0, 0.05, 0.28, 6, 0), m + Vector3(0, MAST_TOP + 0.28, 0), "gold"))
 	# Fingerposts: two arrow boards above head height (one toward the road, one along it); they stick out of the
 	# footprint only above 2.5 m.
 	for f: Array in [[2.64, -90.0, 0.95], [2.98, 0.0, 0.85]]:
@@ -716,9 +776,9 @@ func _add_side_props(it: Array) -> void:
 	for z: float in [-1.95, 0.55]:
 		it.append(_it(_box(Vector3(0.16, 1.05, 0.16)), Vector3(x, y + 0.52, z), "timber"))
 		it.append(_it(_box(Vector3(0.22, 0.06, 0.22)), Vector3(x, y + 1.07, z), "timber"))
-	it.append(_it(_cyl(0.06, 0.06, 2.75, 7), Vector3(x, y + 0.95, -0.7), "wood", Vector3(90, 0, 0)))
+	it.append(_it(_cyl(0.06, 0.06, 2.75, 6), Vector3(x, y + 0.95, -0.7), "wood", Vector3(90, 0, 0)))
 	for z2: float in [-1.2, -0.2]:
-		it.append(_itx(_torus(0.04, 0.08), Transform3D(Basis(Vector3.FORWARD, PI * 0.5), Vector3(x, y + 0.86, z2)), "iron"))
+		it.append(_itx(_torus(0.04, 0.08, 6, 3), Transform3D(Basis(Vector3.FORWARD, PI * 0.5), Vector3(x, y + 0.86, z2)), "iron"))
 	it.append(_it(_box(Vector3(0.52, 0.42, 1.5)), Vector3(x - 0.02, y + 0.21, -0.72), "wood"))
 	it.append(_it(_box(Vector3(0.4, 0.04, 1.38)), Vector3(x - 0.02, y + 0.37, -0.72), "iron"))
 	# Crates and a sack by the mast, a cart wheel leaning on the back wall.
@@ -727,10 +787,10 @@ func _add_side_props(it: Array) -> void:
 	_sack(it, Vector3(2.25, y, 1.55), 1.0, 40.0)
 	var wb := Basis(Vector3.UP, 0.12) * Basis(Vector3.RIGHT, 0.28)
 	var wc := Vector3(-1.05, y + 0.6, HALL_Z0 - 0.42)
-	it.append(_itx(_torus(0.47, 0.58, 18), Transform3D(wb * Basis(Vector3.RIGHT, PI * 0.5), wc), "timber"))
-	it.append(_itx(_cyl(0.1, 0.1, 0.22, 8), Transform3D(wb * Basis(Vector3.RIGHT, PI * 0.5), wc), "iron"))
-	for k: int in 6:
-		var a: float = k * PI / 6.0
+	it.append(_itx(_torus(0.47, 0.58, 12), Transform3D(wb * Basis(Vector3.RIGHT, PI * 0.5), wc), "timber"))
+	it.append(_itx(_cyl(0.1, 0.1, 0.22, 6), Transform3D(wb * Basis(Vector3.RIGHT, PI * 0.5), wc), "iron"))
+	for k: int in 4:   # B4: 8 spokes (was 12)
+		var a: float = k * PI / 4.0
 		it.append(_itx(_box(Vector3(0.05, 0.94, 0.05)), Transform3D(wb * Basis(Vector3.BACK, a), wc), "wood"))
 
 
@@ -741,10 +801,10 @@ func _add_brazier(it: Array) -> void:
 		var a: float = k * TAU / 3.0 + 0.3
 		var foot := b + Vector3(cos(a) * 0.36, 0.0, sin(a) * 0.36)
 		var top := b + Vector3(cos(a) * 0.2, 0.7, sin(a) * 0.2)
-		it.append(_rod(foot, top, 0.035, "iron", 0.02, 6))
-	it.append(_it(_cyl(0.36, 0.2, 0.24, 10), b + Vector3(0, 0.8, 0), "iron"))
-	it.append(_it(_torus(0.33, 0.41, 14), b + Vector3(0, 0.92, 0), "iron"))
-	it.append(_it(_cyl(0.3, 0.3, 0.06, 10), b + Vector3(0, 0.02, 0), "dark"))
+		it.append(_rod(foot, top, 0.035, "iron", 0.02, 5, 0))
+	it.append(_it(_cyl(0.36, 0.2, 0.24, 8, 1), b + Vector3(0, 0.8, 0), "iron"))
+	it.append(_it(_torus(0.33, 0.41, 10), b + Vector3(0, 0.92, 0), "iron"))
+	it.append(_it(_cyl(0.3, 0.3, 0.06, 8, 1), b + Vector3(0, 0.02, 0), "dark"))
 
 
 # --- Moving parts ---
@@ -773,15 +833,15 @@ func _build_awning() -> void:
 	var cx: float = (AWNING_X0 + AWNING_X1) * 0.5
 	var w: float = AWNING_X1 - AWNING_X0
 	var fixed: Array = []
-	fixed.append(_it(_cyl(0.11, 0.11, w + 0.1, 10), Vector3(cx, AWNING_Y + 0.06, AWNING_Z), "canvas", Vector3(0, 0, 90)))
+	fixed.append(_it(_cyl(0.11, 0.11, w + 0.1, 7), Vector3(cx, AWNING_Y + 0.06, AWNING_Z), "canvas", Vector3(0, 0, 90)))
 	fixed.append(_it(_box(Vector3(w + 0.2, 0.14, 0.12)), Vector3(cx, AWNING_Y + 0.14, AWNING_Z - 0.12), "timber"))
 	var front_z: float = AWNING_Z + AWNING_LEN * cos(AWNING_SLOPE)
 	var front_y: float = AWNING_Y - AWNING_LEN * sin(AWNING_SLOPE)
 	for x: float in [AWNING_X0 + 0.12, AWNING_X1 - 0.12]:
-		fixed.append(_it(_cyl(0.05, 0.06, front_y - Y_PLINTH + 0.1, 7), Vector3(x, (front_y + Y_PLINTH + 0.1) * 0.5, front_z - 0.04),
+		fixed.append(_it(_cyl(0.05, 0.06, front_y - Y_PLINTH + 0.1, 6, 0), Vector3(x, (front_y + Y_PLINTH + 0.1) * 0.5, front_z - 0.04),
 			"timber"))
-		fixed.append(_it(_sphere(0.07, 8, 4), Vector3(x, front_y + 0.13, front_z - 0.04), "gold"))
-		fixed.append(_it(_cyl(0.1, 0.12, 0.1, 7), Vector3(x, Y_PLINTH + 0.05, front_z - 0.04), "dark"))
+		fixed.append(_it(_sphere(0.07, 6, 3), Vector3(x, front_y + 0.13, front_z - 0.04), "gold"))
+		fixed.append(_it(_cyl(0.1, 0.12, 0.1, 6, 1), Vector3(x, Y_PLINTH + 0.05, front_z - 0.04), "dark"))
 	_merge("AwningFrame", "awning_frame", fixed, _body)
 	_awning = Node3D.new()
 	_awning.name = "AwningPivot"
@@ -797,10 +857,11 @@ func _build_awning() -> void:
 	var n: int = int(w / 0.36)
 	for i: int in n:
 		var x2: float = -w * 0.5 + (i + 0.5) * w / float(n)
-		it.append(_itx(_cyl(0.14, 0.14, 0.04, 10), Transform3D(Basis(Vector3.RIGHT, -AWNING_SLOPE) * Basis(Vector3.RIGHT, PI * 0.5),
-			Vector3(x2, -0.24, vz + 0.02)), "canvas"))
+		# B4: flat disc cards (the camera only sees their front).
+		it.append(_itx(_flat_mesh("disc", 0.0, 0.14, 8), Transform3D(Basis(Vector3.RIGHT, -AWNING_SLOPE),
+			Vector3(x2, -0.24, vz + 0.04)), "canvas"))
 	# Front bar the canvas is laced to.
-	it.append(_it(_cyl(0.045, 0.045, w + 0.12, 7), Vector3(0, 0.0, vz), "timber", Vector3(0, 0, 90)))
+	it.append(_it(_cyl(0.045, 0.045, w + 0.12, 6), Vector3(0, 0.0, vz), "timber", Vector3(0, 0, 90)))
 	var mi: MeshInstance3D = _merge("Awning", "awning", it, _awning)
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 
@@ -860,9 +921,7 @@ func _sign_board_items() -> Array:
 		it.append(_it(_box(Vector3(SIGN_W, 0.1, 0.13)), Vector3(0, cy + s * (SIGN_H * 0.5 - 0.05), 0), "timber"))
 		it.append(_it(_box(Vector3(0.1, SIGN_H, 0.13)), Vector3(s * (SIGN_W * 0.5 - 0.05), cy, 0), "timber"))
 		it.append(_it(_box(Vector3(0.05, 0.2, 0.05)), Vector3(s * 0.7, -0.06, 0), "iron"))
-		for sy: float in [-1.0, 1.0]:
-			it.append(_it(_sphere(0.055, 8, 4), Vector3(s * (SIGN_W * 0.5 - 0.05), cy + sy * (SIGN_H * 0.5 - 0.05), 0.0),
-				"egold", Vector3.ZERO, Vector3(1, 1, 1.5)))
+		# B4: the 5 cm gilded corner studs (invisible at RTS range) are gone.
 	it.append(_it(_box(Vector3(SIGN_W + 0.06, 0.07, 0.16)), Vector3(0, cy + SIGN_H * 0.5 + 0.02, 0), "iron"))
 	return it
 
@@ -892,7 +951,28 @@ func _emblem_items(i: int, it: Array) -> void:
 				mn = "egold"
 			elif mn == "cream":
 				mn = "ecream"
-			it.append(_itx(p[0], base * (p[1] as Transform3D), mn))
+			var flat: Array = _flatten(p[0], p[1])
+			it.append(_itx(flat[0], base * (flat[1] as Transform3D), mn))
+
+
+## B4 (in-game grade 2026-10-12): the emblem relief stands 5-7 cm proud, invisible at RTS range; each part becomes a
+## flat card on its front plane (box -> quad, sphere -> disc, prism -> triangle, upright cylinder -> quad), same outline
+## and colour, ~1/6 of the vertices. Other meshes (already flat) pass through.
+func _flatten(mesh: Mesh, xf: Transform3D) -> Array:
+	if mesh is BoxMesh:
+		var s: Vector3 = (mesh as BoxMesh).size
+		return [_flat_mesh("card", s.x, s.y), xf * Transform3D(Basis.IDENTITY, Vector3(0, 0, s.z * 0.5))]
+	if mesh is SphereMesh:
+		var r: float = (mesh as SphereMesh).radius
+		return [_flat_mesh("disc", 0.0, r, 10 if r > 0.5 else 6), xf * Transform3D(Basis.IDENTITY, Vector3(0, 0, r))]
+	if mesh is PrismMesh:
+		var ps: Vector3 = (mesh as PrismMesh).size
+		return [_flat_mesh("tri", ps.x, ps.y), xf * Transform3D(Basis.IDENTITY, Vector3(0, 0, ps.z * 0.5))]
+	if mesh is CylinderMesh:
+		var c := mesh as CylinderMesh
+		return [_flat_mesh("card", c.bottom_radius * 2.0, c.height), xf * Transform3D(Basis.IDENTITY,
+			Vector3(0, 0, c.bottom_radius))]
+	return [mesh, xf]
 
 
 func _ep(parts: Array, mesh: Mesh, pos: Vector2, mat: String, rot_z_deg: float = 0.0, scale: Vector3 = Vector3.ONE,
@@ -932,9 +1012,8 @@ func _emblem_heron(p: Array) -> void:
 
 func _emblem_millstone(p: Array) -> void:
 	# A millstone seen face-on: pale stone disc, gilded rim, square eye with a rynd, six harp furrows; grain corners.
-	var xr := Basis(Vector3.RIGHT, PI * 0.5)
-	p.append([_cyl(0.4, 0.4, 0.05, 20), Transform3D(xr, Vector3(0, 0, 0.025)), "cream"])
-	p.append([_torus(0.36, 0.44, 24), Transform3D(xr, Vector3(0, 0, 0.04)), "gold"])
+	p.append([_flat_mesh("disc", 0.0, 0.4, 16), Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.05)), "cream"])
+	p.append([_flat_mesh("ring", 0.36, 0.44, 16), Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.08)), "gold"])
 	_ep(p, _box(Vector3(0.14, 0.14, 0.06)), Vector2.ZERO, "field", 45.0, Vector3.ONE, 0.07)
 	_eb(p, Vector2(-0.15, 0.0), Vector2(0.15, 0.0), 0.05, "gold", 0.075)
 	for k: int in 6:
@@ -949,8 +1028,7 @@ func _emblem_millstone(p: Array) -> void:
 
 func _emblem_lantern(p: Array) -> void:
 	# A wharf lantern: ring, pointed cap, glass body in a gilded frame, flame, base, light rays, two wave lines.
-	var xr := Basis(Vector3.RIGHT, PI * 0.5)
-	p.append([_torus(0.05, 0.09), Transform3D(Basis.IDENTITY, Vector3(0, 0.44, 0.03)) * Transform3D(xr, Vector3.ZERO), "gold"])
+	p.append([_flat_mesh("ring", 0.05, 0.09, 8), Transform3D(Basis.IDENTITY, Vector3(0, 0.44, 0.06)), "gold"])
 	_ep(p, _prism(Vector3(0.44, 0.17, 0.05)), Vector2(0, 0.3), "gold")
 	_ep(p, _box(Vector3(0.32, 0.4, 0.04)), Vector2(0, 0.02), "cream")
 	for x: float in [-0.18, 0.18]:
@@ -1025,7 +1103,7 @@ func _build_brazier_fire() -> void:
 	var b: Vector3 = BRAZIER + Vector3(0, Y_PLINTH, 0)
 	var coals := MeshInstance3D.new()
 	coals.name = "Coals"
-	coals.mesh = _sphere(0.28, 10, 5)
+	coals.mesh = _sphere(0.28, 8, 4)
 	coals.scale = Vector3(1.0, 0.32, 1.0)
 	coals.position = b + Vector3(0, 0.9, 0)
 	coals.material_override = _g_coals
@@ -1152,7 +1230,7 @@ func _build_ground() -> void:
 		xf.append(Transform3D(b.scaled(Vector3(s, s * 0.55, s * 0.8)), Vector3(sin(a) * r, s * 0.08, cos(a) * r)))
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.mesh = _sphere(0.5, 7, 4)
+	mm.mesh = _sphere(0.5, 6, 2)
 	mm.instance_count = xf.size()
 	for i: int in xf.size():
 		mm.set_instance_transform(i, xf[i])
