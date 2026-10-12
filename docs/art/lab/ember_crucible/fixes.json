@@ -1,6 +1,6 @@
 {
 	"asset": "ember_crucible",
-	"count": 5,
+	"count": 1,
 	"fixes": [
 		{
 			"changes": [
@@ -8,131 +8,31 @@
 					"from": 1.0,
 					"node": "(model root) or its key masses",
 					"param": "scale",
-					"to": 1.23
+					"to": 1.18
 				}
 			],
 			"check": "R1",
 			"computed": true,
 			"measured": {
-				"area_px": 3774
+				"area_px": 4119
 			},
 			"predicted": {
-				"area_px": 5750
+				"area_px": 5749
 			},
-			"proposal": "3774 -> ~5750 px: grow the 40 m read x1.23 (area goes with the square: scale the key masses / body 23 %)",
+			"proposal": "4119 -> ~5749 px: grow the 40 m read x1.18 (area goes with the square: scale the key masses / body 18 %)",
 			"rank": 1,
 			"status": "WARN",
-			"text": "R1 3774 -> ~5750 px: grow the 40 m read x1.23 (area goes with the square: scale the key masses / body 23 %)",
+			"text": "R1 4119 -> ~5749 px: grow the 40 m read x1.18 (area goes with the square: scale the key masses / body 18 %)",
 			"title": "Silhouette area at 40 m",
 			"wanted": {
 				"area_px": ">= 5000"
-			}
-		},
-		{
-			"changes": [
-				{
-					"factor": 3.127,
-					"from": 1.0,
-					"material": "ec_painted",
-					"material_path": "res://art/buildings/fire/ember_crucible/materials/ec_painted.tres",
-					"node": "CruciblePivot/CrucibleBody",
-					"param": "shader_parameter/crack_strength",
-					"peak_x_bloom": 0.42,
-					"to": 3.127,
-					"want_x_bloom": 1.3,
-					"why": "raise over the bloom level: brightest soft glow 0.42 x the level",
-					"words": "crack_strength 1.0 -> 3.13 on CrucibleBody (raise over the bloom level: brightest soft glow 0.42 x the level)"
-				}
-			],
-			"check": "R5",
-			"computed": true,
-			"measured": {
-				"points": 0,
-				"points_this_phase": 0,
-				"spots": [
-					{
-						"above": false,
-						"part": "CruciblePivot/CrucibleBody",
-						"peak_x_bloom": 0.42,
-						"px": 548
-					},
-					{
-						"above": false,
-						"part": "CruciblePivot/CrucibleBody",
-						"peak_x_bloom": 0.25,
-						"px": 19
-					}
-				],
-				"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0"
-			},
-			"predicted": {
-				"points": 2
-			},
-			"proposal": "Glow points 0 -> 2 (want 2-4): ec_painted crack_strength 1.0 -> 3.13 on CrucibleBody (raise over the bloom level: brightest soft glow 0.42 x the level); add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
-			"rank": 2,
-			"status": "WARN",
-			"text": "Glow points 0 -> 2 (want 2-4): ec_painted crack_strength 1.0 -> 3.13 on CrucibleBody (raise over the bloom level: brightest soft glow 0.42 x the level); add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
-			"title": "Glow points at the bloom level",
-			"wanted": {
-				"points": "2-4 above the bloom level 1.2"
-			}
-		},
-		{
-			"changes": [],
-			"check": "R4k",
-			"computed": false,
-			"measured": {
-				"value": "dE 3.9, 38% melts (ash is where fire units stand most)"
-			},
-			"predicted": {},
-			"proposal": "Contrast on the home ground (ash): On its home ground (ash) the body is only dE 3.9: add a value step for that ground",
-			"rank": 3,
-			"status": "WARN",
-			"text": "R4k Contrast on the home ground (ash): On its home ground (ash) the body is only dE 3.9: add a value step for that ground",
-			"title": "Contrast on the home ground (ash)",
-			"wanted": {
-				"rule": "dE >= 14 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh)"
-			}
-		},
-		{
-			"changes": [],
-			"check": "R4",
-			"computed": false,
-			"measured": {
-				"value": "worst ash: dE 3.9 (heath dE 39.0, old_wood dE 25.4, riverbank dE 42.3, snow dE 69.5, ash dE 3.9, sand dE 66.5, marsh dE 8.9)"
-			},
-			"predicted": {},
-			"proposal": "Contrast on the other grounds: On ash the body drops to dE 3.9: add a value accent that separates it there too",
-			"rank": 4,
-			"status": "WARN",
-			"text": "R4 Contrast on the other grounds: On ash the body drops to dE 3.9: add a value accent that separates it there too",
-			"title": "Contrast on the other grounds",
-			"wanted": {
-				"rule": "dE >= 8 on every skirmish ground (WARN only)"
-			}
-		},
-		{
-			"changes": [],
-			"check": "A1",
-			"computed": false,
-			"measured": {
-				"value": "missing: set_team_color"
-			},
-			"predicted": {},
-			"proposal": "Standard hooks: Implement set_team_color",
-			"rank": 5,
-			"status": "WARN",
-			"text": "A1 Standard hooks: Implement set_team_color",
-			"title": "Standard hooks",
-			"wanted": {
-				"rule": "set_team_color, set_selected, set_construction_progress, set_health_ratio, play_destroyed"
 			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "fire",
-	"quality": 69.9,
+	"quality": 91.8,
 	"result": "WARN",
 	"scene": "res://art/buildings/fire/ember_crucible/ember_crucible.tscn",
 	"tier": "hall",

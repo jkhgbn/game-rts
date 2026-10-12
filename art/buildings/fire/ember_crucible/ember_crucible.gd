@@ -27,13 +27,14 @@ extends Node3D
 ##   is_crucible_on() -> bool, is_forging() -> bool, heat() -> float (0 cold .. 1 lit).
 ##   Signal forge_poured(at: Vector3) at FORGE_HIT (world point of the sprue): sync the forge clang / Guard exit.
 ## Placement (for the Roost): origin = the pad's ground contact (put it on the Roost plinth top). Front (the spout,
-## mould and anvil) = local -Z, the Roost's gate side; the side mouths face +-X (the two cameras). Bounds: x +-1.30,
-## z -1.33..+1.37, top 2.76 m (FOOTPRINT_HALF, TOP_Y). Suggested spot on a 3 x 3 cell (6 x 6 m) Roost: ROOST_ANCHOR
+## mould and anvil) = local -Z, the Roost's gate side; the side mouths face +-X (the two cameras). Bounds: x +-1.35,
+## z -1.35..+1.37, top 3.0 m (FOOTPRINT_HALF, TOP_Y). Suggested spot on a 3 x 3 cell (6 x 6 m) Roost: ROOST_ANCHOR
 ## (a front corner, pad inside 3.3 m of the centre). Hide it on a construction site / wreck; call set_crucible(false,
 ## true) when the Roost dies (titans-2.md 6.3: the Crucible goes out with the Roost).
-## Budget: 10 mesh instances (3 moving: crucible, bellows board, bellows leather) + 3 particle systems (embers
-## continuous while lit, sparks and steam one-shots; hidden beyond PARTICLE_RANGE), 9 materials (.tres, shared by
-## every annex), 0 lights, no runtime materials (particle draw materials are built once and shared). Idle = no
+## Budget: 11 mesh instances (3 moving: crucible, bellows board, bellows leather) + 3 particle systems (embers
+## continuous while lit, sparks and steam one-shots; hidden beyond PARTICLE_RANGE), 10 materials (.tres, shared by
+## every annex), 0 lights. Runtime materials: particle draw materials built once and shared, and one ec_painted
+## copy per non-fire team colour (_apply_team, shared by every annex of that colour; never per instance). Idle = no
 ## _process (the glows pulse in the shader); only transitions and forging tick.
 
 signal forge_poured(at: Vector3)
@@ -52,8 +53,18 @@ const STEAM_AT := 1.3
 const IGNITE_TIME := 1.2
 const COOL_TIME := 2.0
 const MOULD_REST := 0.32          ## residual glow of the last cast while lit
-const TOP_Y := 2.76
-const FOOTPRINT_HALF := Vector2(1.30, 1.37)
+## In-game grade 2026-10-12 (under_90.md row 28): the 40 m read grows inside the same bounds (taller stack, a team
+## banner on the outer front corner, team-glazed pad skirt), so TOP_Y rose 2.76 -> 3.0 (still a third of the Roost's
+## 9 m crown); ROOST_ANCHOR unchanged, FOOTPRINT_HALF.x 1.30 -> 1.35 (pad to the terrace kerb, inside 3.3 m);
+## nothing new on the -X / +Z side toward the Roost's spire.
+const TOP_Y := 3.0
+const FOOTPRINT_HALF := Vector2(1.35, 1.37)
+## Team banner pole (annex space, the outer front corner +X / -Z, away from the Roost's spire).
+const BANNER := Vector3(1.19, 0.0, -1.22)
+## Quench crane post (annex space, front -X corner beside the trough).
+const CRANE := Vector3(-1.2, 0.0, -1.22)
+## The fire kingdom colour (painted_vc's default base_color): set_team_color with it keeps the shared material.
+const FIRE_TEAM := Color(0.85, 0.30, 0.12)
 const ROOST_ANCHOR := Vector3(1.85, 0.0, -1.85)
 const PARTICLE_RANGE := 48.0
 const AO_HEIGHT := 2.8
@@ -62,11 +73,17 @@ const BELLOWS_HINGE := Vector3(-0.72, 0.53, 0.80)
 const BELLOWS_LEN := 0.46
 const BELLOWS_OPEN := 0.30
 const BELLOWS_REST := 0.65
+## Prop groups set a touch askew (2026-10-12, C1 craft): the mould (and its cast) and the anvil (with its blade).
+const MOULD_YAW := -5.0
+const ANVIL_YAW := 8.0
 
 static var _mats: Dictionary = {}
 static var _meshes: Dictionary = {}
 static var _prims: Dictionary = {}
 static var _fx: Dictionary = {}
+static var _team_mats: Dictionary = {}   ## team colour (html) -> ec_painted copy, shared by every annex of that colour
+
+var _team: Color = FIRE_TEAM
 
 var _lit: bool = false
 var _heat: float = 0.0
@@ -137,8 +154,14 @@ func heat() -> float:
 # ---------------------------------------------------------------- standard building hooks (art-keep.md 8.8)
 # The annex is a draw-only child of the Dragon Roost, which drives it with set_crucible / play_forge; these keep the
 # common building contract so tools and a standalone annex behave: selection has nothing to tint, a site shows
-# nothing until built, a dead Roost puts it out. No set_team_color: the forge carries no team colour (the Roost's
-# banners and roof do).
+# nothing until built, a dead Roost puts it out. set_team_color (2026-10-12): the banner, the glazed pad skirt, the
+# firebox band and the stack collar take the team colour (ec_team parts; the fire colour by default).
+
+func set_team_color(c: Color) -> void:
+	_team = c
+	if _ready_done:
+		_apply_team()
+
 
 func set_selected(_on: bool) -> void:
 	pass
@@ -168,8 +191,10 @@ func _ready() -> void:
 	_build()
 	# B8: the five painted .tres (stone, dark, bronze, iron, leather) are drawn with ONE vertex-coloured material,
 	# ec_painted.tres (PaintedVC, painted_vc shader: the same shading), shared by every annex like the others.
-	PVC.convert(self, m("ec_painted") as ShaderMaterial)
+	# ec_team parts get COLOR.a 0: drawn as ec_painted's base_color (the team colour, see _apply_team).
+	PVC.convert(self, m("ec_painted") as ShaderMaterial, [m("ec_team")])
 	_ready_done = true
+	_apply_team()
 	set_notify_transform(true)
 	_update_ao()
 	_apply(0.0)
@@ -179,6 +204,30 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED and _ready_done:
 		_update_ao()
+
+
+## The team colour: the fire colour draws with the shared ec_painted.tres itself; another colour with one shared copy
+## per colour (built once, never per annex), set as a surface override on the painted surfaces.
+func _apply_team() -> void:
+	var body := m("ec_painted") as ShaderMaterial
+	var mat: Material = body
+	if not _team.is_equal_approx(FIRE_TEAM):
+		var key := _team.to_html(false)
+		if not _team_mats.has(key):
+			var dup := body.duplicate() as ShaderMaterial
+			dup.set_shader_parameter(&"base_color", _team)
+			dup.set_meta(&"team_copy_of", body.resource_path)   # tools / tests map it back to ec_painted.tres
+			_team_mats[key] = dup
+		mat = _team_mats[key]
+	for n: Node in find_children("*", "MeshInstance3D", true, false):
+		var mi := n as MeshInstance3D
+		if mi.mesh == null:
+			continue
+		# PaintedVC.convert put `body` on the painted surfaces as a surface override.
+		for s: int in mi.mesh.get_surface_count():
+			var cur: Material = mi.get_surface_override_material(s)
+			if cur != null and (cur == body or _team_mats.values().has(cur)):
+				mi.set_surface_override_material(s, mat)
 
 
 static func m(name: String) -> Material:
@@ -198,6 +247,8 @@ func _build() -> void:
 	_painted.append(_static_mi)
 	_hot = _mesh_instance("HotGlow", "hot", _hot_items, self, false)
 	_mould = _mesh_instance("MouldGlow", "mould", _mould_items, self, false)
+	# Pilot glows (always on, lit or cold): the banner's ember lantern and the forge sigils on the stack.
+	_mesh_instance("PilotGlow", "pilot", _pilot_items, self, false)
 	# The crucible (tilts on its trunnions).
 	_pivot = Node3D.new()
 	_pivot.name = "CruciblePivot"
@@ -295,11 +346,40 @@ static func _cyl_mesh(top: float, bottom: float, h: float, seg: int) -> Cylinder
 	return c
 
 
+const SQRT2 := 1.41421356
+
+
+## A square frustum tile without its hidden bottom face (unit square base, corners at +-0.5; top = `taper` x the
+## base): pads, flags and stone blocks get bevelled sides that break the light, and no area wasted face-down.
+static func _tile_mesh(taper: float, cap_top: bool = true) -> Mesh:
+	return _prim("tile_%.3f_%s" % [taper, cap_top], func() -> Mesh:
+		var c := _cyl_mesh(taper * SQRT2 * 0.5, SQRT2 * 0.5, 1.0, 4)
+		c.cap_bottom = false
+		c.cap_top = cap_top
+		var st := SurfaceTool.new()
+		st.begin(Mesh.PRIMITIVE_TRIANGLES)
+		st.append_from(c, 0, Transform3D(Basis(Vector3.UP, PI * 0.25), Vector3.ZERO))
+		return st.commit())
+
+
+static func _tl(pos: Vector3, size: Vector3, mat: Material, rot_deg: Vector3 = Vector3.ZERO, taper: float = 0.9) -> Array:
+	return _it(_tile_mesh(taper), pos, mat, rot_deg, size)
+
+
 static func _box() -> Mesh:
 	return _prim("box", func() -> Mesh:
 		var b := BoxMesh.new()
 		b.size = Vector3.ONE
 		return b)
+
+
+## A cylinder with its hidden caps left out (cap_top / cap_bottom false: buried in or covered by another part).
+static func _cylc(top: float, bottom: float, h: float, seg: int, cap_top: bool, cap_bottom: bool) -> Mesh:
+	return _prim("cylc_%.3f_%.3f_%.3f_%d_%s_%s" % [top, bottom, h, seg, cap_top, cap_bottom], func() -> Mesh:
+		var c := _cyl_mesh(top, bottom, h, seg)
+		c.cap_top = cap_top
+		c.cap_bottom = cap_bottom
+		return c)
 
 
 static func _cyl(top: float, bottom: float, h: float, seg: int = 12) -> Mesh:
@@ -312,8 +392,8 @@ static func _torus(inner: float, outer: float) -> Mesh:
 		var t := TorusMesh.new()
 		t.inner_radius = inner
 		t.outer_radius = outer
-		t.rings = 20
-		t.ring_segments = 8
+		t.rings = 28
+		t.ring_segments = 10
 		return t)
 
 
@@ -332,8 +412,18 @@ static func _it(mesh: Mesh, pos: Vector3, mat: Material, rot_deg: Vector3 = Vect
 	return [mesh, Transform3D(b.scaled_local(scale), pos), mat]
 
 
+## Turns items[from..] about the vertical axis through `centre` (a prop group set askew as one piece).
+static func _yaw_group(items: Array, from: int, centre: Vector3, deg: float) -> void:
+	var c := Vector3(centre.x, 0.0, centre.z)
+	var t := Transform3D(Basis.IDENTITY, c) * Transform3D(Basis(Vector3.UP, deg_to_rad(deg)), Vector3.ZERO)
+	t = t * Transform3D(Basis.IDENTITY, -c)
+	for i: int in range(from, items.size()):
+		items[i][1] = t * (items[i][1] as Transform3D)
+
+
+## A box without its bottom face (never seen from the RTS camera; 2026-10-12, C1 craft: no area wasted face-down).
 static func _bx(pos: Vector3, size: Vector3, mat: Material, rot_deg: Vector3 = Vector3.ZERO) -> Array:
-	return _it(_box(), pos, mat, rot_deg, size)
+	return _it(_tile_mesh(1.0), pos, mat, rot_deg, size)
 
 
 ## A box running from `a` to `b` (local Z along the segment), `w` wide and `t` thick.
@@ -355,52 +445,90 @@ static func _static_items() -> Array:
 	var dark := m("ec_dark")
 	var bronze := m("ec_bronze")
 	var iron := m("ec_iron")
+	var team := m("ec_team")
 	var it: Array = []
-	# Floor pad: a dark basalt slab under nine stone flags (the dark grout between them reads as a forge floor).
-	it.append(_bx(Vector3(0.0, 0.1, 0.02), Vector3(2.6, 0.2, 2.7), dark))
+	# Floor pad (2026-10-12): a team-glazed tile skirt (a square frustum, no hidden bottom face) under a dark grout
+	# slab and nine pale fireclay flags: the value step that keeps the forge off dark ash, the team colour round it.
+	it.append(_it(_tile_mesh(1.2 / 1.35, false), Vector3(0.0, 0.1, 0.0), team, Vector3.ZERO, Vector3(2.7, 0.2, 2.7)))
+	it.append(_tl(Vector3(0.0, 0.22, 0.0), Vector3(2.42, 0.04, 2.42), dark, Vector3.ZERO, 0.0))
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 70713
 	for ix: int in 3:
 		for iz: int in 3:
-			var p := Vector3(-0.86 + 0.86 * ix + rng.randf_range(-0.03, 0.03), 0.23,
-				-0.88 + 0.9 * iz + rng.randf_range(-0.03, 0.03))
-			it.append(_bx(p, Vector3(0.8, 0.06, 0.84), stone, Vector3(0.0, rng.randf_range(-4.0, 4.0), 0.0)))
+			var p := Vector3(-0.79 + 0.79 * ix + rng.randf_range(-0.02, 0.02), 0.245,
+				-0.79 + 0.79 * iz + rng.randf_range(-0.02, 0.02))
+			it.append(_tl(p, Vector3(0.72, 0.05, 0.72), stone, Vector3(rng.randf_range(-3.0, 3.0), rng.randf_range(-11.0, 11.0), rng.randf_range(-3.0, 3.0))))
 	# Firebox (centre z 0.35): base course, stone body, corner buttresses, bronze band, collar.
 	var fz: float = AXLE.z
-	it.append(_bx(Vector3(0.0, 0.37, fz), Vector3(1.52, 0.22, 1.42), dark))
-	it.append(_bx(Vector3(0.0, 0.79, fz), Vector3(1.3, 0.62, 1.2), stone))
-	for sx: float in [-1.0, 1.0]:
-		for sz: float in [-1.0, 1.0]:
-			it.append(_bx(Vector3(sx * 0.66, 0.8, fz + sz * 0.6), Vector3(0.26, 0.66, 0.26), dark))
-	it.append(_bx(Vector3(0.0, 1.05, fz), Vector3(1.38, 0.09, 1.28), bronze))
-	it.append(_bx(Vector3(0.0, 1.17, fz), Vector3(1.56, 0.14, 1.44), dark))
+	# 2026-10-12: an octagonal firebox (flat faces on the axes, the fire mouths on +-X), buttresses on the four
+	# diagonal faces, a sloped collar hood: the light breaks on eight directions instead of four (C1 craft).
+	var o8 := Vector3(0, 22.5, 0)
+	var k8: float = 1.0 / cos(deg_to_rad(22.5))           # octagon vertex radius per apothem
+	it.append(_it(_cylc(0.65 * k8, 0.76 * k8, 0.22, 8, false, false), Vector3(0.0, 0.37, fz), dark, o8))
+	it.append(_it(_cylc(0.64 * k8, 0.65 * k8, 0.62, 8, false, false), Vector3(0.0, 0.79, fz), stone, o8))
+	for d: float in [45.0, 135.0, 225.0, 315.0]:
+		var dv := Vector3(cos(deg_to_rad(d)), 0.0, sin(deg_to_rad(d))) * 0.66
+		it.append(_bx(Vector3(dv.x, 0.8, fz + dv.z), Vector3(0.24, 0.66, 0.22), dark, Vector3(0, -d, 0)))
+	it.append(_it(_cylc(0.685 * k8, 0.69 * k8, 0.09, 8, true, false), Vector3(0.0, 1.05, fz), team, o8))
+	it.append(_it(_cylc(0.6 * k8, 0.82 * k8, 0.14, 8, false, false), Vector3(0.0, 1.17, fz), dark, o8))
+	it.append(_it(_cylc(0.0, 0.6 * k8, 0.05, 8, false, false), Vector3(0.0, 1.265, fz), dark, o8))
 	# Fire mouths on both side faces (the coals glow in HotGlow): a dark hole, a bronze lintel with a keystone, a sill.
 	for sx: float in [-1.0, 1.0]:
-		it.append(_bx(Vector3(sx * 0.655, 0.73, fz), Vector3(0.06, 0.42, 0.58), dark))
-		it.append(_bx(Vector3(sx * 0.68, 0.99, fz), Vector3(0.12, 0.12, 0.76), bronze))
+		it.append(_bx(Vector3(sx * 0.655, 0.73, fz), Vector3(0.06, 0.42, 0.44), dark))
+		it.append(_bx(Vector3(sx * 0.68, 0.99, fz), Vector3(0.12, 0.12, 0.56), bronze))
 		it.append(_bx(Vector3(sx * 0.7, 1.0, fz), Vector3(0.1, 0.2, 0.16), bronze))
-		it.append(_bx(Vector3(sx * 0.68, 0.51, fz), Vector3(0.14, 0.07, 0.7), bronze))
-	# Chimney behind the crucible (+Z): stone stack, two dark bands, an open cap ring (the ember mouth glows inside).
+		it.append(_bx(Vector3(sx * 0.68, 0.51, fz), Vector3(0.14, 0.07, 0.56), bronze))
+	# Chimney behind the crucible (+Z, 2026-10-12: taller, a tapering round stack on a dark footing): two dark
+	# bands, a team-glazed collar, an open crown (the ember mouth glows inside), four bronze spikes up to TOP_Y.
 	var cz: float = 1.02
-	it.append(_bx(Vector3(0.0, 1.46, cz), Vector3(0.56, 1.96, 0.46), stone))
-	for y: float in [1.72, 2.2]:
-		it.append(_bx(Vector3(0.0, y, cz), Vector3(0.64, 0.11, 0.54), dark))
+	it.append(_tl(Vector3(0.0, 0.5, cz), Vector3(0.72, 0.5, 0.64), dark, Vector3.ZERO, 0.86))
+	it.append(_it(_cylc(0.3, 0.345, 1.89, 20, true, false), Vector3(0.0, 1.655, cz), stone))
+	for y: float in [1.28, 1.9]:
+		it.append(_it(_cyl(0.365, 0.372, 0.1, 8), Vector3(0.0, y, cz), dark, Vector3(0, 22.5, 0)))
+	it.append(_it(_cyl(0.36, 0.31, 0.2, 8), Vector3(0.0, 2.48, cz), team, Vector3(0, 22.5, 0)))
+	it.append(_it(_cyl(0.372, 0.36, 0.06, 8), Vector3(0.0, 2.36, cz), dark, Vector3(0, 22.5, 0)))
 	for sz: float in [-1.0, 1.0]:
-		it.append(_bx(Vector3(0.0, 2.5, cz + sz * 0.27), Vector3(0.8, 0.14, 0.12), dark))
+		it.append(_bx(Vector3(0.0, 2.65, cz + sz * 0.29), Vector3(0.74, 0.14, 0.1), dark))
 	for sx: float in [-1.0, 1.0]:
-		it.append(_bx(Vector3(sx * 0.33, 2.5, cz), Vector3(0.14, 0.14, 0.66), dark))
+		it.append(_bx(Vector3(sx * 0.32, 2.65, cz), Vector3(0.1, 0.14, 0.68), dark))
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
-			it.append(_it(_cyl(0.0, 0.07, 0.18, 4), Vector3(sx * 0.33, 2.66, cz + sz * 0.27), bronze, Vector3(0, 45, 0)))
+			it.append(_it(_cyl(0.0, 0.07, 0.28, 6), Vector3(sx * 0.32, 2.85, cz + sz * 0.27), bronze, Vector3(0, 0, -sx * 8.0)))
+	# Team banner on the outer front corner (+X / -Z): a stone socket, an iron pole, a crossbar running inward on the
+	# diagonal, a team flag on it (both cameras see it at 45 deg; dark hems, a bronze sun disc on both faces), a bronze
+	# finial cup under the ember lantern.
+	var bp := BANNER
+	var fd := Vector3(-SQRT2 * 0.5, 0.0, SQRT2 * 0.5)    # flag direction from the pole
+	var fc := bp + fd * 0.4                              # flag centre (x, z)
+	it.append(_it(_cyl(0.08, 0.11, 0.22, 8), Vector3(bp.x, 0.36, bp.z), stone))
+	it.append(_it(_cyl(0.035, 0.045, 2.5, 8), Vector3(bp.x, 1.47, bp.z), iron))
+	it.append(_slab(Vector3(bp.x, 2.66, bp.z) - fd * 0.03, Vector3(bp.x, 2.62, bp.z) + fd * 0.8, 0.05, 0.05, iron))
+	it.append(_bx(Vector3(fc.x, 2.0, fc.z), Vector3(0.035, 1.2, 0.72), team, Vector3(0, -45, 0)))
+	it.append(_bx(Vector3(fc.x, 1.42, fc.z), Vector3(0.045, 0.07, 0.74), dark, Vector3(0, -45, 0)))
+	it.append(_bx(Vector3(fc.x, 2.57, fc.z), Vector3(0.045, 0.07, 0.74), dark, Vector3(0, -45, 0)))
+	it.append(_it(_cyl(0.16, 0.16, 0.06, 12), Vector3(fc.x, 2.05, fc.z), bronze, Vector3(0, -45, 90)))
+	it.append(_it(_cyl(0.11, 0.04, 0.12, 8), Vector3(bp.x, 2.77, bp.z), bronze))
+	# Quench crane (front -X corner): an iron post on a stone socket, a raking brace, a jib out over the trough, a chain
+	# and a bronze dipping bucket.
+	var cp := CRANE
+	var jd := Vector3(0.45, 0.0, 0.45)                   # jib reach toward the trough centre
+	it.append(_it(_cyl(0.09, 0.12, 0.24, 8), Vector3(cp.x, 0.37, cp.z), stone))
+	it.append(_it(_cyl(0.05, 0.06, 2.1, 8), Vector3(cp.x, 1.3, cp.z), iron))
+	it.append(_slab(Vector3(cp.x, 2.3, cp.z) - jd * 0.15, Vector3(cp.x, 2.3, cp.z) + jd, 0.07, 0.09, iron))
+	it.append(_slab(Vector3(cp.x, 1.7, cp.z), Vector3(cp.x, 2.27, cp.z) + jd * 0.62, 0.05, 0.05, iron))
+	it.append(_it(_cyl(0.1, 0.07, 0.12, 8), Vector3(cp.x, 2.38, cp.z), bronze))
+	it.append(_bx(Vector3(cp.x, 1.92, cp.z) + jd * 0.92, Vector3(0.025, 0.72, 0.025), iron))
+	it.append(_it(_cyl(0.13, 0.1, 0.2, 10), Vector3(cp.x, 1.48, cp.z) + jd * 0.92, bronze))
 	# Trunnion posts and bearing blocks (the pins of the crucible turn in them).
 	for sx: float in [-1.0, 1.0]:
-		it.append(_bx(Vector3(sx * 0.76, 1.4, fz), Vector3(0.18, 0.36, 0.24), iron))
+		it.append(_bx(Vector3(sx * 0.76, 1.36, fz), Vector3(0.18, 0.44, 0.24), iron))
 		it.append(_bx(Vector3(sx * 0.76, AXLE.y, fz), Vector3(0.26, 0.2, 0.32), bronze))
 		it.append(_slab(Vector3(sx * 0.76, 1.24, fz - 0.42), Vector3(sx * 0.76, 1.5, fz - 0.1), 0.1, 0.1, iron))
 		it.append(_slab(Vector3(sx * 0.76, 1.24, fz + 0.42), Vector3(sx * 0.76, 1.5, fz + 0.1), 0.1, 0.1, iron))
 	# Mould (a stone block, a bronze frame, the dark cavities of a round shield and a sword) and the sprue funnel.
 	var mz: float = -0.74
-	it.append(_bx(Vector3(0.0, 0.4, mz), Vector3(0.94, 0.28, 0.62), dark))
+	var g0: int = it.size()
+	it.append(_tl(Vector3(0.0, 0.4, mz), Vector3(0.94, 0.28, 0.62), dark, Vector3.ZERO, 0.9))
 	for sz: float in [-1.0, 1.0]:
 		it.append(_bx(Vector3(0.0, 0.56, mz + sz * 0.3), Vector3(0.98, 0.05, 0.07), bronze))
 	for sx: float in [-1.0, 1.0]:
@@ -408,24 +536,28 @@ static func _static_items() -> Array:
 	it.append(_it(_cyl(0.19, 0.19, 0.012, 14), Vector3(-0.2, 0.545, mz - 0.04), iron))
 	it.append(_bx(Vector3(0.17, 0.545, mz - 0.08), Vector3(0.46, 0.012, 0.08), iron))
 	it.append(_bx(Vector3(-0.07, 0.545, mz - 0.08), Vector3(0.05, 0.012, 0.22), iron))
+	_yaw_group(it, g0, Vector3(0.0, 0.0, mz), MOULD_YAW)   # set a touch askew (C1: the light breaks on it)
 	var sp := _sprue()
 	it.append(_it(_cyl(0.16, 0.07, 0.16, 10), Vector3(sp.x, SPROUT_TOP - 0.08, sp.z), bronze))
 	it.append(_it(_cyl(0.07, 0.07, 0.1, 8), Vector3(sp.x, SPROUT_TOP - 0.2, sp.z), bronze))
 	# Anvil on a stone stump (+X front), a hammer lying on its face.
 	var ax: float = 0.9
 	var az: float = -0.58
-	it.append(_bx(Vector3(ax, 0.46, az), Vector3(0.46, 0.4, 0.46), stone, Vector3(0, 8, 0)))
+	it.append(_tl(Vector3(ax, 0.46, az), Vector3(0.46, 0.4, 0.46), stone, Vector3(0, 8, 0), 0.82))
 	it.append(_bx(Vector3(ax, 0.67, az), Vector3(0.5, 0.05, 0.5), dark, Vector3(0, 8, 0)))
+	g0 = it.size()
 	it.append(_bx(Vector3(ax, 0.74, az), Vector3(0.22, 0.12, 0.3), iron))
 	it.append(_bx(Vector3(ax, 0.84, az), Vector3(0.3, 0.09, 0.58), iron))
 	it.append(_it(_cyl(0.0, 0.1, 0.3, 8), Vector3(ax, 0.84, az - 0.43), iron, Vector3(-90, 0, 0), Vector3(1.0, 1.0, 0.8)))
 	it.append(_bx(Vector3(ax, 0.84, az + 0.33), Vector3(0.2, 0.07, 0.1), iron))
 	it.append(_slab(Vector3(ax - 0.05, 0.915, az + 0.2), Vector3(ax + 0.38, 0.915, az + 0.3), 0.05, 0.05, bronze))
 	it.append(_bx(Vector3(ax - 0.06, 0.94, az + 0.2), Vector3(0.12, 0.1, 0.22), iron))
+	_yaw_group(it, g0, Vector3(ax, 0.0, az), ANVIL_YAW)   # the anvil turned with its stump
 	# Quench trough (-X front): stone basin, bronze rim, dark water, tongs leaning in it.
 	var qx: float = -0.92
 	var qz: float = -0.72
-	it.append(_bx(Vector3(qx, 0.44, qz), Vector3(0.62, 0.36, 0.8), stone))
+	g0 = it.size()
+	it.append(_it(_tile_mesh(0.9, false), Vector3(qx, 0.44, qz), stone, Vector3.ZERO, Vector3(0.62, 0.36, 0.8)))
 	for sz: float in [-1.0, 1.0]:
 		it.append(_bx(Vector3(qx, 0.63, qz + sz * 0.38), Vector3(0.66, 0.05, 0.07), bronze))
 	for sx: float in [-1.0, 1.0]:
@@ -433,9 +565,10 @@ static func _static_items() -> Array:
 	it.append(_bx(Vector3(qx, 0.6, qz), Vector3(0.5, 0.02, 0.68), iron))
 	it.append(_slab(Vector3(qx + 0.12, 0.58, qz + 0.1), Vector3(qx + 0.26, 1.12, qz + 0.34), 0.05, 0.05, iron))
 	it.append(_slab(Vector3(qx + 0.18, 0.58, qz + 0.06), Vector3(qx + 0.3, 1.1, qz + 0.3), 0.05, 0.05, iron))
+	_yaw_group(it, g0, Vector3(qx, 0.0, qz), 6.0)
 	# Bellows base (-X back): a stone block, the lower board, the bronze nozzle into the firebox wall.
 	var h := BELLOWS_HINGE
-	it.append(_bx(Vector3(h.x - 0.25, 0.37, h.z), Vector3(0.56, 0.22, 0.5), stone))
+	it.append(_tl(Vector3(h.x - 0.25, 0.37, h.z), Vector3(0.56, 0.22, 0.5), stone, Vector3.ZERO, 0.85))
 	it.append(_bx(Vector3(h.x - 0.25, h.y - 0.025, h.z), Vector3(BELLOWS_LEN + 0.06, 0.05, 0.48), dark))
 	it.append(_it(_cyl(0.045, 0.1, 0.2, 8), Vector3(h.x + 0.05, h.y + 0.03, h.z), bronze, Vector3(0, 0, -90)))
 	return it
@@ -447,11 +580,24 @@ static func _hot_items() -> Array:
 	var molten := m("ec_molten")
 	var it: Array = []
 	for sx: float in [-1.0, 1.0]:
-		it.append(_bx(Vector3(sx * 0.692, 0.7, AXLE.z), Vector3(0.02, 0.3, 0.48), coals))
+		it.append(_bx(Vector3(sx * 0.692, 0.7, AXLE.z), Vector3(0.02, 0.3, 0.38), coals))
 	it.append(_it(_cyl(0.5, 0.54, 0.06, 14), Vector3(0.0, 1.27, AXLE.z), coals))
-	it.append(_bx(Vector3(0.0, 2.47, 1.02), Vector3(0.52, 0.04, 0.42), coals))
+	it.append(_bx(Vector3(0.0, 2.62, 1.02), Vector3(0.52, 0.04, 0.42), coals))
+	var g0: int = it.size()
 	it.append(_bx(Vector3(0.9, 0.9, -0.66), Vector3(0.07, 0.035, 0.44), molten))
 	it.append(_bx(Vector3(0.9, 0.9, -0.34), Vector3(0.04, 0.03, 0.14), molten))
+	_yaw_group(it, g0, Vector3(0.9, 0.0, -0.58), ANVIL_YAW)
+	return it
+
+
+## Always-on pilot glows (lit or cold): the ember lantern on the banner finial, a forge sigil slit on both side faces
+## of the stack (one faces each camera).
+static func _pilot_items() -> Array:
+	var molten := m("ec_molten")
+	var it: Array = []
+	it.append(_it(_sph(0.1), Vector3(BANNER.x, 2.89, BANNER.z), molten))
+	for sx: float in [-1.0, 1.0]:
+		it.append(_bx(Vector3(sx * 0.3, 2.13, 1.02), Vector3(0.03, 0.34, 0.12), molten, Vector3(0, 0, sx * 1.7)))
 	return it
 
 
@@ -463,6 +609,7 @@ static func _mould_items() -> Array:
 	it.append(_it(_cyl(0.18, 0.18, 0.02, 14), Vector3(-0.2, 0.556, mz - 0.04), hot))
 	it.append(_bx(Vector3(0.17, 0.556, mz - 0.08), Vector3(0.44, 0.02, 0.07), hot))
 	it.append(_bx(Vector3(-0.07, 0.556, mz - 0.08), Vector3(0.045, 0.02, 0.2), hot))
+	_yaw_group(it, 0, Vector3(0.0, 0.0, mz), MOULD_YAW)
 	var sp := _sprue()
 	it.append(_it(_cyl(0.13, 0.13, 0.02, 10), Vector3(sp.x, SPROUT_TOP + 0.005, sp.z), hot))
 	return it
@@ -475,11 +622,15 @@ static func _body_items() -> Array:
 	var bronze := m("ec_bronze")
 	var dark := m("ec_dark")
 	var it: Array = []
-	it.append(_it(_cyl(0.53, 0.38, 0.34, 16), Vector3(0.0, -0.16, 0.0), iron))
-	it.append(_it(_cyl(0.58, 0.53, 0.3, 16), Vector3(0.0, 0.16, 0.0), iron))
-	it.append(_it(_cyl(0.38, 0.28, 0.07, 16), Vector3(0.0, -0.36, 0.0), dark))
-	it.append(_it(_cyl(0.56, 0.56, 0.09, 16), Vector3(0.0, 0.0, 0.0), dark))
+	it.append(_it(_cylc(0.53, 0.38, 0.34, 32, false, false), Vector3(0.0, -0.16, 0.0), iron))
+	it.append(_it(_cylc(0.58, 0.53, 0.3, 32, false, false), Vector3(0.0, 0.16, 0.0), iron))
+	it.append(_it(_cylc(0.38, 0.28, 0.07, 24, false, true), Vector3(0.0, -0.36, 0.0), dark))
+	it.append(_it(_cylc(0.56, 0.56, 0.09, 24, false, false), Vector3(0.0, 0.0, 0.0), dark))
 	it.append(_it(_torus(0.47, 0.65), Vector3(0.0, 0.35, 0.0), bronze, Vector3.ZERO, Vector3(1.0, 0.75, 1.0)))
+	# Rivet heads round the belly band (2026-10-12: secondary detail at the close-up).
+	for i: int in 14:
+		var a: float = TAU * (float(i) + 0.5) / 14.0
+		it.append(_it(_sph(0.035), Vector3(cos(a) * 0.565, 0.0, sin(a) * 0.565), bronze))
 	# Spout: a bronze trough over the rim toward -Z (base + two side lips), a lip plate.
 	it.append(_bx(Vector3(0.0, 0.3, -0.72), Vector3(0.28, 0.06, 0.48), bronze, Vector3(-8, 0, 0)))
 	for sx: float in [-1.0, 1.0]:
@@ -498,7 +649,7 @@ static func _body_items() -> Array:
 static func _crust_items() -> Array:
 	var dark := m("ec_dark")
 	var it: Array = []
-	it.append(_it(_cyl(0.55, 0.55, 0.04, 16), Vector3(0.0, 0.305, 0.0), dark))
+	it.append(_it(_cylc(0.42, 0.55, 0.05, 12, true, false), Vector3(0.0, 0.31, 0.0), dark, Vector3(0, 9, 0)))
 	for p: Vector3 in [Vector3(0.18, 0.32, 0.12), Vector3(-0.22, 0.32, -0.06), Vector3(0.02, 0.32, -0.26)]:
 		it.append(_it(_sph(0.11), p, dark, Vector3.ZERO, Vector3(1.0, 0.45, 1.0)))
 	return it
@@ -508,7 +659,7 @@ static func _crust_items() -> Array:
 static func _molten_items() -> Array:
 	var molten := m("ec_molten")
 	var it: Array = []
-	it.append(_it(_cyl(0.55, 0.55, 0.04, 16), Vector3(0.0, 0.325, 0.0), molten))
+	it.append(_it(_cyl(0.55, 0.55, 0.04, 24), Vector3(0.0, 0.325, 0.0), molten))
 	it.append(_it(_sph(0.44), Vector3(0.0, 0.33, 0.0), molten, Vector3.ZERO, Vector3(1.0, 0.16, 1.0)))
 	return it
 

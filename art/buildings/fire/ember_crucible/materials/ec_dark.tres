@@ -7,7 +7,7 @@
 resource_name = "ec_dark"
 render_priority = 0
 shader = ExtResource("1_ec")
-shader_parameter/base_color = Color(0.12, 0.095, 0.1, 1)
+shader_parameter/base_color = Color(0.17, 0.13, 0.12, 1)
 shader_parameter/noise_tex = ExtResource("2_ec")
 shader_parameter/spec_strength = 0.1
 shader_parameter/rim_strength = 0.25

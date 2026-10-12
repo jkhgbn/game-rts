@@ -193,6 +193,13 @@ func play_destroyed() -> void:
 
 # --- Crucible annex ---
 
+## The Roost's team colour also reaches the annex (its banner, glazed pad skirt, firebox band, stack collar).
+func set_team_color(c: Color) -> void:
+	super.set_team_color(c)
+	if _crucible != null:
+		_crucible.call(&"set_team_color", c)
+
+
 func _ensure_crucible() -> void:
 	if _crucible != null or not ResourceLoader.exists(CRUCIBLE_PATH):
 		return
@@ -204,6 +211,7 @@ func _ensure_crucible() -> void:
 	_crucible.position = CRUCIBLE_ANCHOR
 	_crucible.set_meta(&"keep_separate", true)
 	_crucible.visible = false
+	_crucible.call(&"set_team_color", _team_color if _team_set else kingdom_color)   # banner / glazed skirt
 	add_child(_crucible)   # root child: never a construction part, never merged
 	if _crucible.has_signal(&"forge_poured"):
 		_crucible.connect(&"forge_poured", func(at: Vector3) -> void: crucible_poured.emit(at))

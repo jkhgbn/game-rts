@@ -98,7 +98,10 @@ func _run() -> void:
 		_check(m.has_method(hk), "hook %s" % hk)
 	_check(m.has_signal(&"forge_poured"), "signal forge_poured")
 
-	# ---- budget / draw-only
+	# ---- budget / draw-only (with a non-fire team colour set: its shared ec_painted copy must count as ec_painted)
+	var ice := Color(0.45, 0.75, 0.95)
+	m.call(&"set_team_color", ice)
+	var team_copies := 0
 	var geo := m.find_children("*", "GeometryInstance3D", true, false)
 	var meshes := 0
 	var parts := 0
@@ -124,6 +127,10 @@ func _run() -> void:
 			continue
 		for s: int in mi.mesh.get_surface_count():
 			var mat := _surf_mat(mi, s)
+			if mat and mat.has_meta(&"team_copy_of"):
+				team_copies += 1
+				_check(Color((mat as ShaderMaterial).get_shader_parameter(&"base_color")).is_equal_approx(ice), "team copy colour")
+				mat = load(String(mat.get_meta(&"team_copy_of"))) as Material
 			mats[mat.resource_path if mat else "<none>"] = true
 			var arr := mi.mesh.surface_get_arrays(s)
 			verts += (arr[Mesh.ARRAY_VERTEX] as PackedVector3Array).size()
@@ -138,6 +145,9 @@ func _run() -> void:
 	# shared meshes: a second annex reuses the same ArrayMeshes and materials (nothing built per instance)
 	_check((m.get_node("Static") as MeshInstance3D).mesh == (early.get_node("Static") as MeshInstance3D).mesh,
 		"meshes shared between annexes")
+	_check(team_copies > 0, "set_team_color(ice) reaches the painted surfaces (%d)" % team_copies)
+	m.call(&"set_team_color", Color(0.85, 0.30, 0.12))   # back to the fire colour: the shared .tres again
+	_check(_surf_mat(m.get_node("Static") as MeshInstance3D, 0).resource_path.begins_with(OWN_DIR), "fire colour: shared ec_painted")
 
 	# ---- instance-uniform slot audit (one MeshInstance never mixes two uniforms on one slot)
 	var collisions := 0
