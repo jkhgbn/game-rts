@@ -138,7 +138,7 @@ static func merge_runs(runs: Array) -> Dictionary:
 			best = r5
 	merged["hitch_list"] = best.get("hitch_list", [])
 	if not profiled.is_empty():
-		for k: String in ["hot", "systems", "engine", "lint"]:
+		for k: String in ["hot", "systems", "engine", "lint", "phys_split"]:
 			if profiled.has(k):
 				merged[k] = profiled[k]
 		merged["profiled_frame_avg"] = float((profiled.get("frame", {}) as Dictionary).get("avg", 0.0))

@@ -15,6 +15,14 @@ extends SceneTree
 ##   --upscaler=off|fsr1|fsr2 --render-scale=0.67   the game's 3D upscaler (default off = native, like before;
 ##                  the player's saved setting is never used here, so runs stay comparable)
 ##   --out=PATH     the JSON line is written there     --commit=ID  copied into the JSON     --run=N  repeat index
+##   Physics-step split (perf-research-2026-10-12 P12; result key "phys_split", scorecard line):
+##   --physsplit=1  times every unit's velocity_computed handler (Unit._on_velocity_computed = move_and_slide + _face +
+##                  set_moving) through a lab wrapper; with --profile=1 the split also gives avoidance / nav server and
+##                  model pose (the model-script bands)
+##   --noavoid=1    variant: every unit's NavigationAgent3D avoidance off (units overlap). An agent without avoidance
+##                  never emits velocity_computed, so the lab feeds each unit's handler its agent's velocity from the
+##                  SceneTree's _physics_process (same handler, one frame later): delta vs a normal run = the RVO cost
+##   --nopose=1     variant: every unit model script stops processing (no pose, no transform writes): delta = pose cost
 ## Test-script rules (CLAUDE.md): compiled before autoloads; game classes reached untyped / through groups.
 
 const Stats := preload("res://tools/perf_lab/perf_stats.gd")
@@ -102,6 +110,15 @@ var _fight_center := Vector3.ZERO
 var _was_baking := false
 var _started_iso := ""
 var _after_start := 0
+var phys_split := false       ## --physsplit=1
+var no_avoid := false         ## --noavoid=1
+var no_pose := false          ## --nopose=1
+var _vc_usec := 0             ## usec inside the units' velocity_computed handlers (measure window)
+var _vc_calls := 0
+var _vc_moving := 0           ## handler calls with a non-zero velocity
+var _pose_nodes: Array[Node] = []   ## --nopose: the scripted model nodes kept frozen
+var _variant_units := 0       ## unit count when the variant scan last ran (rescan trigger)
+var _fed: Array[Node] = []    ## --noavoid: units whose handler the lab calls each physics frame
 
 
 func _initialize() -> void:
@@ -165,6 +182,9 @@ func _parse_args() -> void:
 	upscaler = GameSettings.upscaler_from_id(String(args.get("upscaler", "off")))
 	render_scale = clampf(String(args.get("render-scale", "1.0")).to_float(), GameSettings.RENDER_SCALE_MIN,
 			GameSettings.RENDER_SCALE_MAX)
+	phys_split = ["1", "true", "on"].has(String(args.get("physsplit", "0")))
+	no_avoid = ["1", "true", "on"].has(String(args.get("noavoid", "0")))
+	no_pose = ["1", "true", "on"].has(String(args.get("nopose", "0")))
 
 
 ## A fixed GDScript workload (ms): the same code on every run, so a slow result means a busy / throttled machine.
@@ -248,17 +268,22 @@ func _process(_delta: float) -> bool:
 		"warmup":
 			_phase_frame += 1
 			_drive()
+			_variant_step()
 			if _phase_frame == _warm_frames - 3:
 				_census_start = _census()
 				_static_mem_start = Performance.get_monitor(Performance.MEMORY_STATIC)
 			if _phase_frame >= _warm_frames:
 				_phase = "measure"
 				_phase_frame = 0
+				_vc_usec = 0
+				_vc_calls = 0
+				_vc_moving = 0
 		"measure":
 			if _phase_frame > 0:   # the first measured frame is the boundary: skip
 				_record(frame_us / 1000.0, bands)
 			_phase_frame += 1
 			_drive()
+			_variant_step()
 			if _phase_frame > _measure_frames:
 				if not headless and bool(spec.get("gpu_ablate", false)) and not args.has("no-ablate"):
 					_ablate_begin()
@@ -565,6 +590,136 @@ func _first_alive(list: Array) -> Node:
 	return null
 
 
+# ---------------------------------------------------------------- physics-step split (P12)
+
+## Every frame of warm-up + measure: wraps new units' velocity_computed handler (--physsplit), keeps avoidance off
+## (--noavoid: a revive turns it back on) and the model scripts frozen (--nopose: the off-camera tiers wake them).
+func _variant_step() -> void:
+	if is_menu or not (phys_split or no_avoid or no_pose):
+		return
+	var units := get_nodes_in_group(&"units")
+	var rescan := units.size() != _variant_units or _phase_frame % 30 == 0
+	_variant_units = units.size()
+	if rescan:
+		_pose_nodes.clear()
+		_fed.clear()
+	for u: Node in units:
+		if no_avoid:
+			var ag: Variant = u.get(&"_agent")
+			if ag is NavigationAgent3D and (ag as NavigationAgent3D).avoidance_enabled:
+				(ag as NavigationAgent3D).avoidance_enabled = false
+		if not rescan:
+			continue
+		if no_avoid and u.get(&"_agent") is NavigationAgent3D:
+			_fed.append(u)
+		if phys_split and not u.has_meta(&"perf_lab_vc"):
+			_wrap_velocity_handler(u)
+		if no_pose:
+			var model: Variant = u.get(&"_model")
+			if model is Node:
+				var m := model as Node
+				if m.get_script() != null:
+					_pose_nodes.append(m)
+				for c: Node in m.find_children("*", "", true, false):
+					if c.get_script() != null:
+						_pose_nodes.append(c)
+	for n: Node in _pose_nodes:
+		if is_instance_valid(n):
+			n.set_process(false)
+			n.set_physics_process(false)
+
+
+## --noavoid: the agents no longer emit velocity_computed; hand every unit its own agent velocity instead (runs at
+## the top of the physics pass, before the probe's first marker: still inside the "engine physics" gap).
+func _physics_process(_delta: float) -> bool:
+	if not no_avoid or _fed.is_empty():
+		return false
+	for u: Node in _fed:
+		if not is_instance_valid(u) or not u.is_physics_processing():
+			continue
+		var v := (u.get(&"_agent") as NavigationAgent3D).velocity
+		if phys_split:
+			_timed_velocity_handler(v, u)
+		else:
+			u.call(&"_on_velocity_computed", v)
+	return false
+
+
+func _wrap_velocity_handler(u: Node) -> void:
+	var ag: Variant = u.get(&"_agent")
+	if not ag is NavigationAgent3D:
+		return
+	var orig := Callable(u, &"_on_velocity_computed")
+	var sig := (ag as NavigationAgent3D).velocity_computed
+	if not sig.is_connected(orig):
+		return
+	sig.disconnect(orig)
+	sig.connect(_timed_velocity_handler.bind(u))
+	u.set_meta(&"perf_lab_vc", true)
+
+
+func _timed_velocity_handler(v: Vector3, u: Node) -> void:
+	var t := Time.get_ticks_usec()
+	u.call(&"_on_velocity_computed", v)
+	_vc_usec += Time.get_ticks_usec() - t
+	_vc_calls += 1
+	if v.x * v.x + v.z * v.z > 1.0e-6:
+		_vc_moving += 1
+
+
+class NoopHandler:
+	extends RefCounted
+	func _on_velocity_computed(_v: Vector3) -> void:
+		pass
+
+
+## What one wrapped call adds inside the timed interval (a dynamic call of an empty handler + one clock read), in us.
+func _measure_wrap_cost() -> float:
+	var o := NoopHandler.new()
+	var t0 := Time.get_ticks_usec()
+	for i in 20000:
+		o.call(&"_on_velocity_computed", Vector3.ONE)
+	for i in 20000:
+		var _t := Time.get_ticks_usec()
+	return float(Time.get_ticks_usec() - t0) / 20000.0
+
+
+func _phys_split_result(res: Dictionary) -> Dictionary:
+	var n := maxf(float(_frame_ms.size()), 1.0)
+	var wrap_us := _measure_wrap_cost()
+	var vc_ms := maxf(0.0, (float(_vc_usec) - wrap_us * _vc_calls) / 1000.0 / n)
+	var mon: Dictionary = res.get("monitors", {})
+	var out := {"variant": "noavoid" if no_avoid else ("nopose" if no_pose else "normal"),
+		"wrapped": phys_split, "frame_avg_ms": float((res.get("frame", {}) as Dictionary).get("avg", 0.0)),
+		"units_avg": res.get("units_avg", 0),
+		"physics_engine": str(ProjectSettings.get_setting("physics/3d/physics_engine", "?")),
+		"physics_server": PhysicsServer3D.get_class(),
+		"nav_monitor_ms": mon.get("navigation_ms", 0.0), "physics_monitor_ms": mon.get("physics_ms", 0.0)}
+	if phys_split:
+		out["slide_handler_ms"] = snappedf(vc_ms, 0.001)
+		out["slide_handler_calls_per_frame"] = snappedf(_vc_calls / n, 0.1)
+		out["slide_handler_moving_per_frame"] = snappedf(_vc_moving / n, 0.1)
+		out["wrap_cost_us"] = snappedf(wrap_us, 0.01)
+		out["handler_us_per_call"] = snappedf(vc_ms * 1000.0 * n / maxf(float(_vc_calls), 1.0), 0.01)
+	var eng: Dictionary = res.get("engine", {})
+	if not eng.is_empty():
+		var gap := float(eng.get("physics_ms", 0.0))
+		out["engine_physics_gap_ms"] = gap
+		if phys_split:
+			# The gap after the physics pass = nav server (avoidance + map sync) + the velocity handlers it fires +
+			# the physics server step. Without the handlers: avoidance + sync + physics step.
+			out["gap_minus_handlers_ms"] = snappedf(gap - vc_ms, 0.001)
+	var sys: Dictionary = res.get("systems", {})
+	for sid: String in sys:
+		out["sys_%s_ms" % sid] = (sys[sid] as Dictionary).get("avg_ms", 0.0)
+	for row: Variant in res.get("hot", []):
+		var r: Dictionary = row
+		var key := String(r.get("key", ""))
+		if key == "scripts/units/unit.gd" or key == "[NavigationAgent3D]":
+			out["band_%s_ms" % key.get_file().trim_suffix(".gd").trim_prefix("[").trim_suffix("]")] = r.get("avg_ms", 0.0)
+	return out
+
+
 # ---------------------------------------------------------------- camera paths (fixed, game-time driven)
 
 func _build_camera_path() -> void:
@@ -837,6 +992,8 @@ func _finish(error: String) -> bool:
 		res["gpu_ablation"] = _abl_rows
 	if profile:
 		_profile_result(res)
+	if phys_split or no_avoid or no_pose:
+		res["phys_split"] = _phys_split_result(res)
 	_hitches.sort_custom(func(x: Dictionary, y: Dictionary) -> bool: return float(x["ms"]) > float(y["ms"]))
 	res["hitch_list"] = _hitches.slice(0, 20)
 	res["notes"] = _notes

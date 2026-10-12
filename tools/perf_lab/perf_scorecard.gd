@@ -434,6 +434,13 @@ func to_markdown() -> String:
 				float(eng.get("physics_ms", 0.0)), float(eng.get("other_ms", 0.0))]
 			s += "unclassified nodes %.3f · probe overhead ~%.3f\n\n" % [float(eng.get("unclassified_ms", 0.0)),
 				float(eng.get("probe_overhead_ms", 0.0))]
+		var ps: Dictionary = r.get("phys_split", {})
+		if ps.has("slide_handler_ms"):   # --physsplit=1 (perf-research-2026-10-12 P12)
+			s += "Physics-step split (avg ms per frame, %s): velocity handlers (move_and_slide + face) %.3f over %.0f calls · " % [
+				String(ps.get("variant", "normal")), float(ps.get("slide_handler_ms", 0.0)),
+				float(ps.get("slide_handler_calls_per_frame", 0.0))]
+			s += "physics gap without them (avoidance + nav sync + physics step) %.3f · physics server %s\n\n" % [
+				float(ps.get("gap_minus_handlers_ms", 0.0)), String(ps.get("physics_server", "?"))]
 	var ab: Array = r.get("gpu_ablation", [])
 	if not ab.is_empty():
 		s += "## GPU cost by layer (windowed ablation: tree paused, camera over the Crown Isle at zoom 55)\n"

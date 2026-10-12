@@ -47,6 +47,7 @@ param(
 	[string]$Title = "",
 	[ValidateSet("off", "fsr1", "fsr2")][string]$Upscaler = "off",
 	[double]$RenderScale = 1.0,
+	[string]$LabArgs = "",   # extra perf_lab.gd user args for every run, e.g. "--physsplit=1" or "--noavoid=1"
 	[string]$Godot = "C:\Godot\Godot_v4.7.2-stable_win64_console.exe"
 )
 
@@ -176,6 +177,7 @@ foreach ($j in $Jobs) {
 	$extra = ""
 	if ($Quick) { $extra = "--measure=8" }
 	$extra += " --upscaler=$Upscaler --render-scale=$($RenderScale.ToString([Globalization.CultureInfo]::InvariantCulture))"
+	if ($LabArgs -ne "") { $extra += " $LabArgs" }
 	$prof = if ($j.Profile) { "1" } else { "0" }
 	$display = if ($j.Gpu) { "--resolution $($j.Res) --position 0,0" } else { "--headless" }
 	$a = "$display --path `"$Dir`" -s res://tools/perf_lab/perf_lab.gd --fixed-fps 60 --quit-after 40000 -- " +

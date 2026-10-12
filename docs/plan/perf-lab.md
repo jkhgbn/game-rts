@@ -237,6 +237,35 @@ Top findings (details in the scorecards):
    - 109-114 map-dressing draw nodes (140)
    - Render objects are over the lab default at late200: 8 288 against 6 500.
 
+## Physics-step split (P12, 2026-10-12)
+
+`perf-research-2026-10-12.md` P12. Lab flags (runner: `-LabArgs "--physsplit=1"`): `--physsplit=1` times every unit's
+`velocity_computed` handler (`move_and_slide` + `_face` + `set_moving`) through a lab wrapper and adds a `phys_split`
+key (and a scorecard line next to the engine gaps); `--noavoid=1` turns avoidance off (an agent without avoidance never
+emits `velocity_computed`, so the lab feeds each handler its agent velocity); `--nopose=1` freezes every unit model
+script. Guard test: `tests/test_perf_avoidance.gd`.
+
+late200, 3 runs per variant, all with `--profile=1 --physsplit=1`, medians. **Noisy machine** (6-8 other Godot
+processes): absolute numbers are high, the shares hold. About 128 units alive on average.
+
+| Part (ms per frame) | normal | noavoid | nopose |
+|---|---|---|---|
+| frame avg | 17.97 | 14.50 | 14.68 |
+| engine physics gap (after the physics pass) | 3.68 | 0.85 | 3.54 |
+| of which velocity handlers (`move_and_slide`) | 2.21 (127 calls, ~59 moving, 17.5 us/call) | 0.85 (~10 moving) | 2.14 |
+| of which the rest (RVO avoidance + nav sync + physics server step) | 1.48 | 0.07 | 1.40 |
+| unit model scripts (pose) | 3.58 | 3.27 | 0.69 |
+| `unit.gd` logic (`_physics_process`) | 3.52 | 2.97 | 3.31 |
+
+Reading: avoidance is ~1.4 ms (the rest drops to ~0.1 ms without it, so the physics server step itself is almost
+free). `move_and_slide` is ~2.2 ms, i.e. 60 % of the physics gap. Pose is the biggest single part: freezing the models
+saves 3.3 ms of frame, about the same as their script band (2.9 ms), so the transform propagation adds little on top.
+The noavoid frame delta (-3.5 ms) is not all RVO: without avoidance the units overlap and stop walking sooner
+(~10 moving instead of ~59), so their slides also go away.
+Jolt A/B: not measured. An `override.cfg` next to a hard-linked exe copy (`FW_GODOT`) is ignored (the runs matched
+the normal ones exactly and reported `DEFAULT`). The only working place is the project root, and that would switch
+every other agent's Godot run as well. It needs a quiet window with no other agent running.
+
 ## Limits
 
 - Headless has no camera culling of the render, but the models still run their distance tiers from the camera rig
