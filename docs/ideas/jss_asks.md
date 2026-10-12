@@ -7,6 +7,7 @@ When JS asks for something new, add a line here first, then work on it.
 
 | Date | Ask (JS's words, short) | Status | Where |
 |---|---|---|---|
+| 2026-10-12 | "can u review all game bot program and look for possible error" | doing | `scripts/ai/` (4 read-only reviewers, fixes via ai-coder) |
 | 2026-09-28 | Rework the faces of the 5 main wizards: eyes, smile, facial expressions | doing | `art/units/wizards/`, Aldra assumed as the 5th |
 | 2026-09-28 | Rework the hair of the 5 wizards too, then put faces and hair in both films (re-render Ep 3, Ep 4 and the prologue; JS watches when finished) | doing | `docs/art/hair-redesign-plan.md` |
 | 2026-09-29 | Prologue: when the king gives the laurel (or similar) a character looks like he is flying, fix it | doing | `data/cinematics/src/prologue_3min.cine` |
