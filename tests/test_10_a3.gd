@@ -678,9 +678,11 @@ func _raid_stage(check_b7: bool) -> bool:
 		return false
 	if check_b7 and not _s.has("b7") and not _s.has("b7_diag") and _t - float(_s["raid_at"]) >= 5.0:
 		_s["b7_diag"] = _b7_state()
-	if check_b7 and not _s.has("b7") and _has_flag("B7", float(_s["raid_at"])):
-		_s["b7"] = _t
-		print("[%s] B7 Guard on the forward hall %.1f s after the raid" % [part, _t - float(_s["raid_at"])])
+	if check_b7 and not _s.has("b7"):
+		var by := "B7" if _has_flag("B7", float(_s["raid_at"])) else _guard_on_raided_hall(float(_s["raid_at"]))
+		if by != "":
+			_s["b7"] = _t
+			print("[%s] %s Guard on the forward hall %.1f s after the raid" % [part, by, _t - float(_s["raid_at"])])
 	if not _s.has("s3") and _tower_near(S3, 6.0):
 		_s["s3"] = _t
 		print("[%s] S3 Spire placed %.1f s after the raid" % [part, _t - float(_s["raid_at"])])
@@ -690,11 +692,29 @@ func _raid_stage(check_b7: bool) -> bool:
 		if not _s.has("s3"):
 			_errors.append("%s: no Spire at S3 150 s after a raid" % part)
 		if check_b7 and not _s.has("b7"):
-			_errors.append("%s: no B7 Guard flag after a raid" % part)
+			_errors.append("%s: no B7 (or B1) Guard flag on the forward hall after a raid" % part)
 			# What the bot saw 5 s after the raid (intermittent, 2026-09-30: 1 run in 3), for the next person chasing it.
 			print("  B7 state 5 s after the raid: %s" % str(_s.get("b7_diag", "-")))
 		return true
 	return false
+
+
+## Bot review 2026-10-12 (B5 + test review): B1 runs before B7 and, since B5, places its own base-defence Guard on the
+## building nearest an intruder; on a raid at the natural that is often the forward hall, in the same second. The board
+## takes one flag per target, so B7 then (rightly) finds the hall guarded and places nothing: B7's goal (a Guard on the
+## raided forward hall) is met by B1's flag. Returns "B1" when a B1 Guard placed since `since` sits on the raided hall.
+func _guard_on_raided_hall(since: float) -> String:
+	var ta: AITrade = bot.get(&"trade_ai")
+	if ta == null:
+		return ""
+	var hall := ta.raided_hall(AIChampions.RAID_WINDOW, Building.for_team(ENEMY))
+	if hall == null:
+		return ""
+	for f: Dictionary in bot.champion_ai.flags:
+		if f["rule"] == "B1" and int(f["kind"]) == Bounty.GUARD and float(f["time"]) >= since - 0.01 \
+				and is_instance_valid(f["target"]) and f["target"] == hall:
+			return "B1"
+	return ""
 
 
 ## The B7 inputs as the bot sees them now (printed when B7 never came).

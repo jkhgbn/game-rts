@@ -225,6 +225,19 @@ const EXTRA_HALL_SPOTS: Array[Vector3] = [Vector3(27.0, 0.0, -53.0), Vector3(19.
 ## 7.A1 Ice walls (hard): offsets from the S1 tower, Shadow side (mirrored for the other side).
 const WALL_OFFSETS: Array[Vector3] = [Vector3(-2.0, 0.0, 0.0), Vector3(2.0, 0.0, 0.0)]
 const ADOPT_RADIUS := 4.0           ## A standing own building this close to a slot fills it (missions).
+const ADOPT_WIDE := 10.0            ## Bot review A3: the nearest unadopted one this close (shifted slots, quickload).
+## Bot review 2026-10-12 A1: a construction site no builder may walk to (strong camp / losses) for this long stops
+## blocking the next build row (one site at a time otherwise).
+const SITE_STALL_TIME := 90.0
+## A1: X1 waits for a strong camp on the keep -> natural walk to be creeped, at most this long after it is due.
+const X1_CAMP_WAIT := 180.0
+## Bot review A2: Stage.HUNT gives up a point / building no member came near for this long...
+const HUNT_TIMEOUT := 60.0
+const HUNT_NEAR := 12.0             ## ...near = within the building's radius + this.
+const HUNT_SKIP_TIME := 300.0       ## A building given up is not hunted again for this long.
+const HUNT_CAP_MULT := 3.0          ## A2 round 2: a hunt goal is dropped this x HUNT_TIMEOUT after it was set, always.
+const HUNT_PROGRESS := 3.0         ## A2: the group centre this much closer than its best = progress (clock restarts).
+const ALL_IN_OFF_HOLD := 20.0       ## Bot review A4: mining possible again this long -> all-in off.
 const SCRIPTED := &"scripted"       ## Group / meta of mission units the Commander never controls.
 
 @export var team: Unit.Team = Unit.Team.ENEMY
@@ -332,6 +345,13 @@ var _sortie_retreat := false              # the running retreat comes from a cre
 var _launched_tick := false               # rule 7 launched this tick (11a creeps only when it did not)
 var _mid_goal := Vector3.ZERO             # Stage.MID's point: the crown, or (13b) a crossing waypoint
 var _creep_retry_at := -INF               # 11b: no new creep before this after one turned back
+var _hunt_since := 0.0                    # A2: when the hunt target / point was set, or a member was last near it
+var _hunt_skipped := {}                   # A2: building instance id -> match time it was given up (unreachable)
+var _hunt_best_d := INF                   # A2: the group centre's best distance to the hunt goal so far
+var _hunt_goal_since := 0.0               # A2 round 2: when the hunt goal was set (hard cap)
+var _all_in_ok_since := -1.0              # A4: since when mining is possible again while all-in (-1 = not)
+var _site_stalled_since := {}             # A1: site instance id -> match time no builder could be sent
+var _x1_camp_since := -1.0                # A1: since when a due X1 waits for the camp on the natural walk
 
 # scout
 var _scout = null
@@ -655,20 +675,36 @@ func _build_rows() -> void:
 						"builders": 1, "wall": true})
 
 
-## Buildings the level placed on a slot (a mission's Gloom Hall, Night Spire, Hovel) count as that slot.
+## Buildings the level placed on a slot (a mission's Gloom Hall, Night Spire, Hovel) count as that slot. Bot review
+## 2026-10-12 A3: also the X1 row (the natural hall spot, "pos" INF) and buildings a shift / ring search moved off their
+## slot (after a quickload the new Commander adopts its own standing buildings): every row of the right kind takes the
+## nearest unadopted own building within ADOPT_WIDE, closest pairs first (a building on its exact slot always wins).
 func _adopt_buildings() -> void:
+	var pairs: Array = []   # [distance, row index, building]
 	for node in get_tree().get_nodes_in_group(&"buildings"):
 		var b := node as Building
 		if b == null or not b.is_alive() or int(b.team) != int(team) or b is Keep or b.building_type == null:
 			continue
-		for row: Dictionary in _rows:
-			var pos: Vector3 = row["pos"]
-			if row.get("wall", false) or pos == Vector3.INF or _slot_building.has(row["id"]):
+		for i in _rows.size():
+			var row: Dictionary = _rows[i]
+			if row.get("wall", false) or _slot_building.has(row["id"]) or row["kind"] != b.building_type.kind:
 				continue
-			if row["kind"] == b.building_type.kind and _flat(_row_base(row), b.global_position) <= ADOPT_RADIUS:
-				_slot_building[row["id"]] = b
-				_log("SLOT %s = %s already standing" % [row["id"], b.building_type.display_name])
-				break
+			var base := _row_base(row)
+			if base == Vector3.INF:
+				continue
+			var d := _flat(base, b.global_position)
+			if d <= ADOPT_WIDE:
+				pairs.append([d, i, b])
+	pairs.sort_custom(func(x: Array, y: Array) -> bool: return float(x[0]) < float(y[0]))
+	var taken := {}
+	for p: Array in pairs:
+		var row: Dictionary = _rows[int(p[1])]
+		var b := p[2] as Building
+		if _slot_building.has(row["id"]) or taken.has(b.get_instance_id()):
+			continue
+		taken[b.get_instance_id()] = true
+		_slot_building[row["id"]] = b
+		_log("SLOT %s = %s already standing" % [row["id"], b.building_type.display_name])
 
 
 ## One pass over "units" and "buildings".
@@ -894,7 +930,20 @@ func _check_all_in() -> void:
 	elif all_in and recovering and _trade_funds_comeback() and not _out_of_crystals() and _node_left():
 		# 20.A2: trade gold turns into crystals again: rebuild workers instead of throwing them at the enemy.
 		all_in = false
+		_all_in_ok_since = -1.0
 		_log("ALL-IN off: trade gold pays for workers again (%d crystals)" % _eco.crystals)
+	elif all_in:
+		# Bot review A4: crystals came back (a beast reward, a refund) and a node is left: the economy restarts once
+		# that has held ALL_IN_OFF_HOLD s (no flapping), so _check_concede no longer sees an all-in bot that can train.
+		if not _out_of_crystals() and _node_left():
+			if _all_in_ok_since < 0.0:
+				_all_in_ok_since = _now
+			elif _now - _all_in_ok_since >= ALL_IN_OFF_HOLD:
+				all_in = false
+				_all_in_ok_since = -1.0
+				_log("ALL-IN off: mining possible again (%d crystals, %d workers)" % [_eco.crystals, _workers.size()])
+		else:
+			_all_in_ok_since = -1.0
 
 
 ## 20.A2 F2: an own completed Bazaar whose gold can still pay for a comeback (AITrade.can_fund_comeback).
@@ -1240,6 +1289,11 @@ func _rule_retreat() -> void:
 	if stage == Stage.NONE:
 		return
 	if _group.is_empty():
+		# Bot review 2026-10-12 A5 / C3: a wiped creep group ends the creep like a retreat does (the camp / beast keeps
+		# no stale current_creep; the next army is not sent straight back).
+		if stage == Stage.CREEP and mapfill_ai != null:
+			mapfill_ai.note_creep_end(_sortie, false, null)
+			_creep_retry_at = _now + CREEP_RETRY
 		_end_attack("group lost")
 		return
 	var centre := _group_centre()
@@ -1528,16 +1582,27 @@ func _next_row() -> Dictionary:
 		for row: Dictionary in _rows:
 			if row["kind"] == &"barracks" and not _row_built(row) and _row_trigger(row):
 				return row
+	# One site at a time. Test review 2026-10-12 (test_10_a3 easy): a site a kit placed (Forge, Stables: not a build
+	# row's) only holds back rows that were not already waiting: before, the Forge site placed during the Bazaar row's
+	# build delay starved M1 for ~40 s more.
+	var kit_site := false
+	var row_sites := {}
+	for v: Variant in _slot_building.values():
+		if v != null and is_instance_valid(v):
+			row_sites[(v as Object).get_instance_id()] = true
 	for b in _buildings:
-		if not b.is_constructed():
+		if b.is_constructed() or _site_stalled(b):
+			continue
+		if row_sites.has(b.get_instance_id()):
 			return {}
+		kit_site = true
 	if ai.expand_first:   # 2026-10-11 (Ice economy fix): a due X1 before every other row
 		for row: Dictionary in _rows:
 			if row["id"] == &"X1" and not _row_built(row) and _row_trigger(row):
-				return row
+				return row if not kit_site or _trigger_time.has(row["id"]) else {}
 	for row: Dictionary in _rows:
 		if not _row_built(row) and _row_trigger(row):
-			return row
+			return row if not kit_site or _trigger_time.has(row["id"]) else {}
 	return {}
 
 
@@ -1591,7 +1656,10 @@ func _row_trigger(row: Dictionary) -> bool:
 			var low := _home_left() < ai.expand_home_below if ai.expand_home_below > 0 \
 					else _home_left() < EXPAND_HOME_SHARE * _home_start
 			var bank := ai.expand_bank > 0 and _eco.crystals >= ai.expand_bank
-			return (low or bank or _now >= ai.expand_time) and (not _camp_alive() or own_strength >= EXPAND_STRENGTH)
+			if not ((low or bank or _now >= ai.expand_time) and (not _camp_alive() or own_strength >= EXPAND_STRENGTH)):
+				_x1_camp_since = -1.0
+				return false
+			return _x1_camp_clear()
 		"W1", "W2":
 			return _slot_done(&"S1")
 		"X2":
@@ -1608,6 +1676,20 @@ func _row_trigger(row: Dictionary) -> bool:
 		"S4":
 			return trade_ai != null and trade_ai.raid_tower_due(_own_node("rich"), _buildings)
 	return false
+
+
+## Bot review A1: a due X1 waits while a strong camp guards the keep -> natural walk (its builders would never go:
+## the site would block every build row); _blocking_camp_target creeps that camp first. Without map-fill creeps, or
+## after X1_CAMP_WAIT s of waiting, X1 goes anyway (no deadlock; a stalled site stops blocking after SITE_STALL_TIME).
+func _x1_camp_clear() -> bool:
+	var mid := _own_node("mid")
+	if mid == null or mapfill_ai == null or not ai.map_fill or not mapfill_ai.active() or _path_camp(mid) == null:
+		_x1_camp_since = -1.0
+		return true
+	if _x1_camp_since < 0.0:
+		_x1_camp_since = _now
+		_log("BUILD X1 waits: a camp guards the walk to the natural")
+	return _now - _x1_camp_since >= X1_CAMP_WAIT
 
 
 ## 10.A3: crystals a row's placement waits for: the Bazaar cost + 100 (a rebuild 250), a raid Spire cost + 50,
@@ -1807,11 +1889,21 @@ func _pick_builders(spot: Vector3, count: int) -> Array:
 
 ## A site nobody builds (its builder died or fled) gets the nearest free worker.
 func _maintain_sites() -> void:
+	if not _site_stalled_since.is_empty():
+		for id: int in _site_stalled_since.keys():
+			if not is_instance_id_valid(id):
+				_site_stalled_since.erase(id)
 	for b in _buildings:
 		if b.is_constructed() or b.builder_count() > 0:
+			_site_stalled_since.erase(b.get_instance_id())
 			continue
 		if _node_unsafe(b):
-			continue   # worker safety: builders died on the way / a strong camp guards the walk: wait
+			# worker safety: builders died on the way / a strong camp guards the walk: wait (A1: after SITE_STALL_TIME
+			# the site no longer blocks the next build row, see _site_stalled)
+			if not _site_stalled_since.has(b.get_instance_id()):
+				_site_stalled_since[b.get_instance_id()] = _now
+			continue
+		_site_stalled_since.erase(b.get_instance_id())
 		var coming := false
 		for w in _workers:
 			if w.build_site == b:
@@ -1822,6 +1914,14 @@ func _maintain_sites() -> void:
 		var pick := _pick_builders(b.global_position, 1)
 		if not pick.is_empty():
 			(pick[0] as Worker).command_build(b)
+
+
+## Bot review A1: an unfinished site no builder could be sent to for SITE_STALL_TIME s (a strong camp on the walk,
+## workers lost there). It stays (the row counts as placed; _maintain_sites sends a builder once the walk is safe) but
+## no longer holds every other build row back: before, one such site kept the bot from building anything, pop-capped.
+func _site_stalled(b: Building) -> bool:
+	var since: Variant = _site_stalled_since.get(b.get_instance_id())
+	return since != null and _now - float(since) >= SITE_STALL_TIME
 
 
 # ---------------------------------------------------------------- rule 5: train
@@ -2030,13 +2130,16 @@ func _rule_scout() -> void:
 		var s := _scout as Unit
 		if s.hp < SCOUT_HOME_HP * s.max_hp and _scout_wp < path.size():
 			_scout_wp = path.size()
+			_scout_leg_since = _now
 			_log("SCOUT hurt, coming home")
 		var goal := _rally if _scout_wp >= path.size() else path[_scout_wp]
-		if _flat(s.global_position, goal) <= WAYPOINT_REACH:
+		# Bot review A7: a leg also ends after SCOUT_LEG_TIME (an unreachable loop point no longer holds the scout).
+		if _flat(s.global_position, goal) <= WAYPOINT_REACH or _now - _scout_leg_since >= SCOUT_LEG_TIME:
 			if _scout_wp >= path.size():
 				_scout_done(s)
 				return
 			_scout_wp += 1
+			_scout_leg_since = _now
 			goal = _rally if _scout_wp >= path.size() else path[_scout_wp]
 		scout_goal = goal
 		_order_move(s, goal, 1.0)
@@ -2238,20 +2341,10 @@ func _rule_attack() -> void:
 		return
 	var capped := _eco.pop_cap > 0 and _eco.pop_used >= _eco.pop_cap - 2 and not _can_grow()
 	# The reserve (the healthiest soldiers) stays home; the rest must make min_attack_pop.
-	home.sort_custom(func(a: Unit, b: Unit) -> bool: return a.hp > b.hp)
 	var reserve := maxi(0, ai.attack_reserve)   # AIProfile knob (default RESERVE = 2), in pop since 2026-10-10
 	if (ai.no_reserve_at_cap and capped) or broke:
 		reserve = 0
-	# 2026-10-10 (ice-suggestions B2): the reserve keeps up to `reserve` POP home and never a unit of pop >= 3 (the
-	# Rime Colossus / T3 heavies go with the attack); it used to keep the 2 healthiest units, ~4 pop for Ice.
-	var leaving: Array[Unit] = []
-	var kept_pop := 0
-	for u in home:
-		var upop: int = u.unit_type.pop if u.unit_type else 1
-		if upop < RESERVE_SKIP_POP and kept_pop + upop <= reserve:
-			kept_pop += upop
-		else:
-			leaving.append(u)
+	var leaving := _reserve_split(home, reserve)
 	if leaving.is_empty():
 		_block("no army")
 		return
@@ -2328,6 +2421,22 @@ func _rule_attack() -> void:
 	_drive_attack()
 
 
+## Rule 7's home reserve, also used by the creep / point sorties (bot review A6: they kept a constant 2 units, not
+## ai.attack_reserve). Sorts `home` healthiest first; 2026-10-10 (ice-suggestions B2): up to `reserve` POP stays home,
+## never a unit of pop >= RESERVE_SKIP_POP (the Rime Colossus / T3 heavies go). Returns the units that leave.
+func _reserve_split(home: Array[Unit], reserve: int) -> Array[Unit]:
+	home.sort_custom(func(a: Unit, b: Unit) -> bool: return a.hp > b.hp)
+	var leaving: Array[Unit] = []
+	var kept_pop := 0
+	for u in home:
+		var upop: int = u.unit_type.pop if u.unit_type else 1
+		if upop < RESERVE_SKIP_POP and kept_pop + upop <= reserve:
+			kept_pop += upop
+		else:
+			leaving.append(u)
+	return leaving
+
+
 ## 20.A3 diagnostics: one think tick where rule 7 did not launch, and why.
 func _block(reason: String) -> void:
 	attack_blocks[reason] = int(attack_blocks.get(reason, 0)) + 1
@@ -2377,7 +2486,7 @@ func _pick_attack_row() -> void:
 			and not _level.crown.is_worn():
 		_set_stage(Stage.CAMP)
 	else:
-		var b := memory.nearest_building(_crown_spot, NEAR_CROWN)
+		var b := memory.nearest_building(_crown_spot, NEAR_CROWN, &"", &"", _hunt_skip_ids())
 		if b:
 			_hunt(b)
 		else:
@@ -2415,7 +2524,7 @@ func _drive_attack() -> void:
 		Stage.CAMP:
 			if not _camp_alive():
 				_log("CAMP cleared")
-				var b := memory.nearest_building(_crown_spot, NEAR_CROWN)
+				var b := memory.nearest_building(_crown_spot, NEAR_CROWN, &"", &"", _hunt_skip_ids())
 				if b:
 					_hunt(b)
 				else:
@@ -2435,10 +2544,15 @@ func _drive_attack() -> void:
 			var base := _level.base_center(_enemy_team)
 			_group_attack_move(base)
 			_focus_barracks(centre)
-			if _flat(centre, base) <= BASE_REACHED and memory.nearest_building(base, BASE_CLEAR_RADIUS) == null:
+			if _flat(centre, base) <= BASE_REACHED \
+					and memory.nearest_building(base, BASE_CLEAR_RADIUS, &"", &"", _hunt_skip_ids()) == null:
 				_next_hunt(centre)
 		Stage.HUNT:
 			if _hunt_target != null and (not is_instance_valid(_hunt_target) or not (_hunt_target as Building).is_alive()):
+				_hunt_target = null
+				_next_hunt(centre)
+				return
+			if _hunt_stuck():   # bot review A2: unreachable point / building: the next one (rule 7 relaunches later)
 				_hunt_target = null
 				_next_hunt(centre)
 				return
@@ -2505,16 +2619,20 @@ func _set_stage(s: Stage) -> void:
 func _hunt(b: Building) -> void:
 	_hunt_target = b
 	_hunt_point = Vector3.INF
+	_hunt_since = _now
+	_hunt_best_d = INF
+	_hunt_goal_since = _now
 	_set_stage(Stage.HUNT)
 	_log("ATTACK target %s at %s" % [b.building_type.display_name if b.building_type else "building",
 			_xz(b.global_position)])
 
 
-## Next target: the nearest seen enemy building, else the next place to look, else go home.
+## Next target: the nearest seen enemy building (not one given up lately, A2), else the next place to look, else home.
 func _next_hunt(from: Vector3) -> void:
-	var b := memory.nearest_building(from, INF, &"", &"tower")   # towers last
+	var skip := _hunt_skip_ids()
+	var b := memory.nearest_building(from, INF, &"", &"tower", skip)   # towers last
 	if b == null:
-		b = memory.nearest_building(from)
+		b = memory.nearest_building(from, INF, &"", &"", skip)
 	if b:
 		_hunt(b)
 		return
@@ -2523,10 +2641,66 @@ func _next_hunt(from: Vector3) -> void:
 		if _flat(p, from) > POINT_REACHED:
 			_hunt_target = null
 			_hunt_point = p
+			_hunt_since = _now
+			_hunt_best_d = INF
+			_hunt_goal_since = _now
 			_set_stage(Stage.HUNT)
 			_log("ATTACK searching %s" % _xz(p))
 			return
 	_start_retreat("nothing left to find")
+
+
+## Bot review A2: the buildings Stage.HUNT gave up (no member came near within HUNT_TIMEOUT: water, cliff, forest on a
+## LayoutLevel) in the last HUNT_SKIP_TIME s, {instance id: time}; older entries leave.
+func _hunt_skip_ids() -> Dictionary:
+	for id: int in _hunt_skipped.keys():
+		if _now - float(_hunt_skipped[id]) >= HUNT_SKIP_TIME or not is_instance_id_valid(id):
+			_hunt_skipped.erase(id)
+	return _hunt_skipped
+
+
+## A2: true once the hunt target (building or point) has made no progress for HUNT_TIMEOUT s. The clock restarts while
+## a member stands near the building (a long siege), while the group centre still gets closer (HUNT_PROGRESS m since
+## the best distance so far: a long walk on a 176 m map) and while an enemy fighter is near the group (defenders hold
+## it short of the target). Hard cap (review round 2): HUNT_CAP_MULT x HUNT_TIMEOUT after the goal was set it is given
+## up whatever happens (foes seen across a narrow river, melee stuck on the far bank of a cliff could keep restarting the
+## clock). A building given up is remembered.
+func _hunt_stuck() -> bool:
+	if _now - _hunt_goal_since >= HUNT_CAP_MULT * HUNT_TIMEOUT:
+		return _hunt_give_up("held %.0f s" % (_now - _hunt_goal_since))
+	var goal := _hunt_point
+	if _hunt_target != null and is_instance_valid(_hunt_target):
+		var b := _hunt_target as Building
+		goal = b.global_position
+		var reach := b.target_radius() + HUNT_NEAR
+		for u in _group:
+			if is_instance_valid(u) and _flat((u as Unit).global_position, b.global_position) <= reach:
+				_hunt_since = _now
+				return false
+	var centre := _group_centre()
+	if goal != Vector3.INF:
+		var d := _flat(centre, goal)
+		if d <= _hunt_best_d - HUNT_PROGRESS:
+			_hunt_best_d = d
+			_hunt_since = _now
+			return false
+	if memory.fighter_near(centre, RETREAT_RADIUS, _now, FRESH):
+		_hunt_since = _now
+		return false
+	if _now - _hunt_since < HUNT_TIMEOUT:
+		return false
+	return _hunt_give_up("no progress in %.0f s" % HUNT_TIMEOUT)
+
+
+## A2: the hunt goal is given up (a building is skipped for HUNT_SKIP_TIME s). Always true.
+func _hunt_give_up(why: String) -> bool:
+	if _hunt_target != null and is_instance_valid(_hunt_target):
+		_hunt_skipped[(_hunt_target as Object).get_instance_id()] = _now
+		_log("ATTACK gives up %s at %s: %s" % [_name_of(_hunt_target as Node3D),
+				_xz((_hunt_target as Node3D).global_position), why])
+	else:
+		_log("ATTACK gives up searching %s: %s" % [_xz(_hunt_point), why])
+	return true
 
 
 ## Where enemy buildings may stand: their keep, their natural hall, the mirror of our slots.
@@ -3300,14 +3474,14 @@ func _launch_sortie() -> void:
 			if _flat(u.global_position, _rally) <= RALLY_RADIUS:
 				near += 1
 				rally_strength += AIMemory.strength_of(u)
-	if home.size() - RESERVE < SORTIE_MIN_UNITS or float(near) < RALLY_SHARE * home.size():
+	if float(near) < RALLY_SHARE * home.size():
 		return
-	home.sort_custom(func(a: Unit, b: Unit) -> bool: return a.hp > b.hp)
-	var group: Array[Unit] = []
+	var group := _reserve_split(home, maxi(0, ai.attack_reserve))   # bot review A6: rule 7's reserve
+	if group.size() < SORTIE_MIN_UNITS:
+		return
 	var avg_hp := 0.0
-	for i in range(RESERVE, home.size()):
-		group.append(home[i])
-		avg_hp += home[i].hp / maxf(home[i].max_hp, 1.0)
+	for u in group:
+		avg_hp += u.hp / maxf(u.max_hp, 1.0)
 	avg_hp /= float(group.size())
 	if avg_hp < SORTIE_MIN_HP:
 		return
@@ -3339,14 +3513,15 @@ func _launch_sortie() -> void:
 	_drive_attack()
 
 
-## Worker safety: the camp that blocks the walk to an own expansion node (natural after X1, rich once X1 is done)
-## comes first as a creep target, at the profile's creep ratio (no 11c Stag own-strength floor), else {}.
+## Worker safety: the camp that blocks the walk to an own expansion node (the natural always: bot review A1, X1 waits
+## for it; the rich once X1 is done) comes first as a creep target, at the profile's creep ratio (no 11c Stag
+## own-strength floor), else {}.
 func _blocking_camp_target(group_strength: float) -> Dictionary:
 	if not ai.map_fill or _now < ai.creep_start:
 		return {}
 	var nodes: Array[CrystalNode] = []
 	var mid := _own_node("mid")
-	if mid and _x1_done():
+	if mid:
 		nodes.append(mid)
 	var rich := _own_node("rich")
 	if rich and ai.second_expansion and _x1_done():
@@ -3490,6 +3665,17 @@ func _order_attack_move(u: Unit, pos: Vector3, tolerance: float = 2.0) -> void:
 		return
 	_orders[id] = [1, pos, _now]
 	u.command_attack_move(pos)
+
+
+## Read only (bot review C1, for AICasters through has_method): true when `u` is one of this Commander's own living
+## soldiers (home or in the attack group) that is neither the scout nor busy in a map-fill job (capture squad...).
+## Workers, champions, caravans, casters, summons, the wizard and mission (scripted) units answer false.
+func is_army_unit(u: Unit) -> bool:
+	if u == null or not is_instance_valid(u) or not u.is_alive() or int(u.team) != int(team) or is_scripted(u):
+		return false
+	if _kind_of(u) != UnitKind.SOLDIER:
+		return false
+	return u != _scout and (mapfill_ai == null or not mapfill_ai.is_busy(u))
 
 
 ## Soldiers not in the attack group, not scouting and not in a capture squad (12.A1).

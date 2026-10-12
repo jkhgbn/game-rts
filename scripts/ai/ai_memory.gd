@@ -155,13 +155,16 @@ func seen_now(now: float) -> Array[Unit]:
 
 
 ## The remembered living building nearest to `pos` within `max_dist` (any kind if `kind` is empty;
-## never of kind `skip_kind`).
+## never of kind `skip_kind`, never one whose instance id is a key of `skip_ids`).
 func nearest_building(pos: Vector3, max_dist: float = INF, kind: StringName = &"",
-		skip_kind: StringName = &"") -> Building:
+		skip_kind: StringName = &"", skip_ids: Dictionary = {}) -> Building:
 	var best: Building = null
 	var best_d := max_dist * max_dist if max_dist < INF else INF
-	for e: Dictionary in buildings.values():
+	for id: int in buildings:
+		var e: Dictionary = buildings[id]
 		if (kind != &"" and e["kind"] != kind) or (skip_kind != &"" and e["kind"] == skip_kind):
+			continue
+		if not skip_ids.is_empty() and skip_ids.has(id):
 			continue
 		var d := _dist2(e["pos"], pos)
 		if d <= best_d:
