@@ -10,9 +10,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 - The user playtests at the end of each block of requests (his asks: `docs/ideas/jss_asks.md`; the old wave plan `docs/plan/waves.md` is history).
 
 ## Run and test
-- Godot (console build, for headless checks):
-  `C:\Godot\Godot_v4.7.2-stable_win64_console.exe`
-  Below, `$GODOT` means that path (in PowerShell: `& "<path>" <args>`).
+- Godot (console build `C:\Godot\Godot_v4.7.2-stable_win64_console.exe`) always runs through the gate:
+  below, `$GODOT` means `& tools\godot_run.ps1` (same arguments as the exe; the hook blocks the bare exe).
 - Import (first time, or after adding/moving scripts): `$GODOT --headless --path . --import`
 - Smoke test (must print `victory=true`):
   `$GODOT --headless --path . -s tests/smoke_test.gd --fixed-fps 60 --quit-after 7000`
@@ -334,38 +333,28 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 | `docs/design/` | game-designer (Opus 5.5 high); `docs/design/ui-*.md` ui-designer (Opus 5.5; no Fable — user 2026-09-26, keep the Fable-made UI specs as they are) |
 | `scripts/cinematics/`, `scripts/ui/cinematic/` (tools wave, tool 1) | systems-coder-high |
 | `tools/common/`, `tools/cine/`, `data/cinematics/`, `missions/cinematics/tool_demo/` (tools wave, tool 2) · `tools/world_forge/`, `art/cinematics/stage_sets/forge_*`, `data/maps/` (tool 6) | four-wizards-high (rules: `docs/plan/tools-wave-agent-rules.md`) |
-| `project.godot`, `scenes/main.tscn`, `scripts/core/`, `tests/smoke_test.gd`, `tests/perf_test.gd`, `tests/_template.gd`, `docs/plan/`, `CLAUDE.md` | lead (the main session) |
+| `project.godot`, `scenes/main.tscn`, `scripts/core/`, `tests/smoke_test.gd`, `tests/perf_test.gd`, `tests/_template.gd`, `docs/plan/`, `CLAUDE.md`, `.claude/` | lead (the main session) |
 
 Agents only edit what they own (plus their own `tests/test_<task-id>.gd`). Requests to another owner go in
 `docs/handoff/for-<agent>.md`. The `-high` agents (`gameplay-coder-high`, `systems-coder-high`,
 `items-coder-high`) are the same agents with high effort (unused since the 09-30 effort rule below).
 
-## Lead playbook (for the main session)
-You are the lead. You plan, delegate, merge and check. You write only glue code and the files you own.
+## Rules every session follows (enforced by hooks in `.claude/settings.json`)
+- **Godot gate:** launch Godot only through `tools\godot_run.ps1` (same arguments as the exe, max 4 runs at once).
+  The hook blocks the bare exe / `$GODOT`.
+- **Agents never run git.** Only the lead commits (the hook blocks git in subagents; `contract-reviewer` may read diffs).
+- **Ownership:** named owner agents can only write their folders above (+ `tests/test_<id>.gd`, `docs/handoff/`);
+  map in `.claude/hooks/owners.json`. Nobody edits `.godot/` or `*.import`.
+- **GDScript check after each `.gd` edit** (`.claude/hooks/check_gd.ps1`): untyped `var`, `../..` parent chains,
+  `class_name` equal to an autoload, `Events.` in tests. Fix what it reports right away.
+  Hook self-test: `powershell -NoProfile -File .claude\hooks\test_hooks.ps1`.
+- **Effort rule (JS 2026-09-30):** all agents Opus 5.5 MEDIUM (`fw-art-medium` or the owner agent); never Haiku, never Fable.
+- **Recurring bugs:** when a bug class comes back (example: the map_dressing plug-in added after the navmesh bake put
+  colliders on nav layers and froze every unit), a separate root-cause pass turns it into a test or a
+  `check_gd.ps1` rule so it cannot come back.
 
-Work comes as the user's requests (`docs/ideas/jss_asks.md`) -> labs / agents -> green tests -> commit.
-(The old "run wave N session X" flow and `docs/plan/waves.md` are history.) For each block of work:
-1. **Budget check first.** Read the plan limits yourself with the desktop app's usage tool
-   (`get_usage`: weekly %, 5-hour %). If the 5-hour meter is above 70 % or the weekly one is near its cap, say so
-   and offer the "slow down" options instead of starting.
-2. Pick the asks to do now from `docs/ideas/jss_asks.md` (status `todo` / `doing`). Nothing else.
-3. Delegate each task (Opus 5.5 MEDIUM, see the effort rule) with a short prompt: the ask, the files it owns, the
-   spec file to read and the "done when" list. **No time box any more** (user request 2026-09-26): quality first, especially art.
-   Up to **6 agents at the same time** while the 5-hour meter is under 50 % (3 above that, 0 above 80 %),
-   only agents whose files don't overlap. **Art is split into small sub-elements** (one agent per character, building, effect family, lighting...) so each gets time and attention. Agents never run git.
-4. Git: `C:\Program Files\Git\cmd\git.exe` (add it to PATH in the shell). Agents work directly in this folder.
-   Remote: `origin` = https://github.com/jkhgbn/game-rts (private). **Push only when the user says so.**
-5. When the agents return: run the import, smoke test, perf test and each task test. If one fails, send the
-   failure back to the same agent once; if it still fails, stop and tell the user. Relay API changes between
-   running agents with SendMessage.
-6. Green: set the asks' status in `docs/ideas/jss_asks.md`, add a line to `docs/plan/usage-log.md` (usage before/after),
-   commit only the finished agents' files (no push without the user's word).
-7. Tell the user in 3-5 lines (Québec French) what changed and what to playtest.
-
-**Godot gate (2026-09-26):** agents and scripts launch Godot through `tools/godot_run.ps1` (same arguments as the
-exe; at most 4 runs at once via a named semaphore, waits while 6+ Godot processes run, 15-min max wait). Today 20-30
-parallel Godot runs made every test slow and every perf number noise.
-**Model rule (user 2026-09-27, after a trial):** never use Haiku; art = Opus MEDIUM (blind effort trial winner); AI / perf / contracts = Opus high.
-**Effort rule (user 2026-09-30, replaces the 09-26 HIGH / MEDIUM split and the "Opus high" part of the model rule):**
-ALL agents run on Opus 5.5 at MEDIUM effort (`fw-art-medium` agent type, any task); the labs catch quality issues.
-Design tasks go to `game-designer` (Opus 5.5), except UI / HUD / menu layout specs, which go to `ui-designer` (Opus 5.5 — the user asked not to use Fable any more; the existing Fable-made specs stay). Code tasks go to the owner agent (Opus 5.5); visuals in `art/` go to `tech-artist`.
+## Lead (main session only)
+Playbook in skills: `/wave` (a block of work: budget, agents, review, tests, commit), `/ci-suite` (which tests / CI
+to run), `/playtest-release` (tag, CI, playtest copy, export, zip). State files: `docs/plan/lead-status.md`
+(current state, rewritten), `docs/plan/owner-asks.md` (questions waiting for JS), `docs/plan/decisions.md`
+(who decided what). Remote `origin` = https://github.com/jkhgbn/game-rts (private); **push only when JS says so.**

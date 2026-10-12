@@ -10,6 +10,7 @@
 # mutex owner leaves it "abandoned" and the next waiter takes it over. The hard cap now counts engine processes only:
 # each console run is 2 processes (the _console wrapper + the engine), so the old count of 6 allowed only 3 runs.
 $g = "C:\Godot\Godot_v4.7.2-stable_win64_console.exe"
+if ($env:FW_GODOT) { $g = $env:FW_GODOT }   # per-machine override (same path on the desktop and the laptop today)
 $slots = 4; if ($env:FW_GODOT_SLOTS) { $slots = [int]$env:FW_GODOT_SLOTS }
 $hardcap = 6; if ($env:FW_GODOT_HARDCAP) { $hardcap = [int]$env:FW_GODOT_HARDCAP }
 $maxwait = 900; if ($env:FW_GODOT_MAXWAIT) { $maxwait = [int]$env:FW_GODOT_MAXWAIT }
