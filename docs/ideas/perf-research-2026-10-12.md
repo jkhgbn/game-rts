@@ -379,3 +379,7 @@ les deux modes, sans toucher aux règles du jeu.
   GDQuest sur les foules d'unités ; un benchmark fiable de `move_and_slide` Jolt contre GodotPhysics en 4.6+ ; une source
   officielle sur la durée moyenne d'une partie en classé SC2 ou AoE4 (aoe4world.com publie des médianes par civilisation,
   à consulter au besoin).
+
+## Résultats (2026-10-12)
+- P1 (réduire la portée et le nombre de voisins de l évitement) : aucun gain, foule plus lente ; valeurs par défaut gardées et écrites explicitement dans unit.gd.
+- P2 (évitement sur un seul fil) : appliqué dans project.godot ; environ -0,8 ms à 100-200 unités, -0,4 ms à 300 ; rejeux déterministes (test_replay_lab 3/3).

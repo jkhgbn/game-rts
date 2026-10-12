@@ -140,6 +140,13 @@ const LOOT_META := &"loot"          # a Magpie's carried gold (market-trade.md 5
 const RETARGET_INTERVAL := 0.25
 const IDLE_SLIDE_EVERY := 8         # a still unit on the floor runs move_and_slide once per this many physics frames
 const IDLE_SLIDE_EPS2 := 1.0e-6     # (m/s)^2: below this the avoidance velocity counts as standing still
+# RVO avoidance (perf-research-2026-10-12 P1, measured 2026-10-11): these are Godot's defaults, kept on purpose.
+# A short search (3-8 m + 2 x radius, 4-8 neighbours, horizon 0.6-1 s) saved nothing measurable at 300 units (within
+# +-0.2 ms noise, multi- or single-threaded) and crowds flowed worse: 11-20 % fewer units reached a formation-move goal
+# in the same time. Re-measure before shrinking them.
+const AVOID_NEIGHBOR_DISTANCE := 50.0   # m
+const AVOID_MAX_NEIGHBORS := 10
+const AVOID_TIME_HORIZON := 1.0         # s
 const FACE_EPSILON := 0.0005        # rad: _face stops writing the model's rotation once this close to the goal
 const MAX_UNIT_RADIUS := 1.1     # biggest unit radius (Grizzlemaw 1.1); held units search this far past their range
 const DEFAULT_BOLT_SPEED := 25.0 # m/s of an auto-attack bolt when the UnitType has no projectile_speed
@@ -299,6 +306,9 @@ func _ready() -> void:
 	_agent.radius = radius + 0.1
 	_agent.max_speed = move_speed
 	_agent.avoidance_enabled = true
+	_agent.neighbor_distance = AVOID_NEIGHBOR_DISTANCE
+	_agent.max_neighbors = AVOID_MAX_NEIGHBORS
+	_agent.time_horizon_agents = AVOID_TIME_HORIZON
 	if not HelperAbilities._is_flyer(self):
 		_agent.avoidance_mask |= CASTER_WALL_AVOIDANCE   # slide along a Rime Bulwark's obstacle
 	_agent.velocity_computed.connect(_on_velocity_computed)
