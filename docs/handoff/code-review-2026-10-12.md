@@ -278,3 +278,96 @@ class). One owner pass ("save/load hardening", systems-coder + lead for scripts/
 - Clean: trade rates / ware prices / x5, buttons from can_* reasons, null GoldBank, window exclusivity, physical keys,
   shop range / death close, sell ratio, post panel guards, minimap MapInfo click mapping + fog + redraw rates, HUD
   setup dedupe, score keys, STR/INT pause pairing, chat focus.
+
+### C2: Ep1 missions (mission_00..04 + helpers)
+Key fact: no Ep1 mission overrides `save_state` / `load_state` / `save_block_reason` nor sets `save_supported = false`:
+F12 is allowed mid-mission but mission props are rebuilt fresh (braziers, Heartfrost, RootHeart, WardenGates, thorns,
+M04Keystone, crown seal). `test_save_load_missions.gd` saves only 10-60 s in, so it never reaches these steps.
+1. `mission_04.gd:787` / `m04_keystone.gd`: any save after the Rise soft-locks (pylons / Colossus not rebuilt; can't win).
+   (high) soft-lock
+2. `mission_03.gd:645, 1274`: save after E10 (barrier down): thorn colliders rebuilt, Signet unreachable. (high) soft-lock
+3. `mission_03.gd:1479-1480`: save after E11: WardenGates closed again, `take_damage` ignored, obj_gates impossible.
+   Fix: save / load rows like MissionE6Base. (high) soft-lock
+4. `mission_01.gd:639-644`: save after the 3rd brazier but before E7: crown seal re-armed, refuses Vessa forever. (high) soft-lock
+5. `mission_04.gd:870` `var p: Unit = keystone.pylons[i]` on a freed pylon: script error every strike call. (medium-high) crash-class
+6. `mission_03.gd:1067 / 1202` `after(30, _fire_stake_raid.bind(s))` typed `stake: Building` freed before 30 s: script
+   error, raid lost. (medium)
+7. `mission_01.gd:490 / 628-631` Blaze Riders untrainable after a load past Westwatch (`_apply_hall_unlocks` not re-run). (high)
+8. `mission_00/01` brazier state not saved: cold bowls next to 3/3; re-lighting re-fires lines / extra riders. (high)
+9. `mission_00.gd:668-670` / `m00_cast.gd:155` Hush loses her kit after a load past A3; `sec_hush` never resolves. (medium)
+10. `mission_02.gd:984-997` / heartfrost: Frozen Emberguard re-thaw exploit (+3 veterans each), Heartfrost HP not saved,
+    post-E10 monolith stands again. (medium)
+11. `mission_03.gd:1406-1414` Signet carry slowdown, stakes, Root Heart HP lost on load. (medium)
+- Clean: win / lose double-fire guards, hero-death rules per spec, after() / waves after the end, cutscene end states
+  with dead actors, Colossus death floor, scaled, no private calls / attack_target writes, node_added cleanup.
+- Design option (lead / JS): block F12 at the risky mission steps (`save_block_reason`) where restoring props is costly,
+  instead of saving every prop.
+
+### U5: menus, mission UI, Wave Strike UI
+1. `main_menu.gd:855-866` campaign list: 37 buttons x 44 px in a plain VBox (no ScrollContainer): missions after ~10th
+   and Back / Watch / Start are off-screen at 900-1440 p. Fix: ScrollContainer with capped height. (high) game-breaking (menu)
+2. `unit_guide_data.gd:135-142, 215-223` static stats cache: Blitz numbers (train time, worker HP) shown in normal games or
+   the reverse. Fix: reset on open or on PaceSwitch apply / restore. (high)
+3. `main_menu.gd:513-517` saved "Random 2v2" restored as "Random 1v1" (seat filter not saved). (high)
+4. `spotlight_card.gd:118-122` + `unit_guide.gd:173-179` spotlight opens the reused guide in compare mode / with stale
+   filters. (high)
+5. `dialogue_box.gd:148-157` skipping the last voiced line leaves the voice playing. (high)
+6. `pause_menu.gd:182-187, 227-234` Ctrl+F12 with Settings open: unsaved settings never written. (medium)
+7. Wave Strike lobby (67-96) / HUD (79) text not rebuilt on language switch; map size line not via Loc.sink. (high, minor)
+8. `unit_guide.gd:590` "/" shortcut uses logical KEY_SLASH: never fires on AZERTY. (medium, minor)
+9. `unit_guide_data.gd:513-522` claim checker skips summaries (doc says it checks them). (high, minor)
+- Outside: `chat_line.gd:87-91` BriefingScreen is a CanvasLayer, so `find_children(..., "Control")` never finds it (harmless
+  while the tree is paused). (minor)
+- Clean: MenuFlow start / restart / quit (paused reset, time_scale restored), random map resolution, settings apply /
+  defaults, pause menu Esc order, briefing, objectives, Wave Strike keys, guide compare safety, voice manifest.
+
+### C1: campaign framework (mission_base, campaign_state, story films, shared actors)
+1. `mission_base.gd:1803` load_state + `SaveCodec.decode_metas` only ADDS metas: metas the rebuilt start sets
+   (`mission_dormant`, `mission_locked`, truce) survive when the save lacks them. e3m2 dawn save: Vessa / Malrik stay
+   dormant + immortal (HP-refill guard), base locked for good; truce metas set without `set_truce_id` -> `truce_count`
+   wrong. Fix: load_state undoes META_DORMANT / META_LOCKED / TRUCE_META absent from the save, recounts truces. (high) game-breaking
+2. `mission_base.gd:869, 1008, 1753` `set_player_hero` / `set_resources_hidden` not saved (`hero` is a main.gd var):
+   e3m2 after dawn, `hero` points at a freed node (F1 / spells / loss rule). Fix: save hero save id + resources_hidden. (medium-high) game-breaking
+3. `mission_base.gd:326` + `save_restorer.gd:26` no MissionHud after ANY mid-mission load (show_briefing false never
+   reset): silent say(), no objectives panel, no spotlight. Fix: skip only the briefing while restoring. (high)
+4. `mission_heartwood.gd:61` kindle state and `GlasswaterLake` floes have no save row: e2m1 load after kindle = Heartwood
+   invulnerable, in truce, no aura. Fix: save_row / load_row like WardenGate. (medium-high)
+5. `story_films.gd:23` + `menu_flow.gd:161` branched film (c_e6_gate_shut, c_e7_pits_pits) replays every menu start:
+   is_seen checks the main id, only the alternate is marked. (high)
+6. `mission_base.gd:1148-1233` seats (`_seats`, `_tagged_seats`, `_withdraw_watch`) not saved (latent: e7m4 blocks saves
+   during the turn). (high, minor)
+7. `mission_base.gd:529 / 1483` hold_world keeps units attacking; a pending win/lose(delay) freezes if a hold starts
+   after it (latent: e8m3 only). (high, minor)
+8. `mission_base.gd:259 / 1075` spotlight ring fires before `show_spotlight()` for "unlock" / "manual" triggers, and on
+   a rebuilt unit after a load. (medium, minor)
+9. `ember_crown.gd:110-113` wearer freed without `died` (leave_map, load) -> crown stuck invisible. (medium, latent)
+- Clean: objectives, fire_once / E-list, after() + held time + load shift, lambda timers block saves, win / lose / _finish,
+  play_cutscene end states, truce hooks, seat switch / withdraw / activate, lock_base bookkeeping, spawn / order waves,
+  config knobs, CampaignState rewards / flags / FILM_BRANCHES / crash-safe save, CampaignItems round trip, StoryFilms
+  chain, WardenGate and the other shared actors.
+
+### C3: Ep2 missions (mission_e2_01..05)
+Root cause for 1-3, 6: no e2 mission overrides save_state / load_state, so signal hookups, seat activation and kit
+hookups made mid-mission are lost on load.
+1. `mission_e2_02.gd:1583-1613, 2058` load after E14 (Nature seat): no ALLY seat_keeps / economy / Commander,
+   `heartwood.destroyed` and `ysolde.died` lost, code-built groves dropped by SaveWorld -> the Vice never completes,
+   Nature keep death never loses. (high) game-breaking
+2. `mission_e2_04.gd:1121-1124, 1338` load after the forge claim with < 2 researches: `research_completed` not
+   reconnected -> gate never opens; `keep.destroyed` and E10 also lost. (high) game-breaking
+3. `mission_e2_05.gd:939, 1182` load after the wake: `boss.died` (only win path) / `damage_taken` lost; saved boss is
+   ENEMY, rebuilt statue NEUTRAL -> respawned as a typeless Unit (`doorwarden` not in data/units). Killing it never wins.
+   (high / medium) game-breaking
+4. `mission_e2_01.gd:980` `after(t, _fire_wave.bind(id))` = custom Callable -> saving refused for most of the 10-13.5 min
+   hold; after the last wave a load leaves the Heartwood invulnerable + in truce (kindle not re-applied). Same in e2m2 W6
+   (1577) and VH hard (2044). Fix: named no-arg methods or one schedule tick. (high)
+5. Mission-local UnitTypes (`wood_folk` e2m1:1179, `seed_carrier` e2m2:899, `splinter_acolyte` e2m4:925, `cinder_dragon`
+   e2m5:405) respawn typeless on load (no `save_spawn_unit`, MissionE5Base has one) and lose their died handlers
+   (sec_folk / sec_carriers counts). (high / medium)
+6. `mission_e2_03.gd:898` `tollgate.destroyed` lost on load -> sec_toll never completes. (high, minor)
+7. `mission_e2_05.gd:1383-1457` boss killed during B2 -> `obj_tether` left active on the victory screen. (medium, minor)
+- Clean: first ending wins, no waves after victory, hero-death rules, after() during hold_world, difficulty scaling,
+  clear-area checks, e2m4 helper revive, truce bookkeeping on withdraw, story units, no private calls / attack_target writes,
+  objective texts match their conditions.
+- Lead note: C1-1..4 + C2 + C3 + R/W save findings = one "mission save/load hardening" design: (a) framework fixes
+  (meta strip on load, hero / resources_hidden / seats saved, HUD after load, actor save rows, `save_spawn_unit` for local
+  types), (b) a per-mission `_after_load()` hook that re-runs hookups, (c) `save_block_reason` for steps too costly to restore.
