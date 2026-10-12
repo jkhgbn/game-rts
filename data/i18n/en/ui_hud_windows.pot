@@ -616,7 +616,7 @@ msgid "No shop nearby"
 msgstr ""
 
 #. return "Nothing selected"
-#: scripts/ui/shop_window.gd:603 scripts/ui/post_panel.gd:397 scripts/ui/selection_panel.gd:292
+#: scripts/ui/shop_window.gd:603 scripts/ui/post_panel.gd:397 scripts/ui/selection_panel.gd:294
 msgid "Nothing selected"
 msgstr ""
 
@@ -798,7 +798,7 @@ msgid "Idle"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:643 scripts/ui/selection_panel.gd:719
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:643 scripts/ui/selection_panel.gd:721
 msgid "Fallen"
 msgstr ""
 
@@ -818,7 +818,7 @@ msgid "Fighting"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1451
+#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:658 scripts/ui/selection_panel.gd:1453
 msgid "Unpaid!"
 msgstr ""
 
@@ -1408,12 +1408,12 @@ msgid "Returns in %d s"
 msgstr ""
 
 #. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
-#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:792
+#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:794
 msgid "XP  MAX"
 msgstr ""
 
 #. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
-#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:797
+#: scripts/ui/champion_bar.gd:722 scripts/ui/selection_panel.gd:799
 msgid "XP  %d / %d"
 msgstr ""
 
@@ -1528,7 +1528,7 @@ msgid "Max rank"
 msgstr ""
 
 #. "can't", "Max rank", "Inventory full", "Not sold", "cannot"]
-#: scripts/ui/item_tooltip.gd:217 scripts/ui/selection_manager.gd:1549 scripts/items/inventory.gd:459
+#: scripts/ui/item_tooltip.gd:217 scripts/ui/selection_manager.gd:1555 scripts/items/inventory.gd:459
 #: scripts/items/inventory.gd:480 scripts/items/inventory.gd:528 scripts/items/recipes.gd:67
 msgid "Inventory full"
 msgstr ""
@@ -1768,12 +1768,12 @@ msgid "Click: centre the camera"
 msgstr ""
 
 #. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": 
-#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:206
+#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:208
 msgid "dark breed"
 msgstr ""
 
 #. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": 
-#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:206
+#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:208
 msgid "silver breed"
 msgstr ""
 
@@ -1798,7 +1798,7 @@ msgid "Escaping"
 msgstr ""
 
 #. var subtitle := " · Epic beast"
-#: scripts/ui/mapfill_bar.gd:1076 scripts/ui/selection_panel.gd:921
+#: scripts/ui/mapfill_bar.gd:1076 scripts/ui/selection_panel.gd:923
 msgid " · Epic beast"
 msgstr ""
 

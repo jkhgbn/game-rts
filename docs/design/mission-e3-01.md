@@ -354,7 +354,15 @@ Deviations:
 - **Tuning (2026-10-07)**: crystal nodes 3 000 / 3 000 / 3 500 / 3 500 (spec 1 500 / 1 500 / 2 000 / 2 500: 14 Thralls
   mined the home pair dry by 5:30), the horn relief capped at 8 living units (uncapped it piled 24 units on the ford by
   11:00), the guards' 2x leash (10 m), no bot towers / houses row.
-- **Scripted runs (normal): not green.** `tests/test_e3m1_sim.gd` takes the ford at ~10:00-12:45 (spec ~12:00) with
-  ~35 soldiers, then loses its army on the standards (W4, the Final, the crest spires and the enemy wizards: Ysolde's
-  Thornburst and Vessa's Fireball, which has no cooldown, take most of the kills) and times out or loses Malrik
-  (13:40-34:00). Open: a stronger scripted player (Deacons, Hexweavers, wizard focus) or lighter W4 / Final waves.
+- **Scripted runs (normal), first build: not green.** `tests/test_e3m1_sim.gd` took the ford at ~10:00-12:45 with ~35
+  soldiers, then lost its army on the standards (W4, the Final, the crest spires and the enemy wizards: Ysolde's
+  Thornburst and Vessa's Fireball took most of the kills) and timed out or lost Malrik (13:40-34:00).
+- **Second pass (2026-10-07): green.** The scripted player is human-like (`tests/helpers/sim_tactics.gd`): one push
+  together for the ford (a loose line trickled into the slow water and fed the Burr Slingers' splash), then a loose
+  line 4.2 m apart for the standards and the hold; the ranged units, Hexweavers and Hounds go for Ysolde / Vessa when
+  she is within 15 m (the melee only within 8 m); the wounded walk back behind the river; after the ford it rebuilds
+  north of the river (below 22 soldiers, back out at 32) instead of on the south landing; no push before 9:00; a Shade
+  front with Knights / Oathsworn, Hexweavers and Nightbolts. Mission-only tuning (`aoe_tuning`, header): Ysolde's and
+  Vessa's mana regen x 0.5 and each AoE takes extra mana (Fireball 40 + 30, Thornburst 35 + 25). **3 / 3 victories:
+  21:53, 24:59 and 25:58** play time with the cutscene lengths (mission time 21:01, 24:07, 25:06; ford at 10:10-10:16;
+  spec 22-28).

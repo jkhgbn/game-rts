@@ -250,7 +250,7 @@ msgid "Tiers are off"
 msgstr "Paliers désactivés"
 
 #. const REASON_MAX_TIER := "Already a Citadel"
-#: scripts/buildings/keep.gd:22 scripts/buildings/tier_system.gd:260
+#: scripts/buildings/keep.gd:22 scripts/buildings/tier_system.gd:263
 msgid "Already a Citadel"
 msgstr "Déjà une Citadelle"
 
@@ -345,27 +345,27 @@ msgid "Not in this mission"
 msgstr "Pas dans cette mission"
 
 #. var text := "The Keep is now a %s" % tier_name(tier)
-#: scripts/buildings/tier_system.gd:110
+#: scripts/buildings/tier_system.gd:113
 msgid "The Keep is now a %s"
 msgstr "Le donjon est maintenant : %s"
 
 #. text += ". New: " + list
-#: scripts/buildings/tier_system.gd:113
+#: scripts/buildings/tier_system.gd:116
 msgid ". New: "
 msgstr ". Nouveau : "
 
 #. return "%s (helper)" % t.display_name.trim_prefix("Call ")
-#: scripts/buildings/tier_system.gd:173
+#: scripts/buildings/tier_system.gd:176
 msgid "%s (helper)"
 msgstr "%s (assistant)"
 
 #. return "%s (helper)" % t.display_name.trim_prefix("Call ")
-#: scripts/buildings/tier_system.gd:173
+#: scripts/buildings/tier_system.gd:176
 msgid "Call "
 msgstr "Appeler "
 
 #. return "Available at %s" % clock(start_time(to_tier))
-#: scripts/buildings/tier_system.gd:265
+#: scripts/buildings/tier_system.gd:268
 msgid "Available at %s"
 msgstr "Disponible à %s"
 
@@ -1196,7 +1196,7 @@ msgid "Can't hire that here"
 msgstr "Impossible d'engager ça ici"
 
 #. @export var unit_name := "Soldier"
-#: scripts/units/unit.gd:146
+#: scripts/units/unit.gd:149
 msgid "Soldier"
 msgstr "Soldat"
 
@@ -1833,17 +1833,17 @@ msgid "Well"
 msgstr "Well"
 
 #. var line := "Ember Crown: unclaimed"
-#: scripts/world/layout_level.gd:420 scripts/world/skirmish.gd:733
+#: scripts/world/layout_level.gd:420 scripts/world/skirmish.gd:753
 msgid "Ember Crown: unclaimed"
 msgstr "Ember Crown : non réclamée"
 
 #. line = "Ember Crown: sealed until 6:00"
-#: scripts/world/layout_level.gd:422 scripts/world/skirmish.gd:735
+#: scripts/world/layout_level.gd:422 scripts/world/skirmish.gd:755
 msgid "Ember Crown: sealed until 6:00"
 msgstr "Ember Crown : scellée jusqu'à 6:00"
 
 #. line = "Ember Crown: worn by %s" % crown.wearer_name()
-#: scripts/world/layout_level.gd:424 scripts/world/skirmish.gd:737
+#: scripts/world/layout_level.gd:424 scripts/world/skirmish.gd:757
 msgid "Ember Crown: worn by %s"
 msgstr "Ember Crown : portée par %s"
 
@@ -2013,102 +2013,102 @@ msgid "He"
 msgstr "Il"
 
 #. var text := "Match time %s\nUnits trained %d · Units lost %d · Enemy units killed %d · Buildings destroyed %d\
-#: scripts/world/skirmish.gd:709
+#: scripts/world/skirmish.gd:729
 msgid "Match time %s\nUnits trained %d · Units lost %d · Enemy units killed %d · Buildings destroyed %d\nCrystals gathered %s\n"
 msgstr "Durée de la partie %s\nUnités formées %d · Unités perdues %d · Unités ennemies tuées %d · Bâtiments détruits %d\nCristaux récoltés %s\n"
 
 #. text += "Gold earned %s (trade %s) · Caravans lost %d · Workers lost to Magpies %d · Magpies slain %d\n" % [
-#: scripts/world/skirmish.gd:713
+#: scripts/world/skirmish.gd:733
 msgid "Gold earned %s (trade %s) · Caravans lost %d · Workers lost to Magpies %d · Magpies slain %d\n"
 msgstr "Or gagné %s (commerce %s) · Caravanes perdues %d · Ouvriers perdus aux Magpies %d · Magpies tués %d\n"
 
 #. parts.append("Points held at the end %d / %d" % [s["points_held"], s["points_total"]])
-#: scripts/world/skirmish.gd:718
+#: scripts/world/skirmish.gd:738
 msgid "Points held at the end %d / %d"
 msgstr "Points tenus à la fin %d / %d"
 
 #. parts.append("Camps cleared %d" % s["camps_cleared"])
-#: scripts/world/skirmish.gd:720
+#: scripts/world/skirmish.gd:740
 msgid "Camps cleared %d"
 msgstr "Camps nettoyés %d"
 
 #. parts.append("Blessings %d" % s["blessings"])
-#: scripts/world/skirmish.gd:722
+#: scripts/world/skirmish.gd:742
 msgid "Blessings %d"
 msgstr "Bénédictions %d"
 
 #. parts.append("Game hunted %d" % s["game_hunted"])
-#: scripts/world/skirmish.gd:724
+#: scripts/world/skirmish.gd:744
 msgid "Game hunted %d"
 msgstr "Gibier chassé %d"
 
 #. return text + "F9: play again"
-#: scripts/world/skirmish.gd:727
+#: scripts/world/skirmish.gd:747
 msgid "F9: play again"
 msgstr "F9 : rejouer"
 
 #. return "Skirmish: Crown Hollow\nDestroy every %s building. Keep one of yours standing.\n" \
-#: scripts/world/skirmish.gd:738
+#: scripts/world/skirmish.gd:758
 msgid "Skirmish: Crown Hollow\nDestroy every %s building. Keep one of yours standing.\n"
 msgstr "Escarmouche : Crown Hollow\nDétruisez tous les bâtiments %s. Gardez-en un des vôtres debout.\n"
 
 #. hud.show_message("%s found %d essence" % [who, int(loot["essence"])], 3.0)
-#: scripts/world/skirmish.gd:1485
+#: scripts/world/skirmish.gd:1506
 msgid "%s found %d essence"
 msgstr "%s a trouvé %d essence"
 
 #. hud.show_message("The Lost Cache holds %d essence" % int(loot["essence"]), 3.0)
-#: scripts/world/skirmish.gd:1490
+#: scripts/world/skirmish.gd:1511
 msgid "The Lost Cache holds %d essence"
 msgstr "La Lost Cache contient %d essence"
 
 #. hud.show_message("The Lost Cache holds %s" % item_name, 3.0)
-#: scripts/world/skirmish.gd:1494
+#: scripts/world/skirmish.gd:1515
 msgid "The Lost Cache holds %s"
 msgstr "La Lost Cache contient %s"
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1556
+#: scripts/world/skirmish.gd:1577
 msgid "%s on score  %s to %s"
 msgstr "%s au pointage  %s à %s"
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1556
+#: scripts/world/skirmish.gd:1577
 msgid "Won"
 msgstr "Victoire"
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1556
+#: scripts/world/skirmish.gd:1577
 msgid "Lost"
 msgstr "Défaite"
 
 #. var names := ["You (%s)" % _kingdom_info(Unit.Team.PLAYER, "name"),
-#: scripts/world/skirmish.gd:1558
+#: scripts/world/skirmish.gd:1579
 msgid "You (%s)"
 msgstr "Vous (%s)"
 
 #. hud.show_message("%s has fallen! %s returns in %d s" % [EmberCrown.short_name(wiz),
-#: scripts/world/skirmish.gd:1624
+#: scripts/world/skirmish.gd:1645
 msgid "%s has fallen! %s returns in %d s"
 msgstr "%s est tombé ! %s revient dans %d s"
 
 #. hud.show_message("%s returns!" % EmberCrown.short_name(wiz), 3.0)
-#: scripts/world/skirmish.gd:1642
+#: scripts/world/skirmish.gd:1663
 msgid "%s returns!"
 msgstr "%s revient !"
 
 #. hud.show_message("The %s lies unclaimed" % dropped.artifact_name, 4.0)
-#: scripts/world/skirmish.gd:1675
+#: scripts/world/skirmish.gd:1696
 msgid "The %s lies unclaimed"
 msgstr "%s n'est pas réclamé"
 
 #. hud.show_message("Press F10 again to surrender", SURRENDER_WINDOW)
-#: scripts/world/skirmish.gd:1718
+#: scripts/world/skirmish.gd:1739
 msgid "Press F10 again to surrender"
 msgstr "Appuyez de nouveau sur F10 pour abandonner"
 
 #. return "a barracks"
-#: scripts/world/skirmish.gd:1797
+#: scripts/world/skirmish.gd:1818
 msgid "a barracks"
 msgstr "une caserne"
 

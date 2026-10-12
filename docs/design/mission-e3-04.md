@@ -386,7 +386,17 @@ storm, ridge, knight) and `tests/test_e3m4_sim.gd` (slow list). Deviations:
 - No cine timelines; no `ep3_ending` film (rewards `next` = `e4m1`, not built yet).
 - **Tuning (2026-10-07)**: Vey's helper kit at level 5 (at 8 his Chain / Stormcall cut a 40-unit army to 4 in A1);
   crystal nodes as e3m1.
-- **Scripted runs (normal): not green.** `tests/test_e3m4_sim.gd` holds the three watch points to A1 with ~40 soldiers
-  and raises the Paddock and 2-3 Knights (the Knight's charge lands on Vey: `sec_knight`), but A1 wipes the army:
-  Vessa's Fireball (mana-limited, no cooldown) and Vey's chain take ~30 soldiers in ~20 s, and Malrik falls in storm 1
-  or 2 (6:12-13:36). Open: Vessa's Fireball rank / mana for this mission, or a scripted player that splits the army.
+- **Scripted runs (normal), first build: not green.** `tests/test_e3m4_sim.gd` held the three watch points to A1 with ~40
+  soldiers, but A1 wiped the army (Vessa's Fireball and Vey's chain took ~30 soldiers in ~20 s) and Malrik fell in storm
+  1 or 2 (6:12-13:36).
+- **Second pass (2026-10-07): green.** The scripted player is human-like (`tests/helpers/sim_tactics.gd`, shared by the
+  campaign sims): a loose line 4.2 m apart just south of the watch point (melee in front, ranged behind), never a chase
+  into Vessa's column; its ranged units and Hounds shoot Vessa when she comes within 16 m of the line; the wounded
+  (under 30 %) walk back behind it; only the melee and the Knights go for Vey at the line (and finish him anywhere near
+  once he is under 35 %); Knights / Oathsworn / Hexweavers / Nightbolts instead of a Shade blob (Unit Guide); a home
+  guard of 5, two Night Spires on the mines, half the army home against a raid, supply first; Malrik behind the line,
+  Umbral Shroud and back to the keep when Vessa or Vey closes in. Mission-only tuning (`aoe_tuning`, header):
+  Vessa's mana regen x 0.5 and each Fireball 30 more mana (40 + 30); Vey never flees and never heals while a storm runs
+  (escorting Vessa home he rested back to 3 600 HP: storm 1 never broke in 2 of 3 runs); Vey's helper kit at level 4
+  (was 5). **3 / 3 victories: 22:09, 22:00 and 24:18** play time with the cutscene lengths (mission time 20:49, 20:40,
+  22:58; spec 24-30: the third storm breaks within a minute of A3 at 20:00, so the clock is the mission's).

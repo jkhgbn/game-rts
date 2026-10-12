@@ -145,6 +145,7 @@ function Invoke-BotPass($plan, [int]$from, [string]$label) {
 			Write-Host ("[2/4] Bot Lab {0}: {1}, seeds {2} x 4 mirrors" -f $label, $tag, $seedArg)
 			$a = @{ Dir = $Repo; Pairs = @($Mirrors); Seeds = @($seedArg); Difficulty = $d; Sim = "on"; Limit = $Limit; OutDir = $dir;
 				Title = "Map gate $Map ($tag)"; TimeoutMin = 110 }
+			if ($env:FW_GATE_PARALLEL) { $a["Parallel"] = [int]$env:FW_GATE_PARALLEL }   # matches at once (default: run_lab's)
 			$ex = $Extra
 			if ($bd.swap) { $ex = "$ex --swap-sides=1".Trim() }
 			if ($ex -ne "") { $a["Extra"] = $ex }

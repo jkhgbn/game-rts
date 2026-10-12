@@ -418,6 +418,28 @@ night: snuff / sabotage / alarm, dawn: phase switch + hold, death). Deviations a
 - Wagons and villager tents are under a full truce: a wagon is spoiled by sabotage only (no loud destroy), a tent can
   never be hit (sec_villagers cannot fail). Sleepers are dormant guards; posts are guards; patrols walk their loops
   (mission-driven); Old Vey's vigil is an invulnerable Ruin Warden stand-in (no Helper brain, no `m4` look).
-- Missing: a scripted-run sim (the stealth player), the `c_e3_knife` / `c_e3_price` films, the e3m2_slip / embers /
-  dawn timelines (fallback end states), Alarm 3's "sight x 0.8, concealment 8 m" step, the patrols relighting fires on
-  their loop (any awake enemy 3 s within 4 m relights), the Reaver Sunburn rule.
+- Missing: the `c_e3_knife` / `c_e3_price` films, the e3m2_slip / embers / dawn timelines (fallback end states), the
+  Reaver Sunburn rule.
+- **Finished (2026-10-07, second pass)**: `HushCommando extends Wizard` (`scripts/units/hush_commando.gd`: level 5 fixed,
+  no XP, the veil, F / Q / E through `command_cast(&"hush_blink" / &"hush_smoke" / &"hush_knives")`, 2 % / s idle regen
+  after 4 s, Unit's idle-regen delay, not the spec's 8 s); the `concealed` status (`Unit.is_concealed()`), set by the
+  mission on squad units out of fire-light; towers and keeps never shoot a concealed squad unit no enemy sees
+  (`BuildingGun.is_ignored`). Wagons and villager tents are attackable (group `"noncombatant"`: no auto-target): a
+  destroyed wagon counts, loud; a hit tent fails `sec_villagers` with an instant alarm; at night the squad never
+  auto-attacks a camp building and attacking one is an instant alarm. Alarm 3: sight 12 m (x 0.8), concealment 8 m.
+  Patrols stop by a snuffed fire they pass and relight it (3 s). Smoke Cloak: no spotter sees a unit inside it, and
+  enemies targeting one drop it. Fixes found by the sim: Vey's Lunge landed every 0.25 s tick (320 / s): now once, 12 s
+  cooldown; posted guards walked home the moment they reached an alarm (now they stay the 45 s); camp units chasing
+  north of the safe line walk back (P6, north of the line, still fights at its post); Vey's lure stops at z 26; the
+  squad ring starts 2 m north of Hush (its south edge stood in F2's light and P2 raised Alarm 1 at 0:04).
+- **Scripted runs (normal)**: `tests/test_e3m2_sim.gd` (slow list), the stealth player: WG2 first (F6 snuffed under
+  Smoke Cloak while Vey rests at the tree, then the veiled sabotage), then WG4, WG3, WG1 emptied by a Nightblood Reaver
+  lure 8.5 m from the wagon (the camp alert keeps the guards there 45 s) while Hush spoils the wagon from the other
+  side; dawn: Hush called, 2 Reavers, the loose line south of the keep. The player watches 35 s from each staging spot,
+  waits out patrols within 13 m (8 m after a minute) and goes for WG2 when Vey is 10.5+ m from the spot (his far pause
+  is ~12 m). Results (normal, final code): 6 / 6 victories, play time 9:42-11:18 (night 5:58-7:34, 3 alarms, 0
+  villagers hit); spec 14-18 (night 8:30-10:30): the scripted player is faster than the spec's estimate. Open: a
+  human's night is longer (scouting the patrol loops); the `c_e3_*` films would add ~1 min each.
+- Reliability fixes in the second pass (sim-found): the sabotage counts within `SABOTAGE_REACH` (the 2 m radius + 2.5,
+  the wagon's own footprint) so a unit at the wagon's side is not 0.1 m short; Smoke Cloak drops enemy targets on the
+  cast, not on the next tick.

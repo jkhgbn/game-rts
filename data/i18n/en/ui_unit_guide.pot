@@ -146,7 +146,7 @@ msgid "%s m/s"
 msgstr ""
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Unit Guide", 34))
-#: scripts/ui/menus/unit_guide.gd:296 scripts/ui/menus/main_menu.gd:674
+#: scripts/ui/menus/unit_guide.gd:296 scripts/ui/menus/main_menu.gd:675
 #: scripts/ui/menus/pause_menu.gd:59
 msgid "Unit Guide"
 msgstr ""
@@ -162,8 +162,8 @@ msgid "Type a name, role, kingdom, building or tag (\"archers\", \"chill\", \"st
 msgstr ""
 
 #. back_button = _button(row, "Back", 140)
-#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:770
-#: scripts/ui/menus/main_menu.gd:856 scripts/ui/menus/pause_menu.gd:269
+#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:797
+#: scripts/ui/menus/main_menu.gd:883 scripts/ui/menus/pause_menu.gd:269
 #: scripts/ui/menus/settings_panel.gd:110 scripts/ui/wave_strike/wave_strike_lobby.gd:115
 msgid "Back"
 msgstr ""
@@ -428,8 +428,8 @@ msgstr ""
 
 #. var keep_name := keep.display_name if keep else "Keep"
 #: scripts/ui/menus/unit_guide_data.gd:71 scripts/ui/command_card.gd:952
-#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:1868
-#: scripts/ui/selection_panel.gd:2748
+#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:1897
+#: scripts/ui/selection_panel.gd:2777
 msgid "Keep"
 msgstr ""
 
@@ -440,7 +440,7 @@ msgstr ""
 
 #. var stables_name := stables.display_name if stables else "Stables"
 #: scripts/ui/menus/unit_guide_data.gd:73 scripts/ui/menus/unit_guide_data.gd:333
-#: scripts/campaign/mission_e8_02.gd:104 scripts/campaign/mission_e8_03.gd:131
+#: scripts/campaign/mission_e8_02.gd:106 scripts/campaign/mission_e8_03.gd:131
 msgid "Stables"
 msgstr ""
 
@@ -465,8 +465,8 @@ msgid "{text} ({mana} mana)"
 msgstr ""
 
 #. out.append({"name": str(pd.get("name", p)), "key": "Passive",
-#: scripts/ui/menus/unit_guide_data.gd:306 scripts/ui/selection_panel.gd:218
-#: scripts/ui/selection_panel.gd:226 scripts/units/creature_abilities.gd:63
+#: scripts/ui/menus/unit_guide_data.gd:306 scripts/ui/selection_panel.gd:220
+#: scripts/ui/selection_panel.gd:228 scripts/units/creature_abilities.gd:63
 msgid "Passive"
 msgstr ""
 

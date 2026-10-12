@@ -3029,36 +3029,6 @@ msgstr "Les racines sont avec nous."
 msgid "Return me... to the oak."
 msgstr "Rendez-moi... au chêne."
 
-#. speaker malrik
-#: data/voice/lines/e8m3.json:L28_malrik
-#~ msgid "Carry the stone... somebody..."
-#~ msgstr "Portez la pierre... quelqu'un..."
-
-#. speaker vessa
-#: data/voice/lines/e8m3.json:L28_vessa
-#~ msgid "Hold... hold it... without me..."
-#~ msgstr "Tenez... tenez-le... sans moi..."
-
-#. speaker ysolde
-#: data/voice/lines/e8m3.json:L13_ysolde
-#~ msgid "It grew back. They always do."
-#~ msgstr "Elle a repoussé. Elles repoussent toujours."
-
-#. speaker torvald
-#: data/voice/lines/e8m3.json:L13_torvald
-#~ msgid "Mended. Slowly. But mended."
-#~ msgstr "Réparée. Lentement. Mais réparée."
-
-#. speaker malrik
-#: data/voice/lines/e8m3.json:L13_malrik
-#~ msgid "Relit. Nobody saw that."
-#~ msgstr "Rallumée. Personne n'a rien vu."
-
-#. speaker vessa
-#: data/voice/lines/e8m3.json:L13_vessa
-#~ msgid "Back on! Sorry, chain."
-#~ msgstr "Rallumée ! Désolée, la chaîne."
-
 #. speaker ysolde
 #: data/voice/lines/e8m3.json:L11_ysolde
 #~ msgid "My keyhole's bleeding sap! Please!"
@@ -3139,45 +3109,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Some things should break. Once. Properly."
 #~ msgstr "Certaines choses doivent se briser. Une fois. Comme il faut."
 
-#. speaker obren
-#: data/voice/lines/e8m3.json:L23
-#~ msgid "His light? HIS? Through MY throne? You'll break it! You'll break everything!"
-#~ msgstr "Sa lumière ? LA SIENNE ? À travers MON trône ? Vous allez le briser ! Vous allez tout briser !"
-
-#. speaker master
-#: data/voice/lines/e8m3.json:L22
-#~ msgid "Again. All four. I am right beneath you."
-#~ msgstr "Encore. Tous les quatre. Je suis juste sous vos pieds."
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L26
+#~ msgid "Ice is set. That was quick, for me."
+#~ msgstr "La Glace est en place. C'était rapide, pour moi."
 
 #. speaker malrik
 #: data/voice/lines/e8m3.json:L21
 #~ msgid "It did. Take my keyhole's left side. And Hush... thank you."
 #~ msgstr "C'est vrai. Prends le côté gauche de ma serrure. Et Hush... merci."
 
-#. speaker hush
-#: data/voice/lines/e8m3.json:L20
-#~ msgid "I said you'd want me back, Bishop. The dark got very loud."
-#~ msgstr "Je t'avais dit que tu voudrais me revoir, Évêque. Le noir est devenu très bruyant."
-
-#. speaker master
-#: data/voice/lines/e8m3.json:L19
-#~ msgid "Hold him there. I am almost with you."
-#~ msgstr "Retenez-le là. Je suis presque avec vous."
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L24
+#~ msgid "Fire's key is in! Don't make me wait. I'm terrible at it."
+#~ msgstr "La clé du Feu est en place ! Me fais pas attendre. Je suis nulle là-dedans."
 
 #. speaker maelis
 #: data/voice/lines/e8m3.json:L18
 #~ msgid "The chains! They're dragging him back! The keys remember who they belong to!"
 #~ msgstr "Les chaînes ! Elles le ramènent ! Les clés se souviennent à qui elles appartiennent !"
 
-#. speaker aldra
-#: data/voice/lines/e8m3.json:L17
-#~ msgid "His leg is cracking! The glass sees it. Again, there!"
-#~ msgstr "Sa jambe se fend ! Le verre le voit. Encore, là !"
-
-#. speaker vey
-#: data/voice/lines/e8m3.json:L16
-#~ msgid "He's out! Don't feed him: whatever dies near him, he eats. Fight from range!"
-#~ msgstr "Il est sorti ! Ne le nourrissez pas : ce qui meurt près de lui, il le mange. Battez-vous à distance !"
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L22
+#~ msgid "Ice is moving. I know. Write it down somewhere."
+#~ msgstr "La Glace bouge. Je sais. Note-le quelque part."
 
 #. speaker obren
 #: data/voice/lines/e8m3.json:L15
@@ -3249,30 +3204,45 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "I came out... for this..."
 #~ msgstr "Je suis sortie... pour ça..."
 
-#. speaker torvald
-#: data/voice/lines/e8m2.json:L39_torvald
-#~ msgid "Too late... again..."
-#~ msgstr "Trop tard... encore..."
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L28_malrik
+#~ msgid "Carry the stone... somebody..."
+#~ msgstr "Portez la pierre... quelqu'un..."
+
+#. speaker vessa
+#: data/voice/lines/e8m3.json:L28_vessa
+#~ msgid "Hold... hold it... without me..."
+#~ msgstr "Tenez... tenez-le... sans moi..."
 
 #. speaker malrik
 #: data/voice/lines/e8m2.json:L39_malrik
 #~ msgid "Of course. Just as it got interesting."
 #~ msgstr "Évidemment. Juste quand ça devenait intéressant."
 
-#. speaker vessa
-#: data/voice/lines/e8m2.json:L39_vessa
-#~ msgid "Not now... not when we're finally together..."
-#~ msgstr "Pas maintenant... pas quand on est enfin ensemble..."
+#. speaker ysolde
+#: data/voice/lines/e8m3.json:L13_ysolde
+#~ msgid "It grew back. They always do."
+#~ msgstr "Elle a repoussé. Elles repoussent toujours."
+
+#. speaker torvald
+#: data/voice/lines/e8m3.json:L13_torvald
+#~ msgid "Mended. Slowly. But mended."
+#~ msgstr "Réparée. Lentement. Mais réparée."
 
 #. speaker ysolde
 #: data/voice/lines/e8m2.json:L38b data/voice/lines/ep8_ending_a.json:L3
 #~ msgid "Together."
 #~ msgstr "Ensemble."
 
-#. speaker ysolde
-#: data/voice/lines/e8m2.json:L9_ysolde
-#~ msgid "The Signet is home. I'm still out here. Who's next?"
-#~ msgstr "Le Signet est chez lui. Moi, je suis encore dehors. À qui le tour ?"
+#. speaker malrik
+#: data/voice/lines/e8m3.json:L13_malrik
+#~ msgid "Relit. Nobody saw that."
+#~ msgstr "Rallumée. Personne n'a rien vu."
+
+#. speaker vessa
+#: data/voice/lines/e8m3.json:L13_vessa
+#~ msgid "Back on! Sorry, chain."
+#~ msgstr "Rallumée ! Désolée, la chaîne."
 
 #. speaker torvald
 #: data/voice/lines/e8m2.json:L9_torvald
@@ -3360,29 +3330,29 @@ msgstr "Rendez-moi... au chêne."
 #~ msgstr "La clé de la Nature est chez elle. Les racines la tiennent."
 
 #. speaker torvald
-#: data/voice/lines/e8m2.json:L26
-#~ msgid "Ice is set. That was quick, for me."
-#~ msgstr "La Glace est en place. C'était rapide, pour moi."
+#: data/voice/lines/e7m2.json:L16
+#~ msgid "A white mask. Then I know the knife, and I know the hand that throws it."
+#~ msgstr "Un masque blanc. Alors je connais le couteau, et je connais la main qui le lance."
 
 #. speaker malrik
 #: data/voice/lines/e8m2.json:L25
 #~ msgid "Shadow's lock is turned. You may thank me in writing."
 #~ msgstr "La serrure de l'Ombre est tournée. Tu peux me remercier par écrit."
 
-#. speaker vessa
-#: data/voice/lines/e8m2.json:L24
-#~ msgid "Fire's key is in! Don't make me wait. I'm terrible at it."
-#~ msgstr "La clé du Feu est en place ! Me fais pas attendre. Je suis nulle là-dedans."
+#. speaker herald
+#: data/voice/lines/e7m2.json:L15
+#~ msgid "A woman in a white mask. She never said a word. The knives followed her like ducklings."
+#~ msgstr "Une femme au masque blanc. Elle n'a pas dit un mot. Les couteaux la suivaient comme des canetons."
 
 #. speaker ysolde
 #: data/voice/lines/e8m2.json:L23
 #~ msgid "Nature marches out. Again. It's getting easier."
 #~ msgstr "La Nature sort de chez elle. Encore. Ça devient plus facile."
 
-#. speaker torvald
-#: data/voice/lines/e8m2.json:L22
-#~ msgid "Ice is moving. I know. Write it down somewhere."
-#~ msgstr "La Glace bouge. Je sais. Note-le quelque part."
+#. speaker herald
+#: data/voice/lines/e7m2.json:L13
+#~ msgid "Don't hurt me! I only read the names! I saw the boat, a black boat, from the north side!"
+#~ msgstr "Ne me faites pas de mal ! Je lisais juste les noms ! J'ai vu une barque noire, du côté nord !"
 
 #. speaker malrik
 #: data/voice/lines/e8m2.json:L21
@@ -3469,45 +3439,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Ice holds its bank. Malrik, if that stone so much as hums, I'm freezing your pocket."
 #~ msgstr "La Glace tient sa rive. Malrik, si cette pierre bourdonne le moindrement, je gèle ta poche."
 
-#. speaker vessa
-#: data/voice/lines/e8m2.json:L3
-#~ msgid "Fire takes its bank. Or wherever I'm standing. I'm flexible."
-#~ msgstr "Le Feu prend sa rive. Ou là où je me trouve. Je suis flexible."
-
-#. speaker vey
-#: data/voice/lines/e8m2.json:L2
-#~ msgid "Well. Look at the four of you. Thirty years I waited to see this, and it's ugly. I love it."
-#~ msgstr "Eh bien. Regardez-vous, tous les quatre. Trente ans que j'attends de voir ça, et c'est laid. J'adore."
+#. speaker torvald
+#: data/voice/lines/e8m2.json:L39_torvald
+#~ msgid "Too late... again..."
+#~ msgstr "Trop tard... encore..."
 
 #. speaker narrator
 #: data/voice/lines/e8m2.json:L1
 #~ msgid "Four kingdoms on one field, and every banner pointed the same way. It had never happened."
 #~ msgstr "Quatre royaumes sur un même champ, toutes les bannières tournées du même côté. Ça n'était jamais arrivé."
 
-#. speaker malrik
-#: data/voice/lines/e8m1_shadow.json:L25
-#~ msgid "Full, apparently. Who knew."
-#~ msgstr "Rassasié, apparemment. Qui l'eût cru."
-
-#. speaker obren
-#: data/voice/lines/e8m1_shadow.json:L24
-#~ msgid "Not once? Not ONCE? ...What ARE you?"
-#~ msgstr "Pas une fois ? Pas UNE SEULE ? ...Mais qu'est-ce que tu ES ?"
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L39_vessa
+#~ msgid "Not now... not when we're finally together..."
+#~ msgstr "Pas maintenant... pas quand on est enfin ensemble..."
 
 #. speaker malrik
 #: data/voice/lines/e8m1_shadow.json:L23
 #~ msgid "Hungry... to the very last..."
 #~ msgstr "Affamé... jusqu'au bout..."
 
-#. speaker narrator
-#: data/voice/lines/e8m1_shadow.json:L22
-#~ msgid "The Bishop walked out of his city with the stone in his fist, and for once the fist stayed shut."
-#~ msgstr "L'Évêque est sorti de sa ville, la pierre dans le poing, et pour une fois, le poing est resté fermé."
-
-#. speaker malrik
-#: data/voice/lines/e8m1_shadow.json:L21
-#~ msgid "I'm not using you. I'm carrying you. Like a parcel. To the hole you came from."
-#~ msgstr "Je ne me sers pas de toi. Je te transporte. Comme un colis. Jusqu'au trou d'où tu viens."
+#. speaker ysolde
+#: data/voice/lines/e8m2.json:L9_ysolde
+#~ msgid "The Signet is home. I'm still out here. Who's next?"
+#~ msgstr "Le Signet est chez lui. Moi, je suis encore dehors. À qui le tour ?"
 
 #. speaker malrik
 #: data/voice/lines/e8m1_shadow.json:L20
@@ -3579,30 +3534,45 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Rest. I'm sorry they woke you. It wasn't me. It was what I was holding."
 #~ msgstr "Reposez-vous. Désolé qu'on vous ait réveillés. Ce n'était pas moi. C'était ce que je tenais."
 
-#. speaker malrik
-#: data/voice/lines/e8m1_shadow.json:L8
-#~ msgid "I know what you are. You're the last biscuit in the tin, forever."
-#~ msgstr "Je sais ce que tu es. Le dernier biscuit de la boîte, pour toujours."
+#. speaker torvald
+#: data/voice/lines/e8m1_ice.json:L8
+#~ msgid "Kettlewick. Twice now. Perhaps it's a habit."
+#~ msgstr "Kettlewick. Deux fois, maintenant. C'est peut-être une habitude."
+
+#. speaker narrator
+#: data/voice/lines/e8m1_ice.json:L7
+#~ msgid "Kettlewick stands. It remembers who opened the gate once. Its shields come too."
+#~ msgstr "Kettlewick est debout. Elle se souvient de qui a ouvert la porte, une fois. Ses boucliers viennent aussi."
 
 #. speaker obren
 #: data/voice/lines/e8m1_shadow.json:L7
 #~ msgid "There. Doesn't that feel like enough? It never is. Again."
 #~ msgstr "Voilà. Ça ne te semble pas assez ? Ça ne l'est jamais. Encore."
 
+#. speaker narrator
+#: data/voice/lines/e8m1_ice.json:L6
+#~ msgid "Out of the cracked north comes a long dark line: carts, old men, children, and the hunt behind."
+#~ msgstr "Du nord fissuré arrive une longue ligne sombre : charrettes, vieillards, enfants, et la chasse derrière."
+
 #. speaker malrik
-#: data/voice/lines/e8m1_shadow.json:L6
-#~ msgid "Then we put them back to bed. Gently. They were somebody's."
-#~ msgstr "Alors on les remet au lit. Doucement. Ils ont été à quelqu'un."
+#: data/voice/lines/ep8_throne_malrik.json:L1
+#~ msgid "Full. At last. Just once, to be full."
+#~ msgstr "Rassasié. Enfin. Juste une fois, être rassasié."
 
 #. speaker shade
 #: data/voice/lines/e8m1_shadow.json:L5
 #~ msgid "Bishop, the Old Ossuary is open. The dead are wearing amber."
 #~ msgstr "Évêque, le Old Ossuary est ouvert. Les morts portent de l'ambre."
 
-#. speaker malrik
-#: data/voice/lines/e8m1_shadow.json:L4
-#~ msgid "A little. You always say a little."
-#~ msgstr "Un peu. Tu dis toujours un peu."
+#. speaker torvald
+#: data/voice/lines/ep8_throne_torvald.json:L1
+#~ msgid "A peace that never melts. Never breaks."
+#~ msgstr "Une paix qui ne fond jamais. Qui ne se brise jamais."
+
+#. speaker vessa
+#: data/voice/lines/ep8_throne_vessa.json:L1
+#~ msgid "I could stop every war. Keep everyone safe."
+#~ msgstr "Je pourrais arrêter toutes les guerres. Garder tout le monde en sécurité."
 
 #. speaker obren
 #: data/voice/lines/e8m1_shadow.json:L3
@@ -3684,35 +3654,35 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Noted. Ysolde, try not to plant anything on my keyhole."
 #~ msgstr "C'est noté. Ysolde, essaie de ne rien planter sur ma serrure."
 
-#. speaker ysolde
-#: data/voice/lines/e8m1_nature.json:L8
-#~ msgid "Too slow. I was always too slow for the ones at the border."
-#~ msgstr "Trop lente. J'ai toujours été trop lente pour ceux de la frontière."
+#. speaker vessa
+#: data/voice/lines/e8m2.json:L3
+#~ msgid "Fire takes its bank. Or wherever I'm standing. I'm flexible."
+#~ msgstr "Le Feu prend sa rive. Ou là où je me trouve. Je suis flexible."
 
-#. speaker ysolde
-#: data/voice/lines/e8m1_nature.json:L7
-#~ msgid "Nobody burns while I watch. Not any more. Go home, Pipwell. Grow it back."
-#~ msgstr "Personne ne brûle sous mes yeux. Plus jamais. Rentrez chez vous, Pipwell. Faites-le repousser."
+#. speaker vey
+#: data/voice/lines/e8m2.json:L2
+#~ msgid "Well. Look at the four of you. Thirty years I waited to see this, and it's ugly. I love it."
+#~ msgstr "Eh bien. Regardez-vous, tous les quatre. Trente ans que j'attends de voir ça, et c'est laid. J'adore."
 
-#. speaker messenger
-#: data/voice/lines/e8m1_nature.json:L6
-#~ msgid "My lady! Pipwell... Pipwell's burning. They... they asked for you. By name."
-#~ msgstr "Ma dame ! Pipwell brûle. Ils vous ont demandée. Par votre nom."
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L25
+#~ msgid "Full, apparently. Who knew."
+#~ msgstr "Rassasié, apparemment. Qui l'eût cru."
 
-#. speaker ysolde
-#: data/voice/lines/e8m1_nature.json:L5
-#~ msgid "One down. It felt like pulling out my own hair. Two more."
-#~ msgstr "Un de tombé. C'était comme m'arracher mes propres cheveux. Encore deux."
+#. speaker obren
+#: data/voice/lines/e8m1_shadow.json:L24
+#~ msgid "Not once? Not ONCE? ...What ARE you?"
+#~ msgstr "Pas une fois ? Pas UNE SEULE ? ...Mais qu'est-ce que tu ES ?"
 
-#. speaker ysolde
-#: data/voice/lines/e8m1_nature.json:L4
-#~ msgid "Then I'll teach them a second word. It's a short one. Open."
-#~ msgstr "Alors je vais leur en apprendre un deuxième. Il est court. Ouvrez."
+#. speaker narrator
+#: data/voice/lines/e8m1_shadow.json:L22
+#~ msgid "The Bishop walked out of his city with the stone in his fist, and for once the fist stayed shut."
+#~ msgstr "L'Évêque est sorti de sa ville, la pierre dans le poing, et pour une fois, le poing est resté fermé."
 
-#. speaker maelis
-#: data/voice/lines/e8m1_nature.json:L3
-#~ msgid "They'll fight you, child. They only know the one word you taught them."
-#~ msgstr "Ils vont te combattre, petite. Ils ne connaissent que le seul mot que tu leur as appris."
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L21
+#~ msgid "I'm not using you. I'm carrying you. Like a parcel. To the hole you came from."
+#~ msgstr "Je ne me sers pas de toi. Je te transporte. Comme un colis. Jusqu'au trou d'où tu viens."
 
 #. speaker ysolde
 #: data/voice/lines/e8m1_nature.json:L2
@@ -3794,35 +3764,35 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "One more turn, my four. Then I will come up, and we will talk."
 #~ msgstr "Encore un tour, mes quatre. Puis je remonterai, et nous parlerons."
 
-#. speaker torvald
-#: data/voice/lines/e8m1_ice.json:L8
-#~ msgid "Kettlewick. Twice now. Perhaps it's a habit."
-#~ msgstr "Kettlewick. Deux fois, maintenant. C'est peut-être une habitude."
+#. speaker obren
+#: data/voice/lines/e8m3.json:L23
+#~ msgid "His light? HIS? Through MY throne? You'll break it! You'll break everything!"
+#~ msgstr "Sa lumière ? LA SIENNE ? À travers MON trône ? Vous allez le briser ! Vous allez tout briser !"
 
-#. speaker narrator
-#: data/voice/lines/e8m1_ice.json:L7
-#~ msgid "Kettlewick stands. It remembers who opened the gate once. Its shields come too."
-#~ msgstr "Kettlewick est debout. Elle se souvient de qui a ouvert la porte, une fois. Ses boucliers viennent aussi."
+#. speaker master
+#: data/voice/lines/e8m3.json:L22
+#~ msgid "Again. All four. I am right beneath you."
+#~ msgstr "Encore. Tous les quatre. Je suis juste sous vos pieds."
 
-#. speaker narrator
-#: data/voice/lines/e8m1_ice.json:L6
-#~ msgid "Out of the cracked north comes a long dark line: carts, old men, children, and the hunt behind."
-#~ msgstr "Du nord fissuré arrive une longue ligne sombre : charrettes, vieillards, enfants, et la chasse derrière."
+#. speaker hush
+#: data/voice/lines/e8m3.json:L20
+#~ msgid "I said you'd want me back, Bishop. The dark got very loud."
+#~ msgstr "Je t'avais dit que tu voudrais me revoir, Évêque. Le noir est devenu très bruyant."
 
-#. speaker malrik
-#: data/voice/lines/ep8_throne_malrik.json:L1
-#~ msgid "Full. At last. Just once, to be full."
-#~ msgstr "Rassasié. Enfin. Juste une fois, être rassasié."
+#. speaker master
+#: data/voice/lines/e8m3.json:L19
+#~ msgid "Hold him there. I am almost with you."
+#~ msgstr "Retenez-le là. Je suis presque avec vous."
 
-#. speaker torvald
-#: data/voice/lines/ep8_throne_torvald.json:L1
-#~ msgid "A peace that never melts. Never breaks."
-#~ msgstr "Une paix qui ne fond jamais. Qui ne se brise jamais."
+#. speaker aldra
+#: data/voice/lines/e8m3.json:L17
+#~ msgid "His leg is cracking! The glass sees it. Again, there!"
+#~ msgstr "Sa jambe se fend ! Le verre le voit. Encore, là !"
 
-#. speaker vessa
-#: data/voice/lines/ep8_throne_vessa.json:L1
-#~ msgid "I could stop every war. Keep everyone safe."
-#~ msgstr "Je pourrais arrêter toutes les guerres. Garder tout le monde en sécurité."
+#. speaker vey
+#: data/voice/lines/e8m3.json:L16
+#~ msgid "He's out! Don't feed him: whatever dies near him, he eats. Fight from range!"
+#~ msgstr "Il est sorti ! Ne le nourrissez pas : ce qui meurt près de lui, il le mange. Battez-vous à distance !"
 
 #. speaker ysolde
 #: data/voice/lines/ep8_throne_ysolde.json:L1
@@ -3904,20 +3874,35 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Fernby! The... the old stones are walking. Into the houses!"
 #~ msgstr "Fernby ! Les vieilles pierres marchent. Dans les maisons !"
 
-#. speaker vey
-#: data/voice/lines/e8m1_fire.json:L17
-#~ msgid "I see it. First time in twenty years. Don't spoil it."
-#~ msgstr "Je vois ça. Une première en vingt ans. Gâche pas tout."
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L8
+#~ msgid "Too slow. I was always too slow for the ones at the border."
+#~ msgstr "Trop lente. J'ai toujours été trop lente pour ceux de la frontière."
 
-#. speaker vessa
-#: data/voice/lines/e8m1_fire.json:L16
-#~ msgid "Vey! I called. And look: still on my side of the river."
-#~ msgstr "Vey ! Je t'ai appelé. Et regarde : toujours de mon côté de la rivière."
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L7
+#~ msgid "Nobody burns while I watch. Not any more. Go home, Pipwell. Grow it back."
+#~ msgstr "Personne ne brûle sous mes yeux. Plus jamais. Rentrez chez vous, Pipwell. Faites-le repousser."
 
-#. speaker ashby
-#: data/voice/lines/e8m1_fire.json:L15
-#~ msgid "Every rider home! The queen waited! Somebody ring a bell!"
-#~ msgstr "Tous les cavaliers sont rentrés ! La reine a attendu ! Qu'on sonne une cloche !"
+#. speaker messenger
+#: data/voice/lines/e8m1_nature.json:L6
+#~ msgid "My lady! Pipwell... Pipwell's burning. They... they asked for you. By name."
+#~ msgstr "Ma dame ! Pipwell brûle. Ils vous ont demandée. Par votre nom."
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L5
+#~ msgid "One down. It felt like pulling out my own hair. Two more."
+#~ msgstr "Un de tombé. C'était comme m'arracher mes propres cheveux. Encore deux."
+
+#. speaker ysolde
+#: data/voice/lines/e8m1_nature.json:L4
+#~ msgid "Then I'll teach them a second word. It's a short one. Open."
+#~ msgstr "Alors je vais leur en apprendre un deuxième. Il est court. Ouvrez."
+
+#. speaker maelis
+#: data/voice/lines/e8m1_nature.json:L3
+#~ msgid "They'll fight you, child. They only know the one word you taught them."
+#~ msgstr "Ils vont te combattre, petite. Ils ne connaissent que le seul mot que tu leur as appris."
 
 #. speaker ashby
 #: data/voice/lines/e8m1_fire.json:L14
@@ -4014,30 +3999,15 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "He walked out once, and the sea went still. Your turn, Ice-king. Go to the light."
 #~ msgstr "Il est sorti une fois, et la mer s'est figée. À ton tour, roi de glace. Va vers la lumière."
 
-#. speaker aldra
-#: data/voice/lines/e7m4.json:L35
-#~ msgid "The west water is glass. Their galleys are stuck fast."
-#~ msgstr "L'eau de l'ouest est du verre. Leurs galères sont prises."
-
 #. speaker seraphine
 #: data/voice/lines/e7m4.json:L36
 #~ msgid "The east is frozen! Dacian, back to back!"
 #~ msgstr "L'est est gelé ! Dacian, dos à dos !"
 
-#. speaker malrik
-#: data/voice/lines/e7m4.json:L37
-#~ msgid "Torvald! You never said no to anyone in your life. Why start with me?"
-#~ msgstr "Torvald ! Tu n'as jamais dit non à personne de ta vie. Pourquoi commencer par moi ?"
-
 #. speaker torvald
 #: data/voice/lines/e7m4.json:L38
 #~ msgid "Because I finally saw what you were buying."
 #~ msgstr "Parce que j'ai enfin vu ce que tu achetais."
-
-#. speaker torvald
-#: data/voice/lines/e7m4.json:L39 data/voice/lines/ep7_opening.json:L22
-#~ msgid "Enough."
-#~ msgstr "Assez."
 
 #. speaker ossavar
 #: data/voice/lines/e7m4.json:L40
@@ -4124,15 +4094,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Burn them. Both fleets, the sand, the cloth. A strait of dead feeds the stone for years."
 #~ msgstr "Brûlez-les. Les deux flottes, le sable, le drap. Un détroit de morts nourrit la pierre pour des années."
 
+#. speaker vey
+#: data/voice/lines/e8m1_fire.json:L17
+#~ msgid "I see it. First time in twenty years. Don't spoil it."
+#~ msgstr "Je vois ça. Une première en vingt ans. Gâche pas tout."
+
 #. speaker seraphine
 #: data/voice/lines/e7m4.json:L19
 #~ msgid "A truce, Sunblade. No bets. No knives. Just us."
 #~ msgstr "Une trêve, Sunblade. Pas de paris. Pas de couteaux. Juste nous."
 
+#. speaker vessa
+#: data/voice/lines/e8m1_fire.json:L16
+#~ msgid "Vey! I called. And look: still on my side of the river."
+#~ msgstr "Vey ! Je t'ai appelé. Et regarde : toujours de mon côté de la rivière."
+
 #. speaker dacian
 #: data/voice/lines/e7m4.json:L18
 #~ msgid "Enough. Seraphine, the cloth. We end this on the sand, the old way."
 #~ msgstr "Assez. Seraphine, le drap. On finit ça sur le sable, à l'ancienne."
+
+#. speaker ashby
+#: data/voice/lines/e8m1_fire.json:L15
+#~ msgid "Every rider home! The queen waited! Somebody ring a bell!"
+#~ msgstr "Tous les cavaliers sont rentrés ! La reine a attendu ! Qu'on sonne une cloche !"
 
 #. speaker vessa
 #: data/voice/lines/e7m4.json:L17
@@ -4344,30 +4329,15 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Facetguards, turned back by an ice-king. I'll be telling that one in the tavern for years."
 #~ msgstr "Des Facetguards renvoyés par un roi de glace. Celle-là, je vais la raconter à la taverne pendant des années."
 
-#. speaker aldra
-#: data/voice/lines/e7m3.json:L6
-#~ msgid "Crimson lanterns on the water. Aurivane burns what it cannot buy."
-#~ msgstr "Des lanternes rouges sur l'eau. Aurivane brûle ce qu'elle ne peut pas acheter."
-
 #. speaker brannet
 #: data/voice/lines/e7m3.json:L5
 #~ msgid "Rope Row's coming. Mind the old ones, they walk slow. Like you, no offence."
 #~ msgstr "Rope Row s'en vient. Attention aux vieux, ils marchent lentement. Comme vous, sans offense."
 
-#. speaker aldra
-#: data/voice/lines/e7m3.json:L4
-#~ msgid "The Glass Hall is open, my lord. It holds more than you think. Winter is roomy."
-#~ msgstr "Le Glass Hall est ouvert, seigneur. Il contient plus que tu crois. L'hiver a de la place."
-
 #. speaker torvald
 #: data/voice/lines/e7m3.json:L3
 #~ msgid "Then I will stand down here. Ring your bells when I tell you, and bring your people to me."
 #~ msgstr "Alors je resterai en bas. Sonnez vos cloches quand je vous le dirai, et amenez-moi vos gens."
-
-#. speaker brannet
-#: data/voice/lines/e7m3.json:L2
-#~ msgid "You're the ice-king? We've had kings before. They stand on the wall and watch."
-#~ msgstr "C'est vous, le roi de glace ? On en a déjà eu, des rois. Ils restent sur le mur et ils regardent."
 
 #. speaker ossavar
 #: data/voice/lines/e7m3.json:L1
@@ -4454,30 +4424,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "You want the truth told on my sand, Ice-king? Then by the old rule. First blood, and no further."
 #~ msgstr "Tu veux la vérité sur mon sable, roi de glace ? Alors, la vieille règle : premier sang, et rien de plus."
 
-#. speaker torvald
-#: data/voice/lines/e7m2.json:L16
-#~ msgid "A white mask. Then I know the knife, and I know the hand that throws it."
-#~ msgstr "Un masque blanc. Alors je connais le couteau, et je connais la main qui le lance."
+#. speaker dacian
+#: data/voice/lines/e7m1.json:L14
+#~ msgid "No crowd worth the name today, Diamond Wall. Just us, and a great deal of money."
+#~ msgstr "Pas de foule digne de ce nom aujourd'hui, Diamond Wall. Juste nous, et beaucoup d'argent."
 
 #. speaker diamond_archon
 #: data/voice/lines/e7m4.json:L15
 #~ msgid "Empty the pits. All of them. Let the sky be white and silver by noon."
 #~ msgstr "Videz les mines. Toutes. Que le ciel soit blanc et argent avant midi."
 
-#. speaker herald
-#: data/voice/lines/e7m2.json:L15
-#~ msgid "A woman in a white mask. She never said a word. The knives followed her like ducklings."
-#~ msgstr "Une femme au masque blanc. Elle n'a pas dit un mot. Les couteaux la suivaient comme des canetons."
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L12
+#~ msgid "Gold from the south. Kesh, burn the north."
+#~ msgstr "L'or vient du sud. Kesh, brûle le nord."
 
 #. speaker torvald
 #: data/voice/lines/e7m2.json:L14
 #~ msgid "Easy. Who stepped out of it?"
 #~ msgstr "Du calme. Qui en est sorti ?"
 
-#. speaker herald
-#: data/voice/lines/e7m2.json:L13
-#~ msgid "Don't hurt me! I only read the names! I saw the boat, a black boat, from the north side!"
-#~ msgstr "Ne me faites pas de mal ! Je lisais juste les noms ! J'ai vu une barque noire, du côté nord !"
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L10
+#~ msgid "The first of my brood. Kesh burns bright, and cheap. Who pays?"
+#~ msgstr "Le premier de ma couvée. Kesh brûle fort, et pas cher. Qui paie ?"
 
 #. speaker torvald
 #: data/voice/lines/e7m2.json:L12
@@ -4564,30 +4534,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "The harbour is burning, my lord. Adamarch does not forgive a guest who loses its harbour."
 #~ msgstr "Le port brûle, seigneur. Adamarch ne pardonne pas à un invité qui perd son port."
 
-#. speaker ossavar
-#: data/voice/lines/e7m1.json:L33
-#~ msgid "The sky has chosen its master, and it is not you."
-#~ msgstr "Le ciel a choisi son maître, et ce n'est pas toi."
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L6
+#~ msgid "Crimson lanterns on the water. Aurivane burns what it cannot buy."
+#~ msgstr "Des lanternes rouges sur l'eau. Aurivane brûle ce qu'elle ne peut pas acheter."
 
 #. speaker ossavar
 #: data/voice/lines/e7m1.json:L34
 #~ msgid "The Laurel was broken by knives. Gold cloaks. Violet smoke. Somebody lied on my rock."
 #~ msgstr "Le Laurel brisé par des couteaux. Des manteaux dorés. De la fumée violette. On a menti sur mon rocher."
 
-#. speaker torvald
-#: data/voice/lines/e7m1.json:L32
-#~ msgid "Remember who paid for it, Seraphine. I would like to know myself."
-#~ msgstr "Souviens-toi de qui a payé pour ça, Seraphine. J'aimerais bien le savoir moi-même."
+#. speaker aldra
+#: data/voice/lines/e7m3.json:L4
+#~ msgid "The Glass Hall is open, my lord. It holds more than you think. Winter is roomy."
+#~ msgstr "Le Glass Hall est ouvert, seigneur. Il contient plus que tu crois. L'hiver a de la place."
 
 #. speaker seraphine
 #: data/voice/lines/e7m1.json:L31
 #~ msgid "Adamarch will remember who stood on the quay with her. Even if the Archon will not."
 #~ msgstr "Adamarch se souviendra de qui s'est tenu sur le quai avec elle. Même si l'Archonte l'oublie."
 
-#. speaker vessa
-#: data/voice/lines/e7m1.json:L30
-#~ msgid "Everything we have, Ysolde! Take that harbour while the sky is still for sale!"
-#~ msgstr "Tout ce qu'on a, Ysolde ! Prends ce port pendant que le ciel est encore à vendre !"
+#. speaker brannet
+#: data/voice/lines/e7m3.json:L2
+#~ msgid "You're the ice-king? We've had kings before. They stand on the wall and watch."
+#~ msgstr "C'est vous, le roi de glace ? On en a déjà eu, des rois. Ils restent sur le mur et ils regardent."
 
 #. speaker ossavar
 #: data/voice/lines/e7m1.json:L29
@@ -4674,30 +4644,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Then let us disappoint the money."
 #~ msgstr "Alors décevons l'argent."
 
-#. speaker dacian
-#: data/voice/lines/e7m1.json:L14
-#~ msgid "No crowd worth the name today, Diamond Wall. Just us, and a great deal of money."
-#~ msgstr "Pas de foule digne de ce nom aujourd'hui, Diamond Wall. Juste nous, et beaucoup d'argent."
+#. speaker aldra
+#: data/voice/lines/e7m4.json:L35
+#~ msgid "The west water is glass. Their galleys are stuck fast."
+#~ msgstr "L'eau de l'ouest est du verre. Leurs galères sont prises."
 
 #. speaker herald
 #: data/voice/lines/e7m1.json:L13
 #~ msgid "The Laurel at noon! By the Truce of the Stilled Sea: first blood, and no further!"
 #~ msgstr "Le Laurel à midi ! Par la Trêve de la Mer Figée : premier sang, et rien de plus !"
 
-#. speaker ossavar
-#: data/voice/lines/e7m1.json:L12
-#~ msgid "Gold from the south. Kesh, burn the north."
-#~ msgstr "L'or vient du sud. Kesh, brûle le nord."
+#. speaker malrik
+#: data/voice/lines/e7m4.json:L37
+#~ msgid "Torvald! You never said no to anyone in your life. Why start with me?"
+#~ msgstr "Torvald ! Tu n'as jamais dit non à personne de ta vie. Pourquoi commencer par moi ?"
 
 #. speaker torvald
 #: data/voice/lines/e7m1.json:L11
 #~ msgid "Fly with us, then. And try not to enjoy it."
 #~ msgstr "Vole avec nous, alors. Et essaie de ne pas y prendre plaisir."
 
-#. speaker ossavar
-#: data/voice/lines/e7m1.json:L10
-#~ msgid "The first of my brood. Kesh burns bright, and cheap. Who pays?"
-#~ msgstr "Le premier de ma couvée. Kesh brûle fort, et pas cher. Qui paie ?"
+#. speaker torvald
+#: data/voice/lines/e7m4.json:L39 data/voice/lines/ep7_opening.json:L22
+#~ msgid "Enough."
+#~ msgstr "Assez."
 
 #. speaker herald
 #: data/voice/lines/e7m1.json:L9
@@ -4784,30 +4754,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Grow. Slowly, if you must. Just grow."
 #~ msgstr "Pousse. Lentement, s'il le faut. Mais pousse."
 
-#. speaker hush
-#: data/voice/lines/e4m2.json:L16
-#~ msgid "Another night, then. There is always another night."
-#~ msgstr "Une autre nuit, alors. Il y a toujours une autre nuit."
+#. speaker ossavar
+#: data/voice/lines/e7m1.json:L33
+#~ msgid "The sky has chosen its master, and it is not you."
+#~ msgstr "Le ciel a choisi son maître, et ce n'est pas toi."
 
 #. speaker ashby
 #: data/voice/lines/e4m2.json:L15
 #~ msgid "Nature folk at the gate! Open up, lads. Blankets, bread, and no questions."
 #~ msgstr "Des gens de la Nature à la porte ! Ouvrez, les gars. Couvertures, pain, et pas de questions."
 
-#. speaker maelis
-#: data/voice/lines/e4m2.json:L14
-#~ msgid "I went to see the brook. It is cold, it is guarded, and it is very rude."
-#~ msgstr "Je suis allée voir le ruisseau. Il est froid, il est gardé, et il est très impoli."
+#. speaker torvald
+#: data/voice/lines/e7m1.json:L32
+#~ msgid "Remember who paid for it, Seraphine. I would like to know myself."
+#~ msgstr "Souviens-toi de qui a payé pour ça, Seraphine. J'aimerais bien le savoir moi-même."
 
 #. speaker ysolde
 #: data/voice/lines/e4m2.json:L13
 #~ msgid "Maelis! The Heartwood stands tall enough. Come home."
 #~ msgstr "Maelis ! Le Heartwood est assez grand. Reviens à la maison."
 
-#. speaker maelis
-#: data/voice/lines/e4m4.json:L6
-#~ msgid "Good morning, grandfather. There's a wall that needs leaning on."
-#~ msgstr "Bonjour, grand-père. Il y a un mur qui a besoin qu'on s'appuie dessus."
+#. speaker vessa
+#: data/voice/lines/e7m1.json:L30
+#~ msgid "Everything we have, Ysolde! Take that harbour while the sky is still for sale!"
+#~ msgstr "Tout ce qu'on a, Ysolde ! Prends ce port pendant que le ciel est encore à vendre !"
 
 #. speaker maelis
 #: data/voice/lines/e4m4.json:L5
@@ -4894,11 +4864,6 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Oops. Tents are very flammable. Who knew? ...Everyone. Everyone knew."
 #~ msgstr "Oups. Les tentes, c'est très inflammable. Qui l'aurait cru ? ...Tout le monde. Tout le monde le savait."
 
-#. speaker gannet
-#: data/voice/lines/e5m1.json:L16
-#~ msgid "All five lit? Then the whole vale can watch you lose. Boys! Fetch me that match!"
-#~ msgstr "Les cinq allumés ? Alors toute la vallée va te regarder perdre. Les gars ! Ramenez-moi l'allumette !"
-
 #. speaker vessa
 #: data/voice/lines/e5m1.json:L17
 #~ msgid "Come on, then! I've got five fires and a really bad temper."
@@ -4910,11 +4875,6 @@ msgstr "Rendez-moi... au chêne."
 #~ msgstr "Tout ce qui leur reste arrive. Tant mieux. Ça veut dire qu'on y est presque."
 
 #. speaker narrator
-#: data/voice/lines/e4m2.json:L24
-#~ msgid "The last of them leave Larkrest. Behind them, the green road goes quiet."
-#~ msgstr "Les derniers quittent Larkrest. Derrière eux, la route verte se tait."
-
-#. speaker narrator
 #: data/voice/lines/e5m3.json:L18
 #~ msgid "At midnight the bell of Wickmoor rang, and every window in the town lit."
 #~ msgstr "À minuit, la cloche de Wickmoor a sonné, et chaque fenêtre de la ville s'est allumée."
@@ -4923,11 +4883,6 @@ msgstr "Rendez-moi... au chêne."
 #: data/voice/lines/e6m1.json:L3
 #~ msgid "What is it?"
 #~ msgstr "Qu'est-ce que c'est ?"
-
-#. speaker master
-#: data/voice/lines/e6m1.json:L4
-#~ msgid "A promise I made to a stone. Something will come for it. Every winter."
-#~ msgstr "Une promesse faite à une pierre. Quelque chose viendra le chercher. Chaque hiver."
 
 #. speaker narrator
 #: data/voice/lines/e4m3.json:L28
@@ -5004,6 +4959,11 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Let him want it. A ford is water and stones. Those farms are families."
 #~ msgstr "Qu'il le veuille. Un gué, c'est de l'eau et des pierres. Ces fermes, ce sont des familles."
 
+#. speaker hush
+#: data/voice/lines/e4m2.json:L16
+#~ msgid "Another night, then. There is always another night."
+#~ msgstr "Une autre nuit, alors. Il y a toujours une autre nuit."
+
 #. speaker ysolde
 #: data/voice/lines/e4m3.json:L25
 #~ msgid "You see, Maelis? It always comes back."
@@ -5014,6 +4974,11 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "We were all weeds once. Pull back."
 #~ msgstr "Nous avons tous été de mauvaises herbes. Repliez-vous."
 
+#. speaker maelis
+#: data/voice/lines/e4m2.json:L14
+#~ msgid "I went to see the brook. It is cold, it is guarded, and it is very rude."
+#~ msgstr "Je suis allée voir le ruisseau. Il est froid, il est gardé, et il est très impoli."
+
 #. speaker torvald
 #: data/voice/lines/e6m2.json:L2
 #~ msgid "Sixty winters I have kept this gate. I can keep it one more."
@@ -5023,6 +4988,11 @@ msgstr "Rendez-moi... au chêne."
 #: data/voice/lines/e6m2.json:L1
 #~ msgid "Forty winters ago. The gate had stood for sixty years, and never once opened."
 #~ msgstr "Il y a quarante hivers. La porte tenait depuis soixante ans, et ne s'était jamais ouverte."
+
+#. speaker maelis
+#: data/voice/lines/e4m4.json:L6
+#~ msgid "Good morning, grandfather. There's a wall that needs leaning on."
+#~ msgstr "Bonjour, grand-père. Il y a un mur qui a besoin qu'on s'appuie dessus."
 
 #. speaker obren
 #: data/voice/lines/e6m1.json:L30
@@ -5224,11 +5194,6 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Wolves off the north ridge. Thin ones. Hungry ones."
 #~ msgstr "Des loups qui descendent de la crête nord. Des maigres. Des affamés."
 
-#. speaker ysolde
-#: data/voice/lines/e4m1.json:L27
-#~ msgid "A horn's down. The other one will have to sing for both."
-#~ msgstr "Un cor est tombé. L'autre devra chanter pour deux."
-
 #. speaker narrator
 #: data/voice/lines/e4m1.json:L28
 #~ msgid "Ten families under the tree. The goats, mostly, made it too."
@@ -5240,11 +5205,6 @@ msgstr "Rendez-moi... au chêne."
 #~ msgstr "Ça fait vingt, ma dame ! L'arbre commence à être plein."
 
 #. speaker ysolde
-#: data/voice/lines/e4m1.json:L30
-#~ msgid "Everyone. Every last one. Now we only have to keep them."
-#~ msgstr "Tout le monde. Jusqu'au dernier. Maintenant, il ne reste qu'à les garder."
-
-#. speaker ysolde
 #: data/voice/lines/e4m1.json:L31
 #~ msgid "The ford is his. The hill is ours, and every family on it, and the tree."
 #~ msgstr "Le gué est à lui. La colline est à nous, avec chaque famille dessus, et l'arbre."
@@ -5253,11 +5213,6 @@ msgstr "Rendez-moi... au chêne."
 #: data/voice/lines/e4m1.json:L32
 #~ msgid "He'll call it a victory, you know."
 #~ msgstr "Il va appeler ça une victoire, tu sais."
-
-#. speaker ysolde
-#: data/voice/lines/e4m1.json:L33
-#~ msgid "Let him. Something always grows back. It will not stop."
-#~ msgstr "Qu'il le fasse. Quelque chose repousse toujours. Ça ne s'arrêtera pas."
 
 #. speaker narrator
 #: data/voice/lines/e4m1.json:L34
@@ -5334,6 +5289,11 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "What storm? I don't have a storm. Do YOU have a storm?"
 #~ msgstr "Quelle tempête ? J'ai pas de tempête, moi. TOI, t'as une tempête ?"
 
+#. speaker ysolde
+#: data/voice/lines/e6m4.json:L5
+#~ msgid "Should we send for Vessa and Malrik?"
+#~ msgstr "Est-ce qu'on fait venir Vessa et Malrik ?"
+
 #. speaker narrator
 #: data/voice/lines/e5m4.json:L1
 #~ msgid "Five years later, below the citadel. A friendly match. Supposedly."
@@ -5344,6 +5304,11 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Five banners. The first to hold three while the bell counts thirty wins. Nobody gets hurt."
 #~ msgstr "Cinq bannières. Qui en tient trois pendant que la cloche compte trente gagne. Personne ne se blesse."
 
+#. speaker obren
+#: data/voice/lines/e6m4.json:L8
+#~ msgid "Master. You came yourself. I am honoured. Kneel a little longer."
+#~ msgstr "Maître. Tu es venu en personne. Quel honneur. Reste à genoux encore un peu."
+
 #. speaker gannet
 #: data/voice/lines/e5m2.json:L9
 #~ msgid "Burn my tents, would you? I'll have your diggers and their shovels too."
@@ -5353,6 +5318,11 @@ msgstr "Rendez-moi... au chêne."
 #: data/voice/lines/e4m2.json:L4
 #~ msgid "The first ones are... they're ready, my lady. Ring the lantern and... they'll go."
 #~ msgstr "Les premiers sont prêts, ma dame. Sonnez la lanterne et ils partiront."
+
+#. speaker ysolde
+#: data/voice/lines/e6m4.json:L10
+#~ msgid "Torvald! It's breaking on our side!"
+#~ msgstr "Torvald ! Ça cède de notre côté !"
 
 #. speaker malrik
 #: data/voice/lines/e5m4.json:L16
@@ -5439,30 +5409,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "On the longest night, the pack's old leader came down from the ridge."
 #~ msgstr "Pendant la nuit la plus longue, le vieux chef de la meute est descendu de la crête."
 
-#. speaker maelis
-#: data/voice/lines/e4m3.json:L26
-#~ msgid "Mm. And it brought you a present."
-#~ msgstr "Mm. Et ça t'a apporté un cadeau."
+#. speaker ysolde
+#: data/voice/lines/e4m1.json:L27
+#~ msgid "A horn's down. The other one will have to sing for both."
+#~ msgstr "Un cor est tombé. L'autre devra chanter pour deux."
 
 #. speaker maelis
 #: data/voice/lines/e6m3.json:L14
 #~ msgid "Old Whitepelt. I've hunted him nine winters. He's never been this hungry."
 #~ msgstr "Old Whitepelt. Je le chasse depuis neuf hivers. Il n'a jamais eu aussi faim."
 
-#. speaker maelis
-#: data/voice/lines/e6m3.json:L15
-#~ msgid "Nine winters. And a girl with a seed sack beats me to him."
-#~ msgstr "Neuf hivers. Et une petite avec un sac de graines me le vole."
+#. speaker ysolde
+#: data/voice/lines/e4m1.json:L30
+#~ msgid "Everyone. Every last one. Now we only have to keep them."
+#~ msgstr "Tout le monde. Jusqu'au dernier. Maintenant, il ne reste qu'à les garder."
 
 #. speaker narrator
 #: data/voice/lines/e6m3.json:L16
 #~ msgid "And then, one grey morning, the snow began to turn to water."
 #~ msgstr "Et puis, un matin gris, la neige a commencé à se changer en eau."
 
-#. speaker master
-#: data/voice/lines/e6m3.json:L17
-#~ msgid "A sapling, coaxed through the frost. In this cold?"
-#~ msgstr "Un arbrisseau, tiré du gel. Par un froid pareil ?"
+#. speaker ysolde
+#: data/voice/lines/e4m1.json:L33
+#~ msgid "Let him. Something always grows back. It will not stop."
+#~ msgstr "Qu'il le fasse. Quelque chose repousse toujours. Ça ne s'arrêtera pas."
 
 #. speaker ysolde
 #: data/voice/lines/e6m3.json:L18
@@ -5549,30 +5519,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "My first mistake. His name was Obren."
 #~ msgstr "Ma première erreur. Il s'appelait Obren."
 
-#. speaker ysolde
-#: data/voice/lines/e6m4.json:L5
-#~ msgid "Should we send for Vessa and Malrik?"
-#~ msgstr "Est-ce qu'on fait venir Vessa et Malrik ?"
+#. speaker gannet
+#: data/voice/lines/e5m1.json:L16
+#~ msgid "All five lit? Then the whole vale can watch you lose. Boys! Fetch me that match!"
+#~ msgstr "Les cinq allumés ? Alors toute la vallée va te regarder perdre. Les gars ! Ramenez-moi l'allumette !"
 
 #. speaker torvald
 #: data/voice/lines/e6m4.json:L7
 #~ msgid "Something under the isle is counting. Every one that falls, it counts."
 #~ msgstr "Quelque chose sous l'île compte. Chaque soldat qui tombe, il le compte."
 
-#. speaker obren
-#: data/voice/lines/e6m4.json:L8
-#~ msgid "Master. You came yourself. I am honoured. Kneel a little longer."
-#~ msgstr "Maître. Tu es venu en personne. Quel honneur. Reste à genoux encore un peu."
+#. speaker narrator
+#: data/voice/lines/e4m2.json:L24
+#~ msgid "The last of them leave Larkrest. Behind them, the green road goes quiet."
+#~ msgstr "Les derniers quittent Larkrest. Derrière eux, la route verte se tait."
 
 #. speaker narrator
 #: data/voice/lines/e6m4.json:L9
 #~ msgid "Then the isle split, and the amber came up through the stones."
 #~ msgstr "Puis l'île s'est fendue, et l'ambre est montée entre les pierres."
 
-#. speaker ysolde
-#: data/voice/lines/e6m4.json:L10
-#~ msgid "Torvald! It's breaking on our side!"
-#~ msgstr "Torvald ! Ça cède de notre côté !"
+#. speaker master
+#: data/voice/lines/e6m1.json:L4
+#~ msgid "A promise I made to a stone. Something will come for it. Every winter."
+#~ msgstr "Une promesse faite à une pierre. Quelque chose viendra le chercher. Chaque hiver."
 
 #. speaker torvald
 #: data/voice/lines/e6m4.json:L11
@@ -5659,30 +5629,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "The wood can, now. Thank you, Vessa."
 #~ msgstr "Le bois peut, maintenant. Merci, Vessa."
 
-#. speaker ysolde
-#: data/voice/lines/e4m1.json:L8
-#~ msgid "Sheep come back in spring, Malrik. So do I."
-#~ msgstr "Les moutons reviennent au printemps, Malrik. Moi aussi."
+#. speaker maelis
+#: data/voice/lines/e4m3.json:L26
+#~ msgid "Mm. And it brought you a present."
+#~ msgstr "Mm. Et ça t'a apporté un cadeau."
 
 #. speaker maelis
 #: data/voice/lines/e4m1.json:L9
 #~ msgid "Through the ford, little ones. Slow is fine. Slow is alive."
 #~ msgstr "Par le gué, mes petits. Lentement, c'est correct. Lentement, c'est vivant."
 
-#. speaker torvald
-#: data/voice/lines/e4m1.json:L10
-#~ msgid "Ysolde. Go home. I have no quarrel with your farms."
-#~ msgstr "Ysolde. Rentre chez toi. Je n'ai rien contre tes fermes."
+#. speaker maelis
+#: data/voice/lines/e6m3.json:L15
+#~ msgid "Nine winters. And a girl with a seed sack beats me to him."
+#~ msgstr "Neuf hivers. Et une petite avec un sac de graines me le vole."
 
 #. speaker ysolde
 #: data/voice/lines/e4m1.json:L11
 #~ msgid "Then why is your winter standing in them, Torvald?"
 #~ msgstr "Alors pourquoi ton hiver est-il planté dedans, Torvald ?"
 
-#. speaker obren
-#: data/voice/lines/e4m1.json:L12
-#~ msgid "The green one keeps a tree, Bishop. A golden tree. HIS tree. Take it."
-#~ msgstr "La verte garde un arbre, Évêque. Un arbre doré. SON arbre. Prends-le."
+#. speaker master
+#: data/voice/lines/e6m3.json:L17
+#~ msgid "A sapling, coaxed through the frost. In this cold?"
+#~ msgstr "Un arbrisseau, tiré du gel. Par un froid pareil ?"
 
 #. speaker malrik
 #: data/voice/lines/e4m1.json:L13
@@ -5769,30 +5739,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Halfway. Your soldiers are tired, Vessa. Let them catch up."
 #~ msgstr "La moitié. Tes soldats sont fatigués, Vessa. Laisse-les te rattraper."
 
-#. speaker narrator
-#: data/voice/lines/e5m1.json:L10
-#~ msgid "The miller's boys took down their bows from the wall. Nobody had asked them to."
-#~ msgstr "Les garçons du meunier ont décroché leurs arcs du mur. Personne ne le leur avait demandé."
+#. speaker obren
+#: data/voice/lines/e6m1.json:L17
+#~ msgid "Every winter, frost-man. I have nothing left but winters."
+#~ msgstr "Chaque hiver, homme de givre. Il ne me reste rien d'autre que des hivers."
 
 #. speaker vessa
 #: data/voice/lines/e5m1.json:L9
 #~ msgid "Millrace is lit! And the mill is... mostly not on fire. Mostly."
 #~ msgstr "Millrace est allumé ! Et le moulin est... presque pas en feu. Presque."
 
-#. speaker vey
-#: data/voice/lines/e5m1.json:L8
-#~ msgid "You're getting stronger. Learn to step out of trouble before you learn to start it."
-#~ msgstr "Tu deviens plus forte. Apprends à te sortir du trouble avant d'apprendre à en faire."
+#. speaker torvald
+#: data/voice/lines/e6m1.json:L15
+#~ msgid "You carved a giant out of my lake."
+#~ msgstr "Tu as taillé un géant dans mon lac."
 
 #. speaker vessa
 #: data/voice/lines/e5m4.json:L7
 #~ msgid "Three! Ring it, Vey! Ring it, ring it, ring it!"
 #~ msgstr "Trois ! Sonne-la, Vey ! Sonne, sonne, sonne !"
 
-#. speaker ysolde
-#: data/voice/lines/e5m4.json:L6
-#~ msgid "I'm cheering for the grass. Nobody ever cheers for the grass."
-#~ msgstr "Moi, j'encourage le gazon. Personne n'encourage jamais le gazon."
+#. speaker aldra
+#: data/voice/lines/e6m1.json:L12
+#~ msgid "Aldra. My name is Aldra. And I will remember."
+#~ msgstr "Aldra. Je m'appelle Aldra. Et je vais m'en souvenir."
 
 #. speaker torvald
 #: data/voice/lines/e5m4.json:L5
@@ -5880,29 +5850,29 @@ msgstr "Rendez-moi... au chêne."
 #~ msgstr "Vessa : « Tenez... » ; Malrik : « Portez la pierre... » ; Torvald, Ysolde : voir L28_<k>"
 
 #. speaker ysolde
-#: data/voice/lines/e4m2.json:L12
-#~ msgid "You burned their wagons. You don't get their children."
-#~ msgstr "Tu as brûlé leurs chariots. Tu n'auras pas leurs enfants."
+#: data/voice/lines/e4m1.json:L8
+#~ msgid "Sheep come back in spring, Malrik. So do I."
+#~ msgstr "Les moutons reviennent au printemps, Malrik. Moi aussi."
 
 #. speaker hush
 #: data/voice/lines/e4m2.json:L11
 #~ msgid "Little lambs on a little road. The Bishop sends his regards."
 #~ msgstr "Petits agneaux sur une petite route. L'Évêque vous salue."
 
-#. speaker ysolde
-#: data/voice/lines/e4m2.json:L10
-#~ msgid "Knives in the oak! Down, everyone down! Thornlings, into the ferns!"
-#~ msgstr "Des couteaux dans le chêne ! À terre, tout le monde ! Thornlings, dans les fougères !"
+#. speaker torvald
+#: data/voice/lines/e4m1.json:L10
+#~ msgid "Ysolde. Go home. I have no quarrel with your farms."
+#~ msgstr "Ysolde. Rentre chez toi. Je n'ai rien contre tes fermes."
 
 #. speaker ysolde
 #: data/voice/lines/e4m2.json:L8
 #~ msgid "Stay on the road. If anything moves in the trees, stop, and let the thorns go first."
 #~ msgstr "Restez sur la route. Si ça bouge dans les arbres, arrêtez-vous et laissez les épines passer d'abord."
 
-#. speaker ysolde
-#: data/voice/lines/e4m2.json:L7
-#~ msgid "Torvald froze the brook. The old folk will slip, and his archers know it."
-#~ msgstr "Torvald a gelé le ruisseau. Les vieux vont glisser, et ses archers le savent."
+#. speaker obren
+#: data/voice/lines/e4m1.json:L12
+#~ msgid "The green one keeps a tree, Bishop. A golden tree. HIS tree. Take it."
+#~ msgstr "La verte garde un arbre, Évêque. Un arbre doré. SON arbre. Prends-le."
 
 #. speaker shade
 #: data/voice/lines/e4m4.json:L20
@@ -5989,30 +5959,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Bigger ones. Of course there are bigger ones."
 #~ msgstr "Des plus gros. Évidemment qu'il y en a des plus gros."
 
-#. speaker obren
-#: data/voice/lines/e6m1.json:L17
-#~ msgid "Every winter, frost-man. I have nothing left but winters."
-#~ msgstr "Chaque hiver, homme de givre. Il ne me reste rien d'autre que des hivers."
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L8
+#~ msgid "I know what you are. You're the last biscuit in the tin, forever."
+#~ msgstr "Je sais ce que tu es. Le dernier biscuit de la boîte, pour toujours."
 
 #. speaker aldra
 #: data/voice/lines/e6m1.json:L16
 #~ msgid "You weren't using it."
 #~ msgstr "Vous ne vous en serviez pas."
 
-#. speaker torvald
-#: data/voice/lines/e6m1.json:L15
-#~ msgid "You carved a giant out of my lake."
-#~ msgstr "Tu as taillé un géant dans mon lac."
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L6
+#~ msgid "Then we put them back to bed. Gently. They were somebody's."
+#~ msgstr "Alors on les remet au lit. Doucement. Ils ont été à quelqu'un."
 
 #. speaker narrator
 #: data/voice/lines/e6m1.json:L13
 #~ msgid "Spring came late to the lake, and stayed only a little while."
 #~ msgstr "Le printemps est arrivé tard sur le lac, et il n'est pas resté longtemps."
 
-#. speaker aldra
-#: data/voice/lines/e6m1.json:L12
-#~ msgid "Aldra. My name is Aldra. And I will remember."
-#~ msgstr "Aldra. Je m'appelle Aldra. Et je vais m'en souvenir."
+#. speaker malrik
+#: data/voice/lines/e8m1_shadow.json:L4
+#~ msgid "A little. You always say a little."
+#~ msgstr "Un peu. Tu dis toujours un peu."
 
 #. speaker torvald
 #: data/voice/lines/e6m1.json:L11
@@ -6099,30 +6069,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Make way for the old herd!"
 #~ msgstr "Place au vieux troupeau !"
 
-#. speaker obren
-#: data/voice/lines/e6m2.json:L16
-#~ msgid "Thank you for opening the door, frost-man."
-#~ msgstr "Merci d'avoir ouvert la porte, homme de givre."
+#. speaker ysolde
+#: data/voice/lines/e4m2.json:L12
+#~ msgid "You burned their wagons. You don't get their children."
+#~ msgstr "Tu as brûlé leurs chariots. Tu n'auras pas leurs enfants."
 
 #. speaker obren
 #: data/voice/lines/e6m2.json:L17
 #~ msgid "Keep your gate, then. I will come up through your floor."
 #~ msgstr "Garde ta porte, alors. Je monterai par ton plancher."
 
-#. speaker rider
-#: data/voice/lines/e6m2.json:L18
-#~ msgid "They're through! Keep it open, the last ones are coming!"
-#~ msgstr "Ils sont passés ! Gardez-la ouverte, les derniers arrivent !"
+#. speaker ysolde
+#: data/voice/lines/e4m2.json:L10
+#~ msgid "Knives in the oak! Down, everyone down! Thornlings, into the ferns!"
+#~ msgstr "Des couteaux dans le chêne ! À terre, tout le monde ! Thornlings, dans les fougères !"
 
 #. speaker aldra
 #: data/voice/lines/e6m2.json:L5b
 #~ msgid "They are not coming for the lake. Why are they not coming for the lake?"
 #~ msgstr "Ils ne viennent pas pour le lac. Pourquoi est-ce qu'ils ne viennent pas pour le lac ?"
 
-#. speaker narrator
-#: data/voice/lines/e6m2.json:L5
-#~ msgid "South of the wall, the lamps of Hearthwick went out one by one."
-#~ msgstr "Au sud de la muraille, les lampes de Hearthwick se sont éteintes une à une."
+#. speaker ysolde
+#: data/voice/lines/e4m2.json:L7
+#~ msgid "Torvald froze the brook. The old folk will slip, and his archers know it."
+#~ msgstr "Torvald a gelé le ruisseau. Les vieux vont glisser, et ses archers le savent."
 
 #. speaker torvald
 #: data/voice/lines/e6m2.json:L4
@@ -6209,15 +6179,30 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Keep the fort! Keep the fens! I'm keeping my neck!"
 #~ msgstr "Gardez le fort ! Gardez les marais ! Moi, je garde ma peau !"
 
+#. speaker master
+#: data/voice/lines/e5m3.json:L23
+#~ msgid "This one, too."
+#~ msgstr "Lui aussi."
+
 #. speaker gannet
 #: data/voice/lines/e5m2.json:L17
 #~ msgid "My nest! My lovely nest! The horn, boys! Blow the horn!"
 #~ msgstr "Mon nid ! Mon beau nid ! Le cor, les gars ! Sonnez le cor !"
 
+#. speaker narrator
+#: data/voice/lines/e5m3.json:L24
+#~ msgid "He pinched out his candle. In the dark, he was not afraid. He never had been."
+#~ msgstr "Il a pincé sa chandelle. Dans le noir, il n'avait pas peur. Il n'avait jamais eu peur."
+
 #. speaker ashby
 #: data/voice/lines/e5m2.json:L16
 #~ msgid "You're glowing, my lady. More than usual, I mean."
 #~ msgstr "Vous brillez, ma dame. Plus que d'habitude, je veux dire."
+
+#. speaker malrik
+#: data/voice/lines/e5m3.json:L25
+#~ msgid "Let go! He's lying! He's the one- let GO!"
+#~ msgstr "Lâchez-moi ! Il ment ! C'est lui qui... LÂCHEZ-MOI !"
 
 #. speaker ashby
 #: data/voice/lines/e5m2.json:L15
@@ -6314,20 +6299,20 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Tall enough for birds now. Big ones, with thorns."
 #~ msgstr "Assez grand pour les oiseaux, maintenant. Des gros, avec des épines."
 
-#. speaker maelis
-#: data/voice/lines/e4m4.json:L26
-#~ msgid "The glass spire. Aldra will be waiting. She always is."
-#~ msgstr "La flèche de verre. Aldra nous attendra. Elle attend toujours."
+#. speaker obren
+#: data/voice/lines/e6m2.json:L16
+#~ msgid "Thank you for opening the door, frost-man."
+#~ msgstr "Merci d'avoir ouvert la porte, homme de givre."
 
-#. speaker malrik
-#: data/voice/lines/e5m4.json:L22
-#~ msgid "I yield. ...This time."
-#~ msgstr "J'abandonne. ...Cette fois-ci."
+#. speaker rider
+#: data/voice/lines/e6m2.json:L18
+#~ msgid "They're through! Keep it open, the last ones are coming!"
+#~ msgstr "Ils sont passés ! Gardez-la ouverte, les derniers arrivent !"
 
 #. speaker narrator
-#: data/voice/lines/e4m4.json:L23
-#~ msgid "A hundred winters, broken in one afternoon. The Wall begins to weep."
-#~ msgstr "Cent hivers, brisés en un après-midi. Le Mur commence à pleurer."
+#: data/voice/lines/e6m2.json:L5
+#~ msgid "South of the wall, the lamps of Hearthwick went out one by one."
+#~ msgstr "Au sud de la muraille, les lampes de Hearthwick se sont éteintes une à une."
 
 #. speaker aldra
 #: data/voice/lines/e4m4.json:L22b
@@ -6424,20 +6409,20 @@ msgstr "Rendez-moi... au chêne."
 #~ msgid "Enough green. This wood is ours by treaty, and by winter."
 #~ msgstr "Assez de vert. Ce bois est à nous par traité, et par l'hiver."
 
-#. speaker master
-#: data/voice/lines/e5m3.json:L23
-#~ msgid "This one, too."
-#~ msgstr "Lui aussi."
-
 #. speaker narrator
-#: data/voice/lines/e5m3.json:L24
-#~ msgid "He pinched out his candle. In the dark, he was not afraid. He never had been."
-#~ msgstr "Il a pincé sa chandelle. Dans le noir, il n'avait pas peur. Il n'avait jamais eu peur."
+#: data/voice/lines/e5m1.json:L10
+#~ msgid "The miller's boys took down their bows from the wall. Nobody had asked them to."
+#~ msgstr "Les garçons du meunier ont décroché leurs arcs du mur. Personne ne le leur avait demandé."
 
-#. speaker malrik
-#: data/voice/lines/e5m3.json:L25
-#~ msgid "Let go! He's lying! He's the one- let GO!"
-#~ msgstr "Lâchez-moi ! Il ment ! C'est lui qui... LÂCHEZ-MOI !"
+#. speaker vey
+#: data/voice/lines/e5m1.json:L8
+#~ msgid "You're getting stronger. Learn to step out of trouble before you learn to start it."
+#~ msgstr "Tu deviens plus forte. Apprends à te sortir du trouble avant d'apprendre à en faire."
+
+#. speaker ysolde
+#: data/voice/lines/e5m4.json:L6
+#~ msgid "I'm cheering for the grass. Nobody ever cheers for the grass."
+#~ msgstr "Moi, j'encourage le gazon. Personne n'encourage jamais le gazon."
 
 #. speaker malrik
 #: data/voice/lines/e5m3.json:L26
@@ -6533,3 +6518,18 @@ msgstr "Rendez-moi... au chêne."
 #: data/voice/lines/e4m4.json:L27
 #~ msgid "Both halls! Torvald's soldiers will have to train in the snow. Good."
 #~ msgstr "Les deux salles ! Les soldats de Torvald vont devoir s'entraîner dans la neige. Tant mieux."
+
+#. speaker maelis
+#: data/voice/lines/e4m4.json:L26
+#~ msgid "The glass spire. Aldra will be waiting. She always is."
+#~ msgstr "La flèche de verre. Aldra nous attendra. Elle attend toujours."
+
+#. speaker malrik
+#: data/voice/lines/e5m4.json:L22
+#~ msgid "I yield. ...This time."
+#~ msgstr "J'abandonne. ...Cette fois-ci."
+
+#. speaker narrator
+#: data/voice/lines/e4m4.json:L23
+#~ msgid "A hundred winters, broken in one afternoon. The Wall begins to weep."
+#~ msgstr "Cent hivers, brisés en un après-midi. Le Mur commence à pleurer."

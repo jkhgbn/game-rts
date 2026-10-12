@@ -12,7 +12,7 @@ msgstr "Ember Crown"
 
 #. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
 #: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e6_02.gd:88
-#: scripts/campaign/mission_e6_02.gd:749 scripts/campaign/mission_e8_02.gd:187
+#: scripts/campaign/mission_e6_02.gd:753 scripts/campaign/mission_e8_02.gd:187
 msgid "L5b"
 msgstr "L5b"
 
@@ -1587,7 +1587,7 @@ msgid "new units"
 msgstr "de nouvelles unités"
 
 #. hud.show_message("%s wears the %s" % [EmberCrown.short_name(by), claimed.artifact_name], 4.0)
-#: scripts/campaign/mission_01.gd:668 scripts/world/skirmish.gd:1652
+#: scripts/campaign/mission_01.gd:668 scripts/world/skirmish.gd:1669
 msgid "%s wears the %s"
 msgstr "%s porte : %s"
 
@@ -2179,7 +2179,7 @@ msgid "Take the Master's Signet (Malrik is racing you)"
 msgstr "Prendre le Master's Signet (Malrik fait la course)"
 
 #. var base := "Break the Warden Gates"
-#: scripts/campaign/mission_03.gd:876 scripts/campaign/mission_e6_02.gd:521
+#: scripts/campaign/mission_03.gd:876 scripts/campaign/mission_e6_02.gd:525
 msgid "Break the Warden Gates"
 msgstr "Briser les Warden Gates"
 
@@ -2585,7 +2585,7 @@ msgstr "Le donjon est tombé"
 
 #. @export var victory_banner := "VICTORY"
 #: scripts/campaign/mission_config.gd:25 scripts/campaign/mission_e8_muster.gd:89
-#: scripts/world/skirmish.gd:1704
+#: scripts/world/skirmish.gd:1721
 msgid "VICTORY"
 msgstr "VICTOIRE"
 
@@ -8500,7 +8500,7 @@ msgid "Sentinel"
 msgstr "Sentinel"
 
 #. _rime_keep_type = MissionE5Base.local_building("ice_keep", "ice_keep", "Rime Keep", 3000.0, true)
-#: scripts/campaign/mission_e6_01.gd:236 scripts/campaign/mission_e6_02.gd:287
+#: scripts/campaign/mission_e6_01.gd:236 scripts/campaign/mission_e6_02.gd:290
 #: data/buildings/ice_keep.tres:9
 msgid "Rime Keep"
 msgstr "Rime Keep"
@@ -8511,7 +8511,7 @@ msgid "Stillwater Longhouse"
 msgstr "Stillwater Longhouse"
 
 #. c.keep_lost_message = "The Rime Keep has fallen"
-#: scripts/campaign/mission_e6_01.gd:251 scripts/campaign/mission_e6_02.gd:301
+#: scripts/campaign/mission_e6_01.gd:251 scripts/campaign/mission_e6_02.gd:304
 msgid "The Rime Keep has fallen"
 msgstr "Le Rime Keep est tombé"
 
@@ -8536,7 +8536,7 @@ msgid "Episode 6, Mission 1: %s"
 msgstr "Épisode 6, mission 1 : %s"
 
 #. heartfrost = add_target(HEART_POS, float(HEART_HP[diff]), float(HEART_REGEN[diff]), _heart_regens, "The Heartf
-#: scripts/campaign/mission_e6_01.gd:357 scripts/campaign/mission_e6_02.gd:417
+#: scripts/campaign/mission_e6_01.gd:357 scripts/campaign/mission_e6_02.gd:420
 #: scripts/campaign/mission_e6_base.gd:28
 msgid "The Heartfrost"
 msgstr "Le Heartfrost"
@@ -8557,17 +8557,17 @@ msgid "Keep the Heartfrost through three winters (thaw: winter in %s)"
 msgstr "Gardez le Heartfrost pendant trois hivers (dégel : hiver dans %s)"
 
 #. return "The Heartfrost must not fall (%d %%)" % int(round(heartfrost.ratio() * 100.0))
-#: scripts/campaign/mission_e6_01.gd:525 scripts/campaign/mission_e6_02.gd:504
+#: scripts/campaign/mission_e6_01.gd:525 scripts/campaign/mission_e6_02.gd:508
 msgid "The Heartfrost must not fall (%d %%)"
 msgstr "Le Heartfrost ne doit pas tomber (%d %%)"
 
 #. return "The Heartfrost must not fall"
-#: scripts/campaign/mission_e6_01.gd:526 scripts/campaign/mission_e6_02.gd:505
+#: scripts/campaign/mission_e6_01.gd:526 scripts/campaign/mission_e6_02.gd:509
 msgid "The Heartfrost must not fall"
 msgstr "Le Heartfrost ne doit pas tomber"
 
 #. return "Torvald must survive"
-#: scripts/campaign/mission_e6_01.gd:528 scripts/campaign/mission_e6_02.gd:507
+#: scripts/campaign/mission_e6_01.gd:528 scripts/campaign/mission_e6_02.gd:511
 #: scripts/campaign/mission_e7_01.gd:387 scripts/campaign/mission_e7_02.gd:368
 #: scripts/campaign/mission_e7_03.gd:423 scripts/campaign/mission_e7_04.gd:415
 msgid "Torvald must survive"
@@ -8806,92 +8806,92 @@ msgid "The Frostgate"
 msgstr "La Frostgate"
 
 #. make_breakers("gate_breaker", "The Gate-Breaker", 2400.0)
-#: scripts/campaign/mission_e6_02.gd:281
+#: scripts/campaign/mission_e6_02.gd:284
 msgid "The Gate-Breaker"
 msgstr "The Gate-Breaker"
 
 #. local_unit("rime_hauler", "townsfolk", "Hearthwick Folk", {"max_hp": 60.0, "move_speed": 4.2, "attack_damage":
-#: scripts/campaign/mission_e6_02.gd:282
+#: scripts/campaign/mission_e6_02.gd:285
 msgid "Hearthwick Folk"
 msgstr "Gens de Hearthwick"
 
 #. local_unit("snowdrift_rider", "hearthwick_rider", "Bren of Hearthwick", {"commandable": false, "pop": 0,
-#: scripts/campaign/mission_e6_02.gd:285
+#: scripts/campaign/mission_e6_02.gd:288
 msgid "Bren of Hearthwick"
 msgstr "Bren de Hearthwick"
 
 #. _hall_type = MissionE5Base.local_building("ice_lodge", "town_hall", "Hearthwick Hall", 1200.0)
-#: scripts/campaign/mission_e6_02.gd:290
+#: scripts/campaign/mission_e6_02.gd:293
 msgid "Hearthwick Hall"
 msgstr "Grand-salle de Hearthwick"
 
 #. _house_type = MissionE5Base.local_building("ice_lodge", "town_house", "Hearthwick House", 400.0)
-#: scripts/campaign/mission_e6_02.gd:291
+#: scripts/campaign/mission_e6_02.gd:294
 msgid "Hearthwick House"
 msgstr "Maison de Hearthwick"
 
 #. c.victory_banner = "VICTORY\nDawn over the Frostgate"
-#: scripts/campaign/mission_e6_02.gd:307
+#: scripts/campaign/mission_e6_02.gd:310
 msgid "VICTORY\nDawn over the Frostgate"
 msgstr "VICTOIRE\nL'aube sur la Frostgate"
 
 #. c.spotlight = {"id": &"frostbow", "trigger": &"manual", "key_hint": "Frost Hall: B",
-#: scripts/campaign/mission_e6_02.gd:310
+#: scripts/campaign/mission_e6_02.gd:313
 msgid "Frost Hall: B"
 msgstr "Frost Hall : B"
 
 #. "card": "Frostbow. Every arrow chills: what walks toward it walks slower, and slower."}
-#: scripts/campaign/mission_e6_02.gd:311
+#: scripts/campaign/mission_e6_02.gd:314
 msgid "Frostbow. Every arrow chills: what walks toward it walks slower, and slower."
 msgstr "Frostbow. Chaque flèche glace : ce qui marche vers lui marche de plus en plus lentement."
 
 #. return "Episode 6, Mission 2: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e6_02.gd:328
+#: scripts/campaign/mission_e6_02.gd:331
 msgid "Episode 6, Mission 2: %s"
 msgstr "Épisode 6, mission 2 : %s"
 
 #. return "Hold until dawn (%s)" % MissionE5Base.mmss(DAWN - mission_time())
-#: scripts/campaign/mission_e6_02.gd:500
+#: scripts/campaign/mission_e6_02.gd:504
 msgid "Hold until dawn (%s)"
 msgstr "Tenez jusqu'à l'aube (%s)"
 
 #. return "Hold until dawn"
-#: scripts/campaign/mission_e6_02.gd:501
+#: scripts/campaign/mission_e6_02.gd:505
 msgid "Hold until dawn"
 msgstr "Tenez jusqu'à l'aube"
 
 #. return "The rider's fire: %s" % MissionE5Base.mmss(window_left())
-#: scripts/campaign/mission_e6_02.gd:510
+#: scripts/campaign/mission_e6_02.gd:514
 msgid "The rider's fire: %s"
 msgstr "Le feu du cavalier : %s"
 
 #. return "The rider's fire"
-#: scripts/campaign/mission_e6_02.gd:511
+#: scripts/campaign/mission_e6_02.gd:515
 msgid "The rider's fire"
 msgstr "Le feu du cavalier"
 
 #. return "Hearthwick burns."
-#: scripts/campaign/mission_e6_02.gd:514
+#: scripts/campaign/mission_e6_02.gd:518
 msgid "Hearthwick burns."
 msgstr "Hearthwick brûle."
 
 #. return "Bring Hearthwick's people through the gate (%d / %d)" % [saved, FOLK_GROUPS * FOLK_PER_GROUP]
-#: scripts/campaign/mission_e6_02.gd:516
+#: scripts/campaign/mission_e6_02.gd:520
 msgid "Bring Hearthwick's people through the gate (%d / %d)"
 msgstr "Faites passer les gens de Hearthwick par la porte (%d / %d)"
 
 #. return "Bring Hearthwick's people through the gate"
-#: scripts/campaign/mission_e6_02.gd:517
+#: scripts/campaign/mission_e6_02.gd:521
 msgid "Bring Hearthwick's people through the gate"
 msgstr "Faites passer les gens de Hearthwick par la porte"
 
 #. return "Break the Warden Gates (%d / 2)" % gates_broken
-#: scripts/campaign/mission_e6_02.gd:520
+#: scripts/campaign/mission_e6_02.gd:524
 msgid "Break the Warden Gates (%d / 2)"
 msgstr "Brisez les Warden Gates (%d / 2)"
 
 #. return "Keep the stone-men off the Heartfrost"
-#: scripts/campaign/mission_e6_02.gd:523
+#: scripts/campaign/mission_e6_02.gd:527
 msgid "Keep the stone-men off the Heartfrost"
 msgstr "Tenez les hommes de pierre loin du Heartfrost"
 
@@ -11842,6 +11842,302 @@ msgstr "%s%s.tscn"
 msgid "Warden Gate"
 msgstr "Warden Gate"
 
+#. var id := StringName("e8m1_%s" % k)
+#: scripts/campaign/e8_story_screen.gd:123 scripts/campaign/mission_e8_01.gd:102
+#: scripts/campaign/mission_e8_01.gd:109
+#~ msgid "e8m1_%s"
+#~ msgstr ""
+
+#. flags["e8_road_%s" % r[0]] = StringName(r[0]) == k
+#: scripts/campaign/e8_story_screen.gd:121 scripts/campaign/mission_e8_01.gd:240
+#~ msgid "e8_road_%s"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L28_ysolde"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L28_torvald"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L28_malrik"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L28_vessa"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L13_ysolde"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L13_torvald"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L13_malrik"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L13_vessa"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
+#~ msgid "L11_ysolde"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
+#~ msgid "L11_torvald"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
+#~ msgid "L11_malrik"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
+#~ msgid "L11_vessa"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:402
+#~ msgid "L11_vey"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L10_ysolde"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L10_torvald"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L10_malrik"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L10_vessa"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L39_ysolde"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L39_torvald"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L39_malrik"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L39_vessa"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e8_02.gd:546
+#~ msgid "L38b"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L9_ysolde"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L9_torvald"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L9_malrik"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L9_vessa"
+#~ msgstr ""
+
+#. &"e8m1_ice": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9b", "L9", "L10", "L11", "L12", "L13", "L14",
+#: scripts/campaign/e8_lines.gd:9 scripts/campaign/mission_e8_01_ice.gd:397
+#~ msgid "L9b"
+#~ msgstr ""
+
+#. set_objective(StringName("obj_%s" % wizard_id()), "failed")
+#: scripts/campaign/mission_e8_01.gd:247
+#~ msgid "obj_%s"
+#~ msgstr ""
+
+#. waves_fired.append("Overrun")
+#: scripts/campaign/mission_e8_01_fire.gd:275
+#~ msgid "Overrun"
+#~ msgstr ""
+
+#. if fire_once(StringName("tight_%d" % knots_open)) and hud:
+#: scripts/campaign/mission_e8_01_nature.gd:223
+#~ msgid "tight_%d"
+#~ msgstr ""
+
+#. if fire_once(StringName("spires_%d" % knots_open)) and hud:
+#: scripts/campaign/mission_e8_01_nature.gd:228
+#~ msgid "spires_%d"
+#~ msgstr ""
+
+#. waves_fired.append("Raid%d" % i)
+#: scripts/campaign/mission_e8_01_nature.gd:285
+#~ msgid "Raid%d"
+#~ msgstr ""
+
+#. waves_fired.append("Bridgehead")
+#: scripts/campaign/mission_e8_01_nature.gd:345
+#~ msgid "Bridgehead"
+#~ msgstr ""
+
+#. var g := add_warden_gate(StringName("pylon_%s" % SEAT_NAMES[s]), keyhole_of(s), CRACK, float(PYLON_HP[diff]),
+#: scripts/campaign/mission_e8_02.gd:128
+#~ msgid "pylon_%s"
+#~ msgstr ""
+
+#. var hg := add_warden_gate(StringName("gate_%s" % SEAT_NAMES[s]), _gate_pos(s), rally_of(s), 1800.0, 0.0, Calla
+#: scripts/campaign/mission_e8_02.gd:134
+#~ msgid "gate_%s"
+#~ msgstr ""
+
+#. waves_fired.append("crack%s" % SEAT_NAMES[s])
+#: scripts/campaign/mission_e8_02.gd:284
+#~ msgid "crack%s"
+#~ msgstr ""
+
+#. waves_fired.append("Column")
+#: scripts/campaign/mission_e8_02.gd:306
+#~ msgid "Column"
+#~ msgstr ""
+
+#. waves_fired.append("Rush")
+#: scripts/campaign/mission_e8_02.gd:321
+#~ msgid "Rush"
+#~ msgstr ""
+
+#. if float(muster[s]) >= 50.0 and fire_once(StringName("push_%d" % s)):
+#: scripts/campaign/mission_e8_02.gd:392
+#~ msgid "push_%d"
+#~ msgstr ""
+
+#. waves_fired.append("pressure%s" % SEAT_NAMES[s])
+#: scripts/campaign/mission_e8_02.gd:417
+#~ msgid "pressure%s"
+#~ msgstr ""
+
+#. waves_fired.append("pit%s" % SEAT_NAMES[s])
+#: scripts/campaign/mission_e8_03.gd:366
+#~ msgid "pit%s"
+#~ msgstr ""
+
+#. waves_fired.append("Remnant")
+#: scripts/campaign/mission_e8_03.gd:433
+#~ msgid "Remnant"
+#~ msgstr ""
+
+#. if fire_once(StringName("calls_%d" % int(t / 30.0))):
+#: scripts/campaign/mission_e8_03.gd:605
+#~ msgid "calls_%d"
+#~ msgstr ""
+
+#. var v: Variant = crystal_nodes.get(StringName("e8s%d_%s" % [team, suffix]))
+#: scripts/campaign/mission_e8_muster.gd:135 scripts/campaign/mission_e8_muster.gd:185
+#~ msgid "e8s%d_%s"
+#~ msgstr ""
+
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
+#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:606
+#~ msgid "L18a"
+#~ msgstr ""
+
+#. _lake_at.append([chose_at + 40.0, chose_at + 60.0, [[WARDEN_ID, 4], [BREAKER_ID, 1]], "LAKE1"])
+#: scripts/campaign/mission_e6_02.gd:630 scripts/campaign/mission_e6_02.gd:648
+#~ msgid "LAKE1"
+#~ msgstr ""
+
+#. p.id = StringName("mission_e4_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
+#: scripts/campaign/mission_e4_01.gd:774
+#~ msgid "mission_e4_01_%s"
+#~ msgstr ""
+
+#. "card": "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."}
+#: scripts/campaign/mission_e3_04.gd:263
+#~ msgid "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."
+#~ msgstr "Nightmare Knight. Le cavalier titan de l'Ombre : une longue charge que même une tempête ne peut arrêter."
+
+#. if hud and fire_once(StringName("locked_%s" % id)):
+#: scripts/campaign/mission_e4_01.gd:1354
+#~ msgid "locked_%s"
+#~ msgstr ""
+
+#. p.id = StringName("mission_e4_04_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
+#: scripts/campaign/mission_e4_04.gd:671
+#~ msgid "mission_e4_04_%s"
+#~ msgstr ""
+
+#. "Break the Wall's two wallwardens and the Winterheart that feeds it. Then go to Aldra's Glass Spire and end th
+#: scripts/campaign/mission_e4_04.gd:162
+#~ msgid "Break the Wall's two wallwardens and the Winterheart that feeds it. Then go to Aldra's Glass Spire and end this before the snow does."
+#~ msgstr ""
+
+#. "L15", "L15b", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29
+#: scripts/campaign/mission_e4_01.gd:149 scripts/campaign/mission_e4_01.gd:1520
+#~ msgid "L15b"
+#~ msgstr ""
+
+#. if has_fired(StringName("woke_%s" % gid)):
+#: scripts/campaign/mission_e4_02.gd:1111 scripts/campaign/mission_e4_02.gd:1122
+#~ msgid "woke_%s"
+#~ msgstr ""
+
+#. if hud and fire_once(StringName("clear_%s" % id)):
+#: scripts/campaign/mission_e4_03.gd:948
+#~ msgid "clear_%s"
+#~ msgstr ""
+
+#. "L15", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L22b", "L23", "L24", "L25", "L26", "L27", "L28", "L29
+#: scripts/campaign/mission_e4_04.gd:118 scripts/campaign/mission_e4_04.gd:925
+#~ msgid "L22b"
+#~ msgstr ""
+
+#. [&"narrator", "The wallwardens are rubble. The Winterheart stands alone, and it is cracking."],
+#: scripts/campaign/mission_e4_04.gd:141
+#~ msgid "The wallwardens are rubble. The Winterheart stands alone, and it is cracking."
+#~ msgstr ""
+
+#. const HINT_SHADOW := "Violet ground is shadow: there your units are hidden unless a light touches them. Lamps
+#: scripts/campaign/mission_e5_03.gd:145
+#~ msgid "Violet ground is shadow: there your units are hidden unless a light touches them. Lamps and lanterns show you to the wardens."
+#~ msgstr "Le sol violet est de l'ombre : vos unités y sont cachées, sauf si une lumière les touche. Les lampes et les lanternes vous montrent aux gardiens."
+
 #. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
 #: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:444
 #~ msgid "L10b"
@@ -11900,149 +12196,34 @@ msgstr "Warden Gate"
 #~ msgid "Wren"
 #~ msgstr "Wren"
 
-#. const HINT_SHADOW := "Violet ground is shadow: there your units are hidden unless a light touches them. Lamps
-#: scripts/campaign/mission_e5_03.gd:145
-#~ msgid "Violet ground is shadow: there your units are hidden unless a light touches them. Lamps and lanterns show you to the wardens."
-#~ msgstr "Le sol violet est de l'ombre : vos unités y sont cachées, sauf si une lumière les touche. Les lampes et les lanternes vous montrent aux gardiens."
-
-#. [&"narrator", "The wallwardens are rubble. The Winterheart stands alone, and it is cracking."],
-#: scripts/campaign/mission_e4_04.gd:141
-#~ msgid "The wallwardens are rubble. The Winterheart stands alone, and it is cracking."
+#. if t >= W0B_AT and not waves_fired.has("W0b"):
+#: scripts/campaign/mission_e6_02.gd:745 scripts/campaign/mission_e6_02.gd:746
+#~ msgid "W0b"
 #~ msgstr ""
 
-#. "L15", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L22b", "L23", "L24", "L25", "L26", "L27", "L28", "L29
-#: scripts/campaign/mission_e4_04.gd:118 scripts/campaign/mission_e4_04.gd:925
-#~ msgid "L22b"
+#. if t >= W0A_AT and not waves_fired.has("W0a"):
+#: scripts/campaign/mission_e6_02.gd:740 scripts/campaign/mission_e6_02.gd:741
+#~ msgid "W0a"
 #~ msgstr ""
 
-#. if hud and fire_once(StringName("clear_%s" % id)):
-#: scripts/campaign/mission_e4_03.gd:948
-#~ msgid "clear_%s"
+#. _lake_at.append([LAKE2_AT - TELEGRAPH, LAKE2_AT, [[WARDEN_ID, 3], [BREAKER_ID, 1]], "LAKE2"])
+#: scripts/campaign/mission_e6_02.gd:655
+#~ msgid "LAKE2"
 #~ msgstr ""
 
-#. if has_fired(StringName("woke_%s" % gid)):
-#: scripts/campaign/mission_e4_02.gd:1111 scripts/campaign/mission_e4_02.gd:1122
-#~ msgid "woke_%s"
+#. if refuse_msg != "" and hud and progress <= 0.0 and fire_once(StringName("refuse_%d_%d" % [int(at.x), int(at.z
+#: scripts/campaign/mission_e7_base.gd:833
+#~ msgid "refuse_%d_%d"
 #~ msgstr ""
 
-#. "L15", "L15b", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29
-#: scripts/campaign/mission_e4_01.gd:149 scripts/campaign/mission_e4_01.gd:1520
-#~ msgid "L15b"
-#~ msgstr ""
-
-#. "Break the Wall's two wallwardens and the Winterheart that feeds it. Then go to Aldra's Glass Spire and end th
-#: scripts/campaign/mission_e4_04.gd:162
-#~ msgid "Break the Wall's two wallwardens and the Winterheart that feeds it. Then go to Aldra's Glass Spire and end this before the snow does."
-#~ msgstr ""
-
-#. p.id = StringName("mission_e4_04_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
-#: scripts/campaign/mission_e4_04.gd:671
-#~ msgid "mission_e4_04_%s"
-#~ msgstr ""
-
-#. if hud and fire_once(StringName("locked_%s" % id)):
-#: scripts/campaign/mission_e4_01.gd:1354
-#~ msgid "locked_%s"
-#~ msgstr ""
-
-#. "card": "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."}
-#: scripts/campaign/mission_e3_04.gd:263
-#~ msgid "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."
-#~ msgstr "Nightmare Knight. Le cavalier titan de l'Ombre : une longue charge que même une tempête ne peut arrêter."
-
-#. p.id = StringName("mission_e4_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
-#: scripts/campaign/mission_e4_01.gd:774
-#~ msgid "mission_e4_01_%s"
-#~ msgstr ""
-
-#. _lake_at.append([chose_at + 40.0, chose_at + 60.0, [[WARDEN_ID, 4], [BREAKER_ID, 1]], "LAKE1"])
-#: scripts/campaign/mission_e6_02.gd:630 scripts/campaign/mission_e6_02.gd:648
-#~ msgid "LAKE1"
-#~ msgstr ""
-
-#. if not done and waves_fired.has("W3c"):
-#: scripts/campaign/mission_e6_01.gd:728
-#~ msgid "W3c"
-#~ msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
-#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:613
-#~ msgid "L18c"
-#~ msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
-#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:610
-#~ msgid "L18b"
+#. if before <= 0.0 and stage_progress > 0.0 and fire_once(StringName("stage_start_%d" % stage)):
+#: scripts/campaign/mission_e7_04.gd:928
+#~ msgid "stage_start_%d"
 #~ msgstr ""
 
 #. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
-#: scripts/campaign/mission_e7_01.gd:75 scripts/campaign/mission_e7_01.gd:514
-#~ msgid "L23a"
-#~ msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
-#: scripts/campaign/mission_e7_01.gd:75 scripts/campaign/mission_e7_01.gd:788
-#~ msgid "L16b"
-#~ msgstr ""
-
-#. if has_fired(StringName("box_%d" % i)):
-#: scripts/campaign/mission_e7_02.gd:846 scripts/campaign/mission_e7_02.gd:852
-#~ msgid "box_%d"
-#~ msgstr ""
-
-#. [150.0, "LA1", [["flame_guard", 3], ["gilded_spear", 2]], &"L2", HALL_POS, "land"],
-#: scripts/campaign/mission_e7_03.gd:70
-#~ msgid "LA1"
-#~ msgstr ""
-
-#. [330.0, "MK1", [["masked_shade", 4], ["masked_grave_hound", 2]], &"adit", &"R3", "mask"],
-#: scripts/campaign/mission_e7_03.gd:71
-#~ msgid "MK1"
-#~ msgstr ""
-
-#. [450.0, "LA2", [["flame_guard", 4], ["ember_archer", 3], ["gilded_spear", 2]], &"L1", Vector3(-58.0, 0.0, 6.0)
-#: scripts/campaign/mission_e7_03.gd:72
-#~ msgid "LA2"
-#~ msgstr ""
-
-#. [600.0, "MK2", [["masked_shade", 5], ["masked_nightbolt", 2], ["masked_barrow_ghoul", 2]], &"tunnel", &"P2", "
-#: scripts/campaign/mission_e7_03.gd:73
-#~ msgid "MK2"
-#~ msgstr ""
-
-#. [750.0, "LA3", [["flame_guard", 5], ["ember_archer", 3], ["pyre_adept", 1], ["gilded_spear", 3]], &"L3", KEEP_
-#: scripts/campaign/mission_e7_03.gd:74
-#~ msgid "LA3"
-#~ msgstr ""
-
-#. [840.0, "MK3", [["masked_shade", 4], ["masked_grave_hound", 3], ["masked_nightbolt", 2]], &"adit", &"P1", "mas
-#: scripts/campaign/mission_e7_03.gd:75
-#~ msgid "MK3"
-#~ msgstr ""
-
-#. [1110.0, "NT2", [["mask_captain", 1], ["masked_shade", 4], ["masked_hexweaver", 2], ["masked_grave_hound", 2]]
-#: scripts/campaign/mission_e7_03.gd:78
-#~ msgid "NT2"
-#~ msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L7b", "L8", "L9", "L10", "L11", "L
-#: scripts/campaign/mission_e7_03.gd:86 scripts/campaign/mission_e7_03.gd:656
-#~ msgid "L7b"
-#~ msgstr ""
-
-#. if t >= float(p[0]) and fire_once(StringName("PG_%s" % p[1])):
-#: scripts/campaign/mission_e7_03.gd:766
-#~ msgid "PG_%s"
-#~ msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
-#: scripts/campaign/mission_e7_04.gd:79 scripts/campaign/mission_e7_04.gd:633
-#~ msgid "L25a"
-#~ msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
-#: scripts/campaign/mission_e7_04.gd:79 scripts/campaign/mission_e7_04.gd:635
-#~ msgid "L25b"
+#: scripts/campaign/mission_e7_04.gd:79 scripts/campaign/mission_e7_04.gd:806
+#~ msgid "L33b"
 #~ msgstr ""
 
 #. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
@@ -12051,267 +12232,86 @@ msgstr "Warden Gate"
 #~ msgstr ""
 
 #. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
-#: scripts/campaign/mission_e7_04.gd:79 scripts/campaign/mission_e7_04.gd:806
-#~ msgid "L33b"
+#: scripts/campaign/mission_e7_04.gd:79 scripts/campaign/mission_e7_04.gd:635
+#~ msgid "L25b"
 #~ msgstr ""
 
-#. if before <= 0.0 and stage_progress > 0.0 and fire_once(StringName("stage_start_%d" % stage)):
-#: scripts/campaign/mission_e7_04.gd:928
-#~ msgid "stage_start_%d"
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
+#: scripts/campaign/mission_e7_04.gd:79 scripts/campaign/mission_e7_04.gd:633
+#~ msgid "L25a"
 #~ msgstr ""
 
-#. if refuse_msg != "" and hud and progress <= 0.0 and fire_once(StringName("refuse_%d_%d" % [int(at.x), int(at.z
-#: scripts/campaign/mission_e7_base.gd:833
-#~ msgid "refuse_%d_%d"
+#. if t >= float(p[0]) and fire_once(StringName("PG_%s" % p[1])):
+#: scripts/campaign/mission_e7_03.gd:766
+#~ msgid "PG_%s"
 #~ msgstr ""
 
-#. _lake_at.append([LAKE2_AT - TELEGRAPH, LAKE2_AT, [[WARDEN_ID, 3], [BREAKER_ID, 1]], "LAKE2"])
-#: scripts/campaign/mission_e6_02.gd:655
-#~ msgid "LAKE2"
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L7b", "L8", "L9", "L10", "L11", "L
+#: scripts/campaign/mission_e7_03.gd:86 scripts/campaign/mission_e7_03.gd:656
+#~ msgid "L7b"
 #~ msgstr ""
 
-#. if t >= W0A_AT and not waves_fired.has("W0a"):
-#: scripts/campaign/mission_e6_02.gd:740 scripts/campaign/mission_e6_02.gd:741
-#~ msgid "W0a"
+#. [1110.0, "NT2", [["mask_captain", 1], ["masked_shade", 4], ["masked_hexweaver", 2], ["masked_grave_hound", 2]]
+#: scripts/campaign/mission_e7_03.gd:78
+#~ msgid "NT2"
 #~ msgstr ""
 
-#. if t >= W0B_AT and not waves_fired.has("W0b"):
-#: scripts/campaign/mission_e6_02.gd:745 scripts/campaign/mission_e6_02.gd:746
-#~ msgid "W0b"
+#. [840.0, "MK3", [["masked_shade", 4], ["masked_grave_hound", 3], ["masked_nightbolt", 2]], &"adit", &"P1", "mas
+#: scripts/campaign/mission_e7_03.gd:75
+#~ msgid "MK3"
 #~ msgstr ""
 
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L39_vessa"
+#. [750.0, "LA3", [["flame_guard", 5], ["ember_archer", 3], ["pyre_adept", 1], ["gilded_spear", 3]], &"L3", KEEP_
+#: scripts/campaign/mission_e7_03.gd:74
+#~ msgid "LA3"
 #~ msgstr ""
 
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L39_malrik"
+#. [600.0, "MK2", [["masked_shade", 5], ["masked_nightbolt", 2], ["masked_barrow_ghoul", 2]], &"tunnel", &"P2", "
+#: scripts/campaign/mission_e7_03.gd:73
+#~ msgid "MK2"
 #~ msgstr ""
 
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L39_torvald"
+#. [450.0, "LA2", [["flame_guard", 4], ["ember_archer", 3], ["gilded_spear", 2]], &"L1", Vector3(-58.0, 0.0, 6.0)
+#: scripts/campaign/mission_e7_03.gd:72
+#~ msgid "LA2"
 #~ msgstr ""
 
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L39_ysolde"
+#. [330.0, "MK1", [["masked_shade", 4], ["masked_grave_hound", 2]], &"adit", &"R3", "mask"],
+#: scripts/campaign/mission_e7_03.gd:71
+#~ msgid "MK1"
 #~ msgstr ""
 
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L10_vessa"
+#. [150.0, "LA1", [["flame_guard", 3], ["gilded_spear", 2]], &"L2", HALL_POS, "land"],
+#: scripts/campaign/mission_e7_03.gd:70
+#~ msgid "LA1"
 #~ msgstr ""
 
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L10_malrik"
+#. if has_fired(StringName("box_%d" % i)):
+#: scripts/campaign/mission_e7_02.gd:846 scripts/campaign/mission_e7_02.gd:852
+#~ msgid "box_%d"
 #~ msgstr ""
 
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L10_torvald"
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
+#: scripts/campaign/mission_e7_01.gd:75 scripts/campaign/mission_e7_01.gd:788
+#~ msgid "L16b"
 #~ msgstr ""
 
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L10_ysolde"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:402
-#~ msgid "L11_vey"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
-#~ msgid "L11_vessa"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
-#~ msgid "L11_malrik"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
-#~ msgid "L11_torvald"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
-#~ msgid "L11_ysolde"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L13_vessa"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L13_malrik"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L13_torvald"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L13_ysolde"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L28_vessa"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L28_malrik"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L28_torvald"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L28_ysolde"
-#~ msgstr ""
-
-#. flags["e8_road_%s" % r[0]] = StringName(r[0]) == k
-#: scripts/campaign/e8_story_screen.gd:121 scripts/campaign/mission_e8_01.gd:240
-#~ msgid "e8_road_%s"
-#~ msgstr ""
-
-#. var id := StringName("e8m1_%s" % k)
-#: scripts/campaign/e8_story_screen.gd:123 scripts/campaign/mission_e8_01.gd:102
-#: scripts/campaign/mission_e8_01.gd:109
-#~ msgid "e8m1_%s"
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
+#: scripts/campaign/mission_e7_01.gd:75 scripts/campaign/mission_e7_01.gd:514
+#~ msgid "L23a"
 #~ msgstr ""
 
 #. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
-#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:606
-#~ msgid "L18a"
+#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:610
+#~ msgid "L18b"
 #~ msgstr ""
 
-#. var v: Variant = crystal_nodes.get(StringName("e8s%d_%s" % [team, suffix]))
-#: scripts/campaign/mission_e8_muster.gd:135 scripts/campaign/mission_e8_muster.gd:185
-#~ msgid "e8s%d_%s"
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
+#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:613
+#~ msgid "L18c"
 #~ msgstr ""
 
-#. if fire_once(StringName("calls_%d" % int(t / 30.0))):
-#: scripts/campaign/mission_e8_03.gd:605
-#~ msgid "calls_%d"
-#~ msgstr ""
-
-#. waves_fired.append("Remnant")
-#: scripts/campaign/mission_e8_03.gd:433
-#~ msgid "Remnant"
-#~ msgstr ""
-
-#. waves_fired.append("pit%s" % SEAT_NAMES[s])
-#: scripts/campaign/mission_e8_03.gd:366
-#~ msgid "pit%s"
-#~ msgstr ""
-
-#. waves_fired.append("pressure%s" % SEAT_NAMES[s])
-#: scripts/campaign/mission_e8_02.gd:417
-#~ msgid "pressure%s"
-#~ msgstr ""
-
-#. if float(muster[s]) >= 50.0 and fire_once(StringName("push_%d" % s)):
-#: scripts/campaign/mission_e8_02.gd:392
-#~ msgid "push_%d"
-#~ msgstr ""
-
-#. waves_fired.append("Rush")
-#: scripts/campaign/mission_e8_02.gd:321
-#~ msgid "Rush"
-#~ msgstr ""
-
-#. waves_fired.append("Column")
-#: scripts/campaign/mission_e8_02.gd:306
-#~ msgid "Column"
-#~ msgstr ""
-
-#. waves_fired.append("crack%s" % SEAT_NAMES[s])
-#: scripts/campaign/mission_e8_02.gd:284
-#~ msgid "crack%s"
-#~ msgstr ""
-
-#. var hg := add_warden_gate(StringName("gate_%s" % SEAT_NAMES[s]), _gate_pos(s), rally_of(s), 1800.0, 0.0, Calla
-#: scripts/campaign/mission_e8_02.gd:134
-#~ msgid "gate_%s"
-#~ msgstr ""
-
-#. var g := add_warden_gate(StringName("pylon_%s" % SEAT_NAMES[s]), keyhole_of(s), CRACK, float(PYLON_HP[diff]),
-#: scripts/campaign/mission_e8_02.gd:128
-#~ msgid "pylon_%s"
-#~ msgstr ""
-
-#. waves_fired.append("Bridgehead")
-#: scripts/campaign/mission_e8_01_nature.gd:345
-#~ msgid "Bridgehead"
-#~ msgstr ""
-
-#. waves_fired.append("Raid%d" % i)
-#: scripts/campaign/mission_e8_01_nature.gd:285
-#~ msgid "Raid%d"
-#~ msgstr ""
-
-#. if fire_once(StringName("spires_%d" % knots_open)) and hud:
-#: scripts/campaign/mission_e8_01_nature.gd:228
-#~ msgid "spires_%d"
-#~ msgstr ""
-
-#. if fire_once(StringName("tight_%d" % knots_open)) and hud:
-#: scripts/campaign/mission_e8_01_nature.gd:223
-#~ msgid "tight_%d"
-#~ msgstr ""
-
-#. waves_fired.append("Overrun")
-#: scripts/campaign/mission_e8_01_fire.gd:275
-#~ msgid "Overrun"
-#~ msgstr ""
-
-#. set_objective(StringName("obj_%s" % wizard_id()), "failed")
-#: scripts/campaign/mission_e8_01.gd:247
-#~ msgid "obj_%s"
-#~ msgstr ""
-
-#. &"e8m1_ice": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9b", "L9", "L10", "L11", "L12", "L13", "L14",
-#: scripts/campaign/e8_lines.gd:9 scripts/campaign/mission_e8_01_ice.gd:397
-#~ msgid "L9b"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L9_vessa"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L9_malrik"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L9_torvald"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L9_ysolde"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e8_02.gd:546
-#~ msgid "L38b"
+#. if not done and waves_fired.has("W3c"):
+#: scripts/campaign/mission_e6_01.gd:728
+#~ msgid "W3c"
 #~ msgstr ""
