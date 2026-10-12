@@ -567,6 +567,20 @@ func note_creep_start(t: Dictionary, own_strength: float) -> void:
 			"own": own_strength})
 
 
+## True when `u` is the current creep's beast or one of its camp's creatures (AICasters' creep targets, bot review C4).
+func in_current_creep(u: Node) -> bool:
+	if u == null or current_creep.is_empty():
+		return false
+	var node: Variant = current_creep.get("node")
+	if not _ok(node):
+		return false
+	if node == u:
+		return true
+	if current_creep.get("kind") == &"camp":
+		return _creatures(node as Node3D).has(u)
+	return false
+
+
 ## 11b: a cleared camp (normal / hard): the wizard that went along picks up a dropped item within 12 m first.
 func note_creep_end(t: Dictionary, cleared: bool, wizard: Node3D) -> String:
 	current_creep = {}
@@ -908,6 +922,8 @@ func _shrine_due(rally: Vector3) -> Node3D:
 	for p: Node3D in _points:
 		if _pkind(p) != &"shrine" or _point_bank(p) != _team:
 			continue
+		if _given_up(p):
+			continue   # GIVE_UP_COOLDOWN holds for shrines too (bot review C2)
 		if _shrine_up(p):
 			return p
 		var travel := _flat(rally, p.global_position) / SQUAD_SPEED * TRAVEL_SLACK

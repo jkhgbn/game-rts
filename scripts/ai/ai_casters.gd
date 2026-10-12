@@ -317,9 +317,11 @@ func _find_training_keep() -> Keep:
 	var rally: Vector3 = commander.call(&"rally_point")
 	var best: Keep = null
 	var bd := INF
+	if TierSystem.tier_of(team) < 2:
+		return null   # the team's tier (3 without a TierSystem, where Keep.tier stays 1: bot review C7)
 	for n in get_tree().get_nodes_in_group(&"buildings"):
 		var k := n as Keep
-		if k == null or int(k.team) != team or not k.is_alive() or not k.is_constructed() or k.tier < 2:
+		if k == null or int(k.team) != team or not k.is_alive() or not k.is_constructed():
 			continue
 		var d := _flat(k.global_position, rally)
 		if d < bd:
@@ -828,8 +830,8 @@ func _bramblesage_fight(c: Unit, ab: CasterAbility, enemies: Array[Unit]) -> boo
 			continue
 		var d := ab.distance_to_target(e)
 		if d > rng or _flat(e.global_position, c.global_position) < FIGHT_SNAG_MIN or ab.target_reason(&"snagroot", e) != "" \
-				or ab.claimed_elsewhere(&"snagroot", e):
-			continue
+				or ab.claimed_elsewhere(&"snagroot", e) or not _engaged(e, soldiers):
+			continue   # (only a fight an own fighter is in: bot review C6)
 		var score := -1.0
 		if CasterKit.is_big_target(e):
 			if near < 3:
@@ -845,13 +847,22 @@ func _bramblesage_fight(c: Unit, ab: CasterAbility, enemies: Array[Unit]) -> boo
 	return pick != null and _try(ab, &"snagroot", pick, "fight_snag")
 
 
-# The seen enemies plus the neutral creatures (camps, beasts) within CREEP_NEAR m of the caster: the army creeps
-# them, and the casters help (the Commander's scan lists only the enemy team).
+# The seen enemies plus the neutral creatures (camps, beasts) within CREEP_NEAR m of the caster that are already
+# fighting the bot, or belong to the camp / beast the army creeps (Stage.CREEP): the casters help (the Commander's scan
+# lists only the enemy team). A camp the army only walks past is never hit (bot review C4).
 func _with_creeps(c: Unit, enemies: Array[Unit]) -> Array[Unit]:
 	var out := enemies.duplicate()
+	var creep_ai: Variant = null
+	var stage: Variant = commander.get(&"stage") if commander != null else null
+	if stage != null and int(stage) == Commander.Stage.CREEP:
+		creep_ai = commander.get(&"mapfill_ai")
 	for n in get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u and int(u.team) == Unit.Team.NEUTRAL and u.is_alive() and _flat(u.global_position, c.global_position) <= CREEP_NEAR:
+		if u == null or int(u.team) != Unit.Team.NEUTRAL or not u.is_alive() \
+				or _flat(u.global_position, c.global_position) > CREEP_NEAR:
+			continue
+		var fights_us: bool = is_instance_valid(u.attack_target) and int(u.attack_target.get(&"team")) == team
+		if fights_us or (creep_ai is AIMapFill and (creep_ai as AIMapFill).in_current_creep(u)):
 			out.append(u)
 	return out
 
@@ -900,25 +911,34 @@ func _rimecarver(_c: Unit, ab: CasterAbility, group: Array[Unit], centre: Vector
 		return false
 	# b) Retreat cover (hard): the group retreats with enemies chasing within 8 m -> a wall behind the last own unit.
 	if bool(commander.call(&"is_retreating")) and now - _bulwark_at >= BULWARK_TEAM_EVERY and not group.is_empty():
+		# The rearmost chased member whose wall spot is within the spell range (the caster walks home first; a spot
+		# out of range failed "Out of range" every tick: bot review C5). None in range: no cover this tick.
 		var rally: Vector3 = commander.call(&"rally_point")
-		var last: Unit = group[0]
-		for u in group:
-			if _flat(u.global_position, rally) > _flat(last.global_position, rally):
-				last = u
-		var chaser: Unit = null
-		var cd := RETREAT_CHASE
-		for e in enemies:
-			if is_instance_valid(e) and e.is_alive() and _flat(e.global_position, last.global_position) <= cd:
-				cd = _flat(e.global_position, last.global_position)
-				chaser = e
-		if chaser:
+		var wall_range := float(CasterKit.spell_value(&"rime_bulwark", "range", 10.0))
+		var members := group.duplicate()
+		members.sort_custom(func(a: Unit, b: Unit) -> bool:
+			return _flat(a.global_position, rally) > _flat(b.global_position, rally))
+		for last: Unit in members:
+			if not is_instance_valid(last) or not last.is_alive():
+				continue
+			var chaser: Unit = null
+			var cd := RETREAT_CHASE
+			for e in enemies:
+				if is_instance_valid(e) and e.is_alive() and _flat(e.global_position, last.global_position) <= cd:
+					cd = _flat(e.global_position, last.global_position)
+					chaser = e
+			if chaser == null:
+				continue
 			var dir := Vector3(chaser.global_position.x - last.global_position.x, 0.0,
 					chaser.global_position.z - last.global_position.z).normalized()
 			var spot := last.global_position + dir * 2.0
 			spot.y = 0.0
+			if ab.distance_to_target(spot) > wall_range:
+				continue
 			if _try(ab, &"rime_bulwark", {"at": spot, "facing": -dir}, "retreat_cover"):
 				_bulwark_at = now
 				return true
+			break
 	# c) Runes (hard): a unit hit from the fog -> a rune on it; every 30 s while attacking, one 10 m ahead.
 	# "From the fog" = by an enemy-team unit that is not seen (code review M1): towers, keeps, neutral creeps and seen
 	# enemies never count (sieging a base or creeping a camp spammed 25-mana runes and starved the dive-guard wall),
@@ -1051,9 +1071,12 @@ func _prefer_casters(enemy_casters: Array[Unit]) -> void:
 		return
 	var now := CasterKit.now_s()
 	var dive := difficulty >= 2 and enemy_casters.size() >= 2
+	var army_check := commander.has_method(&"is_army_unit")
 	for u in soldiers:
 		if u.is_holding():
 			continue
+		if army_check and not bool(commander.call(&"is_army_unit", u)):
+			continue   # the scout, a capture squad...: never pulled off its job (bot review C1)
 		var cur: Unit = u.attack_target as Unit if is_instance_valid(u.attack_target) else null   # (may be freed this frame)
 		if cur != null and cur.is_alive():
 			if CasterKit.is_caster_unit(cur):
@@ -1062,11 +1085,10 @@ func _prefer_casters(enemy_casters: Array[Unit]) -> void:
 					and cur.hp < cur.max_hp * WIZARD_FOCUS_HP:
 				continue   # an enemy wizard under 30 %: that one first
 		if u.has_move_order():
-			if not (dive and u.unit_type and is_fast(u.unit_type)):
-				continue   # walking on a plain order (a retreat): never pulled into a fight
+			continue   # walking on a plain order (a retreat): never pulled into a fight, not even a dive (bot review C1)
 		var reach := u.aggro_range + PREFER_EXTRA
 		if dive and u.unit_type and is_fast(u.unit_type):
-			reach = maxf(reach, DIVE_RADIUS)
+			reach = maxf(reach, minf(DIVE_RADIUS, 2.0 * u.aggro_range))
 		var best: Unit = null
 		var bd := reach
 		for e in enemy_casters:
@@ -1082,7 +1104,7 @@ func _prefer_casters(enemy_casters: Array[Unit]) -> void:
 			var key := u.get_instance_id()
 			if now - float(_dive_at.get(key, -INF)) >= DIVE_EVERY:
 				_dive_at[key] = now
-				u.command_attack(best)
+				u.set_auto_target(best)   # keeps the order, the chase leash holds (never into the enemy towers)
 		elif u.attack_target != null or u.is_attack_moving() or not u.has_move_order():
 			# Its own auto-aggro target (keeps its attack-move; the chase leash and the attack-move chase limit hold:
 			# a fleeing caster never drags the soldier across the map, code review H1).
