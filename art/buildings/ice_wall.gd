@@ -1,6 +1,7 @@
 class_name IceWallModel
 extends SmallBuildingModel
-## Ice Wall segment (kingdom-ice.md 5 + 8.1: 1 x 1 cell = 2 x 2 m, height 2.5, no glow). Task 7.V2, epic pass A2.4.
+## Ice Wall segment (kingdom-ice.md 5 + 8.1: 1 x 1 cell = 2 x 2 m, data height 2.5, no glow). Task 7.V2, epic pass A2.4.
+## The model stands ~5 m to the crown since 2026-10-12 (Art Lab R1); the collider stays the BuildingType's.
 ## Read from the RTS camera: a battered ice-stone block on a dark footing, capped with snow and crowned by three
 ## tilted team crystals (the "3 tilted prisms" of the brief), in the Rime Keep's language.
 ## Tiling: the segment is built in WORLD axes (its Body ignores the gate yaw the Building gives it) and knows its
@@ -16,12 +17,16 @@ const ANCHOR_GROUP := &"ice_wall_anchors"
 const CELL := 2.0
 const DIRS: Array[Vector3] = [Vector3(1, 0, 0), Vector3(-1, 0, 0), Vector3(0, 0, 1), Vector3(0, 0, -1)]
 ## 2026-09-30 (Art Lab R1: the 40 m read was 55 % of a building's): the block grew ~20 % (wider core, taller block
-## and curtains, crystals x1.6) inside its 2 m cell.
-const CORE := 0.74        ## core block apothem at its foot
-const CORE_TOP := 2.7
-const ARM_TOP := 2.0
+## and curtains, crystals x1.6) inside its 2 m cell. 2026-10-12 (R1 still 3677 px): taller block (3.95 m, 6 courses),
+## crystals x2, overhanging cornice, taller glacis (all inside the 2 m cell); collider / footprint unchanged.
+const CORE := 0.82        ## core block apothem at its foot
+const CORE_TOP := 3.95
+const ARM_TOP := 2.4
 const ARM_HALF := 0.64    ## curtain half-thickness
-const CRYSTAL_SCALE := 1.6
+const CRYSTAL_SCALE := 2.0
+## 2026-10-12 (Art Lab C1: few surface directions): rough-hewn courses, each yawed its own way, blocks battered back.
+const COURSE_YAW: Array[float] = [0.0, 17.0, -13.0, 21.0, -18.0, 10.0]
+const BATTER := 9.0       ## block faces lean back (degrees)
 const SPIRE_REACH := 1.45 ## curtain length toward a Rime Spire (up to its shaft)
 
 var _m_snow: ShaderMaterial
@@ -50,7 +55,7 @@ func _setup() -> void:
 	crack_strength = 0.2
 	plinth_top = 0.3
 	wreck_top = 0.75
-	smoke_points = [Vector3(0.1, 2.3, -0.1)]   # no glow on walls: smoke only, no frost flare
+	smoke_points = [Vector3(0.1, 2.9, -0.1)]   # no glow on walls: smoke only, no frost flare
 	blaze_points = []
 
 
@@ -62,7 +67,7 @@ func _build_parts() -> void:
 	_m_team.set_shader_parameter(&"crack_speed", 0.9)
 	_m_stone.set_shader_parameter(&"crack_scale", 1.8)
 	_m_block_a = _painted_mat(stone_color.lightened(0.14), 0.12, crack_strength)
-	_m_block_b = _painted_mat(stone_color.darkened(0.1), 0.05, crack_strength)
+	_m_block_b = _painted_mat(stone_color.darkened(0.2), 0.05, crack_strength)
 	_m_block_c = _painted_mat(Color(0.62, 0.7, 0.82), 0.3, crack_strength)
 	_m_snow_sh = _painted_mat(Color(0.64, 0.72, 0.84), 0.1, 0.0)
 	for m: ShaderMaterial in [_m_block_a, _m_block_b, _m_block_c]:
@@ -127,13 +132,13 @@ func _plinth_items(codes: PackedInt32Array) -> Array:
 func _wall_items(codes: PackedInt32Array) -> Array:
 	var box1: Mesh = _box(Vector3.ONE)
 	var it: Array = []
-	it.append(_it(IceShapes.prism(CORE + 0.09, CORE + 0.09, 0.26, 4), Vector3(0, 0.3, 0), _m_dark))
-	# The block: a dark core (it shows in the joints) laid in five courses of ice-stone blocks, 2 x 2 a course,
+	it.append(_it(IceShapes.prism(CORE + 0.09, CORE + 0.05, 0.26, 8), Vector3(0, 0.3, 0), _m_dark))
+	# The block: a dark core (it shows in the joints) laid in six courses of ice-stone blocks, 2 x 2 a course,
 	# each a little off square and of its own shade, snow caught on two course ledges, frost crystals in the joints.
-	it.append(_it(IceShapes.prism(CORE - 0.06, CORE - 0.16, CORE_TOP - 0.3, 4), Vector3(0, 0.3, 0), _m_dark))
+	it.append(_it(IceShapes.prism(CORE - 0.04, CORE - 0.14, CORE_TOP - 0.3, 8), Vector3(0, 0.3, 0), _m_dark))   # 8 sides: C1
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7700 + _variant * 31
-	var courses: int = 5
+	var courses: int = 6
 	var ch: float = (CORE_TOP - 0.3) / float(courses)
 	for k: int in courses:
 		var half: float = lerpf(CORE, CORE - 0.1, (float(k) + 0.5) / float(courses))
@@ -146,22 +151,26 @@ func _wall_items(codes: PackedInt32Array) -> Array:
 				var cz: float = half * (-0.5 if bz == 0 else 0.5)
 				var m: ShaderMaterial = [_m_stone, _m_block_a, _m_block_b, _m_stone, _m_block_c][rng.randi() % 5]
 				it.append(_it(box1, Vector3(cx, y0 + ch * 0.5, cz), m,
-					Vector3(rng.randf_range(-3.0, 3.0), rng.randf_range(-5.0, 5.0), rng.randf_range(-3.0, 3.0)),
+					Vector3(-signf(cz) * BATTER + rng.randf_range(-3.0, 3.0), COURSE_YAW[k] + rng.randf_range(-6.0, 6.0),
+					signf(cx) * BATTER + rng.randf_range(-3.0, 3.0)),
 					Vector3(wx - 0.04, ch - 0.035, half - 0.04)))
 		if k == 1 or k == 3:
 			var ledge_y: float = y0 + ch + 0.005
 			var face: int = (k + _variant) % 4
 			var fd: Vector3 = DIRS[face]
 			var fs := Vector3(absf(fd.z), 0.0, absf(fd.x))
-			it.append(_it(box1, fd * (half - 0.08) + Vector3(0, ledge_y, 0), _m_snow, Vector3.ZERO,
+			it.append(_it(box1, fd * (half - 0.08) + Vector3(0, ledge_y, 0), _m_snow if k == 3 else _m_snow_sh, Vector3.ZERO,
 				fs * (half * 1.5) + Vector3(0, 0.07, 0) + Vector3(absf(fd.x), 0, absf(fd.z)) * 0.2))
 	for c2: Vector2 in [Vector2(1, 1), Vector2(-1, -1)]:
 		var cp := Vector3(c2.x * (CORE - 0.1), 0.3 + ch * (2.3 + 0.8 * c2.x), c2.y * (CORE - 0.1))
 		var out := Vector3(c2.x, 0.4, c2.y).normalized()
-		it.append(_itx(IceShapes.crystal(0.1, 0.16, 0.22, 0.05), Transform3D(IceShapes.lean(out, 35.0), cp), _m_team))
+		it.append(_itx(IceShapes.crystal(0.1, 0.16, 0.22, 0.05), Transform3D(IceShapes.lean(out, 35.0), cp), _m_block_c))
 		it.append(_itx(IceShapes.crystal(0.07, 0.1, 0.16, 0.04), Transform3D(IceShapes.lean(out + Vector3(0.3, 0, -0.3), 50.0),
-			cp + Vector3(0, -0.12, 0)), _m_team))
-	it.append(_it(IceShapes.prism(CORE - 0.02, CORE - 0.12, 0.18, 4), Vector3(0, CORE_TOP, 0), _m_snow))
+			cp + Vector3(0, -0.12, 0)), _m_block_c))   # frost, not team: the crown keeps the glow points (R5 2-4)
+	# A flared, overhanging snow cornice on a deep-shade band (it widens the crest read at 40 m).
+	it.append(_it(IceShapes.prism(CORE - 0.06, CORE - 0.02, 0.1, 4), Vector3(0, CORE_TOP - 0.08, 0), _m_block_b))
+	it.append(_it(IceShapes.prism(CORE - 0.04, CORE + 0.1, 0.16, 4), Vector3(0, CORE_TOP, 0), _m_block_c))
+	it.append(_it(IceShapes.prism(CORE + 0.08, CORE + 0.02, 0.08, 4), Vector3(0, CORE_TOP + 0.15, 0), _m_snow))
 	it.append(_it(IceShapes.mound(), Vector3(-0.05, CORE_TOP + 0.16, 0.04), _m_snow, Vector3(0, 30.0 * _variant, 0),
 		Vector3(0.58, 0.16, 0.52)))
 	# Three tilted crystals on the core (rotated per variant so a long wall doesn't repeat).
@@ -169,7 +178,7 @@ func _wall_items(codes: PackedInt32Array) -> Array:
 	for c: Array in [[Vector3(0.05, 0.0, 0.02), Vector3(1, 0, 0.3), 9.0, IceShapes.crystal(0.34, 0.42, 0.66, 0.0)],
 			[Vector3(-0.3, -0.02, 0.22), Vector3(-1, 0, 0.6), 28.0, IceShapes.crystal(0.23, 0.3, 0.48, 0.0)],
 			[Vector3(0.27, -0.02, -0.3), Vector3(0.6, 0, -1), 32.0, IceShapes.crystal(0.2, 0.24, 0.42, 0.0)]]:
-		var p: Vector3 = vb * (c[0] as Vector3) * 1.15 + Vector3(0, CORE_TOP + 0.1, 0)
+		var p: Vector3 = vb * (c[0] as Vector3) * 1.3 + Vector3(0, CORE_TOP + 0.1, 0)   # crowns stay in the cell
 		it.append(_itx(c[3], Transform3D((IceShapes.lean(vb * (c[1] as Vector3), c[2]) * vb).scaled_local(
 			Vector3.ONE * CRYSTAL_SCALE), p), _m_team))
 	for i: int in 4:
@@ -193,8 +202,9 @@ func _wall_items(codes: PackedInt32Array) -> Array:
 					Transform3D(Basis(Vector3.UP, 0.0 if d.x != 0.0 else PI * 0.5), mid + side * s * (ARM_HALF + 0.05)
 					+ Vector3(0, ARM_TOP, 0)), _m_snow))
 		else:
-			var yb := Basis(Vector3.UP, atan2(-d.z, d.x))
-			it.append(_itx(_prism(Vector3(0.42, 1.0, 1.34), 0.0), Transform3D(yb, d * (CORE + 0.16) + Vector3(0, 0.8, 0)),
+			var yb := Basis(Vector3.UP, atan2(-d.z, d.x) + deg_to_rad([5.0, -6.0, 6.0, -4.0][i]))   # skewed buttresses (C1)
+			it.append(_itx(_prism(Vector3(0.42, 1.0, 1.3), 0.0), Transform3D(yb.scaled_local(Vector3(1.0, 1.5, 1.0)),
+				d * (CORE - 0.1) + Vector3(0, 1.05, 0)),   # outer tip <= 1.0 m: stays in its own cell
 				_m_stone))
 			it.append(_itx(IceShapes.icicle_strip(1.2, 5, 0.5, 0.1, 50 + i), Transform3D(Basis(Vector3.UP,
 				0.0 if d.x == 0.0 else PI * 0.5), d * (CORE - 0.06) + Vector3(0, CORE_TOP + 0.02, 0)), _m_snow))
