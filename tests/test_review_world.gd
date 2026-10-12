@@ -109,7 +109,12 @@ func _check_build_grid() -> void:
 	var serial := ally.order_serial
 	var site := grid.place(type, spot, PLAYER, [])
 	_ok(site != null, "place() accepts the spot with the ally on it (%s)" % grid.last_reason)
-	_ok(ally.order_serial > serial, "the allied unit is pushed out of the footprint")
+	# R4-2 (2026-10-12): an ally is set down outside the footprint and keeps its orders (never ordered by us).
+	var fp := Vector2(type.footprint) * BuildGrid.CELL
+	var rect := Rect2(Vector2(spot.x, spot.z) - fp * 0.5, fp)
+	var ap := Vector2(ally.global_position.x, ally.global_position.z)
+	_ok(not rect.has_point(ap), "the allied unit is pushed out of the footprint")
+	_ok(ally.order_serial == serial, "the allied unit is not ordered by the push")
 	if site:
 		site.queue_free()
 	ally.queue_free()

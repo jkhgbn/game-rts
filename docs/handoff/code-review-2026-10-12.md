@@ -176,3 +176,105 @@ class). One owner pass ("save/load hardening", systems-coder + lead for scripts/
 - Clean: win / loss rules, double end, concede, time-limit end, one respawn timer per team, PaceSwitch symmetry and
   Engine.time_scale restore, Fireball edit restore, MapInfo / Teams release, CasterKit reset, layout_error gating, bot
   points, fog layers, map catalog, forest.
+
+### Root-cause pass: saved plain-named metas
+- Guard: `tests/test_save_metas.gd` (uncommitted until the renames land: it FAILS by design on 15 names). Scans
+  `scripts/**/*.gd` `set_meta` names (literals, constants up the extends chain, Class.CONST); only `Unit` / `Building`
+  metas are encoded (unit.gd:2494, building.gd:792). SAVE allowlist (truce, loot, plus, rank, mission_* ...) and an
+  OFF_SAVE list (level node / UnitType stubs / UI controls) with reasons. Add to the CI core list once green.
+- Renames (fix batch):
+  - gameplay-coder: `t3_paused_until` (t3_kit:174, better: time left), `bowman_hamstring_at` / `bowman_hamstring_target`
+    (bowman_kit:93-95), `t3_hush_bond_until` / `t3_maelis_bond_until` (helper_abilities:555/564).
+  - systems-coder: `forge_sig` / `forge_range` (forge_kit:274/282, re-derive on load), `mission_truce_hook`
+    (mission_base:952), `mission_held` (539; check a save during hold_world), `neutral_camp` (neutral_camp:284),
+    `tracker_contract` (hunters_guild:214) — camp / guild must re-link their units on load.
+  - ai-coder: `ai_casters_hits` (ai_casters:972), `contract` (tracker_contract:115).
+  - lead: `game_audio` const META + `game_audio_crit` (game_audio:448, 910).
+
+### V1: vfx, cinematics (16 files)
+1. `cinematic_player.gd:97-103, 1446` + `pause_menu.gd:182-186` + `save_game.gd:182-229`: Ctrl+F12 during an in-mission
+   film keeps the film playing over the loaded match (letterbox, voice, input eaten, saves refused, the loaded mission's
+   intro film refused "Already playing", camera may stay). Fix: stop on the context's `tree_exiting` and / or refuse a
+   load while a film plays. (high) game-breaking [save/load]
+2. `cinematic_player.gd:493-494, 1446-1468` vs `skip()` 206-208: a film watched to the end doesn't apply the end state of
+   actions still running (unit left mid-walk, despawned actor visible); skip does. Fix: run `_end_state` for `_running`
+   in `_finish(false)`. (high)
+3. `cinematic_player.gd:1213-1225, 1450, 240-246, 1294`: voice / SFX players never stopped on skip nor paused (804 voiced
+   lines): actor keeps talking over gameplay / next film. Fix: track and stop / pause them. (high)
+4. `cinematic_overlay.gd:251-272` + `cinematic_player.gd:816` subtitle / title timers run while paused; line not re-sent.
+   (high, minor)
+5. Untranslated player text: `trade_popups.gd:205, 216, 233, 247`, `route_line.gd:497-505`, `mapfill_popups.gd:41`. Fix:
+   Loc.t whole sentences, extract, translate. (high, minor)
+6. `mapfill_popups.gd:92` `_splash_at`, `champion_barks.gd:85` `_known` never pruned. (minor)
+- Clean: skip runs the end state once; play_cutscene refusal paths; HUD / pause / camera / cursor restore; stage
+  soft-lock guard; CinematicInput; Blitz not involved; Events access; no VFX leaks / crashes.
+
+### U2: selection panel, command card, portrait, spell info, inventory bar, item tooltip
+1. `command_card.gd:904-905` train button reason from the active building only; with 2 Barracks (active full) the button
+   is grey and the click refused while Z trains in the other. Fix: reason from `sel.train_target(type)`. (high)
+2. `spell_info.gd:147-156` `cast_reason` misses "Frozen" (buttons look ready on a frozen wizard). (high)
+3. `spell_info.gd:171-183, 208-214` tooltip damage / cooldown from raw .tres (no spell power / CDR): disagrees with the
+   real numbers and the sweep. (high, minor)
+4. `command_card.gd:914-925` + `keep.gd:194-200` "Cancel Stronghold" stub shows "Cost 0 · Pop 0". (high, minor)
+5. `inventory_bar.gd:193-211` right-click on a campaign_only item: silent no-op near a shop, drops it away from one.
+   (medium, minor)
+6. `selection_panel.gd:2601-2615` `_was_cooling` not reset when switching champion: false ready flash. (high, minor)
+7. Loc misuse: selection_panel 1902 / 799 ("HP / XP %d / %d" without Loc.t), command_card 917 fragment, 914 / 994
+   untranslated display names, spell_info 248 `n + "s"` plural and 208 concatenation, item_tooltip 176-178
+   `active_id.capitalize()`. (high, minor)
+8. `portrait.gd:131-134` portrait model keyed by type only (finished site / new keep tier keep the old model). (medium, minor)
+- Clean: freed / dead handling order, own-only selection, `orderable_units()` filter, queue display = cancel(slot), site
+  refund, sell value, physical hotkeys + KeyLabels, Numpad vs Alt+N, tier pulse, refresh rates.
+
+### U1: selection manager, camera, build ghost, keys, groups, wizard control
+1. `selection_manager.gd:2852-2871` (+2129) the wizard is pruned from control groups when she dies and never re-added
+   after respawn (same node). Fix: keep the hero while valid. (high)
+2. `selection_manager.gd:2206-2212` F2 "army" includes caravans (commandable): F2 + right-click sends them into fights /
+   off their route. Fix: skip caravans. (high)
+3. `selection_manager.gd:971` Shift-placing several buildings gives every worker each new site in turn: only the last is
+   built, the others stay paid and unattended. Fix: give new sites to free / nearest workers or a build queue. (high)
+4. `selection_manager.gd:2087-2125` Ctrl+N / Alt+N with nothing selected wipes the group. (high, minor)
+5. `selection_manager.gd:2417-2453` aiming an item and clicking the minimap cancels it silently (no ORDER_ITEM branch).
+   (high, minor)
+6. `selection_manager.gd:2181-2182` double-tap on a mixed group centres between army and base. (high, minor)
+7. `wizard_control.gd:58-79` hero swap during a held WASD key: the old hero walks forever. (medium, minor)
+- Clean: physical keycodes everywhere (arrows / Home logical, fine), W A S D Q E F reserved in all schemes, group
+  semantics (Alt before Ctrl), non-commandable units never ordered (`orderable_units()`), box / Tab / ghost / camera
+  MapInfo bounds, no double input handling, perf.
+
+### U3: champion bar, tavern, bounty mode, flag card, point panel, map-fill bar
+1. `bounty_mode.gd:279-299` `pick_at` never picks a capture point (not in "buildings"): Guard on your own point is
+   impossible from the UI (promised by point_panel hint and map-fill.md). Fix: `selection.point_at()` before the ground. (high)
+2. `bounty_mode.gd:290-292` (via selection_manager 2466) picks fogged enemy units: leaks info, refuses the intended
+   Explore. (medium)
+3. Bounty raises made by bounty-mode clicks are not recorded in the replay (`raise_selected_bounty` does); doc comment
+   10-11 wrong. (high, minor)
+4. `bounty_mode.gd:285-289` + `bounty_board.gd:181-192` clicking a game critter places a 25-essence Explore flag on it
+   (comment says it should be refused). (high, minor)
+5. `tavern_window.gd:515-528` "Enemies hold both taverns" hidden while the player is also short of money. Fix: ask the
+   guild. (high)
+6. `flag_card.gd:189-191, 236-240` Claims shown as "EXPLORE BOUNTY / explored ground". (high, minor)
+7. Ally seats treated as enemies in the UI: bounty_mode 291 / 730, flag_card 227, selection_manager 748 (PLAYER
+   hard-coded), point_panel 319 / 387, MapfillBar `GameColors.relation` 979 (ALLY / ENEMY_2 points read "Neutral"). (high, minor)
+8. `bounty_mode.gd:196` cross cursor stays after F9 / quit (no `_exit_tree`); selection_manager targeting modes same. (medium, minor)
+9. Perf: tavern refresh 4 Hz compiles a RegEx per tooltip (`champion_bar.gd:812`) + StyleBoxFlat per row (988);
+   ChampionBar.refresh 10 Hz rebuilds all tooltips (1463-1465). (high, minor)
+- Clean: freed / dead guards, no orders to non-commandable units, all prices / refunds match the guild and board,
+  button states, physical keys, Loc use, bars.
+
+### U4: trade / shop windows, post panel, minimap, HUD, top bar, hints, tier chip, score, STR/INT, chat
+1. `hud.gd:591-595` `show_banner` doesn't close the shop window: at match end it covers the banner / Score tab /
+   Restart / Main menu buttons and eats their clicks. Fix: `shop_window.close()`. (high)
+2. `minimap.gd:370-372, 393` zoomed view clamped with `size_max` on both axes: on 192 x 96 maps the view scrolls half off
+   the map; GroundLayer (559-560) paints the whole square green. Fix: per-axis `half_x / half_z`, paint `bounds()`. (high)
+3. Loc: `trade_window.gd:1179-1181, 1337-1338` English ware / contract names in Loc placeholders; `post_panel.gd:284-287,
+   356-357` sentences built from fragments. (high, minor)
+4. `top_bar.gd:210-221` repeated shake drifts the label up to 4 px. (medium, minor)
+5. Perf: `shop_window.gd:750-781` 4 Hz refresh runs Recipes.plan + `nearest_shop()` (O(n²)) per item (~80 plans / 40
+   building scans x 4 / s); `trade_window.gd:842` walks the global class list 4 / s. (medium, minor)
+6. `tier_chip.gd:132` `is Keep` on a possibly freed keep (debug script error). (medium, minor)
+7. `str_int_panel.gd:116-133` refusal reason dropped; ability names untranslated; hard-coded "J" label. (high, minor)
+8. `chat_line.gd:189-198` vs shop / trade windows: Esc closes the window first, chat stays open. (medium, minor)
+- Clean: trade rates / ware prices / x5, buttons from can_* reasons, null GoldBank, window exclusivity, physical keys,
+  shop range / death close, sell ratio, post panel guards, minimap MapInfo click mapping + fog + redraw rates, HUD
+  setup dedupe, score keys, STR/INT pause pairing, chat focus.
