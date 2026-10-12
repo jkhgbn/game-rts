@@ -1,0 +1,24 @@
+{
+	"name": "bz_ice_t",
+	"notes": "Blitz (shipped values) + ice_t train times.",
+	"fg": {
+		"blitz": {}
+	},
+	"units": {
+		"rimeshield": {
+			"train_time": 18.0
+		},
+		"shardcaster": {
+			"train_time": 18.0
+		},
+		"rime_seer": {
+			"train_time": 20.0
+		},
+		"frostbow": {
+			"train_time": 24.0
+		},
+		"rime_colossus": {
+			"train_time": 44.0
+		}
+	}
+}

@@ -1,0 +1,37 @@
+{
+ "name": "bz2_d",
+ "notes": "Blitz shipped + ice_t train times + Shadow start crystals +300 -> +500 + Fireball damage x0.75 (SpellType override, lab only via tw_probe.gd; stands for a Blitz-only Fire spell factor once projectile spells honour PaceSwitch.spell_damage_x). Fire training unchanged.",
+ "fg": {
+  "blitz": {
+   "start_crystals_add": {
+    "fire": 0,
+    "nature": 100,
+    "shadow": 500,
+    "ice": 800
+   }
+  }
+ },
+ "units": {
+  "rimeshield": {
+   "train_time": 18.0
+  },
+  "shardcaster": {
+   "train_time": 18.0
+  },
+  "rime_seer": {
+   "train_time": 20.0
+  },
+  "frostbow": {
+   "train_time": 24.0
+  },
+  "rime_colossus": {
+   "train_time": 44.0
+  }
+ },
+ "spells": {
+  "fireball": {
+   "damage": "x0.75",
+   "damage_by_rank": "x0.75"
+  }
+ }
+}

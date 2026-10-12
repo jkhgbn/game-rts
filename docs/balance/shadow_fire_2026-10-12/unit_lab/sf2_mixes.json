@@ -1,0 +1,226 @@
+{
+ "name": "sf2 bot mixes",
+ "notes": "Bot Hall mixes at ~equal cost (Fire 980 c, Shadow 955 c, Ice 1000 c); hero arms add each wizard at level 6 (Vessa only auto-attacks in Unit Lab, other wizards autocast).",
+ "seeds": "1-20",
+ "time_limit": 120,
+ "distance": 20,
+ "arms": [
+  {
+   "name": "fire_vs_shadow",
+   "a": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 4
+     },
+     {
+      "id": "ember_archer",
+      "count": 3
+     },
+     {
+      "id": "blaze_rider",
+      "count": 1
+     },
+     {
+      "id": "ash_hurler",
+      "count": 1
+     }
+    ],
+    "order": "attack_move"
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "shade",
+      "count": 4
+     },
+     {
+      "id": "nightbolt",
+      "count": 3
+     },
+     {
+      "id": "grave_hound",
+      "count": 1
+     },
+     {
+      "id": "shadow_knight",
+      "count": 1
+     }
+    ],
+    "order": "attack_move"
+   }
+  },
+  {
+   "name": "fire_vs_ice",
+   "a": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 4
+     },
+     {
+      "id": "ember_archer",
+      "count": 3
+     },
+     {
+      "id": "blaze_rider",
+      "count": 1
+     },
+     {
+      "id": "ash_hurler",
+      "count": 1
+     }
+    ],
+    "order": "attack_move"
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "rimeshield",
+      "count": 4
+     },
+     {
+      "id": "shardcaster",
+      "count": 3
+     },
+     {
+      "id": "rime_colossus",
+      "count": 1
+     }
+    ],
+    "order": "attack_move"
+   }
+  },
+  {
+   "name": "early_fire_vs_shadow",
+   "a": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 3
+     },
+     {
+      "id": "ember_archer",
+      "count": 2
+     }
+    ],
+    "order": "attack_move"
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "shade",
+      "count": 3
+     },
+     {
+      "id": "nightbolt",
+      "count": 2
+     }
+    ],
+    "order": "attack_move"
+   }
+  },
+  {
+   "name": "hero_fire_vs_shadow",
+   "a": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 4
+     },
+     {
+      "id": "ember_archer",
+      "count": 3
+     },
+     {
+      "id": "blaze_rider",
+      "count": 1
+     },
+     {
+      "id": "ash_hurler",
+      "count": 1
+     }
+    ],
+    "order": "attack_move",
+    "hero": {
+     "kingdom": "fire",
+     "level": 6
+    }
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "shade",
+      "count": 4
+     },
+     {
+      "id": "nightbolt",
+      "count": 3
+     },
+     {
+      "id": "grave_hound",
+      "count": 1
+     },
+     {
+      "id": "shadow_knight",
+      "count": 1
+     }
+    ],
+    "order": "attack_move",
+    "hero": {
+     "kingdom": "shadow",
+     "level": 6
+    }
+   }
+  },
+  {
+   "name": "hero_fire_vs_ice",
+   "a": {
+    "groups": [
+     {
+      "id": "flame_guard",
+      "count": 4
+     },
+     {
+      "id": "ember_archer",
+      "count": 3
+     },
+     {
+      "id": "blaze_rider",
+      "count": 1
+     },
+     {
+      "id": "ash_hurler",
+      "count": 1
+     }
+    ],
+    "order": "attack_move",
+    "hero": {
+     "kingdom": "fire",
+     "level": 6
+    }
+   },
+   "b": {
+    "groups": [
+     {
+      "id": "rimeshield",
+      "count": 4
+     },
+     {
+      "id": "shardcaster",
+      "count": 3
+     },
+     {
+      "id": "rime_colossus",
+      "count": 1
+     }
+    ],
+    "order": "attack_move",
+    "hero": {
+     "kingdom": "ice",
+     "level": 6
+    }
+   }
+  }
+ ]
+}

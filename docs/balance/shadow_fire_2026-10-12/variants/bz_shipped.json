@@ -1,0 +1,5 @@
+{
+	"name": "bz_shipped",
+	"notes": "The real Blitz pace with the shipped PaceSwitch.BLITZ values (no overrides).",
+	"fg": {"blitz": {}}
+}

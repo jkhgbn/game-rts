@@ -1,0 +1,12 @@
+{
+	"name": "ice_s",
+	"notes": "ice_t + partial revert of the 10-11 Ice T1/T2 nerfs the bot army uses: Rimeshield hp 140->150, Shardcaster dmg 9->10, Rime Colossus hp 410->440, Snowdrift Rider hp 200->220.",
+	"units": {
+		"rimeshield": {"train_time": 18.0, "max_hp": 150.0},
+		"shardcaster": {"train_time": 18.0, "attack_damage": 10.0},
+		"rime_seer": {"train_time": 20.0},
+		"frostbow": {"train_time": 24.0},
+		"rime_colossus": {"train_time": 44.0, "max_hp": 440.0},
+		"snowdrift_rider": {"max_hp": 220.0}
+	}
+}

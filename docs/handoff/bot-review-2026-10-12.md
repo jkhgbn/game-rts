@@ -118,6 +118,12 @@ Next: verify pass, then fixes through the owners (ai-coder for scripts/ai; syste
 | A6 | CONFIRMED (minor, Blitz Ice) | extract rule 7's pop-based reserve split (2242-2254) into a helper used by both | test_pace_switch |
 | A7 | PLAUSIBLE (low; fog off only in tests) | SCOUT_LEG_TIME on the fog-less path too | test_6_a1 |
 
+## Added to the bug-fix phase (from the balance study)
+- E1 (gameplay-coder): projectile spells (Fireball, Shadow Lance, Rime Bolt) deal damage in `scripts/units/projectile.gd`
+  `_impact()` (119-136) and skip `SpellCaster.deal_damage`, so `PaceSwitch.spell_damage_x` / `worker_spell_x` never apply
+  to them. Fixing it makes Blitz `worker_spell_x 0.5` hit them on workers: re-run the balance arm D afterwards
+  (`docs/balance/shadow_fire_2026-10-12/report.md` item 8).
+
 ## Order of work
 Verify pass (read-only) first. Fixes wait until the Shadow / Fire balance study ends (it plays bot games from this tree;
 bot code changes mid-batch would mix its numbers); the balance numbers must be re-checked after the fixes.

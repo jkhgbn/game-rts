@@ -10,10 +10,10 @@ const TIMEOUT_FRAMES := 600
 ## id -> [display, worker, cost, pop, kill_xp, train, hp, armor, dmg, range, cd, speed, aggro, radius, height]
 const UNITS := {
 	&"rime_hauler": ["Rime Hauler", true, 50, 1, 15, 12.0, 60.0, 0.0, 4.0, 1.4, 1.2, 4.6, 0.0, 0.4, 1.4],
-	&"rimeshield": ["Rimeshield", false, 95, 1, 50, 22.0, 150.0, 15.0, 11.0, 1.6, 1.1, 4.2, 8.0, 0.5, 1.7],
-	&"shardcaster": ["Shardcaster", false, 110, 1, 55, 22.0, 80.0, 5.0, 9.0, 9.0, 1.4, 4.4, 10.0, 0.45, 1.6],
-	&"rime_seer": ["Rime Seer", false, 120, 1, 60, 24.0, 70.0, 5.0, 6.0, 8.0, 1.5, 4.2, 10.0, 0.45, 1.6],
-	&"rime_colossus": ["Rime Colossus", false, 290, 3, 145, 52.0, 520.0, 20.0, 28.0, 1.9, 1.8, 3.4, 10.0, 0.8, 2.6],
+	&"rimeshield": ["Rimeshield", false, 95, 1, 50, 18.0, 140.0, 15.0, 11.0, 1.6, 1.1, 4.2, 8.0, 0.5, 1.7],
+	&"shardcaster": ["Shardcaster", false, 110, 1, 55, 18.0, 80.0, 5.0, 9.0, 9.0, 1.4, 4.4, 10.0, 0.45, 1.6],
+	&"rime_seer": ["Rime Seer", false, 120, 1, 60, 20.0, 70.0, 5.0, 6.0, 8.0, 1.5, 4.2, 10.0, 0.45, 1.6],
+	&"rime_colossus": ["Rime Colossus", false, 290, 3, 145, 44.0, 410.0, 20.0, 24.0, 1.9, 1.8, 3.4, 10.0, 0.8, 2.6],
 }
 ## Extra fields per id (new UnitType fields from 7.G1).
 const EXTRAS := {
@@ -104,7 +104,7 @@ func _check_types() -> void:
 		main.add_child(shield)
 		shield.global_position = Vector3(0.0, 0.0, -60.0)
 		_eq("rimeshield get_stat(armor)", shield.get_stat(&"armor"), 15.0)
-		_eq("rimeshield max_hp", shield.max_hp, 150.0)
+		_eq("rimeshield max_hp", shield.max_hp, 140.0)
 
 
 func _check_torvald() -> void:

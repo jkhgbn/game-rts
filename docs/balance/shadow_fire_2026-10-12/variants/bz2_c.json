@@ -1,0 +1,34 @@
+{
+ "name": "bz2_c",
+ "notes": "Blitz shipped + ice_t train times + Fire wizard spell damage x0.65 in Blitz (spell_damage_x fire 0.65) + Shadow start crystals +300 -> +500. Fire training unchanged (0.9).",
+ "fg": {
+  "blitz": {
+   "spell_damage_x": {
+    "fire": 0.65
+   },
+   "start_crystals_add": {
+    "fire": 0,
+    "nature": 100,
+    "shadow": 500,
+    "ice": 800
+   }
+  }
+ },
+ "units": {
+  "rimeshield": {
+   "train_time": 18.0
+  },
+  "shardcaster": {
+   "train_time": 18.0
+  },
+  "rime_seer": {
+   "train_time": 20.0
+  },
+  "frostbow": {
+   "train_time": 24.0
+  },
+  "rime_colossus": {
+   "train_time": 44.0
+  }
+ }
+}

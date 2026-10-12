@@ -1,0 +1,30 @@
+{
+	"name": "bz_ice_s",
+	"notes": "Blitz (shipped values) + ice_s unit changes.",
+	"fg": {
+		"blitz": {}
+	},
+	"units": {
+		"rimeshield": {
+			"train_time": 18.0,
+			"max_hp": 150.0
+		},
+		"shardcaster": {
+			"train_time": 18.0,
+			"attack_damage": 10.0
+		},
+		"rime_seer": {
+			"train_time": 20.0
+		},
+		"frostbow": {
+			"train_time": 24.0
+		},
+		"rime_colossus": {
+			"train_time": 44.0,
+			"max_hp": 440.0
+		},
+		"snowdrift_rider": {
+			"max_hp": 220.0
+		}
+	}
+}
