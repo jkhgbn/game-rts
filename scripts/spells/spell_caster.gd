@@ -383,6 +383,7 @@ func _execute(id: StringName, target: Variant) -> void:
 
 func _cast_fireball(t: SpellType, rank: int, pos: Vector3) -> void:
 	var ball := Projectile.new()
+	ball.is_spell = true   # Blitz spell factor on each hit, like deal_damage
 	_world().add_child(ball)
 	var color: Variant = wizard.get(&"orb_color")
 	ball.launch_at_point(wizard, wizard.global_position + Vector3.UP * _height(), pos,
@@ -429,6 +430,7 @@ func _cast_kindle(t: SpellType, rank: int) -> void:
 
 func _cast_shadow_lance(t: SpellType, rank: int, target: Node3D) -> void:
 	var bolt := Projectile.new()
+	bolt.is_spell = true   # Blitz spell factor on each hit, like deal_damage
 	_world().add_child(bolt)
 	bolt.launch_at_target(wizard, wizard.global_position + Vector3.UP * _height(), target,
 			spell_damage(t, rank), SHADOW_COLOR, LANCE_SIZE, LANCE_SPEED, 0.0)
@@ -454,6 +456,7 @@ func _cast_soul_siphon(t: SpellType, rank: int, pos: Vector3) -> void:
 ## Rime Bolt: an ice shard that follows the target; on hit, damage + `chill` (rank duration).
 func _cast_rime_bolt(t: SpellType, rank: int, target: Node3D) -> void:
 	var bolt := Projectile.new()
+	bolt.is_spell = true   # Blitz spell factor on each hit, like deal_damage
 	_world().add_child(bolt)
 	bolt.launch_at_target(wizard, wizard.global_position + Vector3.UP * _height(), target,
 			spell_damage(t, rank), RIME_COLOR, RIME_BOLT_SIZE, RIME_BOLT_SPEED, 0.0)

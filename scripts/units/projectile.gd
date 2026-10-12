@@ -19,6 +19,9 @@ var source_team: int
 var damage := 10.0
 var splash_radius := 0.0
 var color := Color(1.0, 0.6, 0.2)
+## A wizard spell (Fireball, Shadow Lance, Rime Bolt): each hit takes the Blitz spell factor
+## (PaceSwitch.spell_damage_x, like SpellCaster.deal_damage). Arrows / tower bolts leave it false.
+var is_spell := false
 
 var _start := Vector3.ZERO
 var _target_pos := Vector3.ZERO
@@ -116,7 +119,7 @@ func _impact() -> void:
 				continue
 			if _flat_distance_to_impact(u) <= splash_radius + u.radius:
 				var before := u.hp
-				u.take_damage(damage, attacker)
+				u.take_damage(_hit_amount(u, attacker), attacker)
 				hit_area.emit(u, before - maxf(0.0, u.hp))
 		for node in get_tree().get_nodes_in_group(&"buildings"):
 			var b := node as Node3D
@@ -126,18 +129,27 @@ func _impact() -> void:
 				continue
 			if _flat_distance_to_impact(b) <= splash_radius + Unit.radius_of(b):
 				var hp_b: Variant = b.get(&"hp")
-				b.call(&"take_damage", damage, attacker)
+				var amount_b := _hit_amount(b, attacker)
+				b.call(&"take_damage", amount_b, attacker)
 				var hp_a: Variant = b.get(&"hp")
-				hit_area.emit(b, float(hp_b) - maxf(0.0, float(hp_a)) if hp_b != null and hp_a != null else damage)
+				hit_area.emit(b, float(hp_b) - maxf(0.0, float(hp_a)) if hp_b != null and hp_a != null else amount_b)
 		_explode()
 	else:
 		if _target != null and is_instance_valid(_target):
 			var hp_before := float(_target.get(&"hp")) if _target.get(&"hp") != null else 0.0
-			_target.call(&"take_damage", damage, attacker)
+			var amount := _hit_amount(_target, attacker)
+			_target.call(&"take_damage", amount, attacker)
 			var hp_after: Variant = _target.get(&"hp")
-			var dealt: float = hp_before - maxf(0.0, float(hp_after)) if hp_after != null else damage
+			var dealt: float = hp_before - maxf(0.0, float(hp_after)) if hp_after != null else amount
 			hit_unit.emit(_target, dealt)
 		queue_free()
+
+
+## The damage one hit deals: `damage`, times the Blitz spell factor for spells (1.0 outside Blitz).
+func _hit_amount(target: Node3D, attacker: Node3D) -> float:
+	if is_spell and PaceSwitch.spell_mods_on:
+		return damage * PaceSwitch.spell_damage_x(target, attacker)
+	return damage
 
 
 func _flat_distance_to_impact(node: Node3D) -> float:

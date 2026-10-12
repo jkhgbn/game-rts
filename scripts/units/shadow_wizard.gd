@@ -165,6 +165,7 @@ func _cast_shadow_lance(target: Unit) -> void:
 	lance_cooldown_left = lance_cooldown
 	_face(target.global_position - global_position)
 	var bolt := Projectile.new()
+	bolt.is_spell = true
 	get_tree().current_scene.add_child(bolt)
 	bolt.launch_at_unit(self, global_position + Vector3.UP * body_height, target,
 			lance_damage, LANCE_COLOR, lance_size, lance_speed, 0.0)

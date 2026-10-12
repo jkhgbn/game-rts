@@ -630,6 +630,7 @@ func _launch_fireball(target: Vector3) -> void:
 	mana -= fireball_cost
 	_face(target - global_position)
 	var fireball := Projectile.new()
+	fireball.is_spell = true
 	get_tree().current_scene.add_child(fireball)
 	fireball.launch_at_point(self, global_position + Vector3.UP * body_height, target,
 			fireball_damage, fireball_radius, orb_color)
