@@ -7,6 +7,8 @@ description: How to run Four Wizards tests and CI (quick CI, changed-files CI, f
 
 All Godot runs go through `tools\godot_run.ps1` (the Godot gate, max 4 at once; the hook blocks the bare exe).
 Quote `'--'` and comma lists when calling through it (PowerShell drops a bare `--` and splits `a,b`).
+The opposite for `ci_quick.ps1 -Files` / `ci.ps1 -Tests`: they are `[string[]]`, so pass `-Files a.gd,b.gd` unquoted
+(a quoted `'a.gd,b.gd'` is one string and selects the wrong tests).
 
 | When | Command |
 |---|---|

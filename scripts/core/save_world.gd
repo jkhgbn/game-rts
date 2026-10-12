@@ -64,6 +64,8 @@ static func capture(level: Node) -> Dictionary:
 
 ## Living units, every wizard (a dead one waits for its respawn) and every champion (fallen ones too). Units a
 ## mission put to sleep (set_dormant / hold_world) left the "units" group: they are found by walking the scene.
+## Magpies and trackers are left out: their ThiefBand / TrackerContract brains are not saved, so they would come back
+## as idle orphans that block the guilds (bot review 2026-10-12 D2); the guilds send fresh ones after a load.
 static func _saved_units(tree: SceneTree) -> Array:
 	var out: Array = []
 	var seen := {}
@@ -72,6 +74,7 @@ static func _saved_units(tree: SceneTree) -> Array:
 		var n: Node = stack.pop_back()
 		var u := n as Unit
 		if u != null and not seen.has(u) and not u.is_queued_for_deletion() \
+				and not u.is_in_group(&"magpies") and not u.is_in_group(&"trackers") \
 				and (u.is_alive() or u is Wizard or u.is_in_group(&"champions")):
 			seen[u] = true
 			out.append(u)
