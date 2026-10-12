@@ -91,7 +91,8 @@ var _flush_queued := false
 
 # ---------------------------------------------------------------- static: roster
 
-## True when the current game has the Stables: the plain skirmish (missions extend it: off) or force_enabled.
+## True when the current game has the Stables: the plain skirmish or a generated map (LayoutLevel; missions extend
+## it: off, see CasterKit.is_plain_skirmish and thornwater_2026-10-11.md) or force_enabled.
 static func enabled_here() -> bool:
 	if not ENABLED:
 		return false
@@ -102,8 +103,7 @@ static func enabled_here() -> bool:
 		return false
 	if tree.current_scene.has_method(&"define_objectives"):   # a mission: its cavalry_enabled knob (e2m3)
 		return &"cavalry_enabled" in tree.current_scene and bool(tree.current_scene.get(&"cavalry_enabled"))
-	var s: Variant = tree.current_scene.get_script()
-	return s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT
+	return CasterKit.is_plain_skirmish(tree.current_scene)
 
 
 static func is_stables_unit(type_id: StringName) -> bool:

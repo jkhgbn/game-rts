@@ -1,0 +1,5 @@
+{
+	"name": "tw_calm",
+	"notes": "Thornwater study: every bot needs 20 % more strength before it attacks (attack_ratio / floor x1.2).",
+	"fg": {"ai": {"attack_ratio": "x1.2", "attack_ratio_floor": "x1.2"}}
+}

@@ -1,0 +1,5 @@
+{
+	"name": "tw_fire_nokindle",
+	"notes": "Thornwater study (diagnostic): Kindle cooldown x20 (practically never cast) (tw_probe.gd spell override, lab only).",
+	"spells": {"kindle": {"cooldown": "x20", "cooldown_by_rank": "x20"}}
+}

@@ -1,0 +1,5 @@
+{
+	"name": "tw_fire_fb75",
+	"notes": "Thornwater study (diagnostic): Fireball damage x0.75 at every rank (tools/map_lab/tw_probe.gd spell override, lab only).",
+	"spells": {"fireball": {"damage": "x0.75", "damage_by_rank": "x0.75"}}
+}

@@ -84,9 +84,10 @@ static func _scene() -> Node:
 	return tree.current_scene if tree else null
 
 
+## The plain skirmish or a generated map (LayoutLevel), never a mission (CasterKit.is_plain_skirmish;
+## thornwater_2026-10-11.md: layout maps had no T3).
 static func _is_skirmish(scene: Node) -> bool:
-	var s: Variant = scene.get_script()
-	return s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT
+	return CasterKit.is_plain_skirmish(scene)
 
 
 static func is_t3_unit(type_id: StringName) -> bool:

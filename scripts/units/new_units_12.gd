@@ -113,7 +113,8 @@ static func tier_of(type_id: StringName) -> int:
 	return int((UNITS.get(type_id, {}) as Dictionary).get("tier", 0))
 
 
-## True when the Halls of the current game list the new units: the plain skirmish (missions extend it: off).
+## True when the Halls of the current game list the new units: the plain skirmish or a generated map (LayoutLevel;
+## missions extend it: off, see CasterKit.is_plain_skirmish and thornwater_2026-10-11.md).
 static func enabled_here() -> bool:
 	if not ENABLED:
 		return false
@@ -122,8 +123,7 @@ static func enabled_here() -> bool:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null or tree.current_scene == null:
 		return false
-	var s: Variant = tree.current_scene.get_script()
-	return s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT
+	return CasterKit.is_plain_skirmish(tree.current_scene)
 
 
 ## The new units a Hall of `building_type` adds after its bowman (TrainingBuilding.trainable_types). [] otherwise.

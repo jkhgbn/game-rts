@@ -1,0 +1,5 @@
+{
+	"name": "tw_fire_fbr75",
+	"notes": "Thornwater study (diagnostic): Fireball radius x0.75 at every rank (3.5 -> 2.6 m), damage unchanged (tw_probe.gd spell override, lab only).",
+	"spells": {"fireball": {"radius": "x0.75", "radius_by_rank": "x0.75"}}
+}

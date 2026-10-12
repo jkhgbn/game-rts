@@ -80,6 +80,13 @@ func _process(_delta: float) -> bool:
 				return fails.size() > 0 and _done()
 			if String((level as LayoutLevel).map_layout().id) != "thornwater" or (level as LayoutLevel).layout_error() != "":
 				fails.append("the level plays %s (%s)" % [(level as LayoutLevel).map_layout().id, (level as LayoutLevel).layout_error()])
+			# thornwater_2026-10-11.md: a generated map lists the full skirmish roster like Crown Hollow (bowmen, new
+			# units, Stables, T3); before, these kits only accepted the exact skirmish.gd script.
+			for kit: Array in [["bowmen", BowmanKit.BOWMEN_ENABLED, BowmanKit.enabled_here()],
+					["new units", NewUnits12.ENABLED, NewUnits12.enabled_here()],
+					["Stables", Stables16.ENABLED, Stables16.enabled_here()], ["T3", T3Kit.ENABLED, T3Kit.enabled_here()]]:
+				if bool(kit[1]) and not bool(kit[2]):
+					fails.append("%s off on Thornwater (a LayoutLevel)" % kit[0])
 			var f9 := InputEventKey.new()   # F9 the way a player presses it
 			f9.physical_keycode = KEY_F9
 			f9.keycode = KEY_F9

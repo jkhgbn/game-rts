@@ -1,0 +1,18 @@
+{
+	"name": "tw_same_brain",
+	"note": "Control (docs/balance/thornwater_2026-10-11.md): Ice and Nature bots get the plain normal AIProfile strategy knobs (the ones Fire and Shadow already use), so all four kingdoms share one brain. Unit mixes, spells, items and retreat spell stay per kingdom (they name kingdom units).",
+	"fg": {
+		"ai_kingdom": {
+			"ice": {"worker_target_home": 6, "worker_target_expanded": 9, "worker_target_x2": 12, "attack_ratio": 1.3,
+				"opening_workers": 0, "expand_time": 300, "expand_first": false, "expand_bank": 0, "extra_halls": 0,
+				"extra_hall_after_x1": false, "defend_radius": 28, "retreat_hp": 0.4, "regrow_hp": 0.0, "regrow_wait": 30,
+				"tower1_time": 300, "tower2_time": 480, "heavy_crystals": 300, "heavy_soldier_pop": 8,
+				"first_scout_time": -1, "scout_worker_before": 150, "scout_fast": true, "build_walls": false},
+			"nature": {"worker_target_home": 6, "worker_target_expanded": 9, "worker_target_x2": 12, "attack_ratio": 1.3,
+				"opening_workers": 0, "expand_time": 300, "expand_first": false, "expand_bank": 0, "extra_halls": 0,
+				"extra_hall_after_x1": false, "defend_radius": 28, "retreat_hp": 0.4, "regrow_hp": 0.0, "regrow_wait": 30,
+				"tower1_time": 300, "tower2_time": 480, "heavy_crystals": 300, "heavy_soldier_pop": 8,
+				"first_scout_time": -1, "scout_worker_before": 150, "scout_fast": true, "build_walls": false}
+		}
+	}
+}

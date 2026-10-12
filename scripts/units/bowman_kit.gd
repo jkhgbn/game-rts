@@ -38,7 +38,8 @@ static func is_bowman(type_id: StringName) -> bool:
 	return BOWMEN_ENABLED and BOWMEN.has(type_id)
 
 
-## True when the Halls of the current game list bowmen: the plain skirmish (not missions, which extend it).
+## True when the Halls of the current game list bowmen: the plain skirmish or a generated map (LayoutLevel), not
+## missions, which extend it (CasterKit.is_plain_skirmish; thornwater_2026-10-11.md: layout maps had no bowmen).
 static func enabled_here() -> bool:
 	if not BOWMEN_ENABLED:
 		return false
@@ -47,8 +48,7 @@ static func enabled_here() -> bool:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null or tree.current_scene == null:
 		return false
-	var s: Variant = tree.current_scene.get_script()
-	return s is Script and (s as Script).resource_path == SKIRMISH_SCRIPT
+	return CasterKit.is_plain_skirmish(tree.current_scene)
 
 
 ## The bowman a Hall of `building_type` adds as its last slot, or null (TrainingBuilding.trainable_types).
