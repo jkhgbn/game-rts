@@ -243,8 +243,11 @@ func _check_abilities() -> void:
 	var arb := _spawn("cinder_arbalest", PLAYER, p)
 	arb.command_attack(front)
 	ok = await _wait_for(func() -> bool: return back.hp < back.max_hp, 300)
-	_check(ok and is_equal_approx(back.max_hp - back.hp, 10.0), "Piercing bolt: the unit behind lost %.1f (want 10)"
-			% (back.max_hp - back.hp))
+	# Expect half the Arbalest's own damage (read live, so balance passes on
+	# data/units/cinder_arbalest.tres do not break this test).
+	var want_pierce := arb.attack_damage * float(NewUnits12.PIERCE["ratio"])
+	_check(ok and is_equal_approx(back.max_hp - back.hp, want_pierce), "Piercing bolt: the unit behind lost %.1f (want %.1f)"
+			% [back.max_hp - back.hp, want_pierce])
 	await _cleanup([front, back, arb])
 
 	# Barrow Ghoul: Grave Feast heals 30 % on a kill.
@@ -309,9 +312,12 @@ func _check_abilities() -> void:
 	var fm := _spawn("frost_mortar", PLAYER, p)
 	fm.command_attack(main_t)
 	ok = await _wait_for(func() -> bool: return near.hp < near.max_hp, 400)
-	_check(ok and is_equal_approx(near.max_hp - near.hp, 26.0) and near.has_status(&"chill")
-			and main_t.has_status(&"chill"), "Frost Shell: splash %.1f chill %s/%s" % [near.max_hp - near.hp,
-			near.has_status(&"chill"), main_t.has_status(&"chill")])
+	# Splash = the Mortar's own damage (read live, so balance passes on
+	# data/units/frost_mortar.tres do not break this test).
+	var want_splash := fm.attack_damage
+	_check(ok and is_equal_approx(near.max_hp - near.hp, want_splash) and near.has_status(&"chill")
+			and main_t.has_status(&"chill"), "Frost Shell: splash %.1f (want %.1f) chill %s/%s" % [near.max_hp - near.hp,
+			want_splash, near.has_status(&"chill"), main_t.has_status(&"chill")])
 	await _cleanup([main_t, near, fm])
 
 	# Thistle Darter: Skitter after a dart.
