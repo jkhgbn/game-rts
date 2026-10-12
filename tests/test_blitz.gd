@@ -61,6 +61,7 @@ func _process(_delta: float) -> bool:
 		_expect(is_equal_approx(Engine.time_scale, 1.0), "game speed not restored after Blitz left")
 		_expect(_changed_from_defaults().is_empty(), "defaults not restored after the Blitz skirmish: %s"
 				% str(_changed_from_defaults().slice(0, 5)))
+		_expect(_fireball_is(1.0), "Fireball not restored after the Blitz skirmish")
 		return _finish()
 	return false
 
@@ -144,16 +145,34 @@ func _changed_from_defaults() -> Array:
 	return out
 
 
+func _fireball() -> SpellType:
+	return SpellType.find(&"fireball")
+
+
+## Fireball's damage / damage_by_rank equal the shipped 60 / [60, 72, 85] times `x`.
+func _fireball_is(x: float) -> bool:
+	var fb := _fireball()
+	if fb == null or not is_equal_approx(fb.damage, 60.0 * x) or fb.damage_by_rank.size() != 3:
+		return false
+	var base: Array[float] = [60.0, 72.0, 85.0]
+	for i in 3:
+		if not is_equal_approx(fb.damage_by_rank[i], base[i] * x):
+			return false
+	return true
+
+
 func _check_values() -> void:
 	var lvl := Node.new()
 	root.add_child(lvl)
 	_expect(PaceSwitch.setup(lvl, false, false) == null, "Normal added a PaceSwitch")
 	_expect(_changed_from_defaults().is_empty(), "Normal changed the data")
+	_expect(_fireball_is(1.0), "Normal changed Fireball")
 	# Fast is not Blitz.
 	var fast := PaceSwitch.setup(lvl, true, false)
 	_expect(fast != null and PaceSwitch.is_applied() and not PaceSwitch.is_blitz(), "Fast reads as Blitz")
 	fast.free()
 	_expect(_changed_from_defaults().is_empty(), "defaults not restored after Fast")
+	_expect(_fireball_is(1.0), "Fast changed Fireball")
 	# Blitz: every value = default x its Blitz factor.
 	var node := PaceSwitch.setup(lvl, false, true)
 	_expect(node != null and PaceSwitch.is_blitz(), "Blitz did not apply")
@@ -167,7 +186,14 @@ func _check_values() -> void:
 		var now: Variant = load(String(e[0]) + String(e[1]) + ".tres").get(StringName(e[2]))
 		var expect: Variant = roundi(float(old) * float(e[3])) if old is int else float(old) * float(e[3])
 		_expect(is_equal_approx(float(now), float(expect)), "%s: %s, want %s" % [k, str(now), str(expect)])
+	# Blitz "spell_type_x" (10-12 arm D): Fireball x0.75 while applied.
+	_expect(is_equal_approx(float(PaceSwitch.BLITZ["spell_type_x"].get("fireball", 1.0)), 0.75), "Blitz Fireball factor != 0.75")
+	_expect(_fireball_is(0.75), "Blitz Fireball not x0.75: %s %s" % [str(_fireball().damage), str(_fireball().damage_by_rank)])
+	_expect(PaceSwitch.start_crystals_add(true, &"shadow") == 500, "Blitz Shadow start bank add != 500")
+	_expect(PaceSwitch.start_crystals_add(true, &"fire") == 0 and PaceSwitch.start_crystals_add(true, &"nature") == 100
+			and PaceSwitch.start_crystals_add(true, &"ice") == 800, "Blitz fire / nature / ice start bank adds changed")
 	lvl.free()
+	_expect(_fireball_is(1.0), "Fireball not restored after Blitz: %s %s" % [str(_fireball().damage), str(_fireball().damage_by_rank)])
 	_expect(not PaceSwitch.is_applied() and _changed_from_defaults().is_empty(), "defaults not restored after Blitz")
 	_expect(is_equal_approx(PaceSwitch.worker_spell_x, 1.0), "worker spell factor not restored after Blitz")
 	# Bot knobs: Blitz's own dictionary.

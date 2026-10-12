@@ -15,6 +15,7 @@ extends Node
 
 const UNIT_DIR := "res://data/units/"
 const BUILDING_DIR := "res://data/buildings/"
+const SPELL_DIR := "res://data/spells/"
 
 const SOLDIER_TRAIN_X := 0.7
 const WORKER_TRAIN_X := 0.6
@@ -50,7 +51,7 @@ const BLITZ := {
 	"building_hp_x": 0.3, "wall_hp_x": 0.4, "turret_damage_x": 0.5,
 	"keep_hp_x": 0.4, "keep_damage_x": 0.6,   # the four kingdom keeps (own factors)
 	"start_workers": 9,
-	"start_crystals_add": {"fire": 0, "nature": 100, "shadow": 300, "ice": 800},   # per kingdom (balance lever)
+	"start_crystals_add": {"fire": 0, "nature": 100, "shadow": 500, "ice": 800},   # per kingdom (balance lever)
 	"tier_time_x": 0.5,
 	"game_speed": 1.3,   # Engine.time_scale while the Blitz level runs (1.0 = real time)
 	"ai": {"attack_ratio": "x0.9", "attack_ratio_floor": "x0.9", "attack_patience": 45, "attack_full_pop": 10,
@@ -64,6 +65,9 @@ const BLITZ := {
 	"worker_spell_x": 0.5,
 	## Wizard spell damage by the caster's kingdom (SpellCaster.deal_damage), e.g. {"fire": 0.75}; missing = 1.0.
 	"spell_damage_x": {},
+	## SpellType resources scaled in memory while Blitz is applied (damage + every damage_by_rank entry), by spell id.
+	## 10-12 arm D (docs/balance/shadow_fire_2026-10-12/report.md 4 item 7): Fireball x0.75 (60 -> 45).
+	"spell_type_x": {"fireball": 0.75},
 }
 const KEEPS: Array[String] = ["fire_keep", "ice_keep", "nature_keep", "shadow_keep"]
 const BOT_CHECK_FRAMES := 15   ## physics frames between two looks for a new bot profile
@@ -217,6 +221,11 @@ static func apply_resources(blitz_on := false) -> void:
 	for id in TURRETS:
 		var dmg_x: float = f.call("keep_damage_x", TURRET_DAMAGE_X) if KEEPS.has(id) 				else f.call("turret_damage_x", TURRET_DAMAGE_X)
 		_edit(BUILDING_DIR, id, &"attack_damage", dmg_x)
+	if blitz_on:
+		var spells: Dictionary = blitz_value("spell_type_x")
+		for sid: String in spells:
+			_edit(SPELL_DIR, sid, &"damage", float(spells[sid]))
+			_edit_array(SPELL_DIR, sid, &"damage_by_rank", float(spells[sid]))
 
 
 ## Blitz spell damage factor for one hit (worker_spell_x on workers, spell_damage_x by the caster's kingdom).
@@ -274,6 +283,25 @@ static func _edit(dir: String, id: String, field: StringName, mult: float) -> vo
 	_originals.append([res, field, old])
 	var v := float(old) * mult
 	res.set(field, roundi(v) if old is int else v)
+
+
+## Like _edit for an Array[float] field (every entry x mult); a new array is set, the old one is kept for the restore.
+static func _edit_array(dir: String, id: String, field: StringName, mult: float) -> void:
+	var path := dir + id + ".tres"
+	if not ResourceLoader.exists(path) or is_equal_approx(mult, 1.0):
+		return
+	var res := load(path) as Resource
+	if res == null or not (field in res):
+		return
+	var old: Variant = res.get(field)
+	if not (old is Array):
+		return
+	var arr: Array[float] = []
+	for v: Variant in old as Array:
+		arr.append(float(v) * mult)
+	_held.append(res)
+	_originals.append([res, field, old])
+	res.set(field, arr)
 
 
 static func _resolve(old: float, spec: Variant) -> float:
