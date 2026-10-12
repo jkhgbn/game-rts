@@ -1,0 +1,13 @@
+{
+	"asset": "hovel",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "neutral",
+	"quality": 77.8,
+	"result": "PASS",
+	"scene": "res://art/buildings/hovel.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

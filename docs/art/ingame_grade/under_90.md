@@ -1,5 +1,58 @@
 # Art assets graded below 90 (worst first)
 
+## Status 2026-10-12 (refresh; read this first, the 2026-09-28 table below is history)
+
+Evidence: file exists / `model_path` resolves, dated `in-game grade 2026-09-30` / `2026-10-12` comments in the asset code,
+the newest lab card (`docs/art/lab/<name>/` vs `_army/assets/<name>/`, newest `started` wins), and 10 headless budget-only
+re-runs tonight in `docs/art/lab/_headless_2026-10-12/<name>/` (headless skips every render check, so its quality is
+not comparable with windowed cards; it only proves the B2 / B4 / B8 FAILs are gone). Tally: **45 done, 11 partly, 11 open**
+(section A, 67 rows). "code fix" = the fix is in the code with a row-numbered comment but no windowed lab run confirms it.
+
+### Still open (worst first)
+
+- 69.9 **ember_crucible** (row 28; lab 2026-09-30 WARN): R1 grow the 40 m read x1.23, team colour visible at 40 m, contrast on ash / other grounds. Worst asset left.
+- 81.1 **ice_wall** (row 44; lab 09-30): R1 3677 -> ~5750 px: grow the key masses x1.25 (got worse than 86.1).
+- 82.5 **ruin_warden** (row 34; card 09-27, scene untouched since): B2 12 -> 10: GapLight / Core keep_separate under Chest, keep only the animated one.
+- 85 (headless) **gloam_rider** (row 64; re-run tonight): B2 still FAIL 20 (want <= 12): bake the static props into one mesh; R10 radius 0.6 vs z 2.15 m.
+- 86.0 **trade_post** (row 43; card 09-27, untouched): B4 10711 -> <= 6000 (Structure 6310, Sign0 1824: fewer segments).
+- 86.4 **briar_roc** (row 50; lab 09-30, down from 87.2): R3t base colour per team on meadow, R10 radius 1.1 vs its wing span.
+- 87.7 **maelis** (row 54; card 09-27, untouched): R4 nature_stone #85806b -> #9f9585 (tiny gain; low value).
+- 88.3 **grove_stag** (row 56; card 09-27, grove_stag.gd edited 09-28): R4 antler colour; needs a windowed re-run first, may already pass.
+- 88.7 **roc** (row 60; card 09-27, roc.gd edited 09-30 for other reasons): R10 raise radius 0.9 -> 1.54 or pull the wings in.
+- 88.9 **flame_guard** (row 62; card 09-27, scene edited 09-30): R3t fire_bronze #9e6629 -> #c57535 (Nature team dE 14); windowed re-run first.
+- 89.6 **sprigling** (row 61; lab 09-30): R8 body_height 1.2 -> 1.97 in sprigling.tscn + data/units/sprigling.tres (still 1.2).
+
+### Partly done
+
+- 55 / 60 / 60 **wayfinder, mage_archer, wildcaller** (rows 18 / 20 / 21): B8 merged 09-30 (headless tonight: wayfinder 92, wildcaller 91, no FAIL; B4 / R8w WARN left). Scale 1.15x + class colour **waits for JS**.
+- 72 -> lab 88.2 **nature_keep** (row 27): canopy pale sage 09-30 (in-game fix done); lab still FAIL B8 20 -> 16 materials.
+- 78 -> lab 90.3 **vessa** (row 31): crown flames low + wide 09-30; R8 body_height 2.0 -> 2.9 still WARN (the 1.15x wizard scale is not done).
+- 80 **cinder_dragon** (row 32): cinder_membrane.tres ember_energy 1.0 -> 0.2 (09-30); render check R5 never re-run (windowed run to confirm).
+- 89.6 **dragon_roost** (row 42; lab 09-30): R4k ash contrast: no single recolourable body material.
+- 88.9 **dusk_keep** (row 47; lab 09-30): R5 glow points 47 -> 10: DarkStone crack_strength 1.0 -> lower.
+- 88.4 **dread_paddock** (row 51; lab 09-30): R5 glow points 6 -> 3: crack_strength down.
+- 89.1 **glade_outrider** (row 53; lab 09-30, rider edited 10-02 after it): B2 FAIL 20 -> 16.
+- 88.9 **stagrunner** (row 55; lab 09-30): B2 FAIL 20 -> 16 (Spear / Cloak keep_separate).
+
+### Done (evidence)
+
+- Rows 1-4 **stables** x4: models built 09-30 (art/buildings/stables/<k>/<k>_stables.tscn); lab fire 90.5, ice 93.4, nature 91.4, shadow 92.4.
+- Rows 5-16 **T3 / extra units** x12: every model_path resolves (files 09-30); lab 92.0-97.3 (no FAIL).
+- Rows 17 / 19 **Ice spell + hit VFX**: ice_vfx.gd / combat_vfx.gd 09-30 pass + 10-12 readability pass (commits 6a5803c5, a3141a3e; docs/art/ingame_grade/ice_vfx_2026-10-12/).
+- Rows 22 / 23 **snow skirt + ice_keep**: ice_keep.gd / ice_keep_build.gd 09-30 (snow ~17 % darker, crystal albedo down); before / after in ice_keep_2026-10-12/; lab 10-11 87.2 PASS (no FAIL; remaining points are C1 shape INFO).
+- Row 24 **essence_well**: lab 10-12 WARN 88, R3 meadow PASS (dE 56.7).
+- Row 25 **Nature spell VFX**: nature_vfx.gd pale-gold rim + petals (09-30).
+- Row 26 **torvald**: 09-30 dark-blue mass + 10-12 pass; lab 10-11 95.0.
+- Row 29 **Fire / Shadow spell decals**: spell_vfx.gd 09-30 decal = real AoE, opacity lowered (code fix, no lab card for VFX).
+- Row 30 **market_fire** 91.8; row 35 **nature_hall** 91.2; row 38 **shadow_hall** 90.7; row 41 **fire_hall** 91.5; row 45 **nature_hollow** 93.2; row 46 **market_nature** 92.4; row 49 **ice_hall** 90.5; row 52 **ice_lodge** 90.2; row 57 **market_ice** 94.3; row 63 **fire_tower** 90.1 (all windowed lab 2026-09-30).
+- Rows 33 / 36 / 39 / 59 **magpie_den, greywater_lodge, tavern_model, hovel**: B8 palette merge (+ greywater B4) 09-30; headless tonight: B4 / B8 PASS, 0 FAIL (only A1 missing-hooks WARN, already a WARN before).
+- Row 37 **hollow_stag**: B2 shins as one skinned mesh (09-30); headless tonight 93, B2 PASS.
+- Row 66 **cinderlock**: B4 cut (09-30); headless tonight 95, B4 PASS.
+- Rows 40 / 48 / 58 / 65 / 67 **wayshrine, crown_pedestal, barrow_giant, heath, watchtower**: code fix with a row-numbered comment (wayshrine READ_SCALE x1.1, crown_beacon rings, barrow_soul_glow energy 0.2, heath gorse darker, watchtower cresset glow); render checks not re-run, so one windowed batch should confirm them.
+
+Section B (army reads) and C (ungraded) were not re-graded: no new skirmish capture since 09-28 (the Ice white-smear part of B is
+covered by rows 17 / 19).
+
 2026-09-28. **Grade** = the in-game grade where the asset was seen in the skirmish captures (`shots/`, method in
 `report.md`), else the latest Art Lab quality (123 scorecards from the 2026-09-26/27 runs: `docs/art/lab/_army/assets/`
 + `docs/art/lab/<name>/`; the full army sweep was **not** re-run today: it is a 47-min windowed run and the laptop had to

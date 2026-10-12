@@ -1,0 +1,69 @@
+{
+	"asset": "hollow_stag",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1739,
+					"node": "Root/Mount/Head/Crown/Skull",
+					"to": 870,
+					"words": "`Skull` 1739 -> 870 verts"
+				},
+				{
+					"from": 1520,
+					"node": "Root/Mount/Merged",
+					"to": 760,
+					"words": "`Merged` 1520 -> 760 verts"
+				},
+				{
+					"from": 600,
+					"node": "ShinSkeleton/Shins",
+					"to": 497,
+					"words": "`Shins` 600 -> 497 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 4149
+			},
+			"predicted": {
+				"verts": 2417
+			},
+			"proposal": "4149 -> 2417 (want <= 2500): `Skull` 1739 -> 870 verts; `Merged` 1520 -> 760 verts; `Shins` 600 -> 497 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 4149 -> 2417 (want <= 2500): `Skull` 1739 -> 870 verts; `Merged` 1520 -> 760 verts; `Shins` 600 -> 497 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Skull 3.02 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Skull 3.02 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Skull 3.02 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 92.8,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/hollow_stag/hollow_stag.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}
