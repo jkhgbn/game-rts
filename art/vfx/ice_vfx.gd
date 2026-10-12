@@ -23,10 +23,17 @@ const SPELL_META := &"spell_vfx"     # CombatVfx skips projectiles carrying this
 ## In-game grade pass (2026-09-30): Ice effects turned the fight white (additive near-white domes, blocks, puffs and
 ## rings over the bloom). Now saturated cyan / steel, alpha-blended, every colour <= 1.5 x (most under ~1.1, the
 ## bloom threshold), puffs half size, the Rime Aegis dome hollowed to a rim (ice_dome.gdshader).
+## Ice readability pass (2026-10-12, under_90.md rows 17 / 19): the cyan light flashes still washed Torvald and the
+## frozen targets (LIGHT_* energies cut ~40 %), the Flash Freeze disc and its veins dimmed, ground rings and the
+## support beam no longer additive / over 1.0, the dome's base band and rim thinner.
 const ICE := Color(0.25, 0.74, 1.0)
 const ICE_PALE := Color(0.45, 0.80, 0.98)
 const STEEL := Color(0.30, 0.46, 0.62)
-const RING_ENERGY := 1.25
+const RING_ENERGY := 1.0
+const LIGHT_CAST := 0.7       # pooled OmniLight flash energies (were 1.0-1.5: a cyan wash over the fight)
+const LIGHT_HIT := 0.6
+const LIGHT_FREEZE := 0.9
+const LIGHT_AEGIS := 0.7
 const NATURE := Color(0.45, 1.0, 0.35)
 const CHILL_TINT := Color(0.70, 0.85, 1.00)
 const POLL_INTERVAL := 0.25
@@ -205,7 +212,7 @@ func _on_spell_cast(id: StringName, w: Node3D) -> void:
 	_burst(&"frost_cast", pos + Vector3.UP * 0.1)
 	_ring(pos, 0.3, 1.5, ICE, 0.35, 0.1)
 	if id != &"rime_bolt":
-		_light_flash(pos + Vector3.UP * 1.6, ICE, 1.2, 6.0, 0.3)
+		_light_flash(pos + Vector3.UP * 1.6, ICE, LIGHT_CAST, 6.0, 0.3)
 
 
 func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
@@ -221,14 +228,14 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 			_burst(&"bolt_shatter", pos + Vector3.UP * 1.0)
 			_burst(&"snow_puff", pos + Vector3.UP * 0.8)
 			_ring(pos, 0.2, 1.3, ICE_PALE, 0.3, 0.12)
-			_light_flash(pos + Vector3.UP * 1.3, ICE, 1.0, 5.0, 0.25)
+			_light_flash(pos + Vector3.UP * 1.3, ICE, LIGHT_HIT, 5.0, 0.25)
 		&"flash_freeze":
 			_flash_freeze(pos, _radius_of(w, id, 3.0))
 		&"rime_aegis":
 			var r := _radius_of(w, id, 8.0)
 			_ring(pos, 0.5, r, ICE, 0.55, 0.035)
 			_burst(&"aegis_rise", pos)
-			_light_flash(pos + Vector3.UP * 2.0, ICE, 1.2, r + 3.0, 0.6)
+			_light_flash(pos + Vector3.UP * 2.0, ICE, LIGHT_AEGIS, r + 3.0, 0.6)
 		&"rime_aegis_shield":
 			var u := _unit_at(pos)
 			if u:
@@ -256,7 +263,7 @@ func _flash_freeze(pos: Vector3, r: float) -> void:
 	_burst(&"snow_puff", pos + Vector3.UP * 0.4, r / 3.0)
 	_burst(&"freeze_chips", pos + Vector3.UP * 0.2, r / 3.0)
 	_ring(pos, 0.4, r * 1.15, ICE, 0.3, 0.07)
-	_light_flash(pos + Vector3.UP * 1.8, ICE, 1.5, r * 2.2, 0.8)
+	_light_flash(pos + Vector3.UP * 1.8, ICE, LIGHT_FREEZE, r * 1.6, 0.6)
 	var tw := set_root.create_tween()
 	set_root.set_meta(&"tw", tw)
 	tw.tween_property(shards, "scale", Vector3.ONE, 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -327,7 +334,7 @@ func _beam(a: Vector3, b: Vector3, col: Color) -> void:
 	if old is Tween and (old as Tween).is_valid():
 		(old as Tween).kill()
 	var mat := beam.material_override as StandardMaterial3D
-	mat.albedo_color = Color(col.r * 1.2, col.g * 1.2, col.b * 1.2, 0.9)
+	mat.albedo_color = Color(col.r, col.g, col.b, 0.75)   # alpha-blended, <= 1.0 (was additive x1.2)
 	var dir := (b - a) / len
 	var side := dir.cross(Vector3.FORWARD if absf(dir.dot(Vector3.FORWARD)) < 0.95 else Vector3.RIGHT).normalized()
 	var fwd := side.cross(dir).normalized()
@@ -788,8 +795,8 @@ func _build_shared() -> void:
 	_frost_mat.shader = FROST_SHADER
 	_frost_mat.set_shader_parameter(&"frost_color", Color(0.50, 0.66, 0.80))
 	_frost_mat.set_shader_parameter(&"glow_color", ICE)
-	_frost_mat.set_shader_parameter(&"glow_energy", 1.2)
-	_frost_mat.set_shader_parameter(&"opacity", 0.34)
+	_frost_mat.set_shader_parameter(&"glow_energy", 0.85)
+	_frost_mat.set_shader_parameter(&"opacity", 0.26)
 	_chill_frost_mat = ShaderMaterial.new()
 	_chill_frost_mat.shader = FROST_SHADER
 	_chill_frost_mat.set_shader_parameter(&"frost_color", Color(0.46, 0.62, 0.78))
@@ -858,7 +865,7 @@ func _build_shared() -> void:
 		var mat := StandardMaterial3D.new()
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+		mat.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
 		var beam := _mesh(_beam_mesh, mat)
 		beam.visible = false
 		add_child(beam)
@@ -1007,7 +1014,7 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.initial_velocity_max = 0.5
 			m.gravity = Vector3(0, -0.4, 0)
 			_size(m, 0.14, 0.24, false)
-			m.color_ramp = _ramp([Color(0.5, 1.0, 1.3, 1.0), Color(0.25, 0.7, 1.05, 0.8), Color(0.15, 0.45, 0.85, 0.0)])
+			m.color_ramp = _ramp([Color(0.4, 0.9, 1.15, 0.9), Color(0.22, 0.65, 1.0, 0.7), Color(0.15, 0.45, 0.85, 0.0)])
 	_pmats[key] = m
 	return m
 

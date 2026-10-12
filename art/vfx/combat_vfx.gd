@@ -46,6 +46,14 @@ const GLOW: Array[Color] = [Color(1.5, 0.55, 0.12), Color(0.85, 0.32, 1.4), Colo
 		Color(0.55, 1.25, 0.25), Color(1.0, 0.88, 0.65)]
 const ICE_HIT_SCALE := 0.5
 const ICE_HIT_LIFE := 0.5
+## Ice readability pass (2026-10-12): Ice flashes are COOL (combat_flash.gdshader: ray strength + ICE_COOL = no
+## white-hot core) and dimmer (ICE_FLASH alpha 0.6), so additive hits on the pale Ice units stay cyan and under the
+## bloom; the Ice hit sparks / impacts are also dimmer (ICE_SPARK_ALPHA) and shorter.
+const ICE_COOL := 2.0
+const ICE_FLASH := Color(0.16, 0.6, 1.0, 0.6)
+const ICE_SPARK_ALPHA := 0.7
+## Ice death frost mist peak colour (the mist_ice look's ramp: fades in to this, then out).
+const ICE_MIST := Color(0.3, 0.62, 0.9, 0.28)
 const DEEP: Array[Color] = [Color(0.9, 0.2, 0.04), Color(0.35, 0.1, 0.6), Color(0.08, 0.32, 0.75),
 		Color(0.2, 0.55, 0.12), Color(0.5, 0.45, 0.4)]
 ## art-keep.md 0.2 "glow" column (lights, rings).
@@ -259,8 +267,9 @@ func _on_attack_landed(target: Variant, _amount: float, attacker: Node3D) -> voi
 	var k := _kind_of(attacker, Kind.NEUTRAL)
 	var heavy := _height(attacker) > 2.0
 	var ice_k := k == Kind.ICE
-	_flash(pos, GLOW[k].lerp(HOT[k], 0.4), (1.4 if heavy else 1.05) * (ICE_HIT_SCALE if ice_k else 1.0),
-			0.16 * (ICE_HIT_LIFE if ice_k else 1.0), 0.6 if ice_k else 1.0)
+	_flash(pos, ICE_FLASH if ice_k else GLOW[k].lerp(HOT[k], 0.4),
+			(1.4 if heavy else 1.05) * (ICE_HIT_SCALE if ice_k else 1.0),
+			0.16 * (ICE_HIT_LIFE if ice_k else 1.0), ICE_COOL + 0.6 if ice_k else 1.0)
 	if _live.size() < LOD_SPARKS and _near(pos):
 		_burst(StringName("spark_" + KIND_NAMES[k]), pos, dir, (1.25 if heavy else 1.0) * (0.6 if ice_k else 1.0))
 	else:
@@ -280,8 +289,8 @@ func _on_projectile_gone(p: Projectile, kind: int) -> void:
 		dir = Vector3(pos.x - s.x, 0.0, pos.z - s.z)
 		dir = dir.normalized() if dir.length() > 0.01 else Vector3.FORWARD
 	var ice_k := kind == Kind.ICE
-	_flash(pos, GLOW[kind].lerp(HOT[kind], 0.4), 0.75 * (ICE_HIT_SCALE if ice_k else 1.0),
-			0.14 * (ICE_HIT_LIFE if ice_k else 1.0), 0.5 if ice_k else 0.8)
+	_flash(pos, ICE_FLASH if ice_k else GLOW[kind].lerp(HOT[kind], 0.4), 0.75 * (ICE_HIT_SCALE if ice_k else 1.0),
+			0.14 * (ICE_HIT_LIFE if ice_k else 1.0), ICE_COOL + 0.5 if ice_k else 0.8)
 	if _live.size() < LOD_SPARKS and _near(pos):
 		_burst(StringName("impact_" + KIND_NAMES[kind]), pos, -dir, 0.6 if ice_k else 1.0)   # splash back toward the shooter
 	else:
@@ -304,7 +313,10 @@ func _on_unit_died(unit: Variant) -> void:
 		s = 1.9
 	var second := _live.size() < LOD_SECONDARY or hero
 	var mid := pos + Vector3.UP * h * 0.5
-	_flash(mid, GLOW[k].lerp(HOT[k], 0.5), 1.5 * s * (0.6 if k == Kind.ICE else 1.0), 0.26, 1.0)
+	if k == Kind.ICE:
+		_flash(mid, ICE_FLASH, 1.5 * s * 0.6, 0.26 * 0.7, ICE_COOL + 0.8)
+	else:
+		_flash(mid, GLOW[k].lerp(HOT[k], 0.5), 1.5 * s, 0.26, 1.0)
 	match k:
 		Kind.FIRE:
 			_burst(&"death_fire", pos + Vector3.UP * h * 0.4, Vector3.FORWARD, s, true)
@@ -896,8 +908,9 @@ func _build_looks() -> void:
 		m.damping_max = 9.0
 		m.particle_flag_align_y = true
 		_size(m, 0.08, 0.13, false)
-		m.color_ramp = _ramp([HOT[k], GLOW[k], GLOW[k], Color(DEEP[k], 0.0)])
-		_look(StringName("spark_" + kn), &"spark", 9, 0.35, &"streak", m)
+		var ice_a := ICE_SPARK_ALPHA if k == Kind.ICE else 1.0
+		m.color_ramp = _ramp([Color(HOT[k], ice_a), Color(GLOW[k], ice_a), Color(GLOW[k], ice_a), Color(DEEP[k], 0.0)])
+		_look(StringName("spark_" + kn), &"spark", 9, 0.35 * (0.7 if k == Kind.ICE else 1.0), &"streak", m)
 		# Projectile impact: a smaller splash thrown back and up.
 		m = _pm()
 		_sphere(m, 0.08)
@@ -910,8 +923,8 @@ func _build_looks() -> void:
 		m.damping_max = 6.0
 		m.particle_flag_align_y = true
 		_size(m, 0.06, 0.1, false)
-		m.color_ramp = _ramp([HOT[k], GLOW[k], GLOW[k], Color(DEEP[k], 0.0)])
-		_look(StringName("impact_" + kn), &"spark", 7, 0.3, &"streak", m)
+		m.color_ramp = _ramp([Color(HOT[k], ice_a), Color(GLOW[k], ice_a), Color(GLOW[k], ice_a), Color(DEEP[k], 0.0)])
+		_look(StringName("impact_" + kn), &"spark", 7, 0.3 * (0.7 if k == Kind.ICE else 1.0), &"streak", m)
 		# Building chunks in the kingdom's stone.
 		m = _pm()
 		_sphere(m, 0.3)
@@ -978,8 +991,9 @@ func _build_looks() -> void:
 	_size_hold(m, 0.18, 0.4)
 	m.color_initial_ramp = _ramp([Color(0.55, 0.82, 1.0), Color(0.36, 0.6, 0.86), Color(0.24, 0.42, 0.66)], false)
 	_look(&"death_ice", &"burst", 16, 0.95, &"shard", m)
-	# Frost mist: half the old size and life, blue-grey (a white puff the size of a unit read as a render glitch).
-	m = _smoke([Color(0.5, 0.68, 0.86, 0.0), Color(0.48, 0.66, 0.86, 0.32), Color(0.4, 0.56, 0.78, 0.0)])
+	# Frost mist: half the old size and life, cyan (a white puff the size of a unit read as a render glitch;
+	# 2026-10-12: the blue-grey still read pale over snow, now a saturated cyan at alpha 0.28).
+	m = _smoke([Color(ICE_MIST, 0.0), ICE_MIST, Color(0.24, 0.5, 0.8, 0.0)])
 	m.initial_velocity_max = 1.4
 	_size(m, 0.3, 0.5, true)
 	_look(&"mist_ice", &"puff", 5, 0.5, &"soft_mix", m)
