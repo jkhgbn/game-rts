@@ -371,3 +371,107 @@ hookups made mid-mission are lost on load.
 - Lead note: C1-1..4 + C2 + C3 + R/W save findings = one "mission save/load hardening" design: (a) framework fixes
   (meta strip on load, hero / resources_hidden / seats saved, HUD after load, actor save rows, `save_spawn_unit` for local
   types), (b) a per-mission `_after_load()` hook that re-runs hookups, (c) `save_block_reason` for steps too costly to restore.
+
+### C4: Ep3 + Ep4 missions (mission_e3_01..04, mission_e4_01..04)
+Same two framework roots as C1-1 / C3: (a) SaveWorld drops code-built types spawned mid-mission (`sexton`,
+`grave_warden`, `meadow_folk`, `ysolde_grove`, `elder_treant`; no e3/e4 `save_spawn_unit`), (b) `decode_metas` only adds.
+Not caught: `tests/test_save_load_missions.gd:38` skips every `mission_e4_*` and saves only 10-60 s in.
+1. `mission_e3_03.gd:863-869` load after the Sexton rises: Sexton not rebuilt, `sexton_phase` stuck 1-2 -> 4 candles lit,
+   no victory. (high) game-breaking
+2. `mission_e4_01.gd:1384` load after any bell: villagers (`meadow_folk`) dropped, folk_saved reset, roused bells can't
+   ring -> guaranteed defeat at nightfall; folk died hooks lost. (high) game-breaking
+3. `mission_e4_04.gd:653, 566` woken Wallwarden comes back dormant + immortal (wardens_down never 2); Winterheart stays in
+   TRUCE_ALL after `_try_open_heart` -> obj_wall stuck. Also Torvald truce after I2, e4_02 A1/A3 + Hush immortal, e3_02
+   Vessa asleep. (medium-high) game-breaking
+4. `mission_e3_02.gd:1161-1240` load in phase 2 (dawn, saves open ~100 s in): `_dawn()` not re-run -> hero = freed Hush,
+   Malrik dormant / not hero, base locked, resources hidden, essence trickle off, sec_call hook lost. (high) game-breaking
+5. `mission_e4_03.gd:1039-1046` grove hearts dropped (grove "grown" with null heart, never lost again);
+   `mission_e4_04.gd:1099` Elder Treants vanish. (high)
+6. MissionZone state not saved in `mission_e3_01.gd:648` / `mission_e4_01.gd:813` (e5_04 does it): standards / ford revert,
+   ford cutscene replays. (high)
+7. `mission_e4_01.gd:962, 1704` first horn call at 12:00, spec 6:00 (`_horn_call_left` starts 360 behind a time gate). (high)
+8. `mission_e4_02.gd:712, 1204` first brook relief at 10:00, spec 5:00 (same pattern). (high)
+9. `mission_e3_03.gd:631` per-Warden died lambdas (door_kills) lost on load (slows a gate only). (high, minor)
+10. `mission_e4_03.gd:716` `add_event(&"frost_late")` added mid-mission, dropped on load. (high, minor)
+- Clean: first ending wins, no waves after victory, after() during hold, hero-death rules, objective fail paths, e3_04
+  assault bookkeeping, e4_03 grove machine, e4_04 sequence without a load, ally seat / truce at start, scaling, no private
+  calls / attack_target writes.
+
+### C5: Ep5 + Ep6 missions (mission_e5_base/01-04, mission_e6_base/01-04)
+No crash / soft-lock. e5 / e6 already have save_spawn_unit and load_state, so fewer load gaps.
+1. `mission_e6_04.gd:711, 383` Torvald (ally wizard) never respawns: `_on_torvald_died` never arms
+   `_respawn_left[ALLY_SEAT]` (spec says he respawns; e5_04:866 / e2_02:1622 do it). (high)
+2. `mission_e6_02.gd:192-205, 853` open Frostgate still `is_alive()` but ignores damage -> attackers freeze at the gap
+   (exploit). Fix: is_alive false while open, or re-target. (medium-high)
+3. `mission_e5_04.gd:884-888` load after 6:00: yards keep the start's truce (load_state never lifts it). (high)
+4. `mission_e6_base.gd:146-158` + `mission_e5_base.gd:98` Warden Breakers lose x2 vs buildings and their scale after any
+   load (`arm_enemy` not called from save_spawn_unit). Fix: e6 save_spawn_unit calls arm_enemy for ENEMY. (high)
+5. `mission_e6_02.gd:1039` `enforce_max(&"ice_lodge", 2)` counts the pre-built lodge: 2 lodges, spec / message say 3. (high)
+6. `mission_e6_02.gd:686-707` townsfolk escort each other (+20 % speed; spec: only Torvald's soldiers). (high, minor)
+7. `mission_e5_02.gd:1115` `_drilled.clear()` on load leaves saved `mission:drill` modifiers on archers. (medium-high, minor)
+8. `mission_e5_03.gd:163` "Seen!" hint says 6 s; real value 3 / 4 / 6 by difficulty. (high, minor)
+9. `mission_e6_03.gd:790-794` load re-emits `lost` for lost gardens -> gardens_lost counted twice. (high, minor)
+10. `mission_e6_04.gd:784` `_push = {}` on load drops Torvald's push / hold order. (medium, minor)
+- Clean: first ending wins, PAUSE films, hero-death rules, Vessa yield e5m4, guard / dormant handling incl. after load,
+  only named intro timers, all counters reachable, e5m1 / e5m3 / e6m1 save-load, scaling, no attack_target writes /
+  private calls.
+
+## Verify pass (adversarial, 2026-10-12)
+- C1-C4: all CONFIRMED except C1-7 PLAUSIBLE; design + per-mission batches in `mission-save-hardening-2026-10-12.md`.
+- R1-R5 + root-cause metas (43 rows): 33 CONFIRMED, 7 PLAUSIBLE, 3 REFUTED.
+  - REFUTED: RC `neutral_camp` (value is a node, SKIPped; real issue W3-2), RC `tracker_contract` / `contract` (trackers
+    not saved, values SKIPped): rename for hygiene only.
+  - PLAUSIBLE: R3-6 (item_passives overwrites a mission death_guard), R3-10 (allied Saboteur swap), R1-3 (held hero can
+    cast: design intent, kept as is), R1-7 (no cancel when the walk ends out of range), R5-2b (truce meta decoded
+    without truce_count), R5-7 (EssenceBank double before in-tree), R4-6 (crystal hole until next rebake), RC
+    `mission_held`.
+  - New detail: R2-4 helper killers swallow champion purses; R2-6 counter triggers on ability / DoT hits; R2-7 `team ==`
+    vs `_allies`; R3-8 `_above_half` stale after heals; R3-9 big-target tuple; R3-11 instance-id staggers (5 files);
+    R3-12 private calls (`_is_flyer`, `_is_big`, `_point_of`); R3-13 Rime Bulwark pushes flyers, writes position;
+    R1-2 allied wizard death not seen as a hero; R1-4 summon lifetime restarts on load; R1-5 status shortened;
+    R1-6 "Not learned" before "Frozen"; R5-3 companion level lost on load; R5-4 consumable cooldowns kept on respawn;
+    R5-5 item pickups not saved; R5-6 recall seal teleports after the seal is gone; R5-8 save file error unchecked
+    before replacing; R5-9 reload re-applies menu settings over the saved match; R4-3 helper / stables stub queue rows
+    dropped unrefunded on load; R4-4 caravan home / cargo lost; R4-5 seat switch keeps old Economy pop; R4-7 set_tier
+    leaves `_up_to`.
+- Owner note: `scripts/units/item_passives.gd` = gameplay-coder; `scripts/audio/game_audio.gd` = lead.
+- W / V / U (66 rows): 52 CONFIRMED, 13 PLAUSIBLE, U2-8 mostly REFUTED (portrait uses the finished model; optional
+  set_tier), W2-7 partly refuted (skirmish taverns flag saved; thieves / trade / tavern / post / cache flags not),
+  U3-7 partly refuted (`selection_manager.gd:748` right; flag_card shows ally flags as ENEMY). New detail: W1-4 lost-cache
+  timers / seeds repeat; W2-2 bounty kinds use `team ==`; W2-3 revive timer, W2-4 hires_made, W2-5 `_pending` not
+  saved; W2-6 load re-kills fallen champions (re-fires died); W2-8 hire spends crystals before essence; W3-3 Wave Strike
+  rank lost on load; W3-5 shrine waves all wake on load; W3-6 `FogOfWar._layer` private call; V1-2..4 film end state /
+  voice / paused overlay; V1-5 trade / mapfill popups untranslated; V1-6 popup dicts never pruned; U1-4..U1-7, U2-2..U2-7,
+  U3-2..U3-9, U4-3..U4-8 (see verify table in the session; batches in `fix-batches-2026-10-12.md`).
+
+### C6: Ep7 + Ep8 missions (mission_e7_*, mission_e8_*)
+1. `mission_e7_base.gd:856`, `mission_e7_01.gd:517` load_state sets `auction = {}` over the restored one, no bid panel; the
+   `A%d` event is fired -> auction never hammered, e7m1 never ends (same for e7m4 Sunwake, minor). Fix: keep auction +
+   rebuild panel, or block saves while `auction_open()`. (high) game-breaking
+2. `mission_e7_04.gd:688, 1057` "Pay {dragon} home" panel not rebuilt on load in phase 4 -> sec_dragons impossible. (high)
+3. `mission_e8_01_shadow.gd:175` Stone's Gift panel built only in the intro end -> gone after any load. (high)
+4. `mission_e7_04.gd:351, 1073` Seraphine keeps truce "all" + dormant after a phase-4 load (decode_metas add-only; F1
+   reconcile); e8m1_shadow Hush same if saved in her fight. (medium-high)
+5. `mission_e7_03.gd:1008` load clears `_gangs`: restored press-gangs park on a Dock Bell forever (foe_near counts
+   NEUTRAL in truce) -> obj_bells impossible. (medium)
+6. Difficulty / wound modifiers not saved (`e7_difficulty`, `wounded`: no `mission:` prefix): e7m1 Seraphine (693/695),
+   e7m2 Dacian (514), e7m3 Mask Captain (746); e8m1_ice refugee type HP set only in `_spawn_column` (276). (high)
+7. `mission_e7_base.gd:503` bound dragons (team changed) respawn without the "rest at 15 %" death guard -> can die for
+   good; e7m4 `pay_home` then refuses. Fix: re-install the guard for every `dragons` entry on load. (medium-high)
+8. `mission_e7_03.gd:835-843` masks attack-move to `Vector3.INF` when every row is rung / taken. Fix: KEEP_POS. (medium)
+9. `mission_e7_04.gd:318, 646` Malrik's ally Commander re-enabled after a phase-4 load (C1-6). (medium, minor)
+10. `mission_e8_01_shadow.gd:139` reads `e3m3_stone_used`, Ep3 writes `shadow_stone_uses` -> "+2 Shades" never applies. (high, minor)
+11. `mission_e7_03.gd:421` briefing says "Do not lose 30", real limit 34 / 30 / 26 by difficulty. (high, minor)
+12. Visual state not rebuilt on load: e7m4 crimson galleys visible, e7m2 opened strongboxes, e8m1_ice gate block, e8m2
+    lit keyhole pillars / hand prop. (high, minor)
+- Clean: first ending wins, wizard death rules, Ep8 FILM_BRANCHES / STORY_SCREENS / E8Lines, no private calls /
+  attack_target writes, save blocks around e7m2 Laurel, e7m4 turn, road / e8m2 / e8m3 endings, e8m2 / e8m3 can't stall,
+  e8m1 Heartwood regrow, Ep8 Warden Gates saved via MissionE6Base.
+- Not separately verified: the mission fix batches re-check each C6 item before fixing.
+
+### Verify C5
+42 / 46 C1-C5 confirmed, 4 plausible (C1-7, C5-6, C5-10, C1-4 floes), none refuted. C1-6 narrower but real (e7m4 phase
+4 saves open). Extra: X1 a unit dormant in the save but rebuilt awake gets the meta without `_sleep`; X2 e2m4 Ashby code
+type. Design additions: post-spawn hook `save_spawned(u, row)` (C5-4 class), actor `load_row` must be quiet (C5-9),
+phase transitions split into one-shot `_enter_X()` and idempotent `_apply_X()`; `_after_load` calls `_apply_X` for
+every reached phase.

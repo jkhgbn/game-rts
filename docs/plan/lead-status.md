@@ -27,16 +27,20 @@ notes 2026-10-11; perf research 2026-10-12 (`docs/ideas/perf-research-2026-10-12
 - 2026-10-12 midday: tests/tools `.gd.uid` files, e3 spec notes, i18n re-run and map gate knob committed (0a222e53, 9bc86021).
 
 ## Running
-- Shadow / Fire balance study (agent, measure only, writes `docs/balance/shadow_fire_2026-10-12/report.md`; changes then
-  go through gameplay-coder / ai-coder / systems-coder). Last night's attempt drifted onto Ice and never reported.
-- Disk C: ~15 GB free after removing play2 / play4 (was 71 MB at 23:40). Nightly CI task re-enabled on JS's word (next run 03:00).
+- Code review fix wave 1 (batches in `docs/handoff/fix-batches-2026-10-12.md`, file-disjoint): F1 save framework
+  (general agent, scripts/core save_* + mission_base + mission_e5_base + ember_crown + mission_hud attach param), F2
+  gameplay-coder, F3a systems-coder (world / skirmish save), F3b systems-coder (buildings / economy / story_films), F4
+  ui-coder, F7 ai-coder. Each returns -> contract-reviewer -> ci_quick -Changed -> commit.
+- Disk C: ~15 GB free. Nightly CI at 03:00 tests local main.
 
 ## Next (JS 2026-10-12 evening: whole code review + all fixes, then the build)
-1. Code review of scripts/ (`docs/handoff/code-review-2026-10-12.md`): wave 1 done (units, spells, buildings, economy,
-   items, core); wave 2 world (W1-W3) running; then ui (5 reviewers), campaign / missions (~8), vfx + cinematics (1).
-2. Verify pass per area, then fixes through the owners in file-disjoint batches (review + tests per batch).
-   Already fixing before the rest: Commander A1-A7 round 3, Wither Hex Blitz (R3-1), build push vs gather (R4-2).
-   Root-cause pass wanted: non-`_` metas saved by SaveCodec (R4-1, R5-1, R5-2).
-3. Balance confirmation run (normal + Blitz, 2 maps) after the bot / gameplay fixes.
-4. Tag, full CI (CI worktree or nightly on local main), export, zip to Desktop + OneDrive (JS plays on the desktop).
-5. Later: perf (pose scripts 3.6 ms), art asks; follow-ups in `docs/handoff/bot-review-2026-10-12.md`.
+1. Review DONE for all of scripts/ (R, W, V, U, C1-C6) and verified (`code-review-2026-10-12.md`, verify section;
+   mission save design `mission-save-hardening-2026-10-12.md`).
+2. Wave 2 after F1-F4: F5 cinematics (V1-1..4), F6 items (R1-1 inventory, R5-4..7, U2-5), then mission batches
+   M1 Ep1, M2 Ep2, M3 Ep3/4, M4 Ep5/6 (C5), M5 Ep7/8 (C6, re-check each item) on F1's framework (systems-coder).
+3. Commit `tests/test_save_metas.gd` (core CI list) once all renames land; un-skip `mission_e4_*` + late-step saves in
+   `tests/test_save_load_missions.gd`; CLAUDE.md contracts: Unit `set_down`, `drop_target_if`, `add_modifier` heal_gain,
+   saved_state group, MissionBase save hooks.
+4. Balance confirmation run (normal + Blitz, 2 maps) after the fixes.
+5. Tag, full CI, export, zip to Desktop + OneDrive (JS plays on the desktop).
+6. Later: perf (pose scripts 3.6 ms), art asks; follow-ups in `docs/handoff/bot-review-2026-10-12.md`.
