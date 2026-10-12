@@ -293,7 +293,7 @@ func _test_wares() -> void:
 	spawned.append(bank)
 	var soldier := _spawn("flame_guard", P, Vector3(-20.0, 0.0, 60.0))
 	_check(soldier.has_modifier(&"ware:tempered_steel"), "a soldier spawned after Tempered Steel has the ware")
-	_near(soldier.get_stat(&"attack_damage"), 11.0 * 1.08, "Tempered Steel +8 % damage")   # Flame Guard base 11 (balance pass 2026-10-06)
+	_near(soldier.get_stat(&"attack_damage"), 10.0 * 1.08, "Tempered Steel +8 % damage")   # Flame Guard base 10 (balance round 1, 2026-10-11)
 	_near(soldier.hp, soldier.max_hp, "spawned at full HP")
 	_eq((bank.get(&"calls") as Array).count(soldier), 1, "apply_wares called once from _ready")
 	var foe := _spawn("shade", E, Vector3(-10.0, 0.0, 60.0))

@@ -107,6 +107,10 @@ func _e9() -> bool:
 
 func _e10() -> bool:
 	var hf: Heartfrost = main.get(&"heartfrost")
+	# 2026-10-11 rush floor: before Mission02.CORE_THAW_AT the core holds at HEARTFROST_CORE of its HP.
+	hf.take_damage(1.0e6, _hero())
+	h.check(hf.is_alive() and hf.hp_floor > 0.0 and is_equal_approx(hf.hp, hf.hp_floor), "the core holds at its floor before the storm passed")
+	hf.hp_floor = 0.0   # the storm has passed (what _tick_core does at CORE_THAW_AT)
 	hf.take_damage(1.0e6, _hero())
 	h.check(bool(main.get(&"heartfrost_freed")), "E10 end state ran (cinematics off = the skip path)")
 	main.call(&"_e10_end_state")   # a second run (skip + finished) changes nothing

@@ -3,7 +3,7 @@ extends SceneTree
 ## section 2 numbers; Ysolde (NatureWizard) has the section 3 stats, growth (L6 450 / 23 / 170 / 6.0,
 ## L8 494 / 27 / 194 / 6.6), her 3 spells and Verdant regen 1.5 %; a Thornling at 20 HP regains 0.7 HP / s
 ## (balance-2: 1.0 %) after the 4 s delay, full ~71.5 s after it, and none while hit; a Bramblehorn regains
-## 7.6 HP / s (2.0 %); Wizard.level_cap stops XP / levels at the cap.
+## 6.1 HP / s (2.0 % of 305, balance 2026-10-11); Wizard.level_cap stops XP / levels at the cap.
 ## Run: godot --headless --path . -s tests/test_8_g1.gd --fixed-fps 60 --quit-after 9000
 
 const TASK_ID := "8.G1"
@@ -17,7 +17,7 @@ const UNITS := {
 	&"thornling": [70.0, 8.0, 1.5, 0.9, 5.4, 8.0, 0.4, 1.4, 60, 1, 12.0, "Z", 30, false, 1.0],
 	&"burr_slinger": [50.0, 7.0, 8.5, 1.2, 5.0, 10.0, 0.4, 1.5, 70, 1, 14.0, "X", 35, false, 1.0],
 	&"bloomtender": [60.0, 5.0, 7.0, 1.5, 4.8, 9.0, 0.45, 1.6, 90, 1, 18.0, "C", 45, false, 1.0],
-	&"bramblehorn": [380.0, 18.0, 1.8, 1.2, 4.6, 9.0, 0.7, 2.2, 200, 2, 34.0, "V", 100, false, 2.0],
+	&"bramblehorn": [305.0, 15.0, 1.8, 1.2, 4.6, 9.0, 0.7, 2.2, 200, 2, 34.0, "V", 100, false, 2.0],
 	&"sapling": [90.0, 9.0, 1.5, 1.0, 4.8, 10.0, 0.4, 1.2, 0, 0, 0.0, "", 0, false, 1.0],
 }
 
@@ -28,7 +28,7 @@ var _settle := 0
 var _errors: Array[String] = []
 
 var regen_unit: Unit      # damaged once to 20 HP, then left alone
-var regen_brute: Unit     # Bramblehorn damaged once to 100 HP, then left alone
+var regen_brute: Unit     # Bramblehorn damaged once to 25 HP, then left alone
 var hit_unit: Unit        # damaged to 20 HP, then hit every 2 s
 var hit_hp_expected := 20.0
 var hit_regen_seen := false
@@ -60,11 +60,11 @@ func _process(_delta: float) -> bool:
 		_tick_hit_unit()
 	# Damage at frame 5; regen starts 4 s later and needs 50 / (70 x 1.0 % x 0.5 s) = 143 ticks = 71.5 s.
 	# The 0.5 s tick phase is free, so a check at T s after the damage sees (T - 4) / 0.5 +- 1 ticks.
-	if frame == 5 + 60 * 24:   # 20 s of regen: 0.7 HP / s (Thornling), 7.6 HP / s (Bramblehorn)
+	if frame == 5 + 60 * 24:   # 20 s of regen: 0.7 HP / s (Thornling), 6.1 HP / s (Bramblehorn)
 		_expect(regen_unit.hp > 33.2 and regen_unit.hp < 34.8,
 				"thornling at 24 s should be ~34 HP (0.7 HP / s) (hp %.2f)" % regen_unit.hp)
-		_expect(regen_brute.is_alive() and regen_brute.hp > 247.0 and regen_brute.hp < 257.0,
-				"bramblehorn at 24 s should be ~252 HP (7.6 HP / s) (hp %.2f)" % regen_brute.hp)
+		_expect(regen_brute.is_alive() and regen_brute.hp > 142.0 and regen_brute.hp < 152.0,
+				"bramblehorn at 24 s should be ~147 HP (6.1 HP / s) (hp %.2f)" % regen_brute.hp)
 	if frame == 5 + 60 * 74:   # 74 s after the damage: still regenerating
 		_expect(regen_unit.is_alive(), "regen thornling died (attacked?)")
 		_expect(regen_unit.hp > 60.0 and regen_unit.hp < 70.0,
@@ -219,7 +219,7 @@ func _setup_regen() -> void:
 	regen_brute.global_position = main.hero.global_position + Vector3(0, 0, 6)
 	regen_brute.command_hold()
 	regen_brute.take_damage(280.0)
-	_expect(is_equal_approx(regen_brute.hp, 100.0), "bramblehorn hp %.2f after 280 damage" % regen_brute.hp)
+	_expect(is_equal_approx(regen_brute.hp, 25.0), "bramblehorn hp %.2f after 280 damage" % regen_brute.hp)
 
 
 func _tick_hit_unit() -> void:
