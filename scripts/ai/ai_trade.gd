@@ -531,10 +531,12 @@ func _routes(m: Market, memory: AIMemory, own_strength: float, seen_strength: fl
 	var def := m.default_route()
 	var pick := def
 	var why := "default"
-	if def != null and is_unsafe(def, memory):
+	# Bot fix D1 (2026-10-12): a default post "Held by the enemy" counts as unsafe (one parked enemy unit at its
+	# door used to stall every caravan); the other near post must be free (route_reason "") and safe.
+	if def != null and (is_unsafe(def, memory) or net.route_reason(m, def) == TradeNetwork.MSG_HELD):
 		why = "default unsafe, no safe near post"
 		for p in near:
-			if p != def and not is_unsafe(p, memory):
+			if p != def and net.route_reason(m, p) == "" and not is_unsafe(p, memory):
 				pick = p
 				why = "%s unsafe" % post_name(def)
 				break

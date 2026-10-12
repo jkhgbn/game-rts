@@ -50,6 +50,10 @@ const CHASE_LIMIT := 15.0             ## Fight-back never drags a Magpie farther
 const ATTACK_MEMORY := 3.0            ## Attackers count for this long after their last hit.
 const FORCE_RADIUS := 12.0            ## The attackers' team's units this close to the band count as the force.
 const DOOR_REACH := 3.0               ## A fleeing Magpie this close to a Den door leaves the map.
+## Bot fix D3 (2026-10-12): a flee never lasts longer (cross-map flees on 176 m maps take ~40 s + sack pickups);
+## after it every remaining thief leaves the map where it stands (door blocked / unreachable).
+const FLEE_MAX_TIME := 90.0
+const SACK_RUN_MAX := 10.0            ## D3: a calm-flee sack run longer than this is dropped (sack unreachable).
 const ARRIVE_RADIUS := 4.0
 const REMOTE_DISTANCE := 30.0         ## Nodes (and workers) within 30 m of their team's keep are home: never raided.
 const SPOT_UNIT_RADIUS := 18.0
@@ -111,7 +115,8 @@ var _snatcher: Unit = null
 var _snatch_left := 0.0
 var _snatch_damage := 0.0
 # Sacks
-var _sack_runs: Dictionary = {}   # thief instance id -> {"thief": Unit, "sack": Node3D}
+var _sack_runs: Dictionary = {}   # thief instance id -> {"thief": Unit, "sack": Node3D, "start": float}
+var _sacks_given_up: Dictionary = {}   # sack instance id -> true: a flee sack run timed out on it (D3)
 # Cache
 var _keep_cache: Dictionary = {}  # team -> Vector3
 var _keep_cache_at := -100.0
@@ -437,6 +442,12 @@ func _think_striking() -> void:
 
 
 func _think_fleeing() -> void:
+	if _state_time > FLEE_MAX_TIME:
+		# D3: the door is unreachable (blocked, off the navmesh): every remaining thief leaves where it stands.
+		for t in thieves.duplicate():
+			_leave(t as Unit)
+		_finish()
+		return
 	if _flee_calm:
 		# Going home after a quiet lurk: pick up sacks on the way; hit on the way -> smoke and run.
 		if _attack_force() > 0.0 or not _unit_attackers.is_empty():
@@ -787,7 +798,7 @@ func _start_flee(smoke: bool) -> void:
 	_waiting = false
 	if _doors.is_empty():
 		_doors = _den_doors()
-	_door = _nearest_door(_centroid())
+	_door = _flee_door(_centroid())
 	for t in thieves:
 		var u := t as Unit
 		if smoke:
@@ -817,6 +828,15 @@ func _finish() -> void:
 			_release(t as Unit)
 	finished.emit(self)
 	queue_free()
+
+
+# D4 (2026-10-12): the Den door nearest by navmesh path (the guild's nearest_den_door), else straight line.
+func _flee_door(from: Vector3) -> Vector3:
+	if is_instance_valid(guild) and guild.has_method(&"nearest_den_door"):
+		var door: Variant = guild.call(&"nearest_den_door", from)
+		if door is Vector3 and (door as Vector3).is_finite():
+			return door as Vector3
+	return _nearest_door(from)
 
 
 func _nearest_door(from: Vector3) -> Vector3:
@@ -1029,6 +1049,12 @@ func _update_sacks() -> void:
 			_sack_runs.erase(id)
 			_resume(u as Unit)
 			continue
+		if state == &"fleeing" and _clock - float(run.get("start", _clock)) > SACK_RUN_MAX:
+			# D3: the sack can't be reached in time: give it up and go home.
+			_sacks_given_up[(sack as Node).get_instance_id()] = true
+			_sack_runs.erase(id)
+			_resume(u as Unit)
+			continue
 		if _flat((u as Unit).global_position, (sack as Node3D).global_position) <= SACK_REACH:
 			_take_sack(u as Unit, sack as Node3D)
 			_sack_runs.erase(id)
@@ -1041,7 +1067,8 @@ func _update_sacks() -> void:
 		if not is_instance_valid(s) or not s is Node3D or (s as Node).is_queued_for_deletion():
 			continue
 		var sack := s as Node3D
-		if int(sack.get(&"amount")) <= 0 or _flat(sack.global_position, center) > SACK_RADIUS or _sack_taken(sack):
+		if int(sack.get(&"amount")) <= 0 or _flat(sack.global_position, center) > SACK_RADIUS or _sack_taken(sack) \
+				or (state == &"fleeing" and _sacks_given_up.has(sack.get_instance_id())):
 			continue
 		var best: Unit = null
 		var best_d := INF
@@ -1055,7 +1082,7 @@ func _update_sacks() -> void:
 				best = u
 		if best == null:
 			return
-		_sack_runs[best.get_instance_id()] = {"thief": best, "sack": sack}
+		_sack_runs[best.get_instance_id()] = {"thief": best, "sack": sack, "start": _clock}
 		best.command_move(sack.global_position)
 
 
