@@ -71,7 +71,8 @@ const PIERCE := {"radius": 3.0, "ratio": 0.5}
 const GRAVE_FEAST := {"heal_pct": 0.30}
 const WITHER_HEX := {"cd": 10.0, "range": 9.0, "time": 6.0, "attack_pct": -0.20}
 const WITHER_MOD := &"status_withered"
-const WITHER_META := &"nu12_withered_until"
+const WITHER_META := &"_nu12_withered_until"   # "_" = not saved (SaveCodec): the modifier / timer aren't either
+const WITHER_SERIAL_META := &"_nu12_withered_serial"
 const VOW := {"cd": 45.0, "hp_pct": 0.35, "shield": 50.0, "time": 6.0, "attack_pct": 0.15}
 const VOW_MOD := &"ability:unbroken_vow"
 const FROST_NEEDLE := {"cd": 8.0, "range": 10.0, "damage": 20.0, "chill": 1.0}
@@ -297,6 +298,10 @@ func _try_wither_hex() -> void:
 static func apply_withered(target: Unit, seconds: float) -> void:
 	var until := _now() + seconds
 	target.set_meta(WITHER_META, until)
+	# Cast serial (R3-1): the timer runs on game time (Blitz time_scale 1.3) while _now() counts frames, so the
+	# callback compares serials, never times: only the newest cast's timer removes the modifier.
+	var serial := int(target.get_meta(WITHER_SERIAL_META, 0)) + 1
+	target.set_meta(WITHER_SERIAL_META, serial)
 	target.add_modifier(WITHER_MOD, {&"attack_damage_pct": float(WITHER_HEX["attack_pct"])})
 	var tree := target.get_tree()
 	if tree == null:
@@ -304,8 +309,12 @@ static func apply_withered(target: Unit, seconds: float) -> void:
 	var ref: WeakRef = weakref(target)
 	tree.create_timer(seconds, false, true).timeout.connect(func() -> void:
 		var u := ref.get_ref() as Unit
-		if u and float(u.get_meta(WITHER_META, 0.0)) <= _now() + 0.01:
-			u.remove_modifier(WITHER_MOD))
+		if u == null or not is_instance_valid(u):
+			return
+		if int(u.get_meta(WITHER_SERIAL_META, 0)) != serial:
+			return   # a newer cast refreshed it; its own timer removes it
+		u.set_meta(WITHER_META, 0.0)
+		u.remove_modifier(WITHER_MOD))
 
 
 # Hollow Oathsworn: the first hit that leaves it under 35 % HP (every 45 s): shield 50 + attack +15 % for 6 s (2026-10-06, was 100 / +30 %: Unit Lab balance pass).

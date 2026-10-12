@@ -7,6 +7,7 @@ When JS asks for something new, add a line here first, then work on it.
 
 | Date | Ask (JS's words, short) | Status | Where |
 |---|---|---|---|
+| 2026-10-12 | "review all the code in the project" | doing | `scripts/` (~135k lines outside scripts/ai): ~22 read-only reviewers in waves, verify pass, fixes via owners; findings in `docs/handoff/code-review-2026-10-12.md` |
 | 2026-10-12 | "can u review all game bot program and look for possible error" | doing | `scripts/ai/` (4 read-only reviewers, fixes via ai-coder) |
 | 2026-09-28 | Rework the faces of the 5 main wizards: eyes, smile, facial expressions | doing | `art/units/wizards/`, Aldra assumed as the 5th |
 | 2026-09-28 | Rework the hair of the 5 wizards too, then put faces and hair in both films (re-render Ep 3, Ep 4 and the prologue; JS watches when finished) | doing | `docs/art/hair-redesign-plan.md` |

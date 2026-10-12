@@ -127,3 +127,20 @@ Next: verify pass, then fixes through the owners (ai-coder for scripts/ai; syste
 ## Order of work
 Verify pass (read-only) first. Fixes wait until the Shadow / Fire balance study ends (it plays bot games from this tree;
 bot code changes mid-batch would mix its numbers); the balance numbers must be re-checked after the fixes.
+
+## Status (2026-10-12 evening)
+Committed: D1/D3/D4 6986f1cc, D2 69384184, C1/C2/C4-C7 6bd4745d, B1-B8 882288b7, E1 56d975df. A1-A7 in rework
+(reviewer: A2 hunt clock counts walking time; A1 test misses the map-fill-on case) together with test_10_a3 easy
+(Bazaar late since the Forge, failed before today) and hard (B7 vs B1 Guard flag, intermittent).
+
+## Follow-ups (not done)
+- hunters_guild.gd (systems-coder): a tracker contract paid before a save is lost after a load (gold spent, no trackers,
+  the guild sells it again). Save or refund running contracts.
+- wave_bot.gd (ai-coder, optional): at the tier horn keep only `next_tier_price - income` as reserve instead of a full
+  save (D5 note).
+- commander.gd (ai-coder, optional): `attacks_launched` / Commander state not saved (A3 optional part).
+- docs/design/kingdom-ice.md section 3 (game-designer): Ice numbers no longer match data (Rimeshield 140 HP, Colossus
+  410 / 24, new train times); test_7_g2 header still cites it.
+- tools/i18n/extract_strings.gd: every merge / fix re-orders ~4600 lines of .pot / .po (obsolete / comment blocks) with no
+  content change: make the order deterministic so commits only show real string changes.
+- Wave Strike Blitz and hard difficulty were not measured in the balance study (normal bot only).

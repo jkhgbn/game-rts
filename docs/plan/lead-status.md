@@ -31,12 +31,12 @@ notes 2026-10-11; perf research 2026-10-12 (`docs/ideas/perf-research-2026-10-12
   go through gameplay-coder / ai-coder / systems-coder). Last night's attempt drifted onto Ice and never reported.
 - Disk C: ~15 GB free after removing play2 / play4 (was 71 MB at 23:40). Nightly CI task re-enabled on JS's word (next run 03:00).
 
-## Next (JS 2026-10-12: "balance then bug fix then save then CI")
-1. Shadow / Fire balance study -> apply its change set through the owner agents, review, tests, commit.
-2. Bot bug fixes from `docs/handoff/bot-review-2026-10-12.md` (13 confirmed, 10 plausible, verified; ai-coder in batches,
-   D2 SaveWorld = lead), review, tests, commit; then re-check the balance numbers.
-3. New playtest tag (playtest-2026-10-12 at f14516bf is superseded: its full CI was stopped at 52/445, all PASS so far),
-   full CI in `four-wizards-rts-ci` (~7 GB, already there), then export + zip, move the CI copy to play5 (disk: one copy only).
-4. Perf: pick from the 2026-10-12 research (200 units ~8-13 ms).
-5. Open asks in `docs/ideas/jss_asks.md` (faces, hair, films, maps, art under 90).
-- Note: the nightly task tests origin/main (16+ commits behind, nothing pushed).
+## Next (JS 2026-10-12 evening: whole code review + all fixes, then the build)
+1. Code review of scripts/ (`docs/handoff/code-review-2026-10-12.md`): wave 1 done (units, spells, buildings, economy,
+   items, core); wave 2 world (W1-W3) running; then ui (5 reviewers), campaign / missions (~8), vfx + cinematics (1).
+2. Verify pass per area, then fixes through the owners in file-disjoint batches (review + tests per batch).
+   Already fixing before the rest: Commander A1-A7 round 3, Wither Hex Blitz (R3-1), build push vs gather (R4-2).
+   Root-cause pass wanted: non-`_` metas saved by SaveCodec (R4-1, R5-1, R5-2).
+3. Balance confirmation run (normal + Blitz, 2 maps) after the bot / gameplay fixes.
+4. Tag, full CI (CI worktree or nightly on local main), export, zip to Desktop + OneDrive (JS plays on the desktop).
+5. Later: perf (pose scripts 3.6 ms), art asks; follow-ups in `docs/handoff/bot-review-2026-10-12.md`.
