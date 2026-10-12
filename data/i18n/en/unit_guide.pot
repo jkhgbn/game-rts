@@ -834,7 +834,7 @@ msgid "Good range for a tier-1 unit"
 msgstr ""
 
 #. cons
-#: data/ui/unit_guide.json:shardcaster data/ui/unit_guide.json:briar_roc
+#: data/ui/unit_guide.json:shardcaster
 msgid "Low DPS for its price"
 msgstr ""
 
@@ -916,6 +916,7 @@ msgstr ""
 
 #. pros
 #: data/ui/unit_guide.json:rime_colossus data/ui/unit_guide.json:rimehorn_rider
+#: data/ui/unit_guide.json:frostcrown_juggernaut
 msgid "Every hit chills its target"
 msgstr ""
 
@@ -1127,12 +1128,7 @@ msgstr ""
 
 #. pros
 #: data/ui/unit_guide.json:frostcrown_juggernaut
-msgid "Highest HP in any army"
-msgstr ""
-
-#. pros
-#: data/ui/unit_guide.json:frostcrown_juggernaut
-msgid "Most armour in any army"
+msgid "Highest HP in the Ice army"
 msgstr ""
 
 #. pros
@@ -1217,7 +1213,7 @@ msgstr ""
 
 #. pros
 #: data/ui/unit_guide.json:shardguard
-msgid "Best HP per crystal in any army"
+msgid "Best HP per crystal in the Ice army"
 msgstr ""
 
 #. pros
@@ -1237,7 +1233,7 @@ msgstr ""
 
 #. cons
 #: data/ui/unit_guide.json:shardguard
-msgid "Low damage for 3 pop"
+msgid "Low damage for a tier-3 unit"
 msgstr ""
 
 #. class
@@ -1447,13 +1443,13 @@ msgid "Heavy beast"
 msgstr ""
 
 #. pros
-#: data/ui/unit_guide.json:bramblehorn
-msgid "Best HP per crystal in the Nature army"
+#: data/ui/unit_guide.json:bramblehorn data/ui/unit_guide.json:vinelasher
+msgid "Solid HP for its price"
 msgstr ""
 
 #. pros
 #: data/ui/unit_guide.json:bramblehorn
-msgid "Top 3 for damage per hit in the Nature army"
+msgid "Hits hard for a tier-1 unit"
 msgstr ""
 
 #. pros
@@ -1561,11 +1557,6 @@ msgstr ""
 msgid "Whip reach: hits from behind the front rank"
 msgstr ""
 
-#. pros
-#: data/ui/unit_guide.json:vinelasher
-msgid "Solid HP for its price"
-msgstr ""
-
 #. cons
 #: data/ui/unit_guide.json:vinelasher
 msgid "Average damage for a tier-2 unit"
@@ -1583,12 +1574,17 @@ msgstr ""
 
 #. pros
 #: data/ui/unit_guide.json:greenheart_oathkeeper
+msgid "Top 3 for armour in the Nature army"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:greenheart_oathkeeper
 msgid "Grove Oath taunts nearby foes and braces"
 msgstr ""
 
 #. pros
 #: data/ui/unit_guide.json:greenheart_oathkeeper
-msgid "Top 3 for HP per crystal in the Nature army"
+msgid "Armoured front line for 2 pop"
 msgstr ""
 
 #. cons
@@ -1612,8 +1608,8 @@ msgid "Fastest unit in any army"
 msgstr ""
 
 #. pros
-#: data/ui/unit_guide.json:stagrunner data/ui/unit_guide.json:thornback_charger
-msgid "Top 3 for DPS in the Nature army"
+#: data/ui/unit_guide.json:stagrunner
+msgid "Hits fast for a tier-1 rider"
 msgstr ""
 
 #. pros
@@ -1652,8 +1648,13 @@ msgid "Heavy stag charger"
 msgstr ""
 
 #. pros
-#: data/ui/unit_guide.json:greenheart_oathkeeper data/ui/unit_guide.json:thornback_charger
-msgid "Top 3 for armour in the Nature army"
+#: data/ui/unit_guide.json:thornback_charger
+msgid "Top 3 for DPS in the Nature army"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:thornback_charger
+msgid "Top 3 for HP in the Nature army"
 msgstr ""
 
 #. pros
@@ -1755,6 +1756,11 @@ msgstr ""
 #. pros
 #: data/ui/unit_guide.json:briar_roc
 msgid "Seed Storm roots ground enemies"
+msgstr ""
+
+#. cons
+#: data/ui/unit_guide.json:briar_roc
+msgid "Short reach for a ranged unit"
 msgstr ""
 
 #. strong_against
@@ -1928,8 +1934,8 @@ msgid "Heavy elite of the Gloom Hall: lots of HP, slow."
 msgstr ""
 
 #. pros
-#: data/ui/unit_guide.json:shadow_knight data/ui/unit_guide.json:nightblood_reaver
-msgid "Best HP per crystal in the Shadow army"
+#: data/ui/unit_guide.json:shadow_knight
+msgid "Top 3 for HP per crystal in the Shadow army"
 msgstr ""
 
 #. pros
@@ -2241,6 +2247,11 @@ msgstr ""
 #. pros
 #: data/ui/unit_guide.json:nightblood_reaver
 msgid "Heals from the damage it deals"
+msgstr ""
+
+#. pros
+#: data/ui/unit_guide.json:nightblood_reaver
+msgid "Best HP per crystal in the Shadow army"
 msgstr ""
 
 #. pros
@@ -2637,49 +2648,4 @@ msgstr ""
 #. good_with
 #: data/ui/unit_guide.json:greywater_tracker
 msgid "Trade routes"
-msgstr ""
-
-#. pros
-#: data/ui/unit_guide.json:frostcrown_juggernaut
-msgid "Highest HP in the Ice army"
-msgstr ""
-
-#. pros
-#: data/ui/unit_guide.json:shardguard
-msgid "Best HP per crystal in the Ice army"
-msgstr ""
-
-#. cons
-#: data/ui/unit_guide.json:shardguard
-msgid "Low damage for a tier-3 unit"
-msgstr ""
-
-#. cons
-#: data/ui/unit_guide.json:briar_roc
-msgid "Short reach for a ranged unit"
-msgstr ""
-
-#. pros
-#: data/ui/unit_guide.json:bramblehorn
-msgid "Hits hard for a tier-1 unit"
-msgstr ""
-
-#. pros
-#: data/ui/unit_guide.json:greenheart_oathkeeper
-msgid "Armoured front line for 2 pop"
-msgstr ""
-
-#. pros
-#: data/ui/unit_guide.json:shadow_knight
-msgid "Top 3 for HP per crystal in the Shadow army"
-msgstr ""
-
-#. pros
-#: data/ui/unit_guide.json:stagrunner
-msgid "Hits fast for a tier-1 rider"
-msgstr ""
-
-#. pros
-#: data/ui/unit_guide.json:thornback_charger
-msgid "Top 3 for HP in the Nature army"
 msgstr ""

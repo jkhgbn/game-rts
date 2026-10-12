@@ -1171,32 +1171,32 @@ msgid "No open tavern"
 msgstr ""
 
 #. return "Tier 3 helper: your kingdom's ally fights beside your wizard (autonomous, stance on its card). 200 ess
-#: scripts/units/t3_kit.gd:98
+#: scripts/units/t3_kit.gd:99
 msgid "Tier 3 helper: your kingdom's ally fights beside your wizard (autonomous, stance on its card). 200 essence. Level = your wizard's."
 msgstr ""
 
 #. return "Bring your helper back at the keep (essence)."
-#: scripts/units/t3_kit.gd:100
+#: scripts/units/t3_kit.gd:101
 msgid "Bring your helper back at the keep (essence)."
 msgstr ""
 
 #. text = "%s, %s. %d essence too. Autonomous; its level is your wizard's. Stance on its card." % [
-#: scripts/units/t3_kit.gd:126
+#: scripts/units/t3_kit.gd:127
 msgid "%s, %s. %d essence too. Autonomous; its level is your wizard's. Stance on its card."
 msgstr ""
 
 #. text = "%d essence. %s returns at the keep." % [roster.revive_cost(), ht.display_name]
-#: scripts/units/t3_kit.gd:129
+#: scripts/units/t3_kit.gd:130
 msgid "%d essence. %s returns at the keep."
 msgstr ""
 
 #. return "Can't hire that here"
-#: scripts/units/t3_kit.gd:265 scripts/units/t3_kit.gd:268
+#: scripts/units/t3_kit.gd:266 scripts/units/t3_kit.gd:269
 msgid "Can't hire that here"
 msgstr ""
 
 #. @export var unit_name := "Soldier"
-#: scripts/units/unit.gd:149
+#: scripts/units/unit.gd:156
 msgid "Soldier"
 msgstr ""
 

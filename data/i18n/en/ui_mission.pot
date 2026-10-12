@@ -103,13 +103,13 @@ msgstr ""
 #. &"master": ["The Master", Color(0.95, 0.93, 0.85)],
 #: scripts/ui/cinematic/speakers.gd:16 scripts/campaign/mission_03.gd:157
 #: scripts/campaign/mission_e2_05.gd:167 scripts/campaign/mission_e5_01.gd:112
-#: scripts/campaign/mission_e5_03.gd:119 scripts/campaign/mission_e5_04.gd:93
+#: scripts/campaign/mission_e5_03.gd:122 scripts/campaign/mission_e5_04.gd:93
 msgid "The Master"
 msgstr ""
 
 #. &"narrator": ["Narrator", Color(0.9, 0.85, 0.7)],
 #: scripts/ui/cinematic/speakers.gd:17 scripts/campaign/mission_00.gd:112
-#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:138
+#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:142
 #: scripts/campaign/mission_03.gd:155 scripts/campaign/mission_04.gd:90
 msgid "Narrator"
 msgstr ""
@@ -117,13 +117,13 @@ msgstr ""
 #. &"ashby": ["Captain Ashby", Color(0.95, 0.60, 0.35)],
 #: scripts/ui/cinematic/speakers.gd:18 scripts/campaign/mission_00.gd:112
 #: scripts/campaign/mission_00.gd:808 scripts/campaign/mission_e2_01.gd:150
-#: scripts/campaign/mission_e2_02.gd:170 scripts/campaign/mission_e2_03.gd:95
+#: scripts/campaign/mission_e2_02.gd:174 scripts/campaign/mission_e2_03.gd:95
 msgid "Captain Ashby"
 msgstr ""
 
 #. &"pell": ["Pell", Color(0.85, 0.75, 0.5)],
 #: scripts/ui/cinematic/speakers.gd:19 scripts/campaign/mission_01.gd:96
-#: scripts/campaign/mission_02.gd:139 scripts/campaign/mission_03.gd:155
+#: scripts/campaign/mission_02.gd:143 scripts/campaign/mission_03.gd:155
 #: scripts/campaign/mission_04.gd:91 scripts/campaign/mission_e2_03.gd:94
 msgid "Pell"
 msgstr ""
@@ -136,13 +136,13 @@ msgstr ""
 
 #. &"maelis": ["Maelis", Color(0.60, 0.85, 0.50)],
 #: scripts/ui/cinematic/speakers.gd:21 scripts/campaign/mission_03.gd:156
-#: scripts/campaign/mission_e2_02.gd:169 scripts/campaign/mission_e2_05.gd:165
+#: scripts/campaign/mission_e2_02.gd:173 scripts/campaign/mission_e2_05.gd:165
 #: scripts/campaign/mission_e4_01.gd:144 scripts/campaign/mission_e4_02.gd:111
 msgid "Maelis"
 msgstr ""
 
 #. &"aldra": ["Aldra", Color(0.62, 0.95, 0.88)],   # mission-02.md (M9.U1): Torvald's voice on the Glass Ridge
-#: scripts/ui/cinematic/speakers.gd:22 scripts/campaign/mission_02.gd:139
+#: scripts/ui/cinematic/speakers.gd:22 scripts/campaign/mission_02.gd:143
 #: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_05.gd:166
 #: scripts/campaign/mission_e4_03.gd:122 scripts/campaign/mission_e4_04.gd:122
 msgid "Aldra"
@@ -151,7 +151,7 @@ msgstr ""
 #. &"wren": ["Wren", Color(0.80, 0.92, 0.60)],
 #: scripts/ui/cinematic/speakers.gd:24 scripts/ui/cinematic/speakers.gd:25
 #: scripts/campaign/mission_e2_01.gd:150 scripts/campaign/mission_e2_01.gd:321
-#: scripts/campaign/mission_e2_02.gd:169 scripts/campaign/mission_e2_02.gd:348
+#: scripts/campaign/mission_e2_02.gd:173 scripts/campaign/mission_e2_02.gd:363
 msgid "Wren"
 msgstr ""
 

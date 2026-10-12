@@ -291,7 +291,7 @@ msgid "Rimeshield"
 msgstr "Rimeshield"
 
 #. name (glossary: stays English)
-#: data/units/sapling.tres:10 scripts/spells/spell_caster.gd:612
+#: data/units/sapling.tres:10 scripts/spells/spell_caster.gd:615
 msgid "Sapling"
 msgstr "Sapling"
 

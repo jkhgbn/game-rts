@@ -48,7 +48,7 @@ msgstr ""
 #. "name": "Fire", "wizard": "Vessa", "kingdom_line": "Fire kingdom", "of_line": "Vessa of Fire", "title": "Vessa
 #: scripts/ui/menus/kingdom_card.gd:16 scripts/ui/cinematic/speakers.gd:7
 #: scripts/campaign/e8_story_screen.gd:16 scripts/campaign/mission_00.gd:111
-#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:138
+#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:142
 msgid "Vessa"
 msgstr ""
 
@@ -90,7 +90,7 @@ msgstr ""
 #. "name": "Shadow", "wizard": "Malrik", "kingdom_line": "Shadow kingdom", "of_line": "Malrik of Shadow", "title"
 #: scripts/ui/menus/kingdom_card.gd:21 scripts/ui/cinematic/speakers.gd:10
 #: scripts/campaign/e8_story_screen.gd:17 scripts/campaign/mission_00.gd:112
-#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:138
+#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:142
 msgid "Malrik"
 msgstr ""
 
@@ -131,8 +131,8 @@ msgstr ""
 
 #. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
 #: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/cinematic/speakers.gd:12
-#: scripts/campaign/e8_story_screen.gd:18 scripts/campaign/mission_02.gd:138
-#: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_02.gd:170
+#: scripts/campaign/e8_story_screen.gd:18 scripts/campaign/mission_02.gd:142
+#: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_02.gd:174
 msgid "Torvald"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 #. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
 #: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/cinematic/speakers.gd:13
 #: scripts/campaign/e8_story_screen.gd:19 scripts/campaign/mission_03.gd:156
-#: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_02.gd:169
+#: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_02.gd:173
 msgid "Ysolde"
 msgstr ""
 
