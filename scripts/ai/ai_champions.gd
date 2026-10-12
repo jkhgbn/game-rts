@@ -28,6 +28,7 @@ extends RefCounted
 ##   well an enemy was seen near in 30 s, B11 Hunt 100 (hard 150) on the beast the army goes for. One flag per rule.
 
 const HIRE_CRYSTAL_MARGIN := 150      ## Hire when crystals >= price + this (champions.md 10).
+const FREE_TAVERN_RECHECK := 2.0      ## Bot review B3: "a tavern is free" is re-checked every this many seconds.
 const STRENGTH_RADIUS := 20.0         ## Own champions this close to the rally count in own_strength.
 const GUARD_STAKE := 50               ## B1
 const RAID_STAKE := 100               ## B2
@@ -80,6 +81,9 @@ var _ai: AIProfile
 var _hire_essence := 0                 # essence the due hire holds from the wizard's items
 var _revive_hold := 0                  # essence the fallen champions hold (revive_before_items only)
 var _raid_flag: Variant = null         # B2: the one active raid flag (Bounty, may be freed)
+var _defend_flag: Variant = null       # B1: the one active base-defence Guard flag (Bounty, may be freed)
+var _free_tavern_at := -INF            # bot review B3: match time of the last "a tavern is free" check
+var _free_tavern_ok := true
 var _last_explore := -INF
 var _spots: Array[Vector3] = []        # B4: the enemy natural and rich hall spots
 var _spot_seen: Array[float] = []      # B4: match time each spot was last visible
@@ -153,6 +157,8 @@ func plan(now: float) -> int:
 					_revive_hold += g.revive_cost(ch)
 		if now >= _ai.champion_earliest and g.is_open():
 			hire_due = next_hire(g)
+			if hire_due != &"" and not _any_free_tavern(g, now):
+				hire_due = &""   # bot review B3: every tavern held -> no crystal / essence / pop reserve for a hire
 			if hire_due != &"":
 				var cost := g.hire_cost(hire_due)
 				_hire_essence = int(cost["essence"])
@@ -187,8 +193,7 @@ func hire_waits_for_crystals(level: Skirmish) -> bool:
 		return false
 	if bank.essence - _revive_hold < int(g.hire_cost(hire_due)["essence"]):
 		return false
-	var tavern := chosen_tavern(level)
-	return tavern != null and not g.is_tavern_held(tavern)
+	return _free_tavern_ok   # B3: plan() checked this tick that a tavern is free (the guild hires from it)
 
 
 ## A revive of `cost` may be paid with `essence`: before items (normal / hard) as soon as it is affordable;
@@ -236,8 +241,22 @@ func median_ms() -> float:
 	return float(s[s.size() / 2]) / 1000.0
 
 
-## The tavern a hire now would walk out of: the one whose door is nearer the living wizard (else the keep,
-## else the base centre). Null without taverns.
+## True when a tavern exists that the enemy does not hold (ChampionGuild.hire picks one of those). The answer is
+## kept FREE_TAVERN_RECHECK s of match time (each held check scans every unit near a door).
+func _any_free_tavern(g: ChampionGuild, now: float) -> bool:
+	if now >= _free_tavern_at and now - _free_tavern_at < FREE_TAVERN_RECHECK:
+		return _free_tavern_ok
+	_free_tavern_at = now
+	_free_tavern_ok = false
+	for t: Variant in Tavern.all():
+		if t != null and is_instance_valid(t) and not g.is_tavern_held(t as Node):
+			_free_tavern_ok = true
+			break
+	return _free_tavern_ok
+
+
+## The tavern a hire now would walk out of: the free one (not held by the enemy, like ChampionGuild.hire) whose
+## door is nearer the living wizard (else the keep, else the base centre). Null without a free tavern.
 func chosen_tavern(level: Skirmish) -> Node3D:
 	var ref := level.base_center(_team)
 	var w := level.wizard_of(_team)
@@ -249,9 +268,10 @@ func chosen_tavern(level: Skirmish) -> Node3D:
 			ref = k.global_position
 	var best: Node3D = null
 	var best_d := INF
+	var g := guild()
 	for t: Variant in Tavern.all():
 		var tavern := t as Tavern
-		if tavern == null:
+		if tavern == null or (g != null and g.is_tavern_held(tavern)):
 			continue
 		var d := _flat(tavern.door_point(), ref)
 		if d < best_d:
@@ -335,10 +355,7 @@ func _hire(g: ChampionGuild, now: float, level: Skirmish, build_cost: int, out: 
 		return
 	if build_cost > 0 and eco.crystals - crystals < build_cost:
 		return   # a triggered build waits for these crystals (the 20 s rule's build comes first)
-	var tavern := chosen_tavern(level)
-	if tavern == null or g.is_tavern_held(tavern):
-		_note(out, "hire", "CHAMPION hire of %s waits: the tavern is held" % id)
-		return
+	var tavern := chosen_tavern(level)   # B3: only for the log; the guild picks a free tavern itself
 	var before := eco.crystals
 	var a0 := Time.get_ticks_usec()
 	var reason := g.hire(id)
@@ -349,7 +366,7 @@ func _hire(g: ChampionGuild, now: float, level: Skirmish, build_cost: int, out: 
 	_notes.erase("hire")
 	hires.append({"id": id, "time": now, "name": g.name_for(id), "crystals": crystals, "essence": essence})
 	out.append("CHAMPION hire %s (%s) #%d: %d crystals + %d essence, crystals %d -> %d, from %s" % [id,
-			g.name_for(id), g.roster_size(), crystals, essence, before, eco.crystals, _xz(tavern.global_position)])
+			g.name_for(id), g.roster_size(), crystals, essence, before, eco.crystals, _xz(tavern.global_position) if tavern else "a free tavern"])
 	hire_due = &""
 	_hire_essence = 0
 
@@ -361,10 +378,7 @@ func _hire_in_gold(g: ChampionGuild, now: float, level: Skirmish, out: Array[Str
 	var bank := _bank()
 	if bank.essence - _revive_hold < int(cost["essence"]):
 		return
-	var tavern := chosen_tavern(level)
-	if tavern == null or g.is_tavern_held(tavern):
-		_note(out, "hire", "CHAMPION hire of %s waits: the tavern is held" % id)
-		return
+	var tavern := chosen_tavern(level)   # B3: only for the log; the guild picks a free tavern itself
 	var a0 := Time.get_ticks_usec()
 	var reason := g.hire(id, true)
 	_action_usec += Time.get_ticks_usec() - a0
@@ -377,7 +391,7 @@ func _hire_in_gold(g: ChampionGuild, now: float, level: Skirmish, out: Array[Str
 			"gold": int(cost["gold"])})
 	gold_hires.append({"id": id, "time": now, "gold": int(cost["gold"])})
 	out.append("CHAMPION hire %s (%s) #%d in gold: %d gold + %d essence, from %s" % [id, g.name_for(id),
-			g.roster_size(), int(cost["gold"]), int(cost["essence"]), _xz(tavern.global_position)])
+			g.roster_size(), int(cost["gold"]), int(cost["essence"]), _xz(tavern.global_position) if tavern else "a free tavern"])
 	hire_due = &""
 	_hire_essence = 0
 
@@ -409,9 +423,12 @@ func _bounties(g: ChampionGuild, now: float, level: Skirmish, memory: AIMemory, 
 		return   # not even the smallest flag fits (the usual case while the wizard buys items)
 	var ctx := {"now": now, "surplus": surplus, "active": active, "budget": budget}
 	# B1: rule 1 intrusion on a building and no Guard flag -> Guard 50 on that building (easy too).
-	if defending and intruder_pos != Vector3.INF and _fits(ctx, GUARD_STAKE) and not _has_kind(board, Bounty.GUARD):
+	# Bot review B5: only B1's own Guard flag blocks it (a B7 / B10 Guard elsewhere does not defend the base).
+	if defending and intruder_pos != Vector3.INF and _fits(ctx, GUARD_STAKE) and not _defend_active():
 		var hit := _intruded_building(own_buildings, intruder_pos)
-		if hit != null and _place(board, "B1", Bounty.GUARD, hit, hit.global_position, GUARD_STAKE, ctx, out):
+		if hit != null and board.bounty_on(hit) == null \
+				and _place(board, "B1", Bounty.GUARD, hit, hit.global_position, GUARD_STAKE, ctx, out):
+			_defend_flag = board.bounty_on(hit)
 			return
 	if _ai.bounty_guard_only:
 		return
@@ -528,11 +545,9 @@ func _place(board: BountyBoard, rule: String, kind: int, target: Node3D, pos: Ve
 	return true
 
 
-func _has_kind(board: BountyBoard, kind: int) -> bool:
-	for b in board.bounties:
-		if b.kind == kind and not b.ended:
-			return true
-	return false
+## B1's base-defence Guard flag is still up (bot review B5: other rules' Guard flags do not count).
+func _defend_active() -> bool:
+	return _defend_flag != null and is_instance_valid(_defend_flag) and not (_defend_flag as Bounty).ended
 
 
 ## The own completed building nearest the intruder (walls last: never a Guard target).

@@ -70,6 +70,7 @@ const DEFAULT_ENGAGE := 10.0
 const OATH_HOME_RADIUS := 20.0      ## The Oathwall's big engage radius only counts around own buildings.
 const OATH_CHASE := 25.0            ## 8.3: never chases more than 25 m past the last building.
 const MENDER_BEHIND := 4.0
+const MENDER_ANCHOR_MAX := 15.0     ## Bot review B7: an ally farther than this is no anchor for the Mender.
 const MENDER_MELEE_BEHIND := 1.0    ## 11.A1: a melee-class Mender follows 1 m behind the army centre.
 const RANGED_REACH := 3.0           ## An attack range above this shoots (Unit.attack_range doc).
 const ARCH_TIER := 1000.0           ## Target score gap of the archetype rule (the class rule scores < 1000).
@@ -104,7 +105,6 @@ const EXPLORE_SAMPLES := 12
 const EXPLORE_KEEP_DIV := 60.0
 const EXPLORE_GOAL_TIME := 30.0
 const EXPLORE_REACHED := 4.0
-const MAP_LIMIT := 56.0
 const PATROL_EVERY := 20.0
 const PATROL_HIT_MEMORY := 30.0
 const CACHE_TIMEOUT := 40.0
@@ -316,6 +316,9 @@ func choose_flag() -> Variant:
 			best = b
 	if _flag_ok(current_flag):
 		var cur_u := flag_utility(current_flag)
+		if cur_u <= 0.0:
+			# Bot review B2: a flag worth nothing now (target under a tower, too dangerous) is dropped, no hysteresis.
+			return best if best_u >= threshold() else null
 		if best != null and best != current_flag and best_u >= SWITCH_RATIO * cur_u:
 			return best
 		return current_flag
@@ -459,8 +462,8 @@ func explore_goal() -> Vector3:
 	for i in EXPLORE_SAMPLES:
 		var a := a0 + TAU * float(i) / float(EXPLORE_SAMPLES)
 		var p := Vector3(me.x + cos(a) * EXPLORE_RING, 0.0, me.z + sin(a) * EXPLORE_RING)
-		if absf(p.x) > MAP_LIMIT or absf(p.z) > MAP_LIMIT:
-			continue
+		if not MapInfo.contains(p, 4.0):
+			continue   # bot review B4: the real map size, not a 120 m constant
 		var st := sense.state_at(p)
 		if st == FogOfWar.VISIBLE:
 			continue
@@ -720,7 +723,7 @@ func _rule_fight(hp: float) -> bool:
 				attackers.append(e)
 		if attackers.is_empty():
 			var near := sense.nearest_enemy(me, maxf(champion.aggro_range, DEFAULT_ENGAGE))
-			if not near.is_empty():
+			if not near.is_empty() and not _is_uninvolved_neutral(near):   # B6: no idle camp creature
 				attackers.append(near)
 		if not attackers.is_empty():
 			trigger = me
@@ -791,6 +794,8 @@ func _pick_fight_target(attackers: Array, at: Vector3) -> Variant:
 	for e: Dictionary in sense.enemies:
 		var p: Vector3 = e["pos"]
 		if _flat(p - at) <= r and not cands.has(e):
+			if _is_uninvolved_neutral(e):
+				continue   # bot review B6: never pull a camp creature that is not in this fight
 			cands.append(e)
 	var me := champion.global_position
 	var cls := class_id() if archetype != COIN_CUTTER else &""
@@ -804,6 +809,8 @@ func _pick_fight_target(attackers: Array, at: Vector3) -> Variant:
 		var n: Variant = e["node"]
 		if n == null or not is_instance_valid(n) or not (n as Node).call(&"is_alive"):
 			continue
+		if not champion.is_enemy_of(n as Node3D):
+			continue   # bot review B8: a mission truce
 		var p: Vector3 = e["pos"]
 		if _leashed() and sense.dist_to_own_building(p) > _chase_leash():
 			continue
@@ -823,6 +830,18 @@ func _pick_fight_target(attackers: Array, at: Vector3) -> Variant:
 			best_score = score
 			best = n
 	return best
+
+
+## Bot review B6: a NEUTRAL enemy (camp creature, beast, Magpie) near a fight that targets nothing of ours.
+## (The attackers passed to _pick_fight_target are added before this check.)
+func _is_uninvolved_neutral(e: Dictionary) -> bool:
+	var n: Variant = e["node"]
+	if n == null or not is_instance_valid(n):
+		return true
+	var nt: Variant = (n as Node).get(&"team")
+	if nt == null or int(nt) != int(Unit.Team.NEUTRAL):
+		return false
+	return not _is_own(e["target"])
 
 
 ## The class part of the target score (0 .. < ARCH_TIER, lower = better); `d` = distance to the enemy.
@@ -879,21 +898,36 @@ static func _node_hp_ratio(t: Variant) -> float:
 ## Mender in a fight: stays 4 m behind the ally, on the side away from the nearest seen enemy.
 func _mender_keep_distance() -> void:
 	var enemy_pos := (_fight_target as Node3D).global_position
-	var anchor: Vector3 = champion.global_position
-	if _fight_ally != null and is_instance_valid(_fight_ally):
+	var me := champion.global_position
+	var has_anchor := false
+	var anchor: Vector3 = me
+	if _fight_ally != null and is_instance_valid(_fight_ally) \
+			and _flat((_fight_ally as Node3D).global_position - me) <= MENDER_ANCHOR_MAX:
 		anchor = (_fight_ally as Node3D).global_position
+		has_anchor = true
 	else:
 		var best_d := INF
 		for u: Variant in sense.own_soldiers + sense.own_champions:
 			if u == champion or not is_instance_valid(u):
 				continue
-			var d := _flat((u as Node3D).global_position - enemy_pos)
+			var up := (u as Node3D).global_position
+			if _flat(up - me) > MENDER_ANCHOR_MAX:
+				continue   # bot review B7: never walk across the map to an ally
+			var d := _flat(up - enemy_pos)
 			if d < best_d:
 				best_d = d
-				anchor = (u as Node3D).global_position
-	var point := anchor + _dir_flat(anchor - enemy_pos, Vector3(1.0, 0.0, 0.0)) * _trait("keep_behind", MENDER_BEHIND)
-	if _flat(champion.global_position - point) > ARRIVE:
+				anchor = up
+				has_anchor = true
+	var point: Vector3
+	if has_anchor:
+		point = anchor + _dir_flat(anchor - enemy_pos, Vector3(1.0, 0.0, 0.0)) * _trait("keep_behind", MENDER_BEHIND)
+	else:
+		# no ally near: stand at attack range from the enemy, on our side (B7: no endless backing off)
+		point = enemy_pos + _dir_flat(me - enemy_pos, Vector3(1.0, 0.0, 0.0)) * maxf(champion.attack_range - 1.0, 1.0)
+	if _flat(me - point) > ARRIVE:
 		_order_move(point, false)
+	elif _flat(me - enemy_pos) <= champion.attack_range + Unit.radius_of(_fight_target as Node3D) + 1.0:
+		_order_attack(_fight_target)   # B7: in place, fight (a move order would cancel the auto-attack)
 
 
 # ---------------------------------------------------------------- R6-R9 planning
@@ -1487,9 +1521,32 @@ func _nearest_shop(max_dist: float) -> Node3D:
 		var n := s as Node3D
 		var d := _flat(me - n.global_position)
 		if d <= best_d:
+			if _is_neutral_shop(n) and not _sells_next_wish(n):
+				continue   # bot review B1: a Ruin Peddler that cannot sell the next wish is no detour
 			best_d = d
 			best = n
 	return best
+
+
+## A Ruin Peddler / neutral shop (not one of the team's buildings).
+func _is_neutral_shop(n: Node3D) -> bool:
+	if n.is_in_group(&"peddlers") or n.is_in_group(&"shops"):
+		return true
+	var st: Variant = n.get(&"team")
+	return st == null or int(st) != int(champion.team)
+
+
+## True when the next wish-list entry could be bought at `shop` (Recipes.plan refuses neither "Not sold
+## here" nor "Needs <part> (<where>)"; purse and slots are not judged here).
+func _sells_next_wish(shop: Node3D) -> bool:
+	var inv := _inventory()
+	if inv == null or not inv.has_method(&"next_wishlist_entry"):
+		return false
+	var t: Variant = inv.call(&"next_wishlist_entry", _wishlist())
+	if t == null or not t is Object:
+		return false
+	var reason := str(Recipes.plan(inv, t as Object, shop).get("reason", ""))
+	return reason != "Not sold here" and not reason.begins_with("Needs ")
 
 
 ## Where to stand to buy: just outside the shop, on our side (well within its 12 m).
@@ -1872,6 +1929,8 @@ func _order_move(p: Vector3, attack_move: bool) -> void:
 func _order_attack(t: Variant) -> void:
 	if _order == Order.ATTACK and _order_target == t and champion.attack_target == t:
 		return
+	if t == null or not is_instance_valid(t) or not t is Node3D or not champion.is_enemy_of(t as Node3D):
+		return   # bot review B8: a truce / allied target is refused by Unit; never re-send it every tick
 	champion.command_attack(t)
 	_order = Order.ATTACK
 	_order_target = t

@@ -479,6 +479,8 @@ func refresh() -> void:
 			continue
 		if Teams.is_allied_fast(int(u.team), team):
 			continue   # 2v2: an allied seat's unit is neither own nor enemy
+		if Unit.truce_count > 0 and StringName(u.get_meta(Unit.TRUCE_META, &"")) == Unit.TRUCE_ALL:
+			continue   # bot review B8: a mission truce at peace with everyone (withdrawn seat) is no enemy
 		if _fog != null and _fog.state_at(team, pos) != FogOfWar.VISIBLE:
 			continue
 		var t := u.unit_type
