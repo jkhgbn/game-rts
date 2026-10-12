@@ -7,6 +7,7 @@ live in each spec's "User decisions" section (`docs/design/*.md`) and in `docs/p
 ## How we work
 | Date | Decision | Who | Source |
 |---|---|---|---|
+| 2026-10-12 | Remove playtest worktrees play2 and play4 (disk space; only lab outputs inside) | JS | lead session 2026-10-12 |
 | 2026-10-12 | Claude setup: hooks (Godot gate, no git in agents, ownership, GDScript check), skills /wave /ci-suite /playtest-release, reviewer agent, status split in 3 files, nightly CI on the laptop | lead -> JS | project thread 2026-10-12 |
 | 2026-10-12 | Not doing: one worktree per agent (slow --import), cloud sessions (no Godot there), secrets in .env, GDScript LSP (needs the editor open) | lead -> JS | same |
 | 2026-10-10 | Push to GitHub only when JS says so | JS | restart notes 10-10 |
