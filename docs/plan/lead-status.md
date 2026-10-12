@@ -29,7 +29,7 @@ notes 2026-10-11; perf research 2026-10-12 (`docs/ideas/perf-research-2026-10-12
 ## Running
 - Shadow / Fire balance study (agent, measure only, writes `docs/balance/shadow_fire_2026-10-12/report.md`; changes then
   go through gameplay-coder / ai-coder / systems-coder). Last night's attempt drifted onto Ice and never reported.
-- Disk C: ~15 GB free after removing play2 / play4 (was 71 MB at 23:40). Nightly CI task still disabled.
+- Disk C: ~15 GB free after removing play2 / play4 (was 71 MB at 23:40). Nightly CI task re-enabled on JS's word (next run 03:00).
 
 ## Next
 1. JS playtest on a fresh build (play5), then his notes.
