@@ -152,6 +152,20 @@ Check ($zz.Count -eq 1 -and $zz[0].ok -and $zz[0].verdict -eq "last") "directive
 $se7 = @($j7.errors | Where-Object { $_.severity -eq "FAIL" -and @($_.tests) -contains "test_art_lab" })
 Check ($j7.result -eq "FAIL" -and $se7.Count -eq 1) "verdict=last does not hide a script error (result $($j7.result), $($se7.Count) FAIL error)"
 
+# Harness kind (tools/error_lab/harness.ps1, error-lab.md 3g): only on runner evidence, never on "PASS + exit != 0".
+. (Join-Path $Root "tools\error_lab\harness.ps1")
+$hl = Join-Path $tmp "h.log"
+[System.IO.File]::WriteAllText($hl, "PASS h`n"); (Get-Item $hl).LastWriteTime = (Get-Date).AddMinutes(-5)
+$stale = Get-HarnessReason $hl (Get-Date) 1
+$k1 = (Get-FailKind "test_h" @{ exit = 1; harness = $stale; pass_line = $true; script_errors = 0 })[0]
+Check ($stale -ne "" -and $k1 -eq "harness") "a log older than the run + exit 1 -> harness (reason '$stale', got $k1)"
+[System.IO.File]::WriteAllText($hl, "PASS h`n")
+$fresh = Get-HarnessReason $hl (Get-Date).AddSeconds(-5) 1
+$k2 = (Get-FailKind "test_h" @{ exit = 1; harness = $fresh; pass_line = $true; script_errors = 0 })[0]
+Check ($fresh -eq "" -and $k2 -eq "exit code") "PASS + exit 1 with a fresh log stays 'exit code' (reason '$fresh', got $k2)"
+$k3 = (Get-FailKind "test_h" @{ exit = -1; timed_out = $true; note = "killed after 60 s"; pass_line = $true; script_errors = 0 })[0]
+Check ($k3 -eq "timeout") "a timed-out run with a PASS line stays 'timeout' (got $k3)"
+
 Remove-Item -Recurse -Force $tmp -Confirm:$false
 if ($fails.Count -eq 0) { Write-Host "PASS error_lab"; exit 0 }
 Write-Host "FAIL error_lab: $($fails.Count) checks"; exit 1

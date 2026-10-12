@@ -241,6 +241,20 @@ Each step one Godot run at a time, from the repo root in PowerShell. Record the 
    ```
    Still over the limit on a quiet PC = a real regression: send the brief from the scorecard to ai-coder.
 
+## 3g. HARNESS failures (2026-10-12): "log says PASS, exit 1"
+Symptom (run `docs/ci/2026-10-11_2339`): 94 tests + Smoke + Perf 200 FAIL "exit 1" in 0.5 s while their logs said
+PASS / victory=true. Cause: two `ci_quick` runs started in the same minute got the same run name (`yyyy-MM-dd_HHmm`),
+so the same `docs/ci/<run>/` folder and log paths. The second run's `cmd /c ... > log` could not open a log the first
+run's cmd still held ("used by another process"): cmd exited 1 at once, no gate, no Godot, and the lab read the other
+run's PASS log. A full disk gives the same signature (cmd cannot create the log). Not the gate (mutex / cap), not stderr.
+Fix + guard (`tools/error_lab/harness.ps1`, used by `ci.ps1` and `error_lab.ps1`):
+- auto run names are claimed atomically (`<run>`, `<run>_2`...): two runs never share a folder;
+- before each run the log must be creatable (else HARNESS: locked / DISK FULL), and CI / lab stop at start with
+  `DISK FULL` under 300 MB free; the gate prints `GODOT GATE: DISK FULL` too;
+- after a non-zero exit: log missing, older than the run, or empty = kind **harness** with the reason (only on that
+  runner evidence: a fresh PASS log with exit != 0 stays "exit code", a killed run stays "timeout"; `Get-FailKind`,
+  checked by `tests/test_error_lab.ps1`). The CI adds a "Harness" step: not a code bug, rerun.
+
 ## 4. First run (2026-09-26, validation)
 `-Logs` on 5 real tests (test_16a, test_12_c2, test_12_c3, test_data_lab, test_12b_v2, cap 40000): **PASS 100 / 100**,
 0 FAIL, 0 WARN, 2 INFO (resources still in use at exit, ObjectDB leaked at exit, 3 tests each), 5 / 5 tests PASS.

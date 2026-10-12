@@ -35,8 +35,12 @@ try {
 		if (((Get-Date) - $start).TotalSeconds -gt $maxwait) { break }
 		Start-Sleep -Milliseconds (1500 + (Get-Random -Maximum 1500))
 	}
+	# 2026-10-12: a full disk made runs fail with exit 1 and no hint; say it (the CI / Error Lab call it HARNESS).
+	$freeMB = -1; try { $freeMB = [math]::Floor((New-Object IO.DriveInfo([IO.Path]::GetPathRoot((Get-Location).Path))).AvailableFreeSpace / 1MB) } catch {}
+	if ($freeMB -ge 0 -and $freeMB -lt 300) { Write-Output "GODOT GATE: DISK FULL: $freeMB MB free on $([IO.Path]::GetPathRoot((Get-Location).Path)) (Godot may fail to write .godot / user:// / logs)" }
 	& $g @args
 	$code = $LASTEXITCODE
+	if ($code -ne 0 -and $freeMB -ge 0 -and $freeMB -lt 300) { Write-Output "GODOT GATE: exit $code with the disk full ($freeMB MB free): a harness failure, not a test verdict" }
 } finally {
 	if ($held -ne $null) { try { $held.ReleaseMutex() } catch {} ; $held.Dispose() }
 }

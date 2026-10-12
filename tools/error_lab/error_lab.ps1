@@ -31,7 +31,12 @@ if ($ProjectDir) {
 	if (-not (Test-Path (Join-Path $ProjectDir "project.godot"))) { Write-Host "ERROR LAB: no project.godot in $ProjectDir"; exit 2 }
 	$Root = (Resolve-Path $ProjectDir).Path
 }
-if (-not $Run) { $Run = Get-Date -Format "yyyy-MM-dd_HHmm" }
+. (Join-Path $PSScriptRoot "harness.ps1")   # unique run folders, log / disk checks, HARNESS reasons (3g)
+if (-not $Run) {
+	$Run = Get-Date -Format "yyyy-MM-dd_HHmm"
+	# Two labs started in the same minute must not share a folder (their cmd redirects fight over the same logs).
+	if (-not $OutDir -and -not $ListOnly -and -not $Logs) { $Run = New-UniqueRun (Join-Path $LabRoot "docs\errors\lab") $Run }
+}
 if (-not $OutDir) { $OutDir = Join-Path $LabRoot "docs\errors\lab\$Run" }
 if (-not $HistoryFile) { $HistoryFile = Join-Path $LabRoot "docs\errors\lab\history.jsonl" }
 # .NET file calls use the process folder, not the PowerShell location: make every path absolute.
@@ -234,6 +239,8 @@ if (-not $Logs) {
 	New-Item -ItemType Directory -Force $logDir | Out-Null
 	if ($names.Count -eq 0) { Write-Host "ERROR LAB: no tests picked"; }
 	if (-not (Test-Path $Gate)) { Write-Host "ERROR LAB: Godot gate not found: $Gate"; exit 2 }
+	$freeMB = Get-FreeMB $logDir
+	if ($freeMB -ge 0 -and $freeMB -lt $HarnessMinFreeMB) { Write-Host "ERROR LAB: DISK FULL: $freeMB MB free on $([IO.Path]::GetPathRoot($logDir)) (need $HarnessMinFreeMB MB): free space, then rerun"; exit 3 }
 	Write-Host "ERROR LAB: running $($names.Count) tests of $Root, $Parallel at a time (gate: tools/godot_run.ps1)"
 	$queue = New-Object System.Collections.Queue
 	foreach ($n in $names) { $queue.Enqueue($n) }
@@ -245,6 +252,8 @@ if (-not $Logs) {
 			if (-not (Test-Path (Join-Path $Root "tests\$n.gd"))) { $testStatus[$n] = @{ exit = -2; seconds = 0; cap = 0; note = "missing test file" }; $done++; continue }
 			$cap = Get-Cap $n
 			$log = Join-Path $logDir "$n.log"
+			$why = Test-LogWritable $log   # a locked log / full disk: cmd would exit 1 in 0.1 s without running Godot
+			if ($why) { $testStatus[$n] = @{ exit = -3; seconds = 0; cap = $cap; note = "harness: $why"; harness = $why }; $done++; Write-Host "  $n HARNESS: $why"; continue }
 			# "++" = Godot's other user-args separator ("--" would be eaten by powershell -File on the way to the gate).
 			$userArgs = if ($fullSet -contains $n) { " ++ --full" } else { "" }
 			$cmd = "powershell -NoProfile -ExecutionPolicy Bypass -File `"$Gate`" --headless --path `"$Root`" -s tests/$n.gd --fixed-fps 60 --quit-after $cap$userArgs > `"$log`" 2>&1"
@@ -258,7 +267,8 @@ if (-not $Logs) {
 			$secs = ((Get-Date) - $r.start).TotalSeconds
 			if ($r.proc.HasExited) {
 				$done++
-				$testStatus[$r.name] = @{ exit = $r.proc.ExitCode; seconds = [math]::Round($secs, 1); cap = $r.cap; note = "" }
+				$hw = Get-HarnessReason (Join-Path $logDir "$($r.name).log") $r.start $r.proc.ExitCode
+				$testStatus[$r.name] = @{ exit = $r.proc.ExitCode; seconds = [math]::Round($secs, 1); cap = $r.cap; note = $(if ($hw) { "harness: $hw" } else { "" }); harness = $hw }
 				$el = ((Get-Date) - $runStart).TotalMinutes
 				$eta = if ($done -gt 0) { $el / $done * ($names.Count - $done) } else { 0 }
 				Write-Host ("  [{0}/{1}] {2,-28} exit {3}  {4:N0} s  (ETA ~{5:N0} min)" -f $done, $names.Count, $r.name, $r.proc.ExitCode, $secs, $eta)
@@ -379,14 +389,7 @@ foreach ($t in ($testStatus.Keys | Sort-Object)) {
 	# What kind of failure, and what to do about it.
 	$kind = ""; $hint = ""
 	if (-not $ok) {
-		if ($s.note -eq "missing test file") { $kind = "missing"; $hint = "tests/$t.gd does not exist (renamed or removed): drop it from the list." }
-		elseif ($s.timed_out) { $kind = "timeout"; $hint = "Wall-clock kill ($($s.note)): the run hung (an await that never resolves, a modal wait) or the PC was saturated; rerun alone with a larger -TimeoutSec to tell." }
-		elseif ($s.crashed) { $kind = "crash"; $hint = "Godot crashed (see the backtrace in the tail): engine crash or a native call on a freed object; rerun alone to confirm." }
-		elseif ($s.fail_line) { $kind = "assert"; $hint = "The test's own check failed: read the FAIL line, reproduce with the repro command, fix the code (or the test if the rule changed)." }
-		elseif ($s.script_errors -gt 0) { $kind = "script error"; $hint = "A script error stopped the test before its PASS line: fix the first FAIL-class error listed for this test." }
-		elseif ($null -ne $s.exit -and $s.exit -ne 0) { $kind = "exit code"; $hint = "Godot exited with $($s.exit) and no FAIL line: quit(1) from a guard, a parse error at load, or a crash; read the tail." }
-		elseif ($null -eq $s.exit) { $kind = "no PASS line"; $hint = "No PASS line in the log (parse mode, exit code unknown): cap reached, crash, or the test prints no PASS; read the tail." }
-		else { $kind = "cap reached"; $hint = "Exit 0 but no PASS / FAIL line: the test did not finish within --quit-after $($s.cap) frames. If it is only slow, raise its cap (`$Caps in tools/error_lab/error_lab.ps1, or '# error_lab: quit-after=N' in the test); else the tail shows where it stalls." }
+		$fk = Get-FailKind $t $s; $kind = $fk[0]; $hint = $fk[1]
 	}
 	$testRows += [pscustomobject]@{ test = $t; ok = $ok; why = $why; kind = $kind; hint = $hint; exit = $s.exit; seconds = $s.seconds; cap = $s.cap
 		owner = (Get-TestOwner $t); verdict = $s.verdict; inner_fail = $s.inner_fail; fail_lines = @($s.fail_lines | Where-Object { $null -ne $_ }); tail = @($s.tail | Where-Object { $null -ne $_ }); log = $s.log }
@@ -436,7 +439,7 @@ $md.Add("Score = 100 - 8 per unique FAIL error - 3 per unique WARN error - 10 pe
 $md.Add("## Improve next")
 $k = 1
 # Real bugs first (a FAIL line, a script error, a crash), then harness-looking ones (cap reached, timeout).
-$kindRank = @{ "assert" = 0; "script error" = 0; "crash" = 1; "exit code" = 1; "cap reached" = 2; "timeout" = 2; "no PASS line" = 2; "missing" = 3 }
+$kindRank = @{ "harness" = 3; "assert" = 0; "script error" = 0; "crash" = 1; "exit code" = 1; "cap reached" = 2; "timeout" = 2; "no PASS line" = 2; "missing" = 3 }
 $failedTests = @($failedTests | Sort-Object @{ e = { $kindRank[$_.kind] } }, @{ e = { $_.test } })
 foreach ($t in ($failedTests | Select-Object -First 2)) { $md.Add("$k. **tests/$($t.test).gd** failed: **$($t.kind)** ($($t.why)) - owner **$(Esc $t.owner)**. $(Esc $t.hint)"); $k++ }
 foreach ($e in ($ranked | Select-Object -First ([math]::Max(1, 4 - $k)))) {

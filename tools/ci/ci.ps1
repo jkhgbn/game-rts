@@ -53,11 +53,21 @@ if (-not $Dir) {
 }
 if (-not (Test-Path (Join-Path $Dir "project.godot"))) { Write-Host "CI: no project.godot in $Dir"; exit 2 }
 $Dir = (Resolve-Path $Dir).Path
-if (-not $Run) { $Run = Get-Date -Format "yyyy-MM-dd_HHmm" }
+. (Join-Path $LabRoot "tools\error_lab\harness.ps1")   # unique run folders, log / disk checks (error-lab.md 3g)
+if (-not $Run) {
+	# Unique per run: two CIs started in the same minute used to share docs/ci/<run>/ and fight over the same logs
+	# (the loser's cmd exited 1 in 0.1 s without Godot and read the winner's PASS log).
+	$Run = Get-Date -Format "yyyy-MM-dd_HHmm"
+	if (-not $OutDir) { $Run = New-UniqueRun (Join-Path $LabRoot "docs\ci") $Run }
+}
 if (-not $OutDir) { $OutDir = Join-Path $LabRoot "docs\ci\$Run" }
 $LogDir = Join-Path $OutDir "logs"
 New-Item -ItemType Directory -Force $LogDir | Out-Null
 $Utf8 = New-Object System.Text.UTF8Encoding($false)
+foreach ($pd in @($LogDir, $Dir)) {
+	$free = Get-FreeMB $pd
+	if ($free -ge 0 -and $free -lt $HarnessMinFreeMB) { Write-Host "CI: DISK FULL: $free MB free on $([IO.Path]::GetPathRoot($pd)) (need $HarnessMinFreeMB MB): free space, then rerun"; exit 3 }
+}
 
 $Steps = New-Object System.Collections.ArrayList
 function Add-Step([string]$name, [string]$status, [string]$detail, [string]$fix = "") {
@@ -65,8 +75,11 @@ function Add-Step([string]$name, [string]$status, [string]$detail, [string]$fix 
 	$c = "Gray"; if ($status -eq "FAIL") { $c = "Red" } elseif ($status -eq "WARN") { $c = "Yellow" } elseif ($status -eq "PASS") { $c = "Green" }
 	Write-Host ("  [{0}] {1}: {2}" -f $status, $name, $detail) -ForegroundColor $c
 }
-# One Godot run through the gate, stdout + stderr in one log; returns @{ exit; seconds; timed_out; lines }.
+# One Godot run through the gate, stdout + stderr in one log; returns @{ exit; seconds; timed_out; lines; harness }.
+# harness = why the run failed outside Godot (locked log, full disk, log not written by this run), else "".
 function Invoke-Godot([string[]]$godotArgs, [string]$log) {
+	$why = Test-LogWritable $log
+	if ($why) { return @{ exit = -3; seconds = 0; timed_out = $false; lines = @(); harness = $why } }
 	$q = @($godotArgs | ForEach-Object { if ($_ -match '[\s"]') { '"' + ($_ -replace '"', '\"') + '"' } else { $_ } }) -join ' '
 	$cmd = "powershell -NoProfile -ExecutionPolicy Bypass -File `"$Gate`" $q > `"$log`" 2>&1"
 	$start = Get-Date
@@ -79,8 +92,9 @@ function Invoke-Godot([string[]]$godotArgs, [string]$log) {
 	}
 	$p.WaitForExit(5000) | Out-Null
 	$code = -1; if (-not $timedOut) { $code = $p.ExitCode }
-	$lines = @(); if (Test-Path $log) { $lines = @(Get-Content $log -Encoding UTF8) }
-	return @{ exit = $code; seconds = [math]::Round(((Get-Date) - $start).TotalSeconds, 1); timed_out = $timedOut; lines = $lines }
+	$hw = ""; if (-not $timedOut) { $hw = Get-HarnessReason $log $start $code }
+	$lines = @(); if ((Test-Path $log) -and -not $hw) { $lines = @(Get-Content $log -Encoding UTF8) }   # never judge another run's log
+	return @{ exit = $code; seconds = [math]::Round(((Get-Date) - $start).TotalSeconds, 1); timed_out = $timedOut; lines = $lines; harness = $hw }
 }
 function Count-Godot() { return @(Get-Process -Name "Godot_v4.7.2*" -ErrorAction SilentlyContinue).Count }
 
@@ -92,7 +106,8 @@ if (-not $SkipImport) {
 	$r = Invoke-Godot @("--headless", "--path", $Dir, "--import") (Join-Path $LogDir "import.log")
 	$errs = @($r.lines | Where-Object { $_ -match 'SCRIPT ERROR|Parse Error' } | Select-Object -First 5)
 	foreach ($e in $errs) { $out.Add("IMPORT: $e") }
-	if ($r.timed_out) { Add-Step "Import" "FAIL" "timed out after $RunTimeoutSec s (logs/import.log)" }
+	if ($r.harness) { Add-Step "Import" "FAIL" "HARNESS (runner, not Godot): $($r.harness)" "Free disk space / stop the run sharing docs/ci/$Run, then rerun." }
+	elseif ($r.timed_out) { Add-Step "Import" "FAIL" "timed out after $RunTimeoutSec s (logs/import.log)" }
 	elseif ($errs.Count -gt 0) { Add-Step "Import" "FAIL" "$($errs.Count)+ script / parse errors, first: $($errs[0].Trim())" "Fix the script named in logs/import.log (owner: CLAUDE.md 'Who owns what')." }
 	else { Add-Step "Import" "PASS" "no script / parse errors ($($r.seconds) s)" }
 }
@@ -105,6 +120,7 @@ if (-not $SkipSmoke -and $SmokeRuns -gt 0) {
 		$go = @($r.lines | Where-Object { $_ -match 'GAME OVER|TIMEOUT|SCRIPT ERROR|^FAIL' } | Select-Object -First 2)
 		foreach ($g in $go) { $out.Add("SMOKE: $($g.Trim())") }
 		if (@($r.lines | Where-Object { $_ -match 'victory=true' }).Count -gt 0) { $wins++ }
+		elseif ($r.harness) { $bad += "run $i`: HARNESS (runner, not Godot, exit $($r.exit)): $($r.harness)" }
 		else { $bad += "run $i`: $(if ($go.Count) { $go[0].Trim() } elseif ($r.timed_out) { 'timed out' } else { 'no GAME OVER line' })" }
 	}
 	if ($wins -eq $SmokeRuns) { Add-Step "Smoke" "PASS" "$wins / $SmokeRuns victory=true" }
@@ -120,7 +136,7 @@ if (-not $SkipPerf) {
 		$pl = @($r.lines | Where-Object { $_ -match '^PERF units' } | Select-Object -First 1)
 		$ok = @($r.lines | Where-Object { $_ -match '^PERF OK' }).Count -gt 0
 		foreach ($l in $pl) { $out.Add($l.Trim()) }
-		$detail = if ($pl.Count) { $pl[0].Trim() } else { "no PERF line (exit $($r.exit), logs/perf_$n.log)" }
+		$detail = if ($pl.Count) { $pl[0].Trim() } elseif ($r.harness) { "HARNESS (runner, not Godot, exit $($r.exit)): $($r.harness)" } else { "no PERF line (exit $($r.exit), logs/perf_$n.log)" }
 		if ($ok) { Add-Step "Perf $n units" "PASS" $detail }
 		elseif ($pl.Count -gt 0 -and $pl[0] -match 'stuck=0' -and $busy -ge 2) {
 			# Frame times are noise while other Godot runs share the CPU: never a FAIL, re-measure on a quiet PC.
@@ -143,11 +159,13 @@ if (-not $SkipTests) {
 	if (Test-Path $jf) {
 		$el = Get-Content $jf -Raw -Encoding UTF8 | ConvertFrom-Json
 		$nT = @($el.tests).Count; $nF = @($el.failed_tests).Count
+		$nH = @($el.tests | Where-Object { $_.kind -eq "harness" }).Count
 		$out.Add("tests run: $nT, failed: $nF")
 		foreach ($t in @($el.tests | Where-Object { -not $_.ok })) { $out.Add("FAIL-> $($t.test): $($t.kind) ($($t.why)) [$($t.owner)]$(if (@($t.fail_lines).Count) { ' ' + @($t.fail_lines)[0] })") }
 		$st = if ($nF -gt 0 -or $el.unique_fail -gt 0) { "FAIL" } elseif ($el.unique_warn -gt 0) { "WARN" } else { "PASS" }
 		$fix = ""; if ($st -ne "PASS") { $fix = "Open error_lab/scorecard.md: 'By owner' + one fix-agent brief per owner." }
 		Add-Step "Tests (Error Lab)" $st ("{0} / {1} tests pass; Error Lab {2} {3} / 100 ({4} FAIL, {5} WARN unique errors, {6} NEW)" -f ($nT - $nF), $nT, $el.result, $el.score, $el.unique_fail, $el.unique_warn, $el.new) $fix
+		if ($nH -gt 0) { Add-Step "Harness" "FAIL" "$nH test(s) failed OUTSIDE Godot (kind harness: locked log / full disk / log of another run), first: $(@($el.tests | Where-Object { $_.kind -eq 'harness' })[0].why)" "Not a code bug: free disk space or stop the parallel run, then rerun those tests." }
 	} else { Add-Step "Tests (Error Lab)" "FAIL" "the Error Lab wrote no scorecard ($jf)" }
 }
 
