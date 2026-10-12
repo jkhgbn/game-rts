@@ -50,5 +50,22 @@ foreach ($c in $cases) {
 	$code = $LASTEXITCODE
 	if ($code -eq $c.want) { $ok++ } else { $bad++; Write-Host "MISMATCH $($c.hook) '$($c.name)': want $($c.want) got $code $err" }
 }
-Write-Host "hooks: $ok/$($cases.Count) OK"
+# R5: a Write that turns a CRLF-tracked .gd into LF (temporarily rewrites a tracked file, restores its exact bytes).
+$r5 = Join-Path $root "art\units\wizards\torvald.gd"
+$total = $cases.Count
+if (Test-Path $r5) {
+	$bytes = [IO.File]::ReadAllBytes($r5)
+	$txt = [Text.Encoding]::UTF8.GetString($bytes)
+	foreach ($lfCase in @(@{ lf = $false; want = 0 }, @{ lf = $true; want = 2 })) {
+		$total++
+		try {
+			if ($lfCase.lf) { [IO.File]::WriteAllText($r5, ($txt -replace "`r`n", "`n"), (New-Object Text.UTF8Encoding($false))) }
+			$json = @{ tool_input = @{ file_path = $r5; content = "extends Node" } } | ConvertTo-Json -Compress
+			$err = $json | powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $h "check_gd.ps1") 2>&1
+			$code = $LASTEXITCODE
+		} finally { [IO.File]::WriteAllBytes($r5, $bytes) }
+		if ($code -eq $lfCase.want) { $ok++ } else { $bad++; Write-Host "MISMATCH check_gd 'R5 lf=$($lfCase.lf)': want $($lfCase.want) got $code $err" }
+	}
+}
+Write-Host "hooks: $ok/$total OK"
 if ($bad) { exit 1 }

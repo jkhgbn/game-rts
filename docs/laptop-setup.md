@@ -14,7 +14,7 @@ git pull origin main
 
 ## 2. Check the hooks
 ```powershell
-powershell -NoProfile -File .claude\hooks\test_hooks.ps1     # must print "hooks: 33/33 OK"
+powershell -NoProfile -File .claude\hooks\test_hooks.ps1     # must print "hooks: 35/35 OK"
 ```
 Godot is at `C:\Godot` on both machines. If it ever moves, set the user environment variable `FW_GODOT` to the
 console exe path (`tools/godot_run.ps1` reads it). The hooks never launch Godot.

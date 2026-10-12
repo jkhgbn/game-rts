@@ -346,7 +346,8 @@ Agents only edit what they own (plus their own `tests/test_<task-id>.gd`). Reque
 - **Ownership:** named owner agents can only write their folders above (+ `tests/test_<id>.gd`, `docs/handoff/`);
   map in `.claude/hooks/owners.json`. Nobody edits `.godot/` or `*.import`.
 - **GDScript check after each `.gd` edit** (`.claude/hooks/check_gd.ps1`): untyped `var`, `../..` parent chains,
-  `class_name` equal to an autoload, `Events.` in tests. Fix what it reports right away.
+  `class_name` equal to an autoload, `Events.` in tests, a Write that turns a CRLF file into LF. Fix what it reports
+  right away. Prefer Edit over rewriting a whole existing file (keeps line endings and escapes like `\n`).
   Hook self-test: `powershell -NoProfile -File .claude\hooks\test_hooks.ps1`.
 - **Effort rule (JS 2026-09-30):** all agents Opus 5.5 MEDIUM (`fw-art-medium` or the owner agent); never Haiku, never Fable.
 - **Recurring bugs:** when a bug class comes back (example: the map_dressing plug-in added after the navmesh bake put

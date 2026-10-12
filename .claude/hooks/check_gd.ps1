@@ -47,6 +47,23 @@ foreach ($raw in $lines) {
 		$problems.Add("R4 'Events.' in a test (tests compile before autoloads exist): use get_node_or_null(^`"/root/Events`"): $($raw.Trim())")
 	}
 }
+# R5 (2026-10-12, seen twice in one night): a whole-file Write turned a CRLF file into LF, so the commit showed every
+# line changed. Only for Write (Edit keeps line endings) on a file git already tracks with CRLF.
+if ($ti.content -and (Test-Path $path)) {
+	$now = [IO.File]::ReadAllText($path)
+	if (-not $now.Contains("`r`n")) {
+		$git = "C:\Program Files\Git\cmd\git.exe"; if (-not (Test-Path $git)) { $git = "git" }
+		$rel = ($path -replace '\\', '/')
+		$rootF = ($root -replace '\\', '/').TrimEnd('/') + '/'
+		if ($rel.StartsWith($rootF, [StringComparison]::OrdinalIgnoreCase)) { $rel = $rel.Substring($rootF.Length) }
+		# cmd redirect keeps the bytes (a PowerShell pipe would strip the CRs we are looking for).
+		$tmp = [IO.Path]::GetTempFileName()
+		& cmd /c "`"$git`" -C `"$root`" show `"HEAD:$rel`" > `"$tmp`" 2>nul"
+		$hasCr = ($LASTEXITCODE -eq 0) -and ([IO.File]::ReadAllText($tmp)).Contains("`r`n")
+		Remove-Item $tmp -ErrorAction SilentlyContinue
+		if ($hasCr) { $problems.Add("R5 line endings: $rel was CRLF in git and is now LF (the whole file will show as changed). Rewrite it with CRLF, or use Edit for partial changes.") }
+	}
+}
 if ($problems.Count -eq 0) { exit 0 }
 [Console]::Error.WriteLine("GDScript rules (.claude/hooks/check_gd.ps1) found $($problems.Count) problem(s) in what you just wrote to $(Split-Path $path -Leaf). Fix them now:")
 foreach ($p in $problems) { [Console]::Error.WriteLine("  - $p") }
