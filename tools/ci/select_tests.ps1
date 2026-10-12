@@ -74,6 +74,10 @@ if ($Files.Count -gt 0) {
 	$changed += @(Invoke-Git @("ls-files", "--others", "--exclude-standard") | Where-Object { $_ -notmatch '\.uid$' })
 }
 $changed = @($changed | ForEach-Object { ($_ -replace '\\', '/').Trim() } | Where-Object { $_ } | Sort-Object -Unique)
+# An already-committed change diffed against HEAD selects only the core set and looks green: say so.
+if ($changed.Count -eq 0 -and $baseUsed -eq "HEAD") {
+	Write-Host "select: WARNING no uncommitted change vs HEAD: only the core set runs. Checking a commit? use -Base HEAD~1 (or last-green)." -ForegroundColor Yellow
+}
 
 # ---------- the tests and their text ----------
 $all = @(Get-ChildItem (Join-Path $Root "tests") -Filter "test_*.gd" | Sort-Object Name)
@@ -112,6 +116,29 @@ function Get-DirectHits([string]$p) {
 		if ($h.Count -gt 0) { $hits += $h; $how = (@($how, "name '$name'") | Where-Object { $_ }) -join ", " }
 	}
 	return @{ hits = @($hits | Sort-Object -Unique); how = $how }
+}
+# 3c. Game data (data/units|spells|buildings|items|champions|champion_classes|helpers/<id>.tres): tests pin its numbers
+#     through the id (any length, quoted: "id" &"id" 'id', or id.tres), the display name ("Flame Guard"), or by
+#     scanning / formatting the whole folder (res://data/units/" + f, res://data/units/%s). Root-cause pass 2026-10-12:
+#     the 10-11 balance commits left 6 unit-pin tests red for a day.
+$DataDirsRx = '^data/(units|spells|buildings|items|champions|champion_classes|helpers)/([^/]+)\.tres$'
+function Get-DataHits([string]$p) {
+	if ($p -notmatch $DataDirsRx) { return @{ hits = @(); how = "" } }
+	$dir = $Matches[1]; $id = $Matches[2]
+	$rxs = [ordered]@{}
+	$rxs["id '$id'"] = '(?:["'']' + [regex]::Escape($id) + '["'']|(?<![A-Za-z0-9_])' + [regex]::Escape($id) + '\.tres)'
+	$abs = Join-Path $Root $p
+	if (Test-Path $abs) {
+		$dn = Select-String -Path $abs -Pattern '^display_name\s*=\s*"([^"]+)"' | Select-Object -First 1
+		if ($dn) { $rxs["display name '$($dn.Matches[0].Groups[1].Value)'"] = '"' + [regex]::Escape($dn.Matches[0].Groups[1].Value) + '"' }
+	}
+	$rxs["scans data/$dir"] = 'res://data/' + [regex]::Escape($dir) + '/?(?:"|%s)'
+	$hits = @(); $how = @()
+	foreach ($k in $rxs.Keys) {
+		$h = @(foreach ($t in $text.Keys) { if ($text[$t] -match $rxs[$k]) { $t } })
+		if ($h.Count -gt 0) { $hits += $h; $how += $k }
+	}
+	return @{ hits = @($hits | Sort-Object -Unique); how = ($how -join ", ") }
 }
 function Get-ClassName([string]$p) {
 	$abs = Join-Path $Root $p
@@ -188,6 +215,8 @@ foreach ($f in $changed) {
 	$d = Get-DirectHits $p
 	$hits = @($d.hits)
 	$how = $d.how
+	$dd = Get-DataHits $p
+	if (@($dd.hits).Count -gt 0) { $hits += @($dd.hits); $how = (@($how, $dd.how) | Where-Object { $_ }) -join ", " }
 	# 3b. Always (even with direct hits): the tests of every script that extends this one, up to 3 levels down
 	#     (a base-class change must run its subclasses' regression tests: MissionBase -> Mission01 -> test_m7_s1).
 	$subFrontier = @($p); $subSeen = @($p)

@@ -158,6 +158,10 @@ Wall seconds swing 3-10x with the PC's state (see the caveat below), so the fram
   `class_name` or its base name as a word (>= 4 letters); else up to 2 hops through the scripts / scenes that load it
   (`caster_ice_wall.gdshader` -> `caster_ice_vfx.gd` -> `unit_vfx.gd` -> the tests naming UnitVfx); else its nearest
   specific folder name (`art/units/ice/rimecarver/textures/x.png` -> `rimecarver`); `tools/<lab>/` -> `test_<lab>`.
+- Game data (`data/units|spells|buildings|items|champions|champion_classes|helpers/<id>.tres`, 2026-10-12): also every test
+  naming the id quoted (`"id"`, `&"id"`, `id.tres`, any length), its `display_name` (`"Flame Guard"`) or scanning the folder
+  (`res://data/units/" + f`, `res://data/units/%s`); self-check `tools\ci\test_select_tests.ps1`. `-Changed` with no
+  uncommitted change warns (checking a commit needs `-Base HEAD~1`).
 - Always the core set `test_tiers`, `test_ui_card_hotkeys`, `test_casters`, `test_stables` (+ the CI's 1 smoke + perf).
 - **Full ci_quick list** when a core file changes: `project.godot`, `scripts/core/`, `scripts/ui/command_card.gd`,
   `scenes/main.tscn`, `scenes/skirmish.tscn`, `scripts/world/main.gd`, `skirmish.gd`, `unit.gd`, `unit_type.gd`,
