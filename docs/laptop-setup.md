@@ -24,7 +24,7 @@ console exe path (`tools/godot_run.ps1` reads it). The hooks never launch Godot.
 tools\ci\nightly.ps1 -NoFetch -Quick       # dry run: creates ..\four-wizards-rts-ci, import + 1 smoke + perf
 tools\ci\install_nightly_task.ps1          # scheduled task every night at 03:00 (-At 02:30 to change, -Remove to undo)
 ```
-- Each night: fetch origin, CI worktree -> `origin/main` (detached; the main folder is never touched except
+- Each night: fetch origin, CI worktree -> local `main` (detached, JS 2026-10-12; the main folder is never touched except
   `docs/ci/history.jsonl` and `docs/ci/nightly_<date>/`), full `tools\ci\ci.ps1`, report in
   `Documents\four-wizards-nightly\<date>.txt` and `latest.txt`.
 - It tests what is on GitHub, so it only sees work that was pushed.

@@ -7,6 +7,7 @@ live in each spec's "User decisions" section (`docs/design/*.md`) and in `docs/p
 ## How we work
 | Date | Decision | Who | Source |
 |---|---|---|---|
+| 2026-10-12 | Nightly CI tests the local `main` (not origin/main); confirmation balance run after the bot fixes, then tag + full CI + play5 | JS | lead session 2026-10-12 |
 | 2026-10-12 | Fix the verified bot bugs (docs/handoff/bot-review-2026-10-12.md) after the Shadow / Fire balance study, then re-check balance | JS | lead session 2026-10-12 |
 | 2026-10-12 | Remove playtest worktree play3 (disk; lab outputs only). play and casters kept | JS | lead session 2026-10-12 |
 | 2026-10-12 | Remove playtest worktrees play2 and play4 (disk space; only lab outputs inside) | JS | lead session 2026-10-12 |

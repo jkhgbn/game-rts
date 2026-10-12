@@ -1,5 +1,6 @@
 # Nightly CI (meant for the laptop, run by Windows Task Scheduler; see docs/laptop-setup.md).
-# 1. Fetches origin and moves the CI worktree (..\four-wizards-rts-ci, created if missing) to origin/main (detached).
+# 1. Fetches origin and moves the CI worktree (..\four-wizards-rts-ci, created if missing) to the local main (detached;
+#    JS 2026-10-12: local main, since little is pushed; -Ref origin/main tests the pushed state).
 #    Never touches the main folder's branch or files: work in progress there is safe.
 # 2. Runs the full milestone CI (tools\ci\ci.ps1) on that worktree. Every Godot run goes through the Godot gate.
 # 3. Writes Documents\four-wizards-nightly\<yyyy-MM-dd>.txt (summary + failing tests) and latest.txt.
@@ -10,7 +11,7 @@
 param(
 	[string]$CiDir = "",
 	[string]$ReportDir = "",
-	[string]$Ref = "origin/main",
+	[string]$Ref = "main",
 	[int]$WaitQuietMin = 60,
 	[switch]$NoFetch,
 	[switch]$Quick
