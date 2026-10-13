@@ -26,7 +26,7 @@ func _init() -> void:
 
 func _line(pos: Vector2, fs: int, col: StringName) -> Label:
 	var l := UIStyle.panel_label("", fs, UIStyle.token(col))
-	l.set_meta(&"tok", col)
+	l.set_meta(&"_tok", col)
 	l.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	l.position = pos
@@ -47,7 +47,7 @@ func set_content(p_key: String, t1: String, t2: String, primary: bool, p_dim: bo
 		if primary:
 			add_theme_stylebox_override("normal", UIStyle.primary_button_frame())
 		for l: Label in [line1, line2]:
-			l.add_theme_color_override("font_color", UIStyle.token(StringName(l.get_meta(&"tok"))))
+			l.add_theme_color_override("font_color", UIStyle.token(StringName(l.get_meta(&"_tok"))))
 	key = p_key
 	var x := 28.0 if key != "" else 8.0
 	line1.position.x = x

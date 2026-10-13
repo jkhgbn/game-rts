@@ -188,19 +188,20 @@ func _m6_sink_cache() -> void:
 	Loc.set_language("en")
 
 
-# M7: the Wave Strike HUD lines go through Loc and their French exists.
+# M7: the Wave Strike HUD lines go through Loc and their French exists. WS2.U1 (2026-10-13) moved the buy panel into
+# MusterPanel (the M1 lines "[%s] %s ... pop" / "[%s] Coffer ..." are gone): the top strip stays in wave_strike_hud.gd.
 func _m7_wave_strike() -> void:
-	var src := FileAccess.get_file_as_string("res://scripts/ui/wave_strike/wave_strike_hud.gd")
-	for msg in ["Crystals %d   ·   +%d / horn", "[%s] %s   %d   ·  pop %d   ·  x%d", "[%s] Coffer %d   %s   (+%d / horn)",
-			"Coffers: all 8 bought", "[%s] %s   %d   (%s, supply %d)"]:
+	var src := FileAccess.get_file_as_string("res://scripts/ui/wave_strike/wave_strike_hud.gd") 			+ FileAccess.get_file_as_string("res://scripts/ui/wave_strike/muster_panel.gd")
+	for msg in ["Crystals %d   ·   +%d / horn", "Supply  %d / %d", "Coffer %d / %d", "Coffers: all %d bought",
+			"%s rising: %d s", "Horn %d in %s", "Ctrl+%s: %s for %d"]:
 		if not src.contains("Loc.t(\"" + msg):
 			_fail("M7: Wave Strike HUD shows '%s' without Loc.t" % msg)
-	for reason in ["tooltip_text = Loc.sink(bank.can_buy_coffer())", "tooltip_text = Loc.sink(tw)", "Loc.sink(why)"]:
+	for reason in ["Loc.sink(cwhy)", "Loc.sink(twhy)", "Loc.sink(why)"]:
 		if not src.contains(reason):
 			_fail("M7: refusal reason not through Loc.sink (%s)" % reason)
 	Loc.set_language("fr")
-	if Loc.t("Coffers: all 8 bought") == "Coffers: all 8 bought":
-		_fail("M7: no French for 'Coffers: all 8 bought'")
+	if Loc.t("Coffers: all %d bought") == "Coffers: all %d bought":
+		_fail("M7: no French for 'Coffers: all %d bought'")
 	Loc.set_language("en")
 
 
