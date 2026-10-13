@@ -7,6 +7,7 @@ live in each spec's "User decisions" section (`docs/design/*.md`) and in `docs/p
 ## How we work
 | Date | Decision | Who | Source |
 |---|---|---|---|
+| 2026-10-13 | Mother Hush keeps the R2-3 fix (attackers drop her as target, keep their orders) although it causes the normal-pace Fire > Shadow drift (A/B: old Hush = Fire 2 / 12, fix = Fire 13 / 16); Shadow gets a compensation in a balance pass instead. Playtest build = stock Godot + .pck until JS OKs the export templates download | lead (JS to confirm at playtest) | docs/balance/confirm_2026-10-13/report.md |
 | 2026-10-12 | Overnight (JS asleep): finish the review fixes + CI, playable build ready in ~12 h (by ~2026-10-13 noon): mission batches, i18n, full CI, balance confirmation, tag, export, zip to Desktop + OneDrive | JS | lead session 2026-10-12 night |
 | 2026-10-12 | Code review fixes: the save framework batch (F1) goes to ONE lead-directed general agent across scripts/core save_* and mission_base.gd (coupled API); other batches stay with the owners. Mission saves: restore by default, block saves (save_block_reason) only for short live machines (m04 after the Rise, e2m5 boss phases). R1-3 (held heroes can cast) kept as design | lead | fix-batches-2026-10-12.md |
 | 2026-10-12 | New Unit API `set_down(pos)` (instant reposition that resets nav target / anchor, keeps orders) for BuildGrid pushes; gameplay-coder adds it in the fix batches, CLAUDE.md Unit contract updated then | lead | code review R4-2 |

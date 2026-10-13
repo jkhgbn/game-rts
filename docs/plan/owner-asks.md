@@ -19,3 +19,4 @@ Format: `- (asked yyyy-mm-dd, where) question — lead's recommendation`.
 - (2026-10-09, restart notes) Winter heart 19:30-20:00 question (see the Ep6/winter mission spec).
 - (2026-10-10, jss_asks) Confirm Ep 5/6/7 order and rename `episode5-opening.md` to Ep 7.
 - (2026-10-10, repo) ~3300 uncommitted lab output files: commit them as run records or gitignore their folders? — gitignore the generated runs, keep summaries.
+- (2026-10-13, playtest build) Download the Godot 4.7.2 export templates (~1 GB, from godotengine.org via the editor's Export Template Manager) so builds become one real FourWizards.exe? Until then builds are stock Godot + .pck.

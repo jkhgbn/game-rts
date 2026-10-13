@@ -51,3 +51,25 @@ No crash, timeout, requeue or missing result. 3 normal Crown Hollow games went t
   (3) A1 natural camp creeped before X1 (`commander.gd:1797, 1819-1830, 3654-3660`): Shadow camps 3.8 -> 3.2.
 - A/B plan: Crown Hollow Fire-Shadow both seats, seeds 1-6, `run_fg.py --arms baseline --pairs fire:shadow,shadow:fire`,
   one arm per reverted suspect; or one batch at 57f8851b (bot fixes without 81750691) to split bot vs gameplay.
+
+## A/B 1 (2026-10-13 04:50): Fire-Shadow, Crown Hollow, normal, seeds 1-6 both seats, code 57f8851b
+57f8851b = bot fixes A1-A7 / D / C / B / E1 in, code-review gameplay fixes (81750691) NOT in.
+Fire 7 / 12 (fire-shadow seat order: Fire 2/6; shadow-fire: Fire 5/6 -> the enemy seat won 9/12).
+Current main on the same pair / map: Fire 8 / 8 (confirm run). Points at 81750691 (Hush R2-3 first suspect), small n.
+Runs: Documents\four-wizards-lab-runs\fg-ab-prefix-57f8.
+
+## A/B 2: current main with the old Mother Hush (2026-10-13 morning)
+Run `fg-ab-hush-main`: tag playtest-2026-10-13-2 (8dcc0bb9) with `helper_abilities.gd _drop_targeting` patched back to
+`if e.attack_target == helper: e.command_stop()` (patch not committed, reverted after). Crown Hollow, normal pace, Fire vs
+Shadow both seats, seeds 1-6.
+
+| Build | Fire wins |
+|---|---|
+| current main (R2-3 fix: `drop_target_if`) | 13 / 16 (confirmation run) |
+| 57f8851b (bot fixes, no gameplay fixes) | 7 / 12 (`fg-ab-prefix-57f8`) |
+| current main + old Hush `command_stop` | **2 / 12** (Shadow 6 / 6 as seat 1, 4 / 6 as seat 2) |
+
+**Verdict:** R2-3 is the cause of the normal-pace drift. The old Hush wiped her attackers' orders (an attack-move army
+stopped dead), which was worth a lot more than intended, and the swing is huge either way. Keep the fix (correct
+play); compensate Shadow / Hush in a balance pass instead (designer + gameplay-coder: e.g. a short Hush pulse that
+slows or dazes attackers, without touching their orders), then re-measure normal pace and Blitz.

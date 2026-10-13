@@ -4,39 +4,42 @@ Read first after a reset, with `docs/plan/owner-asks.md` (waiting for JS) and `d
 The old running log (2026-09-26/27, Updates 1-12) is in `docs/plan/history/lead-status-2026-09.md`; the restart notes
 of 2026-10-01 to 10-10 are in `docs/ideas/restart_*.md` (history now: this file replaces them).
 
-**Updated:** 2026-10-12 midday, laptop, first lead session opened in the repo folder (hooks, /wave, contract-reviewer active).
+**Updated:** 2026-10-13 morning, laptop (overnight run while JS slept).
 
 ## Where things are
 - Main repo: `Documents\four-wizards-rts` (branch main) on the desktop and on the laptop (same path; Godot `C:\Godot` on both).
-- Remote: https://github.com/jkhgbn/game-rts (private). Push only on JS's word.
-- Playtest worktrees (detached, frozen): `four-wizards-rts-play` and `play3` (play2 and play4 removed 2026-10-12 on JS's word). A fresh play5 is due before JS's next playtest (`/playtest-release`).
-- CI worktree `four-wizards-rts-ci` on the laptop (created by `tools\ci\nightly.ps1`); nightly CI scheduled there at
-  03:00, report `Documents\four-wizards-nightly\latest.txt` (`docs/laptop-setup.md`).
-- Claude setup (2026-10-12): hooks in `.claude/settings.json` (Godot gate, no git in agents, ownership, GDScript check),
-  skills `/wave`, `/ci-suite`, `/playtest-release`, reviewer agent `contract-reviewer`.
+- Remote: https://github.com/jkhgbn/game-rts (private). Push only on JS's word (nothing pushed overnight).
+- Playtest worktrees (detached, frozen): `four-wizards-rts-play` and `play3`.
+- CI worktree `four-wizards-rts-ci` on the laptop (nightly CI at 03:00, `Documents\four-wizards-nightly\latest.txt`).
+- Claude setup: hooks in `.claude/settings.json`, skills `/wave`, `/ci-suite`, `/playtest-release`, reviewer `contract-reviewer`.
 
-## Latest work (all committed)
-Campaign Ep1-Ep8 built with films; save/load; Blitz mode (9 workers, median ~11 min); balance rounds 1-2 (T3 = game
-changers, T3s 40-60 against each other); Ice bot economy fixes (Ice 23 % -> 40 %); LayoutLevel kits fix; campaign
-notes 2026-10-11; perf research 2026-10-12 (`docs/ideas/perf-research-2026-10-12.md`, ranked top 5, nothing applied).
+## Playtest build 2026-10-13 (ready)
+- Tag `playtest-2026-10-13-2` (8dcc0bb9). `FourWizards-2026-10-13.zip` (239 MB) on the Desktop and in OneDrive;
+  build folder `Documents\four-wizards-build\FourWizards-2026-10-13\` (FourWizards.exe = stock Godot 4.7.2 renamed,
+  FourWizards.pck, Jouer.bat = `--main-pack`, LISEZMOI.md). Boot-tested from the extracted zip.
+- Why a pck: export templates are missing (`%APPDATA%\Godot\export_templates` empty); `--export-pack` works without
+  them. Downloading the templates needs JS's OK (owner-asks).
+- Notes for JS: `docs/plan/playtest-notes.md` (French).
+- CI: ci_quick 400 / 400 (docs/ci/2026-10-12_2206); full CI on the first tag 40 / 45 (docs/ci/playtest-2026-10-13-sims).
+  Of the 5 failing sims: e7m3 / e7m4 were sims following old buggy behaviour (fixed in the tests, 8dcc0bb9);
+  e3m1 / e5m4 / e4m4 also fail on the 57f8851b baseline (pre-existing; e4m4 flaky). After the first tag only
+  commander.gd (Vessa threat memory) and test files changed (ci_quick -Changed -Base 0abaccfe re-checks it).
+
+## Balance (open)
+- `docs/balance/confirm_2026-10-13/report.md`: Blitz fine (Ice weak 29 %); normal pace Fire 72-75 % vs Shadow.
+- Prime suspect R2-3: Mother Hush used to `command_stop` her attackers (wiped the Fire bot's attack-move orders);
+  the review fix (`drop_target_if`) is correct play but removed that edge. A/B runs: `fg-ab-prefix-57f8` (bot fixes
+  only: Fire 7 / 12) and `fg-ab-hush-main` (current main + old Hush: Fire 2 / 12). CONFIRMED: R2-3 is the cause
+  (report A/B 2). Patch reverted; CI worktree clean at 8dcc0bb9.
+- Next: a Shadow / Hush compensation that keeps the fix (e.g. Hush's slow / blink / taunt), measured with
+  `run_fg.py --pairs fire:shadow,shadow:fire --seeds 1-6` on Crown Hollow, then normal-pace re-check.
 
 ## Uncommitted in the working tree
-- Lab outputs only: ~2900 files under `docs/tools/` (incl. 61 `world_forge/out/*/preview_level.gd.uid`), ~320 under
-  `docs/balance/`, `docs/art/lab/_calibration_headless/`, `docs/ui/`, `docs/visual/`; plus `art/blender/prologue_castle/export/`,
-  `docs/ci/nightly_2026-10-11/`. Waiting for JS (owner-asks: gitignore the generated runs, keep summaries).
-- 2026-10-12 midday: tests/tools `.gd.uid` files, e3 spec notes, i18n re-run and map gate knob committed (0a222e53, 9bc86021).
-
-## Running (night 2026-10-12 -> 13, JS asleep, build wanted by ~noon)
-- Code review of scripts/ DONE and ALL verified fixes committed (81750691 waves 1-2, be9445e9 / 9256a30f / ffd9c8f0 /
-  f3e9fa2e / d56b44c5 missions Ep1-8, fe0718f5 i18n). ci_quick on the result: 400 / 400 PASS, smoke, perf OK
-  (docs/ci/2026-10-12_2206).
-- Balance confirmation run (agent, measure only, normal + Blitz, Crown Hollow + Thornwater, runs `fg-confirm-1013-*`).
+- Lab outputs only (docs/tools, docs/balance, docs/art/lab, docs/ui, docs/visual, generated `.uid` / `.import`).
+  Waiting for JS (owner-asks: gitignore the generated runs, keep summaries).
 
 ## Next
-1. Save the balance report (docs/balance/confirm_2026-10-13/report.md); route anything clearly broken.
-2. Tag `playtest-2026-10-13`, full CI (tools\ci\ci.ps1) on the tag in ..\four-wizards-rts-ci.
-3. Export from the CI worktree, smoke-run the exe, zip FourWizards-2026-10-13.zip to the Desktop + OneDrive (JS said yes),
-   French notes docs/plan/playtest-notes.md.
-4. Known for the playtest: e6m2 hard loses in the sim with any scripted defence (was so before the fixes).
-5. Later: follow-ups in docs/handoff/bot-review-2026-10-12.md; perf; art asks; character_model instance-id uses (dance
-   variant, ride side) for replay determinism; 29 collapsed `\` continuations (readability only).
+1. JS playtests the zip; collect feedback in `docs/ideas/jss_asks.md`.
+2. Hush / Shadow compensation (above), Ice in Blitz.
+3. Sims e3m1 / e5m4 / e4m4: improve the scripted players (pre-existing failures), e6m2 hard sizing (designer).
+4. Later: follow-ups in docs/handoff/bot-review-2026-10-12.md; perf; art asks; 29 collapsed `\` continuations.

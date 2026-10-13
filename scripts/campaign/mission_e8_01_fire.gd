@@ -393,8 +393,10 @@ func _tick_scouts() -> void:
 		return
 	var t := mission_time() - hold_start
 	for v: Variant in scouts:
+		if not is_instance_valid(v):
+			continue
 		var s := v as Unit
-		if s == null or not is_instance_valid(s) or not s.is_alive() or s.has_meta(&"home"):
+		if s == null or not s.is_alive() or s.has_meta(&"home"):
 			continue
 		if t >= 510.0 and is_dormant(s):
 			set_dormant(s, false)
