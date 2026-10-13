@@ -142,6 +142,7 @@ func _variant_map() -> void:
 
 
 func _variant_start() -> void:
+	_set_refugee_hp()   # C6-6: the start sets it too, so refugees rebuilt by a load get the difficulty's HP
 	aldra_npc = story_npc("aldra_story", START + Vector3(2.0, 0.0, -2.0))
 	rider = story_npc("gate_rider", RIDER_POS, Unit.Team.NEUTRAL)
 	for p: Vector3 in [GATE, KETTLEWICK, CAMP, EXIT]:
@@ -273,7 +274,7 @@ func _spawn_column() -> void:
 	fire_once(&"E3")
 	say_l("L6")
 	set_objective(&"obj_column", "active")
-	local_type("refugee").max_hp = float(by_difficulty(REFUGEE_HP))
+	_set_refugee_hp()
 	for i in COLUMN_N:
 		var r := make_unit("refugee")
 		_spawn(r, Unit.Team.PLAYER, Vector3((i % 8) * 1.3 - 4.5, 0.0, -44.0 - (i / 8) * 1.4))   # inside the map edge
@@ -283,6 +284,12 @@ func _spawn_column() -> void:
 		refugees.append(r)
 	spawned = COLUMN_N
 	after(75.0, _wave_h0)
+
+
+func _set_refugee_hp() -> void:
+	var t := local_type("refugee")
+	if t:
+		t.max_hp = float(by_difficulty(REFUGEE_HP))
 
 
 ## H0: the pursuers come down the Northway 75 s behind the column (they reach it near the gate).
@@ -316,6 +323,13 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		var r := v as Unit
 		if not r.died.is_connected(_on_refugee_died):
 			r.died.connect(_on_refugee_died)
+
+
+## C6-12: the gate's ice block shows the restored gate state (the rebuilt map draws it shut).
+func _after_load(nodes: Dictionary) -> void:
+	super(nodes)
+	if gate_look:
+		gate_look.visible = not gate_open
 
 
 func _check_doom() -> void:

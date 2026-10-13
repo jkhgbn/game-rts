@@ -678,18 +678,22 @@ func _turn_end() -> void:
 			silver[id] = g
 			set_truce([g], true, Unit.TRUCE_ALL)
 			g.destroyed.connect(_on_silver_sunk)
-	after(SILVER_FIRE, func() -> void:
-		for g: Variant in silver.values():
-			if is_instance_valid(g) and (g as Building).is_alive() and not (g as Node).has_meta(&"frozen"):
-				set_truce([g as Node], false, Unit.TRUCE_ALL))
+	after(SILVER_FIRE, _silver_open_fire)
 	set_objective(&"obj_hold", "active")
 	set_objective(&"sec_dragons", "active")
 	set_objective(&"sec_silver", "active")
 	_build_pay_panel()
 
 
+## The silver galleys open fire SILVER_FIRE s after the turn (a named timer: saving stays allowed).
+func _silver_open_fire() -> void:
+	for g: Variant in silver.values():
+		if is_instance_valid(g) and (g as Building).is_alive() and not (g as Node).has_meta(&"frozen"):
+			set_truce([g as Node], false, Unit.TRUCE_ALL)
+
+
 func _build_pay_panel() -> void:
-	if hud == null:
+	if hud == null or (_pay_panel != null and is_instance_valid(_pay_panel)):
 		return
 	var rows: Array = []
 	for id: String in ["gilt_dragon", "prism_dragon", "sunwake"]:
@@ -764,7 +768,7 @@ func _tick_p4(dt: float) -> void:
 		_surge_until = 0.0
 		for n in get_tree().get_nodes_in_group(&"units"):
 			if n is Unit:
-				(n as Unit).remove_modifier(&"hollow_surge")
+				(n as Unit).remove_modifier(&"mission:hollow_surge")
 
 
 func _assault(wave_id: StringName, kind: String, dragon_id: String, mult: float) -> void:
@@ -809,7 +813,7 @@ func _assault(wave_id: StringName, kind: String, dragon_id: String, mult: float)
 		say_l("L33b")
 	for v: Variant in out:
 		if _surge_until > 0.0:
-			(v as Unit).add_modifier(&"hollow_surge", {"attack_damage_pct": 0.15})
+			(v as Unit).add_modifier(&"mission:hollow_surge", {"attack_damage_pct": 0.15})
 
 
 func _dragon_enemy_goal() -> Node3D:
@@ -848,7 +852,7 @@ func _on_any_unit_died(u: Node) -> void:
 		for n in get_tree().get_nodes_in_group(&"units"):
 			var x := n as Unit
 			if x and x.is_alive() and int(x.team) == Teams.ENEMY_2:
-				x.add_modifier(&"hollow_surge", {"attack_damage_pct": 0.15})
+				x.add_modifier(&"mission:hollow_surge", {"attack_damage_pct": 0.15})
 	if meter >= 100.0:
 		meter = 50.0
 		fire_once(&"E16")
@@ -1077,6 +1081,23 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		for g: Variant in silver.values():
 			if g is Building and is_instance_valid(g) and (g as Building).is_alive() 					and not (g as Building).destroyed.is_connected(_on_silver_sunk):
 				(g as Building).destroyed.connect(_on_silver_sunk)
+
+
+## After a load (phase convention: the effects of the reached phases again, quietly): from the Two Skies the crimson
+## galleys are gone from sight (C6-12); from the turn the pay panel is back (C6-2) and Malrik's Commander stays paused
+## (C6-9: the framework restores `enabled`, kept here as a guard).
+func _after_load(nodes: Dictionary) -> void:
+	super(nodes)
+	if has_fired(&"E8") and phase >= 2:
+		for id: StringName in crimson:
+			var g: Variant = crimson[id]
+			if is_instance_valid(g) and (g as Building).is_alive():
+				(g as Node3D).visible = false
+	if turn_time >= 0.0:
+		if _malrik_cmd and is_instance_valid(_malrik_cmd):
+			_malrik_cmd.set(&"enabled", false)
+		if not is_ending() and not has_fired(&"E21"):
+			_build_pay_panel()
 
 
 func save_block_reason() -> String:

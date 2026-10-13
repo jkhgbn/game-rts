@@ -496,15 +496,26 @@ func spawn_dragon(id: String, at: Vector3) -> Unit:
 	mark_scripted(u)
 	set_truce([u], true, Unit.TRUCE_ALL)
 	set_dormant(u, true)
+	dragons[id] = {"unit": u, "side": -1, "until": 0.0, "rest_until": 0.0}
+	_arm_dragon(u, id)
+	return u
+
+
+## The dragon's look and its "rest at 15 %" death guard (spawn, and every dragon again after a load: C6-7). A sleeping
+## dragon keeps the sleep's guard and gets the rest guard as the one its wake gives back (set after the sleep, the wake
+## of bind_dragon used to drop it).
+func _arm_dragon(u: Unit, id: String) -> void:
 	var m := u.get_model()
 	if m:
 		m.scale = Vector3.ONE * (2.0 if id == "ossavar_story" else 1.5)
-	dragons[id] = {"unit": u, "side": -1, "until": 0.0, "rest_until": 0.0}
-	u.death_guard = func(_a: Variant) -> bool:
+	var guard := func(_a: Variant) -> bool:
 		u.hp = maxf(1.0, u.max_hp * DRAGON_REST)
 		_rest_dragon(StringName(id), 30.0)
 		return true
-	return u
+	if is_dormant(u):
+		u.set_meta(META_GUARD, guard)
+	else:
+		u.death_guard = guard
 
 
 func dragon(id: String) -> Unit:
@@ -671,10 +682,16 @@ func open_auction(id: String, display: String, ceiling: int) -> void:
 		u.command_stop()
 	auction = {"id": id, "name": display, "ceiling": ceiling, "opened": mission_time(),
 			"ends": mission_time() + AUCTION_WINDOW, "bids": [0, 0], "next_ai": mission_time() + 5.0, "hesitant": false}
-	if hud:
-		_bid_panel = mission_button_panel("AuctionPanel", [[Loc.t("Bid +50"), func() -> void: _ui_bid(50)],
-				[Loc.t("Bid +100"), func() -> void: _ui_bid(100)]])
+	_build_bid_panel()
 	objectives_changed.emit()
+
+
+## The "Bid +50" / "Bid +100" panel (open_auction, and again after a load while an auction is open: C6-1).
+func _build_bid_panel() -> void:
+	if hud == null or (_bid_panel != null and is_instance_valid(_bid_panel)):
+		return
+	_bid_panel = mission_button_panel("AuctionPanel", [[Loc.t("Bid +50"), func() -> void: _ui_bid(50)],
+			[Loc.t("Bid +100"), func() -> void: _ui_bid(100)]])
 
 
 func auction_open() -> bool:
@@ -853,4 +870,15 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	auction_log.assign(d.get("e7_auction_log", []))
 	if rock and d.has("e7_rock"):
 		rock.set_owner_side(int(d["e7_rock"]))
-	auction = {}
+
+
+## C6-1: an auction open at the save stays open (`auction` is a saved variable) and gets its bid panel back; C6-7: every
+## dragon (a bound one comes back as a new unit: its team changed) gets its look and its rest guard back.
+func _after_load(nodes: Dictionary) -> void:
+	super(nodes)
+	if not auction.is_empty() and not is_ending():
+		_build_bid_panel()
+	for id: String in dragons:
+		var u := dragon(id)
+		if u:
+			_arm_dragon(u, id)

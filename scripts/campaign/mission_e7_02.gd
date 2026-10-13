@@ -511,7 +511,7 @@ func _tick_dacian() -> void:
 	dacian = make_unit("dacian_story")
 	_spawn(dacian, Unit.Team.NEUTRAL, SOUTH_FOOT)
 	mark_scripted(dacian)
-	dacian.add_modifier(&"e7_difficulty", {"max_hp": float(by_difficulty(DACIAN_HP)) - 950.0})
+	dacian.add_modifier(&"mission:e7_difficulty", {"max_hp": float(by_difficulty(DACIAN_HP)) - 950.0})
 	dacian.hp = dacian.max_hp
 	set_truce([dacian], true, Unit.TRUCE_ALL)
 	dacian.command_move(DUEL_D)
@@ -630,7 +630,7 @@ func _ambush() -> void:
 	hush = make_unit("hush_story")
 	_spawn(hush, Unit.Team.ENEMY, ROCK + Vector3(5.0, 0.0, 5.0))
 	mark_scripted(hush)
-	hush.add_modifier(&"e7_difficulty", {"max_hp": float(by_difficulty(HUSH_HP)) - 1100.0})
+	hush.add_modifier(&"mission:e7_difficulty", {"max_hp": float(by_difficulty(HUSH_HP)) - 1100.0})
 	hush.hp = hush.max_hp
 	guard_life(hush, _on_hush_down)
 	order_wave(hush, &"dacian", DUEL_D)
@@ -915,6 +915,14 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 			dacian.died.connect(_on_dacian_died)
 		if hush and is_instance_valid(hush):
 			guard_life(hush, _on_hush_down)
+
+
+## C6-12: the strongboxes opened before the save stay gone (props the rebuilt map draws closed).
+func _after_load(nodes: Dictionary) -> void:
+	super(nodes)
+	for i in mini(BOXES.size(), _box_props.size()):
+		if has_fired(StringName("box_%d" % i)) and is_instance_valid(_box_props[i]):
+			(_box_props[i] as Node3D).visible = false
 
 
 func save_block_reason() -> String:

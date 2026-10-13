@@ -366,12 +366,17 @@ func _tick_keyholes(dt: float) -> void:
 			_light(a)
 
 
+## A lit keyhole's pillar (its seat's kingdom colour).
+func _lit_look(s: int) -> void:
+	pillar(keyhole_of(s), KINGDOM_COLOR[seat_kind[s]], 10.0)
+
+
 func _light(s: int) -> void:
 	if lit.has(s):
 		return
 	lit[s] = true
 	flash_ring(keyhole_of(s), 6.0)
-	pillar(keyhole_of(s), KINGDOM_COLOR[seat_kind[s]], 10.0)
+	_lit_look(s)
 	if s == Unit.Team.PLAYER:
 		fire_once(&"E6")
 		say_w("L9")
@@ -538,8 +543,13 @@ func _feed(n: float) -> void:
 
 func _hand_end() -> void:
 	say_l("L31")
-	box_prop(CRACK, Vector3(2.5, 9.0, 2.5), Color(0.55, 0.48, 0.40), 0.5)
+	_hand_look()
 	flash_ring(CRACK, 8.0)
+
+
+## The hand out of the crack (the Early Rise).
+func _hand_look() -> void:
+	box_prop(CRACK, Vector3(2.5, 9.0, 2.5), Color(0.55, 0.48, 0.40), 0.5)
 
 
 # ---------------------------------------------------------------- the end
@@ -574,6 +584,16 @@ func _on_player_hero_fell() -> void:
 	say_w("L39")
 	set_objective(&"obj_wizard", "failed")
 	super()
+
+
+## C6-12: the lit keyholes' pillars and the Early Rise hand are drawn again (props the rebuilt map does not have).
+func _after_load(nodes: Dictionary) -> void:
+	super(nodes)
+	for k: Variant in lit:
+		if seat_kind.has(int(k)):
+			_lit_look(int(k))
+	if has_fired(&"E14"):
+		_hand_look()
 
 
 func save_block_reason() -> String:

@@ -690,9 +690,9 @@ func _tick_malrik() -> void:
 func _laurel_duel() -> void:
 	seraphine = make_unit("seraphine_story")
 	_spawn(seraphine, Unit.Team.PLAYER, DUEL_S)
-	seraphine.add_modifier(&"e7_difficulty", {"max_hp": float(by_difficulty(SERAPHINE_HP)) - 1000.0})
+	seraphine.add_modifier(&"mission:e7_difficulty", {"max_hp": float(by_difficulty(SERAPHINE_HP)) - 1000.0})
 	seraphine.hp = seraphine.max_hp
-	seraphine.add_modifier(&"wounded", {"move_speed": -1.6})
+	seraphine.add_modifier(&"mission:wounded", {"move_speed": -1.6})
 	mark_scripted(seraphine)
 	dacian = make_unit("dacian_story")
 	_spawn(dacian, Unit.Team.NEUTRAL, DUEL_D)

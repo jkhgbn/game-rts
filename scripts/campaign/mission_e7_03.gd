@@ -418,7 +418,7 @@ func objective_text(id: StringName, with_counter := true) -> String:
 		&"obj_people":
 			if with_counter:
 				return "Do not lose %d of the Outwall's 40 people (lost %d)" % [lost_limit(), lost]
-			return "Do not lose 30 of the Outwall's 40 people"
+			return "Do not lose %d of the Outwall's 40 people" % lost_limit()
 		&"obj_torvald":
 			return "Torvald must survive"
 		&"sec_people":
@@ -743,7 +743,7 @@ func _tick_waves() -> void:
 				order_wave(u, &"raid3", _target_point(row[4]))
 				if u.unit_type and u.unit_type.id == &"mask_captain":
 					captain = u
-					u.add_modifier(&"e7_difficulty", {"max_hp": float(by_difficulty(CAPTAIN_HP)) - 900.0})
+					u.add_modifier(&"mission:e7_difficulty", {"max_hp": float(by_difficulty(CAPTAIN_HP)) - 900.0})
 					u.hp = u.max_hp
 					u.died.connect(_on_captain_died)
 		match id:
@@ -832,12 +832,15 @@ func _refresh_e7_mode(u: Unit, mode: StringName, _hero_at: Vector3) -> bool:
 	var default_v: Variant = u.get_meta(&"e7_default", KEEP_POS)
 	if PITS.has(default_v) and is_mask(u):
 		if _flat(u.global_position, goal) < 5.0 and enemies_near(goal, 6.0) > 0 and not _side0_near(goal, 8.0):
-			u.set_meta(&"e7_default", _nearest_row(u.global_position, true))
+			var row := _nearest_row(u.global_position, true)
+			u.set_meta(&"e7_default", row if row != Vector3.INF else KEEP_POS)
 			return true
 	elif not is_mask(u) or not PITS.has(default_v):
 		var r := _nearest_row(u.global_position, false)
 		if r != Vector3.INF:
 			goal = r
+	if goal == Vector3.INF:   # C6-8: every row rung / taken and no default left: the keep
+		goal = KEEP_POS
 	if not u.is_attack_moving() or _flat(u.global_position, goal) > 4.0 and u.attack_target == null:
 		if _flat(u.global_position, goal) > 3.0:
 			u.command_attack_move(goal)
@@ -1005,7 +1008,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	tithe_paid = int(m.get("tithe", 0))
 	mammoths_free = bool(m.get("free", false))
 	walkers.clear()
-	_gangs.clear()
+	_restore_gangs()
 	# Review 2026-10-10 #3: guards and hooks set mid-mission are not part of the rebuilt start.
 	if brannet and is_instance_valid(brannet):
 		guard_life(brannet)
@@ -1013,6 +1016,25 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		guard_life(seraphine, _on_seraphine_down)
 	if captain and is_instance_valid(captain) and captain.is_alive() and not captain.died.is_connected(_on_captain_died):
 		captain.died.connect(_on_captain_died)
+
+
+## C6-5: press-gangs restored by the load (`_gangs` is a saved variable) keep their state: dead units dropped, the order
+## given again (walk -> their row, leave -> the gate).
+func _restore_gangs() -> void:
+	var kept: Array = []
+	for v: Variant in _gangs:
+		var g := v as Array
+		if g == null or g.size() < 4:
+			continue
+		var units: Array = (g[0] as Array).filter(func(x: Variant) -> bool: return x is Unit and is_instance_valid(x) and (x as Unit).is_alive())
+		if units.is_empty():
+			continue
+		var rid := StringName(str(g[1]))
+		var state := String(g[2]) if String(g[2]) == "walk" and ROWS.has(rid) else "leave"
+		for u: Variant in units:
+			(u as Unit).command_move(ROWS[rid] if state == "walk" else GATE)
+		kept.append([units, rid, state, float(g[3])])
+	_gangs = kept
 
 
 func save_block_reason() -> String:

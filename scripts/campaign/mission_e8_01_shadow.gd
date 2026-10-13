@@ -136,7 +136,7 @@ func _variant_start() -> void:
 	host_guards([["barrow_ghoul", 4], ["hexweaver", 2], ["barrow_knight", 1]], DOORS[&"bd2"], 6.0)
 	host_guards([["barrow_ghoul", 6], ["barrow_knight", 2]], DOORS[&"bd3"], 7.0)
 	var g4: Array = [["shade", 6], ["nightbolt", 3], ["shadow_knight", 2], ["hexweaver", 2], ["gloom_deacon", 1]]
-	if flag_on("e3m3_stone_used"):
+	if flag_on("e3m3_stone_used") or flag_int("shadow_stone_uses", 0) > 0:   # C6-10: Ep3 writes the track counter
 		g4.append(["shade", 2])
 	host_guards(g4, GARRISON, 6.0)
 	local_type("hush_boss").max_hp = float(HUSH_HP[diff])
@@ -144,10 +144,7 @@ func _variant_start() -> void:
 	_spawn(hush, Unit.Team.ENEMY, GARRISON + Vector3(2.0, 0.0, -2.0))
 	mark_scripted(hush)
 	set_dormant(hush, true)
-	hush.death_guard = func(_a: Variant) -> bool:
-		hush.hp = 1.0
-		_hush_flees()
-		return true
+	_guard_hush()
 	captain = make_unit("captain_story")
 	_spawn(captain, Unit.Team.PLAYER, CAPTAIN_POS)
 	mark_scripted(captain)
@@ -172,12 +169,19 @@ func _home_end() -> void:
 		say_l(id)
 	if hud:
 		hud.show_message(HINT_START, 10.0)
-		_gift_panel = mission_button_panel("GiftPanel", [[Loc.t("The Stone's Gift (40 s)"), func() -> void:
-				var r := use_gift()
-				if r != "" and hud:
-					hud.show_message(Loc.sink(r), 2.5)]])
+	_build_gift_panel()
 	if camera_rig and hero_alive():
 		camera_rig.focus_on(hero.global_position)
+
+
+## The Stone's Gift button (the intro's end, and again after a load: C6-3).
+func _build_gift_panel() -> void:
+	if hud == null or (_gift_panel != null and is_instance_valid(_gift_panel)):
+		return
+	_gift_panel = mission_button_panel("GiftPanel", [[Loc.t("The Stone's Gift (40 s)"), func() -> void:
+			var r := use_gift()
+			if r != "" and hud:
+				hud.show_message(Loc.sink(r), 2.5)]])
 
 
 # ---------------------------------------------------------------- objectives
@@ -327,7 +331,7 @@ func use_gift() -> String:
 	gift_until = mission_time() + 10.0
 	stone_uses += 1
 	add_track_counter("e8_stone_uses", 1)
-	hero.add_modifier(&"stone_gift", {"spell_power": 40.0})
+	hero.add_modifier(&"mission:stone_gift", {"spell_power": 40.0})
 	for i in 4:
 		var g := make_unit("gift_ghoul")
 		_spawn(g, Unit.Team.PLAYER, hero.global_position + Vector3(cos(i * 1.6) * 2.0, 0.0, sin(i * 1.6) * 2.0))
@@ -351,10 +355,7 @@ func _tick_hush() -> void:
 		if stair != null and has_fired(&"E8") and (not stair.is_alive() or (hero_alive() and _flat(hero.global_position, STAIR_GATE) < 20.0)):
 			hush_state = 1
 			set_dormant(hush, false)
-			hush.death_guard = func(_a: Variant) -> bool:
-				hush.hp = 1.0
-				_hush_flees()
-				return true
+			_guard_hush()
 			fire_once(&"E9")
 			say_l("L13")
 			say_l("L14")
@@ -369,6 +370,16 @@ func _tick_hush() -> void:
 		say_l("L16")
 	if r <= 0.25:
 		_hush_flees()
+
+
+## Hush never dies: at 0 HP she stays at 1 and flees.
+func _guard_hush() -> void:
+	if hush == null or not is_instance_valid(hush):
+		return
+	hush.death_guard = func(_a: Variant) -> bool:
+		hush.hp = 1.0
+		_hush_flees()
+		return true
 
 
 func _hush_flees() -> void:
@@ -471,7 +482,17 @@ func _variant_tick(dt: float) -> void:
 	tick_kneelers([captain])
 	if gift_until > 0.0 and mission_time() >= gift_until and hero_alive():
 		gift_until = 0.0
-		hero.remove_modifier(&"stone_gift")
+		hero.remove_modifier(&"mission:stone_gift")
+
+
+## After a load: the Gift panel is back until the stair is climbed (C6-3); Hush in her fight keeps her flee guard (the
+## load's wake gives her the guard she had before her sleep, none: C6-4).
+func _after_load(nodes: Dictionary) -> void:
+	super(nodes)
+	if has_fired(&"E1") and not has_fired(&"E13") and not is_ending():
+		_build_gift_panel()
+	if hush_state == 1:
+		_guard_hush()
 
 
 func save_block_reason() -> String:
