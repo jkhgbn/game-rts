@@ -71,7 +71,8 @@ func _report(t: float) -> void:
 			MissionE5Base.mmss(t + CINE_SECONDS), MissionE5Base.mmss(m.turn_time), str(m.paid), m.red_sunk, m.silver_sunk,
 			int(m.meter_peak), m.stage, ",".join(m.waves_fired)])
 	print("  objectives %s" % str(h.objective_log))
-	print("  said %s" % str(m.said))
+	print("  said %s; keep hp %d; rock lost for %.0f s" % [str(m.said), int(m.keep.hp) if m.keep and is_instance_valid(m.keep) else -1,
+			m.rock_lost_for])
 	print("  player losses (killer@minute): %s" % str(killers))
 
 
@@ -196,6 +197,13 @@ func _economy() -> void:
 	if k == null or not k.is_alive():
 		return
 	var gb := GoldBank.for_team(0)
+	# Spare gold (above the price of every dragon still to pay home) buys crystals, like a player at the Bazaar.
+	var reserve := 0
+	for id: String in ["gilt_dragon", "prism_dragon", "sunwake"]:
+		if not m.paid.has(id) and m.dragon(id) != null:
+			reserve += m.pay_price(id)
+	if gb and gb.gold >= reserve + 150 and eco.crystals < 300:
+		gb.exchange(100, &"crystals")
 	if k.tier < 3 and k.can_upgrade() == "" and not k.is_upgrading() and eco.crystals >= 300:
 		k.upgrade()
 		return
@@ -260,9 +268,26 @@ func _spells() -> void:
 	w.command_cast(&"rime_bolt", foes[0])
 
 
-## Sends `army` at `at`: fight what is within `r`, else gather there.
-func _go(army: Array, at: Vector3, r: float) -> bool:
-	var foes := _foes(at, r)
+## Torvald steps back when the foes around him outnumber the soldiers there (Malrik's pushes with Hush and the
+## Hexweavers burst him from full HP in a few seconds; a player pulls the wizard behind the line).
+func _outnumbered(at: Vector3) -> bool:
+	var foes := _foes(at, 14.0).size()
+	if foes < 5:
+		return false
+	var mine := 0
+	for u in _soldiers():
+		if MissionBase._flat(u.global_position, at) <= 14.0:
+			mine += 1
+	return foes > mine
+
+
+## Sends `army` at `at`: fight what is within `r`, else gather there. `skip_dragons`: a dragon is not chased (Kesh circles
+## the Tollrock in P1 and rests at 15 % instead of dying: chasing him drags the army into the rock's garrison).
+func _go(army: Array, at: Vector3, r: float, skip_dragons := false) -> bool:
+	var foes: Array[Unit] = []
+	for f in _foes(at, r):
+		if not (skip_dragons and main.dragons_has_unit(f)):
+			foes.append(f)
 	for v: Variant in army:
 		var u := v as Unit
 		if u.attack_target != null and is_instance_valid(u.attack_target):
@@ -297,7 +322,7 @@ func _plan() -> void:
 		if t >= 420.0:
 			_go(army, MissionE7Base.ROCK, 16.0)
 		else:
-			_go(army, MissionE7Base.NORTH_FOOT, 16.0)
+			_go(army, MissionE7Base.NORTH_FOOT, 16.0, true)
 	elif m.phase == 2 or m.turn_time < 0.0:
 		_phase = "truce"
 		_go(army, MissionE7Base.NORTH_FOOT, 8.0)
@@ -307,7 +332,7 @@ func _plan() -> void:
 		hero_spot = MissionE7Base.ROCK + Vector3(-5.0, 0.0, 5.0)
 		if m.phase == 5 and t >= m.stage_ready_at:
 			hero_spot = MissionE7Base.ROCK
-	if m.phase != 5 and m.hero.hp < m.hero.max_hp * 0.35:
+	if m.phase != 5 and (m.hero.hp < m.hero.max_hp * 0.5 or _outnumbered(m.hero.global_position)):
 		hero_spot = MissionE7Base.RIME_KEEP + Vector3(6.0, 0.0, -6.0)
 	if MissionBase._flat(m.hero.global_position, hero_spot) > 1.5:
 		m.hero.command_move(hero_spot)

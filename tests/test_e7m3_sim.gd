@@ -16,6 +16,7 @@ const SOUTH := Vector3(-8.0, 0.0, 22.0)
 const LODGE_SPOT := Vector3(-60.0, 0.0, -14.0)
 const SE_STEPS := Vector3(10.0, 0.0, 10.0)
 const WORKERS := 10
+const KEEP_GUARD_R := 30.0   # raiders this close to the Rime Keep pull the army home
 
 var verbose := false
 var passive := false
@@ -72,7 +73,7 @@ func _report(t: float) -> void:
 			MissionE5Base.mmss(t + CINE_SECONDS), m.sheltered, m.lost, m.pressed, str(m.bells_rung), str(m.rows_taken),
 			m.tithe_paid, m.mammoths_free, ",".join(m.waves_fired)])
 	print("  objectives %s" % str(h.objective_log))
-	print("  said %s" % str(m.said))
+	print("  said %s; keep hp %d" % [str(m.said), int(m.keep.hp) if m.keep and is_instance_valid(m.keep) else -1])
 	print("  player losses (killer@minute): %s" % str(killers))
 
 
@@ -291,7 +292,12 @@ func _plan() -> void:
 	var t := m.mission_time()
 	var rid := _next_bell()
 	var hero_spot := _center() + Vector3(-2.0, 0.0, 2.0)
-	if rid != &"":
+	# Raiders with no row left march on the keep (review C6-8, the spec's "then the keep"): a player defends it first.
+	var at_keep := _foes(MissionE7_03.KEEP_POS, KEEP_GUARD_R)
+	if at_keep.size() >= 2 and m.keep and m.keep.is_alive():
+		_phase = "keep"
+		_go(army, MissionE7_03.KEEP_POS, KEEP_GUARD_R)
+	elif rid != &"":
 		_phase = "bell %s" % rid
 		var at: Vector3 = MissionE7_03.ROWS[rid]
 		var clear := _go(army, at, 14.0)
