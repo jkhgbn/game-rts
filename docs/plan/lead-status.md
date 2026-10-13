@@ -14,7 +14,7 @@ of 2026-10-01 to 10-10 are in `docs/ideas/restart_*.md` (history now: this file 
 - Claude setup: hooks in `.claude/settings.json`, skills `/wave`, `/ci-suite`, `/playtest-release`, reviewer `contract-reviewer`.
 
 ## Playtest build 2026-10-13 (ready)
-- Tag `playtest-2026-10-13-2` (8dcc0bb9). `FourWizards-2026-10-13.zip` (239 MB) on the Desktop and in OneDrive;
+- Tag `playtest-2026-10-13-3` (f9b71e34: + e8m1 freed-scout fix, campaign freed-object sweep). Zip replaced 10:24. `FourWizards-2026-10-13.zip` (239 MB) on the Desktop and in OneDrive;
   build folder `Documents\four-wizards-build\FourWizards-2026-10-13\` (FourWizards.exe = stock Godot 4.7.2 renamed,
   FourWizards.pck, Jouer.bat = `--main-pack`, LISEZMOI.md). Boot-tested from the extracted zip.
 - Why a pck: export templates are missing (`%APPDATA%\Godot\export_templates` empty); `--export-pack` works without
@@ -23,7 +23,9 @@ of 2026-10-01 to 10-10 are in `docs/ideas/restart_*.md` (history now: this file 
 - CI: ci_quick 400 / 400 (docs/ci/2026-10-12_2206); full CI on the first tag 40 / 45 (docs/ci/playtest-2026-10-13-sims).
   Of the 5 failing sims: e7m3 / e7m4 were sims following old buggy behaviour (fixed in the tests, 8dcc0bb9);
   e3m1 / e5m4 / e4m4 also fail on the 57f8851b baseline (pre-existing; e4m4 flaky). After the first tag only
-  commander.gd (Vessa threat memory) and test files changed (ci_quick -Changed -Base 0abaccfe re-checks it).
+  commander.gd (Vessa threat memory) and test files changed. ci_quick -Changed -Base 0abaccfe: 404 / 404 (found the e8m1 error).
+  All 54 mission sims on tag -3 (docs/ci/playtest-2026-10-13-3-sims): 48 / 54, 0 script errors; e2m4 / e2m5 pass on rerun
+  (flaky), e6m2 also fails seeds 1-2 on tag -2 (flaky / pre-existing), e3m1 / e5m4 pre-existing, e8m3 flaky (3 / 4).
 
 ## Balance (open)
 - `docs/balance/confirm_2026-10-13/report.md`: Blitz fine (Ice weak 29 %); normal pace Fire 72-75 % vs Shadow.

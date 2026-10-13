@@ -1,4 +1,4 @@
-# Notes de playtest — 13 octobre 2026 (version `playtest-2026-10-13-2`)
+# Notes de playtest — 13 octobre 2026 (version `playtest-2026-10-13-3`)
 
 ## Comment jouer
 - `FourWizards-2026-10-13.zip` sur le Bureau et dans OneDrive : décompresse, puis double-clic sur **`Jouer.bat`**
@@ -26,7 +26,7 @@
 - **Équilibrage, rythme Normal** : Feu gagne trop souvent contre Ombre (≈ 72-75 %, surtout à Crown Hollow).
   En Blitz c'est correct (Feu 58, Nature 60, Ombre 52), sauf **Glace faible en Blitz** (29 %).
   Cause confirmée (test A/B) : la correction de Mère Hush. Avant, elle arrêtait net les attaques du bot Feu (Ombre gagnait alors 10 / 12). On garde la correction et on compensera Ombre.
-- **e6m2 (épisode 6, mission 2) en difficile** : très dur, même avant les corrections.
+- **e6m2 (épisode 6, mission 2)** : très dur en difficile, et notre joueur simulé perd parfois aussi en normal (route), même avant les corrections.
 - **e8m3 (mission finale)** : la Frappe de clé de voûte du roi punit les groupes serrés ; Vessa ne régénère pas
   ses PV, les potions comptent.
 - e3m1, e4m4, e5m4 : nos joueurs simulés échouent encore (déjà avant les corrections) ; les missions elles-mêmes
