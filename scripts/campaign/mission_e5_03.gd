@@ -160,7 +160,7 @@ const HINT_CANDLE := "Malrik's candle: J (or the button on his card). Lit, he se
 const HINT_SHADOW := "Violet ground is shadow: there your units are hidden unless a light touches them, and Malrik heals. Lamps and lanterns show you to the wardens."
 const HINT_SNUFF := "A snuffed lamp leaves a pool of shadow. Wardens relight lamps they pass."
 const HINT_SHADES := "Shades burn in any light. Keep them in the dark; send them to breathe out lamps."
-const HINT_SEEN := "Seen! Get back into the dark and stay there: the wardens lose you after 6 seconds."
+const HINT_SEEN := "Seen! Get back into the dark and stay there: the wardens lose you after {n} seconds."
 const HINT_BELL := "The Bell is on the Lantern House porch, between two lamps and two wardens."
 const HINT_SIPHON := "Ctrl+Q learns Soul Siphon: Q, then click a crowd. It heals Malrik for half of what it drains."
 const MSG_CANDLE_LIT := "Candle lit"
@@ -687,7 +687,7 @@ func _raise_alarm() -> void:
 	if fire_once(&"E6"):
 		say_l("L9")
 		if hud:
-			hud.show_message(HINT_SEEN, 12.0)
+			hud.show_message(Loc.t(HINT_SEEN, {"n": int(by_difficulty(LOSE_AFTER))}), 12.0)
 	if alarm >= 3 and mission_time() >= _wake_ready_at and _wake_ends_at < 0.0 and not has_fired(&"E13"):
 		_wickmoor_wakes()
 
@@ -1228,15 +1228,16 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		if not is_instance_valid(v):
 			continue
 		var w := v as Unit
-		w.death_guard = _warden_guard.bind(w)
+		restore_guard(w, _warden_guard.bind(w))
 		if w.get_meta(&"e5_mode", &"") == &"out" and not is_dormant(w):
 			set_dormant(w, true)
 	if reeve and is_instance_valid(reeve):
-		reeve.death_guard = _reeve_guard
+		restore_guard(reeve, _reeve_guard)
 		_reeve_inside(not has_fired(&"E13"))
 	for v: Variant in shades.duplicate():
 		if not is_instance_valid(v):
 			shades.erase(v)
+
 
 
 # ---------------------------------------------------------------- every frame

@@ -129,6 +129,7 @@ const HINT_CHOICE := "The rider begs you to open the gate. Open the gate, or kee
 const MSG_CRACK := "The ice is cracking at the mere!"
 const MSG_GATE_FELL := "The Frostgate has fallen. Hold the keep."
 const MSG_ONE_LODGE := "Torvald's land has room for three lodges"
+const MAX_LODGES := 3                     ## Snow Lodges max 3, the pre-built one included (spec 38)
 const MSG_WALLS := "No more ice for walls this winter"
 const BTN_OPEN := "Open the gate"
 const BTN_SHUT := "Keep it shut"
@@ -189,14 +190,15 @@ class FrostGate:
 		set_meta(&"scripted", true)
 		_add_leaves(false)
 
+	## Open = not a target (C5-2): attackers drop it and walk through the gap.
 	func is_alive() -> bool:
-		return not is_shattered and hp > 0.0
+		return not is_shattered and is_closed and hp > 0.0
 
 	func target_radius() -> float:
 		return 3.0
 
 	func take_damage(amount: float, _attacker: Node3D = null) -> void:
-		if not is_alive() or not is_closed or amount <= 0.0:
+		if not is_alive() or amount <= 0.0:
 			return
 		hp = maxf(0.0, hp - amount * Unit.armor_multiplier(armor))
 		if hp <= 0.0:
@@ -698,6 +700,8 @@ func _tick_town(dt: float) -> void:
 			continue
 		var escorted := false
 		for u in army:
+			if u.is_in_group(&"townsfolk") or not u.is_commandable():
+				continue   # only Torvald's soldiers escort (C5-6)
 			if _flat(u.global_position, f.global_position) <= ESCORT_R:
 				escorted = true
 				break
@@ -1007,7 +1011,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	if choice_at >= 0.0:
 		_show_choice_panel()
 	if aldra and is_instance_valid(aldra):
-		aldra.death_guard = _aldra_guard
+		restore_guard(aldra, _aldra_guard)
 		if _aldra_back_left > 0.0 and not is_dormant(aldra):
 			set_dormant(aldra, true)
 			aldra.visible = false
@@ -1036,7 +1040,7 @@ func _physics_process(delta: float) -> void:
 		_tick = 0.5
 		_tick_choice()
 		_tick_host()
-		enforce_max(&"ice_lodge", 2, MSG_ONE_LODGE)
+		enforce_max(&"ice_lodge", MAX_LODGES, MSG_ONE_LODGE)
 		enforce_max(&"ice_wall", 16, MSG_WALLS)
 		objectives_changed.emit()
 		if hud and mission_hud == null:

@@ -17,6 +17,7 @@ const WARDEN_ID := "hollow_warden"      ## the Ruin Warden as a Host unit (pop 2
 const BREAKER_X2 := 2.0
 const DRIFT := &"season:drift"
 const E6_ESSENCE := 400
+const META_ARMED := &"e6_armed"         ## saved: arm_enemy ran on this unit (a load re-arms it, save_spawned)
 
 ## The ice / seal target of the episode: a Heartfrost that only ENEMY units damage (Breakers x2 through the mission's
 ## hook), regenerating `regen_per_second` while `regen_ok` (Callable -> bool) says so. `look` false hides the ice
@@ -147,6 +148,7 @@ func arm_enemy(u: Unit) -> void:
 	if u == null:
 		return
 	mark_scripted(u)
+	u.set_meta(META_ARMED, true)
 	if cold:
 		u.add_modifier(DRIFT, {"move_speed": _cold_drift})
 	if is_breaker(u) and not u.attack_landed.is_connected(_on_breaker_hit.bind(u)):
@@ -287,6 +289,15 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 			g = _restore_missing_gate(id)
 		if g:
 			g.load_row(rows[key] as Array)
+
+
+## C5-4: a unit the save rebuilt (mid-mission spawn) that arm_enemy had armed (saved meta META_ARMED) is armed again:
+## scripted, the Breakers' x2 hook and their model scale (the missions' load_state puts the cold's drift back through
+## set_cold). Units the mission never armed (other spawners) stay as they are.
+func save_spawned(u: Unit, row: Dictionary) -> void:
+	super(u, row)
+	if u != null and (u.has_meta(META_ARMED) or (row.get("metas", {}) as Dictionary).has(String(META_ARMED))):
+		arm_enemy(u)   # the row's metas are decoded after this hook: read the row
 
 
 ## Override: re-create a gate the mission raised after its start (null = unknown id, skipped).

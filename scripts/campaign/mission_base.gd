@@ -1584,6 +1584,17 @@ func set_dormant(u: Unit, dormant: bool) -> void:
 		u.command_stop()
 
 
+## A story unit's death guard set (or set again after a load): on the stored guard while the unit sleeps (its live
+## guard is the dormant immortality; the wake gives the stored one back), else on the unit.
+func restore_guard(u: Unit, guard: Callable) -> void:
+	if u == null or not is_instance_valid(u):
+		return
+	if u.has_meta(META_DORMANT):
+		u.set_meta(META_GUARD, guard)
+	else:
+		u.death_guard = guard
+
+
 func _sleep(u: Unit) -> void:
 	if u.has_meta(META_DORMANT):
 		return

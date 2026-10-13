@@ -512,10 +512,7 @@ func _arm_dragon(u: Unit, id: String) -> void:
 		u.hp = maxf(1.0, u.max_hp * DRAGON_REST)
 		_rest_dragon(StringName(id), 30.0)
 		return true
-	if is_dormant(u):
-		u.set_meta(META_GUARD, guard)
-	else:
-		u.death_guard = guard
+	restore_guard(u, guard)
 
 
 func dragon(id: String) -> Unit:

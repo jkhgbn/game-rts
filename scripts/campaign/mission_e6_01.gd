@@ -864,7 +864,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		if float(carve[i]) >= CARVE_TIME and i < _stone_props.size() and _stone_props[i] != null:
 			(_stone_props[i] as Node3D).visible = false
 	if aldra and is_instance_valid(aldra):
-		aldra.death_guard = _aldra_guard
+		restore_guard(aldra, _aldra_guard)
 		if _aldra_back_left > 0.0 and not is_dormant(aldra):
 			set_dormant(aldra, true)
 			aldra.visible = false

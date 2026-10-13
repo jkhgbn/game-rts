@@ -708,8 +708,13 @@ func _refresh_push() -> void:
 			u.command_attack_move(target as Vector3)
 
 
+## C5-1: Torvald is a 2v2 wizard: he comes back at his keep (Skirmish's respawn timer, never a loss).
 func _on_torvald_died(_u: Unit) -> void:
-	if hud and not is_ending():
+	if is_ending():
+		return
+	_respawn_left[ALLY_SEAT] = next_respawn_delay(ALLY_SEAT)
+	_deaths[ALLY_SEAT] = int(_deaths.get(ALLY_SEAT, 0)) + 1
+	if hud:
 		hud.show_message(MSG_TORVALD_FELL, 4.0)
 
 
@@ -771,6 +776,12 @@ func save_state(ids: Dictionary = {}) -> Dictionary:
 	var d := super(ids)
 	if seal:
 		d["seal_hp"] = seal.hp
+	if not _push.is_empty():
+		var target: Variant = _push["target"]
+		var units: Variant = SaveCodec.encode(_push["units"], ids)
+		d["e6m4_push"] = {"gate": String((target as WardenGate).gate_id) if target is WardenGate else "",
+				"pos": target if target is Vector3 else Vector3.ZERO, "until": float(_push["until"]),
+				"units": units if not SaveCodec.is_skip(units) else []}
 	return d
 
 
@@ -781,7 +792,24 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		seal.hp = float(d["seal_hp"])
 	if tier_system:
 		tier_system.max_tier = 2 if has_fired(&"E3") else 1
-	_push = {}
+	_push = _load_push(d.get("e6m4_push", {}), nodes)
+
+
+## C5-10: Torvald's push / hold order back from its save row (a gate by id, a point; {} = none).
+func _load_push(row: Dictionary, nodes: Dictionary) -> Dictionary:
+	if row.is_empty():
+		return {}
+	var target: Variant = row.get("pos", Vector3.ZERO)
+	var gate_id := String(row.get("gate", ""))
+	if gate_id != "":
+		target = wgates.get(StringName(gate_id))
+		if not target is WardenGate:
+			return {}
+	var units: Array = []
+	for v: Variant in SaveCodec.decode(row.get("units", []), nodes) as Array:
+		if v is Unit and is_instance_valid(v):
+			units.append(v)
+	return {"target": target, "until": float(row.get("until", 0.0)), "units": units}
 
 
 # ---------------------------------------------------------------- every frame

@@ -5,7 +5,7 @@ extends SceneTree
 ## through, and the night must not end before the Final (16:00) is dead. Real fights, cinematics off (fallback end
 ## states); the spec lengths of e6m2_rider 0:15 and the dawn film 0:30 are added to the reported play time.
 ## tests/test_e6m2_shut_sim.gd runs the shut branch (the window runs out, a wall defence to 20:00).
-## `-- --seed N`, `-- --verbose`. Slow. Run: godot --headless --path . -s tests/test_e6m2_sim.gd --fixed-fps 60
+## `-- --seed N`, `-- --difficulty N` (0-2, default 1), `-- --verbose`. Slow. Run: godot --headless --path . -s tests/test_e6m2_sim.gd --fixed-fps 60
 ## --quit-after 90000
 
 const TASK_ID := "e6m2_sim"
@@ -17,6 +17,8 @@ const LAKE_HOLD := Vector3(46.0, 0.0, -38.0)
 const LODGE := Vector3(-24.0, 0.0, -50.0)
 const HALL2 := Vector3(-26.0, 0.0, -36.0)
 const WALL_HOLD := Vector3(0.0, 0.0, -14.0)
+const GAP_HOLD := Vector3(0.0, 0.0, -5.0)     ## the open Frostgate's gap: the army plugs it once the folk are in
+const GAP_HERO := Vector3(0.0, 0.0, -16.0)    ## Torvald casts from behind the wall
 const WORKERS := 12
 const DETACH := 5
 
@@ -41,10 +43,14 @@ func _initialize() -> void:
 	var i := args.find("--seed")
 	if i >= 0 and i + 1 < args.size():
 		seed(int(args[i + 1]))
+	var difficulty := 1
+	var di := args.find("--difficulty")
+	if di >= 0 and di + 1 < args.size():
+		difficulty = clampi(int(args[di + 1]), 0, 2)
 	h.task_id = TASK_ID + ("_shut" if shut else "")
 	h.protect_hero = false
 	h.timeout_frames = 88000
-	main = h.open(self, MISSION, {"difficulty": 1, "set": {"campaign_save_path": "user://test_e6m2_sim_none.json"}}) as MissionE6_02
+	main = h.open(self, MISSION, {"difficulty": difficulty, "set": {"campaign_save_path": "user://test_e6m2_sim_none.json"}}) as MissionE6_02
 	h.steps.add("play", _play, 87000)
 
 
@@ -266,7 +272,7 @@ func _plan() -> void:
 	else:
 		_hold(_detach, LAKE_HOLD, 14.0)
 	if _healing:
-		_hold(main_army, ROAD_HOLD if m.branch == &"open" else WALL_HOLD, 18.0)
+		_hold(main_army, GAP_HOLD if m.branch == &"open" else WALL_HOLD, 18.0)
 		return
 	var home := _foes_near(MissionE6_02.KEEP_POS, 24.0)
 	if not home.is_empty():
@@ -294,10 +300,11 @@ func _plan() -> void:
 			target = g
 			break
 	if target == null or main_army.size() < 14 or t < 600.0:
+		# the folk are in: hold the open gate's gap (the Wardens no longer stall on an open gate), Torvald behind the wall
 		_phase = "road"
-		_hold(main_army, ROAD_HOLD, 18.0)
+		_hold(main_army, GAP_HOLD, 16.0)
 		if not lake:
-			_hero_to(ROAD_HOLD + Vector3(0.0, 0.0, -6.0), 3.0)
+			_hero_to(GAP_HERO, 3.0)
 		return
 	_phase = "gate %s" % target.gate_id
 	if not _hold(main_army, target.global_position, 14.0):
@@ -306,4 +313,4 @@ func _plan() -> void:
 			if u.attack_target == null:
 				u.command_attack(target)
 	if not lake:
-		_hero_to(ROAD_HOLD + Vector3(0.0, 0.0, -6.0), 3.0)   # Torvald keeps the road; the army breaks the gate
+		_hero_to(GAP_HERO, 3.0)   # Torvald keeps the gap behind the wall; the army breaks the gate

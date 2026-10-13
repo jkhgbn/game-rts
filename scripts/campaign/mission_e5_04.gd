@@ -881,11 +881,10 @@ func _on_player_hero_fell() -> void:
 
 # ---------------------------------------------------------------- save / load
 
+## The yards' truce comes back from the save's metas (MissionBase reconcile: kept before 6:00, lifted after, C5-3).
 func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	super(d, nodes)
 	_apply_banner_owners(d)
-	if not _yards_open:
-		set_truce(_yards.filter(func(b: Variant) -> bool: return b != null and is_instance_valid(b)), true, Unit.TRUCE_ALL)
 
 
 func save_state(ids: Dictionary = {}) -> Dictionary:

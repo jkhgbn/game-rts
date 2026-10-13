@@ -1073,9 +1073,10 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		else:
 			_arm_gannet()
 	if vey and is_instance_valid(vey):
-		vey.death_guard = _vey_guard
+		restore_guard(vey, _vey_guard)
 		if _vey_kneel_left > 0.0 and not is_dormant(vey):
 			set_dormant(vey, true)
+
 
 
 # ---------------------------------------------------------------- every frame

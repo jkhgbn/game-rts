@@ -208,6 +208,14 @@ class SeedGarden:
 			_mat.albedo_color = Color(0.12, 0.13, 0.16)
 			lost.emit(self)
 
+	## A load (C5-9): Life `value` back without a signal; 0 = lost again, quietly (the mission's counters are saved).
+	func restore_hp(value: float) -> void:
+		hp = clampf(value, 0.0, max_hp)
+		is_lost = hp <= 0.0
+		if is_lost and _mat:
+			_mat.albedo_color = Color(0.12, 0.13, 0.16)
+		_update_look()
+
 	func _update_look() -> void:
 		if _mat and not is_lost:
 			_mat.albedo_color = Color(0.92, 0.95, 0.98).lerp(Color(0.35, 0.62, 0.25), ratio())
@@ -787,11 +795,9 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	var life: Array = d.get("gardens", [])
 	for i in mini(life.size(), gardens.size()):
 		var g := gardens[i] as SeedGarden
-		g.hp = float(life[i])
-		if g.hp <= 0.0:
-			g.change(-1.0)
-		else:
-			g.change(0.001)
+		g.restore_hp(float(life[i]))
+	if gardens.size() > 3 and (gardens[3] as SeedGarden).is_lost and maelis and is_instance_valid(maelis) and hero:
+		maelis.bond_to(hero)   # the Well was lost before the save: Maelis escorts Ysolde (_on_garden_lost)
 	if night >= 0:
 		set_cold(true, NIGHT_SIGHT, 0.0, false)
 		_night_light()
@@ -802,12 +808,14 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		var u := n as Unit
 		if u and int(u.team) == Unit.Team.ENEMY and u.unit_type and String(u.unit_type.id) in ["frostfang", "whitepelt"]:
 			_wolves.append(u)
-			u.damage_taken.connect(_on_wolf_hit.bind(u))
+			if not MissionBase.is_hooked(u.damage_taken, &"_on_wolf_hit"):
+				u.damage_taken.connect(_on_wolf_hit.bind(u))
 			if String(u.unit_type.id) == "whitepelt":
 				whitepelt = u
-				u.died.connect(_on_whitepelt_died)
+				if not u.died.is_connected(_on_whitepelt_died):
+					u.died.connect(_on_whitepelt_died)
 	if maelis and is_instance_valid(maelis):
-		maelis.death_guard = _maelis_guard
+		restore_guard(maelis, _maelis_guard)
 		if _maelis_back_left > 0.0 and not is_dormant(maelis):
 			set_dormant(maelis, true)
 			maelis.visible = false

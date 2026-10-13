@@ -1102,7 +1102,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 					set_dormant(v as Unit, false)
 				(v as Unit).visible = true
 	if ashby and is_instance_valid(ashby):
-		ashby.death_guard = _ashby_guard
+		restore_guard(ashby, _ashby_guard)
 		if _ashby_back_left > 0.0:
 			set_dormant(ashby, true)
 			ashby.visible = false
@@ -1111,8 +1111,13 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 			gannet.leave_map()
 			gannet = null
 		else:
-			gannet.death_guard = _gannet_guard
+			restore_guard(gannet, _gannet_guard)
+	# C5-7: the saved `mission:drill` modifiers stay on their archers: _drilled lists exactly those, so the next
+	# _tick_drill takes the bonus off the ones out of Ashby's reach.
 	_drilled.clear()
+	for u in units_of(Unit.Team.PLAYER, true):
+		if u.unit_type and u.unit_type.id == &"ember_archer" and u.has_modifier(&"mission:drill"):
+			_drilled.append(u)
 
 
 # ---------------------------------------------------------------- every frame
