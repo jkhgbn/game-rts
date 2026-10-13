@@ -365,6 +365,8 @@ func _try_challenge() -> void:
 		return
 	var any := false
 	for e in _enemies_near(unit.global_position, float(CHALLENGE["radius"])):
+		if not is_instance_valid(e.attack_target):
+			continue   # none, or freed this frame (casting a freed object is a script error)
 		var t := e.attack_target as Unit
 		if t and Teams.is_allied_fast(int(t.team), int(unit.team)) and t.attack_range > 3.0 and t != unit:
 			e.apply_status(&"taunted", float(CHALLENGE["taunt"]), false, unit)

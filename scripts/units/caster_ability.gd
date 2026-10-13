@@ -44,6 +44,10 @@ var reaction := CasterKit.AUTOCAST_TICK
 ## Hard bots: the Kilnwarden holds Mana Scald for an enemy caster's cast (1.5 s), the Bramblesage holds Pollen Haze for
 ## 5 ranged units in the first 5 s of a fight.
 var bot_hard := false
+## Wave Strike lane casters (wave-strike.md 14.1, set by LaneSpawner): cast while walking like `bot_controlled`, every
+## spell through autocast_target() (Rime Bulwark on its dive-guard rule) whatever the autocast toggles, except
+## Umbral Passage and Scrying Rune (never). Default false: skirmish / missions unchanged.
+var lane_mode := false
 ## Spawn order of this caster in the match (CasterKit.attach): the deterministic stagger of its autocast tick.
 var serial := 0
 
@@ -906,16 +910,19 @@ func _autocast_check() -> void:
 	if unit == null or not unit.is_alive() or not unit.can_act() or is_casting() or is_channelling() \
 			or not _approach.is_empty() or unit.is_displaced():
 		return
-	if not bot_controlled and unit.has_move_order():
+	if not (bot_controlled or lane_mode) and unit.has_move_order():
 		return
 	if _gcd > 0.0:
 		return
 	if bot_hard:
 		_note_fight()
 	for sid in spell_ids():
-		if not (bot_controlled or autocast(sid)):
+		if lane_mode:
+			if sid == &"umbral_passage" or sid == &"scrying_rune":
+				continue   # off in the lane (wave-strike.md 14.1)
+		elif not (bot_controlled or autocast(sid)):
 			continue
-		if bot_controlled and (sid == &"umbral_passage" or sid == &"rime_bulwark" or sid == &"scrying_rune"):
+		elif bot_controlled and (sid == &"umbral_passage" or sid == &"rime_bulwark" or sid == &"scrying_rune"):
 			continue   # AICasters' own rules (8.3)
 		if cooldown_left(sid) > 0.0 or mana + 0.001 < mana_cost(sid):
 			continue
