@@ -2016,6 +2016,15 @@ func _after_load(_nodes: Dictionary) -> void:
 	pass
 
 
+## True when `sig` already calls method `method`, bound or not (is_connected misses a bound Callable): lets a load
+## re-hook a signal once (the `_apply_X` / `_after_load` convention).
+static func is_hooked(sig: Signal, method: StringName) -> bool:
+	for c: Dictionary in sig.get_connections():
+		if (c["callable"] as Callable).get_method() == method:
+			return true
+	return false
+
+
 ## Registers a mission actor (a prop / StaticBody3D the save does not rebuild: brazier, gate, heart...) under `key`
 ## (unique per mission). The actor answers `save_row() -> Array` (plain values; units / buildings allowed) and
 ## `load_row(row: Array) -> void`. Contract: load_row is QUIET: it puts the state back (HP, lit, open, dead -> quiet

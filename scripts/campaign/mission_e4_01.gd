@@ -329,8 +329,14 @@ func _ready() -> void:
 		var base := UnitType.find(id)
 		if base:
 			var t := base.duplicate() as UnitType
+			t.id = StringName(id + "_guest")   # its own id: a load rebuilds a guest from it (pop 0), not the data type
 			t.pop = 0   # the hill's folk answering the horn: guests, no pop
 			_guest_types[id] = t
+			register_local_unit_type(t)
+	register_local_building_type(_horn_type)
+	register_local_unit_type(_folk_type)
+	register_local_unit_type(_wren_type)
+	register_local_unit_type(_vey_type)   # torren_vey, not commandable (a load must not bring the data one back)
 	super()
 	if camera_rig:
 		camera_rig.focus_on(YSOLDE_START)
@@ -822,6 +828,7 @@ func _add_zones() -> void:
 	add_child(ford_zone)
 	ford_zone.global_position = FORD_ZONE
 	ford_zone.captured.connect(_on_ford_captured)
+	register_actor("zone_ford", ford_zone)
 	for id: StringName in STANDARDS:
 		var z := MissionZone.new()
 		z.zone_id = id
@@ -834,6 +841,7 @@ func _add_zones() -> void:
 		z.global_position = STANDARDS[id][1]
 		z.set_owner_side(0)
 		z.captured.connect(_on_standard_captured)
+		register_actor("zone_%s" % String(id), z)
 		standards[id] = z
 
 
@@ -959,7 +967,7 @@ func _add_events() -> void:
 	after(W5_AT + late, _fire_wave.bind(&"W5"))
 	after(RAID_AT + late, _fire_wave.bind(&"RAID"))
 	after(FINAL_AT + fin, _fire_wave.bind(&"FINAL"))
-	_horn_call_left = HORN_CALL_AT
+	_horn_call_left = 0.0   # C4-7: the first call at HORN_CALL_AT (6:00), then every HORN_CALL_EVERY
 
 
 func _fire_wave(id: StringName) -> void:
@@ -1034,17 +1042,20 @@ func _fire_wave(id: StringName) -> void:
 			for u in su:
 				order_wave(u as Unit, &"tree", GOLDEN_TREE)
 			_vessa_to_crest()
-			after(ICE_FINAL_DELAY, func() -> void:
-				if is_ending():
-					return
-				ice_final_units = spawn_wave_at(WAVES[&"FINAL_I"], BIRCH_NORTH, ICE_SEAT)
-				_carry_wizard(torvald, &"ice_final", _nearest_owned_standard(BIRCH_NORTH))
-				if torvald and is_instance_valid(torvald) and torvald.is_alive():
-					ice_final_units.append(torvald)
-				for u in ice_final_units:
-					if u != torvald:
-						order_wave(u as Unit, &"ice_final", _nearest_owned_standard(BIRCH_NORTH)))
+			after(ICE_FINAL_DELAY, _ice_final)   # a named method: a save in the Final stays allowed
 			after(VEY_DELAY, _vey_arrives)
+
+
+func _ice_final() -> void:
+	if is_ending():
+		return
+	ice_final_units = spawn_wave_at(WAVES[&"FINAL_I"], BIRCH_NORTH, ICE_SEAT)
+	_carry_wizard(torvald, &"ice_final", _nearest_owned_standard(BIRCH_NORTH))
+	if torvald and is_instance_valid(torvald) and torvald.is_alive():
+		ice_final_units.append(torvald)
+	for u in ice_final_units:
+		if u != torvald:
+			order_wave(u as Unit, &"ice_final", _nearest_owned_standard(BIRCH_NORTH))
 
 
 ## E11 (12:00): the evening horn: e4m1_horn, W4 at both fords, the unroused south hamlets burn, sec_ford resolved.
@@ -1082,10 +1093,14 @@ func _vey_arrives() -> void:
 	fire_once(&"E16")
 	flash_ring(VESSA_ANCHOR, 4.0)
 	vey = _spawn(Worker.make_unit(_vey_type), PLAYER_SEAT, VESSA_ANCHOR)
-	mark_scripted(vey)
-	vey.death_guard = _vey_guard
+	_arm_vey(vey)
 	order_wave(vey, &"vey", GOLDEN_TREE)
 	say_l("L26")
+
+
+func _arm_vey(u: Unit) -> void:
+	mark_scripted(u)
+	u.death_guard = _vey_guard
 
 
 func _vey_guard(_attacker: Variant) -> bool:
@@ -1382,13 +1397,44 @@ func _rouse(id: StringName) -> void:
 	for i in FOLK_PER_BELL:
 		var a := TAU * float(i) / float(FOLK_PER_BELL)
 		var f := _spawn(Worker.make_unit(_folk_type), PLAYER_SEAT, at + Vector3(cos(a) * 2.0, 0.0, sin(a) * 2.0))
-		f.add_to_group(&"meadow_folk")
-		mark_scripted(f)
+		_arm_folk(f)
 		f.set_meta(&"bell", id)
-		f.died.connect(_on_folk_died)
 		folk.append(f)
 		f.command_move(_refuge_spot(i))
 	flash_ring(at, 3.0)
+
+
+## A villager's group, scripted mark and died hook (idempotent: the bell and a load run it).
+func _arm_folk(f: Unit) -> void:
+	f.add_to_group(&"meadow_folk")
+	mark_scripted(f)
+	if not f.died.is_connected(_on_folk_died):
+		f.died.connect(_on_folk_died)
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening C4-2, C4-6)
+
+## Units of the local types (villagers, Old Vey) rebuilt by a load get their hooks back.
+func save_spawned(u: Unit, row: Dictionary) -> void:
+	super(u, row)
+	var id := String(row.get("type", ""))
+	if _folk_type and id == String(_folk_type.id):
+		_arm_folk(u)
+	elif _vey_type and id == String(_vey_type.id):
+		_arm_vey(u)
+
+
+func _after_load(_nodes: Dictionary) -> void:
+	for v: Variant in folk:
+		if v is Unit and is_instance_valid(v):
+			_arm_folk(v as Unit)
+	if vey and is_instance_valid(vey):
+		_arm_vey(vey)
+	if hush and is_instance_valid(hush) and _hush_back_left > 0.0:
+		hush.visible = false   # fled: hidden at the Dusk Keep until she comes back
+	for id: StringName in bells:
+		if bool((bells[id] as Dictionary).get("burned", false)):
+			_smoke(id)
 
 
 func _refuge_spot(i: int) -> Vector3:

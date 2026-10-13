@@ -278,6 +278,9 @@ func _ready() -> void:
 	_wagon_type = _make_prop_type("fire_hearth", &"supply_wagon", "Supply Wagon", WAGON_HP)
 	_tent_type = _make_prop_type("shadow_hovel", &"villager_tents", "Villager Tents", 300.0)
 	_vey_type = _make_vey_type()
+	register_local_building_type(_wagon_type)
+	register_local_building_type(_tent_type)
+	register_local_unit_type(_vey_type)
 	super()
 	if camera_rig:
 		camera_rig.focus_on(SQUAD_START)
@@ -1158,10 +1161,10 @@ func _end_night() -> void:
 	play_cutscene(&"e3m2_embers", _dawn)
 
 
+## One-shot dawn (E12): everything a load must not run again; the lasting state is _apply_dawn's.
 func _dawn() -> void:
 	phase = 2
 	dawn_left = -1.0
-	_quiet_camp(false)
 	if hud:
 		hud.show_message(MSG_DAWN_LIGHT, 4.0)
 	clear_waves()
@@ -1175,8 +1178,6 @@ func _dawn() -> void:
 				(u as Unit).leave_map()
 	if vey_vigil and is_instance_valid(vey_vigil):
 		vey_vigil.leave_map()
-	for f: Array in fires:
-		_set_fire(f, false)
 	for i in squad.size():
 		var s: Variant = squad[i]
 		if is_instance_valid(s) and (s as Unit).is_alive():
@@ -1185,28 +1186,18 @@ func _dawn() -> void:
 			(s as Unit).command_stop()
 	# Malrik takes over: the hero swap (F1 / Space / spells / instant loss follow set_player_hero).
 	set_dormant(malrik, false)
-	malrik.remove_meta(SCRIPTED_GROUP)
-	malrik.remove_from_group(SCRIPTED_GROUP)
 	malrik.global_position = MALRIK_DAWN
-	_claim_wizard(malrik, PLAYER_SEAT)
-	malrik.level_cap = 6
 	force_artifacts(malrik, ["keystone_shard", ""])
-	set_player_hero(malrik)
 	if hush_hero and is_instance_valid(hush_hero):
 		hush_hero.death_guard = func(_a: Variant) -> bool: return true
 		hush_hero.leave_map()
-	if keep:
-		keep.set_start_tier(3)
-	lock_base(false)
-	set_resources_hidden(false)
+	_apply_dawn()
 	var eco := Economy.for_team(PLAYER_SEAT)
 	if eco:
 		eco.crystals = int(by_difficulty(PHASE2_CRYSTALS))
 		eco.changed.emit()
 	var bank := EssenceBank.for_team(PLAYER_SEAT)
 	if bank:
-		bank.trickle_enabled = true
-		bank.kill_income_enabled = true
 		bank.add(_carried_essence())
 	for i in 6:
 		var w := _spawn(make_unit("gloom_thrall"), PLAYER_SEAT, DUSK_KEEP + Vector3(-4.0 + i * 1.5, 0.0, 6.0))
@@ -1218,14 +1209,6 @@ func _dawn() -> void:
 			vessa.respawn(FIRE_KEEP + Vector3(-4.0, 0.0, -6.0))
 		vessa.global_position = FIRE_KEEP + Vector3(-4.0, 0.0, -6.0)
 		vessa.command_stop()
-	_add_seat_commander(ALLY_SEAT)
-	var roster := HelperRoster.for_team(PLAYER_SEAT)
-	if roster and roster.has_signal(&"helper_ready"):
-		roster.connect(&"helper_ready", func(_h: Variant) -> void:
-			if fire_once(&"E15"):
-				say_l(23)
-				if objective_state("sec_call") == "active":
-					set_objective(&"sec_call", "done"))
 	fire_once(&"E12")
 	say_l(20)
 	light_left = float(by_difficulty(HOLD_LIGHT))
@@ -1234,10 +1217,80 @@ func _dawn() -> void:
 	set_objective(&"sec_call", "active")
 	if hud:
 		hud.show_message(HINT_DAWN, 10.0)
-	if _panel:
-		_panel.visible = false
 	after(R1_AT, _reprisal.bind(1))
 	after(R2_AT, _reprisal.bind(2))
+
+
+## The lasting dawn state (idempotent; _dawn and a load in phase 2 run it): camp loud again, fires out, Malrik the
+## hero (set_player_hero), Citadel, base unlocked, resources shown, essence income on, Torvald's Commander, the
+## sec_call hook, the night panel hidden (C4-4).
+func _apply_dawn() -> void:
+	_quiet_camp(false)
+	for f: Array in fires:
+		_set_fire(f, false)
+	if malrik and is_instance_valid(malrik):
+		malrik.remove_meta(SCRIPTED_GROUP)
+		malrik.remove_from_group(SCRIPTED_GROUP)
+		_claim_wizard(malrik, PLAYER_SEAT)
+		malrik.level_cap = 6
+		set_player_hero(malrik)
+	if keep and is_instance_valid(keep):
+		keep.set_start_tier(3)
+	lock_base(false)
+	set_resources_hidden(false)
+	var bank := EssenceBank.for_team(PLAYER_SEAT)
+	if bank:
+		bank.trickle_enabled = true
+		bank.kill_income_enabled = true
+	_ensure_ally_commander()
+	var roster := HelperRoster.for_team(PLAYER_SEAT)
+	if roster and roster.has_signal(&"helper_ready") and not roster.is_connected(&"helper_ready", _on_helper_ready):
+		roster.connect(&"helper_ready", _on_helper_ready)
+	if _panel:
+		_panel.visible = false
+
+
+func _ensure_ally_commander() -> void:
+	if get_node_or_null(NodePath("Bot%d" % ALLY_SEAT)) == null:
+		_add_seat_commander(ALLY_SEAT)
+
+
+func _on_helper_ready(_h: Variant) -> void:
+	if fire_once(&"E15"):
+		say_l(23)
+		if objective_state("sec_call") == "active":
+			set_objective(&"sec_call", "done")
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening C4-4)
+
+## The night's fires ([pos, lit, ...] with a material) cannot be written as they are: their lit states travel here.
+func save_state(ids: Dictionary = {}) -> Dictionary:
+	var d := super(ids)
+	var lit: Array = []
+	for f: Array in fires:
+		lit.append(bool(f[1]))
+	d["fires_lit"] = lit
+	return d
+
+
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	super(d, nodes)
+	var lit: Array = d.get("fires_lit", [])
+	for i in mini(lit.size(), fires.size()):
+		_set_fire(fires[i] as Array, bool(lit[i]))
+
+
+## Phase 1: a save in phase 2 brings Torvald's Commander back before the saved bot states are applied.
+func save_restore_seats(m: Dictionary) -> void:
+	super(m)
+	if int((m.get("vars", {}) as Dictionary).get("phase", 1)) >= 2:
+		_ensure_ally_commander()
+
+
+func _after_load(_nodes: Dictionary) -> void:
+	if phase >= 2:
+		_apply_dawn()
 
 
 func _carried_essence() -> int:

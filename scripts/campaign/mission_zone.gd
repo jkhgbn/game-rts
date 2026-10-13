@@ -154,6 +154,26 @@ func set_owner_side(side: int) -> void:
 	_paint()
 
 
+## Mission save row (MissionBase.register_actor): [owner_side, capture_side, progress, locked, toppled].
+func save_row() -> Array:
+	return [owner_side, capture_side, progress, locked, _pole != null and _pole.rotation.z > 0.1]
+
+
+## QUIET load: owner, partial progress and lock come back without captured / neutralised (the mission's counters come
+## from its own variables); a toppled pole lies down at once.
+func load_row(row: Array) -> void:
+	if row.size() < 4:
+		return
+	owner_side = int(row[0])
+	capture_side = int(row[1])
+	progress = clampf(float(row[2]), 0.0, 1.0)
+	locked = bool(row[3])
+	contested = false
+	if _pole != null:
+		_pole.rotation = Vector3(0.0, 0.0, deg_to_rad(84.0)) if row.size() > 4 and bool(row[4]) else Vector3.ZERO
+	_paint()
+
+
 ## The 2 s topple of the standard's pole (e3m1_standard fallback); `upright` puts it back.
 func topple(upright := false) -> void:
 	if _pole == null:

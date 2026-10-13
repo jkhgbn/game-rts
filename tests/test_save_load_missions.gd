@@ -35,8 +35,7 @@ func _initialize() -> void:
 		if a.begins_with("only="):
 			only = a.substr(5)
 	for f in DirAccess.get_files_at("res://missions"):
-		if f.begins_with("mission_") and f.ends_with(".tscn") and not f.begins_with("mission_e4_") \
-				and (only == "" or f.contains(only)):
+		if f.begins_with("mission_") and f.ends_with(".tscn") and (only == "" or f.contains(only)):
 			missions.append("res://missions/" + f)
 	missions.sort()
 	_next()

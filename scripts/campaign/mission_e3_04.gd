@@ -297,6 +297,8 @@ func _title_line() -> String:
 func _ready() -> void:
 	_knight_type = _make_knight_type()
 	_paddock_type = _make_paddock_type()
+	register_local_unit_type(_knight_type)   # a saved Nightmare Knight / Dread Paddock comes back from these
+	register_local_building_type(_paddock_type)
 	get_tree().node_added.connect(_on_e34_node_added)
 	super()
 	if camera_rig:
@@ -531,6 +533,7 @@ func _on_navigation_ready() -> void:
 		z.set_owner_side(0)
 		z.neutralised.connect(_on_watch_lost)
 		watch[id] = z
+		register_actor("watch_%s" % String(id), z)
 	var ch := AllyChannel.instance(get_tree(), self)
 	if ch:
 		ch.time_source = mission_time
@@ -566,11 +569,18 @@ func _story_hush() -> Helper:
 	hp.bond_to(hero)
 	hp.set_stance(&"escort")
 	mark_scripted(hp)
-	hp.died.connect(func(_u: Unit) -> void:
-		after(45.0, func() -> void:
-			if is_instance_valid(hp) and not hp.is_alive() and not is_ending():
-				hp.respawn(respawn_point(PLAYER_SEAT))))
+	hp.died.connect(_on_hush_died)
 	return hp
+
+
+## Named methods (not lambdas): a save while Hush is down keeps her return timer.
+func _on_hush_died(_u: Unit) -> void:
+	after(45.0, _hush_back)
+
+
+func _hush_back() -> void:
+	if hush and is_instance_valid(hush) and not hush.is_alive() and not is_ending():
+		hush.respawn(respawn_point(PLAYER_SEAT))
 
 
 func _hold_birch(u: Unit) -> void:
@@ -749,9 +759,7 @@ func _launch_assault() -> void:
 		next_at = maxf(next_at, _last_break_at + BREAK_GAP)
 	if mission_time() < next_at - 0.5:
 		_launch_pending = true
-		after(next_at - mission_time(), func() -> void:
-			_launch_pending = false
-			_launch_assault())
+		after(next_at - mission_time(), _launch_due)
 		return
 	assault += 1
 	assault_started = mission_time()
@@ -783,7 +791,13 @@ func _launch_assault() -> void:
 	_carry_vessa()
 	_vey_arrives()
 	var n := assault
-	after(PULL_BACK, func() -> void: _pull_back(n))
+	after(PULL_BACK, _pull_back.bind(n))
+
+
+## The wait for the next assault is over (a named method: a save in the wait keeps it).
+func _launch_due() -> void:
+	_launch_pending = false
+	_launch_assault()
 
 
 func _column(id: StringName, ford: StringName, target: StringName) -> void:
@@ -814,27 +828,63 @@ func _vey_arrives() -> void:
 		vey.apply_helper_type(ht, VEY_LEVEL)
 		vey.name = "VeyStorm"
 		_spawn(vey, FIRE_SEAT, VEY_REST)
-		vey.add_to_group(&"boss")
-		vey.add_to_group(&"titans")
-		mark_scripted(vey)
-		vey.death_guard = _on_vey_lethal
+		_arm_vey(vey)
 	else:
 		set_dormant(vey, false)
 		vey.global_position = VEY_REST
-	vey.set_base_stat(&"max_hp", VEY_HP)
-	vey.set_base_stat(&"armor", VEY_ARMOR)
 	vey.hp = vey.max_hp
+	_apply_vey_storm()
+	vey_state = &"fighting"
+	_thunder_left = THUNDER_EVERY
+	flash_ring(VEY_REST, 4.0)
+
+
+## Vey's lasting kit (idempotent: his arrival and a load run it): groups, the death guard, his storm HP / armor.
+func _arm_vey(v: Helper) -> void:
+	v.add_to_group(&"boss")
+	v.add_to_group(&"titans")
+	mark_scripted(v)
+	v.death_guard = _on_vey_lethal
+	v.set_base_stat(&"max_hp", VEY_HP)
+	v.set_base_stat(&"armor", VEY_ARMOR)
 	if aoe_tuning:
-		vey.flee_pct = 0.0   # a storm is worn down, not reset: no running home to rest (_tick_storm_wear)
+		v.flee_pct = 0.0   # a storm is worn down, not reset: no running home to rest (_tick_storm_wear)
+
+
+## The storm's power on Vey and his bond to Vessa (idempotent).
+func _apply_vey_storm() -> void:
 	vey.remove_modifier(&"storm:power")
 	if storm >= 2:
 		vey.add_modifier(&"storm:power", {"attack_damage_pct": 0.1 * float(storm - 1)})
 	if vessa and is_instance_valid(vessa) and vessa.is_alive():
 		vey.bond_to(vessa)
 		vey.set_stance(&"escort")
-	vey_state = &"fighting"
-	_thunder_left = THUNDER_EVERY
-	flash_ring(VEY_REST, 4.0)
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening, Ep3)
+
+## A saved Vey (a Helper made mid-mission) comes back as the storm helper with his guard (else he would die at 0 HP).
+func save_spawn_unit(row: Dictionary) -> Unit:
+	if String(row.get("name", "")) == "VeyStorm":
+		var ht := HelperType.find(&"helper_vey")
+		if ht:
+			var v := Helper.new()
+			v.apply_helper_type(ht, VEY_LEVEL)
+			v.name = "VeyStorm"
+			v.team = int(row["team"]) as Unit.Team
+			add_child(v)
+			v.global_position = row["pos"]
+			v.command_stop()
+			_arm_vey(v)
+			return v
+	return super(row)
+
+
+func _after_load(_nodes: Dictionary) -> void:
+	if vey and is_instance_valid(vey):
+		_arm_vey(vey)
+		if vey_state == &"fighting":
+			_apply_vey_storm()
 
 
 ## Vey's death guard: 0 HP is a break, never a death.
@@ -877,12 +927,16 @@ func _break_storm() -> void:
 		3:
 			_withdraw_all()
 			return
-	after(KNEEL, func() -> void:
-		if vey and is_instance_valid(vey) and not is_ending():
-			vey.global_position = VEY_REST
-			vey_state = &"resting")
+	after(KNEEL, _kneel_done)
 	spent += 1
 	_launch_assault()
+
+
+## The kneel is over: Vey rests on the crest (a named method: a save in the kneel keeps it).
+func _kneel_done() -> void:
+	if vey and is_instance_valid(vey) and not is_ending():
+		vey.global_position = VEY_REST
+		vey_state = &"resting"
 
 
 ## An assault 6:00 old with Vey unbroken pulls back (no break counted); the next assault keeps its clock.
@@ -1090,10 +1144,13 @@ func raise_paddock() -> String:
 func _on_knight(u: Unit) -> void:
 	if not is_instance_valid(u) or int(u.team) != PLAYER_SEAT:
 		return
-	knights += 1
 	u.add_to_group(&"titans")
+	if not MissionBase.is_hooked(u.attack_landed, &"_on_knight_hit"):
+		u.attack_landed.connect(_on_knight_hit.bind(u))
+	if save_restoring:
+		return   # a knight rebuilt by a load: the counters and its run come from the save
+	knights += 1
 	_run[u] = [u.global_position, CHARGE_RUN]
-	u.attack_landed.connect(_on_knight_hit.bind(u))
 	if fire_once(&"E7") and hud:
 		hud.show_message(HINT_KNIGHT, 8.0)
 

@@ -283,6 +283,11 @@ func _ready() -> void:
 		_guard_type.pop = 0
 	_totem_type = _make_totem_type()
 	_fort_type = _make_fort_type()
+	register_local_unit_type(_folk_type)
+	register_local_unit_type(_wren_type)
+	register_local_unit_type(_ashby_type)
+	register_local_building_type(_totem_type)
+	register_local_building_type(_fort_type)
 	super()
 	if camera_rig:
 		camera_rig.focus_on(YSOLDE_START)
@@ -602,11 +607,9 @@ func _make_convoys() -> void:
 		for i in n:
 			var a := TAU * float(i) / maxf(1.0, float(n))
 			var f := _spawn(Worker.make_unit(_folk_type), Unit.Team.PLAYER, centre + Vector3(cos(a) * 1.8, 0.0, sin(a) * 1.8))
-			f.add_to_group(&"meadow_folk")
-			mark_scripted(f)
+			_arm_walker(f)
 			f.set_meta(&"convoy", c)
 			f.set_meta(&"wp", 0)
-			f.died.connect(_on_walker_died)
 			walkers.append(f)
 		convoys.append({"walkers": walkers, "state": &"waiting", "left_at": -1.0})
 
@@ -709,7 +712,7 @@ func _add_events() -> void:
 	after(B1_AT, _fire_wave.bind(&"B1"))
 	after(H2_AT, _fire_wave.bind(&"H2"))
 	after(H3_AT, _fire_wave.bind(&"H3"))
-	_relief_left = RELIEF_FROM
+	_relief_left = 0.0   # C4-8: the first brook relief at RELIEF_FROM (5:00), then every RELIEF_EVERY
 	add_event(&"E4", func() -> bool: return fog != null and fog.is_explored(Unit.Team.PLAYER, BROOK_ICE + Vector3(0.0, 0.0, -6.0)) \
 			and hero_alive() and _flat(hero.global_position, BROOK_ICE) < 30.0,
 			func() -> void:
@@ -744,11 +747,50 @@ func _on_maelis_ready(helper: Helper) -> void:
 	fire_once(&"E9")
 	say_l("L14")
 	set_objective(&"sec_maelis", "done")
+	_hook_maelis_abilities(helper)
+
+
+func _hook_maelis_abilities(helper: Unit) -> void:
 	for c in helper.get_children():
-		if c.has_signal(&"ability_cast"):
-			c.connect(&"ability_cast", func(id: StringName) -> void:
-				if String(id).contains("stampede") and fire_once(&"E16"):
-					say_l("L23"))
+		if c.has_signal(&"ability_cast") and not c.is_connected(&"ability_cast", _on_maelis_ability):
+			c.connect(&"ability_cast", _on_maelis_ability)
+
+
+func _on_maelis_ability(id: StringName) -> void:
+	if String(id).contains("stampede") and fire_once(&"E16"):
+		say_l("L23")
+
+
+## A walker's group, scripted mark and died hook (idempotent: the convoys and a load run it).
+func _arm_walker(f: Unit) -> void:
+	f.add_to_group(&"meadow_folk")
+	mark_scripted(f)
+	if not f.died.is_connected(_on_walker_died):
+		f.died.connect(_on_walker_died)
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening C4-3, C4-8)
+
+func save_spawned(u: Unit, row: Dictionary) -> void:
+	super(u, row)
+	if _folk_type and String(row.get("type", "")) == String(_folk_type.id):
+		_arm_walker(u)
+
+
+## Walkers' hooks, the called Maelis' line hook; sleeping ambushes / a fled Hush stay hidden, woken ones are seen.
+func _after_load(_nodes: Dictionary) -> void:
+	for c: Dictionary in convoys:
+		for w: Variant in c.get("walkers", []):
+			if w is Unit and is_instance_valid(w):
+				_arm_walker(w as Unit)
+	if maelis_called and maelis and is_instance_valid(maelis):
+		_hook_maelis_abilities(maelis)
+	for gid: Variant in groups:
+		for v: Variant in groups[gid]:
+			if v is Unit and is_instance_valid(v):
+				(v as Unit).visible = not is_dormant(v as Unit)
+	if hush and is_instance_valid(hush):
+		hush.visible = not is_dormant(hush)
 
 
 func _fire_wave(id: StringName) -> void:

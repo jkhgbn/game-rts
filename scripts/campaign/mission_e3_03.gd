@@ -244,6 +244,9 @@ func _ready() -> void:
 	_crypt_type = _make_crypt_type()
 	_grave_type = _make_grave_type()
 	_sexton_type = _make_sexton_type()
+	register_local_building_type(_crypt_type)
+	register_local_unit_type(_grave_type)
+	register_local_unit_type(_sexton_type)
 	super()
 	if camera_rig:
 		camera_rig.focus_on(MALRIK_START)
@@ -628,8 +631,12 @@ func _tick_doors(dt: float) -> void:
 		for u in units:
 			_hollow(u as Unit)
 			order_wave(u as Unit, &"crypt", CRYPT_POS)
-			(u as Unit).died.connect(func(_x: Unit) -> void: door_kills[id] = int(door_kills.get(id, 0)) + 1)
+			(u as Unit).died.connect(_on_door_warden_died.bind(id))
 			alive.append(u)
+
+
+func _on_door_warden_died(_x: Unit, id: StringName) -> void:
+	door_kills[id] = int(door_kills.get(id, 0)) + 1
 
 
 ## Wardens of barrow `id` to lay to rest before its candle can be relit (DOOR_KILLS through the difficulty count).
@@ -861,12 +868,7 @@ func _raise_sexton() -> void:
 		if (n as Node).has_meta(&"lodge"):
 			(n as Unit).leave_map()
 	sexton = _spawn(Worker.make_unit(_sexton_type), Unit.Team.ENEMY, SEXTON_RISE)
-	sexton.name = "Sexton"
-	sexton.add_to_group(&"boss")
-	sexton.add_to_group(&"titans")
-	sexton.add_to_group(&"hollow")
-	mark_scripted(sexton)
-	sexton.died.connect(_on_sexton_fell)
+	_arm_sexton(sexton)
 	sexton.set_meta(META_MODE, &"sexton")
 	sexton.command_attack_move(CRYPT_POS + Vector3(0.0, 0.0, 6.0))
 	set_objective(&"obj_sexton", "active")
@@ -875,6 +877,37 @@ func _raise_sexton() -> void:
 		say_l(22)
 		if hud:
 			hud.show_message(HINT_SEXTON, 8.0))
+
+
+## The Sexton's name, groups and fall hook (idempotent: the rise and a load run it).
+func _arm_sexton(u: Unit) -> void:
+	u.name = "Sexton"
+	u.add_to_group(&"boss")
+	u.add_to_group(&"titans")
+	u.add_to_group(&"hollow")
+	mark_scripted(u)
+	if not u.died.is_connected(_on_sexton_fell):
+		u.died.connect(_on_sexton_fell)
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening C4-1, C4-9)
+
+## A saved Sexton / Gravewarden comes back from the local types (save_spawn_unit); the Sexton gets its hooks again.
+func save_spawned(u: Unit, row: Dictionary) -> void:
+	super(u, row)
+	if String(row.get("type", "")) == String(_sexton_type.id if _sexton_type else &"sexton"):
+		_arm_sexton(u)
+
+
+func _after_load(_nodes: Dictionary) -> void:
+	if sexton and is_instance_valid(sexton) and sexton_phase >= 1:
+		_arm_sexton(sexton)
+		if sexton_phase == 2 and _stagger_left > 0.0:
+			sexton.add_modifier(&"sexton:heart", {"armor": -20.0})
+	for id: Variant in door_units:
+		for u: Variant in door_units[id]:
+			if u is Unit and is_instance_valid(u) and not MissionBase.is_hooked((u as Unit).died, &"_on_door_warden_died"):
+				(u as Unit).died.connect(_on_door_warden_died.bind(StringName(str(id))))
 
 
 func _tick_sexton(dt: float) -> void:

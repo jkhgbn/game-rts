@@ -286,6 +286,7 @@ func _title_line() -> String:
 
 func _ready() -> void:
 	_horn_type = _make_horn_type()
+	register_local_building_type(_horn_type)
 	super()
 	if camera_rig:
 		camera_rig.focus_on(MALRIK_START)
@@ -582,15 +583,22 @@ func _story_hush() -> Helper:
 	hp.bond_to(hero)
 	hp.set_stance(&"escort")
 	mark_scripted(hp)
-	hp.died.connect(func(_u: Unit) -> void:
-		if fire_once(&"E13"):
-			say_l(19)
-		after(HUSH_BACK, func() -> void:
-			if is_instance_valid(hp) and not hp.is_alive() and not is_ending():
-				hp.respawn(respawn_point(PLAYER_SEAT))
-				if hud:
-					hud.show_message(MSG_HUSH_BACK, 3.0)))
+	hp.died.connect(_on_hush_died)
 	return hp
+
+
+## Named methods (not lambdas): a save while Hush is down keeps her return timer (bound timers are saved).
+func _on_hush_died(_u: Unit) -> void:
+	if fire_once(&"E13"):
+		say_l(19)
+	after(HUSH_BACK, _hush_back)
+
+
+func _hush_back() -> void:
+	if hush and is_instance_valid(hush) and not hush.is_alive() and not is_ending():
+		hush.respawn(respawn_point(PLAYER_SEAT))
+		if hud:
+			hud.show_message(MSG_HUSH_BACK, 3.0)
 
 
 ## The seat's Commander: the kingdom's knobs, never attacks (scripted waves are the attacks), few workers, no
@@ -657,6 +665,7 @@ func _add_zones() -> void:
 	add_child(ford_zone)
 	ford_zone.global_position = FORD_ZONE
 	ford_zone.captured.connect(_on_ford_captured)
+	register_actor("zone_ford", ford_zone)   # C4-6: owner / progress / lock rows
 	for id: StringName in STANDARDS:
 		var z := MissionZone.new()
 		z.zone_id = id
@@ -670,6 +679,7 @@ func _add_zones() -> void:
 		z.set_owner_side(1)
 		z.captured.connect(_on_standard_captured)
 		standards[id] = z
+		register_actor("zone_%s" % String(id), z)
 
 
 # ---------------------------------------------------------------- briefing, objectives, lines
@@ -807,7 +817,7 @@ func _fire_wave(id: StringName) -> void:
 			for u in units:
 				order_wave(u as Unit, &"standard", at)
 		&"FINAL":
-			var cut := func(n: int) -> int: return n - int(floor(n * 0.25)) if objective_state("sec_horns") == "done" else n
+			var cut := _final_cut
 			var nat := spawn_wave_at(WAVES[&"FINAL_N"], _hall_spawn(NATURE_SEAT), NATURE_SEAT, cut)
 			for w: Variant in [ysolde, vessa]:
 				if w != null and is_instance_valid(w):
@@ -818,13 +828,22 @@ func _fire_wave(id: StringName) -> void:
 			for u in nat:
 				order_wave(u as Unit, &"standard", _nearest_owned_standard((u as Unit).global_position))
 			_final_units.append_array(nat)
-			after(FINAL_SECOND, func() -> void:
-				if is_ending():
-					return
-				var fu := spawn_wave_at(WAVES[&"FINAL_F"], _hall_spawn(FIRE_SEAT), FIRE_SEAT, cut)
-				for u in fu:
-					order_wave(u as Unit, &"standard", _nearest_owned_standard((u as Unit).global_position))
-				_final_units.append_array(fu))
+			after(FINAL_SECOND, _final_second)
+
+
+## The Final's sizes: a quarter fewer once sec_horns is done.
+func _final_cut(n: int) -> int:
+	return n - int(floor(n * 0.25)) if objective_state("sec_horns") == "done" else n
+
+
+## The Final's Fire half (FINAL_SECOND after the Nature half; a named method so a save keeps it).
+func _final_second() -> void:
+	if is_ending():
+		return
+	var fu := spawn_wave_at(WAVES[&"FINAL_F"], _hall_spawn(FIRE_SEAT), FIRE_SEAT, _final_cut)
+	for u in fu:
+		order_wave(u as Unit, &"standard", _nearest_owned_standard((u as Unit).global_position))
+	_final_units.append_array(fu)
 
 
 ## The horn relief: per living Horn Spire, 3 Thornlings + 1 Burr Slinger at it, to the ford then the nearest standard

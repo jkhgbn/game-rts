@@ -380,6 +380,10 @@ func _ready() -> void:
 		_warden_type.move_speed = 3.0
 		_warden_type.kill_xp = 300
 		_warden_type.commandable = false
+	for t: BuildingType in [_wall_type, _gate_type, _spire_type, _glass_type, _heart_type, _totem_type]:
+		register_local_building_type(t)   # winter_wall: the 2-cell type (a lost small piece is not rebuilt)
+	register_local_unit_type(_treant_type)   # C4-5: a saved Elder Treant comes back from it
+	register_local_unit_type(_warden_type)
 	super()
 	if camera_rig:
 		camera_rig.focus_on(YSOLDE_START)
@@ -1203,14 +1207,7 @@ func _on_winterheart_destroyed(_b: Building) -> void:
 	fire_once(&"E17")
 	thawed = true
 	set_objective(&"obj_wall", "done")
-	if _wall_type:
-		_wall_type.idle_regen_pct = 0.0
-	if _gate_type:
-		_gate_type.idle_regen_pct = 0.0
-	if _wall_small_type:
-		_wall_small_type.idle_regen_pct = 0.0
-	if _spire_type:
-		_spire_type.attack_damage = 0.0
+	_apply_thaw_types()
 	for v: Variant in wall:
 		if _alive(v):
 			var b := v as Building
@@ -1252,6 +1249,33 @@ func _on_frost_hall_destroyed(_b: Building) -> void:
 		set_objective(&"sec_halls", "done")
 	else:
 		set_objective(&"sec_halls", "active")
+
+
+## The thaw on the code-made types (idempotent): no regrowth, the Wall's spires dark.
+func _apply_thaw_types() -> void:
+	if _wall_type:
+		_wall_type.idle_regen_pct = 0.0
+	if _gate_type:
+		_gate_type.idle_regen_pct = 0.0
+	if _wall_small_type:
+		_wall_small_type.idle_regen_pct = 0.0
+	if _spire_type:
+		_spire_type.attack_damage = 0.0
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening C4-3, C4-5)
+
+## The types the thaw changed, the open Winterheart out of its truce (the framework reconciles the meta; this also
+## covers a heart opened by _try_open_heart), Wallwardens' died hooks.
+func _after_load(_nodes: Dictionary) -> void:
+	if thawed:
+		_apply_thaw_types()
+	if heart_open and _alive(winterheart):
+		set_truce([winterheart], false, Unit.TRUCE_ALL)
+	for id: StringName in wallwardens:
+		var w: Variant = wallwardens[id]
+		if w is Unit and is_instance_valid(w) and not MissionBase.is_hooked((w as Unit).died, &"_on_wallwarden_died"):
+			(w as Unit).died.connect(_on_wallwarden_died.bind(id))
 
 
 ## E19: Ysolde reaches the spire: e4m4_enough (Torvald stops Aldra), the Withdraw, victory.
@@ -1300,13 +1324,16 @@ func _on_torvald_died(_u: Unit) -> void:
 	_wave_units.erase(torvald)
 	if hud:
 		hud.show_message(MSG_TORVALD_FELL, 4.0)
-	after(TORVALD_BACK, func() -> void:
-		if torvald and is_instance_valid(torvald) and not torvald.is_alive() and not is_ending():
-			torvald.respawn(respawn_point(ICE_SEAT))
-			if not thawed:
-				set_truce([torvald], true, Unit.TRUCE_ALL)
-				torvald.global_position = TORVALD_PARAPET
-			torvald.set_meta(META_MODE, &"anchor"))
+	after(TORVALD_BACK, _torvald_back)
+
+
+func _torvald_back() -> void:
+	if torvald and is_instance_valid(torvald) and not torvald.is_alive() and not is_ending():
+		torvald.respawn(respawn_point(ICE_SEAT))
+		if not thawed:
+			set_truce([torvald], true, Unit.TRUCE_ALL)
+			torvald.global_position = TORVALD_PARAPET
+		torvald.set_meta(META_MODE, &"anchor")
 
 
 func _on_bot_wizard_died(_u: Unit, seat: int) -> void:

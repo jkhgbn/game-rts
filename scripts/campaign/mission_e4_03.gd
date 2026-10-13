@@ -274,6 +274,10 @@ func _ready() -> void:
 	_totem_type = _make_totem_type()
 	_spire_type = _make_spire_type()
 	_fort_type = _make_fort_type()
+	register_local_building_type(_totem_type)
+	register_local_building_type(_spire_type)
+	register_local_building_type(_fort_type)
+	register_local_building_type(MissionGrove.make_type(HEART_HP, GROVE_R, SAP_STATS))   # a saved heart's row (C4-5)
 	super()
 	if camera_rig:
 		camera_rig.focus_on(YSOLDE_START)
@@ -713,8 +717,7 @@ func _add_events() -> void:
 		if hg["state"] == &"grown" or hg["state"] == &"rooting" or hg["state"] == &"growing" and float(hg["meter"]) > 0.5:
 			_fire_wave(&"FROST")
 		else:
-			add_event(&"frost_late", func() -> bool: return groves[&"heartglade"]["state"] == &"grown",
-					func() -> void: after(30.0, _fire_wave.bind(&"FROST")))
+			_add_frost_late()
 			after(240.0, _fire_wave.bind(&"FROST")))
 	after(MARCH_AT, _fire_wave.bind(&"MARCH"))
 	add_event(&"E6", func() -> bool: return _side0_near(GROVES[&"heartglade"][1], 18.0), func() -> void:
@@ -724,6 +727,15 @@ func _add_events() -> void:
 	add_event(&"E8", func() -> bool: return keep != null and is_instance_valid(keep) and keep.tier >= 3, func() -> void:
 		say_l(11)
 		show_spotlight())
+
+
+## frost_late (C4-10): FROST 30 s after the Heartglade grows, when it was not grown at FROST_AT (idempotent).
+func _add_frost_late() -> void:
+	for e: Array in _events:
+		if StringName(e[0]) == &"frost_late":
+			return
+	add_event(&"frost_late", func() -> bool: return groves[&"heartglade"]["state"] == &"grown",
+			func() -> void: after(30.0, _fire_wave.bind(&"FROST")))
 
 
 func _side0_near(at: Vector3, r: float) -> bool:
@@ -855,12 +867,15 @@ func _fire_wave(id: StringName) -> void:
 				_aldra_goal = _grown_by_hp(false)
 			for u in spawn_wave_at(WAVES[&"FINAL_A"], aat, ENEMY):
 				order_wave(u as Unit, &"grove_low", _grown_by_hp(false))
-			after(FINAL_SECOND, func() -> void:
-				if is_ending():
-					return
-				for u in spawn_wave_at(WAVES[&"FINAL_2"], _torvald_spawn(), ENEMY):
-					order_wave(u as Unit, &"grove", target_grove(_torvald_spawn())))
+			after(FINAL_SECOND, _final_second)   # named methods: a save in the Final stays allowed
 			after(SHOOT_AT, _shoot)
+
+
+func _final_second() -> void:
+	if is_ending():
+		return
+	for u in spawn_wave_at(WAVES[&"FINAL_2"], _torvald_spawn(), ENEMY):
+		order_wave(u as Unit, &"grove", target_grove(_torvald_spawn()))
 
 
 func _hush_gone() -> void:
@@ -1036,14 +1051,7 @@ func _grow(id: StringName) -> void:
 	var g: Dictionary = groves[id]
 	g["state"] = &"grown"
 	g["root"] = 0.0
-	var heart := MissionGrove.new()
-	heart.building_type = MissionGrove.make_type(HEART_HP, GROVE_R, SAP_STATS)
-	heart.name = "GroveHeart_%s" % String(id)
-	heart.team = Unit.Team.PLAYER
-	heart.position = build_grid.snap(GROVES[id][1], heart.building_type.footprint)
-	nav_region.add_child(heart, true)
-	heart.destroyed.connect(_on_heart_destroyed.bind(id))
-	g["heart"] = heart
+	g["heart"] = _place_heart(id)
 	fog.reveal(Unit.Team.PLAYER, GROVES[id][1], 14.0)
 	if fire_once(&"E4"):
 		say_l(6)
@@ -1061,6 +1069,44 @@ func _grow(id: StringName) -> void:
 	set_objective(&"obj_groves", "active")
 	if groves_grown() >= 5 and objective_state("obj_groves") == "active":
 		_groves_done()
+
+
+## The grove heart building of grove `id` (no lines, no counters: _grow and a load use it).
+func _place_heart(id: StringName) -> MissionGrove:
+	var heart := MissionGrove.new()
+	heart.building_type = MissionGrove.make_type(HEART_HP, GROVE_R, SAP_STATS)
+	heart.name = "GroveHeart_%s" % String(id)
+	heart.team = Unit.Team.PLAYER
+	heart.position = build_grid.snap(GROVES[id][1], heart.building_type.footprint)
+	nav_region.add_child(heart, true)
+	heart.destroyed.connect(_on_heart_destroyed.bind(id))
+	return heart
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening C4-5, C4-10)
+
+## A grown grove's heart comes back from the save as a plain building of the local type: a real MissionGrove with
+## the saved HP takes its place (its destroyed hook again); frost_late is added again when FROST still waits on it.
+func _after_load(_nodes: Dictionary) -> void:
+	for id: StringName in groves:
+		var g: Dictionary = groves[id]
+		if g["state"] != &"grown":
+			continue
+		var old: Variant = g.get("heart")
+		if old is MissionGrove and is_instance_valid(old):
+			if not MissionBase.is_hooked((old as MissionGrove).destroyed, &"_on_heart_destroyed"):
+				(old as MissionGrove).destroyed.connect(_on_heart_destroyed.bind(id))
+			continue
+		var hp := -1.0
+		if old is Building and is_instance_valid(old):
+			hp = (old as Building).hp
+			(old as Building).dispose_for_load()
+		var heart := _place_heart(id)
+		if hp > 0.0:
+			heart.hp = minf(hp, heart.max_hp)
+		g["heart"] = heart
+	if mission_time() >= FROST_AT and not waves_fired.has(&"FROST") and not has_fired(&"frost_late"):
+		_add_frost_late()
 
 
 func _on_heart_destroyed(_b: Building, id: StringName) -> void:
@@ -1148,11 +1194,14 @@ func _on_torvald_died(_u: Unit) -> void:
 		return
 	if hud:
 		hud.show_message(MSG_TORVALD_FELL, 4.0)
-	after(TORVALD_BACK, func() -> void:
-		if torvald and is_instance_valid(torvald) and not torvald.is_alive() and not is_ending():
-			torvald.respawn(respawn_point(ENEMY))
-			torvald.set_meta(META_MODE, &"anchor")
-			torvald.command_move(TORVALD_RALLY))
+	after(TORVALD_BACK, _torvald_back)
+
+
+func _torvald_back() -> void:
+	if torvald and is_instance_valid(torvald) and not torvald.is_alive() and not is_ending():
+		torvald.respawn(respawn_point(ENEMY))
+		torvald.set_meta(META_MODE, &"anchor")
+		torvald.command_move(TORVALD_RALLY)
 
 
 func _on_player_hero_fell() -> void:
