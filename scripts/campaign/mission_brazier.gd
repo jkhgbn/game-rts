@@ -62,6 +62,30 @@ func light() -> void:
 	lit_up.emit(self)
 
 
+## Mission save row (MissionBase.register_actor): [lit: bool].
+func save_row() -> Array:
+	return [lit]
+
+
+## QUIET load: a saved lit brazier burns again without lit_up (the mission's counters come from its own variables);
+## a saved cold one is cold with no progress.
+func load_row(row: Array) -> void:
+	if row.is_empty():
+		return
+	progress = 0.0
+	if bool(row[0]):
+		lit = true
+		progress = 1.0
+	else:
+		lit = false
+	if _ring == null:
+		return
+	_ring.visible = false
+	_flame.emitting = lit
+	_flame.visible = lit
+	_light.visible = lit
+
+
 func _physics_process(delta: float) -> void:
 	if lit:
 		return

@@ -145,6 +145,40 @@ func _die(by_team: int) -> void:
 	heart_down.emit(self, by_team)
 
 
+## Mission save row (MissionBase.register_actor): [hp: float, destroyed_by: int (-1 alive), drained: float,
+## discovered: bool].
+func save_row() -> Array:
+	return [hp, destroyed_by, drained, discovered]
+
+
+## QUIET load: HP / drain tint / discovered back; a saved dead heart is removed quietly (no heart_down, no spores:
+## pod hidden, collider off; the mission rebakes its navmesh).
+func load_row(row: Array) -> void:
+	if row.size() < 4:
+		return
+	destroyed_by = int(row[1])
+	drained = float(row[2])
+	discovered = bool(row[3])
+	if _look and discovered:
+		_look.visible = true
+	if float(row[0]) <= 0.0:
+		if _look:
+			_look.visible = true   # burst() shows a dead heart's cradle (explored or not)
+		_dead = true
+		hp = 0.0
+		if _col:
+			_col.disabled = true
+		collision_layer = 0
+		if _bar_root:
+			_bar_root.visible = false
+		if _pod:
+			_pod.hide()
+		return
+	hp = clampf(float(row[0]), 1.0, max_hp)
+	since_damage = 0.0
+	_update_look()
+
+
 ## The pod bursts (spores), the collider goes (the mission rebakes). Idempotent.
 func burst() -> void:
 	_dead = true

@@ -142,6 +142,36 @@ func burst() -> void:
 	_spawn_shards()
 
 
+## Mission save row (MissionBase.register_actor): [hp: float, melted: bool, max_hp: float, hp_floor: float].
+func save_row() -> Array:
+	return [hp, is_melted, max_hp, hp_floor]
+
+
+## QUIET load: HP (regen restarts its delay), the rush floor; a saved melted one is gone without melted / shards
+## (ice hidden, collider off; the mission rebakes).
+func load_row(row: Array) -> void:
+	if row.size() < 2:
+		return
+	if row.size() >= 4:
+		max_hp = float(row[2])
+		hp_floor = float(row[3])
+	if bool(row[1]):
+		is_melted = true
+		hp = 0.0
+		if _col:
+			_col.disabled = true
+		collision_layer = 0
+		if _bar_root:
+			_bar_root.visible = false
+		if _ice:
+			_ice.hide()
+		return
+	is_melted = false
+	hp = clampf(float(row[0]), 1.0, max_hp)
+	since_fire_damage = 0.0
+	_update_look()
+
+
 func orb_node() -> MeshInstance3D:
 	return _orb
 

@@ -344,6 +344,7 @@ func _build_map() -> void:
 		b.position = row[2]
 		b.lit_up.connect(_on_brazier_lit)
 		braziers.append(b)
+		register_actor("brazier_%s" % String(row[0]), b)
 
 	pell = MissionCagedPeddler.new()
 	pell.name = "Pell"
@@ -599,8 +600,7 @@ func _on_brazier_lit(b: MissionBrazier) -> void:
 			rider.set_meta(&"m1_free_rider", true)
 		_fire_w2()
 		hud.show_message(HINT_SPOTLIGHT, 8.0)
-		add_event(&"spotlight_tower", func() -> bool: return _rider_near_spire(), func() -> void:
-			hud.show_message(HINT_SPOTLIGHT_TOWER, 3.0))
+		_add_spotlight_tower_event()
 	if lit_count == 3:   # E6: film m1_seal (L9 / L10), the seal flash plays as the world resumes
 		var westwatch_last := b.brazier_id == WESTWATCH
 		play_cutscene(&"m1_seal", func() -> void:
@@ -611,6 +611,12 @@ func _on_brazier_lit(b: MissionBrazier) -> void:
 				say_line(8))
 		_break_seal()
 		_fire_w3()
+
+
+## The spotlight's second hint (E-list, mid-mission: _after_load adds it again while it has not fired).
+func _add_spotlight_tower_event() -> void:
+	add_event(&"spotlight_tower", func() -> bool: return _rider_near_spire(), func() -> void:
+		hud.show_message(HINT_SPOTLIGHT_TOWER, 3.0))
 
 
 ## A Blaze Rider inside the living Westwatch Night Spire's reach (the spotlight's second hint).
@@ -731,12 +737,15 @@ func _fire_final() -> void:
 	for u in _spawn_wave([["shade", 6], ["nightbolt", 4]]):
 		order_wave(u, &"hero", to)
 	_malrik_joins()
-	after(FINAL_SECOND_DELAY, func() -> void:
-		if game_over or _ending:
-			return
-		waves_fired.append(&"final_2")
-		for u in _spawn_wave([["shadow_knight", 2], ["nightbolt", 2]]):
-			order_wave(u, &"hero", hero_pos()))
+	after(FINAL_SECOND_DELAY, _fire_final_2)   # a named method: the timer survives a save
+
+
+func _fire_final_2() -> void:
+	if game_over or _ending or waves_fired.has(&"final_2"):
+		return
+	waves_fired.append(&"final_2")
+	for u in _spawn_wave([["shadow_knight", 2], ["nightbolt", 2]]):
+		order_wave(u, &"hero", hero_pos())
 
 
 ## Malrik (level 4, hard 5: + Shroud) leaves his base and follows the Final wave.
@@ -846,6 +855,35 @@ func _shadow_walk_home() -> void:
 			u.set_meta(META_MODE, &"home")
 			u.command_move(home + Vector3(randf_range(-4.0, 4.0), 0.0, randf_range(-4.0, 4.0)))
 	clear_waves()
+
+
+# ---------------------------------------------------------------- save / load
+
+## The mid-mission spotlight_tower event goes back on the E-list before the base load checks the saved events.
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	var fired: Array = d.get("fired", [])
+	if (d.get("events", []) as Array).has("spotlight_tower") and not fired.has("spotlight_tower"):
+		var have := false
+		for e: Array in _events:
+			have = have or e[0] == &"spotlight_tower"
+		if not have:
+			_add_spotlight_tower_event()
+	super(d, nodes)
+
+
+## Brazier rows (lit, quiet) and the crown's seal (EmberCrown.save_state) came back before this. Re-apply what the
+## lit handlers changed outside the saved variables: the Blaze Rider unlock (C2-7) and Pell's open cage.
+func _after_load(_nodes: Dictionary) -> void:
+	_apply_hall_unlocks()
+	for node in get_tree().get_nodes_in_group("buildings"):
+		var t := node as TrainingBuilding
+		if t and t.building_type == _hall_type:
+			t.queue_changed.emit()
+	if has_fired(&"E4") and pell and pell.caged:   # the cage prop is rebuilt shut: open it quietly (no `freed`)
+		pell.caged = false
+		var cage := pell.get_node_or_null(^"Cage")
+		if cage:
+			cage.queue_free()
 
 
 func _on_vessa_died(_unit: Unit) -> void:

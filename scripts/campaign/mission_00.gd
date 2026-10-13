@@ -232,6 +232,7 @@ func _ready() -> void:
 	cast.vey_first_spark.connect(_on_vey_first_spark)
 	cast.hush_smoked.connect(_on_hush_smoked)
 	cast.hush_fled.connect(_on_hush_fled)
+	register_actor("cast", cast)
 	super()
 	camera_rig.bounds = CAMERA_BOUNDS
 	camera_rig.focus_on(VESSA_START)
@@ -325,6 +326,7 @@ func _build_map() -> void:
 		b.position = row[2]
 		b.lit_up.connect(_on_brazier_lit)
 		braziers.append(b)
+		register_actor("brazier_%s" % String(row[0]), b)
 	hearthward = MissionBrazier.new()   # mission 1's Brazier 1, cold: nobody can light it tonight (lighter stays null)
 	hearthward.brazier_id = &"hearthward"
 	hearthward.display_name = "Hearthward"
@@ -848,6 +850,26 @@ func _dawn_end_state() -> void:
 		var scale: Array[float] = [1.0, 1.0]
 		fog.set(&"sight_scale", scale)
 	win(VICTORY_DELAY, true)
+
+
+# ---------------------------------------------------------------- save / load
+
+## C2-8 / C2-9: the braziers' rows (lit, quiet) and the cast's row (Hush re-bound) ran before this; put back what the
+## lit handlers and the Fall left on the world (sight markers, Grief's Fire, the sealed seam).
+func _after_load(_nodes: Dictionary) -> void:
+	for m in _light_markers:
+		if is_instance_valid(m):
+			m.queue_free()
+	_light_markers.clear()
+	for b in braziers:
+		if b.lit:
+			_light_markers.append(SightMarker.spawn(Unit.Team.PLAYER, b.global_position, LIGHT_MARKER_RADIUS, 0.0, self))
+	if grief_left > 0.0 and hero and is_instance_valid(hero):
+		hero.add_modifier(GRIEF_MOD, GRIEF_STATS)
+	if fall_done:
+		cast.remove_vey()
+		if seam and seam.has_method(&"set_state"):
+			seam.call(&"set_state", &"sealed")
 
 
 # ---------------------------------------------------------------- losses and story beats

@@ -75,6 +75,67 @@ func setup(m: Node, diff: int) -> void:
 	name = "M00Cast"
 
 
+# ---------------------------------------------------------------- save / load (mission actor "cast")
+
+## Mission save row (MissionBase.register_actor): [hush: Unit or null, hush_state: String, smoked: bool,
+## blink_left, smoke_left, flee_left, vey_kneeling: bool, kneel_left, sparks, strikes, intercepts, blinks,
+## blink_hits, hush_max_hp, hush_hp] (the last two -1 without Hush; an older 13-entry row has none).
+func save_row() -> Array:
+	var alive := hush != null and is_instance_valid(hush) and hush.is_alive()
+	var h: Variant = hush if alive else null
+	return [h, String(hush_state), _smoked, _blink_left, _smoke_left, _flee_left, vey_kneeling, _kneel_left, sparks,
+			_strikes, intercepts, blinks, blink_hits, hush.max_hp if alive else -1.0, hush.hp if alive else -1.0]
+
+
+## QUIET load: Hush (rebuilt from the save as a plain unit) gets her kit back (name, group, death guard, damage hook,
+## max HP) with her saved HP and phase; no line, no smoke, no signal. Vey's kneel timer comes back.
+func load_row(row: Array) -> void:
+	if row.size() < 13:
+		return
+	hush_state = StringName(str(row[1]))
+	_smoked = bool(row[2])
+	_blink_left = float(row[3])
+	_smoke_left = float(row[4])
+	_flee_left = float(row[5])
+	_blink_pending = false   # the telegraph timer did not survive the save: the next strike comes on the clock
+	sparks = int(row[8])
+	_strikes = int(row[9])
+	intercepts = int(row[10])
+	blinks = int(row[11])
+	blink_hits = int(row[12])
+	if vey_alive():
+		vey_kneeling = bool(row[6])
+		_kneel_left = float(row[7])
+	else:
+		vey_kneeling = false
+	var h := row[0] as Unit
+	if h != null and is_instance_valid(h) and h.is_alive():
+		var max_hp := float(row[13]) if row.size() > 14 else -1.0
+		var hp := float(row[14]) if row.size() > 14 else -1.0
+		rebind_hush(h, max_hp, hp)
+		if hush_state == &"flee" and _flee_left > 0.0:
+			h.hide_from_auto_target(_flee_left)   # the flee's untargetable time did not survive the save
+	elif hush_state != &"":
+		hush_state = &"gone"
+
+
+## Hush's kit on a unit rebuilt by a load, quietly (bind_hush without the full heal and the state reset).
+## `max_hp` / `hp`: the saved values (< 0 = the difficulty's max HP / the unit's current HP, older saves).
+func rebind_hush(u: Unit, max_hp: float = -1.0, hp: float = -1.0) -> void:
+	var keep_hp := hp if hp > 0.0 else u.hp
+	hush = u
+	u.unit_name = "Mother Hush"
+	u.add_to_group(&"story_units")
+	u.set_base_stat(&"max_hp", max_hp if max_hp > 0.0 else float(HUSH_HP[difficulty]))
+	u.hp = clampf(keep_hp, 1.0, u.max_hp)
+	u.death_guard = _hush_guard
+	if not u.damage_taken.is_connected(_on_hush_damaged):
+		u.damage_taken.connect(_on_hush_damaged)
+	if hush_state == &"" or hush_state == &"gone":
+		hush_state = &"fight"
+	_model(u, &"set_expression", [&"fierce"])
+
+
 # ---------------------------------------------------------------- Old Vey
 
 ## Takes `u` (already spawned, team PLAYER) as Old Vey.

@@ -187,6 +187,45 @@ func break_floe(index: int) -> void:
 	floe_broken.emit(index, credit)
 
 
+## Mission save row (MissionBase.register_actor): [cracks: Array[float] x8, open_left: Array[float] x8 (> 0 = open
+## water, seconds to refreeze), breaks: int, since_crack: Array[float] x8].
+func save_row() -> Array:
+	return [Array(cracks), Array(open_left), breaks, Array(_since_crack)]
+
+
+## QUIET load: cracks / knit timers / break count back; a floe saved open is open water again (obstacle + water look +
+## rebake) with its refreeze time left, without floe_broken / damage / fx.
+func load_row(row: Array) -> void:
+	if row.size() < 3:
+		return
+	var c: Array = row[0]
+	var o: Array = row[1]
+	var sc: Array = row[3] if row.size() > 3 else []
+	breaks = int(row[2])
+	for i in FLOES:
+		if i < sc.size():
+			_since_crack[i] = float(sc[i])
+		var left := float(o[i]) if i < o.size() else 0.0
+		if left > 0.0:
+			cracks[i] = 0.0
+			open_left[i] = left
+			var ob: Variant = _obstacles[i]
+			if ob == null or not is_instance_valid(ob):
+				_add_obstacle(i)
+		else:
+			if open_left[i] > 0.0:
+				open_left[i] = 0.0
+				var ob2: Variant = _obstacles[i]
+				if ob2 != null and is_instance_valid(ob2):
+					(ob2 as Node).queue_free()
+				_obstacles[i] = null
+				if _water.size() > i:
+					(_water[i] as Node3D).visible = false
+				_rebake_after_frame()
+			cracks[i] = clampf(float(c[i]) if i < c.size() else 0.0, 0.0, BREAK_AT - 0.01)
+		_update_cracks(i)
+
+
 ## The nearest point outside floe `index` from `pos`: Old Ice inward, the shore outward, or the next floe sideways.
 static func outside_point(pos: Vector3, index: int) -> Vector3:
 	var flat := Vector2(pos.x, pos.z)

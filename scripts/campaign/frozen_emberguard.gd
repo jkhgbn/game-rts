@@ -88,3 +88,17 @@ func _on_thawed(_b: MissionBrazier) -> void:
 		var tw := create_tween()
 		tw.tween_property(_block_mat, "albedo_color:a", 0.0, 1.0)
 		tw.tween_callback(_block.hide)
+
+
+## QUIET load (MissionBrazier row [lit]): a saved thawed block is gone (stump only), no lit_up, no squad.
+func load_row(row: Array) -> void:
+	super(row)
+	if not lit:
+		return
+	if _flame:
+		_flame.emitting = false
+		_flame.visible = false
+	if _light:
+		_light.visible = false
+	if _block:
+		_block.hide()

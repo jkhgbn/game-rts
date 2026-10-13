@@ -240,6 +240,29 @@ func _ready() -> void:
 	_apply_storm_dusk()
 
 
+## C2-1: from the Rise to the end the Keystone (pylons, Colossus, its walk, Vey) is a live machine of code-built
+## units a load cannot rebuild: no saving from the Rise on (the war phase saves as usual).
+func save_block_reason() -> String:
+	if phase != 0:
+		return SAVE_REASON_SCRIPTED
+	return super()
+
+
+## A load in the war phase: E5's isle guard fall-back took them off the script (the rebuilt start made them scripted).
+func _after_load(_nodes: Dictionary) -> void:
+	if not has_fired(&"E5"):
+		return
+	for u: Variant in isle_guard:
+		if not is_instance_valid(u) or not (u as Unit).is_alive():
+			continue
+		(u as Unit).remove_from_group(SCRIPTED_GROUP)
+		if (u as Unit).has_meta(SCRIPTED_GROUP):
+			(u as Unit).remove_meta(SCRIPTED_GROUP)
+		if (u as Unit).has_meta(META_HOME):
+			(u as Unit).remove_meta(META_HOME)
+		_guards.erase(u)
+
+
 func _exit_tree() -> void:
 	if get_tree().node_added.is_connected(_on_m4_node_added):
 		get_tree().node_added.disconnect(_on_m4_node_added)
@@ -533,9 +556,9 @@ func _objective_extra(id: StringName, _o: Dictionary) -> Dictionary:
 		&"obj_pylons":
 			var standing: Array = []
 			if keystone:
-				for p in keystone.pylons:
-					if is_instance_valid(p) and p.is_alive():
-						standing.append(p.global_position)
+				for v: Variant in keystone.pylons:   # untyped: a broken pylon is freed
+					if is_instance_valid(v) and (v as Unit).is_alive():
+						standing.append((v as Unit).global_position)
 			return {"progress": pylons_broken, "goal": 4, "counter": "%d / 4" % pylons_broken, "positions": standing}
 		&"obj_colossus", &"obj_key":
 			if keystone and keystone.colossus_alive():
@@ -867,9 +890,9 @@ func _strike_pylon() -> Unit:
 	if keystone == null or keystone.pylons.size() < 4:
 		return null
 	for i in [2, 3]:
-		var p: Unit = keystone.pylons[i]
-		if is_instance_valid(p) and p.is_alive():
-			return p
+		var v: Variant = keystone.pylons[i]   # untyped: a broken pylon is freed (C2-5)
+		if is_instance_valid(v) and (v as Unit).is_alive():
+			return v as Unit
 	return null
 
 

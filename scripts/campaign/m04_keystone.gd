@@ -187,8 +187,8 @@ func rise(at: Vector3, pylon_spots: Array) -> void:
 
 func pylons_standing() -> int:
 	var n := 0
-	for p in pylons:
-		if is_instance_valid(p) and p.is_alive():
+	for v: Variant in pylons:   # untyped: a broken pylon is freed (a typed loop errors on it)
+		if is_instance_valid(v) and (v as Unit).is_alive():
 			n += 1
 	return n
 

@@ -216,6 +216,9 @@ const MSG_MARCH := "Malrik marches on the Oldroot"
 const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
 const MSG_MOSSJAW := "Old Mossjaw wakes"
 
+## The Signet carry slowdown on Malrik ("mission:" = the save keeps it, C2-11).
+const SIGNET_CARRY_MOD := &"mission:signet_carry"
+
 ## Test hook: the campaign flags to use instead of the save's ({} = read the save).
 var flag_override: Dictionary = {}
 
@@ -327,7 +330,7 @@ static func bot_profile() -> StringName:
 
 func _ready() -> void:
 	_hall_type = _make_hall_type()
-	_stake_type = _make_stake_type()
+	_stake_type = register_local_building_type(_make_stake_type())   # a load rebuilds saved stakes from it (C2-11)
 	_tide_type = _make_tide_type()
 	get_tree().node_added.connect(_on_m3_node_added)
 	super()
@@ -445,6 +448,7 @@ func _build_map() -> void:
 		nav_region.add_child(h)
 		h.heart_down.connect(_on_heart_down)
 		hearts[id] = h
+		register_actor("heart_%s" % String(id), h)
 	var nt := BuildingType.find("nature_tower")
 	if nt:
 		bramble_spire = build_grid.spawn_complete(nt, BRAMBLE_SPIRE_POS, Unit.Team.NEUTRAL)
@@ -463,6 +467,7 @@ func _build_map() -> void:
 		nav_region.add_child(g)
 		g.gate_down.connect(_on_gate_down)
 		gates[id] = g
+		register_actor("gate_%s" % String(id), g)   # C2-3: hp / dead / open / tides (WardenGate.save_row)
 		tide_units[id] = []
 
 	# The Crooked Lantern (the only tavern) and Pell or his cache.
@@ -1064,7 +1069,7 @@ func _plant_stake(at: Vector3) -> void:
 	s.destroyed.connect(_on_stake_destroyed)
 	if objective_state("sec_stakes") == "" and not stake_fell:
 		set_objective(&"sec_stakes", "active")
-	after(STAKE_RAID_DELAY, _fire_stake_raid.bind(s))
+	after(STAKE_RAID_DELAY, _fire_stake_raid.bind(stakes.size() - 1))   # an index: a freed stake is no typed arg (C2-6)
 
 
 func _on_stake_destroyed(_b: Building) -> void:
@@ -1199,11 +1204,17 @@ func _fire_w2() -> void:
 		order_wave(u, &"point", target)
 
 
-func _fire_stake_raid(stake: Building) -> void:
+## `which`: the stake's index in `stakes` (an older save may hold the stake itself, or null once it is gone).
+func _fire_stake_raid(which: Variant) -> void:
 	if is_ending() or signet_taken_by_vessa:
 		return
 	waves_fired.append(&"stake_raid")
-	var target := _alive_pos(stake, hero_pos())
+	var stake: Variant = which
+	if typeof(which) == TYPE_INT:
+		stake = stakes[int(which)] if int(which) >= 0 and int(which) < stakes.size() else null
+	var target := hero_pos()
+	if stake is Building and is_instance_valid(stake) and (stake as Building).is_alive():
+		target = (stake as Building).global_position
 	for u in spawn_wave_at([["grave_hound", 3], ["shade", 2]], _wave_spawn_point()):
 		order_wave(u, &"point", target)
 
@@ -1411,7 +1422,7 @@ func _malrik_takes_signet() -> void:
 	if _malrik_base_speed <= 0.0:
 		_malrik_base_speed = maxf(0.1, m.get_stat(&"move_speed"))
 	var speed: float = CARRY_SPEED[clampi(mission_difficulty, 0, 2)]
-	m.add_modifier(&"signet_carry", {&"move_speed_pct": speed / _malrik_base_speed - 1.0})
+	m.add_modifier(SIGNET_CARRY_MOD, {&"move_speed_pct": speed / _malrik_base_speed - 1.0})
 	m.command_move(DUSK_KEEP_POS)
 	_counter_text_changed()
 
@@ -1422,21 +1433,24 @@ func _on_malrik_died(_unit: Unit) -> void:
 	hud.show_message(MSG_MALRIK_FELL, 4.0)
 	_respawn_left[Unit.Team.ENEMY] = MALRIK_RESPAWN
 	if signet_state == &"malrik":   # E10c: the Signet drops after 3 s at the nearest navmesh point
-		shadow_hero.remove_modifier(&"signet_carry")
+		shadow_hero.remove_modifier(SIGNET_CARRY_MOD)
 		signet_state = &"dropping"
 		signet_ground = _nav_point(shadow_hero.global_position)
 		fire_once(&"E10c")
-		after(DROP_DELAY, func() -> void:
-			if signet_state == &"dropping":
-				signet_state = &"ground"
-				say_id(&"L22")
-				_counter_text_changed())
+		after(DROP_DELAY, _signet_landed)   # a named method: the timer survives a save
+
+
+func _signet_landed() -> void:
+	if signet_state == &"dropping":
+		signet_state = &"ground"
+		say_id(&"L22")
+		_counter_text_changed()
 
 
 func _on_m3_wizard_respawned(wiz: Wizard) -> void:
 	if wiz != shadow_hero or is_ending():
 		return
-	wiz.remove_modifier(&"signet_carry")
+	wiz.remove_modifier(SIGNET_CARRY_MOD)
 	if race_phase == &"":
 		wiz.command_move(SHADOW_RALLY)
 
@@ -1511,7 +1525,7 @@ func _pull_back_shadow() -> void:
 		_guards.erase(u)
 		_homebound.append(u)
 	if shadow_hero and is_instance_valid(shadow_hero):
-		shadow_hero.remove_modifier(&"signet_carry")
+		shadow_hero.remove_modifier(SIGNET_CARRY_MOD)
 		if shadow_hero.is_alive():
 			shadow_hero.command_move(SHADOW_RALLY)
 
@@ -1560,6 +1574,52 @@ func _e13_end_state() -> void:
 	_hide_ysolde()
 	set_objective(&"obj_vessa", "done")
 	win(VICTORY_DELAY)
+
+
+# ---------------------------------------------------------------- save / load
+
+## Tide Wardens are the ruin_warden copy without the leash (no other NEUTRAL ruin_warden on this map): a load rebuilds
+## them from it, not from data/units.
+func save_spawn_unit(row: Dictionary) -> Unit:
+	if _tide_type != null and String(row.get("type", "")) == String(_tide_type.id) \
+			and int(row.get("team", -1)) == Unit.Team.NEUTRAL:
+		var u := Worker.make_unit(_tide_type)
+		u.team = Unit.Team.NEUTRAL
+		add_child(u)
+		u.global_position = row["pos"]
+		u.command_stop()
+		return u
+	return super(row)
+
+
+## Hearts / gates came back through their actor rows (C2-3, C2-11), stakes from the local type. Put back the barrier
+## (gone after E10, C2-2), the thorns' shrink, the Signet's look and the stakes' hookups.
+func _after_load(_nodes: Dictionary) -> void:
+	for st: Variant in stakes:
+		if st is Building and is_instance_valid(st) and not (st as Building).destroyed.is_connected(_on_stake_destroyed):
+			(st as Building).destroyed.connect(_on_stake_destroyed)
+	if barrier_down:   # `thorns` came back empty from the save: the rebuilt ring is found by its group
+		for t: Node in get_tree().get_nodes_in_group(&"thorn_barrier"):
+			if is_ancestor_of(t) and t is StaticBody3D:
+				var body := t as StaticBody3D
+				body.collision_layer = 0
+				body.remove_from_group(&"navigation_geometry")
+				for c in body.get_children():
+					if c is CollisionShape3D:
+						(c as CollisionShape3D).disabled = true
+				body.queue_free()
+		thorns.clear()
+	elif hearts_down > 0:
+		var f := clampf(1.0 - float(hearts_down) / 3.0, 0.15, 1.0)
+		for t: Variant in thorns:
+			if is_instance_valid(t):
+				var look := (t as Node3D).get_node_or_null(^"Look") as Node3D
+				if look:
+					look.scale.y = f
+	if barrier_down or hearts_down > 0:
+		build_grid.request_rebake()
+	if _signet_mesh:
+		_signet_mesh.visible = barrier_down and signet_state != &"vessa" and signet_state != &"sealed"
 
 
 # ---------------------------------------------------------------- defeat

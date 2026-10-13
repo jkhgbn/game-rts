@@ -447,6 +447,7 @@ func _build_map() -> void:
 		b.position = row[2]
 		b.lit_up.connect(_on_block_thawed)
 		blocks.append(b)
+		register_actor("block_%s" % String(row[0]), b)
 
 	var diff := clampi(mission_difficulty, 0, 2)
 	heartfrost = Heartfrost.new()
@@ -455,6 +456,7 @@ func _build_map() -> void:
 	heartfrost.hp_floor = HEARTFROST_HP[diff] * HEARTFROST_CORE   # the rush floor (header): lifted at CORE_THAW_AT
 	nav_region.add_child(heartfrost)
 	heartfrost.position = HEARTFROST_POS
+	register_actor("heartfrost", heartfrost)
 
 	lake = GlasswaterLake.new()
 	lake.name = "GlasswaterMere"
@@ -462,6 +464,7 @@ func _build_map() -> void:
 	lake.nav_region = nav_region
 	lake.refreeze_time = REFREEZE[diff]
 	add_child(lake)
+	register_actor("lake", lake)
 
 	if peddler_freed:
 		pell = RuinPeddler.new()
@@ -1492,12 +1495,15 @@ func _fire_pursuit() -> void:
 	for u in spawn_wave_at([["shade", 4], ["nightbolt", 3], ["shadow_knight", 1]], _wave_spawn_point()):
 		order_wave(u, &"hero", hero_pos())
 	_malrik_joins()
-	after(PURSUIT_SECOND, func() -> void:
-		if is_ending():
-			return
-		waves_fired.append(&"pursuit_2")
-		for u in spawn_wave_at([["shade", 2], ["grave_hound", 2]], _wave_spawn_point()):
-			order_wave(u, &"hero", hero_pos()))
+	after(PURSUIT_SECOND, _fire_pursuit_2)   # a named method: the timer survives a save
+
+
+func _fire_pursuit_2() -> void:
+	if is_ending() or waves_fired.has(&"pursuit_2"):
+		return
+	waves_fired.append(&"pursuit_2")
+	for u in spawn_wave_at([["shade", 2], ["grave_hound", 2]], _wave_spawn_point()):
+		order_wave(u, &"hero", hero_pos())
 
 
 func _malrik_joins() -> void:
@@ -1530,6 +1536,23 @@ func _nearest_fire_worker_pos(from: Vector3) -> Vector3:
 			best_d = d
 			best = u.global_position
 	return best
+
+
+# ---------------------------------------------------------------- save / load
+
+## C2-10 / C1-4: the blocks (thawed = quiet, no squad again), the Heartfrost (HP / floor, melted = gone) and the lake
+## (cracks, open floes) came back through their actor rows. Put back what E10 / E11 / the storm left on the world.
+func _after_load(_nodes: Dictionary) -> void:
+	_orb_mesh = heartfrost.orb_node() if heartfrost else null
+	if heartfrost_freed:
+		if _orb_mesh:
+			_orb_mesh.position = ORB_POS
+			_orb_mesh.visible = not orb_taken
+		build_grid.request_rebake()   # the melted Heartfrost's collider is off: walk through the orb's spot again
+	if blizzard:
+		var storm := has_fired(&"E8") and mission_time() < B1_TIME + B1_LENGTH
+		blizzard.set_blowing(orb_taken or storm)
+	# Aldra: E11's ALDRA_STAY lambda blocks saving until she has faded, so a load never needs her back.
 
 
 # ---------------------------------------------------------------- Malrik
