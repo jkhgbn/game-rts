@@ -95,8 +95,8 @@ func _run() -> void:
 	_check(_near(sh.move_speed, sh_speed + 2.0), "shroud speed")
 	sh.apply_status(&"haste", 8.0)
 	_check(_near(sh.attack_cooldown, cd * 0.7) and _near(sh.move_speed, sh_speed + 3.5), "haste")
-	sh.apply_status(&"haste", 2.0)
-	_check(_near(sh.status_time_left(&"haste"), 2.0) and _near(sh.attack_cooldown, cd * 0.7), "refresh, no stack")
+	sh.apply_status(&"haste", 2.0)   # a shorter re-apply never shortens the timer (review R1-5)
+	_check(sh.status_time_left(&"haste") > 7.5 and _near(sh.attack_cooldown, cd * 0.7), "refresh, no stack, no shortening")
 	sh.die()
 	_check(not sh.has_status(&"haste") and _near(sh.move_speed, sh_speed), "statuses end on death")
 	# ---- legacy writes still work

@@ -239,14 +239,16 @@ func hire(id: StringName, pay_gold: bool = false) -> String:
 	var cost := hire_cost(id, pay_gold)
 	var eco := Economy.for_team(team)
 	var bank := EssenceBank.for_team(team)
-	if pay_gold:
-		# can_hire checked both banks: the essence spend can't fail, so gold is never taken for nothing.
-		if not bool(gold_bank_of_team().call(&"spend", int(cost["gold"]))):
-			return R_GOLD
-		if not bank.spend(int(cost["essence"])):
-			return R_ESSENCE   # can't happen after can_hire, but never spawn for free
-	elif not eco.spend(int(cost["crystals"])) or not bank.spend(int(cost["essence"])):
+	# Essence first: when the second spend fails the essence goes back, so nothing is ever half paid (review W2-8).
+	if not bank.spend(int(cost["essence"])):
 		return R_ESSENCE   # can't happen after can_hire, but never spawn for free
+	if pay_gold:
+		if not bool(gold_bank_of_team().call(&"spend", int(cost["gold"]))):
+			bank.add(int(cost["essence"]))
+			return R_GOLD
+	elif not eco.spend(int(cost["crystals"])):
+		bank.add(int(cost["essence"]))
+		return R_CRYSTALS
 	if eco:
 		eco.reserve_pop(POP)
 	_reserved_pending += POP
@@ -515,6 +517,56 @@ func add_companion(data: Dictionary, at: Vector3) -> Node:
 		_reserved_pending += POP
 	var ch := _spawn_champion(id, variant, type, _snap(at), data)
 	return ch
+
+
+# ---------------------------------------------------------------- save / load (Skirmish level hooks, W2-3..W2-5)
+
+## Hires made, hires on their way (paid), revives in progress (champions by save id), upkeep.
+func save_world_state(ids: Dictionary) -> Dictionary:
+	var pending: Array = []
+	for p in _pending:
+		pending.append({"id": String(p["id"]), "variant": int(p["variant"]), "left": float(p["left"]),
+				"companion": (p.get("companion", {}) as Dictionary).duplicate(true)})
+	var revives: Array = []
+	for ch: Variant in champions:
+		if ch != null and is_instance_valid(ch) and ids.has(ch) and _rec.has(ch) and bool(_rec[ch]["reviving"]):
+			revives.append({"sid": ids[ch], "left": float(_rec[ch]["revive_left"])})
+	var claims := {}
+	for k: Variant in _claims:
+		claims[String(k)] = int(_claims[k])
+	return {"hires_made": hires_made, "pending": pending, "revives": revives, "upkeep_left": _upkeep_left,
+			"failed_ticks": _failed_ticks, "unpaid": unpaid, "claims": claims}
+
+
+## Puts the saved guild state back once the champions are rebuilt (SaveWorld add_companion): the paid hires walk
+## out when their time is up, the paid revives go on.
+func load_world_state(d: Dictionary, nodes: Dictionary) -> void:
+	hires_made = int(d.get("hires_made", hires_made))
+	_upkeep_left = float(d.get("upkeep_left", _upkeep_left))
+	_failed_ticks = int(d.get("failed_ticks", _failed_ticks))
+	var claims: Dictionary = d.get("claims", {})
+	for k: Variant in claims:
+		_claims[StringName(str(k))] = int(claims[k])
+	var eco := Economy.for_team(team)
+	for row: Dictionary in d.get("pending", []):
+		var id := StringName(str(row.get("id", "")))
+		var type := find_type(id)
+		if type == null or roster_size() >= MAX_CHAMPIONS:
+			continue
+		if eco:
+			eco.reserve_pop(POP)
+		_reserved_pending += POP
+		_pending.append({"id": id, "variant": int(row.get("variant", 0)), "type": type, "tavern": _free_tavern(),
+				"left": float(row.get("left", HIRE_DELAY)), "companion": (row.get("companion", {}) as Dictionary)})
+	for row: Dictionary in d.get("revives", []):
+		var ch: Variant = nodes.get(row.get("sid", -1))
+		if ch == null or not is_instance_valid(ch) or not _rec.has(ch) or _alive(ch):
+			continue
+		_rec[ch]["reviving"] = true
+		_rec[ch]["revive_left"] = float(row.get("left", 0.0))
+	if bool(d.get("unpaid", false)) != unpaid:
+		_set_unpaid(bool(d.get("unpaid", false)))
+	roster_changed.emit()
 
 
 # ---------------------------------------------------------------- hiring internals

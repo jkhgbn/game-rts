@@ -303,6 +303,8 @@ func _update_pending() -> void:
 	var pos := _target_position(_pending_target)
 	if _flat(pos - _pending_walk_to).length() > REPATH_DISTANCE:
 		_walk_toward(pos)
+	elif wizard.has_method(&"has_move_order") and not bool(wizard.call(&"has_move_order")):
+		cancel_pending()   # the walk ended out of range (unreachable point): give up instead of waiting (R1-7)
 
 
 ## Another order replaced our walk: direct control, an attack order, hold, attack-move, or a move

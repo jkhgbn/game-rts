@@ -306,7 +306,7 @@ func is_open() -> bool:
 
 func _input(event: InputEvent) -> void:
 	if visible and event is InputEventKey and event.pressed and not event.echo \
-			and (event as InputEventKey).physical_keycode == KEY_ESCAPE:
+			and (event as InputEventKey).physical_keycode == KEY_ESCAPE and not ChatLine.is_any_open():   # U4-8
 		close()
 		get_viewport().set_input_as_handled()
 
@@ -373,6 +373,14 @@ func _process(delta: float) -> void:
 # ---------------------------------------------------------------- guild side (duck-typed)
 
 ## The player's ChampionGuild (group "champion_guilds", same team), or null.
+## U3-5: true when the scene has taverns and the guild says every one is held by an enemy.
+static func taverns_all_held(g: Node) -> bool:
+	if g == null or not g.has_method(&"held_taverns"):
+		return false
+	var all := g.get_tree().get_nodes_in_group(&"taverns") if g.is_inside_tree() else []
+	return not all.is_empty() and (g.call(&"held_taverns") as Array).size() >= all.size()
+
+
 func guild() -> Node:
 	if not is_inside_tree():
 		return null
@@ -511,14 +519,14 @@ func refresh() -> void:
 		c.visible = gbank != null
 	if gbank != null:
 		gold_label.text = str(int(gbank.get(&"gold")))
-	# "Enemies hold both taverns" when every not-hired row is refused for that reason.
-	var held := open_now
+	# U3-5: "Enemies hold both taverns" comes from the guild itself (every tavern held by an enemy), also while the
+	# rows are refused for an earlier reason (not enough crystals / essence / pop).
+	var held := open_now and taverns_all_held(g)
 	var any_free := false
 	for i in row_ids.size():
 		rows[i].refresh(g)
 		if rows[i].state == &"hireable" or rows[i].state == &"refused":
 			any_free = true
-			held = held and rows[i].reason == "Enemies hold both taverns"
 	_refresh_genie()
 	if not open_now:
 		closed_label.text = Loc.t("The tavern opens at {time}", {"time": ChampionBar.opens_at_text(self)})
@@ -622,6 +630,8 @@ class Row extends Panel:
 	var _flash_left := 0.0
 	var _flash_total := 0.0
 	var _level := 1
+	var _bg: StyleBoxFlat = null   ## U3-9: the row background, reused
+	var _badge_unlocked := -1   ## U3-9: the L4 badge state last styled (-1 = never)
 
 	## Live language switch: the lines built once in _ready (title, ability lines) are rebuilt.
 	func _notification(what: int) -> void:
@@ -867,7 +877,11 @@ class Row extends Panel:
 	## Row background: panel_inner alpha 0.55 (hover 0.8), radius 3; rim GOLD when highlighted, trim_glow (alpha
 	## 0.6) when hired; a flash tints the rim for a moment.
 	func _style() -> void:
-		var s := StyleBoxFlat.new()
+		# U3-9: one StyleBox per row, updated in place (was a new one at every 4 Hz refresh)
+		var first := _bg == null
+		if first:
+			_bg = StyleBoxFlat.new()
+		var s := _bg
 		var inner := UIStyle.token(&"panel_inner")
 		s.bg_color = Color(inner.r, inner.g, inner.b, 0.8 if _hovered else 0.55)
 		s.set_corner_radius_all(3)
@@ -881,10 +895,10 @@ class Row extends Panel:
 			var k := _flash_left / _flash_total
 			rim = (rim if rim.a > 0.0 else Color(_flash_color, 0.0)).lerp(_flash_color, k)
 			s.bg_color = s.bg_color.lerp(Color(_flash_color, 0.8), 0.35 * k)
-		if rim.a > 0.0:
-			s.border_color = rim
-			s.set_border_width_all(1)
-		add_theme_stylebox_override("panel", s)
+		s.border_color = rim
+		s.set_border_width_all(1 if rim.a > 0.0 else 0)
+		if first:
+			add_theme_stylebox_override("panel", s)
 
 	func flash(color: Color, seconds: float) -> void:
 		_flash_color = color
@@ -985,11 +999,13 @@ class Row extends Panel:
 		stats_label.tooltip_text = stats_label.text   # the full line when the column clips it
 		# L4 badge: dark with a gold "L4" until the champion reaches level 4, then filled gold with a black "L4".
 		var unlocked := hired and _level >= 4
-		var bs := StyleBoxFlat.new()
-		bs.bg_color = UIStyle.GOLD if unlocked else Color(0, 0, 0, 0.75)
-		bs.set_corner_radius_all(2)
-		lock_badge.add_theme_stylebox_override("panel", bs)
-		lock_label.add_theme_color_override("font_color", Color.BLACK if unlocked else UIStyle.GOLD)
+		if int(unlocked) != _badge_unlocked:   # U3-9: a new StyleBox only when the badge changes (refresh 4 x / s)
+			_badge_unlocked = int(unlocked)
+			var bs := StyleBoxFlat.new()
+			bs.bg_color = UIStyle.GOLD if unlocked else Color(0, 0, 0, 0.75)
+			bs.set_corner_radius_all(2)
+			lock_badge.add_theme_stylebox_override("panel", bs)
+			lock_label.add_theme_color_override("font_color", Color.BLACK if unlocked else UIStyle.GOLD)
 		var growth := float(info.get("growth_pct", 0.08))
 		for l in ability_labels:
 			l.tooltip_text = ChampionBar.ability_tooltip(l.get_meta(&"ability_id", &""), _level, growth)

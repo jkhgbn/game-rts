@@ -11,11 +11,15 @@ extends Control
 ## The step-9 classes are reached untyped: `board_for(team)` = a node in group "bounty_boards" of that team, else
 ## `BountyBoard.for_team(team)` through `load()` when the script exists. Messages about payments, refunds, pursuers and
 ## hunt warnings come from the board itself; this node only reports refusals.
+## Replay Lab: a bounty-mode click is noted as the board call it makes (generic `call` command: place / raise), so a
+## replay places and raises the same flags; the flag card's Z / Delete go through SelectionManager's own notes.
 
 ## The mode was entered or left.
 signal mode_changed(active: bool)
 ## A flag was placed or raised: the preview dictionary that was committed.
 signal placed(result: Dictionary)
+
+const _REPLAY := preload("res://scripts/core/replay/replay_hooks.gd")
 
 ## Bounty kinds (Bounty.HUNT / EXPLORE / GUARD / ESCORT, the flag model's set_kind order).
 const HUNT := 0
@@ -89,6 +93,12 @@ func _enter_tree() -> void:
 			queue_free()
 			return
 	add_to_group(GROUP)
+
+
+## U3-8: leaving the tree (F9, quit to menu) in the mode puts the arrow cursor back.
+func _exit_tree() -> void:
+	if active and not _duplicate:
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 
 func _ready() -> void:
@@ -287,16 +297,30 @@ func pick_at(screen_pos: Vector2) -> Array:
 		var c: Variant = selection.call(&"critter_at", screen_pos)
 		if c is Node3D and is_instance_valid(c):
 			return [c, (c as Node3D).global_position]
-	var u := selection.unit_at(screen_pos)
-	if u != null and not (u.team == team and u.is_in_group(&"champions")):
+	var u := selection.unit_at(screen_pos)   # fogged units are never picked (U3-2: unit_at skips hidden ones)
+	if u != null and not Teams.is_ally(u.team, team) and not _seen(u):
+		u = null   # U3-2: an enemy in the fog is not a target (its ground gets an Explore flag)
+	if u != null and not (Teams.is_ally(u.team, team) and u.is_in_group(&"champions")):   # U3-7: allied seats too
 		return [u, u.global_position]
 	var b := selection.building_at(screen_pos)
 	if b != null and not b.is_in_group(&"taverns"):
 		return [b, b.global_position]
+	# U3-1: a capture point (not in "buildings"): Guard on your own point, Explore on another one
+	var cp: Node3D = selection.point_at(screen_pos)
+	if cp != null and is_instance_valid(cp):
+		return [cp, cp.global_position]
 	var p: Variant = selection.ground_point(screen_pos)
 	if p == null:
 		return []
 	return [null, p]
+
+
+## True when `u` is shown to this team now (no fog, or its spot is visible).
+func _seen(u: Node3D) -> bool:
+	if not u.is_visible_in_tree():
+		return false
+	var fog := FogOfWar.find()
+	return fog == null or not fog.enabled or fog.is_visible(team, u.global_position)
 
 
 ## The kind, price and refusal for placing on `target` (null = the ground at `pos`):
@@ -375,6 +399,7 @@ func commit(d: Dictionary) -> String:
 	if board == null:
 		result = str(d.get("reason", "")) if str(d.get("reason", "")) != "" else MSG_NO_BOARD
 	elif d.get("raise") != null:
+		_REPLAY.note(&"call", [board, &"raise", d["raise"], int(d.get("amount", RAISE_STEP))])   # U3-3
 		result = str(board.call(&"raise", d["raise"], int(d.get("amount", RAISE_STEP))))
 	else:
 		var target: Node3D = d.get("target")
@@ -383,6 +408,7 @@ func commit(d: Dictionary) -> String:
 		if kind < 0:
 			result = MSG_INVALID
 		else:
+			_REPLAY.note(&"call", [board, &"place", kind, target, pos])   # U3-3: replays place the same flag
 			result = str(board.call(&"place", kind, target, pos))
 	last_result = result
 	if result != "":
@@ -715,9 +741,10 @@ func kind_for(target: Node3D, board: Node = null) -> int:
 		return EXPLORE
 	if board != null and board.has_method(&"kind_for"):
 		return int(board.call(&"kind_for", target))
-	if target.is_in_group(&"taverns") or (target.is_in_group(&"champions") and target.get("team") != null \
-			and int(target.get("team")) == team):
-		return -1
+	if target.is_in_group(&"taverns") or target.is_in_group(&"game_critters") \
+			or (target.is_in_group(&"champions") and target.get("team") != null \
+			and Teams.is_ally(int(target.get("team")), team)):
+		return -1   # U3-4: a game critter is refused (no Explore flag on it)
 	return _guess_kind(target)
 
 
@@ -727,7 +754,7 @@ func _guess_kind(target: Node3D) -> int:
 	var t: Variant = target.get("team")
 	if t == null:
 		return EXPLORE
-	if int(t) != team:
+	if not Teams.is_ally(int(t), team) or int(t) == Unit.Team.NEUTRAL:   # U3-7: an allied seat is a friend
 		return HUNT
 	return GUARD if is_building(target) else ESCORT
 

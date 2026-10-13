@@ -60,6 +60,7 @@ var _start_pos: Array[Vector3] = [Vector3(-114, 0, -6), Vector3(114, 0, 6)]
 var _gate_pos: Array[Vector3] = [Vector3(-108, 0, 0), Vector3(108, 0, 0)]
 var _lane_types := {}            ## id -> commandable = false copy of the UnitType
 var _respawn_left: Array[float] = [0.0, 0.0]
+var _lane_rank := {}             ## lane Unit -> card rank it was spawned with (>= 2 only; the save keeps it)
 var _guard_t := 0.0
 var _cast_t := 0.0
 
@@ -354,8 +355,7 @@ func spawn_lane_unit(seat: int, id: StringName, pos: Vector3, lateral: float) ->
 	var rk := rosters[seat].rank(id) if seat < rosters.size() else 1
 	if rk >= 2:
 		u.add_xp(Unit.VETERANCY_XP[rk - 1])
-		u.add_modifier(&"ws_rank", {"max_hp_pct": 0.1 * (rk - 1), "attack_damage_pct": 0.1 * (rk - 1),
-			"armor": 1.0 if rk >= 3 else 0.0})
+		_apply_rank(u, rk, true)
 		u.hp = u.max_hp
 	var leash := rules.leash_ranged if type.attack_range > 3.0 else rules.leash_melee
 	var phase := float(stats[team]["spawned"] % 4) * LaneMarch.TICK * 0.25
@@ -380,6 +380,7 @@ func _lane_type(id: StringName) -> UnitType:
 ## Kill bounty (wave-strike.md 4.2): rules.bounty_pct of the card price to the killing team, x defender mult when the
 ## kill is in that team's own third of the lane.
 func _on_lane_unit_died(u: Unit, seat: int, id: StringName) -> void:
+	_lane_rank.erase(u)
 	var team := seat
 	var price := table.price(id)
 	stats[team]["lost"] += 1
@@ -614,10 +615,24 @@ func _finish(winner: int, reason: String) -> void:
 		hud.show_banner("DRAW\n%s" % how, Color(0.85, 0.85, 0.85))
 
 
+## The card rank modifier (wave-strike.md 4.4) of a lane unit spawned at rank `rk` (>= 2).
+func _apply_rank(u: Unit, rk: int, heal_gain: bool) -> void:
+	u.add_modifier(&"ws_rank", {"max_hp_pct": 0.1 * (rk - 1), "attack_damage_pct": 0.1 * (rk - 1),
+		"armor": 1.0 if rk >= 3 else 0.0}, heal_gain)
+	_lane_rank[u] = rk
+
+
 # ---------------------------------------------------------------- save / load (docs/design/save-load.md)
 
 ## Director clock, banks, rosters, stats, wizard respawn timers (SaveWorld). Lane units are saved as units.
-func save_level_state(_ids: Dictionary) -> Dictionary:
+func save_level_state(ids: Dictionary) -> Dictionary:
+	var ranks := {}   # review W3-3: lane units come back at their own rank (rosters load after the units)
+	for u: Variant in _lane_rank.keys():
+		if u != null and is_instance_valid(u) and (u as Unit).is_alive() and ids.has(u):
+			ranks[ids[u]] = [int(_lane_rank[u]), (u as Unit).hp]
+	var sp: Array = []
+	for s in spawners:
+		sp.append(s.save_state() if s else {})
 	var b: Array = []
 	for bank in banks:
 		b.append(bank.save_state())
@@ -629,10 +644,11 @@ func save_level_state(_ids: Dictionary) -> Dictionary:
 		"horn_index": director.horn_index if director else 0,
 		"last_wave_size": director.last_wave_size.duplicate() if director else [],
 		"banks": b, "rosters": r, "stats": stats.duplicate(true), "respawn": _respawn_left.duplicate(),
+		"ranks": ranks, "spawners": sp,
 	}
 
 
-func load_level_state(d: Dictionary, _nodes: Dictionary) -> void:
+func load_level_state(d: Dictionary, nodes: Dictionary) -> void:
 	if director:
 		director.time = float(d.get("time", director.time))
 		director.horn_index = int(d.get("horn_index", director.horn_index))
@@ -645,6 +661,22 @@ func load_level_state(d: Dictionary, _nodes: Dictionary) -> void:
 		rosters[i].load_state(r[i])
 	stats.assign((d.get("stats", stats) as Array).duplicate(true))
 	_respawn_left.assign(d.get("respawn", [0.0, 0.0]))
+	var ranks: Dictionary = d.get("ranks", {})
+	for sid: Variant in ranks:
+		var u := nodes.get(sid) as Unit
+		if u == null or not is_instance_valid(u) or not u.is_alive():
+			continue
+		var row: Array = ranks[sid]
+		_apply_rank(u, int(row[0]), false)
+		u.hp = minf(float(row[1]), u.max_hp)
+	var sp: Array = d.get("spawners", [])
+	for i in mini(sp.size(), spawners.size()):
+		if spawners[i] and not (sp[i] as Dictionary).is_empty():
+			spawners[i].load_state(sp[i])
+	if director and director.is_last_horns():   # review W3-4: the Last Horns Bastion armour cut
+		for bs in bastions:
+			if bs and is_instance_valid(bs):
+				bs.armor = rules.bastion_armor * (1.0 - rules.last_horns_armor_cut)
 
 
 ## A saved lane unit comes back marching on its lane at its waypoint (SaveWorld asks the level first). Null = not a

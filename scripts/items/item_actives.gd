@@ -223,6 +223,15 @@ func _ready() -> void:
 	wizard = Recipes.owner_of(inventory)
 	if wizard and wizard.has_signal(&"respawned"):
 		wizard.connect(&"respawned", _on_wizard_respawned)
+	if inventory and inventory.has_signal(&"inventory_changed") \
+			and not inventory.is_connected(&"inventory_changed", _on_inventory_changed):
+		inventory.connect(&"inventory_changed", _on_inventory_changed)
+
+
+## The Homeward Seal channel stops at once when its seal left the inventory (code review R5-6).
+func _on_inventory_changed() -> void:
+	if not _channel.is_empty() and _slot_of(_channel["entry"], _channel["id"]) < 0:
+		cancel_channel()
 
 
 ## Instance form of `use`.
@@ -500,6 +509,9 @@ func _tick_channel(delta: float) -> void:
 	if not is_instance_valid(wizard) or not wizard.call(&"is_alive"):
 		cancel_channel()
 		return
+	if _slot_of(_channel["entry"], _channel["id"]) < 0:
+		cancel_channel()   # the seal was sold / dropped / used up mid-channel (code review R5-6)
+		return
 	var hp := float(wizard.get("hp"))
 	var moved := _flat(_wizard_pos() - (_channel["pos"] as Vector3)).length() > CHANNEL_MOVE_TOLERANCE
 	var steering := wizard.has_method(&"get_move_input") \
@@ -514,7 +526,7 @@ func _tick_channel(delta: float) -> void:
 	var home := _home_point()
 	var slot := _slot_of(_channel["entry"], _channel["id"])
 	_channel = {}
-	if home == Vector3.INF:
+	if home == Vector3.INF or slot < 0:
 		channel_ended.emit(false)
 		return
 	(wizard as Node3D).global_position = home

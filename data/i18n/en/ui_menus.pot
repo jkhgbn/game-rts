@@ -6,32 +6,32 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:71
+#: scripts/ui/menus/game_settings.gd:73
 msgid "Off (native)"
 msgstr ""
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:71
+#: scripts/ui/menus/game_settings.gd:73
 msgid "FSR 1 (fast)"
 msgstr ""
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:71
+#: scripts/ui/menus/game_settings.gd:73
 msgid "FSR 2 (best quality)"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:84
+#: scripts/ui/menus/game_settings.gd:86
 msgid "Classic"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:84
+#: scripts/ui/menus/game_settings.gd:86
 msgid "Hero WASD"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:84 scripts/ui/menus/settings_panel.gd:366
+#: scripts/ui/menus/game_settings.gd:86 scripts/ui/menus/settings_panel.gd:373
 msgid "RTS camera (WASD)"
 msgstr ""
 
@@ -105,7 +105,7 @@ msgid "Malrik of Shadow"
 msgstr ""
 
 #. "name": "Shadow", "wizard": "Malrik", "kingdom_line": "Shadow kingdom", "of_line": "Malrik of Shadow", "title"
-#: scripts/ui/menus/kingdom_card.gd:21 scripts/units/shadow_wizard.gd:34
+#: scripts/ui/menus/kingdom_card.gd:21 scripts/units/shadow_wizard.gd:35
 msgid "Malrik, Shadow Wizard"
 msgstr ""
 
@@ -214,62 +214,62 @@ msgid "Call the Thicket"
 msgstr ""
 
 #. style_label.text = "Coming soon"
-#: scripts/ui/menus/kingdom_card.gd:168 scripts/ui/menus/main_menu.gd:556
+#: scripts/ui/menus/kingdom_card.gd:168 scripts/ui/menus/main_menu.gd:563
 msgid "Coming soon"
 msgstr ""
 
 #. return Loc.t("%s  vs  %s") % [KingdomCard.of_line(_player), KingdomCard.of_line(_enemy)]
-#: scripts/ui/menus/main_menu.gd:329
+#: scripts/ui/menus/main_menu.gd:335
 msgid "%s  vs  %s"
 msgstr ""
 
 #. var ri := map_list.add_item(Loc.t("Random %s map") % mode, _random_icon())
-#: scripts/ui/menus/main_menu.gd:398
+#: scripts/ui/menus/main_menu.gd:404
 msgid "Random %s map"
 msgstr ""
 
 #. map_info_label.text = Loc.t("One of the %d ready %s maps, drawn when the match starts.") % [cat.list(_map_seat
-#: scripts/ui/menus/main_menu.gd:416
+#: scripts/ui/menus/main_menu.gd:422
 msgid "One of the %d ready %s maps, drawn when the match starts."
 msgstr ""
 
 #. map_info_label.text = Loc.t("%s · %s · %s look\n%s") % [Loc.sink(MapCatalog.size_text(e)),
-#: scripts/ui/menus/main_menu.gd:423
+#: scripts/ui/menus/main_menu.gd:429
 msgid "%s · %s · %s look\n%s"
 msgstr ""
 
 #. var tag := UIStyle.display_label(Loc.t("MAP"), 22, UIStyle.GOLD)
-#: scripts/ui/menus/main_menu.gd:454 scripts/ui/menus/main_menu.gd:456
+#: scripts/ui/menus/main_menu.gd:460 scripts/ui/menus/main_menu.gd:462
 msgid "MAP"
 msgstr ""
 
 #. var title: String = Loc.t(MISSION_TITLES[id]) if MISSION_TITLES.has(id) else Loc.t("Mission %d") % (i + 1)
-#: scripts/ui/menus/main_menu.gd:547
+#: scripts/ui/menus/main_menu.gd:554
 msgid "Mission %d"
 msgstr ""
 
 #. b.text = "   " + Loc.t("%d.  Locked") % (i + 1)
-#: scripts/ui/menus/main_menu.gd:552
+#: scripts/ui/menus/main_menu.gd:559
 msgid "%d.  Locked"
 msgstr ""
 
 #. b.text = "   " + Loc.t("%d.  %s  (coming soon)") % [i + 1, title]
-#: scripts/ui/menus/main_menu.gd:555
+#: scripts/ui/menus/main_menu.gd:562
 msgid "%d.  %s  (coming soon)"
 msgstr ""
 
 #. var lb := _toggle_button(limit_row, "Off" if minutes == 0 else Loc.t("%d min") % minutes, limit_group)
-#: scripts/ui/menus/main_menu.gd:760
+#: scripts/ui/menus/main_menu.gd:769
 msgid "%d min"
 msgstr ""
 
 #. var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
-#: scripts/ui/menus/main_menu.gd:820 scripts/ui/menus/main_menu.gd:712
+#: scripts/ui/menus/main_menu.gd:829 scripts/ui/menus/main_menu.gd:721
 msgid "YOU"
 msgstr ""
 
 #. var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
-#: scripts/ui/menus/main_menu.gd:820 scripts/ui/menus/main_menu.gd:715
+#: scripts/ui/menus/main_menu.gd:829 scripts/ui/menus/main_menu.gd:724
 msgid "ENEMY"
 msgstr ""
 
@@ -284,7 +284,7 @@ msgid "Easy"
 msgstr ""
 
 #. const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty order
-#: scripts/ui/menus/main_menu.gd:11 scripts/ui/menus/main_menu.gd:779
+#: scripts/ui/menus/main_menu.gd:11 scripts/ui/menus/main_menu.gd:788
 msgid "Normal"
 msgstr ""
 
@@ -345,184 +345,184 @@ msgid "The Burning Grove"
 msgstr ""
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Four Wizards", 84))
-#: scripts/ui/menus/main_menu.gd:115
+#: scripts/ui/menus/main_menu.gd:121
 msgid "Four Wizards"
 msgstr ""
 
 #. var footer := UIStyle.label("Prototype build  -  Esc in game: pause", 14)
-#: scripts/ui/menus/main_menu.gd:145
+#: scripts/ui/menus/main_menu.gd:151
 msgid "Prototype build  -  Esc in game: pause"
 msgstr ""
 
 #. map_list.set_item_tooltip(ri, "A ready map drawn at Start (a restart replays the same map).")
-#: scripts/ui/menus/main_menu.gd:399
+#: scripts/ui/menus/main_menu.gd:405
 msgid "A ready map drawn at Start (a restart replays the same map)."
 msgstr ""
 
 #. map_title_label.text = "Random map"
-#: scripts/ui/menus/main_menu.gd:415
+#: scripts/ui/menus/main_menu.gd:421
 msgid "Random map"
 msgstr ""
 
 #. b.tooltip_text = "Maps for 2 players." if seats == MapCatalog.SEATS_1V1 \
-#: scripts/ui/menus/main_menu.gd:466
+#: scripts/ui/menus/main_menu.gd:472
 msgid "Maps for 2 players."
 msgstr ""
 
 #. else "Maps for 4 players (played as a 1v1 until 2v2 skirmish comes)."
-#: scripts/ui/menus/main_menu.gd:467
+#: scripts/ui/menus/main_menu.gd:473
 msgid "Maps for 4 players (played as a 1v1 until 2v2 skirmish comes)."
 msgstr ""
 
 #. b.tooltip_text = "Win the previous mission to unlock it."
-#: scripts/ui/menus/main_menu.gd:553
+#: scripts/ui/menus/main_menu.gd:560
 msgid "Win the previous mission to unlock it."
 msgstr ""
 
 #. prologue_button.text = "Watch opening" if film != &"" else "Watch prologue"
-#: scripts/ui/menus/main_menu.gd:587
+#: scripts/ui/menus/main_menu.gd:596
 msgid "Watch opening"
 msgstr ""
 
 #. prologue_button.text = "Watch opening" if film != &"" else "Watch prologue"
-#: scripts/ui/menus/main_menu.gd:587 scripts/ui/menus/main_menu.gd:886
+#: scripts/ui/menus/main_menu.gd:596 scripts/ui/menus/main_menu.gd:900
 msgid "Watch prologue"
 msgstr ""
 
 #. prologue_button.tooltip_text = "The episode's opening film. Plays before this mission the first time." if film
-#: scripts/ui/menus/main_menu.gd:588
+#: scripts/ui/menus/main_menu.gd:597
 msgid "The episode's opening film. Plays before this mission the first time."
 msgstr ""
 
 #. else "The story so far (3 min). Plays before mission 1 the first time."
-#: scripts/ui/menus/main_menu.gd:589 scripts/ui/menus/main_menu.gd:888
+#: scripts/ui/menus/main_menu.gd:598 scripts/ui/menus/main_menu.gd:902
 msgid "The story so far (3 min). Plays before mission 1 the first time."
 msgstr ""
 
 #. skirmish_button = _menu_button(box, "Skirmish 1v1")
-#: scripts/ui/menus/main_menu.gd:667 scripts/ui/menus/main_menu.gd:690
+#: scripts/ui/menus/main_menu.gd:676 scripts/ui/menus/main_menu.gd:699
 msgid "Skirmish 1v1"
 msgstr ""
 
 #. wave_strike_button = _menu_button(box, "Wave Strike")
-#: scripts/ui/menus/main_menu.gd:670 scripts/ui/wave_strike/wave_strike_lobby.gd:49
+#: scripts/ui/menus/main_menu.gd:679 scripts/ui/wave_strike/wave_strike_lobby.gd:51
 msgid "Wave Strike"
 msgstr ""
 
 #. wave_strike_button.tooltip_text = "Buy cards, send waves down one lane, break the enemy Bastion (new mode, 1v1
-#: scripts/ui/menus/main_menu.gd:671
+#: scripts/ui/menus/main_menu.gd:680
 msgid "Buy cards, send waves down one lane, break the enemy Bastion (new mode, 1v1)."
 msgstr ""
 
 #. campaign_button = _menu_button(box, "Campaign")
-#: scripts/ui/menus/main_menu.gd:673 scripts/ui/menus/main_menu.gd:845
+#: scripts/ui/menus/main_menu.gd:682 scripts/ui/menus/main_menu.gd:854
 msgid "Campaign"
 msgstr ""
 
 #. unit_guide_button.tooltip_text = "Every unit of the four kingdoms: stats, abilities, pros and cons, counters."
-#: scripts/ui/menus/main_menu.gd:676
+#: scripts/ui/menus/main_menu.gd:685
 msgid "Every unit of the four kingdoms: stats, abilities, pros and cons, counters."
 msgstr ""
 
 #. settings_button = _menu_button(box, "Settings")
-#: scripts/ui/menus/main_menu.gd:678 scripts/ui/menus/pause_menu.gd:57
+#: scripts/ui/menus/main_menu.gd:687 scripts/ui/menus/pause_menu.gd:57
 #: scripts/ui/menus/settings_panel.gd:67
 msgid "Settings"
 msgstr ""
 
 #. quit_button = _menu_button(box, "Quit")
-#: scripts/ui/menus/main_menu.gd:680
+#: scripts/ui/menus/main_menu.gd:689
 msgid "Quit"
 msgstr ""
 
 #. kingdom_buttons = _card_row(box, "YOU", "Your kingdom", player_group, set_player_kingdom)
-#: scripts/ui/menus/main_menu.gd:712 scripts/ui/wave_strike/wave_strike_lobby.gd:74
+#: scripts/ui/menus/main_menu.gd:721 scripts/ui/wave_strike/wave_strike_lobby.gd:76
 msgid "Your kingdom"
 msgstr ""
 
 #. enemy_buttons = _card_row(box, "ENEMY", "The bot", enemy_group, set_enemy)
-#: scripts/ui/menus/main_menu.gd:715
+#: scripts/ui/menus/main_menu.gd:724
 msgid "The bot"
 msgstr ""
 
 #. var diff_title := UIStyle.label("Opponent difficulty", 20)
-#: scripts/ui/menus/main_menu.gd:721 scripts/ui/menus/main_menu.gd:868
+#: scripts/ui/menus/main_menu.gd:730 scripts/ui/menus/main_menu.gd:882
 msgid "Opponent difficulty"
 msgstr ""
 
 #. var trade_title := UIStyle.label("Trade and guilds", 20)
-#: scripts/ui/menus/main_menu.gd:737
+#: scripts/ui/menus/main_menu.gd:746
 msgid "Trade and guilds"
 msgstr ""
 
 #. var tb := _toggle_button(trade_row, "On" if on else "Off", trade_group)
-#: scripts/ui/menus/main_menu.gd:743
+#: scripts/ui/menus/main_menu.gd:752
 msgid "On"
 msgstr ""
 
 #. var tb := _toggle_button(trade_row, "On" if on else "Off", trade_group)
-#: scripts/ui/menus/main_menu.gd:743 scripts/ui/menus/main_menu.gd:760
+#: scripts/ui/menus/main_menu.gd:752 scripts/ui/menus/main_menu.gd:769
 msgid "Off"
 msgstr ""
 
 #. tb.tooltip_text = "Trading posts, Bazaars, caravans, Magpies and the Greywater Lodges (skirmish only)."
-#: scripts/ui/menus/main_menu.gd:744
+#: scripts/ui/menus/main_menu.gd:753
 msgid "Trading posts, Bazaars, caravans, Magpies and the Greywater Lodges (skirmish only)."
 msgstr ""
 
 #. var limit_title := UIStyle.label("Time limit", 20)
-#: scripts/ui/menus/main_menu.gd:753
+#: scripts/ui/menus/main_menu.gd:762
 msgid "Time limit"
 msgstr ""
 
 #. lb.tooltip_text = "Off: the match ends only when a side has no building left or concedes.\n" \
-#: scripts/ui/menus/main_menu.gd:761
+#: scripts/ui/menus/main_menu.gd:770
 msgid "Off: the match ends only when a side has no building left or concedes.\n30 / 45 min: at the limit the match ends and the higher score wins."
 msgstr ""
 
 #. var pace_title := UIStyle.label("Pace", 20)
-#: scripts/ui/menus/main_menu.gd:773
+#: scripts/ui/menus/main_menu.gd:782
 msgid "Pace"
 msgstr ""
 
 #. var pace_names: Array[String] = ["Normal", "Fast (test)", "Blitz"]
-#: scripts/ui/menus/main_menu.gd:779
+#: scripts/ui/menus/main_menu.gd:788
 msgid "Fast (test)"
 msgstr ""
 
 #. var pace_names: Array[String] = ["Normal", "Fast (test)", "Blitz"]
-#: scripts/ui/menus/main_menu.gd:779
+#: scripts/ui/menus/main_menu.gd:788
 msgid "Blitz"
 msgstr ""
 
 #. var pace_tips: Array[String] = ["Normal: the usual game.",
-#: scripts/ui/menus/main_menu.gd:780
+#: scripts/ui/menus/main_menu.gd:789
 msgid "Normal: the usual game."
 msgstr ""
 
 #. "Fast (test): buildings have less HP, towers hit softer, units train faster
-#: scripts/ui/menus/main_menu.gd:781
+#: scripts/ui/menus/main_menu.gd:790
 msgid "Fast (test): buildings have less HP, towers hit softer, units train faster\nand the bots attack sooner (skirmish only)."
 msgstr ""
 
 #. "Blitz: 9 starting workers, weaker buildings, faster training and keep upgrades,
-#: scripts/ui/menus/main_menu.gd:783
+#: scripts/ui/menus/main_menu.gd:792
 msgid "Blitz: 9 starting workers, weaker buildings, faster training and keep upgrades,\nbolder bots and a 30 % faster clock. Games last about 8 to 12 minutes (skirmish only)."
 msgstr ""
 
 #. start_button = _menu_button(actions, "Start")
-#: scripts/ui/menus/main_menu.gd:800 scripts/ui/menus/main_menu.gd:891
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:117
+#: scripts/ui/menus/main_menu.gd:809 scripts/ui/menus/main_menu.gd:905
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:121
 msgid "Start"
 msgstr ""
 
 #. var who := UIStyle.label("Vessa, apprentice of Fire", 17)
-#: scripts/ui/menus/main_menu.gd:849
+#: scripts/ui/menus/main_menu.gd:858
 msgid "Vessa, apprentice of Fire"
 msgstr ""
 
 #. box.add_child(UIStyle.label("Mission", 20))
-#: scripts/ui/menus/main_menu.gd:854 scripts/ui/mission/briefing_screen.gd:103
+#: scripts/ui/menus/main_menu.gd:863 scripts/ui/mission/briefing_screen.gd:103
 msgid "Mission"
 msgstr ""
 
@@ -601,24 +601,29 @@ msgstr ""
 msgid "Quit to menu"
 msgstr ""
 
-#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film", "Can
 #: scripts/ui/menus/pause_menu.gd:324
 msgid "Nothing to save here"
 msgstr ""
 
-#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film", "Can
 #: scripts/ui/menus/pause_menu.gd:324
 msgid "The match has not started yet"
 msgstr ""
 
-#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film", "Can
 #: scripts/ui/menus/pause_menu.gd:324
 msgid "The match is over"
 msgstr ""
 
-#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film", "Can
 #: scripts/ui/menus/pause_menu.gd:324
 msgid "Can't save during a film"
+msgstr ""
+
+#. "Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film", "Can
+#: scripts/ui/menus/pause_menu.gd:324
+msgid "Can't load during a film"
 msgstr ""
 
 #. "Still loading", "Could not write the save file", "No save in this slot", "This save file is damaged",
@@ -692,7 +697,7 @@ msgid "Classic: like most strategy games, right click moves your wizard and %s +
 msgstr ""
 
 #. var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t el
-#: scripts/ui/menus/settings_panel.gd:483 scripts/ui/champion_bar.gd:59
+#: scripts/ui/menus/settings_panel.gd:490 scripts/ui/champion_bar.gd:59
 #: data/champion_classes/wizard.tres:8
 msgid "Wizard"
 msgstr ""
@@ -768,86 +773,86 @@ msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr ""
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:358
+#: scripts/ui/menus/settings_panel.gd:365
 msgid "Controls"
 msgstr ""
 
 #. controls_option.add_item("Classic (right click moves)", GameSettings.CONTROLS_CLASSIC)
-#: scripts/ui/menus/settings_panel.gd:364
+#: scripts/ui/menus/settings_panel.gd:371
 msgid "Classic (right click moves)"
 msgstr ""
 
 #. controls_option.add_item("Hero WASD (keys walk the wizard)", GameSettings.CONTROLS_HERO_WASD)
-#: scripts/ui/menus/settings_panel.gd:365
+#: scripts/ui/menus/settings_panel.gd:372
 msgid "Hero WASD (keys walk the wizard)"
 msgstr ""
 
 #. var name_label := UIStyle.label("Unit priority", 18)
-#: scripts/ui/menus/settings_panel.gd:388
+#: scripts/ui/menus/settings_panel.gd:395
 msgid "Unit priority"
 msgstr ""
 
 #. name_label.tooltip_text = "Tab order of unit types in a selection; the first one is active first."
-#: scripts/ui/menus/settings_panel.gd:390
+#: scripts/ui/menus/settings_panel.gd:397
 msgid "Tab order of unit types in a selection; the first one is active first."
 msgstr ""
 
 #. priority_kingdom.tooltip_text = "The kingdom whose unit order is shown."
-#: scripts/ui/menus/settings_panel.gd:395
+#: scripts/ui/menus/settings_panel.gd:402
 msgid "The kingdom whose unit order is shown."
 msgstr ""
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:401 scripts/ui/menus/settings_panel.gd:404
+#: scripts/ui/menus/settings_panel.gd:408 scripts/ui/menus/settings_panel.gd:411
 msgid "Show"
 msgstr ""
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:401
+#: scripts/ui/menus/settings_panel.gd:408
 msgid "Show / hide the list (Tab cycles unit types in this order)"
 msgstr ""
 
 #. priority_toggle.text = "Hide" if priority_list.visible else "Show")
-#: scripts/ui/menus/settings_panel.gd:404
+#: scripts/ui/menus/settings_panel.gd:411
 msgid "Hide"
 msgstr ""
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:405
+#: scripts/ui/menus/settings_panel.gd:412
 msgid "Reset"
 msgstr ""
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:405
+#: scripts/ui/menus/settings_panel.gd:412
 msgid "Default order: wizard, dearest soldiers first, workers last"
 msgstr ""
 
 #. var up := _small_button(row, "+", "Higher priority")
-#: scripts/ui/menus/settings_panel.gd:486
+#: scripts/ui/menus/settings_panel.gd:493
 msgid "Higher priority"
 msgstr ""
 
 #. var down := _small_button(row, "−", "Lower priority")
-#: scripts/ui/menus/settings_panel.gd:489
+#: scripts/ui/menus/settings_panel.gd:496
 msgid "Lower priority"
 msgstr ""
 
 #. var name_label := UIStyle.label("Map detail", 18)
-#: scripts/ui/menus/settings_panel.gd:499
+#: scripts/ui/menus/settings_panel.gd:506
 msgid "Map detail"
 msgstr ""
 
 #. map_detail_option.add_item("High", 0)
-#: scripts/ui/menus/settings_panel.gd:505
+#: scripts/ui/menus/settings_panel.gd:512
 msgid "High"
 msgstr ""
 
 #. map_detail_option.add_item("Low (faster)", 1)
-#: scripts/ui/menus/settings_panel.gd:506
+#: scripts/ui/menus/settings_panel.gd:513
 msgid "Low (faster)"
 msgstr ""
 
 #. var name_label := UIStyle.label("Upscaler", 18)
-#: scripts/ui/menus/settings_panel.gd:520
+#: scripts/ui/menus/settings_panel.gd:527
 msgid "Upscaler"
 msgstr ""

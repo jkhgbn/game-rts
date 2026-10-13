@@ -70,6 +70,7 @@ var _now := 0.0
 var _tick_left := 0.0
 var _repick_left := 0.0
 var _ended := false
+var _refund_only := false        # F7: a load stub the guild could not re-hire (load_state refunds, then frees it)
 var _charges := {}               # tracker iid -> caravan (Unit)
 var _orders := {}                # tracker iid -> {order, point, target}
 var _hits := {}                  # victim iid -> {attacker iid -> [attacker, time]}
@@ -88,6 +89,7 @@ var _engage := {}                # tracker iid -> {target, anchor}
 
 func _init() -> void:
 	add_to_group(&"tracker_contracts")
+	add_to_group(&"saved_state")   # F7: SaveWorld's generic hook (fix-batches-2026-10-12 "Shared APIs")
 
 
 func _ready() -> void:
@@ -112,13 +114,97 @@ func setup(p_guild: Node, p_team: int, p_kind: StringName, p_trackers: Array, p_
 		trackers.append(u)
 		if not u.is_in_group(&"trackers"):
 			u.add_to_group(&"trackers")
-		u.set_meta(&"contract", self)
+		u.set_meta(&"_contract", self)
 		_watch(u)
 		if u.has_signal(&"left_map"):   # 10.C6
 			u.connect(&"left_map", _on_tracker_left, CONNECT_ONE_SHOT)
 	_repick_left = 0.0
 	_spots.clear()
 	_spot_index = 0
+
+
+# ---------------------------------------------------------------- save / load (F7, group "saved_state")
+# Trackers are not saved (SaveWorld leaves them out), so a running contract comes back as a fresh hire from the
+# HuntersGuild (HuntersGuild.restore_contract: new trackers at a Lodge door, nothing spent, no message) with the saved
+# time left. When the guild can't (no guild / unknown kind), the unused share of the price is refunded.
+
+func save_key() -> String:
+	return "tracker_contract:%d:%s" % [team, String(kind)]
+
+
+func save_state(_ids: Dictionary = {}) -> Dictionary:
+	if _ended or kind == &"":
+		return {}
+	var cost := 0
+	if guild and is_instance_valid(guild) and guild.has_method(&"contract_cost"):
+		cost = int(guild.call(&"contract_cost", kind))
+	return {"team": team, "kind": String(kind), "left": maxf(0.0, _left), "duration": duration, "cost": cost}
+
+
+func load_state(d: Dictionary, _nodes: Dictionary = {}) -> void:
+	var left := float(d.get("left", 0.0))
+	var dur := maxf(0.001, float(d.get("duration", 0.0)))
+	if _refund_only:
+		# The guild could not re-hire: give back the unused share of the price, then go away.
+		var cost := int(d.get("cost", 0))
+		var refund := int(round(float(cost) * clampf(left / dur, 0.0, 1.0)))
+		var bank := GoldBank.for_team(int(d.get("team", team)))
+		if bank and refund > 0:
+			_give_back(bank, refund)
+		_ended = true
+		remove_from_group(&"saved_state")
+		queue_free()
+		return
+	if left <= 0.0:
+		end_contract()
+		return
+	_left = minf(left, duration if duration > 0.0 else left)
+
+
+## Called by SaveWorld when no contract has this key after the rebuild: the HuntersGuild restores the contract quietly
+## (HuntersGuild.restore_contract: nothing spent, the saved gold already paid it). Returns that contract, or a
+## refund-only stub (outside the tree, frees itself in load_state) when the guild can't.
+static func create_for_save(level: Node, key: String) -> Node:
+	var parts := key.split(":")
+	if parts.size() < 3:
+		return null
+	var p_team := parts[1].to_int()
+	var p_kind := StringName(parts[2])
+	var tree: SceneTree = level.get_tree() if level and level.is_inside_tree() else null
+	var g := _guild_for(tree)
+	if g:
+		# Quiet restore (no price, message, Lodge animation or signal): the save's gold already paid this contract.
+		var c: Node = null
+		if g.has_method(&"restore_contract"):
+			c = g.call(&"restore_contract", p_team, p_kind) as Node
+		elif bool(g.call(&"is_running", p_team, p_kind)):
+			c = g.call(&"contract_of", p_team, p_kind) as Node
+		if c:
+			return c
+	var stub := TrackerContract.new()
+	stub.team = p_team
+	stub.kind = p_kind
+	stub._refund_only = true
+	stub.set_physics_process(false)
+	return stub
+
+
+## The match's HuntersGuild (group "hunters_guild"), or null.
+static func _guild_for(tree: SceneTree) -> Node:
+	if tree == null:
+		return null
+	for n in tree.get_nodes_in_group(&"hunters_guild"):
+		if not n.is_queued_for_deletion():
+			return n
+	return null
+
+
+## Puts back gold the save had already paid (GoldBank.refund: not counted as earned gold).
+static func _give_back(bank: GoldBank, amount: int) -> void:
+	if bank.has_method(&"refund"):
+		bank.call(&"refund", amount)
+	else:
+		bank.add(amount, &"refund")
 
 
 # ---------------------------------------------------------------- public (guild, UI, tests)
@@ -188,6 +274,7 @@ func end_contract() -> void:
 	if _ended:
 		return
 	_ended = true
+	remove_from_group(&"saved_state")
 	set_physics_process(false)
 	for t: Variant in trackers:
 		if not _alive(t) or _gone.has((t as Node).get_instance_id()):

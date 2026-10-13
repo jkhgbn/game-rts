@@ -27,6 +27,7 @@ const MAX_CHIPS := 3
 const POP_TIME := 0.2
 const OWN_HINT := "Z: raise +25  ·  Shift+Z: +100  ·  Delete: remove"
 const ENEMY_HINT := "An enemy bounty: kill or protect its target."
+const ALLY_HINT := "An allied bounty: your ally's champions answer it."   ## U3-7
 const GROUP := &"flag_card"
 
 var selection: SelectionManager
@@ -188,7 +189,16 @@ func refresh() -> void:
 	var own := is_own()
 	var kind := BountyMode.flag_kind(f)
 	var kname := BountyMode.kind_name(kind).to_upper()
-	title_label.text = Loc.t("{kind} BOUNTY", {"kind": kname}) if own else Loc.t("ENEMY {kind} BOUNTY", {"kind": kname})
+	if is_claim(f):
+		kname = Loc.t("Claim").to_upper()   # U3-6: a claim is not shown as a plain Explore
+	# U3-7: an allied seat's flag is ALLIED, not ENEMY (Teams.relation)
+	var rel := Teams.relation(Teams.human_seat(), BountyMode.flag_team(f))
+	if own:
+		title_label.text = Loc.t("{kind} BOUNTY", {"kind": kname})
+	elif rel == &"ally" or rel == &"self":
+		title_label.text = Loc.t("ALLIED {kind} BOUNTY", {"kind": kname})
+	else:
+		title_label.text = Loc.t("ENEMY {kind} BOUNTY", {"kind": kname})
 	target_label.text = target_text(f)
 	var stake := BountyMode.flag_stake(f)
 	stake_label.text = str(stake)
@@ -218,7 +228,10 @@ func refresh() -> void:
 			b.tooltip_text = "%s · %s" % [n, Loc.sink(_intent_text(ch))]
 			b.set_meta(&"champion", ch)
 	# Physical Z as labelled on the player's keyboard ("W" on AZERTY, UX.1).
-	hint_label.text = Loc.t(OWN_HINT).replace("Z", KeyLabels.of(KEY_Z)) if own else ENEMY_HINT
+	if own:
+		hint_label.text = Loc.t(OWN_HINT).replace("Z", KeyLabels.of(KEY_Z))
+	else:
+		hint_label.text = Loc.t(ALLY_HINT) if rel == &"ally" or rel == &"self" else Loc.t(ENEMY_HINT)
 	_tile.queue_redraw()
 
 
@@ -227,8 +240,16 @@ func is_own() -> bool:
 	return flag != null and is_instance_valid(flag) and BountyMode.flag_team(flag) == Unit.Team.PLAYER
 
 
-## `Target: Gloom Hall`, `Guarding: Ember Hall`, `Escorting: Vessa`, `Point: unexplored ground`.
+## U3-6: true for an Explore flag that claims a capture point (Bounty.is_claim()).
+static func is_claim(f: Node) -> bool:
+	return f != null and is_instance_valid(f) and f.has_method(&"is_claim") and bool(f.call(&"is_claim"))
+
+
+## `Target: Gloom Hall`, `Guarding: Ember Hall`, `Escorting: Vessa`, `Point: unexplored ground`, `Claim: Rookwatch`.
 static func target_text(f: Node) -> String:
+	if is_claim(f):
+		var pn := str(f.call(&"claim_name")) if f.has_method(&"claim_name") else ""
+		return Loc.t("Claim: {name}", {"name": Loc.sink(pn)})
 	var kind := BountyMode.flag_kind(f)
 	var t := BountyMode.flag_target(f)
 	var n := BountyMode.target_name(t) if t != null else Loc.t("gone")

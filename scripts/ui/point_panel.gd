@@ -314,11 +314,21 @@ static func kind_word(k: StringName) -> String:
 static func owner_segment(p: Node, team: int) -> Array:
 	var owner := int(p.get(&"owner_team")) if p.get(&"owner_team") != null else -1
 	var shrine := StringName(str(p.get(&"kind"))) == &"shrine"
-	if owner == team and owner >= 0:
+	var rel := relation_of(owner, team)
+	if rel == &"self":
 		return [Loc.t("Last captured by you") if shrine else Loc.t("Held by you"), NEAR]
-	if owner == PLAYER_TEAM or owner == ENEMY_TEAM:
+	if rel == &"ally":   # U3-7: an allied seat (2v2) is not the enemy
+		return [Loc.t("Last captured by your ally") if shrine else Loc.t("Held by your ally"), NEAR]
+	if rel == &"enemy":
 		return [Loc.t("Last captured by the enemy") if shrine else Loc.t("Held by the enemy"), UIStyle.WARN]
 	return [Loc.t("Not captured yet") if shrine else Loc.t("Neutral"), UIStyle.token(&"text_muted")]
+
+
+## U3-7: &"self" / &"ally" / &"enemy" for a seat `owner` seen by `team` (Teams.relation), &"" for none / neutral.
+static func relation_of(owner: int, team: int) -> StringName:
+	if owner < 0 or owner == Teams.NEUTRAL:
+		return &""
+	return Teams.relation(team, owner)
 
 
 ## `7 / 12 s` for the point's current progress (T = time_for(capture team, 1), far bank included).
@@ -384,7 +394,8 @@ static func effect_text(p: Node, now: float) -> String:
 ## `On the enemy bank: capture takes 25 % longer` when the point is on the other team's bank (not the isle), else "".
 static func far_bank_text(p: Node, team: int) -> String:
 	var bank := int(p.get(&"bank")) if p.get(&"bank") != null else -1
-	return Loc.t(FAR_BANK) if (bank == PLAYER_TEAM or bank == ENEMY_TEAM) and bank != team else ""
+	# U3-7: banks are sides (0 / 1); an allied seat shares its side's bank
+	return Loc.t(FAR_BANK) if (bank == PLAYER_TEAM or bank == ENEMY_TEAM) and bank != Teams.side_of(team) else ""
 
 
 # ---------------------------------------------------------------- point
@@ -415,13 +426,14 @@ func _refresh_point(p: Node3D) -> void:
 	capture_bar.visible = show_bar
 	if show_bar:
 		capture_bar.value = clampf(prog, 0.0, 1.0)
-		UIStyle.set_bar_color(capture_bar, OWN if cap == team else ENEMY)
+		UIStyle.set_bar_color(capture_bar, OWN if Teams.is_ally(cap, team) else ENEMY)
 	# Tile.
 	var owner_team := int(p.get(&"owner_team"))
 	_tile_awake = k == &"shrine" and st == &"awake"
-	if owner_team == team and owner_team >= 0:
+	var owner_rel := relation_of(owner_team, team)
+	if owner_rel == &"self" or owner_rel == &"ally":
 		_tile_rim = OWN
-	elif owner_team == PLAYER_TEAM or owner_team == ENEMY_TEAM:
+	elif owner_rel == &"enemy":
 		_tile_rim = UIStyle.DEFEAT
 	else:
 		_tile_rim = UIStyle.token(&"frame_dark")

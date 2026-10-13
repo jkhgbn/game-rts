@@ -3,7 +3,7 @@ extends Node
 ## The capturable points service (docs/design/map-fill.md 4, contract section 13). One per match, group
 ## "capture_points_service", found with `CapturePoints.instance(tree)`. It owns the CapturePoint nodes it was given
 ## (`setup`) or made (`add_point`) and runs their rules:
-## - Presence: one loop over "units" once per second (PRESENCE_INTERVAL), cached per point and team. Counted: soldiers,
+## - Presence: one loop over "units" every PRESENCE_INTERVAL (= TICK, review W3-7), cached per point and team. Counted: soldiers,
 ##   wizards (x2), champions of PLAYER / ENEMY; not workers, caravans, trackers, non-combatants, neutrals (Magpies,
 ##   creatures), buildings. `presence(team, point)` reads the cache.
 ## - Progress: `CapturePoint.update_capture` 4 times per second with the cached presence (TICK).
@@ -39,7 +39,7 @@ const WELL_MANA := 3.0               ## Mana per second to the owner's wizard ne
 const WELL_MANA_RADIUS := 8.0
 const SHRINE_FIRST := 180.0
 const SHRINE_INTERVAL := 180.0
-const PRESENCE_INTERVAL := 1.0
+const PRESENCE_INTERVAL := 0.25   ## = TICK: a capture stops on the tick the units leave (review W3-7).
 const TICK := 0.25
 const WIZARD_PRESENCE := 2
 const FOG_REVEAL_RADIUS := 5.0
@@ -88,6 +88,7 @@ var _blessing_left := {PLAYER_TEAM: 0.0, ENEMY_TEAM: 0.0}
 var _blessed := {PLAYER_TEAM: [], ENEMY_TEAM: []}   # units carrying the modifier
 var _watching := false
 var _msg_capturing := {}         # point instance id -> match time of the last "capturing" line
+var _loading := false            # load_world_state is putting owners back: no messages / signals
 var _msg_taking := {}            # point instance id -> match time of the last "taking" line
 
 
@@ -177,9 +178,9 @@ func held_by(team: int, kind: StringName = &"") -> Array:
 	return points(kind).filter(func(p: Node3D) -> bool: return int(p.get(&"owner_team")) == team)
 
 
-## Cached presence of `team` at `point` (a wizard counts 2), refreshed once per second.
+## Cached presence of `team` at `point` (a wizard counts 2), refreshed every PRESENCE_INTERVAL.
 func presence(team: int, point: Node3D) -> int:
-	team = FogOfWar._layer(team)   # 2v2: presence is per side (map-2v2.md 4.5)
+	team = side_layer(team)   # 2v2: presence is per side (map-2v2.md 4.5)
 	if point == null or not is_instance_valid(point):
 		return 0
 	var counts: Variant = _presence.get(point.get_instance_id())
@@ -190,7 +191,7 @@ func presence(team: int, point: Node3D) -> int:
 
 ## Seconds of blessing `team` has left (0 = none).
 func blessing_time_left(team: int) -> float:
-	return float(_blessing_left.get(FogOfWar._layer(team), 0.0))
+	return float(_blessing_left.get(side_layer(team), 0.0))
 
 
 ## The next shrine waking: `{point, time, points}` (`time` in match time; `point` null when several wake together or
@@ -226,7 +227,7 @@ func apply_blessing(unit: Node) -> void:
 	if not unit.has_method(&"add_modifier"):
 		return
 	unit.call(&"add_modifier", BLESSING_MODIFIER, BLESSING_STATS)
-	var list: Array = _blessed[FogOfWar._layer(int(t))]
+	var list: Array = _blessed[side_layer(int(t))]
 	if not list.has(unit):
 		list.append(unit)
 
@@ -248,7 +249,7 @@ static func counts_for_capture(u: Node) -> bool:
 	var t: Variant = u.get(&"team")
 	if t == null:
 		return false
-	var side_t := FogOfWar._layer(int(t))   # 2v2: an allied seat counts for its side
+	var side_t := side_layer(int(t))   # 2v2: an allied seat counts for its side
 	if side_t != PLAYER_TEAM and side_t != ENEMY_TEAM:
 		return false
 	if u.has_method(&"is_alive") and not bool(u.call(&"is_alive")):
@@ -264,6 +265,77 @@ static func counts_for_capture(u: Node) -> bool:
 	if u.has_method(&"is_non_combatant") and bool(u.call(&"is_non_combatant")):
 		return false
 	return true
+
+
+## The side layer of a team (2v2: an allied seat counts for its side; 1v1: the team itself): PLAYER_TEAM for side
+## 0, ENEMY_TEAM for side 1, the team itself otherwise (NEUTRAL). Through Teams.side_of (review W3-6).
+static func side_layer(team: int) -> int:
+	if (team == PLAYER_TEAM or team == ENEMY_TEAM) and not Teams.multi:
+		return team
+	var side := Teams.side_of(team)
+	if side == 0:
+		return PLAYER_TEAM
+	if side == 1:
+		return ENEMY_TEAM
+	return team
+
+
+# ---------------------------------------------------------------- save / load (Skirmish level hooks, review W3-5)
+
+## Every point's owner / progress / waking, the shrine schedule, wells and blessings.
+func save_world_state() -> Dictionary:
+	var pts := {}
+	for p in points():
+		pts[String(p.get(&"point_id"))] = {"owner": int(p.get(&"owner_team")), "capture_team": int(p.get(&"capture_team")),
+				"progress": float(p.get(&"progress")), "awake": bool(p.call(&"is_awake"))}
+	var first: Array = []
+	for p in points(&"shrine"):
+		if _first_wave.has(p.get_instance_id()):
+			first.append(String(p.get(&"point_id")))
+	return {"points": pts, "shrine_wave": _shrine_wave, "first_wave": first, "first_capture": _first_capture.duplicate(),
+			"alt_bank": _alt_bank, "coin": _coin, "well_paid": _well_paid, "wells_announced": _wells_announced,
+			"blessing_left": _blessing_left.duplicate()}
+
+
+## Puts the saved points and schedule back after the match clock is restored: no burst of shrine wakings, no
+## repeated well payments or announcements. A running blessing goes on (units get the modifier on the next scan).
+func load_world_state(d: Dictionary) -> void:
+	var pts: Dictionary = d.get("points", {})
+	_shrine_wave = int(d.get("shrine_wave", _shrine_wave))
+	_alt_bank = int(d.get("alt_bank", _alt_bank))
+	_coin = int(d.get("coin", _coin))
+	_well_paid = int(d.get("well_paid", _well_paid))
+	_wells_announced = bool(d.get("wells_announced", _wells_announced))
+	var fc: Dictionary = d.get("first_capture", {})
+	for t: Variant in fc:
+		_first_capture[int(t)] = float(fc[t])
+	_first_wave.clear()
+	_loading = true
+	var first: Array = d.get("first_wave", [])
+	for p in points():
+		var id := String(p.get(&"point_id"))
+		if first.has(id):
+			_first_wave[p.get_instance_id()] = true
+		if not pts.has(id):
+			continue
+		var row: Dictionary = pts[id]
+		if bool(row.get("awake", true)) and not bool(p.call(&"is_awake")):
+			p.call(&"wake")
+		elif not bool(row.get("awake", true)) and bool(p.call(&"is_awake")) and p.has_method(&"sleep"):
+			p.call(&"sleep")
+		if int(row.get("owner", -1)) != int(p.get(&"owner_team")):
+			p.call(&"set_owner_team", int(row.get("owner", -1)))
+		p.set(&"capture_team", int(row.get("capture_team", -1)))
+		p.set(&"progress", float(row.get("progress", 0.0)))
+	_loading = false
+	var bl: Dictionary = d.get("blessing_left", {})
+	for t: Variant in bl:
+		if _blessing_left.has(int(t)):
+			_blessing_left[int(t)] = float(bl[t])
+	if float(_blessing_left[PLAYER_TEAM]) > 0.0 or float(_blessing_left[ENEMY_TEAM]) > 0.0:
+		_set_watching(true)
+	_refresh_schedule()
+	_scan_presence()
 
 
 ## Rebuilds the presence cache now (tests may call it).
@@ -323,7 +395,7 @@ func _scan_presence() -> void:
 			continue
 		var u := node as Node3D
 		var q := Vector2(u.global_position.x, u.global_position.z)
-		var t := FogOfWar._layer(int(u.get(&"team")))
+		var t := side_layer(int(u.get(&"team")))
 		# A blessed team's unit without the modifier (a wizard revived at the keep during the blessing).
 		if blessed[t] and u.has_method(&"has_modifier") and not bool(u.call(&"has_modifier", BLESSING_MODIFIER)):
 			apply_blessing(u)
@@ -415,6 +487,8 @@ func _reveal(point: Node3D) -> void:
 
 
 func _on_owner_changed(point: Node3D, new_team: int, old_team: int) -> void:
+	if _loading:
+		return
 	var shrine := StringName(point.get(&"kind")) == &"shrine"
 	var pname := String(point.get(&"display_name"))
 	if new_team == PLAYER_TEAM or new_team == ENEMY_TEAM:

@@ -66,17 +66,17 @@ msgid "%s. Light the brazier to the north-east."
 msgstr "%s. Allumez le brasero au nord-est."
 
 #. _skip_label.text = "Esc / Space: skip"
-#: scripts/ui/cinematic/cinematic_overlay.gd:93
+#: scripts/ui/cinematic/cinematic_overlay.gd:94
 msgid "Esc / Space: skip"
 msgstr "Échap / Espace : passer"
 
 #. _hint_label.text = "P: pause · Enter: next line · Esc / Space: skip"
-#: scripts/ui/cinematic/cinematic_overlay.gd:96
+#: scripts/ui/cinematic/cinematic_overlay.gd:97
 msgid "P: pause · Enter: next line · Esc / Space: skip"
 msgstr "P : pause · Entrée : suivante · Échap / Espace : passer"
 
 #. _pause_label.text = "Paused · P: resume · Esc / Space: skip"
-#: scripts/ui/cinematic/cinematic_overlay.gd:101
+#: scripts/ui/cinematic/cinematic_overlay.gd:102
 msgid "Paused · P: resume · Esc / Space: skip"
 msgstr "En pause · P : reprendre · Échap / Espace : passer"
 

@@ -35,6 +35,8 @@ var perf_probe := false
 var dof_allowed := false
 ## Print "[cine]" start / finish lines (Error Lab reads the log).
 var log_enabled := true
+## Tests: create (and play) sfx / voice players even headless, so `audio_players()` can be checked.
+var audio_in_headless := false
 
 var _script: CinematicScript = null
 var _context: Node = null
@@ -90,6 +92,8 @@ var _perf_last := 0
 var _current_title := ""
 var _timed_vfx: Array[Dictionary] = []      # {node, t0, life}: scene vfx with set_cine_age (posed by the clock)
 var _firing_t := 0.0
+var _audio: Array[AudioStreamPlayer] = []   # voice / sfx players started by this film (paused / stopped with it)
+var _context_leaving := false
 
 
 # ------------------------------------------------------------------ static helpers
@@ -141,6 +145,7 @@ func play(script: CinematicScript, context: Node = null) -> String:
 		return "HOLD mode is not supported yet (tools wave: STAGE and PAUSE only)"
 	_script = script
 	_context = context
+	_context_leaving = false
 	_build_timeline()
 	if _shots.is_empty():
 		_script = null
@@ -149,6 +154,9 @@ func play(script: CinematicScript, context: Node = null) -> String:
 	_reset_state()
 	_playing = true
 	_paused = false
+	# review V1-1: the player lives on the root; a film must not outlive its level (quickload, restart, menu)
+	if _context != null and is_instance_valid(_context) and not _context.tree_exiting.is_connected(_on_context_exiting):
+		_context.tree_exiting.connect(_on_context_exiting)
 	_capture_snapshot()
 	var vp := get_viewport()
 	_prev_cam = vp.get_camera_3d() if vp else null
@@ -242,8 +250,13 @@ func set_paused(on: bool) -> void:
 		return
 	_paused = on
 	_music.stream_paused = on
+	_prune_audio()
+	for p: AudioStreamPlayer in _audio:
+		p.stream_paused = on
 	if _overlay:
 		_overlay.call(&"set_paused_view", on)
+		if not on:
+			_resend_line()
 
 
 func is_paused() -> bool:
@@ -252,6 +265,12 @@ func is_paused() -> bool:
 
 func is_playing() -> bool:
 	return _playing
+
+
+## Voice / sfx players this film started that are still alive (tests, tools).
+func audio_players() -> Array[AudioStreamPlayer]:
+	_prune_audio()
+	return _audio.duplicate()
 
 
 func current_id() -> StringName:
@@ -833,6 +852,19 @@ func _sync_line(t: float, force_show: bool) -> void:
 	line_started.emit(line.speaker, line.text)
 
 
+## Resume after a pause (review V1-4): the overlay gets the current line again with the time it has left.
+func _resend_line() -> void:
+	if _line_i < 0 or _line_i == _line_ended or _line_i >= _lines.size():
+		return
+	var L: Dictionary = _lines[_line_i]
+	var line: CinematicLine = L["line"]
+	var left := float(L["end"]) - _t
+	if left <= 0.0:
+		return
+	var who := &"" if _script.voice_over.has(line.speaker) else line.speaker
+	_overlay.call(&"show_line", who, line.text, left)
+
+
 # ------------------------------------------------------------------ actions
 
 func _fire(e: Dictionary, now: float) -> void:
@@ -1214,7 +1246,7 @@ func _play_sfx(path: String, volume_db: float) -> void:
 	if path == "" or not ResourceLoader.exists(path):
 		return
 	var st := load(path) as AudioStream
-	if st == null or DisplayServer.get_name() == "headless":
+	if st == null or (DisplayServer.get_name() == "headless" and not audio_in_headless):
 		return
 	var p := AudioStreamPlayer.new()
 	p.stream = st
@@ -1222,7 +1254,25 @@ func _play_sfx(path: String, volume_db: float) -> void:
 	p.bus = _bus(["SFX", "Cinematic"])
 	add_child(p)
 	p.finished.connect(p.queue_free)
+	_audio.append(p)
 	p.play()
+	if _paused:
+		p.stream_paused = true
+
+
+func _prune_audio() -> void:
+	for i in range(_audio.size() - 1, -1, -1):
+		if not is_instance_valid(_audio[i]) or _audio[i].is_queued_for_deletion():
+			_audio.remove_at(i)
+
+
+## Review V1-3: a film's voices / sfx end with it (skip, stop, seek, its level leaving).
+func _stop_audio() -> void:
+	for p: AudioStreamPlayer in _audio:
+		if is_instance_valid(p):
+			p.stop()
+			p.queue_free()
+	_audio.clear()
 
 
 # ------------------------------------------------------------------ snapshot / seek
@@ -1273,6 +1323,7 @@ func _restore_snapshot(t: float) -> void:
 	_spawned.clear()
 	_posed.clear()
 	_clear_timed_vfx()
+	_stop_audio()
 	for n in _snapshot.keys():
 		if not is_instance_valid(n):
 			continue
@@ -1408,7 +1459,8 @@ func _leave_world_mode() -> void:
 		if is_instance_valid(n):
 			(n as Node).process_mode = _changed_modes[n]
 	_changed_modes.clear()
-	if _script.world_mode == CinematicScript.WorldMode.PAUSE:
+	# the level is leaving: whoever changes the scene owns tree.paused (SaveGame / MenuFlow / StoryFilms unpause first)
+	if _script.world_mode == CinematicScript.WorldMode.PAUSE and not _context_leaving:
 		get_tree().paused = _prev_paused
 
 
@@ -1447,13 +1499,25 @@ func _finish(skipped: bool) -> void:
 	if not _playing:
 		return
 	var id := _script.id
+	if not skipped and not _running.is_empty():
+		# review V1-2: watched to the end = the same end states as a skip for actions still running
+		_seeking = true
+		for r: Dictionary in _running:
+			_end_state(r["action"], r)
+		_seeking = false
+	_running.clear()
+	if _context != null and is_instance_valid(_context) and _context.tree_exiting.is_connected(_on_context_exiting):
+		_context.tree_exiting.disconnect(_on_context_exiting)
 	_music.stop()
+	_stop_audio()
 	_clear_timed_vfx()
 	_leave_world_mode()
 	if _overlay:
 		_overlay.call(&"close")
 	_skip_armed = 0.0
-	if _prev_cam != null and is_instance_valid(_prev_cam) and _prev_cam.is_inside_tree():
+	if _context_leaving:
+		_cam.clear_current(false)   # the level (and its camera) is going away: the next scene's camera takes over
+	elif _prev_cam != null and is_instance_valid(_prev_cam) and _prev_cam.is_inside_tree():
 		_prev_cam.make_current()
 		if _script.world_mode != CinematicScript.WorldMode.STAGE:
 			_focus_game_camera()
@@ -1466,6 +1530,24 @@ func _finish(skipped: bool) -> void:
 		print("[cine] finished %s skipped=%s t=%.3f" % [id, skipped, _t])
 	finished.emit(id, skipped)
 	_emit_event(&"cinematic_finished", [id, skipped])
+
+
+## The film's level leaves the tree (quickload, F9, back to the menu): the film stops at once, without end states,
+## and the level's own callbacks (play_cutscene's end_state) are dropped so nothing runs on a level being freed.
+func _on_context_exiting() -> void:
+	if not _playing:
+		return
+	_context_leaving = true
+	for sig: StringName in [&"finished", &"line_started", &"line_shown", &"action_fired", &"shot_started", &"started"]:
+		for c: Dictionary in get_signal_connection_list(sig):
+			var cb: Callable = c["callable"]
+			if cb.get_object() == _context:
+				disconnect(sig, cb)
+	if log_enabled:
+		print("[cine] %s stopped: its level left the tree" % current_id())
+	_finish(true)
+	_context_leaving = false
+	_context = null
 
 
 func _focus_game_camera() -> void:

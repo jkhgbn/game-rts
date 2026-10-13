@@ -169,6 +169,12 @@ var _double_click := false
 var _drag_start := Vector2.ZERO
 var _drag_now := Vector2.ZERO
 var _pending: StringName = &""          # targeted order waiting for a left click
+# U1-3: Shift-placed sites are split between the selected workers: each new site goes to a free worker, then (all busy)
+# into the shortest worker queue; a worker starts its next queued site when its current one is finished or gone.
+var _shift_session := false             # a Shift-placement happened since the ghost came up
+var _build_current: Dictionary = {}     # worker (Unit) -> the site it was given by the split
+var _build_queue: Dictionary = {}       # worker (Unit) -> Array of sites waiting for it
+var _build_queue_tick := 0.0
 var _pending_spell: StringName = &""    # the spell being aimed (then _pending == the spell id)
 var _pending_item_slot := -1            # the item slot being aimed (then _pending == ORDER_ITEM)
 var _pickup_target: Node3D = null       # the ground item Vessa is walking to
@@ -279,8 +285,19 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 
+## U3-8: a targeting mode (cross cursor) left by F9 / quit to menu puts the arrow cursor back.
+func _exit_tree() -> void:
+	if _pending != &"":
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+
 func _process(delta: float) -> void:
 	_clock += delta
+	if not _build_current.is_empty():
+		_build_queue_tick -= delta
+		if _build_queue_tick <= 0.0:
+			_build_queue_tick = 0.25
+			advance_build_queues()
 	# Drop units that died, and a destroyed building.
 	var before := selected.size()
 	selected.assign(selected.filter(func(u): return is_instance_valid(u) and u.is_alive()))
@@ -967,8 +984,30 @@ func place_building_at(point: Vector3, keep_placing := false) -> Building:
 		message.emit(_placement_reason(grid, type, center))
 		_update_ghost(_mouse_pos)
 		return null
-	_REPLAY.note(&"place", [type, center], self)
-	var site := grid.place(type, center, Unit.Team.PLAYER, selected_workers())
+	var split := keep_placing or _shift_session
+	var workers := selected_workers()
+	var queue_to: Unit = null
+	if split and not workers.is_empty():
+		var free := workers.filter(func(w: Unit) -> bool: return not _split_busy(w))
+		if not free.is_empty():
+			workers = [_nearest_worker(free, center)]
+		else:
+			queue_to = _shortest_queue_worker(workers, center)
+			workers = []
+	if split:
+		# Replay: the place with the workers really used (one, or none when queued), not the whole selection
+		_REPLAY.note(&"call", [grid, &"place", type, center, Unit.Team.PLAYER, workers.duplicate()], self)
+	else:
+		_REPLAY.note(&"place", [type, center], self)
+	var site := grid.place(type, center, Unit.Team.PLAYER, workers)
+	if site != null and split:
+		_shift_session = keep_placing
+		if queue_to != null:
+			var q: Array = _build_queue.get(queue_to, [])
+			q.append(site)
+			_build_queue[queue_to] = q
+		elif not workers.is_empty():
+			_build_current[workers[0]] = site
 	if site == null:
 		# "Not enough crystals" already reaches the HUD through Economy.spend_failed (top bar).
 		if grid.last_reason != BuildGrid.MSG_NO_CRYSTALS:
@@ -981,6 +1020,130 @@ func place_building_at(point: Vector3, keep_placing := false) -> Building:
 	else:
 		_update_ghost(_mouse_pos)
 	return site
+
+
+## U1-3: the Shift-placed sites waiting for worker `w` (read only, in build order).
+func build_queue_of(w: Unit) -> Array:
+	return (_build_queue.get(w, []) as Array).duplicate()
+
+
+## U1-3: true while `w` builds a site the Shift split gave it (or has sites queued).
+func _split_busy(w: Unit) -> bool:
+	if (_build_queue.get(w, []) as Array).size() > 0:
+		return true
+	var site: Variant = _build_current.get(w)
+	return site != null and is_instance_valid(site) and _site_open(site) and w.get(&"build_site") == site
+
+
+func _site_open(site: Variant) -> bool:
+	if site == null or not is_instance_valid(site) or not _building_alive(site):
+		return false
+	return not (site.has_method(&"is_constructed") and bool(site.call(&"is_constructed")))
+
+
+func _nearest_worker(list: Array, at: Vector3) -> Unit:
+	var best: Unit = null
+	var best_d := INF
+	for w: Unit in list:
+		var d := w.global_position.distance_squared_to(at)
+		if d < best_d:
+			best_d = d
+			best = w
+	return best
+
+
+func _shortest_queue_worker(list: Array, at: Vector3) -> Unit:
+	var best: Unit = null
+	var best_n := 1 << 30
+	var best_d := INF
+	for w: Unit in list:
+		var n := (_build_queue.get(w, []) as Array).size()
+		var d := w.global_position.distance_squared_to(at)
+		if n < best_n or (n == best_n and d < best_d):
+			best_n = n
+			best_d = d
+			best = w
+	return best
+
+
+## U1-3: a worker whose split site is finished or gone starts its next queued site; a worker the player ordered
+## elsewhere (another site, a move...) drops its queue. Runs 4 times a second while a queue exists.
+func advance_build_queues() -> void:
+	for w: Variant in _build_current.keys():
+		if w == null or not is_instance_valid(w) or not (w as Unit).is_alive():
+			var orphans: Array = _build_queue.get(w, [])
+			_build_current.erase(w)
+			_build_queue.erase(w)
+			_rehome_sites(orphans)   # the dead builder's paid sites go to another worker
+			continue
+		var worker := w as Unit
+		var cur: Variant = _build_current[w]
+		if _site_open(cur):
+			if worker.get(&"build_site") != cur:
+				_build_current.erase(w)   # re-ordered by the player: the queue is dropped
+				_build_queue.erase(w)
+			continue
+		var q: Array = _build_queue.get(w, [])
+		var next: Variant = null
+		while not q.is_empty():
+			var s0: Variant = q.pop_front()
+			if _site_open(s0):
+				next = s0
+				break
+		if next == null:
+			_build_current.erase(w)
+			_build_queue.erase(w)
+			continue
+		_build_queue[w] = q
+		_build_current[w] = next
+		_REPLAY.note(&"call", [worker, &"command_build", next], self)   # a UI-timer order: noted for replays
+		worker.call(&"command_build", next)
+
+
+## U1-3: the open sites a dead builder still had queued go to another worker of the split (shortest queue), else the
+## nearest idle own worker; with nobody left the player is told.
+func _rehome_sites(sites: Array) -> void:
+	var open := sites.filter(func(x: Variant) -> bool: return _site_open(x))
+	if open.is_empty():
+		return
+	var others: Array = []
+	for o: Variant in _build_current.keys():
+		if o != null and is_instance_valid(o) and (o as Unit).is_alive():
+			others.append(o)
+	var at: Vector3 = (open[0] as Node3D).global_position
+	var heir: Unit = _shortest_queue_worker(others, at) if not others.is_empty() else _nearest_idle_worker(at)
+	if heir == null:
+		message.emit("A builder died: its queued buildings wait for a worker")
+		return
+	if _build_current.has(heir):
+		var q: Array = _build_queue.get(heir, [])
+		q.append_array(open)
+		_build_queue[heir] = q
+	else:
+		var first: Variant = open.pop_front()
+		_build_current[heir] = first
+		_build_queue[heir] = open
+		_REPLAY.note(&"call", [heir, &"command_build", first], self)
+		heir.call(&"command_build", first)
+
+
+func _nearest_idle_worker(at: Vector3) -> Unit:
+	var best: Unit = null
+	var best_d := INF
+	for node in get_tree().get_nodes_in_group("units"):
+		var u := node as Unit
+		if u == null or u.team != Unit.Team.PLAYER or not u.is_alive() or not u.has_method(&"command_build") \
+				or not is_commandable_unit(u):
+			continue
+		if u.has_method(&"is_building") and bool(u.call(&"is_building")):
+			continue
+		if u.has_method(&"is_gathering") and bool(u.call(&"is_gathering")):
+			continue
+		var d := u.global_position.distance_squared_to(at)
+		if d < best_d:
+			best_d = d
+			best = u
+	return best
 
 
 ## Delete / the Cancel button with a construction site selected: cancels it (75 % refund).
@@ -1112,6 +1275,7 @@ func _cast(spell_id: StringName, target: Variant) -> void:
 
 func cancel_targeting() -> void:
 	var was_placing := _pending == ORDER_BUILD
+	_shift_session = false
 	_pending = &""
 	_pending_spell = &""
 	_pending_item_slot = -1
@@ -2087,7 +2251,10 @@ static func group_label(group: int) -> String:
 func set_control_group(group: int) -> void:
 	if group < 1 or group > GROUP_COUNT or _only_uncommandable():
 		return   # an inspected champion (or a flag) never becomes a group, and doesn't wipe one
-	_groups[group] = _selection_members()
+	var members := _selection_members()
+	if members.is_empty():
+		return   # U1-4: Ctrl+N with nothing selected keeps the group
+	_groups[group] = members
 	_last_group_key = group
 	_last_group_time = -10.0
 	groups_changed.emit()
@@ -2097,7 +2264,8 @@ func set_control_group(group: int) -> void:
 func add_to_control_group(group: int) -> void:
 	if group < 1 or group > GROUP_COUNT:
 		return
-	var members := get_control_group(group)
+	# start from the kept members (a dead wizard stays, U1-1), not only the living ones
+	var members: Array = (_groups.get(group, []) as Array).filter(_member_kept)
 	for m in _selection_members():
 		if not members.has(m):
 			members.append(m)
@@ -2113,6 +2281,8 @@ func steal_to_control_group(group: int, add := false) -> void:
 	if group < 1 or group > GROUP_COUNT or _only_uncommandable():
 		return
 	var members := _selection_members()
+	if members.is_empty():
+		return   # U1-4: Alt+N with nothing selected keeps every group
 	for g in _groups.keys():
 		if g == group:
 			continue
@@ -2132,7 +2302,7 @@ func get_control_group(group: int) -> Array:
 		for m in _groups[group]:
 			if _member_alive(m):
 				members.append(m)
-		_groups[group] = members
+		_groups[group] = (_groups[group] as Array).filter(_member_kept)
 	return members
 
 
@@ -2179,7 +2349,7 @@ func recall_control_group(group: int) -> void:
 	else:
 		select_units(part)
 	if double_tap:
-		centre_camera_on(members)
+		centre_camera_on(part)   # U1-6: what was selected (the army of a mixed group), not between army and base
 
 
 ## F2: every own living non-worker unit (the wizard included; never a champion). F2 twice within 0.4 s
@@ -2207,7 +2377,8 @@ func army_units() -> Array:
 	var army: Array = []
 	for node in get_tree().get_nodes_in_group("units"):
 		var u := node as Unit
-		if u and u.team == Unit.Team.PLAYER and u.is_alive() and not _is_worker(u) and is_commandable_unit(u):
+		if u and u.team == Unit.Team.PLAYER and u.is_alive() and not _is_worker(u) and is_commandable_unit(u) \
+				and not u.is_in_group(&"caravans"):   # U1-2: caravans stay on their route
 			army.append(u)
 	return army
 
@@ -2417,7 +2588,12 @@ func confirm_pending_at(point: Vector3) -> bool:
 	var order := _pending
 	var spell := _pending_spell
 	var caster_spell := _pending_caster_spell
+	var item_slot := _pending_item_slot
 	cancel_targeting()
+	if order == ORDER_ITEM:   # U1-5: a point item (Blink) used at the minimap point
+		if item_slot >= 0:
+			_use_item(item_slot, point)
+		return true
 	if caster_spell != &"":   # a minimap click: point spells cast there, unit spells need the 3D view
 		if CasterKit.target_kind(caster_spell) == &"point":
 			cast_caster_at(caster_spell, _with_bulwark_facing(caster_spell, point))
@@ -2463,8 +2639,8 @@ func ground_point(screen_pos: Vector2) -> Variant:
 
 func unit_at(screen_pos: Vector2) -> Unit:
 	var hit := _ray(screen_pos, 2)
-	if hit and hit.collider is Unit and (hit.collider as Unit).is_alive():
-		return hit.collider
+	if hit and hit.collider is Unit and (hit.collider as Unit).is_alive() and not _is_hidden(hit.collider):
+		return hit.collider   # U3-2: a unit the fog hides is never picked (bounty mode, inspect, orders)
 	if hit and _in_group_upwards(hit.collider, "buildings") != null:
 		return null   # the click landed on a building, not next to a unit
 	# Forgiving fallback: nearest unit drawn within 28 pixels of the click.
@@ -2857,14 +3033,22 @@ func _member_alive(m: Variant) -> bool:
 	return m is Node3D and _building_alive(m)
 
 
-## Dead units and destroyed buildings leave their groups (tabs update through groups_changed).
+## U1-1: a dead hero (the player's wizard) stays in her groups: she respawns as the same node.
+func _member_kept(m: Variant) -> bool:
+	if _member_alive(m):
+		return true
+	return m != null and is_instance_valid(m) and m is Wizard \
+			and not (m as Unit).is_queued_for_deletion()
+
+
+## Dead units and destroyed buildings leave their groups (tabs update through groups_changed); a dead hero stays.
 func _prune_groups() -> void:
 	var changed := false
 	for g in _groups.keys():
 		var list: Array = _groups[g]
 		for m in list:
-			if not _member_alive(m):
-				_groups[g] = list.filter(_member_alive)
+			if not _member_kept(m):
+				_groups[g] = list.filter(_member_kept)
 				changed = true
 				break
 	if changed:

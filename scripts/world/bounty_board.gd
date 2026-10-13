@@ -169,24 +169,26 @@ func _physics_process(delta: float) -> void:
 
 ## The kind of flag R would place on `target`: null / ground / props = EXPLORE, an enemy or neutral
 ## unit or an enemy building = HUNT, an own building = GUARD, an own unit = ESCORT; -1 = nothing can
-## be placed there (own champion, neutral building, tavern). A capture point: GUARD when this team
-## holds it, else EXPLORE (placed at the click, within 7 m of it: a Claim).
+## be placed there (own champion, neutral building, tavern, game critter). A capture point: GUARD when this team
+## holds it, else EXPLORE (placed at the click, within 7 m of it: a Claim). An allied seat's unit / building counts
+## as own (ESCORT / GUARD, never HUNT; review W2-2).
 func kind_for(target: Node3D) -> int:
 	if target == null or not is_instance_valid(target):
 		return Bounty.EXPLORE
-	if target.is_in_group(&"taverns"):
+	if target.is_in_group(&"taverns") or target.is_in_group(&"game_critters"):
 		return -1
 	if is_point(target):
 		return Bounty.GUARD if point_owner(target) == team else Bounty.EXPLORE
 	var t: Variant = target.get(&"team")
 	if t == null:
 		return Bounty.EXPLORE
+	var friendly := Teams.is_ally(int(t), team) and int(t) != Unit.Team.NEUTRAL
 	if target is Unit:
-		if int(t) != team:
+		if not friendly:
 			return Bounty.HUNT
 		return -1 if target.is_in_group(&"champions") else Bounty.ESCORT
 	if target is Building:
-		if int(t) == team:
+		if friendly:
 			return Bounty.GUARD
 		return Bounty.HUNT if int(t) != Unit.Team.NEUTRAL else -1
 	return Bounty.EXPLORE
@@ -416,6 +418,78 @@ func notify(text: String) -> void:
 	var hud: Variant = scene.get(&"hud")
 	if is_instance_valid(hud) and hud is Object and (hud as Object).has_method(&"show_message"):
 		(hud as Object).call(&"show_message", text, MESSAGE_SECONDS)
+
+
+# ---------------------------------------------------------------- save / load (Skirmish level hooks, review W2-1)
+
+## The active bounties as plain values: targets by save id (`ids` = node -> SaveCodec id) or capture point id.
+func save_world_state(ids: Dictionary) -> Dictionary:
+	var rows: Array = []
+	for b in bounties:
+		if not is_instance_valid(b) or b.ended:
+			continue
+		var row := {"kind": b.kind, "pos": b.global_position, "stake": b.stake, "paid": b.paid,
+				"elapsed": b.elapsed, "unseen": b.unseen_time, "last_seen": b.last_seen_pos,
+				"ticks_paid": b.ticks_paid, "ticks_done": b.ticks_done}
+		if _valid(b.target):
+			if is_point(b.target):
+				row["point"] = String(b.target.get(&"point_id"))
+			elif ids.has(b.target):
+				row["sid"] = ids[b.target]
+		if _valid(b.claim_point):
+			row["claim"] = String(b.claim_point.get(&"point_id"))
+		rows.append(row)
+	return {"clock": _clock, "bounties": rows}
+
+
+## Puts the saved bounties back (no essence spent: the bank was saved with the stakes already out). A HUNT /
+## GUARD / ESCORT whose target did not come back gives its unpaid part back to the bank. Pursuers pick the flags
+## again on their own.
+func load_world_state(d: Dictionary, nodes: Dictionary) -> void:
+	_clock = float(d.get("clock", _clock))
+	for b in bounties.duplicate():
+		_unwatch_bounty(b)
+		bounties.erase(b)
+		b.queue_free()
+	var lost := 0
+	for row: Dictionary in d.get("bounties", []):
+		var kind := int(row.get("kind", Bounty.EXPLORE))
+		var target: Node3D = null
+		if row.has("point"):
+			target = _point_by_id(String(row["point"]))
+		elif row.has("sid"):
+			target = nodes.get(row["sid"]) as Node3D
+		var unpaid := maxi(0, int(row.get("stake", 0)) - int(row.get("paid", 0)))
+		if kind != Bounty.EXPLORE and not _alive(target):
+			lost += unpaid
+			continue
+		var b := Bounty.new()
+		b.setup(team, kind, target if kind != Bounty.EXPLORE else null, int(row.get("stake", 0)),
+				target.global_position if kind != Bounty.EXPLORE else row.get("pos", Vector3.ZERO))
+		b.paid = int(row.get("paid", 0))
+		b.elapsed = float(row.get("elapsed", 0.0))
+		b.unseen_time = float(row.get("unseen", 0.0))
+		b.last_seen_pos = row.get("last_seen", b.last_seen_pos)
+		b.ticks_paid = int(row.get("ticks_paid", 0))
+		b.ticks_done = int(row.get("ticks_done", 0))
+		if row.has("claim"):
+			b.claim_point = _point_by_id(String(row["claim"]))
+		b.name = "Bounty_%s" % Bounty.KIND_NAMES[clampi(kind, 0, Bounty.KIND_NAMES.size() - 1)]
+		add_child(b, true)
+		bounties.append(b)
+		_watch_bounty(b)
+		bounty_placed.emit(b)
+	if lost > 0:
+		var bank := EssenceBank.for_team(team)
+		if bank:
+			bank.add(lost)
+
+
+func _point_by_id(id: String) -> Node3D:
+	for n in get_tree().get_nodes_in_group(POINT_GROUP):
+		if String(n.get(&"point_id")) == id:
+			return n as Node3D
+	return null
 
 
 # ---------------------------------------------------------------- placement checks

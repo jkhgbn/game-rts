@@ -135,6 +135,10 @@ var _loop_fx: Array[GPUParticles3D] = []
 # --- state ---
 var _t: float = 0.0
 var _phase_off: float = 0.0
+## Per-match spawn counter that spreads the idle phases (golden-ratio steps: neighbours never sync). Deterministic
+## (was the instance id hash: flaky tests, no replay determinism); restarts when the current scene changes.
+static var _spawn_seq: int = 0
+static var _spawn_scene: int = 0
 var _speed: float = 0.0
 var _walk_w: float = 0.0
 var _walk_p: float = 0.0
@@ -234,11 +238,26 @@ var _dn_sc: float = 1.0                       # body_height / 1.6
 
 # ================================================================ lifecycle
 
+## Index of this model among the models spawned since the current scene started (0, 1, 2...).
+func _next_spawn_index() -> int:
+	var tree := get_tree()
+	var scene_id := 0
+	if tree != null and tree.current_scene != null:
+		scene_id = tree.current_scene.get_instance_id()
+	if scene_id != _spawn_scene:
+		_spawn_scene = scene_id
+		_spawn_seq = 0
+	var k := _spawn_seq
+	_spawn_seq += 1
+	return k
+
+
 func _ready() -> void:
-	_type_key = scene_file_path if scene_file_path != "" else String(get_script().resource_path)
+	_type_key =scene_file_path if scene_file_path != "" else String(get_script().resource_path)
 	_par_id = get_instance_id()
-	_phase_off = float(hash(get_instance_id()) % 100) / 100.0 * idle_period
-	_tier_timer = float(hash(get_instance_id()) % 50) / 100.0
+	var spawn_k := _next_spawn_index()
+	_phase_off = fposmod(float(spawn_k) * 0.6180339887 + 0.37, 1.0) * idle_period
+	_tier_timer = fposmod(float(spawn_k) * 0.7548776662 + 0.11, 1.0) * 0.5
 	_piv.resize(NP)
 	for a: PackedVector3Array in [_rest_pos, _rest_rot, _off_pos, _off_rot, _last_pos, _last_rot]:
 		a.resize(NP)

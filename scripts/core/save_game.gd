@@ -19,6 +19,7 @@ const REASON_NO_LEVEL := "Nothing to save here"
 const REASON_NOT_STARTED := "The match has not started yet"
 const REASON_OVER := "The match is over"
 const REASON_FILM := "Can't save during a film"
+const REASON_FILM_LOAD := "Can't load during a film"
 const REASON_LOADING := "Still loading"
 const REASON_WRITE := "Could not write the save file"
 const REASON_NO_FILE := "No save in this slot"
@@ -120,26 +121,65 @@ static func match_time_of(level: Node) -> float:
 	return 0.0
 
 
-## Writes `data` to `path` (folders created). "" or the reason.
+## Writes `data` to `path` (folders created). "" or the reason. The old save is replaced only once the new file is
+## fully written (R5-8: a full disk leaves the old save as it was): written to `.tmp`, checked (write error, length),
+## the old file moved to `.bak`, the new one renamed in, the `.bak` removed (put back if the rename fails).
 static func write_file(path: String, data: Dictionary) -> String:
 	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
 	var tmp := path + ".tmp"
+	var bak := path + ".bak"
 	var f := FileAccess.open(tmp, FileAccess.WRITE)
 	if f == null:
 		return REASON_WRITE
 	f.store_var(data, false)
+	f.flush()
+	var size := f.get_position()
+	var err := f.get_error()
 	f.close()
-	if FileAccess.file_exists(path):
-		DirAccess.remove_absolute(path)
-	if DirAccess.rename_absolute(tmp, path) != OK:
+	var check := FileAccess.open(tmp, FileAccess.READ)
+	var on_disk := check.get_length() if check else -1
+	if check:
+		check.close()
+	if err != OK or size <= 0 or on_disk != size:
+		DirAccess.remove_absolute(tmp)
 		return REASON_WRITE
+	var had_old := FileAccess.file_exists(path)
+	if FileAccess.file_exists(bak):
+		DirAccess.remove_absolute(bak)   # a stale one (an earlier crash) or the last old save: replaced now
+	if had_old:
+		if DirAccess.rename_absolute(path, bak) != OK:
+			DirAccess.remove_absolute(tmp)
+			return REASON_WRITE
+	if DirAccess.rename_absolute(tmp, path) != OK:
+		if had_old:
+			DirAccess.rename_absolute(bak, path)
+		DirAccess.remove_absolute(tmp)
+		return REASON_WRITE
+	if had_old:
+		DirAccess.remove_absolute(bak)
 	return ""
 
 
-## The save in `path`, or {"error": reason} (missing, damaged, other version).
+## The save in `path`, or {"error": reason} (missing, damaged, other version). When `path` is missing (a crash between
+## write_file's two renames), its `.bak` (the old save) then its `.tmp` (the new one, checked before the renames) are
+## read instead.
 static func read_file(path: String) -> Dictionary:
-	if not FileAccess.file_exists(path):
-		return {"error": REASON_NO_FILE}
+	if FileAccess.file_exists(path):
+		return _read_one(path)
+	for alt: String in [path + ".bak", path + ".tmp"]:
+		if FileAccess.file_exists(alt):
+			var d := _read_one(alt)
+			if not d.has("error"):
+				return d
+	return {"error": REASON_NO_FILE}
+
+
+## True when the slot's file (or a fallback read_file would use) is on disk.
+static func save_exists(path: String) -> bool:
+	return FileAccess.file_exists(path) or FileAccess.file_exists(path + ".bak") or FileAccess.file_exists(path + ".tmp")
+
+
+static func _read_one(path: String) -> Dictionary:
 	var f := FileAccess.open(path, FileAccess.READ)
 	if f == null:
 		return {"error": REASON_BAD_FILE}
@@ -167,7 +207,7 @@ static func save_to_slot(level: Node, slot: StringName) -> String:
 static func slot_info(slot: StringName) -> Dictionary:
 	var d := read_file(slot_path(slot))
 	var meta: Dictionary = d.get("meta", {})
-	return {"exists": FileAccess.file_exists(slot_path(slot)), "error": String(d.get("error", "")),
+	return {"exists": save_exists(slot_path(slot)), "error": String(d.get("error", "")),
 			"title": String(meta.get("title", "")), "time": float(meta.get("time", 0.0)), "date": String(meta.get("date", ""))}
 
 
@@ -180,6 +220,8 @@ static func clock(seconds: float) -> String:
 
 ## Starts the match saved in `slot` (the current scene is replaced). "" or the reason (nothing changes).
 static func load_slot(tree: SceneTree, slot: StringName) -> String:
+	if CinematicPlayer.is_any_playing(tree):
+		return REASON_FILM_LOAD   # V1-1: the film would keep playing over the loaded match
 	var d := read_file(slot_path(slot))
 	if d.has("error"):
 		return String(d["error"])
@@ -212,6 +254,7 @@ static func launch(tree: SceneTree, data: Dictionary) -> Node:
 	var level := instantiate_level(data)
 	if level == null:
 		return null
+	_remember_loaded_match(props)   # W1-3 / R5-9: F9 / Restart replays the saved match's settings
 	MenuFlow.install_hooks(tree)
 	# MenuFlow's node_added hook re-applies the CURRENT settings (trade, time limit) to a skirmish entering the tree;
 	# this one-shot hook runs after it and puts the saved values back.
@@ -252,6 +295,15 @@ static func instantiate_level(data: Dictionary) -> Node:
 	restorer.call(&"prepare", level)
 	level.add_child(restorer)
 	return level
+
+
+## MenuFlow.set_loaded_match(props) when the menu has it (ui-coder, F4).
+static func _remember_loaded_match(props: Dictionary) -> void:
+	var s := MenuFlow as Script
+	for m: Dictionary in s.get_script_method_list():
+		if StringName(m["name"]) == &"set_loaded_match":
+			s.call(&"set_loaded_match", props)
+			return
 
 
 static func _apply_props(level: Node, props: Dictionary) -> void:

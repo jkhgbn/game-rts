@@ -321,7 +321,7 @@ func _tell(text: String) -> void:
 ## SaveGame's messages and titles (logic text in scripts/core, outside the string extractor's areas), listed here so
 ## they are ui_menus keys with a French entry; Loc.sink shows them. tests/test_save_load.gd checks this list.
 const SAVE_TEXTS: Array[String] = [
-	"Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film",
+	"Nothing to save here", "The match has not started yet", "The match is over", "Can't save during a film", "Can't load during a film",
 	"Still loading", "Could not write the save file", "No save in this slot", "This save file is damaged",
 	"This save is from another version of the game", "The saved map is missing", "Game saved", "Game loaded",
 	"Skirmish", "Mission 1",

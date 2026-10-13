@@ -236,7 +236,7 @@ func target_reason(spell_id: StringName, target: Variant) -> String:
 	if target == null or (target is Object and not is_instance_valid(target)):
 		return CasterKit.REASON_NO_TARGET
 	if kind == &"point":
-		var p: Variant = _point_of(target)
+		var p: Variant = point_of(target)
 		if p == null:
 			return CasterKit.REASON_NO_TARGET
 		if not bool(CasterKit.spell_value(spell_id, "fog", false)) and not _team_sees(p):
@@ -271,7 +271,7 @@ func target_reason(spell_id: StringName, target: Variant) -> String:
 
 ## Flat distance from the caster to the target (a unit's edge, a point).
 func distance_to_target(target: Variant) -> float:
-	var p: Variant = _point_of(target)
+	var p: Variant = point_of(target)
 	if p == null or unit == null:
 		return INF
 	var d := _flat((p as Vector3), unit.global_position)
@@ -334,6 +334,8 @@ func _physics_process(delta: float) -> void:
 	if unit == null or not unit.is_alive():
 		return
 	_gcd -= delta
+	if not _above_half and unit.hp >= unit.max_hp * float(CasterKit.PASSIVES[&"seedcloak"]["hp_pct"]):
+		_above_half = true   # healed back over half: the next drop can burst again (R3-8)
 	for k: Variant in _cd:   # existing keys only: no keys() copy per frame
 		_cd[k] = float(_cd[k]) - delta
 	# Stillness (and the regen it boosts).
@@ -394,7 +396,7 @@ func _begin(spell_id: StringName, target: Variant) -> void:
 	_approach = {}
 	if not _channel.is_empty():
 		stop_channel()
-	var p: Variant = _point_of(target)
+	var p: Variant = point_of(target)
 	if p != null:
 		unit.face_direction((p as Vector3) - unit.global_position)
 	_gcd = CasterKit.GLOBAL_COOLDOWN
@@ -470,18 +472,18 @@ func _tick_pending(delta: float) -> void:
 	var ctx := {"xp": 0}
 	match sid:
 		&"slag_rain":
-			_release_slag_rain(_point_of(target) as Vector3, ctx)
+			_release_slag_rain(point_of(target) as Vector3, ctx)
 		&"mana_scald":
 			_release_mana_scald(target as Unit, ctx)
 		&"rime_bulwark":
 			_wall_facing = (target as Dictionary).get("facing", Vector3.ZERO) if target is Dictionary else Vector3.ZERO
-			_release_bulwark(_point_of(target) as Vector3)
+			_release_bulwark(point_of(target) as Vector3)
 		&"scrying_rune":
-			_release_rune(_point_of(target) as Vector3)
+			_release_rune(point_of(target) as Vector3)
 		&"snagroot":
 			_release_snagroot(target as Unit, ctx)
 		&"pollen_haze":
-			_release_haze(_point_of(target) as Vector3, ctx)
+			_release_haze(point_of(target) as Vector3, ctx)
 	_landed(sid, target)
 
 
@@ -504,7 +506,7 @@ func _award(ctx: Dictionary, amount: int) -> void:
 
 
 func _walk_toward(target: Variant) -> void:
-	var p: Variant = _point_of(target)
+	var p: Variant = point_of(target)
 	if p == null:
 		return
 	unit.command_move(p as Vector3)
@@ -1066,7 +1068,7 @@ func _auto_haze_point() -> Variant:
 		need = 5
 	var ranged: Array[Unit] = []
 	for e in _enemies_near(unit.global_position, rng + r):
-		if e.attack_range > 3.0 and not HelperAbilities._is_flyer(e) and not e.has_status(&"hazed"):
+		if e.attack_range > 3.0 and not HelperAbilities.is_flyer(e) and not e.has_status(&"hazed"):
 			ranged.append(e)
 	if ranged.size() < need:
 		return null
@@ -1261,7 +1263,7 @@ func _level() -> Node:
 
 ## A point target may be a Vector3, a Node3D (its position) or {at: Vector3, facing: Vector3} (a Bulwark laid across
 ## `facing` instead of the caster -> point line).
-static func _point_of(target: Variant) -> Variant:
+static func point_of(target: Variant) -> Variant:
 	if target is Vector3:
 		return target
 	if target is Dictionary and (target as Dictionary).get("at") is Vector3:

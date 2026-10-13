@@ -967,9 +967,9 @@ func _rimecarver(_c: Unit, ab: CasterAbility, group: Array[Unit], centre: Vector
 
 # Records who hits the group's units (their damage_taken), once per unit (a meta flag), for hit_from_fog().
 func _watch_hits(u: Unit) -> void:
-	if u.has_meta(&"ai_casters_hits"):
+	if u.has_meta(&"_ai_casters_hits"):
 		return
-	u.set_meta(&"ai_casters_hits", true)
+	u.set_meta(&"_ai_casters_hits", true)
 	u.damage_taken.connect(_on_member_hit.bind(weakref(u)))
 
 

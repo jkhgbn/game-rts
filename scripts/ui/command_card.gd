@@ -901,8 +901,13 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 		var type_name := str(type.get("display_name"))
 		var key := sel.train_key(type, i)
 		var reason := ""
-		if keep.has_method("can_queue"):
-			reason = str(keep.call("can_queue", type))
+		# U2-1: with several trainers selected, the reason comes from the one Z / a click would use (the least busy
+		# one that can queue it), not from the active building alone.
+		var trainer: Node3D = sel.train_target(type)
+		if trainer == null:
+			trainer = keep as Node3D
+		if trainer != null and trainer.has_method("can_queue"):
+			reason = str(trainer.call("can_queue", type))
 		var desc: String = TRAIN_DESCRIPTIONS.get(StringName(str(type.get("id"))),
 				NewUnits12.description(StringName(str(type.get("id")))))
 		if desc == "":   # docs/design/stables.md: the Stables units
@@ -911,17 +916,27 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 			desc = CasterKit.description(StringName(str(type.get("id"))))
 		if desc == "" and type is Object and (type as Object).has_meta(&"card_text"):   # stub types (keep tier button)
 			desc = str((type as Object).get_meta(&"card_text"))
-		var tip := Loc.t("%s  [%s]\nCost %d crystals · Pop %d · %d s") % [
-				type_name, key, int(type.get("cost")), int(type.get("pop")), roundi(float(type.get("train_time")))]
-		if CasterKit.is_keep_caster(type):
-			tip += Loc.t(" · Tier %d") % int(type.get("requires_tier"))
+		var shown_name := Loc.sink(type_name)   # U2-7: data names are shown through the sink
+		# U2-4: a stub with Keep.CARD_NO_COST_META true ("Cancel Stronghold") has no Cost / Pop line
+		var no_cost := type is Object and bool((type as Object).get_meta(Keep.CARD_NO_COST_META, false))
+		var tip := ""
+		if no_cost:
+			tip = Loc.t("%s  [%s]") % [shown_name, key]
+		elif CasterKit.is_keep_caster(type):   # U2-7: one whole template per variant (no " · Tier" fragment)
+			tip = Loc.t("%s  [%s]\nCost %d crystals · Pop %d · %d s · Tier %d") % [shown_name, key,
+					int(type.get("cost")), int(type.get("pop")), roundi(float(type.get("train_time"))),
+					int(type.get("requires_tier"))]
+		else:
+			tip = Loc.t("%s  [%s]\nCost %d crystals · Pop %d · %d s") % [
+					shown_name, key, int(type.get("cost")), int(type.get("pop")), roundi(float(type.get("train_time")))]
 		if desc != "":
 			tip += "\n" + Loc.sink(desc)   # descriptions come from data / other scripts: translated where shown
 		if reason == TierSystem.MSG_T2 or reason == TierSystem.MSG_T3:
 			tip += "\n" + tier_way_line(int(keep.get("team")))
 		out[i] = _slot("train_" + str(type.get("id")), UIStyle.abbrev(type_name), key, tip,
 				func() -> void: sel.train(type), reason)
-		out[i]["cost"] = int(type.get("cost"))
+		if not no_cost:
+			out[i]["cost"] = int(type.get("cost"))
 		out[i]["icon"] = ["units", str(type.get("id"))]
 		# 2026-09-30 (JS: the way up must be obvious): the keep's Stronghold / Citadel button pulses gold while it can start.
 		if str(type.get("id")) == String(Keep.TIER_STUB_ID) and reason == "" and keep is Keep \
@@ -990,9 +1005,10 @@ func _plus_slots(out: Array[Dictionary], hall: Node) -> void:
 			reason = Loc.t("Researched")
 		elif state == &"working":
 			reason = Loc.t("Researching %d %%") % roundi(float(r["progress"]) * 100.0)
-		var head: String = r["name"] if key == "" else "%s  [%s]" % [r["name"], key]
+		var shown := Loc.sink(String(r["name"]))   # U2-7: data names through the sink
+		var head: String = shown if key == "" else "%s  [%s]" % [shown, key]
 		var tip := Loc.t("%s\n%d crystals · %d s\n%s for every %s of your kingdom.") % [head, int(r["crystals"]),
-				roundi(float(r["time"])), Loc.sink(str(r["text"])), String(r["name"]).trim_suffix("+")]
+				roundi(float(r["time"])), Loc.sink(str(r["text"])), Loc.sink(String(r["name"]).trim_suffix("+"))]
 		var s := _slot("plus_" + String(id), UIStyle.abbrev(String(r["name"]).trim_suffix("+")) + "+", key, tip,
 				func() -> void: sel.buy_upgrade(id), reason)
 		s["cost"] = int(r["crystals"])

@@ -30,7 +30,7 @@ const DESCRIPTIONS := {
 const SABOTEUR_MAX := 4
 const REASON_SABOTEUR_MAX := "Max 4 Saboteurs"
 const SKIRMISH_SCRIPT := "res://scripts/world/skirmish.gd"
-const META_PAUSED := &"t3_paused_until"
+const META_PAUSED := &"_t3_paused_until"   # absolute clock time; ClockMetaLedger saves the time left (R5-1)
 
 # Genie (tavern "Wonders"): 400 crystals (250 + 150 gold folded in, no trade), 45 s, pop 4, 1 per team.
 const GENIE_COST := 400
@@ -172,6 +172,7 @@ static func on_trained(building: Node3D, type: UnitType) -> bool:
 ## Powder Charge: `building`'s training / research stops for `seconds`.
 static func pause_building(building: Node3D, seconds: float) -> void:
 	building.set_meta(META_PAUSED, _now() + seconds)
+	ClockMetaLedger.ensure()   # saves the time left (the meta itself is not saved)
 
 
 static func is_paused(building: Node3D) -> bool:
@@ -307,12 +308,12 @@ static func hire_genie(team: int) -> String:
 		eco.spend(GENIE_COST)
 	if eco:
 		eco.reserve_pop(g.pop)
-	roster.genie_state = &"hiring"
-	roster.get_tree().create_timer(wait, false, true).timeout.connect(func() -> void: _genie_arrives(team))
+	roster.start_genie_hire(wait)   # the roster counts down (freed with the match, saved; R3-5)
 	return ""
 
 
-static func _genie_arrives(team: int) -> void:
+## The hired Genie walks out of the nearest open tavern (the roster's hire countdown ends here).
+static func genie_arrives(team: int) -> void:
 	var roster := HelperRoster.for_team(team)
 	var g := UnitType.find(String(GENIE_ID))
 	if roster == null or g == null:
@@ -461,4 +462,4 @@ static func _alive(n: Variant) -> bool:
 
 
 static func _now() -> float:
-	return float(Engine.get_physics_frames()) / float(maxi(1, Engine.physics_ticks_per_second))
+	return CasterKit.now_s()   # the shared pausable match clock (R3-7)

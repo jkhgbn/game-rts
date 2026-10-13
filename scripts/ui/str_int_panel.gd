@@ -113,21 +113,33 @@ func _build_ability_button() -> void:
 	process_mode = Node.PROCESS_MODE_INHERIT
 
 
-func _use() -> void:
-	if path_node and is_instance_valid(path_node):
-		path_node.call(&"activate")
+func _use() -> String:
+	if path_node == null or not is_instance_valid(path_node):
+		return ""
+	var reason := str(path_node.call(&"activate"))
+	if reason != "":
+		_tell(reason)   # U4-7: the refusal ("On cooldown", "Dead"...) is shown, not dropped
+	return reason
+
+
+func _tell(text: String) -> void:
+	var tree := get_tree()
+	var level := tree.current_scene if tree else null
+	var hud: Variant = level.get(&"hud") if level else null
+	if hud is Object and is_instance_valid(hud) and (hud as Object).has_method(&"show_message"):
+		hud.call(&"show_message", text)   # the HUD translates logic text (Loc.sink)
 
 
 func _process(_delta: float) -> void:
 	if _ability == null or path_node == null or not is_instance_valid(path_node):
 		return
-	var key := "J"
-	var name_text := str(path_node.call(&"ability_name"))
+	var key := KeyLabels.of(ABILITY_KEY)   # U4-7: the label of the physical key on the player's layout
+	var name_text := Loc.sink(str(path_node.call(&"ability_name")))   # U4-7: "Vigor" / "Snow Shield" translated
 	if path_node.call(&"is_active"):
 		_ability.text = Loc.t("%s  %s  ACTIVE %d s") % [key, name_text, ceili(float(path_node.call(&"time_left")))]
 		_ability.modulate = Color(1.3, 1.2, 0.8)
 	elif float(path_node.call(&"cooldown_left")) > 0.0:
-		_ability.text = "%s  %s  %d s" % [key, name_text, ceili(float(path_node.call(&"cooldown_left")))]
+		_ability.text = Loc.t("%s  %s  %d s") % [key, name_text, ceili(float(path_node.call(&"cooldown_left")))]
 		_ability.modulate = Color(0.6, 0.6, 0.6)
 	else:
 		_ability.text = Loc.t("%s  %s  ready") % [key, name_text]

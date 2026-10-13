@@ -139,6 +139,7 @@ var champion_items: Array = []          ## 4 ChampionBar.ItemIcon 36 x 36 (read-
 ## 6 ability slots 48 x 48 (step 11, ui-champions.md 15.3): 0-2 = row 1 (archetype), 3-5 = row 2 (class; three `?`
 ## before the level-2 choice).
 var champion_abilities: Array[AbilitySlot] = []
+var _abilities_for: Node = null   ## U2-6: the champion the ability slots show now.
 var champion_ability_names: Array[Label] = []
 var champion_autocast: Label    ## "Autocast · next at level 3" / "Autocast".
 var champion_class_label: Label ## " · Sword and Shield" (title colour) / " · no class yet" (text_muted).
@@ -713,8 +714,8 @@ func _update_hero() -> void:
 	else:
 		hero_hp.value = 0
 		hero_mana.value = 0
-		hero_hp_text.text = "HP  0"
-		hero_mana_text.text = "Mana  0"
+		hero_hp_text.text = Loc.t("HP  0")
+		hero_mana_text.text = Loc.t("Mana  0")
 		hero_name.modulate = Color(0.5, 0.5, 0.5)
 		hero_name.disabled = true
 		var left := _respawn_left()
@@ -791,12 +792,12 @@ func _update_level(alive: bool) -> void:
 		if next <= 0:
 			hero_xp.max_value = 1.0
 			hero_xp.value = 1.0
-			hero_xp_text.text = "XP  MAX"
-			xp_part = "MAX"
+			hero_xp_text.text = Loc.t("XP  MAX")
+			xp_part = Loc.t("MAX")
 		else:
 			hero_xp.max_value = float(next)
 			hero_xp.value = float(xp)
-			hero_xp_text.text = "XP  %d / %d" % [xp, next]
+			hero_xp_text.text = Loc.t("XP  %d / %d") % [xp, next]
 			xp_part = "%d / %d" % [xp, next]
 	var points := int(hero.get("spell_points")) if hero.get("spell_points") != null else 0
 	if xp_part != "":
@@ -1274,7 +1275,7 @@ static func caravan_state_color(state: String) -> Color:
 ## contract in group "tracker_contracts" whose `trackers` holds it); `Contract ended` without one.
 func tracker_contract_text(u: Node) -> String:
 	var contract: Variant = null
-	for key: StringName in [&"tracker_contract", &"contract"]:
+	for key: StringName in [&"_tracker_contract", &"contract"]:   # F3a: meta renamed (runtime marker)
 		if u.has_meta(key):
 			var c: Variant = u.get_meta(key)
 			if is_instance_valid(c) and c is Node:
@@ -1518,6 +1519,11 @@ func _stat_of(u: Node, stat: StringName) -> float:
 ## choice (badges L2 / L3 / L5, lean tooltip). Locked ones dimmed with their `L<n>` badge; own champions show the
 ## cooldown sweep from `abilities.cooldown_left(id)`. Captions: the archetype title; the class name / `Class at level 2`.
 func _update_champion_abilities(ch: Node, own: bool) -> void:
+	if ch != _abilities_for:
+		# U2-6: another champion: the slots forget the old one's cooldowns (no false "ready" flash)
+		_abilities_for = ch
+		for slot in champion_abilities:
+			slot.reset_cooling()
 	var abilities: Variant = ch.get("abilities")
 	if not (is_instance_valid(abilities) and abilities is Object):
 		abilities = ch.get_node_or_null(^"ChampionAbilities")
@@ -1899,7 +1905,7 @@ func _update_keep(keep: Node3D) -> void:
 	var hp := float(keep.get("hp")) if keep.get("hp") != null else max_hp
 	keep_hp.max_value = maxf(max_hp, 1.0)
 	keep_hp.value = hp
-	keep_hp_text.text = "HP  %d / %d" % [ceili(hp), int(max_hp)]
+	keep_hp_text.text = Loc.t("HP  %d / %d") % [ceili(hp), int(max_hp)]
 	var site := keep.has_method("is_constructed") and not bool(keep.call("is_constructed"))
 	var trainer := keep.has_method("queue_unit") and not site
 	var market := CommandCard.is_market(keep)
@@ -2579,6 +2585,12 @@ class AbilitySlot extends Panel:
 		badge.visible = true
 		(badge.get_child(0) as Label).text = "L%d" % unlock_level
 		_sweep.queue_redraw()
+
+	## U2-6: forgets the cooldown state (another champion is shown): no ready flash on the next update.
+	func reset_cooling() -> void:
+		_was_cooling = false
+		_cd_total = 0.0
+		ability_id = &""
 
 	## Pop 1.0 -> 1.08 -> 1.0 in 0.2 s after `delay` seconds (class chosen: the `?` swap to the class skills).
 	func pop(delay := 0.0) -> void:

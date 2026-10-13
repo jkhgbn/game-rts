@@ -195,7 +195,7 @@ func _ready() -> void:
 	if unit == null:
 		unit = get_parent() as Unit
 	# Stagger the 0.5 s checks so a clump of casters does not tick on the same frame.
-	_tick_left = TICK * float(get_instance_id() % 10) / 10.0 + 0.05
+	_tick_left = TICK * float(CasterKit.next_stagger() % 10) / 10.0 + 0.05
 	match id:
 		&"scorchling":
 			unit.died.connect(_on_died_flashpoint)
@@ -451,4 +451,4 @@ static func _flat(a: Vector3, b: Vector3) -> float:
 
 
 static func _now() -> float:
-	return float(Engine.get_physics_frames()) / float(maxi(1, Engine.physics_ticks_per_second))
+	return CasterKit.now_s()   # the shared pausable match clock (R3-7)

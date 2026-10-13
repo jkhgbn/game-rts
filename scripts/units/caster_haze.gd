@@ -74,7 +74,7 @@ func _haze_now() -> void:
 		var u := n as Unit
 		if u == null or not u.is_alive() or Teams.is_allied_fast(int(u.team), int(team)):
 			continue
-		if HelperAbilities._is_flyer(u):
+		if HelperAbilities.is_flyer(u):
 			continue
 		if Vector2(u.global_position.x - global_position.x, u.global_position.z - global_position.z).length() \
 				> radius + u.radius:

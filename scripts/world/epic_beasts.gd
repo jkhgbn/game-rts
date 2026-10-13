@@ -429,6 +429,81 @@ func underdog_team() -> int:
 	return PLAYER_TEAM if lp < le else ENEMY_TEAM
 
 
+# ---------------------------------------------------------------- save / load (Skirmish level hooks, review W3-1)
+
+## Each lair's schedule and its living beast (by save id; `ids` = node -> SaveCodec id), the drop roll state, totals.
+func save_world_state(ids: Dictionary) -> Dictionary:
+	var rows := {}
+	for st in _lairs:
+		var row := {"spawns": int(st["spawns"]), "next_at": float(st["next_at"]), "retry_at": float(st["retry_at"]),
+				"died_at": float(st["died_at"])}
+		if _beast_alive(st) and ids.has(st["beast"]):
+			row["beast"] = ids[st["beast"]]
+		rows[String((st["lair"] as Dictionary)["id"])] = row
+	return {"lairs": rows, "seed": rng.seed, "rng": rng.state, "granted": granted_totals.duplicate(true),
+			"paid": paid_totals.duplicate(true)}
+
+
+## Puts the saved schedule back and adopts each lair's saved beast (group, metas, death hooks, abilities, a new
+## brain, lair art occupied). A beast of the fresh level that no lair adopts is removed, so the map never holds a
+## lair's beast twice; lairs whose beast is alive do not spawn again.
+func load_world_state(d: Dictionary, nodes: Dictionary) -> void:
+	if d.has("seed"):
+		rng.seed = int(d["seed"])
+	if d.has("rng"):
+		rng.state = int(d["rng"])
+	granted_totals = (d.get("granted", granted_totals) as Dictionary).duplicate(true)
+	paid_totals = (d.get("paid", paid_totals) as Dictionary).duplicate(true)
+	var rows: Dictionary = d.get("lairs", {})
+	var adopted := {}
+	for st in _lairs:
+		var lair: Dictionary = st["lair"]
+		var row: Dictionary = rows.get(String(lair["id"]), {})
+		if row.is_empty():
+			continue
+		var beast := nodes.get(row.get("beast", -1)) as Unit
+		var old: Variant = st["beast"]
+		if old != null and is_instance_valid(old) and old != beast:
+			_despawn(st)   # a fresh-level beast of this lair (the save had none, or another one)
+		_free_brain(st)
+		st["beast"] = null
+		st["spawns"] = int(row.get("spawns", st["spawns"]))
+		st["next_at"] = float(row.get("next_at", st["next_at"]))
+		st["retry_at"] = float(row.get("retry_at", 0.0))
+		st["died_at"] = float(row.get("died_at", -1.0))
+		if beast == null or not is_instance_valid(beast) or not beast.is_alive():
+			_set_lair_occupied(st, false)
+			continue
+		_adopt(st, beast)
+		adopted[beast] = true
+	for n in get_tree().get_nodes_in_group(BEAST_GROUP):
+		if n is Unit and not adopted.has(n) and n.has_meta(LAIR_META) and _state(StringName(str(n.get_meta(LAIR_META)))) != null:
+			(n as Node).queue_free()   # a beast nobody's schedule holds: it would be an orphan
+
+
+func _adopt(st: Dictionary, beast: Unit) -> void:
+	var lair: Dictionary = st["lair"]
+	var variant := int(beast.get_meta(VARIANT_META, _variant_for_spawn(maxi(1, int(st["spawns"])))))
+	beast.team = NEUTRAL_TEAM as Unit.Team
+	if not beast.is_in_group(BEAST_GROUP):
+		beast.add_to_group(BEAST_GROUP)
+	beast.set_meta(LAIR_META, lair["id"])
+	beast.set_meta(VARIANT_META, variant)
+	beast.model_call(&"set_variant", [variant])
+	st["beast"] = beast
+	st["died_at"] = -1.0
+	for sig: Signal in [beast.died, beast.tree_exiting]:
+		for c: Dictionary in sig.get_connections():
+			if (c["callable"] as Callable).get_object() == self:
+				sig.disconnect(c["callable"])
+	beast.died.connect(_on_beast_died.bind(lair["id"]), CONNECT_ONE_SHOT)
+	beast.tree_exiting.connect(_on_beast_exiting.bind(lair["id"], beast), CONNECT_ONE_SHOT)
+	if beast.unit_type:
+		_add_abilities(beast, beast.unit_type.id)
+	st["brain"] = _add_brain(beast, lair, variant)
+	_set_lair_occupied(st, true)
+
+
 # ---------------------------------------------------------------- schedule
 
 func _try_spawn(st: Dictionary, now: float) -> void:

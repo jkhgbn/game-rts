@@ -28,6 +28,8 @@ func _ready() -> void:
 	var p := get_parent()
 	if p and p.has_signal(&"line_started"):
 		p.connect(&"line_started", _on_line)
+		if p.has_signal(&"queue_emptied"):
+			p.connect(&"queue_emptied", _on_queue_emptied)   # U5-5: skipping the last line cuts its voice
 	else:
 		var events := get_node_or_null(^"/root/Events")
 		if events and events.has_signal(&"dialogue"):
@@ -83,6 +85,12 @@ func _on_line(speaker: StringName, text: String) -> void:
 	current_duration = 0.0
 	if not play_line(speaker, text) and playing:
 		stop()   # the subtitle moved on to a line without a voice
+
+
+func _on_queue_emptied() -> void:
+	current_duration = 0.0
+	if playing:
+		stop()
 
 
 func _key(speaker: StringName, text: String) -> String:

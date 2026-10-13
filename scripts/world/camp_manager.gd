@@ -291,6 +291,36 @@ func _add(spot: Dictionary) -> NeutralCamp:
 	return c
 
 
+## Skirmish save (review W3-2): clears per team, the loot roll state and every camp (by camp id).
+func save_world_state(ids: Dictionary) -> Dictionary:
+	var camps_d := {}
+	for c in _camps:
+		if is_instance_valid(c):
+			camps_d[String(c.camp_id)] = c.save_world_state(ids)
+	return {"cleared": _cleared_counts.duplicate(), "stags_announced": _stags_announced, "seed": rng.seed,
+			"rng": rng.state, "camps": camps_d}
+
+
+## Puts the saved camps back after the units are rebuilt: every camp first lets go of the creatures it spawned in
+## the fresh level, then each adopts its saved ones (no late camp spawns a second time, levels kept).
+func load_world_state(d: Dictionary, nodes: Dictionary) -> void:
+	var cleared: Dictionary = d.get("cleared", {})
+	for t: Variant in cleared:
+		_cleared_counts[int(t)] = int(cleared[t])
+	_stags_announced = bool(d.get("stags_announced", _stags_announced))
+	if d.has("seed"):
+		rng.seed = int(d["seed"])
+	if d.has("rng"):
+		rng.state = int(d["rng"])
+	var camps_d: Dictionary = d.get("camps", {})
+	for c in _camps:
+		if is_instance_valid(c):
+			c.release_creatures()
+	for c in _camps:
+		if is_instance_valid(c) and camps_d.has(String(c.camp_id)):
+			c.load_world_state(camps_d[String(c.camp_id)], nodes)
+
+
 func _on_camp_cleared(c: Node3D, team: int, reward: Dictionary) -> void:
 	if team == PLAYER_TEAM or team == ENEMY_TEAM:
 		_cleared_counts[team] = cleared_count(team) + 1

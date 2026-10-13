@@ -345,3 +345,22 @@ UI Lab v2 (`docs/ui/lab/scorecard.md`, laptop 1600x900 + 1920x1080, FAIL 96). Ne
   `buy(id, hall)`, Back at r3c4), click only. Wanted: hotkeys on that page (they still train while it is open), a
   progress ring for `working` rows, a panel chip `Stronghold 35 % · 39 s` on the keep (`Keep.upgrade_progress()` /
   `upgrade_time_left()`), and the Bowman upgrades (above) could live on the same page.
+
+# Fix batch F3b (systems, 2026-10-12): U2-4 keep side
+- The keep's tier stub (`Keep.TIER_STUB_ID`) now carries meta `Keep.CARD_NO_COST_META` (`&"_card_no_cost"`): true while
+  the upgrade runs (the "Cancel Stronghold / Citadel" button, cost 0, pop 0). Wanted in `command_card.gd` (~line 914):
+  when `type.get_meta(&"_card_no_cost", false)` is true, build the tooltip head without the "Cost %d crystals · Pop %d"
+  line (its `card_text` already says the progress, time left and the refund). The stub's `display_name` is now already
+  translated (`Loc.t("Cancel %s") % Loc.t(tier name)`), so a `Loc.sink` on it is harmless.
+
+# Fix batch F3a (systems, 2026-10-12): meta rename `tracker_contract` -> `_tracker_contract`
+`HuntersGuild` now tags a Greywater Tracker with meta `&"_tracker_contract"` (runtime marker, `_` = never saved; review
+RC hygiene). `selection_panel.gd` `tracker_contract_text` (~line 1277) still looks up `&"tracker_contract"` then
+`&"contract"`, then falls back to the group `"tracker_contracts"`, so it keeps working; please add `&"_tracker_contract"`
+to its key list (first) and drop `&"tracker_contract"`. `NeutralCamp.CAMP_META` is now `&"_neutral_camp"` (UI reads it
+through the constant / `CampManager.camp_of`, nothing to change).
+
+# Fix batch F1 (save framework, 2026-10-12): V1-1 load refusal text
+`SaveGame.load_slot` now refuses a load while a film plays: `SaveGame.REASON_FILM_LOAD := "Can't load during a film"`
+(logic text, shown like the other SaveGame reasons). Please add it to `PauseMenu.SAVE_TEXTS` (pause_menu.gd ~line 323;
+`tests/test_save_load.gd` fails until it is listed), then `tools/i18n/extract_strings.gd '--' merge` and the French line.

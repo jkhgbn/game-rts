@@ -703,3 +703,16 @@ look exactly as before, and `ground_material.tres` is unchanged. Only the skirmi
   screen), e.g. in `Skirmish._ready` after the kingdoms are known:
   `FacePrewarm.warm(self, [player_kingdom, enemy_kingdom, &"neutral"], true)` (true = champions; missions: their kingdoms only).
   Sync costs ~5-6 s for two kingdoms + neutral, so prefer the async form at the match start or under a load screen.
+
+# Fix batch F1 (save framework, 2026-10-12): R4-5 seat switch economy hooks
+`MissionBase.switch_seat_side` now calls, when they exist (has_method), for every node that changes team:
+- `Economy.move_unit(unit: Unit, to: Economy) -> void` on the OLD team's Economy: stop counting `unit`'s pop here
+  (`_unit_pop` / `_living_pop`, its `died` / `tree_exiting` hooks) and make `to` count it (same hooks there).
+- `refresh_economy() -> void` on the node (Building and Worker): drop the cached `_economy`; a Building with its pop bonus
+  applied moves it (old Economy `add_pop_bonus(-n)`, new `+n`), a Worker credits its next crystals to the new team.
+Called right after `node.team = new_team`. Until they exist, a switched seat keeps counting on its old Economy.
+
+# F2 gameplay (gameplay-coder, 2026-10-12)
+- `Unit.set_down(pos: Vector3)` exists (navmesh-snapped, quiet, orders kept): `build_grid.gd` TODO(set_down) can use it.
+- `HelperRoster.stub_for_save(id)` / `Stables16.stub_for_save(id)` exist (instance methods, as `_stub_from_save` expects);
+  the roster's queued / reviving state comes back through its saved_state row (`helper_roster:<team>`).

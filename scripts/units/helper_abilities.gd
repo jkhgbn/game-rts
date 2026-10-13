@@ -44,8 +44,9 @@ const PACK := {"range": 12.0, "count": 2, "life": 20.0, "unit": "spirit_wolf"}
 const STAMPEDE := {"length": 16.0, "width": 1.5, "min_count": 3, "max": 8, "damage": 45.0, "push": 1.5, "daze": 0.5}
 const PACK_IDS: Array[StringName] = [&"spirit_wolf", &"sapling"]
 const FLYER_IDS: Array[StringName] = [&"briar_roc", &"stormcrest_roc", &"duskwing_roc"]
-const META_HUSH_BOND := &"t3_hush_bond_until"
-const META_MAELIS_BOND := &"t3_maelis_bond_until"
+const META_HUSH_BOND := &"_t3_hush_bond_until"   # absolute clock times: never saved (R5-1)
+const META_MAELIS_BOND := &"_t3_maelis_bond_until"
+const STAMPEDE_PUSH_TIME := 0.25
 
 var helper: Helper
 var casts := {}                 ## id -> times cast (tests, logs).
@@ -73,7 +74,7 @@ func setup(h: Helper) -> void:
 		helper.apply_aura(&"maelis_opinions", float(OPINIONS["radius"]),
 				{&"attack_cooldown_pct": float(OPINIONS["attack_cooldown_pct"]), &"move_speed": float(OPINIONS["move_speed"])},
 				func(u: Unit) -> bool: return u.unit_type != null and PACK_IDS.has(u.unit_type.id))
-	_tick_left = TICK * float(get_instance_id() % 5) / 5.0
+	_tick_left = TICK * float(CasterKit.next_stagger() % 5) / 5.0
 
 
 func ability_ids() -> Array[StringName]:
@@ -233,7 +234,7 @@ func _pick(id: StringName) -> Variant:
 			if _enemies_near(at, float(STORMCALL["radius"])).size() >= int(STORMCALL["min_count"]):
 				return at
 			for e in _enemies_near(at, float(STORMCALL["big_radius"])):
-				if _is_big(e):
+				if is_big(e):
 					return at
 			return null
 		&"hush_blink":
@@ -277,14 +278,14 @@ func _pick(id: StringName) -> Variant:
 			if near.size() >= int(SENTINEL["min_count"]):
 				return _centre(near)
 			for e in near:
-				if _is_big(e):
+				if is_big(e):
 					return e.global_position
 			return null
 		&"thornsnare":
 			var best_n := 0
 			var best: Unit = null
 			for e in _enemies_near(at, float(THORNSNARE["range"])):
-				if _is_flyer(e):
+				if is_flyer(e):
 					continue
 				var n := _enemies_near(e.global_position, float(THORNSNARE["radius"])).size()
 				if _is_hero(e):
@@ -325,7 +326,7 @@ func _do(id: StringName, target: Variant) -> bool:
 				_hit(e, float(LUNGE["path_damage"]) * f)
 				if e.is_alive():
 					e.apply_status(&"dazed", float(LUNGE["daze"]))
-			helper.global_position = Vector3(dest.x, helper.global_position.y, dest.z)
+			helper.set_down(dest)   # navmesh-snapped (R2-5)
 			_hit(t, float(LUNGE["damage"]) * f)
 			if t.is_alive():
 				helper.command_attack(t)
@@ -372,7 +373,7 @@ func _do(id: StringName, target: Variant) -> bool:
 					return
 				var d := _dir(helper.global_position, v.global_position)
 				var behind := v.global_position + d * (v.radius + helper.radius + 0.2)
-				helper.global_position = Vector3(behind.x, helper.global_position.y, behind.z)
+				helper.set_down(behind)
 				_hit(v, float(BLINK["damage"]) * f)
 				if v.is_alive():
 					helper.command_attack(v))
@@ -407,7 +408,7 @@ func _do(id: StringName, target: Variant) -> bool:
 						if last:
 							var d := _dir(helper.global_position, v.global_position)
 							var spot := v.global_position + d * (v.radius + helper.radius + 0.2)
-							helper.global_position = Vector3(spot.x, helper.global_position.y, spot.z)
+							helper.set_down(spot)
 					if last:
 						helper.visible = true)
 		&"aldra_shatter":
@@ -439,7 +440,7 @@ func _do(id: StringName, target: Variant) -> bool:
 			var p: Vector3 = pick if pick is Vector3 else (pick as Node3D).global_position
 			_later(float(THORNSNARE["delay"]), func() -> void:
 				for e in _enemies_near(p, float(THORNSNARE["radius"])):
-					if _is_flyer(e):
+					if is_flyer(e):
 						continue
 					_hit(e, float(THORNSNARE["damage"]) * f)
 					if e.is_alive():
@@ -463,7 +464,8 @@ func _do(id: StringName, target: Variant) -> bool:
 				_hit(e, float(STAMPEDE["damage"]) * f)
 				if e.is_alive():
 					var push := dir.normalized() * float(STAMPEDE["push"])
-					e.global_position += Vector3(push.x, 0.0, push.z)
+					if not is_flyer(e):   # a forced slide: stops at water, walls, buildings, the navmesh edge (R2-5)
+						e.displace(e.global_position + Vector3(push.x, 0.0, push.z), STAMPEDE_PUSH_TIME)
 					e.apply_status(&"dazed", float(STAMPEDE["daze"]))
 		_:
 			return false
@@ -532,8 +534,8 @@ func _on_damage_taken(_amount: float, _attacker: Node3D) -> void:
 # Glasswater Ward: an own unit within 8 m of Aldra hit by a ranged attack or a spell gets 12 % of it back at once.
 func _on_ward_hit(amount: float, attacker: Node3D, u: Unit) -> void:
 	if helper == null or not is_instance_valid(helper) or not helper.is_alive() or not is_instance_valid(u) \
-			or not u.is_alive() or amount <= 0.0:
-		return
+			or not u.is_alive() or u.hp <= 0.0 or amount <= 0.0:
+		return   # hp <= 0: a killing hit (damage_taken fires before the death check; R2-1)
 	if _flat(u.global_position, helper.global_position) > float(WARD["radius"]) or not _is_ranged_source(attacker):
 		return
 	u.heal(amount * float(WARD["cut"]))
@@ -583,6 +585,7 @@ func _summon(type_id: String, at: Vector3, life: float, hp_mult: float) -> Unit:
 	var parent := helper.get_tree().current_scene if helper.get_tree().current_scene else helper.get_parent()
 	parent.add_child(u)
 	u.global_position = Vector3(at.x, helper.global_position.y, at.z)
+	u.set_down(u.global_position)   # on the navmesh, off water (R2-5)
 	u.command_stop()
 	var e := _nearest_enemy(at, 14.0)
 	if e:
@@ -611,10 +614,10 @@ func _later(seconds: float, fn: Callable) -> void:
 	helper.get_tree().create_timer(seconds, false, true).timeout.connect(fn)
 
 
+# Enemies attacking her lose her as a target but keep their orders (attack-move, hold...; R2-3).
 func _drop_targeting(r: float) -> void:
 	for e in _enemies_near(helper.global_position, r):
-		if e.attack_target == helper:
-			e.command_stop()
+		e.drop_target_if(helper)
 
 
 func _enemies_near(at: Vector3, r: float) -> Array[Unit]:
@@ -705,11 +708,12 @@ static func _is_hero(u: Unit) -> bool:
 
 
 ## Titans and helpers (the "big" targets of Stormcall / Sentinel).
-static func _is_big(u: Unit) -> bool:
+static func is_big(u: Unit) -> bool:
 	return u.is_in_group(&"helpers") or (u.unit_type != null and u.unit_type.pop >= 6)
 
 
-static func _is_flyer(u: Unit) -> bool:
+## Flying units (Roc, gryphons...): ignore walls and ground pushes.
+static func is_flyer(u: Unit) -> bool:
 	return u.unit_type != null and FLYER_IDS.has(u.unit_type.id)
 
 
@@ -728,4 +732,4 @@ static func _flat(a: Vector3, b: Vector3) -> float:
 
 
 static func _now() -> float:
-	return float(Engine.get_physics_frames()) / float(maxi(1, Engine.physics_ticks_per_second))
+	return CasterKit.now_s()   # the shared pausable match clock (R3-7)

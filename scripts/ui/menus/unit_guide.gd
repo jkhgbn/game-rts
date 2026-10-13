@@ -121,8 +121,28 @@ func _ready() -> void:
 
 ## Shows the guide and puts the keyboard focus on the selected row.
 func open() -> void:
+	# U5-2: the stats come from the live .tres (PaceSwitch changes them for Blitz / Fast): re-read them on each open
+	UnitGuideData.refresh_stats()
 	visible = true
+	if _selected != &"" or _compare:
+		_show_detail()
 	_focus_selected_row()
+
+
+## U5-4: shows one unit from a clean state (compare off, every filter and the search cleared), e.g. the mission
+## spotlight card's "open in the guide". Call after open().
+func show_unit(id: StringName) -> void:
+	if _compare:
+		set_compare(false)
+	if _search != "":
+		set_search("")
+	if _role != "":
+		set_role_filter("")
+	if _tier != 0:
+		set_tier_filter(0)
+	if _kingdom != &"":
+		set_kingdom_filter(&"")
+	select_unit(id)
 
 
 func close() -> void:
@@ -587,10 +607,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	if key.physical_keycode == KEY_ESCAPE:
 		close()
 		get_viewport().set_input_as_handled()
-	elif (key.physical_keycode == KEY_F and key.ctrl_pressed) or (key.keycode == KEY_SLASH and not search_box.has_focus()):
+	elif (key.physical_keycode == KEY_F and key.ctrl_pressed) or (_is_slash(key) and not search_box.has_focus()):
 		search_box.grab_focus()
 		search_box.select_all()
 		get_viewport().set_input_as_handled()
+
+
+## U5-8: "/" opens the search on any layout: the physical key right of the period (QWERTY "/", AZERTY "!") or any
+## key that types "/" (AZERTY Shift+:).
+func _is_slash(key: InputEventKey) -> bool:
+	return key.physical_keycode == KEY_SLASH or key.keycode == KEY_SLASH or key.unicode == 47
 
 
 # ---------------------------------------------------------------- detail views

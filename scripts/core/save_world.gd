@@ -4,8 +4,21 @@ extends RefCounted
 ## (docs/design/save-load.md). SaveGame owns the files and the launch; SaveRestorer calls apply_* in two phases.
 ## Everything here reaches the game through public hooks: Unit / Building save_snapshot + load_snapshot*,
 ## Skirmish / WaveStrikeLevel save_level_state, MissionBase save_state, EmberCrown, FogOfWar, the team banks.
+## Generic saved state (fix-batches-2026-10-12 "Shared APIs"): any node in group SAVED_STATE_GROUP with
+## `save_key() -> String` (unique per match), `save_state([ids]) -> Dictionary` (plain values; units / buildings as
+## nodes or save ids, encoded here by SaveCodec) and `load_state(d: Dictionary, nodes: Dictionary)` is saved and
+## restored (phase 2, after units and buildings). The row keeps the script path: when no node has the key after the
+## rebuild, the script's `static func create_for_save(level: Node, key: String) -> Node` makes one, then load_state;
+## after load_state a node still outside the tree (no parent, not queued for deletion) is added to the level, a node
+## the script placed itself is left where it is, a stub that freed itself (queue_free) is never added. save_state gets the
+## capture's `ids` (node -> save id) when it takes an argument.
+## Level hooks (all optional, has_method): `save_restore_seats(mission_state)` (phase 1 start), `save_building_type(id)`
+## (a building type not in data/buildings), `save_spawn_unit(row)` / `save_spawned(unit, row)` (a unit the rebuilt start
+## does not have), `save_units_placed(ctx)` (phase 1 end: ctx has nodes, units, buildings, saved_metas = save id ->
+## {meta name: true} as saved, mission = the mission state), MissionBase `finish_load(nodes)` (phase 2, after load_state).
 
 const MATCH_RADIUS := 2.0   ## A saved building reuses a rebuilt one of its type and team within this distance.
+const SAVED_STATE_GROUP := &"saved_state"
 
 
 # ---------------------------------------------------------------- capture
@@ -56,10 +69,40 @@ static func capture(level: Node) -> Dictionary:
 		world["level_state"] = level.call(&"save_level_state", ids)
 	if level is MissionBase:
 		world["mission"] = (level as MissionBase).save_state(ids)
+	var states := _capture_saved_states(tree, ids)
+	if not states.is_empty():
+		world["saved_states"] = states
 	var cam: Variant = level.get(&"camera_rig")
 	if cam is Node3D and is_instance_valid(cam):
 		world["camera"] = (cam as Node3D).position
 	return world
+
+
+## Rows of the generic saved_state hook: {key, script, state}. A node whose state cannot be encoded is left out.
+static func _capture_saved_states(tree: SceneTree, ids: Dictionary) -> Array:
+	var out: Array = []
+	var keys := {}
+	for n in tree.get_nodes_in_group(SAVED_STATE_GROUP):
+		if n.is_queued_for_deletion() or not n.has_method(&"save_key") or not n.has_method(&"save_state"):
+			continue
+		var key := String(n.call(&"save_key"))
+		if key == "":
+			continue
+		if keys.has(key):
+			push_warning("Save: two saved_state nodes share the key %s, the second is not saved" % key)
+			continue
+		keys[key] = true
+		var raw: Variant = n.call(&"save_state", ids) if n.get_method_argument_count(&"save_state") > 0 \
+				else n.call(&"save_state")
+		if not raw is Dictionary or (raw as Dictionary).is_empty():
+			continue
+		var state: Variant = SaveCodec.encode(raw, ids)
+		if SaveCodec.is_skip(state):
+			push_warning("Save: saved_state %s holds a value that cannot be saved, left out" % key)
+			continue
+		out.append({"key": key, "script": (n.get_script() as Script).resource_path if n.get_script() else "",
+				"state": state})
+	return out
 
 
 ## Living units, every wizard (a dead one waits for its respawn) and every champion (fallen ones too). Units a
@@ -143,16 +186,27 @@ static func _capture_crystal_nodes(tree: SceneTree) -> Array:
 ## {nodes: save id -> node, units: [[node, row]], buildings: [[node, row]], crystal_nodes: node_id -> node}.
 static func apply_phase1(level: Node, world: Dictionary) -> Dictionary:
 	var tree := level.get_tree()
-	var ctx := {"nodes": {}, "units": [], "buildings": [], "crystal_nodes": {}}
+	var ctx := {"nodes": {}, "units": [], "buildings": [], "crystal_nodes": {}, "saved_metas": {},
+			"mission": world.get("mission", {})}
+	if level.has_method(&"save_restore_seats"):
+		level.call(&"save_restore_seats", ctx["mission"])   # economies / Commanders of seats activated mid-mission
 	_apply_teams_before(tree, world.get("teams", {}))
 	ctx["crystal_nodes"] = _apply_crystal_nodes(tree, world.get("nodes", []))
 	_apply_buildings(level, world.get("buildings", []), ctx)
 	_apply_units(level, world.get("units", []), ctx)
 	var nodes: Dictionary = ctx["nodes"]
+	var saved_metas: Dictionary = ctx["saved_metas"]
+	for pair: Array in (ctx["buildings"] as Array) + (ctx["units"] as Array):
+		var names := {}
+		for m: Variant in (pair[1] as Dictionary).get("metas", {}):
+			names[String(m)] = true
+		saved_metas[(pair[1] as Dictionary)["sid"]] = names
 	for pair: Array in ctx["buildings"]:
 		(pair[0] as Building).load_snapshot(pair[1], nodes)
 	for pair: Array in ctx["units"]:
 		(pair[0] as Unit).load_snapshot_base(pair[1], nodes)
+	if level.has_method(&"save_units_placed"):
+		level.call(&"save_units_placed", ctx)   # metas reconciled, the hero re-pointed (mission-save-hardening A3)
 	_apply_teams_after(tree, world.get("teams", {}), nodes)
 	var crown: Variant = level.get(&"crown")
 	if crown is EmberCrown and is_instance_valid(crown) and world.has("crown"):
@@ -180,8 +234,10 @@ static func apply_phase2(level: Node, world: Dictionary, ctx: Dictionary) -> voi
 			(pair[0] as Unit).load_snapshot_late(pair[1], nodes, ctx["crystal_nodes"])
 	if level.has_method(&"load_level_state") and world.has("level_state"):
 		level.call(&"load_level_state", world["level_state"], nodes)
+	_apply_saved_states(level, world.get("saved_states", []), nodes)
 	if level is MissionBase and world.has("mission"):
 		(level as MissionBase).load_state(world["mission"], nodes)
+		(level as MissionBase).finish_load(nodes)   # actor rows, then the mission's _after_load, last
 	var cam: Variant = level.get(&"camera_rig")
 	if cam is RTSCamera and is_instance_valid(cam) and world.get("camera") is Vector3:
 		(cam as RTSCamera).focus_on(world["camera"])
@@ -189,6 +245,51 @@ static func apply_phase2(level: Node, world: Dictionary, ctx: Dictionary) -> voi
 	var hero: Variant = level.get(&"hero")
 	if sel is SelectionManager and hero is Unit and is_instance_valid(hero) and (hero as Unit).is_alive():
 		(sel as SelectionManager).select_units([hero])
+
+
+static func _apply_saved_states(level: Node, rows: Array, nodes: Dictionary) -> void:
+	if rows.is_empty():
+		return
+	var by_key := {}
+	for n in level.get_tree().get_nodes_in_group(SAVED_STATE_GROUP):
+		if not n.is_queued_for_deletion() and n.has_method(&"save_key"):
+			by_key[String(n.call(&"save_key"))] = n
+	for row: Dictionary in rows:
+		var key := String(row.get("key", ""))
+		var n: Variant = by_key.get(key)
+		if n == null or not is_instance_valid(n):
+			n = _create_for_save(level, String(row.get("script", "")), key)
+		if n == null:
+			push_warning("Save: saved_state %s could not be rebuilt" % key)
+			continue
+		if (n as Node).has_method(&"load_state"):
+			(n as Node).call(&"load_state", SaveCodec.decode(row.get("state", {}), nodes), nodes)
+		if not is_instance_valid(n):
+			continue
+		var node := n as Node
+		if not node.is_inside_tree() and node.get_parent() == null \
+				and not node.is_queued_for_deletion():
+			level.add_child(node)   # a bare node from create_for_save joins the level (a freeing stub does not)
+
+
+## The script's `create_for_save(level, key)` (static) when it has one.
+static func _create_for_save(level: Node, path: String, key: String) -> Node:
+	if path == "" or not ResourceLoader.exists(path):
+		return null
+	var s := load(path) as Script
+	if s == null:
+		return null
+	var found := false
+	for m: Dictionary in s.get_script_method_list():
+		if StringName(m["name"]) == &"create_for_save":
+			found = true
+			break
+	if not found:
+		return null
+	var n: Variant = s.call(&"create_for_save", level, key)
+	if not n is Node or not is_instance_valid(n):
+		return null
+	return n as Node   # not added here: the script puts it where it belongs (or returns a self-freeing stub)
 
 
 static func _apply_teams_before(tree: SceneTree, teams: Dictionary) -> void:
@@ -265,6 +366,8 @@ static func _apply_buildings(level: Node, rows: Array, ctx: Dictionary) -> void:
 				best = b
 		if best == null and grid is BuildGrid:
 			var type := BuildingType.find(String(row["type"]))
+			if type == null and level.has_method(&"save_building_type"):   # a type built in code (mission-local)
+				type = level.call(&"save_building_type", String(row["type"])) as BuildingType
 			if type and float(row.get("progress", 1.0)) < 1.0:
 				best = (grid as BuildGrid).spawn_site(type, row["pos"], int(row["team"]))   # review 2026-10-10 #5
 			elif type:
@@ -298,12 +401,16 @@ static func _apply_units(level: Node, rows: Array, ctx: Dictionary) -> void:
 				u = _match_wizard(fresh_wizards, row, used)
 				if u == null:
 					u = _spawn_unit(level, row)   # a story wizard the rebuilt start has not raised yet
+					if u != null and level.has_method(&"save_spawned"):
+						level.call(&"save_spawned", u, row)
 			"champion":
-				u = _spawn_champion(level, row)
+				u = _spawn_champion(level, row, used)
 			_:
 				u = _match_unit(fresh, row, used)
 				if u == null:
 					u = _spawn_unit(level, row)
+					if u != null and level.has_method(&"save_spawned"):
+						level.call(&"save_spawned", u, row)   # the level re-arms what its spawner did (Breakers...)
 		if u == null:
 			push_warning("Save: %s %s / %s / %s (team %d) could not be rebuilt" % [row.get("kind", "?"),
 					row.get("type", "?"), row.get("name", "?"), row.get("script", "?"), int(row.get("team", -1))])
@@ -340,6 +447,13 @@ static func _match_unit(fresh: Array, row: Dictionary, used: Dictionary) -> Unit
 	var best: Unit = null
 	var best_d := INF
 	var typeless := String(row.get("type", "")) == ""   # a scripted unit without UnitType: matched by its script
+	var row_name := String(row.get("name", ""))
+	if not typeless and row_name != "" and not row_name.begins_with("@"):
+		# A named story unit is itself even when it moved far or changed side mid-mission (switch_seat_side).
+		for u: Unit in fresh:
+			if not used.has(u) and String(u.name) == row_name and u.unit_type != null \
+					and String(u.unit_type.id) == String(row["type"]):
+				return u
 	for u: Unit in fresh:
 		if used.has(u) or int(u.team) != int(row["team"]):
 			continue
@@ -395,17 +509,41 @@ static func _new_from_script(path: String) -> Unit:
 	return s.new() as Unit
 
 
-static func _spawn_champion(level: Node, row: Dictionary) -> Unit:
+## A saved guild champion: the champion of that archetype and team the rebuilt start already has (the campaign
+## companion CampaignState.apply_to_start spawned, R5-3) gets the saved state, else the guild adds a companion.
+static func _spawn_champion(level: Node, row: Dictionary, used: Dictionary = {}) -> Unit:
 	var team := int(row["team"])
-	var guild: Variant = level.call(&"guild_of", team) if level.has_method(&"guild_of") else ChampionGuild.for_team(team)
 	var state: Dictionary = row.get("champion", {})
-	if not guild is ChampionGuild or state.is_empty():
+	if state.is_empty():
 		return null
-	var ch: Variant = (guild as ChampionGuild).add_companion(state, row["pos"])
+	var ch: Variant = _existing_champion(level.get_tree(), team, StringName(str(state.get("id", ""))), used)
+	if ch != null:
+		(ch as Unit).global_position = row["pos"]
+	else:
+		var guild: Variant = level.call(&"guild_of", team) if level.has_method(&"guild_of") else ChampionGuild.for_team(team)
+		if not guild is ChampionGuild:
+			return null
+		ch = (guild as ChampionGuild).add_companion(state, row["pos"])
 	if not ch is Unit:
 		return null
 	if ch.has_method(&"apply_save_state"):
 		ch.call(&"apply_save_state", state)
 	if not bool(row.get("alive", true)) and (ch as Unit).is_alive():
-		(ch as Unit).take_damage((ch as Unit).max_hp * 100.0, null)   # fallen: the guild's revive applies
+		if ch.has_method(&"restore_fallen"):
+			ch.call(&"restore_fallen")   # quietly fallen: no died, no Events.unit_died (W2-6)
+		else:
+			(ch as Unit).take_damage((ch as Unit).max_hp * 100.0, null)   # fallen: the guild's revive applies
 	return ch
+
+
+## A guild champion of `archetype` and `team` already in the rebuilt level and not matched yet, else null.
+static func _existing_champion(tree: SceneTree, team: int, archetype: StringName, used: Dictionary) -> Unit:
+	if archetype == &"":
+		return null
+	for n in tree.get_nodes_in_group(&"champions"):
+		var u := n as Unit
+		if u == null or used.has(u) or u.is_queued_for_deletion() or int(u.team) != team or not _is_guild_champion(u):
+			continue
+		if u.has_method(&"type_id") and StringName(u.call(&"type_id")) == archetype:
+			return u
+	return null

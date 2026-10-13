@@ -202,7 +202,7 @@ func _on_workers_raided(team: int, node: Node) -> void:
 		return
 	if _clock - _last_raid_msg >= RAID_MSG_INTERVAL:
 		_last_raid_msg = _clock
-		say("Magpies raid your miners at %s!" % node_name(node), 4.0)
+		say(raid_text(node), 4.0)   # V1-5: whole sentences through Loc (VfxText)
 	if node == null or not is_instance_valid(node) or not (node is Node3D) or (node as Node3D).is_visible_in_tree():
 		play_sound(&"whistle")
 
@@ -213,7 +213,7 @@ func _on_loot_picked(team: int, amount: int, sack: Node) -> void:
 		return
 	if sack != null and is_instance_valid(sack) and sack is Node3D:
 		popup("+" + TradeWindow.thousands(amount), (sack as Node3D).global_position + SACK_OFFSET, TEXT_GOLD)
-	say("Picked up a loot sack: %d gold" % amount, 2.0)
+	say(VfxText.loot_picked(amount), 2.0)
 	play_sound(&"coin")
 
 
@@ -230,7 +230,20 @@ func _on_contract_started(team: int, _kind: StringName, _contract: Node) -> void
 ## GoldBank.ware_bought (the player's bank): `Bought Masons' Charter`.
 func _on_ware_bought(id: StringName) -> void:
 	var info: Dictionary = TradeWindow.WARE_INFO.get(StringName(id), {})
-	say("Bought %s" % str(info.get("name", String(id).capitalize())), 2.0)
+	say(VfxText.ware_bought(str(info.get("name", String(id).capitalize()))), 2.0)
+
+
+## V1-5: the raid message for `node`, one whole sentence per case (its name / natural / rich / remote).
+func raid_text(node: Node) -> String:
+	var n := node_name(node)
+	match n:
+		"the natural node":
+			return VfxText.raid(&"natural")
+		"the rich node":
+			return VfxText.raid(&"rich")
+		"a remote node":
+			return VfxText.raid(&"remote")
+	return VfxText.raid(&"", n)
 
 
 ## `the natural node` / `the rich node`: the node's display_name when it has one, else by its distance to the

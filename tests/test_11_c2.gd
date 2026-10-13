@@ -480,9 +480,12 @@ func _test_riposte() -> void:
 	_fx(ch, &"riposte", ch, "Riposte")
 	_near(ab.riposte_time_left(), 4.0, "Riposte lasts 4 s")
 	var hp0: float = m1.hp
-	ch.take_damage(5.0, m1)
+	_melee(ch, 5.0, m1)
 	_near(hp0 - m1.hp, 10.8, "a melee hit takes 10 x 1.08 back at level 2")
 	_check(_hit_logged(&"riposte", m1), "skill_hit(riposte, attacker)")
+	hp0 = m1.hp
+	ch.take_damage(5.0, m1)   # an ability / DoT hit from a melee unit (not its auto-attack): no counter (R2-6)
+	_near(hp0 - m1.hp, 0.0, "a non-melee hit takes nothing back")
 	hp0 = rb.hp
 	ch.take_damage(5.0, rb)
 	_near(hp0 - rb.hp, 0.0, "a ranged hit takes nothing back")
@@ -494,7 +497,7 @@ func _test_riposte() -> void:
 	_eq(foe_ch.abilities.cast(&"riposte"), "", "enemy champion Riposte")
 	var mine: float = ch.hp
 	var theirs: float = foe_ch.hp
-	ch.take_damage(5.0, foe_ch)
+	_melee(ch, 5.0, foe_ch)
 	_near(theirs - foe_ch.hp, 10.8, "the enemy champion takes the counter")
 	_near(mine - ch.hp, 5.0, "no counter to the counter")
 	all.append(foe_ch)
@@ -502,7 +505,7 @@ func _test_riposte() -> void:
 	await _wait(240)   # > 4 s after the cast
 	_near(ab.riposte_time_left(), 0.0, "Riposte over after 4 s")
 	hp0 = m1.hp
-	ch.take_damage(5.0, m1)
+	_melee(ch, 5.0, m1)
 	_near(hp0 - m1.hp, 0.0, "no counter after 4 s")
 	await _calm(all)
 	# Level 5: 13.2.
@@ -510,7 +513,7 @@ func _test_riposte() -> void:
 	ab.reset_cooldowns()
 	ab.cast(&"riposte")
 	hp0 = m2.hp
-	ch.take_damage(5.0, m2)
+	_melee(ch, 5.0, m2)
 	_near(hp0 - m2.hp, 13.2, "Riposte 10 x 1.32 at level 5")
 	await _calm(all)
 	# Trigger: 2+ melee enemies attacking it.
@@ -524,6 +527,13 @@ func _test_riposte() -> void:
 	_eq(ab.try_autocast(), &"riposte", "autocast Riposte: 2 melee enemies attack it")
 	await _calm(all)
 	stages += 1
+
+
+# A melee auto-attack hit as Unit._perform_attack deals it (Riposte only answers those; review R2-6).
+func _melee(target: Unit, amount: float, attacker: Unit) -> void:
+	attacker.melee_strike_active = true
+	target.take_damage(amount, attacker)
+	attacker.melee_strike_active = false
 
 
 # ---------------------------------------------------------------- Sword and Shield: Second Wind, Shield Throw

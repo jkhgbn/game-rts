@@ -176,7 +176,7 @@ msgid "Greymane Direwolf"
 msgstr "Greymane Direwolf"
 
 #. name (glossary: stays English)
-#: data/units/greywater_tracker.tres:9 scripts/world/hunters_guild.gd:529
+#: data/units/greywater_tracker.tres:9 scripts/world/hunters_guild.gd:549
 msgid "Greywater Tracker"
 msgstr "Greywater Tracker"
 
@@ -291,7 +291,7 @@ msgid "Rimeshield"
 msgstr "Rimeshield"
 
 #. name (glossary: stays English)
-#: data/units/sapling.tres:10 scripts/spells/spell_caster.gd:615
+#: data/units/sapling.tres:10 scripts/spells/spell_caster.gd:617
 msgid "Sapling"
 msgstr "Sapling"
 

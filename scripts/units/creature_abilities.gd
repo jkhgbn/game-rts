@@ -221,7 +221,7 @@ func setup(p_unit: Unit, ability_ids: Array[StringName] = []) -> void:
 	if _is_beast:
 		_sync_model_variant()
 	# Stagger the checks of many creatures over the interval.
-	_autocast_left = AUTOCAST_INTERVAL * fposmod(float(unit.get_instance_id() % 997) * 0.618, 1.0) + 0.01
+	_autocast_left = AUTOCAST_INTERVAL * fposmod(float(CasterKit.next_stagger() % 997) * 0.618, 1.0) + 0.01
 
 
 # Beasts: the model (one scene per kind) shows this type's variant. EpicBeasts also sends it right after the spawn;

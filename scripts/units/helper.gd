@@ -90,7 +90,7 @@ func _ready() -> void:
 	helper_abilities = ab
 	abilities = ab
 	_find_bond()
-	_brain_left = BRAIN_TICK * float(get_instance_id() % 4) / 4.0
+	_brain_left = BRAIN_TICK * float(CasterKit.next_stagger() % 4) / 4.0
 
 
 # ---------------------------------------------------------------- identity / Champion paths skipped

@@ -25,6 +25,8 @@ const NEUTRAL_TEAM := 2   # Unit.Team.NEUTRAL
 
 var _trickle_acc := 0.0
 
+static var _waiting: Dictionary = {}   # team -> [EssenceBank, parent]: made by for_team, add_child still deferred
+
 
 ## The bank of `for_team_id`, created under the current scene the first time.
 static func for_team(for_team_id: int) -> EssenceBank:
@@ -35,16 +37,37 @@ static func for_team(for_team_id: int) -> EssenceBank:
 		var bank := node as EssenceBank
 		if bank and bank.team == for_team_id and not bank.is_queued_for_deletion():
 			return bank
+	# A bank made a moment ago and still waiting for its deferred add_child is not in the group yet (groups
+	# register only in the tree): reuse it, never make a second one (code review R5-7).
+	# Only while its parent is still alive: a parent freed before the deferred add_child (F9, scene change)
+	# leaves an orphan that must not reach the next match.
+	var row: Array = _waiting.get(for_team_id, [])
+	if row.size() == 2 and is_instance_valid(row[0]) and is_instance_valid(row[1]):
+		var waiting := row[0] as Node
+		var waiting_parent := row[1] as Node
+		if not waiting.is_inside_tree() and not waiting.is_queued_for_deletion() \
+				and not waiting_parent.is_queued_for_deletion() and waiting_parent.is_inside_tree():
+			return waiting as EssenceBank
+	if row.size() == 2 and is_instance_valid(row[0]) and not (row[0] as Node).is_inside_tree():
+		(row[0] as Node).queue_free()   # the orphan
+	_waiting.erase(for_team_id)
 	var parent: Node = tree.current_scene if tree.current_scene else tree.root
 	var created := EssenceBank.new()
 	created.team = for_team_id
 	created.name = "EssenceBank%d" % for_team_id
-	created.add_to_group("essence_banks")   # before add_child, so a second call finds it at once
+	created.add_to_group("essence_banks")
 	if parent.is_inside_tree() and not parent.is_node_ready():
+		_waiting[for_team_id] = [created, parent]
 		parent.add_child.call_deferred(created)
 	else:
 		parent.add_child(created)
 	return created
+
+
+func _enter_tree() -> void:
+	var row: Array = _waiting.get(team, [])
+	if not row.is_empty() and is_same(row[0], self):
+		_waiting.erase(team)
 
 
 func _ready() -> void:

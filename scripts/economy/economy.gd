@@ -126,6 +126,28 @@ func _update_pop() -> void:
 	changed.emit()
 
 
+## A unit changes team (MissionBase.switch_seat_side, review R4-5; called on its OLD Economy after `unit.team` is set):
+## it stops counting here and `to` counts it (pop, died / tree_exiting hooks). No-op for a unit this Economy never
+## counted (`to` still counts it when it should).
+func move_unit(unit: Unit, to: Economy) -> void:
+	if unit == null or not is_instance_valid(unit):
+		return
+	if _unit_pop.has(unit):
+		_release_unit(unit)
+	if unit.died.is_connected(_release_unit):
+		unit.died.disconnect(_release_unit)
+	var hook := _release_unit.bind(unit)
+	if unit.tree_exiting.is_connected(hook):
+		unit.tree_exiting.disconnect(hook)
+	if to and to != self:
+		to.count_unit(unit)
+
+
+## Counts a living unit of this team (idempotent; units entering the tree are counted on their own).
+func count_unit(unit: Unit) -> void:
+	_on_node_added(unit)
+
+
 func _on_node_added(node: Node) -> void:
 	var unit := node as Unit
 	if unit == null or unit.team != team or unit.unit_type == null or _unit_pop.has(unit):

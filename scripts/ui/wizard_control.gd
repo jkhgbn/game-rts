@@ -18,6 +18,7 @@ var follow_camera := true
 
 var _held: Dictionary = {}     # physical Key -> true while held
 var _sending := false          # a non-zero input was sent and not released yet
+var _walker: Wizard = null     # U1-7: the wizard that got that input (a hero swap releases her first)
 
 
 ## True for the physical W A S D keys.
@@ -59,6 +60,13 @@ func _process(_delta: float) -> void:
 	if _text_focused() or not walk_enabled():
 		_held.clear()
 	var hero := _hero()
+	if _sending and _walker != hero:
+		# U1-7: the hero changed (swap, death) while a key was held: the old one stops walking
+		if _walker != null and is_instance_valid(_walker):
+			_REPLAY.note(&"call", [_walker, &"set_move_input", Vector3.ZERO])   # replays stop the OLD wizard
+			_walker.set_move_input(Vector3.ZERO)
+		_sending = false
+		_walker = null
 	var dir := input_direction() if hero != null else Vector3.ZERO
 	if dir != Vector3.ZERO:
 		if not _sending:
@@ -70,6 +78,7 @@ func _process(_delta: float) -> void:
 		_REPLAY.note(&"move_input", [dir])   # the session keeps only changes
 		hero.set_move_input(dir)
 		_sending = true
+		_walker = hero
 		if follow_camera:
 			_follow(hero)
 	elif _sending:
@@ -77,6 +86,7 @@ func _process(_delta: float) -> void:
 		if hero != null:
 			_REPLAY.note(&"move_input", [Vector3.ZERO])
 			hero.set_move_input(Vector3.ZERO)
+		_walker = null
 
 
 ## True while a walk key is held (and the wizard can walk).

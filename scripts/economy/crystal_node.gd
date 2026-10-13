@@ -138,7 +138,31 @@ func _deplete() -> void:
 	depleted.emit(self)
 	var tween := create_tween()
 	tween.tween_property(_visual, "scale", Vector3(0.01, 0.01, 0.01), DEPLETE_TIME)
-	tween.tween_callback(queue_free)
+	tween.tween_callback(_vanish)
+
+
+# Review R4-6: the node is a navmesh obstacle. It leaves the tree first, then the level's BuildGrid rebakes, so the
+# ground it stood on becomes walkable / buildable again. Runs from the shrink tween only (never during a level
+# teardown: the tween dies with the level).
+func _vanish() -> void:
+	var grid := _level_grid()
+	var parent := get_parent()
+	if parent:
+		parent.remove_child(self)
+	if grid and grid.is_inside_tree() and not grid.is_queued_for_deletion():
+		grid.request_rebake()
+	queue_free()
+
+
+## The BuildGrid of the level this node sits in (the first ancestor with a `build_grid`), or null.
+func _level_grid() -> BuildGrid:
+	var n := get_parent()
+	while n:
+		var g: Variant = n.get(&"build_grid")
+		if g is BuildGrid and is_instance_valid(g):
+			return g as BuildGrid
+		n = n.get_parent()
+	return null
 
 
 ## The art model shrinks its own prisms (set_fill_ratio); the placeholder scales from 1.0 (full)

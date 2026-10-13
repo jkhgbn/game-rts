@@ -162,7 +162,7 @@ func _test_outrider_picks() -> void:
 	_check(picked.has(c1) and picked.has(c2), "loaded caravans first (got %s)" % _names(picked))
 	_check(picked[0] != picked[1], "never both trackers on one caravan")
 	_check(absf(k.time_left() - (60.0 - 42.0 / 60.0)) < 0.1, "time_left counts down (%.2f)" % k.time_left())
-	_check(t1.is_in_group(&"trackers") and t1.get_meta(&"contract", null) == k, "trackers joined group + meta")
+	_check(t1.is_in_group(&"trackers") and t1.get_meta(&"_contract", null) == k, "trackers joined group + meta")
 	# c1 unloads: the empty one on the longest route (c3) replaces it, c2 keeps its tracker.
 	var keeper: Node = t1 if k.charge_of(t1) == c2 else t2
 	c1.cargo = 0

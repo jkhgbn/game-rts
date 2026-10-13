@@ -80,6 +80,7 @@ var _applied: Dictionary = {}     # StringName modifier id -> Dictionary stats l
 var _passives: Dictionary = {}    # StringName slot source id -> StringName passive id attached
 const ITEM_PASSIVES_PATH := "res://scripts/units/item_passives.gd"
 var _ticking := false
+var _quiet_gain := false          # add_item(..., heal_gain = false) in progress: new max_hp does not heal
 var _tithe_pending := 0           # tithe not announced yet (summed while the message cools down)
 var _tithe_cooling := false       # a tithe message went out less than TITHE_MESSAGE_INTERVAL ago
 
@@ -113,6 +114,8 @@ func _ready() -> void:
 	set_process(false)
 	if wizard:
 		EssenceBank.for_team(team())   # the bank starts its trickle as soon as a wizard exists
+		if wizard.has_signal(&"respawned") and not wizard.is_connected(&"respawned", _on_owner_respawned):
+			wizard.connect(&"respawned", _on_owner_respawned)
 
 
 ## Sets both counts at once (items 0-6, artifacts 0-2) and marks them as chosen by the owner.
@@ -234,9 +237,15 @@ func _is_alive() -> bool:
 
 ## Adds `count` of `type`: artifacts go to the first free artifact slot, consumables merge into
 ## existing stacks first, the rest into the first free item slots. False (nothing added) if it can't fit.
-func add_item(type: ItemType, count: int = 1, cooldown_left: float = 0.0) -> bool:
+## `heal_gain` false: the item was worn before (a dropped item picked up again), its max_hp does not heal.
+func add_item(type: ItemType, count: int = 1, cooldown_left: float = 0.0, heal_gain := true) -> bool:
 	if type == null or count <= 0:
 		return false
+	if not heal_gain:
+		_quiet_gain = true
+		var ok := add_item(type, count, cooldown_left)
+		_quiet_gain = false
+		return ok
 	if type.is_artifact:
 		for i in artifacts.size():   # champions have none: they never take an artifact
 			if artifacts[i] == null:
@@ -307,11 +316,19 @@ func start_cooldown(slot: int, seconds: float) -> void:
 	set_process(true)
 
 
-## Clears every item cooldown of consumables (respawn rule).
+## Clears every item cooldown of consumables (respawn rule, items.md "Death"; runs on the owner's `respawned`).
 func reset_consumable_cooldowns() -> void:
+	var any := false
 	for e: Variant in slots:
-		if e is Dictionary and (e["type"] as ItemType).is_consumable():
+		if e is Dictionary and (e["type"] as ItemType).is_consumable() and float(e["cooldown_left"]) > 0.0:
 			e["cooldown_left"] = 0.0
+			any = true
+	if any:
+		inventory_changed.emit()
+
+
+func _on_owner_respawned(_owner: Variant) -> void:
+	reset_consumable_cooldowns()
 
 
 ## Swaps two item slots (0..slot_count-1). Works while dead. Artifact slots never swap with item slots.
@@ -565,20 +582,22 @@ func sell_value(slot: int) -> int:
 	return floori(t.total_cost() * SELL_RATIO) * int(e["count"])
 
 
-## Drops `slot` on the ground at the wizard's feet (an ItemPickup keeping the full stack). Artifacts are
-## never dropped by hand. Returns the pickup, or null.
+## Drops `slot` on the ground at the wizard's feet (an ItemPickup keeping the full stack). Artifacts and
+## campaign rewards (`campaign_only`) are never dropped by hand. Returns the pickup, or null. The pickup is
+## marked worn: whoever takes it back gets no max_hp heal from it (code review R1-1).
 func drop(slot: int) -> ItemPickup:
 	var e: Variant = get_entry(slot)
 	if not e is Dictionary or slot >= ARTIFACT_SLOT or wizard == null or not wizard.is_inside_tree():
 		return null
 	var t := e["type"] as ItemType
-	if t.is_artifact:
+	if t.is_artifact or t.campaign_only:   # campaign rewards are never dropped (code review U2-5)
 		return null
 	_set_entry(slot, null)
 	_changed()
 	var pickup := ItemPickup.spawn(t, wizard.global_position, int(e["count"]))
 	if pickup:
 		pickup.ignore_until_left(wizard)
+		pickup.worn = true
 	item_dropped.emit(slot, t, pickup)
 	return pickup
 
@@ -660,12 +679,68 @@ static func modifier_id(slot: int) -> StringName:
 
 ## Re-applies every `item:<slot>` modifier on the wizard (only the ones that changed). Caps: the total
 ## of a capped stat from items never passes STAT_CAPS (later slots get what is left).
+## A max_hp gain heals only for a really new item: a modifier that only moves (swap, slot shuffle, an item
+## that was worn before and dropped, see `add_item(..., heal_gain)`) never heals (code review R1-1). Moved
+## and new modifiers go on before the old ones come off, so a move never clamps HP down either.
 func apply_modifiers() -> void:
 	if wizard == null or not wizard.has_method(&"add_modifier"):
 		return
+	var wanted := _wanted_modifiers()
+	var outgoing: Array = []   # stats dictionaries leaving a slot (removed or replaced)
+	for id: StringName in _applied:
+		if not wanted.has(id) or wanted[id] != _applied[id]:
+			outgoing.append(_applied[id])
+	var adds: Array[StringName] = []
+	for id: StringName in wanted:
+		if not _applied.has(id) or _applied[id] != wanted[id]:
+			adds.append(id)
+	var moved: Array[StringName] = []
+	var fresh: Array[StringName] = []
+	for id in adds:
+		var i := outgoing.find(wanted[id])
+		if i >= 0:
+			outgoing.remove_at(i)
+			moved.append(id)
+		else:
+			fresh.append(id)
+	# Moves that raise max_hp first, then the ones lowering it: a swap of two different max_hp items never
+	# dips the maximum below the HP in between (the clamp would lose HP for good).
+	moved.sort_custom(func(a: StringName, b: StringName) -> bool:
+		return _max_hp_delta(a, wanted) > _max_hp_delta(b, wanted))
+	for id in moved:
+		_add_modifier(id, wanted[id], false)
+		_applied[id] = wanted[id]
+	for id in fresh:
+		_add_modifier(id, wanted[id], not _quiet_gain)
+		_applied[id] = wanted[id]
+	for id: StringName in _applied.keys():
+		if not wanted.has(id):
+			wizard.call(&"remove_modifier", id)
+			_applied.erase(id)
+	_apply_passives(_all_slot_indexes())
+
+
+## How much modifier `id` raises max_hp going from `_applied` to `wanted` (percent weighted as 1000 HP).
+func _max_hp_delta(id: StringName, wanted: Dictionary) -> float:
+	var new_s: Dictionary = wanted.get(id, {})
+	var old_s: Dictionary = _applied.get(id, {})
+	return float(new_s.get(&"max_hp", 0.0)) - float(old_s.get(&"max_hp", 0.0)) \
+			+ 1000.0 * (float(new_s.get(&"max_hp_pct", 0.0)) - float(old_s.get(&"max_hp_pct", 0.0)))
+
+
+## Unit.add_modifier with its heal_gain flag; an owner whose add_modifier takes only (id, stats) gets those.
+func _add_modifier(id: StringName, stats: Dictionary, heal_gain: bool) -> void:
+	if wizard.get_method_argument_count(&"add_modifier") >= 3:
+		wizard.call(&"add_modifier", id, stats, heal_gain)
+	else:
+		wizard.call(&"add_modifier", id, stats)
+
+
+## Modifier id -> stats for every slot holding stats, caps applied (later slots get what is left).
+func _wanted_modifiers() -> Dictionary:
+	var out := {}
 	var totals := {}
-	var order := _all_slot_indexes()
-	for slot in order:
+	for slot in _all_slot_indexes():
 		var t := get_type(slot)
 		var stats := {}
 		if t:
@@ -679,16 +754,9 @@ func apply_modifiers() -> void:
 					totals[k] = so_far + v
 				if v != 0.0:
 					stats[k] = v
-		var id := modifier_id(slot)
-		var last: Variant = _applied.get(id)
-		if stats.is_empty():
-			if last != null:
-				wizard.call(&"remove_modifier", id)
-				_applied.erase(id)
-		elif last == null or last != stats:
-			wizard.call(&"add_modifier", id, stats)
-			_applied[id] = stats
-	_apply_passives(order)
+		if not stats.is_empty():
+			out[modifier_id(slot)] = stats
+	return out
 
 
 ## Attaches each item's passive (on-hit burn, lifesteal, auras...) through the gameplay ItemPassives

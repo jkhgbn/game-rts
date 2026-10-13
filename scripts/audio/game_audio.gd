@@ -40,7 +40,7 @@ const MINE_POLL := 0.5
 const MINE_TICK_EVERY := 1.0
 const MUSIC_DB := -10.0
 const DEFAULT_COOLDOWN := 0.08
-const META := &"game_audio"
+const META := &"_game_audio"   ## "_": never saved (a rebuilt node must be hooked again; review R5-2)
 
 const SOUNDS: Array[StringName] = [
 	&"melee_hit", &"bolt_shot", &"bolt_impact", &"fireball_cast", &"fireball_explode",
@@ -906,8 +906,8 @@ func _check_crit(src: Node3D) -> void:
 	if unit_type_id(src) != &"wildwood_archer" or not src.has_meta(CRIT_META):
 		return
 	var acc := float(src.get_meta(CRIT_META))
-	var before := float(src.get_meta(&"game_audio_crit", 0.5))
-	src.set_meta(&"game_audio_crit", acc)
+	var before := float(src.get_meta(&"_game_audio_crit", 0.5))
+	src.set_meta(&"_game_audio_crit", acc)
 	if acc < before:
 		play_at(&"fx_crit", src.global_position + Vector3.UP * 1.5)
 

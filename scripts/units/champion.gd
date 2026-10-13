@@ -556,7 +556,8 @@ func _drop_purse_to_killer() -> void:
 	var n := roundi(float(purse) * DEATH_DROP_RATIO)
 	if n <= 0:
 		return
-	if killer.is_in_group(&"champions") and killer.has_method(&"add_purse"):
+	# Helpers extend Champion but never spend a purse: their team's bank takes the drop (R2-4).
+	if killer.is_in_group(&"champions") and not killer.is_in_group(&"helpers") and killer.has_method(&"add_purse"):
 		add_purse(-n)
 		killer.call(&"add_purse", n)
 	elif int(killer_team) != Team.NEUTRAL:
@@ -564,6 +565,22 @@ func _drop_purse_to_killer() -> void:
 		if bank:
 			add_purse(-n)
 			bank.add(n)
+
+
+## Puts the champion in the fallen state quietly (a save restoring a champion that was already fallen, W2-6): no
+## `died`, no Events.unit_died, no kill XP / purse drop / announcement. Hidden, out of "units", intent Fallen; the
+## guild's revive (respawn) brings it back as after a normal death. Does nothing on a fallen champion.
+func restore_fallen() -> void:
+	if _dead:
+		return
+	killer = null
+	_resting_here = false
+	_enter_dead_state()
+	_dots_at_death = {}
+	_death_done = true
+	_death_serial += 1
+	_on_death_finished()
+	set_intent(INTENT_FALLEN, null)
 
 
 ## A fallen champion stays in the tree, hidden, until respawn().

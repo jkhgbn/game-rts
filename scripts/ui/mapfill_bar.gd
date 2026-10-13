@@ -974,11 +974,10 @@ static func tooltip_panel(text: String) -> Control:
 ## Relation colours: own / enemy / neutral (the minimap's green / red, never the kingdom colours).
 class GameColors:
 	static func relation(team: int, local: int) -> Color:
-		if team == local and team >= 0:
-			return OWN
-		if team == PLAYER_TEAM or team == ENEMY_TEAM:
-			return ENEMY
-		return POINT_NEUTRAL
+		# U3-7: any seat through Teams (ALLY / ENEMY_2 in 2v2 were "neutral"); own and allied = green
+		if team < 0 or team == Teams.NEUTRAL:
+			return POINT_NEUTRAL
+		return OWN if Teams.is_ally(team, local) else ENEMY
 
 
 ## A PanelContainer with the section-8 tooltip.

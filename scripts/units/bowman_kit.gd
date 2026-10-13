@@ -25,8 +25,8 @@ const BURN_INTERVAL := 1.0
 const BLEED_INTERVAL := 0.5
 const BLEED_META := &"bowman_bleed_stacks"
 const CRIT_META := &"bowman_crit_acc"
-const HAMSTRING_META := &"bowman_hamstring_at"     # physics second when Hamstring Shot is ready again
-const HAMSTRING_TARGET_META := &"bowman_hamstring_target"
+const HAMSTRING_META := &"_bowman_hamstring_at"    # clock second Hamstring is ready (ClockMetaLedger saves the rest)
+const HAMSTRING_TARGET_META := &"_bowman_hamstring_target"
 const HAMSTRING_MOVING := 1.5                       # m/s: the target counts as moving (not a shove)
 const SKIRMISH_SCRIPT := "res://scripts/world/skirmish.gd"
 
@@ -93,6 +93,7 @@ static func shot_damage(unit: Unit, target: Node3D) -> float:
 			unit.set_meta(HAMSTRING_TARGET_META, victim.get_instance_id())
 			var cd := hamstring_cooldown(int(unit.team))
 			unit.set_meta(HAMSTRING_META, _now() + cd)
+			ClockMetaLedger.ensure()   # saves the cooldown left (the meta itself is not saved)
 			_set_hamstring_ready(unit, false)
 			var tree := unit.get_tree()
 			if tree:
@@ -167,7 +168,7 @@ static func crit_numbers(team: int) -> Vector2:
 # ---------------------------------------------------------------- helpers
 
 static func _now() -> float:
-	return float(Engine.get_physics_frames()) / float(maxi(1, Engine.physics_ticks_per_second))
+	return CasterKit.now_s()   # the shared pausable match clock (R3-7)
 
 
 static func _set_hamstring_ready(unit: Unit, on: bool) -> void:

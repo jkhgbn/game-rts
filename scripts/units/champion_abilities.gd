@@ -284,7 +284,7 @@ func _ready() -> void:
 	if champion == null:
 		setup(get_parent() as Node3D)
 	# Stagger the checks (0.05 .. 0.45 s) so several champions don't all check in the same frame.
-	_autocast_left = 0.05 + 0.1 * float(absi(get_instance_id()) % 5)
+	_autocast_left = 0.05 + 0.1 * float(CasterKit.next_stagger() % 5)
 
 
 # ---------------------------------------------------------------- public API
@@ -827,7 +827,7 @@ func _cast_oath_of_iron() -> void:
 func _taunt(u: Unit, secs: float) -> void:
 	u.apply_status(&"taunted", secs, false, champion)
 	if u.has_status(&"taunted"):
-		u.attack_target = champion   # at once (the unit re-applies it every frame)
+		u.set_auto_target(champion)   # at once (the unit re-applies it every frame; R2-c: no direct attack_target write)
 
 
 func _cast_shield_bash(n: Node3D) -> void:
@@ -871,7 +871,7 @@ func _cast_smoke_pouch() -> void:
 		var u := node as Unit
 		if u and u.is_alive() and champion.is_enemy_of(u) and _flat_dist(u.global_position, me) <= r + u.radius \
 				and _targets_champion(u):
-			u.attack_target = null
+			u.drop_target_if(champion)   # keeps their orders (R2-c)
 
 
 ## Heal over time (SpellHot, like Wild Bloom) on the own units inside the circle at cast.
@@ -881,7 +881,7 @@ func _cast_soothing_circle(pos: Vector3) -> void:
 	var targets: Array[Node3D] = []
 	for node in get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
-		if u and u.is_alive() and int(u.team) == int(champion.team) \
+		if u and u.is_alive() and Teams.is_allied_fast(int(u.team), int(champion.team)) \
 				and _flat_dist(u.global_position, pos) <= r + u.radius:
 			targets.append(u)
 	if targets.is_empty():
@@ -994,13 +994,15 @@ func _units_in_line(dir: Vector3, pool: Array[Unit]) -> Array[Unit]:
 	return out
 
 
-## Riposte (while active): a melee enemy unit that hits the champion takes 10 back, credited to it.
+## Riposte (while active): a melee enemy unit whose auto-attack hits the champion takes 10 back, credited to it.
 func _on_damage_taken(_amount: float, attacker: Node3D) -> void:
 	if _riposte_left <= 0.0 or _countering or not _alive(champion):
 		return
 	if attacker == null or not is_instance_valid(attacker) or not attacker is Unit:
 		return
 	var u := attacker as Unit
+	if not u.melee_strike_active:
+		return   # only a melee auto-attack is countered (not Shield Throw, Lunge, Whirlwind, DoT ticks; R2-6)
 	if not u.is_alive() or not champion.is_enemy_of(u) \
 			or u.attack_range > float(ability_data(&"riposte")["melee_range"]):
 		return

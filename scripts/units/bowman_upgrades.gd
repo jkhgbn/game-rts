@@ -11,6 +11,7 @@ signal upgrade_completed(id: StringName)
 signal upgrade_cancelled(id: StringName, refund: int)
 
 const DESTROYED_REFUND := 0.75
+const SAVE_KEY_PREFIX := "bowman_upgrades"
 const SCAN_INTERVAL := 1.0      # Hunting Party: new Halls are hooked this often
 const TWIN_OFFSET := Vector3(0.9, 0.0, 0.6)
 
@@ -85,13 +86,74 @@ static func for_team(for_team_id: int, create: bool = true) -> BowmanUpgrades:
 	return node
 
 
+## SaveWorld (saved_state): the team's node when the rebuilt level has not made it yet (made on first use).
+static func create_for_save(level: Node, key: String) -> Node:
+	var parts := key.split(":")
+	if parts.size() != 2 or parts[0] != SAVE_KEY_PREFIX or not parts[1].is_valid_int():
+		return null
+	for n in level.get_tree().get_nodes_in_group(&"bowman_upgrades"):   # already made (first use during the rebuild)
+		if n is BowmanUpgrades and (n as BowmanUpgrades).team == int(parts[1]) and not n.is_queued_for_deletion():
+			return n
+	var node := BowmanUpgrades.new()
+	node.team = int(parts[1])
+	node.name = "BowmanUpgrades%d" % node.team
+	node.add_to_group(&"bowman_upgrades")
+	level.add_child(node)
+	return node
+
+
+# ---------------------------------------------------------------- save / load (saved_state, review R3-3)
+
+func save_key() -> String:
+	return "%s:%d" % [SAVE_KEY_PREFIX, team]
+
+
+func save_state() -> Dictionary:
+	if researched.is_empty() and _work.is_empty():
+		return {}
+	var work: Array = []
+	for w in _work:
+		work.append({"id": String(w["id"]), "hall": w["hall"] if is_instance_valid(w["hall"]) else null,
+				"left": float(w["left"])})
+	var done: Array = []
+	for id in researched:
+		done.append(String(id))
+	return {"team": team, "researched": done, "work": work}
+
+
+## Upgrades back (already paid), their modifiers on living units (no heal: the saved HP is right), the Hunting Party
+## hooks on the next scan. A research whose Hall is gone is refunded 75 % by the next tick, as in play.
+func load_state(d: Dictionary, _nodes: Dictionary) -> void:
+	researched.clear()
+	var done := {}
+	for id: Variant in d.get("researched", []):
+		var sid := StringName(str(id))
+		if UPGRADES.has(sid) and not done.has(sid):
+			researched.append(sid)
+			done[sid] = true
+	_done_by_team[team] = done
+	_work.clear()
+	for row: Variant in d.get("work", []):
+		if not row is Dictionary or not UPGRADES.has(StringName(str((row as Dictionary).get("id", "")))):
+			continue
+		var r := row as Dictionary
+		_work.append({"id": StringName(str(r["id"])), "hall": r.get("hall"), "left": float(r.get("left", 0.0))})
+	_scan_left = 0.0
+	if not is_inside_tree():
+		return
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u and int(u.team) == team and u.is_alive():
+			apply_to(u, false)
+
+
 static func team_has(for_team_id: int, id: StringName) -> bool:
 	var d: Variant = _done_by_team.get(for_team_id)
 	return d != null and (d as Dictionary).has(id)
 
 
 ## Stat modifiers of the team's finished upgrades on `unit` (idempotent; modifier ids "bowman:<id>").
-static func apply_to(unit: Unit) -> void:
+static func apply_to(unit: Unit, heal_gain: bool = true) -> void:
 	if unit == null or unit.unit_type == null:
 		return
 	var d: Variant = _done_by_team.get(int(unit.team))
@@ -100,7 +162,7 @@ static func apply_to(unit: Unit) -> void:
 	for id: StringName in (d as Dictionary):
 		var u: Dictionary = UPGRADES[id]
 		if u["unit"] == unit.unit_type.id and not (u["stats"] as Dictionary).is_empty():
-			unit.add_modifier(StringName("bowman:" + String(id)), u["stats"])
+			unit.add_modifier(StringName("bowman:" + String(id)), u["stats"], heal_gain)
 
 
 ## The upgrade ids a Hall offers (empty when bowmen are off or the Hall has no bowman), card order.
@@ -183,6 +245,7 @@ static func _static_reason(id: StringName, hall: Node) -> String:
 # ---------------------------------------------------------------- per team
 
 func _enter_tree() -> void:
+	add_to_group(&"saved_state")
 	var d := {}
 	for id in researched:
 		d[id] = true

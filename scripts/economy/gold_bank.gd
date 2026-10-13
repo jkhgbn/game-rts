@@ -140,6 +140,14 @@ func add(amount: int, source: StringName = &"") -> void:
 	changed.emit(gold)
 
 
+## Gives back `amount` gold paid earlier (a cancelled contract, a refund): never counted in `earned()`. <= 0 = no-op.
+func refund(amount: int) -> void:
+	if amount <= 0:
+		return
+	gold += amount
+	changed.emit(gold)
+
+
 ## Spends `amount` if the team has it (true), else emits spend_failed (false).
 func spend(amount: int) -> bool:
 	if amount < 0:

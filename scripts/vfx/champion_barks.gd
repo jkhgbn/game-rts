@@ -262,6 +262,10 @@ func scan() -> void:
 				bark(ch, &"hired")
 			continue
 		_check_champion(ch)
+	# V1-6: forget champions that are gone (dismissed / freed), so the table never grows with every hire
+	for id: int in _known.keys():
+		if not is_instance_id_valid(id):
+			_known.erase(id)
 
 
 func _info(ch: Node) -> Dictionary:

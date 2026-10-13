@@ -23,6 +23,7 @@ const REASON_NOT_FALLEN := "Not fallen"
 const REASON_NO_HOME := "No home"
 const REASON_NO_ESSENCE := "Not enough essence"
 const REASON_NO_HELPER := "No helper for this kingdom"
+const SAVE_KEY_PREFIX := "helper_roster"
 
 @export var team := 1
 var helper: Helper = null
@@ -30,6 +31,8 @@ var kingdom: StringName = &""
 ## The team's Stormbottle Genie (T3Kit.hire_genie): &"none", &"hiring", &"alive", &"bottled" (dead: re-hire for essence).
 var genie: Unit = null
 var genie_state: StringName = &"none"
+## Seconds before a hired Genie walks out (genie_state &"hiring"), 0 otherwise.
+var genie_hire_left := 0.0
 
 ## Mission call price (MissionBase / MissionConfig helper_call_*, mission-e2-01.md "Code reuse"): any of "crystals",
 ## "essence", "time" overrides the HelperType's call values (0 = free). {} = the skirmish price. Revive is unchanged.
@@ -61,6 +64,22 @@ static func for_team(for_team: int) -> HelperRoster:
 	return r
 
 
+## SaveWorld (saved_state): a roster the rebuilt level has not created yet (rosters are made on first use).
+static func create_for_save(level: Node, key: String) -> Node:
+	var parts := key.split(":")
+	if parts.size() != 2 or parts[0] != SAVE_KEY_PREFIX or not parts[1].is_valid_int():
+		return null
+	for n in level.get_tree().get_nodes_in_group(&"helper_rosters"):   # made in phase 1 by a queued stub row
+		if n is HelperRoster and (n as HelperRoster).team == int(parts[1]) and not n.is_queued_for_deletion():
+			return n
+	var r := HelperRoster.new()
+	r.team = int(parts[1])
+	r.name = "HelperRoster%d" % r.team
+	r.add_to_group(&"helper_rosters")
+	level.add_child(r)
+	return r
+
+
 ## The wizard of `for_team` whose kingdom is `k` (else any wizard of the team), alive or dead.
 static func wizard_of(tree: SceneTree, for_team: int, k: StringName = &"") -> Unit:
 	if tree == null:
@@ -80,6 +99,150 @@ static func wizard_of(tree: SceneTree, for_team: int, k: StringName = &"") -> Un
 
 func _ready() -> void:
 	add_to_group(&"helper_rosters")
+	add_to_group(&"saved_state")
+
+
+func _physics_process(delta: float) -> void:
+	if genie_state != &"hiring" or genie_hire_left <= 0.0:
+		return
+	genie_hire_left -= delta
+	if genie_hire_left <= 0.0:
+		genie_hire_left = 0.0
+		T3Kit.genie_arrives(team)
+
+
+## T3Kit.hire_genie: the Genie walks out after `seconds` (counted here, so it ends with the match; R3-5).
+func start_genie_hire(seconds: float) -> void:
+	genie_state = &"hiring"
+	genie_hire_left = maxf(0.01, seconds)
+
+
+# ---------------------------------------------------------------- save / load (saved_state, review R2-2)
+
+func save_key() -> String:
+	return "%s:%d" % [SAVE_KEY_PREFIX, team]
+
+
+func save_state() -> Dictionary:
+	if _state == &"none" and genie_state == &"none" and call_price.is_empty():
+		return {}
+	var h: Helper = helper if helper != null and is_instance_valid(helper) else null
+	return {
+		"team": team,
+		"kingdom": String(kingdom),
+		"state": String(_state),
+		"helper": h,
+		"stance": String(h.stance) if h else "",
+		"call_price": call_price.duplicate(),
+		"genie_state": String(genie_state),
+		"genie": genie if genie != null and is_instance_valid(genie) and genie.is_alive() else null,
+		"genie_hire_left": genie_hire_left,
+	}
+
+
+## Puts the roster back after a load (phase 2: units and the keep queue are rebuilt). The helper is adopted (died
+## connected, bond, stance), its pop held again; a fallen one is set fallen quietly. A queued Call / Revive keeps its
+## state (the keep rebuilt its stub through stub_for_save, already paid).
+func load_state(d: Dictionary, _nodes: Dictionary) -> void:
+	kingdom = StringName(str(d.get("kingdom", "")))
+	var price: Variant = d.get("call_price", {})
+	if price is Dictionary:
+		set_call_price(price)
+	_state = StringName(str(d.get("state", "none")))
+	# A Call / Revive is pending only while its stub really sits in a keep queue (the keep refunds a stub it could not
+	# rebuild): never "Already called" with nothing queued, never a second charge (the queue row was already paid).
+	if _state == &"queued" and not _stub_queued(CALL_ID):
+		_state = &"none"
+	elif _state == &"reviving" and not _stub_queued(REVIVE_ID):
+		_state = &"fallen"
+	var h: Variant = d.get("helper")
+	if h is Helper and is_instance_valid(h):
+		adopt(h as Helper, StringName(str(d.get("stance", ""))))
+	elif _state == &"alive" or _state == &"fallen" or _state == &"reviving":
+		_state = &"none"   # the helper could not be rebuilt: the team may call again
+		_release_held_pop()
+	genie_state = StringName(str(d.get("genie_state", "none")))
+	genie_hire_left = float(d.get("genie_hire_left", 0.0))
+	var g: Variant = d.get("genie")
+	if g is Unit and is_instance_valid(g) and (g as Unit).is_alive():
+		set_genie(g as Unit)
+	elif genie_state == &"alive":
+		genie_state = &"bottled"
+	if genie_state == &"hiring":
+		var gt := UnitType.find(String(T3Kit.GENIE_ID))
+		var eco := Economy.for_team(team)
+		if eco and gt:
+			eco.reserve_pop(gt.pop)   # the hire's pop (released when the Genie walks out)
+		genie_hire_left = maxf(0.01, genie_hire_left)
+
+
+## Takes `h` as this team's helper (a load, or a helper placed by a mission): `died` connected, bonded to the wizard,
+## `stance` restored when given, pop held. The roster state follows it (alive, or fallen when it is dead); a roster
+## saved fallen / reviving sets a living rebuilt helper fallen quietly (Champion.restore_fallen).
+func adopt(h: Helper, stance: StringName = &"") -> void:
+	if h == null or not is_instance_valid(h):
+		return
+	if helper != null and helper != h and is_instance_valid(helper) and helper.died.is_connected(_on_helper_died):
+		helper.died.disconnect(_on_helper_died)
+	helper = h
+	if not h.died.is_connected(_on_helper_died):
+		h.died.connect(_on_helper_died)
+	if is_inside_tree():
+		var w := wizard_of(get_tree(), team, h.helper_type.kingdom if h.helper_type else team_kingdom())
+		if w:
+			h.bond_to(w)
+	if stance != &"":
+		h.set_stance(stance)
+	var keep_fallen := _state == &"fallen" or _state == &"reviving"
+	if keep_fallen and h.is_alive():
+		h.restore_fallen()
+	if _state != &"reviving":
+		_state = &"alive" if h.is_alive() else &"fallen"
+	_hold_pop()
+
+
+# True when a building of the team has the `id` stub in its training queue.
+func _stub_queued(id: StringName) -> bool:
+	if not is_inside_tree():
+		return false
+	for n in get_tree().get_nodes_in_group(&"buildings"):
+		if n.get(&"team") == null or int(n.get(&"team")) != team:
+			continue
+		var q: Variant = n.get(&"queue")
+		if q is Array:
+			for t: Variant in q:
+				if t is UnitType and (t as UnitType).id == id:
+					return true
+	return false
+
+
+## The keep's queue rebuilds a saved Call / Revive stub through this (TrainingBuilding._stub_from_save, review R4-3).
+func stub_for_save(id: StringName) -> UnitType:
+	if id == CALL_ID:
+		return call_type()
+	if id == REVIVE_ID:
+		return revive_type()
+	return null
+
+
+func _hold_pop() -> void:
+	if _pop_held:
+		return
+	var ht := helper_type()
+	var eco := Economy.for_team(team)
+	if eco and ht:
+		eco.reserve_pop(ht.pop)
+	_pop_held = true
+
+
+func _release_held_pop() -> void:
+	if not _pop_held:
+		return
+	var ht := helper_type()
+	var eco := Economy.for_team(team)
+	if eco and ht:
+		eco.release_pop(ht.pop)
+	_pop_held = false
 
 
 ## The kingdom of the team (its wizard's, else the skirmish setting).
@@ -315,11 +478,7 @@ func spawn_helper(at: Vector3) -> Helper:
 	h.died.connect(_on_helper_died)
 	helper = h
 	_state = &"alive"
-	if not _pop_held:
-		var eco := Economy.for_team(team)
-		if eco:
-			eco.reserve_pop(ht.pop)   # the helper's 4 pop, kept while alive and while fallen
-		_pop_held = true
+	_hold_pop()   # the helper's 4 pop, kept while alive and while fallen
 	if h.model_has(&"play_arrival"):
 		h.model_call(&"play_arrival")
 	helper_ready.emit(h)
@@ -328,7 +487,7 @@ func spawn_helper(at: Vector3) -> Helper:
 	return h
 
 
-## The Genie walked out (T3Kit._genie_arrives): at 0 HP it returns to its bottle (re-hire for essence).
+## The Genie walked out (T3Kit.genie_arrives): at 0 HP it returns to its bottle (re-hire for essence).
 func set_genie(u: Unit) -> void:
 	genie = u
 	genie_state = &"alive"

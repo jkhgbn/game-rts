@@ -57,6 +57,15 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `set_auto_target(target)` (2026-10-02) points the unit's own auto-aggro at a target (keeps its order, the chase leash
   and the attack-move chase limit apply; not a player order). New code outside Unit uses it (or `command_attack`), never a direct `attack_target` write.
   Moving units have avoidance priority 1.0, idle ones 0.5 (idle units step aside).
+  Code-review fixes (2026-10-12): `set_down(pos)` puts a unit on the navmesh at a point (off water), quietly, keeping
+  its orders and `order_serial` (use it, never a `global_position` write, to move a unit out of the way);
+  `snap_to_navmesh(pos)`; `drop_target_if(target)` clears `attack_target` only when it is `target` (keeps the order);
+  `add_modifier(source_id, stats, heal_gain := true)` (`false` = a max_hp gain does not heal, for re-applies / swaps);
+  `melee_strike_active` (read only). Modifiers saved with a unit: prefixes `mission:`, `save:`, `rank3`, `bowman:`.
+  `Champion.restore_fallen()` (quiet fallen state, used by loads).
+- **Saved state** (2026-10-12): metas whose names do not start with `_` are saved by `SaveCodec` (runtime markers and
+  absolute times must start with `_`; `tests/test_save_metas.gd`). A node in group `"saved_state"` with `save_key()`,
+  `save_state()`, `load_state(d, nodes)` (optional static `create_for_save(level, key)`) is saved / restored by SaveWorld.
 - **Wizard** (group `"heroes"`): extends Unit. From wave 2, `command_cast(spell_id: StringName, target) -> String`
   (`""` = ok, otherwise the reason) replaces `command_fireball`.
 - **UnitType** resource (`data/units/*.tres`, task 1.G1): `id`, `display_name`, `faction`, `cost`, `pop`,
@@ -127,7 +136,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `rewards`); API `define_objectives`, `set_objective(id, state)` (→ `Events.objective_changed`), `objective_state`,
   `objectives()`, `briefing()`, `fire_once` / `add_event` (E-list), `after(s, c)` on `mission_time()` (held time
   excluded, `hold_world(on, keep_awake)`), `say` / `say_line` (→ `Events.dialogue(speaker, text)`), `play_cutscene(id,
-  end_state)` (end state also when skipped / missing / tests), `win` / `lose(delay)`, `scaled`, `spawn_group`,
+  end_state)` (end state also when skipped / missing / tests; not when the mission leaves the tree mid-film), `win` / `lose(delay)`, `scaled`, `spawn_group`,
   `spawn_wave_at`, `order_wave`, `set_dormant`, `raise_wizard`, `set_player_hero`, `lock_base`, `set_truce` (meta
   `truce`, `Unit.in_truce`), seats `add_seat` / `switch_seat_side` / `withdraw_seat`, `set_mission_flag` /
   `add_track_counter`, `MissionBase.scene_knob`. `CampaignState`: `MISSION_REWARDS` keys `artifact`, `flags`, `bonus_essence`,
@@ -165,7 +174,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   Code never writes stat fields directly once this exists (`add_bonus_stats` becomes a modifier).
 - **Items** (wave 4, `docs/design/items.md` "Suggested API" = FROZEN, items-coder): `ItemType` (`data/items/*.tres`,
   fields and `find(id)`, `total_cost()` as in items.md), `Inventory` (child of each wizard, `wizard.inventory`:
-  `slots` (6), `artifacts` (2), `add_item`, `remove_item`, `use_item(slot, target) -> String`, `can_buy`, `buy`,
+  `slots` (6), `artifacts` (2), `add_item` (optional 4th `heal_gain := true`; false = a re-picked worn item does not heal), `remove_item`, `use_item(slot, target) -> String`, `can_buy`, `buy`,
   `sell`, `drop`, `swap`, `nearest_shop()`, `total_item_value()`, signals `inventory_changed`, `item_used`,
   `item_bought`; stat modifiers `item:<slot>`). **Essence** lives in `scripts/items/essence_bank.gd`
   (`EssenceBank.for_team(team)`: `essence`, `add(n)`, `spend(n) -> bool`, signal `changed`; start 150, +1/s,

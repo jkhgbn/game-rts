@@ -41,6 +41,7 @@ const RANK_PRICE := {1: 175, 2: 225}
 const RANK_TIME := {1: 45.0, 2: 60.0}
 const DESTROYED_REFUND := 0.75
 const STUB_PREFIX := "rank3_"
+const SAVE_KEY_PREFIX := "stables16"
 
 const DESCRIPTIONS := {
 	&"blaze_rider": "Tier 1 shock cavalry. Beats archers and casters, loses to spears and guards. Rank 3: Blaze Captain.",
@@ -220,6 +221,22 @@ static func for_team(for_team_id: int, create: bool = true) -> Stables16:
 	return node
 
 
+## SaveWorld (saved_state): the team's node when the rebuilt level has not made it yet (made on first use).
+static func create_for_save(level: Node, key: String) -> Node:
+	var parts := key.split(":")
+	if parts.size() != 2 or parts[0] != SAVE_KEY_PREFIX or not parts[1].is_valid_int():
+		return null
+	for n in level.get_tree().get_nodes_in_group(&"stables16"):   # already made (first use during the rebuild)
+		if n is Stables16 and (n as Stables16).team == int(parts[1]) and not n.is_queued_for_deletion():
+			return n
+	var node := Stables16.new()
+	node.team = int(parts[1])
+	node.name = "Stables16_%d" % node.team
+	node.add_to_group(&"stables16")
+	level.add_child(node)
+	return node
+
+
 static func team_has_rank(for_team_id: int, unit_id: StringName) -> bool:
 	var b := for_team(for_team_id, false)
 	return b != null and b.researched.has(unit_id)
@@ -227,12 +244,12 @@ static func team_has_rank(for_team_id: int, unit_id: StringName) -> bool:
 
 ## Applies rank 3 to `unit` if its team researched it (idempotent): modifier `rank3`, metas `rank` / `rank_name`, the
 ## model hook set_rank(3). StablesBuilding calls it for every unit it trains.
-static func apply_rank(unit: Unit) -> void:
+static func apply_rank(unit: Unit, heal_gain: bool = true) -> void:
 	if unit == null or not is_instance_valid(unit) or unit.unit_type == null:
 		return
 	if not has_rank_up(unit.unit_type.id) or not team_has_rank(int(unit.team), unit.unit_type.id):
 		return
-	unit.add_modifier(RANK_MODIFIER, RANK_STATS)
+	unit.add_modifier(RANK_MODIFIER, RANK_STATS, heal_gain)
 	unit.set_meta(&"rank", RANK)
 	unit.set_meta(&"rank_name", rank_name(unit.unit_type.id))
 	if unit.is_inside_tree() and unit.model_has(&"set_rank"):
@@ -318,9 +335,61 @@ func grant(id: StringName) -> void:
 	_complete(id)
 
 
+## A queued rank stub rebuilt after a load (TrainingBuilding._stub_from_save, review R4-3): the rank_stub of its unit.
+func stub_for_save(id: StringName) -> UnitType:
+	var s := String(id)
+	if not s.begins_with(STUB_PREFIX):
+		return null
+	var unit_id := StringName(s.substr(STUB_PREFIX.length()))
+	return rank_stub(unit_id) if has_rank_up(unit_id) else null
+
+
+# ---------------------------------------------------------------- save / load (saved_state, review R3-3)
+
+func save_key() -> String:
+	return "%s:%d" % [SAVE_KEY_PREFIX, team]
+
+
+func save_state() -> Dictionary:
+	if researched.is_empty() and _work.is_empty():
+		return {}
+	var work: Array = []
+	for w in _work:
+		work.append({"id": String(w["id"]), "stables": w["stables"] if is_instance_valid(w["stables"]) else null,
+				"left": float(w["left"]), "paid": int(w["paid"])})
+	var done: Array = []
+	for id in researched:
+		done.append(String(id))
+	return {"team": team, "researched": done, "work": work}
+
+
+## Researches back (no payment: the saved crystals already paid them) and the ranks on living units (no heal: their
+## saved HP is already right). A research whose Stables is gone is refunded 75 % by the next tick, as in play.
+func load_state(d: Dictionary, _nodes: Dictionary) -> void:
+	researched.clear()
+	for id: Variant in d.get("researched", []):
+		var sid := StringName(str(id))
+		if not researched.has(sid):
+			researched.append(sid)
+	_work.clear()
+	for row: Variant in d.get("work", []):
+		if not row is Dictionary:
+			continue
+		var r := row as Dictionary
+		_work.append({"id": StringName(str(r.get("id", ""))), "stables": r.get("stables"),
+				"left": float(r.get("left", 0.0)), "paid": int(r.get("paid", 0))})
+	if not is_inside_tree():
+		return
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u and int(u.team) == team and u.is_alive():
+			apply_rank(u, false)
+
+
 ## Every unit that joins the tree (trained, spawned by a mission, granted) gets the team's rank 3 like ForgeKit does
 ## (review 2026-10-08 L1; apply_rank is idempotent, StablesBuilding still calls it right away).
 func _enter_tree() -> void:
+	add_to_group(&"saved_state")
 	if not get_tree().node_added.is_connected(_on_node_added):
 		get_tree().node_added.connect(_on_node_added)
 

@@ -316,3 +316,11 @@ model's `play_cast(id)` at the same moment (ChampionAbilities._play_feedback alr
 - **Step 2**: `projectile.gd:93` flight + hit in `_process` -> `_physics_process` (hit timing decides kills). Gameplay
   SceneTreeTimers in `unit.gd:1307`, `support_caster.gd:151` -> `create_timer(t, false, true)`.
 - `champion_class.gd:152` `pick(champion, rng = null)`: the null path calls `randomize()`; use a seeded rng.
+# Fix batch F3b (systems, 2026-10-12): R4-3 queue stubs after a load
+- `TrainingBuilding` now saves a code-built queue stub (no `.tres`: helper Call / Revive) as `{"stub": id, "cost",
+  "essence"}` and, on load, rebuilds it through the owner node: first `stub_for_save(id: StringName) -> UnitType` on
+  `HelperRoster.for_team(team)` / `Stables16.for_team(team, false)` when that method exists, else
+  `HelperRoster.call_type()` / `revive_type()` for `CALL_ID` / `REVIVE_ID`. Nobody rebuilds it = crystals + essence
+  refunded. Optional for you: add `stub_for_save` if a stub needs more than call_type / revive_type. The roster's own
+  state (`queued` / `reviving`) must come back through its saved_state row (your R2-2), or the training stub finishes
+  into a roster that thinks no call is pending.

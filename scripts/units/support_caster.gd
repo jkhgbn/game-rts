@@ -70,6 +70,8 @@ func try_cast() -> Unit:
 		return null
 	match kind:
 		&"shield":
+			if target.shield >= amount:
+				return null
 			target.add_shield(amount, duration)
 			target.shield_source = source_id
 		&"heal":
@@ -101,7 +103,8 @@ func find_target() -> Unit:
 		var dz := u.global_position.z - me.z
 		if dx * dx + dz * dz > r2 or not _is_soldier_or_wizard(u):
 			continue
-		if kind == &"shield" and u.shield > 0.0 and u.shield_source == source_id:
+		# Never replace a shield as large or larger (Snow Shield, Vow, Rime Aegis, items; R3-2), nor our own.
+		if kind == &"shield" and u.shield > 0.0 and (u.shield_source == source_id or u.shield >= amount):
 			continue
 		best = u
 		best_ratio = ratio

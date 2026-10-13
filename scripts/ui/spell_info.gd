@@ -122,6 +122,26 @@ static func value(wiz: Node, id: StringName, field: String, at_rank: int) -> flo
 	return 0.0
 
 
+## U2-3: `value` as the wizard really gets it: damage x spell power, heal x the heal multiplier (spell power, Blossom),
+## cooldown x cooldown reduction (SpellCaster's own multipliers when it has them, so the tooltip matches the cast).
+static func live_value(wiz: Node, id: StringName, field: String, at_rank: int) -> float:
+	var v := value(wiz, id, field, at_rank)
+	var c := caster(wiz)
+	if c == null or v == 0.0:
+		return v
+	match field:
+		"damage":
+			if c.has_method(&"spell_power_multiplier"):
+				v *= float(c.call(&"spell_power_multiplier"))
+		"heal":
+			if c.has_method(&"heal_multiplier"):
+				v *= float(c.call(&"heal_multiplier"))
+		"cooldown":
+			if wiz.has_method(&"get_stat"):
+				v *= SpellCaster.cooldown_multiplier(float(wiz.call(&"get_stat", &"cooldown_reduction")))
+	return v
+
+
 static func mana_cost(wiz: Node, id: StringName) -> float:
 	var c := caster(wiz)
 	if c != null and c.has_method(&"mana_cost"):
@@ -147,6 +167,8 @@ static func cooldown_total(wiz: Node, id: StringName) -> float:
 static func cast_reason(wiz: Node, id: StringName) -> String:
 	if wiz == null or not is_instance_valid(wiz) or not bool(wiz.call(&"is_alive")):
 		return "Dead"
+	if wiz.has_method(&"can_act") and not bool(wiz.call(&"can_act")):
+		return "Frozen"   # U2-2: same order as SpellCaster (right after "Dead")
 	if rank(wiz, id) <= 0:
 		return "Not learned"
 	if cooldown_left(wiz, id) > 0.0:
@@ -168,12 +190,12 @@ static func numbers_line(wiz: Node, id: StringName, r: int) -> String:
 	# Each part is one translated list item (joined by " · ").
 	var parts: Array[String] = [Loc.t("%s mana") % _num(mana_cost(wiz, id))]
 	var tt := target_type(id)
-	var dmg := value(wiz, id, "damage", r)
-	var cd := value(wiz, id, "cooldown", r)
-	var rad := value(wiz, id, "radius", r)
-	var rng := value(wiz, id, "range", r)
-	var dur := value(wiz, id, "duration", r)
-	var summons := roundi(value(wiz, id, "summon_count", r))
+	var dmg := live_value(wiz, id, "damage", r)
+	var cd := live_value(wiz, id, "cooldown", r)
+	var rad := live_value(wiz, id, "radius", r)
+	var rng := live_value(wiz, id, "range", r)
+	var dur := live_value(wiz, id, "duration", r)
+	var summons := roundi(live_value(wiz, id, "summon_count", r))
 	if summons > 0:
 		# Summon spells (Call the Thicket): `60 mana · 45 s cooldown · 3 Saplings`.
 		if cd > 0.0:
@@ -208,8 +230,8 @@ static func next_rank_line(wiz: Node, id: StringName, r: int) -> String:
 	for f in [["damage", Loc.t("%s damage")], ["heal", Loc.t("%s heal")], ["summon_count", "%s " + summon_name(id, 2)],
 			["radius", Loc.t("radius %s")], ["range", Loc.t("range %s")], ["duration", "%s s"],
 			["cooldown", Loc.t("%s s cooldown")]]:
-		var a := value(wiz, id, f[0], r)
-		var b := value(wiz, id, f[0], r + 1)
+		var a := live_value(wiz, id, f[0], r)
+		var b := live_value(wiz, id, f[0], r + 1)
 		if not is_equal_approx(a, b):
 			changes.append(str(f[1]) % _num(b))
 	return Loc.t("rank %d = %s") % [r + 1, ", ".join(changes) if not changes.is_empty() else Loc.t("stronger")]
@@ -245,7 +267,9 @@ static func summon_name(id: StringName, count: int) -> String:
 		var ut: Resource = load(path)
 		if ut != null and ut.get("display_name") != null and str(ut.get("display_name")) != "":
 			n = str(ut.get("display_name"))
-	return n if count == 1 else n + "s"
+	# U2-7: the whole word (singular or English plural) is logic text shown through the sink ("Saplings" has its own
+	# French entry); never a translated stem + "s".
+	return Loc.sink(n if count == 1 else n + "s")
 
 
 ## 12 -> "12", 3.75 -> "3.75", 3.5 -> "3.5".

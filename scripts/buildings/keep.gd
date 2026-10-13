@@ -22,6 +22,10 @@ const REASON_TIERS_OFF := "Tiers are off"
 const REASON_MAX_TIER := "Already a Citadel"
 const REASON_UPGRADING := "Upgrade in progress"
 const TIER_STUB_ID := &"keep_upgrade"
+## Meta on a stub UnitType: true = the command card leaves out its "Cost / Pop" line (the card_text says it all).
+const CARD_NO_COST_META := &"_card_no_cost"
+## The tier button while upgrading, one whole msgid per tier (never "Cancel %s" + a name).
+const CANCEL_NAMES := {2: "Cancel Stronghold", 3: "Cancel Citadel"}
 
 ## Read only: what the keep shoots at (null when idle or when its type has no attack).
 var attack_target: Node3D:
@@ -193,8 +197,11 @@ func tier_card_type() -> UnitType:
 		_tier_stub.faction = building_type.faction if building_type else &""
 	if _up_to > 0:
 		var name_to := TierSystem.tier_name(_up_to)
-		_tier_stub.display_name = "Cancel %s" % name_to
+		# Review U2-7: a whole English sentence (logic text; the UI sinks it, game_logic_templates.po has both).
+		_tier_stub.display_name = String(CANCEL_NAMES.get(_up_to, CANCEL_NAMES[3]))
 		_tier_stub.cost = 0
+		# Review U2-4: nothing to pay / no pop while cancelling; the card shows the card_text only (no Cost / Pop line).
+		_tier_stub.set_meta(CARD_NO_COST_META, true)
 		_tier_stub.train_time = upgrade_time_left()
 		_tier_stub.set_meta(&"card_text", "%s %d %%: %d s left. Cancel = full refund (%d crystals)." % [name_to,
 				roundi(upgrade_progress() * 100.0), ceili(upgrade_time_left()), _up_paid])
@@ -203,6 +210,7 @@ func tier_card_type() -> UnitType:
 		var to := tier + 1
 		_tier_stub.display_name = TierSystem.tier_name(to)
 		_tier_stub.cost = upgrade_cost()
+		_tier_stub.set_meta(CARD_NO_COST_META, false)
 		_tier_stub.train_time = upgrade_time()
 		# The text lists the other buildings' units (their trainable_types() call back here): cached 1 s, no re-entry.
 		var now_ms := Time.get_ticks_msec()

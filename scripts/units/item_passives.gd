@@ -278,7 +278,13 @@ func _refresh() -> void:
 	if not _active.has(&"afterglow") and _afterglow_left > 0.0:
 		_afterglow_left = 0.0
 		wizard.remove_modifier(MOD_AFTERGLOW)
-	wizard.death_guard = _try_rekindle if _active.has(&"rekindle") else Callable()
+	# Only our own guard is set / cleared: a mission's guard (a scripted duel) stays (R3-6).
+	var ours := wizard.death_guard.is_valid() and wizard.death_guard == Callable(self, &"_try_rekindle")
+	if _active.has(&"rekindle"):
+		if not wizard.death_guard.is_valid():
+			wizard.death_guard = _try_rekindle
+	elif ours:
+		wizard.death_guard = Callable()
 	set_physics_process(not _active.is_empty() or _rekindle_cd > 0.0)
 
 

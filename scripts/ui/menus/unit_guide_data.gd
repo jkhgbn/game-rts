@@ -55,6 +55,13 @@ static func reset() -> void:
 	_by_id = {}
 
 
+## U5-2: forgets the built entries (stats) but keeps the JSON text: the next read takes the live numbers again
+## (PaceSwitch changes train times / worker HP for Blitz and puts them back after the match).
+static func refresh_stats() -> void:
+	_entries = []
+	_by_id = {}
+
+
 # ---------------------------------------------------------------- roster (from the game data)
 
 ## Every player-facing unit the guide must list, from the game's own tables: per kingdom the keep (worker, caster,
@@ -520,6 +527,8 @@ static func check_claims(id: StringName) -> Array[String]:
 	var lines: Array[String] = []
 	lines.append_array(e["pros"])
 	lines.append_array(e["cons"])
+	if String(e.get("summary", "")) != "":
+		lines.append(String(e["summary"]))   # U5-9: the summary's rank claims are checked too
 	var phrases := "|".join(EXTREMES.keys())
 	var rx := RegEx.create_from_string("(?i)\\b(" + phrases + ")\\b[^.;,]*?\\bin (the (fire|ice|nature|shadow) army|any army)")
 	var rx_top := RegEx.create_from_string("(?i)\\btop (\\d+) for (" + "|".join(TOP_STATS.keys()) + ") in (the (fire|ice|nature|shadow) army|any army)")

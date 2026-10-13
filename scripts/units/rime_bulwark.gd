@@ -161,20 +161,20 @@ func _check_shatter() -> void:
 			_contact.erase(key)
 
 
-# Units standing in the footprint when it rises step out to the nearer long side.
+# Ground units standing in the footprint when it rises step out to the nearer long side.
 func _push_units_out() -> void:
 	var inv := global_transform.affine_inverse()
 	for n in get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u == null or not u.is_alive():
-			continue
+		if u == null or not u.is_alive() or HelperAbilities.is_flyer(u):
+			continue   # flyers never collide with the wall (layer 3): they stay where they are (R3-13)
 		var local := inv * Vector3(u.global_position.x, global_position.y, u.global_position.z)
 		var hz := thickness * 0.5 + u.radius
 		if absf(local.x) > length * 0.5 + u.radius * 0.5 or absf(local.z) >= hz:
 			continue
 		local.z = (hz + 0.05) * (1.0 if local.z >= 0.0 else -1.0)
 		var world := global_transform * local
-		u.global_position = Vector3(world.x, u.global_position.y, world.z)
+		u.set_down(Vector3(world.x, u.global_position.y, world.z))   # navmesh-snapped, orders kept
 
 
 func _add_fallback_look() -> void:

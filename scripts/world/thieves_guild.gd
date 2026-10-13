@@ -127,6 +127,15 @@ func _ready() -> void:
 	_connect_network()
 
 
+## Skirmish save (review W2-7): the one-time "on the roads" line.
+func save_world_state() -> Dictionary:
+	return {"announced": _announced}
+
+
+func load_world_state(d: Dictionary) -> void:
+	_announced = bool(d.get("announced", _announced))
+
+
 func _physics_process(delta: float) -> void:
 	_age += delta
 	var now := match_time()

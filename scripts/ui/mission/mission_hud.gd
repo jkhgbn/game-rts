@@ -18,13 +18,18 @@ var _hud: Node
 
 
 ## Adds a MissionHud to `level`. `hud` (the GameHUD) gets its skirmish objective hidden when the mission has
-## objectives(). Shows the briefing when the mission has briefing().
-static func attach(level: Node, mission_node: Node = null, hud: Node = null) -> MissionHud:
+## objectives(). Shows the briefing when the mission has briefing() and `show_briefing` (false: a mission rebuilt by a
+## save load gets its objectives / dialogue / spotlight without the briefing; `begun` still fires, deferred).
+static func attach(level: Node, mission_node: Node = null, hud: Node = null, show_briefing := true) -> MissionHud:
 	var m := MissionHud.new()
 	m.mission = mission_node if mission_node != null else level
 	m._hud = hud if hud != null else level.get(&"hud") as Node
+	m._show_briefing = show_briefing
 	level.add_child(m)
 	return m
+
+
+var _show_briefing := true
 
 
 func _init() -> void:
@@ -48,7 +53,7 @@ func _ready() -> void:
 		root.add_child(objectives_panel)
 		objectives_panel.setup(mission)
 		_hide_skirmish_objective()
-	if mission and mission.has_method(&"briefing"):
+	if _show_briefing and mission and mission.has_method(&"briefing"):
 		var data: Variant = mission.call(&"briefing")
 		if data is Dictionary and not (data as Dictionary).is_empty():
 			briefing = BriefingScreen.new()

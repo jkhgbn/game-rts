@@ -78,6 +78,26 @@ func open_by(wizard: Node) -> Dictionary:
 	return loot
 
 
+## Timers, state and loot roll state for the Skirmish save (review W1-4).
+func save_world_state() -> Dictionary:
+	return {"wait_left": _wait_left, "available": _available, "age": _age, "seed": rng.seed, "rng": rng.state}
+
+
+## Puts a saved cache back: hidden with its time left, or on the map; the loot rolls go on where they were.
+func load_world_state(d: Dictionary) -> void:
+	_wait_left = float(d.get("wait_left", _wait_left))
+	_age = float(d.get("age", _age))
+	if d.has("seed"):
+		rng.seed = int(d["seed"])
+	if d.has("rng"):
+		rng.state = int(d["rng"])
+	_available = bool(d.get("available", _available))
+	if _available:
+		_reset_look()
+	else:
+		_set_shown(false)
+
+
 func _physics_process(delta: float) -> void:
 	_age += delta
 	if not _available:

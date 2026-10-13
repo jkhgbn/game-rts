@@ -40,6 +40,10 @@ static var _hooked_tree: SceneTree = null
 ## The running campaign mission's scene (start_mission): a reload of it (Retry / F9) gets `mission_difficulty` back
 ## from the hook before its _ready. "" = not a mission (skirmish, menu).
 static var _mission_path := ""
+## W1-3 / R5-9: the level properties of a match loaded from a save (SaveGame.LEVEL_PROPS: kingdoms, pace, trade, time
+## limit...). While set, the restart hook (F9 / Restart) puts them back on the reloaded level after the menu settings,
+## so a restart replays the saved match, not the menu's current choices. Cleared by every new start from the menu.
+static var _loaded_props: Dictionary = {}
 
 
 ## Instances the skirmish level of `map` (MT9: a MapCatalog id or &"random"; &"" = GameSettings.map_id; unknown or
@@ -49,6 +53,7 @@ static var _mission_path := ""
 static func start_skirmish(tree: SceneTree, bot_difficulty: int, enemy: StringName = &"",
 		player: StringName = &"", map: StringName = &"", seats: int = 0) -> Node:
 	difficulty = bot_difficulty
+	clear_loaded_match()
 	_mission_path = ""
 	if enemy != &"":
 		enemy_kingdom = enemy
@@ -70,6 +75,7 @@ static func start_skirmish(tree: SceneTree, bot_difficulty: int, enemy: StringNa
 ## WaveBot. Returns the new level.
 static func start_wave_strike(tree: SceneTree, kingdom: StringName = &"fire", personality: String = "steward",
 		enemy: StringName = &"random") -> Node:
+	clear_loaded_match()
 	ws_kingdom = kingdom if WS_KINGDOMS.has(kingdom) else &"fire"
 	ws_personality = personality
 	ws_enemy_kingdom = enemy
@@ -133,6 +139,7 @@ static func start_mission(tree: SceneTree, scene_path: String, bot_difficulty: i
 		return null
 	difficulty = bot_difficulty
 	_mission_path = scene_path
+	clear_loaded_match()
 	install_hooks(tree)
 	var level := (load(scene_path) as PackedScene).instantiate()
 	apply_mission_difficulty(level)   # review 2026-10-08 H1: before the level enters the tree
@@ -153,6 +160,7 @@ static func apply_mission_difficulty(level: Node) -> bool:
 ## Since mission 0 (2026-10-03, mission-00.md): a new campaign opens on M0 (prologue -> M0, whose ep1_intro card is its
 ## briefing); the prologue also precedes M1 if the player starts there first.
 static func start_campaign_mission(tree: SceneTree, mission_id: StringName, scene_path: String, bot_difficulty: int) -> Node:
+	clear_loaded_match()   # W1-3: a new start (prologue / film chain / mission) is never the loaded match
 	if (mission_id == CampaignState.FIRST_MISSION or mission_id == CampaignState.OPENING_MISSION) and prologue_available():
 		var cs := CampaignState.open()
 		if not cs.is_seen(PROLOGUE_ID):
@@ -179,6 +187,7 @@ static func play_prologue(tree: SceneTree, then_scene: String = "", bot_difficul
 			return start_mission(tree, then_scene, bot_difficulty)
 		return null
 	difficulty = bot_difficulty
+	clear_loaded_match()
 	var stage := (load(PROLOGUE_STAGE) as PackedScene).instantiate()
 	stage.set(&"quit_when_done", false)
 	var after := func(id: StringName, _skipped: bool) -> void:
@@ -231,6 +240,43 @@ static func remember_mission(scene_path: String) -> void:
 	_mission_path = scene_path
 
 
+## W1-3 / R5-9: remembers the level properties of a match loaded from a save (`props` = the save's "props":
+## kingdoms, pace, trade, time limit, seats...). The restart hook re-applies them on every reload of that level
+## (F9 / Restart) instead of the menu settings. A new start from the menu (or quitting to it) clears them.
+static func set_loaded_match(props: Dictionary) -> void:
+	_loaded_props = props.duplicate(true)
+
+
+## Forgets the loaded match's properties (restarts use the menu settings again).
+static func clear_loaded_match() -> void:
+	_loaded_props = {}
+
+
+## The remembered properties of the loaded match ({} = none). Read only.
+static func loaded_match() -> Dictionary:
+	return _loaded_props.duplicate(true)
+
+
+## Puts the loaded match's properties back on `level` (each only when the level has it). True if one was set.
+static func apply_loaded_match(level: Node) -> bool:
+	if level == null or _loaded_props.is_empty():
+		return false
+	var done := false
+	for p: Variant in _loaded_props:
+		var key := StringName(str(p))
+		if not (key in level):
+			continue
+		var v: Variant = _loaded_props[p]
+		if key == &"layout_path" and String(v) == "":
+			continue
+		if v is Array and level.get(key) is Array:
+			(level.get(key) as Array).assign(v)
+		else:
+			level.set(key, v)
+		done = true
+	return done
+
+
 ## Reloads the current level (the hook re-applies the chosen difficulty).
 static func restart(tree: SceneTree) -> void:
 	install_hooks(tree)
@@ -240,6 +286,7 @@ static func restart(tree: SceneTree) -> void:
 
 static func quit_to_menu(tree: SceneTree) -> void:
 	_mission_path = ""
+	clear_loaded_match()
 	tree.paused = false
 	tree.change_scene_to_file(MAIN_MENU)
 
@@ -270,3 +317,5 @@ static func _on_node_added(node: Node) -> void:
 		_apply_wave_strike(node)   # F9 / Restart: same kingdom and bot
 	elif difficulty >= 0 and node is Commander and node.name == BOT_NODE:
 		(node as Commander).difficulty = difficulty as Commander.Difficulty
+	if not _loaded_props.is_empty() and node.get_parent() == node.get_tree().root and not (node is RTSCamera):
+		apply_loaded_match(node)   # W1-3: a restart of a loaded match replays the save's settings, not the menu's

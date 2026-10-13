@@ -29,6 +29,7 @@ var _tier_button: Button
 var _wave_label: Label
 var _refresh_left := 0.0
 var _flash_left := 0.0
+var _name_labels: Array = []          ## U5-7: [[Label, team], ...] side names, rebuilt on a language switch
 
 
 func setup(p_level: Node, p_seat: int) -> void:
@@ -78,6 +79,8 @@ func _build() -> void:
 		col.custom_minimum_size = Vector2(250, 0)
 		var name_l := UIStyle.panel_label(_side_name(team), 15, UIStyle.kingdom_color(_kingdom(team)))
 		name_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT if side == 0 else HORIZONTAL_ALIGNMENT_RIGHT
+		name_l.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		_name_labels.append([name_l, team])
 		col.add_child(name_l)
 		var b: Array = UIStyle.bar(UIStyle.kingdom_color(_kingdom(team)), 22.0)
 		(b[0] as ProgressBar).max_value = 1.0
@@ -166,6 +169,14 @@ func _make_button(parent: Control) -> Button:
 
 func _kingdom(team: int) -> StringName:
 	return level.call(&"kingdom_of", team)
+
+
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_TRANSLATION_CHANGED:
+		return
+	for row: Array in _name_labels:
+		if is_instance_valid(row[0]):
+			(row[0] as Label).text = _side_name(int(row[1]))
 
 
 func _side_name(team: int) -> String:

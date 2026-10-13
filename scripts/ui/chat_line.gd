@@ -19,6 +19,7 @@ var log_box: VBoxContainer
 var _lines: Array[Label] = []
 var _ages: PackedFloat32Array = PackedFloat32Array()
 var _open := false
+static var _open_line: ChatLine = null   ## U4-8: the chat line open now (null = none).
 
 
 ## Creates the chat line under the HUD's root control.
@@ -60,6 +61,11 @@ func _ready() -> void:
 
 
 ## True while the command line is open (typing).
+## U4-8: true while a chat line is open (the shop / trade / tavern windows leave Esc to it: it closes first).
+static func is_any_open() -> bool:
+	return _open_line != null and is_instance_valid(_open_line) and _open_line._open and _open_line.is_inside_tree()
+
+
 func is_open() -> bool:
 	return _open
 
@@ -67,6 +73,7 @@ func is_open() -> bool:
 ## Opens the line and focuses it (no checks; the HUD calls try_open on Enter).
 func open() -> void:
 	_open = true
+	_open_line = self
 	input.text = ""
 	input.visible = true
 	input.grab_focus()
@@ -87,7 +94,8 @@ func try_open() -> bool:
 	for n in get_tree().root.find_children("*", "Control", true, false):
 		if n is DialogueBox and (n as DialogueBox).is_showing():
 			return false
-		if n is BriefingScreen and (n as Control).is_visible_in_tree():
+	for n in get_tree().root.find_children("*", "CanvasLayer", true, false):
+		if n is BriefingScreen and (n as CanvasLayer).visible:   # a CanvasLayer, not a Control (review U5 note)
 			return false
 	open()
 	return true
@@ -97,6 +105,8 @@ func close() -> void:
 	if not _open:
 		return
 	_open = false
+	if _open_line == self:
+		_open_line = null
 	input.visible = false
 	if input.has_focus():
 		input.release_focus()

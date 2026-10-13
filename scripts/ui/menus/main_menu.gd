@@ -48,6 +48,8 @@ var mission_buttons: Array[Button] = []          ## One per mission of CampaignS
 var mission_ids: Array[StringName] = []
 var campaign_difficulty_buttons: Array[Button] = []
 var campaign_start_button: Button
+## U5-1: the mission list scrolls inside a height-capped box so Back / Watch / Start stay on screen at 900-1440 p.
+var campaign_list_scroll: ScrollContainer
 var prologue_button: Button                       ## Campaign panel: replays the prologue cinematic.
 ## MT9 map picker (skirmish panel): the seat filter (1v1 = 2-seat maps, 2v2 = 4-seat maps), the list (item 0 =
 ## Random, then the catalog's ready maps of the filter), the preview (data/maps/previews/<id>.png) and the info lines.
@@ -63,6 +65,9 @@ var map_note_label: Label                          ## "2v2 map: plays as a 1v1 f
 var _caps_labels: Array = []
 var map_list_ids: Array[StringName] = []           ## Item index -> map id (MapCatalog.RANDOM_ID first).
 
+## U5-1: screen height used by the campaign panel around the mission list (title, hero line, labels, difficulty row,
+## buttons, margins, menu title above the panel).
+const CAMPAIGN_CHROME_H := 640.0
 var _difficulty := 1   # Commander.Difficulty.NORMAL
 var _enemy: StringName = &"shadow"
 var _player: StringName = &"fire"
@@ -72,6 +77,7 @@ var _map_seats := MapCatalog.SEATS_1V1
 
 
 func _ready() -> void:
+	MenuFlow.clear_loaded_match()   # W1-3: back at the menu (or off to the Unit Lab): no loaded match to restart
 	# Dev only (docs/plan/unit-lab.md): `-- --unit-lab` opens the Unit Lab sandbox instead of the menu.
 	if OS.get_cmdline_user_args().has("--unit-lab") and ResourceLoader.exists(UNIT_LAB_SCENE):
 		get_tree().change_scene_to_file.call_deferred(UNIT_LAB_SCENE)
@@ -331,7 +337,7 @@ func matchup_text() -> String:
 
 ## Launches the 1v1 with the chosen difficulty, kingdoms and map (saved as the next default). Returns the new level.
 func start_skirmish() -> Node:
-	GameSettings.set_map_id(_map)
+	GameSettings.set_map_id(_map, true, _map_seats)
 	return MenuFlow.start_skirmish(get_tree(), _difficulty, _enemy, _player, _map, _map_seats)
 
 
@@ -369,7 +375,7 @@ func select_map(id: StringName) -> void:
 			set_map_filter(seats)
 			return
 	_map = id
-	GameSettings.set_map_id(id, false)
+	GameSettings.set_map_id(id, false, _map_seats)
 	if map_list == null:
 		return
 	var idx := map_list_ids.find(id)
@@ -514,7 +520,8 @@ func _build_map_column(parent: Control) -> void:
 	if want != MapCatalog.RANDOM_ID and not cat.is_ready(want):
 		want = MapCatalog.DEFAULT_ID
 	_map = want
-	set_map_filter(int(cat.entry(want).get("seats", MapCatalog.SEATS_1V1)) if want != MapCatalog.RANDOM_ID else MapCatalog.SEATS_1V1)
+	set_map_filter(int(cat.entry(want).get("seats", MapCatalog.SEATS_1V1)) if want != MapCatalog.RANDOM_ID \
+			else GameSettings.map_seats)   # U5-3: a saved Random keeps its 1v1 / 2v2 filter
 
 
 func _on_map_item_selected(i: int) -> void:
@@ -573,6 +580,8 @@ func set_mission(id: StringName) -> void:
 	_mission = id if is_mission_playable(id) else &""
 	for i in mission_ids.size():
 		mission_buttons[i].set_pressed_no_signal(mission_ids[i] == _mission)
+		if mission_ids[i] == _mission and campaign_list_scroll != null and campaign_list_scroll.is_inside_tree():
+			campaign_list_scroll.ensure_control_visible.call_deferred(mission_buttons[i])
 	if campaign_start_button:
 		campaign_start_button.disabled = _mission == &""
 	_refresh_watch_button()
@@ -852,9 +861,14 @@ func _build_campaign_panel(parent: Control) -> PanelContainer:
 	box.add_child(who)
 
 	box.add_child(UIStyle.label("Mission", 20))
+	campaign_list_scroll = ScrollContainer.new()
+	campaign_list_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	campaign_list_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	box.add_child(campaign_list_scroll)
 	var list := VBoxContainer.new()
 	list.add_theme_constant_override("separation", 8)
-	box.add_child(list)
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	campaign_list_scroll.add_child(list)
 	var group := ButtonGroup.new()
 	for id: StringName in CampaignState.MISSION_ORDER:
 		var b := _toggle_button(list, "", group)
@@ -895,8 +909,21 @@ func _build_campaign_panel(parent: Control) -> PanelContainer:
 
 	set_difficulty(_difficulty)
 	refresh_missions()
+	fit_campaign_list()
+	get_viewport().size_changed.connect(fit_campaign_list)
 	panel.visible = false
 	return panel
+
+
+## U5-1: caps the mission list's height to what the screen leaves under the title, difficulty row and buttons
+## (the rest scrolls). Called on build and on every window resize.
+func fit_campaign_list() -> void:
+	if campaign_list_scroll == null or not is_inside_tree():
+		return
+	var screen_h := get_viewport().get_visible_rect().size.y
+	var full := float(mission_buttons.size()) * 52.0
+	var room := screen_h - CAMPAIGN_CHROME_H
+	campaign_list_scroll.custom_minimum_size = Vector2(490, clampf(room, 132.0, maxf(full, 132.0)))
 
 
 func _menu_button(parent: Control, text: String) -> Button:

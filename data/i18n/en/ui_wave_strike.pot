@@ -6,129 +6,134 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. return Loc.t("Your Bastion (%s)") % Loc.t(k) if team == seat else Loc.t("Enemy Bastion (%s)") % Loc.t(k)
-#: scripts/ui/wave_strike/wave_strike_hud.gd:173
+#: scripts/ui/wave_strike/wave_strike_hud.gd:184
 msgid "Your Bastion (%s)"
 msgstr ""
 
 #. return Loc.t("Your Bastion (%s)") % Loc.t(k) if team == seat else Loc.t("Enemy Bastion (%s)") % Loc.t(k)
-#: scripts/ui/wave_strike/wave_strike_hud.gd:173
+#: scripts/ui/wave_strike/wave_strike_hud.gd:184
 msgid "Enemy Bastion (%s)"
 msgstr ""
 
 #. _horn_label.text = Loc.t("Horn %d in %s") % [director.horn_index + 1, _mmss(to_horn)]
-#: scripts/ui/wave_strike/wave_strike_hud.gd:199
+#: scripts/ui/wave_strike/wave_strike_hud.gd:210
 msgid "Horn %d in %s"
 msgstr ""
 
 #. clock += "  ·  " + Loc.t("LAST HORNS")
-#: scripts/ui/wave_strike/wave_strike_hud.gd:203
+#: scripts/ui/wave_strike/wave_strike_hud.gd:214
 msgid "LAST HORNS"
 msgstr ""
 
 #. _bank_label.text = Loc.t("Crystals %d   ·   +%d / horn   ·   Coffer %d/%d   ·   Supply %d/%d   ·   %s%s") % [
-#: scripts/ui/wave_strike/wave_strike_hud.gd:206
+#: scripts/ui/wave_strike/wave_strike_hud.gd:217
 msgid "Crystals %d   ·   +%d / horn   ·   Coffer %d/%d   ·   Supply %d/%d   ·   %s%s"
 msgstr ""
 
 #. roster.cap(), Loc.t(roster.tier_name()), "" if roster.upgrade_left <= 0.0 else Loc.t(" (%s in %ds)") % [
-#: scripts/ui/wave_strike/wave_strike_hud.gd:208
+#: scripts/ui/wave_strike/wave_strike_hud.gd:219
 msgid " (%s in %ds)"
 msgstr ""
 
 #. b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:216
+#: scripts/ui/wave_strike/wave_strike_hud.gd:227
 msgid "[%s] %s   %d   ·  pop %d   ·  x%d"
 msgstr ""
 
 #. _coffer_button.text = Loc.t("[%s] Coffer %d   %s   (+%d / horn)") % [KeyLabels.of(KEY_COFFER),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:221
+#: scripts/ui/wave_strike/wave_strike_hud.gd:232
 msgid "[%s] Coffer %d   %s   (+%d / horn)"
 msgstr ""
 
 #. else Loc.t("Coffers: all 8 bought")
-#: scripts/ui/wave_strike/wave_strike_hud.gd:223
+#: scripts/ui/wave_strike/wave_strike_hud.gd:234
 msgid "Coffers: all 8 bought"
 msgstr ""
 
 #. _tier_button.text = Loc.t("%s reached") % Loc.t(roster.tier_name())
-#: scripts/ui/wave_strike/wave_strike_hud.gd:228
+#: scripts/ui/wave_strike/wave_strike_hud.gd:239
 msgid "%s reached"
 msgstr ""
 
 #. _tier_button.text = Loc.t("%s rising: %d s") % [Loc.t(roster.tier_name(roster.tier + 1)), ceili(roster.upgrade
-#: scripts/ui/wave_strike/wave_strike_hud.gd:230
+#: scripts/ui/wave_strike/wave_strike_hud.gd:241
 msgid "%s rising: %d s"
 msgstr ""
 
 #. _tier_button.text = Loc.t("[%s] %s   %d   (%s, supply %d)") % [KeyLabels.of(KEY_TIER),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:232
+#: scripts/ui/wave_strike/wave_strike_hud.gd:243
 msgid "[%s] %s   %d   (%s, supply %d)"
 msgstr ""
 
 #. Loc.t("T2 cards, Drilled") if roster.tier == 1 else Loc.t("Elite"), director.rules.cap_at(roster.tier + 1)]
-#: scripts/ui/wave_strike/wave_strike_hud.gd:234
+#: scripts/ui/wave_strike/wave_strike_hud.gd:245
 msgid "T2 cards, Drilled"
 msgstr ""
 
 #. _wave_label.text = Loc.t("Next wave: %d units   (last horn: %d)") % [roster.card_total(), director.last_wave_s
-#: scripts/ui/wave_strike/wave_strike_hud.gd:237
+#: scripts/ui/wave_strike/wave_strike_hud.gd:248
 msgid "Next wave: %d units   (last horn: %d)"
 msgstr ""
 
 #. return Loc.t("%s: %d HP, %d damage, range %.1f, speed %.1f%s") % [Loc.t(t.display_name), int(t.max_hp),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:243
+#: scripts/ui/wave_strike/wave_strike_hud.gd:254
 msgid "%s: %d HP, %d damage, range %.1f, speed %.1f%s"
 msgstr ""
 
 #. int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Stronghold)") if t.requires_tier >= 2 else ""]
-#: scripts/ui/wave_strike/wave_strike_hud.gd:244
+#: scripts/ui/wave_strike/wave_strike_hud.gd:255
 msgid "  (Stronghold)"
 msgstr ""
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Muster", 22))
-#: scripts/ui/wave_strike/wave_strike_hud.gd:110
+#: scripts/ui/wave_strike/wave_strike_hud.gd:113
 msgid "Muster"
 msgstr ""
 
 #. var hint := UIStyle.panel_label("Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell", 12)
-#: scripts/ui/wave_strike/wave_strike_hud.gd:127
+#: scripts/ui/wave_strike/wave_strike_hud.gd:130
 msgid "Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell"
 msgstr ""
 
 #. return "No card"
-#: scripts/ui/wave_strike/wave_strike_hud.gd:273 scripts/ui/wave_strike/wave_strike_hud.gd:283
-#: scripts/ui/wave_strike/wave_strike_hud.gd:293
+#: scripts/ui/wave_strike/wave_strike_hud.gd:284 scripts/ui/wave_strike/wave_strike_hud.gd:294
+#: scripts/ui/wave_strike/wave_strike_hud.gd:304
 msgid "No card"
 msgstr ""
 
 #. return Loc.t("Fire (Vessa)")
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:31
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:33
 msgid "Fire (Vessa)"
 msgstr ""
 
 #. return Loc.t("Ice (Torvald)")
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:33
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:35
 msgid "Ice (Torvald)"
 msgstr ""
 
 #. return Loc.t("Nature (Ysolde)")
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:35
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:37
 msgid "Nature (Ysolde)"
 msgstr ""
 
 #. return Loc.t("Shadow (Malrik)")
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:37
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:39
 msgid "Shadow (Malrik)"
 msgstr ""
 
 #. return Loc.t("Random")
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:38
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:40
 msgid "Random"
 msgstr ""
 
-#. col.add_child(UIStyle.panel_label(Loc.t("Enemy kingdom"), 17, UIStyle.GOLD))
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:85
+#. col.add_child(_loc_label(func() -> String: return Loc.t("Enemy kingdom"), 17))
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:88
 msgid "Enemy kingdom"
+msgstr ""
+
+#. var size_line := Loc.sink(MapCatalog.size_text(e)) if not e.is_empty() else Loc.t("192 x 96 m · 2 players")
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:141
+msgid "192 x 96 m · 2 players"
 msgstr ""
 
 #. const RULES_TEXT := ("Buy cards: each one sends a unit at every horn (every 40 s, first at 0:30).\n"
@@ -136,27 +141,22 @@ msgstr ""
 msgid "Buy cards: each one sends a unit at every horn (every 40 s, first at 0:30).\nCoffers raise your income, the Stronghold opens tier-2 cards and more supply.\nYour wizard guards your half of the lane. Break the enemy Bastion to win."
 msgstr ""
 
-#. var map_l := UIStyle.panel_label("%s\n%s" % [String(e.get("title", "Ashwind Reach")),
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:67 data/maps/catalog.tres:90
-msgid "Ashwind Reach"
-msgstr ""
-
-#. MapCatalog.size_text(e) if not e.is_empty() else "192 x 96 m · 2 players"], 15)
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:68
-msgid "192 x 96 m · 2 players"
-msgstr ""
-
 #. col.add_child(UIStyle.panel_label("Enemy bot", 17, UIStyle.GOLD))
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:97
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:101
 msgid "Enemy bot"
 msgstr ""
 
 #. var b := _toggle(prow, "Steward (economy)" if p == "steward" else "Hammer (aggressive)", pg)
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:102
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:106
 msgid "Steward (economy)"
 msgstr ""
 
 #. var b := _toggle(prow, "Steward (economy)" if p == "steward" else "Hammer (aggressive)", pg)
-#: scripts/ui/wave_strike/wave_strike_lobby.gd:102
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:106
 msgid "Hammer (aggressive)"
+msgstr ""
+
+#. var title := Loc.sink(String(e.get("title", "Ashwind Reach")))
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:140 data/maps/catalog.tres:90
+msgid "Ashwind Reach"
 msgstr ""

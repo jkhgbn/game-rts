@@ -48,10 +48,15 @@ const META_MODE := &"mission_mode"
 const META_TARGET := &"mission_target"
 const META_DORMANT := &"mission_dormant"
 const META_AGGRO := &"mission_aggro"
-const META_HELD := &"mission_held"            ## Asleep because of hold_world (not the mission): the release wakes it.
+## Asleep because of hold_world (not the mission): the release wakes it. "_": a runtime marker, never saved (saves are
+## refused during a hold).
+const META_HELD := &"_mission_held"
 const META_GUARD := &"mission_prev_guard"     ## The death_guard a unit had before set_dormant (Rekindle...).
 const META_TRUCE_PREV := &"mission_truce_prev"   ## The truce id a seat node had before its switch grace.
-const META_TRUCE_HOOK := &"mission_truce_hook"   ## tree_exiting is wired to clear its truce (Unit.truce_count).
+## tree_exiting is wired to clear its truce (Unit.truce_count). "_": not saved, a load wires the rebuilt node again (R5-2).
+const META_TRUCE_HOOK := &"_mission_truce_hook"
+## _sleep really ran on this node (immortal guard, out of "units"); a load that only decoded META_DORMANT lacks it.
+const META_ASLEEP := &"_mission_asleep"
 const DEFAULT_SPEAKER_COLORS := {
 	&"vessa": Color(1.0, 0.45, 0.1),
 	&"malrik": Color(0.7, 0.3, 1.0),
@@ -148,6 +153,15 @@ var spotlight_id: StringName = &""
 var spotlight_short := false
 var spotlight_unit: Unit = null
 var _spotlight_watch := false
+var _spotlight_ring_done := false   # the first unit got its ring (saved: a load never rings again)
+var _resources_hidden := false      # set_resources_hidden (saved, C1-2)
+## Actors (register_actor): key -> node with save_row() / load_row(row).
+var _actors: Dictionary = {}
+## Unit / building types built in code (register_local_unit_type / register_local_building_type): id -> type.
+var _local_unit_types: Dictionary = {}
+var _local_building_types: Dictionary = {}
+## Seats brought in by activate_seat: seat -> {kingdom, profile} (saved: a load restores their Economy / Commander).
+var _activated_seats: Dictionary = {}
 
 
 # ---------------------------------------------------------------- setup
@@ -321,12 +335,17 @@ func _apply_late_knobs() -> void:
 
 ## MissionHud.attach(self, self, hud): objectives panel, dialogue box and the briefing (pauses the game until Begin;
 ## `begun` starts the intro).
+## While a save is restored (save_restoring) the MissionHud comes without its briefing and the intro does not wait
+## (mission-save-hardening B3: objectives panel, dialogue box and spotlight after any load).
 func _attach_mission_hud() -> void:
 	var path := "res://scripts/ui/mission/mission_hud.gd"
 	if not show_briefing or not ResourceLoader.exists(path):
 		return
 	var script := load(path) as Script
 	if script == null or not script.can_instantiate():
+		return
+	if save_restoring:
+		mission_hud = script.call(&"attach", self, self, hud, false) as Node
 		return
 	mission_hud = script.call(&"attach", self, self, hud) as Node
 	if mission_hud and mission_hud.has_signal(&"begun"):
@@ -576,6 +595,10 @@ func _physics_process(delta: float) -> void:
 	if save_restoring:
 		return   # a save is being put back: no timer / event of the rebuilt start runs meanwhile
 	_timer_tag = &""   # the start is over: later timers are mid-mission ones
+	if _end_due >= 0.0 and match_time() >= _end_due:
+		_end_due = -1.0
+		_end_game(_end_victory)
+		return
 	if world_is_held:
 		_held_total += delta
 		return
@@ -681,7 +704,8 @@ func cinematic_actor(tag: StringName) -> Node3D:
 ## Plays the cinematic `id` (data/cinematics/<id>.tres, PAUSE / STAGE) in this mission's context, then calls
 ## `end_state` once when it finishes, skipped or not. Without the script, with cinematics off (tests) or when the
 ## player refuses it, `end_state` runs at once: the direct-effect fallback, so a mission is playable without films and
-## every skip leaves the same state (19.C9). Returns "" when it plays, else why it did not.
+## every skip leaves the same state (19.C9). Not when the mission itself leaves the tree mid-film (F9, quickload,
+## menu): the film stops quietly and `end_state` is dropped (code review V1-1). Returns "" when it plays, else why not.
 func play_cutscene(id: StringName, end_state: Callable = Callable()) -> String:
 	var why := ""
 	var script: CinematicScript = CinematicScript.find(id) if cinematics_enabled else null
@@ -714,32 +738,34 @@ func play_cutscene(id: StringName, end_state: Callable = Callable()) -> String:
 
 # ---------------------------------------------------------------- end of the mission
 
-## Victory after `delay` seconds of mission time (0 = now). The first ending decided wins: once win / lose (or the
-## keep-lost rule) is pending, later calls are ignored, unless `force` (it then replaces the pending one).
+## Victory after `delay` seconds of match time (match_time(): it runs on through a hold_world; 0 = now). The first
+## ending decided wins: once win / lose (or the keep-lost rule) is pending, later calls are ignored, unless `force`
+## (it then replaces the pending one).
 func win(delay := 0.0, force := false) -> void:
 	_finish(true, delay, force)
 
 
-## Defeat after `delay` seconds of mission time (0 = now). Same first-ending-is-final rule as win().
+## Defeat after `delay` seconds of match time (0 = now). Same first-ending-is-final rule as win().
 func lose(delay := 0.0, force := false) -> void:
 	_finish(false, delay, force)
 
 
-var _end_serial := 0   # bumped by every accepted ending: a replaced pending one does nothing when its timer fires
+## A pending win / lose(delay): match_time() it fires at (-1 = none). Counted on the match clock, not mission_time(),
+## so a hold_world started after it can never freeze the ending (review C1-7).
+var _end_due := -1.0
+var _end_victory := false
 
 
 func _finish(victory: bool, delay: float, force := false) -> void:
 	if game_over or (_ending and not force):
 		return
 	_ending = true
-	_end_serial += 1
-	var serial := _end_serial
 	if delay <= 0.0:
+		_end_due = -1.0
 		_end_game(victory)
 	else:
-		after(delay, func() -> void:
-			if serial == _end_serial:
-				_end_game(victory))
+		_end_due = match_time() + delay   # a forced ending replaces the pending one
+		_end_victory = victory
 
 
 ## True once the mission is ending (win / lose called, or the end game).
@@ -1006,6 +1032,7 @@ func grant_carried_essence() -> int:
 
 ## Hides (true) or shows the top bar (crystals, essence, pop).
 func set_resources_hidden(on: bool) -> void:
+	_resources_hidden = on
 	if hud and hud.top_bar:
 		hud.top_bar.visible = not on
 
@@ -1056,6 +1083,8 @@ func show_spotlight() -> void:
 	var flag := SPOTLIGHT_FLAG_PREFIX + String(id)
 	spotlight_short = bool(CampaignState.open(campaign_save_path).flag_value(flag, false))
 	set_mission_flag(flag, true)
+	if save_restoring:
+		return   # the rebuilt start of a load: the save says whether it was shown (load_state), no card / ring again
 	var card := String(config.spotlight.get("card", ""))
 	var events := get_node_or_null(^"/root/Events")
 	if events and events.has_signal(&"spotlight_shown"):
@@ -1082,13 +1111,16 @@ func _watch_spotlight() -> void:
 			get_tree().node_added.disconnect(_on_spotlight_node_added), CONNECT_ONE_SHOT)
 
 
+## Only once the card was shown (an "unlock" / "manual" spotlight waits for show_spotlight) and never for a unit a
+## save load rebuilds (C1-8).
 func _on_spotlight_node_added(n: Node) -> void:
-	if spotlight_unit == null and n is Unit:
+	if spotlight_unit == null and not _spotlight_ring_done and spotlight_id != &"" and not save_restoring and n is Unit:
 		_check_spotlight_unit.call_deferred(n)   # team / type are set by the spawner right after add_child
 
 
 func _check_spotlight_unit(n: Variant) -> void:
-	if spotlight_unit == null and is_instance_valid(n) and _is_spotlight_unit(n as Node):
+	if spotlight_unit == null and not _spotlight_ring_done and not save_restoring and is_instance_valid(n) \
+			and _is_spotlight_unit(n as Node):
 		_on_spotlight_unit(n as Unit)
 
 
@@ -1105,6 +1137,7 @@ func _is_spotlight_unit(n: Node) -> bool:
 ## The first unit of the spotlit type: a flash ring, a gold ring under it for `highlight_s` s, spotlight_first_unit.
 func _on_spotlight_unit(u: Unit) -> void:
 	spotlight_unit = u
+	_spotlight_ring_done = true
 	flash_ring(u.global_position, SPOTLIGHT_RING_RADIUS)
 	_gold_ring(u, float(config.spotlight.get("highlight_s", 6.0)))
 	spotlight_first_unit.emit(u)
@@ -1196,10 +1229,13 @@ func switch_seat_side(seat: StringName, team: int, grace := 10.0, profile_id: St
 	if not _seats.has(seat):
 		return
 	var nodes := seat_nodes(seat)
+	var to_eco := Economy.for_team(team)
 	for n: Variant in nodes:
 		var node := n as Node
 		tag_seat(node, seat)   # the seat is now exactly these nodes (H3: never the whole side it joins)
+		var from_eco := Economy.for_team(int(node.get(&"team")))
 		node.set(&"team", team)
+		_move_economy(node, from_eco, to_eco)
 		var u := node as Unit
 		if u and u.is_alive():
 			u.command_stop()
@@ -1231,6 +1267,20 @@ func switch_seat_side(seat: StringName, team: int, grace := 10.0, profile_id: St
 					_set_truce_id(node, prev)
 			event_fired.emit(grace_id))
 	seat_switched.emit(seat, team)
+
+
+## R4-5: a node that changed team counts for the new side's Economy (unit pop, a building's pop bonus, a worker's
+## crystal credit). Through the economy owners' public hooks when they exist (Economy.move_unit, refresh_economy).
+func _move_economy(node: Node, from_eco: Economy, to_eco: Economy) -> void:
+	if from_eco == to_eco:
+		return
+	if node is Unit:
+		if from_eco and from_eco.has_method(&"move_unit"):
+			from_eco.call(&"move_unit", node, to_eco)
+		elif from_eco == null and to_eco and to_eco.has_method(&"count_unit"):
+			to_eco.call(&"count_unit", node)   # from a side without an Economy (NEUTRAL seat)
+	if node.has_method(&"refresh_economy"):
+		node.call(&"refresh_economy")
 
 
 ## mission-e7-04.md: the seat leaves the fight: its Commander pauses, its units walk to `exit` and leave the map
@@ -1280,6 +1330,7 @@ func activate_seat(seat: int, kingdom: StringName, start_state: Dictionary = {})
 		push_error("activate_seat: seat %d is not in config.seat_sides" % seat)
 		return out
 	seat_kingdoms[seat] = kingdom
+	_activated_seats[seat] = {"kingdom": String(kingdom), "profile": String(start_state.get("profile", ""))}
 	if Economy.for_team(seat) == null:
 		_add_economy(seat as Unit.Team)
 	var eco := Economy.for_team(seat)
@@ -1423,7 +1474,7 @@ func spawn_group(rows: Array, center: Vector3, ring: float, team: Unit.Team, hol
 			types.append(String(row[0]))
 	var out: Array = []
 	for i in types.size():
-		if UnitType.find(types[i]) == null:
+		if UnitType.find(types[i]) == null and not _local_unit_types.has(types[i]):
 			continue
 		var a := TAU / 8.0 + float(i) * TAU / maxf(1.0, float(types.size()))
 		var r := ring if fixed_ring or types.size() > 1 else 0.0
@@ -1449,7 +1500,7 @@ func spawn_wave_at(rows: Array, at: Vector3, team: Unit.Team = Unit.Team.ENEMY,
 			types.append(String(row[0]))
 	var out: Array = []
 	for i in types.size():
-		if UnitType.find(types[i]) == null:
+		if UnitType.find(types[i]) == null and not _local_unit_types.has(types[i]):
 			continue
 		var a := float(i) * 2.39996
 		var r := 1.0 + 0.45 * sqrt(float(i))
@@ -1457,6 +1508,59 @@ func spawn_wave_at(rows: Array, at: Vector3, team: Unit.Team = Unit.Team.ENEMY,
 		mark_scripted(u)
 		out.append(u)
 	return out
+
+
+## A UnitType built in code (not in data/units): make_unit finds it by id, and a save load rebuilds a saved unit of
+## that id from it (save_spawn_unit). Register it in _init / _ready (before any unit of it), mid-mission types too.
+func register_local_unit_type(t: UnitType) -> UnitType:
+	if t != null:
+		_local_unit_types[String(t.id)] = t
+	return t
+
+
+## A BuildingType built in code (not in data/buildings): a save load rebuilds a saved building of that id from it
+## (save_building_type) when the rebuilt start has none.
+func register_local_building_type(t: BuildingType) -> BuildingType:
+	if t != null:
+		_local_building_types[String(t.id)] = t
+	return t
+
+
+## The registered local UnitType `id`, else null.
+func local_unit_type(id: String) -> UnitType:
+	return _local_unit_types.get(id) as UnitType
+
+
+## make_unit with the mission's local types first, else data/units.
+func make_unit(type_id: String) -> Unit:
+	if _local_unit_types.has(type_id):
+		return Worker.make_unit(_local_unit_types[type_id] as UnitType)
+	return super(type_id)
+
+
+## SaveWorld hook: a saved unit whose type is a local type is rebuilt from it (null = not one of ours). Override and
+## call super for other story units; SaveWorld calls save_spawned(unit, row) on whatever comes back.
+func save_spawn_unit(row: Dictionary) -> Unit:
+	var id := String(row.get("type", ""))
+	if not _local_unit_types.has(id):
+		return null
+	var u := Worker.make_unit(_local_unit_types[id] as UnitType)
+	u.team = int(row["team"]) as Unit.Team
+	add_child(u)
+	u.global_position = row["pos"]
+	u.command_stop()
+	return u
+
+
+## SaveWorld hook: the BuildingType of a saved building the data does not have (a registered local type), else null.
+func save_building_type(id: String) -> BuildingType:
+	return _local_building_types.get(id) as BuildingType
+
+
+## SaveWorld hook (virtual): `u` was spawned from a save row the rebuilt start had no unit for (a data type or
+## save_spawn_unit). Re-arm what the mission's own spawner does to such a unit (signals, kits, groups).
+func save_spawned(_u: Unit, _row: Dictionary) -> void:
+	pass
 
 
 ## Group "scripted" + meta "scripted" = true: the Commander leaves it alone.
@@ -1491,9 +1595,11 @@ func _sleep(u: Unit) -> void:
 		u.hp = u.max_hp
 		return true
 	u.set_meta(META_DORMANT, true)
+	u.set_meta(META_ASLEEP, true)
 
 
 func _wake(u: Unit) -> void:
+	u.remove_meta(META_ASLEEP)
 	u.aggro_range = float(u.get_meta(META_AGGRO, 8.0))
 	u.remove_meta(META_AGGRO)
 	if not u.is_in_group("units"):
@@ -1739,10 +1845,10 @@ static func _timer_rebuilt(t: Array) -> bool:
 	return t.size() > 2 and StringName(t[2]) != &""
 
 
-## A pending after() timer survives a save only when it calls one of this mission's methods by name (no lambda, no
-## bound arguments): lambdas cannot be written to a file.
+## A pending after() timer survives a save only when it calls one of this mission's methods by name, optionally with
+## `.bind(...)` arguments that encode (plain values, units / buildings; B5). Lambdas cannot be written to a file.
 func _save_timer_ok(c: Callable) -> bool:
-	return c.is_standard() and c.get_object() == self and has_method(c.get_method())
+	return not SaveCodec.is_skip(SaveCodec.encode_call(c, self, {}))
 
 
 ## The default mission save: objectives (state + text), fired events, flags and track counters, intro / keep-seen,
@@ -1757,8 +1863,11 @@ func save_state(ids: Dictionary = {}) -> Dictionary:
 	var timers: Array = []
 	for t: Array in _timers:
 		var c := t[1] as Callable
-		if not _timer_rebuilt(t) and _save_timer_ok(c):
-			timers.append([float(t[0]), String(c.get_method())])
+		if _timer_rebuilt(t):
+			continue
+		var row: Variant = SaveCodec.encode_call(c, self, ids)
+		if not SaveCodec.is_skip(row):
+			timers.append([float(t[0]), (row as Array)[0], (row as Array)[1]])
 	var events: Array = []
 	for e: Array in _events:
 		events.append(String(e[0]))
@@ -1779,7 +1888,24 @@ func save_state(ids: Dictionary = {}) -> Dictionary:
 		var x: Variant = SaveCodec.encode(get(prop), ids)
 		if not SaveCodec.is_skip(x):
 			vars[String(prop)] = x
+	var actors := {}
+	for key: Variant in _actors:
+		var a: Variant = _actors[key]
+		if a is Node and is_instance_valid(a) and (a as Node).has_method(&"save_row"):
+			var row: Variant = SaveCodec.encode((a as Node).call(&"save_row"), ids)
+			if SaveCodec.is_skip(row):
+				push_warning("Save: actor %s has a row that cannot be saved" % key)
+			else:
+				actors[String(key)] = row
 	return {
+		"hero": ids.get(hero, -1) if hero != null and is_instance_valid(hero) else -1,
+		"resources_hidden": _resources_hidden,
+		"seats": _save_seats(),
+		"tagged_seats": _tagged_seats.keys().map(func(k: Variant) -> String: return String(k)),
+		"activated_seats": _activated_seats.duplicate(true),
+		"seat_nodes": _save_seat_nodes(ids),
+		"actors": actors,
+		"spotlight": {"id": String(spotlight_id), "short": spotlight_short, "ring_done": _spotlight_ring_done},
 		"mission_id": String(mission_id),
 		"objs": _objs.duplicate(true),
 		"fired": fired,
@@ -1828,9 +1954,10 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	_timers = kept
 	_intro_at = float(d.get("intro_at", _intro_at))
 	for t: Variant in d.get("timers", []):
-		var method := StringName(str((t as Array)[1]))
-		if has_method(method):
-			_timers.append([float((t as Array)[0]), Callable(self, method), &""])
+		var row := t as Array   # [due, method] (older saves) or [due, method, bound args]
+		var c := SaveCodec.decode_call(row.slice(1), self, nodes)
+		if c.is_valid():
+			_timers.append([float(row[0]), c, &""])
 	var have := {}
 	for e: Array in _events:
 		have[String(e[0])] = true
@@ -1856,6 +1983,13 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		if name_sn in self:
 			if not SaveCodec.assign_property(self, name_sn, SaveCodec.decode(vars[prop], nodes)):
 				push_warning("Save: mission variable %s did not fit, kept the rebuilt value" % prop)
+	set_resources_hidden(bool(d.get("resources_hidden", _resources_hidden)))
+	_loaded_actor_rows = (d.get("actors", {}) as Dictionary).duplicate()
+	var spot: Dictionary = d.get("spotlight", {})
+	if not spot.is_empty():
+		spotlight_id = StringName(str(spot.get("id", "")))
+		spotlight_short = bool(spot.get("short", false))
+		_spotlight_ring_done = bool(spot.get("ring_done", false))
 	var events := get_node_or_null(^"/root/Events")
 	for id in objective_order:
 		var st := String((_objs[id] as Dictionary)["state"])
@@ -1864,6 +1998,215 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	objectives_changed.emit()
 	if hud and mission_hud == null:
 		hud.set_objective(_objective_text())
+
+
+## Load order (mission-save-hardening-2026-10-12): SaveWorld phase 1 rebuilds teams / buildings / units (the rebuilt
+## start already ran, silent: `save_restoring`), calls save_restore_seats (before) and save_units_placed (after the
+## units' metas are decoded: metas reconciled, truces recounted, hero / seats re-pointed); phase 2 restores HP / orders,
+## then load_state (base state + the mission's own overrides), then finish_load: actor rows, then `_after_load(nodes)`,
+## last, still while `save_restoring` is true (say() is silent).
+##
+## Phase convention for missions: a phase transition = a one-shot `_enter_X()` (lines, spawns, films: never re-run by
+## a load) + an idempotent `_apply_X()` (signal connects guarded by is_connected, unlocks, hero swap, seat hookups,
+## mid-mission add_event...). `_enter_X` calls `_apply_X`; `_after_load` calls `_apply_X` for every phase the saved
+## state had reached.
+
+## Virtual: the last step of a load (see above). `nodes`: save id -> rebuilt node.
+func _after_load(_nodes: Dictionary) -> void:
+	pass
+
+
+## Registers a mission actor (a prop / StaticBody3D the save does not rebuild: brazier, gate, heart...) under `key`
+## (unique per mission). The actor answers `save_row() -> Array` (plain values; units / buildings allowed) and
+## `load_row(row: Array) -> void`. Contract: load_row is QUIET: it puts the state back (HP, lit, open, dead -> quiet
+## removal) without re-emitting gameplay signals; the mission's counters come from its own restored variables.
+## Register in the rebuilt start (or again later); a key registered only mid-mission is rebuilt through
+## `_restore_missing_actor(key)`.
+func register_actor(key: String, node: Node) -> void:
+	if node == null:
+		_actors.erase(key)
+		return
+	_actors[key] = node
+
+
+## The registered actor `key` (null when none / freed).
+func actor(key: String) -> Node:
+	var a: Variant = _actors.get(key)
+	return a as Node if a is Node and is_instance_valid(a) else null
+
+
+## Virtual: re-create an actor the mission registered after its start (null = skipped).
+func _restore_missing_actor(_key: String) -> Node:
+	return null
+
+
+## SaveWorld phase 1, before the buildings: seats activate_seat brought in mid-mission get their Economy, kingdom and
+## Commander back (their keeps / units are rebuilt from the save rows).
+func save_restore_seats(m: Dictionary) -> void:
+	var seats: Dictionary = m.get("activated_seats", {})
+	for k: Variant in seats:
+		var seat := int(k)
+		var row: Dictionary = seats[k]
+		_activated_seats[seat] = row.duplicate()
+		var kingdom := StringName(str(row.get("kingdom", "")))
+		if kingdom != &"":
+			seat_kingdoms[seat] = kingdom
+		if Economy.for_team(seat) == null:
+			_add_economy(seat as Unit.Team)
+		var profile := StringName(str(row.get("profile", "")))
+		if profile != &"" and _commander_of_team(seat) == null:
+			_add_commander(seat, profile)
+
+
+## SaveWorld phase 1, once every saved unit / building is placed and its metas decoded (`ctx`: nodes, saved_metas,
+## mission): undoes the rebuilt start's dormant / locked / truce metas the save did not have and really puts to sleep
+## the units the save had asleep (B1), recounts the truces through Unit.set_truce_id (R5-2b), re-points the hero (C1-2)
+## and the seats (C1-6).
+func save_units_placed(ctx: Dictionary) -> void:
+	var nodes: Dictionary = ctx.get("nodes", {})
+	var saved_metas: Dictionary = ctx.get("saved_metas", {})
+	var m: Dictionary = ctx.get("mission", {})
+	for sid: Variant in nodes:
+		var n: Variant = nodes[sid]
+		if not is_instance_valid(n):
+			continue
+		_reconcile_metas(n as Node, saved_metas.get(sid, {}))
+	_recount_truces()
+	var h: Variant = nodes.get(m.get("hero", -1))
+	if h is Wizard and is_instance_valid(h) and h != hero:
+		set_player_hero(h as Wizard)
+	_load_seats(m, nodes)
+
+
+func _reconcile_metas(n: Node, saved: Dictionary) -> void:
+	var u := n as Unit
+	if u:
+		if u.has_meta(META_DORMANT) and not saved.has(String(META_DORMANT)):
+			if u.has_meta(META_ASLEEP):
+				var aggro := u.aggro_range   # the saved value (load_snapshot_base)
+				_wake(u)
+				u.aggro_range = aggro
+			else:
+				u.remove_meta(META_DORMANT)
+			u.remove_meta(META_AGGRO)
+			u.remove_meta(META_GUARD)
+		elif saved.has(String(META_DORMANT)) and not u.has_meta(META_ASLEEP):
+			var aggro: Variant = u.get_meta(META_AGGRO, u.aggro_range)
+			u.remove_meta(META_DORMANT)
+			_sleep(u)   # the immortal guard and "units" group the decoded meta alone does not give
+			u.set_meta(META_AGGRO, aggro)
+	if n is TrainingBuilding and n.has_meta(TrainingBuilding.META_LOCKED) \
+			and not saved.has(String(TrainingBuilding.META_LOCKED)):
+		n.remove_meta(TrainingBuilding.META_LOCKED)
+		(n as TrainingBuilding).queue_changed.emit()
+	if n.has_meta(Unit.TRUCE_META) and not saved.has(String(Unit.TRUCE_META)):
+		Unit.set_truce_id(n, &"")
+	if n.has_meta(META_TRUCE_PREV) and not saved.has(String(META_TRUCE_PREV)):
+		n.remove_meta(META_TRUCE_PREV)
+
+
+## Unit.truce_count from the nodes that carry a truce now (decode_metas set some without counting); each is set again
+## through _set_truce_id, so its tree_exiting hook is wired.
+func _recount_truces() -> void:
+	var holders: Array[Node] = []
+	var stack: Array[Node] = [self]
+	while not stack.is_empty():
+		var n: Node = stack.pop_back()
+		if n.has_meta(Unit.TRUCE_META) and not n.is_queued_for_deletion():
+			holders.append(n)
+		stack.append_array(n.get_children())
+	Unit.truce_count = 0
+	for n in holders:
+		var id := StringName(n.get_meta(Unit.TRUCE_META))
+		n.remove_meta(Unit.TRUCE_META)
+		_set_truce_id(n, id)
+
+
+func _save_seats() -> Dictionary:
+	var out := {}
+	for seat: Variant in _seats:
+		var d: Dictionary = _seats[seat]
+		var bot: Variant = d.get("commander")
+		var row := {"team": int(d["team"]), "tagged": bool(d.get("tagged", false)), "commander": ""}
+		if bot is Node and is_instance_valid(bot) and (bot as Node).get_parent() == self:
+			row["commander"] = String((bot as Node).name)
+			row["enabled"] = bool((bot as Node).get(&"enabled"))
+			if &"profile_id" in bot:
+				row["profile"] = String((bot as Node).get(&"profile_id"))
+		out[String(seat)] = row
+	return out
+
+
+func _save_seat_nodes(ids: Dictionary) -> Dictionary:
+	var keeps := {}
+	for s: Variant in seat_keeps:
+		if ids.has(seat_keeps[s]):
+			keeps[int(s)] = ids[seat_keeps[s]]
+	var heroes := {}
+	for s: Variant in seat_heroes:
+		if ids.has(seat_heroes[s]):
+			heroes[int(s)] = ids[seat_heroes[s]]
+	return {"keeps": keeps, "heroes": heroes, "bases": seat_bases.duplicate(), "starts": seat_starts.duplicate()}
+
+
+func _load_seats(m: Dictionary, nodes: Dictionary) -> void:
+	for t: Variant in m.get("tagged_seats", []):
+		_tagged_seats[StringName(str(t))] = true
+	var seats: Dictionary = m.get("seats", {})
+	for k: Variant in seats:
+		var seat := StringName(str(k))
+		var row: Dictionary = seats[k]
+		var bot: Node = null
+		if String(row.get("commander", "")) != "":
+			bot = get_node_or_null(NodePath(String(row["commander"])))
+		if bot == null and _seats.has(seat):
+			bot = (_seats[seat] as Dictionary).get("commander") as Node
+		if bot and is_instance_valid(bot):
+			bot.set(&"team", int(row["team"]))
+			if row.has("enabled"):
+				bot.set(&"enabled", bool(row["enabled"]))
+			if row.has("profile") and &"profile_id" in bot and String(row["profile"]) != "":
+				bot.set(&"profile_id", StringName(str(row["profile"])))
+		_seats[seat] = {"team": int(row["team"]), "commander": bot, "tagged": bool(row.get("tagged", false))}
+	var sn: Dictionary = m.get("seat_nodes", {})
+	for s: Variant in sn.get("keeps", {}):
+		var k: Variant = nodes.get((sn["keeps"] as Dictionary)[s])
+		if k is Building and is_instance_valid(k):
+			seat_keeps[int(s)] = k
+	for s: Variant in sn.get("heroes", {}):
+		var w: Variant = nodes.get((sn["heroes"] as Dictionary)[s])
+		if w is Wizard and is_instance_valid(w):
+			seat_heroes[int(s)] = w
+	for s: Variant in sn.get("bases", {}):
+		seat_bases[int(s)] = (sn["bases"] as Dictionary)[s]
+	for s: Variant in sn.get("starts", {}):
+		seat_starts[int(s)] = (sn["starts"] as Dictionary)[s]
+
+
+func _commander_of_team(team: int) -> Node:
+	for c in _all_commanders():
+		if c.get(&"team") != null and int(c.get(&"team")) == team:
+			return c
+	return null
+
+
+## SaveWorld phase 2, after load_state (and the mission's override of it): the actors' rows, then `_after_load`.
+func finish_load(nodes: Dictionary) -> void:
+	var rows: Dictionary = _loaded_actor_rows
+	_loaded_actor_rows = {}
+	for key: Variant in rows:
+		var k := String(key)
+		var a := actor(k)
+		if a == null:
+			a = _restore_missing_actor(k)
+			if a != null:
+				_actors[k] = a
+		if a != null and a.has_method(&"load_row"):
+			a.call(&"load_row", SaveCodec.decode(rows[key], nodes))
+	_after_load(nodes)
+
+
+var _loaded_actor_rows: Dictionary = {}   # load_state -> finish_load
 
 
 ## The mission script's own variables (declared below MissionBase: Mission01's, MissionSkeleton's...).

@@ -28,7 +28,7 @@ signal respawned(camp: Node3D)
 signal engaged(camp: Node3D)
 
 const LEVEL_MODIFIER := &"camp:level"
-const CAMP_META := &"neutral_camp"
+const CAMP_META := &"_neutral_camp"
 const RING_RADII: Array[float] = [1.5, 2.0]
 const NAV_SNAP := 3.0
 const SITE_SCENE := "res://art/environment/camps/%s_site.tscn"
@@ -268,6 +268,81 @@ func tick(now: float, dt: float) -> void:
 		_next_spawn_at = now + CampManager.RESPAWN_RETRY
 		return
 	spawn()
+
+
+# ---------------------------------------------------------------- save / load (CampManager, review W3-2)
+
+## Level, timers and the living creatures (by save id; `ids` = node -> SaveCodec id).
+func save_world_state(ids: Dictionary) -> Dictionary:
+	var sids: Array = []
+	var hps := {}   # save id -> HP: the Unit load clamps HP before the camp-level modifier is back
+	for u in creatures():
+		if ids.has(u):
+			sids.append(ids[u])
+			hps[ids[u]] = (u as Unit).hp
+	return {"level": camp_level, "spawned_once": _spawned_once, "alive": _alive, "next_spawn_at": _next_spawn_at,
+			"respawn_at": _respawn_at, "times_cleared": _times_cleared, "disabled": _disabled, "creatures": sids,
+			"hp": hps}
+
+
+## Forgets the creatures it holds now (SaveWorld matched or freed them); the CampManager calls it on every camp
+## before any camp adopts its saved creatures, so a creature matched to the mirror camp's row is not held twice.
+func release_creatures() -> void:
+	for u in _creatures:
+		if not is_instance_valid(u):
+			continue
+		if u.died.is_connected(_on_creature_died):
+			u.died.disconnect(_on_creature_died)
+		for c: Dictionary in u.damage_taken.get_connections():
+			if (c["callable"] as Callable).get_object() == self:
+				u.damage_taken.disconnect(c["callable"])
+		if u.get_meta(CAMP_META, null) == self:
+			u.remove_meta(CAMP_META)
+	_creatures.clear()
+	_base_types.clear()
+
+
+## Puts the saved state back and adopts the saved creatures (`nodes` = save id -> node): camp meta, groups, death /
+## damage hooks, kill XP base, camp-level modifier (without a heal) and abilities.
+func load_world_state(d: Dictionary, nodes: Dictionary) -> void:
+	camp_level = int(d.get("level", camp_level))
+	_spawned_once = bool(d.get("spawned_once", _spawned_once))
+	_next_spawn_at = float(d.get("next_spawn_at", _next_spawn_at))
+	_respawn_at = float(d.get("respawn_at", _respawn_at))
+	_times_cleared = int(d.get("times_cleared", _times_cleared))
+	_disabled = bool(d.get("disabled", _disabled))
+	_engaged = false
+	for sid: Variant in d.get("creatures", []):
+		var u := nodes.get(sid) as Unit
+		if u == null or not is_instance_valid(u) or not u.is_alive() or _creatures.has(u):
+			continue
+		u.add_to_group(&"creatures")
+		var type_id: StringName = u.unit_type.id if u.unit_type else &""
+		var base: UnitType = manager.creature_type(type_id) if manager else UnitType.find(String(type_id))
+		var def: Dictionary = CampManager.CAMP_KINDS.get(kind, {})
+		if bool(def.get("amphibious", false)) or CampManager.AMPHIBIOUS.has(type_id):
+			u.add_to_group(&"amphibious")
+		u.set_meta(CAMP_META, self)
+		if camp_level > 0 and not u.has_modifier(LEVEL_MODIFIER):
+			u.add_modifier(LEVEL_MODIFIER, {
+				&"max_hp_pct": CampManager.LEVEL_HP * float(camp_level),
+				&"attack_damage_pct": CampManager.LEVEL_DAMAGE * float(camp_level),
+			}, false)
+		if not u.died.is_connected(_on_creature_died):
+			u.died.connect(_on_creature_died)
+		u.damage_taken.connect(_on_creature_damaged.bind(u))
+		var hps: Dictionary = d.get("hp", {})
+		if hps.has(sid):
+			u.hp = clampf(float(hps[sid]), 1.0, u.max_hp)
+		_add_abilities(u, type_id)
+		_creatures.append(u)
+		if base:
+			_base_types[u.get_instance_id()] = base
+	_alive = not creatures().is_empty()
+	if _alive:
+		_site_call(&"set_cleared", [false])
+	elif _spawned_once or _disabled:
+		_site_call(&"set_cleared", [true])
 
 
 # ---------------------------------------------------------------- spawn helpers

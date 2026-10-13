@@ -346,6 +346,44 @@ func record_kill(victim_team: int, killer_team: int, value: int) -> void:
 		add_stat(killer_team, &"value_killed", value)
 
 
+# ---------------------------------------------------------------- save / load (Skirmish level hooks, review W1-2)
+
+## Raw stats and history (plain values) for the Skirmish save.
+func save_world_state() -> Dictionary:
+	return {"stats": _stats.duplicate(true), "history": _history.duplicate(true), "running": running}
+
+
+## Puts the saved stats and history back (after the banks and the match clock are restored). Essence the load put
+## back in the banks is not counted as gained, and the next history point is the next HISTORY_INTERVAL step of the
+## restored clock (no burst of points).
+func load_world_state(d: Dictionary) -> void:
+	if not is_inside_tree():
+		return
+	for n in get_tree().get_nodes_in_group(&"essence_banks"):
+		if n.get(&"team") == null or not _stats.has(int(n.get(&"team"))):
+			continue
+		var id := n.get_instance_id()
+		if not _hooked.has(id) and n.has_signal(&"changed"):
+			_hooked[id] = true
+			n.connect(&"changed", _on_essence_changed.bind(n))
+		_essence_seen[id] = int(n.get(&"essence"))
+	var st: Variant = d.get("stats")
+	if st is Dictionary:
+		for team: Variant in st:
+			if _stats.has(int(team)) and st[team] is Dictionary:
+				for k: Variant in st[team]:
+					if WEIGHTS.has(StringName(str(k))):
+						_stats[int(team)][StringName(str(k))] = float(st[team][k])
+	var hist: Variant = d.get("history")
+	if hist is Dictionary:
+		for team: Variant in hist:
+			if _history.has(int(team)) and hist[team] is Array:
+				_history[int(team)] = (hist[team] as Array).duplicate(true)
+	_next_history = (floorf(now() / HISTORY_INTERVAL) + 1.0) * HISTORY_INTERVAL
+	_sample_left = SAMPLE_INTERVAL
+	running = bool(d.get("running", running))
+
+
 # ---------------------------------------------------------------- listeners
 
 func _on_unit_died(unit: Node) -> void:

@@ -494,6 +494,17 @@ func _remove_pop_bonus() -> void:
 		eco.add_pop_bonus(-building_type.pop_bonus)
 
 
+## The building changed team (MissionBase.switch_seat_side, review R4-5; called after `team` is set): forget the cached
+## Economy and move a pop bonus already applied from the old team's Economy to the new one.
+func refresh_economy() -> void:
+	var had_bonus := _bonus_applied
+	if had_bonus:
+		_remove_pop_bonus()   # from the cached (old) Economy
+	_economy = null
+	if had_bonus:
+		_apply_pop_bonus()
+
+
 func _get_economy() -> Economy:
 	if _economy == null or not is_instance_valid(_economy):
 		_economy = Economy.for_team(team)
@@ -788,6 +799,7 @@ func save_snapshot(ids: Dictionary) -> Dictionary:
 		"team": int(team),
 		"pos": global_position,
 		"hp": hp,
+		"max_hp": max_hp,
 		"progress": _progress,
 		"metas": SaveCodec.encode_metas(self, ids),
 		"groups": SaveCodec.custom_groups(self),
@@ -813,6 +825,11 @@ func load_snapshot(d: Dictionary, nodes: Dictionary) -> void:
 
 ## Phase 2: HP (after the tier and the team's HP multiplier are back).
 func load_snapshot_late(d: Dictionary, _nodes: Dictionary) -> void:
+	# The saved max_hp wins: it already holds the tier / Masons' Charter factors, and a max_hp a script set (a mission
+	# tollgate or door) would be lost otherwise.
+	var saved_max := float(d.get("max_hp", 0.0))
+	if saved_max > 0.0:
+		max_hp = saved_max
 	hp = clampf(float(d.get("hp", hp)), 1.0, max_hp)
 	_update_hp_bar()
 	_call_model(&"set_health_ratio", [hp / maxf(max_hp, 1.0)])

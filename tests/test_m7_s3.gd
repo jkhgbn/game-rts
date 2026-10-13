@@ -11,7 +11,7 @@ const SAVE := "user://campaign.json"
 
 const LEVEL_SRC := "extends Node3D\nvar hero: Node3D\nvar objective_states := {}\n"
 const HERO_SRC := "extends Node3D\nvar team: int = 0\nvar inventory: Node\nvar mods := {}\n" \
-		+ "func add_modifier(id: StringName, s: Dictionary) -> void:\n\tmods[id] = s\n" \
+		+ "func add_modifier(id: StringName, s: Dictionary, _heal_gain := true) -> void:\n\tmods[id] = s\n" \
 		+ "func remove_modifier(id: StringName) -> void:\n\tmods.erase(id)\n" \
 		+ "func is_alive() -> bool:\n\treturn true\n"
 

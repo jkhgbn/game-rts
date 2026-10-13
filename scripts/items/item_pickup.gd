@@ -14,17 +14,23 @@ const CUBE_SIZE := 0.5
 const CUBE_Y := 0.6
 const DISC_RADIUS := 0.6
 const DISC_COLOR := Color(0.2, 0.2, 0.2)
+## Generic saved state (CLAUDE.md "Saved state"): SaveWorld saves every ground item through this group.
+const SAVED_STATE_GROUP := &"saved_state"
+const SAVE_KEY_PREFIX := "item_pickup:"
 
 @export var type: ItemType
 @export var count := 1
 ## Drop a real model here later to replace the placeholder cube.
 @export var model_scene: PackedScene
+## True when a hero wore this item before (Inventory.drop): taking it gives no max_hp heal (code review R1-1).
+var worn := false
 
 var _cube: Node3D
 var _ring: MeshInstance3D
 var _check_left := 0.0
 var _ignored: Node3D = null       # the wizard who dropped it, until she walks out of the radius
 var _taken := false
+var _restore_parent: Node = null  # create_for_save: where load_state puts the rebuilt pickup
 
 static var _tier_mats: Dictionary = {}   # int tier -> StandardMaterial3D (shared)
 static var _disc_mat: StandardMaterial3D
@@ -54,6 +60,7 @@ static func spawn(item: ItemType, pos: Vector3, amount: int = 1, parent: Node = 
 func _ready() -> void:
 	add_to_group("item_pickups")
 	add_to_group("ground_items")
+	add_to_group(SAVED_STATE_GROUP)
 	collision_layer = 2
 	collision_mask = 0
 	var shape := CollisionShape3D.new()
@@ -98,7 +105,7 @@ func pick_up(wizard: Node) -> bool:
 	if wizard.has_method(&"is_alive") and not bool(wizard.call(&"is_alive")):
 		return false
 	var inv := Inventory.ensure_for(wizard)
-	if inv == null or not inv.add_item(type, count):
+	if inv == null or not inv.add_item(type, count, 0.0, not worn):
 		return false
 	_taken = true
 	picked_up.emit(self, wizard as Node3D, type)
@@ -116,6 +123,55 @@ func request_pickup(wizard: Node) -> void:
 ## The dropper does not take it back until she has walked out of the pickup radius.
 func ignore_until_left(wizard: Node3D) -> void:
 	_ignored = wizard
+
+
+# ---------------------------------------------------------------- save / load (code review R5-5)
+
+## Unique per match (the node's instance id): a loaded pickup is rebuilt by create_for_save.
+func save_key() -> String:
+	return "%s%d" % [SAVE_KEY_PREFIX, get_instance_id()]
+
+
+## {id, count, pos, worn}; empty (not saved) once taken or without a type.
+func save_state() -> Dictionary:
+	if _taken or type == null or not is_inside_tree():
+		return {}
+	return {"id": String(type.id), "count": count, "pos": global_position, "worn": worn}
+
+
+## Puts the saved item back: its type, stack and spot. A rebuilt pickup (create_for_save) enters the level here.
+## An unknown item id frees the pickup.
+func load_state(d: Dictionary, _nodes: Dictionary) -> void:
+	var t := ItemType.find(StringName(str(d.get("id", ""))))
+	if t == null:
+		if is_inside_tree():
+			queue_free()
+		else:
+			free()
+		return
+	type = t
+	count = maxi(1, int(d.get("count", 1)))
+	worn = bool(d.get("worn", false))
+	name = "Item_%s" % t.id
+	var pos: Variant = d.get("pos")
+	if not is_inside_tree():
+		var parent: Node = _restore_parent if is_instance_valid(_restore_parent) else null
+		_restore_parent = null
+		if parent == null:
+			free()
+			return
+		parent.add_child(self)
+	if pos is Vector3:
+		global_position = pos
+
+
+## A fresh pickup for a saved row (not in the tree yet: load_state adds it under `level` once its type is known).
+static func create_for_save(level: Node, _key: String) -> Node:
+	if level == null or not is_instance_valid(level):
+		return null
+	var p := ItemPickup.new()
+	p._restore_parent = level
+	return p
 
 
 ## Hover highlight (the UI calls it): a gold ring on the ground.

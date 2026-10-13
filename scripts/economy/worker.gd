@@ -278,6 +278,12 @@ func _try_start_mining() -> void:
 		_model_call(&"play_mine")
 
 
+## The worker changed team (MissionBase.switch_seat_side, review R4-5): its next crystals go to the new team. Its pop
+## moves through Economy.move_unit.
+func refresh_economy() -> void:
+	_economy = null
+
+
 func _deliver() -> void:
 	if _economy == null or not is_instance_valid(_economy):
 		_economy = Economy.for_team(team)

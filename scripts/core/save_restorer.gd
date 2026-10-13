@@ -17,14 +17,13 @@ var _wait := 0
 var _restore_cinematics := true
 
 
-## Before the level enters the tree: briefing, films and dialogue off while the save rebuilds it.
+## Before the level enters the tree: films and dialogue off while the save rebuilds it. `show_briefing` is left alone:
+## a mission seeing `save_restoring` attaches its MissionHud without the briefing (mission-save-hardening A4).
 func prepare(level: Node) -> void:
 	_level = level
 	if &"cinematics_enabled" in level:
 		_restore_cinematics = bool(level.get(&"cinematics_enabled"))
 		level.set(&"cinematics_enabled", false)
-	if &"show_briefing" in level:
-		level.set(&"show_briefing", false)
 	if &"save_restoring" in level:
 		level.set(&"save_restoring", true)
 

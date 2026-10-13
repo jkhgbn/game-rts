@@ -384,3 +384,10 @@ Today `tools/cine/cine_preview.gd` `_pose_clips()` calls `play_clip` / `stop_cli
 `seek_clip(id: StringName, t: float, weight: float = 1.0) -> void` (pose the dance `id` at clip time `t`, blend `weight`,
 same per-instance phase / variant; `id = &""` = no dance) so cine can drop the private access. Used by the Ep 2 opening
 party (`data/cinematics/src/ep2_opening.cine`, S01-S04).
+
+## From systems (fix batch F3a, 2026-10-12, review W1-6): more ground-shader road slots
+`art/environment/ground.gdshader` has `uniform vec4 road_segs[16];`: Kinhearth Vale's ring road has 28 segments.
+Please raise it to `road_segs[32]` (and the loop bound / `road_count` clamp that goes with it). Nothing else is needed:
+`EnvProps.set_roads` now reads the array size from the shader code (`EnvProps.road_slots(shader)`) and, while there are
+more segments than slots, merges the joined segments that bend the least (`EnvProps.fit_roads`), so 16 keeps working
+(curves get coarser) and 32 paints every segment.

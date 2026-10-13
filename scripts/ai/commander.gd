@@ -418,6 +418,7 @@ var _hero_since := 0.0
 var _hero_was_dead := false
 var _hero_wait_until := -1.0
 var _cast_timer: Timer
+var _pending_load := {}                   # F7: a load_state that arrived before _setup (applied right after it)
 var _threat_since := -1.0                 # match time an enemy came within CAST_NEARBY (-1 = none)
 var _regrow_since := -1.0                 # match time the last retreat got back to the rally (-1 = none pending)
 var _gathered_since := -1.0               # 20.A3: match time rule 7's army became gathered (pop + rally share)
@@ -431,6 +432,7 @@ func _ready() -> void:
 				and not sibling.is_queued_for_deletion():
 			queue_free()
 			return
+	add_to_group(&"saved_state")   # F7: SaveWorld's generic hook (save_key / save_state / load_state)
 	if profile != null:
 		ai = profile
 	elif profile_id != &"":
@@ -443,6 +445,136 @@ func _ready() -> void:
 	_timer.autostart = true
 	_timer.timeout.connect(_think)
 	add_child(_timer)
+
+
+# ---------------------------------------------------------------- save / load (F7, group "saved_state")
+# The decision counters a quickload used to reset (bot review 2026-10-12 A3 / follow-up: attacks_launched...), the
+# slot -> building map, and the AI children's progress (item build index, caster count, caravans, deer shots).
+# Logs and perf numbers are not saved. Times are match times (Skirmish.match_time() is saved by the level).
+
+func save_key() -> String:
+	return "commander:%d" % int(team)
+
+
+func save_state(ids: Dictionary = {}) -> Dictionary:
+	var d := {
+		"attacks_launched": attacks_launched,
+		"first_attack_time": first_attack_time,
+		"all_in": all_in,
+		"worker_losses": worker_losses,
+		"workers_queued": workers_queued,
+		"intrusions": Array(intrusions),
+		"spells_learned": Array(spells_learned),
+		"creep_retry_at": _creep_retry_at if is_finite(_creep_retry_at) else -1.0e9,
+	}
+	if not _ready_done and not _pending_load.is_empty():   # saved again before the first tick: keep the load's state
+		var again := {}
+		for k: Variant in _pending_load:
+			if k != "slot_refs" and k != "slots":
+				again[k] = _pending_load[k]
+		var again_slots := {}
+		var refs: Dictionary = _pending_load.get("slot_refs", {})
+		for row_id: Variant in refs:
+			if is_instance_valid(refs[row_id]):
+				again_slots[String(row_id)] = refs[row_id]
+		again["slots"] = again_slots
+		return again
+	# Row id -> Building node: SaveWorld encodes nodes as save ids (SaveCodec) and decodes them back on load.
+	var slots := {}
+	for row_id: Variant in _slot_building:
+		var b: Variant = _slot_building[row_id]
+		if is_instance_valid(b) and (b as Building).is_alive() and (ids.is_empty() or ids.has(b)):
+			slots[String(row_id)] = b
+	d["slots"] = slots
+	if items:
+		d["items_build_index"] = items.build_index
+		d["items_bought"] = Array(items.bought)
+		d["items_used"] = Array(items.used)
+	if casters_ai:
+		d["casters_trained"] = casters_ai.trained
+	if trade_ai:
+		d["caravans_queued"] = trade_ai.caravans_queued
+		d["bazaar_placed"] = Array(trade_ai.bazaar_placed)
+	if mapfill_ai:
+		d["deer_shots"] = mapfill_ai.deer_shots
+	return d
+
+
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	var data := d.duplicate()
+	# Row id -> rebuilt Building (SaveWorld decoded the refs; a plain save id is looked up in `nodes`).
+	var slots: Dictionary = d.get("slots", {}) if d.get("slots") is Dictionary else {}
+	var refs := {}
+	for row_id: Variant in slots:
+		var v: Variant = slots[row_id]
+		var b: Variant = null
+		if v is Object:
+			b = v
+		elif v is int or v is float:
+			b = nodes.get(int(v), nodes.get(v))
+		if b is Building and is_instance_valid(b):
+			refs[String(row_id)] = b
+	data.erase("slots")
+	data["slot_refs"] = refs
+	# The Commander's own counters apply now, even on a held bot (enabled = false: a paused mission seat). Before
+	# _setup the AI children / build rows don't exist yet: the whole state is applied again right after _setup (the
+	# bot does not tick before then, so nothing it applied now has changed).
+	_apply_load(data)
+	if not _ready_done:
+		_pending_load = data
+
+
+func _apply_load(d: Dictionary) -> void:
+	attacks_launched = int(d.get("attacks_launched", attacks_launched))
+	first_attack_time = float(d.get("first_attack_time", first_attack_time))
+	all_in = bool(d.get("all_in", all_in))
+	worker_losses = int(d.get("worker_losses", worker_losses))
+	workers_queued = int(d.get("workers_queued", workers_queued))
+	if d.get("intrusions") is Array:
+		intrusions.clear()
+		for t: Variant in d["intrusions"]:
+			intrusions.append(float(t))
+	if d.get("spells_learned") is Array:
+		spells_learned.clear()
+		for e: Variant in d["spells_learned"]:
+			spells_learned.append(str(e))
+	var retry := float(d.get("creep_retry_at", -1.0e9))
+	_creep_retry_at = retry if retry > -1.0e8 else -INF
+	var refs: Dictionary = d.get("slot_refs", {}) if d.get("slot_refs") is Dictionary else {}
+	for row_id: Variant in refs:
+		var b: Variant = refs[row_id]
+		if not is_instance_valid(b) or not (b as Building).is_alive():
+			continue
+		for row: Dictionary in _rows:
+			if String(row["id"]) == String(row_id):
+				# The adoption may have given this building to another row: the saved map wins.
+				for other: Variant in _slot_building.keys():
+					if _slot_building[other] == b:
+						_slot_building.erase(other)
+				_slot_building[row["id"]] = b
+				break
+	if items:
+		items.build_index = int(d.get("items_build_index", items.build_index))
+		if d.get("items_bought") is Array:
+			items.bought.clear()
+			for e: Variant in d["items_bought"]:
+				items.bought.append(str(e))
+		if d.get("items_used") is Array:
+			items.used.clear()
+			for e: Variant in d["items_used"]:
+				items.used.append(str(e))
+	if casters_ai:
+		casters_ai.trained = int(d.get("casters_trained", casters_ai.trained))
+	if trade_ai:
+		trade_ai.caravans_queued = int(d.get("caravans_queued", trade_ai.caravans_queued))
+		if d.get("bazaar_placed") is Array:
+			trade_ai.bazaar_placed.clear()
+			for t: Variant in d["bazaar_placed"]:
+				trade_ai.bazaar_placed.append(float(t))
+	if mapfill_ai:
+		mapfill_ai.deer_shots = int(d.get("deer_shots", mapfill_ai.deer_shots))
+	_log("LOAD restored: %d attacks, first at %.0f, all-in %s, %d slots" % [attacks_launched, first_attack_time,
+			str(all_in), refs.size()])
 
 
 ## The Commander of `for_team` under `level`, or null.
@@ -530,6 +662,9 @@ func _think() -> void:
 	var first := not _ready_done
 	if first:
 		_setup()
+		if not _pending_load.is_empty():
+			_apply_load(_pending_load)
+			_pending_load = {}
 	var steps: Array[Callable] = [_scan, _update_memory, _track_workers, _check_all_in, _compute_pending, _rule_defend,
 			_rule_retreat, _rule_economy, _rule_build, _rule_train, _rule_scout, _rule_attack, _rule_wizard,
 			_check_concede, _learn_spells, _rule_champions, _rule_items, _trade_sense, _rule_trade, _trade_exchange,

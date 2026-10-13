@@ -1615,8 +1615,9 @@ func _tick_respawns(delta: float) -> void:
 	for team: int in _respawn_left.keys():
 		_respawn_left[team] = float(_respawn_left[team]) - delta
 		if _respawn_left[team] <= 0.0:
-			_respawn_left.erase(team)
-			_respawn_wizard(team)
+			_respawn_left[team] = 0.0
+			if _respawn_wizard(team):
+				_respawn_left.erase(team)
 
 
 func _home_healing(delta: float) -> void:
@@ -1648,19 +1649,24 @@ func _on_wizard_died(unit: Unit) -> void:
 		hud.show_message(_kingdom_info(team, "fallen"), 4.0)
 
 
-func _respawn_wizard(team: int) -> void:
+## True when the timer is done with (she came back, or there is nobody to bring back); false while the team has no
+## respawn point: the timer stays at 0 and retries every frame until a keep / barracks stands again (review W1-1).
+func _respawn_wizard(team: int) -> bool:
 	var wiz := wizard_of(team)
+	if wiz == null or not is_instance_valid(wiz) or wiz.is_alive():
+		return true
 	var at := respawn_point(team)
-	if at == Vector3.INF or wiz == null or not is_instance_valid(wiz) or wiz.is_alive():
-		return
+	if at == Vector3.INF:
+		return false
 	if not wiz.has_method(&"respawn"):
 		push_warning("Skirmish: Wizard.respawn() is missing, %s can't come back" % wiz.unit_name)
-		return
+		return true
 	wiz.call(&"respawn", at)
 	wizard_respawned.emit(wiz)
 	if team == Unit.Team.PLAYER:
 		selection.select_units([wiz])
 		hud.show_message("%s returns!" % EmberCrown.short_name(wiz), 3.0)
+	return true
 
 
 # ---------------------------------------------------------------- the crown
@@ -1876,13 +1882,77 @@ static func _thousands(n: int) -> String:
 # ---------------------------------------------------------------- save / load (docs/design/save-load.md)
 
 ## The match clock, wizard deaths and respawn timers, end-screen stats (SaveWorld; MissionBase adds its own state).
-func save_level_state(_ids: Dictionary) -> Dictionary:
+## The map services save through `save_world_state` / `load_world_state` (review 2026-10-12 F3a): the score, Lost
+## Caches, champion guilds, bounty boards, capture points, camps, epic beasts, the thieves' guild.
+func save_level_state(ids: Dictionary) -> Dictionary:
 	return {"time": _match_time, "deaths": _deaths.duplicate(), "respawn": _respawn_left.duplicate(),
 			"stats": _stats.duplicate(true), "wardens_killed": wardens_killed, "blessings": _blessings.duplicate(),
-			"camps_cleared": _camps_cleared.duplicate(), "taverns_announced": _taverns_announced}
+			"camps_cleared": _camps_cleared.duplicate(), "taverns_announced": _taverns_announced,
+			"services": _save_services(ids)}
 
 
-func load_level_state(d: Dictionary, _nodes: Dictionary) -> void:
+func _save_services(ids: Dictionary) -> Dictionary:
+	var out := {}
+	var caches_d: Array = []
+	for c in caches:
+		caches_d.append(c.save_world_state() if is_instance_valid(c) else {})
+	out["caches"] = caches_d
+	var guilds_d := {}
+	for team: Variant in guilds:
+		var g := guild_of(int(team))
+		if g and g.has_method(&"save_world_state"):
+			guilds_d[int(team)] = g.save_world_state(ids)
+	out["guilds"] = guilds_d
+	var boards := {}
+	for n in get_tree().get_nodes_in_group(&"bounty_boards"):
+		var b := n as BountyBoard
+		if b and not b.is_queued_for_deletion() and not b.bounties.is_empty():
+			boards[b.team] = b.save_world_state(ids)
+	out["bounties"] = boards
+	for key: String in ["capture_points", "thieves_guild", "score_keeper"]:
+		var s := _service(get(key))
+		if s and s.has_method(&"save_world_state"):
+			out[key] = s.call(&"save_world_state")
+	for key: String in ["camp_manager", "epic_beasts"]:
+		var s := _service(get(key))
+		if s and s.has_method(&"save_world_state"):
+			out[key] = s.call(&"save_world_state", ids)
+	return out
+
+
+## After the match clock: points first (bounties guard them), then camps / beasts / guilds / bounties, the score last
+## (it re-reads the restored banks without counting them as gained).
+func _load_services(sv: Dictionary, nodes: Dictionary) -> void:
+	var caches_d: Array = sv.get("caches", [])
+	for i in mini(caches_d.size(), caches.size()):
+		if is_instance_valid(caches[i]) and not (caches_d[i] as Dictionary).is_empty():
+			caches[i].load_world_state(caches_d[i])
+	for key: String in ["capture_points", "thieves_guild"]:
+		var s := _service(get(key))
+		if s and s.has_method(&"load_world_state") and sv.has(key):
+			s.call(&"load_world_state", sv[key])
+	for key: String in ["camp_manager", "epic_beasts"]:
+		var s := _service(get(key))
+		if s and s.has_method(&"load_world_state") and sv.has(key):
+			s.call(&"load_world_state", sv[key], nodes)
+	var guilds_d: Dictionary = sv.get("guilds", {})
+	for team: Variant in guilds_d:
+		var g := guild_of(int(team))
+		if g and g.has_method(&"load_world_state"):
+			g.load_world_state(guilds_d[team], nodes)
+	var boards: Dictionary = sv.get("bounties", {})
+	for team: Variant in boards:
+		var b := BountyBoard.for_team(int(team))
+		if b:
+			b.load_world_state(boards[team], nodes)
+	if trade_network != null and is_instance_valid(trade_network):
+		trade_network.sync_announcements()
+	var sk := _service(score_keeper)
+	if sk and sk.has_method(&"load_world_state"):
+		sk.call(&"load_world_state", sv.get("score_keeper", {}))
+
+
+func load_level_state(d: Dictionary, nodes: Dictionary) -> void:
 	_match_time = float(d.get("time", _match_time))
 	_deaths = (d.get("deaths", _deaths) as Dictionary).duplicate()
 	_respawn_left = (d.get("respawn", {}) as Dictionary).duplicate()
@@ -1896,3 +1966,4 @@ func load_level_state(d: Dictionary, _nodes: Dictionary) -> void:
 		if is_instance_valid(w) and (w as Unit).is_alive():
 			alive.append(w)
 	wardens = alive
+	_load_services(d.get("services", {}), nodes)

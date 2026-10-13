@@ -57,6 +57,15 @@ static func _same(a: Variant, b: Variant) -> bool:
 	return a == b
 
 
+## The ids to mark seen once the film `played` (the branch branch_of picked) ran for the asked `main_id`: both, so a
+## branched film (c_e6_gate_shut) counts as seen for its main id, which the menus ask about (review C1-5).
+static func seen_ids(main_id: StringName, played: StringName) -> Array[StringName]:
+	var out: Array[StringName] = [StringName(played)]
+	if StringName(main_id) != StringName(played) and main_id != &"":
+		out.append(StringName(main_id))
+	return out
+
+
 ## Plays the film `id` alone (Campaign menu "Watch opening"), marks it seen, then back to the main menu.
 static func play_only(tree: SceneTree, id: StringName) -> Node:
 	return play_chain(tree, id, 1, true)
@@ -66,6 +75,7 @@ static func play_only(tree: SceneTree, id: StringName) -> Node:
 ## with `bot_difficulty`), or the main menu (always the menu when `menu_after`). Returns the new current scene (null
 ## when nothing could start).
 static func play_chain(tree: SceneTree, id: StringName, bot_difficulty: int = 1, menu_after := false) -> Node:
+	var main_id := id
 	id = branch_of(id)
 	var next := &"" if menu_after else CampaignState.film_next(id)
 	if not available(id):
@@ -75,7 +85,9 @@ static func play_chain(tree: SceneTree, id: StringName, bot_difficulty: int = 1,
 		stage.set(&"quit_when_done", false)
 	if stage.has_signal(&"cinematic_done"):
 		stage.connect(&"cinematic_done", func(fid: StringName, _skipped: bool) -> void:
-			CampaignState.open().mark_seen(fid)
+			var cs := CampaignState.open()
+			for seen_id in seen_ids(main_id, fid):
+				cs.mark_seen(seen_id)
 			continue_to(tree, next, bot_difficulty), CONNECT_ONE_SHOT | CONNECT_DEFERRED)
 	tree.paused = false
 	MenuFlow.set_scene(tree, stage)   # the old scene leaves the tree first (review 2026-10-08)

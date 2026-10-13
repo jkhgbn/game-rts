@@ -65,6 +65,8 @@ var _sell_zone: SellZone
 var _selected: Variant = null
 var _hovered: Variant = null
 var _refresh_left := 0.0
+var _items_sig := 0   ## U4-5: hash of what the item buttons were last built from (0 = rebuild)
+static var _has_cache: Dictionary = {}   ## U4-5: "script path:method" -> bool
 
 static var _type_cache: Array = []
 
@@ -254,6 +256,7 @@ func open(shop_node: Node = null) -> bool:
 		message.emit("No shop nearby")
 		return false
 	shop = shop_node
+	_items_sig = 0   # U4-5: rebuild the item buttons on every open
 	_title.text = _shop_title(shop)
 	_build_grid()
 	visible = true
@@ -312,7 +315,7 @@ func find_shop() -> Node:
 
 func _input(event: InputEvent) -> void:
 	if visible and event is InputEventKey and event.pressed and not event.echo \
-			and (event as InputEventKey).physical_keycode == KEY_ESCAPE:
+			and (event as InputEventKey).physical_keycode == KEY_ESCAPE and not ChatLine.is_any_open():   # U4-8
 		close()
 		get_viewport().set_input_as_handled()
 
@@ -560,10 +563,16 @@ func _price_with(t: Variant, counts: Dictionary, is_root: bool) -> int:
 static func _script_has(script: Variant, method: StringName) -> bool:
 	if not (script is Script):
 		return false
+	var key := "%s:%s" % [(script as Script).resource_path, method]   # U4-5: the method list is walked once
+	if _has_cache.has(key):
+		return bool(_has_cache[key])
+	var found := false
 	for m in (script as Script).get_script_method_list():
 		if m.get("name") == String(method):
-			return true
-	return false
+			found = true
+			break
+	_has_cache[key] = found
+	return found
 
 
 ## `inventory.can_buy(type)`: "" = can buy, else the reason.
@@ -754,6 +763,23 @@ func _refresh() -> void:
 	_exchange.visible = shop != null and is_instance_valid(shop) and shop.has_method(&"exchange_crystals") \
 			and shop.get("exchange_enabled") != false
 	var stock: Variant = _stock_ids()
+	# U4-5: the per-item prices / reasons / tooltips (Recipes.plan, can_buy -> nearest_shop) are rebuilt only when
+	# something they read changed: essence, the shop, the selection, the inventory slots.
+	var inv: Variant = get_inventory()
+	# + the hero's life, the nearest shop and a 1 s tick (range / death refusals change without the rest changing)
+	var near_shop: Variant = null
+	if inv is Object and (inv as Object).has_method(&"nearest_shop"):
+		near_shop = inv.call(&"nearest_shop")
+	var sig := hash([ess, shop.get_instance_id() if shop != null and is_instance_valid(shop) else 0,
+			hero != null and is_instance_valid(hero) and bool(hero.call(&"is_alive")),
+			(near_shop as Object).get_instance_id() if near_shop is Object and is_instance_valid(near_shop) else 0,
+			Time.get_ticks_msec() / 1000,
+			id_of(_selected) if _selected != null else &"",
+			inv.get("slots") if inv is Object else null, inv.get("artifacts") if inv is Object else null])
+	if sig == _items_sig:
+		_show_details()
+		return
+	_items_sig = sig
 	var counts := owned_counts()
 	for b in item_buttons:
 		var t: Variant = b.get_meta("item_type")

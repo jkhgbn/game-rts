@@ -234,6 +234,7 @@ func set_tier(team: int, tier: int) -> void:
 	for n in get_tree().get_nodes_in_group(&"buildings"):
 		var k := n as Keep
 		if k and int(k.team) == team and k.is_alive():
+			k.cancel_upgrade()   # review R4-7: a running upgrade would lower the tier later; full refund
 			k.set_tier_now(tier)
 	refresh(team)
 

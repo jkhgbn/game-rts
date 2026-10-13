@@ -172,10 +172,11 @@ static func describe(type: Variant, key_label := "", count := 1) -> String:
 	var active := str(field(type, &"active_id", ""))
 	var cooldown := float(field(type, &"active_cooldown", 0.0))
 	if active != "" and not extra.contains("Active:"):
+		var active_name := Loc.sink(active.capitalize())   # U2-7: the active's name (from data) through the sink
 		if cooldown > 0.0:
-			lines.append(Loc.t("Active: {name} · {n} s cooldown", {"name": active.capitalize(), "n": int(round(cooldown))}))
+			lines.append(Loc.t("Active: {name} · {n} s cooldown", {"name": active_name, "n": int(round(cooldown))}))
 		else:
-			lines.append(Loc.t("Active: {name}", {"name": active.capitalize()}))
+			lines.append(Loc.t("Active: {name}", {"name": active_name}))
 	var t := tier(type)
 	if t == &"consumable":
 		lines.append(Loc.tn("{n} charge", "{n} charges", count))

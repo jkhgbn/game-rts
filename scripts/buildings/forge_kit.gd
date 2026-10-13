@@ -15,8 +15,8 @@ const FORGE_IDS := {
 	&"fire": &"fire_forge", &"shadow": &"shadow_forge", &"ice": &"ice_forge", &"nature": &"nature_forge",
 }
 const MODIFIER := &"forge"
-const RANGE_META := &"forge_range"
-const SIG_META := &"forge_sig"
+const RANGE_META := &"_forge_range"
+const SIG_META := &"_forge_sig"
 const STUB_PREFIX := "forge_"
 const SKIRMISH_SCRIPT := "res://scripts/world/skirmish.gd"
 
@@ -269,7 +269,8 @@ static func apply_to(u: Unit) -> void:
 	var stats := b.stats_for(u.unit_type.id)
 	var want_range := b.range_for(u.unit_type.id)
 	var sig := "%s|%s" % [str(stats), want_range]
-	if u.has_meta(SIG_META) and str(u.get_meta(SIG_META)) == sig:
+	# The sig is a runtime marker ("_": never saved, review R4-1); the modifier check also covers a stale marker.
+	if u.has_meta(SIG_META) and str(u.get_meta(SIG_META)) == sig and (stats.is_empty() or u.has_modifier(MODIFIER)):
 		return
 	u.set_meta(SIG_META, sig)
 	if stats.is_empty():

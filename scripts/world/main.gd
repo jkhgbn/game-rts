@@ -46,6 +46,12 @@ const START_FOCUS_FROM_KEEP := Vector3(3.0, 0.0, -1.0)
 const START_HINT := "Click your Keep (bottom-left) to train workers, then select workers and press B to build"
 
 
+func _enter_tree() -> void:
+	# Before any scene-placed unit's _ready (children are ready first): their tick staggers start from 0 in every
+	# match, so F9 plays like a fresh launch (code review R3-11).
+	CasterKit.reset_stagger()
+
+
 func _ready() -> void:
 	# MT1 (map-production.md 2.8): the running map's size, read by the fog, BuildGrid, river, minimap and camera.
 	var sz := _map_size()

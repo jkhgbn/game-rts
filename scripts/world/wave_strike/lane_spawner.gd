@@ -43,6 +43,23 @@ func pending() -> int:
 	return _queue.size()
 
 
+## Save (review W3-4): the units of a horn still waiting at the gate.
+func save_state() -> Dictionary:
+	var q: Array = []
+	for id in _queue:
+		q.append(String(id))
+	return {"queue": q, "slot": _slot, "left": _left, "spawned_total": spawned_total}
+
+
+func load_state(d: Dictionary) -> void:
+	_queue.clear()
+	for id: Variant in d.get("queue", []):
+		_queue.append(StringName(str(id)))
+	_slot = int(d.get("slot", _slot))
+	_left = float(d.get("left", _left))
+	spawned_total = int(d.get("spawned_total", spawned_total))
+
+
 ## Advances the spawn clock (called by the director with its own delta).
 func tick(delta: float) -> void:
 	if _queue.is_empty():

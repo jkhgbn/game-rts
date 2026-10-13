@@ -244,6 +244,56 @@ func die() -> void:
 	super()
 
 
+# ---------------------------------------------------------------- save / load (review R4-4)
+
+## The Unit snapshot + the trade loop: home Bazaar (save id), route / trip post (post id), cargo, state.
+func save_snapshot(ids: Dictionary) -> Dictionary:
+	var d := super(ids)
+	var c := {"cargo": cargo, "state": String(trade_state), "own_route": _own_route, "trip_value": _trip_value}
+	if home_market != null and is_instance_valid(home_market) and ids.has(home_market):
+		c["home"] = ids[home_market]
+	if _post_ok(route_post):
+		c["route_post"] = String(route_post.get(&"post_id"))
+	if _post_ok(_trip_post):
+		c["trip_post"] = String(_trip_post.get(&"post_id"))
+	d["caravan"] = c
+	return d
+
+
+## After the Unit part (which leaves it idle): its Bazaar, route and cargo come back and the loop goes on: a
+## loaded caravan walks home to deliver, an empty one on its way out rejoins its route, any other one goes home.
+func load_snapshot_late(d: Dictionary, nodes: Dictionary, crystal_nodes: Dictionary) -> void:
+	super(d, nodes, crystal_nodes)
+	var c: Dictionary = d.get("caravan", {})
+	if c.is_empty() or not is_alive():
+		return
+	_fresh = false
+	var home: Variant = nodes.get(c.get("home", -1))
+	if home is Node3D and is_instance_valid(home):
+		home_market = home
+	route_post = _post_by_id(str(c.get("route_post", "")))
+	_trip_post = _post_by_id(str(c.get("trip_post", "")))
+	_own_route = bool(c.get("own_route", false))
+	_trip_value = int(c.get("trip_value", 0))
+	cargo = int(c.get("cargo", 0))
+	var state := StringName(str(c.get("state", "idle")))
+	if state == &"idle":
+		return
+	if cargo == 0 and state == &"to_post" and _post_ok(_trip_post) and _market_ok() and _is_open():
+		_join_route(_trip_post)
+	else:
+		_go_home()
+
+
+func _post_by_id(id: String) -> Node3D:
+	if id == "" or not is_inside_tree():
+		return null
+	for n in get_tree().get_nodes_in_group(&"trade_posts"):
+		if String(n.get(&"post_id")) == id:
+			return n as Node3D
+	return null
+
+
 # ---------------------------------------------------------------- the loop
 
 func _physics_process(delta: float) -> void:

@@ -45,6 +45,7 @@ const FOLLOW_INNER := 0.6   ## The camera is kept inside this fraction of the zo
 const REDRAW_INTERVAL := 0.1
 
 const GROUND_COLOR := Color(0.20, 0.30, 0.15)
+const OUTSIDE_COLOR := Color(0.05, 0.06, 0.05)   ## U4-2: the square around a non-square map.
 const CRYSTAL_COLOR := Color(0.45, 0.85, 1.0)
 const ARTIFACT_COLOR := Color(1.0, 0.85, 0.3)
 const OWN_COLOR := Color(0.3, 1.0, 0.4)
@@ -368,8 +369,16 @@ func center_view_on(world: Vector3) -> void:
 
 
 func _clamp_view() -> void:
-	var room := map_size * 0.5 - map_size * 0.5 / zoom
-	view_center = view_center.clamp(Vector2(-room, -room), Vector2(room, room))
+	# U4-2: per axis (a 192 x 96 map is not square): the zoomed view never scrolls past the map's real edges
+	var vis := map_size * 0.5 / zoom
+	var half := map_half_extents()
+	var room := Vector2(maxf(half.x - vis, 0.0), maxf(half.y - vis, 0.0))
+	view_center = view_center.clamp(-room, room)
+
+
+## U4-2: the map's half width (x) and half depth (z) in metres (MapInfo, never more than the minimap's square).
+func map_half_extents() -> Vector2:
+	return Vector2(minf(MapInfo.half_x(), map_size * 0.5), minf(MapInfo.half_z(), map_size * 0.5))
 
 
 func _view_changed() -> void:
@@ -557,7 +566,12 @@ func _build_water() -> void:
 
 ## The ground fill and the river texture (the child layer drawn behind this control).
 func _draw_ground_layer() -> void:
-	_water_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(SIZE, SIZE)), GROUND_COLOR, true)
+	# U4-2: only the map's real rectangle is ground; the rest of the square (a 2:1 map) stays dark
+	_water_layer.draw_rect(Rect2(Vector2.ZERO, Vector2(SIZE, SIZE)), OUTSIDE_COLOR, true)
+	var half := map_half_extents()
+	var g0 := world_to_map(Vector3(-half.x, 0.0, -half.y))
+	var g1 := world_to_map(Vector3(half.x, 0.0, half.y))
+	_water_layer.draw_rect(Rect2(g0, g1 - g0), GROUND_COLOR, true)
 	if _water_tex != null:
 		var a := world_to_map(Vector3(_water_world.position.x, 0.0, _water_world.position.y))
 		var b := world_to_map(Vector3(_water_world.end.x, 0.0, _water_world.end.y))

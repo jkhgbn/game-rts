@@ -45,6 +45,7 @@ var _title_left := 0.0
 var _title_total := 0.0
 var _still := 0.0
 var _cursor_hidden := false
+var _paused := false           # paused view: line / title timers frozen (review V1-4)
 
 
 ## Bar height (each) for a screen and an aspect: max((H - W / A) / 2, 0.03 x H) (cinematics.md 6.1). 0 aspect = 0.
@@ -201,6 +202,7 @@ func is_skip_prompt_shown() -> bool:
 
 
 func set_paused_view(on: bool) -> void:
+	_paused = on
 	if _dim == null:
 		return
 	_dim.visible = on
@@ -209,6 +211,16 @@ func set_paused_view(on: bool) -> void:
 
 func is_paused_view() -> bool:
 	return _dim != null and _dim.visible
+
+
+## Seconds the current subtitle stays on screen (0 = none; tests).
+func line_time_left() -> float:
+	return _line_left if _line_on else 0.0
+
+
+## Seconds the title card stays (0 = none; tests).
+func title_time_left() -> float:
+	return maxf(_title_left, 0.0)
 
 
 ## Full-screen fade colour / alpha (the player computes it per frame from the timeline).
@@ -248,7 +260,9 @@ func _process(delta: float) -> void:
 		var step := delta / (BAR_IN_TIME if _bars_open else BAR_OUT_TIME)
 		_bar_k = move_toward(_bar_k, target, step)
 		_layout()
-	if _line_on:
+	if _line_on and _paused:
+		pass   # frozen with the film (the player re-sends the line on resume)
+	elif _line_on:
 		_line_alpha = minf(1.0, _line_alpha + delta / LINE_FADE)
 		_line_left -= delta
 		if _line_left <= 0.0:
@@ -264,7 +278,7 @@ func _process(delta: float) -> void:
 	if _hint_left > 0.0:
 		_hint_left -= delta
 		_hint_label.visible = _hint_left > 0.0
-	if _title_left > 0.0:
+	if _title_left > 0.0 and not _paused:
 		_title_left -= delta
 		var a := clampf(minf(_title_total - _title_left, _title_left) / 0.5, 0.0, 1.0)
 		_title_box.modulate.a = a

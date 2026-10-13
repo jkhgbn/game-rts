@@ -17,7 +17,7 @@ $ErrorActionPreference = "Stop"
 if (-not $Root) { $Root = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path }
 
 # Always run (cheap, cover the shared paths every change can break). The smoke test runs as the CI's smoke step.
-$CoreTests = @("test_tiers", "test_ui_card_hotkeys", "test_casters", "test_stables")
+$CoreTests = @("test_tiers", "test_ui_card_hotkeys", "test_casters", "test_stables", "test_save_metas")
 # A change here can break any test: fall back to ci_quick's full list. Prefixes (folders end with '/').
 $FullTriggers = @("project.godot", "scripts/core/", "scripts/ui/command_card.gd", "scenes/main.tscn", "scenes/skirmish.tscn",
 	"scripts/world/main.gd", "scripts/world/skirmish.gd", "scripts/units/unit.gd", "scripts/units/unit_type.gd",

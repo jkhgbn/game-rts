@@ -113,9 +113,53 @@ static func encode_metas(node: Object, ids: Dictionary) -> Dictionary:
 	return out
 
 
+## Metas renamed with a "_" prefix (review 2026-10-12 R5-2 / RC): an older save still has the plain names. Old name ->
+## new name ("" = dropped: a "hooked" marker that must not survive a load, or it would stop the rebuilt node's hookup).
+const LEGACY_METAS := {
+	"mission_held": "_mission_held",
+	"mission_truce_hook": "",
+	"game_audio": "",
+	"game_audio_crit": "",
+}
+
+
 static func decode_metas(node: Object, metas: Dictionary, nodes: Dictionary) -> void:
 	for m: Variant in metas:
-		node.set_meta(StringName(str(m)), decode(metas[m], nodes))
+		var meta_name := str(m)
+		if LEGACY_METAS.has(meta_name):
+			meta_name = String(LEGACY_METAS[meta_name])
+			if meta_name == "":
+				continue
+		node.set_meta(StringName(meta_name), decode(metas[m], nodes))
+
+
+## A Callable on `owner` as a save row [method name, encoded bound args] (mission-save-hardening A5): a method of
+## `owner` by name, with or without `.bind(...)` arguments that encode (plain values, saved units / buildings). SKIP for
+## a lambda, another object's method, an unbound Callable or an argument that cannot be saved.
+static func encode_call(c: Callable, owner: Object, ids: Dictionary) -> Variant:
+	if not c.is_valid() or c.get_object() != owner or not owner.has_method(c.get_method()):
+		return SKIP
+	if c.get_unbound_arguments_count() > 0:
+		return SKIP
+	var args: Variant = encode(c.get_bound_arguments(), ids)
+	if is_skip(args):
+		return SKIP
+	return [String(c.get_method()), args]
+
+
+## The Callable of an encode_call() row on `owner` (an invalid Callable when the method is gone). A bound unit /
+## building that did not survive the load comes back as null.
+static func decode_call(row: Variant, owner: Object, nodes: Dictionary) -> Callable:
+	if not row is Array or (row as Array).is_empty():
+		return Callable()
+	var method := StringName(str((row as Array)[0]))
+	if not owner.has_method(method):
+		return Callable()
+	var c := Callable(owner, method)
+	var args: Variant = decode((row as Array)[1], nodes) if (row as Array).size() > 1 else []
+	if args is Array and not (args as Array).is_empty():
+		return c.bindv(args as Array)
+	return c
 
 
 ## Groups a node is in, minus Godot's internal ones ("_..."), as Strings.

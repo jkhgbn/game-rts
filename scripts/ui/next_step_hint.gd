@@ -342,7 +342,7 @@ static func tier_text(s: Dictionary) -> String:
 	var st: Dictionary = s.get("tier", {})
 	var keep_name := "Keep"
 	var k: Variant = st.get("keep")
-	if k is Keep and is_instance_valid(k) and (k as Keep).building_type:
+	if is_instance_valid(k) and k is Keep and (k as Keep).building_type:
 		keep_name = (k as Keep).building_type.display_name
 	var money := Loc.t("%d crystals, %d s") % [int(st.get("crystals", 0)), roundi(float(st.get("time", 0.0)))]
 	if bool(st.get("short_crystals", false)):
@@ -415,7 +415,7 @@ static func soon_text(s: Dictionary) -> String:
 		return ""
 	var keep_name := "Keep"
 	var k: Variant = st.get("keep")
-	if k is Keep and is_instance_valid(k) and (k as Keep).building_type:
+	if is_instance_valid(k) and k is Keep and (k as Keep).building_type:
 		keep_name = (k as Keep).building_type.display_name
 	var secs := ceili(left)
 	return Loc.t("Soon: %s at %s (in %d:%02d): %d crystals, %s on your %s") % [Loc.t(str(st.get("name", "Stronghold"))),

@@ -442,7 +442,8 @@ func _set_rank(spell_id: StringName, rank: int) -> void:
 ## "Unknown spell"). Delegates to the SpellCaster; without one only Fireball works (wave 1 rules).
 func command_cast(spell_id: StringName, target: Variant) -> String:
 	if spell_caster and spell_caster.has_method(&"cast"):
-		if is_alive() and spell_ids().has(spell_id) and spell_rank(spell_id) <= 0:
+		# "Dead" then "Frozen" come first (SpellCaster.can_cast; R1-6).
+		if is_alive() and can_act() and spell_ids().has(spell_id) and spell_rank(spell_id) <= 0:
 			return "Not learned"
 		_has_pending_cast = false
 		return str(spell_caster.call(&"cast", spell_id, target))

@@ -137,3 +137,10 @@ Nothing has to be glued: every 9.C8 piece installs itself.
 
 # Level boons (game-designer, 2026-09-27; docs/design/level-boons.md)
 - LB.L1 before LB.G1: freeze section 11 in CLAUDE.md (Stats `luck` + `spell<N>_power/cooldown/radius/duration_pct`, BoonType / BoonBook, `Events.boon_taken(wizard, boon_id, tier)`, owner row `scripts/boons/` + `data/boons/` -> gameplay-coder). Keys line: **Ctrl+Z / Ctrl+X / Ctrl+C** = take boon 1 / 2 / 3, **Ctrl+V** = reroll, **Ctrl+Space** = show / hide boon panel (only while a pick is pending). Balance Lab needs a `boons` variant key (section 13). Replay Lab must record boon picks / rerolls as inputs.
+
+# F7 bots (ai-coder, 2026-10-12)
+- `tests/test_10_a2.gd:165` reads the old tracker meta: change `t1.get_meta(&"contract", null)` to
+  `t1.get_meta(&"_contract", null)` (TrackerContract now sets `_contract`; the guild's meta is now `_tracker_contract`).
+- saved_state users in scripts/ai: `Commander` (key `commander:<team>`, row -> Building map saved as node refs that
+  SaveWorld encodes with its ids) and `TrackerContract` (key `tracker_contract:<team>:<kind>`, static `create_for_save`
+  = `HuntersGuild.restore_contract` + saved time left, nothing charged; a refund-only stub when the guild can't).

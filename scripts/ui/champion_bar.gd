@@ -253,6 +253,7 @@ var _scan_left := 0.0
 var _announced: Dictionary = {}       ## champion instance id -> class id already announced (one message each).
 
 static var _info_cache: Dictionary = {}
+static var _effect_re: RegEx = null   ## U3-9: ability_effect's {n} pattern, compiled once.
 
 
 func _ready() -> void:
@@ -809,9 +810,10 @@ static func ability_info(id: StringName) -> Dictionary:
 static func ability_effect(id: StringName, level: int, growth := 0.08, spell_power := 0.0) -> String:
 	var text := Loc.t(str(ability_info(id).get("effect", "")))   # the French keeps the same {n} marks
 	var mult := (1.0 + growth * float(maxi(level, 1) - 1)) * (1.0 + spell_power / 100.0)
-	var re := RegEx.create_from_string("\\{(\\d+(?:\\.\\d+)?)\\}")
+	if _effect_re == null:   # U3-9: compiled once (the tavern refreshes 4 x / s, one call per tooltip)
+		_effect_re = RegEx.create_from_string("\\{(\\d+(?:\\.\\d+)?)\\}")
 	var out := text
-	for m in re.search_all(text):
+	for m in _effect_re.search_all(text):
 		var v := float(m.get_string(1)) * mult
 		out = out.replace(m.get_string(), str(roundi(v)) if absf(v - roundf(v)) < 0.05 or v >= 20.0 else Loc.num(v, 1))
 	return out
@@ -1250,6 +1252,10 @@ class Slot extends Button:
 	var _heal_left := 0.0
 	var _gold_left := 0.0         ## Purse number in GOLD.
 	var _unpaid := false
+	var _tip_key := ""                  ## U3-9: champion id | class | state the tooltips were built for...
+	var _class_tip := ""                ## ...the class badge's tooltip then...
+	var _tip_ms := -100000              ## ...and when (ms).
+	const TIP_REFRESH_MS := 1000
 	var _tween: Tween
 
 	func _ready() -> void:
@@ -1403,6 +1409,7 @@ class Slot extends Button:
 		var at := ChampionBar.opens_at_text(self)
 		tavern_label.text = "Y · tavern" if open else Loc.t("Tavern opens at {time}", {"time": at})
 		tavern_label.add_theme_color_override("font_color", UIStyle.GOLD if open else UIStyle.token(&"text_muted"))
+		_tip_key = ""   # U3-9: the next champion view rebuilds its tooltip
 		tooltip_text = Loc.t("Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.") + (
 				"" if open else "\n" + Loc.t("Tavern opens at {time}", {"time": at}))
 		_unpaid = false
@@ -1424,6 +1431,7 @@ class Slot extends Button:
 		hp_text.text = ""
 		intent_label.text = Loc.t("Arrives in {n} s", {"n": ceili(left)})
 		intent_label.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+		_tip_key = ""   # U3-9: the next champion view rebuilds its tooltip
 		tooltip_text = "%s  [%s]  %s\n" % [display_name, ChampionBar.KEY_NAMES[index], Loc.t(ChampionBar.title_of(id))] \
 				+ Loc.t("Hired: walks out of the tavern in {n} s.", {"n": ceili(left)})
 		_update_alpha()
@@ -1460,9 +1468,16 @@ class Slot extends Button:
 		if unpaid != _unpaid:
 			_unpaid = unpaid
 			_style_badge()
-		tooltip_text = ChampionBar.tooltip_for(ch, guild, ChampionBar.KEY_NAMES[index])
+		# U3-9: the tooltips (long texts) are rebuilt at most once a second, or at once for another champion
 		var cid := ChampionBar.class_id_of(ch)
-		class_badge.set_class(cid, ChampionBar.class_tooltip_for(ch) if cid != &"" else "")
+		var now_ms := Time.get_ticks_msec()
+		var tip_key := "%d|%s|%s" % [ch.get_instance_id(), cid, state]
+		if tip_key != _tip_key or now_ms - _tip_ms >= TIP_REFRESH_MS or tooltip_text == "":
+			_tip_key = tip_key
+			_tip_ms = now_ms
+			tooltip_text = ChampionBar.tooltip_for(ch, guild, ChampionBar.KEY_NAMES[index])
+			_class_tip = ChampionBar.class_tooltip_for(ch) if cid != &"" else ""
+		class_badge.set_class(cid, _class_tip)   # every refresh: other paths may have hidden the badge
 		# 3.3 animations, from what changed since the last refresh.
 		if ch != _last_champion:
 			if _last_champion == null:

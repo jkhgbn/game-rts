@@ -14,6 +14,7 @@ signal message(text: String)
 const SLOT_SIZE := 36.0
 const SLOT_STEP := 40.0
 const ITEM_SLOTS := 6
+const MSG_CANT_SELL := "Can't sell this item"   ## U2-5: campaign items (campaign_only) stay in the inventory.
 const ARTIFACT_SLOTS := 2
 const BAR_POS := Vector2(282, 834)          ## At 1600 x 900 (anchored bottom-left: 66 px from the bottom).
 const ARTIFACT_OFFSETS: Array[Vector2] = [Vector2(244, 0), Vector2(244, -40)]
@@ -199,6 +200,9 @@ func sell_or_drop(i: int) -> void:
 	if i >= ITEM_SLOTS or ItemTooltip.tier(type) == &"artifact":
 		message.emit("Artifact (cannot be sold)")
 		return
+	if is_campaign_only(type):
+		message.emit(MSG_CANT_SELL)   # U2-5: a campaign item is never sold nor dropped (was: silent / dropped)
+		return
 	var shop: Variant = inv.call(&"nearest_shop") if inv.has_method(&"nearest_shop") else null
 	if shop != null and inv.has_method(&"sell"):
 		var got: Variant = inv.call(&"sell", i)
@@ -211,10 +215,18 @@ func sell_or_drop(i: int) -> void:
 	drop_slot(i)
 
 
+## U2-5: true for an item the campaign hands out (ItemType.campaign_only): it never leaves the inventory by hand.
+static func is_campaign_only(type: Variant) -> bool:
+	return type != null and bool(ItemTooltip.field(type, &"campaign_only", false))
+
+
 func drop_slot(i: int) -> void:
 	var inv := inventory()
 	var type: Variant = entry_type(i)
 	if inv == null or type == null or i >= ITEM_SLOTS or not inv.has_method(&"drop"):
+		return
+	if is_campaign_only(type):
+		message.emit(MSG_CANT_SELL)
 		return
 	var r: Variant = inv.call(&"drop", i)
 	if r is String and r != "":

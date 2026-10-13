@@ -46,6 +46,9 @@ const STATUS_IDS: Array[StringName] = [&"chill", &"frozen", &"rooted"]
 const ICE_SPELLS: Array[StringName] = [&"rime_bolt", &"flash_freeze", &"rime_aegis"]
 ## Max live auras per kind (the rest of the units simply show no aura).
 const AURA_CAPS := {&"chill": 80, &"frozen": 48, &"rooted": 48, &"dome": 48}
+## Auras built up front per kind (hidden, in the free pool) so a fight's first statuses add no nodes mid-match
+## (a rooted aura is 12 nodes; test_ice_vfx_read counts nodes added per event). More are still built lazily up to the cap.
+const AURA_PREBUILD := {&"chill": 8, &"frozen": 4, &"rooted": 8, &"dome": 2}
 const POOL_SIZES := {&"frost_cast": 4, &"bolt_shatter": 6, &"freeze_chips": 3, &"snow_puff": 6,
 		&"aegis_rise": 3, &"heal_sparkle": 6}
 const AMOUNTS := {&"frost_cast": 16, &"bolt_shatter": 12, &"freeze_chips": 28, &"snow_puff": 10,
@@ -840,6 +843,12 @@ func _build_shared() -> void:
 	for k: StringName in AURA_CAPS:
 		_free[k] = []
 		_live[k] = 0
+		for i in int(AURA_PREBUILD.get(k, 0)):
+			var aura := _build_aura(k)
+			aura.visible = false
+			for p: GPUParticles3D in aura.get_meta(&"parts", []):
+				p.emitting = false
+			(_free[k] as Array).append(aura)
 	# Pools.
 	for look: StringName in POOL_SIZES:
 		var arr: Array[GPUParticles3D] = []

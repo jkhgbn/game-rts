@@ -45,7 +45,8 @@ static func ground_material(lane_a: Vector3, lane_b: Vector3, spots: Array[Vecto
 
 ## Paints the trade roads on a ground material whose shader has the uniforms `road_segs` (vec4[ROAD_SLOTS],
 ## a.xz b.xz), `road_count` (int) and `road_width` (metres; 10.V10). Returns false (and changes nothing) when
-## the shader has no `road_segs`. Extra segments beyond ROAD_SLOTS are dropped.
+## the shader has no `road_segs`. The slot count is the shader's own `road_segs[N]` (ROAD_SLOTS when it can't be read);
+## more segments than slots are merged with fit_roads (review W1-6) so the whole network is painted.
 static func set_roads(mat: ShaderMaterial, roads: PackedVector4Array, width: float = ROAD_WIDTH) -> bool:
 	if mat == null or mat.shader == null:
 		return false
@@ -54,17 +55,70 @@ static func set_roads(mat: ShaderMaterial, roads: PackedVector4Array, width: flo
 		names[String(u.get("name", ""))] = true
 	if not names.has("road_segs"):
 		return false
+	var slots := road_slots(mat.shader)
+	var fitted := fit_roads(roads, slots)
 	var segs := PackedVector4Array()
-	segs.resize(ROAD_SLOTS)
-	var count := mini(roads.size(), ROAD_SLOTS)
+	segs.resize(slots)
+	var count := mini(fitted.size(), slots)
 	for i in count:
-		segs[i] = roads[i]
+		segs[i] = fitted[i]
 	mat.set_shader_parameter(&"road_segs", segs)
 	if names.has("road_count"):
 		mat.set_shader_parameter(&"road_count", count)
 	if names.has("road_width"):
 		mat.set_shader_parameter(&"road_width", width)
 	return true
+
+
+## The size of the shader's `road_segs` array (read from its code), ROAD_SLOTS when it can't be read.
+static func road_slots(shader: Shader) -> int:
+	if shader == null:
+		return ROAD_SLOTS
+	var re := RegEx.create_from_string(r"uniform\s+vec4\s+road_segs\s*\[\s*(\d+)\s*\]")
+	var m := re.search(shader.code)
+	return maxi(1, int(m.get_string(1))) if m else ROAD_SLOTS
+
+
+## `roads` cut down to at most `slots` segments: while there are too many, the two joined segments (one's end is the
+## other's start) that bend the least become one (a-b + b-c -> a-c). Segments that join nothing are kept as they are;
+## if that is still too many, the shortest are dropped (a warning says so).
+static func fit_roads(roads: PackedVector4Array, slots: int) -> PackedVector4Array:
+	var segs: Array[Vector4] = []
+	for r in roads:
+		segs.append(r)
+	while segs.size() > slots:
+		var best_i := -1
+		var best_j := -1
+		var best_cos := -2.0
+		for i in segs.size():
+			var a := segs[i]
+			for j in segs.size():
+				if i == j:
+					continue
+				var b := segs[j]
+				if Vector2(a.z, a.w).distance_to(Vector2(b.x, b.y)) > 0.05:
+					continue
+				var d1 := Vector2(a.z - a.x, a.w - a.y).normalized()
+				var d2 := Vector2(b.z - b.x, b.w - b.y).normalized()
+				var c := d1.dot(d2)
+				if c > best_cos:
+					best_cos = c
+					best_i = i
+					best_j = j
+		if best_i < 0:
+			break
+		var merged := Vector4(segs[best_i].x, segs[best_i].y, segs[best_j].z, segs[best_j].w)
+		segs[best_i] = merged
+		segs.remove_at(best_j)
+	if segs.size() > slots:
+		push_warning("EnvProps: %d road segments for %d shader slots, the shortest are not painted" % [segs.size(), slots])
+		segs.sort_custom(func(p: Vector4, q: Vector4) -> bool:
+			return Vector2(p.z - p.x, p.w - p.y).length() > Vector2(q.z - q.x, q.w - q.y).length())
+		segs.resize(slots)
+	var out := PackedVector4Array()
+	for v in segs:
+		out.append(v)
+	return out
 
 
 ## Paints the river on a ground material whose shader has the 12.V2 uniforms (`river_segs`, `river_count`,

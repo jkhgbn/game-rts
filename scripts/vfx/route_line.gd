@@ -494,15 +494,16 @@ class RouteChip extends PanelContainer:
 		if not RouteLine.valid_node(p_market) or not RouteLine.valid_node(p_post):
 			return out
 		out[0] = RouteLine.post_name(p_post)
-		out[1] = " · far" if RouteLine.is_far(p_market, p_post) else " · near"
+		# V1-5: each part one translated phrase (VfxText), the reason (logic text) through the sink
+		out[1] = " · " + VfxText.route_distance(RouteLine.is_far(p_market, p_post))
 		var value := RouteLine.value_of(p_market, p_post)
-		out[2] = " · %d gold / trip · ~%d / min" % [value, RouteLine.per_minute(p_market, p_post)]
+		out[2] = " · " + VfxText.route_value(value, RouteLine.per_minute(p_market, p_post))
 		if p_market.get(&"route_post") == p_post:
-			out[3] = " · " + CURRENT
+			out[3] = " · " + VfxText.current_route()
 		else:
 			var reason := RouteLine.route_reason(p_market, p_post)
 			if reason != "":
-				out[3] = " · " + RouteLine.short_reason(reason)
+				out[3] = " · " + Loc.sink(RouteLine.short_reason(reason))
 		return out
 
 	## The chip's whole line, for tests ("" while hidden).
@@ -520,9 +521,9 @@ class RouteChip extends PanelContainer:
 		for i in 4:
 			labels[i].text = p[i]
 		labels[0].add_theme_color_override("font_color", UIStyle.GOLD)
-		labels[1].add_theme_color_override("font_color", FAR if p[1] == " · far" else NEAR)
+		labels[1].add_theme_color_override("font_color", FAR if RouteLine.is_far(market, post) else NEAR)
 		labels[2].add_theme_color_override("font_color", UIStyle.token(&"text"))
-		labels[3].add_theme_color_override("font_color", UIStyle.GOLD if p[3].ends_with(CURRENT) else UIStyle.WARN)
+		labels[3].add_theme_color_override("font_color", UIStyle.GOLD if p[3].ends_with(VfxText.current_route()) else UIStyle.WARN)
 		labels[3].visible = p[3] != ""
 		reset_size()
 

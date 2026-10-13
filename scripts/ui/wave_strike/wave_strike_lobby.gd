@@ -22,6 +22,8 @@ var start_button: Button
 var _kingdom: StringName = &"fire"
 var _enemy: StringName = &"random"
 var _personality := "steward"
+var _map_label: Label   ## U5-7: map title + size line, rebuilt on a language switch.
+var _texts: Array = []  ## U5-7: [control, Callable returning its text] rebuilt on a language switch.
 
 
 ## The button text of a kingdom (whole msgids, translated through Loc).
@@ -56,7 +58,6 @@ func _ready() -> void:
 	var map_col := VBoxContainer.new()
 	row.add_child(map_col)
 	var cat := MapCatalog.load_default()
-	var e := cat.entry(MAP_ID)
 	var tex := cat.preview_texture(MAP_ID)
 	var pic := TextureRect.new()
 	pic.custom_minimum_size = Vector2(PREVIEW, PREVIEW)
@@ -64,14 +65,15 @@ func _ready() -> void:
 	pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	pic.texture = tex
 	map_col.add_child(pic)
-	var map_l := UIStyle.panel_label("%s\n%s" % [String(e.get("title", "Ashwind Reach")),
-		MapCatalog.size_text(e) if not e.is_empty() else "192 x 96 m · 2 players"], 15)
-	map_col.add_child(map_l)
+	_map_label = UIStyle.panel_label("", 15)
+	_map_label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	map_col.add_child(_map_label)
+	_refresh_map_label()
 	# the choices
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 10)
 	row.add_child(col)
-	col.add_child(UIStyle.panel_label(Loc.t("Your kingdom"), 17, UIStyle.GOLD))
+	col.add_child(_loc_label(func() -> String: return Loc.t("Your kingdom"), 17))
 	var kg := ButtonGroup.new()
 	var kgrid := GridContainer.new()
 	kgrid.columns = 2
@@ -80,9 +82,10 @@ func _ready() -> void:
 		var b := _toggle(kgrid, kingdom_label(k), kg)
 		b.button_pressed = k == _kingdom
 		var kk := k
+		_track(b, func() -> String: return kingdom_label(kk))
 		b.pressed.connect(func() -> void: _kingdom = kk)
 		kingdom_buttons.append(b)
-	col.add_child(UIStyle.panel_label(Loc.t("Enemy kingdom"), 17, UIStyle.GOLD))
+	col.add_child(_loc_label(func() -> String: return Loc.t("Enemy kingdom"), 17))
 	var eg := ButtonGroup.new()
 	var egrid := GridContainer.new()
 	egrid.columns = 3
@@ -92,6 +95,7 @@ func _ready() -> void:
 		b.custom_minimum_size = Vector2(132, 36)
 		b.button_pressed = k == _enemy
 		var kk := k
+		_track(b, func() -> String: return kingdom_label(kk))
 		b.pressed.connect(func() -> void: _enemy = kk)
 		enemy_buttons.append(b)
 	col.add_child(UIStyle.panel_label("Enemy bot", 17, UIStyle.GOLD))
@@ -116,6 +120,38 @@ func _ready() -> void:
 	back.pressed.connect(func() -> void: back_requested.emit())
 	start_button = _button(buttons, "Start")
 	start_button.pressed.connect(start)
+
+
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_TRANSLATION_CHANGED or not is_node_ready():
+		return
+	_refresh_map_label()
+	for row: Array in _texts:
+		var c: Control = row[0]
+		if is_instance_valid(c):
+			c.set(&"text", (row[1] as Callable).call())
+
+
+## The map's title and size line in the current language (Loc.sink: logic text from the catalog).
+func _refresh_map_label() -> void:
+	if _map_label == null:
+		return
+	var e := MapCatalog.load_default().entry(MAP_ID)
+	var title := Loc.sink(String(e.get("title", "Ashwind Reach")))
+	var size_line := Loc.sink(MapCatalog.size_text(e)) if not e.is_empty() else Loc.t("192 x 96 m · 2 players")
+	_map_label.text = "%s\n%s" % [title, size_line]
+
+
+## A gold header label whose text is built in code (Loc.t) and rebuilt on a language switch.
+func _loc_label(text_of: Callable, size: int) -> Label:
+	var l := UIStyle.panel_label(String(text_of.call()), size, UIStyle.GOLD)
+	_track(l, text_of)
+	return l
+
+
+func _track(c: Control, text_of: Callable) -> void:
+	c.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	_texts.append([c, text_of])
 
 
 func focus_start() -> void:

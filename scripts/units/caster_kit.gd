@@ -121,6 +121,7 @@ static var _claims: Dictionary = {}
 ## Per-match spawn counter of the casters (attach order): the deterministic stagger of their autocast ticks and of
 ## the bot's fight spread (never instance ids, which depend on everything the process made before: Replay Lab, L5).
 static var _spawn_serial := 0
+static var _stagger_serial := 0   # R3-11: per-match counter for tick staggers (instance ids differ between runs)
 
 ## LayoutLevel (generated maps, scripts/world/layout_level.gd extends Skirmish) counts as the plain skirmish.
 const LAYOUT_LEVEL_SCRIPT := "res://scripts/world/layout_level.gd"
@@ -473,6 +474,7 @@ static func reset() -> void:
 	_runes.clear()
 	_claims.clear()
 	_spawn_serial = 0
+	reset_stagger()
 
 
 # ---------------------------------------------------------------- team claims (code review M2)
@@ -491,7 +493,7 @@ static func claim(team: int, spell_id: StringName, target: Variant, owner: Objec
 	if target is Unit and is_instance_valid(target):
 		tid = (target as Unit).get_instance_id()
 	else:
-		point = CasterAbility._point_of(target)
+		point = CasterAbility.point_of(target)
 	list.append({"spell": spell_id, "point": point, "target_id": tid, "owner_id": oid, "until": until})
 	_claims[team] = list
 
@@ -526,7 +528,7 @@ static func is_claimed(team: int, spell_id: StringName, target: Variant, except_
 	_claims[team] = live
 	var oid := except_owner.get_instance_id() if except_owner else 0
 	var tid := (target as Unit).get_instance_id() if target is Unit and is_instance_valid(target) else 0
-	var p: Variant = CasterAbility._point_of(target)
+	var p: Variant = CasterAbility.point_of(target)
 	for c: Dictionary in live:
 		if c["spell"] != spell_id or (oid != 0 and int(c["owner_id"]) == oid):
 			continue
@@ -560,5 +562,50 @@ static func bot_strength(u: Unit) -> float:
 	return float(t.cost) * (1.0 if full else 0.5)
 
 
+## Restarts the tick-stagger counter (next_stagger). main.gd calls it from `_enter_tree`, before the scene-placed
+## units' `_ready` take their numbers, so an F9 restart staggers exactly like a fresh launch.
+static func reset_stagger() -> void:
+	_stagger_serial = 0
+
+
+## The next value of a per-match counter (reset with reset_stagger(), every new match / F9). Ability nodes stagger their
+## periodic ticks with it instead of get_instance_id(), so a replay of the same match ticks on the same frames (R3-11).
+static func next_stagger() -> int:
+	_stagger_serial += 1
+	return _stagger_serial
+
+
+static var _clock_value := 0.0
+static var _clock_frame := -1
+static var _clock_match := -1.0
+
+
+## The gameplay clock in seconds (R3-7): follows the level's `match_time()` while a match runs (pauses with the game,
+## follows Blitz speed), else counts physics frames (Unit Lab, Wave Strike, tests, after the match ended). Never goes
+## back (F9 / a load continue from the current value). Shared by CasterKit, T3Kit, BowmanKit and HelperAbilities.
 static func now_s() -> float:
-	return float(Engine.get_physics_frames()) / float(maxi(1, Engine.physics_ticks_per_second))
+	var frame := int(Engine.get_physics_frames())
+	if frame == _clock_frame:
+		return _clock_value
+	var mt := _level_match_time()
+	if _clock_frame >= 0:
+		if mt >= 0.0 and _clock_match >= 0.0:
+			_clock_value += maxf(0.0, mt - _clock_match)
+		else:
+			_clock_value += float(frame - _clock_frame) / float(maxi(1, Engine.physics_ticks_per_second))
+	_clock_frame = frame
+	_clock_match = mt
+	return _clock_value
+
+
+# The running match's match_time(), -1 when there is none (no level with it, not started, game over).
+static func _level_match_time() -> float:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null or tree.current_scene == null:
+		return -1.0
+	var level := tree.current_scene
+	if not level.has_method(&"match_time"):
+		return -1.0
+	if level.get(&"match_started") == false or level.get(&"game_over") == true:
+		return -1.0
+	return float(level.call(&"match_time"))

@@ -256,6 +256,9 @@ var _attack_move := false        # walking to _attack_move_target, fighting enem
 var _attack_move_target := Vector3.ZERO
 var _hold := false               # hold position: never move, only hit enemies already in range
 var _auto_target := false        # true when we picked the target ourselves (not ordered)
+## True only while this unit's melee auto-attack deals its damage (read only): a `damage_taken` listener can tell a
+## melee strike from a spell, an ability or a DoT tick (Riposte, R2-6).
+var melee_strike_active := false
 var _anchor := Vector3.ZERO      # where the unit "lives" when idle; used for leashing
 var _cooldown_left := 0.0
 var _retarget_left := 0.0
@@ -278,6 +281,7 @@ var _model_has_status := false
 var _shot_left := -1.0            # > 0: a ranged shot waits for the model's release frame
 var _shot_target: Node3D = null
 var _death_done := false
+var _dots_at_death: Dictionary = {}   # die(): the DoTs the unit carried, spread after the state change
 var _death_serial := 0
 
 static var _hp_shader: Shader
@@ -293,7 +297,7 @@ func _ready() -> void:
 	add_to_group("units")
 	collision_layer = 2   # "units" layer, so clicks can find us
 	collision_mask = 1    # only collide with the world, avoidance keeps units apart
-	if not HelperAbilities._is_flyer(self):
+	if not HelperAbilities.is_flyer(self):
 		collision_mask |= CASTER_WALL_LAYER   # caster-units.md 5.2: Rime Bulwarks stop ground units, never flyers
 	_build_collision()
 	_build_visual()
@@ -309,7 +313,7 @@ func _ready() -> void:
 	_agent.neighbor_distance = AVOID_NEIGHBOR_DISTANCE
 	_agent.max_neighbors = AVOID_MAX_NEIGHBORS
 	_agent.time_horizon_agents = AVOID_TIME_HORIZON
-	if not HelperAbilities._is_flyer(self):
+	if not HelperAbilities.is_flyer(self):
 		_agent.avoidance_mask |= CASTER_WALL_AVOIDANCE   # slide along a Rime Bulwark's obstacle
 	_agent.velocity_computed.connect(_on_velocity_computed)
 	add_child(_agent)
@@ -377,13 +381,14 @@ func _apply_team_wares() -> void:
 
 ## Adds (or replaces) the modifier `source_id`. `stats` maps stat names to values: flat
 ## (`"attack_damage": 10`) or percent (`"attack_damage_pct": 0.1`). Raising max HP heals the gain,
-## lowering it clamps HP (never kills).
-func add_modifier(source_id: StringName, stats: Dictionary) -> void:
+## lowering it clamps HP (never kills). `heal_gain` = false: a max HP gain does not heal (a modifier that
+## only moves, e.g. an item swapped between slots or dropped and picked up again; R1-1).
+func add_modifier(source_id: StringName, stats: Dictionary, heal_gain := true) -> void:
 	var clean := {}
 	for key: Variant in stats:
 		clean[StringName(str(key))] = float(stats[key])
 	_mods[source_id] = clean
-	_recompute_stats(true)
+	_recompute_stats(heal_gain)
 
 
 func remove_modifier(source_id: StringName) -> void:
@@ -577,7 +582,8 @@ func _recompute_stats(heal_gain: bool) -> void:
 
 ## Applies timed status `status_id` (`&"haste"`, `&"shroud"`, `&"smoulder"`, `&"chill"`, `&"frozen"`,
 ## `&"rooted"`, `&"taunted"`, `&"dazed"`, `&"braced"`, `&"marked"`) for `seconds`; re-applying refreshes
-## the timer (never stacks). Ignored on a dead unit or an unknown id. Ends on death. Crowd control
+## the timer to the longer of the two (never stacks, never shortens). Ignored on a dead unit or an unknown id.
+## Ends on death. Crowd control
 ## (`frozen`, `rooted`, `dazed`, `taunted`) lasts half as long on heroes (wizards and champions), and
 ## `frozen` is refused for 2 s after a freeze ends. `full_duration` = true skips both rules
 ## (self-inflicted effects such as Glacier Shell, Bulwark Stand). `taunted` never lands on a wizard;
@@ -603,7 +609,7 @@ func apply_status(status_id: StringName, seconds: float, full_duration: bool = f
 		if has_meta(STATUS_TIME_MULT_META):
 			seconds *= float((get_meta(STATUS_TIME_MULT_META) as Dictionary).get(status_id, 1.0))
 	var fresh := not _statuses.has(status_id)
-	_statuses[status_id] = seconds
+	_statuses[status_id] = seconds if fresh else maxf(float(_statuses[status_id]), seconds)   # never shortened (R1-5)
 	if not fresh:
 		return
 	_update_damage_taken()   # also the cooldown mult / speed floor / can_move / can_act flags
@@ -1107,8 +1113,8 @@ static func kill_xp_value(victim: Node) -> int:
 	if victim.is_in_group(&"champions"):
 		var clvl: Variant = victim.get(&"level")
 		return CHAMPION_KILL_XP + CHAMPION_KILL_XP_PER_LEVEL * (int(clvl) if clvl != null else 1)
-	# Any wizard (Vessa is in "heroes", Malrik in "enemy_heroes").
-	if victim.is_in_group(&"heroes") or victim.is_in_group(&"enemy_heroes"):
+	# Any wizard (Vessa is in "heroes", Malrik in "enemy_heroes", a 2v2 allied bot wizard only in "ally_heroes"; R1-2).
+	if victim is Wizard or victim.is_in_group(&"heroes") or victim.is_in_group(&"enemy_heroes"):
 		var lvl: Variant = victim.get(&"level")
 		return WIZARD_KILL_XP + WIZARD_KILL_XP_PER_LEVEL * (int(lvl) if lvl != null else 1)
 	var unit := victim as Unit
@@ -1219,6 +1225,58 @@ func set_auto_target(target: Node3D) -> void:
 		return
 	attack_target = target
 	_auto_target = true
+
+
+## Clears `attack_target` only when it is `target` (Smoke Pouch, Mother Hush's Smoke / Night of Knives: the enemy
+## loses sight of her). The order is kept: an attack-move walks on, a hold holds, an idle unit picks a new target by
+## auto-aggro. An explicit attack order on `target` ends (there is nothing left to attack). Not a player order.
+func drop_target_if(target: Node3D) -> void:
+	if target == null or attack_target != target:
+		return
+	attack_target = null
+	_auto_target = false
+
+
+## Puts the unit at `pos` (snapped to the navmesh), quietly: no order change, no signal, no animation. Used when a
+## system must move a unit out of the way (a new building's footprint, a teleport). The leash anchor and the path
+## restart from the new spot; a move / attack-move / gather order goes on from there.
+func set_down(pos: Vector3) -> void:
+	if not is_inside_tree():
+		position = pos
+		return
+	var p := snap_to_navmesh(pos)
+	global_position = Vector3(p.x, global_position.y, p.z)
+	velocity = Vector3.ZERO
+	_displace = {}
+	_anchor = global_position
+	var dest := _last_nav_target
+	_last_nav_target = Vector3.INF
+	if _agent:
+		_agent.velocity = Vector3.ZERO
+		if dest != Vector3.INF:
+			_set_nav_target(dest)   # same destination, new path from here
+
+
+## `pos` moved onto the closest point of the navmesh (and off water when a river is there); `pos` itself when the
+## unit is not in the tree or the map has no navmesh yet.
+func snap_to_navmesh(pos: Vector3) -> Vector3:
+	if not is_inside_tree():
+		return pos
+	var world := get_world_3d()
+	if world == null:
+		return pos
+	var map := world.navigation_map
+	if not map.is_valid() or NavigationServer3D.map_get_iteration_id(map) <= 0 \
+			or NavigationServer3D.map_get_regions(map).is_empty():
+		return pos
+	var q := NavigationServer3D.map_get_closest_point(map, pos)
+	var river := get_tree().get_first_node_in_group(&"river")
+	if river != null and river.has_method(&"is_water") and bool(river.call(&"is_water", q)) \
+			and river.has_method(&"nearest_land"):
+		var land: Variant = river.call(&"nearest_land", q)
+		if land is Vector3:
+			q = NavigationServer3D.map_get_closest_point(map, land)
+	return Vector3(q.x, pos.y, q.z)
 
 
 ## Walk to target; fight any enemy met within aggro_range on the way, then resume the walk.
@@ -1550,6 +1608,17 @@ func heal(amount: float) -> void:
 func die() -> void:
 	if _dead:
 		return
+	_enter_dead_state()
+	award_soldier_kill_xp(self, killer)
+	_spread_dots(_dots_at_death, global_position)
+	_dots_at_death = {}
+	died.emit(self)
+	_after_death_signals()
+
+
+# The silent part of die(): dead, out of "units", not clickable, statuses / DoTs / shield / auras gone. Also used to
+# restore an already fallen champion from a save (Champion.restore_fallen, no signals).
+func _enter_dead_state() -> void:
 	_dead = true
 	hp = 0.0
 	selected = false
@@ -1557,15 +1626,17 @@ func die() -> void:
 	_cast_lock_left = 0.0
 	remove_from_group("units")
 	collision_layer = 0
-	_agent.avoidance_enabled = false
+	if _agent:
+		_agent.avoidance_enabled = false
 	set_physics_process(false)
-	_hp_bar.visible = false
+	if _hp_bar:
+		_hp_bar.visible = false
 	_update_chevrons()   # hides them
 	for status_id: StringName in _statuses.keys():
 		_end_status(status_id)
-	var dots := _dots
+	_dots_at_death = _dots
 	_dots = {}
-	for id: StringName in dots:
+	for id: StringName in _dots_at_death:
 		_remove_mark(id)
 	_clear_shield()
 	for mod_id: StringName in _aura_in:
@@ -1573,9 +1644,10 @@ func die() -> void:
 	if not _aura_in.is_empty():
 		_aura_in.clear()
 		_recompute_stats(false)
-	award_soldier_kill_xp(self, killer)
-	_spread_dots(dots, global_position)
-	died.emit(self)
+
+
+# The rest of die() once `died` went out: Events.unit_died, then the death animation (or tween) and _on_death_finished.
+func _after_death_signals() -> void:
 	# Autoloads are looked up at runtime (not by name) so headless test scripts still compile.
 	var events := get_node_or_null(^"/root/Events")
 	if events:
@@ -1967,7 +2039,9 @@ func _perform_attack(target: Node3D) -> void:
 		else:
 			_lunge()
 		var before: Variant = target.get(&"hp")
+		melee_strike_active = true
 		target.call(&"take_damage", attack_damage, self)
+		melee_strike_active = false
 		var after: Variant = target.get(&"hp")
 		var dealt := attack_damage
 		if before != null and after != null:
@@ -2459,7 +2533,9 @@ void fragment() {
 
 ## Modifier sources a save keeps (the others are re-derived: level, veterancy, items, Forge, upgrades, wares, path...,
 ## or timed: statuses, auras, abilities).
-const SAVE_MODIFIER_PREFIXES: Array[String] = ["mission:", "save:"]
+## `rank3` (Stables rank 3) and `bowman:` (bowman upgrades) are kept too (R3-3): their researches come back through the
+## saved_state rows of Stables16 / BowmanUpgrades, and the unit's HP is restored on top of the right max HP.
+const SAVE_MODIFIER_PREFIXES: Array[String] = ["mission:", "save:", "rank3", "bowman:"]
 
 
 ## The unit as a save row (SaveWorld): `ids` maps saved nodes -> save id (targets, sites are saved as ids).
@@ -2478,6 +2554,9 @@ func save_snapshot(ids: Dictionary) -> Dictionary:
 		"anchor": _anchor,
 		"aggro": aggro_range,
 	}
+	if _lifetime_total > 0.0:   # summons (R1-4): the time left survives a load
+		d["lifetime_total"] = _lifetime_total
+		d["lifetime_left"] = _lifetime_left
 	var caster := get_node_or_null(^"CasterAbility")
 	if caster and &"mana" in caster:
 		d["caster_mana"] = float(caster.get(&"mana"))
@@ -2542,6 +2621,9 @@ func load_snapshot_base(d: Dictionary, nodes: Dictionary) -> void:
 	if is_alive() and not groups.has("units") and is_in_group(&"units"):
 		remove_from_group(&"units")   # asleep for its mission (MissionBase.set_dormant / hold_world)
 	aggro_range = float(d.get("aggro", aggro_range))
+	if d.has("lifetime_total"):
+		_lifetime_total = maxf(0.0, float(d["lifetime_total"]))
+		_lifetime_left = clampf(float(d.get("lifetime_left", _lifetime_total)), 0.01, maxf(0.01, _lifetime_total))
 
 
 ## Phase 2 of a load (after the frame's upgrade / ware flushes): saved modifiers, HP, mana, carried crystals, order.

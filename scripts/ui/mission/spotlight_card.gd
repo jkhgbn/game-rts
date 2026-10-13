@@ -119,5 +119,5 @@ func open_guide() -> void:
 		menu.open()
 		menu.show_unit_guide()
 		if menu.unit_guide:
-			menu.unit_guide.select_unit(unit_id)
+			menu.unit_guide.show_unit(unit_id)   # U5-4: compare off, filters cleared
 	dismiss()

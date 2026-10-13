@@ -285,7 +285,7 @@ func _check_hint() -> void:
 	if _message_line_busy() and _clock - _hint_due_at < HINT_MAX_WAIT:
 		return
 	hint_done = true
-	hint_shown = route_message(HINT_TEXT, HINT_SECONDS)
+	hint_shown = route_message(VfxText.capture_hint(), HINT_SECONDS)   # V1-5: translated (same English as HINT_TEXT)
 
 
 ## True while the HUD's message line still shows another line.
@@ -420,6 +420,10 @@ func _scan_splashes() -> void:
 	for id: int in _wading.keys():
 		if not seen.has(id):
 			_wading.erase(id)
+	# V1-6: forget the splash times of units that left the ford long ago (dead / freed units never come back)
+	for id: int in _splash_at.keys():
+		if not _wading.has(id) and _clock - float(_splash_at[id]) >= SPLASH_PER_UNIT:
+			_splash_at.erase(id)
 
 
 ## Plays a splash at `at` on a free pooled 3D player (none free = skipped: at most 3 at once). True if it played.

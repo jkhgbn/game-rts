@@ -206,14 +206,7 @@ func hire(team: int, kind: StringName) -> String:
 	if not bool(bank.call(&"spend", contract_cost(kind))):
 		return R_GOLD
 	var lodge := _pick_lodge(team, first_destination(team, kind))
-	var door: Vector3 = lodge["door"]
-	var trackers := _spawn_trackers(team, kind, contract_trackers(kind), door)
-	var duration := contract_duration(kind)
-	var contract := _make_contract(team, kind, trackers, duration)
-	for t: Node in trackers:
-		t.set_meta(&"tracker_contract", contract)
-	_running[_key(team, kind)] = {"team": team, "kind": kind, "contract": contract, "trackers": trackers,
-			"ends_at": _clock + duration}
+	var contract := _start_contract(team, kind, lodge)
 	var lodge_node: Node = lodge["node"]
 	if lodge_node and is_instance_valid(lodge_node) and lodge_node.has_method(&"play_contract"):
 		lodge_node.call(&"play_contract")
@@ -221,6 +214,33 @@ func hire(team: int, kind: StringName) -> String:
 		message.emit(String(MSG_HIRED.get(kind, "")), 4.0)
 	contract_started.emit(team, kind, contract)
 	return ""
+
+
+## Load (TrackerContract.create_for_save): starts a contract of `kind` for `team` like hire() but quietly: no price
+## (the caller handles it), no open / cooldown / caravan checks, no "hired" line, no Lodge animation, no
+## contract_started. Fresh trackers walk out of the Lodge nearer the first destination with the full duration (the
+## caller may set the time left). Returns the contract node (the running one if there is already one), or null for
+## an unknown kind.
+func restore_contract(team: int, kind: StringName) -> Node:
+	kind = StringName(kind)
+	if not CONTRACTS.has(kind):
+		return null
+	if is_running(team, kind):
+		return contract_of(team, kind)
+	return _start_contract(team, kind, _pick_lodge(team, first_destination(team, kind)))
+
+
+## Spawns the trackers at `lodge`'s door, makes the contract and records it as running (hire / restore_contract).
+func _start_contract(team: int, kind: StringName, lodge: Dictionary) -> Node:
+	var door: Vector3 = lodge["door"]
+	var trackers := _spawn_trackers(team, kind, contract_trackers(kind), door)
+	var duration := contract_duration(kind)
+	var contract := _make_contract(team, kind, trackers, duration)
+	for t: Node in trackers:
+		t.set_meta(&"_tracker_contract", contract)
+	_running[_key(team, kind)] = {"team": team, "kind": kind, "contract": contract, "trackers": trackers,
+			"ends_at": _clock + duration}
+	return contract
 
 
 ## True while `team` has a running contract of `kind`.

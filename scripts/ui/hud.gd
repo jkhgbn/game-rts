@@ -593,6 +593,8 @@ func show_banner(text: String, color: Color) -> void:
 		tavern_window.close()   # the match ended
 	if trade_window != null and is_instance_valid(trade_window):
 		trade_window.close()
+	if shop_window != null and is_instance_valid(shop_window):
+		shop_window.close()   # U4-1: it covered the banner / Score tab / Restart / Main menu buttons
 	text = Loc.sink(text)
 	_banner.text = text
 	_banner.add_theme_color_override("font_color", color)

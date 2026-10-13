@@ -2376,7 +2376,7 @@ msgstr ""
 
 #. weak_against
 #: data/ui/unit_guide.json:caravan data/ui/unit_guide.json:greywater_tracker
-#: scripts/world/hunters_guild.gd:581
+#: scripts/world/hunters_guild.gd:601
 msgid "Magpies"
 msgstr ""
 

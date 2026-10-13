@@ -280,11 +280,11 @@ func _refresh_post(post: Node3D) -> void:
 		_set_line(1, [["Build a Bazaar to trade", muted]])
 	else:
 		var far := is_far(net, market, post)
-		# Coloured segments (each one a msgid: "For you: ", "far" / "near", "{n} gold", " per trip from your Bazaar").
-		_set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-				TradeWindow.FAR if far else TradeWindow.NEAR], [" · ", text],
-				[Loc.t("{n} gold", {"n": route_value(net, market, post)}), TradeWindow.GOLD_TEXT],
-				[Loc.t(" per trip from your Bazaar"), text]])
+		# U4-3: one whole sentence per variant (no fragments), in the far / near colour
+		var gold := route_value(net, market, post)
+		var line := Loc.t("For you: far · {n} gold per trip from your Bazaar", {"n": gold}) if far \
+				else Loc.t("For you: near · {n} gold per trip from your Bazaar", {"n": gold})
+		_set_line(1, [[line, TradeWindow.FAR if far else TradeWindow.NEAR]])
 	# Holder.
 	var holder := int(post.call(&"holder_team")) if post.has_method(&"holder_team") else -1
 	if holder == ENEMY_TEAM:
@@ -353,8 +353,8 @@ func _refresh_den() -> void:
 	var n := TradeWindow.visible_magpies(get_tree())
 	_set_line(0, [[DEN_TEXT, UIStyle.token(&"text"), 13]])
 	_set_line(1, [[DEN_TIMES, UIStyle.token(&"text_muted"), 13]])
-	_set_line(2, [["Magpies you can see: ", UIStyle.token(&"text")],
-			[str(n), TradeWindow.GOLD_TEXT if n > 0 else UIStyle.token(&"text_muted")]])
+	_set_line(2, [[Loc.t("Magpies you can see: {n}", {"n": n}),   # U4-3: one sentence, not "label: " + number
+			TradeWindow.GOLD_TEXT if n > 0 else UIStyle.token(&"text")]])
 	_set_line(3, [[DEN_REWARD, UIStyle.token(&"text_muted"), 12]])
 	hint_label.text = ""
 	action_button.visible = false

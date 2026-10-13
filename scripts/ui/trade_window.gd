@@ -620,7 +620,7 @@ static func row_key_label(i: int) -> String:
 
 func _input(event: InputEvent) -> void:
 	if visible and event is InputEventKey and event.pressed and not event.echo \
-			and (event as InputEventKey).physical_keycode == KEY_ESCAPE:
+			and (event as InputEventKey).physical_keycode == KEY_ESCAPE and not ChatLine.is_any_open():   # U4-8
 		close()
 		get_viewport().set_input_as_handled()
 
@@ -1176,7 +1176,7 @@ class WareRow extends TradeRow:
 		buy_button.modulate.a = 0.45 if reason != "" else 1.0
 		var rk := TradeWindow.row_key_label(index)
 		buy_key.text = rk
-		buy_button.tooltip_text = Loc.t("Buy {name}  [{key}]\n{gold} gold · once", {"name": str(info.get("name", id)),
+		buy_button.tooltip_text = Loc.t("Buy {name}  [{key}]\n{gold} gold · once", {"name": Loc.sink(str(info.get("name", id))),
 				"key": rk, "gold": price}) + "\n" + Loc.t(str(info.get("effect", ""))) \
 				+ ("\n" + Loc.sink(reason) if reason != "" else "")
 		rim = Color(UIStyle.GOLD, 0.6) if owned else Color(0, 0, 0, 0)
@@ -1335,7 +1335,7 @@ class ContractRow extends TradeRow:
 		var rk := TradeWindow.row_key_label(index)
 		hire_key.text = rk
 		hire_button.tooltip_text = Loc.t("Hire {name}  [{key}]\n{gold} gold · {n} trackers · {secs} s", {
-				"name": str(info.get("name", kind)), "key": rk, "gold": cost, "n": trackers, "secs": roundi(duration)}) \
+				"name": Loc.sink(str(info.get("name", kind))), "key": rk, "gold": cost, "n": trackers, "secs": roundi(duration)}) \
 				+ ("\n" + Loc.sink(reason) if reason != "" else "")
 		var glow := UIStyle.token(&"trim_glow")
 		rim = Color(glow.r, glow.g, glow.b, 0.6) if state == &"running" else Color(0, 0, 0, 0)

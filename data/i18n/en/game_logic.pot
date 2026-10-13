@@ -240,7 +240,7 @@ msgstr ""
 
 #. const REASON_WORKING := "Already in progress"
 #: scripts/buildings/forge_kit.gd:81 scripts/buildings/unit_upgrades.gd:42
-#: scripts/units/bowman_upgrades.gd:47 scripts/units/stables16.gd:265
+#: scripts/units/bowman_upgrades.gd:48 scripts/units/stables16.gd:282
 msgid "Already in progress"
 msgstr ""
 
@@ -250,7 +250,7 @@ msgid "Tiers are off"
 msgstr ""
 
 #. const REASON_MAX_TIER := "Already a Citadel"
-#: scripts/buildings/keep.gd:22 scripts/buildings/tier_system.gd:263
+#: scripts/buildings/keep.gd:22 scripts/buildings/tier_system.gd:264
 msgid "Already a Citadel"
 msgstr ""
 
@@ -259,58 +259,63 @@ msgstr ""
 msgid "Upgrade in progress"
 msgstr ""
 
-#. _tier_stub.display_name = "Cancel %s" % name_to
-#: scripts/buildings/keep.gd:196
-msgid "Cancel %s"
+#. const CANCEL_NAMES := {2: "Cancel Stronghold", 3: "Cancel Citadel"}
+#: scripts/buildings/keep.gd:28
+msgid "Cancel Stronghold"
+msgstr ""
+
+#. const CANCEL_NAMES := {2: "Cancel Stronghold", 3: "Cancel Citadel"}
+#: scripts/buildings/keep.gd:28
+msgid "Cancel Citadel"
 msgstr ""
 
 #. var lines: Array[String] = ["Upgrade the keep: +%d %% HP, +%d damage." % [
-#: scripts/buildings/keep.gd:221
+#: scripts/buildings/keep.gd:229
 msgid "Upgrade the keep: +%d %% HP, +%d damage."
 msgstr ""
 
 #. opens.append("the \"+\" upgrades at the Hall")
-#: scripts/buildings/keep.gd:228
+#: scripts/buildings/keep.gd:236
 msgid "the \"+\" upgrades at the Hall"
 msgstr ""
 
 #. lines.append("Opens: " + " · ".join(opens))
-#: scripts/buildings/keep.gd:230
+#: scripts/buildings/keep.gd:238
 msgid "Opens:  · "
 msgstr ""
 
 #. needs.append("from %s" % TierSystem.clock(ts.start_time(to)))
-#: scripts/buildings/keep.gd:234
+#: scripts/buildings/keep.gd:242
 msgid "from %s"
 msgstr ""
 
 #. needs.append("a completed Hall")
-#: scripts/buildings/keep.gd:236
+#: scripts/buildings/keep.gd:244
 msgid "a completed Hall"
 msgstr ""
 
 #. needs.push_front("the Stronghold")
-#: scripts/buildings/keep.gd:238
+#: scripts/buildings/keep.gd:246
 msgid "the Stronghold"
 msgstr ""
 
 #. lines.append("Needs " + ", ".join(needs) + ".")
-#: scripts/buildings/keep.gd:240
+#: scripts/buildings/keep.gd:248
 msgid "Needs , "
 msgstr ""
 
 #. return "Exchange disabled"
-#: scripts/buildings/keep.gd:320
+#: scripts/buildings/keep.gd:328
 msgid "Exchange disabled"
 msgstr ""
 
 #. return "Not your shop"
-#: scripts/buildings/keep.gd:324
+#: scripts/buildings/keep.gd:332
 msgid "Not your shop"
 msgstr ""
 
 #. return "Essence not available"
-#: scripts/buildings/keep.gd:327
+#: scripts/buildings/keep.gd:335
 msgid "Essence not available"
 msgstr ""
 
@@ -365,7 +370,7 @@ msgid "Call "
 msgstr ""
 
 #. return "Available at %s" % clock(start_time(to_tier))
-#: scripts/buildings/tier_system.gd:268
+#: scripts/buildings/tier_system.gd:269
 msgid "Available at %s"
 msgstr ""
 
@@ -395,13 +400,13 @@ msgid "Can't train that here"
 msgstr ""
 
 #. const REASON_DONE := "Already researched"
-#: scripts/buildings/unit_upgrades.gd:41 scripts/units/bowman_upgrades.gd:46
-#: scripts/units/stables16.gd:263
+#: scripts/buildings/unit_upgrades.gd:41 scripts/units/bowman_upgrades.gd:47
+#: scripts/units/stables16.gd:280
 msgid "Already researched"
 msgstr ""
 
 #. const REASON_BUSY := "The Hall is busy with another upgrade"
-#: scripts/buildings/unit_upgrades.gd:43 scripts/units/bowman_upgrades.gd:48
+#: scripts/buildings/unit_upgrades.gd:43 scripts/units/bowman_upgrades.gd:49
 msgid "The Hall is busy with another upgrade"
 msgstr ""
 
@@ -411,82 +416,82 @@ msgid "Needs a completed Hall that trains it"
 msgstr ""
 
 #. &"frostbow_rimed_shafts": {"name": "Rimed Shafts", "unit": &"frostbow", "crystals": 100, "time": 40.0,
-#: scripts/units/bowman_upgrades.gd:19
+#: scripts/units/bowman_upgrades.gd:20
 msgid "Rimed Shafts"
 msgstr ""
 
 #. "text": "Frostbow arrows chill for 2.5 s (was 1.5); Hamstring Shot every 8 s (was 12)."},
-#: scripts/units/bowman_upgrades.gd:21
+#: scripts/units/bowman_upgrades.gd:22
 msgid "Frostbow arrows chill for 2.5 s (was 1.5); Hamstring Shot every 8 s (was 12)."
 msgstr ""
 
 #. &"scorchbow_heavy_draw": {"name": "Heavy Draw", "unit": &"scorchbow", "crystals": 100, "time": 35.0,
-#: scripts/units/bowman_upgrades.gd:22
+#: scripts/units/bowman_upgrades.gd:23
 msgid "Heavy Draw"
 msgstr ""
 
 #. "text": "Scorchbows +3 arrow damage (17)."},
-#: scripts/units/bowman_upgrades.gd:24
+#: scripts/units/bowman_upgrades.gd:25
 msgid "Scorchbows +3 arrow damage (17)."
 msgstr ""
 
 #. &"scorchbow_pitch_arrows": {"name": "Pitch Arrows", "unit": &"scorchbow", "crystals": 125, "time": 45.0,
-#: scripts/units/bowman_upgrades.gd:25
+#: scripts/units/bowman_upgrades.gd:26
 msgid "Pitch Arrows"
 msgstr ""
 
 #. "text": "Scorchbow burn: 3.5 damage per second for 4 s (was 2 for 3 s). Needs Heavy Draw."},
-#: scripts/units/bowman_upgrades.gd:27
+#: scripts/units/bowman_upgrades.gd:28
 msgid "Scorchbow burn: 3.5 damage per second for 4 s (was 2 for 3 s). Needs Heavy Draw."
 msgstr ""
 
 #. &"bleakbow_serrated_barbs": {"name": "Serrated Barbs", "unit": &"bleakbow", "crystals": 100, "time": 40.0,
-#: scripts/units/bowman_upgrades.gd:28
+#: scripts/units/bowman_upgrades.gd:29
 msgid "Serrated Barbs"
 msgstr ""
 
 #. "text": "Bleed stacks up to 5 times (was 3): 7.5 damage per second at full stacks."},
-#: scripts/units/bowman_upgrades.gd:30
+#: scripts/units/bowman_upgrades.gd:31
 msgid "Bleed stacks up to 5 times (was 3): 7.5 damage per second at full stacks."
 msgstr ""
 
 #. &"wildwood_keen_eye": {"name": "Keen Eye", "unit": &"wildwood_archer", "crystals": 75, "time": 30.0,
-#: scripts/units/bowman_upgrades.gd:31
+#: scripts/units/bowman_upgrades.gd:32
 msgid "Keen Eye"
 msgstr ""
 
 #. "text": "Wildwood Archers: 15 % of arrows crit for double damage."},
-#: scripts/units/bowman_upgrades.gd:33
+#: scripts/units/bowman_upgrades.gd:34
 msgid "Wildwood Archers: 15 % of arrows crit for double damage."
 msgstr ""
 
 #. &"wildwood_heartseeker": {"name": "Heartseeker Points", "unit": &"wildwood_archer", "crystals": 100,
-#: scripts/units/bowman_upgrades.gd:34
+#: scripts/units/bowman_upgrades.gd:35
 msgid "Heartseeker Points"
 msgstr ""
 
 #. "text": "Crits: 20 % of arrows, x2.75 damage. Needs Keen Eye."},
-#: scripts/units/bowman_upgrades.gd:36
+#: scripts/units/bowman_upgrades.gd:37
 msgid "Crits: 20 % of arrows, x2.75 damage. Needs Keen Eye."
 msgstr ""
 
 #. &"wildwood_hunting_party": {"name": "Hunting Party", "unit": &"wildwood_archer", "crystals": 200,
-#: scripts/units/bowman_upgrades.gd:37
+#: scripts/units/bowman_upgrades.gd:38
 msgid "Hunting Party"
 msgstr ""
 
 #. "text": "Every Wildwood Archer trained brings a second one for free (needs 1 free pop). Needs Heartseeker Poin
-#: scripts/units/bowman_upgrades.gd:39
+#: scripts/units/bowman_upgrades.gd:40
 msgid "Every Wildwood Archer trained brings a second one for free (needs 1 free pop). Needs Heartseeker Points."
 msgstr ""
 
 #. const REASON_UNKNOWN := "Unknown upgrade"
-#: scripts/units/bowman_upgrades.gd:45
+#: scripts/units/bowman_upgrades.gd:46
 msgid "Unknown upgrade"
 msgstr ""
 
 #. const REASON_HALL := "Needs a completed Hall of your kingdom"
-#: scripts/units/bowman_upgrades.gd:49
+#: scripts/units/bowman_upgrades.gd:50
 msgid "Needs a completed Hall of your kingdom"
 msgstr ""
 
@@ -611,7 +616,7 @@ msgid "Out of range"
 msgstr ""
 
 #. const REASON_NO_TARGET := "No target"
-#: scripts/units/caster_kit.gd:99 scripts/units/helper_abilities.gd:125
+#: scripts/units/caster_kit.gd:99 scripts/units/helper_abilities.gd:126
 msgid "No target"
 msgstr ""
 
@@ -621,27 +626,27 @@ msgid "Can't cast now"
 msgstr ""
 
 #. var cost := "%d mana" % roundi(float(s.get("mana", 0.0)))
-#: scripts/units/caster_kit.gd:227
+#: scripts/units/caster_kit.gd:228
 msgid "%d mana"
 msgstr ""
 
 #. cost = "%s mana/s (%d to start)" % [str(snappedf(float(s.get("per_second", 0.0)), 0.1)), roundi(float(s.get("m
-#: scripts/units/caster_kit.gd:229
+#: scripts/units/caster_kit.gd:230
 msgid "%s mana/s (%d to start)"
 msgstr ""
 
 #. var line2 := "%s · range %d" % [cost, roundi(float(s.get("range", 0.0)))]
-#: scripts/units/caster_kit.gd:230
+#: scripts/units/caster_kit.gd:231
 msgid "%s · range %d"
 msgstr ""
 
 #. return "%s  [%s]\n%s\n%s\nRight-click or Ctrl+%s: autocast on / off" % [spell_name(spell_id), key, line2,
-#: scripts/units/caster_kit.gd:235
+#: scripts/units/caster_kit.gd:236
 msgid "%s  [%s]\n%s\n%s\nRight-click or Ctrl+%s: autocast on / off"
 msgstr ""
 
 #. return "Max %d %ss" % [MAX_PER_TEAM, type.display_name]
-#: scripts/units/caster_kit.gd:263
+#: scripts/units/caster_kit.gd:264
 msgid "Max %d %ss"
 msgstr ""
 
@@ -801,12 +806,12 @@ msgid "Invalid stance"
 msgstr ""
 
 #. return "Unknown ability"
-#: scripts/units/helper_abilities.gd:111
+#: scripts/units/helper_abilities.gd:112
 msgid "Unknown ability"
 msgstr ""
 
 #. return "Requires level %d" % helper.helper_type.signature_level
-#: scripts/units/helper_abilities.gd:113
+#: scripts/units/helper_abilities.gd:114
 msgid "Requires level %d"
 msgstr ""
 
@@ -826,42 +831,42 @@ msgid "No helper for this kingdom"
 msgstr ""
 
 #. _call_type.display_name = "Call %s" % ht.display_name
-#: scripts/units/helper_roster.gd:135
+#: scripts/units/helper_roster.gd:298
 msgid "Call %s"
 msgstr ""
 
 #. _revive_type.display_name = "Revive %s" % ht.display_name
-#: scripts/units/helper_roster.gd:187
+#: scripts/units/helper_roster.gd:350
 msgid "Revive %s"
 msgstr ""
 
 #. var name_ := ht.display_name if ht else "The helper"
-#: scripts/units/helper_roster.gd:371
+#: scripts/units/helper_roster.gd:530
 msgid "The helper"
 msgstr ""
 
 #. text = ("%s answers the call" % name_) if own else ("The enemy calls %s!" % name_)
-#: scripts/units/helper_roster.gd:376
+#: scripts/units/helper_roster.gd:535
 msgid "%s answers the call"
 msgstr ""
 
 #. text = ("%s answers the call" % name_) if own else ("The enemy calls %s!" % name_)
-#: scripts/units/helper_roster.gd:376
+#: scripts/units/helper_roster.gd:535
 msgid "The enemy calls %s!"
 msgstr ""
 
 #. text = "%s takes the field!" % name_
-#: scripts/units/helper_roster.gd:378
+#: scripts/units/helper_roster.gd:537
 msgid "%s takes the field!"
 msgstr ""
 
 #. text = "%s has fallen" % name_
-#: scripts/units/helper_roster.gd:380 scripts/world/champion_guild.gd:89
+#: scripts/units/helper_roster.gd:539 scripts/world/champion_guild.gd:89
 msgid "%s has fallen"
 msgstr ""
 
 #. text = "%s returns" % name_
-#: scripts/units/helper_roster.gd:382
+#: scripts/units/helper_roster.gd:541
 msgid "%s returns"
 msgstr ""
 
@@ -941,12 +946,12 @@ msgid "Requires a Bazaar or a second Hall"
 msgstr ""
 
 #. var gate := (REASON_T2 if OWN_T2_GATE else "Tier 2: requires Stronghold") if tier_of(type_id) >= 2 else ""
-#: scripts/units/new_units_12.gd:108
+#: scripts/units/new_units_12.gd:109
 msgid "Tier 2: requires Stronghold"
 msgstr ""
 
 #. return "Malrik can't cast Fireball"
-#: scripts/units/shadow_wizard.gd:123
+#: scripts/units/shadow_wizard.gd:140
 msgid "Malrik can't cast Fireball"
 msgstr ""
 
@@ -991,97 +996,97 @@ msgid "Thornback Warden"
 msgstr ""
 
 #. &"blaze_rider": "Tier 1 shock cavalry. Beats archers and casters, loses to spears and guards. Rank 3: Blaze Ca
-#: scripts/units/stables16.gd:46
+#: scripts/units/stables16.gd:47
 msgid "Tier 1 shock cavalry. Beats archers and casters, loses to spears and guards. Rank 3: Blaze Captain."
 msgstr ""
 
 #. &"emberdart_harrier": "Tier 1 mounted javelins. Hit and run; fragile up close.",
-#: scripts/units/stables16.gd:47
+#: scripts/units/stables16.gd:48
 msgid "Tier 1 mounted javelins. Hit and run; fragile up close."
 msgstr ""
 
 #. &"pyrehoof_lancer": "Tier 2 heavy boar lancer. Breaks lines. Rank 3: Pyrehoof Warlord.",
-#: scripts/units/stables16.gd:48
+#: scripts/units/stables16.gd:49
 msgid "Tier 2 heavy boar lancer. Breaks lines. Rank 3: Pyrehoof Warlord."
 msgstr ""
 
 #. &"sunforge_cataphract": "Tier 3 elite cataphract. Armored, hits very hard.",
-#: scripts/units/stables16.gd:49
+#: scripts/units/stables16.gd:50
 msgid "Tier 3 elite cataphract. Armored, hits very hard."
 msgstr ""
 
 #. &"gloam_rider": "Tier 1 lancer. Fast raider. Rank 3: Gloam Marauder.",
-#: scripts/units/stables16.gd:50
+#: scripts/units/stables16.gd:51
 msgid "Tier 1 lancer. Fast raider. Rank 3: Gloam Marauder."
 msgstr ""
 
 #. &"duskbolt_harrier": "Tier 1 mounted crossbow. Hit and run; fragile up close.",
-#: scripts/units/stables16.gd:51
+#: scripts/units/stables16.gd:52
 msgid "Tier 1 mounted crossbow. Hit and run; fragile up close."
 msgstr ""
 
 #. &"barrow_knight": "Tier 2 grave knight. Heavy hitter. Rank 3: Barrow Dreadlord.",
-#: scripts/units/stables16.gd:52
+#: scripts/units/stables16.gd:53
 msgid "Tier 2 grave knight. Heavy hitter. Rank 3: Barrow Dreadlord."
 msgstr ""
 
 #. &"veilborn_dreadrider": "Tier 3 elite dread rider. The hardest hitter of the Stables.",
-#: scripts/units/stables16.gd:53
+#: scripts/units/stables16.gd:54
 msgid "Tier 3 elite dread rider. The hardest hitter of the Stables."
 msgstr ""
 
 #. &"snowdrift_rider": "Tier 1 armored scout; every hit chills. Rank 3: Snowdrift Captain.",
-#: scripts/units/stables16.gd:54
+#: scripts/units/stables16.gd:55
 msgid "Tier 1 armored scout; every hit chills. Rank 3: Snowdrift Captain."
 msgstr ""
 
 #. &"rime_harrier": "Tier 1 mounted frost javelins; every hit chills.",
-#: scripts/units/stables16.gd:55
+#: scripts/units/stables16.gd:56
 msgid "Tier 1 mounted frost javelins; every hit chills."
 msgstr ""
 
 #. &"rimehorn_rider": "Tier 2 armored breaker; hits chill 2 s. Rank 3: Rimehorn Warden.",
-#: scripts/units/stables16.gd:56
+#: scripts/units/stables16.gd:57
 msgid "Tier 2 armored breaker; hits chill 2 s. Rank 3: Rimehorn Warden."
 msgstr ""
 
 #. &"frostcrown_juggernaut": "Tier 3 elite. The toughest rider; hits chill 2 s.",
-#: scripts/units/stables16.gd:57
+#: scripts/units/stables16.gd:58
 msgid "Tier 3 elite. The toughest rider; hits chill 2 s."
 msgstr ""
 
 #. &"stagrunner": "Tier 1 fast skirmisher; regenerates. Rank 3: Elder Stagrunner.",
-#: scripts/units/stables16.gd:58
+#: scripts/units/stables16.gd:59
 msgid "Tier 1 fast skirmisher; regenerates. Rank 3: Elder Stagrunner."
 msgstr ""
 
 #. &"bramble_harrier": "Tier 1 mounted thorn darts; regenerates.",
-#: scripts/units/stables16.gd:59
+#: scripts/units/stables16.gd:60
 msgid "Tier 1 mounted thorn darts; regenerates."
 msgstr ""
 
 #. &"thornback_charger": "Tier 2 heavy stag charger; regenerates. Rank 3: Thornback Warden.",
-#: scripts/units/stables16.gd:60
+#: scripts/units/stables16.gd:61
 msgid "Tier 2 heavy stag charger; regenerates. Rank 3: Thornback Warden."
 msgstr ""
 
 #. &"glade_outrider": "Tier 3 horse archer. Long range, fast; regenerates.",
-#: scripts/units/stables16.gd:61
+#: scripts/units/stables16.gd:62
 msgid "Tier 3 horse archer. Long range, fast; regenerates."
 msgstr ""
 
 #. return "No rank-up for that unit"
-#: scripts/units/stables16.gd:261
+#: scripts/units/stables16.gd:278
 msgid "No rank-up for that unit"
 msgstr ""
 
 #. return "Needs completed Stables"
-#: scripts/units/stables16.gd:268 scripts/units/stables16.gd:271
+#: scripts/units/stables16.gd:285 scripts/units/stables16.gd:288
 msgid "Needs completed Stables"
 msgstr ""
 
 #. return "The Stables is busy"
-#: scripts/units/stables16.gd:277
+#: scripts/units/stables16.gd:294
 msgid "The Stables is busy"
 msgstr ""
 
@@ -1191,7 +1196,7 @@ msgid "%d essence. %s returns at the keep."
 msgstr ""
 
 #. return "Can't hire that here"
-#: scripts/units/t3_kit.gd:266 scripts/units/t3_kit.gd:269
+#: scripts/units/t3_kit.gd:267 scripts/units/t3_kit.gd:270
 msgid "Can't hire that here"
 msgstr ""
 
@@ -1206,35 +1211,35 @@ msgid "Needs level %d"
 msgstr ""
 
 #. return "Your wizard has fallen"
-#: scripts/units/wizard.gd:515
+#: scripts/units/wizard.gd:516
 msgid "Your wizard has fallen"
 msgstr ""
 
 #. return "Empty slot"
-#: scripts/items/inventory.gd:344 scripts/items/inventory.gd:377 scripts/items/item_actives.gd:94
-#: scripts/items/item_actives.gd:206 scripts/items/item_actives.gd:237
+#: scripts/items/inventory.gd:361 scripts/items/inventory.gd:394 scripts/items/item_actives.gd:94
+#: scripts/items/item_actives.gd:206 scripts/items/item_actives.gd:245
 msgid "Empty slot"
 msgstr ""
 
 #. return "Not an active"
-#: scripts/items/inventory.gd:347 scripts/items/inventory.gd:354 scripts/items/inventory.gd:361
-#: scripts/items/item_actives.gd:209 scripts/items/item_actives.gd:240
+#: scripts/items/inventory.gd:364 scripts/items/inventory.gd:371 scripts/items/inventory.gd:378
+#: scripts/items/item_actives.gd:209 scripts/items/item_actives.gd:248
 msgid "Not an active"
 msgstr ""
 
 #. plan["reason"] = "Not sold here"
-#: scripts/items/inventory.gd:460 scripts/items/inventory.gd:478 scripts/items/recipes.gd:61
+#: scripts/items/inventory.gd:477 scripts/items/inventory.gd:495 scripts/items/recipes.gd:61
 #: scripts/items/recipes.gd:63
 msgid "Not sold here"
 msgstr ""
 
 #. reason = "Unknown item"
-#: scripts/items/inventory.gd:472 scripts/items/recipes.gd:30
+#: scripts/items/inventory.gd:489 scripts/items/recipes.gd:30
 msgid "Unknown item"
 msgstr ""
 
 #. var text := "Tithe from %s: %d" % [_owner_name(), amount]
-#: scripts/items/inventory.gd:809
+#: scripts/items/inventory.gd:857
 msgid "Tithe from %s: %d"
 msgstr ""
 
@@ -1245,13 +1250,18 @@ msgid "Not carried"
 msgstr ""
 
 #. return "Unique"
-#: scripts/items/item_actives.gd:212 scripts/items/item_actives.gd:243
+#: scripts/items/item_actives.gd:212 scripts/items/item_actives.gd:251
 msgid "Unique"
 msgstr ""
 
 #. return "Not available yet"
-#: scripts/items/item_actives.gd:216 scripts/items/item_actives.gd:257
+#: scripts/items/item_actives.gd:216 scripts/items/item_actives.gd:265
 msgid "Not available yet"
+msgstr ""
+
+#. name = "Item_%s" % t.id
+#: scripts/items/item_pickup.gd:155
+msgid "Item_%s"
 msgstr ""
 
 #. @export_flags("Base", "Peddler") var sold_at := 0
@@ -1340,27 +1350,27 @@ msgid "Waiting"
 msgstr ""
 
 #. return "the post"
-#: scripts/economy/caravan.gd:664
+#: scripts/economy/caravan.gd:714
 msgid "the post"
 msgstr ""
 
 #. return "Your caravan was robbed: -%d gold" % amount
-#: scripts/economy/caravan.gd:868
+#: scripts/economy/caravan.gd:918
 msgid "Your caravan was robbed: -%d gold"
 msgstr ""
 
 #. return "Your caravan was destroyed"
-#: scripts/economy/caravan.gd:870
+#: scripts/economy/caravan.gd:920
 msgid "Your caravan was destroyed"
 msgstr ""
 
 #. return "%d of your caravans were destroyed" % amount
-#: scripts/economy/caravan.gd:871
+#: scripts/economy/caravan.gd:921
 msgid "%d of your caravans were destroyed"
 msgstr ""
 
 #. _show("%s is held by the enemy: your caravans wait" % post_name)
-#: scripts/economy/caravan.gd:880
+#: scripts/economy/caravan.gd:930
 msgid "%s is held by the enemy: your caravans wait"
 msgstr ""
 
@@ -1434,63 +1444,58 @@ msgstr ""
 msgid "Falling back."
 msgstr ""
 
-#. return "Claim"
-#: scripts/world/bounty.gd:235
-msgid "Claim"
-msgstr ""
-
 #. var what := "bounty on %s" % _the(b.target)
-#: scripts/world/bounty_board.gd:657
+#: scripts/world/bounty_board.gd:731
 msgid "bounty on %s"
 msgstr ""
 
 #. what = "claim on %s" % name_of(b.claim_point)
-#: scripts/world/bounty_board.gd:659
+#: scripts/world/bounty_board.gd:733
 msgid "claim on %s"
 msgstr ""
 
 #. what = "scouting bounty"
-#: scripts/world/bounty_board.gd:661
+#: scripts/world/bounty_board.gd:735
 msgid "scouting bounty"
 msgstr ""
 
 #. notify("%s took your %s" % [name_of(champion), what])
-#: scripts/world/bounty_board.gd:662
+#: scripts/world/bounty_board.gd:736
 msgid "%s took your %s"
 msgstr ""
 
 #. notify("Bounty paid: %d to %s" % [share, name_of(ch)])
-#: scripts/world/bounty_board.gd:686 scripts/world/bounty_board.gd:705
+#: scripts/world/bounty_board.gd:760 scripts/world/bounty_board.gd:779
 msgid "Bounty paid: %d to %s"
 msgstr ""
 
 #. var who := name_of(ch) if ch else "a champion"
-#: scripts/world/bounty_board.gd:704
+#: scripts/world/bounty_board.gd:778
 msgid "a champion"
 msgstr ""
 
 #. notify("Bounty refunded: %d" % amount)
-#: scripts/world/bounty_board.gd:714
+#: scripts/world/bounty_board.gd:788
 msgid "Bounty refunded: %d"
 msgstr ""
 
 #. var what := name_of(b.target) if is_named(b.target) else "your %s" % name_of(b.target)
-#: scripts/world/bounty_board.gd:723
+#: scripts/world/bounty_board.gd:797
 msgid "your %s"
 msgstr ""
 
 #. victim_board.notify("A bounty of %d is on %s!" % [b.stake, what])
-#: scripts/world/bounty_board.gd:726
+#: scripts/world/bounty_board.gd:800
 msgid "A bounty of %d is on %s!"
 msgstr ""
 
 #. return "a lost target"
-#: scripts/world/bounty_board.gd:810
+#: scripts/world/bounty_board.gd:884
 msgid "a lost target"
 msgstr ""
 
 #. return name_of(node) if is_named(node) else "the %s" % name_of(node)
-#: scripts/world/bounty_board.gd:811
+#: scripts/world/bounty_board.gd:885
 msgid "the %s"
 msgstr ""
 
@@ -1631,12 +1636,12 @@ msgid "Your champions are unpaid: they ignore bounties"
 msgstr ""
 
 #. var who := EmberCrown.short_name(wiz) if wiz else "The enemy"
-#: scripts/world/champion_guild.gd:638
+#: scripts/world/champion_guild.gd:690
 msgid "The enemy"
 msgstr ""
 
 #. return "A champion"
-#: scripts/world/champion_guild.gd:827 scripts/world/champion_guild.gd:838
+#: scripts/world/champion_guild.gd:879 scripts/world/champion_guild.gd:890
 msgid "A champion"
 msgstr ""
 
@@ -1743,22 +1748,22 @@ msgid "Old Wood Den"
 msgstr ""
 
 #. var names: Array = NAMES.get(type_id, ["A beast roams the %s", "the beast"])
-#: scripts/world/epic_beasts.gd:474
+#: scripts/world/epic_beasts.gd:549
 msgid "A beast roams the %s"
 msgstr ""
 
 #. var names: Array = NAMES.get(type_id, ["A beast roams the %s", "the beast"])
-#: scripts/world/epic_beasts.gd:474 scripts/world/epic_beasts.gd:675
+#: scripts/world/epic_beasts.gd:549 scripts/world/epic_beasts.gd:750
 msgid "the beast"
 msgstr ""
 
 #. return "The enemy slew %s" % who
-#: scripts/world/epic_beasts.gd:678
+#: scripts/world/epic_beasts.gd:753
 msgid "The enemy slew %s"
 msgstr ""
 
 #. var text := "Your army slew %s" % who
-#: scripts/world/epic_beasts.gd:679
+#: scripts/world/epic_beasts.gd:754
 msgid "Your army slew %s"
 msgstr ""
 
@@ -2088,27 +2093,27 @@ msgid "You (%s)"
 msgstr ""
 
 #. hud.show_message("%s has fallen! %s returns in %d s" % [EmberCrown.short_name(wiz),
-#: scripts/world/skirmish.gd:1645
+#: scripts/world/skirmish.gd:1646
 msgid "%s has fallen! %s returns in %d s"
 msgstr ""
 
 #. hud.show_message("%s returns!" % EmberCrown.short_name(wiz), 3.0)
-#: scripts/world/skirmish.gd:1663
+#: scripts/world/skirmish.gd:1668
 msgid "%s returns!"
 msgstr ""
 
 #. hud.show_message("The %s lies unclaimed" % dropped.artifact_name, 4.0)
-#: scripts/world/skirmish.gd:1696
+#: scripts/world/skirmish.gd:1702
 msgid "The %s lies unclaimed"
 msgstr ""
 
 #. hud.show_message("Press F10 again to surrender", SURRENDER_WINDOW)
-#: scripts/world/skirmish.gd:1739
+#: scripts/world/skirmish.gd:1745
 msgid "Press F10 again to surrender"
 msgstr ""
 
 #. return "a barracks"
-#: scripts/world/skirmish.gd:1818
+#: scripts/world/skirmish.gd:1824
 msgid "a barracks"
 msgstr ""
 

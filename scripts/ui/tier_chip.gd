@@ -129,7 +129,9 @@ func _gui_input(event: InputEvent) -> void:
 
 ## Selects the player's keep (the one the tier button lives on) and centres the camera on it.
 func select_keep() -> void:
-	var k: Keep = status.get("keep") if status.get("keep") is Keep else TierSystem.keep_of(TEAM)
+	var raw: Variant = status.get("keep")
+	# U4-6: the cached status may hold a freed keep: test validity before `is`
+	var k: Keep = raw if raw != null and is_instance_valid(raw) and raw is Keep else TierSystem.keep_of(TEAM)
 	if k == null or not is_instance_valid(k):
 		return
 	var level: Node = hud.get_parent() if hud else null

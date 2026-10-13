@@ -108,8 +108,11 @@ func _process(delta: float) -> void:
 	_time += delta
 	_gem.rotation.y += delta * 1.5
 	if wearer != null:
-		if is_instance_valid(wearer):
+		if is_instance_valid(wearer) and wearer.is_inside_tree() and not wearer.is_queued_for_deletion() \
+				and wearer.is_alive():   # a death already ran _on_wearer_died; not alive here = leave_map
 			global_position = wearer.global_position
+		else:
+			_release_gone_wearer()   # left the map / freed without `died` (C1-9)
 		return
 	_gem.position.y = _gem_y + sin(_time * 2.0) * 0.15
 	for hero in _wizards():
@@ -217,6 +220,20 @@ func _on_wearer_died(unit: Unit) -> void:
 	lost.emit(self, w)
 
 
+## The wearer left the tree without dying (Unit.leave_map, freed by a load): the crown drops where it last was (its
+## stats left with the wearer's node). lost(crown, null).
+func _release_gone_wearer() -> void:
+	var w: Wizard = wearer if is_instance_valid(wearer) else null
+	wearer = null
+	_as_item = false
+	if w and w.died.is_connected(_on_wearer_died):
+		w.died.disconnect(_on_wearer_died)
+	_drop_at = global_position
+	_drop_left = DROP_DELAY
+	_set_shown(false)
+	lost.emit(self, w)
+
+
 ## Items system present (an Inventory with add_item / find_slot / remove_item, data/items/ember_crown.tres):
 ## the crown goes into artifact slot 1 and the Inventory applies its +100 HP / +50 mana
 ## (`item:artifact_1`). Otherwise false and the old bonus-stat path is used.
@@ -254,18 +271,52 @@ func _land() -> void:
 
 # ---------------------------------------------------------------- save / load (docs/design/save-load.md)
 
+## The seal (seal_time: mission 1 breaks it with its braziers, C2-4) travels with the save.
 func save_state(ids: Dictionary) -> Dictionary:
 	return {"wearer": ids.get(wearer, -1) if wearer != null else -1, "pos": global_position,
-			"dropping": _drop_left >= 0.0, "drop_at": _drop_at}
+			"dropping": _drop_left >= 0.0, "drop_at": _drop_at,
+			"seal_time": seal_time, "stirred": _stirred, "unsealed": _unsealed}
 
 
-## Load (after the wizards): worn again by its wearer, or lying where it was (a crown still dropping lands at once).
+## Load (after the wizards): the seal as saved (no stirring / unsealed signal again), then worn again by its wearer,
+## or lying where it was (a crown still dropping lands at once).
 func load_state(d: Dictionary, nodes: Dictionary) -> void:
+	if d.has("seal_time"):
+		seal_time = float(d["seal_time"])
+		_stirred = bool(d.get("stirred", _stirred))
+		_unsealed = bool(d.get("unsealed", _unsealed))
+		_set_pedestal_glow(not _unsealed)
 	var w: Variant = nodes.get(d.get("wearer", -1))
-	if w is Wizard and is_instance_valid(w) and (w as Wizard).is_alive():
-		_claim(w as Wizard)
+	var saved_wearer: Wizard = w as Wizard if w is Wizard and is_instance_valid(w) and (w as Wizard).is_alive() else null
+	if wearer != null and wearer != saved_wearer:
+		_unwear_quiet()   # the rebuilt start's wearer is not the saved one: no lost signal, no second drop
+	if saved_wearer != null:
+		if wearer != saved_wearer:
+			_claim(saved_wearer)
 		return
 	var at: Vector3 = d.get("drop_at", global_position) if bool(d.get("dropping", false)) else d.get("pos", global_position)
-	if at.distance_to(global_position) > 0.5:
+	if at.distance_to(global_position) > 0.5 or _drop_left >= 0.0 or not _gem.visible:
 		_drop_at = at
 		_land()
+
+
+## Takes the crown off its wearer without the death path (a load): bonus / item removed, nothing emitted.
+func _unwear_quiet() -> void:
+	var w: Wizard = wearer if is_instance_valid(wearer) else null
+	wearer = null
+	_drop_left = -1.0
+	if w == null:
+		_as_item = false
+		return
+	if w.died.is_connected(_on_wearer_died):
+		w.died.disconnect(_on_wearer_died)
+	if _as_item:
+		_as_item = false
+		var inv := ItemDrops.inventory_of(w)
+		if inv:
+			var slot := int(inv.call(&"find_slot", ITEM_ID))
+			if slot >= 0:
+				inv.call(&"remove_item", slot)
+	elif w.has_method(&"remove_bonus_stats"):
+		w.call(&"remove_bonus_stats", bonus_hp, bonus_mana)
+	w.artifacts.erase(artifact_name)

@@ -191,6 +191,13 @@ func guilds_open() -> bool:
 	return match_time() >= GUILD_OPEN_TIME
 
 
+## After a load restored the match clock: what already opened is not announced again (review W2-7). The posts
+## and guild houses still get set_open on the next tick.
+func sync_announcements() -> void:
+	_posts_announced = _posts_announced or is_open()
+	_guilds_announced = _guilds_announced or guilds_open()
+
+
 func _physics_process(delta: float) -> void:
 	_age += delta
 	var open := is_open()

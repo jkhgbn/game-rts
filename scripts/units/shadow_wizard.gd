@@ -28,6 +28,7 @@ var ai_auto_cast := true
 
 var _cast_check_left := 0.0
 var _heal_flash := 0.0
+var _lance_target: Unit = null   # the unit of the last accepted Shadow Lance order (R1-8)
 
 
 func _init() -> void:
@@ -62,6 +63,19 @@ func _ready() -> void:
 	# With the SpellCaster, its life drain heals report as lance_healed (and the purple flash).
 	if spell_caster and spell_caster.has_signal(&"healed"):
 		spell_caster.connect(&"healed", _on_caster_healed)
+	if spell_caster and spell_caster.has_signal(&"spell_cast"):
+		spell_caster.connect(&"spell_cast", _on_caster_spell_cast)
+
+
+# R1-8: shadow_lance_cast fires when the lance really leaves (at once, or after the walk into range), never for a
+# walk that may be cancelled.
+func _on_caster_spell_cast(id: StringName) -> void:
+	if id != &"shadow_lance":
+		return
+	var target := _lance_target
+	_lance_target = null
+	if target != null and is_instance_valid(target):
+		shadow_lance_cast.emit(target)
 
 
 func _on_caster_healed(amount: float) -> void:
@@ -109,12 +123,15 @@ func _reset_spells() -> void:
 		_body_mat.emission = Color.WHITE
 
 
-## Whoever casts (his own loop or the Commander with ai_auto_cast = false), an accepted Shadow Lance
-## on a unit emits shadow_lance_cast.
+## Whoever casts (his own loop or the Commander with ai_auto_cast = false), a Shadow Lance on a unit emits
+## shadow_lance_cast when it is released (at once in range, else once the walk into range ends).
 func command_cast(spell_id: StringName, target: Variant) -> String:
+	var prev := _lance_target
+	if spell_id == &"shadow_lance":
+		_lance_target = target as Unit if target is Unit else null
 	var reason := super.command_cast(spell_id, target)
-	if reason == "" and spell_id == &"shadow_lance" and target is Unit:
-		shadow_lance_cast.emit(target)
+	if reason != "" and spell_id == &"shadow_lance":
+		_lance_target = prev   # refused: a walk still pending keeps its target
 	return reason
 
 

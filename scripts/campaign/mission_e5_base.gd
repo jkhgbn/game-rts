@@ -5,8 +5,9 @@ extends MissionBase
 ## - F1 flags only (CampaignState.MISSION_REWARDS "save_items": false, nothing carried in: no apply_to_start);
 ## - F3 tier 1 only (tiers on, max_tier 1, bots never upgrade), every system the young heroes would not have is off;
 ## - F2 the young / apprentice looks (`set_look` when the model has it, else a smaller model scale);
-## - F11 story enemy kinds built in code from existing numbers (`local_unit`): saved and rebuilt by id through
-##   `save_spawn_unit` (SaveWorld calls it for a unit whose type id is not in data/units);
+## - F11 story enemy kinds built in code from existing numbers (`local_unit`, registered with MissionBase's
+##   register_local_unit_type): saved and rebuilt by id through MissionBase.save_spawn_unit; `local_building` types
+##   through save_building_type;
 ## - the mission's lines by spec id (`say_l`), a seeded tree / rock scatter that keeps clearings and lanes open, flat
 ##   ground decals (shadow zones, reed fields) drawn only outside the Bot Lab sim.
 
@@ -16,7 +17,6 @@ var line_ids: Array[String] = []
 var said: Array[String] = []
 
 var _said := {}
-var _local_units := {}        # type id (String) -> UnitType built in code (never saved: rebuilt by _init / _ready)
 
 
 func _init() -> void:
@@ -79,32 +79,22 @@ func local_unit(base_id: String, id: String, display: String, fields: Dictionary
 	t.display_name = display
 	for k: Variant in fields:
 		t.set(StringName(str(k)), fields[k])
-	_local_units[id] = t
-	return t
+	return register_local_unit_type(t)   # MissionBase: make_unit / save_spawn_unit find it
 
 
 func local_type(id: String) -> UnitType:
-	return _local_units.get(id) as UnitType
+	return local_unit_type(id)
 
 
-## make_unit with the mission's local types first (reivers, wardens...), else data/units.
-func make_unit(type_id: String) -> Unit:
-	if _local_units.has(type_id):
-		return Worker.make_unit(_local_units[type_id] as UnitType)
-	return super(type_id)
+## Local BuildingTypes made by local_building (static, so kept here by id; the latest of an id wins): a save load
+## rebuilds a saved building of such an id when the rebuilt start has none (save_building_type).
+static var _built_buildings: Dictionary = {}
 
 
-## SaveWorld hook: a saved unit whose type is one of this mission's local types is rebuilt from it.
-func save_spawn_unit(row: Dictionary) -> Unit:
-	var id := String(row.get("type", ""))
-	if not _local_units.has(id):
-		return null
-	var u := Worker.make_unit(_local_units[id] as UnitType)
-	u.team = int(row["team"]) as Unit.Team
-	add_child(u)
-	u.global_position = row["pos"]
-	u.command_stop()
-	return u
+## SaveWorld hook: MissionBase's registered types first, then the ones local_building made.
+func save_building_type(id: String) -> BuildingType:
+	var t := super(id)
+	return t if t != null else _built_buildings.get(id) as BuildingType
 
 
 ## A mission-local BuildingType: a copy of `base_id` (same model) with a new name, HP, no pop, free.
@@ -120,6 +110,7 @@ static func local_building(base_id: String, id: String, display: String, hp: flo
 	t.cost = 0
 	t.max_count = 0
 	t.counts_for_defeat = counts_for_defeat
+	_built_buildings[id] = t
 	return t
 
 

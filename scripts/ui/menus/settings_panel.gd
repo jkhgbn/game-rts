@@ -262,6 +262,13 @@ func close() -> void:
 	closed.emit()
 
 
+## U5-6: leaving the tree with unsaved changes (Ctrl+F12 / quit while the panel is open) still writes them.
+func _exit_tree() -> void:
+	if _dirty:
+		GameSettings.save_settings()
+		_dirty = false
+
+
 func _changed(key: StringName, value: Variant) -> void:
 	if _refreshing:
 		return

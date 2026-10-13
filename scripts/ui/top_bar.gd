@@ -54,6 +54,9 @@ var _timer_gap: Control
 var _hourglass: HBoxContainer   ## Hourglass icon + timer_label.
 var _muted: Array[Label] = []
 var _shake_tweens := {}
+var _shake_base := {}   ## U4-4: label -> its rest x before the first running shake
+static var _essence_script: Script = null   ## U4-5: EssenceBank's script (for_team), looked up once.
+static var _essence_script_checked := false   ## U4-5: true once the class list was walked
 var _flash_left := 0.0
 var _search_left := 0.0
 
@@ -209,12 +212,14 @@ func _draw() -> void:
 ## Failed spend: the number shakes +-4 px, 3 cycles in 0.3 s.
 func shake(l: Label) -> void:
 	var old: Tween = _shake_tweens.get(l)
+	var base := l.position.x
 	if old and old.is_valid():
 		old.kill()
+		base = float(_shake_base.get(l, base))   # U4-4: a shake over a shake starts from the rest spot (no drift)
+	_shake_base[l] = base
 	var t := create_tween()
 	_shake_tweens[l] = t
 	var steps := 12
-	var base := l.position.x
 	for i in steps:
 		var off := 4.0 * sin(TAU * 3.0 * float(i + 1) / steps)
 		t.tween_property(l, "position:x", base + off, 0.3 / steps)
@@ -397,15 +402,20 @@ func is_gold_popping() -> bool:
 ## `EssenceBank.for_team(team)` looked up by class name (the items code may not exist yet), then a node
 ## in group "essence_banks", then an Economy that carries `essence` (items.md's first draft).
 static func find_essence_bank(tree: SceneTree, team: int) -> Object:
-	for info in ProjectSettings.get_global_class_list():
-		if str(info.get("class", "")) == "EssenceBank":
-			var script: Variant = load(str(info.get("path", "")))
-			if script is Script and (script as Script).get_script_method_list().any(
-					func(m: Dictionary) -> bool: return str(m.get("name", "")) == "for_team"):
-				var bank: Variant = (script as Script).call(&"for_team", team)
-				if bank is Object and bank != null:
-					return bank
-			break
+	if not _essence_script_checked:
+		# U4-5: the global class list is walked once (the trade / shop windows call this 4 x / s)
+		_essence_script_checked = true
+		for info in ProjectSettings.get_global_class_list():
+			if str(info.get("class", "")) == "EssenceBank":
+				var script: Variant = load(str(info.get("path", "")))
+				if script is Script and (script as Script).get_script_method_list().any(
+						func(m: Dictionary) -> bool: return str(m.get("name", "")) == "for_team"):
+					_essence_script = script
+				break
+	if _essence_script != null:
+		var bank: Variant = _essence_script.call(&"for_team", team)
+		if bank is Object and bank != null:
+			return bank
 	if tree == null:
 		return null
 	for b in tree.get_nodes_in_group(&"essence_banks"):

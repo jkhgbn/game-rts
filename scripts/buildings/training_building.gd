@@ -27,6 +27,7 @@ var _train_time := 0.0            # seconds trained on queue[0]
 var _rally_point := Vector3.INF   # INF = default spot, see rally_point()
 var _rally_node: CrystalNode = null
 var _flag: Node3D
+var _load_refunds: Array[Dictionary] = []   # load: queue stubs nobody could rebuild (refunded in the late phase)
 
 
 func _ready() -> void:
@@ -342,6 +343,10 @@ func save_snapshot(ids: Dictionary) -> Dictionary:
 	for t in queue:
 		if ForgeKit.is_stub(t):
 			q.append({"forge": String(ForgeKit.stub_line(t)), "level": int(t.get_meta(&"forge_level", 1))})
+		elif UnitType.find(String(t.id)) == null:
+			# A code-built stub (helper Call / Revive, a Stables rank...): rebuilt by its owner on load, else refunded
+			# (review R4-3), so the row keeps what was paid.
+			q.append({"stub": String(t.id), "cost": t.cost, "essence": _stub_essence(t)})
 		else:
 			q.append({"id": String(t.id)})
 	d["queue"] = q
@@ -360,11 +365,17 @@ func load_snapshot(d: Dictionary, nodes: Dictionary) -> void:
 		if eco:
 			eco.release_pop(t.pop)
 	queue.clear()
+	_load_refunds.clear()
 	for e: Variant in d.get("queue", []):
 		var row := e as Dictionary
 		var t: UnitType = null
 		if row.has("forge"):
 			t = ForgeKit.stub(StringName(str(row["forge"])), int(row.get("level", 1)))
+		elif row.has("stub"):
+			t = _stub_from_save(StringName(str(row["stub"])))
+			if t == null:
+				_load_refunds.append(row)   # paid back in load_snapshot_late, once the saved purses are restored
+				continue
 		else:
 			t = UnitType.find(String(row.get("id", "")))
 		if t == null:
@@ -381,9 +392,79 @@ func load_snapshot(d: Dictionary, nodes: Dictionary) -> void:
 
 func load_snapshot_late(d: Dictionary, nodes: Dictionary) -> void:
 	super(d, nodes)
+	for row: Dictionary in _load_refunds:
+		var eco := _get_economy()
+		if eco and int(row.get("cost", 0)) > 0:
+			eco.add(int(row["cost"]))
+		var bank := EssenceBank.for_team(int(team))
+		if bank and int(row.get("essence", 0)) > 0:
+			bank.add(int(row["essence"]))
+	_load_refunds.clear()
 	var node_id := StringName(str(d.get("rally_node", "")))
 	if node_id != &"":
 		for n in get_tree().get_nodes_in_group(&"crystal_nodes"):
 			if n is CrystalNode and (n as CrystalNode).node_id == node_id:
 				_rally_node = n
 	_update_flag()
+
+
+## Team switch (review R4-5): the queue's reserved pop moves with the building's pop bonus.
+func refresh_economy() -> void:
+	var old := _get_economy()
+	var held := 0
+	for t in queue:
+		held += t.pop
+	if old and held > 0:
+		old.release_pop(held)
+	super()
+	var eco := _get_economy()
+	if eco and held > 0:
+		eco.reserve_pop(held)
+
+
+## A code-built queue stub by id, from the system that owns it (review R4-3): an owner's `stub_for_save(id)` when it has
+## one (HelperRoster, Stables16), else the helper roster's own Call / Revive stubs. Null = nobody rebuilds it.
+func _stub_from_save(id: StringName) -> UnitType:
+	var owners: Array[Node] = []
+	var helper_stub := id == HelperRoster.CALL_ID or id == HelperRoster.REVIVE_ID
+	# Only for a helper row: its roster may not exist yet in load phase 1 (created on first use), and it is the node the
+	# roster's saved_state row adopts afterwards, so here (only here) it is created.
+	var roster := HelperRoster.for_team(int(team)) if helper_stub else null
+	if roster:
+		owners.append(roster)
+	var ranks := Stables16.for_team(int(team), false)
+	if ranks:
+		owners.append(ranks)
+	for o in owners:
+		if o.has_method(&"stub_for_save"):
+			var t: Variant = o.call(&"stub_for_save", id)
+			if t is UnitType:
+				return t as UnitType
+	if roster and id == HelperRoster.CALL_ID and roster.has_method(&"call_type"):
+		return roster.call(&"call_type") as UnitType
+	if roster and id == HelperRoster.REVIVE_ID and roster.has_method(&"revive_type"):
+		return roster.call(&"revive_type") as UnitType
+	return null
+
+
+## The essence a queued stub paid (helper Call / Revive), 0 otherwise: the refund when it cannot be rebuilt.
+func _stub_essence(t: UnitType) -> int:
+	if t.has_meta(&"essence"):
+		return int(t.get_meta(&"essence"))
+	if t.id != HelperRoster.CALL_ID and t.id != HelperRoster.REVIVE_ID:
+		return 0
+	var roster := _helper_roster()
+	if roster == null:
+		return 0
+	return roster.call_essence() if t.id == HelperRoster.CALL_ID else roster.revive_cost()
+
+
+## The team's existing HelperRoster (group lookup: never creates one), or null.
+func _helper_roster() -> HelperRoster:
+	if not is_inside_tree():
+		return null
+	for n in get_tree().get_nodes_in_group(&"helper_rosters"):
+		var r := n as HelperRoster
+		if r and r.team == int(team) and not r.is_queued_for_deletion():
+			return r
+	return null

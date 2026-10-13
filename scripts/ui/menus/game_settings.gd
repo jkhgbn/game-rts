@@ -38,6 +38,8 @@ static var pace_blitz := false
 ## Skirmish map (MT9, map-production.md 2.8): a MapCatalog id (&"crown_hollow" default) or &"random" (resolved to a
 ## ready map of the picker's seat filter at start). The menu's map picker sets it; MenuFlow.start_skirmish reads it.
 static var map_id: StringName = &"crown_hollow"
+## U5-3: the map picker's seat filter (2 = 1v1, 4 = 2v2), saved so a saved "Random 2v2" comes back as 2v2.
+static var map_seats := 2
 ## Control scheme (task UX.1), read live by SelectionManager, WizardControl, the HUD help and the command card:
 ## - CONTROLS_CLASSIC (default, Warcraft III / LoL style): right click moves the wizard like any unit, no W A S D
 ##   walk; physical A then left click = attack-move (X too); camera = arrow keys + screen edge.
@@ -113,6 +115,7 @@ static func reset_defaults() -> void:
 	pace_fast = false
 	pace_blitz = false
 	map_id = &"crown_hollow"
+	map_seats = 2
 	control_scheme = CONTROLS_CLASSIC
 	map_detail = MAP_DETAIL_HIGH
 	set_playtest_data(false, false)
@@ -244,10 +247,13 @@ static func apply_pace(level: Node) -> bool:
 
 
 ## Sets the skirmish map (a MapCatalog id or &"random"; empty = Crown Hollow) and saves the file.
-static func set_map_id(value: StringName, save := true) -> void:
+## `seats` > 0 also sets the seat filter (2 = 1v1, 4 = 2v2; U5-3).
+static func set_map_id(value: StringName, save := true, seats := 0) -> void:
 	if not _loaded:
 		load_settings()
 	map_id = value if value != &"" else &"crown_hollow"
+	if seats > 0:
+		map_seats = 4 if seats >= 4 else 2
 	if save:
 		save_settings()
 
@@ -289,6 +295,7 @@ static func load_settings() -> void:
 	pace_blitz = bool(cfg.get_value(SECTION, "pace_blitz", false))
 	var saved_map := str(cfg.get_value(SECTION, "map_id", String(map_id))).strip_edges()
 	map_id = StringName(saved_map) if saved_map != "" else &"crown_hollow"
+	map_seats = 4 if int(cfg.get_value(SECTION, "map_seats", 2)) >= 4 else 2
 	control_scheme = control_scheme_from_id(str(cfg.get_value(SECTION, "control_scheme",
 			CONTROL_SCHEME_IDS[CONTROLS_CLASSIC])))
 	map_detail = map_detail_from_id(str(cfg.get_value(SECTION, "map_detail", String(MAP_DETAIL_HIGH))))
@@ -358,6 +365,7 @@ static func save_settings() -> Error:
 	cfg.set_value(SECTION, "pace_fast", pace_fast)
 	cfg.set_value(SECTION, "pace_blitz", pace_blitz)
 	cfg.set_value(SECTION, "map_id", String(map_id))
+	cfg.set_value(SECTION, "map_seats", map_seats)
 	cfg.set_value(SECTION, "control_scheme", CONTROL_SCHEME_IDS[clampi(control_scheme, 0, CONTROL_SCHEME_IDS.size() - 1)])
 	cfg.set_value(SECTION, "map_detail", String(map_detail_from_id(String(map_detail))))
 	cfg.set_value(SECTION, "playtest_data", playtest_data)
