@@ -6,6 +6,9 @@ extends SceneTree
 ## and Grave Hounds from the Gloom Hall; the West Banner first, the main army hidden in the Hedge Garden and sent at
 ## whatever banner Vessa holds away from her army whenever her bell counts; the hounds wait in the Old Orchard's shade
 ## and steal her home banner when she leaves it thin; Malrik's bell on three banners. `passive`: the army stays home.
+## 2026-10-13 (CI: 15:34 defeats, her Fireballs took 18-22 of a 28-soldier blob at the 9:00 charge and levelled her):
+## the army never goes where Vessa herself stands (it hides in the Long Shadow by the keep in a loose line, or, once the
+## bell nears, takes a banner far from her); the ranged / hounds focus her when she reaches them; Malrik lances her.
 ## `-- --seed N`, `-- --verbose`. Slow. Run: godot --headless --path . -s tests/test_e5m4_sim.gd --fixed-fps 60
 ## --quit-after 110000
 
@@ -17,6 +20,8 @@ const RALLY := Vector3(-24.0, 0.0, -18.0)
 const HEDGE := Vector3(-18.0, 0.0, 4.0)
 const ORCHARD := Vector3(14.0, 0.0, 31.0)
 const HOVELS: Array[Vector3] = [Vector3(-50.0, 0.0, -44.0), Vector3(-44.0, 0.0, -52.0)]
+const HIDE := Vector3(-38.0, 0.0, -35.0)   ## in the Long Shadow by the keep, ~20 m from the home banner
+const VESSA_AVOID := 26.0   ## the army never goes where Vessa stands within this
 const WORKERS := 10
 const HOUNDS := 5
 
@@ -27,10 +32,12 @@ var main: MissionE5_04
 var _tick := 0.0
 var _econ := 0.0
 var _last_print := -1
+var _last_dbg := -1
 var _train_i := 0
 var _phase_log: Array[String] = []
 var _sites: Array = []
 var _retreat := false
+var killers := {}
 
 
 func _initialize() -> void:
@@ -44,6 +51,24 @@ func _initialize() -> void:
 	h.timeout_frames = 105000
 	main = h.open(self, MISSION, {"difficulty": 1, "set": {"campaign_save_path": "user://test_e5m4_sim_none.json"}}) as MissionE5_04
 	h.steps.add("play", _play, 104000)
+	var ev := root.get_node_or_null("Events")
+	if ev:
+		ev.unit_died.connect(_on_died)
+
+
+func _on_died(u: Node) -> void:
+	var unit := u as Unit
+	if unit == null or int(unit.team) != Unit.Team.PLAYER or main == null:
+		return
+	var k: Variant = unit.killer
+	var who := "?"
+	if k != null and is_instance_valid(k):
+		var kt: Variant = k.get(&"unit_type")
+		who = String((kt as UnitType).id) if kt != null else String((k as Node).name)
+		if k is Wizard:
+			who = "wizard:%s" % (k as Wizard).unit_name
+	var key := "%s@%d" % [who, int(main.mission_time() / 60.0)]
+	killers[key] = int(killers.get(key, 0)) + 1
 
 
 func _process(_delta: float) -> bool:
@@ -63,6 +88,7 @@ func _play() -> bool:
 				m.spoils, m.charges, m.vessa_yields])
 		print("  phases %s; spotlight %s" % [", ".join(_phase_log), h.spotlight_log])
 		print("  objectives %s" % str(h.objective_log))
+		print("  losses by killer@minute %s" % str(killers))
 		var k: Variant = m.hero.killer
 		print("  Malrik's killer %s at %s; foes within 15 m %d" % [str((k as Node).name) if k != null and is_instance_valid(k) else "-", str(m.hero.global_position), _foes_near(m.hero.global_position, 15.0).size()])
 		if passive:
@@ -85,9 +111,26 @@ func _play() -> bool:
 				MissionE5Base.mmss(m.mission_time()), m.hero.hp, m.hero.max_hp, m.hero.level, _army().size(), _hounds().size(),
 				_workers().size(), eco.crystals, eco.pop_used, eco.pop_cap, m.owned(0), m.owned(1), m.bell[0], m.bell[1],
 				m._vessa_army().size(), m.v_phase])
-	if verbose and int(m.mission_time()) % 60 == 0 and m.mission_time() > 100.0:
-		var z := m.banners[&"bn_orrery"] as MissionZone
-		print("    DEBUG orrery owner %d counts %s progress %.2f side %d contested %s vc %s" % [z.owner_side, str(z.counts), z.progress, z.capture_side, z.contested, str(_v_centroid())])
+	if verbose and _last_dbg != int(m.mission_time() / 15.0) and m.mission_time() > 100.0:
+		_last_dbg = int(m.mission_time() / 15.0)
+		var wn := {}
+		for w in _workers():
+			var g: Variant = w.get(&"gather_node")
+			var key: String = String((g as Node).name) if g != null and is_instance_valid(g) else ("build" if w.call(&"is_building") else "none")
+			wn[key] = int(wn.get(key, 0)) + 1
+		var left := []
+		for s in ["a", "b", "x"]:
+			var nd: CrystalNode = m.node_of(0, s)
+			left.append(nd.crystals_left if nd else -1)
+		var ac := SimTactics.centroid(_army())
+		print("      t=%s workers %s nodes a/b/x %s | army at %s vc %s owners %s" % [MissionE5Base.mmss(m.mission_time()), str(wn), str(left),
+				str(ac.round()) if ac != Vector3.INF else "-", str(_v_centroid().round()),
+				str([_owner(&"bn_shadow"), _owner(&"bn_west"), _owner(&"bn_orrery"), _owner(&"bn_east"), _owner(&"bn_fire")])])
+		var v := m.vessa
+		if v and is_instance_valid(v):
+			var on_her := (_army() + _hounds()).filter(func(u: Unit) -> bool: return u.attack_target == v).size()
+			print("        vessa hp %d/%d mana %d L%d at %s alive %s | my units on her %d" % [int(v.hp), int(v.max_hp), int(v.mana),
+					v.level, str(v.global_position.round()), str(v.is_alive()), on_her])
 	_economy()
 	_spells()
 	_plan()
@@ -231,6 +274,10 @@ func _spells() -> void:
 				break
 	if w.spell_caster == null or not w.spell_caster.has_method(&"suggest_cast"):
 		return
+	var v := main.vessa
+	if v and is_instance_valid(v) and v.is_alive() and MissionBase._flat(v.global_position, w.global_position) <= 13.0 \
+			and w.command_cast(&"shadow_lance", v) == "":
+		return   # the Lance on Vessa first: she yields at 0 (her Fireballs are what empties his army)
 	if _foes_near(w.global_position, 12.0).is_empty():
 		return
 	var s: Dictionary = w.spell_caster.call(&"suggest_cast")
@@ -257,8 +304,13 @@ func _owner(id: StringName) -> int:
 
 
 ## The group goes to `at`: fights what is there, else stands in the ring.
-func _send(units: Array, at: Vector3, r := 9.0) -> void:
+func _send(units: Array, at: Vector3, r := 9.0, spread := false) -> void:
 	var foes := _foes_near(at, r)
+	if spread and foes.is_empty():
+		# Waiting in the Long Shadow: a loose line facing Vessa's army (its rows run along x + z = const, so the whole
+		# line stays in the shade) instead of a +-2 m pile two Fireballs empty.
+		SimTactics.spread_to(units, at, _v_centroid() - at)
+		return
 	for v: Variant in units:
 		var u := v as Unit
 		if not foes.is_empty():
@@ -337,13 +389,39 @@ func _plan() -> void:
 		else:
 			goal = HOME + Vector3(4.0, 0.0, 4.0)
 			why = "keep"
+	# Never fight where Vessa herself is (CI 2026-10-13: her Fireballs took 18-22 of a 28-soldier army at the 9:00
+	# charge on the home banner, and every kill levelled her): the army stays hidden in the Long Shadow out of her way,
+	# or takes a banner she is far from (x2 steal + Spoils): the spec's intended run (D3 / D4).
+	var vz := m.vessa
+	if vz and is_instance_valid(vz) and vz.is_alive() and MissionBase._flat(vz.global_position, goal) < VESSA_AVOID:
+		var alt := &""
+		var alt_d := -1.0
+		for id: StringName in [&"bn_west", &"bn_orrery", &"bn_east", &"bn_fire"]:
+			if _owner(id) == 0:
+				continue
+			var dv := MissionBase._flat(_bpos(id), vz.global_position)
+			if dv > 28.0 and MissionBase._flat(_bpos(id), vc) > 22.0 and dv > alt_d:
+				alt = id
+				alt_d = dv
+		if alt != &"" and late and army.size() >= her + 4:   # (before the bell nears, a dodge across the field walked into her)
+			goal = _bpos(alt)
+			why = "dodge_%s" % alt
+		else:
+			goal = HIDE
+			why = "hide"
 	for w in _workers():   # raiders at the workers: everyone home
 		if _foes_near(w.global_position, 12.0).size() >= 2:
 			goal = w.global_position
 			why = "workers"
 			break
 	_set_phase(why)
-	_send(army, goal)	# --- the hounds: the Orchard's shade, then her home banner when it is thin.
+	_send(army, goal, 9.0, why == "wait" or why == "keep" or why == "hide")
+	# Vessa still reaches the army: everyone in reach goes for her (she pulls back under 35 %), and the idle soldiers
+	# step out of a packed ring.
+	SimTactics.focus_wizards(army, [m.vessa], 15.0)   # (army and hounds apart: the Orchard hounds pulled the centre away)
+	SimTactics.focus_wizards(hounds, [m.vessa], 15.0)
+	SimTactics.unclump(army + hounds, [m.vessa])
+	# --- the hounds: the Orchard's shade, then her home banner when it is thin.
 	if t >= 150.0 and hounds.size() >= 3:
 		var fire := _bpos(&"bn_fire")
 		var guards := _foes_near(fire, 9.0).size()
@@ -364,6 +442,8 @@ func _plan() -> void:
 			hero.command_move(HOME)
 		return
 	var c := _bpos(&"bn_shadow") + Vector3(-5.0, 0.0, -5.0)   # Malrik keeps the home banner, in the long shadow
+	if vz and is_instance_valid(vz) and vz.is_alive() and MissionBase._flat(vz.global_position, c) < VESSA_AVOID:
+		c = HIDE + Vector3(-3.0, 0.0, -3.0)   # ...and hides with the army while Vessa is on it
 	var foes := _foes_near(hero.global_position, 10.0)
 	if not foes.is_empty():
 		if hero.attack_target == null:

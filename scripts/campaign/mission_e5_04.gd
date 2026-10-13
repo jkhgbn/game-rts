@@ -346,6 +346,7 @@ func _on_navigation_ready() -> void:
 	_spawn(vessa, VESSA_SEAT, VESSA_START)
 	_claim_wizard(vessa, VESSA_SEAT)
 	raise_wizard(vessa, 3, VESSA_SPELLS)
+	vessa.level_cap = LEVEL_CAP   # spec Start state: Vessa "Level 3 ..., cap 5" (she reached L7 by 14:00 without it)
 	ItemDrops.ensure_inventory(vessa)
 	MissionE5Base.young_look(vessa, &"apprentice", 1.0)
 	mark_scripted(vessa)

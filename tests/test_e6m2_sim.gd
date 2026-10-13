@@ -4,6 +4,8 @@ extends SceneTree
 ## 16:00-20:00 with >= 12 saved. The rush floor rides on this run: the army goes for the gates as soon as the folk are
 ## through, and the night must not end before the Final (16:00) is dead. Real fights, cinematics off (fallback end
 ## states); the spec lengths of e6m2_rider 0:15 and the dawn film 0:30 are added to the reported play time.
+## Once both Warden Gates are down every wave (Breach, Lake 2, the Final) comes up through the mere crack: the whole
+## army then waits at the lake (2026-10-13; holding the gap fed the detachment to the Breach and Torvald died ~12:35).
 ## tests/test_e6m2_shut_sim.gd runs the shut branch (the window runs out, a wall defence to 20:00).
 ## `-- --seed N`, `-- --difficulty N` (0-2, default 1), `-- --verbose`. Slow. Run: godot --headless --path . -s tests/test_e6m2_sim.gd --fixed-fps 60
 ## --quit-after 90000
@@ -19,6 +21,8 @@ const HALL2 := Vector3(-26.0, 0.0, -36.0)
 const WALL_HOLD := Vector3(0.0, 0.0, -14.0)
 const GAP_HOLD := Vector3(0.0, 0.0, -5.0)     ## the open Frostgate's gap: the army plugs it once the folk are in
 const GAP_HERO := Vector3(0.0, 0.0, -16.0)    ## Torvald casts from behind the wall
+const LAKE_ARMY := Vector3(48.0, 0.0, -34.0)   ## between the mere crack (54, -24) and the Heartfrost (44, -46)
+const LAKE_HERO := Vector3(40.0, 0.0, -44.0)    ## Torvald behind that line, by the Heartfrost
 const WORKERS := 12
 const DETACH := 5
 
@@ -272,7 +276,10 @@ func _plan() -> void:
 	else:
 		_hold(_detach, LAKE_HOLD, 14.0)
 	if _healing:
-		_hold(main_army, GAP_HOLD if m.branch == &"open" else WALL_HOLD, 18.0)
+		if m.gates_broken >= 2:
+			_hold(main_army + _detach, LAKE_ARMY, 22.0)
+		else:
+			_hold(main_army, GAP_HOLD if m.branch == &"open" else WALL_HOLD, 18.0)
 		return
 	var home := _foes_near(MissionE6_02.KEEP_POS, 24.0)
 	if not home.is_empty():
@@ -299,6 +306,15 @@ func _plan() -> void:
 		if g.is_alive():
 			target = g
 			break
+	if target == null and m.gates_broken >= 2:
+		# Both Warden Gates are down: the Breach, Lake 2 and the Final can only come up through the mere crack. The whole
+		# army waits between the crack and the Heartfrost (a detachment of 5 fed one by one died to the Breach's two
+		# Breakers and took Torvald with it); Torvald casts from behind it.
+		_phase = "lake"
+		_hold(main_army + _detach, LAKE_ARMY, 22.0)
+		if not _healing:
+			_hero_to(LAKE_HERO, 3.0)
+		return
 	if target == null or main_army.size() < 14 or t < 600.0:
 		# the folk are in: hold the open gate's gap (the Wardens no longer stall on an open gate), Torvald behind the wall
 		_phase = "road"
