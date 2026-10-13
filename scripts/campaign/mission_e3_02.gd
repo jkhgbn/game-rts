@@ -779,7 +779,7 @@ func _tick_night(dt: float) -> void:
 	if hush_hero and is_instance_valid(hush_hero) and hush_hero.smoke_left > 0.0:
 		for n in get_tree().get_nodes_in_group(&"units"):
 			var e := n as Unit
-			if e and e.is_alive() and Teams.is_hostile(int(e.team), PLAYER_SEAT) and e.attack_target is Unit \
+			if e and e.is_alive() and Teams.is_hostile(int(e.team), PLAYER_SEAT) and is_instance_valid(e.attack_target) and e.attack_target is Unit \
 					and mine.has(e.attack_target) and hush_hero.smoke_covers((e.attack_target as Unit).global_position):
 				e.command_stop()
 	for e: Variant in _fuses.keys():

@@ -687,7 +687,7 @@ func _tick_town(dt: float) -> void:
 		_send_folk()
 	var army := units_of(Unit.Team.PLAYER, true)
 	for v: Variant in folk.duplicate():
-		var f := v as Unit
+		var f: Unit = v as Unit if is_instance_valid(v) else null
 		if f == null or not is_instance_valid(f) or not f.is_alive():
 			folk.erase(v)
 			continue

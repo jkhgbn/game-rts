@@ -2189,6 +2189,8 @@ func _side_wave_alive(seat: int, except: Unit) -> bool:
 ## Before W3 Torvald stays at his rally; before W4 Malrik stays at his.
 func _tick_wizards_home() -> void:
 	for pair: Array in [[shadow_hero, _malrik_home, SHADOW_RALLY], [torvald, _torvald_home, ICE_RALLY]]:
+		if not is_instance_valid(pair[0]):
+			continue
 		var w := pair[0] as Wizard
 		if not bool(pair[1]) or w == null or not is_instance_valid(w) or not w.is_alive():
 			continue
@@ -2342,7 +2344,7 @@ func _after_load(_nodes: Dictionary) -> void:
 			st.set_progress(float(row[1]), false)
 		if row.size() > 5 and row[5] is Array:
 			st.sprouts = (row[5] as Array).filter(func(u: Variant) -> bool:
-				return u is Unit and is_instance_valid(u) and (u as Unit).is_alive())
+				return is_instance_valid(u) and u is Unit and (u as Unit).is_alive())
 	if ally_active:
 		_apply_ally()
 	_update_vice_pause()

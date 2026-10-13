@@ -870,7 +870,7 @@ func _watch_hurler(u: Unit) -> void:
 
 
 func _on_hurler_hit(target: Node3D, _amount: float, hurler: Unit) -> void:
-	if lake and target is Unit and is_instance_valid(target):
+	if lake and is_instance_valid(target) and target is Unit:
 		lake.crack_at(target.global_position, 0.25, hurler)
 
 

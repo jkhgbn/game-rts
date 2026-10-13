@@ -689,10 +689,10 @@ func cinematic_actor(tag: StringName) -> Node3D:
 		return null
 	if tag != &"hero" and tag in self:
 		var v: Variant = get(tag)
-		if v is Node3D and is_instance_valid(v) and (v as Node3D).is_inside_tree():
+		if is_instance_valid(v) and v is Node3D and (v as Node3D).is_inside_tree():
 			return v as Node3D
 	var h: Variant = get(&"hero") if &"hero" in self else null
-	if h is Node3D and is_instance_valid(h):
+	if is_instance_valid(h) and h is Node3D:
 		if tag == &"hero":
 			return h as Node3D
 		var mp: Variant = (h as Node).get(&"default_model_path")
@@ -1902,7 +1902,7 @@ func save_state(ids: Dictionary = {}) -> Dictionary:
 	var actors := {}
 	for key: Variant in _actors:
 		var a: Variant = _actors[key]
-		if a is Node and is_instance_valid(a) and (a as Node).has_method(&"save_row"):
+		if is_instance_valid(a) and a is Node and (a as Node).has_method(&"save_row"):
 			var row: Variant = SaveCodec.encode((a as Node).call(&"save_row"), ids)
 			if SaveCodec.is_skip(row):
 				push_warning("Save: actor %s has a row that cannot be saved" % key)
@@ -1978,7 +1978,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	_locked.clear()
 	for sid: Variant in d.get("locked", []):
 		var b: Variant = nodes.get(sid)
-		if b is TrainingBuilding and is_instance_valid(b):
+		if is_instance_valid(b) and b is TrainingBuilding:
 			_locked.append(b)
 	_guards.clear()
 	for sid: Variant in d.get("guards", []):
@@ -2052,7 +2052,7 @@ func register_actor(key: String, node: Node) -> void:
 ## The registered actor `key` (null when none / freed).
 func actor(key: String) -> Node:
 	var a: Variant = _actors.get(key)
-	return a as Node if a is Node and is_instance_valid(a) else null
+	return a as Node if is_instance_valid(a) and a is Node else null
 
 
 ## Virtual: re-create an actor the mission registered after its start (null = skipped).
@@ -2093,7 +2093,7 @@ func save_units_placed(ctx: Dictionary) -> void:
 		_reconcile_metas(n as Node, saved_metas.get(sid, {}))
 	_recount_truces()
 	var h: Variant = nodes.get(m.get("hero", -1))
-	if h is Wizard and is_instance_valid(h) and h != hero:
+	if is_instance_valid(h) and h is Wizard and h != hero:
 		set_player_hero(h as Wizard)
 	_load_seats(m, nodes)
 
@@ -2148,7 +2148,7 @@ func _save_seats() -> Dictionary:
 		var d: Dictionary = _seats[seat]
 		var bot: Variant = d.get("commander")
 		var row := {"team": int(d["team"]), "tagged": bool(d.get("tagged", false)), "commander": ""}
-		if bot is Node and is_instance_valid(bot) and (bot as Node).get_parent() == self:
+		if is_instance_valid(bot) and bot is Node and (bot as Node).get_parent() == self:
 			row["commander"] = String((bot as Node).name)
 			row["enabled"] = bool((bot as Node).get(&"enabled"))
 			if &"profile_id" in bot:
@@ -2180,7 +2180,8 @@ func _load_seats(m: Dictionary, nodes: Dictionary) -> void:
 		if String(row.get("commander", "")) != "":
 			bot = get_node_or_null(NodePath(String(row["commander"])))
 		if bot == null and _seats.has(seat):
-			bot = (_seats[seat] as Dictionary).get("commander") as Node
+			var c: Variant = (_seats[seat] as Dictionary).get("commander")
+			bot = c as Node if is_instance_valid(c) else null
 		if bot and is_instance_valid(bot):
 			bot.set(&"team", int(row["team"]))
 			if row.has("enabled"):
@@ -2191,11 +2192,11 @@ func _load_seats(m: Dictionary, nodes: Dictionary) -> void:
 	var sn: Dictionary = m.get("seat_nodes", {})
 	for s: Variant in sn.get("keeps", {}):
 		var k: Variant = nodes.get((sn["keeps"] as Dictionary)[s])
-		if k is Building and is_instance_valid(k):
+		if is_instance_valid(k) and k is Building:
 			seat_keeps[int(s)] = k
 	for s: Variant in sn.get("heroes", {}):
 		var w: Variant = nodes.get((sn["heroes"] as Dictionary)[s])
-		if w is Wizard and is_instance_valid(w):
+		if is_instance_valid(w) and w is Wizard:
 			seat_heroes[int(s)] = w
 	for s: Variant in sn.get("bases", {}):
 		seat_bases[int(s)] = (sn["bases"] as Dictionary)[s]

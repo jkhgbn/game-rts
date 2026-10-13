@@ -1274,7 +1274,7 @@ func _after_load(_nodes: Dictionary) -> void:
 		set_truce([winterheart], false, Unit.TRUCE_ALL)
 	for id: StringName in wallwardens:
 		var w: Variant = wallwardens[id]
-		if w is Unit and is_instance_valid(w) and not MissionBase.is_hooked((w as Unit).died, &"_on_wallwarden_died"):
+		if is_instance_valid(w) and w is Unit and not MissionBase.is_hooked((w as Unit).died, &"_on_wallwarden_died"):
 			(w as Unit).died.connect(_on_wallwarden_died.bind(id))
 
 

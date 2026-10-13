@@ -807,7 +807,7 @@ func _load_push(row: Dictionary, nodes: Dictionary) -> Dictionary:
 			return {}
 	var units: Array = []
 	for v: Variant in SaveCodec.decode(row.get("units", []), nodes) as Array:
-		if v is Unit and is_instance_valid(v):
+		if is_instance_valid(v) and v is Unit:
 			units.append(v)
 	return {"target": target, "until": float(row.get("until", 0.0)), "units": units}
 

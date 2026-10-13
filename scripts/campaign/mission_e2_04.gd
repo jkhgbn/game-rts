@@ -873,6 +873,8 @@ func _tick_wake(delta: float) -> void:
 		return
 	var room := -1   # Sunwarden room, counted once per frame and only when Vessa is by a sleeper
 	for id: Variant in sleepers.keys():
+		if not is_instance_valid(sleepers[id]):
+			continue
 		var s := sleepers[id] as Unit
 		if s == null or not is_instance_valid(s):
 			continue

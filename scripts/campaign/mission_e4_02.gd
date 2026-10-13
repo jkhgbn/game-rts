@@ -781,13 +781,13 @@ func save_spawned(u: Unit, row: Dictionary) -> void:
 func _after_load(_nodes: Dictionary) -> void:
 	for c: Dictionary in convoys:
 		for w: Variant in c.get("walkers", []):
-			if w is Unit and is_instance_valid(w):
+			if is_instance_valid(w) and w is Unit:
 				_arm_walker(w as Unit)
 	if maelis_called and maelis and is_instance_valid(maelis):
 		_hook_maelis_abilities(maelis)
 	for gid: Variant in groups:
 		for v: Variant in groups[gid]:
-			if v is Unit and is_instance_valid(v):
+			if is_instance_valid(v) and v is Unit:
 				(v as Unit).visible = not is_dormant(v as Unit)
 	if hush and is_instance_valid(hush):
 		hush.visible = not is_dormant(hush)

@@ -287,7 +287,7 @@ func load_state(d: Dictionary, nodes: Dictionary) -> void:
 		_unsealed = bool(d.get("unsealed", _unsealed))
 		_set_pedestal_glow(not _unsealed)
 	var w: Variant = nodes.get(d.get("wearer", -1))
-	var saved_wearer: Wizard = w as Wizard if w is Wizard and is_instance_valid(w) and (w as Wizard).is_alive() else null
+	var saved_wearer: Wizard = w as Wizard if is_instance_valid(w) and w is Wizard and (w as Wizard).is_alive() else null
 	if wearer != null and wearer != saved_wearer:
 		_unwear_quiet()   # the rebuilt start's wearer is not the saved one: no lost signal, no second drop
 	if saved_wearer != null:

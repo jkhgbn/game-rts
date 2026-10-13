@@ -1213,7 +1213,7 @@ func _fire_stake_raid(which: Variant) -> void:
 	if typeof(which) == TYPE_INT:
 		stake = stakes[int(which)] if int(which) >= 0 and int(which) < stakes.size() else null
 	var target := hero_pos()
-	if stake is Building and is_instance_valid(stake) and (stake as Building).is_alive():
+	if is_instance_valid(stake) and stake is Building and (stake as Building).is_alive():
 		target = (stake as Building).global_position
 	for u in spawn_wave_at([["grave_hound", 3], ["shade", 2]], _wave_spawn_point()):
 		order_wave(u, &"point", target)
@@ -1596,7 +1596,7 @@ func save_spawn_unit(row: Dictionary) -> Unit:
 ## (gone after E10, C2-2), the thorns' shrink, the Signet's look and the stakes' hookups.
 func _after_load(_nodes: Dictionary) -> void:
 	for st: Variant in stakes:
-		if st is Building and is_instance_valid(st) and not (st as Building).destroyed.is_connected(_on_stake_destroyed):
+		if is_instance_valid(st) and st is Building and not (st as Building).destroyed.is_connected(_on_stake_destroyed):
 			(st as Building).destroyed.connect(_on_stake_destroyed)
 	if barrier_down:   # `thorns` came back empty from the save: the rebuilt ring is found by its group
 		for t: Node in get_tree().get_nodes_in_group(&"thorn_barrier"):

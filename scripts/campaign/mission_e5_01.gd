@@ -937,7 +937,7 @@ func _tick_vey(dt: float) -> void:
 	if not _vey_ok() or not hero_alive():
 		return
 	_intercept_left -= dt
-	if vey.attack_target is Building:
+	if is_instance_valid(vey.attack_target) and vey.attack_target is Building:
 		vey.command_stop()
 	var at := hero.global_position
 	if _intercept_left <= 0.0:

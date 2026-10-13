@@ -1079,7 +1079,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 			if u and is_instance_valid(u):
 				guard_life(u, _on_rock_holder_down)
 		for g: Variant in silver.values():
-			if g is Building and is_instance_valid(g) and (g as Building).is_alive() 					and not (g as Building).destroyed.is_connected(_on_silver_sunk):
+			if is_instance_valid(g) and g is Building and (g as Building).is_alive() 					and not (g as Building).destroyed.is_connected(_on_silver_sunk):
 				(g as Building).destroyed.connect(_on_silver_sunk)
 
 

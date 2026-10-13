@@ -673,11 +673,11 @@ func _wolf_brain(u: Unit) -> void:
 	var g := _garden_for(u)
 	if g == null:
 		return
-	if u.attack_target is Building:
+	if is_instance_valid(u.attack_target) and u.attack_target is Building:
 		u.command_attack(g)
 		return
 	var hit := mission_time() - float(u.get_meta(&"hit_at", -100.0)) < WOLF_HIT_MEMORY
-	if hit and u.attack_target is Unit:
+	if hit and is_instance_valid(u.attack_target) and u.attack_target is Unit:
 		return
 	if _flat(u.global_position, g.global_position) <= WOLF_BITE_R:
 		if u.attack_target != g:

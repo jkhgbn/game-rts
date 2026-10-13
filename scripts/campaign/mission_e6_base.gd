@@ -138,7 +138,7 @@ func make_breakers(elite_id: String, elite_name: String, elite_hp: float) -> voi
 
 ## True for a Breaker or the named elite (x2 vs buildings and scripted targets; sinks / never pulled).
 func is_breaker(u: Variant) -> bool:
-	var unit := u as Unit
+	var unit: Unit = u as Unit if is_instance_valid(u) else null
 	return unit != null and is_instance_valid(unit) and unit.unit_type != null and int(unit.unit_type.pop) >= 4 \
 			and int(unit.team) == Unit.Team.ENEMY
 

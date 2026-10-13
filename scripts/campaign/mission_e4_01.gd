@@ -1426,7 +1426,7 @@ func save_spawned(u: Unit, row: Dictionary) -> void:
 
 func _after_load(_nodes: Dictionary) -> void:
 	for v: Variant in folk:
-		if v is Unit and is_instance_valid(v):
+		if is_instance_valid(v) and v is Unit:
 			_arm_folk(v as Unit)
 	if vey and is_instance_valid(vey):
 		_arm_vey(vey)

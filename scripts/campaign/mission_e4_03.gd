@@ -1093,12 +1093,12 @@ func _after_load(_nodes: Dictionary) -> void:
 		if g["state"] != &"grown":
 			continue
 		var old: Variant = g.get("heart")
-		if old is MissionGrove and is_instance_valid(old):
+		if is_instance_valid(old) and old is MissionGrove:
 			if not MissionBase.is_hooked((old as MissionGrove).destroyed, &"_on_heart_destroyed"):
 				(old as MissionGrove).destroyed.connect(_on_heart_destroyed.bind(id))
 			continue
 		var hp := -1.0
-		if old is Building and is_instance_valid(old):
+		if is_instance_valid(old) and old is Building:
 			hp = (old as Building).hp
 			(old as Building).dispose_for_load()
 		var heart := _place_heart(id)

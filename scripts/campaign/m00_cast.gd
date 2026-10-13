@@ -108,7 +108,7 @@ func load_row(row: Array) -> void:
 		_kneel_left = float(row[7])
 	else:
 		vey_kneeling = false
-	var h := row[0] as Unit
+	var h: Unit = row[0] as Unit if is_instance_valid(row[0]) else null
 	if h != null and is_instance_valid(h) and h.is_alive():
 		var max_hp := float(row[13]) if row.size() > 14 else -1.0
 		var hp := float(row[14]) if row.size() > 14 else -1.0

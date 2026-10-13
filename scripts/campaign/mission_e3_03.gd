@@ -906,7 +906,7 @@ func _after_load(_nodes: Dictionary) -> void:
 			sexton.add_modifier(&"sexton:heart", {"armor": -20.0})
 	for id: Variant in door_units:
 		for u: Variant in door_units[id]:
-			if u is Unit and is_instance_valid(u) and not MissionBase.is_hooked((u as Unit).died, &"_on_door_warden_died"):
+			if is_instance_valid(u) and u is Unit and not MissionBase.is_hooked((u as Unit).died, &"_on_door_warden_died"):
 				(u as Unit).died.connect(_on_door_warden_died.bind(StringName(str(id))))
 
 

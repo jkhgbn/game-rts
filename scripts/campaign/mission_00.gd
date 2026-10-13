@@ -602,7 +602,7 @@ func _refresh_wave_unit(u: Unit, mode: StringName, vessa: Vector3) -> bool:
 		return true
 	if u.has_status(&"taunted"):
 		return true
-	var t := u.attack_target as Unit
+	var t: Unit = u.attack_target as Unit if is_instance_valid(u.attack_target) else null
 	if t != null and is_instance_valid(t) and t.is_alive():
 		return true
 	u.command_attack_move(clamp_to_play_area(vessa))
@@ -835,6 +835,8 @@ func _dawn_end_state() -> void:
 		u.leave_map()
 	cast.hush_leave()
 	for i in emberguard.size():
+		if not is_instance_valid(emberguard[i]):
+			continue
 		var u := emberguard[i] as Unit
 		if u == null or not is_instance_valid(u) or not u.is_alive():
 			continue
@@ -1164,7 +1166,8 @@ func _cine_call(shot: CinematicShot, at: float, method: String, args: Array) -> 
 ## Card staging: slides the actor `tag` to `to` over `seconds` (0 = at once) while the PAUSE card holds the tree,
 ## facing the way (`backwards`: facing where it came from, a push).
 func cine_move(tag: StringName, to: Vector3, seconds: float, backwards := false) -> void:
-	var u := _card_actors.get(tag) as Unit
+	var a: Variant = _card_actors.get(tag)
+	var u: Unit = a as Unit if is_instance_valid(a) else null
 	if u == null or not is_instance_valid(u):
 		return
 	var dir := to - u.global_position
@@ -1179,7 +1182,8 @@ func cine_move(tag: StringName, to: Vector3, seconds: float, backwards := false)
 
 
 func cine_face(tag: StringName, at: Vector3) -> void:
-	var u := _card_actors.get(tag) as Unit
+	var a: Variant = _card_actors.get(tag)
+	var u: Unit = a as Unit if is_instance_valid(a) else null
 	if u and is_instance_valid(u):
 		_cine_turn(u, at - u.global_position)
 

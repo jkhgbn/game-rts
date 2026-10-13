@@ -694,6 +694,8 @@ func _tick_chain(dt: float) -> void:
 		mammoths_free = true
 		fire_once(&"E8")
 		for m: Variant in mammoths:
+			if not is_instance_valid(m):
+				continue
 			var u := m as Unit
 			if is_instance_valid(u) and u.is_alive():
 				set_truce([u], false, Unit.TRUCE_ALL)
@@ -1026,7 +1028,7 @@ func _restore_gangs() -> void:
 		var g := v as Array
 		if g == null or g.size() < 4:
 			continue
-		var units: Array = (g[0] as Array).filter(func(x: Variant) -> bool: return x is Unit and is_instance_valid(x) and (x as Unit).is_alive())
+		var units: Array = (g[0] as Array).filter(func(x: Variant) -> bool: return is_instance_valid(x) and x is Unit and (x as Unit).is_alive())
 		if units.is_empty():
 			continue
 		var rid := StringName(str(g[1]))

@@ -657,7 +657,7 @@ static func _clean_flag(v: Variant) -> Variant:
 		return int(v)
 	if v is String or v is StringName:   # bool(String) does not exist in Godot 4: "true" / "1" / "yes" = true
 		return String(v).strip_edges().to_lower() in ["true", "1", "yes"]
-	return v != null and not (v is Object and not is_instance_valid(v))
+	return v != null and not (typeof(v) == TYPE_OBJECT and not is_instance_valid(v))
 
 
 ## True once the cinematic `id` was watched (or skipped) in this campaign (CinematicPlayer reads it).
@@ -810,7 +810,7 @@ static func economy_on(level_node: Node) -> bool:
 	if level_node == null or not &"config" in level_node:
 		return true
 	var c: Variant = level_node.get(&"config")
-	if c is Object and is_instance_valid(c) and &"economy_enabled" in (c as Object):
+	if is_instance_valid(c) and c is Object and &"economy_enabled" in (c as Object):
 		return bool((c as Object).get(&"economy_enabled"))
 	return true
 

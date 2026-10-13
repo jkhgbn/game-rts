@@ -167,7 +167,7 @@ func host_guards(rows: Array, at: Vector3, ring: float) -> Array:
 
 
 func is_host(u: Variant) -> bool:
-	var x := u as Unit
+	var x: Unit = u as Unit if is_instance_valid(u) else null
 	return x != null and is_instance_valid(x) and int(x.team) == host_team
 
 
@@ -327,7 +327,7 @@ func kneel_guard(u: Unit, seconds: float, on_kneel: Callable = Callable()) -> vo
 ## Stands kneeling units back up when their time is over (call from the mission tick).
 func tick_kneelers(units: Array) -> void:
 	for v: Variant in units:
-		var u := v as Unit
+		var u: Unit = v as Unit if is_instance_valid(v) else null
 		if u == null or not is_instance_valid(u) or not u.has_meta(&"kneeling"):
 			continue
 		if mission_time() >= float(u.get_meta(&"kneeling")):
