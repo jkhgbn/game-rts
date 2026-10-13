@@ -243,8 +243,19 @@ const SCAN_BUCKETS := 15
 ## -1 (default) = the 0.25 s retarget timer; 0..SCAN_BUCKETS-1 = scan only on physics frames whose index mod
 ## SCAN_BUCKETS is this bucket (LaneMarch sets it from the spawn serial, so a spawned wave never scans on one frame).
 var scan_bucket := -1
-## Auto-aggro scans run so far, all units (tests / labs count the scans per frame). Read only.
+## Periodic auto-aggro scans (timer / scan bucket) run so far, all units (tests / labs count the scans per frame; the
+## event scans after a lost target are counted apart in event_scans). Read only.
 static var retarget_scans := 0
+## Snappy retarget (JS 2026-10-13): a unit that lost its target (dead, freed, dropped) or got request_retarget() scans on
+## the frame it notices, ignoring its timer / bucket. At most this many such scans run per physics frame; the rest run
+## on the next frame (never later), so a big AoE spreads over 2 frames at most.
+const EVENT_SCANS_PER_FRAME := 20
+static var _event_scan_frame := -1
+static var _event_scans_used := 0
+## Event scans (lost target / request_retarget) run so far, all units; not in retarget_scans. Read only.
+static var event_scans := 0
+var _scan_asap_frame := -1           # physics frame a scan was asked (lost target / request_retarget); -1 = none
+var _had_target := false             # attack_target was set at the last scan check
 var _avoid_gated := false            # set_avoidance_gated: RVO off, the wanted velocity is applied directly
 ## Physics layer 3 (value 4) = caster walls (Rime Bulwark): ground units collide with it, flyers do not. Avoidance layer
 ## 2 (value 2) = its NavigationObstacle3D, avoided by ground units only.
@@ -1802,6 +1813,8 @@ func _revive(at: Vector3) -> void:
 	_vertical_speed = 0.0
 	_cooldown_left = 0.0
 	_retarget_left = 0.0
+	_had_target = false
+	request_retarget()
 	_hit_flash = 0.0
 	_frozen_immune_left = 0.0
 	_hidden_auto_left = 0.0
@@ -1939,13 +1952,22 @@ func _physics_process(delta: float) -> void:
 	if _hold and attack_target != null and not _in_attack_range(attack_target):
 		attack_target = null
 
-	# Idle, held and attack-moving units look for trouble a few times per second.
+	# Lost the target since the last check (it died, was freed or was dropped): look again right now.
+	if attack_target == null and _had_target and _scan_asap_frame < 0:
+		_scan_asap_frame = Engine.get_physics_frames()
+	# Idle, held and attack-moving units look for trouble a few times per second (and at once after losing a target).
 	# Enemy units come first: a building we picked ourselves is dropped when a unit shows up.
-	if (not _has_move_order or _attack_move) and _scan_due() \
+	var wants_scan := (not _has_move_order or _attack_move) \
 			and (attack_target == null or (_auto_target and not attack_target is Unit)) \
-			and not is_non_combatant():
+			and not is_non_combatant()
+	var events_before := event_scans
+	if not wants_scan:
+		_scan_asap_frame = -1
+	elif _scan_due():
 		_retarget_left = RETARGET_INTERVAL
-		retarget_scans += 1
+		_scan_asap_frame = -1
+		if event_scans == events_before:
+			retarget_scans += 1
 		var search := attack_range + radius + MAX_UNIT_RADIUS if _hold else aggro_range
 		var enemy := _find_auto_target(search)
 		if enemy and (not _hold or _in_attack_range(enemy)) \
@@ -1953,6 +1975,7 @@ func _physics_process(delta: float) -> void:
 			attack_target = enemy
 			_auto_target = true
 
+	_had_target = attack_target != null
 	var desired := Vector3.ZERO
 
 	if attack_target != null:
@@ -2014,9 +2037,29 @@ func _submit_velocity(v: Vector3) -> void:
 
 ## P2: is this physics frame one where the auto-aggro scan may run?
 func _scan_due() -> bool:
+	if _scan_asap_frame >= 0:
+		var f := Engine.get_physics_frames()
+		if f > _scan_asap_frame:
+			event_scans += 1
+			return true   # deferred once by the burst cap: never later than the next frame
+		if _event_scan_frame != f:
+			_event_scan_frame = f
+			_event_scans_used = 0
+		if _event_scans_used < EVENT_SCANS_PER_FRAME:
+			_event_scans_used += 1
+			event_scans += 1
+			return true
 	if scan_bucket < 0:
 		return _retarget_left <= 0.0
 	return Engine.get_physics_frames() % SCAN_BUCKETS == scan_bucket
+
+
+## Asks for an auto-aggro scan on this physics frame (or the next one under a burst), whatever the retarget timer or
+## scan bucket says. The scan still only runs when the unit would scan anyway (idle, held or attack-moving, no unit
+## target); targeting rules are unchanged.
+func request_retarget() -> void:
+	if _scan_asap_frame < 0:
+		_scan_asap_frame = Engine.get_physics_frames()
 
 
 ## P3 (wave-strike.md 14.2, LaneMarch only): true = RVO avoidance off (the unit walks its own path through friends),
