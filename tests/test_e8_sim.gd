@@ -33,6 +33,7 @@ var _train_i := 0
 var _sites: Array = []
 var _houses := 0
 var _phase := ""
+var _hero_hits := {}   ## attacker type -> damage taken by the hero (--verbose)
 
 
 func _initialize() -> void:
@@ -70,6 +71,7 @@ func _report(t: float) -> void:
 	print("  objectives %s" % str(h.objective_log))
 	print("  said %s" % str(main.said))
 	print("  state %s" % _state())
+	print("  hero damage by source %s" % str(_hero_hits))
 
 
 func _state() -> String:
@@ -118,17 +120,22 @@ func _play() -> bool:
 		return true
 	if passive:
 		return false
+	if mission == "e8m3":
+		_dodge_hurl()   # every frame: the telegraph is only 1.6 s
 	_tick -= 1.0 / 60.0
 	if _tick > 0.0:
 		return false
 	_tick = 0.5
 	if not m.hero_alive():
 		return false
+	if not m.hero.damage_taken.is_connected(_on_hero_hit):
+		m.hero.damage_taken.connect(_on_hero_hit)
 	if verbose and int(t / 30.0) != _last_print:
 		_last_print = int(t / 30.0)
 		var eco := Economy.for_team(0)
 		print("    t=%s %s hero %3.0f L%d | army %2d | crystals %4d | %s" % [MissionE5Base.mmss(t), _phase, m.hero.hp, m.hero.level,
 				_soldiers().size(), eco.crystals if eco else -1, _state()])
+		print("      hero hits %s" % str(_hero_hits))
 	_economy()
 	_spells()
 	match mission:
@@ -148,6 +155,13 @@ func _play() -> bool:
 
 
 # ---------------------------------------------------------------- shared
+
+func _on_hero_hit(amount: float, attacker: Node3D) -> void:
+	var k := "none"
+	if attacker != null and is_instance_valid(attacker):
+		k = String((attacker as Unit).unit_type.id) if attacker is Unit and (attacker as Unit).unit_type else String(attacker.name)
+	_hero_hits[k] = int(_hero_hits.get(k, 0)) + int(amount)
+
 
 func _soldiers() -> Array[Unit]:
 	var out: Array[Unit] = []
@@ -269,6 +283,8 @@ func _spells() -> void:
 		for id: StringName in [ids[0], ids[1], ids[2], ids[0], ids[0]]:
 			if w.learn_spell(id) == "":
 				break
+	if mission == "e8m3" and _hurl_pending_near(w.global_position):
+		return   # a cast would stop her dodge
 	var foes := _foes(w.global_position, 12.0)
 	if foes.is_empty():
 		return
@@ -497,10 +513,13 @@ func _plan_muster() -> void:
 func _plan_king() -> void:
 	var m := main as MissionE8_03
 	var army := _soldiers()
+	var mine := MissionE8Muster.keyhole_of(Unit.Team.PLAYER)
+	var shopping := _king_sustain()
 	if _defend_base(army):
 		_phase = "base"
+		if m.phase != 2 and not shopping:
+			_king_hero(mine)   # the hero keeps her post (and her retreat rule) while the army defends
 		return
-	var mine := MissionE8Muster.keyhole_of(Unit.Team.PLAYER)
 	var t := m.mission_time()
 	var hit := (m.phase == 1 and t < m.surge_until) or (m.phase == 3 and t < m.exposed_until) or m.phase == 2
 	if m.phase == 2 and m.king:
@@ -509,7 +528,8 @@ func _plan_king() -> void:
 			var u := v as Unit
 			if u.attack_target == null or not is_instance_valid(u.attack_target):
 				u.command_attack(m.king)
-		_hero_to(m.king.global_position + (mine - m.king.global_position).normalized() * 20.0)
+		if not shopping and not _hurl_pending_near(m.hero.global_position):
+			_hero_to(m.king.global_position + (mine - m.king.global_position).normalized() * 20.0)
 		return
 	if hit and m.king:
 		_phase = "strike"
@@ -521,5 +541,98 @@ func _plan_king() -> void:
 		_phase = "ward"
 		var w := m.call(&"_weakest_ward") as int
 		var at := MissionE8Muster.keyhole_of(w) if w == Unit.Team.PLAYER or float(m.ward[w]) < m.ward_max * 0.6 else mine
-		_go(army, at, 14.0)
-	_hero_to(mine)
+		_go(army, at, 14.0)   # compact and focused (the Hurl is dodged in _dodge_hurl)
+	if not shopping:
+		_king_hero(mine)
+
+
+## e8m3: a sensible player walks out of the Keystone Hurl telegraph (radius 4, 1.6 s). Phase 3: across her own ring
+## (the turn needs her inside it), else 6 m away. Soldiers inside it step out too.
+var _dodged_at := Vector3.INF
+
+
+func _dodge_hurl() -> void:
+	var m := main
+	if not h.is_ready() or not m.hero_alive():
+		return
+	var at: Vector3 = m.get(&"_hurl_at")
+	if at == Vector3.INF:
+		if verbose and _dodged_at != Vector3.INF and MissionBase._flat(m.hero.global_position, _dodged_at) <= 4.0:
+			print("      hurl landed on the hero at %s" % MissionE5Base.mmss(m.mission_time()))
+		_dodged_at = Vector3.INF
+		return
+	if at == _dodged_at:
+		return
+	_dodged_at = at
+	var hp := m.hero.global_position
+	if MissionBase._flat(hp, at) <= 5.0:
+		var mine := MissionE8Muster.keyhole_of(Unit.Team.PLAYER)
+		var to: Vector3
+		if int(m.get(&"phase")) == 3:
+			var d := mine - at
+			d.y = 0.0
+			var bk := (MissionE8Muster.keep_pos(0) - mine).normalized()
+			to = mine + (d.normalized() if d.length() > 0.3 else Vector3(-bk.z, 0.0, bk.x)) * 2.6
+		else:
+			var d2 := hp - at
+			d2.y = 0.0
+			to = at + (d2.normalized() if d2.length() > 0.3 else (m.base_center(0) - at).normalized()) * 6.5
+		m.hero.command_move(to)
+	for u in _soldiers():
+		var du := u.global_position - at
+		du.y = 0.0
+		if du.length() <= 4.8:
+			u.command_move(at + (du.normalized() if du.length() > 0.3 else Vector3(1.0, 0.0, 0.0)) * 6.5)
+
+
+func _hurl_pending_near(p: Vector3) -> bool:
+	var at: Vector3 = main.get(&"_hurl_at")
+	return at != Vector3.INF and MissionBase._flat(p, at) <= 5.5
+
+
+## The hero at her keyhole: phase 3 she keeps her ring whatever her HP (the turn needs her there); before that she
+## stands behind it and steps back toward the rally when low. Never while a Hurl is pending on her.
+func _king_hero(mine: Vector3) -> void:
+	var m := main
+	if _hurl_pending_near(m.hero.global_position):
+		return
+	var back := (MissionE8Muster.keep_pos(0) - mine).normalized()
+	var at := mine + back * 2.2
+	if int(m.get(&"phase")) == 3 and MissionBase._flat(m.hero.global_position, mine) <= 2.8:
+		return   # inside her ring: she stays put (the next Hurl is dodged across it)
+	var broke: Dictionary = m.get(&"broken")
+	var relight := broke.has(Unit.Team.PLAYER) and m.mission_time() >= float(broke[Unit.Team.PLAYER]) + 30.0 and _foes(mine, 8.0).is_empty()
+	if int(m.get(&"phase")) != 3 and not relight:   # behind her soldiers, inside the 6 m that doubles the ward's mend
+		var close := not _foes(m.hero.global_position, 6.0).is_empty()
+		at = mine + back * (4.5 if m.hero.hp >= m.hero.max_hp * 0.3 and not close else 12.0)
+	if MissionBase._flat(m.hero.global_position, at) > 1.2:
+		m.hero.command_move(at)
+
+
+## e8m3 has no HP regen for the hero: a sensible player drinks Ember Draughts under 55 % and, with none left and the
+## essence for one, walks to the keep's shop (phases 0-2). True while she is on that trip.
+func _king_sustain() -> bool:
+	var w := main.hero as Wizard
+	var inv := w.inventory as Inventory
+	var dr := ItemType.find(&"ember_draught")
+	if inv == null or dr == null:
+		return false
+	var held := 0
+	var drank := false
+	for i in inv.slots.size():
+		var e: Variant = inv.slots[i]
+		if e is Dictionary and (e["type"] as ItemType).id == &"ember_draught":
+			held += 1
+			if not drank and w.hp < w.max_hp * 0.55 and inv.use_item(i, w) == "":
+				drank = true
+	for _n in 4:
+		if inv.can_buy(dr) != "" or inv.buy(dr) != "":
+			break
+		held += 1
+	var bank := EssenceBank.for_team(Unit.Team.PLAYER)
+	if held == 0 and w.hp < w.max_hp * 0.45 and int(main.get(&"phase")) != 3 and bank != null 			and bank.essence >= dr.total_cost() and not _hurl_pending_near(w.global_position):
+		_phase = "shop"
+		if MissionBase._flat(w.global_position, main.keep.global_position) > 8.0:
+			w.command_move(main.keep.global_position + (MissionE8Muster.keyhole_of(0) - main.keep.global_position).normalized() * 6.0)
+		return true
+	return false
