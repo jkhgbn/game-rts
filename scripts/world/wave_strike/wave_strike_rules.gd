@@ -16,8 +16,8 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 @export var time_limit := 1800.0          ## s: the higher Bastion HP % wins (0 = off)
 
 @export_group("Economy")
-@export var start_crystals := 400
-@export var base_income := 100            ## per horn
+@export var start_crystals := 600            ## M2 (wave-strike.md 14.2): 400 -> 600
+@export var base_income := 120            ## per horn (M2: 100 -> 120)
 @export var coffer_step := 15             ## + per Coffer level per horn
 @export var coffer_prices: Array[int] = [150, 200, 250, 300, 350, 400, 450, 500]
 @export var bounty_pct := 0.12            ## of the killed unit's card price, to the killing team
@@ -28,7 +28,8 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 @export var underdog_max := 0.24
 
 @export_group("Roster")
-@export var supply_cap: Array[int] = [24, 40, 56]   ## 1v1 per tier (Keep, Stronghold, Citadel)
+## 1v1 per tier (Keep, Stronghold, Citadel). M2 (JS 2026-10-13, decisions.md): x1.5 = 36 / 60 / 84 (was 24 / 40 / 56).
+@export var supply_cap: Array[int] = [36, 60, 84]
 @export var sell_refund := 0.5
 @export var cancel_window := 5.0          ## s: a sell this soon after the buy refunds 100 %
 @export var stronghold_price := 250
@@ -66,12 +67,14 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 @export_group("Field")
 ## Most living lane units one seat may field (0 = no limit; balance pass 2, the perf valve of 7.8 (7)): a horn's units
 ## past it stay home (they are not spawned; the card still marches at the next horn).
-@export var field_cap := 150             ## data: 150 = at most 300 lane units on the field in a 1v1
+@export var field_cap := 150             ## data: 200 (WS2.C3) = at most 400 lane units on the field in a 1v1
 
 @export_group("Lane")
 @export var lane_lateral := 8.0           ## m: the widest lateral offset of a marching unit from the lane centre line
 @export var leash_melee := 12.0           ## m off its lane line: a unit drops its target and walks back
 @export var leash_ranged := 6.0
+## Mana of a lane caster when it spawns, x its max mana (WS2.C2: at the skirmish 50 the 75-100 mana spells barely fired).
+@export var lane_caster_start_mana_pct := 1.0
 
 
 ## The default rules (a fresh copy: callers may change it).

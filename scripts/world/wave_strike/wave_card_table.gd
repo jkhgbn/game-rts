@@ -15,6 +15,9 @@ const DEFAULT_PATH := "res://data/wave_strike/card_prices.tres"
 ## unit id -> supply (pop) of the card in Wave Strike (default UnitType.pop). Balance pass 2 (2026-10-06): the mode is
 ## supply-capped from ~11:00, so pop is the real price of a late card; never change data/units for the mode.
 @export var pop_override: Dictionary = {}
+## unit id -> most copies of the card one roster may own (absent / 0 = no limit). M2 (wave-strike.md 14.1): kingdom
+## casters 4, support cards 6, T3 cards 3 (stacked autocasts on one clump, the casters' own scans).
+@export var max_copies: Dictionary = {}
 
 static var _cached: WaveCardTable = null
 
@@ -54,3 +57,8 @@ func pop(id: StringName) -> int:
 		return int(pop_override.get(id, pop_override.get(String(id), 0)))
 	var t := UnitType.find(String(id))
 	return t.pop if t else 0
+
+
+## Most copies of card `id` one roster may own (0 = no limit).
+func max_copies_of(id: StringName) -> int:
+	return int(max_copies.get(id, max_copies.get(String(id), 0)))

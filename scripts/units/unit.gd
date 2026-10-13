@@ -152,7 +152,10 @@ const MAX_UNIT_RADIUS := 1.1     # biggest unit radius (Grizzlemaw 1.1); held un
 const DEFAULT_BOLT_SPEED := 25.0 # m/s of an auto-attack bolt when the UnitType has no projectile_speed
 const DEFAULT_TARGET_RADIUS := 2.5   # for attack targets (buildings) without target_radius()
 
-@export var team: Team = Team.PLAYER
+@export var team: Team = Team.PLAYER:
+	set(value):
+		team = value
+		UnitGrid.mark_dirty()   # the grid caches teams (a switched side re-bins at the next query)
 @export var unit_name := "Soldier"
 ## The four stats below read as the current EFFECTIVE value (base + modifiers). Writing one sets the
 ## base so that the effective value becomes what was written (legacy callers); new code uses
@@ -235,6 +238,14 @@ var attacks_blocked := false
 ## Bot soldiers (AICasters sets it, caster-units.md 8.2): auto-aggro picks an enemy caster in reach first.
 var prefer_casters := false
 const CASTER_PREFERENCE := 100.0
+## P2 (wave-strike.md 14.2): fixed physics-frame buckets for the auto-aggro scan (15 frames = 0.25 s at 60 Hz).
+const SCAN_BUCKETS := 15
+## -1 (default) = the 0.25 s retarget timer; 0..SCAN_BUCKETS-1 = scan only on physics frames whose index mod
+## SCAN_BUCKETS is this bucket (LaneMarch sets it from the spawn serial, so a spawned wave never scans on one frame).
+var scan_bucket := -1
+## Auto-aggro scans run so far, all units (tests / labs count the scans per frame). Read only.
+static var retarget_scans := 0
+var _avoid_gated := false            # set_avoidance_gated: RVO off, the wanted velocity is applied directly
 ## Physics layer 3 (value 4) = caster walls (Rime Bulwark): ground units collide with it, flyers do not. Avoidance layer
 ## 2 (value 2) = its NavigationObstacle3D, avoided by ground units only.
 const CASTER_WALL_LAYER := 4
@@ -295,6 +306,7 @@ func _ready() -> void:
 	hp = max_hp
 	_anchor = global_position
 	add_to_group("units")
+	UnitGrid.mark_dirty()
 	collision_layer = 2   # "units" layer, so clicks can find us
 	collision_mask = 1    # only collide with the world, avoidance keeps units apart
 	if not HelperAbilities.is_flyer(self):
@@ -1246,6 +1258,7 @@ func set_down(pos: Vector3) -> void:
 		return
 	var p := snap_to_navmesh(pos)
 	global_position = Vector3(p.x, global_position.y, p.z)
+	UnitGrid.mark_dirty()
 	velocity = Vector3.ZERO
 	_displace = {}
 	_anchor = global_position
@@ -1803,9 +1816,11 @@ func _revive(at: Vector3) -> void:
 	visible = true
 	if not is_in_group("units"):
 		add_to_group("units")
+	UnitGrid.mark_dirty()
 	collision_layer = 2
 	_last_nav_target = Vector3.INF
 	_set_nav_target(at)
+	_avoid_gated = false
 	_agent.avoidance_enabled = true
 	_agent.velocity = Vector3.ZERO
 	set_physics_process(true)
@@ -1903,21 +1918,21 @@ func _physics_process(delta: float) -> void:
 	# Frozen: nothing runs (no walking, no attacks, no retargeting); every order is kept and resumes.
 	if not _can_act_flag:
 		_agent.avoidance_priority = 1.0
-		_agent.velocity = Vector3.ZERO
+		_submit_velocity(Vector3.ZERO)
 		return
 
 	# A caster's 0.4 s cast (set_cast_lock): it stands still and does not attack; orders are kept.
 	if _cast_lock_left > 0.0:
 		_cast_lock_left -= delta
 		_agent.avoidance_priority = 1.0
-		_agent.velocity = Vector3.ZERO
+		_submit_velocity(Vector3.ZERO)
 		return
 
 	# Direct control (Wizard.set_move_input): walk where we're told, no orders, no auto-aggro.
 	var direct := _direct_velocity()
 	if direct != Vector3.INF:
 		_agent.avoidance_priority = 1.0
-		_agent.velocity = direct if _can_move_flag else Vector3.ZERO
+		_submit_velocity(direct if _can_move_flag else Vector3.ZERO)
 		return
 
 	# Held units never chase: a target that leaves attack range is dropped.
@@ -1926,10 +1941,11 @@ func _physics_process(delta: float) -> void:
 
 	# Idle, held and attack-moving units look for trouble a few times per second.
 	# Enemy units come first: a building we picked ourselves is dropped when a unit shows up.
-	if (not _has_move_order or _attack_move) and _retarget_left <= 0.0 \
+	if (not _has_move_order or _attack_move) and _scan_due() \
 			and (attack_target == null or (_auto_target and not attack_target is Unit)) \
 			and not is_non_combatant():
 		_retarget_left = RETARGET_INTERVAL
+		retarget_scans += 1
 		var search := attack_range + radius + MAX_UNIT_RADIUS if _hold else aggro_range
 		var enemy := _find_auto_target(search)
 		if enemy and (not _hold or _in_attack_range(enemy)) \
@@ -1984,7 +2000,89 @@ func _physics_process(delta: float) -> void:
 	if not _can_move_flag:
 		desired = Vector3.ZERO
 	_agent.avoidance_priority = 1.0 if desired != Vector3.ZERO or _hold or not _can_move_flag else 0.5
-	_agent.velocity = desired
+	_submit_velocity(desired)
+
+
+## The wanted velocity goes to the RVO agent (its velocity_computed answer moves us), or straight to the mover while
+## avoidance is gated off (the agent sends no answer then).
+func _submit_velocity(v: Vector3) -> void:
+	if _avoid_gated:
+		_on_velocity_computed(v)
+	else:
+		_agent.velocity = v
+
+
+## P2: is this physics frame one where the auto-aggro scan may run?
+func _scan_due() -> bool:
+	if scan_bucket < 0:
+		return _retarget_left <= 0.0
+	return Engine.get_physics_frames() % SCAN_BUCKETS == scan_bucket
+
+
+## P3 (wave-strike.md 14.2, LaneMarch only): true = RVO avoidance off (the unit walks its own path through friends),
+## false = back on. Death turns avoidance off anyway; revive clears the gate.
+func set_avoidance_gated(off: bool) -> void:
+	if off == _avoid_gated or _dead or _agent == null:
+		return
+	_avoid_gated = off
+	_agent.avoidance_enabled = not off
+
+
+func is_avoidance_gated() -> bool:
+	return _avoid_gated
+
+
+## True when a living enemy unit stands within `max_distance` m on the ground (UnitGrid when the level has one, else a
+## full scan). Cheap early-out query for LaneMarch's avoidance gate; no leash / hidden / caster filters.
+func has_enemy_within(max_distance: float) -> bool:
+	var me := global_position
+	var max_d2 := max_distance * max_distance
+	var grid := UnitGrid.current()
+	if grid == null:
+		for node in get_tree().get_nodes_in_group(&"units"):
+			var o := node as Unit
+			if o == null or o.team == team or o._dead:
+				continue
+			var dx := o.global_position.x - me.x
+			var dz := o.global_position.z - me.z
+			if dx * dx + dz * dz < max_d2 and is_enemy_of(o) and o.is_alive():
+				return true
+		return false
+	grid.prepare()
+	var reach := max_distance + UnitGrid.SLACK
+	var reach2 := reach * reach
+	var c0 := grid.col_of(me.x - reach)
+	var c1 := grid.col_of(me.x + reach)
+	var r0 := grid.row_of(me.z - reach)
+	var r1 := grid.row_of(me.z + reach)
+	var cols := grid.cols
+	var start := grid.cell_start
+	var items := grid.items
+	var px := grid.pos_x
+	var pz := grid.pos_z
+	var teams := grid.teams
+	for r in range(r0, r1 + 1):
+		for c in range(c0, c1 + 1):
+			var cell := r * cols + c
+			for k in range(start[cell], start[cell + 1]):
+				var i := items[k]
+				if teams[i] == team:
+					continue
+				var bx := px[i] - me.x
+				var bz := pz[i] - me.z
+				if bx * bx + bz * bz >= reach2:
+					continue
+				var node: Variant = grid.units[i]
+				if not is_instance_valid(node):
+					continue
+				var o := node as Unit
+				if o._dead:
+					continue
+				var dx := o.global_position.x - me.x
+				var dz := o.global_position.z - me.z
+				if dx * dx + dz * dz < max_d2 and is_enemy_of(o) and o.is_alive():
+					return true
+	return false
 
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:
@@ -2284,6 +2382,14 @@ func _find_nearest_enemy_building(max_distance: float) -> Node3D:
 
 
 func _find_nearest_enemy(max_distance: float) -> Unit:
+	var grid := UnitGrid.current()
+	if grid != null:
+		return _find_nearest_enemy_grid(grid, max_distance)
+	return _find_nearest_enemy_scan(max_distance)
+
+
+## The old full scan (no UnitGrid in the level). test_unit_grid compares the grid query against it.
+func _find_nearest_enemy_scan(max_distance: float) -> Unit:
 	var best: Unit = null
 	var best_score := INF
 	# Hot path (Wave Strike perf pass 2026-10-06: ~300 us per scan at 200 units): cheap typed checks and the squared
@@ -2306,6 +2412,76 @@ func _find_nearest_enemy(max_distance: float) -> Unit:
 		if score < best_score:
 			best_score = score
 			best = other
+	return best
+
+
+## P1 (wave-strike.md 14.2): the same filters and score as _find_nearest_enemy_scan, over the grid cells within
+## max_distance (+ UnitGrid.SLACK) only. Ties go to the lower group index, exactly as the scan's first-wins order.
+func _find_nearest_enemy_grid(grid: UnitGrid, max_distance: float) -> Unit:
+	grid.prepare()
+	var best: Unit = null
+	var best_score := INF
+	var best_i := 1 << 30
+	var me := global_position
+	var max_d2 := max_distance * max_distance
+	var reach := max_distance + UnitGrid.SLACK
+	var c0 := grid.col_of(me.x - reach)
+	var c1 := grid.col_of(me.x + reach)
+	var r0 := grid.row_of(me.z - reach)
+	var r1 := grid.row_of(me.z + reach)
+	var cols := grid.cols
+	var units := grid.units
+	var start := grid.cell_start
+	var items := grid.items
+	var px := grid.pos_x
+	var pz := grid.pos_z
+	var teams := grid.teams
+	var reach2 := reach * reach
+	var bonus := CASTER_PREFERENCE if prefer_casters else 0.0
+	var cut2 := INF   # (best_score + bonus + SLACK)^2: a binned distance beyond it cannot beat the pick
+	var own := grid.row_of(me.z) * cols + grid.col_of(me.x)
+	for pass_i in 2:   # own cell first (the nearest units: an early pick prunes the rest), then the others
+		for r in range(r0, r1 + 1):
+			var row_base := r * cols
+			for c in range(c0, c1 + 1):
+				var cell := row_base + c
+				if (cell == own) != (pass_i == 0):
+					continue
+				for k in range(start[cell], start[cell + 1]):
+					var i := items[k]
+					if teams[i] == team:
+						continue
+					var bx := px[i] - me.x
+					var bz := pz[i] - me.z
+					var b2 := bx * bx + bz * bz
+					if b2 >= reach2 or b2 > cut2:   # binned this frame: cannot have moved SLACK m since
+						continue
+					var node: Variant = units[i]
+					if not is_instance_valid(node):
+						continue
+					var other := node as Unit
+					if other.team == team or other._dead or other._hidden_auto_left > 0.0:
+						continue
+					var op := other.global_position
+					var dx := op.x - me.x
+					var dz := op.z - me.z
+					var d2 := dx * dx + dz * dz
+					if d2 >= max_d2:
+						continue
+					var d := sqrt(d2)
+					# Its best possible score cannot beat the current pick (ties: lower index wins): skip the costly checks.
+					var low := d - bonus
+					if low > best_score or (low == best_score and i > best_i):
+						continue
+					if not other.is_in_group(&"units") or not is_enemy_of(other) or not other.is_alive() or not _in_leash(other):
+						continue
+					var score := d - CASTER_PREFERENCE if prefer_casters and other.has_node(^"CasterAbility") else d
+					if score < best_score or (score == best_score and i < best_i):
+						best_score = score
+						best = other
+						best_i = i
+						var lim := best_score + bonus + UnitGrid.SLACK
+						cut2 = lim * lim
 	return best
 
 

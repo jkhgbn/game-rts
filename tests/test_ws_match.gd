@@ -35,6 +35,8 @@ var _out := ""
 var _timeline: Array = []      ## one row a minute (see _process)
 var _wiz_casts := [0, 0]
 var _wiz_deaths := [0, 0]
+var _caster_casts := {}        ## WS2.C2: lane caster type id -> {spell id: casts}
+var _caster_spawns := {}       ## lane caster type id -> casters spawned
 
 
 func _initialize() -> void:
@@ -118,6 +120,7 @@ func _initialize() -> void:
 			if SIM_STRIP.has(String(c.name)):
 				level.remove_child(c)
 				c.free()
+	node_added.connect(_on_node_added)
 	root.add_child(level)
 	current_scene = level
 	_t0 = Time.get_ticks_usec()
@@ -193,6 +196,25 @@ func _process(_delta: float) -> bool:
 	return false
 
 
+## WS2.C2: every lane caster's CasterAbility (added in Unit._ready) reports its casts per caster id.
+func _on_node_added(n: Node) -> void:
+	if n.name != &"CasterAbility" or not n.has_signal(&"spell_cast"):
+		return
+	var u := n.get_parent() as Unit
+	if u == null or u.unit_type == null:
+		return
+	var tid := String(u.unit_type.id)
+	_caster_spawns[tid] = int(_caster_spawns.get(tid, 0)) + 1
+	n.connect(&"spell_cast", _on_caster_cast.bind(tid))
+
+
+func _on_caster_cast(sid: StringName, tid: String) -> void:
+	if not _caster_casts.has(tid):
+		_caster_casts[tid] = {}
+	var d: Dictionary = _caster_casts[tid]
+	d[String(sid)] = int(d.get(String(sid), 0)) + 1
+
+
 func _finish(verdict: String, why: String) -> void:
 	_done = true
 	var result: Dictionary = level.get(&"result")
@@ -230,6 +252,25 @@ func _finish(verdict: String, why: String) -> void:
 		"wall_s": snappedf((Time.get_ticks_usec() - _t0) / 1e6, 0.1), "frames": _frames, "verdict": verdict,
 		"perf": perf_rows, "timeline": _timeline, "wizard_casts": _wiz_casts, "wizard_deaths": _wiz_deaths,
 	}
+	# WS2.C2 summary: per-card buys / sells, casts per caster id, swaps (bot sells for T3), peak units
+	var buys: Array = []
+	var sells: Array = []
+	var swaps: Array = []
+	for i in 2:
+		var ro: Variant = rosters[i]
+		buys.append(_str_keys(ro.get(&"bought_by_card")) if &"bought_by_card" in ro else {})
+		sells.append(_str_keys(ro.get(&"sold_by_card")) if &"sold_by_card" in ro else {})
+		var bot: Variant = (level.get(&"bots") as Array)[i]
+		swaps.append(int(bot.get(&"swaps")) if bot != null and &"swaps" in bot else 0)
+	line["card_buys"] = buys
+	line["card_sells"] = sells
+	line["caster_casts"] = _caster_casts
+	line["caster_spawns"] = _caster_spawns
+	line["swaps"] = swaps
+	print("WS_SUMMARY card_buys %s" % JSON.stringify(buys))
+	print("WS_SUMMARY caster_casts %s (spawned %s)" % [JSON.stringify(_caster_casts), JSON.stringify(_caster_spawns)])
+	print("WS_SUMMARY swaps %s sells %s" % [JSON.stringify(swaps), JSON.stringify(sells)])
+	print("WS_SUMMARY peak_units %d (by team %s)" % [_peak_units, str(_peak_by_team)])
 	var text := JSON.stringify(line)
 	print("WS_RESULT " + text)
 	if _out != "":
@@ -241,3 +282,11 @@ func _finish(verdict: String, why: String) -> void:
 	else:
 		print("FAIL %s: %s" % [TASK_ID, "; ".join(reasons)])
 	quit(0 if verdict == "PASS" else 1)
+
+
+static func _str_keys(v: Variant) -> Dictionary:
+	var out := {}
+	if v is Dictionary:
+		for k: Variant in v:
+			out[String(str(k))] = v[k]
+	return out

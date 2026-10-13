@@ -5,10 +5,10 @@
 [resource]
 script = ExtResource("1_cards")
 cards = {
-&"fire": [&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbalest"],
-&"ice": [&"rimeshield", &"shardcaster", &"snowdrift_rider", &"hoarlight_magebow"],
-&"nature": [&"bramblehorn", &"wildwood_archer", &"stagrunner", &"greenheart_oathkeeper"],
-&"shadow": [&"shade", &"nightbolt", &"gloam_rider", &"barrow_knight"]
+&"fire": [&"flame_guard", &"scorchling", &"ember_archer", &"ash_hurler", &"blaze_rider", &"cinder_arbalest", &"pyre_adept", &"kilnwarden", &"sunforge_cataphract"],
+&"ice": [&"rimeshield", &"rimeling", &"shardcaster", &"rime_seer", &"snowdrift_rider", &"hoarlight_magebow", &"rimecarver", &"rimehorn_rider", &"shardguard", &"frostcrown_juggernaut"],
+&"nature": [&"bramblehorn", &"thornling", &"wildwood_archer", &"bloomtender", &"stagrunner", &"greenheart_oathkeeper", &"vinelasher", &"bramblesage", &"briar_roc", &"glade_outrider"],
+&"shadow": [&"shade", &"grave_hound", &"nightbolt", &"shadow_knight", &"gloam_rider", &"barrow_knight", &"hexweaver", &"gloom_deacon", &"nightblood_reaver", &"veilborn_dreadrider"]
 }
 mode_mult = {
 &"blaze_rider": 1.05,
@@ -31,4 +31,21 @@ mode_mult = {
 pop_override = {
 &"barrow_knight": 2,
 &"cinder_arbalest": 2
+}
+max_copies = {
+&"bloomtender": 6,
+&"bramblesage": 4,
+&"briar_roc": 3,
+&"frostcrown_juggernaut": 3,
+&"glade_outrider": 3,
+&"gloom_deacon": 4,
+&"hexweaver": 6,
+&"kilnwarden": 4,
+&"nightblood_reaver": 3,
+&"pyre_adept": 6,
+&"rime_seer": 6,
+&"rimecarver": 4,
+&"shardguard": 3,
+&"sunforge_cataphract": 3,
+&"veilborn_dreadrider": 3
 }

@@ -10,6 +10,10 @@ extends Node
 ## - no stall: idle (no target, not moving) for IDLE_REISSUE s = the waypoint order again; stuck (moved < STUCK_DIST m
 ##   in STUCK_TIME s with no target) = a 2 m side-step, then on. `stall_events` counts units stuck past STALL_REPORT s.
 ## Uses command_attack_move / command_move / set_auto_target only (never writes attack_target).
+## Perf (wave-strike.md 14.2): P2 = the unit's auto-aggro scan and this node's think run on fixed physics-frame buckets
+## (Unit.SCAN_BUCKETS) picked from the spawn serial, so a horn's burst never scans / thinks on one frame; P3 = every
+## GATE_EVERY s the unit's RVO avoidance is turned off while no enemy unit is within GATE_RANGE m (and it is not
+## fighting, nor near the enemy Bastion), and back on as soon as one is.
 
 const TICK := 0.25
 const ADVANCE_DIST := 5.0
@@ -20,10 +24,16 @@ const STUCK_DIST := 0.5
 const SIDE_STEP := 2.0
 const STALL_REPORT := 10.0      ## s without progress and without a fight = one stall event (tests want 0)
 const BASTION_REACH := 30.0     ## at the lane's end, a Bastion this close becomes the target
+const GATE_RANGE := 30.0        ## P3: no enemy unit this close = avoidance off
+const GATE_EVERY := 0.5         ## s between two avoidance-gate checks
+## The think runs this many buckets after the unit's scan bucket (never on the same frame as its own scan).
+const THINK_BUCKET_OFFSET := 7
 
 ## Global counters (tests / labs): units that stalled, and the longest stall seen (s).
 static var stall_events := 0
 static var longest_stall := 0.0
+## P2: lane units attached since the last reset_counters (their bucket = serial mod Unit.SCAN_BUCKETS).
+static var spawn_serial := 0
 
 var unit: Unit
 var path: PackedVector3Array = PackedVector3Array()   ## in this unit's walking order
@@ -32,7 +42,6 @@ var leash := 12.0
 var bastion: Node3D = null      ## the enemy Bastion (the final target)
 var index := 0                  ## next waypoint
 
-var _t := 0.0
 var _goal := Vector3.INF        ## the point of the last order
 var _return_left := 0.0         ## > 0: walking back to the lane (leash), no aggro
 var _idle_for := 0.0
@@ -41,16 +50,21 @@ var _stuck_for := 0.0
 var _no_progress := 0.0
 var _reported := false
 var _sidestep_left := 0.0
+var _bucket := 0                ## physics-frame bucket of the think
+var _last_think := -1           ## physics frame of the last think
+var _gate_left := 0.0           ## s to the next avoidance-gate check
 
 
 static func reset_counters() -> void:
 	stall_events = 0
 	longest_stall = 0.0
+	spawn_serial = 0
 
 
-## Attaches a LaneMarch to `u` (already in the tree) and starts the march.
+## Attaches a LaneMarch to `u` (already in the tree) and starts the march. `phase` is unused since P2 (the spawn
+## serial picks the frame buckets); kept for the callers.
 static func attach(u: Unit, lane: PackedVector3Array, p_lateral: float, p_leash: float, enemy_bastion: Node3D,
-		phase: float = 0.0) -> LaneMarch:
+		_phase: float = 0.0) -> LaneMarch:
 	var lm := LaneMarch.new()
 	lm.name = "LaneMarch"
 	lm.unit = u
@@ -58,10 +72,16 @@ static func attach(u: Unit, lane: PackedVector3Array, p_lateral: float, p_leash:
 	lm.lateral = p_lateral
 	lm.leash = p_leash
 	lm.bastion = enemy_bastion
-	lm._t = phase   # staggers the 0.25 s thinks over frames
+	var serial := spawn_serial
+	spawn_serial += 1
+	u.scan_bucket = serial % Unit.SCAN_BUCKETS
+	lm._bucket = (serial + THINK_BUCKET_OFFSET) % Unit.SCAN_BUCKETS
+	lm._last_think = Engine.get_physics_frames()
+	lm._gate_left = float(serial % 2) * TICK   # gate checks alternate between two thinks
 	u.add_child(lm)
 	lm._stuck_ref = u.global_position
 	lm._issue()
+	lm._update_gate()
 	return lm
 
 
@@ -69,16 +89,30 @@ func _physics_process(delta: float) -> void:
 	if unit == null or not is_instance_valid(unit) or not unit.is_alive():
 		set_physics_process(false)
 		return
-	_t -= delta
 	if _return_left > 0.0:
 		_return_left -= delta
 	if _sidestep_left > 0.0:
 		_sidestep_left -= delta
-	if _t > 0.0:
+	var f := Engine.get_physics_frames()
+	if f % Unit.SCAN_BUCKETS != _bucket or f == _last_think:
 		return
-	var dt := TICK - _t
-	_t = TICK
+	var dt := float(f - _last_think) / float(Engine.physics_ticks_per_second)
+	_last_think = f
 	_think(dt)
+	_gate_left -= dt
+	if _gate_left <= 0.0:
+		_gate_left += GATE_EVERY
+		_update_gate()
+
+
+## P3: avoidance only where it matters (an enemy unit near, a fight, the Bastion's crowd).
+func _update_gate() -> void:
+	var pos := unit.global_position
+	var near := unit.attack_target != null or unit.has_enemy_within(GATE_RANGE)
+	if not near and _bastion_alive():
+		var b := bastion.global_position
+		near = Vector2(b.x - pos.x, b.z - pos.z).length() <= GATE_RANGE + BASTION_REACH
+	unit.set_avoidance_gated(not near)
 
 
 ## The point of waypoint `i` for this unit (lane point + its lateral offset); past the end = the Bastion.

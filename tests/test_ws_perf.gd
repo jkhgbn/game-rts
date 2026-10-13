@@ -18,6 +18,8 @@ const IDS := [[&"flame_guard", &"ember_archer", &"blaze_rider", &"cinder_arbales
 var level: Node
 var per_side := 100
 var budget_ms := 16.7
+## WS2.C3 (wave-strike.md 14.2 gate): clash p95 <= 20 ms, load-scaled like the march budget.
+var clash_budget_ms := 20.0
 var _frames := 0
 var _spawned := false
 var _next_i := 0
@@ -44,6 +46,8 @@ func _initialize() -> void:
 			per_side = int(s.substr(9))
 		elif s.begins_with("budget="):
 			budget_ms = float(s.substr(7))
+		elif s.begins_with("clash-budget="):
+			clash_budget_ms = float(s.substr(13))
 	for i in 256:
 		_cal_pts.append(Vector3(float((i * 37) % 101) - 50.0, 0.0, float((i * 53) % 97) - 48.0))
 	for i in 64:
@@ -152,8 +156,13 @@ func _report() -> void:
 	print("ws_perf: march p50 %.2f / p95 %.2f ms, clash p50 %.2f / p95 %.2f ms; calibration loop %.3f ms (quiet %.3f) = load x%.2f -> budget %.2f ms (plain %.1f ms line: %s)" % [
 			float(m.get("p50_ms", -1.0)), p95, float(c.get("p50_ms", -1.0)), float(c.get("p95_ms", -1.0)), cal_ms,
 			CAL_QUIET_MS, load_x, eff_budget, budget_ms, "under" if p95 <= budget_ms else "over"])
+	var clash_p95: float = float(c.get("p95_ms", 0.0))
+	var clash_ok := clash_p95 <= clash_budget_ms * load_x
+	if not clash_ok:
+		print("ws_perf: clash p95 %.2f ms over its budget %.2f ms (%.1f x load %.2f)" % [clash_p95,
+				clash_budget_ms * load_x, clash_budget_ms, load_x])
 	var ok := int(m.get("frames", 0)) > 30 and p95 <= eff_budget and int(line["stalls"]) == 0 \
-			and _valve_fail == ""
+			and _valve_fail == "" and clash_ok
 	if _valve_fail != "":
 		print("FAIL ws_perf: %s" % _valve_fail)
 	if ok:

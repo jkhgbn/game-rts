@@ -9,8 +9,9 @@ horn_interval = 40.0
 last_horns_at = 840.0
 last_horns_interval = 20.0
 time_limit = 1800.0
-start_crystals = 400
-base_income = 100
+start_crystals = 600
+base_income = 120
+supply_cap = Array[int]([36, 60, 84])
 coffer_step = 15
 bounty_pct = 0.12
 defender_bounty_mult = 1.5
@@ -20,7 +21,7 @@ stronghold_from_horn = 6
 max_tier = 3
 bastion_hp_mult = 1.6
 bastion_base_hp = 2500.0
-field_cap = 150
+field_cap = 200
 wizard_spell_power = {
 &"fire": -20.0,
 &"ice": 60.0,

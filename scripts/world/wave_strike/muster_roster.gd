@@ -27,6 +27,8 @@ var _ranks: Dictionary = {}        ## StringName id -> 2 / 3 (absent = rank 1)
 var _locked_pop := 0               ## sold cards' pop, freed at the next horn
 var _recent: Array[Dictionary] = []   ## [{id, t}] buys inside the cancel window
 var bought_total := 0              ## cards bought (stats)
+var bought_by_card: Dictionary = {}   ## StringName id -> copies bought (stats, WS2.C2)
+var sold_by_card: Dictionary = {}     ## StringName id -> copies sold (stats, WS2.C2)
 
 
 func setup(p_seat: int, p_team: int, p_kingdom: StringName, p_rules: WaveStrikeRules, p_table: WaveCardTable,
@@ -154,12 +156,16 @@ func cap() -> int:
 	return rules.cap_at(tier)
 
 
-## "" = can buy, else the reason ("Requires Stronghold", "Supply full (24/24)", "Not enough crystals").
+## "" = can buy, else the reason ("Requires Stronghold" / "Requires Citadel", "Max 4 copies", "Supply full (36/36)",
+## "Not enough crystals").
 func can_buy(id: StringName) -> String:
 	if not card_ids().has(id) or UnitType.find(String(id)) == null:
 		return REASON_UNKNOWN
 	if tier_of_card(id) > tier:
-		return REASON_TIER
+		return REASON_TIER if tier_of_card(id) <= 2 else "Requires %s" % tier_name(tier_of_card(id))
+	var most := table.max_copies_of(id)
+	if most > 0 and count(id) >= most:
+		return "Max %d copies" % most
 	if pop_used() + pop_of(id) > cap():
 		return "Supply full (%d/%d)" % [pop_used(), cap()]
 	if not bank.can_afford(unit_price(id)):
@@ -175,6 +181,7 @@ func buy(id: StringName) -> String:
 	_counts[id] = count(id) + 1
 	_recent.append({"id": id, "t": _now()})
 	bought_total += 1
+	bought_by_card[id] = int(bought_by_card.get(id, 0)) + 1
 	changed.emit()
 	return ""
 
@@ -197,6 +204,7 @@ func sell(id: StringName) -> String:
 	if int(_counts[id]) <= 0:
 		_counts.erase(id)
 	bank.refund(refund)
+	sold_by_card[id] = int(sold_by_card.get(id, 0)) + 1
 	changed.emit()
 	return ""
 
@@ -281,7 +289,8 @@ func tick(delta: float) -> void:
 func save_state() -> Dictionary:
 	return {"tier": tier, "upgrade_left": upgrade_left, "upgrade_to": _upgrade_to, "counts": _counts.duplicate(),
 			"ranks": _ranks.duplicate(), "locked_pop": _locked_pop, "recent": _recent.duplicate(true),
-			"bought_total": bought_total}
+			"bought_total": bought_total, "bought_by_card": bought_by_card.duplicate(),
+			"sold_by_card": sold_by_card.duplicate()}
 
 
 func load_state(d: Dictionary) -> void:
@@ -293,4 +302,15 @@ func load_state(d: Dictionary) -> void:
 	_locked_pop = int(d.get("locked_pop", 0))
 	_recent.assign((d.get("recent", []) as Array).duplicate(true))
 	bought_total = int(d.get("bought_total", 0))
+	bought_by_card = _id_counts(d.get("bought_by_card", {}))
+	sold_by_card = _id_counts(d.get("sold_by_card", {}))
 	changed.emit()
+
+
+## A saved id -> count map with StringName keys (a JSON round trip gives String keys).
+static func _id_counts(v: Variant) -> Dictionary:
+	var out := {}
+	if v is Dictionary:
+		for k: Variant in v:
+			out[StringName(str(k))] = int(v[k])
+	return out

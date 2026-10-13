@@ -1,12 +1,16 @@
 class_name LaneSpawner
 extends Node
 ## One player's spawn pad (docs/design/wave-strike.md 7.3): takes a horn's unit list and spawns it one unit every
-## rules.spawn_stagger s on a grid in front of the gate (8 across the lane, rows behind), each unit with a lateral
-## offset that it keeps along the lane (LaneMarch). The level makes the unit (WaveStrikeLevel.spawn_lane_unit).
+## rules.spawn_stagger s on a grid in front of the gate (8 across the lane, up to MAX_ROWS rows behind), each unit with
+## a lateral offset that it keeps along the lane (LaneMarch). The level makes the unit (WaveStrikeLevel.spawn_lane_unit).
 
 const COLS := 8
 const COL_GAP := 2.0
 const ROW_GAP := 1.8
+## Rows behind the gate before the grid starts over at the gate row (WS2.C1: the M2 caps make waves of 50-60 units;
+## on Ashwind Reach the Bastion stands 13 m behind the gate, so rows 6+ spawned inside it and stalled for good).
+## 5 rows = 7.2 m back; slot 40 comes 6 s after slot 0, when the first rows have walked on.
+const MAX_ROWS := 5
 
 var seat := 0
 var team: int = Unit.Team.PLAYER
@@ -75,7 +79,7 @@ func tick(delta: float) -> void:
 
 func _spawn_one(id: StringName) -> void:
 	var col := _slot % COLS
-	var row := _slot / COLS
+	var row := (_slot / COLS) % MAX_ROWS
 	_slot += 1
 	var side := Vector3(-forward.z, 0.0, forward.x)
 	var frac := (float(col) + 0.5) / float(COLS) * 2.0 - 1.0   # -1..1 across

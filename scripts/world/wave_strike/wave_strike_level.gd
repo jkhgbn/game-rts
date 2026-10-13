@@ -27,6 +27,8 @@ const KINGDOMS := {
 const HUD_SCRIPT := "res://scripts/ui/wave_strike/wave_strike_hud.gd"
 const BOT_SCRIPT := "res://scripts/ai/wave_bot.gd"
 const SEATS := 2
+## WS2.C3 (wave-strike.md 14.2 P4 / 7.8 (6)): a dead lane unit's corpse is gone at most this long after it died.
+const CORPSE_TIME := 2.0
 
 @export var layout_path := DEFAULT_LAYOUT
 @export var layout: MapLayout
@@ -89,10 +91,11 @@ func _ready() -> void:
 	LaneMarch.reset_counters()
 	super()
 	fog.enabled = false   # full vision (wave-strike.md Q6)
+	UnitGrid.ensure(self)   # WS2.C3 (14.2 P4): the spatial hash for target scans / avoidance gating (WS only)
 
 
 static func _new_stats() -> Dictionary:
-	return {"spawned": 0, "lost": 0, "value_killed": 0, "value_lost": 0, "held": 0}
+	return {"spawned": 0, "lost": 0, "value_killed": 0, "value_lost": 0, "held": 0, "held_horn": 0}
 
 
 func _read_layout() -> void:
@@ -346,6 +349,7 @@ func spawn_lane_unit(seat: int, id: StringName, pos: Vector3, lateral: float) ->
 	var team := seat   # 1v1: seat = team
 	if rules.field_cap > 0 and field_count(team) >= rules.field_cap:
 		stats[team]["held"] = int(stats[team].get("held", 0)) + 1   # the field valve: this copy stays home this horn
+		stats[team]["held_horn"] = int(stats[team].get("held_horn", 0)) + 1
 		return null
 	var u := Worker.make_unit(type)
 	_spawn(u, team as Unit.Team, pos)
@@ -357,6 +361,11 @@ func spawn_lane_unit(seat: int, id: StringName, pos: Vector3, lateral: float) ->
 		u.add_xp(Unit.VETERANCY_XP[rk - 1])
 		_apply_rank(u, rk, true)
 		u.hp = u.max_hp
+	# WS2.C2 (wave-strike.md 14.1): a lane caster autocasts while marching (lane_mode) and starts with a full bar
+	var ab := u.get_node_or_null(^"CasterAbility") as CasterAbility
+	if ab:
+		ab.lane_mode = true
+		ab.mana = ab.max_mana() * clampf(rules.lane_caster_start_mana_pct, 0.0, 1.0)
 	var leash := rules.leash_ranged if type.attack_range > 3.0 else rules.leash_melee
 	var phase := float(stats[team]["spawned"] % 4) * LaneMarch.TICK * 0.25
 	LaneMarch.attach(u, lane_for(team), lateral, leash, bastions[1 - team], phase)
@@ -381,6 +390,7 @@ func _lane_type(id: StringName) -> UnitType:
 ## kill is in that team's own third of the lane.
 func _on_lane_unit_died(u: Unit, seat: int, id: StringName) -> void:
 	_lane_rank.erase(u)
+	get_tree().create_timer(CORPSE_TIME).timeout.connect(_clear_corpse.bind(weakref(u)))
 	var team := seat
 	var price := table.price(id)
 	stats[team]["lost"] += 1
@@ -395,6 +405,13 @@ func _on_lane_unit_died(u: Unit, seat: int, id: StringName) -> void:
 	var mult := rules.defender_bounty_mult if lane_progress(u.global_position, kt) < 1.0 / 3.0 else 1.0
 	if kt < banks.size():
 		banks[kt].add_bounty(int(roundf(price * rules.bounty_pct * mult)))
+
+
+## WS2.C3: frees the corpse if its death animation still holds it (Unit frees it itself when the animation ends).
+func _clear_corpse(ref: WeakRef) -> void:
+	var u := ref.get_ref() as Unit
+	if u != null and not u.is_alive() and not u.is_queued_for_deletion():
+		u.queue_free()
 
 
 ## How far `pos` is along the lane from `team`'s gate (0) to the enemy gate (1).
@@ -418,6 +435,11 @@ func field_count(team: int) -> int:
 	return int(stats[team]["spawned"]) - int(stats[team]["lost"])
 
 
+## Copies of `seat`'s last horn that the field valve kept at home (rules.field_cap; the HUD's "N held at home").
+func held_last_horn(seat: int) -> int:
+	return int(stats[seat].get("held_horn", 0)) if seat >= 0 and seat < stats.size() else 0
+
+
 ## Living lane units of `team` (perf / tests).
 func lane_units(team: int = -1) -> Array[Unit]:
 	var out: Array[Unit] = []
@@ -431,6 +453,8 @@ func lane_units(team: int = -1) -> Array[Unit]:
 # ---------------------------------------------------------------- horns, wizards, the end
 
 func on_horn(index: int) -> void:
+	for st in stats:   # the spawners tick before the horn fires: last horn's held count is final here
+		st["held_horn"] = 0
 	if director.is_last_horns():   # Last Horns (wave-strike.md 4.9): Bastion armour -25 %
 		for b in bastions:
 			if b and is_instance_valid(b):
