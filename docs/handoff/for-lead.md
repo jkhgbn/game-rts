@@ -153,3 +153,11 @@ Nothing has to be glued: every 9.C8 piece installs itself.
 - `tools/ui_lab/ui_lab.gd` (no owner listed): its HUD shots sit behind the STR / INT pick (the game is paused, the
   panels never refresh). Picking a path in `_run_resolution` before the match clock (`StrIntPath.of(hero).choose(&"str")`,
   as tests/test_ui_card_hotkeys.gd does) would give live HUD shots.
+
+## WS2.U1 (ui-coder, 2026-10-13): UI Lab shot `ws_buy`
+- `tools/ui_lab/` is not in ui-coder's folders, so the `ws_buy` shot runs from `tests/test_ws_ui_lab.gd` (windowed, same
+  UILabChecks rules as `ui_lab.gd _capture`; Fire + Ice, en + fr, scorecards in `docs/ui/lab/ws_buy/<lang>/`). If you
+  want it inside the UI Lab proper: add a `ws_buy` screen to `ALL_SCREENS` that loads `scenes/wave_strike.tscn` and reuses
+  the setup of `test_ws_ui_lab.gd _shot` (buys, Stronghold forced, `stats[0].held_horn = 12`).
+- 2560x1440 / 3440x1440 could not be checked on this 1920x1080 laptop (the layout is anchored: cards from the left of the
+  console zone, right column from its right edge; the emblem fills the middle).

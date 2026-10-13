@@ -722,3 +722,11 @@ Called right after `node.team = new_team`. Until they exist, a switched seat kee
   in the M1 panel until WS2.U1). For WS2.U1 the GameHUD now offers `hud.console.zone_rect(&"muster")` (x 244 -> right
   edge - 12, y 692-892) and `hud.set_skirmish_console_visible(false)` (hides the selection block, portrait window,
   command card and group tabs; minimap, hero tile and champion slots stay).
+
+## WS2.U1 Muster panel (ui-coder, 2026-10-13)
+- `scripts/world/wave_strike/wave_strike_level.gd` start message "Buy cards (Z X C V): ..." is now wrong: the cards are
+  the whole bottom row Z X C V B N M , . / (slots 1-10), Coffer = G, next tier = U, enemy roster = I (ui-wave-strike.md 5).
+  Suggested: "Buy cards (bottom row keys or click): they march at every horn. First horn at 0:30." (a new msgid: run the
+  i18n merge + French after the change). KeyLabels.letter() can print the AZERTY letters if you build it in code.
+- `MenuFlow`'s restart hook re-applies `MenuFlow.ws_kingdom` to any WaveStrikeLevel entering the tree once installed, so a
+  test / lab that loads two WS levels in one run must set `MenuFlow.ws_kingdom` too (tests/test_ws_ui_lab.gd does). FYI only.

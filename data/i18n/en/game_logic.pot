@@ -334,11 +334,6 @@ msgstr ""
 msgid "Requires Citadel"
 msgstr ""
 
-#. const NAMES: Array[String] = ["Keep", "Stronghold", "Citadel"]
-#: scripts/buildings/tier_system.gd:17
-msgid "Citadel"
-msgstr ""
-
 #. const MSG_NOT_HERE := "Not in this mission"
 #: scripts/buildings/tier_system.gd:35
 msgid "Not in this mission"

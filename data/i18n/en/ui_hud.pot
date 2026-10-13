@@ -215,7 +215,7 @@ msgid "Cancel  [Delete]\nStop building and get %d crystals back (75 %%)."
 msgstr ""
 
 #. tip = Loc.t("%s  [%s]") % [shown_name, key]
-#: scripts/ui/command_card.gd:943
+#: scripts/ui/command_card.gd:943 scripts/ui/wave_strike/muster_panel.gd:365
 msgid "%s  [%s]"
 msgstr ""
 
@@ -716,7 +716,7 @@ msgstr ""
 
 #. "a_tier": a_or_an(Loc.t(String(st.get("name", "Stronghold")))), "key": KeyLabels.of(KEY_X), "money": money})
 #: scripts/ui/next_step_hint.gd:351 scripts/ui/next_step_hint.gd:421
-#: scripts/buildings/tier_system.gd:17
+#: scripts/ui/wave_strike/muster_panel.gd:292 scripts/buildings/tier_system.gd:17
 msgid "Stronghold"
 msgstr ""
 
@@ -1499,7 +1499,8 @@ msgid "Wading: -35 % speed"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1892 scripts/units/unit.gd:39
+#: scripts/ui/selection_panel.gd:1892 scripts/ui/wave_strike/muster_panel.gd:414
+#: scripts/units/unit.gd:39
 msgid "Recruit"
 msgstr ""
 
@@ -1509,7 +1510,7 @@ msgid "Veteran"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1892 scripts/ui/wave_strike/wave_strike_hud.gd:246
+#: scripts/ui/selection_panel.gd:1892 scripts/ui/wave_strike/muster_panel.gd:414
 #: scripts/units/unit.gd:39
 msgid "Elite"
 msgstr ""

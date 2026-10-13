@@ -32,6 +32,9 @@ const SELECTION_BASE_WIDTH := 888.0
 const EMBLEM_ALPHA := 0.06
 
 var _skin := -1
+## Wave Strike (WS2.U1): the Muster panel fills the selection + portrait + card zones; only the minimap divider is drawn
+## and no emblem (the panel draws its own dividers).
+var muster_mode := false
 
 
 func _ready() -> void:
@@ -63,6 +66,11 @@ func _process(_delta: float) -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
 		queue_redraw()
+
+
+func set_muster_mode(on: bool) -> void:
+	muster_mode = on
+	queue_redraw()
 
 
 ## Screen width in the HUD's coordinates (the console spans it).
@@ -101,6 +109,8 @@ func zone_rect(zone: StringName) -> Rect2:
 func divider_xs() -> Array[float]:
 	var out: Array[float] = []
 	out.append_array(DIVIDERS_LEFT)
+	if muster_mode:
+		return out
 	for d in DIVIDERS_RIGHT:
 		out.append(width() - d)
 	return out
@@ -119,6 +129,8 @@ func _draw() -> void:
 			draw_colored_polygon(PackedVector2Array([Vector2(x + 1.5, y - 3), Vector2(x + 4.5, y),
 					Vector2(x + 1.5, y + 3), Vector2(x - 1.5, y)]), light)
 	# Ultrawide: the selection block's empty right part shows the kingdom emblem faintly.
+	if muster_mode:
+		return
 	var sel := zone_rect(&"selection")
 	var extra := sel.size.x - SELECTION_BASE_WIDTH
 	if extra > 120.0:

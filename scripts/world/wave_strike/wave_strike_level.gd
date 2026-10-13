@@ -301,7 +301,7 @@ func _on_navigation_ready() -> void:
 		add_child(ws_hud)
 		ws_hud.call(&"setup", self, 0)
 	camera_rig.focus_on(_start_pos[0] + Vector3(14.0, 0.0, 0.0))
-	hud.show_message("Buy cards (Z X C V): they march at every horn. First horn at 0:30.", 8.0)
+	hud.show_message("Buy cards in the Muster panel (bottom row keys): they march at every horn. First horn at 0:30.", 8.0)
 	director.running = true
 	# Playtest Recorder (health-and-playtests.md): Wave Strike is not a Skirmish, so it starts the recorder itself
 	# when Settings "Playtest data" is on (bot-vs-bot labs run with autopilot_player and never record).

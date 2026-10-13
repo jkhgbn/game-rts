@@ -95,7 +95,7 @@ msgstr "Ranimer {n}"
 msgid "Revive  [{key}]\n{essence} essence · returns at your keep"
 msgstr "Ranimer  [{key}]\n{essence} essence · revient à votre donjon"
 
-#. hire_gold_button.tooltip_text = Loc.t("Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop}
+#. hire_gold_button.tooltip_text = Loc.t("Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop} 
 #: scripts/ui/tavern_window.gd:1123
 msgid "Hire with gold  [Shift+{key}]\n{gold} gold · {essence} essence · {pop} pop"
 msgstr "Engager avec de l'or  [Maj+{key}]\n{gold} or · {essence} essence · {pop} pop"
@@ -791,38 +791,38 @@ msgstr "  (classe, niveau {n})"
 msgid "Your bounties before level 2 steer its class"
 msgstr "Vos primes avant le niveau 2 orientent sa classe"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:657 scripts/ui/flag_card.gd:289
 #: scripts/economy/caravan.gd:189
 msgid "Idle"
 msgstr "Inactif"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:647 scripts/ui/selection_panel.gd:764
 msgid "Fallen"
 msgstr "Tombé"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:84 scripts/ui/point_panel.gd:521
 msgid "Fleeing"
 msgstr "En fuite"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:84
 msgid "Resting"
 msgstr "Au repos"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:84
 msgid "Fighting"
 msgstr "Au combat"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:662 scripts/ui/selection_panel.gd:1559
 msgid "Unpaid!"
 msgstr "Impayé !"
 
-#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
+#. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
 #: scripts/ui/champion_bar.gd:84
 msgid "Hunting bounty"
 msgstr "Chasse une prime"
@@ -1658,7 +1658,7 @@ msgid "Paid {n}"
 msgstr "Payé {n}"
 
 #. paid_text += " · " + Loc.t("max")
-#: scripts/ui/flag_card.gd:210 scripts/ui/wave_strike/wave_strike_hud.gd:234
+#: scripts/ui/flag_card.gd:210
 msgid "max"
 msgstr "max"
 
@@ -1792,12 +1792,12 @@ msgstr "Bénédiction ennemie {n} s\n+12 % vitesse, +1,5 PV / s pour leurs sold
 msgid "Click: centre the camera"
 msgstr "Clic : centrer la caméra"
 
-#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw":
+#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": 
 #: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:241
 msgid "dark breed"
 msgstr "race sombre"
 
-#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw":
+#. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": 
 #: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:241
 msgid "silver breed"
 msgstr "race argentée"
@@ -2133,414 +2133,99 @@ msgstr "Pas un comptoir"
 msgid "Trading Post"
 msgstr "Comptoir"
 
-#. status_label.text = "Hired · Level %d" % _level
-#: scripts/ui/tavern_window.gd:1015
-#~ msgid "Hired · Level %d"
+#. var key := "class|%s|%s" % [id, class_scripts_enabled]
+#: scripts/ui/champion_bar.gd:951
+#~ msgid "class|%s|%s"
 #~ msgstr ""
 
-#. revive_button.text = "Revive %d" % rcost
-#: scripts/ui/tavern_window.gd:1032
-#~ msgid "Revive %d"
+#. &"outriders": {"name": "Outriders", "abbr": "OR", "cost": 120, "trackers": 2, "duration": 180.0,
+#: scripts/ui/trade_window.gd:80 scripts/world/hunters_guild.gd:32
+#~ msgid "Outriders"
 #~ msgstr ""
 
-#. hire_gold_button.tooltip_text = "Hire with gold  [Shift+%s]\n%d gold · %d essence · %d pop%s" % [
-#: scripts/ui/tavern_window.gd:1094
-#~ msgid "Hire with gold  [Shift+%s]\n%d gold · %d essence · %d pop%s"
+#. var first := str(a.get("name", "")) + ("  Locked" if locked else "")
+#: scripts/ui/champion_bar.gd:827 scripts/ui/champion_bar.gd:854
+#~ msgid "  Locked"
 #~ msgstr ""
 
-#. footer_right.text = "Bazaar: %s" % building_name(m)
-#: scripts/ui/trade_window.gd:872
-#~ msgid "Bazaar: %s"
+#. var key := "heavy|%s" % kingdom()
+#: scripts/ui/item_tooltip.gd:299
+#~ msgid "heavy|%s"
 #~ msgstr ""
 
-#. &"oath_of_iron": {"name": "Oath of Iron", "unlock": 1, "cooldown": 16.0,
-#: scripts/ui/champion_bar.gd:154 scripts/units/champion_abilities.gd:83
-#~ msgid "Oath of Iron"
+#. var key := "slot|%s|%s" % [rim.to_html(), inside.to_html()]
+#: scripts/ui/item_tooltip.gd:359
+#~ msgid "slot|%s|%s"
 #~ msgstr ""
 
-#. &"bulwark_stand": {"name": "Bulwark Stand", "unlock": 4, "cooldown": 40.0,
-#: scripts/ui/champion_bar.gd:162 scripts/units/champion_abilities.gd:89
-#~ msgid "Bulwark Stand"
+#. var key := "Num %d" % (i + 1) if i < ITEM_SLOTS else ""
+#: scripts/ui/inventory_bar.gd:246
+#~ msgid "Num %d"
 #~ msgstr ""
 
-#. &"smoke_pouch": {"name": "Smoke Pouch", "unlock": 1, "cooldown": 25.0,
-#: scripts/ui/champion_bar.gd:170 scripts/units/champion_abilities.gd:95
-#~ msgid "Smoke Pouch"
+#. revive_gold_button.tooltip_text = "Revive with gold  [Shift+%s]\n%d gold · returns at your keep%s" % [
+#: scripts/ui/tavern_window.gd:1105
+#~ msgid "Revive with gold  [Shift+%s]\n%d gold · returns at your keep%s"
 #~ msgstr ""
 
-#. &"marked_for_coin": {"name": "Marked for Coin", "unlock": 4, "cooldown": 20.0,
-#: scripts/ui/champion_bar.gd:174 scripts/units/champion_abilities.gd:98
-#~ msgid "Marked for Coin"
+#. var line := "%s HP · %s damage · %s range · %s speed" % [_num(hp), _num(dmg), String.num(snappedf(reach, 0.1),
+#: scripts/ui/tavern_window.gd:1136
+#~ msgid "%s HP · %s damage · %s range · %s speed"
 #~ msgstr ""
 
-#. &"mending_draught": {"name": "Mending Draught", "unlock": 1, "cooldown": 7.0,
-#: scripts/ui/champion_bar.gd:178 scripts/units/champion_abilities.gd:101
-#~ msgid "Mending Draught"
+#. line += " · %s armor" % _num(armor)
+#: scripts/ui/tavern_window.gd:1139
+#~ msgid " · %s armor"
 #~ msgstr ""
 
-#. &"soothing_circle": {"name": "Soothing Circle", "unlock": 1, "cooldown": 24.0,
-#: scripts/ui/champion_bar.gd:182 scripts/units/champion_abilities.gd:104
-#~ msgid "Soothing Circle"
+#. segs.append(["%d HP" % roundi(venison.x), NEAR])
+#: scripts/ui/point_panel.gd:462
+#~ msgid "%d HP"
 #~ msgstr ""
 
-#. T3Kit.description(T3Kit.GENIE_ID), reason if reason != "" else "%d crystals · Pop 4 · %d s" % [
-#: scripts/ui/tavern_window.gd:563
-#~ msgid "%d crystals · Pop 4 · %d s"
+#. reward_label = _label(_lodge_page, "The Lodge pays %d gold for every Magpie slain" % REWARD_PER_MAGPIE, 12,
+#: scripts/ui/trade_window.gd:295
+#~ msgid "The Lodge pays %d gold for every Magpie slain"
 #~ msgstr ""
 
-#. pop_label = _label("Pop %d" % ChampionBar.POP, 11, Vector2(628, 22), 106)
-#: scripts/ui/tavern_window.gd:733 scripts/ui/tavern_window.gd:941 scripts/ui/tavern_window.gd:1064
-#~ msgid "Pop %d"
+#. return "%s · %d HP · Hunt it: %s" % [n, roundi(float(c.get(&"max_hp"))), reward]
+#: scripts/ui/point_panel.gd:479
+#~ msgid "%s · %d HP · Hunt it: %s"
 #~ msgstr ""
 
-#. class_rest.text = " · skills %d / 3" % TavernWindow.class_skills_unlocked(champion, cid)
-#: scripts/ui/tavern_window.gd:900
-#~ msgid " · skills %d / 3"
+#. message.emit("Exchanged %d gold for %d %s" % [amount, received, String(to)])
+#: scripts/ui/trade_window.gd:754
+#~ msgid "Exchanged %d gold for %d %s"
 #~ msgstr ""
 
-#. rewards_received_label.text = "Rewards received: %s gold" % thousands(_earned(b, &"reward"))
-#: scripts/ui/trade_window.gd:889
-#~ msgid "Rewards received: %s gold"
+#. [TAB_B, "Greywater Lodge", LODGE, "Hunters' Guild: contracts paid in gold"]]:
+#: scripts/ui/trade_window.gd:204 scripts/ui/post_panel.gd:364 scripts/world/guild_house.gd:30
+#~ msgid "Greywater Lodge"
 #~ msgstr ""
 
-#. _set_line(3, [["Your trips here, last 2 min: %d · caravans on this route: %d" % [trips, caravans_on(post)],
-#: scripts/ui/post_panel.gd:296
-#~ msgid "Your trips here, last 2 min: %d · caravans on this route: %d"
-#~ msgstr ""
-
-#. return ["Asleep" if t == INF else "Asleep: wakes in %s" % MapfillBar.mmss(t), muted]
-#: scripts/ui/point_panel.gd:352
-#~ msgid "Asleep: wakes in %s"
-#~ msgstr ""
-
-#. return [["Sight %d for its owner" % roundi(sight), text, 13]]
-#: scripts/ui/point_panel.gd:367
-#~ msgid "Sight %d for its owner"
-#~ msgstr ""
-
-#. return "Guarding: %s" % n
-#: scripts/ui/flag_card.gd:242
-#~ msgid "Guarding: %s"
-#~ msgstr ""
-
-#. return "Target: %s" % n
-#: scripts/ui/flag_card.gd:245
-#~ msgid "Target: %s"
-#~ msgstr ""
-
-#. hire_button.tooltip_text = "Hire %s  [%s]\n%d gold · %d trackers · %d s%s" % [str(info.get("name", kind)), rk,
-#: scripts/ui/trade_window.gd:1319
-#~ msgid "Hire %s  [%s]\n%d gold · %d trackers · %d s%s"
-#~ msgstr ""
-
-#. segs.append(["+%d essence" % essence, UIStyle.ESSENCE_TEXT])
-#: scripts/ui/point_panel.gd:459 scripts/ui/selection_panel.gd:926
-#~ msgid "+%d essence"
-#~ msgstr ""
-
-#. message.emit("Sold %s for %d" % [name_of(t), gained])
-#: scripts/ui/shop_window.gd:636 scripts/ui/inventory_bar.gd:209
-#~ msgid "Sold %s for %d"
-#~ msgstr ""
-
-#. var lines: PackedStringArray = ["Class skill %d  Locked" % slot if slot > 0 else "Class"]
-#: scripts/ui/champion_bar.gd:1073
-#~ msgid "Class skill %d  Locked"
-#~ msgstr ""
-
-#. lines.append("Owned: %d" % int(counts[id_of(t)]))
-#: scripts/ui/shop_window.gd:797
-#~ msgid "Owned: %d"
-#~ msgstr ""
-
-#. lines.append("Sell %d" % int(total_cost_of(t) / 2))
-#: scripts/ui/shop_window.gd:799 scripts/ui/item_tooltip.gd:183
-#~ msgid "Sell %d"
-#~ msgstr ""
-
-#. _buy.text = ("Combine %d" if combine else "Buy %d") % price
-#: scripts/ui/shop_window.gd:827
-#~ msgid "Combine %d"
-#~ msgstr ""
-
-#. tooltip_text = "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.%s" % (
-#: scripts/ui/champion_bar.gd:1375
-#~ msgid "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.%s"
-#~ msgstr ""
-
-#. "" if open else "\nTavern opens at %s" % at)
-#: scripts/ui/champion_bar.gd:1376
-#~ msgid "\nTavern opens at %s"
-#~ msgstr ""
-
-#. _set_line(2, [["Magpies you can see: ", UIStyle.token(&"text")],
-#: scripts/ui/post_panel.gd:356
-#~ msgid "Magpies you can see: "
-#~ msgstr "Magpies visibles : "
-
-#. _buy.text = ("Combine %d" if combine else "Buy %d") % price
-#: scripts/ui/shop_window.gd:827
-#~ msgid "Buy %d"
-#~ msgstr ""
-
-#. const CLASS_MARK := "  (class, level %d)"
-#: scripts/ui/champion_bar.gd:77
-#~ msgid "  (class, level %d)"
-#~ msgstr ""
-
-#. running.append("%s · %s left" % [str((TradeWindow.CONTRACT_INFO[k] as Dictionary)["name"]),
-#: scripts/ui/post_panel.gd:376
-#~ msgid "%s · %s left"
-#~ msgstr ""
-
-#. return "Items: " + (", ".join(parts) if not parts.is_empty() else "none")
-#: scripts/ui/champion_bar.gd:745
-#~ msgid "Items: "
-#~ msgstr ""
-
-#. line += " · %d s cooldown" % int(round(cooldown))
-#: scripts/ui/item_tooltip.gd:175
-#~ msgid " · %d s cooldown"
-#~ msgstr ""
-
-#. var line := "Active: %s" % active.capitalize()
-#: scripts/ui/item_tooltip.gd:173
-#~ msgid "Active: %s"
-#~ msgstr ""
-
-#. lines.append("%d charge%s" % [count, "" if count == 1 else "s"])
-#: scripts/ui/item_tooltip.gd:179
-#~ msgid "%d charge%s"
-#~ msgstr ""
-
-#. revive_gold_button.text = "Revive %d gold" % rcost
-#: scripts/ui/tavern_window.gd:1099
-#~ msgid "Revive %d gold"
-#~ msgstr ""
-
-#. intent_label.text = "Arrives in %d s" % ceili(ChampionBar.hire_left(g, id))
-#: scripts/ui/tavern_window.gd:1012 scripts/ui/champion_bar.gd:1394
-#~ msgid "Arrives in %d s"
-#~ msgstr ""
-
-#. hire_button.tooltip_text = "Hire  [%s]\n%d crystals · %d essence · %d pop%s" % [rk, cost.x, cost.y,
-#: scripts/ui/tavern_window.gd:1007
-#~ msgid "Hire  [%s]\n%d crystals · %d essence · %d pop%s"
-#~ msgstr ""
-
-#. status_label.text = "Fallen · Level %d" % _level
-#: scripts/ui/tavern_window.gd:1023
-#~ msgid "Fallen · Level %d"
-#~ msgstr ""
-
-#. revive_button.tooltip_text = "Revive  [%s]\n%d essence · returns at your keep%s" % [rk, rcost,
-#: scripts/ui/tavern_window.gd:1040
-#~ msgid "Revive  [%s]\n%d essence · returns at your keep%s"
-#~ msgstr ""
-
-#. &"snare_line": {"name": "Snare Line", "unlock": 1, "cooldown": 14.0,
-#: scripts/ui/champion_bar.gd:146 scripts/units/champion_abilities.gd:77
-#~ msgid "Snare Line"
-#~ msgstr ""
-
-#. &"trailblaze": {"name": "Trailblaze", "unlock": 4, "cooldown": 30.0,
-#: scripts/ui/champion_bar.gd:150 scripts/units/champion_abilities.gd:80
-#~ msgid "Trailblaze"
-#~ msgstr ""
-
-#. &"shield_bash": {"name": "Shield Bash", "unlock": 1, "cooldown": 10.0,
-#: scripts/ui/champion_bar.gd:158 scripts/units/champion_abilities.gd:86
-#~ msgid "Shield Bash"
-#~ msgstr ""
-
-#. &"cutpurse": {"name": "Cutpurse", "unlock": 1, "cooldown": 8.0,
-#: scripts/ui/champion_bar.gd:166 scripts/units/champion_abilities.gd:92
-#~ msgid "Cutpurse"
-#~ msgstr ""
-
-#. sub_label.text = "%d Greywater Trackers · %d s" % [trackers, roundi(duration)]
-#: scripts/ui/trade_window.gd:1271
-#~ msgid "%d Greywater Trackers · %d s"
-#~ msgstr ""
-
-#. time_label.text = "%s left" % TradeWindow.mmss(left)
-#: scripts/ui/trade_window.gd:1305
-#~ msgid "%s left"
-#~ msgstr ""
-
-#. message.emit("Bought %s" % name_of(t))
-#: scripts/ui/shop_window.gd:614
-#~ msgid "Bought %s"
-#~ msgstr ""
-
-#. &"tempered_steel": {"name": "Tempered Steel", "abbr": "TS", "price": 350,
-#: scripts/ui/trade_window.gd:71 scripts/economy/gold_bank.gd:51
-#~ msgid "Tempered Steel"
-#~ msgstr ""
-
-#. &"masons_charter": {"name": "Masons' Charter", "abbr": "MC", "price": 350,
-#: scripts/ui/trade_window.gd:68 scripts/economy/gold_bank.gd:49
-#~ msgid "Masons' Charter"
-#~ msgstr ""
-
-#. &"iron_axles": {"name": "Iron-shod Axles", "abbr": "IA", "price": 150,
-#: scripts/ui/trade_window.gd:65 scripts/economy/gold_bank.gd:47
-#~ msgid "Iron-shod Axles"
-#~ msgstr ""
-
-#. lines.append("Autocast: " + str(a.get("when", "")))
-#: scripts/ui/champion_bar.gd:833
-#~ msgid "Autocast: "
-#~ msgstr ""
-
-#. class_rest.text = " · leans " + ChampionBar.lean_text(weights)
-#: scripts/ui/tavern_window.gd:905
-#~ msgid " · leans "
-#~ msgstr ""
-
-#. lines.append("Unlocks at level %d" % int(a.get("unlock", 1)))
-#: scripts/ui/champion_bar.gd:835 scripts/ui/champion_bar.gd:1079
-#~ msgid "Unlocks at level %d"
-#~ msgstr ""
-
-#. class_rest.text = " · usually " + ChampionBar.class_display_name(ChampionBar.usual_class(id))
-#: scripts/ui/tavern_window.gd:909
-#~ msgid " · usually "
-#~ msgstr ""
-
-#. message.emit("Dropped %s" % ItemTooltip.display_name(type))
-#: scripts/ui/inventory_bar.gd:223
-#~ msgid "Dropped %s"
-#~ msgstr ""
-
-#. lines.append("Level %d%s · HP %d / %d · Purse %d" % [level_of(ch), " · " + xp if xp != "" else "", hp,
-#: scripts/ui/champion_bar.gd:893
-#~ msgid "Level %d%s · HP %d / %d · Purse %d"
-#~ msgstr ""
-
-#. d["text"] = "Raise +%d · %s %d -> %d" % [RAISE_STEP, kind_name(k), stake, mini(stake + RAISE_STEP, MAX_STAKE)]
-#: scripts/ui/bounty_mode.gd:320
-#~ msgid "Raise +%d · %s %d -> %d"
-#~ msgstr ""
-
-#. return "%s takes up %s" % [display_name_of(ch), str(info.get("takes", "the " + class_display_name(cid)))]
-#: scripts/ui/champion_bar.gd:965
-#~ msgid "%s takes up %s"
-#~ msgstr ""
-
-#. &"lifeline": {"name": "Lifeline", "unlock": 4, "cooldown": 35.0,
-#: scripts/ui/champion_bar.gd:186 scripts/units/champion_abilities.gd:108
-#~ msgid "Lifeline"
-#~ msgstr ""
-
-#. var weapon := "ranged %s · %s damage every %s s" % [reach, dmg, cd] if bool(c.get("ranged", false)) \
-#: scripts/ui/champion_bar.gd:977
-#~ msgid "ranged %s · %s damage every %s s"
-#~ msgstr ""
-
-#. &"lunge": {"name": "Lunge", "unlock": 2, "cooldown": 14.0, "class": &"spear",
-#: scripts/ui/champion_bar.gd:191 scripts/units/champion_abilities.gd:112
-#~ msgid "Lunge"
-#~ msgstr ""
-
-#. else "melee · %s damage every %s s · reach %s" % [dmg, cd, reach]
-#: scripts/ui/champion_bar.gd:978
-#~ msgid "melee · %s damage every %s s · reach %s"
-#~ msgstr ""
-
-#. &"hobbling_javelin": {"name": "Hobbling Javelin", "unlock": 3, "cooldown": 16.0, "class": &"spear",
-#: scripts/ui/champion_bar.gd:195 scripts/units/champion_abilities.gd:115
-#~ msgid "Hobbling Javelin"
-#~ msgstr ""
-
-#. lines.append("Chooses a class at level 2 · leans " + lean_text(weights))
-#: scripts/ui/champion_bar.gd:1074
-#~ msgid "Chooses a class at level 2 · leans "
-#~ msgstr ""
-
-#. &"skewer": {"name": "Skewer", "unlock": 5, "cooldown": 25.0, "class": &"spear",
-#: scripts/ui/champion_bar.gd:199 scripts/units/champion_abilities.gd:118
-#~ msgid "Skewer"
-#~ msgstr ""
-
-#. action_button.tooltip_text = "Set as route\nYour caravans trade here from now on.%s" % [
-#: scripts/ui/post_panel.gd:312
-#~ msgid "Set as route\nYour caravans trade here from now on.%s"
-#~ msgstr ""
-
-#. &"riposte": {"name": "Riposte", "unlock": 2, "cooldown": 22.0, "class": &"sword_shield",
-#: scripts/ui/champion_bar.gd:203 scripts/units/champion_abilities.gd:121
-#~ msgid "Riposte"
-#~ msgstr ""
-
-#. tavern_label.text = "Y · tavern" if open else "Tavern opens at %s" % at
-#: scripts/ui/champion_bar.gd:1373
-#~ msgid "Tavern opens at %s"
-#~ msgstr ""
-
-#. &"second_wind": {"name": "Second Wind", "unlock": 3, "cooldown": 45.0, "class": &"sword_shield",
-#: scripts/ui/champion_bar.gd:207 scripts/units/champion_abilities.gd:124
-#~ msgid "Second Wind"
-#~ msgstr ""
-
-#. &"shield_throw": {"name": "Shield Throw", "unlock": 5, "cooldown": 20.0, "class": &"sword_shield",
-#: scripts/ui/champion_bar.gd:211 scripts/units/champion_abilities.gd:127
-#~ msgid "Shield Throw"
-#~ msgstr ""
-
-#. &"cleave": {"name": "Cleave", "unlock": 2, "cooldown": 10.0, "class": &"two_hand",
-#: scripts/ui/champion_bar.gd:215 scripts/units/champion_abilities.gd:131
-#~ msgid "Cleave"
-#~ msgstr ""
-
-#. &"crushing_blow": {"name": "Crushing Blow", "unlock": 3, "cooldown": 20.0, "class": &"two_hand",
-#: scripts/ui/champion_bar.gd:219 scripts/units/champion_abilities.gd:134
-#~ msgid "Crushing Blow"
-#~ msgstr ""
-
-#. for b in root_control.find_children("*", "Button", true, false):
-#: scripts/ui/trade_window.gd:348
-#~ msgid "Button"
-#~ msgstr ""
-
-#. tooltip_text = "%s  [%s]  %s\nHired: walks out of the tavern in %d s." % [display_name,
-#: scripts/ui/champion_bar.gd:1396
-#~ msgid "%s  [%s]  %s\nHired: walks out of the tavern in %d s."
-#~ msgstr ""
-
-#. return "Ruin Peddler"
-#: scripts/ui/shop_window.gd:348 scripts/world/ruin_peddler.gd:13
-#~ msgid "Ruin Peddler"
+#. &"sweep": {"name": "Sweep", "abbr": "SW", "cost": 100, "trackers": 3, "duration": 120.0,
+#: scripts/ui/trade_window.gd:82 scripts/world/hunters_guild.gd:33
+#~ msgid "Sweep"
 #~ msgstr ""
 
 #. "names": ["Garran Stoneward", "Gerda Stoneward"], "title": "the Oathwall", "role": "Guardian, melee",
-#: scripts/ui/champion_bar.gd:118
-#~ msgid "Gerda Stoneward"
+#: scripts/ui/champion_bar.gd:118 data/champions/oathwall.tres:9
+#~ msgid "the Oathwall"
 #~ msgstr ""
 
 #. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
 #: scripts/ui/champion_bar.gd:125
-#~ msgid "Sable Quint"
-#~ msgstr ""
-
-#. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
-#: scripts/ui/champion_bar.gd:125 data/champions/coin_cutter.tres:9
-#~ msgid "the Coin-Cutter"
+#~ msgid "Silas Quint"
 #~ msgstr ""
 
 #. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
 #: scripts/ui/champion_bar.gd:132
-#~ msgid "Osric Fenwick"
+#~ msgid "Orla Fenwick"
 #~ msgstr ""
 
 #. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
 #: scripts/ui/champion_bar.gd:132 data/champions/mender.tres:9
 #~ msgid "the Mender"
-#~ msgstr ""
-
-#. &"flare_arrow": {"name": "Signal Flare", "unlock": 1, "cooldown": 18.0,
-#: scripts/ui/champion_bar.gd:142 scripts/units/champion_abilities.gd:73
-#~ msgid "Signal Flare"
 #~ msgstr ""
 
 #. closed_label.text = "The tavern opens at %s" % ChampionBar.opens_at_text(self)
@@ -2633,99 +2318,110 @@ msgstr "Comptoir"
 #~ msgid "Raise +%d · "
 #~ msgstr ""
 
+#. if active != "" and not extra.contains("Active:"):
+#: scripts/ui/item_tooltip.gd:174
+#~ msgid "Active:"
+#~ msgstr ""
+
 #. &"starfall": {"name": "Starfall", "unlock": 5, "cooldown": 35.0, "class": &"wizard",
 #: scripts/ui/champion_bar.gd:235 scripts/units/champion_abilities.gd:146
 #~ msgid "Starfall"
 #~ msgstr ""
 
-#. var key := "class|%s|%s" % [id, class_scripts_enabled]
-#: scripts/ui/champion_bar.gd:951
-#~ msgid "class|%s|%s"
+#. &"gambesons": {"name": "Quilted Gambesons", "abbr": "QG", "price": 350,
+#: scripts/ui/trade_window.gd:74 scripts/economy/gold_bank.gd:53
+#~ msgid "Quilted Gambesons"
 #~ msgstr ""
 
-#. &"outriders": {"name": "Outriders", "abbr": "OR", "cost": 120, "trackers": 2, "duration": 180.0,
-#: scripts/ui/trade_window.gd:80 scripts/world/hunters_guild.gd:32
-#~ msgid "Outriders"
+#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
+#: scripts/ui/champion_bar.gd:111
+#~ msgid "Tamsin Farrow"
 #~ msgstr ""
 
-#. var first := str(a.get("name", "")) + ("  Locked" if locked else "")
-#: scripts/ui/champion_bar.gd:827 scripts/ui/champion_bar.gd:854
-#~ msgid "  Locked"
+#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
+#: scripts/ui/champion_bar.gd:111
+#~ msgid "Tobin Farrow"
 #~ msgstr ""
 
-#. var key := "heavy|%s" % kingdom()
-#: scripts/ui/item_tooltip.gd:299
-#~ msgid "heavy|%s"
-#~ msgstr ""
-
-#. var key := "slot|%s|%s" % [rim.to_html(), inside.to_html()]
-#: scripts/ui/item_tooltip.gd:359
-#~ msgid "slot|%s|%s"
-#~ msgstr ""
-
-#. var key := "Num %d" % (i + 1) if i < ITEM_SLOTS else ""
-#: scripts/ui/inventory_bar.gd:246
-#~ msgid "Num %d"
-#~ msgstr ""
-
-#. revive_gold_button.tooltip_text = "Revive with gold  [Shift+%s]\n%d gold · returns at your keep%s" % [
-#: scripts/ui/tavern_window.gd:1105
-#~ msgid "Revive with gold  [Shift+%s]\n%d gold · returns at your keep%s"
-#~ msgstr ""
-
-#. var line := "%s HP · %s damage · %s range · %s speed" % [_num(hp), _num(dmg), String.num(snappedf(reach, 0.1),
-#: scripts/ui/tavern_window.gd:1136
-#~ msgid "%s HP · %s damage · %s range · %s speed"
-#~ msgstr ""
-
-#. line += " · %s armor" % _num(armor)
-#: scripts/ui/tavern_window.gd:1139
-#~ msgid " · %s armor"
-#~ msgstr ""
-
-#. segs.append(["%d HP" % roundi(venison.x), NEAR])
-#: scripts/ui/point_panel.gd:462
-#~ msgid "%d HP"
-#~ msgstr ""
-
-#. reward_label = _label(_lodge_page, "The Lodge pays %d gold for every Magpie slain" % REWARD_PER_MAGPIE, 12,
-#: scripts/ui/trade_window.gd:295
-#~ msgid "The Lodge pays %d gold for every Magpie slain"
-#~ msgstr ""
-
-#. return "%s · %d HP · Hunt it: %s" % [n, roundi(float(c.get(&"max_hp"))), reward]
-#: scripts/ui/point_panel.gd:479
-#~ msgid "%s · %d HP · Hunt it: %s"
-#~ msgstr ""
-
-#. message.emit("Exchanged %d gold for %d %s" % [amount, received, String(to)])
-#: scripts/ui/trade_window.gd:754
-#~ msgid "Exchanged %d gold for %d %s"
-#~ msgstr ""
-
-#. [TAB_B, "Greywater Lodge", LODGE, "Hunters' Guild: contracts paid in gold"]]:
-#: scripts/ui/trade_window.gd:204 scripts/ui/post_panel.gd:364 scripts/world/guild_house.gd:30
-#~ msgid "Greywater Lodge"
-#~ msgstr ""
-
-#. &"sweep": {"name": "Sweep", "abbr": "SW", "cost": 100, "trackers": 3, "duration": 120.0,
-#: scripts/ui/trade_window.gd:82 scripts/world/hunters_guild.gd:33
-#~ msgid "Sweep"
+#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
+#: scripts/ui/champion_bar.gd:111 data/champions/wayfinder.tres:9
+#~ msgid "the Wayfinder"
 #~ msgstr ""
 
 #. "names": ["Garran Stoneward", "Gerda Stoneward"], "title": "the Oathwall", "role": "Guardian, melee",
-#: scripts/ui/champion_bar.gd:118 data/champions/oathwall.tres:9
-#~ msgid "the Oathwall"
+#: scripts/ui/champion_bar.gd:118
+#~ msgid "Garran Stoneward"
 #~ msgstr ""
 
-#. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
-#: scripts/ui/champion_bar.gd:125
-#~ msgid "Silas Quint"
+#. if t is Resource and str((t as Resource).get(&"display_name")) not in ["", "<null>"]:
+#: scripts/ui/mapfill_bar.gd:694 scripts/ui/mapfill_bar.gd:697
+#~ msgid "<null>"
 #~ msgstr ""
 
-#. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
-#: scripts/ui/champion_bar.gd:132
-#~ msgid "Orla Fenwick"
+#. title_label.text = "Magpie Den"
+#: scripts/ui/post_panel.gd:351 scripts/world/guild_house.gd:30
+#~ msgid "Magpie Den"
+#~ msgstr ""
+
+#. [Loc.t(" per trip from your Bazaar"), text]])
+#: scripts/ui/post_panel.gd:287
+#~ msgid " per trip from your Bazaar"
+#~ msgstr " par voyage depuis votre Bazar"
+
+#. [Loc.t("{n} gold", {"n": route_value(net, market, post)}), TradeWindow.GOLD_TEXT],
+#: scripts/ui/post_panel.gd:286
+#~ msgid "{n} gold"
+#~ msgstr "{n} or"
+
+#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1040
+#~ msgid "near"
+#~ msgstr "proche"
+
+#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
+#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1040
+#~ msgid "far"
+#~ msgstr "loin"
+
+#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
+#: scripts/ui/post_panel.gd:284
+#~ msgid "For you: "
+#~ msgstr "Pour vous : "
+
+#. hp_text.text = "HP  %d / %d" % [ceili(hp), int(max_hp)]
+#: scripts/ui/point_panel.gd:500 scripts/ui/selection_panel.gd:694 scripts/ui/selection_panel.gd:857
+#: scripts/ui/selection_panel.gd:1402 scripts/ui/selection_panel.gd:1830
+#~ msgid "HP  %d / %d"
+#~ msgstr ""
+
+#. button.text = "%d gold  ->  %d %s" % [amount, received, String(to)]
+#: scripts/ui/trade_window.gd:846
+#~ msgid "%d gold  ->  %d %s"
+#~ msgstr ""
+
+#. _set_line(1, [["Your units within 6 m heal %d HP" % roundi(venison.y), UIStyle.token(&"text_muted"), 13]] \
+#: scripts/ui/point_panel.gd:504
+#~ msgid "Your units within 6 m heal %d HP"
+#~ msgstr ""
+
+#. button.tooltip_text = "Exchange  [%s]\n100 gold -> %d %s · Shift: x5%s" % [ek, int(EXCHANGE_RATES[to]),
+#: scripts/ui/trade_window.gd:852
+#~ msgid "Exchange  [%s]\n100 gold -> %d %s · Shift: x5%s"
+#~ msgstr ""
+
+#. _set_line(0, [["Opens at 4:00 · in %s" % TradeWindow.mmss(left), UIStyle.WARN]])
+#: scripts/ui/post_panel.gd:277
+#~ msgid "Opens at 4:00 · in %s"
+#~ msgstr ""
+
+#. ledger_labels[0].text = "Gold earned %s" % thousands(earned)
+#: scripts/ui/trade_window.gd:855
+#~ msgid "Gold earned %s"
+#~ msgstr ""
+
+#. [" · ", text], ["%d gold" % route_value(net, market, post), TradeWindow.GOLD_TEXT],
+#: scripts/ui/post_panel.gd:284
+#~ msgid "%d gold"
 #~ msgstr ""
 
 #. ledger_labels[1].text = "trade %s · loot %s · rewards %s" % [thousands(_earned(b, &"trade")),
@@ -2828,103 +2524,407 @@ msgstr "Comptoir"
 #~ msgid "%s shop"
 #~ msgstr ""
 
-#. if active != "" and not extra.contains("Active:"):
-#: scripts/ui/item_tooltip.gd:174
-#~ msgid "Active:"
+#. segs.append(["+%d essence" % essence, UIStyle.ESSENCE_TEXT])
+#: scripts/ui/point_panel.gd:459 scripts/ui/selection_panel.gd:926
+#~ msgid "+%d essence"
 #~ msgstr ""
 
-#. &"gambesons": {"name": "Quilted Gambesons", "abbr": "QG", "price": 350,
-#: scripts/ui/trade_window.gd:74 scripts/economy/gold_bank.gd:53
-#~ msgid "Quilted Gambesons"
+#. var lines: PackedStringArray = ["Class skill %d  Locked" % slot if slot > 0 else "Class"]
+#: scripts/ui/champion_bar.gd:1073
+#~ msgid "Class skill %d  Locked"
 #~ msgstr ""
 
-#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
-#: scripts/ui/champion_bar.gd:111
-#~ msgid "Tamsin Farrow"
+#. lines.append("Owned: %d" % int(counts[id_of(t)]))
+#: scripts/ui/shop_window.gd:797
+#~ msgid "Owned: %d"
 #~ msgstr ""
 
-#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
-#: scripts/ui/champion_bar.gd:111
-#~ msgid "Tobin Farrow"
+#. lines.append("Sell %d" % int(total_cost_of(t) / 2))
+#: scripts/ui/shop_window.gd:799 scripts/ui/item_tooltip.gd:183
+#~ msgid "Sell %d"
 #~ msgstr ""
 
-#. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
-#: scripts/ui/champion_bar.gd:111 data/champions/wayfinder.tres:9
-#~ msgid "the Wayfinder"
+#. _buy.text = ("Combine %d" if combine else "Buy %d") % price
+#: scripts/ui/shop_window.gd:827
+#~ msgid "Combine %d"
+#~ msgstr ""
+
+#. tooltip_text = "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.%s" % (
+#: scripts/ui/champion_bar.gd:1375
+#~ msgid "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.%s"
+#~ msgstr ""
+
+#. "" if open else "\nTavern opens at %s" % at)
+#: scripts/ui/champion_bar.gd:1376
+#~ msgid "\nTavern opens at %s"
+#~ msgstr ""
+
+#. _set_line(2, [["Magpies you can see: ", UIStyle.token(&"text")],
+#: scripts/ui/post_panel.gd:356
+#~ msgid "Magpies you can see: "
+#~ msgstr "Magpies visibles : "
+
+#. _buy.text = ("Combine %d" if combine else "Buy %d") % price
+#: scripts/ui/shop_window.gd:827
+#~ msgid "Buy %d"
+#~ msgstr ""
+
+#. const CLASS_MARK := "  (class, level %d)"
+#: scripts/ui/champion_bar.gd:77
+#~ msgid "  (class, level %d)"
+#~ msgstr ""
+
+#. running.append("%s · %s left" % [str((TradeWindow.CONTRACT_INFO[k] as Dictionary)["name"]),
+#: scripts/ui/post_panel.gd:376
+#~ msgid "%s · %s left"
+#~ msgstr ""
+
+#. return "Items: " + (", ".join(parts) if not parts.is_empty() else "none")
+#: scripts/ui/champion_bar.gd:745
+#~ msgid "Items: "
+#~ msgstr ""
+
+#. line += " · %d s cooldown" % int(round(cooldown))
+#: scripts/ui/item_tooltip.gd:175
+#~ msgid " · %d s cooldown"
+#~ msgstr ""
+
+#. var line := "Active: %s" % active.capitalize()
+#: scripts/ui/item_tooltip.gd:173
+#~ msgid "Active: %s"
+#~ msgstr ""
+
+#. lines.append("%d charge%s" % [count, "" if count == 1 else "s"])
+#: scripts/ui/item_tooltip.gd:179
+#~ msgid "%d charge%s"
+#~ msgstr ""
+
+#. revive_gold_button.text = "Revive %d gold" % rcost
+#: scripts/ui/tavern_window.gd:1099
+#~ msgid "Revive %d gold"
+#~ msgstr ""
+
+#. intent_label.text = "Arrives in %d s" % ceili(ChampionBar.hire_left(g, id))
+#: scripts/ui/tavern_window.gd:1012 scripts/ui/champion_bar.gd:1394
+#~ msgid "Arrives in %d s"
+#~ msgstr ""
+
+#. hire_button.tooltip_text = "Hire  [%s]\n%d crystals · %d essence · %d pop%s" % [rk, cost.x, cost.y,
+#: scripts/ui/tavern_window.gd:1007
+#~ msgid "Hire  [%s]\n%d crystals · %d essence · %d pop%s"
+#~ msgstr ""
+
+#. status_label.text = "Fallen · Level %d" % _level
+#: scripts/ui/tavern_window.gd:1023
+#~ msgid "Fallen · Level %d"
+#~ msgstr ""
+
+#. status_label.text = "Hired · Level %d" % _level
+#: scripts/ui/tavern_window.gd:1015
+#~ msgid "Hired · Level %d"
+#~ msgstr ""
+
+#. revive_button.tooltip_text = "Revive  [%s]\n%d essence · returns at your keep%s" % [rk, rcost,
+#: scripts/ui/tavern_window.gd:1040
+#~ msgid "Revive  [%s]\n%d essence · returns at your keep%s"
+#~ msgstr ""
+
+#. revive_button.text = "Revive %d" % rcost
+#: scripts/ui/tavern_window.gd:1032
+#~ msgid "Revive %d"
+#~ msgstr ""
+
+#. hire_gold_button.tooltip_text = "Hire with gold  [Shift+%s]\n%d gold · %d essence · %d pop%s" % [
+#: scripts/ui/tavern_window.gd:1094
+#~ msgid "Hire with gold  [Shift+%s]\n%d gold · %d essence · %d pop%s"
+#~ msgstr ""
+
+#. footer_right.text = "Bazaar: %s" % building_name(m)
+#: scripts/ui/trade_window.gd:872
+#~ msgid "Bazaar: %s"
+#~ msgstr ""
+
+#. &"oath_of_iron": {"name": "Oath of Iron", "unlock": 1, "cooldown": 16.0,
+#: scripts/ui/champion_bar.gd:154 scripts/units/champion_abilities.gd:83
+#~ msgid "Oath of Iron"
+#~ msgstr ""
+
+#. &"bulwark_stand": {"name": "Bulwark Stand", "unlock": 4, "cooldown": 40.0,
+#: scripts/ui/champion_bar.gd:162 scripts/units/champion_abilities.gd:89
+#~ msgid "Bulwark Stand"
+#~ msgstr ""
+
+#. &"smoke_pouch": {"name": "Smoke Pouch", "unlock": 1, "cooldown": 25.0,
+#: scripts/ui/champion_bar.gd:170 scripts/units/champion_abilities.gd:95
+#~ msgid "Smoke Pouch"
+#~ msgstr ""
+
+#. &"marked_for_coin": {"name": "Marked for Coin", "unlock": 4, "cooldown": 20.0,
+#: scripts/ui/champion_bar.gd:174 scripts/units/champion_abilities.gd:98
+#~ msgid "Marked for Coin"
+#~ msgstr ""
+
+#. &"mending_draught": {"name": "Mending Draught", "unlock": 1, "cooldown": 7.0,
+#: scripts/ui/champion_bar.gd:178 scripts/units/champion_abilities.gd:101
+#~ msgid "Mending Draught"
+#~ msgstr ""
+
+#. &"soothing_circle": {"name": "Soothing Circle", "unlock": 1, "cooldown": 24.0,
+#: scripts/ui/champion_bar.gd:182 scripts/units/champion_abilities.gd:104
+#~ msgid "Soothing Circle"
+#~ msgstr ""
+
+#. T3Kit.description(T3Kit.GENIE_ID), reason if reason != "" else "%d crystals · Pop 4 · %d s" % [
+#: scripts/ui/tavern_window.gd:563
+#~ msgid "%d crystals · Pop 4 · %d s"
+#~ msgstr ""
+
+#. pop_label = _label("Pop %d" % ChampionBar.POP, 11, Vector2(628, 22), 106)
+#: scripts/ui/tavern_window.gd:733 scripts/ui/tavern_window.gd:941 scripts/ui/tavern_window.gd:1064
+#~ msgid "Pop %d"
+#~ msgstr ""
+
+#. class_rest.text = " · skills %d / 3" % TavernWindow.class_skills_unlocked(champion, cid)
+#: scripts/ui/tavern_window.gd:900
+#~ msgid " · skills %d / 3"
+#~ msgstr ""
+
+#. rewards_received_label.text = "Rewards received: %s gold" % thousands(_earned(b, &"reward"))
+#: scripts/ui/trade_window.gd:889
+#~ msgid "Rewards received: %s gold"
+#~ msgstr ""
+
+#. _set_line(3, [["Your trips here, last 2 min: %d · caravans on this route: %d" % [trips, caravans_on(post)],
+#: scripts/ui/post_panel.gd:296
+#~ msgid "Your trips here, last 2 min: %d · caravans on this route: %d"
+#~ msgstr ""
+
+#. return ["Asleep" if t == INF else "Asleep: wakes in %s" % MapfillBar.mmss(t), muted]
+#: scripts/ui/point_panel.gd:352
+#~ msgid "Asleep: wakes in %s"
+#~ msgstr ""
+
+#. return [["Sight %d for its owner" % roundi(sight), text, 13]]
+#: scripts/ui/point_panel.gd:367
+#~ msgid "Sight %d for its owner"
+#~ msgstr ""
+
+#. return "Guarding: %s" % n
+#: scripts/ui/flag_card.gd:242
+#~ msgid "Guarding: %s"
+#~ msgstr ""
+
+#. return "Target: %s" % n
+#: scripts/ui/flag_card.gd:245
+#~ msgid "Target: %s"
+#~ msgstr ""
+
+#. hire_button.tooltip_text = "Hire %s  [%s]\n%d gold · %d trackers · %d s%s" % [str(info.get("name", kind)), rk,
+#: scripts/ui/trade_window.gd:1319
+#~ msgid "Hire %s  [%s]\n%d gold · %d trackers · %d s%s"
+#~ msgstr ""
+
+#. message.emit("Sold %s for %d" % [name_of(t), gained])
+#: scripts/ui/shop_window.gd:636 scripts/ui/inventory_bar.gd:209
+#~ msgid "Sold %s for %d"
+#~ msgstr ""
+
+#. &"lunge": {"name": "Lunge", "unlock": 2, "cooldown": 14.0, "class": &"spear",
+#: scripts/ui/champion_bar.gd:191 scripts/units/champion_abilities.gd:112
+#~ msgid "Lunge"
+#~ msgstr ""
+
+#. else "melee · %s damage every %s s · reach %s" % [dmg, cd, reach]
+#: scripts/ui/champion_bar.gd:978
+#~ msgid "melee · %s damage every %s s · reach %s"
+#~ msgstr ""
+
+#. &"hobbling_javelin": {"name": "Hobbling Javelin", "unlock": 3, "cooldown": 16.0, "class": &"spear",
+#: scripts/ui/champion_bar.gd:195 scripts/units/champion_abilities.gd:115
+#~ msgid "Hobbling Javelin"
+#~ msgstr ""
+
+#. lines.append("Chooses a class at level 2 · leans " + lean_text(weights))
+#: scripts/ui/champion_bar.gd:1074
+#~ msgid "Chooses a class at level 2 · leans "
+#~ msgstr ""
+
+#. &"skewer": {"name": "Skewer", "unlock": 5, "cooldown": 25.0, "class": &"spear",
+#: scripts/ui/champion_bar.gd:199 scripts/units/champion_abilities.gd:118
+#~ msgid "Skewer"
+#~ msgstr ""
+
+#. action_button.tooltip_text = "Set as route\nYour caravans trade here from now on.%s" % [
+#: scripts/ui/post_panel.gd:312
+#~ msgid "Set as route\nYour caravans trade here from now on.%s"
+#~ msgstr ""
+
+#. &"riposte": {"name": "Riposte", "unlock": 2, "cooldown": 22.0, "class": &"sword_shield",
+#: scripts/ui/champion_bar.gd:203 scripts/units/champion_abilities.gd:121
+#~ msgid "Riposte"
+#~ msgstr ""
+
+#. tavern_label.text = "Y · tavern" if open else "Tavern opens at %s" % at
+#: scripts/ui/champion_bar.gd:1373
+#~ msgid "Tavern opens at %s"
+#~ msgstr ""
+
+#. &"second_wind": {"name": "Second Wind", "unlock": 3, "cooldown": 45.0, "class": &"sword_shield",
+#: scripts/ui/champion_bar.gd:207 scripts/units/champion_abilities.gd:124
+#~ msgid "Second Wind"
+#~ msgstr ""
+
+#. &"shield_throw": {"name": "Shield Throw", "unlock": 5, "cooldown": 20.0, "class": &"sword_shield",
+#: scripts/ui/champion_bar.gd:211 scripts/units/champion_abilities.gd:127
+#~ msgid "Shield Throw"
+#~ msgstr ""
+
+#. &"cleave": {"name": "Cleave", "unlock": 2, "cooldown": 10.0, "class": &"two_hand",
+#: scripts/ui/champion_bar.gd:215 scripts/units/champion_abilities.gd:131
+#~ msgid "Cleave"
+#~ msgstr ""
+
+#. &"crushing_blow": {"name": "Crushing Blow", "unlock": 3, "cooldown": 20.0, "class": &"two_hand",
+#: scripts/ui/champion_bar.gd:219 scripts/units/champion_abilities.gd:134
+#~ msgid "Crushing Blow"
+#~ msgstr ""
+
+#. for b in root_control.find_children("*", "Button", true, false):
+#: scripts/ui/trade_window.gd:348
+#~ msgid "Button"
+#~ msgstr ""
+
+#. tooltip_text = "%s  [%s]  %s\nHired: walks out of the tavern in %d s." % [display_name,
+#: scripts/ui/champion_bar.gd:1396
+#~ msgid "%s  [%s]  %s\nHired: walks out of the tavern in %d s."
+#~ msgstr ""
+
+#. return "Ruin Peddler"
+#: scripts/ui/shop_window.gd:348 scripts/world/ruin_peddler.gd:13
+#~ msgid "Ruin Peddler"
 #~ msgstr ""
 
 #. "names": ["Garran Stoneward", "Gerda Stoneward"], "title": "the Oathwall", "role": "Guardian, melee",
 #: scripts/ui/champion_bar.gd:118
-#~ msgid "Garran Stoneward"
+#~ msgid "Gerda Stoneward"
 #~ msgstr ""
 
-#. if t is Resource and str((t as Resource).get(&"display_name")) not in ["", "<null>"]:
-#: scripts/ui/mapfill_bar.gd:694 scripts/ui/mapfill_bar.gd:697
-#~ msgid "<null>"
+#. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
+#: scripts/ui/champion_bar.gd:125
+#~ msgid "Sable Quint"
 #~ msgstr ""
 
-#. title_label.text = "Magpie Den"
-#: scripts/ui/post_panel.gd:351 scripts/world/guild_house.gd:30
-#~ msgid "Magpie Den"
+#. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
+#: scripts/ui/champion_bar.gd:125 data/champions/coin_cutter.tres:9
+#~ msgid "the Coin-Cutter"
 #~ msgstr ""
 
-#. [Loc.t(" per trip from your Bazaar"), text]])
-#: scripts/ui/post_panel.gd:287
-#~ msgid " per trip from your Bazaar"
-#~ msgstr " par voyage depuis votre Bazar"
-
-#. [Loc.t("{n} gold", {"n": route_value(net, market, post)}), TradeWindow.GOLD_TEXT],
-#: scripts/ui/post_panel.gd:286
-#~ msgid "{n} gold"
-#~ msgstr "{n} or"
-
-#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1040
-#~ msgid "near"
-#~ msgstr "proche"
-
-#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284 scripts/ui/command_card.gd:1040
-#~ msgid "far"
-#~ msgstr "loin"
-
-#. _set_line(1, [[Loc.t("For you: "), text], [Loc.t("far") if far else Loc.t("near"),
-#: scripts/ui/post_panel.gd:284
-#~ msgid "For you: "
-#~ msgstr "Pour vous : "
-
-#. hp_text.text = "HP  %d / %d" % [ceili(hp), int(max_hp)]
-#: scripts/ui/point_panel.gd:500 scripts/ui/selection_panel.gd:694 scripts/ui/selection_panel.gd:857
-#: scripts/ui/selection_panel.gd:1402 scripts/ui/selection_panel.gd:1830
-#~ msgid "HP  %d / %d"
+#. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
+#: scripts/ui/champion_bar.gd:132
+#~ msgid "Osric Fenwick"
 #~ msgstr ""
 
-#. button.text = "%d gold  ->  %d %s" % [amount, received, String(to)]
-#: scripts/ui/trade_window.gd:846
-#~ msgid "%d gold  ->  %d %s"
+#. &"flare_arrow": {"name": "Signal Flare", "unlock": 1, "cooldown": 18.0,
+#: scripts/ui/champion_bar.gd:142 scripts/units/champion_abilities.gd:73
+#~ msgid "Signal Flare"
 #~ msgstr ""
 
-#. _set_line(1, [["Your units within 6 m heal %d HP" % roundi(venison.y), UIStyle.token(&"text_muted"), 13]] \
-#: scripts/ui/point_panel.gd:504
-#~ msgid "Your units within 6 m heal %d HP"
+#. &"snare_line": {"name": "Snare Line", "unlock": 1, "cooldown": 14.0,
+#: scripts/ui/champion_bar.gd:146 scripts/units/champion_abilities.gd:77
+#~ msgid "Snare Line"
 #~ msgstr ""
 
-#. button.tooltip_text = "Exchange  [%s]\n100 gold -> %d %s · Shift: x5%s" % [ek, int(EXCHANGE_RATES[to]),
-#: scripts/ui/trade_window.gd:852
-#~ msgid "Exchange  [%s]\n100 gold -> %d %s · Shift: x5%s"
+#. &"trailblaze": {"name": "Trailblaze", "unlock": 4, "cooldown": 30.0,
+#: scripts/ui/champion_bar.gd:150 scripts/units/champion_abilities.gd:80
+#~ msgid "Trailblaze"
 #~ msgstr ""
 
-#. _set_line(0, [["Opens at 4:00 · in %s" % TradeWindow.mmss(left), UIStyle.WARN]])
-#: scripts/ui/post_panel.gd:277
-#~ msgid "Opens at 4:00 · in %s"
+#. &"shield_bash": {"name": "Shield Bash", "unlock": 1, "cooldown": 10.0,
+#: scripts/ui/champion_bar.gd:158 scripts/units/champion_abilities.gd:86
+#~ msgid "Shield Bash"
 #~ msgstr ""
 
-#. ledger_labels[0].text = "Gold earned %s" % thousands(earned)
-#: scripts/ui/trade_window.gd:855
-#~ msgid "Gold earned %s"
+#. &"cutpurse": {"name": "Cutpurse", "unlock": 1, "cooldown": 8.0,
+#: scripts/ui/champion_bar.gd:166 scripts/units/champion_abilities.gd:92
+#~ msgid "Cutpurse"
 #~ msgstr ""
 
-#. [" · ", text], ["%d gold" % route_value(net, market, post), TradeWindow.GOLD_TEXT],
-#: scripts/ui/post_panel.gd:284
-#~ msgid "%d gold"
+#. sub_label.text = "%d Greywater Trackers · %d s" % [trackers, roundi(duration)]
+#: scripts/ui/trade_window.gd:1271
+#~ msgid "%d Greywater Trackers · %d s"
+#~ msgstr ""
+
+#. time_label.text = "%s left" % TradeWindow.mmss(left)
+#: scripts/ui/trade_window.gd:1305
+#~ msgid "%s left"
+#~ msgstr ""
+
+#. message.emit("Bought %s" % name_of(t))
+#: scripts/ui/shop_window.gd:614
+#~ msgid "Bought %s"
+#~ msgstr ""
+
+#. &"tempered_steel": {"name": "Tempered Steel", "abbr": "TS", "price": 350,
+#: scripts/ui/trade_window.gd:71 scripts/economy/gold_bank.gd:51
+#~ msgid "Tempered Steel"
+#~ msgstr ""
+
+#. &"masons_charter": {"name": "Masons' Charter", "abbr": "MC", "price": 350,
+#: scripts/ui/trade_window.gd:68 scripts/economy/gold_bank.gd:49
+#~ msgid "Masons' Charter"
+#~ msgstr ""
+
+#. &"iron_axles": {"name": "Iron-shod Axles", "abbr": "IA", "price": 150,
+#: scripts/ui/trade_window.gd:65 scripts/economy/gold_bank.gd:47
+#~ msgid "Iron-shod Axles"
+#~ msgstr ""
+
+#. lines.append("Autocast: " + str(a.get("when", "")))
+#: scripts/ui/champion_bar.gd:833
+#~ msgid "Autocast: "
+#~ msgstr ""
+
+#. class_rest.text = " · leans " + ChampionBar.lean_text(weights)
+#: scripts/ui/tavern_window.gd:905
+#~ msgid " · leans "
+#~ msgstr ""
+
+#. lines.append("Unlocks at level %d" % int(a.get("unlock", 1)))
+#: scripts/ui/champion_bar.gd:835 scripts/ui/champion_bar.gd:1079
+#~ msgid "Unlocks at level %d"
+#~ msgstr ""
+
+#. class_rest.text = " · usually " + ChampionBar.class_display_name(ChampionBar.usual_class(id))
+#: scripts/ui/tavern_window.gd:909
+#~ msgid " · usually "
+#~ msgstr ""
+
+#. message.emit("Dropped %s" % ItemTooltip.display_name(type))
+#: scripts/ui/inventory_bar.gd:223
+#~ msgid "Dropped %s"
+#~ msgstr ""
+
+#. lines.append("Level %d%s · HP %d / %d · Purse %d" % [level_of(ch), " · " + xp if xp != "" else "", hp,
+#: scripts/ui/champion_bar.gd:893
+#~ msgid "Level %d%s · HP %d / %d · Purse %d"
+#~ msgstr ""
+
+#. d["text"] = "Raise +%d · %s %d -> %d" % [RAISE_STEP, kind_name(k), stake, mini(stake + RAISE_STEP, MAX_STAKE)]
+#: scripts/ui/bounty_mode.gd:320
+#~ msgid "Raise +%d · %s %d -> %d"
+#~ msgstr ""
+
+#. return "%s takes up %s" % [display_name_of(ch), str(info.get("takes", "the " + class_display_name(cid)))]
+#: scripts/ui/champion_bar.gd:965
+#~ msgid "%s takes up %s"
+#~ msgstr ""
+
+#. &"lifeline": {"name": "Lifeline", "unlock": 4, "cooldown": 35.0,
+#: scripts/ui/champion_bar.gd:186 scripts/units/champion_abilities.gd:108
+#~ msgid "Lifeline"
+#~ msgstr ""
+
+#. var weapon := "ranged %s · %s damage every %s s" % [reach, dmg, cd] if bool(c.get("ranged", false)) \
+#: scripts/ui/champion_bar.gd:977
+#~ msgid "ranged %s · %s damage every %s s"
 #~ msgstr ""

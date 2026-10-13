@@ -1658,7 +1658,7 @@ msgid "Paid {n}"
 msgstr ""
 
 #. paid_text += " · " + Loc.t("max")
-#: scripts/ui/flag_card.gd:210 scripts/ui/wave_strike/wave_strike_hud.gd:234
+#: scripts/ui/flag_card.gd:210
 msgid "max"
 msgstr ""
 
