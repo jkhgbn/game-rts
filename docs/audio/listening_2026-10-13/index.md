@@ -28,3 +28,30 @@ Files: 16-bit mono 22 050 Hz WAV; excerpts have 0.5 s fades. Copy for double-cli
 Loudness = BS.1770 integrated (K-weighted, gated); targets -12 +-1.5 LUFS (drives -16 +-2). Peak = sample peak after a
 look-ahead limiter at -1.2 dBFS. Pad share = energy of the parts flagged `pad` / dry mix energy.
 Deterministic: same score = same bytes (the test renders sting_victory twice and compares with the file).
+
+## A vs B: synth (A) vs recorded instruments (B)
+
+B = the SAME scores played by the sampler backend (`tools/music_forge/sampler.gd`) with the CC0 library VSCO 2
+Community Edition (Versilian Studios; kept outside the repo, path from env `FW_MUSIC_SAMPLES`). B files are
+**stereo 44.1 kHz** (orchestra seating pan, stereo Freeverb) to show the real potential; A files are the game format
+(mono 22 050 Hz). Same notes, same humanised timing, B part levels matched to A's balance. JS picks A or B per track.
+Instruments with no sample in the subset stay synth in B: claps, shaker, frame-drum tek, tubular bell, pad; the
+choir line is played by horns; celesta = glockenspiel; lute = harp, damped.
+
+| # | A (synth) | B (samples) | What to compare | JS pick (A / B) |
+|---|---|---|---|---|
+| 1 | `01_theme_main.wav` | `01b_theme_main.wav` | Brass bridge and tutti: real horns / trumpets / strings vs synth sections. Does B finally sound like an orchestra? Is the harp too present? | |
+| 2 | `02_fire.wav` | `02b_fire.wav` | Oboe (B) vs synth shawm (A) as the Fire lead; harp-plucked lute (B) vs Karplus-Strong lute (A); real cello spiccato gallop. | |
+| 3 | `03_fire_drive.wav` | `03b_fire_drive.wav` | Orchestral bass drum + snare (B) vs synth frame drums / taiko (A). Claps and shaker stay synth in both. | |
+| 4 | `04_sting_victory.wav` | `04b_sting_victory.wav` | Real trumpets + timpani hits: more triumphant? (tubular bell stays synth, celesta = glockenspiel in B) | |
+| 5 | `05_choir_test.wav` | `05b_choir_test.wav` | No choir samples: B plays the choir line on horns, then the strings half on real strings. Compare the strings halves. | |
+
+B check numbers (whole files):
+
+| Track | Length | Samples | Peak | RMS | Loudness | Loop seam step / slope | Render time | Size | Sampled / synth notes |
+|---|---|---|---|---|---|---|---|---|---|
+| theme_main_b | 148.57 s | 6552000 x 2 | -1.20 dBFS | -15.54 dB | -12.40 LUFS | 0.0003 / 0.0010 | 196 s | 25.0 MB | 1469 / 87 |
+| fire_b | 160.00 s | 7056000 x 2 | -1.20 dBFS | -15.36 dB | -12.15 LUFS | 0.0000 / 0.0000 | 232 s | 26.9 MB | 4020 / 805 |
+| fire_drive_b | 40.00 s | 1764000 x 2 | -1.20 dBFS | -16.95 dB | -16.12 LUFS | 0.0115 / 0.0039 | 31 s | 6.7 MB | 226 / 420 |
+| sting_victory_b | 8.00 s | 352800 x 2 | -1.20 dBFS | -15.97 dB | -12.11 LUFS | no loop (ends < -60 dBFS) | 12 s | 1.3 MB | 101 / 2 |
+| choir_test_b | 40.00 s | 1764000 x 2 | -1.20 dBFS | -14.72 dB | -12.05 LUFS | no loop (ends < -60 dBFS) | 25 s | 6.7 MB | 80 / 0 |

@@ -22,8 +22,8 @@ static func midi_hz(m: float) -> float:
 # ---------------------------------------------------------------- biquads (RBJ cookbook)
 
 ## Returns [b0, b1, b2, a1, a2] normalised by a0.
-static func biquad(kind: String, fc: float, q: float, gain_db: float = 0.0) -> PackedFloat64Array:
-	var w0 := TAU * clampf(fc, 10.0, RATE * 0.49) / RATE
+static func biquad(kind: String, fc: float, q: float, gain_db: float = 0.0, rate: int = RATE) -> PackedFloat64Array:
+	var w0 := TAU * clampf(fc, 10.0, rate * 0.49) / rate
 	var cw := cos(w0)
 	var alpha := sin(w0) / (2.0 * q)
 	var a := pow(10.0, gain_db / 40.0)
@@ -84,10 +84,10 @@ static func run_biquad(buf: PackedFloat32Array, c: PackedFloat64Array) -> void:
 
 
 ## Applies a list of EQ bands [[kind, fc, q, gain_db], ...] in place.
-static func run_eq(buf: PackedFloat32Array, bands: Array) -> void:
+static func run_eq(buf: PackedFloat32Array, bands: Array, rate: int = RATE) -> void:
 	for b in bands:
 		var band: Array = b
-		run_biquad(buf, biquad(str(band[0]), float(band[1]), float(band[2]), float(band[3]) if band.size() > 3 else 0.0))
+		run_biquad(buf, biquad(str(band[0]), float(band[1]), float(band[2]), float(band[3]) if band.size() > 3 else 0.0, rate))
 
 
 # ---------------------------------------------------------------- master limiter
@@ -95,15 +95,23 @@ static func run_eq(buf: PackedFloat32Array, bands: Array) -> void:
 ## Look-ahead block limiter: gain never lets |x| exceed `ceiling`, release `release_s`. `circular` = the buffer is a
 ## loop: the gain state is warmed up on the end of the loop so the seam sees the same gain on both sides.
 static func limit(buf: PackedFloat32Array, ceiling: float, release_s: float, circular: bool) -> void:
-	var bs := 32
+	limit_ch([buf], ceiling, release_s, circular, RATE)
+
+
+## Linked look-ahead limiter over 1 or 2 channels.
+static func limit_ch(chans: Array, ceiling: float, release_s: float, circular: bool, rate: int) -> void:
+	var buf: PackedFloat32Array = chans[0]
+	var bs := 32 if rate <= RATE else 64
 	var nb := int(ceil(float(buf.size()) / bs))
 	var req := PackedFloat32Array()
 	req.resize(nb)
 	for b in nb:
 		var pk := 0.0
 		var e := mini((b + 1) * bs, buf.size())
-		for i in range(b * bs, e):
-			pk = maxf(pk, absf(buf[i]))
+		for c in chans:
+			var cb: PackedFloat32Array = c
+			for i in range(b * bs, e):
+				pk = maxf(pk, absf(cb[i]))
 		req[b] = minf(1.0, ceiling / pk) if pk > 0.0 else 1.0
 	var gr := PackedFloat32Array()
 	gr.resize(nb)
@@ -115,12 +123,12 @@ static func limit(buf: PackedFloat32Array, ceiling: float, release_s: float, cir
 		else:
 			p = maxi(p, 0); n = mini(n, nb - 1)
 		gr[b] = minf(req[b], minf(req[p], req[n]))
-	var rel := 1.0 - exp(-float(bs) / (release_s * RATE))
+	var rel := 1.0 - exp(-float(bs) / (release_s * rate))
 	var gs := PackedFloat32Array()
 	gs.resize(nb)
 	var g := 1.0
 	if circular:   # warm-up pass over the last blocks of the loop
-		var warm := mini(nb, int(3.0 * RATE / bs))
+		var warm := mini(nb, int(3.0 * rate / bs))
 		for b in range(nb - warm, nb):
 			g = gr[b] if gr[b] < g else g + (gr[b] - g) * rel
 	for b in nb:
@@ -130,16 +138,52 @@ static func limit(buf: PackedFloat32Array, ceiling: float, release_s: float, cir
 		var g0 := gs[b]
 		var g1 := gs[posmod(b + 1, nb)] if circular else gs[mini(b + 1, nb - 1)]
 		var e2 := mini((b + 1) * bs, buf.size())
-		for i in range(b * bs, e2):
-			var t := float(i - b * bs) / bs
-			buf[i] *= g0 + (g1 - g0) * t   # both ends <= this block's need (neighbour min)
-	for i in buf.size():   # insurance only (should never act)
-		var v := buf[i]
-		if absf(v) > ceiling:
-			buf[i] = signf(v) * ceiling
+		for c in chans:
+			var cb2: PackedFloat32Array = c
+			for i in range(b * bs, e2):
+				var t := float(i - b * bs) / bs
+				cb2[i] *= g0 + (g1 - g0) * t   # both ends <= this block's need (neighbour min)
+	for c in chans:   # insurance only (should never act)
+		var cb3: PackedFloat32Array = c
+		for i in cb3.size():
+			var v := cb3[i]
+			if absf(v) > ceiling:
+				cb3[i] = signf(v) * ceiling
 
 
 # ---------------------------------------------------------------- WAV I/O (16-bit mono PCM)
+
+## 16-bit stereo (or mono when r is empty) WAV at `rate`.
+static func write_wav2(path: String, l: PackedFloat32Array, r: PackedFloat32Array, rate: int) -> bool:
+	var ch := 1 if r.is_empty() else 2
+	var n := l.size()
+	var bytes := PackedByteArray()
+	bytes.resize(44 + n * 2 * ch)
+	bytes.encode_u32(0, 0x46464952)
+	bytes.encode_u32(4, 36 + n * 2 * ch)
+	bytes.encode_u32(8, 0x45564157)
+	bytes.encode_u32(12, 0x20746d66)
+	bytes.encode_u32(16, 16)
+	bytes.encode_u16(20, 1)
+	bytes.encode_u16(22, ch)
+	bytes.encode_u32(24, rate)
+	bytes.encode_u32(28, rate * 2 * ch)
+	bytes.encode_u16(32, 2 * ch)
+	bytes.encode_u16(34, 16)
+	bytes.encode_u32(36, 0x61746164)
+	bytes.encode_u32(40, n * 2 * ch)
+	for i in n:
+		bytes.encode_s16(44 + i * 2 * ch, int(round(clampf(l[i], -1.0, 1.0) * 32767.0)))
+		if ch == 2:
+			bytes.encode_s16(46 + i * 4, int(round(clampf(r[i], -1.0, 1.0) * 32767.0)))
+	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	if f == null:
+		return false
+	f.store_buffer(bytes)
+	f.close()
+	return true
+
 
 static func write_wav(path: String, buf: PackedFloat32Array) -> bool:
 	var n := buf.size()
@@ -186,12 +230,25 @@ static func read_wav(path: String) -> Dictionary:
 			rate = bytes.decode_u32(pos + 12)
 			bits = bytes.decode_u16(pos + 22)
 		elif id == 0x61746164:
-			var n := int(sz / 2)
+			var bps := int(bits / 8)
+			var frames := int(sz / (bps * ch))
 			var out := PackedFloat32Array()
-			out.resize(n)
-			for i in n:
-				out[i] = bytes.decode_s16(pos + 8 + i * 2) / 32768.0
-			return {"rate": rate, "channels": ch, "bits": bits, "samples": out}
+			out.resize(frames)
+			var right := PackedFloat32Array()
+			if ch == 2:
+				right.resize(frames)
+			var p0 := pos + 8
+			for i in frames:
+				var at := p0 + i * bps * ch
+				if bps == 2:
+					out[i] = bytes.decode_s16(at) / 32768.0
+					if ch == 2:
+						right[i] = bytes.decode_s16(at + 2) / 32768.0
+				elif bps == 3:
+					out[i] = (bytes.decode_s16(at + 1) * 256 + bytes[at]) / 8388608.0
+					if ch == 2:
+						right[i] = (bytes.decode_s16(at + 4) * 256 + bytes[at + 3]) / 8388608.0
+			return {"rate": rate, "channels": ch, "bits": bits, "samples": out, "right": right}
 		pos += 8 + sz + (sz & 1)
 	return {}
 
@@ -214,18 +271,25 @@ static func rms_db(buf: PackedFloat32Array) -> float:
 
 ## Integrated loudness (BS.1770-4: K-weighting, 400 ms blocks, 75 % overlap, -70 LUFS absolute and -10 LU relative gates).
 static func lufs(buf: PackedFloat32Array) -> float:
-	var k := buf.duplicate()
-	run_biquad(k, biquad("highshelf", 1500.0, 0.7071, 4.0))
-	run_biquad(k, biquad("hp", 38.0, 0.5))
-	var hop := int(0.1 * RATE)
-	var nh := int(k.size() / hop)
+	return lufs_ch([buf], RATE)
+
+
+## Integrated loudness of 1 or 2 channels (channel powers summed, BS.1770 weights 1.0).
+static func lufs_ch(chans: Array, rate: int) -> float:
+	var n0: int = (chans[0] as PackedFloat32Array).size()
+	var hop := int(0.1 * rate)
+	var nh := int(n0 / hop)
 	var hs := PackedFloat64Array()
 	hs.resize(nh)
-	for h in nh:
-		var s := 0.0
-		for i in range(h * hop, (h + 1) * hop):
-			s += k[i] * k[i]
-		hs[h] = s
+	for c in chans:
+		var k: PackedFloat32Array = (c as PackedFloat32Array).duplicate()
+		run_biquad(k, biquad("highshelf", 1500.0, 0.7071, 4.0, rate))
+		run_biquad(k, biquad("hp", 38.0, 0.5, rate))
+		for h in nh:
+			var s := 0.0
+			for i in range(h * hop, (h + 1) * hop):
+				s += k[i] * k[i]
+			hs[h] += s
 	var blocks := PackedFloat64Array()
 	for b in range(0, nh - 3):
 		blocks.append((hs[b] + hs[b + 1] + hs[b + 2] + hs[b + 3]) / (4.0 * hop))

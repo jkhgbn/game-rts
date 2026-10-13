@@ -5,6 +5,8 @@ extends SceneTree
 ## slope change <= 0.02), stings fade to < -60 dBFS, pad share <= 20 %, the render is up to date with its score,
 ## rule 1.4 (no two tracks share lead + mode + tempo +-8 + meter), the listening excerpts exist, and a re-render of
 ## sting_victory gives the same bytes as the file (deterministic).
+## Phase 1b: when the VSCO 2 CE sample library is present (env FW_MUSIC_SAMPLES or the default path), also checks the
+## sampler key map and the B renders (stereo 44.1 kHz, outside the repo) + their excerpts; otherwise prints SKIP.
 ## Run: & tools\godot_run.ps1 --headless --path . -s tests/test_music_forge.gd --quit-after 100000
 ## Render first: & tools\godot_run.ps1 --headless --path . -s tools/music_forge/music_forge.gd --quit-after 2000000 -- track=all excerpts
 
@@ -12,6 +14,7 @@ const TASK_ID := "music_forge"
 const Core := preload("res://tools/music_forge/forge_core.gd")
 const Dsp := preload("res://tools/music_forge/dsp.gd")
 const Forge := preload("res://tools/music_forge/music_forge.gd")
+const Sampler := preload("res://tools/music_forge/sampler.gd")
 const TRACKS := ["theme_main", "fire", "fire_drive", "sting_victory", "choir_test"]
 const LISTEN := ["01_theme_main", "02_fire", "03_fire_drive", "04_sting_victory", "05_choir_test"]
 
@@ -23,6 +26,7 @@ func _initialize() -> void:
 	for id in TRACKS:
 		_check_track(id, tuples)
 	_check_determinism()
+	_check_sampler()
 	for nm in LISTEN:
 		if not FileAccess.file_exists("res://docs/audio/listening_2026-10-13/%s.wav" % nm):
 			_fails.append("missing listening excerpt %s.wav" % nm)
@@ -114,6 +118,71 @@ func _check_determinism() -> void:
 		_fails.append("sting_victory: two renders differ")
 	if ha != hf:
 		_fails.append("sting_victory: render differs from the file on disk")
+
+
+## Phase 1b: the sampler B versions (stereo 44.1 kHz, outside the repo). Skips cleanly without the sample library.
+func _check_sampler() -> void:
+	var root := Sampler.sample_root()
+	if not Sampler.available(root):
+		print("SKIP sampler checks: no sample library at %s (set FW_MUSIC_SAMPLES)" % root)
+		return
+	var smp := Sampler.new()
+	smp.setup(root)
+	for sid in Sampler.SETS:
+		if (smp.zones.get(sid, []) as Array).is_empty():
+			_fails.append("sampler: set %s has no zones" % sid)
+	# key map from file names: VSCO "A3" sounds A4 (measured 440 Hz); the harp names are scientific
+	var roots := {}
+	for z in smp.zones.get("vln_sus", []):
+		roots[float(z["root"])] = true
+	if not roots.has(69.0):
+		_fails.append("sampler: violin key map lost A4 (VlnEns_susVib_A3 = 440 Hz)")
+	var harp := {}
+	for z in smp.zones.get("harp", []):
+		harp[float(z["root"])] = true
+	if not harp.has(69.0):
+		_fails.append("sampler: harp key map lost A4 (KSHarp_A4)")
+	for i in TRACKS.size():
+		var id: String = TRACKS[i]
+		var score := Core.load_score("res://tools/music_forge/scores/%s.json" % id)
+		var path := Forge.b_path(id, root)
+		var w := Dsp.read_wav(path)
+		if w.is_empty():
+			_fails.append("%s_b: missing %s" % [id, path])
+			continue
+		var l: PackedFloat32Array = w["samples"]
+		var r: PackedFloat32Array = w["right"]
+		var loop := bool(score.get("loop", true))
+		var expect := Core.length_samples(score, 44100)
+		var peak := maxf(Dsp.peak_db(l), Dsp.peak_db(r))
+		var lufs := Dsp.lufs_ch([l, r], 44100)
+		var s1 := Dsp.seam(l) if loop else Vector2.ZERO
+		var s2 := Dsp.seam(r) if loop else Vector2.ZERO
+		var end_db := -200.0
+		for k in range(l.size() - 220, l.size()):
+			end_db = maxf(end_db, Dsp.lin2db(maxf(absf(l[k]), absf(r[k]))))
+		print("%-16s %d Hz %d ch  %d samples  peak %.2f dB  %.2f LUFS  %s" % [id + "_b", w["rate"], w["channels"], l.size(), peak,
+			lufs, ("seam %.4f / %.4f" % [maxf(s1.x, s2.x), maxf(s1.y, s2.y)]) if loop else ("end %.1f dBFS" % end_db)])
+		if int(w["rate"]) != 44100 or int(w["channels"]) != 2 or int(w["bits"]) != 16:
+			_fails.append("%s_b: format %s Hz %s ch %s bit" % [id, w["rate"], w["channels"], w["bits"]])
+		if l.size() != expect or r.size() != expect:
+			_fails.append("%s_b: %d samples, expected %d" % [id, l.size(), expect])
+		if peak > -1.0:
+			_fails.append("%s_b: peak %.2f dBFS > -1" % [id, peak])
+		var target := -16.0 if score.has("drive_of") else -12.0
+		var tol := 2.0 if score.has("drive_of") else 1.5
+		if absf(lufs - target) > tol:
+			_fails.append("%s_b: loudness %.2f LUFS outside %.0f +-%.1f" % [id, lufs, target, tol])
+		if loop and (maxf(s1.x, s2.x) > 0.02 or maxf(s1.y, s2.y) > 0.02):
+			_fails.append("%s_b: loop seam %.4f / %.4f (max 0.02)" % [id, maxf(s1.x, s2.x), maxf(s1.y, s2.y)])
+		if not loop and end_db > -60.0:
+			_fails.append("%s_b: end at %.1f dBFS (needs < -60)" % [id, end_db])
+		var meta: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://tools/music_forge/renders/%s_b.json" % id))
+		if not (meta is Dictionary) or str((meta as Dictionary).get("hash", "")) != str(score["_hash_b"]) + "|" + Sampler.SAMPLER_VERSION:
+			_fails.append("%s_b: render is older than its score: re-run the forge with backend=sampler" % id)
+		var ex := "res://docs/audio/listening_2026-10-13/%02db_%s.wav" % [i + 1, id]
+		if not FileAccess.file_exists(ex):
+			_fails.append("%s_b: missing listening excerpt %s" % [id, ex.get_file()])
 
 
 ## Hash of the 16-bit samples as the WAV writer stores them.

@@ -1,0 +1,123 @@
+{
+	"bytes": 28224044,
+	"channels": 2,
+	"file": "C:/Users/elzzo/Documents/four-wizards-samples/forge_renders_b/fire_b.wav",
+	"hash": "b87713093cf6712974f2f8b80da27a36|smp1.0",
+	"id": "fire_b",
+	"length_s": 160.0,
+	"loop": true,
+	"lufs": -12.150860127589,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 185,
+			"inst": "shawm",
+			"ms": 6005,
+			"name": "shawm",
+			"share": 0.155370495203197
+		},
+		{
+			"events": 1661,
+			"inst": "lute",
+			"ms": 21063,
+			"name": "lute",
+			"share": 0.0613428074406879
+		},
+		{
+			"events": 139,
+			"inst": "violins",
+			"ms": 6220,
+			"name": "violins",
+			"share": 0.132896831919376
+		},
+		{
+			"events": 150,
+			"inst": "violas",
+			"ms": 7788,
+			"name": "violas",
+			"share": 0.0358763080220599
+		},
+		{
+			"events": 544,
+			"inst": "cellos",
+			"ms": 29034,
+			"name": "cellos",
+			"share": 0.113697323587898
+		},
+		{
+			"events": 170,
+			"inst": "basses",
+			"ms": 10098,
+			"name": "basses",
+			"share": 0.0594659285744475
+		},
+		{
+			"events": 200,
+			"inst": "horns",
+			"ms": 12314,
+			"name": "horns",
+			"share": 0.210500116586859
+		},
+		{
+			"events": 266,
+			"inst": "trumpets",
+			"ms": 17549,
+			"name": "trumpets",
+			"share": 0.0680652808931601
+		},
+		{
+			"events": 312,
+			"inst": "trombones",
+			"ms": 22598,
+			"name": "trombones",
+			"share": 0.0532608996177916
+		},
+		{
+			"events": 29,
+			"inst": "timpani",
+			"ms": 3296,
+			"name": "timpani",
+			"share": 0.0248616855472545
+		},
+		{
+			"events": 549,
+			"inst": "frame_dum",
+			"ms": 7833,
+			"name": "frame",
+			"share": 0.0304003407591832
+		},
+		{
+			"events": 336,
+			"inst": "shaker",
+			"ms": 2368,
+			"name": "shaker",
+			"share": 0.000530419779399543
+		},
+		{
+			"events": 112,
+			"inst": "clap",
+			"ms": 2559,
+			"name": "claps",
+			"share": 0.000496702112183637
+		},
+		{
+			"events": 172,
+			"inst": "taiko",
+			"ms": 9744,
+			"name": "taiko",
+			"share": 0.053234859956503
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 44100,
+	"render_s": 232.068,
+	"reverb_ms": 33853,
+	"rms_db": -15.3565267113705,
+	"sampler": {
+		"notes": 4020,
+		"fallback": 805
+	},
+	"samples": 7056000,
+	"seam_slope": 3.23279891745187e-08,
+	"seam_step": 1.54812823893735e-07
+}

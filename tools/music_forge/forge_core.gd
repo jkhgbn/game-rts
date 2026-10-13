@@ -21,10 +21,12 @@ const Dsp := preload("res://tools/music_forge/dsp.gd")
 const Instruments := preload("res://tools/music_forge/instruments.gd")
 const Humanise := preload("res://tools/music_forge/humanise.gd")
 const Reverb := preload("res://tools/music_forge/reverb.gd")
+const Sampler := preload("res://tools/music_forge/sampler.gd")
 
 const RATE := 22050
 const FORGE_VERSION := "mf1.0"
 const DOC_KEYS := ["title", "use", "mood", "instruments", "listen_for", "excerpt_note", "sections"]
+const B_KEYS := ["gain_b_db", "eq_b", "pan"]
 const PRE_S := 0.25
 const TAIL_S := 7.0
 const NOTE_NAMES := {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
@@ -49,6 +51,13 @@ static func load_score(path: String) -> Dictionary:
 	var music := d.duplicate(true)
 	for k in DOC_KEYS:
 		music.erase(k)
+	# _hash_b = everything musical (B render); _hash = without the B-only fields, so tuning B never stales A
+	d["_hash_b"] = (JSON.stringify(music, "", true) + FORGE_VERSION).md5_text()
+	for p in music.get("parts", []):
+		for k in B_KEYS:
+			(p as Dictionary).erase(k)
+	for k in ["size_b", "wet_b_db"]:
+		(music.get("room", {}) as Dictionary).erase(k)
 	d["_hash"] = (JSON.stringify(music, "", true) + FORGE_VERSION).md5_text()
 	return d
 
@@ -65,14 +74,14 @@ static func spu(score: Dictionary) -> float:
 	return s / 3.0 if m.y == 8 else s
 
 
-static func length_samples(score: Dictionary) -> int:
+static func length_samples(score: Dictionary, rate: int = RATE) -> int:
 	var m := meter_of(score)
-	return int(round(float(score.get("bars", 1)) * m.x * spu(score) * RATE))
+	return int(round(float(score.get("bars", 1)) * m.x * spu(score) * rate))
 
 
-static func length_exact(score: Dictionary) -> bool:
+static func length_exact(score: Dictionary, rate: int = RATE) -> bool:
 	var m := meter_of(score)
-	var v := float(score.get("bars", 1)) * m.x * spu(score) * RATE
+	var v := float(score.get("bars", 1)) * m.x * spu(score) * rate
 	return absf(v - round(v)) < 1e-6
 
 
@@ -557,3 +566,182 @@ static func _add(buf: PackedFloat32Array, note: PackedFloat32Array, at: int) -> 
 	var e := mini(note.size(), buf.size() - at)
 	for i in range(s, e):
 		buf[at + i] += note[i]
+
+
+# ---------------------------------------------------------------- B render: sampler backend, stereo 44.1 kHz
+
+const RATE_B := 44100
+## Orchestra seating (pan -1 left .. +1 right); a part's "pan" overrides it.
+const PAN := {"violins": -0.45, "strings": -0.4, "violas": 0.15, "cellos": 0.4, "basses": 0.55, "horns": -0.25,
+	"trumpets": 0.25, "trombones": 0.45, "flute": -0.15, "fife": -0.15, "whistle": -0.15, "shawm": 0.12, "harp": -0.6,
+	"lute": -0.3, "celesta": 0.35, "glass": 0.35, "timpani": 0.0, "frame_dum": -0.15, "taiko": 0.1, "snare": 0.2,
+	"clap": 0.25, "shaker": 0.35, "choir": 0.0, "pad": 0.0, "tubular": 0.3, "toll": 0.3, "mallet": 0.2}
+
+
+## Same score, recorded instruments (`sampler` = a set-up Sampler), stereo 44.1 kHz, stereo room.
+## Part fields used only here: gain_b_db (else gain_db), eq_b (else none: the samples are real instruments), pan.
+func render_b(score: Dictionary, sampler: Sampler, verbose: bool = true) -> Dictionary:
+	var t_start := Time.get_ticks_msec()
+	var notes0: int = sampler.stats["notes"]
+	var fall0: int = sampler.stats["fallback"]
+	var rate := RATE_B
+	var n := length_samples(score, rate)
+	var loop := bool(score.get("loop", true))
+	var pre := int(PRE_S * rate)
+	var ext_n := pre + n + int(TAIL_S * rate)
+	var sp := spu(score)
+	var dl := PackedFloat32Array()
+	dl.resize(ext_n)
+	var dr := PackedFloat32Array()
+	dr.resize(ext_n)
+	var send := PackedFloat32Array()
+	send.resize(ext_n)
+	var pad_e := 0.0
+	var part_info: Array[Dictionary] = []
+	var seed := int(score.get("seed", 1))
+	var parts: Array = score.get("parts", [])
+	for pi in parts.size():
+		var part: Dictionary = parts[pi]
+		var rng := RandomNumberGenerator.new()
+		rng.seed = seed * 7919 + pi * 104729 + 17
+		var ev := build_events(score, part, rng)
+		var bl := PackedFloat32Array()
+		bl.resize(ext_n)
+		var br := PackedFloat32Array()
+		br.resize(ext_n)
+		var t_part := Time.get_ticks_msec()
+		for e in ev:
+			var t := float(e["beat"]) * sp
+			if float(e["after_grace"]) > 0.0:
+				t += 0.04
+			var j := Humanise.jitter(rng, bool(e["drum"]), bool(e["downbeat"]))
+			if not bool(part.get("humanise", true)):
+				j = 0.0
+			t += j + float(e["strum_ms"]) * 0.001
+			if t < 0.0 and not loop:
+				t = 0.0
+			if absf(float(e["beat"])) < 0.001 and loop:
+				t = absf(t) + 0.004
+			var gate := float(e["dur"]) * sp * float(e["gate_mul"])
+			if float(e["dur"]) == 0.0:
+				gate = 0.04
+			var vel := clampf(float(e["vel"]), 0.02, 1.4)
+			var midi := float(e["midi"]) + rng.randf_range(-3.0, 3.0) / 100.0
+			var inst := str(e["inst"])
+			var at := pre + int(round(t * rate))
+			var stereo: Array = []
+			if bool(e["roll"]) and inst != "timpani":
+				var rt := 0.0
+				while rt < gate:
+					var rv := vel * lerpf(0.3, 1.0, rt / maxf(gate, 0.01))
+					stereo = sampler.render(inst, midi, 0.1, rv, 1.0, rng, e["opt"], false)
+					_add(bl, stereo[0], pre + int((t + rt) * rate))
+					_add(br, stereo[1], pre + int((t + rt) * rate))
+					rt += 0.062 + rng.randf_range(-0.006, 0.006)
+				continue
+			stereo = sampler.render(inst, midi, maxf(gate, 0.03), vel, float(e["gate_mul"]), rng, e["opt"], bool(e["roll"]))
+			_add(bl, stereo[0], at)
+			_add(br, stereo[1], at)
+		var eq: Array = part.get("eq_b", [])
+		if not eq.is_empty():
+			Dsp.run_eq(bl, eq, rate)
+			Dsp.run_eq(br, eq, rate)
+		var g := Dsp.db2lin(float(part.get("gain_b_db", part.get("gain_db", 0.0))))
+		var pan := clampf(float(part.get("pan", PAN.get(str(part.get("inst", "")), 0.0))), -1.0, 1.0)
+		var ang := (pan + 1.0) * PI * 0.25
+		var gl := g * cos(ang) * sqrt(2.0)
+		var gr := g * sin(ang) * sqrt(2.0)
+		var sendv := float(part.get("send", 0.35))
+		var e2 := 0.0
+		for i in ext_n:
+			var a := bl[i] * gl
+			var b := br[i] * gr
+			dl[i] += a
+			dr[i] += b
+			send[i] += (a + b) * 0.5 * sendv
+			e2 += a * a + b * b
+		if bool(part.get("pad", false)):
+			pad_e += e2
+		part_info.append({"name": part.get("name", "?"), "inst": part.get("inst", "?"), "events": ev.size(), "rms": e2,
+			"ms": Time.get_ticks_msec() - t_part})
+	var t_rev := Time.get_ticks_msec()
+	var room: Dictionary = score.get("room", {})
+	Dsp.run_biquad(send, Dsp.biquad("lp", 6500.0, 0.7071, 0.0, rate))
+	Dsp.run_biquad(send, Dsp.biquad("hp", 120.0, 0.7071, 0.0, rate))
+	var size := float(room.get("size_b", minf(0.95, float(room.get("size", 0.8)) + 0.06)))
+	var wet_db := float(room.get("wet_b_db", room.get("wet_db", -10.0)))
+	var wl := Reverb.process(send, size, float(room.get("damp", 0.4)), 0.025, wet_db, rate, 0)
+	var wr := Reverb.process(send, size, float(room.get("damp", 0.4)), 0.025, wet_db, rate, 23)
+	var rev_ms := Time.get_ticks_msec() - t_rev
+	var dry_e := 0.0
+	for i in ext_n:
+		dry_e += dl[i] * dl[i] + dr[i] * dr[i]
+		dl[i] += wl[i]
+		dr[i] += wr[i]
+	var hp := Dsp.biquad("hp", 30.0, 0.7071, 0.0, rate)
+	Dsp.run_biquad(dl, hp)
+	Dsp.run_biquad(dr, hp)
+	var ol := PackedFloat32Array()
+	ol.resize(n)
+	var orr := PackedFloat32Array()
+	orr.resize(n)
+	if loop:
+		for i in ext_n:
+			var k := posmod(i - pre, n)
+			ol[k] += dl[i]
+			orr[k] += dr[i]
+	else:
+		for i in n:
+			ol[i] = dl[pre + i]
+			orr[i] = dr[pre + i]
+		var fo := int(float(score.get("fade_out_s", 1.0)) * rate)
+		for i in fo:
+			var x := float(i) / fo
+			ol[n - fo + i] *= (1.0 - x) * (1.0 - x)
+			orr[n - fo + i] *= (1.0 - x) * (1.0 - x)
+	var target := float(score.get("lufs", -12.0))
+	var ceiling := Dsp.db2lin(-1.2)
+	var gain := Dsp.db2lin(target - Dsp.lufs_ch([ol, orr], rate))
+	var ml := PackedFloat32Array()
+	var mr := PackedFloat32Array()
+	for it in 3:
+		ml = ol.duplicate()
+		mr = orr.duplicate()
+		for i in n:
+			ml[i] *= gain
+			mr[i] *= gain
+		Dsp.limit_ch([ml, mr], ceiling, 0.12, loop, rate)
+		var got := Dsp.lufs_ch([ml, mr], rate)
+		if absf(got - target) < 0.2:
+			break
+		gain *= Dsp.db2lin(clampf(target - got, -6.0, 6.0))
+	if not loop:
+		var f50 := int(0.05 * rate)
+		for i in f50:
+			ml[n - f50 + i] *= 1.0 - float(i + 1) / f50
+			mr[n - f50 + i] *= 1.0 - float(i + 1) / f50
+	var stats := {"id": str(score.get("id", "?")) + "_b", "hash": str(score.get("_hash_b", "")) + "|" + Sampler.SAMPLER_VERSION,
+		"samples": n, "rate": rate, "channels": 2, "length_s": float(n) / rate,
+		"peak_db": maxf(Dsp.peak_db(ml), Dsp.peak_db(mr)), "rms_db": Dsp.lin2db(sqrt((pow(Dsp.db2lin(Dsp.rms_db(ml)), 2) + pow(Dsp.db2lin(Dsp.rms_db(mr)), 2)) * 0.5)),
+		"lufs": Dsp.lufs_ch([ml, mr], rate), "pad_share": pad_e / maxf(dry_e, 1e-12), "loop": loop,
+		"render_s": (Time.get_ticks_msec() - t_start) / 1000.0, "reverb_ms": rev_ms,
+		"sampler": {"notes": int(sampler.stats["notes"]) - notes0, "fallback": int(sampler.stats["fallback"]) - fall0}}
+	if loop:
+		var s1 := Dsp.seam(ml)
+		var s2 := Dsp.seam(mr)
+		stats["seam_step"] = maxf(s1.x, s2.x)
+		stats["seam_slope"] = maxf(s1.y, s2.y)
+	else:
+		stats["end_db"] = Dsp.lin2db(absf(ml[n - 1]) + absf(mr[n - 1]))
+	var tot_e := 0.0
+	for p in part_info:
+		tot_e += float(p["rms"])
+	var plist: Array = []
+	for p in part_info:
+		plist.append({"name": p["name"], "inst": p["inst"], "events": p["events"], "ms": p["ms"],
+			"share": float(p["rms"]) / maxf(tot_e, 1e-12)})
+	stats["parts"] = plist
+	if verbose:
+		for p in plist:
+			print("    part %-14s %-9s %4d notes  energy %5.1f %%  %5d ms" % [p["name"], p["inst"], p["events"], float(p["share"]) * 100.0, p["ms"]])
+	return {"left": ml, "right": mr, "stats": stats}

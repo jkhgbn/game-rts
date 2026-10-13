@@ -1,0 +1,116 @@
+{
+	"bytes": 26208044,
+	"channels": 2,
+	"file": "C:/Users/elzzo/Documents/four-wizards-samples/forge_renders_b/theme_main_b.wav",
+	"hash": "61249f57db6d6dda22405112c137fc26|smp1.0",
+	"id": "theme_main_b",
+	"length_s": 148.571428571429,
+	"loop": true,
+	"lufs": -12.4013212153739,
+	"pad_share": 0.00647730635175119,
+	"parts": [
+		{
+			"events": 93,
+			"inst": "flute",
+			"ms": 2466,
+			"name": "flute",
+			"share": 0.208581283280081
+		},
+		{
+			"events": 86,
+			"inst": "violins",
+			"ms": 2089,
+			"name": "violins",
+			"share": 0.20176950369784
+		},
+		{
+			"events": 210,
+			"inst": "violas",
+			"ms": 12405,
+			"name": "violas",
+			"share": 0.120250262461182
+		},
+		{
+			"events": 144,
+			"inst": "cellos",
+			"ms": 11048,
+			"name": "cellos",
+			"share": 0.0823018054320329
+		},
+		{
+			"events": 80,
+			"inst": "basses",
+			"ms": 4734,
+			"name": "basses",
+			"share": 0.0309683053557833
+		},
+		{
+			"events": 146,
+			"inst": "horns",
+			"ms": 15313,
+			"name": "horns",
+			"share": 0.150548357785175
+		},
+		{
+			"events": 118,
+			"inst": "trumpets",
+			"ms": 10555,
+			"name": "trumpets",
+			"share": 0.0447425618161358
+		},
+		{
+			"events": 69,
+			"inst": "trombones",
+			"ms": 8459,
+			"name": "trombones",
+			"share": 0.0399508356566476
+		},
+		{
+			"events": 446,
+			"inst": "harp",
+			"ms": 25779,
+			"name": "harp",
+			"share": 0.0920890633651992
+		},
+		{
+			"events": 7,
+			"inst": "celesta",
+			"ms": 2254,
+			"name": "celesta",
+			"share": 0.000210333287633912
+		},
+		{
+			"events": 39,
+			"inst": "timpani",
+			"ms": 5297,
+			"name": "timpani",
+			"share": 0.0190569752708548
+		},
+		{
+			"events": 31,
+			"inst": "choir",
+			"ms": 4141,
+			"name": "choir",
+			"share": 0.00298763449043972
+		},
+		{
+			"events": 87,
+			"inst": "pad",
+			"ms": 12847,
+			"name": "pad",
+			"share": 0.00654307810099558
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 44100,
+	"render_s": 196.236,
+	"reverb_ms": 35429,
+	"rms_db": -15.5417884628818,
+	"sampler": {
+		"notes": 1469,
+		"fallback": 87
+	},
+	"samples": 6552000,
+	"seam_slope": 0.000966662308201194,
+	"seam_step": 0.000309994677081704
+}

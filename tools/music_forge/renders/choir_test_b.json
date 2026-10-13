@@ -1,0 +1,52 @@
+{
+	"bytes": 7056044,
+	"channels": 2,
+	"end_db": -180.0,
+	"file": "C:/Users/elzzo/Documents/four-wizards-samples/forge_renders_b/choir_test_b.wav",
+	"hash": "5d5f2bac99aa862d90f08fd1cbd00b8a|smp1.0",
+	"id": "choir_test_b",
+	"length_s": 40.0,
+	"loop": false,
+	"lufs": -12.0472799340362,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 16,
+			"inst": "choir",
+			"ms": 1453,
+			"name": "choir_melody",
+			"share": 0.205257668732088
+		},
+		{
+			"events": 24,
+			"inst": "choir",
+			"ms": 3154,
+			"name": "choir_low",
+			"share": 0.248704135053185
+		},
+		{
+			"events": 16,
+			"inst": "violins",
+			"ms": 1566,
+			"name": "str_melody",
+			"share": 0.281374590615232
+		},
+		{
+			"events": 24,
+			"inst": "cellos",
+			"ms": 2324,
+			"name": "str_low",
+			"share": 0.264663605599496
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 44100,
+	"render_s": 24.971,
+	"reverb_ms": 10396,
+	"rms_db": -14.720635368156,
+	"sampler": {
+		"notes": 80,
+		"fallback": 0
+	},
+	"samples": 1764000
+}

@@ -1,0 +1,87 @@
+{
+	"bytes": 1411244,
+	"channels": 2,
+	"end_db": -180.0,
+	"file": "C:/Users/elzzo/Documents/four-wizards-samples/forge_renders_b/sting_victory_b.wav",
+	"hash": "993070e39cd9740a8c90fc3db8901f9a|smp1.0",
+	"id": "sting_victory_b",
+	"length_s": 8.0,
+	"loop": false,
+	"lufs": -12.1117409219746,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 10,
+			"inst": "trumpets",
+			"ms": 962,
+			"name": "trumpets",
+			"share": 0.173867413205174
+		},
+		{
+			"events": 10,
+			"inst": "horns",
+			"ms": 867,
+			"name": "horns",
+			"share": 0.139324706376818
+		},
+		{
+			"events": 24,
+			"inst": "trombones",
+			"ms": 1353,
+			"name": "trombones",
+			"share": 0.258736312861535
+		},
+		{
+			"events": 24,
+			"inst": "violins",
+			"ms": 1739,
+			"name": "strings",
+			"share": 0.116390307878426
+		},
+		{
+			"events": 11,
+			"inst": "cellos",
+			"ms": 334,
+			"name": "basses",
+			"share": 0.0889215341404775
+		},
+		{
+			"events": 9,
+			"inst": "harp",
+			"ms": 634,
+			"name": "harp",
+			"share": 0.00999642928705825
+		},
+		{
+			"events": 2,
+			"inst": "tubular",
+			"ms": 562,
+			"name": "bells",
+			"share": 0.0117078088022397
+		},
+		{
+			"events": 3,
+			"inst": "celesta",
+			"ms": 400,
+			"name": "celesta",
+			"share": 0.0304650012745766
+		},
+		{
+			"events": 10,
+			"inst": "timpani",
+			"ms": 631,
+			"name": "timpani",
+			"share": 0.170590486173696
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 44100,
+	"render_s": 11.95,
+	"reverb_ms": 3050,
+	"rms_db": -15.9726999460826,
+	"sampler": {
+		"notes": 101,
+		"fallback": 2
+	},
+	"samples": 352800
+}

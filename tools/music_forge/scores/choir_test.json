@@ -10,14 +10,14 @@
 		"ch": "Dm:4 | Gm:2 Dm:2 | F:2 Am:2 | G:2 Am:2 | Dm:4"
 	},
 	"parts": [
-		{"name": "choir_melody", "inst": "choir", "gain_db": 7.0, "send": 0.6, "gate": 1.02, "opt": {"vowel": "oh", "vowel_to": "ah", "section": 5},
+		{"name": "choir_melody", "inst": "choir", "gain_db": 7.0, "gain_b_db": 2.8, "send": 0.6, "gate": 1.02, "opt": {"vowel": "oh", "vowel_to": "ah", "section": 5},
 			"seq": [{"bar": 0, "notes": "$mel", "vel": 0.8}]},
-		{"name": "choir_low", "inst": "choir", "gain_db": 3.0, "send": 0.6, "opt": {"vowel": "oo", "vowel_to": "oh", "section": 5},
+		{"name": "choir_low", "inst": "choir", "gain_db": 3.0, "gain_b_db": 1.1, "send": 0.6, "opt": {"vowel": "oo", "vowel_to": "oh", "section": 5},
 			"seq": [{"bar": 0, "chords": "$ch", "style": "hold", "oct": 3, "voicing": "0 1 2", "vel": 0.65}]},
-		{"name": "str_melody", "inst": "violins", "gain_db": 0.0, "send": 0.6, "gate": 1.02, "opt": {"section": 4},
+		{"name": "str_melody", "inst": "violins", "gain_db": 0.0, "gain_b_db": 8.8, "send": 0.6, "gate": 1.02, "opt": {"section": 4},
 			"eq": [["peak", 300, 1.4, 2.5], ["peak", 2800, 1.6, 2.0], ["highshelf", 6000, 0.7, -6.0]],
 			"seq": [{"bar": 6, "notes": "$mel", "vel": 0.75}]},
-		{"name": "str_low", "inst": "cellos", "gain_db": -5.0, "send": 0.6, "opt": {"section": 3},
+		{"name": "str_low", "inst": "cellos", "gain_db": -5.0, "gain_b_db": 3.5, "send": 0.6, "opt": {"section": 3},
 			"eq": [["peak", 220, 1.2, 3.0], ["highshelf", 4000, 0.7, -6.0]],
 			"seq": [{"bar": 6, "chords": "$ch", "style": "hold", "oct": 2, "voicing": "0 1 2", "vel": 0.6}]}
 	]

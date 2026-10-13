@@ -9,14 +9,17 @@ const RATE := 22050
 
 
 ## Returns the wet signal of `input` (same length), scaled so its RMS sits `wet_db` under the input's RMS.
-static func process(input: PackedFloat32Array, room: float, damp: float, predelay_s: float, wet_db: float) -> PackedFloat32Array:
+## `rate` = the buffer's sample rate (only the pre-delay depends on it; the comb sizes are Freeverb's own, native at
+## 44.1 kHz). `spread` adds samples to every delay: Freeverb's right channel uses 23.
+static func process(input: PackedFloat32Array, room: float, damp: float, predelay_s: float, wet_db: float,
+		rate: int = RATE, spread: int = 0) -> PackedFloat32Array:
 	var n := input.size()
-	var pre := int(predelay_s * RATE)
+	var pre := int(predelay_s * rate)
 	var feedback := room * 0.28 + 0.7
 	var acc := PackedFloat32Array()
 	acc.resize(n)
 	for c in COMBS:
-		var d: int = c
+		var d: int = c + spread
 		var line := PackedFloat32Array()
 		line.resize(d)
 		var idx := 0
@@ -30,7 +33,7 @@ static func process(input: PackedFloat32Array, room: float, damp: float, predela
 				idx = 0
 			acc[i] += o
 	for a in ALLPASSES:
-		var d2: int = a
+		var d2: int = a + spread
 		var line2 := PackedFloat32Array()
 		line2.resize(d2)
 		var j := 0

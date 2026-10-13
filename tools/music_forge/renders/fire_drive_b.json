@@ -1,0 +1,60 @@
+{
+	"bytes": 7056044,
+	"channels": 2,
+	"file": "C:/Users/elzzo/Documents/four-wizards-samples/forge_renders_b/fire_drive_b.wav",
+	"hash": "6d9e2687044c2fb6d379caac5ce58053|smp1.0",
+	"id": "fire_drive_b",
+	"length_s": 40.0,
+	"loop": true,
+	"lufs": -16.11954185159,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 110,
+			"inst": "taiko",
+			"ms": 4890,
+			"name": "taiko",
+			"share": 0.844079036606906
+		},
+		{
+			"events": 168,
+			"inst": "frame_dum",
+			"ms": 2288,
+			"name": "frame",
+			"share": 0.143433646024519
+		},
+		{
+			"events": 80,
+			"inst": "snare",
+			"ms": 1297,
+			"name": "snare",
+			"share": 0.00556141493065974
+		},
+		{
+			"events": 32,
+			"inst": "clap",
+			"ms": 782,
+			"name": "claps",
+			"share": 0.00195581878939758
+		},
+		{
+			"events": 256,
+			"inst": "shaker",
+			"ms": 1258,
+			"name": "shaker",
+			"share": 0.0049700836485177
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 44100,
+	"render_s": 30.682,
+	"reverb_ms": 9951,
+	"rms_db": -16.9502982057661,
+	"sampler": {
+		"notes": 226,
+		"fallback": 420
+	},
+	"samples": 1764000,
+	"seam_slope": 0.00389291858300567,
+	"seam_step": 0.0114630870521069
+}
