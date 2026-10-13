@@ -647,6 +647,10 @@ func _pick_caravan() -> Node3D:
 # A worker of the target team within 14 m of the target node (never at a home node), carrying crystals first,
 # then the nearest. `check_escort`: only for the first victim of a strike.
 func _pick_worker(check_escort: bool) -> Node3D:
+	# A target node that ran dry (freed / leaving the tree) has no workers left to strike: the band lurks out its
+	# time and flees home as usual.
+	if _target_node_gone():
+		return null
 	var node_pos := _node_pos()
 	if not node_pos.is_finite() or _is_home_area(node_pos, _team):
 		return null
@@ -685,11 +689,13 @@ func _start_strike(v: Node3D) -> void:
 	_set_victim(v)
 	strike_started.emit(self, v)
 	if _strike_kind == &"workers":
+		# The target node can be depleted (freed) by now: never hand a freed object on (listeners accept null).
+		var raided := _target_node()
 		var net := get_tree().get_first_node_in_group(&"trade_network")
 		if net != null and net.has_method(&"record_workers_raided"):
-			net.call(&"record_workers_raided", _team, target.get("node"))
+			net.call(&"record_workers_raided", _team, raided)
 		elif net != null and net.has_signal(&"workers_raided"):
-			net.emit_signal(&"workers_raided", _team, target.get("node"))
+			net.emit_signal(&"workers_raided", _team, raided)
 
 
 func _set_victim(v: Node3D) -> void:
@@ -986,10 +992,25 @@ func _worker_spot() -> Vector3:
 
 
 func _node_pos() -> Vector3:
-	var node: Variant = target.get("node")
-	if is_instance_valid(node) and node is Node3D:
+	var node := _target_node()
+	if node is Node3D:
 		return (node as Node3D).global_position
 	return spot
+
+
+# The target entry's node, or null when there is none or it was freed / is being freed (a depleted crystal node).
+func _target_node() -> Node:
+	var node: Variant = target.get("node")
+	if not is_instance_valid(node) or not node is Node:
+		return null
+	var n := node as Node
+	return null if n.is_queued_for_deletion() else n
+
+
+# True when the target entry named a node and that node is gone (an entry without a node is not "gone").
+func _target_node_gone() -> bool:
+	# typeof, not `!= null`: a freed object still has TYPE_OBJECT, a missing node is TYPE_NIL.
+	return typeof(target.get("node")) == TYPE_OBJECT and _target_node() == null
 
 
 # Within 30 m of `team`'s keep (keep positions cached 10 s).
