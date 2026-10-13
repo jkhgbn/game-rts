@@ -169,6 +169,7 @@ const NODE_WORKERS := 3
 const ORDER_REPEAT := 8.0           ## Same order to the same unit is not re-sent sooner than this.
 const LOG_KEEP := 400
 const CAST_CHECK := 0.5             ## spells.md: Malrik's cast rules are checked every 0.5 s.
+const THREAT_MEMORY := 3.0          ## Vessa: s a fight stays noticed after the last foe left view (no new reaction delay).
 const CAST_NEARBY := 12.0           ## spells.md: "P" = enemies within 12 m.
 const SPELL_SLOTS := "FQE"
 const SHOP_WALK_DIST := 8.0        ## 4.A1: walks this close to the keep to shop (shops reach 12 m).
@@ -420,6 +421,7 @@ var _hero_wait_until := -1.0
 var _cast_timer: Timer
 var _pending_load := {}                   # F7: a load_state that arrived before _setup (applied right after it)
 var _threat_since := -1.0                 # match time an enemy came within CAST_NEARBY (-1 = none)
+var _threat_seen := -1.0                  # Vessa: match time a foe was last within VESSA_WATCH (-1 = never)
 var _regrow_since := -1.0                 # match time the last retreat got back to the rally (-1 = none pending)
 var _gathered_since := -1.0               # 20.A3: match time rule 7's army became gathered (pop + rally share)
 var _regrow_logged := false
@@ -3522,8 +3524,12 @@ func _vessa_cast_check(w: Wizard) -> void:
 		elif _is_hostile_seat(t) and (_fog == null or _fog.is_visible(int(team), u.global_position)):
 			foes.append(u)
 	if foes.is_empty():
-		_threat_since = -1.0
+		# A fight that just ended stays "noticed" for THREAT_MEMORY s: fresh foes right after it (a second wave, a
+		# flanker) do not restart the reaction delay, or the HEAL walk carries her out of the escape range first.
+		if _threat_seen < 0.0 or now - _threat_seen > THREAT_MEMORY:
+			_threat_since = -1.0
 		return
+	_threat_seen = now
 	if _threat_since < 0.0:
 		_threat_since = now
 	if now - _threat_since < ai.reaction_delay:

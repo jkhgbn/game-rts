@@ -38,3 +38,16 @@ Ice-Shadow 6/16, Nature-Shadow 9/16. Seat 47/96. One game before 5:00.
 ## Health
 No crash, timeout, requeue or missing result. 3 normal Crown Hollow games went to 30:00 (decided on score).
 `SCRIPT ERROR scripts/ai/thief_band.gd:690` in 2 games (freed crystal node in `_start_strike`): fix routed to ai-coder.
+
+## Diagnosis of the normal-pace drift (read-only agent, no Godot)
+- The 10-12 normal baseline (`fg-twfix-ch|tw`) matches commit 5c58a538, so the gap also holds bot fixes D1-D4, C1-C7,
+  B1-B8, E1, the Ice train-time buff (both paces) and single-threaded avoidance.
+- Drift is concentrated: Fire-Shadow Crown Hollow 3/8 -> 8/8 (p ~ 0.03, 8 games), Thornwater 4/8 -> 5/8; Ice-Shadow
+  6/16 -> 9/16 (expected from the Ice buff); Nature-Shadow unchanged.
+- Clocks ruled out at normal pace (match_time = frames / 60 at tick 60; E1 / Fireball x0.75 / Shadow +500 are Blitz-only).
+- Suspects: (1) R2-3 Mother Hush no longer `command_stop`s attackers (`helper_abilities.gd:617-620`): Shadow's late
+  helper lost an effect that wiped enemy attack-moves (a bug Shadow leaned on); (2) D1 trade routes "held by the enemy"
+  count as unsafe (`ai_trade.gd:536-539`): Shadow gold -22 % on Crown Hollow, Fire +19 % (may be effect, not cause);
+  (3) A1 natural camp creeped before X1 (`commander.gd:1797, 1819-1830, 3654-3660`): Shadow camps 3.8 -> 3.2.
+- A/B plan: Crown Hollow Fire-Shadow both seats, seeds 1-6, `run_fg.py --arms baseline --pairs fire:shadow,shadow:fire`,
+  one arm per reverted suspect; or one batch at 57f8851b (bot fixes without 81750691) to split bot vs gameplay.

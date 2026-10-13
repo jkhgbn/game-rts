@@ -47,18 +47,26 @@ $Gate = Join-Path $LabRoot "tools\godot_run.ps1"
 $NewWindow = 10   # an error is NEW when none of the last N history rows had it
 
 # Caps (--quit-after frames at --fixed-fps 60). ONE table for the Error Lab and tools/ci/ci.ps1 (the CI runs its
-# tests through this lab). A test can also declare its own cap in its first 20 lines: "# error_lab: quit-after=95000".
+# tests through this lab). A test can also declare its own cap in its first 40 lines: "# error_lab: quit-after=95000".
 $DefaultCap = 40000
 $Caps = @{ "test_9_c9" = 150000; "test_10_a3" = 150000; "test_8_a1" = 200000; "test_12_a1" = 60000; "test_8_a2" = 100000
 	"test_20_a2" = 60000; "test_20_a3" = 80000; "test_9_c11" = 95000; "test_2_a1_attack" = 95000; "test_8_b3" = 95000 }
 function Get-Cap([string]$name) {
 	$f = Join-Path $Root "tests\$name.gd"
 	if (Test-Path $f) {
-		$decl = @(Get-Content $f -TotalCount 20 -ErrorAction SilentlyContinue | Where-Object { $_ -match '^#\s*error_lab:.*quit-after\s*=\s*\d+' })
+		$decl = @(Get-Content $f -TotalCount 40 -ErrorAction SilentlyContinue | Where-Object { $_ -match '^#\s*error_lab:.*quit-after\s*=\s*\d+' })
 		if ($decl.Count -gt 0 -and $decl[0] -match 'quit-after\s*=\s*(\d+)') { return [int]$Matches[1] }
 	}
 	if ($Caps.ContainsKey($name)) { return $Caps[$name] }
 	if ($name -match "bot_vs_bot") { return 116000 }
+	# Mission sims (2026-10-13): 20-35 min of game. Use the "--quit-after N" of their own "Run:" header line, else 140000.
+	if ($name -match "_sim$") {
+		if (Test-Path $f) {
+			$run = @(Get-Content $f -TotalCount 20 -ErrorAction SilentlyContinue | Where-Object { $_ -match '--quit-after\s+\d+' })
+			if ($run.Count -gt 0 -and $run[0] -match '--quit-after\s+(\d+)') { return [Math]::Max([int]$Matches[1], 60000) }
+		}
+		return 140000
+	}
 	return $DefaultCap
 }
 
