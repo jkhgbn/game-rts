@@ -1,0 +1,24 @@
+{
+	"id": "choir_test", "instruments": "formant choir (3 parts x 5 voices, oh -> ah, low part oo -> oh), then the same phrase on violins + cellos", "listen_for": "APPROVE OR REJECT THE CHOIR. Voices or a buzzy organ? Choir 0-18 s, strings 22-40 s. If rejected, chant and boss use strings (choir_fallback).", "excerpt_note": "complete", "title": "Choir test (the Call + Answer: choir, then strings)", "use": "JS approval of the formant choir (music.md MU9 / MU12)",
+	"mood": "solemn hymn", "bpm": 66, "meter": [4, 4], "bars": 11, "loop": false, "out": "listen", "fade_out_s": 2.0,
+	"key": "D", "mode": "dorian (hymn)", "lead": "choir", "seed": 4401, "excerpt_bar": 0, "lufs": -12,
+	"room": {"size": 0.88, "damp": 0.35, "wet_db": -8},
+	"sections": [{"name": "Choir (oh -> ah, 3 parts x 5 voices)", "bar": 0, "bars": 5}, {"name": "Rest", "bar": 5, "bars": 1},
+		{"name": "Same phrase on bowed strings", "bar": 6, "bars": 5}],
+	"phrases": {
+		"mel": "D4:1 A4:1 G4:.5 F4:.5 E4:1 | D4:1.5 C4:.5 D4:2 | F4:1 G4:1 A4:1 C5:1 | B4:1.5 A4:.5 A4:2 | D4:4",
+		"ch": "Dm:4 | Gm:2 Dm:2 | F:2 Am:2 | G:2 Am:2 | Dm:4"
+	},
+	"parts": [
+		{"name": "choir_melody", "inst": "choir", "gain_db": 7.0, "send": 0.6, "gate": 1.02, "opt": {"vowel": "oh", "vowel_to": "ah", "section": 5},
+			"seq": [{"bar": 0, "notes": "$mel", "vel": 0.8}]},
+		{"name": "choir_low", "inst": "choir", "gain_db": 3.0, "send": 0.6, "opt": {"vowel": "oo", "vowel_to": "oh", "section": 5},
+			"seq": [{"bar": 0, "chords": "$ch", "style": "hold", "oct": 3, "voicing": "0 1 2", "vel": 0.65}]},
+		{"name": "str_melody", "inst": "violins", "gain_db": 0.0, "send": 0.6, "gate": 1.02, "opt": {"section": 4},
+			"eq": [["peak", 300, 1.4, 2.5], ["peak", 2800, 1.6, 2.0], ["highshelf", 6000, 0.7, -6.0]],
+			"seq": [{"bar": 6, "notes": "$mel", "vel": 0.75}]},
+		{"name": "str_low", "inst": "cellos", "gain_db": -5.0, "send": 0.6, "opt": {"section": 3},
+			"eq": [["peak", 220, 1.2, 3.0], ["highshelf", 4000, 0.7, -6.0]],
+			"seq": [{"bar": 6, "chords": "$ch", "style": "hold", "oct": 2, "voicing": "0 1 2", "vel": 0.6}]}
+	]
+}

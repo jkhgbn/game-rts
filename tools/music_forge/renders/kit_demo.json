@@ -1,0 +1,124 @@
+{
+	"bytes": 1411244,
+	"end_db": -180.0,
+	"file": "res://tools/music_forge/renders/kit_demo.wav",
+	"hash": "faa7825fbb947fd1fcd7ca69627036ec",
+	"hf_share": 0.00226506602280406,
+	"id": "kit_demo",
+	"length_s": 32.0,
+	"loop": false,
+	"lufs": -14.0896244225602,
+	"pad_share": 0.190727698362492,
+	"parts": [
+		{
+			"events": 8,
+			"inst": "harp",
+			"ms": 163,
+			"name": "harp",
+			"share": 0.00331354218560951
+		},
+		{
+			"events": 25,
+			"inst": "lute",
+			"ms": 302,
+			"name": "lute",
+			"share": 0.00295449382635457
+		},
+		{
+			"events": 3,
+			"inst": "strings",
+			"ms": 202,
+			"name": "strings",
+			"share": 0.0501960455863564
+		},
+		{
+			"events": 6,
+			"inst": "horns",
+			"ms": 378,
+			"name": "horns",
+			"share": 0.231417017403647
+		},
+		{
+			"events": 6,
+			"inst": "flute",
+			"ms": 149,
+			"name": "flute",
+			"share": 0.211154371515382
+		},
+		{
+			"events": 5,
+			"inst": "shawm",
+			"ms": 139,
+			"name": "shawm",
+			"share": 0.0602156098944002
+		},
+		{
+			"events": 4,
+			"inst": "glass",
+			"ms": 267,
+			"name": "glass",
+			"share": 0.0470645271894011
+		},
+		{
+			"events": 3,
+			"inst": "celesta",
+			"ms": 199,
+			"name": "celesta",
+			"share": 0.0275724144610049
+		},
+		{
+			"events": 1,
+			"inst": "toll",
+			"ms": 195,
+			"name": "toll",
+			"share": 0.0055871097845097
+		},
+		{
+			"events": 6,
+			"inst": "mallet",
+			"ms": 148,
+			"name": "mallet",
+			"share": 0.0116535535633389
+		},
+		{
+			"events": 3,
+			"inst": "timpani",
+			"ms": 638,
+			"name": "timp",
+			"share": 0.0438237577000426
+		},
+		{
+			"events": 18,
+			"inst": "frame_dum",
+			"ms": 163,
+			"name": "drums",
+			"share": 0.0180469071951379
+		},
+		{
+			"events": 3,
+			"inst": "choir",
+			"ms": 612,
+			"name": "choir",
+			"share": 0.048481911964648
+		},
+		{
+			"events": 3,
+			"inst": "pad",
+			"ms": 277,
+			"name": "pad",
+			"share": 0.190667062804013
+		},
+		{
+			"events": 3,
+			"inst": "trumpets",
+			"ms": 158,
+			"name": "trumpets",
+			"share": 0.0478516749261542
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"render_s": 6.724,
+	"reverb_ms": 1385,
+	"rms_db": -14.8557071017246,
+	"samples": 705600
+}

@@ -1,0 +1,22 @@
+{
+	"id": "kit_demo", "title": "Kit demo", "bpm": 120, "meter": [4, 4], "bars": 16, "loop": false, "out": "scratch",
+	"seed": 7, "lufs": -14, "room": {"size": 0.7, "damp": 0.4, "wet_db": -12}, "fade_out_s": 0.5,
+	"parts": [
+		{"name": "harp", "inst": "harp", "seq": [{"bar": 0, "chords": "Dm:4", "style": "arp", "pattern": "0 1 2 3 4 5 4 3", "step": 0.5, "oct": 3}]},
+		{"name": "lute", "inst": "lute", "seq": [{"bar": 1, "chords": "E:4", "style": "strum", "rhythm": "1 .5 .5 1 1", "voicing": "0 1 2 3 4", "oct": 3}]},
+		{"name": "strings", "inst": "strings", "seq": [{"bar": 2, "notes": "D4:2 F4:1 A4:1", "vel": 0.8}]},
+		{"name": "horns", "inst": "horns", "seq": [{"bar": 3, "notes": "D3+A3+F4:2 C3+G3+E4:2"}]},
+		{"name": "flute", "inst": "flute", "seq": [{"bar": 4, "notes": "D5:1 A5:1 (A5)G5:.5 F5:.5 E5:1"}]},
+		{"name": "shawm", "inst": "shawm", "seq": [{"bar": 5, "notes": "E4:1 B4:1 A4:.5 G#4:.5 F4:1"}]},
+		{"name": "glass", "inst": "glass", "seq": [{"bar": 6, "notes": "F5:1 C6:1 B5:1 A5:1"}]},
+		{"name": "celesta", "inst": "celesta", "seq": [{"bar": 7, "notes": "A5:1 E6:1 D6:2"}]},
+		{"name": "toll", "inst": "toll", "seq": [{"bar": 8, "notes": "C3:4"}]},
+		{"name": "mallet", "inst": "mallet", "seq": [{"bar": 9, "notes": "G4:.5 B4:.5 D5:.5 G5:.5 D5:1 G4:1"}]},
+		{"name": "timp", "inst": "timpani", "seq": [{"bar": 10, "notes": "D2:1! A1:1 D2:2*"}]},
+		{"name": "drums", "inst": "frame_dum", "kit": {"d": ["frame_dum", 1.0, 43], "t": ["frame_tek", 0.8], "s": ["snare", 0.9], "c": ["clap", 0.9], "h": ["shaker", 0.6], "k": ["taiko", 1.0, 38], "o": ["tom", 0.9, 50]},
+			"seq": [{"bar": 11, "bars": 2, "patterns": ["D..tD.t.D..tT.t.", "k.h.s.h.c.hko.oo"]}]},
+		{"name": "choir", "inst": "choir", "opt": {"vowel": "oh", "vowel_to": "ah"}, "seq": [{"bar": 13, "notes": "D4+F4+A4:4"}]},
+		{"name": "pad", "inst": "pad", "pad": true, "seq": [{"bar": 14, "chords": "Dm:4", "style": "hold", "oct": 3}]},
+		{"name": "trumpets", "inst": "trumpets", "seq": [{"bar": 15, "notes": "D4:.75 A4:.25 D5:2 r:1"}]}
+	]
+}

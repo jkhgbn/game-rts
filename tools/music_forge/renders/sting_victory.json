@@ -1,0 +1,82 @@
+{
+	"bytes": 352844,
+	"end_db": -180.0,
+	"file": "res://assets/audio/music/sting_victory.wav",
+	"hash": "66f04798c42b652b2b829e9473735916",
+	"hf_share": 0.000168450644924036,
+	"id": "sting_victory",
+	"length_s": 8.0,
+	"loop": false,
+	"lufs": -12.1794508541661,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 10,
+			"inst": "trumpets",
+			"ms": 314,
+			"name": "trumpets",
+			"share": 0.17898642600637
+		},
+		{
+			"events": 10,
+			"inst": "horns",
+			"ms": 392,
+			"name": "horns",
+			"share": 0.143735925487573
+		},
+		{
+			"events": 24,
+			"inst": "trombones",
+			"ms": 1119,
+			"name": "trombones",
+			"share": 0.265181253097515
+		},
+		{
+			"events": 24,
+			"inst": "violins",
+			"ms": 1697,
+			"name": "strings",
+			"share": 0.118714930401274
+		},
+		{
+			"events": 11,
+			"inst": "cellos",
+			"ms": 349,
+			"name": "basses",
+			"share": 0.0911613137310395
+		},
+		{
+			"events": 9,
+			"inst": "harp",
+			"ms": 119,
+			"name": "harp",
+			"share": 0.0102700890063721
+		},
+		{
+			"events": 2,
+			"inst": "tubular",
+			"ms": 268,
+			"name": "bells",
+			"share": 0.0118232911615683
+		},
+		{
+			"events": 3,
+			"inst": "celesta",
+			"ms": 119,
+			"name": "celesta",
+			"share": 0.00396261858349256
+		},
+		{
+			"events": 10,
+			"inst": "timpani",
+			"ms": 1059,
+			"name": "timpani",
+			"share": 0.176164152524796
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"render_s": 6.323,
+	"reverb_ms": 536,
+	"rms_db": -12.9367690189452,
+	"samples": 176400
+}

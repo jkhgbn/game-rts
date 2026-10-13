@@ -1,0 +1,32 @@
+{
+	"id": "sting_victory", "instruments": "trumpets + horns (the Call in D major), trombones, tremolo strings, harp sweep, tubular bell, celesta, timpani roll", "listen_for": "Fanfare or game jingle? Is the held D chord satisfying?", "excerpt_note": "complete", "title": "Victory", "use": "win sting (skirmish, missions, Wave Strike)",
+	"mood": "triumph", "bpm": 120, "meter": [4, 4], "bars": 4, "loop": false, "fade_out_s": 1.4,
+	"key": "D", "mode": "major", "lead": "trumpets", "seed": 3301, "excerpt_bar": 0, "lufs": -12,
+	"room": {"size": 0.85, "damp": 0.4, "wet_db": -8},
+	"sections": [{"name": "Fanfare (the Call in D major)", "bar": 0, "bars": 2}, {"name": "Held chord", "bar": 2, "bars": 2}],
+	"phrases": {
+		"mel": "r:1 D5:.75 A5:.25 G5:.5 F#5:.5 E5:1 | D5:.75 E5:.25 F#5:.5 A5:.5 D6:6 r:4",
+		"ch": "r:1 D:1 G:1 A:1 | D:1 A:1 D:6 r:4"
+	},
+	"parts": [
+		{"name": "trumpets", "inst": "trumpets", "gain_db": -2.0, "send": 0.55, "gate": 0.92, "opt": {"section": 3},
+			"seq": [{"bar": 0, "notes": "$mel", "vel": 0.95}]},
+		{"name": "horns", "inst": "horns", "gain_db": -4.0, "send": 0.55, "gate": 0.95, "opt": {"section": 4},
+			"seq": [{"bar": 0, "notes": "$mel", "transpose": -12, "vel": 0.9}]},
+		{"name": "trombones", "inst": "trombones", "gain_db": -7.0, "send": 0.5, "opt": {"section": 3},
+			"seq": [{"bar": 0, "chords": "$ch", "style": "hold", "oct": 2, "voicing": "0 1 2 3", "vel": 0.85}]},
+		{"name": "strings", "inst": "violins", "gain_db": -6.0, "send": 0.55, "opt": {"section": 4, "tremolo": true},
+			"eq": [["peak", 2800, 1.6, 2.0], ["highshelf", 6000, 0.7, -6.0]],
+			"seq": [{"bar": 0, "chords": "r:1 D:1 G:1 A:1 | D:1 A:1 D:6 r:4", "style": "hold", "oct": 4, "voicing": "0 1 2 3", "vel": 0.7}]},
+		{"name": "basses", "inst": "cellos", "gain_db": -5.0, "send": 0.35, "opt": {"section": 3},
+			"seq": [{"bar": 0, "chords": "$ch", "style": "bass", "rhythm": "1", "oct": 2, "vel": 0.8}]},
+		{"name": "harp", "inst": "harp", "gain_db": 12.0, "send": 0.5,
+			"seq": [{"bar": 1, "notes": "r:2 D4:.125 F#4:.125 A4:.125 D5:.125 F#5:.125 A5:.125 D6:.125 F#6:.125 A6:1", "vel": 0.75}]},
+		{"name": "bells", "inst": "tubular", "gain_db": -3.0, "send": 0.6,
+			"seq": [{"bar": 1, "notes": "r:2 D5:2 | A4:4", "vel": 0.7}]},
+		{"name": "celesta", "inst": "celesta", "gain_db": -6.0, "send": 0.6,
+			"seq": [{"bar": 1, "notes": "r:2 F#6:1 A6:1 | D7:2 r:2", "vel": 0.55}]},
+		{"name": "timpani", "inst": "timpani", "gain_db": -1.0, "send": 0.35,
+			"seq": [{"bar": 0, "notes": "A2:1* D2:1! r:.5 A2:.5 A2:1 | D2:.75 A2:.25 A2:.5 A2:.5 D2:2* | D2:1! r:3", "vel": 0.95}]}
+	]
+}

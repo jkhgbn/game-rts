@@ -1,0 +1,118 @@
+{
+	"bytes": 7056044,
+	"file": "res://assets/audio/music/fire.wav",
+	"hash": "4b8b1449813801075a8d8f41a41a6951",
+	"hf_share": 0.000446885455371542,
+	"id": "fire",
+	"length_s": 160.0,
+	"loop": true,
+	"lufs": -12.183836695284,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 185,
+			"inst": "shawm",
+			"ms": 3486,
+			"name": "shawm",
+			"share": 0.156112410971862
+		},
+		{
+			"events": 1661,
+			"inst": "lute",
+			"ms": 17813,
+			"name": "lute",
+			"share": 0.0616830441807903
+		},
+		{
+			"events": 139,
+			"inst": "violins",
+			"ms": 13591,
+			"name": "violins",
+			"share": 0.132316458632372
+		},
+		{
+			"events": 150,
+			"inst": "violas",
+			"ms": 16066,
+			"name": "violas",
+			"share": 0.0361266959118541
+		},
+		{
+			"events": 544,
+			"inst": "cellos",
+			"ms": 7988,
+			"name": "cellos",
+			"share": 0.113034172937213
+		},
+		{
+			"events": 170,
+			"inst": "basses",
+			"ms": 7458,
+			"name": "basses",
+			"share": 0.0600163657844526
+		},
+		{
+			"events": 200,
+			"inst": "horns",
+			"ms": 16887,
+			"name": "horns",
+			"share": 0.209720929733592
+		},
+		{
+			"events": 266,
+			"inst": "trumpets",
+			"ms": 5326,
+			"name": "trumpets",
+			"share": 0.0682061220724958
+		},
+		{
+			"events": 312,
+			"inst": "trombones",
+			"ms": 9746,
+			"name": "trombones",
+			"share": 0.0529387276592671
+		},
+		{
+			"events": 29,
+			"inst": "timpani",
+			"ms": 7110,
+			"name": "timpani",
+			"share": 0.0249939918750403
+		},
+		{
+			"events": 549,
+			"inst": "frame_dum",
+			"ms": 2433,
+			"name": "frame",
+			"share": 0.0304824753976001
+		},
+		{
+			"events": 336,
+			"inst": "shaker",
+			"ms": 843,
+			"name": "shaker",
+			"share": 0.000536905672691329
+		},
+		{
+			"events": 112,
+			"inst": "clap",
+			"ms": 881,
+			"name": "claps",
+			"share": 0.000498780335370476
+		},
+		{
+			"events": 172,
+			"inst": "taiko",
+			"ms": 2993,
+			"name": "taiko",
+			"share": 0.053332918835398
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"render_s": 126.929,
+	"reverb_ms": 6008,
+	"rms_db": -11.9624899049952,
+	"samples": 3528000,
+	"seam_slope": 0.00000190015748557926,
+	"seam_step": 0.00000914211523195263
+}

@@ -1,0 +1,47 @@
+{
+	"bytes": 1764044,
+	"end_db": -180.0,
+	"file": "res://docs/audio/listening_2026-10-13/choir_test.wav",
+	"hash": "9cba2a7a65ae56ef375a369ba73d3e33",
+	"hf_share": 0.0000208478585913545,
+	"id": "choir_test",
+	"length_s": 40.0,
+	"loop": false,
+	"lufs": -12.1672080936946,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 16,
+			"inst": "choir",
+			"ms": 1731,
+			"name": "choir_melody",
+			"share": 0.204353258818663
+		},
+		{
+			"events": 24,
+			"inst": "choir",
+			"ms": 4777,
+			"name": "choir_low",
+			"share": 0.250867457377914
+		},
+		{
+			"events": 16,
+			"inst": "violins",
+			"ms": 1735,
+			"name": "str_melody",
+			"share": 0.281879781132139
+		},
+		{
+			"events": 24,
+			"inst": "cellos",
+			"ms": 3198,
+			"name": "str_low",
+			"share": 0.262899502671284
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"render_s": 14.864,
+	"reverb_ms": 1748,
+	"rms_db": -12.0112825630927,
+	"samples": 882000
+}

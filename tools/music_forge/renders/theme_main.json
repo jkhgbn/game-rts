@@ -1,0 +1,111 @@
+{
+	"bytes": 6552044,
+	"file": "res://assets/audio/music/theme_main.wav",
+	"hash": "b9bd94b1727c4153c408c83558044738",
+	"hf_share": 0.000166425581303209,
+	"id": "theme_main",
+	"length_s": 148.571428571429,
+	"loop": true,
+	"lufs": -12.1910199840714,
+	"pad_share": 0.00137982135049187,
+	"parts": [
+		{
+			"events": 93,
+			"inst": "flute",
+			"ms": 3019,
+			"name": "flute",
+			"share": 0.208973393162049
+		},
+		{
+			"events": 86,
+			"inst": "violins",
+			"ms": 6268,
+			"name": "violins",
+			"share": 0.202801215724916
+		},
+		{
+			"events": 210,
+			"inst": "violas",
+			"ms": 20533,
+			"name": "violas",
+			"share": 0.120671288166771
+		},
+		{
+			"events": 144,
+			"inst": "cellos",
+			"ms": 6738,
+			"name": "cellos",
+			"share": 0.082978936919675
+		},
+		{
+			"events": 80,
+			"inst": "basses",
+			"ms": 4274,
+			"name": "basses",
+			"share": 0.031061931470764
+		},
+		{
+			"events": 146,
+			"inst": "horns",
+			"ms": 15220,
+			"name": "horns",
+			"share": 0.151381536754054
+		},
+		{
+			"events": 118,
+			"inst": "trumpets",
+			"ms": 2735,
+			"name": "trumpets",
+			"share": 0.0450681311061702
+		},
+		{
+			"events": 69,
+			"inst": "trombones",
+			"ms": 6679,
+			"name": "trombones",
+			"share": 0.0400017859256333
+		},
+		{
+			"events": 446,
+			"inst": "harp",
+			"ms": 5012,
+			"name": "harp",
+			"share": 0.093263689630463
+		},
+		{
+			"events": 7,
+			"inst": "celesta",
+			"ms": 519,
+			"name": "celesta",
+			"share": 0.0000899792743330968
+		},
+		{
+			"events": 39,
+			"inst": "timpani",
+			"ms": 5893,
+			"name": "timpani",
+			"share": 0.0193018897247188
+		},
+		{
+			"events": 31,
+			"inst": "choir",
+			"ms": 5177,
+			"name": "choir",
+			"share": 0.00302244832205803
+		},
+		{
+			"events": 87,
+			"inst": "pad",
+			"ms": 6039,
+			"name": "pad",
+			"share": 0.0013837738183944
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"render_s": 99.714,
+	"reverb_ms": 5487,
+	"rms_db": -12.1346028450359,
+	"samples": 3276000,
+	"seam_slope": 0.000741739757359028,
+	"seam_step": 0.000608645379543304
+}

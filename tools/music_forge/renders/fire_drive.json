@@ -1,0 +1,55 @@
+{
+	"bytes": 1764044,
+	"file": "res://assets/audio/music/fire_drive.wav",
+	"hash": "330a2f62f5a2a9b04a9671ffc51f27f8",
+	"hf_share": 0.00412650944039257,
+	"id": "fire_drive",
+	"length_s": 40.0,
+	"loop": true,
+	"lufs": -16.5247465102672,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 110,
+			"inst": "taiko",
+			"ms": 1649,
+			"name": "taiko",
+			"share": 0.842250546310561
+		},
+		{
+			"events": 168,
+			"inst": "frame_dum",
+			"ms": 609,
+			"name": "frame",
+			"share": 0.145158320269333
+		},
+		{
+			"events": 80,
+			"inst": "snare",
+			"ms": 313,
+			"name": "snare",
+			"share": 0.00557929830168375
+		},
+		{
+			"events": 32,
+			"inst": "clap",
+			"ms": 230,
+			"name": "claps",
+			"share": 0.00196940779983692
+		},
+		{
+			"events": 256,
+			"inst": "shaker",
+			"ms": 406,
+			"name": "shaker",
+			"share": 0.00504242731858531
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"render_s": 6.983,
+	"reverb_ms": 1699,
+	"rms_db": -14.1345864924104,
+	"samples": 882000,
+	"seam_slope": 0.000464092940092087,
+	"seam_step": 0.00391153991222382
+}

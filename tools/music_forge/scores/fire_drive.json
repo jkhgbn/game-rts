@@ -1,0 +1,27 @@
+{
+	"id": "fire_drive", "instruments": "taiko + toms, frame drums, snare, claps, shaker (unpitched, loops in sync with Fire)", "listen_for": "Punchy enough to add tension when it fades in under Fire? Too busy?", "excerpt_note": "drive B", "drive_of": "fire", "title": "Emberfall (drive)", "use": "combat drum layer under fire, fades in with combat",
+	"mood": "urgent, hot", "bpm": 96, "meter": [4, 4], "bars": 16, "loop": true,
+	"key": "-", "mode": "unpitched", "lead": "taiko", "seed": 2208, "excerpt_bar": 4, "lufs": -16,
+	"room": {"size": 0.6, "damp": 0.55, "wet_db": -14},
+	"sections": [{"name": "Drive A", "bar": 0, "bars": 8}, {"name": "Drive B (busier)", "bar": 8, "bars": 8}],
+	"dyn": [[0, 0.9], [8, 0.95], [15, 1.05], [16, 0.9]],
+	"parts": [
+		{"name": "taiko", "inst": "taiko", "gain_db": 0.0, "send": 0.35,
+			"kit": {"k": ["taiko", 1.0, 36], "o": ["tom", 0.8, 47], "p": ["tom", 0.75, 52]},
+			"seq": [{"bar": 0, "bars": 8, "patterns": ["K.....k.K.......", "K.....k.K...k.k."], "vel": 0.8, "fill": "K..pK..pK.opKopp", "fill_every": 4},
+				{"bar": 8, "bars": 8, "patterns": ["K..k..k.K..k....", "K..k..k.K..k.kk."], "vel": 0.88, "fill": "KpopKpopKKopKKKK", "fill_every": 4}]},
+		{"name": "frame", "inst": "frame_dum", "gain_db": -2.0, "send": 0.2,
+			"kit": {"d": ["frame_dum", 1.0, 40], "t": ["frame_tek", 0.7]},
+			"seq": [{"bar": 0, "bars": 16, "patterns": ["D.tt.tD.D.tt.tt.", "D.tt.tD.D.ttDtt."], "vel": 0.7}]},
+		{"name": "snare", "inst": "snare", "gain_db": -9.0, "send": 0.3,
+			"kit": {"s": ["snare", 0.8]},
+			"seq": [{"bar": 0, "bars": 8, "pattern": "....S.......S..s", "vel": 0.55},
+				{"bar": 8, "bars": 8, "pattern": "..s.S..s..s.S.ss", "vel": 0.62}]},
+		{"name": "claps", "inst": "clap", "gain_db": -3.0, "send": 0.3,
+			"kit": {"c": ["clap", 0.9]},
+			"seq": [{"bar": 0, "bars": 16, "pattern": "....C.......C...", "vel": 0.6}]},
+		{"name": "shaker", "inst": "shaker", "gain_db": -5.0, "send": 0.1,
+			"kit": {"h": ["shaker", 0.6]},
+			"seq": [{"bar": 0, "bars": 16, "pattern": "HhhhHhhhHhhhHhhh", "vel": 0.5}]}
+	]
+}
