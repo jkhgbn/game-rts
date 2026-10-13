@@ -61,7 +61,12 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   its orders and `order_serial` (use it, never a `global_position` write, to move a unit out of the way);
   `snap_to_navmesh(pos)`; `drop_target_if(target)` clears `attack_target` only when it is `target` (keeps the order);
   `add_modifier(source_id, stats, heal_gain := true)` (`false` = a max_hp gain does not heal, for re-applies / swaps);
-  `melee_strike_active` (read only). Modifiers saved with a unit: prefixes `mission:`, `save:`, `rank3`, `bowman:`.
+  `melee_strike_active` (read only). Wave Strike perf (2026-10-13, WS2.G2 / G3): `UnitGrid` (`scripts/units/unit_grid.gd`,
+  group `"unit_grid"`; a level opts in with `UnitGrid.ensure(level)`, only Wave Strike today) makes `_find_nearest_enemy`
+  query nearby cells (same targets as the scan); `team` has a setter that marks the grid dirty; code that moves a unit more
+  than 2 m in one frame goes through `set_down` or calls `UnitGrid.mark_dirty()`. Lane units: `scan_bucket` (0-14, scans
+  on frame mod `SCAN_BUCKETS`; -1 = the old 0.25 s timer, every other unit), `set_avoidance_gated(off)`,
+  `has_enemy_within(dist)`. Modifiers saved with a unit: prefixes `mission:`, `save:`, `rank3`, `bowman:`.
   `Champion.restore_fallen()` (quiet fallen state, used by loads).
 - **Saved state** (2026-10-12): metas whose names do not start with `_` are saved by `SaveCodec` (runtime markers and
   absolute times must start with `_`; `tests/test_save_metas.gd`). A node in group `"saved_state"` with `save_key()`,
