@@ -34,7 +34,7 @@ notes 2026-10-11; perf research 2026-10-12 (`docs/ideas/perf-research-2026-10-12
 
 ## Next
 1. Save the balance report (docs/balance/confirm_2026-10-13/report.md); route anything clearly broken.
-2. Tag `playtest-2026-10-13`, full CI (tools\ci\ci.ps1) on the tag in ..our-wizards-rts-ci.
+2. Tag `playtest-2026-10-13`, full CI (tools\ci\ci.ps1) on the tag in ..\four-wizards-rts-ci.
 3. Export from the CI worktree, smoke-run the exe, zip FourWizards-2026-10-13.zip to the Desktop + OneDrive (JS said yes),
    French notes docs/plan/playtest-notes.md.
 4. Known for the playtest: e6m2 hard loses in the sim with any scripted defence (was so before the fixes).
