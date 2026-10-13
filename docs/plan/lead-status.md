@@ -26,21 +26,17 @@ notes 2026-10-11; perf research 2026-10-12 (`docs/ideas/perf-research-2026-10-12
   `docs/ci/nightly_2026-10-11/`. Waiting for JS (owner-asks: gitignore the generated runs, keep summaries).
 - 2026-10-12 midday: tests/tools `.gd.uid` files, e3 spec notes, i18n re-run and map gate knob committed (0a222e53, 9bc86021).
 
-## Running
-- Code review fix wave 1 (batches in `docs/handoff/fix-batches-2026-10-12.md`, file-disjoint): F1 save framework
-  (general agent, scripts/core save_* + mission_base + mission_e5_base + ember_crown + mission_hud attach param), F2
-  gameplay-coder, F3a systems-coder (world / skirmish save), F3b systems-coder (buildings / economy / story_films), F4
-  ui-coder, F7 ai-coder. Each returns -> contract-reviewer -> ci_quick -Changed -> commit.
-- Disk C: ~15 GB free. Nightly CI at 03:00 tests local main.
+## Running (night 2026-10-12 -> 13, JS asleep, build wanted by ~noon)
+- Code review of scripts/ DONE and ALL verified fixes committed (81750691 waves 1-2, be9445e9 / 9256a30f / ffd9c8f0 /
+  f3e9fa2e / d56b44c5 missions Ep1-8, fe0718f5 i18n). ci_quick on the result: 400 / 400 PASS, smoke, perf OK
+  (docs/ci/2026-10-12_2206).
+- Balance confirmation run (agent, measure only, normal + Blitz, Crown Hollow + Thornwater, runs `fg-confirm-1013-*`).
 
-## Next (JS 2026-10-12 evening: whole code review + all fixes, then the build)
-1. Review DONE for all of scripts/ (R, W, V, U, C1-C6) and verified (`code-review-2026-10-12.md`, verify section;
-   mission save design `mission-save-hardening-2026-10-12.md`).
-2. Wave 2 after F1-F4: F5 cinematics (V1-1..4), F6 items (R1-1 inventory, R5-4..7, U2-5), then mission batches
-   M1 Ep1, M2 Ep2, M3 Ep3/4, M4 Ep5/6 (C5), M5 Ep7/8 (C6, re-check each item) on F1's framework (systems-coder).
-3. Commit `tests/test_save_metas.gd` (core CI list) once all renames land; un-skip `mission_e4_*` + late-step saves in
-   `tests/test_save_load_missions.gd`; CLAUDE.md contracts: Unit `set_down`, `drop_target_if`, `add_modifier` heal_gain,
-   saved_state group, MissionBase save hooks.
-4. Balance confirmation run (normal + Blitz, 2 maps) after the fixes.
-5. Tag, full CI, export, zip to Desktop + OneDrive (JS plays on the desktop).
-6. Later: perf (pose scripts 3.6 ms), art asks; follow-ups in `docs/handoff/bot-review-2026-10-12.md`.
+## Next
+1. Save the balance report (docs/balance/confirm_2026-10-13/report.md); route anything clearly broken.
+2. Tag `playtest-2026-10-13`, full CI (tools\ci\ci.ps1) on the tag in ..our-wizards-rts-ci.
+3. Export from the CI worktree, smoke-run the exe, zip FourWizards-2026-10-13.zip to the Desktop + OneDrive (JS said yes),
+   French notes docs/plan/playtest-notes.md.
+4. Known for the playtest: e6m2 hard loses in the sim with any scripted defence (was so before the fixes).
+5. Later: follow-ups in docs/handoff/bot-review-2026-10-12.md; perf; art asks; character_model instance-id uses (dance
+   variant, ride side) for replay determinism; 29 collapsed `\` continuations (readability only).
