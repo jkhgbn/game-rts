@@ -1217,13 +1217,13 @@ msgstr ""
 
 #. return "Empty slot"
 #: scripts/items/inventory.gd:361 scripts/items/inventory.gd:394 scripts/items/item_actives.gd:94
-#: scripts/items/item_actives.gd:206 scripts/items/item_actives.gd:245
+#: scripts/items/item_actives.gd:206 scripts/items/item_actives.gd:246
 msgid "Empty slot"
 msgstr ""
 
 #. return "Not an active"
 #: scripts/items/inventory.gd:364 scripts/items/inventory.gd:371 scripts/items/inventory.gd:378
-#: scripts/items/item_actives.gd:209 scripts/items/item_actives.gd:248
+#: scripts/items/item_actives.gd:209 scripts/items/item_actives.gd:249
 msgid "Not an active"
 msgstr ""
 
@@ -1239,7 +1239,7 @@ msgid "Unknown item"
 msgstr ""
 
 #. var text := "Tithe from %s: %d" % [_owner_name(), amount]
-#: scripts/items/inventory.gd:857
+#: scripts/items/inventory.gd:877
 msgid "Tithe from %s: %d"
 msgstr ""
 
@@ -1250,18 +1250,13 @@ msgid "Not carried"
 msgstr ""
 
 #. return "Unique"
-#: scripts/items/item_actives.gd:212 scripts/items/item_actives.gd:251
+#: scripts/items/item_actives.gd:212 scripts/items/item_actives.gd:252
 msgid "Unique"
 msgstr ""
 
 #. return "Not available yet"
-#: scripts/items/item_actives.gd:216 scripts/items/item_actives.gd:265
+#: scripts/items/item_actives.gd:216 scripts/items/item_actives.gd:266
 msgid "Not available yet"
-msgstr ""
-
-#. name = "Item_%s" % t.id
-#: scripts/items/item_pickup.gd:155
-msgid "Item_%s"
 msgstr ""
 
 #. @export_flags("Base", "Peddler") var sold_at := 0
@@ -1873,27 +1868,27 @@ msgid "Click your Keep (bottom-left) to train workers, then select workers and p
 msgstr ""
 
 #. hud.show_message("Baking pathfinding...", 1.0)
-#: scripts/world/main.gd:111
+#: scripts/world/main.gd:117
 msgid "Baking pathfinding..."
 msgstr ""
 
 #. return ("Mission 1: Ruins of the Ember Crown\n"
-#: scripts/world/main.gd:163
+#: scripts/world/main.gd:169
 msgid "Mission 1: Ruins of the Ember Crown\nLead the Fire Wizard to the Ember Crown (north-east).\nYour wizard must survive."
 msgstr ""
 
 #. hud.show_message("%s claims the %s!  +%d max mana, stronger Fireball" %
-#: scripts/world/main.gd:213
+#: scripts/world/main.gd:219
 msgid "%s claims the %s!  +%d max mana, stronger Fireball"
 msgstr ""
 
 #. hud.show_banner("VICTORY\nPress F9 to play again", Color(1.0, 0.85, 0.3))
-#: scripts/world/main.gd:233
+#: scripts/world/main.gd:239
 msgid "VICTORY\nPress F9 to play again"
 msgstr ""
 
 #. hud.show_banner("DEFEAT\nYour wizard has fallen.  Press F9 to retry", Color(0.9, 0.3, 0.3))
-#: scripts/world/main.gd:235
+#: scripts/world/main.gd:241
 msgid "DEFEAT\nYour wizard has fallen.  Press F9 to retry"
 msgstr ""
 

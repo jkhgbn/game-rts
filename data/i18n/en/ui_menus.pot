@@ -320,7 +320,7 @@ msgstr ""
 
 #. const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
 #: scripts/ui/menus/main_menu.gd:15 scripts/campaign/mission_00.gd:19
-#: scripts/campaign/mission_00.gd:971
+#: scripts/campaign/mission_00.gd:993
 msgid "The Night of Knives"
 msgstr ""
 

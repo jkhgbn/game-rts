@@ -46,7 +46,8 @@ const SKIP_LINE: Array[String] = ["push_error", "push_warning", "print(", "print
 		"get_nodes_in_group", "get_first_node_in_group", "Input.is_", "InputMap", "is_action", "has_signal(",
 		"emit_signal(", ".call(", "callv(", "set_shader_parameter", "OS.get_", "ProjectSettings", "ClassDB",
 		"DirAccess", "FileAccess", "RegEx", "begins_with(", "ends_with(", "get_slice(", "_log(", "dialogue_log",
-		"class_name ", "extends ", "@export_enum", "LOC_IGNORE", "match_log", "debug_", "_debug"]
+		"class_name ", "extends ", "@export_enum", "LOC_IGNORE", "match_log", "debug_", "_debug", "register_actor(",
+		"actor("]
 ## Keys the heuristic picks up but are not player-facing text (exact), from data/i18n/ignore.txt.
 var ignore: Dictionary = {}
 

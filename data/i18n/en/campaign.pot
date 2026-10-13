@@ -12,7 +12,7 @@ msgstr ""
 
 #. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
 #: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e6_02.gd:88
-#: scripts/campaign/mission_e6_02.gd:753 scripts/campaign/mission_e8_02.gd:188
+#: scripts/campaign/mission_e6_02.gd:757 scripts/campaign/mission_e8_02.gd:188
 msgid "L5b"
 msgstr ""
 
@@ -1139,9 +1139,9 @@ msgid "Can't build on the frozen lake"
 msgstr ""
 
 #. u.unit_name = "Old Vey"
-#: scripts/campaign/m00_cast.gd:83 scripts/campaign/mission_e2_01.gd:150
+#: scripts/campaign/m00_cast.gd:144 scripts/campaign/mission_e2_01.gd:150
 #: scripts/campaign/mission_e2_02.gd:174 scripts/campaign/mission_e2_03.gd:94
-#: scripts/campaign/mission_e2_04.gd:148 scripts/campaign/mission_e2_05.gd:165
+#: scripts/campaign/mission_e2_04.gd:148 scripts/campaign/mission_e2_05.gd:166
 msgid "Old Vey"
 msgstr ""
 
@@ -1348,7 +1348,7 @@ msgstr ""
 
 #. c.defeat_banner = "DEFEAT"
 #: scripts/campaign/mission_00.gd:216 scripts/campaign/mission_01.gd:235
-#: scripts/campaign/mission_02.gd:268 scripts/campaign/mission_03.gd:308
+#: scripts/campaign/mission_02.gd:268 scripts/campaign/mission_03.gd:311
 #: scripts/campaign/mission_04.gd:227 scripts/campaign/mission_config.gd:26
 msgid "DEFEAT"
 msgstr ""
@@ -1359,59 +1359,59 @@ msgid "Flame Guard. Shields first, spark second: a Guard wall keeps the knives o
 msgstr ""
 
 #. return "Prologue: %s" % MISSION_TITLE
-#: scripts/campaign/mission_00.gd:245
+#: scripts/campaign/mission_00.gd:246
 msgid "Prologue: %s"
 msgstr ""
 
 #. hearthward.display_name = "Hearthward"
-#: scripts/campaign/mission_00.gd:330 scripts/campaign/mission_01.gd:58
+#: scripts/campaign/mission_00.gd:332 scripts/campaign/mission_01.gd:58
 msgid "Hearthward"
 msgstr ""
 
 #. return TEXT_DARK_HOLD if dark_hold else "Survive until dawn (8:00)"
-#: scripts/campaign/mission_00.gd:510
+#: scripts/campaign/mission_00.gd:512
 msgid "Survive until dawn (8:00)"
 msgstr ""
 
 #. return "Light the watch braziers (%d / 3)" % lit_count if with_counter else "Light the watch braziers"
-#: scripts/campaign/mission_00.gd:512
+#: scripts/campaign/mission_00.gd:514
 msgid "Light the watch braziers (%d / 3)"
 msgstr ""
 
 #. return "Light the watch braziers (%d / 3)" % lit_count if with_counter else "Light the watch braziers"
-#: scripts/campaign/mission_00.gd:512
+#: scripts/campaign/mission_00.gd:514
 msgid "Light the watch braziers"
 msgstr ""
 
 #. return "Vessa must survive"
-#: scripts/campaign/mission_00.gd:514 scripts/campaign/mission_01.gd:805
-#: scripts/campaign/mission_02.gd:897 scripts/campaign/mission_03.gd:879
-#: scripts/campaign/mission_04.gd:517 scripts/campaign/mission_e2_01.gd:753
+#: scripts/campaign/mission_00.gd:516 scripts/campaign/mission_01.gd:814
+#: scripts/campaign/mission_02.gd:900 scripts/campaign/mission_03.gd:884
+#: scripts/campaign/mission_04.gd:540 scripts/campaign/mission_e2_01.gd:754
 msgid "Vessa must survive"
 msgstr ""
 
 #. return "Drive off Mother Hush"
-#: scripts/campaign/mission_00.gd:516 scripts/campaign/mission_e2_04.gd:697
+#: scripts/campaign/mission_00.gd:518 scripts/campaign/mission_e2_04.gd:716
 msgid "Drive off Mother Hush"
 msgstr ""
 
 #. return "Keep your escort alive (%d)" % escort_alive()
-#: scripts/campaign/mission_00.gd:518
+#: scripts/campaign/mission_00.gd:520
 msgid "Keep your escort alive (%d)"
 msgstr ""
 
 #. return _card(EP1_INTRO_ID, "Episode 1", "The Night of Knives", lines, VESSA_START, Vector3(14.0, 22.0, 18.0),
-#: scripts/campaign/mission_00.gd:971 scripts/campaign/mission_04.gd:1135
+#: scripts/campaign/mission_00.gd:993 scripts/campaign/mission_04.gd:1158
 msgid "Episode 1"
 msgstr ""
 
 #. s1.add_action(0.3, &"title", &"", Vector3.ZERO, {"text": "Dawn", "sub": "Emberfall", "time": 2.5})
-#: scripts/campaign/mission_00.gd:1052
+#: scripts/campaign/mission_00.gd:1074
 msgid "Dawn"
 msgstr ""
 
 #. s1.add_action(0.3, &"title", &"", Vector3.ZERO, {"text": "Dawn", "sub": "Emberfall", "time": 2.5})
-#: scripts/campaign/mission_00.gd:1052
+#: scripts/campaign/mission_00.gd:1074
 msgid "Emberfall"
 msgstr ""
 
@@ -1560,7 +1560,7 @@ msgstr ""
 
 #. c.keep_lost_message = "The Fire keep has fallen"
 #: scripts/campaign/mission_01.gd:233 scripts/campaign/mission_02.gd:254
-#: scripts/campaign/mission_03.gd:294 scripts/campaign/mission_04.gd:1152
+#: scripts/campaign/mission_03.gd:297 scripts/campaign/mission_04.gd:1175
 #: scripts/campaign/mission_e2_01.gd:277
 msgid "The Fire keep has fallen"
 msgstr ""
@@ -1581,43 +1581,43 @@ msgid "Blaze Rider. Fast and fierce: ride past the shields and catch the archers
 msgstr ""
 
 #. hud.show_message(HINT_STRONGHOLD % [KeyLabels.of(KEY_X), int(st["crystals"]), opens if opens != "" else "new u
-#: scripts/campaign/mission_01.gd:566 scripts/campaign/mission_02.gd:1146
-#: scripts/campaign/mission_03.gd:1669
+#: scripts/campaign/mission_01.gd:567 scripts/campaign/mission_02.gd:1149
+#: scripts/campaign/mission_03.gd:1729
 msgid "new units"
 msgstr ""
 
 #. hud.show_message("%s wears the %s" % [EmberCrown.short_name(by), claimed.artifact_name], 4.0)
-#: scripts/campaign/mission_01.gd:668 scripts/world/skirmish.gd:1669
+#: scripts/campaign/mission_01.gd:674 scripts/world/skirmish.gd:1675
 msgid "%s wears the %s"
 msgstr ""
 
 #. return "Light the braziers of Emberfall"
-#: scripts/campaign/mission_01.gd:798
+#: scripts/campaign/mission_01.gd:807
 msgid "Light the braziers of Emberfall"
 msgstr ""
 
 #. return "Light the braziers of Emberfall (%d / 3)" % lit_count
-#: scripts/campaign/mission_01.gd:799
+#: scripts/campaign/mission_01.gd:808
 msgid "Light the braziers of Emberfall (%d / 3)"
 msgstr ""
 
 #. return "Claim the Ember Crown"
-#: scripts/campaign/mission_01.gd:801
+#: scripts/campaign/mission_01.gd:810
 msgid "Claim the Ember Crown"
 msgstr ""
 
 #. return "Survive Malrik's counterattack (%s)" % _clock(hold_time())
-#: scripts/campaign/mission_01.gd:803
+#: scripts/campaign/mission_01.gd:812
 msgid "Survive Malrik's counterattack (%s)"
 msgstr ""
 
 #. return "Free the Ruin Peddler"
-#: scripts/campaign/mission_01.gd:807
+#: scripts/campaign/mission_01.gd:816
 msgid "Free the Ruin Peddler"
 msgstr ""
 
 #. return "Burn Malrik's Gloom Hall"
-#: scripts/campaign/mission_01.gd:809 scripts/campaign/mission_04.gd:523
+#: scripts/campaign/mission_01.gd:818 scripts/campaign/mission_04.gd:546
 msgid "Burn Malrik's Gloom Hall"
 msgstr ""
 
@@ -1818,53 +1818,53 @@ msgid "Mission 2: %s"
 msgstr ""
 
 #. pell.display_name = "Pell, Ruin Peddler"
-#: scripts/campaign/mission_02.gd:470 scripts/campaign/mission_03.gd:478
-#: scripts/campaign/mission_04.gd:305 scripts/campaign/mission_peddler.gd:19
+#: scripts/campaign/mission_02.gd:473 scripts/campaign/mission_03.gd:483
+#: scripts/campaign/mission_04.gd:328 scripts/campaign/mission_peddler.gd:19
 msgid "Pell, Ruin Peddler"
 msgstr ""
 
 #. return "Stop Malrik's dig (%d %%)" % int(dig) if with_counter else "Stop Malrik's dig"
-#: scripts/campaign/mission_02.gd:889
+#: scripts/campaign/mission_02.gd:892
 msgid "Stop Malrik's dig (%d %%)"
 msgstr ""
 
 #. return "Stop Malrik's dig (%d %%)" % int(dig) if with_counter else "Stop Malrik's dig"
-#: scripts/campaign/mission_02.gd:889
+#: scripts/campaign/mission_02.gd:892
 msgid "Stop Malrik's dig"
 msgstr ""
 
 #. return "Melt the Heartfrost (%d %%)" % melt_percent() if with_counter else "Melt the Heartfrost"
-#: scripts/campaign/mission_02.gd:891
+#: scripts/campaign/mission_02.gd:894
 msgid "Melt the Heartfrost (%d %%)"
 msgstr ""
 
 #. return "Melt the Heartfrost (%d %%)" % melt_percent() if with_counter else "Melt the Heartfrost"
-#: scripts/campaign/mission_02.gd:891
+#: scripts/campaign/mission_02.gd:894
 msgid "Melt the Heartfrost"
 msgstr ""
 
 #. return "Claim the Stillwater Orb"
-#: scripts/campaign/mission_02.gd:893
+#: scripts/campaign/mission_02.gd:896
 msgid "Claim the Stillwater Orb"
 msgstr ""
 
 #. return "Bring the orb home"
-#: scripts/campaign/mission_02.gd:895
+#: scripts/campaign/mission_02.gd:898
 msgid "Bring the orb home"
 msgstr ""
 
 #. return "Thaw the lost Emberguard (%d / 3)" % thawed if with_counter else "Thaw the lost Emberguard"
-#: scripts/campaign/mission_02.gd:899
+#: scripts/campaign/mission_02.gd:902
 msgid "Thaw the lost Emberguard (%d / 3)"
 msgstr ""
 
 #. return "Thaw the lost Emberguard (%d / 3)" % thawed if with_counter else "Thaw the lost Emberguard"
-#: scripts/campaign/mission_02.gd:899
+#: scripts/campaign/mission_02.gd:902
 msgid "Thaw the lost Emberguard"
 msgstr ""
 
 #. return "Melt the Heartfrost before the dig reaches 50 %"
-#: scripts/campaign/mission_02.gd:901
+#: scripts/campaign/mission_02.gd:904
 msgid "Melt the Heartfrost before the dig reaches 50 %"
 msgstr ""
 
@@ -2134,107 +2134,107 @@ msgid "Old Mossjaw wakes"
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nThe Master's Signet is yours"
-#: scripts/campaign/mission_03.gd:307
+#: scripts/campaign/mission_03.gd:310
 msgid "VICTORY\nThe Master's Signet is yours"
 msgstr ""
 
 #. c.spotlight = {"id": &"wayfinder", "trigger": &"unlock", "key_hint": "Crooked Lantern: Y",
-#: scripts/campaign/mission_03.gd:312
+#: scripts/campaign/mission_03.gd:315
 msgid "Crooked Lantern: Y"
 msgstr ""
 
 #. "card": "Wayfinder. A champion you don't command: flag the fog, and she finds what hides in it."}
-#: scripts/campaign/mission_03.gd:313
+#: scripts/campaign/mission_03.gd:316
 msgid "Wayfinder. A champion you don't command: flag the fog, and she finds what hides in it."
 msgstr ""
 
 #. return "Mission 3: %s" % MISSION_TITLE
-#: scripts/campaign/mission_03.gd:350
+#: scripts/campaign/mission_03.gd:353
 msgid "Mission 3: %s"
 msgstr ""
 
 #. t.display_name = "Ember Stake"
-#: scripts/campaign/mission_03.gd:818
+#: scripts/campaign/mission_03.gd:823
 msgid "Ember Stake"
 msgstr ""
 
 #. "objectives": [objective_text(&"obj_hearts", false), "Take the Master's Signet before Malrik",
-#: scripts/campaign/mission_03.gd:854
+#: scripts/campaign/mission_03.gd:859
 msgid "Take the Master's Signet before Malrik"
 msgstr ""
 
 #. var base := "Bring down the Root Hearts before Malrik"
-#: scripts/campaign/mission_03.gd:863
+#: scripts/campaign/mission_03.gd:868
 msgid "Bring down the Root Hearts before Malrik"
 msgstr ""
 
 #. return "Kill Malrik before he gets home (%d m)" % int(malrik_home_distance()) if with_counter \
-#: scripts/campaign/mission_03.gd:868
+#: scripts/campaign/mission_03.gd:873
 msgid "Kill Malrik before he gets home (%d m)"
 msgstr ""
 
 #. else "Kill Malrik before he gets home"
-#: scripts/campaign/mission_03.gd:869
+#: scripts/campaign/mission_03.gd:874
 msgid "Kill Malrik before he gets home"
 msgstr ""
 
 #. return "Take the Master's Signet (Malrik marches in %d:%02d)" % [left / 60, left % 60]
-#: scripts/campaign/mission_03.gd:873
+#: scripts/campaign/mission_03.gd:878
 msgid "Take the Master's Signet (Malrik marches in %d:%02d)"
 msgstr ""
 
 #. return "Take the Master's Signet (Malrik is racing you)"
-#: scripts/campaign/mission_03.gd:874
+#: scripts/campaign/mission_03.gd:879
 msgid "Take the Master's Signet (Malrik is racing you)"
 msgstr ""
 
 #. var base := "Break the Warden Gates"
-#: scripts/campaign/mission_03.gd:876 scripts/campaign/mission_e6_02.gd:525
+#: scripts/campaign/mission_03.gd:881 scripts/campaign/mission_e6_02.gd:527
 msgid "Break the Warden Gates"
 msgstr ""
 
 #. return "Hire a champion at the Crooked Lantern"
-#: scripts/campaign/mission_03.gd:881
+#: scripts/campaign/mission_03.gd:886
 msgid "Hire a champion at the Crooked Lantern"
 msgstr ""
 
 #. return "Put down Old Mossjaw"
-#: scripts/campaign/mission_03.gd:883
+#: scripts/campaign/mission_03.gd:888
 msgid "Put down Old Mossjaw"
 msgstr ""
 
 #. return "Keep every Ember Stake standing"
-#: scripts/campaign/mission_03.gd:885
+#: scripts/campaign/mission_03.gd:890
 msgid "Keep every Ember Stake standing"
 msgstr ""
 
 #. mossjaw.unit_name = "Old Mossjaw"
-#: scripts/campaign/mission_03.gd:1009
+#: scripts/campaign/mission_03.gd:1014
 msgid "Old Mossjaw"
 msgstr ""
 
 #. hud.show_message("Malrik carried the Signet home", 4.0)
-#: scripts/campaign/mission_03.gd:1580
+#: scripts/campaign/mission_03.gd:1640
 msgid "Malrik carried the Signet home"
 msgstr ""
 
 #. return _card(&"m3_oldroot", "The Oldroot Opens", "", [], OLDROOT_POS, Vector3(16.0, 20.0, 16.0),
-#: scripts/campaign/mission_03.gd:1808
+#: scripts/campaign/mission_03.gd:1868
 msgid "The Oldroot Opens"
 msgstr ""
 
 #. return _card(&"m3_plea", "Ysolde's Plea", "", _cine_lines(&"m3_plea"), OLDROOT_POS, Vector3(7.0, 4.0, 8.0),
-#: scripts/campaign/mission_03.gd:1814
+#: scripts/campaign/mission_03.gd:1874
 msgid "Ysolde's Plea"
 msgstr ""
 
 #. return _card(&"m3_memory", "The Signet's Memory", "", _cine_lines(&"m3_memory"), OLDROOT_POS,
-#: scripts/campaign/mission_03.gd:1821
+#: scripts/campaign/mission_03.gd:1881
 msgid "The Signet's Memory"
 msgstr ""
 
 #. return _card(&"m3_parting", "The Wood Will Remember", "", _cine_lines(&"m3_parting"), at, Vector3(6.0, 4.0, 7.
-#: scripts/campaign/mission_03.gd:1828
+#: scripts/campaign/mission_03.gd:1888
 msgid "The Wood Will Remember"
 msgstr ""
 
@@ -2469,117 +2469,117 @@ msgid "Kilnwarden. Melts armour, burns mana: it makes big things soft and caster
 msgstr ""
 
 #. return "Mission 4: %s" % MISSION_TITLE
-#: scripts/campaign/mission_04.gd:249
+#: scripts/campaign/mission_04.gd:272
 msgid "Mission 4: %s"
 msgstr ""
 
 #. return "Take the Master's seat on Crown Isle (the Hollow stirs: %d %%)" % int(hollow)
-#: scripts/campaign/mission_04.gd:506
+#: scripts/campaign/mission_04.gd:529
 msgid "Take the Master's seat on Crown Isle (the Hollow stirs: %d %%)"
 msgstr ""
 
 #. return "Take the Master's seat on Crown Isle"
-#: scripts/campaign/mission_04.gd:507
+#: scripts/campaign/mission_04.gd:530
 msgid "Take the Master's seat on Crown Isle"
 msgstr ""
 
 #. return "Break the Keystone Pylons (%d / 4)" % pylons_broken if with_counter else "Break the Keystone Pylons"
-#: scripts/campaign/mission_04.gd:509
+#: scripts/campaign/mission_04.gd:532
 msgid "Break the Keystone Pylons (%d / 4)"
 msgstr ""
 
 #. return "Break the Keystone Pylons (%d / 4)" % pylons_broken if with_counter else "Break the Keystone Pylons"
-#: scripts/campaign/mission_04.gd:509
+#: scripts/campaign/mission_04.gd:532
 msgid "Break the Keystone Pylons"
 msgstr ""
 
 #. return "Stop the Keystone Colossus (%d %%)" % int(round(keystone.colossus_hp_pct() * 100.0))
-#: scripts/campaign/mission_04.gd:512
+#: scripts/campaign/mission_04.gd:535
 msgid "Stop the Keystone Colossus (%d %%)"
 msgstr ""
 
 #. return "Stop the Keystone Colossus"
-#: scripts/campaign/mission_04.gd:513
+#: scripts/campaign/mission_04.gd:536
 msgid "Stop the Keystone Colossus"
 msgstr ""
 
 #. return "Turn the key: Vessa by the Colossus's heart, with Old Vey beside her"
-#: scripts/campaign/mission_04.gd:515
+#: scripts/campaign/mission_04.gd:538
 msgid "Turn the key: Vessa by the Colossus's heart, with Old Vey beside her"
 msgstr ""
 
 #. return "The Fire keep must stand"
-#: scripts/campaign/mission_04.gd:519 scripts/campaign/mission_e8_01_fire.gd:187
+#: scripts/campaign/mission_04.gd:542 scripts/campaign/mission_e8_01_fire.gd:187
 msgid "The Fire keep must stand"
 msgstr ""
 
 #. return "Take the seat before the Hollow wakes on its own"
-#: scripts/campaign/mission_04.gd:521
+#: scripts/campaign/mission_04.gd:544
 msgid "Take the seat before the Hollow wakes on its own"
 msgstr ""
 
 #. return {"progress": int(hollow), "goal": 100, "counter": "Hollow %d %%" % int(hollow), "position": THRONE_POS}
-#: scripts/campaign/mission_04.gd:532
+#: scripts/campaign/mission_04.gd:555
 msgid "Hollow %d %%"
 msgstr ""
 
 #. var card := _card(&"m4_war", "Mission 4", MISSION_TITLE, lines, THRONE_POS, Vector3(-40.0, 34.0, 46.0),
-#: scripts/campaign/mission_04.gd:694
+#: scripts/campaign/mission_04.gd:717
 msgid "Mission 4"
 msgstr ""
 
 #. _play_card(&"m4_rise", _text_card(&"m4_rise", "The Rise", CARD_RISE_TEXT, THRONE_POS, 45.0), _rise_end_state)
-#: scripts/campaign/mission_04.gd:754
+#: scripts/campaign/mission_04.gd:777
 msgid "The Rise"
 msgstr ""
 
 #. _play_card(&"m4_storm", _text_card(&"m4_storm", "The Darkest Hour", CARD_STORM_TEXT, hero_pos(), 105.0),
-#: scripts/campaign/mission_04.gd:1011
+#: scripts/campaign/mission_04.gd:1034
 msgid "The Darkest Hour"
 msgstr ""
 
 #. hud.show_message("Malrik's army is broken. The Hollow is not.", 4.0)
-#: scripts/campaign/mission_04.gd:1078
+#: scripts/campaign/mission_04.gd:1101
 msgid "Malrik's army is broken. The Hollow is not."
 msgstr ""
 
 #. _play_card(&"ep1_credits", _text_card(&"ep1_credits", "Episode 1 complete", CARD_CREDITS_TEXT,
-#: scripts/campaign/mission_04.gd:1137
+#: scripts/campaign/mission_04.gd:1160
 msgid "Episode 1 complete"
 msgstr ""
 
 #. why = "Cinematics off"
-#: scripts/campaign/mission_base.gd:689
+#: scripts/campaign/mission_base.gd:713
 msgid "Cinematics off"
 msgstr ""
 
 #. why = "No cinematic %s" % id
-#: scripts/campaign/mission_base.gd:691
+#: scripts/campaign/mission_base.gd:715
 msgid "No cinematic %s"
 msgstr ""
 
 #. return "Continue"
-#: scripts/campaign/mission_base.gd:822
+#: scripts/campaign/mission_base.gd:848
 msgid "Continue"
 msgstr ""
 
 #. return "Continue: Mission %d" % int(num)
-#: scripts/campaign/mission_base.gd:823
+#: scripts/campaign/mission_base.gd:849
 msgid "Continue: Mission %d"
 msgstr ""
 
 #. const SAVE_REASON_UNSUPPORTED := "Saving is not supported in this mission"
-#: scripts/campaign/mission_base.gd:1718
+#: scripts/campaign/mission_base.gd:1824
 msgid "Saving is not supported in this mission"
 msgstr ""
 
 #. const SAVE_REASON_SCENE := "Can't save during a scene"
-#: scripts/campaign/mission_base.gd:1719
+#: scripts/campaign/mission_base.gd:1825
 msgid "Can't save during a scene"
 msgstr ""
 
 #. const SAVE_REASON_SCRIPTED := "Can't save now: a scripted event is in progress"
-#: scripts/campaign/mission_base.gd:1720
+#: scripts/campaign/mission_base.gd:1826
 msgid "Can't save now: a scripted event is in progress"
 msgstr ""
 
@@ -2595,7 +2595,7 @@ msgstr ""
 
 #. @export var victory_banner := "VICTORY"
 #: scripts/campaign/mission_config.gd:25 scripts/campaign/mission_e8_muster.gd:89
-#: scripts/world/skirmish.gd:1721
+#: scripts/world/skirmish.gd:1727
 msgid "VICTORY"
 msgstr ""
 
@@ -2834,7 +2834,7 @@ msgstr ""
 
 #. const MSG_TORVALD_FELL := "Torvald has fallen, the frost will bring him back"
 #: scripts/campaign/mission_e2_01.gd:201 scripts/campaign/mission_e2_02.gd:238
-#: scripts/campaign/mission_e2_05.gd:220 scripts/campaign/mission_e4_03.gd:168
+#: scripts/campaign/mission_e2_05.gd:221 scripts/campaign/mission_e4_03.gd:168
 #: scripts/campaign/mission_e4_04.gd:175 scripts/world/skirmish.gd:298
 msgid "Torvald has fallen, the frost will bring him back"
 msgstr ""
@@ -2864,7 +2864,7 @@ msgstr ""
 msgid "Old Vey. Your old teacher, sword and storm: call him at the Citadel and point him at the crowd."
 msgstr ""
 
-#. _folk_type = _make_story_type("thornling", &"wood_folk", "Wood-folk", 45.0, 4.5)
+#. _folk_type = register_local_unit_type(_make_story_type("thornling", &"wood_folk", "Wood-folk", 45.0, 4.5))
 #: scripts/campaign/mission_e2_01.gd:320
 msgid "Wood-folk"
 msgstr ""
@@ -2875,48 +2875,48 @@ msgid "Episode 2, Mission 1: %s"
 msgstr ""
 
 #. t.display_name = "Rime Totem"
-#: scripts/campaign/mission_e2_01.gd:530 scripts/campaign/mission_e4_02.gd:314
-#: scripts/campaign/mission_e4_03.gd:285 scripts/campaign/mission_e4_04.gd:340
+#: scripts/campaign/mission_e2_01.gd:531 scripts/campaign/mission_e4_02.gd:319
+#: scripts/campaign/mission_e4_03.gd:289 scripts/campaign/mission_e4_04.gd:340
 msgid "Rime Totem"
 msgstr ""
 
 #. return "Reach the Heartwood before the frost takes it (%d %%)" % int(frost)
-#: scripts/campaign/mission_e2_01.gd:745
+#: scripts/campaign/mission_e2_01.gd:746
 msgid "Reach the Heartwood before the frost takes it (%d %%)"
 msgstr ""
 
 #. return "Reach the Heartwood before the frost takes it"
-#: scripts/campaign/mission_e2_01.gd:746
+#: scripts/campaign/mission_e2_01.gd:747
 msgid "Reach the Heartwood before the frost takes it"
 msgstr ""
 
 #. return "Hold the Heartwood (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e2_01.gd:750
+#: scripts/campaign/mission_e2_01.gd:751
 msgid "Hold the Heartwood (%d:%02d)"
 msgstr ""
 
 #. return "Hold the Heartwood"
-#: scripts/campaign/mission_e2_01.gd:751
+#: scripts/campaign/mission_e2_01.gd:752
 msgid "Hold the Heartwood"
 msgstr ""
 
 #. return "Bring Ysolde's people to the Emberwatch (%d / 12)" % folk_home if with_counter \
-#: scripts/campaign/mission_e2_01.gd:755
+#: scripts/campaign/mission_e2_01.gd:756
 msgid "Bring Ysolde's people to the Emberwatch (%d / 12)"
 msgstr ""
 
 #. else "Bring Ysolde's people to the Emberwatch"
-#: scripts/campaign/mission_e2_01.gd:756
+#: scripts/campaign/mission_e2_01.gd:757
 msgid "Bring Ysolde's people to the Emberwatch"
 msgstr ""
 
 #. return "Shatter Torvald's Frost Hall"
-#: scripts/campaign/mission_e2_01.gd:758
+#: scripts/campaign/mission_e2_01.gd:759
 msgid "Shatter Torvald's Frost Hall"
 msgstr ""
 
 #. return "Raise a Citadel and call Old Vey"
-#: scripts/campaign/mission_e2_01.gd:760 scripts/campaign/mission_e8_01_fire.gd:198
+#: scripts/campaign/mission_e2_01.gd:761 scripts/campaign/mission_e8_01_fire.gd:198
 msgid "Raise a Citadel and call Old Vey"
 msgstr ""
 
@@ -3250,107 +3250,107 @@ msgid "Send Ysolde: {grove}"
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nTwo banners on one bank"
-#: scripts/campaign/mission_e2_02.gd:349
+#: scripts/campaign/mission_e2_02.gd:350
 msgid "VICTORY\nTwo banners on one bank"
 msgstr ""
 
 #. c.spotlight = {"id": &"ashveil_saboteur", "trigger": &"unlock", "key_hint": "Keep: C",
-#: scripts/campaign/mission_e2_02.gd:354
+#: scripts/campaign/mission_e2_02.gd:355
 msgid "Keep: C"
 msgstr ""
 
 #. "card": "Ashveil Saboteur. Looks like their worker, works for you: blow the hall, stop the army before it's bo
-#: scripts/campaign/mission_e2_02.gd:355
+#: scripts/campaign/mission_e2_02.gd:356
 msgid "Ashveil Saboteur. Looks like their worker, works for you: blow the hall, stop the army before it's born."
 msgstr ""
 
 #. return "Episode 2, Mission 2: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e2_02.gd:410
+#: scripts/campaign/mission_e2_02.gd:411
 msgid "Episode 2, Mission 2: %s"
 msgstr ""
 
 #. var t := _make_story_type("sprigling", &"seed_carrier", "Seed-carrier", 120.0, 4.2)
-#: scripts/campaign/mission_e2_02.gd:675
+#: scripts/campaign/mission_e2_02.gd:676
 msgid "Seed-carrier"
 msgstr ""
 
 #. p.id = StringName("mission_e2_02_%s" % SEAT_NAMES.get(seat, "bot"))
-#: scripts/campaign/mission_e2_02.gd:713
+#: scripts/campaign/mission_e2_02.gd:714
 msgid "mission_e2_02_%s"
 msgstr ""
 
 #. return "Plant Ysolde's groves along Fire's line (%d / 3)" % groves_standing()
-#: scripts/campaign/mission_e2_02.gd:968
+#: scripts/campaign/mission_e2_02.gd:975
 msgid "Plant Ysolde's groves along Fire's line (%d / 3)"
 msgstr ""
 
 #. return "Plant Ysolde's groves along Fire's line"
-#: scripts/campaign/mission_e2_02.gd:969
+#: scripts/campaign/mission_e2_02.gd:976
 msgid "Plant Ysolde's groves along Fire's line"
 msgstr ""
 
 #. return "Break Torvald's forward fort (Rimehold)"
-#: scripts/campaign/mission_e2_02.gd:971
+#: scripts/campaign/mission_e2_02.gd:978
 msgid "Break Torvald's forward fort (Rimehold)"
 msgstr ""
 
 #. return "Hold together against both kingdoms (%d:%02d) (paused: replant)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e2_02.gd:976
+#: scripts/campaign/mission_e2_02.gd:983
 msgid "Hold together against both kingdoms (%d:%02d) (paused: replant)"
 msgstr ""
 
 #. return "Hold together against both kingdoms (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e2_02.gd:977
+#: scripts/campaign/mission_e2_02.gd:984
 msgid "Hold together against both kingdoms (%d:%02d)"
 msgstr ""
 
 #. return "Hold together against both kingdoms"
-#: scripts/campaign/mission_e2_02.gd:978
+#: scripts/campaign/mission_e2_02.gd:985
 msgid "Hold together against both kingdoms"
 msgstr ""
 
 #. return "The Emberwatch must stand"
-#: scripts/campaign/mission_e2_02.gd:982
+#: scripts/campaign/mission_e2_02.gd:989
 msgid "The Emberwatch must stand"
 msgstr ""
 
 #. return "Nature must not fall again"
-#: scripts/campaign/mission_e2_02.gd:984
+#: scripts/campaign/mission_e2_02.gd:991
 msgid "Nature must not fall again"
 msgstr ""
 
 #. return "Lose no more than 2 seed-carriers (%d lost)" % carriers_lost
-#: scripts/campaign/mission_e2_02.gd:987
+#: scripts/campaign/mission_e2_02.gd:994
 msgid "Lose no more than 2 seed-carriers (%d lost)"
 msgstr ""
 
 #. return "Lose no more than 2 seed-carriers"
-#: scripts/campaign/mission_e2_02.gd:988
+#: scripts/campaign/mission_e2_02.gd:995
 msgid "Lose no more than 2 seed-carriers"
 msgstr ""
 
 #. return "Hold 3 capture points at once (%d / 3)" % mini(3, points_held())
-#: scripts/campaign/mission_e2_02.gd:991
+#: scripts/campaign/mission_e2_02.gd:998
 msgid "Hold 3 capture points at once (%d / 3)"
 msgstr ""
 
 #. return "Hold 3 capture points at once"
-#: scripts/campaign/mission_e2_02.gd:992
+#: scripts/campaign/mission_e2_02.gd:999
 msgid "Hold 3 capture points at once"
 msgstr ""
 
 #. return "Unknown grove"
-#: scripts/campaign/mission_e2_02.gd:1169
+#: scripts/campaign/mission_e2_02.gd:1176
 msgid "Unknown grove"
 msgstr ""
 
 #. who = "%s(t%d, %.1f m)" % [u.unit_type.id if u.unit_type else u.name, int(u.team), _flat(u.global_position, s.
-#: scripts/campaign/mission_e2_02.gd:1377
+#: scripts/campaign/mission_e2_02.gd:1384
 msgid "%s(t%d, %.1f m)"
 msgstr ""
 
 #. return "inside %d carriers %d lost %d ysolde %s %s" % [inside, carriers.size(), carriers_lost,
-#: scripts/campaign/mission_e2_02.gd:1378
+#: scripts/campaign/mission_e2_02.gd:1385
 msgid "inside %d carriers %d lost %d ysolde %s %s"
 msgstr ""
 
@@ -3955,112 +3955,112 @@ msgid "Old Vey kneels: he will stand again"
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nThe Sunrise Gate is open"
-#: scripts/campaign/mission_e2_04.gd:295
+#: scripts/campaign/mission_e2_04.gd:297
 msgid "VICTORY\nThe Sunrise Gate is open"
 msgstr ""
 
 #. c.spotlight = {"id": &"fire_forge", "trigger": &"unlock", "key_hint": "Cinder Hand: B then M",
-#: scripts/campaign/mission_e2_04.gd:300
+#: scripts/campaign/mission_e2_04.gd:302
 msgid "Cinder Hand: B then M"
 msgstr ""
 
 #. "card": "Ember Forge. Make every soldier better, for good: armour and steel for the long road down."}
-#: scripts/campaign/mission_e2_04.gd:301
+#: scripts/campaign/mission_e2_04.gd:303
 msgid "Ember Forge. Make every soldier better, for good: armour and steel for the long road down."
 msgstr ""
 
 #. return "Episode 2, Mission 4: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e2_04.gd:322
+#: scripts/campaign/mission_e2_04.gd:324
 msgid "Episode 2, Mission 4: %s"
 msgstr ""
 
 #. t.display_name = "Splinter Acolyte"
-#: scripts/campaign/mission_e2_04.gd:349
+#: scripts/campaign/mission_e2_04.gd:352
 msgid "Splinter Acolyte"
 msgstr ""
 
 #. t.display_name = "Sunwarden" if friend else "Amber Warden"
-#: scripts/campaign/mission_e2_04.gd:365 scripts/campaign/mission_e2_05.gd:505
+#: scripts/campaign/mission_e2_04.gd:383 scripts/campaign/mission_e2_05.gd:506
 msgid "Sunwarden"
 msgstr ""
 
 #. t.display_name = "Sunwarden" if friend else "Amber Warden"
-#: scripts/campaign/mission_e2_04.gd:365
+#: scripts/campaign/mission_e2_04.gd:383
 msgid "Amber Warden"
 msgstr ""
 
 #. t.display_name = "Warden Forge"
-#: scripts/campaign/mission_e2_04.gd:380
+#: scripts/campaign/mission_e2_04.gd:398
 msgid "Warden Forge"
 msgstr ""
 
 #. b.display_name = "Sunstone %s" % String(row[0])
-#: scripts/campaign/mission_e2_04.gd:393
+#: scripts/campaign/mission_e2_04.gd:411
 msgid "Sunstone %s"
 msgstr ""
 
 #. return "Reach the Warden Forge and light its hearth"
-#: scripts/campaign/mission_e2_04.gd:677
+#: scripts/campaign/mission_e2_04.gd:696
 msgid "Reach the Warden Forge and light its hearth"
 msgstr ""
 
 #. return "Research twice at the Ember Forge (%d / 2)" % mini(researches, RESEARCH_GOAL)
-#: scripts/campaign/mission_e2_04.gd:680
+#: scripts/campaign/mission_e2_04.gd:699
 msgid "Research twice at the Ember Forge (%d / 2)"
 msgstr ""
 
 #. return "Research twice at the Ember Forge"
-#: scripts/campaign/mission_e2_04.gd:681
+#: scripts/campaign/mission_e2_04.gd:700
 msgid "Research twice at the Ember Forge"
 msgstr ""
 
 #. return "Open the Sunrise Gate: Vessa and Old Vey together (%d %%, paused)" % int(gate_progress * 100.0)
-#: scripts/campaign/mission_e2_04.gd:685
+#: scripts/campaign/mission_e2_04.gd:704
 msgid "Open the Sunrise Gate: Vessa and Old Vey together (%d %%, paused)"
 msgstr ""
 
 #. return "Open the Sunrise Gate: Vessa and Old Vey together (%d %%)" % int(gate_progress * 100.0)
-#: scripts/campaign/mission_e2_04.gd:686
+#: scripts/campaign/mission_e2_04.gd:705
 msgid "Open the Sunrise Gate: Vessa and Old Vey together (%d %%)"
 msgstr ""
 
 #. return "Open the Sunrise Gate: Vessa and Old Vey together"
-#: scripts/campaign/mission_e2_04.gd:687
+#: scripts/campaign/mission_e2_04.gd:706
 msgid "Open the Sunrise Gate: Vessa and Old Vey together"
 msgstr ""
 
 #. return "The Warden Forge must stand"
-#: scripts/campaign/mission_e2_04.gd:691
+#: scripts/campaign/mission_e2_04.gd:710
 msgid "The Warden Forge must stand"
 msgstr ""
 
 #. return "Wake the Master's Wardens with the storm (%d / 8)" % mini(wardens_woken, WARDEN_GOAL)
-#: scripts/campaign/mission_e2_04.gd:694
+#: scripts/campaign/mission_e2_04.gd:713
 msgid "Wake the Master's Wardens with the storm (%d / 8)"
 msgstr ""
 
 #. return "Wake the Master's Wardens with the storm"
-#: scripts/campaign/mission_e2_04.gd:695
+#: scripts/campaign/mission_e2_04.gd:714
 msgid "Wake the Master's Wardens with the storm"
 msgstr ""
 
 #. return "Light every sunstone (%d / 6)" % stones_lit
-#: scripts/campaign/mission_e2_04.gd:700
+#: scripts/campaign/mission_e2_04.gd:719
 msgid "Light every sunstone (%d / 6)"
 msgstr ""
 
 #. return "Light every sunstone"
-#: scripts/campaign/mission_e2_04.gd:701
+#: scripts/campaign/mission_e2_04.gd:720
 msgid "Light every sunstone"
 msgstr ""
 
 #. _ring(StringName("amber_%d" % key), s.global_position, float(row[1]), Color(1.0, 0.55, 0.1, 0.6))
-#: scripts/campaign/mission_e2_04.gd:980 scripts/campaign/mission_e2_04.gd:983
+#: scripts/campaign/mission_e2_04.gd:1005 scripts/campaign/mission_e2_04.gd:1008
 msgid "amber_%d"
 msgstr ""
 
 #. return "enemy %d" % n if n > 0 else ""
-#: scripts/campaign/mission_e2_04.gd:1334
+#: scripts/campaign/mission_e2_04.gd:1385
 msgid "enemy %d"
 msgstr ""
 
@@ -4070,382 +4070,382 @@ msgid "The Light Below"
 msgstr ""
 
 #. [&"narrator", "Under the roots of the world, a door. And on the other side of it, the one who made it."],
-#: scripts/campaign/mission_e2_05.gd:170
+#: scripts/campaign/mission_e2_05.gd:171
 msgid "Under the roots of the world, a door. And on the other side of it, the one who made it."
 msgstr ""
 
 #. [&"vessa", "That's it. That's the door. Vey, he's right there. Under my feet."],
-#: scripts/campaign/mission_e2_05.gd:171
+#: scripts/campaign/mission_e2_05.gd:172
 msgid "That's it. That's the door. Vey, he's right there. Under my feet."
 msgstr ""
 
 #. [&"vey", "Four seals. Wake them with the relics and the door stands. Let Malrik break them and it falls."],
-#: scripts/campaign/mission_e2_05.gd:172
+#: scripts/campaign/mission_e2_05.gd:173
 msgid "Four seals. Wake them with the relics and the door stands. Let Malrik break them and it falls."
 msgstr ""
 
 #. [&"malrik", "Good evening, Vessa. Mind the statue. It's been waiting a hundred years to stretch its legs."],
-#: scripts/campaign/mission_e2_05.gd:173
+#: scripts/campaign/mission_e2_05.gd:174
 msgid "Good evening, Vessa. Mind the statue. It's been waiting a hundred years to stretch its legs."
 msgstr ""
 
 #. [&"vessa", "One seal! See, Vey? I can be patient. For four seconds at a time."],
-#: scripts/campaign/mission_e2_05.gd:174
+#: scripts/campaign/mission_e2_05.gd:175
 msgid "One seal! See, Vey? I can be patient. For four seconds at a time."
 msgstr ""
 
 #. [&"malrik", "Crack. Do you hear it, Vessa? That is the sound of a lock giving up."],
-#: scripts/campaign/mission_e2_05.gd:175
+#: scripts/campaign/mission_e2_05.gd:176
 msgid "Crack. Do you hear it, Vessa? That is the sound of a lock giving up."
 msgstr ""
 
 #. [&"vey", "Kindle it again, girl. The relics are stronger than his pebble. If you hold them."],
-#: scripts/campaign/mission_e2_05.gd:176
+#: scripts/campaign/mission_e2_05.gd:177
 msgid "Kindle it again, girl. The relics are stronger than his pebble. If you hold them."
 msgstr ""
 
 #. [&"ysolde", "The east seal is mine. Hold the west, Vessa. We have done this before."],
-#: scripts/campaign/mission_e2_05.gd:177
+#: scripts/campaign/mission_e2_05.gd:178
 msgid "The east seal is mine. Hold the west, Vessa. We have done this before."
 msgstr ""
 
 #. [&"ysolde", "Torvald is on my bridge with half of winter. I could use some fire."],
-#: scripts/campaign/mission_e2_05.gd:178
+#: scripts/campaign/mission_e2_05.gd:179
 msgid "Torvald is on my bridge with half of winter. I could use some fire."
 msgstr ""
 
 #. [&"torvald", "I will hold the north stair, Bishop. Do what you came to do, and quickly."],
-#: scripts/campaign/mission_e2_05.gd:179
+#: scripts/campaign/mission_e2_05.gd:180
 msgid "I will hold the north stair, Bishop. Do what you came to do, and quickly."
 msgstr ""
 
 #. [&"aldra", "Rime on the ramp, Torvald. They will not climb it twice."],
-#: scripts/campaign/mission_e2_05.gd:180
+#: scripts/campaign/mission_e2_05.gd:181
 msgid "Rime on the ramp, Torvald. They will not climb it twice."
 msgstr ""
 
 #. [&"hush", "Did you miss me, little ember? I missed you. Twice now."],
-#: scripts/campaign/mission_e2_05.gd:181
+#: scripts/campaign/mission_e2_05.gd:182
 msgid "Did you miss me, little ember? I missed you. Twice now."
 msgstr ""
 
 #. [&"vessa", "A dragon! An actual dragon! Vey, I have a DRAGON."],
-#: scripts/campaign/mission_e2_05.gd:182
+#: scripts/campaign/mission_e2_05.gd:183
 msgid "A dragon! An actual dragon! Vey, I have a DRAGON."
 msgstr ""
 
 #. [&"obren", "Wake, my jailer. The door was always mine to open."],
-#: scripts/campaign/mission_e2_05.gd:183
+#: scripts/campaign/mission_e2_05.gd:184
 msgid "Wake, my jailer. The door was always mine to open."
 msgstr ""
 
 #. [&"malrik", "Torvald, now. Both bridges. Let them choose which kingdom to lose."],
-#: scripts/campaign/mission_e2_05.gd:184
+#: scripts/campaign/mission_e2_05.gd:185
 msgid "Torvald, now. Both bridges. Let them choose which kingdom to lose."
 msgstr ""
 
 #. [&"vey", "Obren's Wardens. They guarded this door before he turned. Now they guard nothing."],
-#: scripts/campaign/mission_e2_05.gd:185
+#: scripts/campaign/mission_e2_05.gd:186
 msgid "Obren's Wardens. They guarded this door before he turned. Now they guard nothing."
 msgstr ""
 
 #. [&"master", "...Vessa?"],
-#: scripts/campaign/mission_e2_05.gd:186
+#: scripts/campaign/mission_e2_05.gd:187
 msgid "...Vessa?"
 msgstr ""
 
 #. [&"malrik", "Dying in the dark. Twice in one war. I am starting to keep count."],
-#: scripts/campaign/mission_e2_05.gd:187
+#: scripts/campaign/mission_e2_05.gd:188
 msgid "Dying in the dark. Twice in one war. I am starting to keep count."
 msgstr ""
 
 #. [&"narrator", "A hundred years the jailer stood over the door. Tonight Malrik's stone told it to open it."],
-#: scripts/campaign/mission_e2_05.gd:188
+#: scripts/campaign/mission_e2_05.gd:189
 msgid "A hundred years the jailer stood over the door. Tonight Malrik's stone told it to open it."
 msgstr ""
 
 #. [&"malrik", "Open it, Mason. Let me see what the Master was so busy guarding."],
-#: scripts/campaign/mission_e2_05.gd:189
+#: scripts/campaign/mission_e2_05.gd:190
 msgid "Open it, Mason. Let me see what the Master was so busy guarding."
 msgstr ""
 
 #. [&"vessa", "Everyone on the door! Nobody touches it but us!"],
-#: scripts/campaign/mission_e2_05.gd:190
+#: scripts/campaign/mission_e2_05.gd:191
 msgid "Everyone on the door! Nobody touches it but us!"
 msgstr ""
 
 #. [&"malrik", "Feed, old stone. Take what you need from me. I have plenty."],
-#: scripts/campaign/mission_e2_05.gd:191
+#: scripts/campaign/mission_e2_05.gd:192
 msgid "Feed, old stone. Take what you need from me. I have plenty."
 msgstr ""
 
 #. [&"vey", "He's holding it up with the shard! Cut the line, girl! Get to Malrik!"],
-#: scripts/campaign/mission_e2_05.gd:192
+#: scripts/campaign/mission_e2_05.gd:193
 msgid "He's holding it up with the shard! Cut the line, girl! Get to Malrik!"
 msgstr ""
 
 #. [&"master", "Hold."],
-#: scripts/campaign/mission_e2_05.gd:193
+#: scripts/campaign/mission_e2_05.gd:194
 msgid "Hold."
 msgstr ""
 
 #. [&"ysolde", "The line is cut! Now, before he crawls back!"],
-#: scripts/campaign/mission_e2_05.gd:194
+#: scripts/campaign/mission_e2_05.gd:195
 msgid "The line is cut! Now, before he crawls back!"
 msgstr ""
 
 #. [&"vey", "Feel that? He's pushing back from below. The spark first, Vessa. Then the storm."],
-#: scripts/campaign/mission_e2_05.gd:195
+#: scripts/campaign/mission_e2_05.gd:196
 msgid "Feel that? He's pushing back from below. The spark first, Vessa. Then the storm."
 msgstr ""
 
 #. [&"vessa", "Then let's give him something to push with. Door! Light! NOW!"],
-#: scripts/campaign/mission_e2_05.gd:196
+#: scripts/campaign/mission_e2_05.gd:197
 msgid "Then let's give him something to push with. Door! Light! NOW!"
 msgstr ""
 
 #. [&"torvald", "This is not what you promised, Bishop. You said a door. Not a jailer."],
-#: scripts/campaign/mission_e2_05.gd:197
+#: scripts/campaign/mission_e2_05.gd:198
 msgid "This is not what you promised, Bishop. You said a door. Not a jailer."
 msgstr ""
 
 #. [&"aldra", "Winter goes home, Torvald. Let the Bishop dig his own grave."],
-#: scripts/campaign/mission_e2_05.gd:198
+#: scripts/campaign/mission_e2_05.gd:199
 msgid "Winter goes home, Torvald. Let the Bishop dig his own grave."
 msgstr ""
 
 #. [&"vessa", "It answered! The Door hit it! He's helping us!"],
-#: scripts/campaign/mission_e2_05.gd:199
+#: scripts/campaign/mission_e2_05.gd:200
 msgid "It answered! The Door hit it! He's helping us!"
 msgstr ""
 
 #. [&"messenger", "The Heartwood's down! But we're still with you!"],
-#: scripts/campaign/mission_e2_05.gd:200
+#: scripts/campaign/mission_e2_05.gd:201
 msgid "The Heartwood's down! But we're still with you!"
 msgstr ""
 
 #. [&"malrik", "Keep your door, Vessa. I have the key, and all the time in the world."],
-#: scripts/campaign/mission_e2_05.gd:201
+#: scripts/campaign/mission_e2_05.gd:202
 msgid "Keep your door, Vessa. I have the key, and all the time in the world."
 msgstr ""
 
 #. [&"ysolde", "It held. Vessa. It held."],
-#: scripts/campaign/mission_e2_05.gd:202
+#: scripts/campaign/mission_e2_05.gd:203
 msgid "It held. Vessa. It held."
 msgstr ""
 
 #. [&"vessa", "Master... I was... so close..."],
-#: scripts/campaign/mission_e2_05.gd:203
+#: scripts/campaign/mission_e2_05.gd:204
 msgid "Master... I was... so close..."
 msgstr ""
 
 #. [&"vey", "Sunfoot's burning! Back to the stair, girl, now!"],
-#: scripts/campaign/mission_e2_05.gd:204
+#: scripts/campaign/mission_e2_05.gd:205
 msgid "Sunfoot's burning! Back to the stair, girl, now!"
 msgstr ""
 
 #. [&"vey", "No knives at our backs tonight. Hush is still licking her wounds. Good."],
-#: scripts/campaign/mission_e2_05.gd:205
+#: scripts/campaign/mission_e2_05.gd:206
 msgid "No knives at our backs tonight. Hush is still licking her wounds. Good."
 msgstr ""
 
 #. [&"vey", "So you do. Point it at the big statue, and try not to name it."],
-#: scripts/campaign/mission_e2_05.gd:206
+#: scripts/campaign/mission_e2_05.gd:207
 msgid "So you do. Point it at the big statue, and try not to name it."
 msgstr ""
 
 #. [&"vessa", "Master?! Master, I'm here! I'm right here!"],
-#: scripts/campaign/mission_e2_05.gd:207
+#: scripts/campaign/mission_e2_05.gd:208
 msgid "Master?! Master, I'm here! I'm right here!"
 msgstr ""
 
 #. "At the bottom of the Sunrise Road the world opens into a cavern so big it has its own weather: warm wind risi
-#: scripts/campaign/mission_e2_05.gd:210
+#: scripts/campaign/mission_e2_05.gd:211
 msgid "At the bottom of the Sunrise Road the world opens into a cavern so big it has its own weather: warm wind rising from a chasm, and in the middle, set in the floor, a round white door that glows like a sunrise."
 msgstr ""
 
 #. "The Master is on the other side, holding it shut. Four old seals ring the door; the relics can wake them. Mal
-#: scripts/campaign/mission_e2_05.gd:211
+#: scripts/campaign/mission_e2_05.gd:212
 msgid "The Master is on the other side, holding it shut. Four old seals ring the door; the relics can wake them. Malrik came down his own stair with Torvald, and the stone in his hand wants that door open."
 msgstr ""
 
 #. "Ysolde's army came down behind Vessa. Two kingdoms on each side of the chasm, and between them, standing over
-#: scripts/campaign/mission_e2_05.gd:212
+#: scripts/campaign/mission_e2_05.gd:213
 msgid "Ysolde's army came down behind Vessa. Two kingdoms on each side of the chasm, and between them, standing over the door like a jailer, a statue as tall as a tower. Its eyes are closed. For now."
 msgstr ""
 
 #. const BRIEFING_LINE := "Kindle the seals around the Door with Vessa. Each seal Malrik cracks brings the jailer
-#: scripts/campaign/mission_e2_05.gd:214
+#: scripts/campaign/mission_e2_05.gd:215
 msgid "Kindle the seals around the Door with Vessa. Each seal Malrik cracks brings the jailer closer to waking."
 msgstr ""
 
 #. const HINT_SEALS := "Kindle a seal: Vessa beside it for 4 s. Malrik can crack them back. Ping Ysolde to help h
-#: scripts/campaign/mission_e2_05.gd:215
+#: scripts/campaign/mission_e2_05.gd:216
 msgid "Kindle a seal: Vessa beside it for 4 s. Malrik can crack them back. Ping Ysolde to help hold them."
 msgstr ""
 
 #. const HINT_ROOST := "The Dragon Roost can be built: Ember Stables first, then the \"Raise the Dragon Roost\" b
-#: scripts/campaign/mission_e2_05.gd:216
+#: scripts/campaign/mission_e2_05.gd:217
 msgid "The Dragon Roost can be built: Ember Stables first, then the \"Raise the Dragon Roost\" button. A Cinder Dragon burns the jailer's Wardens."
 msgstr ""
 
 #. const HINT_NO_STORM := "The Door answers only the storm"
-#: scripts/campaign/mission_e2_05.gd:217
+#: scripts/campaign/mission_e2_05.gd:218
 msgid "The Door answers only the storm"
 msgstr ""
 
 #. const MSG_HALF := "The statue's eyes are warm."
-#: scripts/campaign/mission_e2_05.gd:218
+#: scripts/campaign/mission_e2_05.gd:219
 msgid "The statue's eyes are warm."
 msgstr ""
 
 #. const BUTTON_ROOST := "Raise the Dragon Roost (300)"
-#: scripts/campaign/mission_e2_05.gd:221
+#: scripts/campaign/mission_e2_05.gd:222
 msgid "Raise the Dragon Roost (300)"
 msgstr ""
 
 #. const REFUSE_EARLY := "Available at 8:00"
-#: scripts/campaign/mission_e2_05.gd:222
+#: scripts/campaign/mission_e2_05.gd:223
 msgid "Available at 8:00"
 msgstr ""
 
 #. const REFUSE_STABLES := "Needs Ember Stables"
-#: scripts/campaign/mission_e2_05.gd:223
+#: scripts/campaign/mission_e2_05.gd:224
 msgid "Needs Ember Stables"
 msgstr ""
 
 #. const REFUSE_BUILT := "Already built"
-#: scripts/campaign/mission_e2_05.gd:224 scripts/campaign/mission_e3_04.gd:172
+#: scripts/campaign/mission_e2_05.gd:225 scripts/campaign/mission_e3_04.gd:172
 msgid "Already built"
 msgstr ""
 
 #. const REFUSE_WORKER := "No free Cinder Hand"
-#: scripts/campaign/mission_e2_05.gd:226
+#: scripts/campaign/mission_e2_05.gd:227
 msgid "No free Cinder Hand"
 msgstr ""
 
 #. const REFUSE_SPOT := "No room for the Roost"
-#: scripts/campaign/mission_e2_05.gd:227
+#: scripts/campaign/mission_e2_05.gd:228
 msgid "No room for the Roost"
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nThe Door held"
-#: scripts/campaign/mission_e2_05.gd:334
+#: scripts/campaign/mission_e2_05.gd:335
 msgid "VICTORY\nThe Door held"
 msgstr ""
 
 #. c.spotlight = {"id": &"cinder_dragon", "trigger": &"unlock", "key_hint": "Dragon Roost: Z",
-#: scripts/campaign/mission_e2_05.gd:343
+#: scripts/campaign/mission_e2_05.gd:344
 msgid "Dragon Roost: Z"
 msgstr ""
 
 #. "card": "Cinder Dragon. Fire from the sky: it flies over the Rift and burns what walks below."}
-#: scripts/campaign/mission_e2_05.gd:344
+#: scripts/campaign/mission_e2_05.gd:345
 msgid "Cinder Dragon. Fire from the sky: it flies over the Rift and burns what walks below."
 msgstr ""
 
 #. return "Episode 2, Mission 5: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e2_05.gd:361
+#: scripts/campaign/mission_e2_05.gd:362
 msgid "Episode 2, Mission 5: %s"
 msgstr ""
 
 #. t.display_name = "Cinder Dragon"
-#: scripts/campaign/mission_e2_05.gd:406
+#: scripts/campaign/mission_e2_05.gd:407
 msgid "Cinder Dragon"
 msgstr ""
 
 #. t.display_name = "Dragon Roost"
-#: scripts/campaign/mission_e2_05.gd:439
+#: scripts/campaign/mission_e2_05.gd:440
 msgid "Dragon Roost"
 msgstr ""
 
 #. t.display_name = "The Deep Door"
-#: scripts/campaign/mission_e2_05.gd:461
+#: scripts/campaign/mission_e2_05.gd:462
 msgid "The Deep Door"
 msgstr ""
 
 #. t.display_name = "The Doorwarden"
-#: scripts/campaign/mission_e2_05.gd:481
+#: scripts/campaign/mission_e2_05.gd:482
 msgid "The Doorwarden"
 msgstr ""
 
 #. b.brazier_id = StringName("sun_%d" % sunstones.size())
-#: scripts/campaign/mission_e2_05.gd:635
+#: scripts/campaign/mission_e2_05.gd:636
 msgid "sun_%d"
 msgstr ""
 
 #. b.display_name = "Sunstone"
-#: scripts/campaign/mission_e2_05.gd:636
+#: scripts/campaign/mission_e2_05.gd:637
 msgid "Sunstone"
 msgstr ""
 
 #. p.id = StringName("mission_e2_05_%s" % SEAT_NAMES.get(seat, "bot"))
-#: scripts/campaign/mission_e2_05.gd:887
+#: scripts/campaign/mission_e2_05.gd:889
 msgid "mission_e2_05_%s"
 msgstr ""
 
 #. var head := "Kindle the Door's seals (%d / 4 white-gold · %d amber)" % [seal_count(&"gold"), seal_count(&"ambe
-#: scripts/campaign/mission_e2_05.gd:972
+#: scripts/campaign/mission_e2_05.gd:974
 msgid "Kindle the Door's seals (%d / 4 white-gold · %d amber)"
 msgstr ""
 
 #. return "%s\n%s" % [head, "The Doorwarden stirs: %d %%" % int(wake)]
-#: scripts/campaign/mission_e2_05.gd:973
+#: scripts/campaign/mission_e2_05.gd:975
 msgid "The Doorwarden stirs: %d %%"
 msgstr ""
 
 #. return "Kindle the Door's seals"
-#: scripts/campaign/mission_e2_05.gd:974
+#: scripts/campaign/mission_e2_05.gd:976
 msgid "Kindle the Door's seals"
 msgstr ""
 
 #. return "The Deep Door must hold (%d %%)" % int(100.0 * door.hp / maxf(1.0, door.max_hp))
-#: scripts/campaign/mission_e2_05.gd:977
+#: scripts/campaign/mission_e2_05.gd:979
 msgid "The Deep Door must hold (%d %%)"
 msgstr ""
 
 #. return "The Deep Door must hold"
-#: scripts/campaign/mission_e2_05.gd:978
+#: scripts/campaign/mission_e2_05.gd:980
 msgid "The Deep Door must hold"
 msgstr ""
 
 #. return "Stop the Doorwarden (%d %%)" % int(100.0 * boss.hp / maxf(1.0, boss.max_hp))
-#: scripts/campaign/mission_e2_05.gd:981
+#: scripts/campaign/mission_e2_05.gd:983
 msgid "Stop the Doorwarden (%d %%)"
 msgstr ""
 
 #. return "Stop the Doorwarden"
-#: scripts/campaign/mission_e2_05.gd:982
+#: scripts/campaign/mission_e2_05.gd:984
 msgid "Stop the Doorwarden"
 msgstr ""
 
 #. return "Break Malrik's tether: kill him or drive him off"
-#: scripts/campaign/mission_e2_05.gd:984
+#: scripts/campaign/mission_e2_05.gd:986
 msgid "Break Malrik's tether: kill him or drive him off"
 msgstr ""
 
 #. return "Stand Vessa by the Door with Old Vey: the Door will strike"
-#: scripts/campaign/mission_e2_05.gd:986
+#: scripts/campaign/mission_e2_05.gd:988
 msgid "Stand Vessa by the Door with Old Vey: the Door will strike"
 msgstr ""
 
 #. return "Sunfoot must stand"
-#: scripts/campaign/mission_e2_05.gd:990
+#: scripts/campaign/mission_e2_05.gd:992
 msgid "Sunfoot must stand"
 msgstr ""
 
 #. return "All four seals white-gold when the jailer wakes"
-#: scripts/campaign/mission_e2_05.gd:992
+#: scripts/campaign/mission_e2_05.gd:994
 msgid "All four seals white-gold when the jailer wakes"
 msgstr ""
 
 #. return "Keep the Door above half its light"
-#: scripts/campaign/mission_e2_05.gd:994
+#: scripts/campaign/mission_e2_05.gd:996
 msgid "Keep the Door above half its light"
 msgstr ""
 
 #. return "Raise a Cinder Dragon"
-#: scripts/campaign/mission_e2_05.gd:996
+#: scripts/campaign/mission_e2_05.gd:998
 msgid "Raise a Cinder Dragon"
 msgstr ""
 
@@ -4675,85 +4675,85 @@ msgid "Episode 3, Mission 1: %s"
 msgstr ""
 
 #. t.display_name = "Horn Spire"
-#: scripts/campaign/mission_e3_01.gd:303 scripts/campaign/mission_e4_01.gd:345
+#: scripts/campaign/mission_e3_01.gd:304 scripts/campaign/mission_e4_01.gd:351
 msgid "Horn Spire"
 msgstr ""
 
 #. {"id": &"ford_stone", "name": "Stone Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_STONE, "width": 9.0}
-#: scripts/campaign/mission_e3_01.gd:453 scripts/campaign/mission_e3_01.gd:651
-#: scripts/campaign/mission_e4_01.gd:816
+#: scripts/campaign/mission_e3_01.gd:454 scripts/campaign/mission_e3_01.gd:659
+#: scripts/campaign/mission_e4_01.gd:822
 msgid "Stone Ford"
 msgstr ""
 
 #. {"id": &"ford_reed", "name": "Reed Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_REED, "width": 6.0},
-#: scripts/campaign/mission_e3_01.gd:454 scripts/world/skirmish.gd:151
+#: scripts/campaign/mission_e3_01.gd:455 scripts/world/skirmish.gd:151
 msgid "Reed Ford"
 msgstr ""
 
 #. {"id": &"ford_birch", "name": "Birch Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_BIRCH, "width": 6.0}
-#: scripts/campaign/mission_e3_01.gd:455
+#: scripts/campaign/mission_e3_01.gd:456
 msgid "Birch Ford"
 msgstr ""
 
 #. p.id = StringName("mission_e3_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
-#: scripts/campaign/mission_e3_01.gd:608
+#: scripts/campaign/mission_e3_01.gd:616
 msgid "mission_e3_01_%s"
 msgstr ""
 
 #. return "Take the Stone Ford (%d %%)" % int(100.0 * ford_zone.progress)
-#: scripts/campaign/mission_e3_01.gd:699
+#: scripts/campaign/mission_e3_01.gd:709
 msgid "Take the Stone Ford (%d %%)"
 msgstr ""
 
 #. return "Take the Stone Ford"
-#: scripts/campaign/mission_e3_01.gd:700
+#: scripts/campaign/mission_e3_01.gd:710
 msgid "Take the Stone Ford"
 msgstr ""
 
 #. return "Take the foot of Lark Hill (%d / 3)" % standards_owned()
-#: scripts/campaign/mission_e3_01.gd:703
+#: scripts/campaign/mission_e3_01.gd:713
 msgid "Take the foot of Lark Hill (%d / 3)"
 msgstr ""
 
 #. return "Take the foot of Lark Hill"
-#: scripts/campaign/mission_e3_01.gd:704
+#: scripts/campaign/mission_e3_01.gd:714
 msgid "Take the foot of Lark Hill"
 msgstr ""
 
 #. return "Hold the foot of Lark Hill (%d:%02d, paused)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e3_01.gd:709
+#: scripts/campaign/mission_e3_01.gd:719
 msgid "Hold the foot of Lark Hill (%d:%02d, paused)"
 msgstr ""
 
 #. return "Hold the foot of Lark Hill (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e3_01.gd:710
+#: scripts/campaign/mission_e3_01.gd:720
 msgid "Hold the foot of Lark Hill (%d:%02d)"
 msgstr ""
 
 #. return "Hold the foot of Lark Hill"
-#: scripts/campaign/mission_e3_01.gd:711
+#: scripts/campaign/mission_e3_01.gd:721
 msgid "Hold the foot of Lark Hill"
 msgstr ""
 
 #. return "Malrik must survive"
-#: scripts/campaign/mission_e3_01.gd:713 scripts/campaign/mission_e3_02.gd:601
-#: scripts/campaign/mission_e3_03.gd:476 scripts/campaign/mission_e3_04.gd:662
-#: scripts/campaign/mission_e8_01_shadow.gd:196
+#: scripts/campaign/mission_e3_01.gd:723 scripts/campaign/mission_e3_02.gd:604
+#: scripts/campaign/mission_e3_03.gd:479 scripts/campaign/mission_e3_04.gd:672
+#: scripts/campaign/mission_e8_01_shadow.gd:200
 msgid "Malrik must survive"
 msgstr ""
 
 #. return "Silence the Lark horns (%d / 2)" % horns_down
-#: scripts/campaign/mission_e3_01.gd:716
+#: scripts/campaign/mission_e3_01.gd:726
 msgid "Silence the Lark horns (%d / 2)"
 msgstr ""
 
 #. return "Silence the Lark horns"
-#: scripts/campaign/mission_e3_01.gd:717
+#: scripts/campaign/mission_e3_01.gd:727
 msgid "Silence the Lark horns"
 msgstr ""
 
 #. return "Drive Vessa off the field"
-#: scripts/campaign/mission_e3_01.gd:719
+#: scripts/campaign/mission_e3_01.gd:729
 msgid "Drive Vessa off the field"
 msgstr ""
 
@@ -5036,52 +5036,52 @@ msgid "Villager Tents"
 msgstr ""
 
 #. return "%s\n%s" % ["Spoil the supply wagons before dawn (%d / 4)" % wagons_spoiled(), "Dawn in %d:%02d" % [s /
-#: scripts/campaign/mission_e3_02.gd:591
+#: scripts/campaign/mission_e3_02.gd:594
 msgid "Spoil the supply wagons before dawn (%d / 4)"
 msgstr ""
 
 #. return "%s\n%s" % ["Spoil the supply wagons before dawn (%d / 4)" % wagons_spoiled(), "Dawn in %d:%02d" % [s /
-#: scripts/campaign/mission_e3_02.gd:591
+#: scripts/campaign/mission_e3_02.gd:594
 msgid "Dawn in %d:%02d"
 msgstr ""
 
 #. return "Spoil the supply wagons before dawn"
-#: scripts/campaign/mission_e3_02.gd:592
+#: scripts/campaign/mission_e3_02.gd:595
 msgid "Spoil the supply wagons before dawn"
 msgstr ""
 
 #. return "Mother Hush must survive"
-#: scripts/campaign/mission_e3_02.gd:594
+#: scripts/campaign/mission_e3_02.gd:597
 msgid "Mother Hush must survive"
 msgstr ""
 
 #. return "Hold the ridge until the sun is up (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e3_02.gd:598
+#: scripts/campaign/mission_e3_02.gd:601
 msgid "Hold the ridge until the sun is up (%d:%02d)"
 msgstr ""
 
 #. return "Hold the ridge until the sun is up"
-#: scripts/campaign/mission_e3_02.gd:599
+#: scripts/campaign/mission_e3_02.gd:602
 msgid "Hold the ridge until the sun is up"
 msgstr ""
 
 #. return "%s (%s)" % ["Never wake the camp", "Alarm %d / %d" % [alarms, int(by_difficulty(ALARMS_TO_WAKE))]]
-#: scripts/campaign/mission_e3_02.gd:604 scripts/campaign/mission_e3_02.gd:605
+#: scripts/campaign/mission_e3_02.gd:607 scripts/campaign/mission_e3_02.gd:608
 msgid "Never wake the camp"
 msgstr ""
 
 #. return "%s (%s)" % ["Never wake the camp", "Alarm %d / %d" % [alarms, int(by_difficulty(ALARMS_TO_WAKE))]]
-#: scripts/campaign/mission_e3_02.gd:604
+#: scripts/campaign/mission_e3_02.gd:607
 msgid "Alarm %d / %d"
 msgstr ""
 
 #. return "Spare the villagers' tents"
-#: scripts/campaign/mission_e3_02.gd:607
+#: scripts/campaign/mission_e3_02.gd:610
 msgid "Spare the villagers' tents"
 msgstr ""
 
 #. return "Call Mother Hush from the Citadel (V)"
-#: scripts/campaign/mission_e3_02.gd:609
+#: scripts/campaign/mission_e3_02.gd:612
 msgid "Call Mother Hush from the Citadel (V)"
 msgstr ""
 
@@ -5366,62 +5366,62 @@ msgid "Episode 3, Mission 3: %s"
 msgstr ""
 
 #. t.display_name = "Great Crypt"
-#: scripts/campaign/mission_e3_03.gd:261
+#: scripts/campaign/mission_e3_03.gd:264
 msgid "Great Crypt"
 msgstr ""
 
 #. t.display_name = "Gravewarden"
-#: scripts/campaign/mission_e3_03.gd:278 scripts/campaign/mission_e5_03.gd:261
+#: scripts/campaign/mission_e3_03.gd:281 scripts/campaign/mission_e5_03.gd:261
 msgid "Gravewarden"
 msgstr ""
 
 #. t.display_name = "The Sexton"
-#: scripts/campaign/mission_e3_03.gd:295
+#: scripts/campaign/mission_e3_03.gd:298
 msgid "The Sexton"
 msgstr ""
 
 #. return "The Great Crypt must stand (%d %%)" % int(100.0 * crypt.hp / maxf(1.0, crypt.max_hp))
-#: scripts/campaign/mission_e3_03.gd:462
+#: scripts/campaign/mission_e3_03.gd:465
 msgid "The Great Crypt must stand (%d %%)"
 msgstr ""
 
 #. return "The Great Crypt must stand"
-#: scripts/campaign/mission_e3_03.gd:463
+#: scripts/campaign/mission_e3_03.gd:466
 msgid "The Great Crypt must stand"
 msgstr ""
 
 #. var head := "Relight the barrow vigils (%d / 4)" % candles_lit()
-#: scripts/campaign/mission_e3_03.gd:466
+#: scripts/campaign/mission_e3_03.gd:469
 msgid "Relight the barrow vigils (%d / 4)"
 msgstr ""
 
 #. return "%s\n%s" % [head, "The stone's hold: %d %%" % int(stone_hold)]
-#: scripts/campaign/mission_e3_03.gd:468 scripts/campaign/mission_e3_04.gd:652
+#: scripts/campaign/mission_e3_03.gd:471 scripts/campaign/mission_e3_04.gd:662
 msgid "The stone's hold: %d %%"
 msgstr ""
 
 #. return "Relight the barrow vigils"
-#: scripts/campaign/mission_e3_03.gd:470
+#: scripts/campaign/mission_e3_03.gd:473
 msgid "Relight the barrow vigils"
 msgstr ""
 
 #. return "Lay the Sexton to rest (%d %%)" % int(100.0 * sexton.hp / maxf(1.0, sexton.max_hp))
-#: scripts/campaign/mission_e3_03.gd:473
+#: scripts/campaign/mission_e3_03.gd:476
 msgid "Lay the Sexton to rest (%d %%)"
 msgstr ""
 
 #. return "Lay the Sexton to rest"
-#: scripts/campaign/mission_e3_03.gd:474
+#: scripts/campaign/mission_e3_03.gd:477
 msgid "Lay the Sexton to rest"
 msgstr ""
 
 #. return "Refuse the stone: win without its power"
-#: scripts/campaign/mission_e3_03.gd:478
+#: scripts/campaign/mission_e3_03.gd:481
 msgid "Refuse the stone: win without its power"
 msgstr ""
 
 #. return "Keep the Great Crypt above half"
-#: scripts/campaign/mission_e3_03.gd:480
+#: scripts/campaign/mission_e3_03.gd:483
 msgid "Keep the Great Crypt above half"
 msgstr ""
 
@@ -5696,52 +5696,52 @@ msgid "Episode 3, Mission 4: %s"
 msgstr ""
 
 #. t.display_name = "Nightmare Knight"
-#: scripts/campaign/mission_e3_04.gd:319
+#: scripts/campaign/mission_e3_04.gd:321
 msgid "Nightmare Knight"
 msgstr ""
 
 #. t.display_name = "Dread Paddock"
-#: scripts/campaign/mission_e3_04.gd:347
+#: scripts/campaign/mission_e3_04.gd:349
 msgid "Dread Paddock"
 msgstr ""
 
 #. p.id = StringName("mission_e3_04_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
-#: scripts/campaign/mission_e3_04.gd:588
+#: scripts/campaign/mission_e3_04.gd:598
 msgid "mission_e3_04_%s"
 msgstr ""
 
 #. return "%s\n%s" % ["Break Old Vey's storm (%d / 3)" % breaks, "The stone's hold: %d %%" % int(stone_hold)]
-#: scripts/campaign/mission_e3_04.gd:652
+#: scripts/campaign/mission_e3_04.gd:662
 msgid "Break Old Vey's storm (%d / 3)"
 msgstr ""
 
 #. return "Break Old Vey's storm"
-#: scripts/campaign/mission_e3_04.gd:653
+#: scripts/campaign/mission_e3_04.gd:663
 msgid "Break Old Vey's storm"
 msgstr ""
 
 #. return "Hold the ridge watch points (%d / 3)" % watch_owned()
-#: scripts/campaign/mission_e3_04.gd:659
+#: scripts/campaign/mission_e3_04.gd:669
 msgid "Hold the ridge watch points (%d / 3)"
 msgstr ""
 
 #. return "Hold the ridge watch points"
-#: scripts/campaign/mission_e3_04.gd:660
+#: scripts/campaign/mission_e3_04.gd:670
 msgid "Hold the ridge watch points"
 msgstr ""
 
 #. return "Ride down the storm: hit Old Vey with a Nightmare Knight's charge"
-#: scripts/campaign/mission_e3_04.gd:664
+#: scripts/campaign/mission_e3_04.gd:674
 msgid "Ride down the storm: hit Old Vey with a Nightmare Knight's charge"
 msgstr ""
 
 #. return "Refuse the stone again: win without its power"
-#: scripts/campaign/mission_e3_04.gd:666
+#: scripts/campaign/mission_e3_04.gd:676
 msgid "Refuse the stone again: win without its power"
 msgstr ""
 
 #. "detail": Loc.t("{saved} saved · {lost} lost · {out} still out",
-#: scripts/campaign/mission_e4_01.gd:905
+#: scripts/campaign/mission_e4_01.gd:913
 msgid "{saved} saved · {lost} lost · {out} still out"
 msgstr ""
 
@@ -6066,64 +6066,64 @@ msgid "Meadow folk"
 msgstr ""
 
 #. return "Bring the villagers to the golden tree (%d / 30 · at least %d)" % [folk_saved, folk_needed()]
-#: scripts/campaign/mission_e4_01.gd:879
+#: scripts/campaign/mission_e4_01.gd:887
 msgid "Bring the villagers to the golden tree (%d / 30 · at least %d)"
 msgstr ""
 
 #. return "Bring the villagers to the golden tree"
-#: scripts/campaign/mission_e4_01.gd:880
+#: scripts/campaign/mission_e4_01.gd:888
 msgid "Bring the villagers to the golden tree"
 msgstr ""
 
 #. return "The Master's tree must stand"
-#: scripts/campaign/mission_e4_01.gd:882
+#: scripts/campaign/mission_e4_01.gd:890
 msgid "The Master's tree must stand"
 msgstr ""
 
 #. return "Hold Lark Hill until nightfall (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e4_01.gd:886
+#: scripts/campaign/mission_e4_01.gd:894
 msgid "Hold Lark Hill until nightfall (%d:%02d)"
 msgstr ""
 
 #. return "Hold Lark Hill until nightfall"
-#: scripts/campaign/mission_e4_01.gd:887
+#: scripts/campaign/mission_e4_01.gd:895
 msgid "Hold Lark Hill until nightfall"
 msgstr ""
 
 #. return "Ysolde must survive"
-#: scripts/campaign/mission_e4_01.gd:889 scripts/campaign/mission_e4_02.gd:646
-#: scripts/campaign/mission_e4_03.gd:652 scripts/campaign/mission_e4_04.gd:814
-#: scripts/campaign/mission_e6_03.gd:464 scripts/campaign/mission_e6_04.gd:462
+#: scripts/campaign/mission_e4_01.gd:897 scripts/campaign/mission_e4_02.gd:649
+#: scripts/campaign/mission_e4_03.gd:656 scripts/campaign/mission_e4_04.gd:818
+#: scripts/campaign/mission_e6_03.gd:472 scripts/campaign/mission_e6_04.gd:462
 msgid "Ysolde must survive"
 msgstr ""
 
 #. return "Hold the Stone Ford until the evening horn (%d %%)" % int(100.0 * ford_zone.progress)
-#: scripts/campaign/mission_e4_01.gd:892
+#: scripts/campaign/mission_e4_01.gd:900
 msgid "Hold the Stone Ford until the evening horn (%d %%)"
 msgstr ""
 
 #. return "Hold the Stone Ford until the evening horn"
-#: scripts/campaign/mission_e4_01.gd:893
+#: scripts/campaign/mission_e4_01.gd:901
 msgid "Hold the Stone Ford until the evening horn"
 msgstr ""
 
 #. return "Keep the Lark horns sounding (%d / 2)" % _horns_alive()
-#: scripts/campaign/mission_e4_01.gd:896
+#: scripts/campaign/mission_e4_01.gd:904
 msgid "Keep the Lark horns sounding (%d / 2)"
 msgstr ""
 
 #. return "Keep the Lark horns sounding"
-#: scripts/campaign/mission_e4_01.gd:897
+#: scripts/campaign/mission_e4_01.gd:905
 msgid "Keep the Lark horns sounding"
 msgstr ""
 
 #. detail = Loc.t("Next convoy at {time} (ring the Lantern to send it now)",
-#: scripts/campaign/mission_e4_02.gd:665
+#: scripts/campaign/mission_e4_02.gd:668
 msgid "Next convoy at {time} (ring the Lantern to send it now)"
 msgstr ""
 
 #. "detail": "%s · %s" % [Loc.t("{arrived} arrived · {lost} lost · {road} on the road",
-#: scripts/campaign/mission_e4_02.gd:668
+#: scripts/campaign/mission_e4_02.gd:671
 msgid "{arrived} arrived · {lost} lost · {road} on the road"
 msgstr ""
 
@@ -6363,37 +6363,37 @@ msgid "Episode 4, Mission 2: %s"
 msgstr ""
 
 #. t.display_name = "Cinderwatch"
-#: scripts/campaign/mission_e4_02.gd:334
+#: scripts/campaign/mission_e4_02.gd:339
 msgid "Cinderwatch"
 msgstr ""
 
 #. return "Walk the people to Cinderwatch (%d / %d · at least %d)" % [arrived, folk_total, folk_needed]
-#: scripts/campaign/mission_e4_02.gd:643
+#: scripts/campaign/mission_e4_02.gd:646
 msgid "Walk the people to Cinderwatch (%d / %d · at least %d)"
 msgstr ""
 
 #. return "Walk the people to Cinderwatch"
-#: scripts/campaign/mission_e4_02.gd:644
+#: scripts/campaign/mission_e4_02.gd:647
 msgid "Walk the people to Cinderwatch"
 msgstr ""
 
 #. return "Raise a Citadel and call Maelis"
-#: scripts/campaign/mission_e4_02.gd:648
+#: scripts/campaign/mission_e4_02.gd:651
 msgid "Raise a Citadel and call Maelis"
 msgstr ""
 
 #. return "Thaw the Frozen Brook (%d / 2)" % (2 - _totems_alive())
-#: scripts/campaign/mission_e4_02.gd:651
+#: scripts/campaign/mission_e4_02.gd:654
 msgid "Thaw the Frozen Brook (%d / 2)"
 msgstr ""
 
 #. return "Thaw the Frozen Brook"
-#: scripts/campaign/mission_e4_02.gd:652
+#: scripts/campaign/mission_e4_02.gd:655
 msgid "Thaw the Frozen Brook"
 msgstr ""
 
 #. return "Burn the hunters' Gloom Hall"
-#: scripts/campaign/mission_e4_02.gd:654
+#: scripts/campaign/mission_e4_02.gd:657
 msgid "Burn the hunters' Gloom Hall"
 msgstr ""
 
@@ -6628,52 +6628,52 @@ msgid "Episode 4, Mission 3: %s"
 msgstr ""
 
 #. t.display_name = "Glass Spire"
-#: scripts/campaign/mission_e4_03.gd:305 scripts/campaign/mission_e4_04.gd:319
+#: scripts/campaign/mission_e4_03.gd:309 scripts/campaign/mission_e4_04.gd:319
 msgid "Glass Spire"
 msgstr ""
 
 #. t.display_name = "Emberwatch"
-#: scripts/campaign/mission_e4_03.gd:321
+#: scripts/campaign/mission_e4_03.gd:325
 msgid "Emberwatch"
 msgstr ""
 
 #. return "Regrow the groves of the Sighing Wood (%d / 5 green at once)" % groves_grown()
-#: scripts/campaign/mission_e4_03.gd:641
+#: scripts/campaign/mission_e4_03.gd:645
 msgid "Regrow the groves of the Sighing Wood (%d / 5 green at once)"
 msgstr ""
 
 #. return "Regrow the groves of the Sighing Wood"
-#: scripts/campaign/mission_e4_03.gd:642
+#: scripts/campaign/mission_e4_03.gd:646
 msgid "Regrow the groves of the Sighing Wood"
 msgstr ""
 
 #. return "Hold the groves until the wood answers (%d:%02d · at least %d standing, paused)" % [s / 60, s % 60, ne
-#: scripts/campaign/mission_e4_03.gd:648
+#: scripts/campaign/mission_e4_03.gd:652
 msgid "Hold the groves until the wood answers (%d:%02d · at least %d standing, paused)"
 msgstr ""
 
 #. return "Hold the groves until the wood answers (%d:%02d · at least %d standing)" % [s / 60, s % 60, need]
-#: scripts/campaign/mission_e4_03.gd:649
+#: scripts/campaign/mission_e4_03.gd:653
 msgid "Hold the groves until the wood answers (%d:%02d · at least %d standing)"
 msgstr ""
 
 #. return "Hold the groves until the wood answers"
-#: scripts/campaign/mission_e4_03.gd:650
+#: scripts/campaign/mission_e4_03.gd:654
 msgid "Hold the groves until the wood answers"
 msgstr ""
 
 #. return "Shatter Aldra's Glass Spire"
-#: scripts/campaign/mission_e4_03.gd:654
+#: scripts/campaign/mission_e4_03.gd:658
 msgid "Shatter Aldra's Glass Spire"
 msgstr ""
 
 #. return "Lose no grove once it is green"
-#: scripts/campaign/mission_e4_03.gd:656
+#: scripts/campaign/mission_e4_03.gd:660
 msgid "Lose no grove once it is green"
 msgstr ""
 
 #. st = "rooting %d %%" % int(100.0 * float(g["root"]))
-#: scripts/campaign/mission_e4_03.gd:670
+#: scripts/campaign/mission_e4_03.gd:674
 msgid "rooting %d %%"
 msgstr ""
 
@@ -6968,37 +6968,37 @@ msgid "Wallwarden"
 msgstr ""
 
 #. return "Break the Wall of a Hundred Winters (Wallwardens %d / 2 · Winterheart open)" % wardens_down
-#: scripts/campaign/mission_e4_04.gd:808
+#: scripts/campaign/mission_e4_04.gd:812
 msgid "Break the Wall of a Hundred Winters (Wallwardens %d / 2 · Winterheart open)"
 msgstr ""
 
 #. return "Break the Wall of a Hundred Winters (Wallwardens %d / 2 · Winterheart frost-bound)" % wardens_down
-#: scripts/campaign/mission_e4_04.gd:809
+#: scripts/campaign/mission_e4_04.gd:813
 msgid "Break the Wall of a Hundred Winters (Wallwardens %d / 2 · Winterheart frost-bound)"
 msgstr ""
 
 #. return "Break the Wall of a Hundred Winters"
-#: scripts/campaign/mission_e4_04.gd:810
+#: scripts/campaign/mission_e4_04.gd:814
 msgid "Break the Wall of a Hundred Winters"
 msgstr ""
 
 #. return "Bring Ysolde to Aldra's Glass Spire"
-#: scripts/campaign/mission_e4_04.gd:812
+#: scripts/campaign/mission_e4_04.gd:816
 msgid "Bring Ysolde to Aldra's Glass Spire"
 msgstr ""
 
 #. return "Wake the Sleeping Elder"
-#: scripts/campaign/mission_e4_04.gd:816
+#: scripts/campaign/mission_e4_04.gd:820
 msgid "Wake the Sleeping Elder"
 msgstr ""
 
 #. return "Break both Frost Halls (%d / 2)" % (2 - _halls_alive())
-#: scripts/campaign/mission_e4_04.gd:819
+#: scripts/campaign/mission_e4_04.gd:823
 msgid "Break both Frost Halls (%d / 2)"
 msgstr ""
 
 #. return "Break both Frost Halls"
-#: scripts/campaign/mission_e4_04.gd:820
+#: scripts/campaign/mission_e4_04.gd:824
 msgid "Break both Frost Halls"
 msgstr ""
 
@@ -7868,9 +7868,9 @@ msgstr ""
 msgid "Shades burn in any light. Keep them in the dark; send them to breathe out lamps."
 msgstr ""
 
-#. const HINT_SEEN := "Seen! Get back into the dark and stay there: the wardens lose you after 6 seconds."
+#. const HINT_SEEN := "Seen! Get back into the dark and stay there: the wardens lose you after {n} seconds."
 #: scripts/campaign/mission_e5_03.gd:163
-msgid "Seen! Get back into the dark and stay there: the wardens lose you after 6 seconds."
+msgid "Seen! Get back into the dark and stay there: the wardens lose you after {n} seconds."
 msgstr ""
 
 #. const HINT_BELL := "The Bell is on the Lantern House porch, between two lamps and two wardens."
@@ -7959,7 +7959,7 @@ msgid "Reeve Aldous Pike"
 msgstr ""
 
 #. local_unit("magpie", "grave_robber", "Magpie", {"aggro_range": 8.0, "kill_xp": 40, "commandable": false})
-#: scripts/campaign/mission_e5_03.gd:267 data/units/magpie.tres:9 scripts/world/hunters_guild.gd:581
+#: scripts/campaign/mission_e5_03.gd:267 data/units/magpie.tres:9 scripts/world/hunters_guild.gd:601
 msgid "Magpie"
 msgstr ""
 
@@ -8495,7 +8495,7 @@ msgid "The shore has room for three lodges"
 msgstr ""
 
 #. const MSG_WALLS := "No more ice for walls this winter"
-#: scripts/campaign/mission_e6_01.gd:137 scripts/campaign/mission_e6_02.gd:132
+#: scripts/campaign/mission_e6_01.gd:137 scripts/campaign/mission_e6_02.gd:133
 msgid "No more ice for walls this winter"
 msgstr ""
 
@@ -8515,7 +8515,7 @@ msgid "Sentinel"
 msgstr ""
 
 #. _rime_keep_type = MissionE5Base.local_building("ice_keep", "ice_keep", "Rime Keep", 3000.0, true)
-#: scripts/campaign/mission_e6_01.gd:236 scripts/campaign/mission_e6_02.gd:290
+#: scripts/campaign/mission_e6_01.gd:236 scripts/campaign/mission_e6_02.gd:292
 #: data/buildings/ice_keep.tres:9
 msgid "Rime Keep"
 msgstr ""
@@ -8526,7 +8526,7 @@ msgid "Stillwater Longhouse"
 msgstr ""
 
 #. c.keep_lost_message = "The Rime Keep has fallen"
-#: scripts/campaign/mission_e6_01.gd:251 scripts/campaign/mission_e6_02.gd:304
+#: scripts/campaign/mission_e6_01.gd:251 scripts/campaign/mission_e6_02.gd:306
 msgid "The Rime Keep has fallen"
 msgstr ""
 
@@ -8551,7 +8551,7 @@ msgid "Episode 6, Mission 1: %s"
 msgstr ""
 
 #. heartfrost = add_target(HEART_POS, float(HEART_HP[diff]), float(HEART_REGEN[diff]), _heart_regens, "The Heartf
-#: scripts/campaign/mission_e6_01.gd:357 scripts/campaign/mission_e6_02.gd:420
+#: scripts/campaign/mission_e6_01.gd:357 scripts/campaign/mission_e6_02.gd:422
 #: scripts/campaign/mission_e6_base.gd:28
 msgid "The Heartfrost"
 msgstr ""
@@ -8572,17 +8572,17 @@ msgid "Keep the Heartfrost through three winters (thaw: winter in %s)"
 msgstr ""
 
 #. return "The Heartfrost must not fall (%d %%)" % int(round(heartfrost.ratio() * 100.0))
-#: scripts/campaign/mission_e6_01.gd:525 scripts/campaign/mission_e6_02.gd:508
+#: scripts/campaign/mission_e6_01.gd:525 scripts/campaign/mission_e6_02.gd:510
 msgid "The Heartfrost must not fall (%d %%)"
 msgstr ""
 
 #. return "The Heartfrost must not fall"
-#: scripts/campaign/mission_e6_01.gd:526 scripts/campaign/mission_e6_02.gd:509
+#: scripts/campaign/mission_e6_01.gd:526 scripts/campaign/mission_e6_02.gd:511
 msgid "The Heartfrost must not fall"
 msgstr ""
 
 #. return "Torvald must survive"
-#: scripts/campaign/mission_e6_01.gd:528 scripts/campaign/mission_e6_02.gd:511
+#: scripts/campaign/mission_e6_01.gd:528 scripts/campaign/mission_e6_02.gd:513
 #: scripts/campaign/mission_e7_01.gd:387 scripts/campaign/mission_e7_02.gd:368
 #: scripts/campaign/mission_e7_03.gd:423 scripts/campaign/mission_e7_04.gd:415
 msgid "Torvald must survive"
@@ -8801,112 +8801,112 @@ msgid "Torvald's land has room for three lodges"
 msgstr ""
 
 #. const BTN_OPEN := "Open the gate"
-#: scripts/campaign/mission_e6_02.gd:133
+#: scripts/campaign/mission_e6_02.gd:134
 msgid "Open the gate"
 msgstr ""
 
 #. const BTN_SHUT := "Keep it shut"
-#: scripts/campaign/mission_e6_02.gd:134
+#: scripts/campaign/mission_e6_02.gd:135
 msgid "Keep it shut"
 msgstr ""
 
 #. const BTN_CLOSE := "Close the gate"
-#: scripts/campaign/mission_e6_02.gd:135
+#: scripts/campaign/mission_e6_02.gd:136
 msgid "Close the gate"
 msgstr ""
 
 #. var display_name := "The Frostgate"
-#: scripts/campaign/mission_e6_02.gd:181
+#: scripts/campaign/mission_e6_02.gd:182
 msgid "The Frostgate"
 msgstr ""
 
 #. make_breakers("gate_breaker", "The Gate-Breaker", 2400.0)
-#: scripts/campaign/mission_e6_02.gd:284
+#: scripts/campaign/mission_e6_02.gd:286
 msgid "The Gate-Breaker"
 msgstr ""
 
 #. local_unit("rime_hauler", "townsfolk", "Hearthwick Folk", {"max_hp": 60.0, "move_speed": 4.2, "attack_damage":
-#: scripts/campaign/mission_e6_02.gd:285
+#: scripts/campaign/mission_e6_02.gd:287
 msgid "Hearthwick Folk"
 msgstr ""
 
 #. local_unit("snowdrift_rider", "hearthwick_rider", "Bren of Hearthwick", {"commandable": false, "pop": 0,
-#: scripts/campaign/mission_e6_02.gd:288
+#: scripts/campaign/mission_e6_02.gd:290
 msgid "Bren of Hearthwick"
 msgstr ""
 
 #. _hall_type = MissionE5Base.local_building("ice_lodge", "town_hall", "Hearthwick Hall", 1200.0)
-#: scripts/campaign/mission_e6_02.gd:293
+#: scripts/campaign/mission_e6_02.gd:295
 msgid "Hearthwick Hall"
 msgstr ""
 
 #. _house_type = MissionE5Base.local_building("ice_lodge", "town_house", "Hearthwick House", 400.0)
-#: scripts/campaign/mission_e6_02.gd:294
+#: scripts/campaign/mission_e6_02.gd:296
 msgid "Hearthwick House"
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nDawn over the Frostgate"
-#: scripts/campaign/mission_e6_02.gd:310
+#: scripts/campaign/mission_e6_02.gd:312
 msgid "VICTORY\nDawn over the Frostgate"
 msgstr ""
 
 #. c.spotlight = {"id": &"frostbow", "trigger": &"manual", "key_hint": "Frost Hall: B",
-#: scripts/campaign/mission_e6_02.gd:313
+#: scripts/campaign/mission_e6_02.gd:315
 msgid "Frost Hall: B"
 msgstr ""
 
 #. "card": "Frostbow. Every arrow chills: what walks toward it walks slower, and slower."}
-#: scripts/campaign/mission_e6_02.gd:314
+#: scripts/campaign/mission_e6_02.gd:316
 msgid "Frostbow. Every arrow chills: what walks toward it walks slower, and slower."
 msgstr ""
 
 #. return "Episode 6, Mission 2: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e6_02.gd:331
+#: scripts/campaign/mission_e6_02.gd:333
 msgid "Episode 6, Mission 2: %s"
 msgstr ""
 
 #. return "Hold until dawn (%s)" % MissionE5Base.mmss(DAWN - mission_time())
-#: scripts/campaign/mission_e6_02.gd:504
+#: scripts/campaign/mission_e6_02.gd:506
 msgid "Hold until dawn (%s)"
 msgstr ""
 
 #. return "Hold until dawn"
-#: scripts/campaign/mission_e6_02.gd:505
+#: scripts/campaign/mission_e6_02.gd:507
 msgid "Hold until dawn"
 msgstr ""
 
 #. return "The rider's fire: %s" % MissionE5Base.mmss(window_left())
-#: scripts/campaign/mission_e6_02.gd:514
+#: scripts/campaign/mission_e6_02.gd:516
 msgid "The rider's fire: %s"
 msgstr ""
 
 #. return "The rider's fire"
-#: scripts/campaign/mission_e6_02.gd:515
+#: scripts/campaign/mission_e6_02.gd:517
 msgid "The rider's fire"
 msgstr ""
 
 #. return "Hearthwick burns."
-#: scripts/campaign/mission_e6_02.gd:518
+#: scripts/campaign/mission_e6_02.gd:520
 msgid "Hearthwick burns."
 msgstr ""
 
 #. return "Bring Hearthwick's people through the gate (%d / %d)" % [saved, FOLK_GROUPS * FOLK_PER_GROUP]
-#: scripts/campaign/mission_e6_02.gd:520
+#: scripts/campaign/mission_e6_02.gd:522
 msgid "Bring Hearthwick's people through the gate (%d / %d)"
 msgstr ""
 
 #. return "Bring Hearthwick's people through the gate"
-#: scripts/campaign/mission_e6_02.gd:521
+#: scripts/campaign/mission_e6_02.gd:523
 msgid "Bring Hearthwick's people through the gate"
 msgstr ""
 
 #. return "Break the Warden Gates (%d / 2)" % gates_broken
-#: scripts/campaign/mission_e6_02.gd:524
+#: scripts/campaign/mission_e6_02.gd:526
 msgid "Break the Warden Gates (%d / 2)"
 msgstr ""
 
 #. return "Keep the stone-men off the Heartfrost"
-#: scripts/campaign/mission_e6_02.gd:527
+#: scripts/campaign/mission_e6_02.gd:529
 msgid "Keep the stone-men off the Heartfrost"
 msgstr ""
 
@@ -9107,67 +9107,67 @@ msgid "Garden"
 msgstr ""
 
 #. local_unit("moonpelt_direwolf", "frostfang", "Frostfang", {"max_hp": 120.0, "armor": 0.0, "attack_damage": 12.
-#: scripts/campaign/mission_e6_03.gd:230
+#: scripts/campaign/mission_e6_03.gd:238
 msgid "Frostfang"
 msgstr ""
 
 #. local_unit("moonpelt_direwolf", "whitepelt", "Old Whitepelt", {"max_hp": 1000.0, "armor": 10.0, "attack_damage
-#: scripts/campaign/mission_e6_03.gd:234
+#: scripts/campaign/mission_e6_03.gd:242
 msgid "Old Whitepelt"
 msgstr ""
 
 #. _keep_type_e6 = MissionE5Base.local_building("nature_keep", "nature_keep", "The Hollow Oak", 2250.0, true)
-#: scripts/campaign/mission_e6_03.gd:237
+#: scripts/campaign/mission_e6_03.gd:245
 msgid "The Hollow Oak"
 msgstr ""
 
 #. c.keep_lost_message = "The Hollow Oak has fallen"
-#: scripts/campaign/mission_e6_03.gd:249
+#: scripts/campaign/mission_e6_03.gd:257
 msgid "The Hollow Oak has fallen"
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nIt came up green"
-#: scripts/campaign/mission_e6_03.gd:255
+#: scripts/campaign/mission_e6_03.gd:263
 msgid "VICTORY\nIt came up green"
 msgstr ""
 
 #. c.spotlight = {"id": &"thornling", "trigger": &"manual", "key_hint": "Grove Hall: Z",
-#: scripts/campaign/mission_e6_03.gd:258
+#: scripts/campaign/mission_e6_03.gd:266
 msgid "Grove Hall: Z"
 msgstr ""
 
 #. "card": "Thornling. Small, cheap, stubborn: plant them where it matters and they never move."}
-#: scripts/campaign/mission_e6_03.gd:259
+#: scripts/campaign/mission_e6_03.gd:267
 msgid "Thornling. Small, cheap, stubborn: plant them where it matters and they never move."
 msgstr ""
 
 #. return "Episode 6, Mission 3: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e6_03.gd:276
+#: scripts/campaign/mission_e6_03.gd:284
 msgid "Episode 6, Mission 3: %s"
 msgstr ""
 
 #. return "Keep the seed-gardens alive until spring"
-#: scripts/campaign/mission_e6_03.gd:457
+#: scripts/campaign/mission_e6_03.gd:465
 msgid "Keep the seed-gardens alive until spring"
 msgstr ""
 
 #. return "Keep the seed-gardens alive until spring (%d / 4, night: %s left)" % [gardens_alive(),
-#: scripts/campaign/mission_e6_03.gd:459
+#: scripts/campaign/mission_e6_03.gd:467
 msgid "Keep the seed-gardens alive until spring (%d / 4, night: %s left)"
 msgstr ""
 
 #. return "Keep the seed-gardens alive until spring (%d / 4, spring in %s)" % [gardens_alive(),
-#: scripts/campaign/mission_e6_03.gd:461
+#: scripts/campaign/mission_e6_03.gd:469
 msgid "Keep the seed-gardens alive until spring (%d / 4, spring in %s)"
 msgstr ""
 
 #. return "Bring all four gardens to spring"
-#: scripts/campaign/mission_e6_03.gd:466
+#: scripts/campaign/mission_e6_03.gd:474
 msgid "Bring all four gardens to spring"
 msgstr ""
 
 #. return "Drive off Old Whitepelt"
-#: scripts/campaign/mission_e6_03.gd:468
+#: scripts/campaign/mission_e6_03.gd:476
 msgid "Drive off Old Whitepelt"
 msgstr ""
 
@@ -10155,7 +10155,7 @@ msgid "Draw first blood"
 msgstr ""
 
 #. return "Not during the Laurel"
-#: scripts/campaign/mission_e7_02.gd:922
+#: scripts/campaign/mission_e7_02.gd:930
 msgid "Not during the Laurel"
 msgstr ""
 
@@ -10469,9 +10469,9 @@ msgstr ""
 msgid "Do not lose %d of the Outwall's 40 people (lost %d)"
 msgstr ""
 
-#. return "Do not lose 30 of the Outwall's 40 people"
+#. return "Do not lose %d of the Outwall's 40 people" % lost_limit()
 #: scripts/campaign/mission_e7_03.gd:421
-msgid "Do not lose 30 of the Outwall's 40 people"
+msgid "Do not lose %d of the Outwall's 40 people"
 msgstr ""
 
 #. return "Shelter %d of the Outwall's people" % int(by_difficulty(PEOPLE_NEED))
@@ -10500,12 +10500,12 @@ msgid "Unmask the Mask Captain"
 msgstr ""
 
 #. return "Not while the Outwall's people are walking"
-#: scripts/campaign/mission_e7_03.gd:1020
+#: scripts/campaign/mission_e7_03.gd:1042
 msgid "Not while the Outwall's people are walking"
 msgstr ""
 
 #. rows.append([Loc.t("Pay {name} home ({price})", {"name": PAY_NAMES[id], "price": pay_price(id)}),
-#: scripts/campaign/mission_e7_04.gd:697
+#: scripts/campaign/mission_e7_04.gd:701
 msgid "Pay {name} home ({price})"
 msgstr ""
 
@@ -10903,22 +10903,22 @@ msgid "Sink Malrik's silver galleys"
 msgstr ""
 
 #. return "Not during the turn"
-#: scripts/campaign/mission_e7_04.gd:1084
+#: scripts/campaign/mission_e7_04.gd:1105
 msgid "Not during the turn"
 msgstr ""
 
 #. _bid_panel = mission_button_panel("AuctionPanel", [[Loc.t("Bid +50"), func() -> void: _ui_bid(50)],
-#: scripts/campaign/mission_e7_base.gd:675
+#: scripts/campaign/mission_e7_base.gd:693
 msgid "Bid +50"
 msgstr ""
 
 #. [Loc.t("Bid +100"), func() -> void: _ui_bid(100)]])
-#: scripts/campaign/mission_e7_base.gd:676
+#: scripts/campaign/mission_e7_base.gd:694
 msgid "Bid +100"
 msgstr ""
 
 #. return Loc.t("Auction for {name}: you {mine} · Aurivane {theirs} · {left}", {"name": auction["name"],
-#: scripts/campaign/mission_e7_base.gd:777
+#: scripts/campaign/mission_e7_base.gd:794
 msgid "Auction for {name}: you {mine} · Aurivane {theirs} · {left}"
 msgstr ""
 
@@ -11128,7 +11128,7 @@ msgid "Bring Ashby's scouts home"
 msgstr ""
 
 #. return Loc.t("Bring the column south ({saved} / {needed}, lost {lost})", {"saved": saved, "needed": needed(), 
-#: scripts/campaign/mission_e8_01_ice.gd:188
+#: scripts/campaign/mission_e8_01_ice.gd:189
 msgid "Bring the column south ({saved} / {needed}, lost {lost})"
 msgstr ""
 
@@ -11178,32 +11178,32 @@ msgid "Frost Mortar. Far and heavy: when they bunch up, one shell freezes the lo
 msgstr ""
 
 #. return "Open the Hundredwinter Gate"
-#: scripts/campaign/mission_e8_01_ice.gd:185
+#: scripts/campaign/mission_e8_01_ice.gd:186
 msgid "Open the Hundredwinter Gate"
 msgstr ""
 
 #. return "Bring the column south"
-#: scripts/campaign/mission_e8_01_ice.gd:189
+#: scripts/campaign/mission_e8_01_ice.gd:190
 msgid "Bring the column south"
 msgstr ""
 
 #. return "The Rime Keep must stand"
-#: scripts/campaign/mission_e8_01_ice.gd:193
+#: scripts/campaign/mission_e8_01_ice.gd:194
 msgid "The Rime Keep must stand"
 msgstr ""
 
 #. return "The gate opens: open it before the column reaches it"
-#: scripts/campaign/mission_e8_01_ice.gd:195
+#: scripts/campaign/mission_e8_01_ice.gd:196
 msgid "The gate opens: open it before the column reaches it"
 msgstr ""
 
 #. return "Bring 30 of the 40 south"
-#: scripts/campaign/mission_e8_01_ice.gd:197
+#: scripts/campaign/mission_e8_01_ice.gd:198
 msgid "Bring 30 of the 40 south"
 msgstr ""
 
 #. return "Close the gate behind them"
-#: scripts/campaign/mission_e8_01_ice.gd:199
+#: scripts/campaign/mission_e8_01_ice.gd:200
 msgid "Close the gate behind them"
 msgstr ""
 
@@ -11333,12 +11333,12 @@ msgid "Cross before the last bridge closes"
 msgstr ""
 
 #. _gift_panel = mission_button_panel("GiftPanel", [[Loc.t("The Stone's Gift (40 s)"), func() -> void:
-#: scripts/campaign/mission_e8_01_shadow.gd:175
+#: scripts/campaign/mission_e8_01_shadow.gd:181
 msgid "The Stone's Gift (40 s)"
 msgstr ""
 
 #. return Loc.t("Lay the dead of Duskbarrow to rest ({n} / 3)", {"n": laid.size()})
-#: scripts/campaign/mission_e8_01_shadow.gd:189
+#: scripts/campaign/mission_e8_01_shadow.gd:193
 msgid "Lay the dead of Duskbarrow to rest ({n} / 3)"
 msgstr ""
 
@@ -11423,32 +11423,32 @@ msgid "Stone-sworn Tent"
 msgstr ""
 
 #. return "Lay the dead of Duskbarrow to rest"
-#: scripts/campaign/mission_e8_01_shadow.gd:190
+#: scripts/campaign/mission_e8_01_shadow.gd:194
 msgid "Lay the dead of Duskbarrow to rest"
 msgstr ""
 
 #. return "Break the Stair Gate and face Mother Hush"
-#: scripts/campaign/mission_e8_01_shadow.gd:192
+#: scripts/campaign/mission_e8_01_shadow.gd:196
 msgid "Break the Stair Gate and face Mother Hush"
 msgstr ""
 
 #. return "Carry the stone up the Gravedigger's Stair"
-#: scripts/campaign/mission_e8_01_shadow.gd:194
+#: scripts/campaign/mission_e8_01_shadow.gd:198
 msgid "Carry the stone up the Gravedigger's Stair"
 msgstr ""
 
 #. return "The Bishop's Keep must stand"
-#: scripts/campaign/mission_e8_01_shadow.gd:198
+#: scripts/campaign/mission_e8_01_shadow.gd:202
 msgid "The Bishop's Keep must stand"
 msgstr ""
 
 #. return "Put down the shovel: never use the stone's power"
-#: scripts/campaign/mission_e8_01_shadow.gd:200
+#: scripts/campaign/mission_e8_01_shadow.gd:204
 msgid "Put down the shovel: never use the stone's power"
 msgstr ""
 
 #. return "Burn the Stone-sworn camp"
-#: scripts/campaign/mission_e8_01_shadow.gd:202
+#: scripts/campaign/mission_e8_01_shadow.gd:206
 msgid "Burn the Stone-sworn camp"
 msgstr ""
 

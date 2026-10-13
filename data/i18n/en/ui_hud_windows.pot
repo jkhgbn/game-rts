@@ -507,7 +507,7 @@ msgid "Sold {name} for {n}"
 msgstr ""
 
 #. message.emit(Loc.t("Not enough crystals"))
-#: scripts/ui/shop_window.gd:659 scripts/ui/top_bar.gd:300 scripts/campaign/mission_e2_05.gd:225
+#: scripts/ui/shop_window.gd:659 scripts/ui/top_bar.gd:300 scripts/campaign/mission_e2_05.gd:226
 #: scripts/campaign/mission_e3_04.gd:173 scripts/buildings/build_grid.gd:26
 #: scripts/buildings/training_building.gd:16
 msgid "Not enough crystals"
@@ -1497,7 +1497,7 @@ msgstr ""
 
 #. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
 #: scripts/ui/item_tooltip.gd:217 scripts/ui/spell_info.gd:169 scripts/campaign/mission_e3_03.gd:133
-#: scripts/campaign/mission_e3_04.gd:176 scripts/campaign/mission_e8_01_shadow.gd:323
+#: scripts/campaign/mission_e3_04.gd:176 scripts/campaign/mission_e8_01_shadow.gd:327
 #: scripts/units/champion_abilities.gd:61
 msgid "Dead"
 msgstr ""
@@ -1617,7 +1617,7 @@ msgstr ""
 #. const MSG_INVALID := "Invalid target"
 #: scripts/ui/bounty_mode.gd:47 scripts/units/caster_kit.gd:102 scripts/units/champion_abilities.gd:65
 #: scripts/units/creature_abilities.gd:68 scripts/items/inventory.gd:368
-#: scripts/items/item_actives.gd:261
+#: scripts/items/item_actives.gd:262
 msgid "Invalid target"
 msgstr ""
 
