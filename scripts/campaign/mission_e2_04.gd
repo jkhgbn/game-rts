@@ -244,6 +244,8 @@ var _acolyte_type: UnitType
 var _sunwarden_type: UnitType
 var _amber_type: UnitType
 var _forge_type: BuildingType
+var _ashby_type: UnitType
+var forge_pop_bonus := 0               ## Read only: the claim's extra pop (a save load gives it back)
 var _no_vey_said := false
 var _enemy_scan := {}                  ## "x,z,r" -> [count, mission time]: the claim / gate checks scan once per 0.25 s
 const ENEMY_SCAN_EVERY := 0.25
@@ -329,7 +331,8 @@ func _home_healing(delta: float) -> void:
 
 
 func _ready() -> void:
-	_acolyte_type = _make_acolyte_type()
+	_acolyte_type = register_local_unit_type(_make_acolyte_type())
+	_ashby_type = register_local_unit_type(_make_ashby_type())
 	_sunwarden_type = _make_warden_type(true)
 	_amber_type = _make_warden_type(false)
 	_forge_type = _make_forge_type()
@@ -356,6 +359,21 @@ func _make_acolyte_type() -> UnitType:
 	t.support_kind = &""
 	t.commandable = false
 	t.body_color = Color(0.95, 0.65, 0.2)
+	return t
+
+
+## Captain Ashby (the forge crew's story NPC): a Greywater Tracker look, not commandable, no attack, pop 0.
+func _make_ashby_type() -> UnitType:
+	var at := UnitType.find("greywater_tracker")
+	if at == null:
+		return null
+	var t := at.duplicate() as UnitType
+	t.id = &"ashby"
+	t.display_name = "Captain Ashby"
+	t.commandable = false
+	t.attack_damage = 0.0
+	t.aggro_range = 0.0
+	t.pop = 0
 	return t
 
 
@@ -396,6 +414,7 @@ func _build_map() -> void:
 		b.position = row[1]
 		b.lit_up.connect(_on_stone_lit)
 		sunstones.append(b)
+		register_actor("sunstone_%s" % String(row[0]), b)
 	for row in VEINS:
 		_add_crystal_node(StringName(row[0]), row[1], int(row[2]))
 	_cold_forge = _static_obstacle(FORGE_POS, _box(Vector3(4.0, 1.6, 4.0)), 0.8)
@@ -926,9 +945,15 @@ func _spawn_acolyte(at: Vector3, targets: Array[StringName]) -> Unit:
 	var u := _spawn(Worker.make_unit(_acolyte_type), Unit.Team.ENEMY, at)
 	mark_scripted(u)
 	u.set_meta(&"e2m4_targets", targets)
-	u.damage_taken.connect(_on_acolyte_hit.bind(u))
+	_hook_acolyte(u)
 	order_wave(u, &"acolyte", at)
 	return u
+
+
+func _hook_acolyte(u: Unit) -> void:
+	var c := _on_acolyte_hit.bind(u)
+	if not u.damage_taken.is_connected(c):
+		u.damage_taken.connect(c)
 
 
 func _on_acolyte_hit(amount: float, _attacker: Node3D, u: Unit) -> void:
@@ -1075,8 +1100,7 @@ func _claim_forge() -> void:
 	forge_claimed = true
 	claim_progress = 1.0
 	_ring(&"forge", FORGE_POS, 0.0, Color.WHITE)
-	if _cold_forge and is_instance_valid(_cold_forge):
-		_cold_forge.queue_free()
+	_remove_cold_forge()
 	var k := build_grid.spawn_complete(_forge_type, FORGE_POS, Unit.Team.PLAYER) as Keep
 	if k:
 		k.name = "WardenForge"
@@ -1084,13 +1108,11 @@ func _claim_forge() -> void:
 		k.set_start_tier(2)
 		k.max_hp = FORGE_HP   # after the tier (its HP table)
 		k.hp = FORGE_HP
-		k.destroyed.connect(_on_forge_destroyed)
 		k.set_rally_point(FORGE_POS + Vector3(0.0, 0.0, 6.0))
 	var eco := Economy.for_team(Unit.Team.PLAYER)
 	if eco and eco.pop_cap - eco.pop_used < 6:
-		eco.add_pop_bonus(eco.pop_used + 6 - eco.pop_cap)
-	if vey and is_instance_valid(vey):
-		vey.death_guard = Callable()
+		forge_pop_bonus = eco.pop_used + 6 - eco.pop_cap
+		eco.add_pop_bonus(forge_pop_bonus)
 	flash_ring(FORGE_POS, 6.0)
 	fire_once(&"E9")
 	set_objective(&"obj_forge", "done")
@@ -1100,16 +1122,8 @@ func _claim_forge() -> void:
 	for i in 4:
 		var w := _spawn(make_unit("cinder_hand"), Unit.Team.PLAYER, STAIR_FOOT + Vector3(-3.0 + i * 2.0, 0.0, 0.0))
 		w.call(&"command_gather", crystal_nodes.get(&"v1" if i < 2 else &"v2"))
-	var at := UnitType.find("greywater_tracker")
-	if at:
-		var t := at.duplicate() as UnitType
-		t.id = &"ashby"
-		t.display_name = "Captain Ashby"
-		t.commandable = false
-		t.attack_damage = 0.0
-		t.aggro_range = 0.0
-		t.pop = 0
-		ashby = _spawn(Worker.make_unit(t), Unit.Team.PLAYER, STAIR_FOOT)
+	if _ashby_type:
+		ashby = _spawn(Worker.make_unit(_ashby_type), Unit.Team.PLAYER, STAIR_FOOT)
 		set_dormant(ashby, true)
 		ashby.command_move(FORGE_POS + Vector3(4.0, 0.0, 4.0))
 	set_objective(&"obj_research", "active")
@@ -1118,9 +1132,39 @@ func _claim_forge() -> void:
 	if hud:
 		hud.show_message(HINT_FORGE, 10.0)
 	show_spotlight()
+	_apply_forge()
+
+
+## Idempotent part of the forge claim (the claim and a save load): `keep` is the Warden Forge, its destroyed hook
+## (obj_hearth), Vey's kneel guard off, the research hook (obj_research -> the gate), E10.
+func _apply_forge() -> void:
+	if keep == null or not is_instance_valid(keep):
+		for b in Building.for_team(Unit.Team.PLAYER):
+			if b is Keep and b.is_alive():
+				keep = b as Keep
+				break
+	if keep and is_instance_valid(keep):
+		keep.name = "WardenForge"
+		if _forge_type and keep.building_type != _forge_type and keep.building_type \
+				and keep.building_type.id == _forge_type.id:
+			keep.building_type = _forge_type   # "Warden Forge" (same kind / look / pop as the Fire keep it copies)
+		if not keep.destroyed.is_connected(_on_forge_destroyed):
+			keep.destroyed.connect(_on_forge_destroyed)
+	if vey and is_instance_valid(vey):
+		vey.death_guard = Callable()
 	var fk := ForgeKit.for_team(Unit.Team.PLAYER)
 	if fk and not fk.research_completed.is_connected(_on_research):
 		fk.research_completed.connect(_on_research)
+	_add_e10()
+
+
+## E10 (once): the first finished Ember Forge -> the research hint.
+func _add_e10() -> void:
+	if has_fired(&"E10"):
+		return
+	for e: Array in _events:
+		if StringName(e[0]) == &"E10":
+			return
 	add_event(&"E10", func() -> bool:
 		for b in Building.for_team(Unit.Team.PLAYER):
 			if b.is_alive() and b.is_constructed() and b.building_type and b.building_type.kind == &"forge":
@@ -1270,11 +1314,7 @@ func _meet_hush() -> void:
 
 func _spawn_hush(at: Vector3, hp_pct: float) -> void:
 	if hush_cast == null:
-		hush_cast = M00Cast.new()
-		hush_cast.setup(self, mission_difficulty)
-		add_child(hush_cast)
-		hush_cast.hush_smoked.connect(_on_hush_knives)
-		hush_cast.hush_fled.connect(_on_hush_fled)
+		_make_hush_cast()
 	var h := _spawn(make_unit("mother_hush"), Unit.Team.ENEMY, at)
 	mark_scripted(h)
 	hush_cast.bind_hush(h)
@@ -1282,6 +1322,17 @@ func _spawn_hush(at: Vector3, hp_pct: float) -> void:
 	h.hp = h.max_hp * hp_pct
 	hush_state = &"fight"
 	order_wave(h, &"vessa", hero_pos())
+
+
+## Hush's kit node (mission actor "cast": a save brings her phase back through M00Cast.load_row).
+func _make_hush_cast() -> M00Cast:
+	hush_cast = M00Cast.new()
+	hush_cast.setup(self, mission_difficulty)
+	add_child(hush_cast)
+	hush_cast.hush_smoked.connect(_on_hush_knives)
+	hush_cast.hush_fled.connect(_on_hush_fled)
+	register_actor("cast", hush_cast)
+	return hush_cast
 
 
 ## E16 at 50 % (M00Cast's Smoke): Night of Knives, 6 strikes on units within 10 m (not on easy).
@@ -1459,6 +1510,68 @@ func _on_player_hero_fell() -> void:
 	say_l(32)
 	set_objective(&"obj_vessa", "failed")
 	super()
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening-2026-10-12)
+
+## Woken Wardens are copies of ruin_warden: PLAYER = a Sunwarden, ENEMY = an amber Warden (NEUTRAL sleepers are
+## rebuilt by the start). Acolytes and Ashby are local types (register_local_unit_type).
+func save_spawn_unit(row: Dictionary) -> Unit:
+	if String(row.get("type", "")) == "ruin_warden":
+		var team := int(row.get("team", -1))
+		var t: UnitType = _sunwarden_type if team == Unit.Team.PLAYER else (_amber_type if team == Unit.Team.ENEMY else null)
+		if t != null:
+			var u := Worker.make_unit(t)
+			u.team = team as Unit.Team
+			add_child(u)
+			u.global_position = row["pos"]
+			u.command_stop()
+			return u
+	return super(row)
+
+
+## Hush's kit, registered mid-mission (E15): made again for its saved row
+## (M00Cast.load_row puts Hush's max HP and HP back).
+func _restore_missing_actor(key: String) -> Node:
+	if key != "cast":
+		return null
+	return _make_hush_cast()
+
+
+## E10 is added mid-mission (the claim): back before the base load checks the saved E-list.
+## SaveWorld phase 1 start (before the buildings and the navmesh rebake): after the claim the rebuilt start's cold
+## forge goes (the saved Warden Forge stands in its place).
+func save_restore_seats(m: Dictionary) -> void:
+	super(m)
+	if bool((m.get("vars", {}) as Dictionary).get("forge_claimed", false)):
+		_remove_cold_forge()
+
+
+func _remove_cold_forge() -> void:
+	if _cold_forge and is_instance_valid(_cold_forge):
+		if _cold_forge.get_parent():
+			_cold_forge.get_parent().remove_child(_cold_forge)   # out of the tree now: the next rebake skips it
+		_cold_forge.queue_free()
+	_cold_forge = null
+
+
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	if (d.get("events", []) as Array).has("E10"):
+		_add_e10()
+	super(d, nodes)
+
+
+## Re-runs the hookups of every phase the save had reached: acolytes' interrupt hooks, the forge claim.
+func _after_load(_nodes: Dictionary) -> void:
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u and u.is_alive() and u.unit_type and u.unit_type.id == &"splinter_acolyte":
+			_hook_acolyte(u)
+	if forge_claimed:
+		_apply_forge()
+		var eco := Economy.for_team(Unit.Team.PLAYER)
+		if eco and forge_pop_bonus > 0:
+			eco.add_pop_bonus(forge_pop_bonus)   # Economy pop bonuses are not saved
 
 
 # ---------------------------------------------------------------- every frame

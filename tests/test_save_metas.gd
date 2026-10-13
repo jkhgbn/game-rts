@@ -28,6 +28,7 @@ const SAVE_METAS := {
 	"status_time_mult": "item passive status-duration multipliers on the wizard (plain Dictionary)",
 	"lair_id": "the lair an epic beast belongs to",
 	"beast_variant": "an epic beast's variant",
+	"e2m2_guest": "e2m2: a pop-0 guest of Ysolde's column / grove sprouts (the load rebuilds it with its pop-0 type)",
 	"hired_by": "team that hired a Greywater tracker",
 	"tracker_kind": "a tracker's contract kind",
 	"tracker_leaving": "the tracker is walking off the map",

@@ -283,6 +283,7 @@ var _tick := 0.0
 var _carrier_type: UnitType
 var _wren_type: UnitType
 var _warden_types := {}
+const META_GUEST := &"e2m2_guest"   ## a pop-0 guest copy (Ysolde's column / pre-E14 sprouts): a load keeps its type
 var _ysolde_kneel_left := 0.0
 var _wren_kneel_left := 0.0
 var _ysolde_deaths := 0
@@ -359,8 +360,8 @@ func _mission_config() -> MissionConfig:
 func _ready() -> void:
 	_hall_type = _make_hall_type()
 	get_tree().node_added.connect(_on_e2_node_added)
-	_carrier_type = _make_carrier_type()
-	_wren_type = _make_story_type("wildwood_archer", &"wren", "Wren", 260.0, 5.2)
+	_carrier_type = register_local_unit_type(_make_carrier_type())
+	_wren_type = register_local_unit_type(_make_story_type("wildwood_archer", &"wren", "Wren", 260.0, 5.2))
 	for id in ["thornling", "bloomtender"]:
 		var base := UnitType.find(id)
 		if base:
@@ -884,6 +885,7 @@ func _spawn_column() -> void:
 				continue
 			var ang := float(i) * TAU / 6.0
 			var u := _spawn(Worker.make_unit(t), ALLY_SEAT, a_pos + Vector3(cos(ang) * 4.0, 0.0, sin(ang) * 4.0))
+			u.set_meta(META_GUEST, true)
 			var guard := 0
 			while u.level < 2 and guard < 10:
 				guard += 1
@@ -899,9 +901,14 @@ func _add_carrier(at: Vector3) -> Unit:
 	var c := _spawn(Worker.make_unit(_carrier_type), ALLY_SEAT, at)
 	c.add_to_group(&"seed_carriers")
 	mark_scripted(c)
-	c.died.connect(_on_carrier_died)
+	_hook_carrier(c)
 	carriers.append(c)
 	return c
+
+
+func _hook_carrier(c: Unit) -> void:
+	if not c.died.is_connected(_on_carrier_died):
+		c.died.connect(_on_carrier_died)
 
 
 func _spawn_guards() -> void:
@@ -1397,17 +1404,7 @@ func _plant(id: StringName, spent: Array) -> void:
 		cu.set_meta(&"e2m2_spent", true)
 		carriers.erase(cu)
 		cu.leave_map()
-	var t := MissionGrove.make_type(float(by_difficulty(GROVE_HP)), SAP_RADIUS, SAP_STATS, ally_active)
-	_grove_types[id] = t
-	var g := MissionGrove.new()
-	g.building_type = t
-	g.name = "Grove%s" % id
-	g.team = ALLY_SEAT
-	g.site = s
-	g.position = build_grid.snap(s.global_position, t.footprint)
-	nav_region.add_child(g, true)
-	g.destroyed.connect(_on_grove_destroyed.bind(id))
-	s.set_planted(g)
+	_place_grove(id, ally_active)
 	s.sprout_left = SPROUT_EVERY
 	s.seed_left = float(by_difficulty(SEED_EVERY))
 	flash_ring(s.global_position, s.radius)
@@ -1425,6 +1422,24 @@ func _plant(id: StringName, spent: Array) -> void:
 	if n >= 3 and not ally_active:
 		_e14_heartwood()
 	_update_vice_pause()
+
+
+## The grove building of site `id` (its own code-made type, the destroyed hook, the site planted): the planting and a
+## save load (save_restore_seats, before SaveWorld matches the saved grove rows to it).
+func _place_grove(id: StringName, counts_for_defeat: bool) -> MissionGrove:
+	var s: GroveSite = sites[id]
+	var t := MissionGrove.make_type(float(by_difficulty(GROVE_HP)), SAP_RADIUS, SAP_STATS, counts_for_defeat)
+	_grove_types[id] = t
+	var g := MissionGrove.new()
+	g.building_type = t
+	g.name = "Grove%s" % id
+	g.team = ALLY_SEAT
+	g.site = s
+	g.position = build_grid.snap(s.global_position, t.footprint)
+	nav_region.add_child(g, true)
+	g.destroyed.connect(_on_grove_destroyed.bind(id))
+	s.set_planted(g)
+	return g
 
 
 func _on_grove_destroyed(_b: Building, id: StringName) -> void:
@@ -1459,6 +1474,8 @@ func _tick_groves(delta: float) -> void:
 				if t == null:
 					continue
 				var u := _spawn(Worker.make_unit(t), ALLY_SEAT, s.global_position + Vector3(2.5 - 5.0 * i, 0.0, 3.0))
+				if not ally_active:
+					u.set_meta(META_GUEST, true)
 				s.sprouts.append(u)
 				if not ally_active and column.size() < COLUMN_MAX:
 					column.append(u)
@@ -1552,11 +1569,14 @@ func _tick_wren(delta: float) -> void:
 
 ## Maelis falls: back at Ysolde's side 45 s later (D5: never lost).
 func _on_maelis_died(_u: Unit) -> void:
-	after(45.0, func() -> void:
-		if is_ending() or maelis == null or not is_instance_valid(maelis) or maelis.is_alive():
-			return
-		var at: Vector3 = ysolde.global_position if ysolde and is_instance_valid(ysolde) else ALLY_START
-		maelis.respawn(at + Vector3(2.0, 0.0, 2.0)))
+	after(45.0, _respawn_maelis)   # a named timer: a save during the wait keeps it
+
+
+func _respawn_maelis() -> void:
+	if is_ending() or maelis == null or not is_instance_valid(maelis) or maelis.is_alive():
+		return
+	var at: Vector3 = ysolde.global_position if ysolde and is_instance_valid(ysolde) else ALLY_START
+	maelis.respawn(at + Vector3(2.0, 0.0, 2.0))
 
 
 # ---------------------------------------------------------------- E14: the Heartwood, the ally seat
@@ -1575,8 +1595,6 @@ func _e14_heartwood() -> void:
 	set_objective(&"obj_ally", "active")
 	hud.show_message(MSG_TWO_V_TWO, 4.0)
 	after(W6_AFTER, _fire_wave.bind(&"W6"))
-	if _send_panel and is_instance_valid(_send_panel):
-		_send_panel.queue_free()
 	_check_vice_start()
 
 
@@ -1594,23 +1612,41 @@ func _activate_ally() -> void:
 	heartwood = out["keep"] as Keep
 	if heartwood:
 		flash_ring(heartwood.global_position, 6.0)
-		heartwood.destroyed.connect(func(_b: Building) -> void: _ally_falls())   # the Vice needs it: no soft-lock
 	var _unused := rows
 	# The column joins the kingdom: no more guest pop, the grove units and Ysolde's fighters go to her Commander.
 	for u: Variant in column:
 		if is_instance_valid(u):
 			(u as Unit).command_stop()
 	column.clear()
+	if ysolde and is_instance_valid(ysolde) and _ysolde_kneel_left > 0.0:
+		_ysolde_kneel_left = 0.0
+		set_dormant(ysolde, false)
+		ysolde.hp = ysolde.max_hp * 0.5
+	_apply_ally()
+
+
+## Idempotent part of E14 (the kickoff and a save load): the Heartwood keep's hook (the Vice needs it: no soft-lock),
+## the groves count for defeat, Ysolde's 2v2 rules (no guard, the respawn hook), the ALLY Commander (the seat's
+## Economy comes back with the framework's seat restore), no "Send Ysolde" panel.
+func _apply_ally() -> void:
+	if heartwood and is_instance_valid(heartwood) and not heartwood.destroyed.is_connected(_on_ally_keep_destroyed):
+		heartwood.destroyed.connect(_on_ally_keep_destroyed)
 	for id: StringName in _grove_types:
 		(_grove_types[id] as BuildingType).counts_for_defeat = true
 	if ysolde and is_instance_valid(ysolde):
 		ysolde.death_guard = Callable()
-		if _ysolde_kneel_left > 0.0:
-			_ysolde_kneel_left = 0.0
-			set_dormant(ysolde, false)
-			ysolde.hp = ysolde.max_hp * 0.5
-		ysolde.died.connect(_on_ysolde_died)
-	ally_commander = _add_seat_commander(ALLY_SEAT)
+		if not ysolde.died.is_connected(_on_ysolde_died):
+			ysolde.died.connect(_on_ysolde_died)
+	ally_commander = _commander_of_team(ALLY_SEAT)
+	if ally_commander == null:
+		ally_commander = _add_seat_commander(ALLY_SEAT)
+	if _send_panel and is_instance_valid(_send_panel):
+		_send_panel.queue_free()
+	_send_panel = null
+
+
+func _on_ally_keep_destroyed(_b: Building) -> void:
+	_ally_falls()
 
 
 ## After E14: Ysolde comes back at the Heartwood after 30 + 15 s per death (the 2v2 rule).
@@ -1719,7 +1755,8 @@ func _send_relief() -> void:
 
 ## The Emberwatch reserve (header): the safety net after a wiped army.
 func _tick_reserve() -> void:
-	if reserves_sent >= RESERVE_MAX or mission_time() < RESERVE_FROM or mission_time() - _reserve_at < RESERVE_GAP 			or not hero_alive():
+	if reserves_sent >= RESERVE_MAX or mission_time() < RESERVE_FROM or mission_time() - _reserve_at < RESERVE_GAP \
+			or not hero_alive():
 		return
 	var eco := Economy.for_team(PLAYER_SEAT)
 	if eco == null or eco.crystals >= RESERVE_BROKE:
@@ -1727,7 +1764,8 @@ func _tick_reserve() -> void:
 	var soldiers := 0
 	for n in get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
-		if u and u.team == PLAYER_SEAT and u.is_alive() and u != hero and not u.has_method(&"command_gather") 				and u.is_commandable():
+		if u and u.team == PLAYER_SEAT and u.is_alive() and u != hero and not u.has_method(&"command_gather") \
+				and u.is_commandable():
 			soldiers += 1
 			if soldiers > RESERVE_BELOW:
 				return
@@ -2035,14 +2073,17 @@ func _start_vice() -> void:
 	set_objective(&"obj_vice", "active")
 	_fire_wave(&"VS")
 	_fire_wave(&"VI")
-	after(VICE_KNIGHTS_AFTER, func() -> void:
-		if not is_ending() and not vice_done:
-			fire_once(&"E17")
-			say_l(24)
-			_fire_wave(&"VK"))
+	after(VICE_KNIGHTS_AFTER, _vice_knights)   # named: the Vice stays saveable
 	if clampi(mission_difficulty, 0, 2) == 2:
 		after(150.0, _fire_wave.bind(&"VH"))
 	_update_vice_pause()
+
+
+func _vice_knights() -> void:
+	if not is_ending() and not vice_done:
+		fire_once(&"E17")
+		say_l(24)
+		_fire_wave(&"VK")
 
 
 func _update_vice_pause() -> void:
@@ -2220,6 +2261,94 @@ func _ally_falls() -> void:
 		say_l(33)
 		set_objective(&"obj_ally", "failed")
 		lose(DEFEAT_DELAY)
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening-2026-10-12)
+
+## The base save + the grove sites (planted, channel, Sprout / Seedbed clocks): GroveSite is not a saved node.
+func save_state(ids: Dictionary = {}) -> Dictionary:
+	var d := super(ids)
+	var rows := {}
+	for id: StringName in sites:
+		var st: GroveSite = sites[id]
+		var sprouts: Array = st.sprouts.filter(func(u: Variant) -> bool:
+			return is_instance_valid(u) and (u as Unit).is_alive() and ids.has(u))
+		rows[String(id)] = [st.is_planted(), st.progress, st.sprout_left, st.seed_left, st.times_planted,
+				SaveCodec.encode(sprouts, ids)]
+	d["e2m2_sites"] = rows
+	return d
+
+
+## SaveWorld phase 1 start (before the buildings): the framework's seats, then the planted groves are raised again
+## (MissionGrove + its code-made type and destroyed hook) so SaveWorld matches the saved grove rows to them.
+func save_restore_seats(m: Dictionary) -> void:
+	super(m)
+	# The start's guest column goes: every saved guest comes back through save_spawn_unit with its pop-0 type and every
+	# saved post-E14 Nature unit with data's (SaveWorld's nearest match would mix the two up).
+	for u: Variant in column:
+		if is_instance_valid(u) and (u as Node).get_parent():
+			(u as Node).get_parent().remove_child(u as Node)
+			(u as Node).queue_free()
+	column.clear()
+	var vars: Dictionary = m.get("vars", {})
+	var counts := bool(vars.get("ally_active", false))
+	if counts and _commander_of_team(ALLY_SEAT) == null:
+		ally_commander = _add_seat_commander(ALLY_SEAT)   # now, so phase 2 gives it its saved state (commander:3)
+	var rows: Dictionary = m.get("e2m2_sites", {})
+	for k: Variant in rows:
+		var id := StringName(str(k))
+		var row: Array = rows[k]
+		if sites.has(id) and bool(row[0]) and not (sites[id] as GroveSite).is_planted():
+			_place_grove(id, counts)
+
+
+## A guest (META_GUEST: Ysolde's pop-0 thornling / bloomtender copies) comes back with its own type; seed-carriers and
+## Wren are local types (register_local_unit_type).
+func save_spawn_unit(row: Dictionary) -> Unit:
+	var id := String(row.get("type", ""))
+	if int(row.get("team", -1)) == ALLY_SEAT and _warden_types.has(id) \
+			and ((row.get("metas", {}) as Dictionary).has(String(META_GUEST)) \
+				or (row.get("metas", {}) as Dictionary).has(META_GUEST)):
+		var u := Worker.make_unit(_warden_types[id] as UnitType)
+		u.team = ALLY_SEAT as Unit.Team
+		add_child(u)
+		u.global_position = row["pos"]
+		u.command_stop()
+		return u
+	return super(row)
+
+
+func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
+	super(d, nodes)
+	_loaded_sites = SaveCodec.decode(d.get("e2m2_sites", {}), nodes) as Dictionary
+
+
+## Re-runs the hookups of every phase the save had reached: the carriers' died hooks, the sites' clocks, E14.
+func _after_load(_nodes: Dictionary) -> void:
+	for c: Variant in carriers:
+		if is_instance_valid(c):
+			_hook_carrier(c as Unit)
+	var rows: Dictionary = _loaded_sites
+	_loaded_sites = {}
+	for k: Variant in rows:
+		var st: GroveSite = sites.get(StringName(str(k)))
+		var row: Array = rows[k]
+		if st == null or row.size() < 5:
+			continue
+		st.times_planted = int(row[4])
+		st.sprout_left = float(row[2])
+		st.seed_left = float(row[3])
+		if not st.is_planted():
+			st.set_progress(float(row[1]), false)
+		if row.size() > 5 and row[5] is Array:
+			st.sprouts = (row[5] as Array).filter(func(u: Variant) -> bool:
+				return u is Unit and is_instance_valid(u) and (u as Unit).is_alive())
+	if ally_active:
+		_apply_ally()
+	_update_vice_pause()
+
+
+var _loaded_sites := {}   # load_state -> _after_load
 
 
 # ---------------------------------------------------------------- every frame

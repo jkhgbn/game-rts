@@ -69,6 +69,27 @@ func kindle(aura_radius: float) -> void:
 	kindled.emit()
 
 
+## Mission save row (MissionBase.register_actor): [kindled, frost 0-1, Sap Ward radius]. HP is the Building's own row.
+func save_row() -> Array:
+	var r := building_type.aura_radius if building_type else 0.0
+	return [is_kindled, frost, r]
+
+
+## QUIET load: a saved kindled Heartwood is kindled again (damageable, the Sap Ward on, no frost) without `kindled`;
+## the truce comes from the saved metas, the mission's counters from its own variables.
+func load_row(row: Array) -> void:
+	if row.size() < 3:
+		return
+	if bool(row[0]):
+		is_kindled = true
+		invulnerable = false
+		if building_type:
+			building_type.aura_radius = float(row[2])
+		set_frost(0.0)
+	else:
+		set_frost(float(row[1]))
+
+
 ## The frost decal: 0-1 of the glade's frost meter (tween over `seconds`).
 func set_frost(f: float, seconds := 0.0) -> void:
 	frost = clampf(f, 0.0, 1.0)

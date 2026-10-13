@@ -317,8 +317,8 @@ static func bot_profile() -> StringName:
 
 func _ready() -> void:
 	_hall_type = _make_hall_type()
-	_folk_type = _make_story_type("thornling", &"wood_folk", "Wood-folk", 45.0, 4.5)
-	_wren_type = _make_story_type("wildwood_archer", &"wren", "Wren", 260.0, 5.2)
+	_folk_type = register_local_unit_type(_make_story_type("thornling", &"wood_folk", "Wood-folk", 45.0, 4.5))
+	_wren_type = register_local_unit_type(_make_story_type("wildwood_archer", &"wren", "Wren", 260.0, 5.2))
 	_story_vey_type = _make_vey_type()
 	for id in ["thornling", "bloomtender"]:
 		var base := UnitType.find(id)
@@ -450,6 +450,7 @@ func _build_map() -> void:
 	heartwood.position = build_grid.snap(HEARTWOOD_POS, heartwood.building_type.footprint)
 	nav_region.add_child(heartwood, true)
 	heartwood.destroyed.connect(_on_heartwood_destroyed)
+	register_actor("heartwood", heartwood)   # kindle state (C1-4)
 	var totem_type := _make_totem_type()
 	for p in TOTEM_SPOTS:
 		var t := build_grid.spawn_complete(totem_type, p, Unit.Team.ENEMY)
@@ -934,8 +935,8 @@ func kindle() -> void:
 	kindled = true
 	kindle_time = mission_time()
 	fire_once(&"E7")
-	set_truce([heartwood], false, Unit.TRUCE_ALL)
 	heartwood.kindle(SAP_RADIUS)
+	_apply_kindled()
 	flash_ring(HEARTWOOD_POS, 6.0)
 	say_l(11)
 	say_l(12)
@@ -945,6 +946,13 @@ func kindle() -> void:
 	hud.show_message(HINT_HOLD, 8.0)
 	_spawn_heart_wardens()
 	_arm_waves()
+
+
+## Idempotent part of the kindle (mission-save-hardening phase convention): the Heartwood leaves the &"all" truce.
+## Its own kindle state (damageable, Sap Ward) is its actor row (MissionHeartwood.load_row).
+func _apply_kindled() -> void:
+	if heartwood and is_instance_valid(heartwood):
+		set_truce([heartwood], false, Unit.TRUCE_ALL)
 
 
 func _spawn_heart_wardens() -> void:
@@ -1142,11 +1150,21 @@ func _on_vey_ready(helper: Helper) -> void:
 	fire_once(&"E11")
 	say_l(18)
 	set_objective(&"sec_storm", "done")
+	_hook_vey(helper)
+
+
+## E12's hook on Vey's ability node (the arrival and a save load): his first Stormcall says L19.
+func _hook_vey(helper: Node) -> void:
+	if helper == null or not is_instance_valid(helper):
+		return
 	for c in helper.get_children():
-		if c.has_signal(&"ability_cast"):
-			c.connect(&"ability_cast", func(id: StringName) -> void:
-				if id == &"vey_stormcall" and fire_once(&"E12"):
-					say_l(19))
+		if c.has_signal(&"ability_cast") and not c.is_connected(&"ability_cast", _on_vey_ability):
+			c.connect(&"ability_cast", _on_vey_ability)
+
+
+func _on_vey_ability(id: StringName) -> void:
+	if id == &"vey_stormcall" and fire_once(&"E12"):
+		say_l(19)
 
 
 # ---------------------------------------------------------------- survivors, Wren
@@ -1178,7 +1196,7 @@ func _free_hideout(id: StringName) -> void:
 		var a := float(i) * TAU / FOLK_PER_HIDEOUT
 		var f := _spawn(Worker.make_unit(_folk_type), Unit.Team.PLAYER, at + Vector3(cos(a) * 1.5, 0.0, sin(a) * 1.5))
 		f.add_to_group(&"wood_folk")
-		f.died.connect(_on_folk_died)
+		_hook_folk(f)
 		f.command_move(_alive_pos(keep, PLAYER_START))
 		folk.append(f)
 	set_objective(&"sec_folk", "active")
@@ -1205,6 +1223,11 @@ func _tick_folk() -> void:
 			u.command_move(home)
 		walking.append(u)
 	folk = walking
+
+
+func _hook_folk(f: Unit) -> void:
+	if not f.died.is_connected(_on_folk_died):
+		f.died.connect(_on_folk_died)
 
 
 func _on_folk_died(u: Unit) -> void:
@@ -1276,17 +1299,20 @@ func _on_torvald_died(_u: Unit) -> void:
 	if is_ending():
 		return
 	hud.show_message(MSG_TORVALD_FELL, 4.0)
-	after(WIZARD_RESPAWN, func() -> void:
-		if is_ending() or torvald == null or not is_instance_valid(torvald) or torvald.is_alive():
-			return
-		var at := ICE_RALLY
-		if rime_keep and is_instance_valid(rime_keep) and rime_keep.is_alive():
-			at = rime_keep.global_position + Vector3(7.0, 0.0, 7.0)
-		torvald.respawn(at)
-		if not _torvald_home and not hold_done:
-			order_wave(torvald, &"heartwood", HEARTWOOD_POS)
-		else:
-			torvald.command_move(ICE_RALLY))
+	after(WIZARD_RESPAWN, _respawn_torvald)   # a named timer: a save during the wait keeps it
+
+
+func _respawn_torvald() -> void:
+	if is_ending() or torvald == null or not is_instance_valid(torvald) or torvald.is_alive():
+		return
+	var at := ICE_RALLY
+	if rime_keep and is_instance_valid(rime_keep) and rime_keep.is_alive():
+		at = rime_keep.global_position + Vector3(7.0, 0.0, 7.0)
+	torvald.respawn(at)
+	if not _torvald_home and not hold_done:
+		order_wave(torvald, &"heartwood", HEARTWOOD_POS)
+	else:
+		torvald.command_move(ICE_RALLY)
 
 
 ## Torvald holds his rally until H2 (and between his waves once his wave is gone).
@@ -1462,6 +1488,33 @@ func _on_player_hero_fell() -> void:
 	say_l(30)
 	set_objective(&"obj_vessa", "failed")
 	super()
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening-2026-10-12)
+
+## Ysolde's wardens (pop-0 copies of thornling / bloomtender, PLAYER) come back from their own type, not data's.
+func save_spawn_unit(row: Dictionary) -> Unit:
+	var id := String(row.get("type", ""))
+	if int(row.get("team", -1)) == Unit.Team.PLAYER and _warden_types.has(id):
+		var u := Worker.make_unit(_warden_types[id] as UnitType)
+		u.team = Unit.Team.PLAYER
+		add_child(u)
+		u.global_position = row["pos"]
+		u.command_stop()
+		return u
+	return super(row)
+
+
+## Re-runs the hookups of every phase the save had reached: the survivors' died hooks, the kindle.
+func _after_load(_nodes: Dictionary) -> void:
+	for f: Variant in folk:
+		if is_instance_valid(f):
+			_hook_folk(f as Unit)
+	if kindled:
+		_apply_kindled()
+	var roster := HelperRoster.for_team(Unit.Team.PLAYER)
+	if vey_arrived and not has_fired(&"E12") and roster:
+		_hook_vey(roster.helper)
 
 
 # ---------------------------------------------------------------- every frame

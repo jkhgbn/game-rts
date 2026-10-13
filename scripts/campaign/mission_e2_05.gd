@@ -91,6 +91,7 @@ const VICTORY_DELAY := 2.0
 const LEVEL_CAP := 8
 const NO_SAVE_ESSENCE := 800
 const ROOST_COST := 300
+const HUSH_RAID_HP := 1400.0   ## Mother Hush's HP in her 8:00 raid
 const DOOR_REGEN := 5.0
 const DOOR_REGEN_QUIET := 5.0
 const HOLD_HEAL := 1000.0
@@ -363,10 +364,10 @@ func _title_line() -> String:
 
 func _ready() -> void:
 	_hall_type = _make_hall_type()
-	_dragon_type = _make_dragon_type()
-	_roost_type = _make_roost_type()
-	_door_type = _make_door_type()
-	_boss_type = _make_boss_type()
+	_dragon_type = register_local_unit_type(_make_dragon_type())
+	_roost_type = register_local_building_type(_make_roost_type())
+	_door_type = register_local_building_type(_make_door_type())
+	_boss_type = register_local_unit_type(_make_boss_type())
 	_sunwarden_type = _make_sunwarden_type()
 	get_tree().node_added.connect(_on_e5_node_added)
 	super()
@@ -637,6 +638,7 @@ func _build_map() -> void:
 		nav_region.add_child(b)
 		b.position = p
 		sunstones.append(b)
+		register_actor(String(b.brazier_id), b)
 
 
 ## The Rift: rock (navmesh obstacles) along z = 0 for 16 <= |x| <= 75, except the two bridges at x = +-45.
@@ -1454,6 +1456,8 @@ func _on_boss_fell(_u: Unit) -> void:
 	set_objective(&"obj_doorwarden", "done")
 	if objective_state("obj_lance") == "active":
 		set_objective(&"obj_lance", "done")
+	if objective_state("obj_tether") == "active":   # felled during B2: the tether is over with it (C3-7)
+		set_objective(&"obj_tether", "done")
 	set_objective(&"obj_door", "done")
 	if objective_state("sec_door") == "active":
 		set_objective(&"sec_door", "done")
@@ -1770,17 +1774,24 @@ func _roost_open() -> void:
 		return
 	say_l(12)
 	if _hush_cast == null:
-		_hush_cast = M00Cast.new()
-		_hush_cast.setup(self, mission_difficulty)
-		add_child(_hush_cast)
+		_make_hush_cast()
 	var hp := _spawn(make_unit("mother_hush"), SHADOW_SEAT, NW_TUNNEL)
 	mark_scripted(hp)
 	_hush_cast.bind_hush(hp)
-	hp.set_base_stat(&"max_hp", 1400.0)
+	hp.set_base_stat(&"max_hp", HUSH_RAID_HP)
 	hp.hp = hp.max_hp
 	order_wave(hp, &"workers", _fire_workers_pos())
 	for u in spawn_wave_at(_rows(&"HUSH"), NW_TUNNEL, SHADOW_SEAT):
 		order_wave(u as Unit, &"workers", _fire_workers_pos())
+
+
+## Hush's kit node (mission actor "cast": a save brings her raid back through M00Cast.load_row).
+func _make_hush_cast() -> M00Cast:
+	_hush_cast = M00Cast.new()
+	_hush_cast.setup(self, mission_difficulty)
+	add_child(_hush_cast)
+	register_actor("cast", _hush_cast)
+	return _hush_cast
 
 
 ## M00Cast: where Hush runs.
@@ -1826,9 +1837,13 @@ func raise_roost() -> String:
 func _on_dragon(u: Unit) -> void:
 	if not is_instance_valid(u) or int(u.team) != PLAYER_SEAT:
 		return
-	dragons += 1
 	u.add_to_group(&"titans")
-	u.attack_landed.connect(_on_breath.bind(u))
+	var breath := _on_breath.bind(u)
+	if not u.attack_landed.is_connected(breath):
+		u.attack_landed.connect(breath)
+	if save_restoring:
+		return   # a dragon rebuilt by a save load: hooked again, already counted (dragons, E8 come from the save)
+	dragons += 1
 	if fire_once(&"E8"):
 		say_l(13)
 		say_l(37)
@@ -1863,6 +1878,25 @@ func _on_player_hero_fell() -> void:
 	say_l(34)
 	set_objective(&"obj_vessa", "failed")
 	super()
+
+
+# ---------------------------------------------------------------- save / load (mission-save-hardening-2026-10-12)
+
+## No save from the wake to the Doorwarden's fall (C3-3): a short live machine of code-built units with many hookups
+## (boss phases, the tether, the host, the Door) that is cheaper to block than to restore.
+func save_block_reason() -> String:
+	var why := super()
+	if why == "" and woke and boss_phase < 4:
+		return SAVE_REASON_SCRIPTED
+	return why
+
+
+## Hush's kit, registered mid-mission (8:00 raid): made again for its saved row
+## (M00Cast.load_row puts Hush's HP back). Dragons rebuilt by a load are hooked by _on_dragon (save_restoring).
+func _restore_missing_actor(key: String) -> Node:
+	if key != "cast":
+		return null
+	return _make_hush_cast()
 
 
 # ---------------------------------------------------------------- every frame

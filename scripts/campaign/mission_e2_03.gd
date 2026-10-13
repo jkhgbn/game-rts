@@ -895,10 +895,21 @@ func _build_tollgate(group: StringName) -> void:
 		tollgate.max_hp = TOLLGATE_HP
 		tollgate.hp = TOLLGATE_HP
 		mark_scripted(tollgate)
-		tollgate.destroyed.connect(_on_tollgate_destroyed)
+		_hook_tollgate()
 		flash_ring(TOLLGATE_POS, 4.0)
 		nav_region.bake_navigation_mesh(true)
 	guard_groups[group] = spawn_group(_rows(&"G2" if group == &"G2" else &"REBUILD"), TOLLGATE_POS, 4.0, Unit.Team.ENEMY, true, true)
+
+
+func _hook_tollgate() -> void:
+	if tollgate and is_instance_valid(tollgate) and tollgate.is_alive() \
+			and not tollgate.destroyed.is_connected(_on_tollgate_destroyed):
+		tollgate.destroyed.connect(_on_tollgate_destroyed)
+
+
+## Save load (mission-save-hardening-2026-10-12): the Tollgate's destroyed hook (its max_hp is in the Building row).
+func _after_load(_nodes: Dictionary) -> void:
+	_hook_tollgate()
 
 
 func _on_tollgate_destroyed(_b: Building) -> void:
