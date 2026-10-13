@@ -20,3 +20,4 @@ Format: `- (asked yyyy-mm-dd, where) question — lead's recommendation`.
 - (2026-10-10, jss_asks) Confirm Ep 5/6/7 order and rename `episode5-opening.md` to Ep 7.
 - (2026-10-10, repo) ~3300 uncommitted lab output files: commit them as run records or gitignore their folders? — gitignore the generated runs, keep summaries.
 - (2026-10-13, playtest build) Download the Godot 4.7.2 export templates (~1 GB, from godotengine.org via the editor's Export Template Manager) so builds become one real FourWizards.exe? Until then builds are stock Godot + .pck.
+- (2026-10-13, balance-2026-10-13-shadow-ice.md) Lead is trying the designer's picks, kept only if the measurements pass: Mother Hush's attackers get a 2 s daze (1 s heroes, skirmish only) when she slips them; Torvald's Flash Freeze 40/55/70 dmg (also in missions); fallback Shadow Blitz start crystals 500 -> 300. OK?

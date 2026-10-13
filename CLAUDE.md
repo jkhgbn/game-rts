@@ -335,7 +335,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 |---|---|
 | `scripts/units/` (incl. `creature_abilities.gd`), `scripts/spells/`, `data/units/` (incl. caravan / magpie / greywater_tracker, creatures, beasts), `data/spells/`, `data/champions/`, `data/champion_classes/` | gameplay-coder |
 | `scripts/economy/`, `scripts/buildings/`, `scripts/world/` (incl. river_system, capture_point(s), neutral_camp, camp_manager, game_critter, critter_herds, epic_beasts), `scripts/campaign/`, `data/buildings/`, `missions/` | systems-coder |
-| `scripts/ui/`, `scripts/vfx/`, `scenes/ui/`, `assets/audio/` | ui-coder |
+| `scripts/ui/`, `scripts/vfx/`, `scenes/ui/`, `assets/audio/`, `scripts/audio/`, `tools/music_forge/` (music, `docs/design/music.md`) | ui-coder |
 | `scripts/ai/` (incl. `beast_brain.gd`, `ai_mapfill.gd`) | ai-coder |
 | `scripts/items/`, `data/items/` | items-coder (from wave 4) |
 | `art/`, `docs/art/` (incl. `art/units/champions/<id>/`, `art/buildings/tavern/`, `art/vfx/champion_*`, `art/buildings/market/`, `art/buildings/guilds/`, `art/buildings/trade_post/`, `art/units/caravan/`, `art/units/neutral/magpie|tracker/`, `art/vfx/trade_*`, `art/units/champions/weapons/`, `art/vfx/champion_class_*`, `art/environment/water|bridges|biomes|landmarks|critters|camps|lairs/`, `art/buildings/capture/`, `art/units/neutral/<creatures>|critters|beasts/`, `art/vfx/mapfill_*`, `art/units/titans/`) | tech-artist (from wave 3) |

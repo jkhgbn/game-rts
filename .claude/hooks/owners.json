@@ -5,7 +5,7 @@
   "gameplay-coder-high": ["scripts/units/", "scripts/spells/", "data/units/", "data/spells/", "data/champions/", "data/champion_classes/"],
   "systems-coder": ["scripts/economy/", "scripts/buildings/", "scripts/world/", "scripts/campaign/", "data/buildings/", "missions/"],
   "systems-coder-high": ["scripts/economy/", "scripts/buildings/", "scripts/world/", "scripts/campaign/", "data/buildings/", "missions/", "scripts/cinematics/", "scripts/ui/cinematic/"],
-  "ui-coder": ["scripts/ui/", "scripts/vfx/", "scenes/ui/", "assets/audio/"],
+  "ui-coder": ["scripts/ui/", "scripts/vfx/", "scenes/ui/", "assets/audio/", "scripts/audio/", "tools/music_forge/"],
   "ai-coder": ["scripts/ai/"],
   "items-coder": ["scripts/items/", "data/items/"],
   "items-coder-high": ["scripts/items/", "data/items/"],

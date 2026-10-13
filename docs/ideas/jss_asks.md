@@ -54,3 +54,7 @@ When JS asks for something new, add a line here first, then work on it.
 - 2026-10-10: "work on blitz for the rest, i want like 9 worker start and 8 to 12 min game avg" -> Blitz mode started: 9 starting workers, tuned so bot-vs-bot median is 8-12 min with fair kingdoms; built on the Pace switch.
 
 - 2026-10-11: "i think t3 should be game changer so maybe make according and run new test" -> T3 design rule: T3 units stay far above T1/T2 (game changers); balance T3s against each other (weak ones Shardguard, Briar Roc up; Juggernaut down within T3); T1/T2 untouched.
+
+- 2026-10-13: "ok continue working on the game i will playtest when i can" -> doing: (1) Shadow / Mother Hush compensation for the normal-pace Fire > Shadow drift (keeps fix R2-3), (2) Ice weak (Blitz 29 %, normal 39 %), (3) mission sims that still fail (e3m1, e5m4, e6m2), measured before / after.
+- 2026-10-13: "i just play wave stike and it need more caster unit and way unit not sure if its a game limitation but we need more unit and more on the screen" -> doing: Wave Strike M2 roster (wave-strike.md 4.4 full card sets: T1 / T2 / caster / T3 per kingdom, tiers) + bigger waves on screen (supply caps / field cap within the perf budget). M1 shipped only 4 cards per kingdom and a 24-56 pop cap.
+- 2026-10-13: "add more music and song" -> doing: music plan (docs/design/music.md: ~12-16 original code-synthesised tracks, kingdom themes, combat layer, stingers, playlists; sung songs = question for JS) then a music generator tool + GameAudio contexts.

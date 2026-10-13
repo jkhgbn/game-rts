@@ -6,8 +6,8 @@ buys units that walk down a lane in timed waves and fight on their own; income g
 the match is won. This spec turns that *genre* into a Four Wizards mode. Nothing is copied from the original map: no names,
 no lines, no art, no layout, no numbers. Working title **Wave Strike** (in-game name can change; "Strike" alone is fine).
 
-Status: **M1 BUILT (2026-10-06)**, see section 13 "M1 as built"; balance pass 13.1 (4 kingdoms, matrix prices, pacing). Q1-Q7 answered with the recommendations (table below).
-M2 / M3 not started. Numbers are first guesses, tuned by the labs (section 9).
+Status: **M1 BUILT (2026-10-06)**, see section 13 "M1 as built"; balance passes 13.1 / 13.2 (4 kingdoms, matrix prices, wizard re-rules, field cap). Q1-Q7 answered with the recommendations (table below).
+**M2 roster and bigger waves specified (2026-10-13, section 14, after JS's playtest), not built**; the rest of M2 (towers, mercs, champion card, titans) and M3 not started. Numbers are first guesses, tuned by the labs (section 9).
 Short names used below: **horn** = one wave tick; **card** = one bought unit line in a player's roster; **Bastion** = a
 team's core building; **lane** = the walkable path between the two Bastions.
 
@@ -762,3 +762,139 @@ Every target of the pass is met (each kingdom 20-35 % of the wins, seat 54 / 46,
 PC otherwise idle): march p95 **16.65 ms**, clash p95 17.7 ms (avg 12.8 / 13.3 ms), 0 stalls: PASS (the gate is the march
 p95 <= 16.7 ms; it is at the edge, so 300 is the real 1v1 ceiling until LaneGrid / avoidance gating, 7.8 (2)-(3)). The
 test now also checks the valve (one spawn past `field_cap` is refused). In real matches the field peaked at 200-214.
+
+---
+
+## 14. M2 roster and bigger waves (spec 2026-10-13, not built)
+
+JS (playtest 2026-10-13): "it need more caster unit and way unit ... we need more unit and more on the screen". Today: 4
+cards per kingdom, no casters, no T3, caps 24 / 40 / 56, field cap 150 per seat. This section = the roster part of M2
+plus bigger waves. Towers, barricades, mercs, champion card, titans, Relay stay in the M2 rows of section 8 (later).
+Never change `data/units/*.tres` for the mode (9.2): everything below is `card_prices.tres` / `rules_default.tres` data.
+
+### 14.1 Card sets (10 slots: T1 slots 1-5, T2 slots 6-8, T3 slots 9-10)
+Tier = the unit's own `requires_tier` (no override needed). Pop = `UnitType.pop` unless marked (`pop_override`).
+| Kingdom | T1 (Keep) slots 1-5 | T2 (Stronghold) slots 6-8 | T3 (Citadel) slots 9-10 |
+|---|---|---|---|
+| Fire (9) | flame_guard 1, scorchling 1, ember_archer 1, ash_hurler 1, blaze_rider 2 | cinder_arbalest **2** (override), pyre_adept 1 (support), **kilnwarden 2** (caster) | sunforge_cataphract 4, slot 10 empty |
+| Ice (10) | rimeshield 1, rimeling 1, shardcaster 1, rime_seer 1 (support), snowdrift_rider 2 | hoarlight_magebow 1, **rimecarver 2** (caster), rimehorn_rider 3 | shardguard 2, frostcrown_juggernaut 4 |
+| Nature (10) | bramblehorn 2, thornling 1, wildwood_archer 1, bloomtender 1 (support), stagrunner 2 | greenheart_oathkeeper 2, vinelasher 2, **bramblesage 2** (caster) | briar_roc 4, glade_outrider 4 |
+| Shadow (10) | shade 1, grave_hound 1, nightbolt 1, shadow_knight 3, gloam_rider 2 | barrow_knight **2** (override), hexweaver 1 (support), **gloom_deacon 2** (caster) | nightblood_reaver 3, veilborn_dreadrider 4 |
+- Row shape is the same for every kingdom (T1 = line, cheap/fast or heavy, archer, artillery/support, rider), so the keys
+  (14.4) mean the same slot in every kingdom. Fire's slot 10 waits for the Ember Crucible card (4.5).
+- Left out on purpose: **gloom_thrall / sprigling** (workers; 4.4's list is wrong there, workers are never cards),
+  ashveil_saboteur (a spy: disguise + building charges do nothing useful in a lane), rime_colossus and frost_mortar
+  (speed 3.4: they trail the wave), bleakbow / hollow_oathsworn (replaced in 13.2), harriers (slot budget; M3 candidates).
+- **`max_copies`** (new `WaveCardTable` field, id -> int; refusal `"Max N copies"`): kingdom casters **4**, support
+  cards (rime_seer, bloomtender, pyre_adept, hexweaver) **6**, T3 cards **3** each. Reason: stacked autocasts on one clump
+  and the casters' own scans (perf).
+- **Prices**: the 16 existing `mode_mult` stay; the 22 new cards start at **1.0** and are re-priced by
+  `reprice_cards.gd` after the Unit Lab runs of 14.5. Casters and support cards keep 1.0 until the reprice tool learns a
+  third role (`caster`, judged on the C-presets / "+ line unit" entries, 9.1); never price them against melee or archers.
+- Ability check: the `NewUnits12`, `T3Kit`, `CasterKit` and support attach hooks read only their `ENABLED` switch (checked
+  2026-10-13: no `enabled_here()` in the ability nodes), so the abilities run in Wave Strike; the WS2.G1 test proves it.
+
+**Caster autocast in the lane** (replaces the 4.4 table):
+| Caster | Spell | Wave Strike |
+|---|---|---|
+| Kilnwarden | Slag Rain, Mana Scald | Autocast (section 5 rules; Scald finds wizards and enemy casters) |
+| Rimecarver | Rime Bulwark | Autocast on the dive-guard rule (8.3 a). Watch stalls: if a batch shows `stall_events` > 0 next to a Bulwark, Bulwark off in WS and the Rimecarver card is replaced by frost_mortar |
+| Rimecarver | Scrying Rune | **Off** (full vision) |
+| Bramblesage | Snagroot, Pollen Haze | Autocast (pulls the enemy into the own wave: good in a lane) |
+| Gloom Deacon | Blood Tithe | Autocast |
+| Gloom Deacon | Umbral Passage | **Off** (no retreat in the lane) |
+| Support / T2-T3 abilities | Flame Burst, Wither Hex, shields, heals, Seed Storm... | Unchanged (they autocast on their own nodes) |
+Mechanism: a lane caster is never idle (it always holds a lane order), so the player autocast path (`has_move_order`
+blocks it) never fires. New `CasterAbility.lane_mode := true` (set by `LaneSpawner`): casts while walking like
+`bot_controlled`, runs every spell through `autocast_target` (Bulwark included), skips `umbral_passage` and
+`scrying_rune`; `bot_hard` false. Spawn order stays melee -> ranged -> casters (`spawn_list`), so casters walk at the back.
+
+### 14.2 More on screen: economy, caps, field
+| Knob (`rules_default.tres`) | Today | M2 | Effect |
+|---|---|---|---|
+| `start_crystals` | 400 | **600** | Horn 1 wave ~6-7 units per seat (was ~4) |
+| `base_income` | 100 | **120** | Horn 6 (3:50) wave ~13 units (was ~10) |
+| `supply_cap` 1v1 | 24 / 40 / 56 | **32 / 52 / 72** | Citadel wave ~45-50 units per seat (was ~37); crystals bind longer late, so prices matter again (13.1 reading) |
+| `field_cap` (per seat) | 150 | **200** (400 lane units in a 1v1) | Only if the perf gate below passes; stretch 225 if `--per-side=225` passes |
+| `bastion_hp_mult` | 1.6 | 1.6 first batch | More damage per wave: if the median drops under 15 min, 1.8 |
+- 2v2 (M3, not built): caps **26 / 42 / 58**, field cap **100** per seat (400 total). 3v3 / 4v4 unchanged (7.8 (7)).
+- Expected peak: ~280-320 lane units in normal play, up to 400 in Last Horns (the valve holds the rest at home).
+
+**What perf must deliver** (the measured costs of 13.1 / 13.2: the per-unit target scan, RVO avoidance ~5 ms at 300,
+model kits ~2 ms):
+| # | Measure | Owner | Target |
+|---|---|---|---|
+| P1 | `UnitGrid` (`scripts/units/unit_grid.gd`, group `"unit_grid"`): uniform 8 m hash over the map, units re-binned once per physics frame; `Unit._find_nearest_enemy` asks it when one exists (only cells within aggro range), else the old scan. Candidates in a fixed order (unit serial) so batches / replays stay reproducible | gameplay-coder | Same target as the old scan for 300 random units (equality test); scan cost <= 15 us per unit at 400 |
+| P2 | Think stagger: lane units' 0.25 s scans in 15 fixed frame buckets by spawn serial (no burst alignment) | gameplay-coder | At most ceil(n / 15) + 2 scans in any frame, also on a horn's spawn burst |
+| P3 | Avoidance gating: a lane unit with no enemy within 30 m (UnitGrid query every 0.5 s) walks with `avoidance_enabled = false` on its lateral offset; on again inside 30 m | gameplay-coder | March phase RVO cost ~0; 0 stalls |
+| P4 | Corpse cleanup 2 s in WS (7.8 (6)); WS level creates the UnitGrid | systems-coder | |
+**Perf gate**: `test_ws_perf -- --per-side=200`: march p95 <= **16.7 ms** (load-scaled as today), clash p95 <= **20 ms**,
+0 stalls, valve check. Windowed (JS's laptop, `ws_shots.gd` or a play): >= 45 fps at 400 lane units, high detail.
+**Fallback ladder** (stop at the first that passes): (1) `field_cap` 175; (2) `field_cap` 150 (today; the bigger caps
+stay: early waves are still bigger, more copies wait at home late); (3) windowed miss only: WS turns `map_detail` low
+when the field passes 300 (unit shadows and far animation off); (4) `last_horns_interval` 20 -> 25 s.
+
+### 14.3 WaveBot (ai-coder, `scripts/ai/wave_bot.gd`)
+- **MIX** = the 10 cards per kingdom (weights; cards above the bot's tier skipped as today):
+  Fire flame_guard 4, scorchling 2, ember_archer 3, ash_hurler 1, blaze_rider 2, cinder_arbalest 3, pyre_adept 1.5,
+  kilnwarden 1.5, sunforge_cataphract 2 · Ice rimeshield 4, rimeling 2, shardcaster 3, rime_seer 1.5, snowdrift_rider 2,
+  hoarlight_magebow 3, rimecarver 1, rimehorn_rider 2, shardguard 2, frostcrown_juggernaut 2 · Nature bramblehorn 3,
+  thornling 2, wildwood_archer 3, bloomtender 1.5, stagrunner 2, greenheart_oathkeeper 3, vinelasher 2, bramblesage 1.5,
+  briar_roc 2, glade_outrider 2 · Shadow shade 4, grave_hound 2, nightbolt 3, shadow_knight 2, gloam_rider 2,
+  barrow_knight 3, hexweaver 1.5, gloom_deacon 1.5, nightblood_reaver 2, veilborn_dreadrider 2.
+- **Melee >= 40 % of pop stays** (melee = `attack_range` <= 3.0, as today). New floors / ceilings: kingdom caster **1 card
+  at Stronghold, 2 at Citadel** (never more than 2 even if `max_copies` allows 4); support cards <= 10 % of pop;
+  T3 cards **20-30 % of pop at Citadel** (bought before T1 / T2 while under 20 %; `max_copies` is the ceiling: Fire's
+  3 cataphracts = 12 pop = 17 %, which counts as "met").
+- **Swap at the cap** (new): Citadel, supply full, T3 share < 20 % and the bank holds the T3 price: sell one copy of the
+  T1 card with the lowest value per pop (50 % refund, pop frees at the next horn), buy the T3 card next pass. Max one
+  sell per horn. Logged `swap <old> -> <new>`.
+- Tech timing unchanged (steward Stronghold horn 6 / Citadel 14, hammer 9 / 17); ranks unchanged (biggest line value
+  first). Personalities stay steward / hammer (the other three need towers / mercs).
+
+### 14.4 UI needs (for ui-designer: `docs/design/ui-wave-strike.md`; looks and layout are theirs)
+- **10 card slots** in three tier groups (T1 5, T2 3, T3 2) with a divider and the tier name; a locked group shows
+  `Requires Stronghold` / `Requires Citadel` once, not per card. Per card: icon, name, price, pop (the WS pop), copies
+  owned `x / max` when `max_copies` is set, rank pips, role tag (Melee / Ranged / Rider / Heavy / Support / Caster),
+  greyed reason. Tooltip: Unit Guide text + for casters the WS autocast line (on / off spells of 14.1).
+- Supply bar with the new caps (`52 / 72`), **field counter** `On the field 187 / 200` and, when the valve binds,
+  `12 held at home` (from `stats.held` of this horn), next-wave size.
+- **Keys** (physical; KeyLabels prints the AZERTY letters): cards = the whole bottom row **Z X C V B** (slots 1-5),
+  **N M ,** (6-8), **. /** (9-10); Ctrl+key = rank up, Alt+key = sell (unchanged). This frees B and N: **Coffer B -> G**,
+  **next tier N -> U** (both dead in WS: no workers, no trade). W A S D Q E F, Space, F1, T (shop), J (path), I (enemy
+  roster), Tab untouched. Slots 1-4 keep their M1 keys.
+
+### 14.5 Balance plan and pass bars
+1. Unit Lab: the existing T1/T2 matrices + a new **`final_matrix_t3`** run (the 7 T3 ids, equal crystals / pop / both),
+   casters through presets C1-C7 (`tools\unit_lab\run_unit_lab.ps1 -Matrix` / `C1`...); then
+   `tools\godot_run.ps1 --headless --path . -s tools/wave_strike/reprice_cards.gd --quit-after 600 '--' --save=res://data/wave_strike/card_prices_m2.tres`.
+2. Batches (`-Cards` the candidate table until it wins, then `--write`):
+   `tools\wave_strike\run_ws_batch.ps1 -Kingdoms fire,shadow,ice,nature -SeedsPerPair 2 -Parallel 4 -Name m2_a -Cards res://data/wave_strike/card_prices_m2.tres`
+   (24 games), knobs via `-Rules "start_crystals=600;base_income=120;field_cap=200"` before the .tres changes, a
+   `-Mirrors` batch for the seat, a `-P0 steward -P1 hammer` cross batch. Every step confirmed on 24 games (13.2).
+3. Knob order: field / caps (perf first) -> `bastion_hp_mult` (length) -> per-card `pop_override` / `mode_mult` ->
+   wizard `ws_rule` (more bodies = more Fireball targets: watch Fire first).
+| Bar | Pass |
+|---|---|
+| Kingdom share of all decided wins | each **20-35 %** |
+| Seat split | **40-60 %** |
+| Median length | **15-22 min**; <= 10 % of games on the 30:00 rule |
+| Stalls / script errors | **0 / 0** |
+| Perf | 14.2 gate (`--per-side=200` march p95 <= 16.7 ms, clash <= 20 ms) |
+| Roster use (new) | every card bought in >= 25 % of the games where its tier is reached; no card > 40 % of a kingdom's pop at 20:00; each kingdom caster casts >= 20 times per game it lives |
+
+### 14.6 Tasks
+| Id | Owner | Task | Done when |
+|---|---|---|---|
+| WS2.C1 | systems-coder | `card_prices.tres` 4 x 9-10 cards (14.1 order), `WaveCardTable.max_copies` + `MusterRoster` refusal, rules 14.2 (start 600, income 120, caps 32/52/72; `field_cap` stays 150 until WS2.C3) | `test_ws_director` updated: every card buyable at its tier and refused below it, `"Max 4 copies"` on a 5th Kilnwarden, caps 32/52/72, horn 1 income math |
+| WS2.C2 | systems-coder | `LaneSpawner` sets `lane_mode` on casters; level exposes `held_last_horn(seat)` / `field_count`; `test_ws_match` summary adds per-card buys, casts per caster id, swaps, peak units | A 30-min batch game's summary lists all four new fields |
+| WS2.G1 | gameplay-coder | `CasterAbility.lane_mode` (14.1) | `tests/test_ws2_casters.gd`: a 10 v 10 lane clash per kingdom, each caster casts >= 1 of its "on" spells, Umbral Passage / Scrying Rune 0 casts; pyre_adept, hexweaver, shardguard, briar_roc, nightblood_reaver abilities fire (casts > 0); rime_seer gives a shield and bloomtender heals at least once |
+| WS2.G2 | gameplay-coder | P1 `UnitGrid` + `_find_nearest_enemy` hook | `tests/test_unit_grid.gd`: same target as the old scan for 300 random units over 120 frames; smoke + perf tests PASS |
+| WS2.G3 | gameplay-coder | P2 scan buckets + P3 avoidance gating in `lane_march.gd` | `test_lane_march` PASS, 0 stalls; `test_ws_perf --per-side=150` march p95 <= 13 ms on a quiet PC |
+| WS2.C3 | systems-coder | P4 (UnitGrid in the WS level, 2 s corpses); run the 14.2 gate at 200 then 225; set `field_cap` by the ladder | `test_ws_perf --per-side=200` PASS (numbers written in a new 14.7 "as built" note by the designer) |
+| WS2.A1 | ai-coder | 14.3 MIX, caster / support / T3 floors, swap at the cap | `test_ws_match` PASS with each kingdom on both seats; bot log shows a caster by horn 9 (hammer) and a T3 card by horn 18 |
+| WS2.D1 | ui-designer | `ui-wave-strike.md` M2 part (14.4) | Spec has the 10-slot panel, field counter, key table |
+| WS2.U1 | ui-coder | Panel + keys + field counter per WS2.D1 | `test_ws_ui` (or the WS HUD test) presses each of the 10 keys + G / U; UI Lab shot `ws_buy` with 10 cards, no FAIL; French strings merged |
+| WS2.B1 | game-designer + lab runs | 14.5 steps 1-3 | Every 14.5 bar met on 24 games; results as 14.7 |
+| WS2.V1 | tech-artist (only if flagged) | Caster cast VFX / mana bar readable at WS camera height in a 300-unit clash | Art Lab no FAIL on a WS clash shot; skip if WS2.U1's shot review raises nothing |
+Order: C1, G1, G2 in parallel -> G3, C2, A1, D1 -> C3, U1 -> B1.
