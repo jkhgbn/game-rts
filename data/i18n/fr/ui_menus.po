@@ -320,7 +320,7 @@ msgstr "Neige"
 
 #. const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
 #: scripts/ui/menus/main_menu.gd:15 scripts/campaign/mission_00.gd:19
-#: scripts/campaign/mission_00.gd:993
+#: scripts/campaign/mission_00.gd:995
 msgid "The Night of Knives"
 msgstr "La Nuit des couteaux"
 
@@ -697,7 +697,7 @@ msgid "Classic: like most strategy games, right click moves your wizard and %s +
 msgstr "Classique : comme la plupart des jeux de stratégie, le clic droit déplace votre sorcier et %s + clic fait une attaque-déplacement.\nHéros WASD : %s déplacent votre sorcier, %s + clic fait une attaque-déplacement.\nCaméra libre (WASD) : le clic droit déplace votre sorcier, %s déplacent la caméra (Maj = plus vite), %s + clic fait une attaque-déplacement."
 
 #. var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t el
-#: scripts/ui/menus/settings_panel.gd:490 scripts/ui/champion_bar.gd:59
+#: scripts/ui/menus/settings_panel.gd:490 scripts/ui/champion_bar.gd:62
 #: data/champion_classes/wizard.tres:8
 msgid "Wizard"
 msgstr "Sorcier"
@@ -773,7 +773,7 @@ msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr "Langue du jeu (les voix restent en anglais; les sous-titres suivent la langue)."
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:365
+#: scripts/ui/menus/settings_panel.gd:365 scripts/ui/hud.gd:166
 msgid "Controls"
 msgstr "Commandes"
 
@@ -857,23 +857,50 @@ msgstr "Bas (plus rapide)"
 msgid "Upscaler"
 msgstr "Mise à l'échelle"
 
-#. empty_label.text = "No unit matches these filters." + ("\nTitans are not in the game yet." if _role == "titan"
-#: scripts/ui/menus/unit_guide.gd:501
-#~ msgid "\nTitans are not in the game yet."
+#. var b := _toggle(row, "All" if k == &"" else UnitGuideData.kingdom_name(k), kg, 96)
+#: scripts/ui/menus/unit_guide.gd:307 scripts/ui/menus/unit_guide.gd:321
+#~ msgid "All"
 #~ msgstr ""
 
-#. const TAVERN := "Tavern"
-#: scripts/ui/menus/unit_guide_data.gd:21 scripts/ui/tavern_window.gd:105 scripts/world/tavern.gd:39
-#~ msgid "Tavern"
+#. "text": "%s (%d mana)" % [str(d.get("text", "")), int(d.get("mana", 0))]})
+#: scripts/ui/menus/unit_guide_data.gd:299
+#~ msgid "%s (%d mana)"
 #~ msgstr ""
 
-#~ msgctxt "verb"
-#~ msgid "Keep"
-#~ msgstr "Garder"
+#. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
+#: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:300
+#~ msgid "Nature"
+#~ msgstr ""
 
-#. parts.append("%d pop" % int(s["pop"]))
-#: scripts/ui/menus/unit_guide_data.gd:270
-#~ msgid "%d pop"
+#. var role_line := "%s  ·  Tier %d  ·  %s%s" % [UnitGuideData.kingdom_name(e["kingdom"]), e["tier"],
+#: scripts/ui/menus/unit_guide.gd:613
+#~ msgid "%s  ·  Tier %d  ·  %s%s"
+#~ msgstr ""
+
+#. b.tooltip_text = "Every kingdom." if k == &"" else "Only %s units." % UnitGuideData.kingdom_name(k) \
+#: scripts/ui/menus/unit_guide.gd:310
+#~ msgid "Every kingdom."
+#~ msgstr ""
+
+#. "name": "Shadow", "wizard": "Malrik", "kingdom_line": "Shadow kingdom", "of_line": "Malrik of Shadow", "title"
+#: scripts/ui/menus/kingdom_card.gd:21 scripts/ui/menus/main_menu.gd:13
+#: scripts/world/layout_level.gd:545 scripts/world/skirmish.gd:294
+#~ msgid "Shadow"
+#~ msgstr ""
+
+#~ msgid "{n} worker"
+#~ msgid_plural "{n} workers"
+#~ msgstr[0] "{n} ouvrier"
+#~ msgstr[1] "{n} ouvriers"
+
+#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
+#: scripts/ui/menus/unit_guide.gd:322
+#~ msgid "Tier 3: Citadel"
+#~ msgstr ""
+
+#. out.append("empty line in %s" % key)
+#: scripts/ui/menus/unit_guide_data.gd:478
+#~ msgid "empty line in %s"
 #~ msgstr ""
 
 #. var keep_name := keep.display_name if keep else "Keep"
@@ -883,50 +910,23 @@ msgstr "Mise à l'échelle"
 #~ msgid "Keep"
 #~ msgstr ""
 
-#. out.append("empty line in %s" % key)
-#: scripts/ui/menus/unit_guide_data.gd:478
-#~ msgid "empty line in %s"
+#. parts.append("%d pop" % int(s["pop"]))
+#: scripts/ui/menus/unit_guide_data.gd:270
+#~ msgid "%d pop"
 #~ msgstr ""
 
-#. b.tooltip_text = "Every tier." if t == 0 else ["", "Tier 1: Keep", "Tier 2: Stronghold", "Tier 3: Citadel"][t]
-#: scripts/ui/menus/unit_guide.gd:322
-#~ msgid "Tier 3: Citadel"
+#~ msgctxt "verb"
+#~ msgid "Keep"
+#~ msgstr "Garder"
+
+#. const TAVERN := "Tavern"
+#: scripts/ui/menus/unit_guide_data.gd:21 scripts/ui/tavern_window.gd:105 scripts/world/tavern.gd:39
+#~ msgid "Tavern"
 #~ msgstr ""
 
-#~ msgid "{n} worker"
-#~ msgid_plural "{n} workers"
-#~ msgstr[0] "{n} ouvrier"
-#~ msgstr[1] "{n} ouvriers"
-
-#. "name": "Shadow", "wizard": "Malrik", "kingdom_line": "Shadow kingdom", "of_line": "Malrik of Shadow", "title"
-#: scripts/ui/menus/kingdom_card.gd:21 scripts/ui/menus/main_menu.gd:13
-#: scripts/world/layout_level.gd:545 scripts/world/skirmish.gd:294
-#~ msgid "Shadow"
-#~ msgstr ""
-
-#. b.tooltip_text = "Every kingdom." if k == &"" else "Only %s units." % UnitGuideData.kingdom_name(k) \
-#: scripts/ui/menus/unit_guide.gd:310
-#~ msgid "Every kingdom."
-#~ msgstr ""
-
-#. var role_line := "%s  ·  Tier %d  ·  %s%s" % [UnitGuideData.kingdom_name(e["kingdom"]), e["tier"],
-#: scripts/ui/menus/unit_guide.gd:613
-#~ msgid "%s  ·  Tier %d  ·  %s%s"
-#~ msgstr ""
-
-#. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
-#: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:300
-#~ msgid "Nature"
-#~ msgstr ""
-
-#. "text": "%s (%d mana)" % [str(d.get("text", "")), int(d.get("mana", 0))]})
-#: scripts/ui/menus/unit_guide_data.gd:299
-#~ msgid "%s (%d mana)"
-#~ msgstr ""
-
-#. var b := _toggle(row, "All" if k == &"" else UnitGuideData.kingdom_name(k), kg, 96)
-#: scripts/ui/menus/unit_guide.gd:307 scripts/ui/menus/unit_guide.gd:321
-#~ msgid "All"
+#. empty_label.text = "No unit matches these filters." + ("\nTitans are not in the game yet." if _role == "titan"
+#: scripts/ui/menus/unit_guide.gd:501
+#~ msgid "\nTitans are not in the game yet."
 #~ msgstr ""
 
 #. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
@@ -1215,64 +1215,9 @@ msgstr "Mise à l'échelle"
 #~ msgid "Tier 2: Stronghold"
 #~ msgstr ""
 
-#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
-#: scripts/ui/menus/unit_guide_data.gd:444
-#~ msgid "any army"
-#~ msgstr ""
-
-#. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
-#: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:297
-#~ msgid "Ice"
-#~ msgstr ""
-
-#. row.add_child(_filter_title("Role"))
-#: scripts/ui/menus/unit_guide.gd:328
-#~ msgid "Role"
-#~ msgstr ""
-
-#. return "Contract from %d gold (Greywater Lodge)" % int(s["gold"])
-#: scripts/ui/menus/unit_guide_data.gd:264
-#~ msgid "Contract from %d gold (Greywater Lodge)"
-#~ msgstr ""
-
-#. empty_label = UIStyle.panel_label("No unit matches these filters.", 15, MUTED)
-#: scripts/ui/menus/unit_guide.gd:373 scripts/ui/menus/unit_guide.gd:501
-#~ msgid "No unit matches these filters."
-#~ msgstr ""
-
-#. ["sight", "Sight", false], ["cooldown", "Attack every", true], ["ehp", "Effective HP", false],
-#: scripts/ui/menus/unit_guide.gd:27
-#~ msgid "Attack every"
-#~ msgstr ""
-
-#. back_button.tooltip_text = "Close the guide (Esc)."
-#: scripts/ui/menus/unit_guide.gd:295
-#~ msgid "Close the guide (Esc)."
-#~ msgstr ""
-
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
-#: scripts/ui/menus/unit_guide_data.gd:15
-#~ msgid "Ranged"
-#~ msgstr ""
-
-#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
-#: scripts/ui/menus/unit_guide_data.gd:444
-#~ msgid "the %s army"
-#~ msgstr ""
-
-#. out.append("summary longer than %d" % SUMMARY_MAX)
-#: scripts/ui/menus/unit_guide_data.gd:470
-#~ msgid "summary longer than %d"
-#~ msgstr ""
-
-#. detail_box.add_child(UIStyle.panel_label("Pick two units to compare.", 16, MUTED))
-#: scripts/ui/menus/unit_guide.gd:726
-#~ msgid "Pick two units to compare."
-#~ msgstr ""
-
-#. out.append("no entry in %s" % JSON_PATH)
-#: scripts/ui/menus/unit_guide_data.gd:463
-#~ msgid "no entry in %s"
+#. out.append("%d cons (want 2-3)" % (e["cons"] as Array).size())
+#: scripts/ui/menus/unit_guide_data.gd:474
+#~ msgid "%d cons (want 2-3)"
 #~ msgstr ""
 
 #. parts.append("Ranged attack")
@@ -1280,9 +1225,64 @@ msgstr "Mise à l'échelle"
 #~ msgid "Ranged attack"
 #~ msgstr ""
 
-#. out.append("%d cons (want 2-3)" % (e["cons"] as Array).size())
-#: scripts/ui/menus/unit_guide_data.gd:474
-#~ msgid "%d cons (want 2-3)"
+#. out.append("no entry in %s" % JSON_PATH)
+#: scripts/ui/menus/unit_guide_data.gd:463
+#~ msgid "no entry in %s"
+#~ msgstr ""
+
+#. detail_box.add_child(UIStyle.panel_label("Pick two units to compare.", 16, MUTED))
+#: scripts/ui/menus/unit_guide.gd:726
+#~ msgid "Pick two units to compare."
+#~ msgstr ""
+
+#. out.append("summary longer than %d" % SUMMARY_MAX)
+#: scripts/ui/menus/unit_guide_data.gd:470
+#~ msgid "summary longer than %d"
+#~ msgstr ""
+
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:444
+#~ msgid "the %s army"
+#~ msgstr ""
+
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
+#: scripts/ui/menus/unit_guide_data.gd:15
+#~ msgid "Ranged"
+#~ msgstr ""
+
+#. back_button.tooltip_text = "Close the guide (Esc)."
+#: scripts/ui/menus/unit_guide.gd:295
+#~ msgid "Close the guide (Esc)."
+#~ msgstr ""
+
+#. ["sight", "Sight", false], ["cooldown", "Attack every", true], ["ehp", "Effective HP", false],
+#: scripts/ui/menus/unit_guide.gd:27
+#~ msgid "Attack every"
+#~ msgstr ""
+
+#. empty_label = UIStyle.panel_label("No unit matches these filters.", 15, MUTED)
+#: scripts/ui/menus/unit_guide.gd:373 scripts/ui/menus/unit_guide.gd:501
+#~ msgid "No unit matches these filters."
+#~ msgstr ""
+
+#. return "Contract from %d gold (Greywater Lodge)" % int(s["gold"])
+#: scripts/ui/menus/unit_guide_data.gd:264
+#~ msgid "Contract from %d gold (Greywater Lodge)"
+#~ msgstr ""
+
+#. row.add_child(_filter_title("Role"))
+#: scripts/ui/menus/unit_guide.gd:328
+#~ msgid "Role"
+#~ msgstr ""
+
+#. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
+#: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/menus/main_menu.gd:13 scripts/world/skirmish.gd:297
+#~ msgid "Ice"
+#~ msgstr ""
+
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:444
+#~ msgid "any army"
 #~ msgstr ""
 
 #. out.append("%s in %s" % [phrase.capitalize(), where])

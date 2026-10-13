@@ -68,7 +68,7 @@ func _ready() -> void:
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	# No tooltip: a shown tooltip makes the Viewport take Esc (ui_cancel) to hide it, so Esc no longer closed the
 	# build menu / placement while the mouse rested on the hint. "(click to hide)" below says it instead.
-	position = Vector2(16, 64)
+	position = Vector2(8, 84)
 	var box := VBoxContainer.new()
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(box)
@@ -123,7 +123,7 @@ func _place() -> void:
 		var o := obj as Control
 		position = Vector2(o.position.x, o.position.y + o.size.y + 6.0)
 	else:
-		position = Vector2(16, 16)
+		position = Vector2(8, 36)
 
 
 ## Re-reads the world and rewrites the line.

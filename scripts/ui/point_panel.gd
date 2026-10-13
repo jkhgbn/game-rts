@@ -12,7 +12,7 @@ extends Control
 ##   venison line, `Grazing` / `Fleeing`, the hint.
 ## Step-12 nodes are reached untyped (get / has_method); without a selection side the panel simply stays hidden.
 
-const RECT := Rect2(588, 670, 676, 204)
+const RECT := Rect2(252, 696, 872, 192)   ## The console's selection block content (ui-sc2-console.md 6).
 const BOTTOM := 900.0
 const REFRESH := 0.1
 const TILE := 96.0

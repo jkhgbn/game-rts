@@ -9,7 +9,7 @@ extends Control
 ## The keys (Z / Shift+Z / Delete) are the SelectionManager's; the buttons are on the command card.
 ## `FlagCard.attach(hud)` adds it once (the command card calls it on setup, so no HUD wiring is needed).
 
-const RECT := Rect2(588, 670, 676, 204)
+const RECT := Rect2(252, 696, 872, 192)   ## The console's selection block content (ui-sc2-console.md 6).
 const BOTTOM := 900.0
 const REFRESH := 0.25
 const TILE := 96.0

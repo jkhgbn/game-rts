@@ -76,17 +76,17 @@ msgid "Ranged attack"
 msgstr ""
 
 #. ["hp", "HP", false], ["damage", "Damage", false], ["dps", "DPS", false],
-#: scripts/ui/menus/unit_guide.gd:25
+#: scripts/ui/menus/unit_guide.gd:25 scripts/ui/selection_panel.gd:133
 msgid "Damage"
 msgstr ""
 
 #. ["range", "Range", false], ["speed", "Speed", false], ["armor", "Armour", false],
-#: scripts/ui/menus/unit_guide.gd:26
+#: scripts/ui/menus/unit_guide.gd:26 scripts/ui/selection_panel.gd:133
 msgid "Range"
 msgstr ""
 
 #. ["range", "Range", false], ["speed", "Speed", false], ["armor", "Armour", false],
-#: scripts/ui/menus/unit_guide.gd:26
+#: scripts/ui/menus/unit_guide.gd:26 scripts/ui/selection_panel.gd:133
 msgid "Speed"
 msgstr ""
 
@@ -380,7 +380,7 @@ msgid "Helper"
 msgstr ""
 
 #. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
-#: scripts/ui/menus/unit_guide_data.gd:16 scripts/ui/champion_bar.gd:598 scripts/units/champion.gd:118
+#: scripts/ui/menus/unit_guide_data.gd:16 scripts/ui/champion_bar.gd:601 scripts/units/champion.gd:118
 msgid "Champion"
 msgstr ""
 
@@ -417,7 +417,7 @@ msgstr ""
 
 #. const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neut
 #: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/unit_guide_data.gd:426
-#: scripts/ui/menus/main_menu.gd:13 scripts/ui/point_panel.gd:324
+#: scripts/ui/menus/main_menu.gd:13 scripts/ui/point_panel.gd:324 scripts/ui/portrait_window.gd:91
 msgid "Neutral"
 msgstr ""
 
@@ -427,9 +427,9 @@ msgid "Tavern"
 msgstr ""
 
 #. var keep_name := keep.display_name if keep else "Keep"
-#: scripts/ui/menus/unit_guide_data.gd:78 scripts/ui/command_card.gd:967
-#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:1903
-#: scripts/ui/selection_panel.gd:2789
+#: scripts/ui/menus/unit_guide_data.gd:78 scripts/ui/command_card.gd:985
+#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:2105
+#: scripts/ui/selection_panel.gd:3203
 msgid "Keep"
 msgstr ""
 
@@ -465,8 +465,8 @@ msgid "{text} ({mana} mana)"
 msgstr ""
 
 #. out.append({"name": str(pd.get("name", p)), "key": "Passive",
-#: scripts/ui/menus/unit_guide_data.gd:313 scripts/ui/selection_panel.gd:221
-#: scripts/ui/selection_panel.gd:229 scripts/units/creature_abilities.gd:63
+#: scripts/ui/menus/unit_guide_data.gd:313 scripts/ui/selection_panel.gd:253
+#: scripts/ui/selection_panel.gd:261 scripts/units/creature_abilities.gd:63
 msgid "Passive"
 msgstr ""
 

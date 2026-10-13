@@ -122,14 +122,14 @@ func _run() -> void:
 				return
 			_next()
 		2:
-			# Wait for the cooldown sweep on Fireball (slot 4), use a draught for the item sweep.
+			# Wait for the cooldown sweep on Fireball (slot 5), use a draught for the item sweep.
 			sel.select_units([hero])
 			card.refresh()
-			if card.cooldown_visible(4):
-				var sweep: Control = card.cooldown_rects[4]
+			if card.cooldown_visible(5):
+				var sweep: Control = card.cooldown_rects[5]
 				var ratio: float = sweep.get("ratio")
-				if ratio <= 0.0 or ratio > 1.0 or card.cooldown_labels[4].text == "":
-					_error = "sweep ratio %.2f, seconds '%s'" % [ratio, card.cooldown_labels[4].text]
+				if ratio <= 0.0 or ratio > 1.0 or card.cooldown_labels[5].text == "":
+					_error = "sweep ratio %.2f, seconds '%s'" % [ratio, card.cooldown_labels[5].text]
 					return
 				if inv != null:
 					hero.take_damage(150.0, null)
@@ -147,8 +147,8 @@ func _run() -> void:
 			_next()
 		4:
 			# Ready flash the frame the sweep ends.
-			if not card.cooldown_visible(4):
-				if not card.ready_flash_active(4):
+			if not card.cooldown_visible(5):
+				if not card.ready_flash_active(5):
 					_error = "no ready flash when Fireball came back"
 					return
 				_next()
@@ -218,30 +218,30 @@ func _check_card() -> void:
 			_error = "button state %s not framed" % state
 			return
 	var br: Rect2 = b.get_global_rect()
-	if br.size != Vector2(64, 64):
+	if br.size != Vector2(56, 56):   # SC2.U1: 5 x 3 of 56 (ui-sc2-console.md 4.4)
 		_error = "button size %s" % br.size
 		return
 	var kr: Rect2 = card.key_labels[0].get_global_rect()
 	var rel := kr.end - br.position
-	if absf(rel.x - 62.0) > 0.5 or absf(rel.y - 62.0) > 0.5 or kr.size.x < 18.0:
+	if absf(rel.x - 54.0) > 0.5 or absf(rel.y - 54.0) > 0.5 or kr.size.x < 18.0:
 		_error = "hotkey badge rect %s in the button (end %s)" % [kr, rel]
 		return
 	if not (card.key_labels[0].get_theme_stylebox("normal") is StyleBoxFlat):
 		_error = "hotkey letter has no badge"
 		return
 	var ids: Array = card.slot_ids()
-	if str(ids[4]) != "fireball":
-		_error = "slot 5 is '%s', not fireball" % ids[4]
+	if str(ids[5]) != "fireball":   # SC2.U1: the spells at r2c1-r2c3
+		_error = "slot 6 is '%s', not fireball" % ids[5]
 		return
-	var pip: Control = card.rank_pips[4][0]
-	if pip.get("color") == null or pip.size != Vector2(6, 6) or pip.position != Vector2(4, 54):
-		_error = "rank pip not a 6 x 6 diamond at (4, 54)"
+	var pip: Control = card.rank_pips[5][0]
+	if pip.get("color") == null or pip.size != Vector2(6, 6) or pip.position != Vector2(32, 3):
+		_error = "rank pip not a 6 x 6 diamond at (32, 3) (the mana tag is bottom-left)"
 		return
 	var has_icon := ResourceLoader.exists("res://art/icons/spells/fireball.png")
-	if card.icons[4].visible != (has_icon or card.icons[4].texture != null):
+	if card.icons[5].visible != (has_icon or card.icons[5].texture != null):
 		_error = "icon visibility wrong (file exists %s)" % has_icon
 		return
-	if card.buttons[4].text == "":
+	if card.buttons[5].text == "":
 		_error = "abbreviation lost"
 		return
 
@@ -266,7 +266,7 @@ func _check_tooltips() -> void:
 		p.free()
 		return
 	p.free()
-	var tip: Control = ItemTooltip.HudSkin.tooltip_panel(card.buttons[4].tooltip_text)
+	var tip: Control = ItemTooltip.HudSkin.tooltip_panel(card.buttons[5].tooltip_text)
 	if tip == null:
 		_error = "no custom tooltip for the Fireball button"
 		return

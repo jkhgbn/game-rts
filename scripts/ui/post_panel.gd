@@ -13,14 +13,14 @@ extends Control
 ## side (`selected_neutral`, `neutral_building_clicked`) is 10.C7's: read with get() / has_signal(), so the panel
 ## simply stays hidden while it does not exist.
 
-const RECT := Rect2(588, 670, 676, 204)
+const RECT := Rect2(252, 696, 872, 192)   ## The console's selection block content (ui-sc2-console.md 6).
 const BOTTOM := 900.0
 const REFRESH := 0.25
 const TILE := 96.0
 const X_TEXT := 108.0            ## 696 - 588
 const Y_LINES: Array[float] = [30.0, 52.0, 76.0, 100.0]   ## y 700 / 722 / 746 / 770 on screen.
 const Y_HINT := 136.0            ## y 806
-const BUTTON_RECT := Rect2(516, 4, 150, 32)   ## (1104, 674) on screen.
+const BUTTON_RECT := Rect2(516, 4, 150, 32)   ## (768, 700) on screen.
 const GROUP := &"post_panel"
 const PLAYER_TEAM := 0
 const ENEMY_TEAM := 1

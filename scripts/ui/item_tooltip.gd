@@ -516,11 +516,138 @@ class HudSkin extends RefCounted:
 					color = WARN
 				elif i == 1 or line.begins_with("Cost ") or line.begins_with(cost_p):
 					color = token(&"text")
+					# ui-sc2-console.md 5 row 2: the cost line as icons + numbers (the string itself is unchanged).
+					var row := cost_row(line)
+					if row != null:
+						box.add_child(row)
+						continue
 			var l := text(line, size, color)
 			if line.length() > 44:
 				l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-				l.custom_minimum_size.x = 304
+				l.custom_minimum_size.x = 320
 			box.add_child(l)
+
+	## The cost line of a tooltip (`Cost 90 crystals · Pop 1 · 18 s`, `60 mana · 8 s`, French too) as an HBox named
+	## "CostRow": per part a 12 px glyph (diamond crystals, shield pop, hourglass time, drop mana, flame essence, coin
+	## gold) + the number in its currency colour (WARN when the player is short); other parts as muted text. null when
+	## the line has no cost / pop / time part (it stays a plain line).
+	static func cost_row(line: String) -> Control:
+		var parts := line.split(" · ")
+		var segs: Array = []   # [kind, text]
+		var known := 0
+		for raw in parts:
+			var seg := raw.strip_edges()
+			for prefix in ["Cost ", "Coût "]:   # LOC_IGNORE (the French cost word)
+				if seg.begins_with(prefix):
+					seg = seg.substr(prefix.length())
+			var kind := _cost_kind(seg)
+			if kind != &"text":
+				known += 1
+			segs.append([kind, seg])
+		if known == 0 or segs.size() > 6:
+			return null
+		var row := HBoxContainer.new()
+		row.name = "CostRow"
+		row.add_theme_constant_override("separation", 10)
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		for sg: Array in segs:
+			var kind: StringName = sg[0]
+			var t: String = sg[1]
+			var cell := HBoxContainer.new()
+			cell.add_theme_constant_override("separation", 3)
+			cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			if kind != &"text":
+				var glyph := Control.new()
+				glyph.custom_minimum_size = Vector2(12, 12)
+				glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+				glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				glyph.draw.connect(func() -> void: _draw_cost_glyph(glyph, kind))
+				cell.add_child(glyph)
+				t = _cost_number(kind, t)
+			cell.add_child(text(t, 13, _cost_color(kind, t)))
+			row.add_child(cell)
+		return row
+
+	## &"crystals", &"pop", &"time", &"mana", &"essence", &"gold" or &"text" for one part of a cost line.
+	static func _cost_kind(seg: String) -> StringName:
+		var w := seg.split(" ", false)
+		if w.size() == 2 and (w[0] == "Pop" or w[0] == "Pop.") and w[1].is_valid_int():
+			return &"pop"
+		if w.size() != 2 or not (w[0].replace(",", ".").is_valid_float()):
+			return &"text"
+		match w[1]:
+			"crystals", "crystal", "cristaux", "cristal":   # LOC_IGNORE
+				return &"crystals"
+			"s":
+				return &"time"
+			"mana":
+				return &"mana"
+			"essence":
+				return &"essence"
+			"gold", "or":   # LOC_IGNORE
+				return &"gold"
+		return &"text"
+
+	## The number shown next to a glyph ("90", "18 s").
+	static func _cost_number(kind: StringName, seg: String) -> String:
+		var w := seg.split(" ", false)
+		if kind == &"pop":
+			return w[1]
+		if kind == &"time":
+			return seg
+		return w[0]
+
+	static func _cost_color(kind: StringName, number: String) -> Color:
+		match kind:
+			&"crystals":
+				return WARN if _short(&"crystals", int(number)) else CRYSTAL_TEXT
+			&"mana":
+				return Color(0.55, 0.7, 1.0)
+			&"essence":
+				return WARN if _short(&"essence", int(number)) else Color(0.9, 0.8, 1.0)
+			&"gold":
+				return WARN if _short(&"gold", int(number)) else Color(1.0, 0.88, 0.5)
+			&"text":
+				return token(&"text_muted")
+		return token(&"text")
+
+	## True when the player (team 0) has less than `n` of `what` right now.
+	static func _short(what: StringName, n: int) -> bool:
+		var tree := Engine.get_main_loop() as SceneTree
+		if tree == null or n <= 0:
+			return false
+		var group: StringName = {&"crystals": &"economies", &"essence": &"essence_banks", &"gold": &"gold_banks"}[what]
+		var field: StringName = {&"crystals": &"crystals", &"essence": &"essence", &"gold": &"gold"}[what]
+		for node in tree.get_nodes_in_group(group):
+			if node.get(&"team") != null and int(node.get(&"team")) == 0 and node.get(field) != null:
+				return int(node.get(field)) < n
+		return false
+
+	## The 12 px cost glyphs.
+	static func _draw_cost_glyph(ci: Control, kind: StringName) -> void:
+		match kind:
+			&"crystals":
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(6, 0), Vector2(11, 6), Vector2(6, 12), Vector2(1, 6)]),
+						Color(0.45, 0.85, 1.0))
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(6, 0), Vector2(6, 6), Vector2(1, 6)]),
+						Color(0.75, 0.95, 1.0))
+			&"pop":
+				var c := token(&"text_muted")
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(1, 1), Vector2(11, 1), Vector2(11, 6), Vector2(6, 11),
+						Vector2(1, 6)]), c)
+			&"time":
+				var c := token(&"text_muted")
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(1, 0), Vector2(11, 0), Vector2(6, 6)]), c)
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(6, 6), Vector2(11, 12), Vector2(1, 12)]), c)
+			&"mana":
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(6, 0), Vector2(10, 6), Vector2(10, 8), Vector2(8, 11),
+						Vector2(4, 11), Vector2(2, 8), Vector2(2, 6)]), Color(0.35, 0.55, 1.0))
+			&"essence":
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(6, 0), Vector2(10, 5), Vector2(10, 9), Vector2(7, 12),
+						Vector2(4, 12), Vector2(1, 9), Vector2(2, 5), Vector2(4, 7)]), Color(0.75, 0.45, 1.0))
+			&"gold":
+				ci.draw_circle(Vector2(6, 6), 5.5, Color(1.0, 0.78, 0.25))
+				ci.draw_arc(Vector2(6, 6), 5.5, 0.0, TAU, 16, Color(0.55, 0.42, 0.10), 1.0, true)
 
 	static func _is_reason(line: String) -> bool:
 		for r: String in REASONS:

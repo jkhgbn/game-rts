@@ -88,7 +88,7 @@ func _step() -> void:
 			if not card.learn_pulse_active():
 				_error = "no learn pulse after a level-up with a point"
 				return
-			if not card.learn_chips[5].visible:
+			if not card.learn_chips[6].visible:
 				_error = "no + chip on Ember Step after the level-up"
 				return
 			hero.apply_status(&"haste", 8.0)
@@ -162,8 +162,8 @@ func _step() -> void:
 			if card.learn_pulse_active():
 				_error = "learn pulse still active after 2 s"
 				return
-			if card.learn_chips[5].visible and card.learn_chips[5].scale != Vector2.ONE:
-				_error = "+ chip still scaled %s after the pulse" % card.learn_chips[5].scale
+			if card.learn_chips[6].visible and card.learn_chips[6].scale != Vector2.ONE:
+				_error = "+ chip still scaled %s after the pulse" % card.learn_chips[6].scale
 				return
 			_done = true
 

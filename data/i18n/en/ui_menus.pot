@@ -320,7 +320,7 @@ msgstr ""
 
 #. const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
 #: scripts/ui/menus/main_menu.gd:15 scripts/campaign/mission_00.gd:19
-#: scripts/campaign/mission_00.gd:993
+#: scripts/campaign/mission_00.gd:995
 msgid "The Night of Knives"
 msgstr ""
 
@@ -697,7 +697,7 @@ msgid "Classic: like most strategy games, right click moves your wizard and %s +
 msgstr ""
 
 #. var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t el
-#: scripts/ui/menus/settings_panel.gd:490 scripts/ui/champion_bar.gd:59
+#: scripts/ui/menus/settings_panel.gd:490 scripts/ui/champion_bar.gd:62
 #: data/champion_classes/wizard.tres:8
 msgid "Wizard"
 msgstr ""
@@ -773,7 +773,7 @@ msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr ""
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:365
+#: scripts/ui/menus/settings_panel.gd:365 scripts/ui/hud.gd:166
 msgid "Controls"
 msgstr ""
 

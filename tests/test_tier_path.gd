@@ -410,7 +410,7 @@ func _run_mission() -> void:
 	card.refresh()
 	var slot_ids := card.slot_ids()
 	_check(slot_ids[0] == "train_cinder_hand" and slot_ids[1] == "train_keep_upgrade" and slot_ids[4] == "train_kilnwarden"
-			and slot_ids[8] == "rally", "mission keep card %s" % str(slot_ids))
+			and slot_ids[10] == "rally", "mission keep card %s" % str(slot_ids))   # SC2.U1: Set Rally r3c1 = slot 10
 	_check(card.slots[1]["reason"] == "Available at 3:30", "mission Stronghold before 3:30: '%s'" % card.slots[1]["reason"])
 	_check(card.slots[4]["reason"] == TierSystem.MSG_T2, "Kilnwarden before the Stronghold: '%s'" % card.slots[4]["reason"])
 	# Westwatch's Blaze Rider takes the next slot: the tier-2 keys never move.

@@ -1,20 +1,25 @@
 class_name ControlGroupBar
 extends HBoxContainer
-## Control group tabs (StarCraft II style), just above the selection panel: one tab per non-empty
-## group in key order 1-9, 0. Each tab shows the key (gold, top-left), the member count and the
-## abbreviation of the most common unit (or building). The tab of the group that is exactly the
-## current selection is gold. Left click = select the group, double click = centre the camera.
+## Control group tabs (StarCraft II style), on the console's top edge (ui-sc2-console.md 4.1, SC2.U4): one 56 x 32 tab
+## per non-empty group in key order 1-9, 0, from (252, 652) at 1600 x 900. Each tab shows the key digit (gold, 12 x 12
+## badge top-left), a 24 px icon of the most common unit (or building) at (16, 4) (its abbreviation when it has no
+## icon) and the member count (font 13, right). The tab of the group that is exactly the current selection is gold
+## (rim + 2 px line). Left click = select the group, double click = centre the camera.
 
-const TAB_SIZE := Vector2(64, 36)
+const TAB_SIZE := Vector2(56, 32)
 const GAP := 4
-const LEFT := 272.0                   # same left edge as the selection panel
-const BOTTOM := 16.0 + 224.0 + 4.0    # 4 px above the selection panel (16 px margin + 224 px panel)
+const LEFT := 252.0                   # the selection block's content left edge
+const BOTTOM := 216.0                 # sits on the console's top edge (y 684 at 1600 x 900)
+const ICON_POS := Vector2(16, 4)
+const ICON_SIZE := 24.0
 const REFRESH_INTERVAL := 0.25
 const NORMAL_BORDER := Color(0.45, 0.4, 0.35, 0.9)
 
 var selection: SelectionManager
 var tabs: Array[Button] = []          # index = group - 1 (group 10 = key 0 is last)
 var key_labels: Array[Label] = []
+var tab_icons: Array[TextureRect] = []   # the most common member's icon per tab
+var _summaries: Array[String] = []      # "3 FG" per tab (tab_summary)
 
 var _active := -1
 var _refresh_left := 0.0
@@ -36,7 +41,8 @@ func _ready() -> void:
 		b.custom_minimum_size = TAB_SIZE
 		b.focus_mode = Control.FOCUS_NONE
 		b.clip_text = true
-		b.add_theme_font_size_override("font_size", 14)
+		b.alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		b.add_theme_font_size_override("font_size", 13)
 		UIStyle.style_button(b)
 		b.visible = false
 		b.pressed.connect(_on_tab_pressed.bind(group))
@@ -61,9 +67,18 @@ func _ready() -> void:
 		key.size = Vector2(12, 12)
 		key.custom_minimum_size = Vector2(12, 12)
 		b.add_child(key)
+		var icon := TextureRect.new()
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.position = ICON_POS
+		icon.size = Vector2(ICON_SIZE, ICON_SIZE)
+		b.add_child(icon)
 		add_child(b)
 		tabs.append(b)
 		key_labels.append(key)
+		tab_icons.append(icon)
+		_summaries.append("")
 
 
 func setup(p_selection: SelectionManager) -> void:
@@ -95,7 +110,11 @@ func refresh() -> void:
 		if members.is_empty():
 			continue
 		var summary := _summary(members)
-		b.text = "  %d %s" % [members.size(), UIStyle.abbrev(summary[0][0])]
+		var tex := _icon_of(members, String(summary[0][0]))
+		tab_icons[i].texture = tex
+		_summaries[i] = "%d %s" % [members.size(), UIStyle.abbrev(summary[0][0])]
+		# The icon says what the group is; without one the abbreviation does ("3 FG").
+		b.text = str(members.size()) if tex != null else _summaries[i]
 		var parts: Array[String] = []
 		for entry in summary:
 			parts.append("%d %s" % [entry[1], entry[0]])
@@ -131,6 +150,27 @@ func _draw_tab_deco(c: Control, group: int) -> void:
 	c.draw_line(Vector2(w - 6, 0), Vector2(w, 6), rim, 1.0, true)
 	if group == _active:
 		c.draw_rect(Rect2(2, h - 2, w - 4, 2), UIStyle.GOLD)
+
+
+## "3 FG": the tab's count and the abbreviation of its most common member ("" when the group is empty), for tests.
+func tab_summary(group: int) -> String:
+	var b := tab_for_group(group)
+	return _summaries[group - 1] if b != null and b.visible else ""
+
+
+## The icon of the most common member named `member_name` (a unit's art/icons/units/<id>, a building's
+## art/icons/buildings/<id>), or null.
+func _icon_of(members: Array, member_name: String) -> Texture2D:
+	for m in members:
+		if not is_instance_valid(m) or _member_name(m) != member_name:
+			continue
+		if m is Unit:
+			return SelectionPanel.unit_icon(m as Unit)
+		var type: Variant = m.get("building_type")
+		if type is Object and type.get("id") != null:
+			return ItemTooltip.HudSkin.icon("buildings", String(type.get("id")))
+		return null
+	return null
 
 
 ## The shown groups, in tab order (for tests).

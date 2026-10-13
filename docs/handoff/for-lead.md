@@ -144,3 +144,12 @@ Nothing has to be glued: every 9.C8 piece installs itself.
 - saved_state users in scripts/ai: `Commander` (key `commander:<team>`, row -> Building map saved as node refs that
   SaveWorld encodes with its ids) and `TrackerContract` (key `tracker_contract:<team>:<kind>`, static `create_for_save`
   = `HuntersGuild.restore_contract` + saved time left, nothing charged; a refund-only stub when the guild can't).
+
+## SC2 console HUD (ui-coder, 2026-10-13, SC2.U1-U5)
+- `project.godot` (yours): ui-sc2-console.md 5 wants tooltips after 0.25 s: `gui/timers/tooltip_delay_sec = 0.25`.
+- `tests/smoke_test.gd` / `perf_test.gd` unchanged and passing; the UI Lab cannot check 2560x1440 / 3440x1440 on the
+  1920x1080 laptop (windowed sizes are skipped, the headless lab waits forever on `frame_post_draw`): those sizes are
+  covered by `tests/test_sc2_console.gd` (the lab's FAIL rules on the live HUD at 1600x900 and 2150x900 virtual).
+- `tools/ui_lab/ui_lab.gd` (no owner listed): its HUD shots sit behind the STR / INT pick (the game is paused, the
+  panels never refresh). Picking a path in `_run_resolution` before the match clock (`StrIntPath.of(hero).choose(&"str")`,
+  as tests/test_ui_card_hotkeys.gd does) would give live HUD shots.

@@ -103,7 +103,7 @@ func _step(t: int) -> void:
 
 
 func _check_wheel() -> void:
-	if not is_equal_approx(minimap.zoom, 1.0) or minimap.world_to_map(Vector3.ZERO).distance_to(Vector2(110, 110)) > 0.01:
+	if not is_equal_approx(minimap.zoom, 1.0) or minimap.world_to_map(Vector3.ZERO).distance_to(Vector2(Minimap.SIZE, Minimap.SIZE) * 0.5) > 0.01:
 		_error = "minimap does not start at 1x centred (zoom %.2f)" % minimap.zoom
 		return
 	var cam_zoom: float = main.camera_rig.get(&"_target_zoom")

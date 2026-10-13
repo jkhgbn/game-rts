@@ -477,7 +477,7 @@ func _check_labels() -> void:
 		return
 	sel.select_units([main.hero])
 	card.refresh()
-	var spell2: Dictionary = card.slots[5]
+	var spell2: Dictionary = card.slots[6]   # SC2.U1: the spells at r2c1-r2c3 (slots 5-7)
 	if str(spell2.get("key", "")) != "A" or str(spell2.get("tooltip", "")).contains("Ctrl+Q"):
 		_error = "AZERTY card spell 2: key '%s', tooltip '%s'" % [spell2.get("key", ""), spell2.get("tooltip", "")]
 		return

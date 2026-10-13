@@ -716,3 +716,9 @@ Called right after `node.team = new_team`. Until they exist, a switched seat kee
 - `Unit.set_down(pos: Vector3)` exists (navmesh-snapped, quiet, orders kept): `build_grid.gd` TODO(set_down) can use it.
 - `HelperRoster.stub_for_save(id)` / `Stables16.stub_for_save(id)` exist (instance methods, as `_stub_from_save` expects);
   the roster's queued / reviving state comes back through its saved_state row (`helper_roster:<team>`).
+
+## SC2 console HUD (ui-coder, 2026-10-13)
+- `scripts/world/wave_strike/wave_strike_level.gd` start text "Buy cards (Z X C V)": still right (cards 5-10 have no key
+  in the M1 panel until WS2.U1). For WS2.U1 the GameHUD now offers `hud.console.zone_rect(&"muster")` (x 244 -> right
+  edge - 12, y 692-892) and `hud.set_skirmish_console_visible(false)` (hides the selection block, portrait window,
+  command card and group tabs; minimap, hero tile and champion slots stay).

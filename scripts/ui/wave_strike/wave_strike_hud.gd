@@ -224,7 +224,8 @@ func _refresh() -> void:
 		var t := UnitType.find(String(id))
 		var why := roster.can_buy(id)
 		var b := _card_buttons[i]
-		b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]),
+		# WS2.C1: up to 10 cards; cards 5+ have no key until WS2.U1's 10-key panel (click still buys).
+		b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]) if i < CARD_KEYS.size() else "-",
 			Loc.t(t.display_name) if t else String(id), roster.price_of(id), roster.pop_of(id), roster.count(id)]
 		b.modulate = Color.WHITE if why == "" else Color(1, 1, 1, 0.55)
 		b.tooltip_text = (Loc.sink(why) + "\n" if why != "" else "") + _card_tip(t)
@@ -252,7 +253,7 @@ static func _card_tip(t: UnitType) -> String:
 	if t == null:
 		return ""
 	return Loc.t("%s: %d HP, %d damage, range %.1f, speed %.1f%s") % [Loc.t(t.display_name), int(t.max_hp),
-		int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Stronghold)") if t.requires_tier >= 2 else ""]
+		int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Citadel)") if t.requires_tier >= 3 else (Loc.t("  (Stronghold)") if t.requires_tier >= 2 else "")]
 
 
 func _on_horn(_index: int) -> void:

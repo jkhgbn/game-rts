@@ -36,8 +36,13 @@ extends Control
 ## clamped to the map and follows the camera: when the camera moves out of the middle 60 % of the view, the view
 ## slides to keep it inside (not while dragging on the minimap). All drawing and clicks go through world_to_map /
 ## map_to_world, so clicks, orders and icon sizes work the same at any zoom.
+## Console (ui-sc2-console.md 1, SC2.U1): drawn 200 x 200 at (14, 692) in the console's minimap zone; the alert stack
+## (AlertStack) pings it through alert_ping() and hears the hunt pings through `hunt_pinged`.
 
-const SIZE := 220.0
+## A new enemy Hunt bounty (or a big raise) on the player's things pinged the minimap at this world point.
+signal hunt_pinged(world: Vector3)
+
+const SIZE := 200.0
 const ZOOM_MIN := 1.0
 const ZOOM_MAX := 3.0
 const ZOOM_STEP := 0.5
@@ -477,6 +482,7 @@ func _scan_hunt_pings() -> void:
 			var target := BountyMode.flag_target(b)
 			if fresh and _hunts_baseline and target != null:
 				ping(target.global_position)
+				hunt_pinged.emit(target.global_position)
 	for id in _hunt_stakes.keys():
 		if not seen.has(id):
 			_hunt_stakes.erase(id)
@@ -487,6 +493,12 @@ func _scan_hunt_pings() -> void:
 func ping(world: Vector3) -> void:
 	_pings.append([world, PING_TIME, UIStyle.WARN])
 	hunt_pings += 1
+	_overlay_dirty = true
+
+
+## The same 3 expanding rings in `color` for an alert of the console's alert stack (not counted in hunt_pings).
+func alert_ping(world: Vector3, color: Color) -> void:
+	_pings.append([world, PING_TIME, color])
 	_overlay_dirty = true
 
 

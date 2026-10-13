@@ -592,19 +592,20 @@ func _check_bar() -> void:
 	if not bar.visible:
 		_fail("champion bar hidden with a guild")
 		return
-	if bar.slots.size() != 3 or not _at(bar, Vector2(16, 408), Vector2(240, 228)):
+	# SC2.U3 (ui-sc2-console.md 3.2): three compact 240 x 52 slots from (8, 380).
+	if bar.slots.size() != 3 or not _at(bar, Vector2(8, 380), Vector2(240, 164)):
 		_fail("bar rect %s" % bar.get_global_rect())
 		return
 	for k in 3:
-		if not _at(bar.slots[k], Vector2(16, 408 + 78 * k), Vector2(240, 72)):
+		if not _at(bar.slots[k], Vector2(8, 380 + 56 * k), Vector2(240, 52)):
 			_fail("slot %d rect %s" % [k, bar.slots[k].get_global_rect()])
 			return
 	var s0: Node = bar.slots[0]
-	var o := Vector2(16, 408)
-	if not _at(s0.face, o + Vector2(8, 8), Vector2(56, 56)) or not _at(s0.name_label, o + Vector2(72, 6)) \
-			or not _at(s0.key_badge, o + Vector2(208, 7), Vector2(24, 14)) \
-			or not _at(s0.hp_bar, o + Vector2(72, 26), Vector2(160, 14)) or not _at(s0.intent_label, o + Vector2(72, 46)) \
-			or not _at(s0.medallion, o + Vector2(49, 47), Vector2(22, 22)):
+	var o := Vector2(8, 380)
+	if not _at(s0.face, o + Vector2(4, 4), Vector2(44, 44)) or not _at(s0.name_label, o + Vector2(54, 3)) \
+			or not _at(s0.key_badge, o + Vector2(210, 4), Vector2(26, 15)) \
+			or not _at(s0.hp_bar, o + Vector2(54, 22), Vector2(150, 10)) or not _at(s0.intent_label, o + Vector2(54, 34)) \
+			or not _at(s0.medallion, o + Vector2(36, 32), Vector2(18, 18)):
 		_fail("slot parts not at the 3.2 offsets")
 		return
 	if s0.name_label.text != "Sable Quint" or s0.level_label.text != "3" or s0.purse_label.text != "120" \
@@ -763,12 +764,14 @@ func _check_champion_view() -> void:
 	if panel.champion_name.text != "Sable Quint" or panel.champion_title.text != " · the Coin-Cutter":
 		_fail("champion name '%s%s'" % [panel.champion_name.text, panel.champion_title.text])
 		return
-	if not _at(panel.champion_hp, Vector2(696, 700), Vector2(280, 22)) \
-			or not _at(panel.champion_xp, Vector2(696, 726), Vector2(280, 14)) \
-			or not _at(panel.champion_items[0], Vector2(696, 826), Vector2(36, 36)) \
-			or not _at(panel.champion_items[3], Vector2(816, 826)) \
-			or not _at(panel.champion_abilities[0], Vector2(1104, 684), Vector2(48, 48)) \
-			or not _at(panel.champion_abilities[2], Vector2(1212, 684)) or not _at(panel.portrait, Vector2(588, 670)):
+	# SC2.U1 / U4 (ui-sc2-console.md 4.2-4.3): the view from the selection block's content (252, 696), the portrait in
+	# the portrait window (1144, 696).
+	if not _at(panel.champion_hp, Vector2(252, 726), Vector2(280, 22)) \
+			or not _at(panel.champion_xp, Vector2(252, 752), Vector2(280, 14)) \
+			or not _at(panel.champion_items[0], Vector2(252, 852), Vector2(36, 36)) \
+			or not _at(panel.champion_items[3], Vector2(372, 852)) \
+			or not _at(panel.champion_abilities[0], Vector2(660, 710), Vector2(48, 48)) \
+			or not _at(panel.champion_abilities[2], Vector2(768, 710)) or not _at(panel.portrait, Vector2(1144, 696)):
 		_fail("champion view rects: HP %s items %s abilities %s portrait %s (panel %s, view %s)" % [
 				panel.champion_hp.get_global_rect(), panel.champion_items[0].get_global_rect(),
 				panel.champion_abilities[0].get_global_rect(), panel.portrait.get_global_rect(), panel.get_global_rect(),

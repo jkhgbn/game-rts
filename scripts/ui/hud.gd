@@ -1,19 +1,27 @@
 class_name GameHUD
 extends CanvasLayer
-## On-screen interface (layout: docs/design/ui-hud.md): objective, top bar (crystals, pop),
-## controls help, minimap, selection panel (hero column + selection), command card,
-## and pop-up messages / the victory-defeat banner.
+## On-screen interface: the console HUD (docs/design/ui-sc2-console.md, SC2.U1-U5; older parts ui-hud.md).
+## Top-left: Menu / ? buttons, the objective (collapsible) and the Next hint; top-right: the resources (TopBar) and
+## the tier chip. Bottom: ONE console (ConsoleFrame) holding the minimap, the selection block (SelectionPanel), the
+## portrait window and the command card; above it on the left the alert stack, the champion slots, the hero tile
+## (+ inventory) and the quick row (Idle F3 / Army F2 / match clock), and the control-group tabs. The controls help is
+## an overlay (? button or K). Pop-up messages and the victory / defeat banner as before.
 
 ## The command card's Fireball button (main.gd connects it to the selection's Fireball targeting).
 signal fireball_pressed
 
 var minimap: Minimap
-var idle_worker_button: IdleWorkerButton   ## Bottom left, over the minimap corner: idle count, click = F3.
+var console: ConsoleFrame                 ## The bottom console frame (zones: ConsoleFrame.zone_rect).
+var idle_worker_button: IdleWorkerButton   ## Quick row (8, 648): idle count, click = F3.
+var army_button: ArmyButton                ## Quick row (48, 648): army count, click = F2.
+var alert_stack: AlertStack                ## Alerts above the champion slots (ui-sc2-console.md 3.3).
+var menu_button: Button                    ## Top-left: opens the pause menu.
+var help_button: Button                    ## Top-left `?`: toggles the controls overlay (K too).
 var top_bar: TopBar
 var command_card: CommandCard
 var selection_panel: SelectionPanel
 var group_bar: ControlGroupBar
-var inventory_bar: InventoryBar   ## Vessa's 6 item slots + artifact slot in the hero column (4.U1a).
+var inventory_bar: InventoryBar   ## Vessa's 6 item slots + 2 artifact slots in the hero tile (4.U1a, SC2.U3).
 var shop_window: ShopWindow       ## The shop (4.U1b), toggled with T (physical key).
 var champion_bar: ChampionBar     ## The 3 champion slots (9.C7); F5 / F6 / F7 centre on them.
 var tavern_window: TavernWindow   ## Hire / revive / dismiss champions (9.C7), toggled with Y or a tavern click.
@@ -44,9 +52,13 @@ var _hero: Wizard
 var _selection: SelectionManager
 
 var _objective: Label
+var _objective_header: Button   ## "v Objective" / "> Objective": click folds the objective to this line.
+var objective_collapsed := false   ## Kept for the match (the HUD is rebuilt with the level).
 var _message: Label
 var _banner: Label
-var _help_panel: Control
+var _help_panel: Control         ## The controls overlay (hidden until ? / K).
+var _help_backdrop: Control      ## Full-screen catcher behind it: a click outside closes it.
+var _clock_holder: HBoxContainer ## The quick row's match clock (TopBar.clock_box), right edge at x 244.
 var _message_time := 0.0
 var _root: Control
 var _obj_panel: PanelContainer
@@ -69,6 +81,15 @@ const HEROES_POLL := 0.25
 var _objective_source := ""   # the English objective text (re-translated on a language switch)
 
 const MESSAGE_Y := 120.0
+## Top-left buttons (ui-sc2-console.md 1): 28 x 22 from (8, 8), gap 4; the objective from (8, 36).
+const TOP_BUTTON := Vector2(28, 22)
+const OBJECTIVE_POS := Vector2(8, 36)
+const OBJECTIVE_MAX_W := 420.0
+## The controls overlay: 480 wide at (560, 140).
+const HELP_RECT := Rect2(560, 140, 480, 0)
+const HELP_KEY := KEY_K
+const CLOCK_RIGHT := 244.0
+const CLOCK_Y := 658.0
 
 
 func _ready() -> void:
@@ -79,73 +100,127 @@ func _ready() -> void:
 	add_child(root)
 	_root = root
 
-	# Objective (top left): slate, font 17 in the title colour, outline 3.
-	# Read-only panels let clicks through to the battlefield under them.
+	# The console (ui-sc2-console.md 1): one framed panel along the bottom; its zones' pieces are drawn over it.
+	console = ConsoleFrame.new()
+	root.add_child(console)
+
+	# Objective (top left, (8, 36)): a header row ("v Objective", click folds it) over the text, slate, font 17 in the
+	# title colour. Read-only parts let clicks through to the battlefield under them.
 	var obj_panel := _panel(root)
-	obj_panel.add_theme_stylebox_override("panel", UIStyle.slate_style())
+	obj_panel.add_theme_stylebox_override("panel", UIStyle.slate_style(8.0))
 	obj_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	obj_panel.position = Vector2(16, 16)
+	obj_panel.position = OBJECTIVE_POS
 	_obj_panel = obj_panel
+	var obj_box := VBoxContainer.new()
+	obj_box.add_theme_constant_override("separation", 2)
+	obj_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	obj_panel.add_child(obj_box)
+	_objective_header = _fold_header("Objective")
+	_objective_header.tooltip_text = "Click: fold / unfold the objective"
+	_objective_header.pressed.connect(toggle_objective)
+	obj_box.add_child(_objective_header)
 	_objective = _label("", 17)
 	_objective.add_theme_color_override("font_color", UIStyle.token(&"title"))
-	obj_panel.add_child(_objective)
+	obj_box.add_child(_objective)
 
-	# Top bar: crystals and population (top centre)
+	# Resources (top right).
 	top_bar = TopBar.new()
 	root.add_child(top_bar)
 	top_bar.message.connect(show_message)
 
-	# Controls help (top right)
+	# Top-left buttons: Menu (the pause menu) and ? (the controls overlay, K too).
+	menu_button = _top_button(root, 0, "", Loc.t("Menu  [Esc]"))
+	menu_button.pressed.connect(open_menu)
+	var bars := Control.new()
+	bars.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bars.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bars.draw.connect(func() -> void:
+		var col := UIStyle.token(&"text")
+		for k in 3:
+			bars.draw_rect(Rect2(8, 6 + 4 * k, 12, 2), col))
+	menu_button.add_child(bars)
+	help_button = _top_button(root, 1, "?", Loc.t("Controls  [%s]") % KeyLabels.of(HELP_KEY))
+	help_button.pressed.connect(toggle_help)
+
+	# Controls overlay (hidden): title + the help_text() lines, closes on ? / K / Esc / a click outside.
+	_help_backdrop = Control.new()
+	_help_backdrop.name = "HelpBackdrop"
+	_help_backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_help_backdrop.mouse_filter = Control.MOUSE_FILTER_STOP
+	_help_backdrop.visible = false
+	_help_backdrop.gui_input.connect(func(e: InputEvent) -> void:
+		var mb := e as InputEventMouseButton
+		if mb != null and mb.pressed:
+			close_help())
+	root.add_child(_help_backdrop)
 	var help_panel := _panel(root)
-	help_panel.add_theme_stylebox_override("panel", UIStyle.slate_style())
-	help_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	help_panel.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	help_panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	help_panel.offset_left = -16.0
-	help_panel.offset_right = -16.0
-	help_panel.offset_top = 16.0
-	help_panel.offset_bottom = 16.0
-	# Keys: CLAUDE.md "Keys" / ui-hud.md (lines kept short so the panel stays right of the top bar).
+	help_panel.name = "HelpOverlay"
+	help_panel.add_theme_stylebox_override("panel", UIStyle.slate_style(10.0))
+	help_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	help_panel.position = HELP_RECT.position
+	help_panel.custom_minimum_size = Vector2(HELP_RECT.size.x, 0)
+	help_panel.visible = false
+	var help_box := VBoxContainer.new()
+	help_box.add_theme_constant_override("separation", 6)
+	help_panel.add_child(help_box)
+	var help_title := UIStyle.display_label("Controls", 16)
+	help_title.add_theme_color_override("font_color", UIStyle.token(&"title"))
+	help_box.add_child(help_title)
+	# Keys: CLAUDE.md "Keys" / ui-hud.md.
 	GameSettings.ensure_read()   # the help follows the saved control scheme (UX.1)
 	var help := _label(help_text(_help_name, help_features()), 13)
-	help.modulate = Color(1, 1, 1, 0.8)
-	help.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
-	help_panel.add_child(help)
+	help.add_theme_color_override("font_color", UIStyle.token(&"text"))
+	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART   # French lines are longer
+	help.custom_minimum_size = Vector2(HELP_RECT.size.x - 20.0, 0)
+	help_box.add_child(help)
 	_help_panel = help_panel
 	_help_label = help
 
-	# Minimap (bottom left, 240 x 240 panel at (16, 644) on a 1600 x 900 screen): heavy frame.
+	# Minimap: 200 x 200 at (14, 692), in the console's minimap zone (no frame of its own).
 	var map_panel := _panel(root)
-	map_panel.add_theme_stylebox_override("panel", UIStyle.frame_style(10.0))
-	UIStyle.add_drop_shadow(map_panel)
+	map_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	_map_panel = map_panel
-	_anchor_bottom_left(map_panel, 16.0, 16.0)
+	_anchor_bottom_left(map_panel, ConsoleFrame.MINIMAP.position.x, 900.0 - ConsoleFrame.MINIMAP.end.y)
 	minimap = Minimap.new()
 	map_panel.add_child(minimap)
-	# Idle-worker button over the minimap's top-right corner (click = next, Ctrl+click = all; hidden at 0).
-	idle_worker_button = IdleWorkerButton.new()
-	idle_worker_button.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	idle_worker_button.offset_left = 16.0 + 240.0 - IdleWorkerButton.SIZE.x - 6.0
-	idle_worker_button.offset_right = idle_worker_button.offset_left + IdleWorkerButton.SIZE.x
-	idle_worker_button.offset_top = -(16.0 + 240.0) + 6.0
-	idle_worker_button.offset_bottom = idle_worker_button.offset_top + IdleWorkerButton.SIZE.y
-	root.add_child(idle_worker_button)
 
-	# Selection panel (bottom, hero column + selection) and command card (bottom right)
+	# Selection block, portrait window and command card (the console's middle and right zones).
 	selection_panel = SelectionPanel.new()
 	root.add_child(selection_panel)
-	group_bar = ControlGroupBar.new()   # control group tabs, just above the selection panel
+	_adopt(root, selection_panel.portrait_window)
+	group_bar = ControlGroupBar.new()   # control group tabs on the console's top edge
 	root.add_child(group_bar)
 	command_card = CommandCard.new()
 	command_card.fireball_action = _on_fireball_button
 	root.add_child(command_card)
-	inventory_bar = InventoryBar.new()   # over the hero column, row at y 834
+	# Left stack: hero tile (+ inventory), champion slots, alerts, quick row (Idle F3, Army F2, clock).
+	_adopt(root, selection_panel.hero_tile)
+	inventory_bar = InventoryBar.new()   # over the hero tile: items row y 612, artifacts on the right
 	root.add_child(inventory_bar)
 	inventory_bar.message.connect(show_message)
-	# Champion bar (left, above the minimap; hidden while the team has no ChampionGuild).
+	# Champion slots (left, above the hero tile; hidden while the team has no ChampionGuild).
 	champion_bar = ChampionBar.new()
 	root.add_child(champion_bar)
 	champion_bar.tavern_requested.connect(_on_tavern_requested)
+	alert_stack = AlertStack.new()
+	root.add_child(alert_stack)
+	idle_worker_button = IdleWorkerButton.new()   # click = next, Ctrl+click = all; hidden at 0
+	root.add_child(idle_worker_button)
+	army_button = ArmyButton.new()   # click = F2, Shift+click = add; hidden at 0
+	root.add_child(army_button)
+	_clock_holder = HBoxContainer.new()
+	_clock_holder.name = "QuickClock"
+	_clock_holder.alignment = BoxContainer.ALIGNMENT_END
+	_clock_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_clock_holder.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_clock_holder.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_clock_holder.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_clock_holder.offset_left = CLOCK_RIGHT - 100.0
+	_clock_holder.offset_right = CLOCK_RIGHT
+	_clock_holder.offset_top = -(900.0 - CLOCK_Y)
+	_clock_holder.offset_bottom = _clock_holder.offset_top + 20.0
+	root.add_child(_clock_holder)
+	_clock_holder.add_child(top_bar.clock_box)
 
 	# Short messages ("Not enough mana") and the big victory/defeat banner
 	_message = _label("", 22)
@@ -272,6 +347,7 @@ func setup(hero: Wizard, selection: SelectionManager) -> void:
 	command_card.setup(selection)
 	group_bar.setup(selection)
 	idle_worker_button.setup(selection)
+	army_button.setup(selection)
 	inventory_bar.setup(hero, selection)
 	if shop_window != null and is_instance_valid(shop_window):
 		shop_window.hero = hero   # setup again (the player's wizard changed): keep the one window
@@ -302,6 +378,7 @@ func setup(hero: Wizard, selection: SelectionManager) -> void:
 	if selection.camera:
 		rig = selection.camera.get_parent() as RTSCamera
 	minimap.setup(selection, rig, map_size, artifact)
+	alert_stack.setup(selection, minimap)
 
 
 ## Step-10 trade UI (ui-trade.md 16.4): the trade window (exclusive with the shop and the tavern), the post / Den /
@@ -340,6 +417,121 @@ func _on_neutral_building_clicked(node: Node3D) -> void:
 		return
 	if node.is_in_group(&"guilds") and StringName(str(node.get(&"kind"))) == &"lodge":
 		trade_window.open(&"lodge")
+
+
+## A 28 x 22 top-left button, slot `i` from (8, 8) with a 4 px gap.
+func _top_button(parent: Control, i: int, text: String, tip: String) -> Button:
+	var b := Button.new()
+	b.tooltip_text = tip
+	b.focus_mode = Control.FOCUS_NONE
+	UIStyle.style_button(b)
+	if text != "":   # a label child: the frame's content margins would make a text button taller than 22
+		var l := UIStyle.panel_label(text, 14)
+		l.set_anchors_preset(Control.PRESET_FULL_RECT)
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		l.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		b.add_child(l)
+	b.position = Vector2(8.0 + i * (TOP_BUTTON.x + 4.0), 8.0)
+	b.size = TOP_BUTTON
+	b.custom_minimum_size = TOP_BUTTON
+	parent.add_child(b)
+	return b
+
+
+## A flat header row with a 12 px fold glyph (`v` open, `>` folded) before `text` (font 12, muted).
+func _fold_header(text: String) -> Button:
+	var b := Button.new()
+	b.text = "     " + text   # room for the glyph
+	b.flat = true
+	b.focus_mode = Control.FOCUS_NONE
+	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	b.add_theme_font_size_override("font_size", 12)
+	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	for state in ["normal", "hover", "pressed", "focus"]:
+		b.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+	b.draw.connect(func() -> void:
+		var col := UIStyle.token(&"text_muted") if not b.is_hovered() else UIStyle.token(&"trim_glow")
+		var y := b.size.y * 0.5
+		if objective_collapsed:
+			b.draw_colored_polygon(PackedVector2Array([Vector2(2, y - 5), Vector2(10, y), Vector2(2, y + 5)]), col)
+		else:
+			b.draw_colored_polygon(PackedVector2Array([Vector2(1, y - 4), Vector2(11, y - 4), Vector2(6, y + 4)]), col))
+	b.mouse_entered.connect(b.queue_redraw)
+	b.mouse_exited.connect(b.queue_redraw)
+	_style_fold_header(b)
+	return b
+
+
+func _style_fold_header(b: Button) -> void:
+	for c in [&"font_color", &"font_hover_color", &"font_pressed_color"]:
+		b.add_theme_color_override(c, UIStyle.token(&"text_muted"))
+
+
+## Moves `node` (built by the selection panel) into the HUD root, keeping its anchors.
+func _adopt(parent: Control, node: Control) -> void:
+	if node == null:
+		return
+	if node.get_parent() != null:
+		node.get_parent().remove_child(node)
+	parent.add_child(node)
+
+
+## Folds / unfolds the objective to its header line (state kept for the match).
+func toggle_objective() -> void:
+	set_objective_collapsed(not objective_collapsed)
+
+
+func set_objective_collapsed(v: bool) -> void:
+	objective_collapsed = v
+	_objective.visible = not v
+	_objective_header.queue_redraw()
+	_obj_panel.reset_size()
+
+
+## The Menu button: the pause menu (Esc does the same).
+func open_menu() -> void:
+	var level := get_parent()
+	if level == null:
+		return
+	for n in level.find_children("*", "PauseMenu", true, false):
+		if n.has_method(&"can_open") and bool(n.call(&"can_open")):
+			n.call(&"open")
+			return
+
+
+## The controls overlay (? / K): toggles it.
+func toggle_help() -> void:
+	if is_help_open():
+		close_help()
+	else:
+		open_help()
+
+
+func open_help() -> void:
+	refresh_help()
+	_help_panel.visible = true
+	_help_backdrop.visible = true
+	_help_panel.reset_size()
+
+
+func close_help() -> void:
+	_help_panel.visible = false
+	_help_backdrop.visible = false
+
+
+func is_help_open() -> bool:
+	return _help_panel != null and _help_panel.visible
+
+
+## The console's skirmish pieces (selection block, portrait window, command card) on / off: Wave Strike's Muster panel
+## (WS2.U1) hides them and fills `console.zone_rect(&"muster")` instead (ui-sc2-console.md 6). The minimap, hero tile and
+## champion slots stay.
+func set_skirmish_console_visible(v: bool) -> void:
+	for c: Control in [selection_panel, selection_panel.portrait_window, command_card, group_bar]:
+		if c != null:
+			c.visible = v
 
 
 ## Shows / hides the top-left objective panel (the mission UI hides it when it has its own objectives panel).
@@ -532,11 +724,13 @@ static func _help_lines(k: Callable, has: Callable) -> String:
 ## Re-skins every HUD piece: my panels here, and any child that has `apply_skin()` (convention for 6.U2/6.U3).
 func apply_skin() -> void:
 	_root.theme = UIStyle.hud_theme()
-	_obj_panel.add_theme_stylebox_override("panel", UIStyle.slate_style())
+	_obj_panel.add_theme_stylebox_override("panel", UIStyle.slate_style(8.0))
 	_objective.add_theme_color_override("font_color", UIStyle.token(&"title"))
-	_help_panel.add_theme_stylebox_override("panel", UIStyle.slate_style())
-	_help_label.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
-	_map_panel.add_theme_stylebox_override("panel", UIStyle.frame_style(10.0))
+	_style_fold_header(_objective_header)
+	_help_panel.add_theme_stylebox_override("panel", UIStyle.slate_style(10.0))
+	_help_label.add_theme_color_override("font_color", UIStyle.token(&"text"))
+	for b: Button in [menu_button, help_button]:
+		UIStyle.style_button(b)
 	end_panel.add_theme_stylebox_override("panel", UIStyle.frame_style(24.0))
 	end_body.add_theme_color_override("font_color", UIStyle.token(&"text"))
 	for b: Button in _end_tab_buttons.values():
@@ -661,11 +855,26 @@ func select_end_tab(tab: StringName) -> void:
 		end_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
 
 
+## Esc closes the controls overlay before anything else sees it (the pause menu listens in _unhandled_input).
+func _input(event: InputEvent) -> void:
+	var key := event as InputEventKey
+	if key == null or not key.pressed or key.echo or not is_help_open():
+		return
+	var code := key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode
+	if code == KEY_ESCAPE:
+		close_help()
+		get_viewport().set_input_as_handled()
+
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	if key == null or not key.pressed or key.echo or key.ctrl_pressed or key.alt_pressed:
 		return
 	var code := key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode
+	if code == HELP_KEY and not key.shift_pressed:
+		toggle_help()
+		get_viewport().set_input_as_handled()
+		return
 	# Enter opens the chat / command line (it checks cinematics, dialogues and focused text fields itself).
 	if (code == KEY_ENTER or code == KEY_KP_ENTER) and not key.shift_pressed and chat_line != null:
 		if chat_line.try_open():
@@ -754,6 +963,8 @@ func _process(delta: float) -> void:
 		_refresh_heroes()
 	_check_hero_levels()
 	_refresh_help()
+	if _clock_holder != null:
+		_clock_holder.visible = top_bar.visible   # Wave Strike hides the resources: its strip has the clock
 	if _message_time > 0.0:
 		_message.position.y = _message_y()
 		_message_time -= delta

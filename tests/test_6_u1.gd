@@ -116,20 +116,24 @@ func _rect_ok(c: Control, want: Rect2, what: String, eps := 1.5) -> void:
 		_errors.append("%s at %s, want %s" % [what, r, want])
 
 
+## SC2.U1-U4 (ui-sc2-console.md 1, 3.1, 4): the console's selection block, the hero tile, the card, the resources.
 func _check_rects(tag: String) -> void:
-	_rect_ok(panel, Rect2(272, 660, 1002, 224), tag + " selection panel")
-	_rect_ok(panel.hero_badge, Rect2(282, 670, 28, 28), tag + " badge")
-	_rect_ok(panel.hero_hp, Rect2(282, 706, 0, 22), tag + " hero HP")
-	_rect_ok(panel.hero_mana, Rect2(282, 734, 0, 22), tag + " hero mana")
-	_rect_ok(panel.hero_xp, Rect2(282, 762, 0, 16), tag + " hero XP")
-	_rect_ok(panel._divider, Rect2(582, 670, 3, 0), tag + " divider")
-	_rect_ok(hud.command_card, Rect2(1290, 660, 294, 224), tag + " command card")
+	_rect_ok(panel, Rect2(244, 692, 888, 200), tag + " selection block")
+	_rect_ok(hud.console, Rect2(0, 684, 1600, 216), tag + " console")
+	_rect_ok(panel.hero_badge, Rect2(46, 586, 20, 20), tag + " badge")
+	_rect_ok(panel.hero_hp, Rect2(66, 572, 140, 12), tag + " hero HP")
+	_rect_ok(panel.hero_mana, Rect2(66, 586, 140, 12), tag + " hero mana")
+	_rect_ok(panel.hero_xp, Rect2(66, 600, 0, 6), tag + " hero XP")
+	var xs: Array[float] = hud.console.divider_xs()
+	if str(xs) != str([232.0, 1136.0, 1284.0]):
+		_errors.append("%s console dividers %s" % [tag, xs])
+	_rect_ok(hud.command_card, Rect2(1292, 704, 296, 176), tag + " command card")
 	var tb: Rect2 = hud.top_bar.get_global_rect()
-	if absf(tb.position.y - 8.0) > 1.0 or absf(tb.size.y - 40.0) > 1.0 or absf(tb.get_center().x - 800.0) > 1.5:
+	if absf(tb.position.y - 8.0) > 1.0 or absf(tb.size.y - 32.0) > 1.0 or absf(tb.end.x - 1592.0) > 1.5:
 		_errors.append("%s top bar %s" % [tag, tb])
 	var tab: Control = hud.group_bar.tab_for_group(1)
 	if tab.visible:
-		_rect_ok(tab, Rect2(272, 620, 64, 36), tag + " group tab")
+		_rect_ok(tab, Rect2(252, 652, 56, 32), tag + " group tab")
 
 
 func _units(team: int, n: int) -> Array:
@@ -153,7 +157,7 @@ func _keep() -> Node:
 func _run() -> bool:
 	var f := frame - _step_frame
 	match _step:
-		0:   # Single unit: portrait at (588, 670), name at x 696.
+		0:   # Single unit: portrait window at (1144, 696), name at (252, 696) (SC2.U1).
 			sel.select_units(_units(0, 1))
 			_next()
 		1:
@@ -161,35 +165,38 @@ func _run() -> bool:
 				return false
 			if panel.current_view() != "single":
 				_errors.append("single view not shown")
-			_rect_ok(panel.portrait, Rect2(588, 670, 96, 96), "portrait")
-			_rect_ok(panel.single_name, Rect2(696, 670, 0, 0), "single name", 3.0)
+			_rect_ok(panel.portrait, Rect2(1144, 696, 136, 136), "portrait")
+			_rect_ok(panel.single_name, Rect2(252, 696, 0, 0), "single name", 3.0)
 			if not panel.portrait.is_visible_in_tree():
 				_errors.append("portrait hidden in single view")
 			_renders = panel.portrait.render_count
 			_next()
-		2:   # ~10 Hz while visible: 60 frames -> about 6 renders (or 0 without a model: abbreviation only).
+		2:   # 30 Hz while visible (ui-sc2-console.md 4.3): 60 frames -> about 30 renders (or 0 without a model).
 			if f < 60:
 				return false
 			var n: int = panel.portrait.render_count - _renders
 			var has_model: bool = panel.portrait._holder.get_child_count() > 0
-			if has_model and (n < 4 or n > 8):
+			if has_model and (n < 20 or n > 40):
 				_errors.append("portrait rendered %d times in 1 s" % n)
 			if not has_model and panel.portrait.abbrev_label.text == "":
 				_errors.append("no model and no abbreviation")
 			sel.select_units(_units(0, 4))
 			_next()
-		3:   # Group: no portrait, no renders.
+		3:   # Group: the portrait shows the active type's unit (4.3); nothing selected: no renders.
 			if f < 10:
 				return false
-			if panel.current_view() != "multi" or panel.portrait.is_visible_in_tree():
-				_errors.append("multi view shows the portrait")
-			_renders = panel.portrait.render_count
+			if panel.current_view() != "multi" or not panel.portrait.is_visible_in_tree() \
+					or not sel.selected.has(panel.portrait.target):
+				_errors.append("multi view portrait does not show a selected unit (%s)" % panel.portrait.target)
+			sel.select_units([])
 			_next()
 		4:
+			if f == 2:
+				_renders = panel.portrait.render_count
 			if f < 30:
 				return false
 			if panel.portrait.render_count != _renders:
-				_errors.append("portrait renders while hidden")
+				_errors.append("portrait renders with nothing selected")
 			var keep := _keep()
 			if keep == null:
 				_errors.append("no keep")
@@ -201,8 +208,8 @@ func _run() -> bool:
 				return false
 			if panel.current_view() != "keep":
 				_errors.append("keep view not shown")
-			_rect_ok(panel.portrait, Rect2(588, 670, 96, 96), "keep portrait")
-			_rect_ok(panel.keep_name, Rect2(696, 670, 0, 0), "keep name", 3.0)
+			_rect_ok(panel.portrait, Rect2(1144, 696, 136, 136), "keep portrait")
+			_rect_ok(panel.keep_name, Rect2(252, 696, 0, 0), "keep name", 3.0)
 			_check_rects("fire")
 			# Low HP pulse + ghost damage.
 			main.hero.hp = main.hero.max_hp * 0.2
@@ -235,9 +242,9 @@ func _run() -> bool:
 		8:
 			if f < 5:
 				return false
-			var st := panel.get_theme_stylebox("panel") as StyleBoxTexture
+			var st := hud.console.get_theme_stylebox("panel") as StyleBoxTexture
 			if st == null or not _near(st.texture.get_image().get_pixel(24, 2), Color(0.55, 0.52, 0.66)):
-				_errors.append("selection panel not re-skinned to shadow")
+				_errors.append("console frame not re-skinned to shadow")
 			if not (hud.top_bar.get_theme_stylebox("panel") is StyleBoxEmpty):
 				_errors.append("top bar not chamfered (stylebox)")
 			_check_rects("shadow")

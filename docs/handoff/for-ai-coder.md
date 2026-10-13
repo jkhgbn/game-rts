@@ -230,3 +230,9 @@ caravan.tres pop 1 -> 0. commander.gd ~2631 still keeps CARAVAN_POP_FREE free po
   predicted position (densest point + the group's mean velocity x the channel time, clamped to the Passage range), or
   have the commander hold the retreating group for the channel when no enemy is within ~4 m. Re-check with
   `tools\unit_lab\run_unit_lab.ps1 c7_passage_retreat -Seeds 1-20` (band >= 8 Shades alive).
+
+## WS2.C1 (systems-coder, 2026-10-13): Wave Strike card sets for WS2.A1
+`data/wave_strike/card_prices.tres` now holds the 14.1 sets (Fire 9, the others 10 cards, T1 / T2 / T3). The WaveBot
+still runs (cards missing from `MIX` weigh 1.0; T3 needs the Citadel; `can_buy` refuses past `max_copies`), but WS2.A1
+should put the 14.3 MIX in. New API: `roster.table.max_copies_of(id)` (0 = no limit; casters 4, support 6, T3 3),
+refusals `"Max N copies"` and `"Requires Citadel"`. Caps 36 / 60 / 84 (JS x1.5, not 32 / 52 / 72), start 600, income 120.

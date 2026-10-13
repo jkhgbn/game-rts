@@ -1,14 +1,19 @@
 class_name CommandCard
 extends PanelContainer
-## Bottom-right command card: 4 x 3 grid of 64 px buttons (spec: ui-hud.md, 1.U2).
-## The slots mirror the SelectionManager hotkeys; pressing a button does the same as the key.
-## Slot layout: see the table in docs/design/ui-hud.md ("Command card").
+## Bottom-right command card: 5 x 3 grid of 56 px buttons, gap 4, in the console's card zone at (1292, 704) at
+## 1600 x 900 (ui-sc2-console.md 4.4, SC2.U1; was 4 x 3 of 64, ui-hud.md 1.U2). No frame of its own: the console's.
+## The slots mirror the SelectionManager hotkeys; pressing a button does the same as the key. Keys follow the grid
+## position: row 1 Z X C V B, row 2 N M , . /, row 3 context (Set Rally r3c1, Back / "+" page r3c5); orders keep their
+## own letters on row 1 (M C H A/X G), the wizard's spells F / Q / E and the casters' Z / V on row 2, Build B at r3c1.
 
-const COLUMNS := 4
+const COLUMNS := 5
 const ROWS := 3
-const BUTTON_SIZE := 64.0
-const GAP := 6
-const SIZE := Vector2(294, 224)
+const BUTTON_SIZE := 56.0
+const GAP := 4
+const SIZE := Vector2(296, 176)
+## Where the grid sits: x from the right edge (1600 - 1292) and y from the top at 1600 x 900.
+const RIGHT := 308.0
+const TOP := 704.0
 const KEY_COLOR := Color(1.0, 0.85, 0.4)
 ## Room kept on the right of a text button for its key badge (keep_badge_room: the text centres in the rest).
 const BADGE_ROOM := 20.0
@@ -28,9 +33,13 @@ const TRAIN_DESCRIPTIONS := {
 	&"rime_colossus": "Heavy elite. Chills on hit.",
 	&"caravan": "Trades with a post and brings gold back. Max 6.",
 }
-## Build menu: hotkey_label -> slot (r1c1-r1c3 = Z X C, r1c4 = Back, r2c1 = V: the Ice Wall, r2c2 = B: the Bazaar,
-## r2c3 = N: the Stables, r2c4 = M: the Forge). Every kingdom puts a building of a given key at the same place.
-const BUILD_KEY_SLOTS := {"Z": 0, "X": 1, "C": 2, "V": 4, "B": 5, "N": 6, "M": 7}
+## Build menu: hotkey_label -> slot (row 1 = Z X C V B: Hearth / Hall / Spire, the Ice Wall, the Bazaar; row 2 = N: the
+## Stables, M: the Forge; Back at r3c5). Every kingdom puts a building of a given key at the same place.
+const BUILD_KEY_SLOTS := {"Z": 0, "X": 1, "C": 2, "V": 3, "B": 4, "N": 5, "M": 6}
+const BACK_SLOT := 14
+## Unit orders: Build at r3c1 (B), the wizard's spells F / Q / E at r2c1-r2c3.
+const BUILD_SLOT := 10
+const SPELL_SLOT0 := 5
 ## Trade (10.C7, ui-trade.md 5-6): colours of the route buttons' tags and the tracker inspect texts.
 const GOLD_TEXT := Color(1.0, 0.88, 0.5)
 const NEAR_COLOR := Color(0.4, 0.9, 0.4)
@@ -47,17 +56,17 @@ var selection: SelectionManager
 var fireball_action: Callable
 
 const HudSkin := ItemTooltip.HudSkin
-const ICON_RECT := Rect2(4, 4, 56, 56)
+const ICON_RECT := Rect2(4, 4, 48, 48)
 const READY_FLASH_TIME := 0.25
 const ICON_POP_TIME := 0.2
 const LEARN_FLASH_TIME := 0.3
 
 var buttons: Array[Button] = []
-var key_labels: Array[Label] = []           ## Hotkey letters, drawn on an 18 x 14 badge at (44, 48).
+var key_labels: Array[Label] = []           ## Hotkey letters, drawn on an 18 x 14 badge at (36, 40).
 ## What each slot holds right now: {} = empty, else {id, abbr, key, tooltip, disabled, order, action}.
 var slots: Array[Dictionary] = []
-var icons: Array[TextureRect] = []          ## 56 x 56 icon at (4, 4) when art/icons has one.
-var cost_tags: Array[Label] = []            ## Train / build cost, 26 x 12 at (4, 48) (a route button: its gold value).
+var icons: Array[TextureRect] = []          ## 48 x 48 icon at (4, 4) when art/icons has one.
+var cost_tags: Array[Label] = []            ## Train / build cost, 26 x 12 at (2, 42) (a route button: its gold value).
 var near_chips: Array[Label] = []           ## Route buttons: `near` / `far`, 26 x 12 at (2, 2).
 
 ## Spell extras, one per button (index = slot).
@@ -88,13 +97,15 @@ const INSPECT_BOUNTY_ENEMY := "Hunt it with a bounty  "
 const BEAST_TEXT := "Epic beast: attack it with your army."
 const CRITTER_TEXT := "Game: hunt it with soldiers or your wizard."
 ## caster-units.md 3.2: the casters' Z / V spell buttons (r2c1 / r2c2); the keep's Set Rally at r3c1 once its caster
-## takes B (r2c1).
-const CASTER_SLOTS: Array[int] = [4, 5]
-const RALLY_KEEP_SLOT := 8
+## takes B (r1c5).
+const CASTER_SLOTS: Array[int] = [5, 6]
+const RALLY_KEEP_SLOT := 10
 const AUTOCAST_COLOR := Color(1.0, 0.82, 0.3)
+## 4.4: a spell button's mana tag colour (the MANA blue, lightened to read on the dark tag).
+const MANA_TEXT := Color(0.55, 0.7, 1.0)
 const ATTENTION_PERIOD := 1.0   ## Seconds per breath of the gold "do this now" border (the keep's tier button).
-## tiers.md 5: slot of the Hall's "+" upgrades page toggle (key +, SelectionManager.upgrades_hall = the open page).
-const PLUS_SLOT := 11
+## tiers.md 5: slot of the Hall's "+" upgrades page toggle (key +, SelectionManager.upgrades_hall = the open page), r3c5.
+const PLUS_SLOT := 14
 const PLUS_PAGE_TOOLTIP := "Upgrades  [%s]\n\"+\" research for this Hall's units: +10 %% HP and damage each. Needs a" \
 		+ " Stronghold.\nOn the page each unit's \"+\" has the unit's own key."
 var inspect_block: Control
@@ -109,16 +120,17 @@ var route_line: RouteLine
 
 
 func _ready() -> void:
-	add_theme_stylebox_override("panel", HudSkin.frame_style(10.0))
+	add_theme_stylebox_override("panel", StyleBoxEmpty.new())   # the console frame is behind it
+	mouse_filter = Control.MOUSE_FILTER_IGNORE   # the console takes the clicks between the buttons
 	custom_minimum_size = SIZE
-	# Bottom-right, 16 px from the right and bottom edges: (1290, 660) at 1600 x 900.
+	# Bottom-right, in the console's card zone: (1292, 704) at 1600 x 900.
 	set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
 	grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	grow_vertical = Control.GROW_DIRECTION_BEGIN
-	offset_left = -16.0 - SIZE.x
-	offset_right = -16.0
-	offset_top = -16.0 - SIZE.y
-	offset_bottom = -16.0
+	offset_left = -RIGHT
+	offset_right = -RIGHT + SIZE.x
+	offset_top = -(900.0 - TOP)
+	offset_bottom = offset_top + SIZE.y
 
 	var grid := GridContainer.new()
 	grid.columns = COLUMNS
@@ -172,8 +184,8 @@ func _ready() -> void:
 		cost.custom_minimum_size = Vector2(26, 12)
 		cost.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)   # bottom edge at 62 like the key badge
 		cost.grow_vertical = Control.GROW_DIRECTION_BEGIN
-		cost.offset_left = 4.0
-		cost.offset_right = 30.0
+		cost.offset_left = 2.0
+		cost.offset_right = 28.0
 		cost.offset_top = -14.0
 		cost.offset_bottom = -2.0
 		cost.visible = false
@@ -248,19 +260,20 @@ func _build_inspect_block() -> void:
 	inspect_block.name = "InspectText"
 	inspect_block.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inspect_block.visible = false
-	add_child(inspect_block)   # PanelContainer: it covers the grid's rect (content x 1300-1574, y 670-874)
+	add_child(inspect_block)   # PanelContainer: it covers the grid's rect (x 1292-1588, y 704-880)
 	inspect_line = UIStyle.panel_label(INSPECT_TEXT, 14)
 	inspect_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	inspect_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART   # French lines are longer than the 296 px card
 	inspect_line.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	inspect_line.offset_top = 70.0    # panel y 80 (content starts 10 px in)
+	inspect_line.offset_top = 50.0
 	inspect_line.offset_bottom = 90.0
 	inspect_line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inspect_block.add_child(inspect_line)
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	row.offset_top = 92.0             # panel y 102
-	row.offset_bottom = 110.0
+	row.offset_top = 96.0
+	row.offset_bottom = 114.0
 	row.add_theme_constant_override("separation", 0)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inspect_block.add_child(row)
@@ -319,7 +332,8 @@ func inspect_text() -> String:
 
 
 ## Spell extras on every button (hidden unless the slot holds a spell): radial cooldown sweep + seconds,
-## diamond rank pips at (4, 54), and the "+" learn chip at (2, 2) (a sibling so the dimmed button doesn't fade it).
+## diamond rank pips top-right at (32 + 8 j, 3) (the bottom-left holds the mana tag), and the "+" learn chip at (2, 2)
+## (a sibling so the dimmed button doesn't fade it).
 func _build_spell_overlays(b: Button, holder: Control) -> void:
 	var cd := Sweep.new()
 	cd.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -342,7 +356,7 @@ func _build_spell_overlays(b: Button, holder: Control) -> void:
 	for j in 3:
 		var pip := Pip.new()
 		pip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		pip.position = Vector2(4.0 + j * 8.0, 54.0)
+		pip.position = Vector2(32.0 + j * 8.0, 3.0)
 		pip.size = Vector2(6, 6)
 		pip.visible = false
 		b.add_child(pip)
@@ -533,11 +547,15 @@ func refresh() -> void:
 				HudSkin.style_button(b)
 			key_labels[i].add_theme_stylebox_override("normal", HudSkin.badge_style(highlight))
 			key_labels[i].add_theme_color_override("font_color", Color.BLACK if highlight else KEY_COLOR)
-		var has_cost := s.has("cost") or s.has("value")
+		var has_cost := s.has("cost") or s.has("value") or int(s.get("mana", 0)) > 0
 		cost_tags[i].visible = has_cost
 		if s.has("value"):   # a route button: gold per trip
 			cost_tags[i].text = str(s["value"])
 			UIStyle.set_color_if_changed(cost_tags[i], &"font_color", GOLD_TEXT)
+		elif int(s.get("mana", 0)) > 0:   # a spell: its mana cost in blue (WARN when short)
+			cost_tags[i].text = str(s["mana"])
+			UIStyle.set_color_if_changed(cost_tags[i], &"font_color",
+					UIStyle.WARN if str(s["reason"]).begins_with("Not enough mana") else MANA_TEXT)
 		elif has_cost:
 			cost_tags[i].text = str(s["cost"])
 			UIStyle.set_color_if_changed(cost_tags[i], &"font_color",
@@ -681,8 +699,8 @@ static func remove_tooltip(flag: Node) -> String:
 			{"refund": refund, "unpaid": unpaid - refund})
 
 
-## Slot table (ui-hud.md / buildings.md): workers only = Move Stop Hold Gather / Build;
-## soldiers = Move Stop Hold Attack-move; wizard adds Fireball at r2c1; mixed with workers = Gather r2c4.
+## Slot table (ui-sc2-console.md 4.4): row 1 = Move Stop Hold Attack-move (Gather at r1c4 for workers only, r1c5 when
+## mixed with soldiers); row 2 = the wizard's F / Q / E (or the casters' Z / V); Build at r3c1.
 ## Caravans (ui-trade.md 6.1): Move Stop Hold Trade (G); with workers the Gather slot says `Gather / Trade`;
 ## caravans never get Attack-move.
 func _unit_slots(out: Array[Dictionary]) -> void:
@@ -698,7 +716,7 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 	var workers := group.any(func(u: Unit) -> bool: return SelectionManager.is_worker_unit(u))
 	var caravans := group.any(func(u: Unit) -> bool: return SelectionManager.is_caravan(u))
 	if caravans and not workers:
-		out[7 if fighters else 3] = _slot("trade", "TR", "G",
+		out[4 if fighters else 3] = _slot("trade", "TR", "G",
 				Loc.t("Trade  [G]\nClick a trading post: trade there from now on.\nClick your Bazaar: go home and deliver."),
 				func() -> void: sel.begin_order(SelectionManager.ORDER_GATHER), "", SelectionManager.ORDER_GATHER)
 	if fighters:
@@ -712,7 +730,7 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 	if sel.has_hero() and group.has(sel.hero):
 		var spell_ids := SpellInfo.ids(sel.hero)
 		for i in mini(spell_ids.size(), 3):
-			out[4 + i] = _spell_slot(spell_ids[i], i)
+			out[SPELL_SLOT0 + i] = _spell_slot(spell_ids[i], i)
 	# caster-units.md 3.2 / ui-hud.md: the active subgroup's casters show Z / V at r2c1 / r2c2.
 	var caster_ids := sel.caster_spell_ids()
 	if not caster_ids.is_empty() and group.any(func(u: Unit) -> bool: return CasterKit.is_caster_unit(u)):
@@ -725,9 +743,9 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 		var gather := _slot("gather", "GA", "G", tip,
 				func() -> void: sel.begin_order(SelectionManager.ORDER_GATHER),
 				"" if sel.has_gatherers() or caravans else "Workers can't gather yet", SelectionManager.ORDER_GATHER)
-		out[7 if fighters else 3] = gather
+		out[4 if fighters else 3] = gather
 	if sel.can_build():
-		out[4] = _slot("build", "BU", "B", Loc.t("Build  [B]\nOpen the build menu; each building shows its own key."),
+		out[BUILD_SLOT] = _slot("build", "BU", "B", Loc.t("Build  [B]\nOpen the build menu; each building shows its own key."),
 				sel.open_build_menu)
 
 
@@ -737,7 +755,7 @@ func _unit_slots(out: Array[Dictionary]) -> void:
 func _build_menu_slots(out: Array[Dictionary]) -> void:
 	var sel := selection
 	var types := sel.buildable_types()
-	var free := [0, 1, 2, 4, 5, 6, 7]
+	var free := [0, 1, 2, 3, 4, 5, 6]
 	var placed: Array = []   # [slot, type]
 	for type: BuildingType in types:
 		var slot: int = BUILD_KEY_SLOTS.get(type.hotkey_label.to_upper(), -1)
@@ -759,7 +777,7 @@ func _build_menu_slots(out: Array[Dictionary]) -> void:
 		s["cost"] = type.cost
 		s["icon"] = ["buildings", String(type.id)]
 		out[i] = s
-	out[3] = _slot("back", "<", "Esc", Loc.t("Back  [Esc]\nClose the build menu (right click does the same)."),
+	out[BACK_SLOT] = _slot("back", "<", "Esc", Loc.t("Back  [Esc]\nClose the build menu (right click does the same)."),
 			sel.close_build_menu)
 
 
@@ -799,6 +817,7 @@ func _spell_slot(id: StringName, slot: int) -> Dictionary:
 			StringName(id))
 	s["spell"] = id
 	s["spell_slot"] = slot
+	s["mana"] = roundi(SpellInfo.mana_cost(hero, id))   # 4.4: the mana tag instead of a crystal cost
 	s["rank"] = SpellInfo.rank(hero, id)
 	s["max_rank"] = SpellInfo.max_rank(id, slot)
 	s["learnable"] = learn == ""
@@ -945,14 +964,13 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 	if is_market(keep):
 		_market_slots(out, keep, n_train)
 		return
-	# caster-units.md 3.3: with the caster on B (r2c1) the keep's Set Rally moves to r3c1 (it has no key).
-	# (The keep's caster slot itself, not the spell-button list that happens to start there: code review L7.)
-	var rally_i := RALLY_KEEP_SLOT if keep is Keep and n_train > SelectionManager.CASTER_KEEP_SLOT else n_train
+	# ui-sc2-console.md 4.4: Set Rally (no key) always sits at r3c1, under the training rows.
+	var rally_i := RALLY_KEEP_SLOT
 	if keep.has_method("set_rally_point") and not keep is ForgeBuilding:   # the Forge trains nothing (unit-upgrades.md)
 		out[rally_i] = _slot("rally", "RL", "",
 				Loc.t("Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining."),
 				func() -> void: sel.begin_order(SelectionManager.ORDER_RALLY), "", SelectionManager.ORDER_RALLY)
-	# tiers.md 5: an own Hall opens its "+" upgrades page from r3c4 (the + key or a click).
+	# tiers.md 5: an own Hall opens its "+" upgrades page from r3c5 (the + key or a click).
 	if out[PLUS_SLOT].is_empty() and sel.can_open_upgrades():
 		out[PLUS_SLOT] = _slot("plus_page", "+", SelectionManager.UPGRADES_KEY_LABEL,
 				Loc.t(PLUS_PAGE_TOOLTIP) % SelectionManager.UPGRADES_KEY_LABEL, sel.open_upgrades)
@@ -983,7 +1001,7 @@ static func tier_way_line(team: int) -> String:
 
 
 ## The "+" upgrades page of a Hall (tiers.md 5): each unit's "+" on the slot of its training button, with the same key
-## (SelectionManager.buy_upgrade_slot); Back at r3c4 (Esc, or + again).
+## (SelectionManager.buy_upgrade_slot); Back at r3c5 (Esc, or + again).
 func _plus_slots(out: Array[Dictionary], hall: Node) -> void:
 	var sel := selection
 	var rows := UnitUpgrades.options_for(hall)
@@ -1062,7 +1080,7 @@ func _market_slots(out: Array[Dictionary], market: Node, first_free: int) -> voi
 		s["held"] = reason == "Held by the enemy"
 		s["icon"] = ["posts", pid]
 		s["post"] = post
-		out[4 + j] = s
+		out[COLUMNS + j] = s
 
 
 ## The trading posts (TradeNetwork.posts(), else group "trade_posts"), sorted by route value from `market`, lowest
@@ -1145,6 +1163,25 @@ func draw_deco(d: Control, i: int) -> void:
 		d.draw_rect(r.grow(-2.0), Color(HudSkin.token(&"trim_glow"), _flash[i] / READY_FLASH_TIME), false, 2.0)
 	if _learn_flash[i] > 0.0:
 		d.draw_rect(r.grow(-2.0), Color(KEY_COLOR, _learn_flash[i] / LEARN_FLASH_TIME), false, 2.0)
+	if is_locked(i):
+		draw_lock(d, Vector2(r.size.x * 0.5 - 6.0, r.size.y * 0.5 - 7.0))
+
+
+## Slot `i` waits for a keep tier (`Requires Stronghold / Citadel`): a lock glyph over its icon (4.4).
+func is_locked(i: int) -> bool:
+	if i < 0 or i >= slots.size() or slots[i].is_empty():
+		return false
+	var r := str(slots[i].get("reason", ""))
+	return r == TierSystem.MSG_T2 or r == TierSystem.MSG_T3
+
+
+## The 12 px lock: a shackle arc over a body, gold on a dark outline.
+static func draw_lock(ci: CanvasItem, o: Vector2) -> void:
+	ci.draw_arc(o + Vector2(6, 6), 3.5, PI, TAU, 10, Color(0, 0, 0, 0.8), 3.5, true)
+	ci.draw_arc(o + Vector2(6, 6), 3.5, PI, TAU, 10, KEY_COLOR, 1.8, true)
+	ci.draw_rect(Rect2(o + Vector2(1, 6), Vector2(10, 8)), Color(0, 0, 0, 0.8))
+	ci.draw_rect(Rect2(o + Vector2(2, 7), Vector2(8, 6)), KEY_COLOR)
+	ci.draw_rect(Rect2(o + Vector2(5.5, 9), Vector2(1.5, 2.5)), Color(0, 0, 0, 0.9))
 
 
 ## "Do this now" (the keep's Stronghold / Citadel button while it can start): a thick gold border breathing 0.45 <-> 1.0

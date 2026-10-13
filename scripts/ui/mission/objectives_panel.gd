@@ -31,7 +31,7 @@ var _skin := -1
 func _ready() -> void:
 	name = "ObjectivesPanel"
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	position = Vector2(16, 16)
+	position = Vector2(8, 36)   # ui-sc2-console.md 1: under the Menu / ? buttons
 	_box = VBoxContainer.new()
 	_box.add_theme_constant_override("separation", 4)
 	_box.mouse_filter = Control.MOUSE_FILTER_IGNORE

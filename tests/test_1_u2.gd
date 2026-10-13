@@ -8,6 +8,8 @@ extends SceneTree
 
 const TASK_ID := "1.u2"
 const TIMEOUT_FRAMES := 400
+## SC2.U1: the wizard's card (orders row 1, spells F / Q / E at r2c1-r2c3).
+const WIZARD_IDS := ["move", "stop", "hold", "attack", "", "fireball", "ember_step", "kindle", "", "", "", "", "", ""]
 
 var main: Node
 var sel: Node
@@ -124,62 +126,64 @@ func _step() -> void:
 func _check_layout() -> void:
 	var rect: Rect2 = card.get_global_rect()
 	var screen: Vector2 = root.get_visible_rect().size
-	var expected := screen - Vector2(16 + 294, 16 + 224)
-	if rect.position.distance_to(expected) > 1.5 or rect.size.distance_to(Vector2(294, 224)) > 1.5:
-		_error = "card at %s, expected %s size 294 x 224" % [rect, expected]
+	# SC2.U1 (ui-sc2-console.md 4.4): 5 x 3 of 56 in the console's card zone, (1292, 704) at 1600 x 900.
+	var expected := screen - Vector2(308, 196)
+	if rect.position.distance_to(expected) > 1.5 or rect.size.distance_to(Vector2(296, 176)) > 1.5:
+		_error = "card at %s, expected %s size 296 x 176" % [rect, expected]
 		return
-	if card.buttons.size() != 12:
-		_error = "card has %d buttons, expected 12" % card.buttons.size()
+	if card.buttons.size() != 15:
+		_error = "card has %d buttons, expected 15 (5 x 3)" % card.buttons.size()
 		return
 	var b0: Rect2 = card.buttons[0].get_global_rect()
-	var b5: Rect2 = card.buttons[5].get_global_rect()
-	if b0.size.distance_to(Vector2(64, 64)) > 0.5 or b0.position.distance_to(rect.position + Vector2(10, 10)) > 1.5:
-		_error = "button 1 at %s, expected 64 x 64 at card + (10, 10)" % b0
+	var b6: Rect2 = card.buttons[6].get_global_rect()
+	if b0.size.distance_to(Vector2(56, 56)) > 0.5 or b0.position.distance_to(rect.position) > 1.5:
+		_error = "button 1 at %s, expected 56 x 56 at the card's corner" % b0
 		return
-	if b5.position.distance_to(b0.position + Vector2(70, 70)) > 1.5:
-		_error = "button r2c2 at %s, expected 70 px right and down of r1c1" % b5.position
+	if b6.position.distance_to(b0.position + Vector2(60, 60)) > 1.5:
+		_error = "button r2c2 at %s, expected 60 px right and down of r1c1" % b6.position
 
 
 func _check_unit_tables() -> void:
 	sel.select_units([])
 	card.refresh()
-	if _ids() != ["", "", "", "", "", "", "", ""]:
+	if _ids() != _grid({}):
 		_error = "nothing selected shows %s" % [_ids()]
 		return
 	sel.select_units([_soldier])
 	card.refresh()
-	if _ids() != ["move", "stop", "hold", "attack", "", "", "", ""]:
+	if _ids() != _grid({0: "move", 1: "stop", 2: "hold", 3: "attack"}):
 		_error = "soldier shows %s" % [_ids()]
 		return
 	sel.select_units(_workers)
 	card.refresh()
-	if _ids() != ["move", "stop", "hold", "gather", "build", "", "", ""]:
+	if _ids() != _grid({0: "move", 1: "stop", 2: "hold", 3: "gather", 10: "build"}):
 		_error = "workers show %s" % [_ids()]
 		return
 	sel.select_units([main.hero])
 	card.refresh()
-	if _ids() != ["move", "stop", "hold", "attack", "fireball", "ember_step", "kindle", ""]:
+	if _ids() != WIZARD_IDS:
 		_error = "wizard shows %s" % [_ids()]
 		return
 	# Mixed (2026-09-27 "Tab by unit type", SC2 subgroups): the card shows the active subgroup, the wizard first; Tab
 	# walks to the soldier, then the worker (Gather G), then back to the wizard.
 	sel.select_units([main.hero, _soldier, _workers[0]])
 	card.refresh()
-	if _ids() != ["move", "stop", "hold", "attack", "fireball", "ember_step", "kindle", ""]:
+	if _ids() != WIZARD_IDS:
 		_error = "mixed (wizard subgroup) shows %s" % [_ids()]
 		return
-	if _keys() != ["M", "C", "H", "X", "F", "Q", "E", ""]:
-		_error = "mixed hotkey letters %s, expected M C H X F Q E" % [_keys()]
+	if _keys() != _grid({0: "M", 1: "C", 2: "H", 3: "X", 5: "F", 6: "Q", 7: "E"}):
+		_error = "mixed hotkey letters %s, expected M C H X / F Q E" % [_keys()]
 		return
 	sel.cycle_active_unit_type(1)
 	sel.cycle_active_unit_type(1)
 	card.refresh()
-	if _ids() != ["move", "stop", "hold", "gather", "", "", "", ""] or _keys() != ["M", "C", "H", "G", "", "", "", ""]:
+	if _ids() != _grid({0: "move", 1: "stop", 2: "hold", 3: "gather"}) \
+			or _keys() != _grid({0: "M", 1: "C", 2: "H", 3: "G"}):
 		_error = "mixed (worker subgroup) shows %s / %s, expected Gather G" % [_ids(), _keys()]
 		return
 	sel.cycle_active_unit_type(1)
 	card.refresh()
-	if card.buttons[8].visible:
+	if card.buttons[10].visible:
 		_error = "empty slot r3c1 is visible"
 		return
 	# Tooltip format + disabled Fireball.
@@ -188,7 +192,7 @@ func _check_unit_tables() -> void:
 		return
 	main.hero.mana = 0.0
 	card.refresh()
-	var fb: Button = card.buttons[4]
+	var fb: Button = card.buttons[5]
 	if not fb.disabled or absf(fb.modulate.a - 0.45) > 0.01 or not fb.tooltip_text.ends_with("\nNot enough mana"):
 		_error = "Fireball not disabled with reason at 0 mana (disabled=%s tip='%s')" % [fb.disabled, fb.tooltip_text]
 		return
@@ -198,7 +202,7 @@ func _check_unit_tables() -> void:
 		_error = "Fireball still disabled with full mana"
 		return
 	# Pressing Fireball starts the targeting (through the card, not a hero panel).
-	card.press_slot(4)
+	card.press_slot(5)
 	if sel.get_pending_order() != &"fireball":
 		_error = "Fireball button did not start targeting"
 		return
@@ -215,10 +219,10 @@ func _check_keep_table() -> void:
 	sel.select_building(keep)
 	card.refresh()
 	var ids: Array = _ids()
-	if ids != ["train_cinder_hand", "rally", "", "", "", "", "", ""]:
+	if ids != _grid({0: "train_cinder_hand", 10: "rally"}):
 		_error = "keep shows %s" % [ids]
 		return
-	if _keys() != ["Z", "", "", "", "", "", "", ""]:
+	if _keys() != _grid({0: "Z"}):
 		_error = "keep hotkey letters %s, expected Z (rally has no key)" % [_keys()]
 		return
 	var tip: String = card.buttons[0].tooltip_text
@@ -229,10 +233,11 @@ func _check_keep_table() -> void:
 	sel.select_building(barracks)
 	card.refresh()
 	ids = _ids()
-	if ids != ["train_flame_guard", "train_ember_archer", "train_blaze_rider", "train_ash_hurler", "rally", "", "", ""]:
+	if ids != _grid({0: "train_flame_guard", 1: "train_ember_archer", 2: "train_blaze_rider", 3: "train_ash_hurler",
+			10: "rally"}):
 		_error = "barracks shows %s" % [ids]
 		return
-	if _keys() != ["Z", "X", "C", "V", "", "", "", ""]:
+	if _keys() != _grid({0: "Z", 1: "X", 2: "C", 3: "V"}):
 		_error = "barracks hotkey letters %s, expected Z X C V" % [_keys()]
 		return
 	tip = card.buttons[0].tooltip_text
@@ -277,7 +282,7 @@ func _check_training() -> void:
 	if not br.disabled or not br.tooltip_text.ends_with("\nNot enough crystals"):
 		_error = "Blaze Rider button not disabled with reason (tip '%s')" % br.tooltip_text
 		return
-	card.press_slot(4)
+	card.press_slot(10)
 	if sel.get_pending_order() != &"rally":
 		_error = "Set Rally button did not start rally targeting"
 		return
@@ -296,17 +301,26 @@ func _check_keep_keys_need_keep() -> void:
 		_error = "building hotkeys trained with units selected"
 
 
+## SC2.U1 (ui-sc2-console.md 4.4): the 15 slots of the 5 x 3 card, `filled` = {slot: value}, "" elsewhere.
+## (Slot 14, r3c5, is left out: a Hall may show its "+" upgrades page there.)
+func _grid(filled: Dictionary) -> Array:
+	var out := []
+	for i in 14:
+		out.append(str(filled.get(i, "")))
+	return out
+
+
 func _ids() -> Array:
 	var out := []
 	var ids: Array = card.slot_ids()
-	for i in 8:
+	for i in 14:
 		out.append(str(ids[i]))
 	return out
 
 
 func _keys() -> Array:
 	var out := []
-	for i in 8:
+	for i in 14:
 		out.append(card.key_labels[i].text)
 	return out
 

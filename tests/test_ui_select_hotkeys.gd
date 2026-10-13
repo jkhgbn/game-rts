@@ -110,13 +110,16 @@ func _process(_delta: float) -> bool:
 			var panel: SelectionPanel = main.get("hud").selection_panel
 			panel.refresh()
 			var gold := 0
+			# SC2.U4 (ui-sc2-console.md 4.2): the active type's tab is gold, its icons bright, the other types' dimmed.
+			if panel.active_type_tab() != types[1]:
+				return _finish("gold type tab is '%s', expected %s" % [panel.active_type_tab(), types[1]])
 			for i in panel._icon_units.size():
-				if panel._icon_gold[i] == true:
+				if panel.icon_is_active(i):
 					gold += 1
 					if SelectionManager.unit_type_key(panel._icon_units[i]) != types[1]:
-						return _finish("gold frame on a unit of another type")
+						return _finish("bright icon of a unit of another type")
 			if gold != sel.active_type_units().size():
-				return _finish("%d gold portraits, expected %d" % [gold, sel.active_type_units().size()])
+				return _finish("%d bright icons, expected %d" % [gold, sel.active_type_units().size()])
 			_key(KEY_TAB, true)
 			if sel.active_unit_type() != &"wizard":
 				return _finish("Shift+Tab did not go back to the wizard")

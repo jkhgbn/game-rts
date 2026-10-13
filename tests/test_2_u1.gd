@@ -178,33 +178,35 @@ func _check_help_and_timer() -> void:
 		_error = "top bar timer '%s' (visible %s), level says '%s'" % [bar.timer_label.text,
 				bar.timer_label.visible, main.match_time_text()]
 		return
+	# SC2.U2 (ui-sc2-console.md 2-3.3): the resources right-anchored (right edge 1592), the clock in the quick row
+	# (right edge x 244, y 658).
 	var rect: Rect2 = bar.get_global_rect()
-	# 400 wide at x 600; with essence (4.U1a, items.md) 500 wide at x 550.
-	var w := 500.0 if bar.get("essence_bank") != null else 400.0
-	if bar.get("gold_bank") != null:
-		w += 124.0   # step 10 (ui-trade.md 3): gold item, 624 x 40 at (488, 8)
-	# 2026-09-27: the pop number is 100 px wide ("200 / 200", pop cap 200): every bar width is the spec's + 20
-	# (TopBar.POP_EXTRA, sized explicitly since 2026-09-30 so the rect stays whole-pixel and centred).
-	w += 20.0
-	if absf(rect.size.x - w) > 1.5 or absf(rect.position.x - (800.0 - w * 0.5)) > 1.5:
-		_error = "top bar with the timer at %s, expected %d wide at x %d" % [rect, int(w), int(800.0 - w * 0.5)]
+	var w := 96.0 * (2.0 + (1.0 if bar.get("essence_bank") != null else 0.0) + (1.0 if bar.get("gold_bank") != null else 0.0))
+	if rect.size.x < w - 1.5 or absf(rect.end.x - 1592.0) > 1.5:
+		_error = "resources at %s, expected >= %d wide ending at x 1592" % [rect, int(w)]
+		return
+	var clock_rect: Rect2 = (bar.clock_box as Control).get_global_rect()
+	if not (bar.clock_box as Control).is_visible_in_tree() or absf(clock_rect.end.x - 244.0) > 2.0:
+		_error = "match clock at %s (visible %s), expected right edge 244" % [clock_rect,
+				(bar.clock_box as Control).is_visible_in_tree()]
 
 
 func _check_build_menu() -> void:
 	sel.select_units(_workers)
 	card.refresh()
-	if _ids(5) != ["move", "stop", "hold", "gather", "build"] or card.key_labels[4].text != "B":
-		_error = "worker card %s, expected move stop hold gather build (B)" % [_ids(5)]
+	# SC2.U1 (ui-sc2-console.md 4.4): orders on row 1, Build B at r3c1 (slot 10), Back at r3c5 (slot 14).
+	if _ids(5) != ["move", "stop", "hold", "gather", ""] or _ids(15)[10] != "build" or card.key_labels[10].text != "B":
+		_error = "worker card %s, expected move stop hold gather + build (B) at r3c1" % [_ids(15)]
 		return
 	_key(KEY_B, KEY_B)
 	if not sel.build_menu_open:
 		_error = "B did not open the build menu"
 		return
-	if _ids(5) != ["build_fire_hearth", "build_fire_barracks", "build_fire_tower", "back", ""]:
-		_error = "build menu shows %s" % [_ids(5)]
+	if _ids(3) != ["build_fire_hearth", "build_fire_barracks", "build_fire_tower"] or _ids(15)[14] != "back":
+		_error = "build menu shows %s" % [_ids(15)]
 		return
 	var keys: Array = []
-	for i in 4:
+	for i: int in [0, 1, 2, 14]:
 		keys.append(card.key_labels[i].text)
 	if keys != ["Z", "X", "C", "Esc"]:
 		_error = "build menu letters %s, expected Z X C Esc" % [keys]
@@ -214,8 +216,8 @@ func _check_build_menu() -> void:
 		_error = "Ember Hall tooltip '%s'" % tip
 		return
 	_key(KEY_ESCAPE, KEY_ESCAPE)
-	if sel.build_menu_open or _ids(5)[4] != "build":
-		_error = "Esc did not close the build menu (%s)" % [_ids(5)]
+	if sel.build_menu_open or _ids(15)[10] != "build":
+		_error = "Esc did not close the build menu (%s)" % [_ids(15)]
 		return
 	_key(KEY_B, KEY_B)
 	_click(Vector2(800, 450), MOUSE_BUTTON_RIGHT)
@@ -265,8 +267,8 @@ func _place_hall() -> void:
 		_error = "the placement did not end after the click"
 		return
 	card.refresh()
-	if _ids(5)[4] != "build":
-		_error = "the normal worker card did not come back after placing (%s)" % [_ids(5)]
+	if _ids(15)[10] != "build":
+		_error = "the normal worker card did not come back after placing (%s)" % [_ids(15)]
 
 
 func _place_invalid() -> void:
@@ -378,8 +380,9 @@ func _train_at_barracks() -> void:
 	for k in extra.size():
 		want_ids.append("train_%s" % str(extra[k].id))
 		want_keys.append("NM,"[k])
-	want_ids.append("rally")
-	want_keys.append("")
+	if _ids(15)[10] != "rally":   # SC2.U1 (ui-sc2-console.md 4.4): Set Rally at r3c1
+		_error = "Ember Hall card %s: no Set Rally at r3c1" % [_ids(15)]
+		return
 	if _ids(want_ids.size()) != want_ids:
 		_error = "Ember Hall card %s, expected %s" % [_ids(want_ids.size()), want_ids]
 		return

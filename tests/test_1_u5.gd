@@ -66,9 +66,10 @@ func _step() -> void:
 					_army.append(u)
 			var rect: Rect2 = panel.get_global_rect()
 			var screen: Vector2 = root.get_visible_rect().size
-			var expected := Vector2(272, screen.y - 16 - 224)
-			if rect.position.distance_to(expected) > 1.5 or rect.size.distance_to(Vector2(1002, 224)) > 1.5:
-				_error = "selection panel at %s, expected %s size 1002 x 224" % [rect, expected]
+			# SC2.U1 (ui-sc2-console.md 1): the console's selection block, x 244, y 692-892 at 1600 x 900.
+			var expected := Vector2(244, screen.y - 208)
+			if rect.position.distance_to(expected) > 1.5 or absf(rect.size.y - 200.0) > 1.5:
+				_error = "selection panel at %s, expected %s, 200 tall" % [rect, expected]
 				return
 			sel.select_units([])
 		7:
@@ -103,7 +104,7 @@ func _step() -> void:
 			if panel.current_view() != "multi":
 				_error = "%d units selected shows view '%s'" % [_army.size(), panel.current_view()]
 				return
-			if not panel.multi_header.text.begins_with("%d selected:  " % _army.size()):
+			if panel.multi_header.text != "%d selected" % _army.size():   # SC2.U4: the types are the type tabs
 				_error = "multi header '%s'" % panel.multi_header.text
 				return
 			var shown := 0

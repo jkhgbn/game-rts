@@ -102,14 +102,14 @@ func show_spotlight(data: Dictionary) -> void:
 func _place_spotlight() -> void:
 	if spotlight_card == null or not is_instance_valid(spotlight_card):
 		return
-	var y := 16.0
+	var y := 36.0
 	if objectives_panel and is_instance_valid(objectives_panel):
 		y = objectives_panel.position.y + objectives_panel.size.y + 10.0
 	var chip: Variant = _hud.get(&"tier_chip") if _hud != null and is_instance_valid(_hud) and &"tier_chip" in _hud else null
 	if chip is Control and is_instance_valid(chip) and (chip as Control).is_visible_in_tree() \
 			and StringName(str((chip as Control).get(&"placement"))) == &"left_column":
 		y = maxf(y, (chip as Control).get_global_rect().end.y + 8.0)
-	var x := 16.0
+	var x := 8.0
 	# The champion slots (F5-F7) sit in the same left column below: a card reaching them moves to their right.
 	var bar: Variant = _hud.get(&"champion_bar") if _hud != null and is_instance_valid(_hud) and &"champion_bar" in _hud else null
 	if bar is Control and is_instance_valid(bar) and (bar as Control).is_visible_in_tree():

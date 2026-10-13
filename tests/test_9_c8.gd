@@ -491,8 +491,9 @@ func _test_flag_card() -> void:
 	var fc: Control = card.flag_card
 	_expect(fc.visible, "flag card hidden with a flag selected")
 	var r: Rect2 = fc.get_global_rect()
-	_expect(r.position.distance_to(Vector2(588, 670)) < 1.0 and r.size.distance_to(Vector2(676, 204)) < 1.0,
-			"flag card rect %s, expected (588, 670) 676 x 204" % r)
+	# SC2.U1: in the console's selection block content (ui-sc2-console.md 6).
+	_expect(r.position.distance_to(Vector2(252, 696)) < 1.0 and r.size.distance_to(Vector2(872, 192)) < 1.0,
+			"flag card rect %s, expected (252, 696) 872 x 192" % r)
 	_expect(fc.title_label.text == "EXPLORE BOUNTY", "title '%s'" % fc.title_label.text)
 	_expect(fc.target_label.text == "Point: explored ground", "target line '%s'" % fc.target_label.text)
 	_expect(fc.time_label.text == "Until a champion reaches it", "time line '%s'" % fc.time_label.text)

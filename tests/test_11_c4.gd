@@ -13,8 +13,8 @@ extends SceneTree
 ##   gains ` · Sword and Shield` (5 lines unchanged before); the pop on class_chosen, none for a class loaded with the
 ##   champion; 225+75 / 275+100 / 325+125 and 80 + 35 x level fallbacks; the message once per champion (own always,
 ##   enemy only while visible);
-## - inspect: 6 slots in 2 rows at (1104 + 54 j, 684 / 766), names y 734 / 816, captions (1104, 670 / 752), autocast
-##   (1104, 834); the 392-wide title `GARRAN STONEWARD · the Oathwall · no class yet` / `... · Sword and Shield`; `?`
+## - inspect: 6 slots in 2 rows at (660 + 54 j, 710 / 792), names y 760 / 842, captions (660, 696 / 778), autocast
+##   (660, 860); the 392-wide title `GARRAN STONEWARD · the Oathwall · no class yet` / `... · Sword and Shield`; `?`
 ##   slots (alpha 0.45, L2 / L3 / L5, `Skill 1-3`, live lean tooltip 71 %, enemy base 60 % without the bounty line);
 ##   after the choice the class skills with L3 / L5 and `(class, level n)`; the ability list; the autocast line; the
 ##   class stat line (`Armor 30`, `Range 2.4`);
@@ -441,7 +441,8 @@ func _check_bar_before() -> void:
 	var lines: PackedStringArray = s0.tooltip_text.split("\n")
 	_expect(lines.size() == 5 and lines[0] == "Garran Stoneward  [F5]  the Oathwall", "tooltip before:\n%s" % s0.tooltip_text)
 	var s1: Node = bar.slots[1]
-	_expect(s1.class_badge.visible and _at(s1.class_badge, Vector2(16 + 6, 408 + 78 + 50), Vector2(16, 16)),
+	# SC2.U3 compact slots (ui-sc2-console.md 3.2).
+	_expect(s1.class_badge.visible and _at(s1.class_badge, Vector2(8 + 2, 380 + 56 + 34), Vector2(16, 16)),
 			"fallen wizard badge %s visible %s" % [_rect(s1.class_badge), s1.class_badge.visible])
 	_expect(not s1.is_class_pop_playing() and not s0.is_class_pop_playing(), "a class seen on the first refresh popped")
 	_expect(bar.messages_shown.is_empty(), "messages before any draw: %s" % [bar.messages_shown])
@@ -455,18 +456,18 @@ func _check_inspect_before() -> void:
 	_expect(panel.current_view() == "champion", "champion view not shown (%s)" % panel.current_view())
 	_expect(panel.champion_abilities.size() == 6, "%d ability slots" % panel.champion_abilities.size())
 	for j in 3:
-		_expect(_at(panel.champion_abilities[j], Vector2(1104 + 54 * j, 684), Vector2(48, 48)),
+		_expect(_at(panel.champion_abilities[j], Vector2(660 + 54 * j, 710), Vector2(48, 48)),
 				"row 1 slot %d at %s" % [j, _rect(panel.champion_abilities[j])])
-		_expect(_at(panel.champion_abilities[3 + j], Vector2(1104 + 54 * j, 766), Vector2(48, 48)),
+		_expect(_at(panel.champion_abilities[3 + j], Vector2(660 + 54 * j, 792), Vector2(48, 48)),
 				"row 2 slot %d at %s" % [j, _rect(panel.champion_abilities[3 + j])])
-		_expect(_at(panel.champion_ability_names[j], Vector2(1104 + 54 * j, 734)), "row 1 name %d" % j)
-		_expect(_at(panel.champion_ability_names[3 + j], Vector2(1104 + 54 * j, 816)), "row 2 name %d" % j)
-	_expect(_at(panel.champion_row1_caption, Vector2(1104, 670)) and _at(panel.champion_row2_caption, Vector2(1104, 752)),
+		_expect(_at(panel.champion_ability_names[j], Vector2(660 + 54 * j, 760)), "row 1 name %d" % j)
+		_expect(_at(panel.champion_ability_names[3 + j], Vector2(660 + 54 * j, 842)), "row 2 name %d" % j)
+	_expect(_at(panel.champion_row1_caption, Vector2(660, 696)) and _at(panel.champion_row2_caption, Vector2(660, 778)),
 			"captions at %s / %s" % [_rect(panel.champion_row1_caption), _rect(panel.champion_row2_caption)])
-	_expect(_at(panel.champion_autocast, Vector2(1104, 834)), "autocast at %s" % _rect(panel.champion_autocast))
+	_expect(_at(panel.champion_autocast, Vector2(660, 860)), "autocast at %s" % _rect(panel.champion_autocast))
 	var name_row: Control = panel.champion_name.get_parent()
 	# 392 wide (the height is the Cinzel 20 line's own, as in step 9).
-	_expect(_at(name_row, Vector2(696, 670)) and absf(name_row.size.x - 392.0) <= 1.0, "name row %s" % _rect(name_row))
+	_expect(_at(name_row, Vector2(252, 696)) and absf(name_row.size.x - 392.0) <= 1.0, "name row %s" % _rect(name_row))
 	_expect(panel.champion_stats.get_global_rect().end.x <= 1089.0, "stat line ends at %.0f" % panel.champion_stats.get_global_rect().end.x)
 	var title: String = panel.champion_name.text.to_upper() + panel.champion_title.text + panel.champion_class_label.text
 	_expect(title == "GARRAN STONEWARD · the Oathwall · no class yet", "title before '%s'" % title)
@@ -546,8 +547,8 @@ func _check_inspect_after() -> void:
 
 func _check_bar_after() -> void:
 	var s0: Node = bar.slots[0]
-	# (still popping: read the unscaled rect) 16 x 16 at (6, 50) in the slot at (16, 408).
-	_expect(_at(s0, Vector2(16, 408)) and s0.class_badge.position.distance_to(Vector2(6, 50)) < 0.5
+	# (still popping: read the unscaled rect) 16 x 16 at (2, 34) in the slot at (8, 380) (SC2.U3 compact slots).
+	_expect(_at(s0, Vector2(8, 380)) and s0.class_badge.position.distance_to(Vector2(2, 34)) < 0.5
 			and s0.class_badge.size.distance_to(Vector2(16, 16)) < 0.5, "bar badge at %s (local %s)" % [
 			_rect(s0.class_badge), s0.class_badge.position])
 	_expect(s0.tooltip_text.split("\n")[0] == "Garran Stoneward  [F5]  the Oathwall · Sword and Shield",

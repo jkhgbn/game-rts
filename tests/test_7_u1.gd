@@ -85,21 +85,24 @@ func _check_build_menu() -> void:
 	root.add_child(card)
 	card.setup(sel)
 	var ids := card.slot_ids()
-	var want := ["build_ice_lodge", "build_ice_barracks", "build_ice_tower", "back", "build_ice_wall"]
+	# SC2.U1 (ui-sc2-console.md 4.4): row 1 = Z X C V (the Ice Wall on V), Back at r3c5.
+	var want := ["build_ice_lodge", "build_ice_barracks", "build_ice_tower", "build_ice_wall"]
 	for i in want.size():
 		if ids[i] != want[i]:
 			_errors.append("build menu slots %s (want %s)" % [str(ids.slice(0, 5)), str(want)])
 			break
-	if card.slots[4].get("key", "") != "V":
-		_errors.append("Ice Wall key badge is '%s'" % card.slots[4].get("key", ""))
-	var tip := str(card.slots[4].get("tooltip", ""))
+	if ids[14] != "back":
+		_errors.append("build menu Back at %d" % ids.find("back"))
+	if card.slots[3].get("key", "") != "V":
+		_errors.append("Ice Wall key badge is '%s'" % card.slots[3].get("key", ""))
+	var tip := str(card.slots[3].get("tooltip", ""))
 	if tip != WALL_TIP:
 		_errors.append("Ice Wall tooltip:\n%s" % tip)
-	# Fire keeps its three entries on Z X C and nothing at r2c1.
+	# Fire keeps its three entries on Z X C and nothing on V (r1c4).
 	sel.kingdom = &"fire"
 	card.refresh()
 	ids = card.slot_ids()
-	if ids[3] != "back" or ids[4] != "" or not ids[0].begins_with("build_fire"):
+	if ids[14] != "back" or ids[3] != "" or not ids[0].begins_with("build_fire"):
 		_errors.append("fire build menu changed: %s" % str(ids.slice(0, 5)))
 	card.queue_free()
 	sel.free()

@@ -1401,17 +1401,17 @@ msgid "Keep your escort alive (%d)"
 msgstr ""
 
 #. return _card(EP1_INTRO_ID, "Episode 1", "The Night of Knives", lines, VESSA_START, Vector3(14.0, 22.0, 18.0),
-#: scripts/campaign/mission_00.gd:993 scripts/campaign/mission_04.gd:1158
+#: scripts/campaign/mission_00.gd:995 scripts/campaign/mission_04.gd:1158
 msgid "Episode 1"
 msgstr ""
 
 #. s1.add_action(0.3, &"title", &"", Vector3.ZERO, {"text": "Dawn", "sub": "Emberfall", "time": 2.5})
-#: scripts/campaign/mission_00.gd:1074
+#: scripts/campaign/mission_00.gd:1076
 msgid "Dawn"
 msgstr ""
 
 #. s1.add_action(0.3, &"title", &"", Vector3.ZERO, {"text": "Dawn", "sub": "Emberfall", "time": 2.5})
-#: scripts/campaign/mission_00.gd:1074
+#: scripts/campaign/mission_00.gd:1076
 msgid "Emberfall"
 msgstr ""
 
@@ -2569,17 +2569,17 @@ msgid "Continue: Mission %d"
 msgstr ""
 
 #. const SAVE_REASON_UNSUPPORTED := "Saving is not supported in this mission"
-#: scripts/campaign/mission_base.gd:1824
+#: scripts/campaign/mission_base.gd:1835
 msgid "Saving is not supported in this mission"
 msgstr ""
 
 #. const SAVE_REASON_SCENE := "Can't save during a scene"
-#: scripts/campaign/mission_base.gd:1825
+#: scripts/campaign/mission_base.gd:1836
 msgid "Can't save during a scene"
 msgstr ""
 
 #. const SAVE_REASON_SCRIPTED := "Can't save now: a scripted event is in progress"
-#: scripts/campaign/mission_base.gd:1826
+#: scripts/campaign/mission_base.gd:1837
 msgid "Can't save now: a scripted event is in progress"
 msgstr ""
 
@@ -4055,12 +4055,12 @@ msgid "Light every sunstone"
 msgstr ""
 
 #. _ring(StringName("amber_%d" % key), s.global_position, float(row[1]), Color(1.0, 0.55, 0.1, 0.6))
-#: scripts/campaign/mission_e2_04.gd:1005 scripts/campaign/mission_e2_04.gd:1008
+#: scripts/campaign/mission_e2_04.gd:1007 scripts/campaign/mission_e2_04.gd:1010
 msgid "amber_%d"
 msgstr ""
 
 #. return "enemy %d" % n if n > 0 else ""
-#: scripts/campaign/mission_e2_04.gd:1385
+#: scripts/campaign/mission_e2_04.gd:1387
 msgid "enemy %d"
 msgstr ""
 
@@ -8249,47 +8249,47 @@ msgid "Episode 5, Mission 4: %s"
 msgstr ""
 
 #. return "Hold three banners while the bell counts thirty (Malrik %d · Vessa %d · the bell from %s)" % [owned(0)
-#: scripts/campaign/mission_e5_04.gd:479
+#: scripts/campaign/mission_e5_04.gd:480
 msgid "Hold three banners while the bell counts thirty (Malrik %d · Vessa %d · the bell from %s)"
 msgstr ""
 
 #. return "Hold three banners while the bell counts thirty (Malrik %d · Vessa %d · the bell %d)" % [owned(0),
-#: scripts/campaign/mission_e5_04.gd:483
+#: scripts/campaign/mission_e5_04.gd:484
 msgid "Hold three banners while the bell counts thirty (Malrik %d · Vessa %d · the bell %d)"
 msgstr ""
 
 #. return "Hold three banners while the bell counts thirty (Malrik %d · Vessa %d)" % [owned(0), owned(1)]
-#: scripts/campaign/mission_e5_04.gd:485
+#: scripts/campaign/mission_e5_04.gd:486
 msgid "Hold three banners while the bell counts thirty (Malrik %d · Vessa %d)"
 msgstr ""
 
 #. return "Hold three banners while the bell counts thirty"
-#: scripts/campaign/mission_e5_04.gd:486
+#: scripts/campaign/mission_e5_04.gd:487
 msgid "Hold three banners while the bell counts thirty"
 msgstr ""
 
 #. return "Malrik must not yield"
-#: scripts/campaign/mission_e5_04.gd:488
+#: scripts/campaign/mission_e5_04.gd:489
 msgid "Malrik must not yield"
 msgstr ""
 
 #. return "Don't let Vessa's bell finish (the bell counts for Vessa: %d)" % int(bell[1])
-#: scripts/campaign/mission_e5_04.gd:491
+#: scripts/campaign/mission_e5_04.gd:492
 msgid "Don't let Vessa's bell finish (the bell counts for Vessa: %d)"
 msgstr ""
 
 #. return "Don't let Vessa's bell finish"
-#: scripts/campaign/mission_e5_04.gd:492
+#: scripts/campaign/mission_e5_04.gd:493
 msgid "Don't let Vessa's bell finish"
 msgstr ""
 
 #. return "Take Vessa's home banner"
-#: scripts/campaign/mission_e5_04.gd:494
+#: scripts/campaign/mission_e5_04.gd:495
 msgid "Take Vessa's home banner"
 msgstr ""
 
 #. return "Take a banner unseen"
-#: scripts/campaign/mission_e5_04.gd:496
+#: scripts/campaign/mission_e5_04.gd:497
 msgid "Take a banner unseen"
 msgstr ""
 
@@ -8552,7 +8552,7 @@ msgstr ""
 
 #. heartfrost = add_target(HEART_POS, float(HEART_HP[diff]), float(HEART_REGEN[diff]), _heart_regens, "The Heartf
 #: scripts/campaign/mission_e6_01.gd:357 scripts/campaign/mission_e6_02.gd:422
-#: scripts/campaign/mission_e6_base.gd:28
+#: scripts/campaign/mission_e6_base.gd:29
 msgid "The Heartfrost"
 msgstr ""
 
@@ -9427,12 +9427,12 @@ msgid "Keep the seal above half"
 msgstr ""
 
 #. local_unit("ruin_warden", BREAKER_ID, "Warden Breaker", {"max_hp": 900.0, "armor": 15.0, "attack_damage": 30.0
-#: scripts/campaign/mission_e6_base.gd:125
+#: scripts/campaign/mission_e6_base.gd:126
 msgid "Warden Breaker"
 msgstr ""
 
 #. local_unit("ruin_warden", WARDEN_ID, "Ruin Warden", {"aggro_range": 9.0, "commandable": false, "cost": 120,
-#: scripts/campaign/mission_e6_base.gd:129 scripts/campaign/mission_e8_base.gd:123
+#: scripts/campaign/mission_e6_base.gd:130 scripts/campaign/mission_e8_base.gd:123
 #: data/units/ruin_warden.tres:9
 msgid "Ruin Warden"
 msgstr ""
@@ -10500,7 +10500,7 @@ msgid "Unmask the Mask Captain"
 msgstr ""
 
 #. return "Not while the Outwall's people are walking"
-#: scripts/campaign/mission_e7_03.gd:1042
+#: scripts/campaign/mission_e7_03.gd:1044
 msgid "Not while the Outwall's people are walking"
 msgstr ""
 
@@ -10908,17 +10908,17 @@ msgid "Not during the turn"
 msgstr ""
 
 #. _bid_panel = mission_button_panel("AuctionPanel", [[Loc.t("Bid +50"), func() -> void: _ui_bid(50)],
-#: scripts/campaign/mission_e7_base.gd:693
+#: scripts/campaign/mission_e7_base.gd:690
 msgid "Bid +50"
 msgstr ""
 
 #. [Loc.t("Bid +100"), func() -> void: _ui_bid(100)]])
-#: scripts/campaign/mission_e7_base.gd:694
+#: scripts/campaign/mission_e7_base.gd:691
 msgid "Bid +100"
 msgstr ""
 
 #. return Loc.t("Auction for {name}: you {mine} · Aurivane {theirs} · {left}", {"name": auction["name"],
-#: scripts/campaign/mission_e7_base.gd:794
+#: scripts/campaign/mission_e7_base.gd:791
 msgid "Auction for {name}: you {mine} · Aurivane {theirs} · {left}"
 msgstr ""
 

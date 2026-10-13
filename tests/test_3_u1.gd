@@ -1,7 +1,7 @@
 extends SceneTree
 ## Test for 3.U1 on the 1v1 map (scenes/skirmish.tscn), with real key events (physical keycodes):
 ## - hero column shows the level badge and "XP  x / y"; add_xp to level 2 = badge "2", level-up message,
-##   points chip "+1 point";
+##   points chip "+1" (SC2.U3 hero tile, ui-sc2-console.md 3.1; the spell slots r2c1-r2c3 since SC2.U1);
 ## - the E spell button (Kindle) is disabled with "Not learned · needs level 4";
 ## - Ctrl+Q learns Ember Step via learn_spell (no targeting starts), the chip disappears, Q shows pips;
 ## - F starts Fireball targeting, confirming casts it (mana spent);
@@ -80,20 +80,20 @@ func _step() -> void:
 			if not str(main.hud._message.text).contains("reaches level 2"):
 				_error = "level-up message is '%s'" % main.hud._message.text
 				return
-			if not panel.points_chip.visible or panel.points_text.text != "+1 point":
+			if not panel.points_chip.visible or panel.points_text.text != "+1":
 				_error = "points chip: visible %s, '%s'" % [panel.points_chip.visible, panel.points_text.text]
 				return
 			sel.select_units([hero])
 			card.refresh()
 			var ids: Array = card.slot_ids()
-			if ids.slice(4, 7) != ["fireball", "ember_step", "kindle"]:
+			if ids.slice(5, 8) != ["fireball", "ember_step", "kindle"]:
 				_error = "spell slots are %s" % [ids]
 				return
-			var ki: Button = card.buttons[6]
+			var ki: Button = card.buttons[7]
 			if not ki.disabled or not ki.tooltip_text.ends_with("\nNot learned · needs level 4"):
 				_error = "Kindle not disabled with the level reason: '%s'" % ki.tooltip_text
 				return
-			if not card.learn_chips[5].visible:
+			if not card.learn_chips[6].visible:
 				_error = "no + chip on Ember Step with a point to spend"
 				return
 			# Ctrl+Q learns Ember Step.
@@ -106,10 +106,10 @@ func _step() -> void:
 				_error = "Ctrl+Q started targeting '%s'" % sel.get_pending_order()
 				return
 			card.refresh()
-			if panel.points_chip.visible or card.learn_chips[5].visible:
+			if panel.points_chip.visible or card.learn_chips[6].visible:
 				_error = "chips still shown after spending the point"
 				return
-			var pips: Array = card.rank_pips[5]
+			var pips: Array = card.rank_pips[6]
 			if not pips[2].visible or pips[0].color != Color(1.0, 0.85, 0.4) or pips[1].color == pips[0].color:
 				_error = "Ember Step rank pips wrong (Ember Step has 3 ranks, rank 1 learned)"
 				return
@@ -136,11 +136,11 @@ func _step() -> void:
 		20:
 			sel.select_units([hero])
 			card.refresh()
-			if not card.cooldown_visible(5) or card.cooldown_labels[5].text == "":
+			if not card.cooldown_visible(6) or card.cooldown_labels[6].text == "":
 				_error = "no cooldown sweep on Ember Step after the cast (cd left %.1f)" % \
 						hero.get_node("SpellCaster").cooldown_left(&"ember_step")
 				return
-			if not card.buttons[5].disabled or not card.buttons[5].tooltip_text.ends_with("\nOn cooldown"):
+			if not card.buttons[6].disabled or not card.buttons[6].tooltip_text.ends_with("\nOn cooldown"):
 				_error = "Ember Step button not disabled 'On cooldown'"
 				return
 			_done = true

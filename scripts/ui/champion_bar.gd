@@ -1,7 +1,8 @@
 class_name ChampionBar
 extends Control
-## The champion bar (step 9, task 9.C7; spec: docs/design/champions.md 9, layout: docs/design/ui-champions.md 3).
-## A column of three 240 x 72 slots at (16, 408 / 486 / 564), anchored bottom-left above the minimap. Slot k = roster
+## The champion bar (step 9, task 9.C7; spec: docs/design/champions.md 9, layout: docs/design/ui-champions.md 3, compact
+## console slots ui-sc2-console.md 3.2, SC2.U3). A column of three 240 x 52 slots at (8, 380 / 436 / 492), anchored
+## bottom-left above the hero tile. Slot k = roster
 ## slot k of the player's ChampionGuild (alive, reviving or fallen). Each slot: portrait 56 (icon or abbreviation),
 ## level medallion, name, F5 / F6 / F7 badge, HP bar, intent in its colour, purse. Fallen: greyed, `Fallen` /
 ## `Returns in 24 s`. Empty: `+`, `Hire a champion`, `Y · tavern`.
@@ -21,11 +22,13 @@ extends Control
 signal tavern_requested(slot: int)
 
 const SLOTS := 3
-const BAR_POS := Vector2(16, 408)
-const BAR_SIZE := Vector2(240, 228)
-const SLOT_SIZE := Vector2(240, 72)
-const SLOT_STEP := 78.0
-const PORTRAIT_SIZE := 56.0
+const BAR_POS := Vector2(8, 380)
+const BAR_SIZE := Vector2(240, 164)
+const SLOT_SIZE := Vector2(240, 52)
+const SLOT_STEP := 56.0
+const PORTRAIT_SIZE := 44.0
+## An empty slot is drawn at this alpha until hovered (0.6 read under 3 : 1 on the slate: UI Lab contrast FAIL).
+const EMPTY_ALPHA := 0.8
 const KEYS: Array[Key] = [KEY_F5, KEY_F6, KEY_F7]
 const KEY_NAMES: Array[String] = ["F5", "F6", "F7"]
 const REFRESH_TIME := 0.1
@@ -258,7 +261,7 @@ static var _effect_re: RegEx = null   ## U3-9: ability_effect's {n} pattern, com
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	# Anchored bottom-left like the minimap: offset_top -492, offset_bottom -264 at 1600 x 900.
+	# Anchored bottom-left like the minimap: offset_top -520, offset_bottom -356 at 1600 x 900.
 	set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	grow_vertical = Control.GROW_DIRECTION_BEGIN
 	offset_left = BAR_POS.x
@@ -1265,77 +1268,77 @@ class Slot extends Button:
 		mouse_filter = Control.MOUSE_FILTER_STOP
 		face = Face.new()
 		face.inset = 2.0
-		face.letter_size = 18
-		face.position = Vector2(8, 8)
+		face.letter_size = 15
+		face.position = Vector2(4, 4)
 		face.size = Vector2(ChampionBar.PORTRAIT_SIZE, ChampionBar.PORTRAIT_SIZE)
 		face.pivot_offset = face.size * 0.5
 		add_child(face)
-		plus_label = UIStyle.display_label("+", 26)
+		plus_label = UIStyle.display_label("+", 22)
 		_ignore(plus_label)
-		plus_label.position = Vector2(8, 8)
+		plus_label.position = Vector2(4, 4)
 		plus_label.size = Vector2(ChampionBar.PORTRAIT_SIZE, ChampionBar.PORTRAIT_SIZE)
 		plus_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		plus_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		add_child(plus_label)
-		# Level medallion 22 x 22 centred at (60, 58).
+		# Level medallion 18 x 18 over the portrait's bottom-right corner (centred at (45, 41)).
 		medallion = Control.new()
 		_ignore(medallion)
-		medallion.position = Vector2(49, 47)
-		medallion.size = Vector2(22, 22)
-		medallion.pivot_offset = Vector2(11, 11)
+		medallion.position = Vector2(36, 32)
+		medallion.size = Vector2(18, 18)
+		medallion.pivot_offset = Vector2(9, 9)
 		medallion.draw.connect(_draw_medallion)
 		add_child(medallion)
-		# Class badge 16 x 16 at (6, 50): the portrait's lower-left corner (the medallion owns the lower-right).
+		# Class badge 16 x 16 at (2, 34): the portrait's lower-left corner (the medallion owns the lower-right).
 		class_badge = ClassBadge.new()
-		class_badge.position = Vector2(6, 50)
+		class_badge.position = Vector2(2, 34)
 		add_child(class_badge)
-		level_label = UIStyle.display_label("1", 11, UIStyle.GOLD)
+		level_label = UIStyle.display_label("1", 10, UIStyle.GOLD)
 		_ignore(level_label)
 		level_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 		level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		level_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		medallion.add_child(level_label)
-		name_label = UIStyle.display_label("", 15)
+		name_label = UIStyle.display_label("", 13)
 		_ignore(name_label)
-		name_label.position = Vector2(72, 6)
-		name_label.size = Vector2(132, 18)
+		name_label.position = Vector2(54, 3)
+		name_label.size = Vector2(150, 17)
 		name_label.clip_text = true
 		name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		add_child(name_label)
 		key_badge = Panel.new()
 		_ignore(key_badge)
-		key_badge.position = Vector2(208, 7)
-		key_badge.size = Vector2(24, 14)
+		key_badge.position = Vector2(210, 4)
+		key_badge.size = Vector2(26, 15)
 		add_child(key_badge)
-		key_label = UIStyle.panel_label(ChampionBar.KEY_NAMES[index], 10, UIStyle.GOLD)
+		key_label = UIStyle.panel_label(ChampionBar.KEY_NAMES[index], 11, UIStyle.GOLD)
 		_ignore(key_label)
 		key_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 		key_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		key_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		key_badge.add_child(key_label)
-		var hp := UIStyle.bar(UIStyle.HP_COLOR, 14.0)
+		var hp := UIStyle.bar(UIStyle.HP_COLOR, 10.0)
 		hp_bar = hp[0]
 		hp_text = hp[1]
-		hp_text.add_theme_font_size_override("font_size", 10)
+		hp_text.add_theme_font_size_override("font_size", 9)
 		hp_text.add_theme_constant_override("outline_size", 2)
-		hp_bar.position = Vector2(72, 26)
-		hp_bar.size = Vector2(160, 14)
-		hp_bar.custom_minimum_size = Vector2(160, 14)
+		hp_bar.position = Vector2(54, 22)
+		hp_bar.size = Vector2(150, 10)
+		hp_bar.custom_minimum_size = Vector2(150, 10)
 		add_child(hp_bar)
-		intent_label = UIStyle.panel_label("", 12)
+		intent_label = UIStyle.panel_label("", 11)
 		_ignore(intent_label)
-		intent_label.position = Vector2(72, 46)
-		intent_label.size = Vector2(100, 17)
+		intent_label.position = Vector2(54, 34)
+		intent_label.size = Vector2(122, 16)
 		intent_label.clip_text = true
 		intent_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		add_child(intent_label)
-		# Purse: flame 10 x 12 + 4 px + number, right edge at x 232, y 46, max width 56.
+		# Purse: flame 10 x 12 + 4 px + number, right edge at x 236, y 34, max width 56.
 		purse_box = HBoxContainer.new()
 		_ignore(purse_box)
 		purse_box.alignment = BoxContainer.ALIGNMENT_END
 		purse_box.add_theme_constant_override("separation", 4)
-		purse_box.position = Vector2(176, 46)
-		purse_box.size = Vector2(56, 17)
+		purse_box.position = Vector2(180, 34)
+		purse_box.size = Vector2(56, 16)
 		add_child(purse_box)
 		var flame := Control.new()
 		_ignore(flame)
@@ -1343,16 +1346,16 @@ class Slot extends Button:
 		flame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		flame.draw.connect(func() -> void: ChampionBar.draw_flame(flame, Vector2.ZERO, 10.0))
 		purse_box.add_child(flame)
-		purse_label = UIStyle.number_label("0", 12, UIStyle.ESSENCE_TEXT)
+		purse_label = UIStyle.number_label("0", 11, UIStyle.ESSENCE_TEXT)
 		_ignore(purse_label)
 		purse_box.add_child(purse_label)
 		hire_label = UIStyle.panel_label("Hire a champion", 12)
 		_ignore(hire_label)
-		hire_label.position = Vector2(72, 18)
+		hire_label.position = Vector2(54, 7)
 		add_child(hire_label)
 		tavern_label = UIStyle.panel_label("Y · tavern", 11, UIStyle.GOLD)
 		_ignore(tavern_label)
-		tavern_label.position = Vector2(72, 40)
+		tavern_label.position = Vector2(54, 27)
 		add_child(tavern_label)
 		fx = Control.new()
 		_ignore(fx)
@@ -1538,7 +1541,7 @@ class Slot extends Button:
 
 	func _update_alpha() -> void:
 		var faded := state == &"empty" and not is_hovered()
-		modulate.a = 0.6 if faded else 1.0
+		modulate.a = ChampionBar.EMPTY_ALPHA if faded else 1.0
 
 	func _play_hired() -> void:
 		if _tween:
@@ -1559,7 +1562,7 @@ class Slot extends Button:
 			_tween.kill()
 		modulate.a = 1.0
 		_tween = create_tween()
-		_tween.tween_property(self, "modulate:a", 0.6, 0.3)
+		_tween.tween_property(self, "modulate:a", ChampionBar.EMPTY_ALPHA, 0.3)
 
 	func _play_level_up() -> void:
 		medallion.scale = Vector2.ONE
@@ -1576,7 +1579,7 @@ class Slot extends Button:
 		f.add_theme_color_override("font_color", UIStyle.GOLD)
 		f.add_theme_constant_override("outline_size", 2)
 		f.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		f.position = Vector2(200, 38)
+		f.position = Vector2(200, 26)
 		fx.add_child(f)
 		var t := create_tween().set_parallel(true)
 		t.tween_property(f, "position:y", f.position.y - 12.0, 0.6)
@@ -1627,12 +1630,12 @@ class Slot extends Button:
 
 	func _draw_medallion() -> void:
 		var alive := state == &"alive" or state == &"arriving"
-		ChampionBar.draw_hex_badge(medallion, Vector2(11, 11), 11.0, UIStyle.GOLD if alive else ChampionBar.FALLEN_EDGE)
+		ChampionBar.draw_hex_badge(medallion, Vector2(9, 9), 9.0, UIStyle.GOLD if alive else ChampionBar.FALLEN_EDGE)
 
 	func _draw_fx() -> void:
 		if _ring_t < 0.0:
 			return
-		var c := medallion.position + Vector2(11, 11)
+		var c := medallion.position + Vector2(9, 9)
 		fx.draw_arc(c, lerpf(12.0, 30.0, _ring_t), 0.0, TAU, 40, Color(UIStyle.GOLD, 1.0 - _ring_t), 3.0, true)
 
 

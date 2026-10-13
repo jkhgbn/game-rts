@@ -1,13 +1,13 @@
 class_name Portrait
 extends Control
-## 96 x 96 3D portrait of the selected unit / building (ui-style.md 7.2), shown in the selection panel's
-## single-unit and building views. One SubViewport (128 x 128, own World3D) for the whole HUD. It renders
-## once per UPDATE_INTERVAL while visible (UPDATE_ONCE), never while hidden; the model is swapped only when
-## the target's type changes. Without a model_scene it shows the 2-letter abbreviation.
+## 3D portrait of the selected unit / building (ui-style.md 7.2), 136 x 136 in the console's portrait window
+## (ui-sc2-console.md 4.3, PortraitWindow). One SubViewport (192 x 192, own World3D, MSAA 2x) for the whole HUD. It
+## renders once per UPDATE_INTERVAL (30 Hz) while visible (UPDATE_ONCE), never while hidden; the model is swapped only
+## when the target's type changes. Without a model_scene it shows the 2-letter abbreviation.
 
-const SIZE := Vector2(96, 96)
-const VIEWPORT_SIZE := Vector2i(128, 128)
-const UPDATE_INTERVAL := 0.1
+const SIZE := Vector2(136, 136)
+const VIEWPORT_SIZE := Vector2i(192, 192)
+const UPDATE_INTERVAL := 1.0 / 30.0
 
 var viewport: SubViewport
 var view: TextureRect
@@ -90,7 +90,7 @@ func _ready() -> void:
 	_vignette.texture = vt
 	add_child(_vignette)
 
-	abbrev_label = UIStyle.display_label("", 28)
+	abbrev_label = UIStyle.display_label("", 36)
 	abbrev_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	abbrev_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	abbrev_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -114,8 +114,8 @@ func apply_skin() -> void:
 	t.fill = GradientTexture2D.FILL_RADIAL
 	t.fill_from = Vector2(0.5, 0.5)
 	t.fill_to = Vector2(1.0, 0.5)
-	t.width = 96
-	t.height = 96
+	t.width = 128
+	t.height = 128
 	_bg.texture = t
 	abbrev_label.add_theme_color_override("font_color", UIStyle.token(&"title"))
 	_set_rim(Color(0, 0, 0, 0))

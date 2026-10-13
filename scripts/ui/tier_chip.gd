@@ -143,14 +143,14 @@ func select_keep() -> void:
 		(rig as Object).call(&"focus_on", k.global_position)
 
 
-## Under the top bar's left end. When the map-fill objectives strip is there (skirmish), the top-left column instead:
-## under the Next hint, else under the objective panel.
+## Under the resources, right-aligned to them (ui-sc2-console.md 1: right edge 1592, y 44 at 1600 x 900). When the
+## map-fill objectives strip is there, the top-left column instead: under the Next hint, else under the objective panel.
 func _place() -> void:
 	var bar: Variant = hud.get(&"top_bar") if hud else null
 	if not (bar is Control):
 		return
 	var b := (bar as Control).get_global_rect()
-	var pos := Vector2(b.position.x, b.end.y + GAP)
+	var pos := Vector2(b.end.x - size.x, b.end.y + GAP)
 	var mf: Variant = hud.get(&"mapfill_bar") if &"mapfill_bar" in hud else null
 	if mf is Object and is_instance_valid(mf):
 		var strip: Variant = (mf as Object).get(&"strip")
@@ -180,4 +180,4 @@ func _left_column_spot() -> Vector2:
 		if c is Control and is_instance_valid(c) and (c as Control).is_visible_in_tree():
 			var r := (c as Control).get_global_rect()
 			return Vector2(r.position.x, r.end.y + GAP)
-	return Vector2(16, 16)
+	return Vector2(8, 36)

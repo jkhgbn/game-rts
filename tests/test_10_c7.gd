@@ -403,14 +403,14 @@ func _test_build_menu() -> void:
 	sel.select_units(workers)
 	sel.open_build_menu()
 	card.refresh()
-	_expect(card.slot_ids()[5] == "build_fire_market", "Bazaar not at r2c2: %s" % [card.slot_ids()])
-	_expect(card.key_labels[5].text == "B", "Bazaar key '%s'" % card.key_labels[5].text)
-	var tip: String = card.buttons[5].tooltip_text
+	_expect(card.slot_ids()[4] == "build_fire_market", "Bazaar not at r1c5: %s" % [card.slot_ids()])
+	_expect(card.key_labels[4].text == "B", "Bazaar key '%s'" % card.key_labels[4].text)
+	var tip: String = card.buttons[4].tooltip_text
 	_expect(tip.begins_with("Ember Bazaar  [B]\nCost 175 crystals · 40 s · 1000 HP\nSends caravans to the trading posts for "
 			+ "gold. Within 20 m of your keep. One per kingdom."), "Bazaar tooltip '%s'" % tip)
 	var hall_needed := BuildGrid.prerequisite_reason(bazaar, 0) != ""
 	if hall_needed:
-		_expect(card.buttons[5].disabled and tip.ends_with("\nNeeds a completed Hall"), "no-Hall reason: '%s'" % tip)
+		_expect(card.buttons[4].disabled and tip.ends_with("\nNeeds a completed Hall"), "no-Hall reason: '%s'" % tip)
 		_messages.clear()
 		_key(KEY_B, KEY_B)
 		_expect(sel.placing_type == null and _messages.has("Needs a completed Hall"), "B without a Hall: %s %s" % [
@@ -423,7 +423,7 @@ func _test_build_menu() -> void:
 		_expect(hall != null and hall.is_constructed(), "could not spawn a Hall")
 	eco.crystals = 5000
 	card.refresh()
-	_expect(not card.buttons[5].disabled, "Bazaar button disabled with a Hall: '%s'" % card.buttons[5].tooltip_text)
+	_expect(not card.buttons[4].disabled, "Bazaar button disabled with a Hall: '%s'" % card.buttons[4].tooltip_text)
 	# B in the open build menu = the Bazaar ghost; the grid's reason shows for a spot 25 m from the keep.
 	_key(KEY_B, KEY_B)
 	_expect(sel.placing_type == bazaar and sel.get_pending_order() == &"build", "B did not start the Bazaar placement")
@@ -477,21 +477,22 @@ func _test_market_card_and_panel() -> void:
 	sel.select_building(market)
 	await _frames(2)
 	card.refresh()
-	var want := ["train_caravan", "route", "wares", "", "route_heron_ford", "route_millstone_cross", "route_saltgate",
-			"route_lantern_wharf", "", "", "", ""]
+	# SC2.U1 (ui-sc2-console.md 4.4): 5 x 3 card, the posts on row 2.
+	var want := ["train_caravan", "route", "wares", "", "", "route_heron_ford", "route_millstone_cross", "route_saltgate",
+			"route_lantern_wharf", "", "", "", "", "", ""]
 	_expect(card.slot_ids() == want, "Bazaar card %s" % [card.slot_ids()])
 	_expect(card.key_labels[0].text == "Z" and card.key_labels[1].text == "" and card.key_labels[2].text == "U",
 			"card keys '%s' '%s' '%s'" % [card.key_labels[0].text, card.key_labels[1].text, card.key_labels[2].text])
 	_expect(not card.slot_ids().has("rally"), "the Bazaar shows Set Rally")
-	_expect([card.buttons[4].text, card.buttons[5].text, card.buttons[6].text, card.buttons[7].text] == ["HF", "MC", "SG", "LW"],
-			"route button letters %s" % [[card.buttons[4].text, card.buttons[5].text, card.buttons[6].text, card.buttons[7].text]])
+	_expect([card.buttons[5].text, card.buttons[6].text, card.buttons[7].text, card.buttons[8].text] == ["HF", "MC", "SG", "LW"],
+			"route button letters %s" % [[card.buttons[5].text, card.buttons[6].text, card.buttons[7].text, card.buttons[8].text]])
 	_expect((card.buttons[0].tooltip_text as String).begins_with(
 			"Caravan  [Z]\nCost 75 crystals · Pop 0 · 20 s\nTrades with a post and brings gold back. Max 6."),
 			"caravan tooltip '%s'" % card.buttons[0].tooltip_text)
 	# Posts closed: Set Route and the route buttons refused.
 	_expect(card.buttons[1].disabled and (card.buttons[1].tooltip_text as String).ends_with("\nTrading posts open at 4:00"),
 			"Set Route not refused while closed: '%s'" % card.buttons[1].tooltip_text)
-	for i in range(4, 8):
+	for i in range(5, 9):
 		_expect(card.buttons[i].disabled and (card.buttons[i].tooltip_text as String).ends_with("\nOpens at 4:00"),
 				"route button %d while closed: '%s'" % [i, card.buttons[i].tooltip_text])
 	_expect(_bl(1) == "Posts open at 4:00 · caravans wait",
@@ -499,36 +500,36 @@ func _test_market_card_and_panel() -> void:
 	# Open.
 	net.open = true
 	card.refresh()
-	for i in range(4, 8):
+	for i in range(5, 9):
 		_expect(not card.buttons[i].disabled, "route button %d still disabled: '%s'" % [i, card.buttons[i].tooltip_text])
 	var order: Array = [hf, mc, sg, lw]
 	for j in 4:
 		var p: Node3D = order[j]
-		_expect(card.cost_tags[4 + j].visible and card.cost_tags[4 + j].text == str(_value(market, p)),
-				"value tag %d '%s' want %d" % [j, card.cost_tags[4 + j].text, _value(market, p)])
+		_expect(card.cost_tags[5 + j].visible and card.cost_tags[5 + j].text == str(_value(market, p)),
+				"value tag %d '%s' want %d" % [j, card.cost_tags[5 + j].text, _value(market, p)])
 		var far: bool = net.is_far(0, p)
-		_expect(card.near_chips[4 + j].visible and card.near_chips[4 + j].text == ("far" if far else "near"),
-				"near / far chip %d '%s'" % [j, card.near_chips[4 + j].text])
+		_expect(card.near_chips[5 + j].visible and card.near_chips[5 + j].text == ("far" if far else "near"),
+				"near / far chip %d '%s'" % [j, card.near_chips[5 + j].text])
 	_expect(_value(market, hf) < _value(market, mc) and _value(market, mc) < _value(market, sg) \
 			and _value(market, sg) < _value(market, lw), "stub values not ascending (test setup)")
 	# The default route (near, best value) = Millstone Cross: its button selected, "Current route" in the tooltip.
 	_expect(market.route_post == mc, "default route %s" % market.route_post)
-	_expect(bool(card.slots[5].get("active")) and not bool(card.slots[4].get("active")), "current route not selected")
-	var tip: String = card.buttons[5].tooltip_text
+	_expect(bool(card.slots[6].get("active")) and not bool(card.slots[5].get("active")), "current route not selected")
+	var tip: String = card.buttons[6].tooltip_text
 	_expect(tip == "Millstone Cross · near\n%d gold per trip · ~%d / min per caravan\nCurrent route" % [_value(market, mc),
 			_per_min(market, mc)], "current route tooltip '%s'" % tip)
-	_expect((card.buttons[4].tooltip_text as String).ends_with("\nRight-click the post does the same."),
-			"route tooltip line 3 '%s'" % card.buttons[4].tooltip_text)
+	_expect((card.buttons[5].tooltip_text as String).ends_with("\nRight-click the post does the same."),
+			"route tooltip line 3 '%s'" % card.buttons[5].tooltip_text)
 	# Held by the enemy.
 	sg.holder = 1
 	card.refresh()
-	_expect(card.buttons[6].disabled and (card.buttons[6].tooltip_text as String).ends_with("\nHeld by the enemy")
-			and bool(card.slots[6].get("held")), "held route button: '%s'" % card.buttons[6].tooltip_text)
+	_expect(card.buttons[7].disabled and (card.buttons[7].tooltip_text as String).ends_with("\nHeld by the enemy")
+			and bool(card.slots[7].get("held")), "held route button: '%s'" % card.buttons[7].tooltip_text)
 	# A route button sets the route.
-	card.press_slot(7)
+	card.press_slot(8)
 	_expect(market.route_post == lw, "route button did not set Lantern Wharf (%s)" % market.route_post)
 	card.refresh()
-	_expect(bool(card.slots[7].get("active")) and not bool(card.slots[5].get("active")), "route button state after the click")
+	_expect(bool(card.slots[8].get("active")) and not bool(card.slots[6].get("active")), "route button state after the click")
 	# Wares U: the trade window on the Bazaar tab.
 	var real_window: Variant = hud.get("trade_window")
 	if real_window == null:
@@ -555,7 +556,7 @@ func _test_market_card_and_panel() -> void:
 			"%d gold per trip · ~%d / min each" % [_value(market, lw), _per_min(market, lw)],
 			"Caravans 0 / 6", "Gold traded, last 3 min: 620 · total 2 140", "Wares 1 / 4 owned · U"]
 	_expect(Array(lines) == want_lines, "Bazaar block %s, want %s" % [lines, want_lines])
-	_expect(panel.market_block.get_global_rect().position.distance_to(Vector2(1000, 676)) < 1.5,
+	_expect(panel.market_block.get_global_rect().position.distance_to(Vector2(852, 702)) < 1.5,
 			"Bazaar block at %s" % panel.market_block.get_global_rect().position)
 	# Held route: the waiting line; a queued caravan; the 6 / 6 warning.
 	market.route_post = sg
@@ -871,7 +872,7 @@ func _test_caravans() -> void:
 	await _frames(1)
 	_expect(panel.current_view() == "multi" and not panel.icon_coin_shown(0) and panel.icon_coin_shown(1),
 			"multi coins %s / %s" % [panel.icon_coin_shown(0), panel.icon_coin_shown(1)])
-	_expect((panel.multi_header.text as String).begins_with("2 selected:"), "multi header '%s'" % panel.multi_header.text)
+	_expect((panel.multi_header.text as String).begins_with("2 selected"), "multi header '%s'" % panel.multi_header.text)
 	# Caravans count in the Bazaar block.
 	sel.select_building(market)
 	await _frames(1)
@@ -987,7 +988,7 @@ func _test_neutral_clicks() -> void:
 	await _focus(den.global_position)
 	_click(_screen(den.global_position, 2.0))
 	_expect(sel.selected_neutral == den and den.selected_flag and _neutral_clicks.back() == den, "Den click")
-	_drag(Vector2(20, 60), Vector2(200, 200))
+	_drag(Vector2(20, 240), Vector2(200, 330))   # SC2.U2: (20, 60) is the objective's fold header now
 	_expect(sel.selected_neutral == null and not den.selected_flag, "a box select kept the Den")
 	await _focus(lodge.global_position)
 	_click(_screen(lodge.global_position, 2.0))

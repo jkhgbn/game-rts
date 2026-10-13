@@ -110,7 +110,7 @@ func _step(index: int, t: int) -> void:
 func _minimap_checks(tag: String) -> void:
 	var rect: Rect2 = minimap.get_global_rect()
 	var screen := root.get_visible_rect().size
-	if rect.position.distance_to(Vector2(26, screen.y - 246)) > 1.5 or rect.size.distance_to(Vector2(220, 220)) > 1.5:
+	if rect.position.distance_to(Vector2(14, screen.y - 208)) > 1.5 or rect.size.distance_to(Vector2(200, 200)) > 1.5:   # SC2.U1
 		_error = "%s: minimap at %s" % [tag, rect]
 		return
 	# Nothing above the minimap eats the mouse.

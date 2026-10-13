@@ -364,3 +364,16 @@ through the constant / `CampManager.camp_of`, nothing to change).
 `SaveGame.load_slot` now refuses a load while a film plays: `SaveGame.REASON_FILM_LOAD := "Can't load during a film"`
 (logic text, shown like the other SaveGame reasons). Please add it to `PauseMenu.SAVE_TEXTS` (pause_menu.gd ~line 323;
 `tests/test_save_load.gd` fails until it is listed), then `tools/i18n/extract_strings.gd '--' merge` and the French line.
+
+## WS2.C1 (systems-coder, 2026-10-13): Wave Strike now has 9-10 cards per kingdom
+`data/wave_strike/card_prices.tres` holds the 14.1 sets (Fire 9, Ice / Nature / Shadow 10; slots 1-5 T1, 6-8 T2,
+9-10 T3), so `roster.card_ids()` returns up to 10 ids. **`scripts/ui/wave_strike/wave_strike_hud.gd` `_refresh()`
+indexes `CARD_KEYS[i]` (4 keys) for every card: out-of-bounds SCRIPT ERROR at i = 4 every refresh.** Minimal fix
+until WS2.U1 lands the 10-key panel: `KeyLabels.of(CARD_KEYS[i]) if i < CARD_KEYS.size() else "-"` (or the 14.4 keys
+Z X C V B N M , . / with Coffer G / next tier U). New data for the panel:
+- `WaveCardTable.max_copies_of(id) -> int` (0 = no limit; casters 4, support 6, T3 3), via `roster.table`.
+- `MusterRoster.can_buy` reasons: `"Requires Stronghold"`, **`"Requires Citadel"`** (T3 cards), **`"Max N copies"`**,
+  `"Supply full (a/b)"`, `"Not enough crystals"` (French entries needed for the two new ones).
+- Caps are now 36 / 60 / 84 (`rules.cap_at(tier)`), start 600, income 120. `_card_tip` says "(Stronghold)" for any
+  requires_tier >= 2: T3 cards need "(Citadel)".
+- `wave_strike_level.gd` still says "Buy cards (Z X C V)" at start; I will change it when WS2.U1 fixes the keys.

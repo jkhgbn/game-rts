@@ -1,0 +1,583 @@
+{
+  "actual_sizes": {
+    "1920x1080": "1920x1080"
+  },
+  "checks": [
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 6,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"40\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"30\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"50\"",
+          "value": 10.0
+        },
+        {
+          "detail": "9.0 px (min 11)",
+          "fail": false,
+          "text": "HeroTile > F1Badge \"F1\"",
+          "value": 9.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ArmyButton > Label \"F2\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ArmyButton > Label \"1\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.357142857142857,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 5,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "3.57 : 1 (rule 4.5; text 796631 on 0c0806) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Q\"",
+          "value": 3.57
+        },
+        {
+          "detail": "2.69 : 1 (rule 4.5; text 465678 on 0c0a0a) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"30\"",
+          "value": 2.69
+        },
+        {
+          "detail": "3.58 : 1 (rule 4.5; text 7a6734 on 0d0a0b) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"E\"",
+          "value": 3.58
+        },
+        {
+          "detail": "2.67 : 1 (rule 4.5; text 495576 on 120906) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"50\"",
+          "value": 2.67
+        },
+        {
+          "detail": "3.13 : 1 (rule 4.5; text 000000 on 6b5a2e)",
+          "fail": false,
+          "text": "ArmyButton > Label \"1\"",
+          "value": 3.13
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.4,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "hud",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 8,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"50\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"300\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"200\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"350\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "CommandCard > Label \"120\"",
+          "value": 10.0
+        },
+        {
+          "detail": "9.0 px (min 11)",
+          "fail": false,
+          "text": "HeroTile > F1Badge \"F1\"",
+          "value": 9.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ArmyButton > Label \"F2\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ArmyButton > Label \"1\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.294117647058824,
+      "screen": "hud_keep",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 7,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "3.56 : 1 (rule 4.5; text 786632 on 090808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"X\"",
+          "value": 3.56
+        },
+        {
+          "detail": "3.75 : 1 (rule 4.5; text 5b6e77 on 090808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"300\"",
+          "value": 3.75
+        },
+        {
+          "detail": "3.56 : 1 (rule 4.5; text 786632 on 090808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"C\"",
+          "value": 3.56
+        },
+        {
+          "detail": "3.75 : 1 (rule 4.5; text 5b6e77 on 090808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"200\"",
+          "value": 3.75
+        },
+        {
+          "detail": "3.56 : 1 (rule 4.5; text 786632 on 090808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"V\"",
+          "value": 3.56
+        },
+        {
+          "detail": "3.75 : 1 (rule 4.5; text 5b6e77 on 090808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"350\"",
+          "value": 3.75
+        },
+        {
+          "detail": "3.13 : 1 (rule 4.5; text 000000 on 6b5a2e)",
+          "fail": false,
+          "text": "ArmyButton > Label \"1\"",
+          "value": 3.13
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.32258064516129,
+      "screen": "hud_keep",
+      "status": "WARN",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "hud_keep",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_keep",
+      "status": "PASS",
+      "type": "edge"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "overflow"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "offscreen"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "overlap"
+    },
+    {
+      "count": 3,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "9.0 px (min 11)",
+          "fail": false,
+          "text": "HeroTile > F1Badge \"F1\"",
+          "value": 9.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ArmyButton > Label \"F2\"",
+          "value": 10.0
+        },
+        {
+          "detail": "10.0 px (min 11)",
+          "fail": false,
+          "text": "ArmyButton > Label \"1\"",
+          "value": 10.0
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.526315789473684,
+      "screen": "hud_caster",
+      "status": "WARN",
+      "type": "font"
+    },
+    {
+      "count": 2,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "3.56 : 1 (rule 4.5; text 786632 on 090808) (inside a disabled button: WARN only)",
+          "fail": false,
+          "text": "CommandCard > Label \"Z\"",
+          "value": 3.56
+        },
+        {
+          "detail": "3.13 : 1 (rule 4.5; text 000000 on 6b5a2e)",
+          "fail": false,
+          "text": "ArmyButton > Label \"1\"",
+          "value": 3.13
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.625,
+      "screen": "hud_caster",
+      "status": "WARN",
+      "type": "contrast"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "tooltip"
+    },
+    {
+      "count": 1,
+      "fails": 0,
+      "items": [
+        {
+          "detail": "récolter; commerce (caravanes)",
+          "fail": false,
+          "text": "help key G ",
+          "value": "G "
+        }
+      ],
+      "res": "1920x1080",
+      "score": 0.769230769230769,
+      "screen": "hud_caster",
+      "status": "WARN",
+      "type": "hotkeys"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "gaps"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "icons"
+    },
+    {
+      "count": 0,
+      "fails": 0,
+      "items": [],
+      "res": "1920x1080",
+      "score": 1.0,
+      "screen": "hud_caster",
+      "status": "PASS",
+      "type": "edge"
+    }
+  ],
+  "counts": {
+    "FAIL": 0,
+    "PASS": 21,
+    "SKIP": 0,
+    "WARN": 9
+  },
+  "headless": false,
+  "improve_next": [
+    {
+      "status": "WARN",
+      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"X\": 3.56 : 1 (rule 4.5; text 786632 on 090808) (inside a disabled button: WARN only) (at 1920x1080)",
+      "title": "Contrast on hud_keep"
+    },
+    {
+      "status": "WARN",
+      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"Q\": 3.57 : 1 (rule 4.5; text 796631 on 0c0806) (inside a disabled button: WARN only) (at 1920x1080)",
+      "title": "Contrast on hud"
+    },
+    {
+      "status": "WARN",
+      "text": "raise the font size (ui-style.md sizes: 12+). e.g. CommandCard > Label \"50\": 10.0 px (min 11) (at 1920x1080)",
+      "title": "Min font size on hud_keep"
+    },
+    {
+      "status": "WARN",
+      "text": "raise the font size (ui-style.md sizes: 12+). e.g. CommandCard > Label \"40\": 10.0 px (min 11) (at 1920x1080)",
+      "title": "Min font size on hud"
+    },
+    {
+      "status": "WARN",
+      "text": "brighter text, darker / more opaque panel, or a 2-3 px outline. e.g. CommandCard > Label \"Z\": 3.56 : 1 (rule 4.5; text 786632 on 090808) (inside a disabled button: WARN only) (at 1920x1080)",
+      "title": "Contrast on hud_caster"
+    },
+    {
+      "status": "WARN",
+      "text": "raise the font size (ui-style.md sizes: 12+). e.g. HeroTile > F1Badge \"F1\": 9.0 px (min 11) (at 1920x1080)",
+      "title": "Min font size on hud_caster"
+    }
+  ],
+  "lab_version": "2.0",
+  "notes": [
+    "Language: fr (Loc.set_language)",
+    "1920x1080: match clock stuck at 0 s"
+  ],
+  "previous_quality": -1.0,
+  "quality": 86.9,
+  "resolutions": [
+    "1920x1080"
+  ],
+  "result": "WARN",
+  "screens": [
+    "hud",
+    "hud_keep",
+    "hud_caster"
+  ],
+  "seconds": 135.2,
+  "shots": {
+    "contact_sheet": "contact_sheet.jpg",
+    "hud@1920x1080": "1920x1080/hud.jpg",
+    "hud_caster@1920x1080": "1920x1080/hud_caster.jpg",
+    "hud_keep@1920x1080": "1920x1080/hud_keep.jpg"
+  },
+  "started": "2026-10-13 17:00:56"
+}

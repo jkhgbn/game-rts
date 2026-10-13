@@ -138,27 +138,28 @@ func _checks() -> void:
 	card.refresh()
 	# ---- the card
 	var ids := card.slot_ids()
-	_check(ids[4] == "caster_slag_rain" and ids[5] == "caster_mana_scald", "caster card %s" % str(ids))
+	# SC2.U1 (ui-sc2-console.md 4.4): the casters' Z / V at r2c1 / r2c2 = slots 5 / 6 of the 5 x 3 card.
+	_check(ids[5] == "caster_slag_rain" and ids[6] == "caster_mana_scald", "caster card %s" % str(ids))
 	_check(ids[0] == "move" and ids[1] == "stop" and ids[2] == "hold" and ids[3] == "attack", "caster card orders %s" % str(ids))
-	_check(card.key_labels[4].text == "Z" and card.key_labels[5].text == "V", "badges %s / %s" % [card.key_labels[4].text,
-			card.key_labels[5].text])
-	_check(card.buttons[4].tooltip_text.begins_with("Slag Rain  [Z]\n75 mana · range 10"), "tooltip '%s'" % card.buttons[4].tooltip_text)
-	_check(card.buttons[4].tooltip_text.contains("Ctrl+Z"), "tooltip names Ctrl+Z")
-	_check(int(card.slots[4].get("autocast", 0)) == 1, "autocast border state %s" % card.slots[4].get("autocast", 0))
+	_check(card.key_labels[5].text == "Z" and card.key_labels[6].text == "V", "badges %s / %s" % [card.key_labels[5].text,
+			card.key_labels[6].text])
+	_check(card.buttons[5].tooltip_text.begins_with("Slag Rain  [Z]\n75 mana · range 10"), "tooltip '%s'" % card.buttons[5].tooltip_text)
+	_check(card.buttons[5].tooltip_text.contains("Ctrl+Z"), "tooltip names Ctrl+Z")
+	_check(int(card.slots[5].get("autocast", 0)) == 1, "autocast border state %s" % card.slots[5].get("autocast", 0))
 	# Right-click the button: autocast off for both; again: on.
 	var rc := InputEventMouseButton.new()
 	rc.button_index = MOUSE_BUTTON_RIGHT
 	rc.pressed = true
-	card.buttons[4].gui_input.emit(rc)
+	card.buttons[5].gui_input.emit(rc)
 	card.refresh()
-	_check(not aa.autocast(&"slag_rain") and not ab.autocast(&"slag_rain") and int(card.slots[4].get("autocast", 9)) == 0,
+	_check(not aa.autocast(&"slag_rain") and not ab.autocast(&"slag_rain") and int(card.slots[5].get("autocast", 9)) == 0,
 			"right-click did not switch Slag Rain autocast off")
-	card.right_click_slot(4)
+	card.right_click_slot(5)
 	_check(aa.autocast(&"slag_rain") and ab.autocast(&"slag_rain"), "right-click did not switch it back on")
 	# Mixed state: one on, one off -> Ctrl+V turns both on; Ctrl+V again: both off.
 	ab.set_autocast(&"mana_scald", false)
 	card.refresh()
-	_check(int(card.slots[5].get("autocast", 0)) == 2, "mixed autocast state")
+	_check(int(card.slots[6].get("autocast", 0)) == 2, "mixed autocast state")
 	_key(KEY_V, true)
 	await _frames(2)
 	_check(aa.autocast(&"mana_scald") and ab.autocast(&"mana_scald"), "Ctrl+V (mixed) -> all on")
@@ -176,7 +177,7 @@ func _checks() -> void:
 	await _frames(2)
 	_check(sel.pending_caster_spell() == &"slag_rain" and sel.get_pending_order() == &"slag_rain", "Z did not start aiming")
 	card.refresh()
-	_check(bool(card.slots[4].get("active", false)), "the Z button is not highlighted while aiming")
+	_check(bool(card.slots[5].get("active", false)), "the Z button is not highlighted while aiming")
 	_key(KEY_ESCAPE)
 	await _frames(2)
 	_check(sel.pending_caster_spell() == &"", "Esc did not cancel the aim")
@@ -225,7 +226,7 @@ func _checks() -> void:
 	await _frames(2)
 	_check(sel.pending_caster_spell() == &"" and _msgs.has(CasterKit.REASON_MANA), "no mana: %s" % str(_msgs))
 	card.refresh()
-	_check(card.buttons[4].disabled and card.slots[4]["reason"] == CasterKit.REASON_MANA, "Z button not greyed without mana")
+	_check(card.buttons[5].disabled and card.slots[5]["reason"] == CasterKit.REASON_MANA, "Z button not greyed without mana")
 	aa.mana = 200.0
 	ab.mana = 200.0
 	# V with the soldiers' subgroup active still aims the casters' spell.
@@ -244,9 +245,9 @@ func _checks() -> void:
 	sel.select_units([a, b])
 	KeyLabels.overrides = {KEY_Z: KEY_W, KEY_W: KEY_Z}
 	card.refresh()
-	_check(card.key_labels[4].text == "W" and card.buttons[4].tooltip_text.begins_with("Slag Rain  [W]")
-			and card.buttons[4].tooltip_text.contains("Ctrl+W"), "AZERTY labels '%s' / '%s'" % [card.key_labels[4].text,
-			card.buttons[4].tooltip_text.get_slice("\n", 0)])
+	_check(card.key_labels[5].text == "W" and card.buttons[5].tooltip_text.begins_with("Slag Rain  [W]")
+			and card.buttons[5].tooltip_text.contains("Ctrl+W"), "AZERTY labels '%s' / '%s'" % [card.key_labels[5].text,
+			card.buttons[5].tooltip_text.get_slice("\n", 0)])
 	KeyLabels.overrides = {}
 	card.refresh()
 	# ---- selection panel: the mana bar (single) and the mana strip (multi).

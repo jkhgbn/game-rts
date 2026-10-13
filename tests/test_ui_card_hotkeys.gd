@@ -156,8 +156,9 @@ func _kingdom(k: StringName) -> void:
 	var tier1 := await _card("keep tier 1", select_keep)
 	_expect_ids(tier1, ["train_" + String(keep.building_type.trains[0].id), "train_keep_upgrade", t3_id, call_id, caster_id,
 			"rally"], "keep tier 1")
-	if _slot_of(tier1, caster_id) != 4 or _key_of(tier1, caster_id) != "B" or _slot_of(tier1, "rally") != 8:
-		_fail("keep caster on %d key '%s', rally on %d (want B on r2c1, rally r3c1)" % [_slot_of(tier1, caster_id),
+	# SC2.U1 (ui-sc2-console.md 4.4, 5 x 3 card): B = r1c5 (slot 4), Set Rally r3c1 (slot 10).
+	if _slot_of(tier1, caster_id) != 4 or _key_of(tier1, caster_id) != "B" or _slot_of(tier1, "rally") != 10:
+		_fail("keep caster on %d key '%s', rally on %d (want B on r1c5, rally r3c1)" % [_slot_of(tier1, caster_id),
 				_key_of(tier1, caster_id), _slot_of(tier1, "rally")])
 	var caster_row: Dictionary = tier1[_ids(tier1).find(caster_id)] if _ids(tier1).has(caster_id) else {}
 	if caster_row.is_empty() or caster_row["reason"] != TierSystem.MSG_T2:
@@ -224,7 +225,7 @@ func _kingdom(k: StringName) -> void:
 	var ccard := await _card("caster", func() -> void: sel.select_units([caster]))
 	var zv := CasterKit.spells_of(caster.unit_type.id)
 	if _key_of(ccard, "caster_" + String(zv[0])) != "Z" or _key_of(ccard, "caster_" + String(zv[1])) != "V" \
-			or _slot_of(ccard, "caster_" + String(zv[0])) != 4 or _slot_of(ccard, "caster_" + String(zv[1])) != 5:
+			or _slot_of(ccard, "caster_" + String(zv[0])) != 5 or _slot_of(ccard, "caster_" + String(zv[1])) != 6:
 		_fail("caster card %s: Z / V on r2c1 / r2c2" % str(_ids(ccard)))
 	await _card("caster + soldier", func() -> void: sel.select_units([caster, soldier]))
 	await _card("wizard", func() -> void: sel.select_units([hero]))

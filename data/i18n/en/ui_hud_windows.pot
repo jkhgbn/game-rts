@@ -66,7 +66,7 @@ msgid "Hire  [{key}]\n{crystals} crystals · {essence} essence · {pop} pop"
 msgstr ""
 
 #. intent_label.text = Loc.t("Arrives in {n} s", {"n": ceili(ChampionBar.hire_left(g, id))})
-#: scripts/ui/tavern_window.gd:1041 scripts/ui/champion_bar.gd:1432
+#: scripts/ui/tavern_window.gd:1041 scripts/ui/champion_bar.gd:1435
 msgid "Arrives in {n} s"
 msgstr ""
 
@@ -197,7 +197,7 @@ msgid "Revive gold"
 msgstr ""
 
 #. class_word.text = "Class"
-#: scripts/ui/tavern_window.gd:930 scripts/ui/tavern_window.gd:934 scripts/ui/champion_bar.gd:1106
+#: scripts/ui/tavern_window.gd:930 scripts/ui/tavern_window.gd:934 scripts/ui/champion_bar.gd:1109
 msgid "Class"
 msgstr ""
 
@@ -353,7 +353,7 @@ msgid "No Bazaar"
 msgstr ""
 
 #. const NO_GOLD := "Not enough gold"
-#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:390 scripts/campaign/mission_e2_03.gd:155
+#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:417 scripts/campaign/mission_e2_03.gd:155
 #: scripts/campaign/mission_e7_base.gd:75 scripts/economy/gold_bank.gd:63
 #: scripts/world/champion_guild.gd:79
 msgid "Not enough gold"
@@ -482,7 +482,7 @@ msgstr ""
 
 #. reason = "On cooldown"
 #: scripts/ui/trade_window.gd:1304 scripts/ui/trade_window.gd:1328 scripts/ui/item_tooltip.gd:217
-#: scripts/ui/command_card.gd:843 scripts/ui/spell_info.gd:175 scripts/units/champion_abilities.gd:64
+#: scripts/ui/command_card.gd:862 scripts/ui/spell_info.gd:175 scripts/units/champion_abilities.gd:64
 msgid "On cooldown"
 msgstr ""
 
@@ -502,12 +502,12 @@ msgid "Bought {name}"
 msgstr ""
 
 #. message.emit(Loc.t("Sold {name} for {n}", {"name": name_of(t), "n": gained}))
-#: scripts/ui/shop_window.gd:645 scripts/ui/inventory_bar.gd:213
+#: scripts/ui/shop_window.gd:645 scripts/ui/inventory_bar.gd:214
 msgid "Sold {name} for {n}"
 msgstr ""
 
 #. message.emit(Loc.t("Not enough crystals"))
-#: scripts/ui/shop_window.gd:659 scripts/ui/top_bar.gd:300 scripts/campaign/mission_e2_05.gd:226
+#: scripts/ui/shop_window.gd:659 scripts/ui/top_bar.gd:325 scripts/campaign/mission_e2_05.gd:226
 #: scripts/campaign/mission_e3_04.gd:173 scripts/buildings/build_grid.gd:26
 #: scripts/buildings/training_building.gd:16
 msgid "Not enough crystals"
@@ -616,7 +616,7 @@ msgid "No shop nearby"
 msgstr ""
 
 #. return "Nothing selected"
-#: scripts/ui/shop_window.gd:612 scripts/ui/post_panel.gd:397 scripts/ui/selection_panel.gd:295
+#: scripts/ui/shop_window.gd:612 scripts/ui/post_panel.gd:397 scripts/ui/selection_panel.gd:321
 msgid "Nothing selected"
 msgstr ""
 
@@ -631,804 +631,804 @@ msgid "Drop an item here to sell"
 msgstr ""
 
 #. return Loc.t("{intent} ({stake})", args) if loc else "{intent} ({stake})".format(args)
-#: scripts/ui/champion_bar.gd:708
+#: scripts/ui/champion_bar.gd:711
 msgid "{intent} ({stake})"
 msgstr ""
 
 #. return Loc.t("{intent}: {target} ({stake})", args) if loc else "{intent}: {target} ({stake})".format(args)
-#: scripts/ui/champion_bar.gd:709
+#: scripts/ui/champion_bar.gd:712
 msgid "{intent}: {target} ({stake})"
 msgstr ""
 
 #. return Loc.t("{intent}: {target}", a2) if loc else "{intent}: {target}".format(a2)
-#: scripts/ui/champion_bar.gd:714
+#: scripts/ui/champion_bar.gd:717
 msgid "{intent}: {target}"
 msgstr ""
 
 #. return Loc.t("Items: {list}", {"list": ", ".join(parts)}) if not parts.is_empty() else Loc.t("Items: none")
-#: scripts/ui/champion_bar.gd:759
+#: scripts/ui/champion_bar.gd:762
 msgid "Items: {list}"
 msgstr ""
 
 #. return Loc.t("Items: {list}", {"list": ", ".join(parts)}) if not parts.is_empty() else Loc.t("Items: none")
-#: scripts/ui/champion_bar.gd:759
+#: scripts/ui/champion_bar.gd:762
 msgid "Items: none"
 msgstr ""
 
 #. var first := str(a.get("name", "")) + ("  " + Loc.t("Locked") if locked else "")
-#: scripts/ui/champion_bar.gd:842 scripts/ui/champion_bar.gd:863 scripts/ui/champion_bar.gd:1105
+#: scripts/ui/champion_bar.gd:845 scripts/ui/champion_bar.gd:866 scripts/ui/champion_bar.gd:1108
 #: scripts/units/champion_abilities.gd:63 scripts/units/creature_abilities.gd:62
 msgid "Locked"
 msgstr ""
 
 #. lines.append(Loc.t("Autocast: {when}", {"when": Loc.t(str(a.get("when", "")))}))
-#: scripts/ui/champion_bar.gd:848
+#: scripts/ui/champion_bar.gd:851
 msgid "Autocast: {when}"
 msgstr ""
 
 #. lines.append(Loc.t("Unlocks at level {n}", {"n": int(a.get("unlock", 1))}))
-#: scripts/ui/champion_bar.gd:850 scripts/ui/champion_bar.gd:876 scripts/ui/champion_bar.gd:1112
+#: scripts/ui/champion_bar.gd:853 scripts/ui/champion_bar.gd:879 scripts/ui/champion_bar.gd:1115
 msgid "Unlocks at level {n}"
 msgstr ""
 
 #. var unpaid := Loc.t("Unpaid: ignores bounties").get_slice(":", 0)
-#: scripts/ui/champion_bar.gd:877 scripts/ui/champion_bar.gd:926 scripts/ui/champion_bar.gd:1616
+#: scripts/ui/champion_bar.gd:880 scripts/ui/champion_bar.gd:929 scripts/ui/champion_bar.gd:1619
 msgid "Unpaid: ignores bounties"
 msgstr ""
 
 #. lines.append(Loc.t("Level {level} · {xp} · HP {hp} / {max} · Purse {purse}", args) if xp != ""
-#: scripts/ui/champion_bar.gd:923
+#: scripts/ui/champion_bar.gd:926
 msgid "Level {level} · {xp} · HP {hp} / {max} · Purse {purse}"
 msgstr ""
 
 #. else Loc.t("Level {level} · HP {hp} / {max} · Purse {purse}", args))
-#: scripts/ui/champion_bar.gd:924
+#: scripts/ui/champion_bar.gd:927
 msgid "Level {level} · HP {hp} / {max} · Purse {purse}"
 msgstr ""
 
 #. return Loc.t("{name} takes up {weapon}", {"name": display_name_of(ch),
-#: scripts/ui/champion_bar.gd:995
+#: scripts/ui/champion_bar.gd:998
 msgid "{name} takes up {weapon}"
 msgstr ""
 
 #. var weapon := Loc.t("ranged {reach} · {dmg} damage every {cd} s", wargs) if bool(c.get("ranged", false)) \
-#: scripts/ui/champion_bar.gd:1009
+#: scripts/ui/champion_bar.gd:1012
 msgid "ranged {reach} · {dmg} damage every {cd} s"
 msgstr ""
 
 #. else Loc.t("melee · {dmg} damage every {cd} s · reach {reach}", wargs)
-#: scripts/ui/champion_bar.gd:1010
+#: scripts/ui/champion_bar.gd:1013
 msgid "melee · {dmg} damage every {cd} s · reach {reach}"
 msgstr ""
 
 #. var lines: PackedStringArray = [Loc.t("Class skill {n}", {"n": slot}) + "  " + Loc.t("Locked") if slot > 0
-#: scripts/ui/champion_bar.gd:1105
+#: scripts/ui/champion_bar.gd:1108
 msgid "Class skill {n}"
 msgstr ""
 
 #. lines.append(Loc.t("Chooses a class at level 2 · leans {lean}", {"lean": lean_text(weights)}))
-#: scripts/ui/champion_bar.gd:1107
+#: scripts/ui/champion_bar.gd:1110
 msgid "Chooses a class at level 2 · leans {lean}"
 msgstr ""
 
 #. tavern_label.text = "Y · tavern" if open else Loc.t("Tavern opens at {time}", {"time": at})
-#: scripts/ui/champion_bar.gd:1410 scripts/ui/champion_bar.gd:1414
+#: scripts/ui/champion_bar.gd:1413 scripts/ui/champion_bar.gd:1417
 msgid "Tavern opens at {time}"
 msgstr ""
 
 #. tooltip_text = Loc.t("Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.") + (
-#: scripts/ui/champion_bar.gd:1413
+#: scripts/ui/champion_bar.gd:1416
 msgid "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern."
 msgstr ""
 
 #. + Loc.t("Hired: walks out of the tavern in {n} s.", {"n": ceili(left)})
-#: scripts/ui/champion_bar.gd:1436
+#: scripts/ui/champion_bar.gd:1439
 msgid "Hired: walks out of the tavern in {n} s."
 msgstr ""
 
 #. &"spear": {"display_name": "Spear", "ranged": false, "attack_damage": 13.0, "attack_cooldown": 0.95,
-#: scripts/ui/champion_bar.gd:50 data/champion_classes/spear.tres:8
+#: scripts/ui/champion_bar.gd:53 data/champion_classes/spear.tres:8
 msgid "Spear"
 msgstr ""
 
 #. "attack_range": 2.4, "mods": "+0.2 speed", "bounty_kind": &"explore", "takes": "the Spear",
-#: scripts/ui/champion_bar.gd:51
+#: scripts/ui/champion_bar.gd:54
 msgid "+0.2 speed"
 msgstr ""
 
 #. "attack_range": 2.4, "mods": "+0.2 speed", "bounty_kind": &"explore", "takes": "the Spear",
-#: scripts/ui/champion_bar.gd:51
+#: scripts/ui/champion_bar.gd:54
 msgid "the Spear"
 msgstr ""
 
 #. &"sword_shield": {"display_name": "Sword and Shield", "ranged": false, "attack_damage": 12.0, "attack_cooldown
-#: scripts/ui/champion_bar.gd:53 data/champion_classes/sword_shield.tres:8
+#: scripts/ui/champion_bar.gd:56 data/champion_classes/sword_shield.tres:8
 msgid "Sword and Shield"
 msgstr ""
 
 #. "attack_range": 1.8, "mods": "+10 armor · -0.2 speed", "bounty_kind": &"guard", "takes": "the Sword and Shield
-#: scripts/ui/champion_bar.gd:54
+#: scripts/ui/champion_bar.gd:57
 msgid "+10 armor · -0.2 speed"
 msgstr ""
 
 #. "attack_range": 1.8, "mods": "+10 armor · -0.2 speed", "bounty_kind": &"guard", "takes": "the Sword and Shield
-#: scripts/ui/champion_bar.gd:54
+#: scripts/ui/champion_bar.gd:57
 msgid "the Sword and Shield"
 msgstr ""
 
 #. &"two_hand": {"display_name": "Two-Hand Sword", "ranged": false, "attack_damage": 24.0, "attack_cooldown": 1.5
-#: scripts/ui/champion_bar.gd:56 data/champion_classes/two_hand.tres:8
+#: scripts/ui/champion_bar.gd:59 data/champion_classes/two_hand.tres:8
 msgid "Two-Hand Sword"
 msgstr ""
 
 #. "attack_range": 2.1, "mods": "no stat change", "bounty_kind": &"hunt", "takes": "the Two-Hand Sword",
-#: scripts/ui/champion_bar.gd:57
+#: scripts/ui/champion_bar.gd:60
 msgid "no stat change"
 msgstr ""
 
 #. "attack_range": 2.1, "mods": "no stat change", "bounty_kind": &"hunt", "takes": "the Two-Hand Sword",
-#: scripts/ui/champion_bar.gd:57
+#: scripts/ui/champion_bar.gd:60
 msgid "the Two-Hand Sword"
 msgstr ""
 
 #. "attack_range": 7.5, "mods": "-10 % max HP", "bounty_kind": &"escort", "takes": "the Wizard's staff",
-#: scripts/ui/champion_bar.gd:60
+#: scripts/ui/champion_bar.gd:63
 msgid "-10 % max HP"
 msgstr ""
 
 #. "attack_range": 7.5, "mods": "-10 % max HP", "bounty_kind": &"escort", "takes": "the Wizard's staff",
-#: scripts/ui/champion_bar.gd:60
+#: scripts/ui/champion_bar.gd:63
 msgid "the Wizard's staff"
 msgstr ""
 
 #. const CLASS_MARK := "  (class, level {n})"
-#: scripts/ui/champion_bar.gd:77
+#: scripts/ui/champion_bar.gd:80
 msgid "  (class, level {n})"
 msgstr ""
 
 #. const BOUNTY_HINT := "Your bounties before level 2 steer its class"
-#: scripts/ui/champion_bar.gd:78
+#: scripts/ui/champion_bar.gd:81
 msgid "Your bounties before level 2 steer its class"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:654 scripts/ui/flag_card.gd:289
-#: scripts/ui/idle_worker_button.gd:20 scripts/economy/caravan.gd:189
+#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:657 scripts/ui/flag_card.gd:289
+#: scripts/economy/caravan.gd:189
 msgid "Idle"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:644 scripts/ui/selection_panel.gd:722
+#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:647 scripts/ui/selection_panel.gd:764
 msgid "Fallen"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/point_panel.gd:521
+#: scripts/ui/champion_bar.gd:84 scripts/ui/point_panel.gd:521
 msgid "Fleeing"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81
+#: scripts/ui/champion_bar.gd:84
 msgid "Resting"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81
+#: scripts/ui/champion_bar.gd:84
 msgid "Fighting"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81 scripts/ui/champion_bar.gd:659 scripts/ui/selection_panel.gd:1454
+#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:662 scripts/ui/selection_panel.gd:1559
 msgid "Unpaid!"
 msgstr ""
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting 
-#: scripts/ui/champion_bar.gd:81
+#: scripts/ui/champion_bar.gd:84
 msgid "Hunting bounty"
 msgstr ""
 
 #. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
-#: scripts/ui/champion_bar.gd:82
+#: scripts/ui/champion_bar.gd:85
 msgid "Scouting bounty"
 msgstr ""
 
 #. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
-#: scripts/ui/champion_bar.gd:82
+#: scripts/ui/champion_bar.gd:85
 msgid "Guarding"
 msgstr ""
 
 #. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
-#: scripts/ui/champion_bar.gd:82
+#: scripts/ui/champion_bar.gd:85
 msgid "Escorting"
 msgstr ""
 
 #. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
-#: scripts/ui/champion_bar.gd:82
+#: scripts/ui/champion_bar.gd:85
 msgid "Shopping"
 msgstr ""
 
 #. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
-#: scripts/ui/champion_bar.gd:82
+#: scripts/ui/champion_bar.gd:85
 msgid "Exploring"
 msgstr ""
 
 #. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
-#: scripts/ui/champion_bar.gd:82
+#: scripts/ui/champion_bar.gd:85
 msgid "Patrolling"
 msgstr ""
 
 #. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
-#: scripts/ui/champion_bar.gd:82
+#: scripts/ui/champion_bar.gd:85
 msgid "Raiding"
 msgstr ""
 
 #. "Scouting bounty", "Guarding", "Escorting", "Shopping", "Exploring", "Patrolling", "Raiding", "With the army",
-#: scripts/ui/champion_bar.gd:82
+#: scripts/ui/champion_bar.gd:85
 msgid "With the army"
 msgstr ""
 
 #. "Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
-#: scripts/ui/champion_bar.gd:83
+#: scripts/ui/champion_bar.gd:86
 msgid "Capturing"
 msgstr ""
 
 #. "Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
-#: scripts/ui/champion_bar.gd:83
+#: scripts/ui/champion_bar.gd:86
 msgid "Hunting big game"
 msgstr ""
 
 #. "Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
-#: scripts/ui/champion_bar.gd:83
+#: scripts/ui/champion_bar.gd:86
 msgid "Hunting game"
 msgstr ""
 
 #. "Capturing", "Hunting big game", "Hunting game", "Returns in # s"]
-#: scripts/ui/champion_bar.gd:83
+#: scripts/ui/champion_bar.gd:86
 msgid "Returns in # s"
 msgstr ""
 
 #. "names": ["Tamsin Farrow", "Tobin Farrow"], "title": "the Wayfinder", "role": "Scout, ranged",
-#: scripts/ui/champion_bar.gd:111 data/ui/unit_guide.json:wayfinder
+#: scripts/ui/champion_bar.gd:114 data/ui/unit_guide.json:wayfinder
 msgid "Scout, ranged"
 msgstr ""
 
 #. "personality_line": "Goes where the map is blank.",
-#: scripts/ui/champion_bar.gd:115
+#: scripts/ui/champion_bar.gd:118
 msgid "Goes where the map is blank."
 msgstr ""
 
 #. "names": ["Garran Stoneward", "Gerda Stoneward"], "title": "the Oathwall", "role": "Guardian, melee",
-#: scripts/ui/champion_bar.gd:118 data/ui/unit_guide.json:oathwall
+#: scripts/ui/champion_bar.gd:121 data/ui/unit_guide.json:oathwall
 msgid "Guardian, melee"
 msgstr ""
 
 #. "personality_line": "Would rather stand at your door than walk to theirs.",
-#: scripts/ui/champion_bar.gd:122
+#: scripts/ui/champion_bar.gd:125
 msgid "Would rather stand at your door than walk to theirs."
 msgstr ""
 
 #. "names": ["Sable Quint", "Silas Quint"], "title": "the Coin-Cutter", "role": "Raider, melee",
-#: scripts/ui/champion_bar.gd:125 data/ui/unit_guide.json:coin_cutter
+#: scripts/ui/champion_bar.gd:128 data/ui/unit_guide.json:coin_cutter
 msgid "Raider, melee"
 msgstr ""
 
 #. "personality_line": "Loves a bounty more than a fair fight.",
-#: scripts/ui/champion_bar.gd:129
+#: scripts/ui/champion_bar.gd:132
 msgid "Loves a bounty more than a fair fight."
 msgstr ""
 
 #. "names": ["Orla Fenwick", "Osric Fenwick"], "title": "the Mender", "role": "Healer, ranged",
-#: scripts/ui/champion_bar.gd:132 data/ui/unit_guide.json:mender
+#: scripts/ui/champion_bar.gd:135 data/ui/unit_guide.json:mender
 msgid "Healer, ranged"
 msgstr ""
 
 #. "personality_line": "Follows the army and keeps it standing.",
-#: scripts/ui/champion_bar.gd:136
+#: scripts/ui/champion_bar.gd:139
 msgid "Follows the army and keeps it standing."
 msgstr ""
 
 #. "short": "20 dmg, reveals a spot 6 s", "info": "Cooldown 18 s · Range 20",
-#: scripts/ui/champion_bar.gd:143
+#: scripts/ui/champion_bar.gd:146
 msgid "20 dmg, reveals a spot 6 s"
 msgstr ""
 
 #. "short": "20 dmg, reveals a spot 6 s", "info": "Cooldown 18 s · Range 20",
-#: scripts/ui/champion_bar.gd:143
+#: scripts/ui/champion_bar.gd:146
 msgid "Cooldown 18 s · Range 20"
 msgstr ""
 
 #. "effect": "Hurls a flare up to 20 m: {20} damage around it, and the spot stays in sight for 6 s.",
-#: scripts/ui/champion_bar.gd:144
+#: scripts/ui/champion_bar.gd:147
 msgid "Hurls a flare up to 20 m: {20} damage around it, and the spot stays in sight for 6 s."
 msgstr ""
 
 #. "when": "while exploring: ahead on its path; in a fight: where an enemy just vanished"},
-#: scripts/ui/champion_bar.gd:145
+#: scripts/ui/champion_bar.gd:148
 msgid "while exploring: ahead on its path; in a fight: where an enemy just vanished"
 msgstr ""
 
 #. "short": "15 dmg + roots 1.5 s", "info": "Cooldown 14 s · Range 8",
-#: scripts/ui/champion_bar.gd:147
+#: scripts/ui/champion_bar.gd:150
 msgid "15 dmg + roots 1.5 s"
 msgstr ""
 
 #. "short": "15 dmg + roots 1.5 s", "info": "Cooldown 14 s · Range 8",
-#: scripts/ui/champion_bar.gd:147
+#: scripts/ui/champion_bar.gd:150
 msgid "Cooldown 14 s · Range 8"
 msgstr ""
 
 #. "effect": "{15} damage and roots one enemy for 1.5 s.",
-#: scripts/ui/champion_bar.gd:148
+#: scripts/ui/champion_bar.gd:151
 msgid "{15} damage and roots one enemy for 1.5 s."
 msgstr ""
 
 #. "when": "when fleeing from a chaser, or when its hunt target runs"},
-#: scripts/ui/champion_bar.gd:149
+#: scripts/ui/champion_bar.gd:152
 msgid "when fleeing from a chaser, or when its hunt target runs"
 msgstr ""
 
 #. "short": "haste 5 s, allies 8 m", "info": "Cooldown 30 s · Self, radius 8",
-#: scripts/ui/champion_bar.gd:151
+#: scripts/ui/champion_bar.gd:154
 msgid "haste 5 s, allies 8 m"
 msgstr ""
 
 #. "short": "haste 5 s, allies 8 m", "info": "Cooldown 30 s · Self, radius 8",
-#: scripts/ui/champion_bar.gd:151
+#: scripts/ui/champion_bar.gd:154
 msgid "Cooldown 30 s · Self, radius 8"
 msgstr ""
 
 #. "effect": "Itself and own soldiers within 8 m get Haste for 5 s.",
-#: scripts/ui/champion_bar.gd:152
+#: scripts/ui/champion_bar.gd:155
 msgid "Itself and own soldiers within 8 m get Haste for 5 s."
 msgstr ""
 
 #. "when": "when fleeing, or walking more than 25 m to a flag"},
-#: scripts/ui/champion_bar.gd:153
+#: scripts/ui/champion_bar.gd:156
 msgid "when fleeing, or walking more than 25 m to a flag"
 msgstr ""
 
 #. "short": "taunts 3 s, +20 armor", "info": "Cooldown 16 s · Self, radius 6",
-#: scripts/ui/champion_bar.gd:155
+#: scripts/ui/champion_bar.gd:158
 msgid "taunts 3 s, +20 armor"
 msgstr ""
 
 #. "short": "taunts 3 s, +20 armor", "info": "Cooldown 16 s · Self, radius 6",
-#: scripts/ui/champion_bar.gd:155
+#: scripts/ui/champion_bar.gd:158
 msgid "Cooldown 16 s · Self, radius 6"
 msgstr ""
 
 #. "effect": "Enemies within 6 m must attack it for 3 s; it gains 20 armor for 3 s.",
-#: scripts/ui/champion_bar.gd:156
+#: scripts/ui/champion_bar.gd:159
 msgid "Enemies within 6 m must attack it for 3 s; it gains 20 armor for 3 s."
 msgstr ""
 
 #. "when": "when 2+ enemies hit an ally, or 3+ target it"},
-#: scripts/ui/champion_bar.gd:157
+#: scripts/ui/champion_bar.gd:160
 msgid "when 2+ enemies hit an ally, or 3+ target it"
 msgstr ""
 
 #. "short": "30 dmg + dazes 0.8 s", "info": "Cooldown 10 s · Range 2.2",
-#: scripts/ui/champion_bar.gd:159
+#: scripts/ui/champion_bar.gd:162
 msgid "30 dmg + dazes 0.8 s"
 msgstr ""
 
 #. "short": "30 dmg + dazes 0.8 s", "info": "Cooldown 10 s · Range 2.2",
-#: scripts/ui/champion_bar.gd:159
+#: scripts/ui/champion_bar.gd:162
 msgid "Cooldown 10 s · Range 2.2"
 msgstr ""
 
 #. "effect": "{30} damage and dazes the target 0.8 s (no move, no act).",
-#: scripts/ui/champion_bar.gd:160
+#: scripts/ui/champion_bar.gd:163
 msgid "{30} damage and dazes the target 0.8 s (no move, no act)."
 msgstr ""
 
 #. "when": "on its target; prefers one hitting your building or wizard"},
-#: scripts/ui/champion_bar.gd:161
+#: scripts/ui/champion_bar.gd:164
 msgid "on its target; prefers one hitting your building or wizard"
 msgstr ""
 
 #. "short": "braces allies 6 s", "info": "Cooldown 40 s · Self, radius 5",
-#: scripts/ui/champion_bar.gd:163
+#: scripts/ui/champion_bar.gd:166
 msgid "braces allies 6 s"
 msgstr ""
 
 #. "short": "braces allies 6 s", "info": "Cooldown 40 s · Self, radius 5",
-#: scripts/ui/champion_bar.gd:163
+#: scripts/ui/champion_bar.gd:166
 msgid "Cooldown 40 s · Self, radius 5"
 msgstr ""
 
 #. "effect": "Plants its shield 6 s: it cannot move; allies within 5 m take 30 % less damage.",
-#: scripts/ui/champion_bar.gd:164
+#: scripts/ui/champion_bar.gd:167
 msgid "Plants its shield 6 s: it cannot move; allies within 5 m take 30 % less damage."
 msgstr ""
 
 #. "when": "when 3+ enemies are near while guarding or near a building"},
-#: scripts/ui/champion_bar.gd:165
+#: scripts/ui/champion_bar.gd:168
 msgid "when 3+ enemies are near while guarding or near a building"
 msgstr ""
 
 #. "short": "next hit +25 dmg, +15 purse", "info": "Cooldown 8 s · Melee",
-#: scripts/ui/champion_bar.gd:167
+#: scripts/ui/champion_bar.gd:170
 msgid "next hit +25 dmg, +15 purse"
 msgstr ""
 
 #. "short": "next hit +25 dmg, +15 purse", "info": "Cooldown 8 s · Melee",
-#: scripts/ui/champion_bar.gd:167
+#: scripts/ui/champion_bar.gd:170
 msgid "Cooldown 8 s · Melee"
 msgstr ""
 
 #. "effect": "Its next attack deals {25} extra damage; a kill adds 15 to its purse.",
-#: scripts/ui/champion_bar.gd:168
+#: scripts/ui/champion_bar.gd:171
 msgid "Its next attack deals {25} extra damage; a kill adds 15 to its purse."
 msgstr ""
 
 #. "when": "on a target below 50 % HP or a worker"},
-#: scripts/ui/champion_bar.gd:169
+#: scripts/ui/champion_bar.gd:172
 msgid "on a target below 50 % HP or a worker"
 msgstr ""
 
 #. "short": "shroud 3 s, drops targets", "info": "Cooldown 25 s · Self, radius 3",
-#: scripts/ui/champion_bar.gd:171
+#: scripts/ui/champion_bar.gd:174
 msgid "shroud 3 s, drops targets"
 msgstr ""
 
 #. "short": "shroud 3 s, drops targets", "info": "Cooldown 25 s · Self, radius 3",
-#: scripts/ui/champion_bar.gd:171
+#: scripts/ui/champion_bar.gd:174
 msgid "Cooldown 25 s · Self, radius 3"
 msgstr ""
 
 #. "effect": "Shroud 3 s (half damage, faster); enemies within 6 m lose it as a target.",
-#: scripts/ui/champion_bar.gd:172
+#: scripts/ui/champion_bar.gd:175
 msgid "Shroud 3 s (half damage, faster); enemies within 6 m lose it as a target."
 msgstr ""
 
 #. "when": "when hurt near its flee point, or when 3+ enemies target it"},
-#: scripts/ui/champion_bar.gd:173
+#: scripts/ui/champion_bar.gd:176
 msgid "when hurt near its flee point, or when 3+ enemies target it"
 msgstr ""
 
 #. "short": "+15 % damage taken", "info": "Cooldown 20 s · Range 8",
-#: scripts/ui/champion_bar.gd:175
+#: scripts/ui/champion_bar.gd:178
 msgid "+15 % damage taken"
 msgstr ""
 
 #. "short": "+15 % damage taken", "info": "Cooldown 20 s · Range 8",
-#: scripts/ui/champion_bar.gd:175 scripts/ui/champion_bar.gd:212
+#: scripts/ui/champion_bar.gd:178 scripts/ui/champion_bar.gd:215
 msgid "Cooldown 20 s · Range 8"
 msgstr ""
 
 #. "effect": "Marks one enemy 6 s: it takes 15 % more damage from everything.",
-#: scripts/ui/champion_bar.gd:176
+#: scripts/ui/champion_bar.gd:179
 msgid "Marks one enemy 6 s: it takes 15 % more damage from everything."
 msgstr ""
 
 #. "when": "on its hunt or raid target"},
-#: scripts/ui/champion_bar.gd:177
+#: scripts/ui/champion_bar.gd:180
 msgid "on its hunt or raid target"
 msgstr ""
 
 #. "short": "heals 50", "info": "Cooldown 7 s · Range 9",
-#: scripts/ui/champion_bar.gd:179
+#: scripts/ui/champion_bar.gd:182
 msgid "heals 50"
 msgstr ""
 
 #. "short": "heals 50", "info": "Cooldown 7 s · Range 9",
-#: scripts/ui/champion_bar.gd:179
+#: scripts/ui/champion_bar.gd:182
 msgid "Cooldown 7 s · Range 9"
 msgstr ""
 
 #. "effect": "Heals the most hurt ally within 9 m by {50}.",
-#: scripts/ui/champion_bar.gd:180
+#: scripts/ui/champion_bar.gd:183
 msgid "Heals the most hurt ally within 9 m by {50}."
 msgstr ""
 
 #. "when": "when an ally within 9 m is below 70 % HP"},
-#: scripts/ui/champion_bar.gd:181
+#: scripts/ui/champion_bar.gd:184
 msgid "when an ally within 9 m is below 70 % HP"
 msgstr ""
 
 #. "short": "6 HP / s for 5 s", "info": "Cooldown 24 s · Range 9, radius 5",
-#: scripts/ui/champion_bar.gd:183
+#: scripts/ui/champion_bar.gd:186
 msgid "6 HP / s for 5 s"
 msgstr ""
 
 #. "short": "6 HP / s for 5 s", "info": "Cooldown 24 s · Range 9, radius 5",
-#: scripts/ui/champion_bar.gd:183
+#: scripts/ui/champion_bar.gd:186
 msgid "Cooldown 24 s · Range 9, radius 5"
 msgstr ""
 
 #. "effect": "A circle that heals allies inside by {6} HP / s for 5 s.",
-#: scripts/ui/champion_bar.gd:184
+#: scripts/ui/champion_bar.gd:187
 msgid "A circle that heals allies inside by {6} HP / s for 5 s."
 msgstr ""
 
 #. "when": "when 3+ allies stand together below 80 % HP"},
-#: scripts/ui/champion_bar.gd:185
+#: scripts/ui/champion_bar.gd:188
 msgid "when 3+ allies stand together below 80 % HP"
 msgstr ""
 
 #. "short": "100 shield 5 s", "info": "Cooldown 35 s · Range 9",
-#: scripts/ui/champion_bar.gd:187
+#: scripts/ui/champion_bar.gd:190
 msgid "100 shield 5 s"
 msgstr ""
 
 #. "short": "100 shield 5 s", "info": "Cooldown 35 s · Range 9",
-#: scripts/ui/champion_bar.gd:187
+#: scripts/ui/champion_bar.gd:190
 msgid "Cooldown 35 s · Range 9"
 msgstr ""
 
 #. "effect": "A {100} shield for 5 s on one ally.",
-#: scripts/ui/champion_bar.gd:188
+#: scripts/ui/champion_bar.gd:191
 msgid "A {100} shield for 5 s on one ally."
 msgstr ""
 
 #. "when": "when the wizard or a champion is below 35 % HP"},
-#: scripts/ui/champion_bar.gd:189
+#: scripts/ui/champion_bar.gd:192
 msgid "when the wizard or a champion is below 35 % HP"
 msgstr ""
 
 #. "short": "25 dmg + dazes 0.5 s", "info": "Cooldown 14 s · Range 6",
-#: scripts/ui/champion_bar.gd:192
+#: scripts/ui/champion_bar.gd:195
 msgid "25 dmg + dazes 0.5 s"
 msgstr ""
 
 #. "short": "25 dmg + dazes 0.5 s", "info": "Cooldown 14 s · Range 6",
-#: scripts/ui/champion_bar.gd:192
+#: scripts/ui/champion_bar.gd:195
 msgid "Cooldown 14 s · Range 6"
 msgstr ""
 
 #. "effect": "Darts to its target and strikes: {25} damage, dazed 0.5 s.",
-#: scripts/ui/champion_bar.gd:193
+#: scripts/ui/champion_bar.gd:196
 msgid "Darts to its target and strikes: {25} damage, dazed 0.5 s."
 msgstr ""
 
 #. "when": "on a ranged enemy or caster 3-6 m away, or a hunt target slipping away"},
-#: scripts/ui/champion_bar.gd:194
+#: scripts/ui/champion_bar.gd:197
 msgid "on a ranged enemy or caster 3-6 m away, or a hunt target slipping away"
 msgstr ""
 
 #. "short": "25 dmg + hobbles 3 s", "info": "Cooldown 16 s · Range 10",
-#: scripts/ui/champion_bar.gd:196
+#: scripts/ui/champion_bar.gd:199
 msgid "25 dmg + hobbles 3 s"
 msgstr ""
 
 #. "short": "25 dmg + hobbles 3 s", "info": "Cooldown 16 s · Range 10",
-#: scripts/ui/champion_bar.gd:196
+#: scripts/ui/champion_bar.gd:199
 msgid "Cooldown 16 s · Range 10"
 msgstr ""
 
 #. "effect": "A javelin: {25} damage and hobbles the target 3 s (-1.5 speed).",
-#: scripts/ui/champion_bar.gd:197
+#: scripts/ui/champion_bar.gd:200
 msgid "A javelin: {25} damage and hobbles the target 3 s (-1.5 speed)."
 msgstr ""
 
 #. "when": "on an enemy below 60 % HP that runs, or its hunt target"},
-#: scripts/ui/champion_bar.gd:198
+#: scripts/ui/champion_bar.gd:201
 msgid "on an enemy below 60 % HP that runs, or its hunt target"
 msgstr ""
 
 #. "short": "40 dmg in a 5 m line", "info": "Cooldown 25 s · Line 5 m",
-#: scripts/ui/champion_bar.gd:200
+#: scripts/ui/champion_bar.gd:203
 msgid "40 dmg in a 5 m line"
 msgstr ""
 
 #. "short": "40 dmg in a 5 m line", "info": "Cooldown 25 s · Line 5 m",
-#: scripts/ui/champion_bar.gd:200
+#: scripts/ui/champion_bar.gd:203
 msgid "Cooldown 25 s · Line 5 m"
 msgstr ""
 
 #. "effect": "A thrust through a 5 m line: {40} damage to every enemy in it.",
-#: scripts/ui/champion_bar.gd:201
+#: scripts/ui/champion_bar.gd:204
 msgid "A thrust through a 5 m line: {40} damage to every enemy in it."
 msgstr ""
 
 #. "when": "when 3+ enemies stand in a line"},
-#: scripts/ui/champion_bar.gd:202
+#: scripts/ui/champion_bar.gd:205
 msgid "when 3+ enemies stand in a line"
 msgstr ""
 
 #. "short": "returns 10 per hit, 4 s", "info": "Cooldown 22 s · Self, 4 s",
-#: scripts/ui/champion_bar.gd:204
+#: scripts/ui/champion_bar.gd:207
 msgid "returns 10 per hit, 4 s"
 msgstr ""
 
 #. "short": "returns 10 per hit, 4 s", "info": "Cooldown 22 s · Self, 4 s",
-#: scripts/ui/champion_bar.gd:204
+#: scripts/ui/champion_bar.gd:207
 msgid "Cooldown 22 s · Self, 4 s"
 msgstr ""
 
 #. "effect": "Melee attackers take {10} damage per hit.",
-#: scripts/ui/champion_bar.gd:205
+#: scripts/ui/champion_bar.gd:208
 msgid "Melee attackers take {10} damage per hit."
 msgstr ""
 
 #. "when": "when 2+ melee enemies attack it"},
-#: scripts/ui/champion_bar.gd:206
+#: scripts/ui/champion_bar.gd:209
 msgid "when 2+ melee enemies attack it"
 msgstr ""
 
 #. "short": "heals 20 % over 4 s", "info": "Cooldown 45 s · Self",
-#: scripts/ui/champion_bar.gd:208
+#: scripts/ui/champion_bar.gd:211
 msgid "heals 20 % over 4 s"
 msgstr ""
 
 #. "short": "heals 20 % over 4 s", "info": "Cooldown 45 s · Self",
-#: scripts/ui/champion_bar.gd:208
+#: scripts/ui/champion_bar.gd:211
 msgid "Cooldown 45 s · Self"
 msgstr ""
 
 #. "effect": "Heals itself 20 % of its max HP over 4 s.",
-#: scripts/ui/champion_bar.gd:209 scripts/units/champion_abilities.gd:126
+#: scripts/ui/champion_bar.gd:212 scripts/units/champion_abilities.gd:126
 msgid "Heals itself 20 % of its max HP over 4 s."
 msgstr ""
 
 #. "when": "below 50 % HP, hit in the last 2 s"},
-#: scripts/ui/champion_bar.gd:210
+#: scripts/ui/champion_bar.gd:213
 msgid "below 50 % HP, hit in the last 2 s"
 msgstr ""
 
 #. "short": "30 / 20 / 10, bounces", "info": "Cooldown 20 s · Range 8",
-#: scripts/ui/champion_bar.gd:212
+#: scripts/ui/champion_bar.gd:215
 msgid "30 / 20 / 10, bounces"
 msgstr ""
 
 #. "effect": "Throws its shield: {30} damage, then {20} and {10} to two more enemies within 4 m.",
-#: scripts/ui/champion_bar.gd:213
+#: scripts/ui/champion_bar.gd:216
 msgid "Throws its shield: {30} damage, then {20} and {10} to two more enemies within 4 m."
 msgstr ""
 
 #. "when": "on a ranged enemy hitting an ally, or a target out of reach 3-8 m away"},
-#: scripts/ui/champion_bar.gd:214
+#: scripts/ui/champion_bar.gd:217
 msgid "on a ranged enemy hitting an ally, or a target out of reach 3-8 m away"
 msgstr ""
 
 #. "short": "next hit splashes 2.5 m", "info": "Cooldown 10 s · Melee",
-#: scripts/ui/champion_bar.gd:216
+#: scripts/ui/champion_bar.gd:219
 msgid "next hit splashes 2.5 m"
 msgstr ""
 
 #. "short": "next hit splashes 2.5 m", "info": "Cooldown 10 s · Melee",
-#: scripts/ui/champion_bar.gd:216
+#: scripts/ui/champion_bar.gd:219
 msgid "Cooldown 10 s · Melee"
 msgstr ""
 
 #. "effect": "Its next attack also hits every enemy within 2.5 m of the target for full damage.",
-#: scripts/ui/champion_bar.gd:217
+#: scripts/ui/champion_bar.gd:220
 msgid "Its next attack also hits every enemy within 2.5 m of the target for full damage."
 msgstr ""
 
 #. "when": "when its target has 2+ enemies beside it"},
-#: scripts/ui/champion_bar.gd:218
+#: scripts/ui/champion_bar.gd:221
 msgid "when its target has 2+ enemies beside it"
 msgstr ""
 
 #. "short": "30 dmg, -20 armor 6 s", "info": "Cooldown 20 s · Melee",
-#: scripts/ui/champion_bar.gd:220
+#: scripts/ui/champion_bar.gd:223
 msgid "30 dmg, -20 armor 6 s"
 msgstr ""
 
 #. "short": "30 dmg, -20 armor 6 s", "info": "Cooldown 20 s · Melee",
-#: scripts/ui/champion_bar.gd:220
+#: scripts/ui/champion_bar.gd:223
 msgid "Cooldown 20 s · Melee"
 msgstr ""
 
 #. "effect": "{30} damage; an enemy unit loses 20 armor for 6 s.",
-#: scripts/ui/champion_bar.gd:221
+#: scripts/ui/champion_bar.gd:224
 msgid "{30} damage; an enemy unit loses 20 armor for 6 s."
 msgstr ""
 
 #. "when": "on an armored target (10+), a hero or a costly unit"},
-#: scripts/ui/champion_bar.gd:222
+#: scripts/ui/champion_bar.gd:225
 msgid "on an armored target (10+), a hero or a costly unit"
 msgstr ""
 
 #. "short": "12 dmg / 0.5 s for 2 s", "info": "Cooldown 30 s · Self, radius 3",
-#: scripts/ui/champion_bar.gd:224
+#: scripts/ui/champion_bar.gd:227
 msgid "12 dmg / 0.5 s for 2 s"
 msgstr ""
 
 #. "short": "12 dmg / 0.5 s for 2 s", "info": "Cooldown 30 s · Self, radius 3",
-#: scripts/ui/champion_bar.gd:224
+#: scripts/ui/champion_bar.gd:227
 msgid "Cooldown 30 s · Self, radius 3"
 msgstr ""
 
 #. "effect": "Spins 2 s: {12} damage every 0.5 s to every enemy within 3 m ({48} each).",
-#: scripts/ui/champion_bar.gd:225
+#: scripts/ui/champion_bar.gd:228
 msgid "Spins 2 s: {12} damage every 0.5 s to every enemy within 3 m ({48} each)."
 msgstr ""
 
 #. "when": "when 3+ enemies are within 3 m"},
-#: scripts/ui/champion_bar.gd:226
+#: scripts/ui/champion_bar.gd:229
 msgid "when 3+ enemies are within 3 m"
 msgstr ""
 
 #. "short": "40 dmg bolt", "info": "Cooldown 10 s · Range 12",
-#: scripts/ui/champion_bar.gd:228
+#: scripts/ui/champion_bar.gd:231
 msgid "40 dmg bolt"
 msgstr ""
 
 #. "short": "40 dmg bolt", "info": "Cooldown 10 s · Range 12",
-#: scripts/ui/champion_bar.gd:228
+#: scripts/ui/champion_bar.gd:231
 msgid "Cooldown 10 s · Range 12"
 msgstr ""
 
 #. "effect": "A bolt: {40} damage to one enemy.",
-#: scripts/ui/champion_bar.gd:229
+#: scripts/ui/champion_bar.gd:232
 msgid "A bolt: {40} damage to one enemy."
 msgstr ""
 
 #. "when": "on an enemy it can finish, else a hero, else the one hitting the most hurt ally"},
-#: scripts/ui/champion_bar.gd:230
+#: scripts/ui/champion_bar.gd:233
 msgid "on an enemy it can finish, else a hero, else the one hitting the most hurt ally"
 msgstr ""
 
 #. "short": "blinks 8 m away", "info": "Cooldown 22 s · Self, 8 m",
-#: scripts/ui/champion_bar.gd:232
+#: scripts/ui/champion_bar.gd:235
 msgid "blinks 8 m away"
 msgstr ""
 
 #. "short": "blinks 8 m away", "info": "Cooldown 22 s · Self, 8 m",
-#: scripts/ui/champion_bar.gd:232
+#: scripts/ui/champion_bar.gd:235
 msgid "Cooldown 22 s · Self, 8 m"
 msgstr ""
 
 #. "effect": "Blinks up to 8 m away from the nearest melee enemy.",
-#: scripts/ui/champion_bar.gd:233
+#: scripts/ui/champion_bar.gd:236
 msgid "Blinks up to 8 m away from the nearest melee enemy."
 msgstr ""
 
 #. "when": "when a melee enemy closes in below 70 % HP, or while fleeing"},
-#: scripts/ui/champion_bar.gd:234
+#: scripts/ui/champion_bar.gd:237
 msgid "when a melee enemy closes in below 70 % HP, or while fleeing"
 msgstr ""
 
 #. "short": "45 dmg in radius 3.5", "info": "Cooldown 35 s · Range 12, radius 3.5",
-#: scripts/ui/champion_bar.gd:236
+#: scripts/ui/champion_bar.gd:239
 msgid "45 dmg in radius 3.5"
 msgstr ""
 
 #. "short": "45 dmg in radius 3.5", "info": "Cooldown 35 s · Range 12, radius 3.5",
-#: scripts/ui/champion_bar.gd:236
+#: scripts/ui/champion_bar.gd:239
 msgid "Cooldown 35 s · Range 12, radius 3.5"
 msgstr ""
 
 #. "effect": "A star falls after 1 s: {45} damage to every enemy and building within 3.5 m.",
-#: scripts/ui/champion_bar.gd:237
+#: scripts/ui/champion_bar.gd:240
 msgid "A star falls after 1 s: {45} damage to every enemy and building within 3.5 m."
 msgstr ""
 
 #. "when": "on the enemy with the most neighbours (3+ within 3.5 m)"},
-#: scripts/ui/champion_bar.gd:238
+#: scripts/ui/champion_bar.gd:241
 msgid "on the enemy with the most neighbours (3+ within 3.5 m)"
 msgstr ""
 
 #. return "Returns in %d s" % ceili(left) if left > 0.0 else "Fallen"
-#: scripts/ui/champion_bar.gd:644
+#: scripts/ui/champion_bar.gd:647
 msgid "Returns in %d s"
 msgstr ""
 
 #. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
-#: scripts/ui/champion_bar.gd:723 scripts/ui/selection_panel.gd:795
+#: scripts/ui/champion_bar.gd:726 scripts/ui/selection_panel.gd:846 scripts/ui/selection_panel.gd:994
 msgid "XP  MAX"
 msgstr ""
 
 #. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
-#: scripts/ui/champion_bar.gd:723 scripts/ui/selection_panel.gd:800
+#: scripts/ui/champion_bar.gd:726 scripts/ui/selection_panel.gd:851 scripts/ui/selection_panel.gd:994
 msgid "XP  %d / %d"
 msgstr ""
 
 #. hire_label = UIStyle.panel_label("Hire a champion", 12)
-#: scripts/ui/champion_bar.gd:1349
+#: scripts/ui/champion_bar.gd:1352
 msgid "Hire a champion"
 msgstr ""
 
 #. tavern_label = UIStyle.panel_label("Y · tavern", 11, UIStyle.GOLD)
-#: scripts/ui/champion_bar.gd:1353 scripts/ui/champion_bar.gd:1410
+#: scripts/ui/champion_bar.gd:1356 scripts/ui/champion_bar.gd:1413
 msgid "Y · tavern"
 msgstr ""
 
 #. tooltip_text = ItemTooltip.describe(type, "", maxi(n, 1)) if type != null else "Empty item slot"
-#: scripts/ui/champion_bar.gd:1833
+#: scripts/ui/champion_bar.gd:1836
 msgid "Empty item slot"
 msgstr ""
 
@@ -1450,13 +1450,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. lines.append(Loc.t("Artifact (cannot be sold)"))
-#: scripts/ui/item_tooltip.gd:184 scripts/ui/item_tooltip.gd:495 scripts/ui/inventory_bar.gd:201
+#: scripts/ui/item_tooltip.gd:184 scripts/ui/item_tooltip.gd:495 scripts/ui/inventory_bar.gd:202
 msgid "Artifact (cannot be sold)"
 msgstr ""
 
 #. row.add_child(text(rest, 12, WARN if rest.begins_with("Not learned") or rest.begins_with(Loc.t("Not learned"))
-#: scripts/ui/item_tooltip.gd:565 scripts/ui/item_tooltip.gd:217 scripts/ui/spell_info.gd:173
-#: scripts/ui/ui_style.gd:503 scripts/ui/ui_style.gd:539 scripts/units/wizard.gd:447
+#: scripts/ui/item_tooltip.gd:692 scripts/ui/item_tooltip.gd:217 scripts/ui/spell_info.gd:173
+#: scripts/ui/ui_style.gd:507 scripts/ui/ui_style.gd:543 scripts/units/wizard.gd:447
 msgid "Not learned"
 msgstr ""
 
@@ -1491,7 +1491,7 @@ msgid "% cooldown reduction"
 msgstr ""
 
 #. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
-#: scripts/ui/item_tooltip.gd:217 scripts/ui/ui_style.gd:503
+#: scripts/ui/item_tooltip.gd:217 scripts/ui/ui_style.gd:507
 msgid "Not enough"
 msgstr ""
 
@@ -1513,7 +1513,7 @@ msgid "Population"
 msgstr ""
 
 #. const REASONS := ["Not enough", "On cooldown", "Dead", "Not learned", "Needs", "Population", "No shop",
-#: scripts/ui/item_tooltip.gd:217 scripts/ui/ui_style.gd:503
+#: scripts/ui/item_tooltip.gd:217 scripts/ui/ui_style.gd:507
 msgid "No shop"
 msgstr ""
 
@@ -1539,7 +1539,7 @@ msgid "Not sold"
 msgstr ""
 
 #. message.emit(Loc.t("Dropped {name}", {"name": ItemTooltip.display_name(type)}))
-#: scripts/ui/inventory_bar.gd:235
+#: scripts/ui/inventory_bar.gd:236
 msgid "Dropped {name}"
 msgstr ""
 
@@ -1599,7 +1599,7 @@ msgid "Guard"
 msgstr ""
 
 #. const KIND_NAMES: Array[String] = ["Hunt", "Explore", "Guard", "Escort"]
-#: scripts/ui/bounty_mode.gd:29 scripts/ui/command_card.gd:598 scripts/world/bounty.gd:35
+#: scripts/ui/bounty_mode.gd:29 scripts/ui/command_card.gd:616 scripts/world/bounty.gd:35
 msgid "Escort"
 msgstr ""
 
@@ -1622,7 +1622,7 @@ msgid "Invalid target"
 msgstr ""
 
 #. const MSG_NO_ESSENCE := "Not enough essence"
-#: scripts/ui/bounty_mode.gd:48 scripts/ui/top_bar.gd:339 scripts/units/helper_roster.gd:24
+#: scripts/ui/bounty_mode.gd:48 scripts/ui/top_bar.gd:366 scripts/units/helper_roster.gd:24
 #: scripts/items/inventory.gd:472 scripts/items/inventory.gd:476 scripts/items/inventory.gd:499
 msgid "Not enough essence"
 msgstr ""
@@ -1658,7 +1658,7 @@ msgid "Paid {n}"
 msgstr ""
 
 #. paid_text += " · " + Loc.t("max")
-#: scripts/ui/flag_card.gd:210 scripts/ui/wave_strike/wave_strike_hud.gd:233
+#: scripts/ui/flag_card.gd:210 scripts/ui/wave_strike/wave_strike_hud.gd:234
 msgid "max"
 msgstr ""
 
@@ -1793,12 +1793,12 @@ msgid "Click: centre the camera"
 msgstr ""
 
 #. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": 
-#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:209
+#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:241
 msgid "dark breed"
 msgstr ""
 
 #. const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": 
-#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:209
+#: scripts/ui/mapfill_bar.gd:70 scripts/ui/selection_panel.gd:241
 msgid "silver breed"
 msgstr ""
 
@@ -1823,7 +1823,7 @@ msgid "Escaping"
 msgstr ""
 
 #. var subtitle := " · Epic beast"
-#: scripts/ui/mapfill_bar.gd:1075 scripts/ui/selection_panel.gd:924
+#: scripts/ui/mapfill_bar.gd:1075 scripts/ui/selection_panel.gd:1029
 msgid " · Epic beast"
 msgstr ""
 
@@ -2088,7 +2088,7 @@ msgid "Not held"
 msgstr ""
 
 #. action_button.text = "Current route" if is_current else "Set as route"
-#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1054 scripts/ui/vfx_text.gd:45
+#: scripts/ui/post_panel.gd:311 scripts/ui/command_card.gd:1072 scripts/ui/vfx_text.gd:45
 msgid "Current route"
 msgstr ""
 

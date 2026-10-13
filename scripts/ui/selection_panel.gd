@@ -1,19 +1,31 @@
 class_name SelectionPanel
 extends PanelContainer
-## Bottom selection panel (spec: ui-hud.md, "Selection panel"; buildings.md; skirmish-1v1.md).
-## Left: hero column, always visible (name = click to select the wizard, HP, mana; while she is dead
-## the name is greyed and "Vessa returns in 24 s" counts down; the Ember Crown line when she wears it).
-## Right: what is selected: nothing / one unit / many units (icons) / a building ("keep" view: name,
-## HP; trainers add the training queue and rally; construction sites the progress, builders and Cancel) /
-## a champion (9.C7: read-only inspect view, own or visible enemy; see inspect() and inspected_champion()).
+## The console's selection block (docs/design/ui-sc2-console.md 4.2, SC2.U1 / U4; was ui-hud.md "Selection panel"):
+## x 244-1132, y 692-892 at 1600 x 900 (888 x 200, content from (252, 696)); no frame of its own (the ConsoleFrame's),
+## anchored left + right so an ultrawide screen widens it. Shows what is selected: nothing / one unit / many units
+## (type tabs + icons) / a building ("keep" view: name, HP; trainers add the training queue and rally; construction sites
+## the progress, builders and Cancel) / a champion (9.C7: read-only inspect view, own or visible enemy; see inspect()
+## and inspected_champion()).
+## It also builds the hero tile (HeroTile, `hero_tile`: the player's wizard always, name = click to select her, HP,
+## mana, XP, points; while she is dead "Vessa returns in 24 s" counts down) and the portrait window (PortraitWindow,
+## `portrait_window`, the one Portrait); the HUD moves both to its root (bottom-left / bottom-right of the console).
 
-const SIZE := Vector2(1002, 224)
-const HERO_WIDTH := 300.0
-const AREA_WIDTH := 680.0
-const ICON_SIZE := 48.0
-const ICONS_PER_ROW := 12
-const MAX_ICONS := 24
-var _icon_gold: Array = []   ## Per icon: true while framed gold (the active Tab subgroup).
+const SIZE := Vector2(888, 200)
+## The block's rect at 1600 x 900: left edge from the screen's left, right edge from the screen's right.
+const LEFT := 244.0
+const RIGHT := 468.0
+const TOP := 692.0
+const ICON_SIZE := 40.0
+const ICONS_PER_ROW := 16
+const MAX_ICONS := 48
+var _icon_rim: Array = []    ## Per icon: its rim colour (follows HP, 4.2).
+var _icon_faces: Array[TextureRect] = []   ## Per icon: the unit's icon.
+## 4.2 type tabs (one per selected unit type, Tab order) and the "+ 12 more" chip.
+const TYPE_TABS := 8
+var type_tabs: Array[Button] = []
+var multi_more: Label
+const ICON_RIM_GREEN := Color(0.3, 0.85, 0.35)
+const ICON_RIM_YELLOW := Color(0.95, 0.8, 0.3)
 const QUEUE_SLOTS := 5
 const PROGRESS_COLOR := Color(1.0, 0.85, 0.4)
 ## Timed statuses (spells.md "Statuses", kingdom-ice.md 2.1): chip letter, name, tooltip.
@@ -59,20 +71,17 @@ var hero_badge: Panel       ## Level badge (scales 1.0 -> 1.4 -> 1.0 on level-up
 var hero_level: Label
 var hero_xp: ProgressBar
 var hero_xp_text: Label     ## "XP  320 / 450" or "XP  MAX".
-var points_chip: PanelContainer   ## "+1 point", only while spell_points > 0.
-## Right of the chip: 0 px, or POINTS_PAD_ARTIFACT while the inventory bar shows its 2nd artifact slot (526, 794), which
-## covered the chip (fix 2026-10-04).
-var points_pad: Control
-const POINTS_PAD_ARTIFACT := 56.0
+var points_chip: PanelContainer   ## "+1", only while spell_points > 0 (36 x 14 in the hero tile).
 var points_text: Label
 var _xp_flash_left := 0.0
-# 6.U1 skin: portrait, hero column aura / trim line, ghost damage, low-HP pulse, level-up ring.
+# 6.U1 skin: portrait, hero tile aura / trim line, ghost damage, low-HP pulse, level-up ring.
 var portrait: Portrait
-var hero_trim: ColorRect          ## 1 px trim line along the hero column top (WARN pulse at low HP, gold flash).
+var portrait_window: PortraitWindow   ## The console's portrait window (holds `portrait`); the HUD places it.
+var hero_tile: HeroTile               ## The hero tile (holds the hero_* parts); the HUD places it.
+var hero_trim: ColorRect          ## 1 px trim line along the hero tile top (WARN pulse at low HP, gold flash).
 var _aura: TextureRect
-var _divider: Control
-var _single_portrait_slot: HBoxContainer
-var _keep_portrait_slot: HBoxContainer
+## Parts kept for the logic but not shown in the hero tile (statuses and the crown line live elsewhere, 3.1 / 4.2).
+var _hero_hidden: Control
 var _ghost: Control
 var _ghost_value := -1.0          ## HP the ghost segment still shows (tweens down to the real HP in 0.5 s).
 var _ghost_tween: Tween
@@ -91,13 +100,13 @@ var _last_level := -1
 var _last_ranks := -1
 var _clock := 0.0
 var _badge_tween: Tween
-var hero_statuses: HBoxContainer    ## Status chips ("H 7") in the hero column, left of the points chip.
+var hero_statuses: HBoxContainer    ## The wizard's status chips ("H 7"), read by tests; the wizard view shows them.
 
 # Selection area views (one visible at a time)
 var nothing_view: Label
 var single_view: VBoxContainer
 var multi_view: VBoxContainer
-var keep_view: VBoxContainer
+var keep_view: Control
 
 var single_name: Label
 var single_hp: ProgressBar
@@ -107,6 +116,22 @@ var single_mana: ProgressBar
 var single_mana_text: Label
 var single_statuses: HBoxContainer  ## Status chips of the selected unit.
 var single_lifetime: ProgressBar    ## Summons only (8.U1): time left before it withers.
+## 4.2 single view, right part (x 580): level medallion + `Level 3` / `Veteran`, XP bar, statuses, the wizard's learn row.
+var stat_table: GridContainer       ## 2 x 2: Damage / Armor / Range / Speed (the plain units' stat line as a table).
+var stat_values: Array[Label] = []  ## The 4 numbers, table order.
+var single_right: VBoxContainer
+var single_level_row: HBoxContainer
+var single_badge: Panel
+var single_badge_label: Label
+var single_level_text: Label
+var single_xp: ProgressBar
+var single_xp_text: Label
+var single_learn_row: HBoxContainer
+var single_points: Label            ## "+2" gold chip (the wizard's spell points).
+var single_learn_hint: Label        ## "Ctrl+F / Q / E: learn".
+const STAT_IDS: Array[StringName] = [&"damage", &"armor", &"range", &"speed"]
+const STAT_WORDS: Array[String] = ["Damage", "Armor", "Range", "Speed"]
+const LEFT_COLUMN := 316.0          ## 4.2: the right part starts at x 580 (252 + 316 + 12).
 var single_lifetime_text: Label     ## "Withers in 18 s".
 
 var multi_header: Label
@@ -120,9 +145,11 @@ var _icon_sig: Array = []                    ## Per icon: _icon_signature() of w
 var _icon_status_ids: Array[StringName] = [] ## The status ids that have a dot (same keys on every icon)
 
 ## Champion view (9.C7, champions.md 9, ui-champions.md 4): read-only, nothing can be ordered from it. Positions are
-## relative to the selection area's top-left (588, 670). The command card's "Champions act on their own." text is
-## 9.C8's (command_card.gd).
-const CHAMPION_ORIGIN := Vector2(588, 670)
+## relative to the selection block's content top-left (252, 696). The command card's "Champions act on their own." text
+## is 9.C8's (command_card.gd).
+const CHAMPION_ORIGIN := Vector2(252, 696)
+const CH_TEXT_X := 0.0
+const CH_ABILITY_X := 408.0
 var champion_view: Control
 var champion_name: Label        ## "SABLE QUINT" (display_name, Cinzel 20).
 var champion_title: Label       ## " · the Coin-Cutter".
@@ -150,7 +177,6 @@ var _champion_class_id: StringName = &""
 ## A champion shown read-only (set with inspect(); cleared on the next selection change). The selection
 ## manager's `inspected` property (9.C8) wins when it has one.
 var inspected: Node = null
-var _champion_portrait_slot: HBoxContainer
 
 var keep_name: Label
 var keep_hp: ProgressBar
@@ -160,10 +186,16 @@ var queue_progress: ProgressBar
 var queue_count: Label   ## "Training <unit>  37 %" / "3 in queue" beside the queue slots.
 var rally_label: Label
 var building_info: Label    ## Site progress / builders, pop bonus, tower stats.
-var site_row: HBoxContainer
+var site_row: Control
 var site_progress: ProgressBar
 var site_cancel: Button
-var _queue_row: HBoxContainer
+var _queue_row: Control
+## 4.2 building view, right part (x 580): the keep's tier line + bar, then rally / info / queue lines.
+var keep_tier: Label
+var keep_tier_bar: ProgressBar
+var _queue_x: Array[Label] = []   ## The `x` shown on a hovered queue slot (click cancels).
+const KEEP_RIGHT_X := 328.0
+const QUEUE_SLOT := 44.0
 
 ## Trade (10.C7, ui-trade.md 5.2 / 6.2 / 6.3). Colours never skinned.
 const GOLD_COIN := Color(1.0, 0.78, 0.25)
@@ -175,7 +207,7 @@ const COIN_INNER := Color(0.85, 0.62, 0.18)
 const COIN_LIGHT := Color(1.0, 0.93, 0.65)
 const WARE_COUNT := 4
 ## The Bazaar block over the keep view's empty right part: 264 x 100 at (1000, 676) (area offset (412, 6)).
-const MARKET_BLOCK_POS := Vector2(412, 6)
+const MARKET_BLOCK_POS := Vector2(600, 6)   ## Right of the building view's right part (4.2).
 const MARKET_BLOCK_SIZE := Vector2(264, 100)
 var market_block: Control
 var market_route_row: HBoxContainer   ## A: "Route: " + name + " (near)".
@@ -204,7 +236,7 @@ const FORD_MODIFIER := &"terrain:ford"
 const BLESSING_CHIP := &"mf_blessing"
 const WADING_CHIP := &"mf_wading"
 const EPIC_BEASTS_PATH := "res://scripts/world/epic_beasts.gd"
-const BEAST_BLOCK_POS := Vector2(412, 6)     ## Ability slots 48 at (1000 + 58 j, 676) on screen.
+const BEAST_BLOCK_POS := Vector2(600, 6)     ## Ability slots 48 at (852 + 58 j, 702) on screen.
 const BEAST_SLOT_STEP := 58.0
 const VARIANT_WORDS := {&"tusker": "alpha", &"roc": "dark breed", &"direwolf": "silver breed", &"grizzlemaw": "elder"}
 const BEAST_KINDS := {
@@ -263,34 +295,28 @@ var beast_slot_names: Array[Label] = []
 
 
 func _ready() -> void:
-	add_theme_stylebox_override("panel", UIStyle.frame_style(10.0))
-	UIStyle.add_drop_shadow(self)
-	custom_minimum_size = SIZE
-	# Bottom, 272 px from the left, 16 px from the bottom: (272, 660) at 1600 x 900.
-	set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	add_theme_stylebox_override("panel", StyleBoxEmpty.new())   # the ConsoleFrame draws the frame
+	mouse_filter = Control.MOUSE_FILTER_IGNORE   # the console under it stops the clicks
+	# The console's selection block: x 244 -> (right edge - 468), y 692-892 at 1600 x 900 (888 x 200).
+	anchor_left = 0.0
+	anchor_right = 1.0
+	anchor_top = 1.0
+	anchor_bottom = 1.0
 	grow_vertical = Control.GROW_DIRECTION_BEGIN
-	offset_left = 272.0
-	offset_right = 272.0 + SIZE.x
-	offset_top = -16.0 - SIZE.y
-	offset_bottom = -16.0
-
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 0)
-	add_child(row)
-	row.add_child(_build_hero_column())
-	# Divider (ui-style.md 5.1): 2 px groove + 1 px frame_light, a diamond at each end.
-	_divider = Control.new()
-	_divider.custom_minimum_size = Vector2(3, 0)
-	_divider.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_divider.draw.connect(_draw_divider)
-	row.add_child(_divider)
+	offset_left = LEFT
+	offset_right = -RIGHT
+	offset_top = -(900.0 - TOP)
+	offset_bottom = offset_top + SIZE.y
+	custom_minimum_size = Vector2(0, SIZE.y)
 
 	var area := MarginContainer.new()
-	area.custom_minimum_size = Vector2(AREA_WIDTH - 20.0, 0)   # 680 minus the panel's inner margin
 	area.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	area.add_theme_constant_override("margin_left", 3)   # area content starts at x 588
-	area.add_theme_constant_override("margin_right", 4)
-	row.add_child(area)
+	area.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	area.add_theme_constant_override("margin_left", 8)    # content x 252-1124, y 696-888
+	area.add_theme_constant_override("margin_right", 8)
+	area.add_theme_constant_override("margin_top", 4)
+	area.add_theme_constant_override("margin_bottom", 4)
+	add_child(area)
 
 	nothing_view = UIStyle.panel_label("Nothing selected", 16)
 	_muted_labels.append(nothing_view)
@@ -299,6 +325,7 @@ func _ready() -> void:
 	nothing_view.draw.connect(_draw_emblem)
 	area.add_child(nothing_view)
 	portrait = Portrait.new()
+	portrait_window = PortraitWindow.new()
 	single_view = _build_single_view()
 	area.add_child(single_view)
 	multi_view = _build_multi_view()
@@ -317,6 +344,11 @@ func _ready() -> void:
 	_overlay.add_child(beast_block)
 	building_strip = _build_building_strip()
 	_overlay.add_child(building_strip)
+	# The hero tile and the portrait window start in the overlay; GameHUD moves them to its root (their own corners).
+	hero_tile = _build_hero_tile()
+	_overlay.add_child(hero_tile)
+	_overlay.add_child(portrait_window)
+	portrait_window.setup_portrait(portrait)
 	_show_view(nothing_view)
 
 
@@ -327,7 +359,9 @@ func setup(p_hero: Wizard, p_selection: SelectionManager) -> void:
 	selection = p_selection
 	if selection != null:
 		selection.selection_changed.connect(_on_selection_changed)
-	hero_name.text = hero.unit_name
+	portrait_window.selection = selection
+	hero_name.text = GameHUD.wizard_short_name(hero)
+	hero_name.tooltip_text = Loc.t("Select your wizard  [F1]")
 
 
 ## Shows `champion` (own or visible enemy) read-only in the selection area until the selection changes.
@@ -409,14 +443,14 @@ func _process(delta: float) -> void:
 		_ring_t += delta / 0.5
 		if _ring_t >= 1.0:
 			_ring_t = -1.0
-		queue_redraw()
+		if hero_tile:
+			hero_tile.queue_redraw()
 	refresh()
 
 
 ## Re-applies the kingdom skin (GameHUD.setup calls it after UIStyle.set_kingdom; also auto on skin change).
 func apply_skin() -> void:
 	_skin = UIStyle.skin_version
-	add_theme_stylebox_override("panel", UIStyle.frame_style(10.0))
 	for l in _title_labels:
 		l.add_theme_color_override("font_color", UIStyle.token(&"title"))
 	for l in _muted_labels:
@@ -429,6 +463,10 @@ func apply_skin() -> void:
 	for b in _skin_buttons:
 		UIStyle.style_button(b)
 	_chip_active = -2   # the building strip restyles its chips (gold frame on the active one) on the next refresh
+	_icon_rim.clear()   # the multi icons and type tabs restyle on the next refresh
+	_icon_sig.clear()
+	for t in type_tabs:
+		t.set_meta(&"_sig", "")
 	if site_cancel:
 		UIStyle.style_button(site_cancel, UIStyle.WARN)
 	for slot in champion_abilities:
@@ -444,8 +482,10 @@ func apply_skin() -> void:
 		_aura.texture = _aura_texture()
 	if hero_trim:
 		hero_trim.color = _trim_color()
-	if _divider:
-		_divider.queue_redraw()
+	if hero_tile:
+		hero_tile.apply_skin()
+	if portrait_window:
+		portrait_window.apply_skin()
 	nothing_view.queue_redraw()
 
 
@@ -477,22 +517,24 @@ func _aura_texture() -> GradientTexture2D:
 	return t
 
 
-func _draw() -> void:
-	# Level-up ring behind the badge: radius 14 -> 40 px, fading over 0.5 s.
-	if _ring_t < 0.0 or hero_badge == null:
+## The hero tile's level-up ring (drawn by the tile, over its parts): radius 10 -> 32 px around the medallion, fading
+## over 0.5 s.
+func _draw_ring() -> void:
+	if _ring_t < 0.0 or hero_badge == null or hero_tile == null:
 		return
-	var c := hero_badge.global_position - global_position + Vector2(14, 14)
+	var c := hero_badge.position + hero_badge.size * 0.5
 	var a := 1.0 - _ring_t
-	draw_arc(c, lerpf(14.0, 40.0, _ring_t), 0.0, TAU, 40, Color(UIStyle.GOLD, a), 3.0, true)
+	hero_tile.draw_arc(c, lerpf(10.0, 32.0, _ring_t), 0.0, TAU, 40, Color(UIStyle.GOLD, a), 3.0, true)
 
 
 ## Hexagonal level medallion (flat top): dark fill, 2 px gold edge, frame_light facet on the upper half.
 func _draw_badge() -> void:
-	var c := Vector2(14, 14)
+	var r := hero_badge.size.x * 0.5
+	var c := Vector2(r, r)
 	var pts := PackedVector2Array()
 	for i in 6:
 		var a := deg_to_rad(60.0 * i)
-		pts.append(c + Vector2(cos(a), sin(a)) * 14.0)
+		pts.append(c + Vector2(cos(a), sin(a)) * r)
 	var alive := is_instance_valid(hero) and hero.is_alive()
 	var edge := UIStyle.GOLD if alive or hero == null else Color(0.45, 0.42, 0.35)
 	hero_badge.draw_colored_polygon(pts, Color(0.15, 0.12, 0.05))
@@ -502,27 +544,16 @@ func _draw_badge() -> void:
 	var inner := PackedVector2Array()
 	for i in [3, 4, 5, 0]:
 		var a := deg_to_rad(60.0 * i)
-		inner.append(c + Vector2(cos(a), sin(a)) * 11.0)
+		inner.append(c + Vector2(cos(a), sin(a)) * (r - 3.0))
 	hero_badge.draw_polyline(inner, UIStyle.token(&"frame_light"), 1.0, true)
 
 
 func _draw_name_underline() -> void:
 	if hero_name.is_hovered() and not hero_name.disabled:
 		var w := hero_name.get_theme_font("font").get_string_size(hero_name.text.to_upper(),
-				HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
 		var y := hero_name.size.y - 3.0
 		hero_name.draw_line(Vector2(4, y), Vector2(4 + w, y), UIStyle.token(&"trim_glow"), 2.0)
-
-
-func _draw_divider() -> void:
-	var h := _divider.size.y
-	var groove := UIStyle.token(&"groove")
-	var light := UIStyle.token(&"frame_light")
-	_divider.draw_rect(Rect2(0, 0, 2, h), groove)
-	_divider.draw_rect(Rect2(2, 0, 1, h), light)
-	for y: float in [2.0, h - 2.0]:
-		_divider.draw_colored_polygon(PackedVector2Array([Vector2(1.5, y - 3), Vector2(4.5, y), Vector2(1.5, y + 3),
-				Vector2(-1.5, y)]), light)
 
 
 ## Kingdom emblem at alpha 0.06 behind "Nothing selected" (UIStyle.draw_emblem: Fire flames, Shadow crescent,
@@ -539,10 +570,6 @@ func refresh() -> void:
 	if selection == null:
 		return
 	var champion := inspected_champion()
-	# A champion without a model shows its initials only: hide the portrait's last render (else the previous
-	# unit's picture stays behind the letters).
-	if portrait.view != null:   # (built in the portrait's _ready, once a view holds it)
-		portrait.view.visible = champion == null or champion.get("model_scene") != null
 	market_block.visible = false
 	beast_block.visible = false
 	var strip_shown := false
@@ -565,8 +592,22 @@ func refresh() -> void:
 		portrait.set_target(selection.selected[0])
 	else:
 		_update_multi(selection.selected)
-		portrait.set_target(null)
+		portrait.set_target(_active_type_unit())   # 4.3: the active type tab's unit
 	building_strip.visible = strip_shown
+	# Nothing to show, or a champion without a model (its initials only): hide the portrait's last render (else the
+	# previous unit's picture stays behind).
+	if portrait.view != null:   # (built in the portrait's _ready, once a view holds it)
+		portrait.view.visible = portrait.target != null and (champion == null or champion.get("model_scene") != null)
+
+
+## The first selected unit of the active type (the multi-selection's portrait), or null.
+func _active_type_unit() -> Unit:
+	if selection == null:
+		return null
+	var group := selection.active_type_units()
+	if not group.is_empty():
+		return group[0]
+	return selection.selected[0] if not selection.selected.is_empty() else null
 
 
 ## The strip of selected buildings (2+): chips in Tab order, the active one framed in gold. Returns true when shown.
@@ -575,7 +616,7 @@ func _update_building_strip() -> bool:
 	var list: Array = raw if raw is Array else []
 	if list.size() < 2:
 		return false
-	building_strip.position = Vector2(412, 110) if market_block.visible else Vector2(412, 6)
+	building_strip.position = Vector2(MARKET_BLOCK_POS.x, 110) if market_block.visible else MARKET_BLOCK_POS
 	var active := -1
 	for i in BUILDING_CHIPS:
 		var chip := building_chips[i]
@@ -633,7 +674,7 @@ func _build_building_strip() -> GridContainer:
 	grid.columns = BUILDING_CHIP_COLUMNS
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 6)
-	grid.position = Vector2(412, 6)
+	grid.position = MARKET_BLOCK_POS
 	grid.visible = false
 	for i in BUILDING_CHIPS:
 		var b := Button.new()
@@ -711,6 +752,7 @@ func _update_hero() -> void:
 			hero_name.modulate = Color.WHITE
 			hero_name.disabled = false
 		hero_status.visible = false
+		hero_hp_text.visible = true
 	else:
 		hero_hp.value = 0
 		hero_mana.value = 0
@@ -721,10 +763,19 @@ func _update_hero() -> void:
 		var left := _respawn_left()
 		hero_status.text = Loc.t("%s returns in %d s") % [_short_name(), ceili(left)] if left > 0.0 else Loc.t("Fallen")
 		hero_status.visible = true
+		hero_hp_text.visible = false   # the countdown sits on the empty bar
+	if hero_tile:
+		hero_tile.set_wizard(hero, alive)
 	_update_level(alive)
 	_update_status_row(hero_statuses, hero if alive else null)
 	var crown := _worn_crown()
 	hero_crown.visible = crown != null
+	if hero_tile:
+		var tip := Loc.t("Select your wizard  [F1]") + "\n" + Loc.t("Double-click: centre the camera")
+		if crown != null:
+			tip += "\n" + hero_crown.text
+		if hero_tile.tooltip_text != tip:
+			hero_tile.tooltip_text = tip
 	if crown != null:
 		hero_crown.text = Loc.t("%s  +%d HP · +%d mana") % [str(crown.get("artifact_name")),
 				int(crown.get("bonus_hp")), int(crown.get("bonus_mana"))]
@@ -807,9 +858,13 @@ func _update_level(alive: bool) -> void:
 		hero_badge.tooltip_text = Loc.tn("Level {level} · {n} spell point", "Level {level} · {n} spell points", points,
 				{"level": level})
 	points_chip.visible = points > 0
-	points_pad.custom_minimum_size.x = POINTS_PAD_ARTIFACT if second_artifact_shown(hero) else 0.0
+	# The chip sits on the XP bar's right end (3.1): the bar stops short of it while it shows.
+	var xp_w := HeroTile.POINTS_RECT.position.x - 4.0 - HeroTile.XP_RECT.position.x if points > 0 else HeroTile.XP_RECT.size.x
+	if hero_xp.size.x != xp_w:
+		hero_xp.custom_minimum_size.x = xp_w
+		hero_xp.size.x = xp_w
 	if points > 0:
-		points_text.text = Loc.tn("+{n} point", "+{n} points", points)
+		points_text.text = "+%d" % points
 		points_chip.modulate.a = 0.85 + 0.15 * sin(_clock * TAU / 0.8)
 	var ranks := 0
 	for id in SpellInfo.ids(hero):
@@ -888,7 +943,13 @@ func _update_single(u: Unit) -> void:
 	elif veteran:
 		var next := _veteran_next(u, level)
 		line = Loc.t("%s · XP MAX") % line if next <= 0 else Loc.t("%s · XP %d / %d") % [line, xp, next]
-	single_stats.text = line
+	if single_stats.text != line:
+		single_stats.text = line
+	var vals: Array[String] = [_num(dmg), _num(armor), _dec1(u.attack_range), _dec1(u.move_speed)]
+	for i in stat_values.size():
+		if stat_values[i].text != vals[i]:
+			stat_values[i].text = vals[i]
+	_update_single_right(u, wiz, level, xp, veteran)
 	var caster := CasterKit.ability_of(u)   # caster-units.md 9.1 (hud.): the caster's mana bar in the single view
 	single_mana.visible = wiz != null or caster != null
 	if wiz:
@@ -908,6 +969,50 @@ func _update_single(u: Unit) -> void:
 	_update_status_row(single_statuses, u)
 	_update_trade_lines(u)
 	_update_mapfill_lines(u)
+	# The plain units' stats as the 2 x 2 table; caravans, trackers and loaded Magpies keep their one-line text.
+	var table := single_stats.visible and not single_stats_extra.visible and not single_state.visible
+	stat_table.visible = table
+	if table:
+		single_stats.visible = false
+
+
+## The right part of the single view: level + XP (wizard, soldiers with veterancy), the wizard's points / learn row.
+func _update_single_right(u: Unit, wiz: Wizard, level: int, xp: int, veteran: bool) -> void:
+	var leveled := wiz != null and u.get("level") != null or veteran
+	single_level_row.visible = leveled
+	single_xp.visible = leveled
+	if leveled:
+		var lvl_text := Loc.t("Level %d") % level if wiz != null else Loc.t(
+				str(u.call(&"veterancy_name")) if u.has_method(&"veterancy_name") else rank_name(level))
+		if single_level_text.text != lvl_text:
+			single_level_text.text = lvl_text
+		if single_badge_label.text != str(level):
+			single_badge_label.text = str(level)
+		var next := int(wiz.call(&"xp_to_next")) if wiz != null and wiz.has_method(&"xp_to_next") else _veteran_next(u, level)
+		single_xp.max_value = maxf(1.0, float(next))
+		single_xp.value = float(xp) if next > 0 else single_xp.max_value
+		var t := Loc.t("XP  %d / %d") % [xp, next] if next > 0 else Loc.t("XP  MAX")
+		if single_xp_text.text != t:
+			single_xp_text.text = t
+	var points := int(wiz.get("spell_points")) if wiz != null and wiz.get("spell_points") != null else 0
+	var learn := wiz != null and wiz == hero and wiz.has_method(&"learn_spell")
+	single_learn_row.visible = learn
+	if learn:
+		single_points.visible = points > 0
+		single_points.text = "+%d" % points
+		var hint := Loc.t("Ctrl+%s: learn") % KeyLabels.join([KEY_F, KEY_Q, KEY_E], " / ")
+		if single_learn_hint.text != hint:
+			single_learn_hint.text = hint
+
+
+## The stat table as text ("Damage 12 · Armor 0 · Range 1.6 · Speed 5.0"; "" when hidden), for tests.
+func stat_table_text() -> String:
+	if stat_table == null or not stat_table.visible:
+		return ""
+	var parts: PackedStringArray = []
+	for i in stat_values.size():
+		parts.append("%s %s" % [STAT_WORDS[i], stat_values[i].text])
+	return " · ".join(parts)
 
 
 # ---------------------------------------------------------------- map fill (12.C7, ui-mapfill.md 5.1 / 6.2)
@@ -1306,7 +1411,7 @@ func single_lines() -> String:
 			if l.visible:
 				t += l.text
 		lines.append(t)
-	elif single_stats.visible:
+	elif single_stats.visible or stat_table.visible:
 		lines.append(single_stats.text + (single_stats_extra.text if single_stats_extra.visible else ""))
 	if single_state.visible:
 		lines.append(single_state.text)
@@ -1818,14 +1923,23 @@ func _update_multi(units: Array[Unit]) -> void:
 	var parts: Array[String] = []
 	for unit_name in order:
 		parts.append("%d %s" % [counts[unit_name], unit_name])
-	multi_header.text = Loc.t("%d selected:  %s") % [units.size(), ", ".join(parts)]
+	# 4.2: `9 selected` (right of the type tabs); the breakdown in its tooltip.
+	var header := Loc.t("%d selected") % units.size()
+	if multi_header.text != header:
+		multi_header.text = header
+	multi_header.tooltip_text = ", ".join(parts)
+	_update_type_tabs()
 	_icon_units.clear()
-	# SC2 subgroups: with 2+ unit types, the active type's portraits (Tab cycles it) get a gold frame.
+	# SC2 subgroups: with 2+ unit types, the active type's icons stay bright, the others dim (Tab cycles it).
 	var active_key: StringName = &""
 	if selection != null and selection.selected_unit_types().size() >= 2:
 		active_key = selection.active_unit_type()
 	if _icon_sig.size() != MAX_ICONS:
 		_icon_sig.resize(MAX_ICONS)
+	var more := units.size() - MAX_ICONS
+	multi_more.visible = more > 0
+	if more > 0:
+		multi_more.text = Loc.t("+ %d more") % more
 	for i in MAX_ICONS:
 		var b := icons[i]
 		if i >= units.size():
@@ -1835,29 +1949,34 @@ func _update_multi(units: Array[Unit]) -> void:
 		var u := units[i]
 		_icon_units.append(u)
 		b.visible = true
-		# Perf pass 2026-10-09: the icon is rebuilt only when something it shows changed (24 icons x text, tooltip,
+		# Perf pass 2026-10-09: the icon is rebuilt only when something it shows changed (48 icons x text, tooltip,
 		# strips and dots every frame cost ~1 ms with a big army selected). Same output.
 		var sig := _icon_signature(u, active_key)
 		if _icon_sig[i] == sig:
 			continue
 		_icon_sig[i] = sig
-		var gold := active_key != &"" and SelectionManager.unit_type_key(u) == active_key
-		if _icon_gold.size() <= i:
-			_icon_gold.resize(MAX_ICONS)
-		if _icon_gold[i] != gold:
-			_icon_gold[i] = gold
-			UIStyle.style_button(b, UIStyle.GOLD if gold else UIStyle.PANEL_BORDER)
-		b.text = UIStyle.abbrev(u.unit_name)
-		# Tooltip = list items joined by "  ·  " (each item one translated template).
+		var ratio := clampf(u.hp / maxf(u.max_hp, 1.0), 0.0, 1.0)
+		# 4.2: the icon's rim follows HP (green > 50 %, yellow > 25 %, else WARN).
+		var rim := icon_rim_color(ratio)
+		if _icon_rim.size() <= i:
+			_icon_rim.resize(MAX_ICONS)
+		if _icon_rim[i] != rim:
+			_icon_rim[i] = rim
+			UIStyle.style_button(b, rim)
+		b.modulate = Color.WHITE if active_key == &"" or SelectionManager.unit_type_key(u) == active_key \
+				else Color(0.7, 0.7, 0.7)
+		var tex := unit_icon(u)
+		_icon_faces[i].texture = tex
+		b.text = "" if tex != null else UIStyle.abbrev(u.unit_name)
+		# Tooltip (5): `Name · HP x / y` (+ Mana); items joined by "  ·  " (each one translated template).
 		b.tooltip_text = Loc.t("%s  HP %d / %d") % [u.unit_name, ceili(u.hp), int(u.max_hp)]
 		var life := lifetime_of(u)
 		if life.y > 0.0:
 			b.tooltip_text += "  ·  " + Loc.t("withers in %d s") % ceili(life.x)
-		var ratio := clampf(u.hp / maxf(u.max_hp, 1.0), 0.0, 1.0)
 		var strip := _icon_strips[i]
 		strip.color = UIStyle.health_color(ratio)
 		strip.size.x = ICON_SIZE * ratio
-		# Casters: a 3 px mana strip right above the HP strip (caster-units.md 9.1).
+		# Casters: a 2 px mana strip right above the HP strip (caster-units.md 9.1).
 		var cab := CasterKit.ability_of(u)
 		var mstrip := _icon_mana_strips[i]
 		mstrip.visible = cab != null
@@ -1877,6 +1996,89 @@ func _update_multi(units: Array[Unit]) -> void:
 		for id: StringName in status_dots:
 			(status_dots[id] as ColorRect).visible = has and u.has_status(id)
 		_icon_coins[i].visible = u.is_in_group(&"caravans") and u.has_method(&"is_loaded") and bool(u.call(&"is_loaded"))
+
+
+## A unit's icon (art/icons/units/<type id>.png; a wizard by her name, `vessa`), or null.
+static func unit_icon(u: Unit) -> Texture2D:
+	if u == null or not is_instance_valid(u):
+		return null
+	var tex: Texture2D = ItemTooltip.HudSkin.icon("units", String(u.unit_type.id)) if u.unit_type != null else null
+	if tex == null and u is Wizard:
+		tex = ItemTooltip.HudSkin.icon("units", GameHUD.wizard_short_name(u).to_lower())
+	return tex
+
+
+## The multi-selection icon rim for an HP ratio (4.2).
+static func icon_rim_color(ratio: float) -> Color:
+	if ratio > 0.5:
+		return ICON_RIM_GREEN
+	if ratio > 0.25:
+		return ICON_RIM_YELLOW
+	return UIStyle.WARN
+
+
+## The type tabs (4.2): one per selected unit type in Tab order (icon 20 + count), the active one gold.
+func _update_type_tabs() -> void:
+	var types: Array[StringName] = selection.selected_unit_types() if selection != null else []
+	var active := selection.active_unit_type() if selection != null else &""
+	var counts := {}
+	var sample := {}
+	for u in selection.orderable_units():
+		var k := SelectionManager.unit_type_key(u)
+		counts[k] = int(counts.get(k, 0)) + 1
+		if not sample.has(k):
+			sample[k] = u
+	for i in type_tabs.size():
+		var t := type_tabs[i]
+		if i >= types.size():
+			t.visible = false
+			continue
+		t.visible = true
+		var key := types[i]
+		var u: Unit = sample.get(key)
+		var sig := "%s|%d|%s" % [key, int(counts.get(key, 0)), active == key]
+		if t.get_meta(&"_sig", "") == sig:
+			continue
+		t.set_meta(&"_sig", sig)
+		t.set_meta(&"_type_key", key)
+		var tex := unit_icon(u)
+		(t.get_node(^"Face") as TextureRect).texture = tex
+		t.text = str(int(counts.get(key, 0))) if tex != null else "%d %s" % [int(counts.get(key, 0)),
+				UIStyle.abbrev(u.unit_name if u != null else String(key))]
+		t.tooltip_text = Loc.t("%s  ·  %d\nClick: select only these  ·  Tab: next type") % [
+				u.unit_name if u != null else String(key), int(counts.get(key, 0))]
+		UIStyle.style_button(t, UIStyle.GOLD if active == key and types.size() >= 2 else UIStyle.PANEL_BORDER)
+
+
+## True when multi-view icon `i` belongs to the active type (bright; the others dim with 2+ types), for tests.
+func icon_is_active(i: int) -> bool:
+	return i >= 0 and i < _icon_units.size() and icons[i].visible and icons[i].modulate == Color.WHITE
+
+
+## The type key of the gold (active) type tab, &"" when none (one type only), for tests.
+func active_type_tab() -> StringName:
+	if type_tabs_shown() < 2 or selection == null:
+		return &""
+	return selection.active_unit_type()
+
+
+## Number of type tabs shown (tests).
+func type_tabs_shown() -> int:
+	var n := 0
+	for t in type_tabs:
+		if t.visible:
+			n += 1
+	return n
+
+
+## The icon showing `u` in the multi view, or -1 (tests).
+func icon_index_of(u: Unit) -> int:
+	return _icon_units.find(u)
+
+
+## The rim colour of multi-view icon `i` (tests).
+func icon_rim(i: int) -> Color:
+	return _icon_rim[i] if i >= 0 and i < _icon_rim.size() and _icon_rim[i] is Color else Color.BLACK
 
 
 ## Everything a multi-selection icon shows of `u` (hash): identity, HP, lifetime, mana, level, statuses, coins, gold.
@@ -1910,19 +2112,19 @@ func _update_keep(keep: Node3D) -> void:
 	var trainer := keep.has_method("queue_unit") and not site
 	var market := CommandCard.is_market(keep)
 	site_row.visible = site
+	keep_hp.visible = not site   # 4.2: a site shows its progress bar where the HP bar is
 	_queue_row.visible = trainer
 	rally_label.visible = trainer and keep.has_method("set_rally_point") and not market   # the Bazaar has a route
 	if market and not site and is_own(keep):
 		_update_market_block(keep)
 	building_info.visible = true
+	_update_keep_tier(keep if not site else null)
 	if site:
 		_update_site(keep)
 		return
 	building_info.text = _building_info_text(type)
-	var tier_part := keep_tier_text(keep)
-	if tier_part != "":
-		building_info.text = tier_part + ("  ·  " + building_info.text if building_info.text != "" else "")
 	building_info.visible = building_info.text != ""
+	_place_keep_right()
 	if not trainer:
 		return
 	var queue: Array = _queue_of(keep)
@@ -1955,6 +2157,50 @@ func _update_keep(keep: Node3D) -> void:
 				floori(clampf(progress, 0.0, 1.0) * 100.0), queue.size()]
 	var on_node := keep.has_method("rally_is_node") and bool(keep.call("rally_is_node"))
 	rally_label.text = "Rally: gather node" if on_node else "Rally: set"
+	for i in QUEUE_SLOTS:
+		_queue_x[i].visible = queue_buttons[i].is_hovered() and i < queue.size()
+
+
+## The keep's tier line (4.2, right part y 0): `Stronghold rising` + the bar while it upgrades, else
+## `Tier 1 Keep · next Stronghold 400` (`Tier 3 Citadel` at the top). Hidden for other buildings / without tiers.
+func _update_keep_tier(b: Node3D) -> void:
+	var k := b as Keep
+	var ts := TierSystem.instance()
+	if k == null or ts == null:
+		keep_tier.visible = false
+		keep_tier_bar.visible = false
+		return
+	keep_tier.visible = true
+	var line := ""
+	if k.is_upgrading():
+		line = Loc.t("{tier} rising", {"tier": Loc.t(TierSystem.tier_name(k.tier + 1))})
+		keep_tier_bar.visible = true
+		keep_tier_bar.value = clampf(k.upgrade_progress(), 0.0, 1.0)
+	else:
+		keep_tier_bar.visible = false
+		var nxt := k.tier + 1
+		if nxt > 3 or nxt > ts.max_tier:
+			line = keep_tier_text(k)
+		else:
+			line = Loc.t("{tier_line} · next {name} {cost}", {"tier_line": keep_tier_text(k),
+					"name": Loc.t(TierSystem.tier_name(nxt)), "cost": k.upgrade_cost()})
+	if keep_tier.text != line:
+		keep_tier.text = line
+
+
+## The right part's lines stack from y 0: tier line (+ bar), rally, info, queue count.
+func _place_keep_right() -> void:
+	var y := 0.0
+	for c: Control in [keep_tier, keep_tier_bar, rally_label, building_info, queue_count]:
+		if not c.visible:
+			continue
+		c.position = Vector2(KEEP_RIGHT_X, y + (6.0 if c == keep_tier_bar else 0.0))
+		y = c.position.y + (12.0 if c == keep_tier_bar else c.get_combined_minimum_size().y) + 4.0
+
+
+## The keep view's tier line ("" when hidden), for tests.
+func keep_tier_line() -> String:
+	return keep_tier.text if keep_tier != null and keep_tier.visible else ""
 
 
 ## Construction site: progress bar and "Under construction 45 %  ·  2 builders (x1.5)".
@@ -1970,6 +2216,7 @@ func _update_site(site: Node3D) -> void:
 				"Under construction  {pct} %  ·  {n} builders (x{speed})", builders,
 				{"pct": pct, "speed": Loc.num(speed, 1)})
 	building_info.text = line
+	_place_keep_right()
 
 
 ## A keep's tier at the head of its info line while the game has tiers: `Tier 2 Stronghold` or `Upgrading to Citadel
@@ -2016,73 +2263,39 @@ func _show_view(view: Control) -> void:
 	_shown_view = view
 	for v in [nothing_view, single_view, multi_view, keep_view, champion_view]:
 		(v as Control).visible = v == view
-	# One portrait for the HUD: it moves into the single-unit, building or champion view.
-	var slot: HBoxContainer = _single_portrait_slot if view == single_view else (
-			_keep_portrait_slot if view == keep_view else (
-			_champion_portrait_slot if view == champion_view else null))
-	if slot != null and portrait.get_parent() != slot:
-		if portrait.get_parent():
-			portrait.get_parent().remove_child(portrait)
-		slot.add_child(portrait)
-		slot.move_child(portrait, 0)
-	# The new view fades in over 0.1 s.
+	# The new view fades in over 0.1 s (also while the game is paused: a paused tween froze the view nearly invisible).
 	if _view_tween:
 		_view_tween.kill()
 	view.modulate.a = 0.0
-	_view_tween = create_tween()
+	_view_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	_view_tween.tween_property(view, "modulate:a", 1.0, 0.1)
 
 
 # ---------------------------------------------------------------- builders
 
-func _build_hero_column() -> Control:
-	# levels.md "HUD": badge (282, 670) + name, HP (282, 706), mana (282, 734), XP (282, 762),
-	# then the respawn countdown and the points chip (492, 784), then the crown line.
-	var box := VBoxContainer.new()
-	box.custom_minimum_size = Vector2(HERO_WIDTH - 10.0, 0)
-	box.add_theme_constant_override("separation", 6)
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_right", 10)
-	# Faint trim_glow aura behind the hero (to 60 % of the height) and the 1 px trim line along the top.
-	var aura_holder := Control.new()
-	aura_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	margin.add_child(aura_holder)
+## The hero tile (ui-sc2-console.md 3.1): every hero_* part placed by hand in the 240 x 100 tile. Statuses and the
+## Ember Crown line are kept (tests, logic) in a hidden holder: the wizard's view shows her statuses, the tile's tooltip
+## the crown.
+func _build_hero_tile() -> HeroTile:
+	var tile := HeroTile.new()
+	tile.select_requested.connect(_select_hero)
+	tile.centre_requested.connect(_centre_hero)
+	tile.draw_extra = _draw_ring
+	# Faint trim_glow aura (top 60 %) and the 1 px trim line along the top edge.
 	_aura = TextureRect.new()
 	_aura.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_aura.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_aura.stretch_mode = TextureRect.STRETCH_SCALE
-	_aura.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_aura.offset_left = -4
-	_aura.offset_top = -4
+	_aura.position = Vector2(1, 1)
+	_aura.size = HeroTile.SIZE - Vector2(2, 2)
 	_aura.texture = _aura_texture()
-	aura_holder.add_child(_aura)
+	tile.add_child(_aura)
 	hero_trim = ColorRect.new()
 	hero_trim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	hero_trim.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	hero_trim.offset_top = -5
-	hero_trim.offset_bottom = -4
-	hero_trim.offset_left = -4
+	hero_trim.position = Vector2(0, 0)
+	hero_trim.size = Vector2(HeroTile.SIZE.x, 1)
 	hero_trim.color = _trim_color()
-	aura_holder.add_child(hero_trim)
-	margin.add_child(box)
-
-	var name_row := HBoxContainer.new()
-	name_row.custom_minimum_size = Vector2(0, 30)
-	name_row.add_theme_constant_override("separation", 8)
-	box.add_child(name_row)
-	hero_badge = Panel.new()
-	hero_badge.custom_minimum_size = Vector2(28, 28)
-	hero_badge.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	hero_badge.pivot_offset = Vector2(14, 14)
-	hero_badge.mouse_filter = Control.MOUSE_FILTER_STOP   # for its tooltip "Level N · XP x / y · N spell points"
-	hero_badge.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-	hero_badge.draw.connect(_draw_badge)
-	hero_level = UIStyle.display_label("1", 16, UIStyle.GOLD)
-	hero_level.set_anchors_preset(Control.PRESET_FULL_RECT)
-	hero_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hero_level.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	hero_badge.add_child(hero_level)
-	name_row.add_child(hero_badge)
+	tile.add_child(hero_trim)
 
 	hero_name = Button.new()
 	hero_name.flat = true
@@ -2090,9 +2303,11 @@ func _build_hero_column() -> Control:
 	hero_name.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	hero_name.text = "Your wizard"
 	hero_name.tooltip_text = "Select your wizard  [F1]"
-	hero_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hero_name.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	hero_name.add_theme_font_size_override("font_size", 20)
+	hero_name.position = HeroTile.NAME_POS
+	hero_name.size = Vector2(HeroTile.NAME_WIDTH, 18)
+	hero_name.clip_text = true
+	hero_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	hero_name.add_theme_font_size_override("font_size", 14)   # 15 made the button taller than the 20 px above the HP bar
 	_style_hero_name()
 	hero_name.mouse_entered.connect(func() -> void: hero_name.queue_redraw())
 	hero_name.mouse_exited.connect(func() -> void: hero_name.queue_redraw())
@@ -2100,11 +2315,12 @@ func _build_hero_column() -> Control:
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
 		hero_name.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 	hero_name.pressed.connect(_select_hero)
-	name_row.add_child(hero_name)
-	var hp := UIStyle.bar(UIStyle.HP_COLOR)
+	tile.add_child(hero_name)
+
+	var hp := UIStyle.bar(UIStyle.HP_COLOR, HeroTile.HP_RECT.size.y)
 	hero_hp = hp[0]
 	hero_hp_text = hp[1]
-	box.add_child(hero_hp)
+	_tile_bar(tile, hero_hp, hero_hp_text, HeroTile.HP_RECT)
 	_ghost = Control.new()   # ghost-damage segment, drawn right of the fill, under the ticks and text
 	_ghost.name = "Ghost"
 	_ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -2112,37 +2328,55 @@ func _build_hero_column() -> Control:
 	_ghost.draw.connect(_draw_ghost)
 	hero_hp.add_child(_ghost)
 	hero_hp.move_child(_ghost, 0)
-	var mana := UIStyle.bar(UIStyle.MANA_COLOR)
+	var mana := UIStyle.bar(UIStyle.MANA_COLOR, HeroTile.MANA_RECT.size.y)
 	hero_mana = mana[0]
 	hero_mana_text = mana[1]
-	box.add_child(hero_mana)
-	var xp := UIStyle.bar(UIStyle.GOLD, 16.0)
+	_tile_bar(tile, hero_mana, hero_mana_text, HeroTile.MANA_RECT)
+	var xp := UIStyle.bar(UIStyle.GOLD, HeroTile.XP_RECT.size.y)
 	hero_xp = xp[0]
 	hero_xp_text = xp[1]
-	hero_xp_text.add_theme_font_size_override("font_size", 12)
+	hero_xp_text.visible = false   # 6 px: no text (the medallion's tooltip has the XP)
 	var xp_bg := StyleBoxFlat.new()
 	xp_bg.bg_color = Color(0.2, 0.17, 0.1)
 	xp_bg.border_color = Color(0, 0, 0, 0.8)
 	xp_bg.set_border_width_all(1)
-	xp_bg.set_corner_radius_all(2)
+	xp_bg.set_corner_radius_all(1)
 	hero_xp.add_theme_stylebox_override("background", xp_bg)
-	box.add_child(hero_xp)
+	_tile_bar(tile, hero_xp, null, HeroTile.XP_RECT)
 	_skin_bars.append_array([hero_hp, hero_mana, hero_xp])
 
-	var status_row := HBoxContainer.new()
-	box.add_child(status_row)
-	hero_statuses = _build_status_row()   # statuses end on death, so never shown with the countdown
-	status_row.add_child(hero_statuses)
-	hero_status = UIStyle.panel_label("", 13, UIStyle.WARN)
-	hero_status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	# Level medallion 20 px over the portrait's bottom-right corner.
+	hero_badge = Panel.new()
+	hero_badge.position = HeroTile.MEDALLION.position
+	hero_badge.size = HeroTile.MEDALLION.size
+	hero_badge.pivot_offset = HeroTile.MEDALLION.size * 0.5
+	hero_badge.mouse_filter = Control.MOUSE_FILTER_STOP   # for its tooltip "Level N · XP x / y · N spell points"
+	hero_badge.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	hero_badge.draw.connect(_draw_badge)
+	hero_level = UIStyle.display_label("1", 12, UIStyle.GOLD)
+	hero_level.set_anchors_preset(Control.PRESET_FULL_RECT)
+	hero_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hero_level.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	hero_level.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hero_badge.add_child(hero_level)
+	tile.add_child(hero_badge)
+
+	# "Vessa returns in 24 s" over the empty HP bar while she is dead (the bar's own text hides).
+	hero_status = UIStyle.panel_label("", 11, UIStyle.WARN)
+	hero_status.position = HeroTile.HP_RECT.position + Vector2(0, -2)
+	hero_status.size = Vector2(HeroTile.HP_RECT.size.x, 16)
+	hero_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hero_status.clip_text = true
+	hero_status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	hero_status.add_theme_constant_override("outline_size", 3)
+	hero_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hero_status.visible = false
-	status_row.add_child(hero_status)
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	status_row.add_child(spacer)
+	tile.add_child(hero_status)
+
 	points_chip = PanelContainer.new()
-	points_chip.custom_minimum_size = Vector2(70, 20)
+	points_chip.position = HeroTile.POINTS_RECT.position
+	points_chip.size = HeroTile.POINTS_RECT.size
+	points_chip.custom_minimum_size = HeroTile.POINTS_RECT.size
 	points_chip.tooltip_text = Loc.t("Learn a spell: click + on a spell, or Ctrl+%s / Ctrl+%s / Ctrl+%s") % [
 			KeyLabels.of(KEY_F), KeyLabels.of(KEY_Q), KeyLabels.of(KEY_E)]   # keyboard labels (UX.1)
 	var chip_style := StyleBoxFlat.new()
@@ -2150,31 +2384,53 @@ func _build_hero_column() -> Control:
 	chip_style.set_corner_radius_all(3)
 	points_chip.add_theme_stylebox_override("panel", chip_style)
 	points_text = Label.new()
-	points_text.add_theme_font_size_override("font_size", 12)
+	points_text.add_theme_font_size_override("font_size", 11)
 	points_text.add_theme_color_override("font_color", Color.BLACK)
 	points_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	points_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	points_chip.add_child(points_text)
 	points_chip.visible = false
-	status_row.add_child(points_chip)
-	points_pad = Control.new()
-	points_pad.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	status_row.add_child(points_pad)
+	tile.add_child(points_chip)
+
+	_hero_hidden = Control.new()
+	_hero_hidden.name = "HiddenParts"
+	_hero_hidden.visible = false
+	_hero_hidden.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tile.add_child(_hero_hidden)
+	hero_statuses = _build_status_row()   # statuses end on death, so never shown with the countdown
+	_hero_hidden.add_child(hero_statuses)
 	hero_crown = UIStyle.label("", 14)
 	hero_crown.add_theme_color_override("font_color", UIStyle.GOLD)
 	hero_crown.tooltip_text = "Dropped when your wizard dies."
 	hero_crown.visible = false
-	box.add_child(hero_crown)
-	return margin
+	_hero_hidden.add_child(hero_crown)
+	return tile
 
 
-## [portrait slot + text column]: the shared 96 x 96 portrait sits at (588, 670), the texts at x 696.
+## A tile bar at `r`; `text` (its centred label) in font 10 with a 2 px outline.
+func _tile_bar(tile: Control, b: ProgressBar, text: Label, r: Rect2) -> void:
+	b.position = r.position
+	b.size = r.size
+	b.custom_minimum_size = r.size
+	if text != null:
+		text.add_theme_font_size_override("font_size", 10)
+		text.add_theme_constant_override("outline_size", 2)
+	tile.add_child(b)
+
+
+## Double-click on the hero tile: centre the camera on the wizard (Space does the same).
+func _centre_hero() -> void:
+	if selection and hero and is_instance_valid(hero):
+		selection.centre_camera_on([hero])
+
+
+## [row, text column]: the view's texts from the block's content left edge (the portrait is in the portrait window).
 func _portrait_row(outer: VBoxContainer) -> Array:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 12)
 	outer.add_child(row)
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
+	box.add_theme_constant_override("separation", 4)
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(box)
 	return [row, box]
@@ -2183,8 +2439,9 @@ func _portrait_row(outer: VBoxContainer) -> Array:
 func _build_single_view() -> VBoxContainer:
 	var outer := VBoxContainer.new()
 	var parts := _portrait_row(outer)
-	_single_portrait_slot = parts[0]
 	var box: VBoxContainer = parts[1]
+	box.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	box.custom_minimum_size = Vector2(LEFT_COLUMN, 0)
 	single_view = outer
 	# Name row: the name (Cinzel 20) + an epic beast's subtitle (` · Epic beast` + the variant word in GOLD, font 14).
 	var name_row := HBoxContainer.new()
@@ -2202,12 +2459,20 @@ func _build_single_view() -> VBoxContainer:
 	single_name_variant.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	single_name_variant.visible = false
 	name_row.add_child(single_name_variant)
-	var hp := UIStyle.bar(UIStyle.HP_COLOR)
+	var hp := UIStyle.bar(UIStyle.HP_COLOR, 20.0)
 	single_hp = hp[0]
 	single_hp_text = hp[1]
-	single_hp.custom_minimum_size = Vector2(280, 22)
+	single_hp.custom_minimum_size = Vector2(300, 20)
 	single_hp.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	box.add_child(single_hp)
+	var mana := UIStyle.bar(UIStyle.MANA_COLOR, 20.0)
+	single_mana = mana[0]
+	single_mana_text = mana[1]
+	single_mana.custom_minimum_size = Vector2(300, 20)
+	single_mana.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	box.add_child(single_mana)
+	stat_table = _build_stat_table()
+	box.add_child(stat_table)
 	single_stats_row = HBoxContainer.new()
 	single_stats_row.add_theme_constant_override("separation", 0)
 	single_stats_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -2245,27 +2510,139 @@ func _build_single_view() -> VBoxContainer:
 		row.visible = false
 		box.add_child(row)
 		single_extra_rows.append(row)
-	var mana := UIStyle.bar(UIStyle.MANA_COLOR)
-	single_mana = mana[0]
-	single_mana_text = mana[1]
-	single_mana.custom_minimum_size = Vector2(280, 22)
-	single_mana.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	box.add_child(single_mana)
 	# Summons (Saplings, 8.U1): lifetime bar "Withers in 18 s", drains from full to empty.
 	var life := UIStyle.bar(LIFETIME_COLOR, 16.0)
 	single_lifetime = life[0]
 	single_lifetime_text = life[1]
 	single_lifetime_text.add_theme_font_size_override("font_size", 12)
-	single_lifetime.custom_minimum_size = Vector2(280, 16)
+	single_lifetime.custom_minimum_size = Vector2(300, 16)
 	single_lifetime.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	single_lifetime.tooltip_text = "Summoned: withers when the time runs out."
 	single_lifetime.mouse_filter = Control.MOUSE_FILTER_STOP
 	single_lifetime.visible = false
 	box.add_child(single_lifetime)
+	single_right = _build_single_right()
+	(parts[0] as HBoxContainer).add_child(single_right)
 	single_statuses = _build_status_row()
-	box.add_child(single_statuses)
+	single_right.add_child(single_statuses)
+	single_right.add_child(single_learn_row)
 	_skin_bars.append_array([single_hp, single_mana, single_lifetime])
 	return outer
+
+
+## The 2 x 2 stat table (4.2): per cell a 12 px glyph (muted), the word (muted) and the number (text), font 14.
+func _build_stat_table() -> GridContainer:
+	var grid := GridContainer.new()
+	grid.name = "StatTable"
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 16)
+	grid.add_theme_constant_override("v_separation", 0)
+	grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for i in STAT_IDS.size():
+		var cell := HBoxContainer.new()
+		cell.add_theme_constant_override("separation", 5)
+		cell.custom_minimum_size = Vector2(140, 0)
+		cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var glyph := Control.new()
+		glyph.custom_minimum_size = Vector2(12, 12)
+		glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var id := STAT_IDS[i]
+		glyph.draw.connect(func() -> void: draw_stat_glyph(glyph, id, UIStyle.token(&"text_muted")))
+		cell.add_child(glyph)
+		var word := UIStyle.panel_label(STAT_WORDS[i], 14)
+		_muted_labels.append(word)
+		cell.add_child(word)
+		var value := UIStyle.number_label("", 14)
+		value.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		cell.add_child(value)
+		stat_values.append(value)
+		grid.add_child(cell)
+	grid.visible = false
+	return grid
+
+
+## The stat glyphs (12 px): damage = a blade, armor = a shield, range = an arrow, speed = a boot chevron.
+static func draw_stat_glyph(ci: CanvasItem, id: StringName, col: Color) -> void:
+	match id:
+		&"damage":
+			ci.draw_colored_polygon(PackedVector2Array([Vector2(10, 0), Vector2(12, 2), Vector2(4, 10), Vector2(2, 8)]), col)
+			ci.draw_line(Vector2(1, 6), Vector2(6, 11), col, 1.5)
+		&"armor":
+			ci.draw_colored_polygon(PackedVector2Array([Vector2(1, 1), Vector2(11, 1), Vector2(11, 6), Vector2(6, 11),
+					Vector2(1, 6)]), col)
+		&"range":
+			ci.draw_line(Vector2(1, 11), Vector2(10, 2), col, 1.5)
+			ci.draw_colored_polygon(PackedVector2Array([Vector2(11, 1), Vector2(11, 6), Vector2(6, 1)]), col)
+		_:
+			for k in 2:
+				var x := 1.0 + 5.0 * k
+				ci.draw_polyline(PackedVector2Array([Vector2(x, 2), Vector2(x + 4, 6), Vector2(x, 10)]), col, 2.0)
+
+
+## The single view's right part (4.2): level medallion 28 + `Level 3` / `Veteran` (Cinzel 16), the XP bar 240 x 12
+## (`XP 320 / 450`), then (added by the caller) the status chips and the wizard's learn row.
+func _build_single_right() -> VBoxContainer:
+	var right := VBoxContainer.new()
+	right.name = "RightPart"
+	right.add_theme_constant_override("separation", 4)
+	right.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	single_level_row = HBoxContainer.new()
+	single_level_row.add_theme_constant_override("separation", 8)
+	single_level_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	right.add_child(single_level_row)
+	single_badge = Panel.new()
+	single_badge.custom_minimum_size = Vector2(28, 28)
+	single_badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	single_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	single_badge.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	single_badge.draw.connect(func() -> void:
+		ChampionBar.draw_hex_badge(single_badge, Vector2(14, 14), 13.0, UIStyle.GOLD))
+	single_badge_label = UIStyle.display_label("1", 14, UIStyle.GOLD)
+	single_badge_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	single_badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	single_badge_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	single_badge_label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	single_badge.add_child(single_badge_label)
+	single_level_row.add_child(single_badge)
+	single_level_text = UIStyle.display_label("", 16)
+	single_level_text.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_title_labels.append(single_level_text)
+	single_level_row.add_child(single_level_text)
+	var xp := UIStyle.bar(UIStyle.GOLD, 12.0)
+	single_xp = xp[0]
+	single_xp_text = xp[1]
+	single_xp_text.add_theme_font_size_override("font_size", 10)
+	single_xp_text.add_theme_constant_override("outline_size", 2)
+	single_xp.custom_minimum_size = Vector2(240, 12)
+	single_xp.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	var xp_bg := StyleBoxFlat.new()
+	xp_bg.bg_color = Color(0.2, 0.17, 0.1)
+	xp_bg.border_color = Color(0, 0, 0, 0.8)
+	xp_bg.set_border_width_all(1)
+	xp_bg.set_corner_radius_all(2)
+	single_xp.add_theme_stylebox_override("background", xp_bg)
+	right.add_child(single_xp)
+	single_learn_row = HBoxContainer.new()
+	single_learn_row.add_theme_constant_override("separation", 8)
+	single_learn_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	single_points = Label.new()
+	single_points.add_theme_font_size_override("font_size", 11)
+	single_points.add_theme_color_override("font_color", Color.BLACK)
+	var chip := StyleBoxFlat.new()
+	chip.bg_color = UIStyle.GOLD
+	chip.set_corner_radius_all(3)
+	chip.content_margin_left = 6
+	chip.content_margin_right = 6
+	single_points.add_theme_stylebox_override("normal", chip)
+	single_points.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	single_learn_row.add_child(single_points)
+	single_learn_hint = UIStyle.panel_label("", 12)
+	single_learn_hint.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	_muted_labels.append(single_learn_hint)
+	single_learn_row.add_child(single_learn_hint)
+	single_learn_row.visible = false
+	return right
 
 
 ## The Bazaar block (ui-trade.md 5.2): 264 x 100 at (1000, 676), five lines at y 676 / 696 / 716 / 736 (font 13) and
@@ -2352,22 +2729,17 @@ func _build_beast_block() -> Control:
 	return block
 
 
-## Champion view (ui-champions.md 4), a plain Control over the selection area (588, 670): portrait 96 at (0, 0);
-## name row (108, 0); HP 280 x 22 (108, 30); XP 280 x 14 (108, 56); stats (108, 76); intent + purse (108, 96);
-## status chips (108, 116); items 36 at (108 + 40 i, 156). Step 11 (ui-champions.md 15.3): the name row is 392 wide
-## (name + title + class); the stat / intent rows stop at x 392; the ability block moves right: captions 156 x 12
-## at (516, 0) / (516, 82), row 1 slots 48 at (516 + 54 j, 14) + names y 64, row 2 at (516 + 54 j, 96) + names
-## y 146, autocast line (516, 164).
+## Champion view (ui-champions.md 4), a plain Control over the selection block (252, 696; ui-sc2-console.md 4.2: the
+## portrait is in the portrait window now, so the texts start at x 0): name row (0, 0); HP 280 x 22 (0, 30); XP 280 x 14
+## (0, 56); stats (0, 74); intent + purse (0, 94); status chips (0, 116); items 36 at (40 i, 156). Step 11
+## (ui-champions.md 15.3): the name row is 392 wide (name + title + class); the stat / intent rows stop at x 392; the
+## ability block: captions 156 x 12 at (408, 0) / (408, 82), row 1 slots 48 at (408 + 54 j, 14) + names y 64, row 2 at
+## (408 + 54 j, 96) + names y 146, autocast line (408, 164).
 func _build_champion_view() -> Control:
 	var view := Control.new()
 	view.mouse_filter = Control.MOUSE_FILTER_IGNORE   # children placed by hand; no minimum size (the area keeps its width)
-	_champion_portrait_slot = HBoxContainer.new()
-	_champion_portrait_slot.position = Vector2.ZERO
-	_champion_portrait_slot.size = Vector2(96, 96)
-	_champion_portrait_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	view.add_child(_champion_portrait_slot)
 	var name_row := HBoxContainer.new()
-	name_row.position = Vector2(108, 0)
+	name_row.position = Vector2(CH_TEXT_X, 0)
 	name_row.size = Vector2(392, 24)
 	name_row.add_theme_constant_override("separation", 0)
 	name_row.clip_contents = true
@@ -2391,7 +2763,7 @@ func _build_champion_view() -> Control:
 	var hp := UIStyle.bar(UIStyle.HP_COLOR)
 	champion_hp = hp[0]
 	champion_hp_text = hp[1]
-	champion_hp.position = Vector2(108, 30)
+	champion_hp.position = Vector2(CH_TEXT_X, 30)
 	champion_hp.size = Vector2(280, 22)
 	view.add_child(champion_hp)
 	var xp := UIStyle.bar(UIStyle.GOLD, 14.0)
@@ -2404,18 +2776,18 @@ func _build_champion_view() -> Control:
 	xp_bg.set_border_width_all(1)
 	xp_bg.set_corner_radius_all(2)
 	champion_xp.add_theme_stylebox_override("background", xp_bg)
-	champion_xp.position = Vector2(108, 56)
+	champion_xp.position = Vector2(CH_TEXT_X, 56)
 	champion_xp.size = Vector2(280, 14)
 	view.add_child(champion_xp)
 	_skin_bars.append(champion_hp)
 	champion_stats = UIStyle.panel_label("", 14)
 	champion_stats.clip_text = true   # before the size: a long line would widen the label into the ability block
 	champion_stats.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	champion_stats.position = Vector2(108, 74)
+	champion_stats.position = Vector2(CH_TEXT_X, 74)
 	champion_stats.size = Vector2(392, 20)
 	view.add_child(champion_stats)
 	var intent_row := HBoxContainer.new()
-	intent_row.position = Vector2(108, 94)
+	intent_row.position = Vector2(CH_TEXT_X, 94)
 	intent_row.size = Vector2(392, 20)
 	intent_row.add_theme_constant_override("separation", 0)
 	intent_row.clip_contents = true
@@ -2442,31 +2814,31 @@ func _build_champion_view() -> Control:
 	champion_purse = UIStyle.number_label("", 14, UIStyle.ESSENCE_TEXT)
 	champion_purse_box.add_child(champion_purse)
 	champion_statuses = _build_status_row()
-	champion_statuses.position = Vector2(108, 116)
+	champion_statuses.position = Vector2(CH_TEXT_X, 116)
 	view.add_child(champion_statuses)
 	for i in 4:
 		var slot := ChampionBar.ItemIcon.make(null, 36.0)
-		slot.position = Vector2(108 + 40 * i, 156)
+		slot.position = Vector2(CH_TEXT_X + 40 * i, 156)
 		view.add_child(slot)
 		champion_items.append(slot)
-	# Ability block x 516-672 (1104-1260 on screen): row 1 = archetype, row 2 = class (ui-champions.md 15.3).
-	champion_row1_caption = _champion_caption(Vector2(516, 0))
+	# Ability block x 408-564 (660-816 on screen): row 1 = archetype, row 2 = class (ui-champions.md 15.3).
+	champion_row1_caption = _champion_caption(Vector2(CH_ABILITY_X, 0))
 	_muted_labels.append(champion_row1_caption)
 	view.add_child(champion_row1_caption)
-	champion_row2_caption = _champion_caption(Vector2(516, 82))
+	champion_row2_caption = _champion_caption(Vector2(CH_ABILITY_X, 82))
 	champion_row2_caption.mouse_filter = Control.MOUSE_FILTER_STOP
 	view.add_child(champion_row2_caption)
 	for k in 6:
 		var row := 1 if k >= 3 else 0
 		var j := k % 3
 		var a := AbilitySlot.new()
-		a.position = Vector2(516 + 54 * j, 14 + 82 * row)
+		a.position = Vector2(CH_ABILITY_X + 54 * j, 14 + 82 * row)
 		view.add_child(a)
 		champion_abilities.append(a)
 		var n := UIStyle.panel_label("", 11)
 		n.clip_text = true
 		n.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		n.position = Vector2(516 + 54 * j, 64 + 82 * row)
+		n.position = Vector2(CH_ABILITY_X + 54 * j, 64 + 82 * row)
 		n.size = Vector2(50, 14)
 		n.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_muted_labels.append(n)
@@ -2475,7 +2847,7 @@ func _build_champion_view() -> Control:
 	champion_autocast = UIStyle.panel_label("Autocast", 11)
 	champion_autocast.clip_text = true
 	champion_autocast.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	champion_autocast.position = Vector2(516, 164)
+	champion_autocast.position = Vector2(CH_ABILITY_X, 164)
 	champion_autocast.size = Vector2(156, 14)
 	_muted_labels.append(champion_autocast)
 	view.add_child(champion_autocast)
@@ -2711,10 +3083,40 @@ func _build_status_row() -> HBoxContainer:
 func _build_multi_view() -> VBoxContainer:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 8)
-	multi_header = UIStyle.panel_label("", 14)
-	multi_header.clip_text = true
-	multi_header.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	box.add_child(multi_header)
+	# Row 1 (y 696): the type tabs, 24 tall, and `9 selected` right-aligned.
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override("separation", 4)
+	head.custom_minimum_size = Vector2(0, 24)
+	box.add_child(head)
+	for i in TYPE_TABS:
+		var t := Button.new()
+		t.custom_minimum_size = Vector2(46, 24)
+		t.focus_mode = Control.FOCUS_NONE
+		t.alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		t.add_theme_font_size_override("font_size", 12)
+		UIStyle.style_button(t)
+		var face := TextureRect.new()   # the type's 20 px icon (a child: the count stays the button's own text)
+		face.name = "Face"
+		face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		face.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		face.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		face.position = Vector2(3, 2)
+		face.size = Vector2(20, 20)
+		t.add_child(face)
+		t.visible = false
+		t.pressed.connect(_on_type_tab_pressed.bind(i))
+		head.add_child(t)
+		type_tabs.append(t)
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	head.add_child(spacer)
+	multi_header = UIStyle.panel_label("", 13)
+	multi_header.mouse_filter = Control.MOUSE_FILTER_STOP   # its tooltip lists the types
+	multi_header.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_muted_labels.append(multi_header)
+	head.add_child(multi_header)
+	# The icons (y 728): 40 x 40, gap 4, 16 per row x 3 rows; "+ 12 more" under them.
 	var grid := GridContainer.new()
 	grid.columns = ICONS_PER_ROW
 	grid.add_theme_constant_override("h_separation", 4)
@@ -2725,20 +3127,27 @@ func _build_multi_view() -> VBoxContainer:
 		b.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
 		b.focus_mode = Control.FOCUS_NONE
 		b.clip_text = true
-		b.add_theme_font_size_override("font_size", 14)
+		b.add_theme_font_size_override("font_size", 12)
 		UIStyle.style_button(b)
-		_skin_buttons.append(b)
 		b.pressed.connect(_on_icon_pressed.bind(i))
-		var strip := ColorRect.new()   # HP strip inside the frame bottom
+		var face := TextureRect.new()   # the unit's icon (art/icons/units), else the button shows its abbreviation
+		face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		face.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		face.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		face.position = Vector2(3, 3)
+		face.size = Vector2(ICON_SIZE - 6.0, ICON_SIZE - 6.0)
+		b.add_child(face)
+		_icon_faces.append(face)
+		var strip := ColorRect.new()   # 3 px HP strip inside the frame bottom
 		strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		strip.position = Vector2(0, ICON_SIZE - 4.0)
-		strip.size = Vector2(ICON_SIZE, 4)
+		strip.position = Vector2(0, ICON_SIZE - 3.0)
+		strip.size = Vector2(ICON_SIZE, 3)
 		b.add_child(strip)
-		var mstrip := ColorRect.new()   # caster mana strip, just above the HP strip
+		var mstrip := ColorRect.new()   # caster 2 px mana strip, just above the HP strip
 		mstrip.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		mstrip.color = UIStyle.MANA_COLOR
-		mstrip.position = Vector2(0, ICON_SIZE - 7.0)
-		mstrip.size = Vector2(ICON_SIZE, 3)
+		mstrip.position = Vector2(0, ICON_SIZE - 5.0)
+		mstrip.size = Vector2(ICON_SIZE, 2)
 		mstrip.visible = false
 		b.add_child(mstrip)
 		_icon_mana_strips.append(mstrip)
@@ -2759,8 +3168,8 @@ func _build_multi_view() -> VBoxContainer:
 			var sdot := ColorRect.new()
 			sdot.color = status_color(id)
 			sdot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			sdot.position = Vector2(3.0 + k * 8.0, ICON_SIZE - 12.0)
-			sdot.size = Vector2(6, 6)
+			sdot.position = Vector2(3.0 + (k % 6) * 6.0, ICON_SIZE - 11.0)
+			sdot.size = Vector2(5, 5)
 			sdot.visible = false
 			b.add_child(sdot)
 			status_dots[id] = sdot
@@ -2769,7 +3178,7 @@ func _build_multi_view() -> VBoxContainer:
 		# A loaded caravan: a 6 px gold coin at the bottom-right corner (inset 3), above the HP strip.
 		var coin := Control.new()
 		coin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		coin.position = Vector2(ICON_SIZE - 9.0, ICON_SIZE - 13.0)
+		coin.position = Vector2(ICON_SIZE - 9.0, ICON_SIZE - 12.0)
 		coin.size = Vector2(6, 6)
 		coin.draw.connect(func() -> void: draw_coin(coin, Vector2(3, 3), 3.0))
 		coin.visible = false
@@ -2778,38 +3187,46 @@ func _build_multi_view() -> VBoxContainer:
 		grid.add_child(b)
 		icons.append(b)
 		_icon_strips.append(strip)
+	multi_more = UIStyle.panel_label("", 12, UIStyle.GOLD)
+	multi_more.visible = false
+	box.add_child(multi_more)
 	return box
 
 
-func _build_keep_view() -> VBoxContainer:
-	var outer := VBoxContainer.new()
-	var parts := _portrait_row(outer)
-	_keep_portrait_slot = parts[0]
-	var box: VBoxContainer = parts[1]
+## The building view (4.2), placed by hand from the block's content top-left (252, 696): name (0, 0) Cinzel 20, HP bar
+## 300 x 20 at (0, 28); a site: progress 300 x 14 at (0, 28) + `Cancel  [Delete]` 150 x 32 at (0, 52); a trainer: the
+## queue, 5 slots 44 x 44 at (0, 80) gap 4, slot 1's progress 44 x 6 under it. Right part from x 328 (580 on screen):
+## the keep's tier line + bar, `Rally: set`, the info line, the queue count.
+func _build_keep_view() -> Control:
+	var view := Control.new()
+	view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	keep_name = UIStyle.display_label("Keep", 20)
 	_title_labels.append(keep_name)
-	box.add_child(keep_name)
-	var hp := UIStyle.bar(UIStyle.HP_COLOR)
+	keep_name.position = Vector2(0, -2)
+	keep_name.size = Vector2(LEFT_COLUMN, 26)
+	keep_name.clip_text = true
+	keep_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	view.add_child(keep_name)
+	var hp := UIStyle.bar(UIStyle.HP_COLOR, 20.0)
 	keep_hp = hp[0]
 	keep_hp_text = hp[1]
-	keep_hp.custom_minimum_size = Vector2(280, 22)
-	keep_hp.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	box.add_child(keep_hp)
+	keep_hp.position = Vector2(0, 28)
+	keep_hp.size = Vector2(300, 20)
+	view.add_child(keep_hp)
 	_skin_bars.append(keep_hp)
-	building_info = UIStyle.panel_label("", 14)
-	_muted_labels.append(building_info)
-	box.add_child(building_info)
 
 	# Construction site: progress bar + Cancel (Delete).
-	site_row = HBoxContainer.new()
-	site_row.add_theme_constant_override("separation", 12)
-	box.add_child(site_row)
+	site_row = Control.new()
+	site_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	site_row.position = Vector2.ZERO
+	site_row.size = Vector2(LEFT_COLUMN, 90)
+	view.add_child(site_row)
 	site_progress = ProgressBar.new()
 	site_progress.show_percentage = false
 	site_progress.max_value = 1.0
 	site_progress.step = 0.0
-	site_progress.custom_minimum_size = Vector2(280, 14)
-	site_progress.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	site_progress.position = Vector2(0, 28)
+	site_progress.size = Vector2(300, 14)
 	site_progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var site_bg := StyleBoxFlat.new()
 	site_bg.bg_color = Color(0.12, 0.12, 0.14)
@@ -2822,6 +3239,8 @@ func _build_keep_view() -> VBoxContainer:
 	site_cancel.text = "Cancel  [Delete]"
 	site_cancel.tooltip_text = "Stop building. Refunds 75 % of the cost."
 	site_cancel.focus_mode = Control.FOCUS_NONE
+	site_cancel.position = Vector2(0, 52)
+	site_cancel.size = Vector2(150, 32)
 	site_cancel.custom_minimum_size = Vector2(150, 32)
 	site_cancel.add_theme_font_size_override("font_size", 14)
 	UIStyle.style_button(site_cancel, UIStyle.WARN)
@@ -2829,17 +3248,17 @@ func _build_keep_view() -> VBoxContainer:
 	site_row.add_child(site_cancel)
 	site_row.visible = false
 
-	var queue_row := HBoxContainer.new()
-	queue_row.add_theme_constant_override("separation", 6)
-	box.add_child(queue_row)
+	var queue_row := Control.new()
+	queue_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	queue_row.position = Vector2(0, 80)
+	queue_row.size = Vector2(QUEUE_SLOTS * (QUEUE_SLOT + 4.0), QUEUE_SLOT + 8.0)
+	view.add_child(queue_row)
 	_queue_row = queue_row
 	for i in QUEUE_SLOTS:
-		var col := VBoxContainer.new()
-		col.add_theme_constant_override("separation", 2)
-		queue_row.add_child(col)
 		var b := Button.new()
-		b.custom_minimum_size = Vector2(ICON_SIZE, ICON_SIZE)
-		b.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		b.position = Vector2(i * (QUEUE_SLOT + 4.0), 0)
+		b.size = Vector2(QUEUE_SLOT, QUEUE_SLOT)
+		b.custom_minimum_size = Vector2(QUEUE_SLOT, QUEUE_SLOT)
 		b.focus_mode = Control.FOCUS_NONE
 		b.add_theme_font_size_override("font_size", 11)
 		b.expand_icon = true
@@ -2849,14 +3268,23 @@ func _build_keep_view() -> VBoxContainer:
 		UIStyle.style_button(b)
 		_skin_buttons.append(b)
 		b.pressed.connect(cancel_slot.bind(i))
-		col.add_child(b)
+		queue_row.add_child(b)
 		queue_buttons.append(b)
+		var x := UIStyle.panel_label("x", 12, UIStyle.WARN)   # hover: click cancels
+		x.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		x.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		x.add_theme_constant_override("outline_size", 3)
+		x.position = Vector2(QUEUE_SLOT - 11.0, -2.0)
+		x.visible = false
+		b.add_child(x)
+		_queue_x.append(x)
 		if i == 0:
 			queue_progress = ProgressBar.new()
 			queue_progress.show_percentage = false
 			queue_progress.max_value = 1.0
 			queue_progress.step = 0.0
-			queue_progress.custom_minimum_size = Vector2(ICON_SIZE, 8)
+			queue_progress.position = Vector2(0, QUEUE_SLOT + 2.0)
+			queue_progress.size = Vector2(QUEUE_SLOT, 6)
 			queue_progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			var bg := StyleBoxFlat.new()
 			bg.bg_color = Color(0.12, 0.12, 0.14)
@@ -2864,15 +3292,33 @@ func _build_keep_view() -> VBoxContainer:
 			fill.bg_color = PROGRESS_COLOR
 			queue_progress.add_theme_stylebox_override("background", bg)
 			queue_progress.add_theme_stylebox_override("fill", fill)
-			col.add_child(queue_progress)
-	queue_count = UIStyle.panel_label("Nothing in training", 13)
-	queue_count.name = "QueueCount"
-	queue_count.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	queue_row.add_child(queue_count)
+			queue_row.add_child(queue_progress)
+
+	# Right part (x 328): tier line (+ bar), rally, info, queue count; placed by _place_keep_right().
+	keep_tier = UIStyle.panel_label("", 13)
+	keep_tier.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	keep_tier.visible = false
+	view.add_child(keep_tier)
+	var tb := UIStyle.bar(UIStyle.GOLD, 12.0)
+	keep_tier_bar = tb[0]
+	keep_tier_bar.max_value = 1.0
+	keep_tier_bar.size = Vector2(240, 12)
+	keep_tier_bar.visible = false
+	view.add_child(keep_tier_bar)
 	rally_label = UIStyle.panel_label("Rally: set", 13)
 	_muted_labels.append(rally_label)
-	box.add_child(rally_label)
-	return outer
+	view.add_child(rally_label)
+	building_info = UIStyle.panel_label("", 13)
+	building_info.size = Vector2(260, 0)
+	_muted_labels.append(building_info)
+	view.add_child(building_info)
+	queue_count = UIStyle.panel_label("Nothing in training", 13)
+	queue_count.name = "QueueCount"
+	view.add_child(queue_count)
+	for c: Control in [keep_tier, rally_label, building_info, queue_count]:
+		c.position = Vector2(KEEP_RIGHT_X, 0)
+	view.visible = false
+	return view
 
 
 func _select_hero() -> void:
@@ -2880,6 +3326,26 @@ func _select_hero() -> void:
 		selection.select_units([hero])
 
 
+## Click an icon = select that unit; Shift+click = remove it from the selection (4.2).
 func _on_icon_pressed(index: int) -> void:
-	if selection and index < _icon_units.size() and is_instance_valid(_icon_units[index]):
+	if selection == null or index >= _icon_units.size() or not is_instance_valid(_icon_units[index]):
+		return
+	if Input.is_key_pressed(KEY_SHIFT):
+		var rest: Array = selection.orderable_units().duplicate()
+		rest.erase(_icon_units[index])
+		selection.select_units(rest)
+	else:
 		selection.select_units([_icon_units[index]])
+
+
+## Click a type tab = only that type stays selected.
+func _on_type_tab_pressed(index: int) -> void:
+	if selection == null or index >= type_tabs.size():
+		return
+	var key: Variant = type_tabs[index].get_meta(&"_type_key", &"")
+	var only: Array = []
+	for u in selection.orderable_units():
+		if SelectionManager.unit_type_key(u) == key:
+			only.append(u)
+	if not only.is_empty():
+		selection.select_units(only)

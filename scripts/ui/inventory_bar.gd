@@ -1,8 +1,8 @@
 class_name InventoryBar
 extends Control
-## Vessa's inventory row in the hero column (items.md "HUD", 4.U1a): 6 item slots 36 x 36 at
-## (282 + i x 40, 834) and the artifact slot at (526, 834) with a gold border (a 2nd artifact slot appears
-## above it, at (526, 794), only while it holds something). Each slot: tier-colour border, 2-letter
+## Vessa's inventory in the hero tile (items.md "HUD", 4.U1a; ui-sc2-console.md 3.1, SC2.U3): 6 item slots 32 x 32 at
+## (2 + 33 i, 64) and the artifact slot at (204, 4) with a gold border (a 2nd artifact slot appears under it, at
+## (204, 38), only while it holds something), in tile coordinates (the tile is at (8, 548)). Each slot: tier-colour border, 2-letter
 ## abbreviation, key digit (Numpad 1-6), stack count, cooldown sweep. Left click = use (targeted actives
 ## use the selection's targeting flow), right click = sell near a shop / drop otherwise, drag onto another
 ## slot = swap, drag onto the world = drop. Hovering a slot or a ground item (group "item_pickups") shows
@@ -11,13 +11,15 @@ extends Control
 
 signal message(text: String)
 
-const SLOT_SIZE := 36.0
-const SLOT_STEP := 40.0
+const SLOT_SIZE := 32.0
+const SLOT_STEP := 33.0
 const ITEM_SLOTS := 6
 const MSG_CANT_SELL := "Can't sell this item"   ## U2-5: campaign items (campaign_only) stay in the inventory.
 const ARTIFACT_SLOTS := 2
-const BAR_POS := Vector2(282, 834)          ## At 1600 x 900 (anchored bottom-left: 66 px from the bottom).
-const ARTIFACT_OFFSETS: Array[Vector2] = [Vector2(244, 0), Vector2(244, -40)]
+const BAR_POS := Vector2(8, 548)            ## The hero tile's top-left at 1600 x 900 (anchored bottom-left).
+const BAR_SIZE := Vector2(240, 100)
+const ITEMS_ORIGIN := Vector2(2, 64)
+const ARTIFACT_OFFSETS: Array[Vector2] = [Vector2(204, 4), Vector2(204, 38)]
 const SLOT_BG := Color(0.10, 0.08, 0.12)
 const ARTIFACT_BORDER := Color(1.0, 0.85, 0.3)
 const KEY_COLOR := Color(1.0, 0.85, 0.4)
@@ -42,18 +44,17 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	grow_vertical = Control.GROW_DIRECTION_BEGIN
-	var w := ARTIFACT_OFFSETS[0].x + SLOT_SIZE
 	offset_left = BAR_POS.x
-	offset_right = BAR_POS.x + w
+	offset_right = BAR_POS.x + BAR_SIZE.x
 	offset_top = -(900.0 - BAR_POS.y)
-	offset_bottom = offset_top + SLOT_SIZE
+	offset_bottom = offset_top + BAR_SIZE.y
 	for i in ITEM_SLOTS + ARTIFACT_SLOTS:
 		var s := ItemSlot.new()
 		s.bar = self
 		s.index = i
 		s.size = Vector2(SLOT_SIZE, SLOT_SIZE)
 		s.custom_minimum_size = s.size
-		s.position = Vector2(i * SLOT_STEP, 0) if i < ITEM_SLOTS else ARTIFACT_OFFSETS[i - ITEM_SLOTS]
+		s.position = ITEMS_ORIGIN + Vector2(i * SLOT_STEP, 0) if i < ITEM_SLOTS else ARTIFACT_OFFSETS[i - ITEM_SLOTS]
 		s.mouse_entered.connect(_on_slot_hover.bind(i, true))
 		s.mouse_exited.connect(_on_slot_hover.bind(i, false))
 		add_child(s)
@@ -344,11 +345,11 @@ func draw_slot(s: Control, i: int) -> void:
 		var tex := HudSkin.icon("items", str(ItemTooltip.field(type, &"id", "")))
 		if tex != null:
 			var k := 1.0 + 0.08 * sin(PI * clampf(float(_flash.get(i, 0.0)) / 0.2, 0.0, 1.0))
-			var icon_rect := Rect2(Vector2(2, 2), Vector2(32, 32))
-			icon_rect = icon_rect.grow((k - 1.0) * 16.0)
+			var icon_rect := Rect2(Vector2(2, 2), s.size - Vector2(4, 4))
+			icon_rect = icon_rect.grow((k - 1.0) * s.size.x * 0.45)
 			s.draw_texture_rect(tex, icon_rect, false)
 		else:
-			_draw_centered(s, font, ItemTooltip.abbrev(type), 14, HudSkin.token(&"text"), s.size.y * 0.5 + 5.0)
+			_draw_centered(s, font, ItemTooltip.abbrev(type), 13, HudSkin.token(&"text"), s.size.y * 0.5 + 5.0)
 		var count := entry_count(i)
 		if count > 1 or tier == &"consumable":
 			s.draw_string_outline(font, Vector2(3, s.size.y - 3), str(count), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color.BLACK)
@@ -367,8 +368,8 @@ func draw_slot(s: Control, i: int) -> void:
 	if i < ITEM_SLOTS and (type == null or ItemTooltip.has_active(type)):
 		var digit := str(i + 1)
 		var c := KEY_COLOR if type != null else Color(KEY_COLOR, 0.45)
-		s.draw_rect(Rect2(s.size.x - 12, s.size.y - 12, 10, 10), Color(0, 0, 0, 0.75))
-		s.draw_string(font, Vector2(s.size.x - 12, s.size.y - 3.5), digit, HORIZONTAL_ALIGNMENT_CENTER, 10, 10, c)
+		s.draw_rect(Rect2(s.size.x - 11, s.size.y - 11, 10, 10), Color(0, 0, 0, 0.75))
+		s.draw_string(font, Vector2(s.size.x - 11, s.size.y - 3.0), digit, HORIZONTAL_ALIGNMENT_CENTER, 10, 9, c)
 
 
 ## The 10 x 8 crown glyph of an empty artifact slot.
@@ -433,7 +434,7 @@ class ItemSlot extends Control:
 			r.texture = tex
 			r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			r.position = Vector2(2, 2)
-			r.size = Vector2(32, 32)
+			r.size = Vector2(28, 28)
 			preview.add_child(r)
 		else:
 			var l := UIStyle.label(ItemTooltip.abbrev(type), 14)

@@ -35,53 +35,58 @@ msgstr ""
 msgid " (%s in %ds)"
 msgstr ""
 
-#. b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:227
+#. b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]) if i < CARD_KEYS.size() else
+#: scripts/ui/wave_strike/wave_strike_hud.gd:228
 msgid "[%s] %s   %d   ·  pop %d   ·  x%d"
 msgstr ""
 
 #. _coffer_button.text = Loc.t("[%s] Coffer %d   %s   (+%d / horn)") % [KeyLabels.of(KEY_COFFER),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:232
+#: scripts/ui/wave_strike/wave_strike_hud.gd:233
 msgid "[%s] Coffer %d   %s   (+%d / horn)"
 msgstr ""
 
 #. else Loc.t("Coffers: all 8 bought")
-#: scripts/ui/wave_strike/wave_strike_hud.gd:234
+#: scripts/ui/wave_strike/wave_strike_hud.gd:235
 msgid "Coffers: all 8 bought"
 msgstr ""
 
 #. _tier_button.text = Loc.t("%s reached") % Loc.t(roster.tier_name())
-#: scripts/ui/wave_strike/wave_strike_hud.gd:239
+#: scripts/ui/wave_strike/wave_strike_hud.gd:240
 msgid "%s reached"
 msgstr ""
 
 #. _tier_button.text = Loc.t("%s rising: %d s") % [Loc.t(roster.tier_name(roster.tier + 1)), ceili(roster.upgrade
-#: scripts/ui/wave_strike/wave_strike_hud.gd:241
+#: scripts/ui/wave_strike/wave_strike_hud.gd:242
 msgid "%s rising: %d s"
 msgstr ""
 
 #. _tier_button.text = Loc.t("[%s] %s   %d   (%s, supply %d)") % [KeyLabels.of(KEY_TIER),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:243
+#: scripts/ui/wave_strike/wave_strike_hud.gd:244
 msgid "[%s] %s   %d   (%s, supply %d)"
 msgstr ""
 
 #. Loc.t("T2 cards, Drilled") if roster.tier == 1 else Loc.t("Elite"), director.rules.cap_at(roster.tier + 1)]
-#: scripts/ui/wave_strike/wave_strike_hud.gd:245
+#: scripts/ui/wave_strike/wave_strike_hud.gd:246
 msgid "T2 cards, Drilled"
 msgstr ""
 
 #. _wave_label.text = Loc.t("Next wave: %d units   (last horn: %d)") % [roster.card_total(), director.last_wave_s
-#: scripts/ui/wave_strike/wave_strike_hud.gd:248
+#: scripts/ui/wave_strike/wave_strike_hud.gd:249
 msgid "Next wave: %d units   (last horn: %d)"
 msgstr ""
 
 #. return Loc.t("%s: %d HP, %d damage, range %.1f, speed %.1f%s") % [Loc.t(t.display_name), int(t.max_hp),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:254
+#: scripts/ui/wave_strike/wave_strike_hud.gd:255
 msgid "%s: %d HP, %d damage, range %.1f, speed %.1f%s"
 msgstr ""
 
-#. int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Stronghold)") if t.requires_tier >= 2 else ""]
-#: scripts/ui/wave_strike/wave_strike_hud.gd:255
+#. int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Citadel)") if t.requires_tier >= 3 else (Loc.t("
+#: scripts/ui/wave_strike/wave_strike_hud.gd:256
+msgid "  (Citadel)"
+msgstr ""
+
+#. int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Citadel)") if t.requires_tier >= 3 else (Loc.t("
+#: scripts/ui/wave_strike/wave_strike_hud.gd:256
 msgid "  (Stronghold)"
 msgstr ""
 
@@ -96,8 +101,8 @@ msgid "Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell"
 msgstr ""
 
 #. return "No card"
-#: scripts/ui/wave_strike/wave_strike_hud.gd:284 scripts/ui/wave_strike/wave_strike_hud.gd:294
-#: scripts/ui/wave_strike/wave_strike_hud.gd:304
+#: scripts/ui/wave_strike/wave_strike_hud.gd:285 scripts/ui/wave_strike/wave_strike_hud.gd:295
+#: scripts/ui/wave_strike/wave_strike_hud.gd:305
 msgid "No card"
 msgstr ""
 

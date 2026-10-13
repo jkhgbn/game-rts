@@ -282,11 +282,11 @@ func _check_strip() -> void:
 	var strip: Control = bar.get(&"strip")
 	var ox := _offset_x()
 	var r := strip.get_global_rect()
-	_expect(absf(r.position.x - (650.0 + ox)) < 1.0 and absf(r.position.y - 52.0) < 1.0 and r.size == Vector2(300, 50),
+	_expect(absf(r.position.x - (650.0 + ox)) < 1.0 and absf(r.position.y - 8.0) < 1.0 and r.size == Vector2(300, 50),
 			"strip rect %s" % r)
 	for i in 8:
 		var ir: Rect2 = icons[i].get_global_rect()
-		_expect(absf(ir.position.x - (ICON_X[i] + ox)) < 1.0 and absf(ir.position.y - 58.0) < 1.0
+		_expect(absf(ir.position.x - (ICON_X[i] + ox)) < 1.0 and absf(ir.position.y - 14.0) < 1.0
 				and ir.size == Vector2(28, 28), "icon %d rect %s" % [i, ir])
 	var seps: Array = bar.get(&"separators")
 	_expect(seps.size() == 2 and absf(float(seps[0]) + 650.0 - 793.0) < 0.6 and absf(float(seps[1]) + 650.0 - 870.0) < 0.6,
@@ -381,7 +381,8 @@ func _check_point_panel() -> void:
 	_expect(panel.visible and panel.get(&"kind") == &"point", "point panel not shown for a point")
 	var r: Rect2 = panel.get_global_rect()
 	var vp: Vector2 = panel.get_viewport_rect().size
-	_expect(absf(r.position.x - 588.0) < 1.0 and absf(r.end.y - (vp.y - 26.0)) < 1.0 and r.size == Vector2(676, 204),
+	# SC2.U1: the console's selection block content (252, 696) 872 x 192 (ui-sc2-console.md 6).
+	_expect(absf(r.position.x - 252.0) < 1.0 and absf(r.end.y - (vp.y - 12.0)) < 1.0 and r.size == Vector2(872, 192),
 			"point panel rect %s" % r)
 	_expect(lines[0] == "ROOKWATCH · watchtower", "title '%s'" % lines[0])
 	_expect(lines[1] == "Held by you" and _near_color(panel.call(&"segment_color", 0, "Held"), NEAR), "owner '%s'" % lines[1])
@@ -477,8 +478,8 @@ func _check_blessing_and_wading() -> void:
 	var ox := _offset_x()
 	var r0: Rect2 = chips[0].get_global_rect()
 	var r1: Rect2 = chips[1].get_global_rect()
-	_expect(absf(r0.position.x - (958.0 + ox)) < 1.0 and absf(r0.position.y - 54.0) < 1.0 and r0.size == Vector2(144, 22)
-			and absf(r1.position.y - 78.0) < 1.0, "blessing chip rects %s %s" % [r0, r1])
+	_expect(absf(r0.position.x - (958.0 + ox)) < 1.0 and absf(r0.position.y - 10.0) < 1.0 and r0.size == Vector2(144, 22)
+			and absf(r1.position.y - 34.0) < 1.0, "blessing chip rects %s %s" % [r0, r1])
 	_expect(str(chips[0].tooltip_text).begins_with("Wayfarer's Blessing 60 s\n+12 % speed"), "own chip tooltip")
 	_expect(str(chips[1].tooltip_text).begins_with("Enemy blessing 60 s"), "enemy chip tooltip")
 	_expect((pop.get(&"messages") as Array).has("Blessing of the Wayshrine: +12 % speed, +1.5 HP / s for 60 s"),
@@ -576,7 +577,7 @@ func _check_beasts() -> void:
 	_expect(str(bars[0].call(&"title_text")) == "Ironhide Tusker · Epic beast", "bar title '%s'" % bars[0].call(&"title_text"))
 	var ox := _offset_x()
 	var br: Rect2 = bars[0].get_global_rect()
-	_expect(absf(br.position.x - (572.0 + ox)) < 1.0 and absf(br.position.y - 156.0) < 1.0 and br.size == Vector2(456, 50),
+	_expect(absf(br.position.x - (572.0 + ox)) < 1.0 and absf(br.position.y - 112.0) < 1.0 and br.size == Vector2(456, 50),
 			"boss bar rect %s" % br)
 	var hp_bar: ProgressBar = bars[0].get(&"hp_bar")
 	_expect(hp_bar.size == Vector2(440, 18), "boss HP bar size %s" % hp_bar.size)
@@ -617,7 +618,7 @@ func _check_beasts() -> void:
 	_expect(str(sp.call(&"beast_ability_list")) == "Gore Charge, Bristle Hide", "abilities '%s'" % sp.call(&"beast_ability_list"))
 	var slots: Array = sp.get(&"beast_slots")
 	var sr: Rect2 = slots[0].get_global_rect()
-	_expect(absf(sr.position.x - 1000.0) < 1.5 and absf(sr.position.y - (sp.get_viewport_rect().size.y - 224.0)) < 1.5
+	_expect(absf(sr.position.x - 852.0) < 1.5 and absf(sr.position.y - (sp.get_viewport_rect().size.y - 198.0)) < 1.5
 			and sr.size == Vector2(48, 48), "beast slot rect %s" % sr)
 	_expect(str(slots[0].tooltip_text) == "Gore Charge\nEvery 12 s · a target 6-14 m away\n45 damage and dazed 1.2 s to everyone on its path",
 			"Old Scarback's Gore Charge tooltip '%s'" % slots[0].tooltip_text)
@@ -644,7 +645,7 @@ func _check_beasts() -> void:
 	_expect(more.size() < 3 or shown == 2, "%d boss bars with %d engaged beasts (max 2)" % [shown, more.size()])
 	if bars[1].visible:
 		var r1: Rect2 = bars[1].get_global_rect()
-		_expect(absf(r1.position.y - 212.0) < 1.0, "second bar y %d" % r1.position.y)
+		_expect(absf(r1.position.y - 168.0) < 1.0, "second bar y %d" % r1.position.y)
 	sel.call(&"select_units", [main.hero])
 	for b in more:
 		if is_instance_valid(b):

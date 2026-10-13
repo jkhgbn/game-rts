@@ -96,11 +96,6 @@ msgid "+6 % attack damage"
 msgstr ""
 
 #. &"armor": {"name": "Armor", "stats": {&"armor": 6.0}, "text": "+6 armor"},
-#: scripts/buildings/forge_kit.gd:35
-msgid "Armor"
-msgstr ""
-
-#. &"armor": {"name": "Armor", "stats": {&"armor": 6.0}, "text": "+6 armor"},
 #: scripts/buildings/forge_kit.gd:35 scripts/buildings/forge_kit.gd:60
 #: scripts/buildings/forge_kit.gd:65
 msgid "+6 armor"
@@ -377,11 +372,6 @@ msgstr ""
 #. const REASON_QUEUE_FULL := "Queue is full"
 #: scripts/buildings/training_building.gd:15
 msgid "Queue is full"
-msgstr ""
-
-#. const REASON_POP_CAP := "Population cap reached"
-#: scripts/buildings/training_building.gd:17 scripts/world/champion_guild.gd:76
-msgid "Population cap reached"
 msgstr ""
 
 #. const REASON_DESTROYED := "The building is destroyed"
@@ -1201,7 +1191,7 @@ msgid "Can't hire that here"
 msgstr ""
 
 #. @export var unit_name := "Soldier"
-#: scripts/units/unit.gd:156
+#: scripts/units/unit.gd:159
 msgid "Soldier"
 msgstr ""
 

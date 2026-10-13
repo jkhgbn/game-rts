@@ -596,15 +596,15 @@ func _check_top_bar() -> void:
 	_expect(bar.gold_label.visible and bar.gold_bank == bank, "gold item not shown with a GoldBank")
 	_expect(bar.timer_label.visible and bar.essence_label.visible, "timer / essence not shown (setup)")
 	var r: Rect2 = bar.get_global_rect()
-	# Spec 624 x 40 at (488, 8) + TopBar.POP_EXTRA (20 px: the pop number fits "200 / 200" since pop cap 200).
-	_expect(r.position.distance_to(Vector2(478, 8)) <= 1.0 and r.size.distance_to(Vector2(644, 40)) <= 1.0,
-			"top bar rect %s, expected (478, 8, 644, 40)" % r)
-	_expect(bar.GOLD_EXTRA == 124.0, "GOLD_EXTRA")
+	# SC2.U2 (ui-sc2-console.md 1): 4 items of 96 x 32 (crystals, essence, gold, pop), right edge 1592, y 8.
+	_expect(absf(r.end.x - 1592.0) <= 1.0 and absf(r.position.y - 8.0) <= 1.0 and r.size.y <= 33.0 and r.size.x >= 383.0,
+			"top bar rect %s, expected 4 items ending at (1592, 8)" % r)
 	_expect(bar.gold_label.text == "200", "gold text '%s'" % bar.gold_label.text)
+	# The controls help is an overlay (? / K), hidden by default: it never meets the resources.
 	var help_panel: Control = hud.get(&"_help_panel")
+	_expect(not help_panel.visible, "the controls help is shown by default")
 	var h := help_panel.get_global_rect()
-	_expect(h.size.x <= 459.0, "help panel %d px wide (max 458)" % h.size.x)
-	_expect(not h.intersects(r), "help panel %s meets the top bar %s" % [h, r])
+	_expect(not h.intersects(r), "help overlay %s meets the top bar %s" % [h, r])
 	_notes.append("top bar %s, help panel %s" % [r, h])
 	bank.gold = 228   # a delivery: the number pops
 
@@ -776,8 +776,9 @@ func _check_panel() -> void:
 	panel.setup(stub_sel)
 	stub_sel.pick(post)
 	_expect(panel.visible and panel.kind == &"post", "panel hidden for a post")
-	_expect(_at(panel, Vector2(588, 670), Vector2(676, 204)), "panel rect %s" % panel.get_global_rect())
-	_expect(_at(panel.action_button, Vector2(1104, 674), Vector2(150, 32)), "button rect %s" %
+	# SC2.U1: in the console's selection block content (ui-sc2-console.md 6).
+	_expect(_at(panel, Vector2(252, 696), Vector2(872, 192)), "panel rect %s" % panel.get_global_rect())
+	_expect(_at(panel.action_button, Vector2(768, 700), Vector2(150, 32)), "button rect %s" %
 			panel.action_button.get_global_rect())
 	var t: String = panel.panel_text()
 	var expect_lines := ["Millstone Cross · trading post", "Open", "For you: near · 28 gold per trip from your Bazaar",
@@ -786,8 +787,8 @@ func _check_panel() -> void:
 	_expect(t == "\n".join(expect_lines), "post panel text:\n%s" % t)
 	_expect(panel.segment_color(0, "Open") == NEAR and panel.segment_color(2, "Held") == WARN
 			and panel.segment_color(1, "near") == NEAR, "post line colours")
-	_expect(_at(panel.lines[0], Vector2(696, 700)) and _at(panel.lines[3], Vector2(696, 770))
-			and _at(panel.hint_label, Vector2(696, 806)), "post line rects")
+	_expect(_at(panel.lines[0], Vector2(360, 726)) and _at(panel.lines[3], Vector2(360, 796))
+			and _at(panel.hint_label, Vector2(360, 832)), "post line rects")
 	_expect(panel.action_button.visible and panel.action_button.text == "Set as route", "Set as route button")
 	_expect(panel.press_action() == "" and market.set_routes == [post], "Set as route did not call set_route")
 	_expect(panel.action_button.text == "Current route" and panel.action_button.disabled, "Current route look")

@@ -161,7 +161,7 @@ func _process(_delta: float) -> bool:
 			if not glow.is_equal_approx(Color(0.75, 1.00, 0.40)) or not metal.is_equal_approx(Color(0.40, 0.28, 0.16)):
 				return _finish("Nature skin tokens wrong: glow %s metal %s" % [glow, metal])
 			var panel: Node = hud.selection_panel
-			if panel.hero_name.text != "Ysolde, Nature Wizard":
+			if panel.hero_name.text != "Ysolde":   # SC2.U3 hero tile: the short name (ui-sc2-console.md 3.1)
 				return _finish("hero column shows '%s'" % panel.hero_name.text)
 			var help: String = hud.get(&"_help_label").text
 			if not help.contains("W A S D: walk Ysolde") or not help.contains("Space: find Ysolde") or help.contains("Vessa"):

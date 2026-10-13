@@ -61,14 +61,13 @@ func _step() -> void:
 			if bar.economy != eco:
 				_error = "top bar did not find the player's economy"
 				return
-			# Layout: centred, 8 px from the top, 320 x 40 (+100 wide with essence, 4.U1a), + 20 since the pop cap is 200
-			# (TopBar.POP_EXTRA: the pop number fits "200 / 200").
+			# Layout (SC2.U2, ui-sc2-console.md 2): right-anchored, right edge 8 px from the screen's, 8 px from the top,
+			# 32 tall, one 96 px item per resource (crystals + pop, + essence with items, 4.U1a).
 			var rect: Rect2 = bar.get_global_rect()
 			var screen: Vector2 = root.get_visible_rect().size
-			var w := 340.0 + (100.0 if bar.get("essence_bank") != null else 0.0)
-			var expected := Vector2(screen.x * 0.5 - w * 0.5, 8.0)
-			if rect.position.distance_to(expected) > 1.5 or rect.size.distance_to(Vector2(w, 40)) > 1.5:
-				_error = "top bar at %s, expected %s size %d x 40" % [rect, expected, int(w)]
+			var w := 192.0 + (96.0 if bar.get("essence_bank") != null else 0.0)
+			if absf(rect.end.x - (screen.x - 8.0)) > 1.5 or absf(rect.position.y - 8.0) > 1.0 or absf(rect.size.y - 32.0) > 1.0 or rect.size.x < w - 1.5:
+				_error = "top bar at %s, expected right edge %.0f, y 8, at least %d x 32" % [rect, screen.x - 8.0, int(w)]
 				return
 			# Start values.
 			if bar.crystals_label.text != str(eco.crystals):

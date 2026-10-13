@@ -88,9 +88,9 @@ func _step() -> void:
 			_guards[4].take_damage(99999.0)
 		44:
 			# Group 1 was guards 2, 3, 4 + the wizard: now 3 members, most common still FG.
-			if sel.get_control_group(1).size() != 3 or not bar.tab_for_group(1).text.contains("3 FG"):
+			if sel.get_control_group(1).size() != 3 or not bar.tab_summary(1) == "3 FG":
 				_error = "dead guard still in group 1 (%d members, tab '%s')" % [
-						sel.get_control_group(1).size(), bar.tab_for_group(1).text]
+						sel.get_control_group(1).size(), bar.tab_summary(1)]
 				return
 			_check_f2()
 			# F3 needs idle workers: stop the three gatherers and let them stand still.
@@ -160,22 +160,23 @@ func _check_bar() -> void:
 		return
 	# Group 1 = 3 Flame Guards + Vessa: count 4, most common = FG.
 	var t1: Button = bar.tab_for_group(1)
-	if not t1.text.contains("4 FG") or bar.key_labels[0].text != "1":
-		_error = "tab 1 shows '%s' / key '%s', expected '4 FG' / '1'" % [t1.text, bar.key_labels[0].text]
+	# SC2.U4 (ui-sc2-console.md 4.1): the tab shows the unit's icon + the count; tab_summary keeps "4 FG".
+	if bar.tab_summary(1) != "4 FG" or not t1.text.begins_with("4") or bar.key_labels[0].text != "1":
+		_error = "tab 1 shows '%s' (%s) / key '%s', expected '4 FG' / '1'" % [bar.tab_summary(1), t1.text, bar.key_labels[0].text]
 		return
-	if not bar.tab_for_group(2).text.contains("3 EA"):
-		_error = "tab 2 shows '%s', expected '3 EA'" % bar.tab_for_group(2).text
+	if bar.tab_summary(2) != "3 EA":
+		_error = "tab 2 shows '%s', expected '3 EA'" % bar.tab_summary(2)
 		return
-	if bar.key_labels[9].text != "0" or not bar.tab_for_group(10).text.contains("1 KE"):
-		_error = "tab 10 shows key '%s' text '%s', expected '0' / '1 KE'" % [bar.key_labels[9].text, bar.tab_for_group(10).text]
+	if bar.key_labels[9].text != "0" or bar.tab_summary(10) != "1 KE":
+		_error = "tab 10 shows key '%s' text '%s', expected '0' / '1 KE'" % [bar.key_labels[9].text, bar.tab_summary(10)]
 		return
 	if bar.highlighted_group() != 1:
 		_error = "highlighted tab %d, expected 1 (group 1 is selected)" % bar.highlighted_group()
 		return
-	# Placement: just above the selection panel, same left edge.
+	# Placement (SC2.U4, ui-sc2-console.md 4.1): on the console's top edge, left edge = the selection block's content (+8).
 	var panel_rect: Rect2 = main.hud.selection_panel.get_global_rect()
 	var tab_rect: Rect2 = t1.get_global_rect()
-	if absf(tab_rect.position.x - panel_rect.position.x) > 1.5 or tab_rect.end.y > panel_rect.position.y \
+	if absf(tab_rect.position.x - (panel_rect.position.x + 8.0)) > 1.5 or tab_rect.end.y > panel_rect.position.y \
 			or panel_rect.position.y - tab_rect.end.y > 8.0:
 		_error = "tab 1 at %s, selection panel at %s" % [tab_rect, panel_rect]
 

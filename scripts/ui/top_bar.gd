@@ -1,26 +1,25 @@
 class_name TopBar
 extends PanelContainer
-## Top-centre bar: crystals and population `used / cap` of the player's Economy (spec: ui-hud.md, 1.U1),
-## plus the match timer when the level has one (skirmish-1v1.md).
+## The resources, top-right (docs/design/ui-sc2-console.md 2, task SC2.U2; was the top-centre bar of ui-hud.md 1.U1):
+## one slate item per resource, 96 x 32 each (the pop item grows for "200 / 200"), right edge at x 1592, y 8 at
+## 1600 x 900, in the order crystals, essence (EssenceBank.for_team(0), found untyped), gold (only while the player's
+## team has a GoldBank: trade on), pop `12 / 20`. Each item: a 16 px icon + the number (font 20); hover = what it is.
 ## Finds the Economy through the group "economies" (team 0), so it works whenever the economy appears.
-## Pop turns red at the cap; a failed spend flashes the crystal number red and sends `message`.
-## Essence (items.md, 4.U1a): 4th item, a purple flame + the number, from `EssenceBank.for_team(0)`
-## (found untyped, so the bar works before the items code exists); the bar is then 520 x 40 at (540, 8).
-## Gold (market-trade.md 3.3, ui-trade.md 3, task 10.C8): 5th item, a coin + the number in GOLD_TEXT, shown only
-## while the player's team has a GoldBank (group "gold_banks": trade on); the bar is then 644 x 40 at (478, 8)
-## (spec 624 x 40 at (488, 8) + POP_EXTRA).
-## A failed gold spend flashes the number WARN 0.4 s + shake + "Not enough gold"; a rise of 10+ pops the number.
+## Pop at the cap: the number in WARN; a refused spend at the cap (or flash_supply_blocked) pulses the pop item's
+## border WARN (alpha 0.4-0.9, 2 Hz) for 3 s, the "supply-blocked flash". A failed spend flashes the crystal number red,
+## shakes it and sends `message` ("Not enough crystals"); the same for essence and gold. A gold rise of 10+ pops it.
+## The match clock (skirmish-1v1.md) is `clock_box` (hourglass + `timer_label`): the HUD shows it in the console's
+## quick row (ui-sc2-console.md 3.3), this bar only keeps it up to date.
 
 signal message(text: String)
 
-## Pop cap 200 (2026-09-27): the pop number is 100 px wide ("200 / 200", was 80), so every bar width is 20 px over
-## the ui-hud.md / ui-trade.md numbers. Sized here, not left to the row's content, so the bar keeps whole-pixel,
-## centred rects (content-driven growth centred it at x .5).
+## Item size (the pop item may grow), the bar's top-right corner at 1600 x 900.
+const ITEM_SIZE := Vector2(96, 32)
+const RIGHT := 8.0
+const TOP := 8.0
+## Kept for the tests' notes (2026-09-27: pop cap 200, "200 / 200").
 const POP_EXTRA := 20.0
-const SIZE := Vector2(320 + POP_EXTRA, 40)          ## 340 x 40 at (630, 8) (spec 320 + POP_EXTRA).
-const TIMER_SIZE := Vector2(400 + POP_EXTRA, 40)    ## With the match timer (skirmish-1v1.md): 420 x 40 at (590, 8).
-const ESSENCE_EXTRA := 100.0           ## Essence adds 100 px: 520 x 40 at (540, 8) with the timer.
-const GOLD_EXTRA := 124.0              ## Gold adds 124 px (gap 32 + 8 + coin 16 + 8 + number 60): 644 x 40 at (478, 8).
+const SIZE := Vector2(ITEM_SIZE.x * 2.0, ITEM_SIZE.y)
 const GOLD_TEXT_COLOR := Color(1.0, 0.88, 0.5)
 const GOLD_POP_RISE := 10              ## A rise of this much between two polls pops the number.
 const GOLD_POP_TIME := 0.2
@@ -29,29 +28,36 @@ const ESSENCE_TEXT_COLOR := Color(0.9, 0.8, 1.0)
 const CRYSTAL_ICON_COLOR := Color(0.45, 0.85, 1.0)
 const CRYSTAL_TEXT_COLOR := Color(0.75, 0.92, 1.0)
 const FLASH_TIME := 0.4
+const SUPPLY_FLASH_TIME := 3.0          ## The supply-blocked border pulse lasts this long ...
+const SUPPLY_FLASH_HZ := 2.0            ## ... at this rate, alpha 0.4 -> 0.9.
+const MSG_POP_CAP := "Population cap reached"
 const PLAYER_TEAM := 0
 
 var economy: Node = null
 var crystals_label: Label
 var pop_label: Label
-var timer_label: Label     ## Match time m:ss (skirmish only).
+var timer_label: Label     ## Match time m:ss (skirmish only), inside clock_box.
+var clock_box: HBoxContainer   ## Hourglass + timer_label (the HUD puts it in the quick row).
 var essence_bank: Object = null
 var essence_label: Label
 
 var gold_bank: Object = null   ## The player's GoldBank (null = trade off: the gold item is hidden).
 var gold_label: Label
 
-var _essence_items: Array[Control] = []
+var _row: HBoxContainer
+var _crystal_item: PanelContainer
+var _essence_item: PanelContainer
+var _gold_item: PanelContainer
+var _pop_item: PanelContainer
 var _essence_flash_left := 0.0
 var _essence_search_left := 0.0
-var _gold_items: Array[Control] = []
 var _gold_flash_left := 0.0
 var _gold_search_left := 0.0
 var _gold_pop_left := 0.0
 var _last_gold := -1
+var _supply_flash_left := 0.0
+var _supply_t := 0.0
 
-var _timer_gap: Control
-var _hourglass: HBoxContainer   ## Hourglass icon + timer_label.
 var _muted: Array[Label] = []
 var _shake_tweens := {}
 var _shake_base := {}   ## U4-4: label -> its rest x before the first running shake
@@ -62,151 +68,147 @@ var _search_left := 0.0
 
 
 func _ready() -> void:
-	add_theme_stylebox_override("panel", StyleBoxEmpty.new())   # the chamfered slab is drawn in _draw
-	custom_minimum_size = SIZE
+	add_theme_stylebox_override("panel", StyleBoxEmpty.new())   # no slab: each item is its own slate
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	# Top-centre, 8 px from the top.
-	set_anchors_preset(Control.PRESET_CENTER_TOP)
-	grow_horizontal = Control.GROW_DIRECTION_BOTH
-	offset_left = -SIZE.x * 0.5
-	offset_right = SIZE.x * 0.5
-	offset_top = 8.0
-	offset_bottom = 8.0 + SIZE.y
+	# Top-right, 8 px from the right and top edges; grows to the left.
+	set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	offset_right = -RIGHT
+	offset_left = -RIGHT - SIZE.x
+	offset_top = TOP
+	offset_bottom = TOP + ITEM_SIZE.y
 
-	var row := HBoxContainer.new()
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 8)
-	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(row)
+	_row = HBoxContainer.new()
+	_row.alignment = BoxContainer.ALIGNMENT_END
+	_row.add_theme_constant_override("separation", 0)
+	_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_row)
 
-	var icon := Control.new()
-	icon.custom_minimum_size = Vector2(16, 16)
-	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	icon.draw.connect(func() -> void:
-		icon.draw_colored_polygon(PackedVector2Array([
+	var crystal := _icon(func(c: Control) -> void:
+		c.draw_colored_polygon(PackedVector2Array([
 			Vector2(8, 0), Vector2(16, 8), Vector2(8, 16), Vector2(0, 8)]), CRYSTAL_ICON_COLOR)
-		icon.draw_colored_polygon(PackedVector2Array([Vector2(8, 0), Vector2(8, 8), Vector2(0, 8)]),
+		c.draw_colored_polygon(PackedVector2Array([Vector2(8, 0), Vector2(8, 8), Vector2(0, 8)]),
 				Color(0.75, 0.95, 1.0)))
-	row.add_child(icon)
 	crystals_label = UIStyle.number_label("--", 20)
-	crystals_label.custom_minimum_size = Vector2(70, 0)
 	crystals_label.add_theme_color_override("font_color", CRYSTAL_TEXT_COLOR)
-	crystals_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	row.add_child(crystals_label)
+	_crystal_item = _item(crystal, crystals_label, "Crystals: mined by workers")
 
-	row.add_child(_separator())   # 48 px between items, minus the two separations
-
-	var pop_icon := UIStyle.panel_label("POP", 12)
-	_muted.append(pop_icon)
-	pop_icon.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	row.add_child(pop_icon)
-	pop_label = UIStyle.number_label("-- / --", 20)
-	pop_label.custom_minimum_size = Vector2(100, 0)   # room for "200 / 200"
-	pop_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	row.add_child(pop_label)
-
-	# Match timer (skirmish only): 48 px after the pop item, the panel widens to 400.
-	_timer_gap = _separator()
-	_timer_gap.visible = false
-	row.add_child(_timer_gap)
-	# Timer item: a 12 px hourglass right before the digits (2 px apart), in one box.
-	_hourglass = HBoxContainer.new()
-	_hourglass.add_theme_constant_override("separation", 2)
-	_hourglass.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_hourglass.visible = false
-	row.add_child(_hourglass)
-	var glass := Control.new()
-	glass.custom_minimum_size = Vector2(12, 12)
-	glass.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	glass.draw.connect(func() -> void:
-		var col := UIStyle.token(&"text_muted")
-		glass.draw_colored_polygon(PackedVector2Array([Vector2(1, 0), Vector2(11, 0), Vector2(6, 6)]), col)
-		glass.draw_colored_polygon(PackedVector2Array([Vector2(6, 6), Vector2(11, 12), Vector2(1, 12)]), col))
-	_hourglass.add_child(glass)
-	timer_label = UIStyle.number_label("0:00", 20)
-	timer_label.custom_minimum_size = Vector2(56, 0)
-	timer_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	timer_label.visible = false
-	_hourglass.add_child(timer_label)
-
-	# Essence (4th item, 48 px after the timer): 16 px purple flame + the number, font 20.
-	var essence_gap := _separator()
-	row.add_child(essence_gap)
-	var flame := Control.new()
-	flame.custom_minimum_size = Vector2(16, 16)
-	flame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	flame.draw.connect(func() -> void:
-		flame.draw_colored_polygon(PackedVector2Array([
+	var flame := _icon(func(c: Control) -> void:
+		c.draw_colored_polygon(PackedVector2Array([
 			Vector2(8, 0), Vector2(13, 7), Vector2(14, 11), Vector2(11, 15), Vector2(5, 15),
 			Vector2(2, 11), Vector2(3, 7), Vector2(6, 9)]), ESSENCE_ICON_COLOR)
-		flame.draw_colored_polygon(PackedVector2Array([Vector2(8, 7), Vector2(10, 11), Vector2(9, 14),
+		c.draw_colored_polygon(PackedVector2Array([Vector2(8, 7), Vector2(10, 11), Vector2(9, 14),
 				Vector2(7, 14), Vector2(6, 11)]), Color(0.95, 0.80, 1.0)))
-	row.add_child(flame)
 	essence_label = UIStyle.number_label("--", 20)
-	essence_label.custom_minimum_size = Vector2(52, 0)
 	essence_label.add_theme_color_override("font_color", ESSENCE_TEXT_COLOR)
-	essence_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	row.add_child(essence_label)
-	_essence_items = [essence_gap, flame, essence_label]
-	for c in _essence_items:
-		c.visible = false
+	_essence_item = _item(flame, essence_label, "Essence: +1 per second and from kills; buys items, champions and spells")
+	_essence_item.visible = false
+	essence_label.visible = false
 
-	# Gold (5th item, 48 px after essence): 16 px coin + the number, font 20 GOLD_TEXT (ui-trade.md 3.1).
-	var gold_gap := _separator()
-	row.add_child(gold_gap)
-	var coin := Control.new()
-	coin.custom_minimum_size = Vector2(16, 16)
-	coin.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	coin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	coin.draw.connect(func() -> void: TradeWindow.draw_coin(coin, Vector2(8, 8), 8.0))
-	row.add_child(coin)
+	var coin := _icon(func(c: Control) -> void: TradeWindow.draw_coin(c, Vector2(8, 8), 8.0))
 	gold_label = UIStyle.number_label("--", 20)
-	# 55, not the spec's 60: the row's 3 separations make the item 5 px wider than GOLD_EXTRA counts, and the bar
-	# must stay 644 wide (`2 140` = 52 px fits; wider numbers grow the bar, which recentres).
-	gold_label.custom_minimum_size = Vector2(55, 0)
 	gold_label.add_theme_color_override("font_color", GOLD_TEXT_COLOR)
-	gold_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	row.add_child(gold_label)
-	_gold_items = [gold_gap, coin, gold_label]
-	for c in _gold_items:
-		c.visible = false
+	_gold_item = _item(coin, gold_label, "Gold: brought home by caravans; spent at the Bazaar")
+	_gold_item.visible = false
+	gold_label.visible = false
+
+	var shield := _icon(func(c: Control) -> void: draw_pop_icon(c, Vector2.ZERO, 16.0, UIStyle.token(&"text_muted")))
+	pop_label = UIStyle.number_label("-- / --", 20)
+	# Room for "200 / 200" (pop cap 200) from the start: the pop item is wider than 96, the bar never jumps.
+	var pf := pop_label.get_theme_font(&"font")
+	if pf != null:
+		pop_label.custom_minimum_size.x = ceilf(pf.get_string_size("200 / 200", HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x) + 1.0
+	_pop_item = _item(shield, pop_label, "Population: used / cap. Build houses to raise the cap")
+
+	# The match clock (skirmish only): a 12 px hourglass right before the digits; the HUD shows it in the quick row.
+	clock_box = HBoxContainer.new()
+	clock_box.name = "Clock"
+	clock_box.add_theme_constant_override("separation", 3)
+	clock_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	clock_box.visible = false
+	var glass := Control.new()
+	glass.custom_minimum_size = Vector2(10, 12)
+	glass.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	glass.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	glass.draw.connect(func() -> void:
+		var col := UIStyle.token(&"text_muted")
+		glass.draw_colored_polygon(PackedVector2Array([Vector2(0, 0), Vector2(10, 0), Vector2(5, 6)]), col)
+		glass.draw_colored_polygon(PackedVector2Array([Vector2(5, 6), Vector2(10, 12), Vector2(0, 12)]), col))
+	clock_box.add_child(glass)
+	timer_label = UIStyle.number_label("0:00", 16)
+	timer_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	timer_label.visible = false
+	clock_box.add_child(timer_label)
+	_fit()
 
 
-## A 32 px gap with a 1 px frame_dark line, 20 px tall, in its centre (ui-style.md 4.1).
-func _separator() -> Control:
-	var gap := Control.new()
-	gap.custom_minimum_size = Vector2(48 - 16, 0)
-	gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	gap.draw.connect(func() -> void:
-		var x := floorf(gap.size.x * 0.5) + 0.5
-		var y := gap.size.y * 0.5
-		gap.draw_line(Vector2(x, y - 10), Vector2(x, y + 10), UIStyle.token(&"frame_dark"), 1.0))
-	return gap
+## A 16 x 16 icon control drawn by `painter(control)`.
+func _icon(painter: Callable) -> Control:
+	var c := Control.new()
+	c.custom_minimum_size = Vector2(16, 16)
+	c.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	c.draw.connect(painter.bind(c))
+	return c
+
+
+## One resource item: a slate 96 x 32 (min), the icon + the number, its hover text.
+func _item(icon: Control, number: Label, tip: String) -> PanelContainer:
+	var item := PanelContainer.new()
+	item.custom_minimum_size = ITEM_SIZE
+	item.mouse_filter = Control.MOUSE_FILTER_STOP
+	item.tooltip_text = tip
+	item.add_theme_stylebox_override("panel", _item_style(Color(0, 0, 0, 0)))
+	var box := HBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	item.add_child(box)
+	box.add_child(icon)
+	number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	number.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(number)
+	_row.add_child(item)
+	return item
+
+
+func _item_style(border: Color) -> StyleBoxFlat:
+	var st := UIStyle.slate_style(0.0, border)
+	st.content_margin_left = 8.0
+	st.content_margin_right = 8.0
+	st.content_margin_top = 2.0
+	st.content_margin_bottom = 2.0
+	return st
+
+
+## The pop glyph: a small shield (the cost line's "Pop" icon too), `s` px at `o`.
+static func draw_pop_icon(ci: CanvasItem, o: Vector2, s: float, col: Color) -> void:
+	var k := s / 16.0
+	ci.draw_colored_polygon(PackedVector2Array([o + Vector2(2, 1) * k, o + Vector2(14, 1) * k, o + Vector2(14, 8) * k,
+			o + Vector2(8, 15) * k, o + Vector2(2, 8) * k]), col)
+	ci.draw_colored_polygon(PackedVector2Array([o + Vector2(8, 3) * k, o + Vector2(12, 3) * k, o + Vector2(12, 8) * k,
+			o + Vector2(8, 12.5) * k]), Color(col, 0.45))
 
 
 ## Re-applies the kingdom skin (GameHUD.setup calls it after UIStyle.set_kingdom).
 func apply_skin() -> void:
 	for l in _muted:
 		l.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
+	for item: PanelContainer in [_crystal_item, _essence_item, _gold_item, _pop_item]:
+		if item != null:
+			item.add_theme_stylebox_override("panel", _item_style(Color(0, 0, 0, 0)))
 	refresh()
 	queue_redraw()
 
 
-## The chamfered slab: 45 degree ends cut by 12 px, panel_bg fill, 2 px frame_metal outline with a frame_light
-## top edge, and a 1 px trim_glow line 3 px under the top edge.
-func _draw() -> void:
-	var w := size.x
-	var h := size.y
-	var ch := 12.0
-	var pts := PackedVector2Array([Vector2(ch, 0), Vector2(w - ch, 0), Vector2(w, ch), Vector2(w, h - ch),
-			Vector2(w - ch, h), Vector2(ch, h), Vector2(0, h - ch), Vector2(0, ch)])
-	draw_colored_polygon(pts, UIStyle.token(&"panel_bg"))
-	var outline := pts.duplicate()
-	outline.append(pts[0])
-	draw_polyline(outline, UIStyle.token(&"frame_metal"), 2.0, true)
-	draw_line(Vector2(ch, 1), Vector2(w - ch, 1), UIStyle.token(&"frame_light"), 2.0)
-	var g := UIStyle.token(&"trim_glow")
-	draw_line(Vector2(ch - 1, 3.5), Vector2(w - ch + 1, 3.5), Color(g.r, g.g, g.b, 0.55), 1.0)
+## The bar's width follows the shown items (it stays right-anchored at x 1592).
+func _fit() -> void:
+	var w := 0.0
+	for item: PanelContainer in [_crystal_item, _essence_item, _gold_item, _pop_item]:
+		if item.visible:
+			w += maxf(ITEM_SIZE.x, item.get_combined_minimum_size().x)
+	custom_minimum_size = Vector2(w, ITEM_SIZE.y)
+	offset_left = -RIGHT - w
+	offset_right = -RIGHT
 
 
 ## Failed spend: the number shakes +-4 px, 3 cycles in 0.3 s.
@@ -226,38 +228,59 @@ func shake(l: Label) -> void:
 	t.tween_property(l, "position:x", base, 0.0)
 
 
+## The clock box lives in the HUD's quick row; a bar freed without a HUD frees its orphan clock too.
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_RESIZED:
-		queue_redraw()
+	if what == NOTIFICATION_PREDELETE and clock_box != null and is_instance_valid(clock_box) and clock_box.get_parent() == null:
+		clock_box.free()
 
 
-## The level's match clock ("m:ss") when it has one (skirmish.gd), shown as the third item.
+## The level's match clock ("m:ss") when it has one (skirmish.gd), in clock_box; shows / hides the essence and gold
+## items with their banks.
 func _update_timer() -> void:
 	var level := get_tree().current_scene
 	var has_timer := level != null and level.has_method(&"match_time_text")
 	var has_essence := essence_bank != null
 	var has_gold := gold_bank != null
-	if has_timer != timer_label.visible or has_essence != essence_label.visible or has_gold != gold_label.visible:
+	if has_timer != timer_label.visible:
 		timer_label.visible = has_timer
-		_timer_gap.visible = has_timer
-		_hourglass.visible = has_timer
-		for c in _essence_items:
-			c.visible = has_essence
-		for c in _gold_items:
-			c.visible = has_gold
-		var w := (TIMER_SIZE.x if has_timer else SIZE.x) + (ESSENCE_EXTRA if has_essence else 0.0) \
-				+ (GOLD_EXTRA if has_gold else 0.0)
-		custom_minimum_size = Vector2(w, SIZE.y)
-		offset_left = -w * 0.5
-		offset_right = w * 0.5
+		clock_box.visible = has_timer
+	if has_essence != _essence_item.visible or has_gold != _gold_item.visible:
+		_essence_item.visible = has_essence
+		_gold_item.visible = has_gold
+		essence_label.visible = has_essence   # the labels follow their items (tests read them)
+		gold_label.visible = has_gold
+		_fit()
 	if has_timer:
 		timer_label.text = Loc.sink(str(level.call(&"match_time_text")))
+
+
+## Supply blocked (a spend refused at the population cap): the pop item's border pulses WARN for 3 s.
+func flash_supply_blocked() -> void:
+	_supply_flash_left = SUPPLY_FLASH_TIME
+
+
+## True while the supply-blocked pulse runs (tests).
+func is_supply_flashing() -> bool:
+	return _supply_flash_left > 0.0
+
+
+func _update_supply_flash(delta: float) -> void:
+	if _supply_flash_left <= 0.0:
+		return
+	_supply_flash_left = maxf(_supply_flash_left - delta, 0.0)
+	_supply_t += delta
+	var a := 0.4 + 0.5 * (0.5 + 0.5 * sin(_supply_t * TAU * SUPPLY_FLASH_HZ))
+	var st := _item_style(Color(UIStyle.WARN, a) if _supply_flash_left > 0.0 else Color(0, 0, 0, 0))
+	if _supply_flash_left > 0.0:
+		st.set_border_width_all(2)
+	_pop_item.add_theme_stylebox_override("panel", st)
 
 
 func _process(delta: float) -> void:
 	_update_essence(delta)
 	_update_gold(delta)
 	_update_timer()
+	_update_supply_flash(delta)
 	if economy == null or not is_instance_valid(economy):
 		economy = null
 		_search_left -= delta
@@ -290,6 +313,8 @@ func refresh() -> void:
 	var cap := int(economy.get("pop_cap"))
 	pop_label.text = "%d / %d" % [used, cap]   # pop_cap already holds the team's cap (up to 200)
 	pop_label.add_theme_color_override("font_color", UIStyle.WARN if used >= cap else UIStyle.token(&"text"))
+	if _pop_item != null and _pop_item.get_combined_minimum_size().x > ITEM_SIZE.x + 0.5:
+		_fit.call_deferred()   # "200 / 200" widens the pop item: the bar stays right-anchored
 
 
 ## Failed spend: the crystal number flashes red for 0.4 s and "Not enough crystals" is shown.
@@ -298,6 +323,8 @@ func flash_not_enough() -> void:
 	crystals_label.add_theme_color_override("font_color", UIStyle.WARN)
 	shake(crystals_label)
 	message.emit("Not enough crystals")
+	if economy != null and is_instance_valid(economy) and int(economy.get("pop_used")) >= int(economy.get("pop_cap")):
+		flash_supply_blocked()
 
 
 func is_flashing() -> bool:

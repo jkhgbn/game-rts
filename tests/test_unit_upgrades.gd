@@ -2,7 +2,7 @@ extends SceneTree
 ## The Forge (docs/design/unit-upgrades.md, ForgeKit / ForgeBuilding), scenes/skirmish.tscn (Fire player).
 ## - data: 4 Forge types (kind forge, key M, tier 1, max 1), 6 lines per kingdom (Z X C generic 3 levels, V B N unit
 ##   lines 1 level) whose unit ids exist, modest numbers (<= 10 % / 6 armor / 1 range per level);
-## - the game: on in the skirmish, off in a mission / Wave Strike / plain scene; the build menu shows the Forge on M (r2c4)
+## - the game: on in the skirmish, off in a mission / Wave Strike / plain scene; the build menu shows the Forge on M (r2c2)
 ##   and M starts its placement;
 ## - the card: 6 research buttons Z X C V B N, no rally, each key badge in the tooltip, pressing each key queues that
 ##   research or answers its refusal (V B N "Requires Stronghold" at tier 1); a second Z = "Already in progress";
@@ -150,7 +150,7 @@ func _check_game() -> void:
 	mission_like.free()
 	skirmish_like.free()
 
-	# Build menu: M on r2c4, M starts the placement.
+	# Build menu: M on r2c2 (SC2.U1 5 x 3 card: row 2 = N M), M starts the placement.
 	var workers: Array = []
 	for u in get_nodes_in_group(&"units"):
 		if int(u.get(&"team")) == PLAYER and (u as Unit).is_alive() and u.has_method(&"command_gather") \
@@ -162,8 +162,8 @@ func _check_game() -> void:
 	await _frames(1)
 	card.refresh()
 	var bi := _slot_index("build_fire_forge")
-	_ok(bi == 7 and card.key_labels[bi].text == "M" and card.buttons[bi].tooltip_text.get_slice("\n", 0).contains("[M]"),
-			"build menu: the Forge on r2c4 with M (slot %d)" % bi)
+	_ok(bi == 6 and card.key_labels[bi].text == "M" and card.buttons[bi].tooltip_text.get_slice("\n", 0).contains("[M]"),
+			"build menu: the Forge on r2c2 with M (slot %d)" % bi)
 	_press(KEY_M)
 	await _frames(2)
 	_ok(sel.placing_type != null and sel.placing_type.id == &"fire_forge", "M in the build menu places the Forge")

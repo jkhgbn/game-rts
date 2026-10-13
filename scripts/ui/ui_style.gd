@@ -131,8 +131,9 @@ static func token(name: StringName) -> Color:
 
 # --- Heavy frame (3.1) ----------------------------------------------------------------------------
 
-static func frame_texture() -> ImageTexture:
-	var key := "frame"
+## `top_studs_only` (the console, ui-sc2-console.md 1): studs at the two top corners only.
+static func frame_texture(top_studs_only := false) -> ImageTexture:
+	var key := "frame_top" if top_studs_only else "frame"
 	if _cache.has(key):
 		return _cache[key]
 	var n := 48
@@ -163,7 +164,10 @@ static func frame_texture() -> ImageTexture:
 				_:
 					c = bg
 			img.set_pixel(x, y, c)
-	for corner: Vector2i in [Vector2i(5, 5), Vector2i(n - 6, 5), Vector2i(5, n - 6), Vector2i(n - 6, n - 6)]:
+	var studs: Array[Vector2i] = [Vector2i(5, 5), Vector2i(n - 6, 5)]
+	if not top_studs_only:
+		studs.append_array([Vector2i(5, n - 6), Vector2i(n - 6, n - 6)])
+	for corner: Vector2i in studs:
 		_stud(img, corner, 4)
 	var tex := ImageTexture.create_from_image(img)
 	_cache[key] = tex
@@ -184,9 +188,9 @@ static func _stud(img: Image, c: Vector2i, r: int) -> void:
 			img.set_pixel(c.x + dx, c.y + dy, col)
 
 
-static func frame_style(margin := 10.0) -> StyleBoxTexture:
+static func frame_style(margin := 10.0, top_studs_only := false) -> StyleBoxTexture:
 	var s := StyleBoxTexture.new()
-	s.texture = frame_texture()
+	s.texture = frame_texture(top_studs_only)
 	s.set_texture_margin_all(16)
 	s.set_content_margin_all(margin)
 	s.draw_center = true
