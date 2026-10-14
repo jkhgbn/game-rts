@@ -339,7 +339,7 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
 | Folder / file | Owner |
 |---|---|
 | `scripts/units/` (incl. `creature_abilities.gd`), `scripts/spells/`, `data/units/` (incl. caravan / magpie / greywater_tracker, creatures, beasts), `data/spells/`, `data/champions/`, `data/champion_classes/` | gameplay-coder |
-| `scripts/economy/`, `scripts/buildings/`, `scripts/world/` (incl. river_system, capture_point(s), neutral_camp, camp_manager, game_critter, critter_herds, epic_beasts), `scripts/campaign/`, `data/buildings/`, `missions/` | systems-coder |
+| `scripts/economy/`, `scripts/buildings/`, `scripts/world/` (incl. river_system, capture_point(s), neutral_camp, camp_manager, game_critter, critter_herds, epic_beasts), `scripts/campaign/`, `data/buildings/`, `missions/`, `data/wave_strike/` | systems-coder |
 | `scripts/ui/`, `scripts/vfx/`, `scenes/ui/`, `assets/audio/`, `scripts/audio/`, `tools/music_forge/` (music, `docs/design/music.md`) | ui-coder |
 | `scripts/ai/` (incl. `beast_brain.gd`, `ai_mapfill.gd`) | ai-coder |
 | `scripts/items/`, `data/items/` | items-coder (from wave 4) |

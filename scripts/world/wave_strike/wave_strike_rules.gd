@@ -44,6 +44,9 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 @export var rank_pct: Array[float] = [0.6, 1.0]
 @export var rank_names: Array[String] = ["Recruit", "Drilled", "Elite"]
 @export var last_horns_armor_cut := 0.25  ## Bastion armour -25 % from last_horns_at
+## Unit upgrades (wave-strike.md 16: card upgrades A / B + the Armoury; WaveUpgradeTable). Labs switch: false = every
+## upgrade buy is refused "Upgrades off".
+@export var upgrades_enabled := true
 
 @export_group("Bastion")
 @export var bastion_hp_mult := 1.6        ## x the Citadel keep HP (balance passes 2026-10-06: 2.5 -> 2.0 -> 1.6)

@@ -123,6 +123,30 @@ func _read_layout() -> void:
 	ward_x = (_keep_pos[0].x + _keep_pos[1].x) * 0.5
 
 
+## The seat's Muster Pad frame (wave-strike.md 15.1): the layout's `slot sub=muster_spawn` / `muster_pad` nearest the
+## seat's keep, else the fallback from the gate (spawn centre 3 m ahead, pad 33 m to its left).
+func _frame_pad(pad: MusterPad, team: int, fwd: Vector3) -> void:
+	pad.set_frame_from_gate(_gate_pos[team], fwd)
+	var spawn := _slot_near(&"muster_spawn", team)
+	var plate := _slot_near(&"muster_pad", team)
+	if spawn.is_finite() and plate.is_finite():
+		pad.set_frame(spawn, plate, fwd)
+
+
+## The `slot sub=<sub>` nearest `team`'s keep (Vector3.INF = none).
+func _slot_near(sub: StringName, team: int) -> Vector3:
+	var best := Vector3.INF
+	var near := INF
+	for s: Dictionary in layout.spots_of("slot"):
+		if StringName(str(s.get("sub", ""))) != sub:
+			continue
+		var d: float = (s["pos"] as Vector3).distance_to(_keep_pos[team])
+		if d < near:
+			near = d
+			best = s["pos"]
+	return best
+
+
 ## The lane in `team`'s walking order.
 func lane_for(team: int) -> PackedVector3Array:
 	if team == 0:
@@ -251,8 +275,9 @@ func _on_navigation_ready() -> void:
 		var roster := MusterRoster.new()
 		roster.setup(team, team, kingdom_of(team), rules, table, bank, director)
 		add_child(roster)
-		var sp := LaneSpawner.new()
 		var path := lane_for(team)
+		_frame_pad(roster.pad, team, path[1] - path[0])
+		var sp := LaneSpawner.new()
 		sp.setup(team, team, _gate_pos[team], path[1] - path[0], self, rules)
 		add_child(sp)
 		banks.append(bank)

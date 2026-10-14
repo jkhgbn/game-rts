@@ -161,3 +161,10 @@ Nothing has to be glued: every 9.C8 piece installs itself.
   the setup of `test_ws_ui_lab.gd _shot` (buys, Stronghold forced, `stats[0].held_horn = 12`).
 - 2560x1440 / 3440x1440 could not be checked on this 1920x1080 laptop (the layout is anchored: cards from the left of the
   console zone, right column from its right edge; the emblem fills the middle).
+
+## 2026-10-13 systems-coder (WS4.C1): data/wave_strike/ ownership
+The hook (`.claude/hooks/owners.json`) does not give systems-coder `data/wave_strike/`, so `card_upgrades.tres` could not be
+written. The 16.1 / 16.2 data lives as the export defaults of `scripts/world/wave_strike/wave_upgrade_table.gd`
+(`load_default()` uses them when the .tres is absent). Please either add `data/wave_strike/` to systems-coder in
+owners.json (CLAUDE.md already lists WS data under the task) or save the defaults once:
+`ResourceSaver.save(WaveUpgradeTable.new(), "res://data/wave_strike/card_upgrades.tres")`.
