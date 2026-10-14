@@ -3,39 +3,36 @@
 Read first after a reset, with `docs/plan/owner-asks.md` (waiting for JS) and `docs/plan/decisions.md` (already decided).
 History: `docs/plan/history/lead-status-2026-09.md`, restart notes `docs/ideas/restart_*.md`.
 
-**Updated:** 2026-10-13 evening, laptop (JS playtests the 10-13 build when he can; asked to keep working).
+**Updated:** 2026-10-14 morning, laptop (overnight run while JS slept; nothing pushed).
 
 ## Where things are
-- Main repo `Documents\four-wizards-rts` (main). Remote https://github.com/jkhgbn/game-rts (private): push only on JS's word
-  (nothing pushed since 10-12).
-- Playtest build: tag `playtest-2026-10-13-3`, `FourWizards-2026-10-13.zip` on the Desktop + OneDrive (stock Godot + .pck;
-  export templates = owner ask).
-- CI worktree `four-wizards-rts-ci` at 69b0b985 (imported). Playtest worktrees `play`, `play3` (frozen).
-- Music samples (CC0 VSCO 2 CE subset, 753 MB): `Documents\four-wizards-samples\VSCO-2-CE` (outside the repo; JS approved).
+- Main repo `Documents\four-wizards-rts` (main). Remote https://github.com/jkhgbn/game-rts (private): push only on JS's word.
+- Last playtest build: tag `playtest-2026-10-13-3` (zip on Desktop + OneDrive). Everything below is newer than that zip.
+- CI worktree `four-wizards-rts-ci` at 69b0b985 (clean). Music samples (CC0) in `Documents\four-wizards-samples\`.
+- Full ci_quick on HEAD (9444cce5 + earlier): 421 / 421 tests pass (docs/ci/2026-10-14_0428); perf 100 units WARN only
+  under load.
 
-## Done today (all committed)
-- Mission sims: e7m3 / e7m4 / e3m1 / e5m4 / e6m2 scripted players fixed (e5m4 Vessa level cap 5 = real fix); freed-object
-  sweep in scripts/campaign (+ test_freed_cast_sweep).
-- Balance B13 round 1 (69b0b985, report docs/balance/b13_2026-10-13): Hush daze + Flash Freeze buff. Normal Fire 63 /
-  Ice 35 / Nature 67 / Shadow 35 (Fire-Shadow 11 / 16); Blitz 54 / 42 / 60 / 44.
-- Wave Strike M2 (wave-strike.md 14; 005191e0, 4361059c, a903663a): 9-10 cards per kingdom (casters, support, T3), caps
-  x1.5 = 36 / 60 / 84, WaveBot mixes, lane casters, UnitGrid + scan buckets + avoidance gating, 10-card Muster panel.
-  Perf gate (laptop, load x1.75): 200 per side slightly over budget (clash p95 40 ms vs 35), 225 clearly over (60 ms) ->
-  field_cap 200. Further perf: RVO avoidance, model animation cost.
-- SC2-style console HUD (0a7c01a6, ui-sc2-console.md).
-- Snappy retarget (2fbdf910): a unit whose target dies rescans in the same physics pass (cap 20 per frame).
-- Music Forge (65cd395a, dce0cc7c; music.md): 4 tracks + choir test, version A (synth) and B (CC0 samples, stereo);
-  listening folder on JS's Desktop `FourWizards-musique-ecoute`. Waiting for JS: A or B, the melodies, the choir.
+## Done 2026-10-13 / 14 (all committed)
+- Mission sims fixed (e3m1, e5m4 incl. Vessa level cap, e6m2, e7m3, e7m4); campaign freed-object sweep.
+- SC2-style console HUD; snappy retarget (target dies -> new target next frame).
+- Wave Strike M2: 9-10 cards per kingdom (casters, support, T3), caps 36 / 60 / 84, field cap 200 (225 too slow on the
+  laptop), WaveBot mixes, UnitGrid perf, 10-card Muster panel; then **wave-strike.md 15 / 16**: the Desert-Strike-style
+  deployment pad (place / drag / sell tokens, formations spawn as placed, march locked until contact, bot Line /
+  Spearhead) and unit upgrades (Armoury R / Y / O + 2 upgrades per card, bot buys them); Ashwind Reach pad clearings;
+  horizon fits every map size.
+- Unit icons for all 73 Unit Guide units.
+- Music Forge: 4 tracks + choir test, A (synth) and B (CC0 orchestral samples) on JS's Desktop
+  (`FourWizards-musique-ecoute`). Waiting for JS's pick.
+- Balance (docs/balance/b13_2026-10-13/report.md + diagnosis.md): kept Hush daze + Flash Freeze buff (round 1) and the
+  normal-pace bot profiles (Ice 33-35 % -> 42 % at normal; Blitz unchanged). Not kept: Hush cooldown / Rime Bolt
+  (round 2), Fireball cut. Wizard retreat rule built, OFF. The 10-13 "Hush A/B" was INVALID (unimported worktree) ->
+  run_fg.py now imports when needed and rejects broken games.
 
-## Running
-- gameplay-coder: B13 round 2 (H2 Smoke Cloak 16 s / autocast at 2+, I2 Rime Bolt 55/70/85) -> then screens.
-- fw-art-medium: 21 missing unit icons (Wave Strike cards show initials).
-
-## Next
-1. B13 round 2 screens (run in the CI worktree, isolated): Fire-Shadow normal, Ice pairs normal; then a confirmation.
-2. Music: after JS's pick, the remaining tracks (Ice, Nature, Shadow, Wave Strike, finale, defeat, calm), MusicDirector,
-   contexts / rotation / combat layer (music.md tasks), QOA import.
-3. WS2.B1: Wave Strike balance batches (wave-strike.md 14.5) with the new cards.
-4. New playtest build when JS wants one (console + WS M2 + music if picked).
-5. Follow-ups: UI Lab picks STR before HUD shots (for-lead.md), tooltip delay 0.25 s (project.godot), 2v2 Team button,
-   mission objectives folding, designer notes (e5m4 crystal nodes dry at 9:00; e3m1 Torvald pings), WS 2560 / 3440 shots.
+## Open
+1. Fire beats Shadow at normal pace (~70 %): diagnosis says champions / worker raids decide normal games — next lever
+   there (champion use by the Shadow bot, worker defence), not spells.
+2. Music: JS's A / B pick, then the remaining tracks + MusicDirector (music.md).
+3. Wave Strike: balance batches with formations + upgrades (WS3.B1 / WS4.B1); perf beyond 200 per side (RVO, models).
+4. A new playtest build when JS wants one (console, Wave Strike pad + upgrades, icons).
+5. Small: e3m3 lambda-capture warning, world_forge nav query warning, UI Lab STR pick before HUD shots, tooltip delay,
+   mission objectives folding, lane units' 15-frame periodic scan is fine (event rescans are instant).
