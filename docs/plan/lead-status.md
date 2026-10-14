@@ -1,47 +1,41 @@
 # Lead status — current state (rewrite this file, don't append)
 
 Read first after a reset, with `docs/plan/owner-asks.md` (waiting for JS) and `docs/plan/decisions.md` (already decided).
-The old running log (2026-09-26/27, Updates 1-12) is in `docs/plan/history/lead-status-2026-09.md`; the restart notes
-of 2026-10-01 to 10-10 are in `docs/ideas/restart_*.md` (history now: this file replaces them).
+History: `docs/plan/history/lead-status-2026-09.md`, restart notes `docs/ideas/restart_*.md`.
 
-**Updated:** 2026-10-13 morning, laptop (overnight run while JS slept).
+**Updated:** 2026-10-13 evening, laptop (JS playtests the 10-13 build when he can; asked to keep working).
 
 ## Where things are
-- Main repo: `Documents\four-wizards-rts` (branch main) on the desktop and on the laptop (same path; Godot `C:\Godot` on both).
-- Remote: https://github.com/jkhgbn/game-rts (private). Push only on JS's word (nothing pushed overnight).
-- Playtest worktrees (detached, frozen): `four-wizards-rts-play` and `play3`.
-- CI worktree `four-wizards-rts-ci` on the laptop (nightly CI at 03:00, `Documents\four-wizards-nightly\latest.txt`).
-- Claude setup: hooks in `.claude/settings.json`, skills `/wave`, `/ci-suite`, `/playtest-release`, reviewer `contract-reviewer`.
+- Main repo `Documents\four-wizards-rts` (main). Remote https://github.com/jkhgbn/game-rts (private): push only on JS's word
+  (nothing pushed since 10-12).
+- Playtest build: tag `playtest-2026-10-13-3`, `FourWizards-2026-10-13.zip` on the Desktop + OneDrive (stock Godot + .pck;
+  export templates = owner ask).
+- CI worktree `four-wizards-rts-ci` at 69b0b985 (imported). Playtest worktrees `play`, `play3` (frozen).
+- Music samples (CC0 VSCO 2 CE subset, 753 MB): `Documents\four-wizards-samples\VSCO-2-CE` (outside the repo; JS approved).
 
-## Playtest build 2026-10-13 (ready)
-- Tag `playtest-2026-10-13-3` (f9b71e34: + e8m1 freed-scout fix, campaign freed-object sweep). Zip replaced 10:24. `FourWizards-2026-10-13.zip` (239 MB) on the Desktop and in OneDrive;
-  build folder `Documents\four-wizards-build\FourWizards-2026-10-13\` (FourWizards.exe = stock Godot 4.7.2 renamed,
-  FourWizards.pck, Jouer.bat = `--main-pack`, LISEZMOI.md). Boot-tested from the extracted zip.
-- Why a pck: export templates are missing (`%APPDATA%\Godot\export_templates` empty); `--export-pack` works without
-  them. Downloading the templates needs JS's OK (owner-asks).
-- Notes for JS: `docs/plan/playtest-notes.md` (French).
-- CI: ci_quick 400 / 400 (docs/ci/2026-10-12_2206); full CI on the first tag 40 / 45 (docs/ci/playtest-2026-10-13-sims).
-  Of the 5 failing sims: e7m3 / e7m4 were sims following old buggy behaviour (fixed in the tests, 8dcc0bb9);
-  e3m1 / e5m4 / e4m4 also fail on the 57f8851b baseline (pre-existing; e4m4 flaky). After the first tag only
-  commander.gd (Vessa threat memory) and test files changed. ci_quick -Changed -Base 0abaccfe: 404 / 404 (found the e8m1 error).
-  All 54 mission sims on tag -3 (docs/ci/playtest-2026-10-13-3-sims): 48 / 54, 0 script errors; e2m4 / e2m5 pass on rerun
-  (flaky), e6m2 also fails seeds 1-2 on tag -2 (flaky / pre-existing), e3m1 / e5m4 pre-existing, e8m3 flaky (3 / 4).
+## Done today (all committed)
+- Mission sims: e7m3 / e7m4 / e3m1 / e5m4 / e6m2 scripted players fixed (e5m4 Vessa level cap 5 = real fix); freed-object
+  sweep in scripts/campaign (+ test_freed_cast_sweep).
+- Balance B13 round 1 (69b0b985, report docs/balance/b13_2026-10-13): Hush daze + Flash Freeze buff. Normal Fire 63 /
+  Ice 35 / Nature 67 / Shadow 35 (Fire-Shadow 11 / 16); Blitz 54 / 42 / 60 / 44.
+- Wave Strike M2 (wave-strike.md 14; 005191e0, 4361059c, a903663a): 9-10 cards per kingdom (casters, support, T3), caps
+  x1.5 = 36 / 60 / 84, WaveBot mixes, lane casters, UnitGrid + scan buckets + avoidance gating, 10-card Muster panel.
+  Perf gate (laptop, load x1.75): 200 per side slightly over budget (clash p95 40 ms vs 35), 225 clearly over (60 ms) ->
+  field_cap 200. Further perf: RVO avoidance, model animation cost.
+- SC2-style console HUD (0a7c01a6, ui-sc2-console.md).
+- Snappy retarget (2fbdf910): a unit whose target dies rescans in the same physics pass (cap 20 per frame).
+- Music Forge (65cd395a, dce0cc7c; music.md): 4 tracks + choir test, version A (synth) and B (CC0 samples, stereo);
+  listening folder on JS's Desktop `FourWizards-musique-ecoute`. Waiting for JS: A or B, the melodies, the choir.
 
-## Balance (open)
-- `docs/balance/confirm_2026-10-13/report.md`: Blitz fine (Ice weak 29 %); normal pace Fire 72-75 % vs Shadow.
-- Prime suspect R2-3: Mother Hush used to `command_stop` her attackers (wiped the Fire bot's attack-move orders);
-  the review fix (`drop_target_if`) is correct play but removed that edge. A/B runs: `fg-ab-prefix-57f8` (bot fixes
-  only: Fire 7 / 12) and `fg-ab-hush-main` (current main + old Hush: Fire 2 / 12). CONFIRMED: R2-3 is the cause
-  (report A/B 2). Patch reverted; CI worktree clean at 8dcc0bb9.
-- Next: a Shadow / Hush compensation that keeps the fix (e.g. Hush's slow / blink / taunt), measured with
-  `run_fg.py --pairs fire:shadow,shadow:fire --seeds 1-6` on Crown Hollow, then normal-pace re-check.
-
-## Uncommitted in the working tree
-- Lab outputs only (docs/tools, docs/balance, docs/art/lab, docs/ui, docs/visual, generated `.uid` / `.import`).
-  Waiting for JS (owner-asks: gitignore the generated runs, keep summaries).
+## Running
+- gameplay-coder: B13 round 2 (H2 Smoke Cloak 16 s / autocast at 2+, I2 Rime Bolt 55/70/85) -> then screens.
+- fw-art-medium: 21 missing unit icons (Wave Strike cards show initials).
 
 ## Next
-1. JS playtests the zip; collect feedback in `docs/ideas/jss_asks.md`.
-2. Hush / Shadow compensation (above), Ice in Blitz.
-3. Sims e3m1 / e5m4 / e4m4: improve the scripted players (pre-existing failures), e6m2 hard sizing (designer).
-4. Later: follow-ups in docs/handoff/bot-review-2026-10-12.md; perf; art asks; 29 collapsed `\` continuations.
+1. B13 round 2 screens (run in the CI worktree, isolated): Fire-Shadow normal, Ice pairs normal; then a confirmation.
+2. Music: after JS's pick, the remaining tracks (Ice, Nature, Shadow, Wave Strike, finale, defeat, calm), MusicDirector,
+   contexts / rotation / combat layer (music.md tasks), QOA import.
+3. WS2.B1: Wave Strike balance batches (wave-strike.md 14.5) with the new cards.
+4. New playtest build when JS wants one (console + WS M2 + music if picked).
+5. Follow-ups: UI Lab picks STR before HUD shots (for-lead.md), tooltip delay 0.25 s (project.godot), 2v2 Team button,
+   mission objectives folding, designer notes (e5m4 crystal nodes dry at 9:00; e3m1 Torvald pings), WS 2560 / 3440 shots.
