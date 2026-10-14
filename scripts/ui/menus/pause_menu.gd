@@ -102,6 +102,7 @@ func open() -> void:
 	if slots_panel:
 		slots_panel.visible = false
 	get_tree().paused = true
+	_duck_music(true)
 	resume_button.grab_focus()
 	opened.emit()
 
@@ -115,7 +116,15 @@ func close() -> void:
 		slots_panel.visible = false
 	visible = false
 	get_tree().paused = false
+	_duck_music(false)
 	closed.emit()
+
+
+## MU13: the level's music -6 dB while the pause menu is open (music.md 4, no switch).
+func _duck_music(on: bool) -> void:
+	var md := MusicDirector.ensure(get_tree())
+	if md:
+		md.set_pause_duck(on)
 
 
 func toggle() -> void:

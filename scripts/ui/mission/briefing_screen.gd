@@ -3,7 +3,7 @@ extends CanvasLayer
 ## Mission briefing (task M7.U1, mission-01.md E1): shown before the mission starts and pauses the game.
 ## Full-screen dim + a centred heavy-frame panel 760 wide (margin 24, like the end screen): title, the story
 ## paragraphs, "Primary objectives" with a bullet list, and a "Begin" button (Enter / Space / click).
-## Begin unpauses, emits `begun` and frees the screen.
+## Begin unpauses, emits `begun` and frees the screen. Music: campaign while open, the match again on Begin (MU13).
 ##
 ## Data: the mission node's `briefing() -> Dictionary`:
 ##   title: String, paragraphs: Array[String] (or text: String, paragraphs split on blank lines),
@@ -30,6 +30,9 @@ func _init() -> void:
 func open(data: Dictionary, mission: Node = null) -> void:
 	_build(data, _objective_texts(data, mission))
 	get_tree().paused = true
+	var md := MusicDirector.ensure(get_tree())
+	if md:
+		md.hold_for_briefing(self)   # MU13: briefings play the campaign music (music.md 4)
 	begin_button.grab_focus.call_deferred()
 
 
@@ -38,6 +41,9 @@ func begin() -> void:
 		return
 	begin_button.disabled = true
 	get_tree().paused = false
+	var md := MusicDirector.ensure(get_tree())
+	if md:
+		md.release_briefing()   # back to the match music
 	begun.emit()
 	queue_free()
 

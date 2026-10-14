@@ -26,8 +26,9 @@ extends Node3D
 ##               (polled), Tab building cycle (SelectionManager, polled), NextStepHint step, restart, caravans.
 ## Takes: every id with <id>_1.wav / <id>_2.wav next to it (TAKES + TAKE_IDS) picks one at random, never the same
 ## take twice in a row.
-## Budget: MAX_VOICES pooled AudioStreamPlayer3D (bus SFX) + UI_VOICES AudioStreamPlayer (bus SFX) + 1 music
-## player (bus Music). Each sound has a cooldown, so 50 archers firing at once play a handful of voices.
+## Music (MU13 / MU14): MusicDirector (scripts/audio/music_director.gd, a child of /root) plays it; `set_music` maps to
+## its contexts and this node feeds it the player's combat intensity every INTENSITY_POLL s (docs/design/music.md 4).
+## Budget: MAX_VOICES pooled AudioStreamPlayer3D (bus SFX) + UI_VOICES AudioStreamPlayer (bus SFX). Each sound has a cooldown, so 50 archers firing at once play a handful of voices.
 ## When every voice is busy, PRIORITY sounds steal the oldest voice, others are dropped. Sounds from
 ## units hidden by fog (not visible) or farther than max_hear_distance from the camera are skipped.
 
@@ -38,7 +39,17 @@ const UI_VOICES := 4
 const RESCAN_INTERVAL := 1.0
 const MINE_POLL := 0.5
 const MINE_TICK_EVERY := 1.0
-const MUSIC_DB := -10.0
+const MUSIC_DB := -10.0   ## MusicDirector.MUSIC_DB (the music level, kept for the Audio Lab scan)
+## Combat intensity (music.md 4): enemy combat units within INTENSITY_BUILDING_R m of an own building or
+## INTENSITY_WIZARD_R m of the own wizard, n / INTENSITY_FULL; INTENSITY_HIT for INTENSITY_HIT_S s after an own
+## building / the wizard takes damage. Wave Strike: units within INTENSITY_BASTION_R m of the own bastion, or its damage.
+const INTENSITY_POLL := 0.5
+const INTENSITY_BUILDING_R := 20.0
+const INTENSITY_WIZARD_R := 16.0
+const INTENSITY_BASTION_R := 25.0
+const INTENSITY_FULL := 12.0
+const INTENSITY_HIT := 0.6
+const INTENSITY_HIT_S := 4.0
 const DEFAULT_COOLDOWN := 0.08
 const META := &"_game_audio"   ## "_": never saved (a rebuilt node must be hooked again; review R5-2)
 
@@ -243,7 +254,10 @@ var _voice_until: Array[float] = []   # game time when each voice is free again
 var _voice_start: Array[float] = []
 var _ui: Array[AudioStreamPlayer] = []
 var _ui_next := 0
-var _music: AudioStreamPlayer
+var _music: MusicDirector = null   # the shared director (made by MusicDirector.ensure)
+var _intensity_left := INTENSITY_POLL
+var _hit_until := -1.0             # game time until which an own building / the wizard was hit
+var last_intensity := 0.0          ## Read only (tests): the raw intensity sent last.
 var _next_ok: Dictionary = {}      # id -> game time it may play again
 var _now := 0.0
 var _rescan_left := 0.0
@@ -271,6 +285,7 @@ func _ready() -> void:
 	global_transform = Transform3D.IDENTITY
 	process_mode = Node.PROCESS_MODE_ALWAYS   # UI clicks in the pause menu
 	GameSettings.ensure_buses()
+	_music = MusicDirector.ensure(get_tree())
 	_load_streams()
 	_build_players()
 	get_tree().node_added.connect(_on_node_added)
@@ -302,6 +317,10 @@ func _process(delta: float) -> void:
 	if _order_left <= 0.0:
 		_order_left = ORDER_POLL
 		_poll_orders()
+	_intensity_left -= delta
+	if _intensity_left <= 0.0:
+		_intensity_left = INTENSITY_POLL
+		_feed_intensity()
 
 
 func _exit_tree() -> void:
@@ -392,22 +411,91 @@ func voice_count() -> int:
 	return _voices.size()
 
 
-## Switches music: "match", "menu" or "none".
+## Switches music: "match", "menu" or "none" (MusicDirector contexts; "match" reads the level's kingdoms / mode).
 func set_music(mode: String) -> void:
 	if _music == null:
 		return
 	if mode == "none":
-		_music.stop()
+		_music.set_music_context(&"none")
+	elif mode == "menu":
+		_music.set_music_context(&"menu")
+	elif mode == "match":
+		var scene := get_tree().current_scene if is_inside_tree() else null
+		if scene != null and &"hero" in scene:
+			_music.apply_scene(scene)
+		else:
+			_music.set_music_context(&"match")
+
+
+## The raw combat intensity of the player's side now (0-1, before the director's rise / hold / fall).
+func measure_intensity() -> float:
+	var tree := get_tree()
+	var level := tree.current_scene
+	var ws := level != null and level.has_method(&"bastion_ratio")
+	var centres: Array[Vector3] = []
+	var radii: Array[float] = []
+	var lo := Vector2(INF, INF)
+	var hi := Vector2(-INF, -INF)
+	for b in tree.get_nodes_in_group(&"buildings"):
+		var bn := b as Node3D
+		if bn == null or not (&"team" in bn) or int(bn.get(&"team")) != Unit.Team.PLAYER:
+			continue
+		if bn.has_method(&"is_alive") and not bool(bn.call(&"is_alive")):
+			continue
+		if ws and not (bn is Keep):
+			continue
+		var r := INTENSITY_BASTION_R if ws else INTENSITY_BUILDING_R
+		centres.append(bn.global_position)
+		radii.append(r)
+	if not ws and level != null and &"hero" in level:
+		var hero: Variant = level.get(&"hero")
+		if hero is Unit and is_instance_valid(hero) and (hero as Unit).is_alive():
+			centres.append((hero as Unit).global_position)
+			radii.append(INTENSITY_WIZARD_R)
+	for i in centres.size():
+		lo = Vector2(minf(lo.x, centres[i].x - radii[i]), minf(lo.y, centres[i].z - radii[i]))
+		hi = Vector2(maxf(hi.x, centres[i].x + radii[i]), maxf(hi.y, centres[i].z + radii[i]))
+	var n := 0
+	if not centres.is_empty():
+		for node in tree.get_nodes_in_group(&"units"):
+			var u := node as Unit
+			if u == null or u.team == Unit.Team.PLAYER or not u.is_alive() or not _is_combat_unit(u):
+				continue
+			if u.team == Unit.Team.NEUTRAL and u.attack_target == null:
+				continue   # neutral camps / beasts count only while they fight
+			var p := u.global_position
+			if p.x < lo.x or p.x > hi.x or p.z < lo.y or p.z > hi.y:
+				continue
+			for i in centres.size():
+				var d := Vector2(p.x - centres[i].x, p.z - centres[i].z)
+				if d.length_squared() <= radii[i] * radii[i]:
+					n += 1
+					break
+			if n >= int(INTENSITY_FULL):
+				break
+	var v := clampf(float(n) / INTENSITY_FULL, 0.0, 1.0)
+	if _now < _hit_until:
+		v = maxf(v, INTENSITY_HIT)
+	return v
+
+
+static func _is_combat_unit(u: Unit) -> bool:
+	if u.has_method(&"command_gather") or u.is_in_group(&"game_critters") or u.is_in_group(&"caravans"):
+		return false
+	var t: Variant = u.get(&"unit_type")
+	if t is Object and is_instance_valid(t) and bool((t as Object).get(&"is_caravan")):
+		return false
+	return true
+
+
+func _feed_intensity() -> void:
+	if _music == null or _ended:
 		return
-	var s: AudioStream = _streams.get(StringName("music_" + mode))
-	if s == null:
+	var level := get_tree().current_scene
+	if level == null or not (&"hero" in level):
 		return
-	if _music.stream == s and _music.playing:
-		return
-	_music.stream = s
-	_music.volume_db = -40.0
-	_music.play()
-	create_tween().tween_property(_music, "volume_db", MUSIC_DB, 2.0)
+	last_intensity = measure_intensity()
+	_music.set_combat_intensity(last_intensity)
 
 
 # ---------------------------------------------------------------- hooking
@@ -494,6 +582,9 @@ func _hook_wizard(w: Node) -> void:
 			sip.connect(&"ability_ended", _on_path_ability.bind(w, false))
 	if not w.is_in_group(&"heroes"):
 		return
+	if int(w.get(&"team")) == Unit.Team.PLAYER and w.has_signal(&"damage_taken") \
+			and not w.is_connected(&"damage_taken", _on_hero_damaged):
+		w.connect(&"damage_taken", _on_hero_damaged)
 	var inv: Variant = w.get(&"inventory")
 	if is_instance_valid(inv) and inv is Node and not (inv as Node).has_meta(META):
 		var i := inv as Node
@@ -643,8 +734,19 @@ func _on_unit_died(unit: Variant) -> void:
 
 
 func _on_building_damaged(_amount: float, _attacker: Variant, b: Node3D) -> void:
+	if is_instance_valid(b) and int(b.get(&"team")) == Unit.Team.PLAYER:
+		var level := get_tree().current_scene
+		if level == null or not level.has_method(&"bastion_ratio") or b is Keep:
+			_hit_until = _now + INTENSITY_HIT_S   # combat intensity (Wave Strike: the bastion only)
 	if is_instance_valid(b) and _audible(b):
 		play_at(&"building_hit", b.global_position + Vector3.UP * 1.5)
+
+
+## The player's wizard took damage: combat intensity INTENSITY_HIT for a while (not in Wave Strike: bastion only).
+func _on_hero_damaged(amount: float, _attacker: Variant) -> void:
+	var level := get_tree().current_scene if is_inside_tree() else null
+	if amount > 0.0 and (level == null or not level.has_method(&"bastion_ratio")):
+		_hit_until = _now + INTENSITY_HIT_S
 
 
 func _on_building_destroyed(b: Variant) -> void:
@@ -702,11 +804,10 @@ func _on_mission_ended(victory: bool) -> void:
 	if _ended:
 		return
 	_ended = true
-	if _music and _music.playing:
-		var tw := create_tween()
-		tw.tween_property(_music, "volume_db", -40.0, 1.0)
-		tw.tween_callback(_music.stop)
-	play_ui(&"victory" if victory else &"defeat")
+	# MusicDirector fades the music and plays sting_victory / sting_defeat (it hears mission_ended itself); the old
+	# victory / defeat SFX only when that sting file is missing.
+	if not MusicDirector.has_track(&"sting_victory" if victory else &"sting_defeat"):
+		play_ui(&"victory" if victory else &"defeat")
 
 
 ## Player's workers that are mining tick about once a second (each worker on its own clock).
@@ -1065,18 +1166,6 @@ func _load_streams() -> void:
 				takes.append(load(p))
 		if takes.size() > 1:
 			_takes[id] = takes
-	for id: StringName in [&"music_match", &"music_menu"]:
-		var path := MUSIC_DIR + String(id) + ".wav"
-		if not ResourceLoader.exists(path):
-			continue
-		var s: AudioStream = load(path)
-		if s is AudioStreamWAV:
-			var wav := (s as AudioStreamWAV).duplicate() as AudioStreamWAV
-			wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
-			wav.loop_begin = 0
-			wav.loop_end = int(wav.get_length() * wav.mix_rate)
-			s = wav
-		_streams[id] = s
 
 
 func _build_players() -> void:
@@ -1096,10 +1185,6 @@ func _build_players() -> void:
 		p.bus = &"SFX"
 		add_child(p)
 		_ui.append(p)
-	_music = AudioStreamPlayer.new()
-	_music.bus = &"Music"
-	_music.volume_db = MUSIC_DB
-	add_child(_music)
 
 
 ## UnitVoice (scripts/audio/unit_voice.gd): load-guarded, a missing / broken script = no barks, never an error.

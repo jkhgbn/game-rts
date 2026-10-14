@@ -331,6 +331,14 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   messages, objectives, dialogue) stays English in the logic and is shown through `Loc.sink(text)`. Never concatenate
   sentence fragments. After adding player text: `tools/i18n/extract_strings.gd '--' merge`, translate, `tests/test_i18n.gd`.
   Settings > Language (`GameSettings.language`); tests / labs run English unless `-- --lang=fr` (UI Lab: `lang=fr`).
+- **Music** (MU13 2026-10-14, `docs/design/music.md` 4-5; pool rule in decisions.md 2026-10-14): `MusicDirector`
+  (`scripts/audio/music_director.gd`, `static ensure(tree)` = a /root child that survives scene changes):
+  `set_music_context(context, kingdom := &"", enemy_kingdom := &"")` (menu / campaign / chant / match / wave_strike / boss /
+  none; it also reads every new scene), `set_combat_intensity(v)` (GameAudio, every 0.5 s), `combat_intensity()`,
+  `play_sting(id)` (also on `mission_ended`), `set_track_pool(ids)` (match / wave_strike only; `MissionConfig.music_tracks`),
+  `hold_for_briefing(screen)` / `release_briefing()`, `current_track()`, signal `track_changed(id)`; films
+  (`CinematicPlayer`) hold the music silent. Files `assets/audio/music/<id>.wav` (+ `<id>_drive.wav`, stereo 22 050 Hz,
+  rendered by the Music Forge sampler backend); a missing file falls back to `music_match` / `music_menu`.
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
 - **SelectionManager**: `select_units(units)`, `formation_move(center)` are public (the smoke test uses them).

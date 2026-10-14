@@ -758,3 +758,17 @@ Built to the interface in `wave_formation.gd` (checked with the real class in `t
 - So please do NOT skip / remove `BLITZ.ai_kingdom.ice` (that WOULD change Blitz Ice: ratio 0.936 -> 1.17, reserve 2).
   Optional hardening only: writing the Ice block as absolute numbers (`attack_ratio 0.936`, `attack_ratio_floor 0.576`,
   `min_attack_pop 6`, `attack_reserve 1`) gives the same values and no longer depends on the base.
+
+## MU14 music hooks (from ui-coder, 2026-10-14, docs/design/music.md 4 + 5)
+MusicDirector (`scripts/audio/music_director.gd`, `MusicDirector.ensure(get_tree())`, a /root child) is in. Please add, in
+MissionBase / scripts/campaign (ui-coder does not edit there):
+1. Boss: when a boss bar shows (or a mission wants it), `MusicDirector.ensure(get_tree()).set_music_context(&"boss")`;
+   when it ends, `set_music_context(&"match")` (no kingdoms = back to the match's own pool, no reset of the override).
+2. `MissionConfig.music_tracks: Array[StringName]` (optional, empty = default pool). The director already reads
+   `level.config.music_tracks` when a level enters the tree (duck typed); a mission that changes it mid-run calls
+   `set_track_pool(ids)` (empty = back to the context pool). Missing files are skipped, never an error.
+3. Missions by episode (music.md 4): the match pool's "own kingdom" is the level's `player_kingdom` (first track). If a
+   mission's `player_kingdom` is not the episode's kingdom from that table, set it or pass `music_tracks`.
+4. Mission scenes (`missions/*.tscn`) have no GameAudio node: their music works (the director watches scene changes),
+   but no SFX and no combat intensity / drive stem. Adding a `GameAudio` node (script `scripts/audio/game_audio.gd`)
+   to MissionBase or the mission scenes, like skirmish.tscn, turns both on.

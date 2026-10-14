@@ -86,6 +86,7 @@ func _ready() -> void:
 	theme = UIStyle.game_theme()   # U7: Alegreya body text, Cinzel headers (null = engine default)
 	GameSettings.ensure_loaded(get_tree())
 	MenuFlow.install_hooks(get_tree())
+	_music_context(&"menu")   # MU13: theme_main (music.md 4)
 	if MenuFlow.difficulty >= 0:
 		_difficulty = MenuFlow.difficulty
 	_enemy = MenuFlow.enemy_kingdom
@@ -177,6 +178,7 @@ func _notification(what: int) -> void:
 # ---------------------------------------------------------------- public
 
 func show_main() -> void:
+	_music_context(&"menu")
 	_hide_unit_guide()
 	_hide_ws_panel()
 	main_panel.visible = true
@@ -188,6 +190,7 @@ func show_main() -> void:
 
 
 func show_skirmish_setup() -> void:
+	_music_context(&"menu")
 	_hide_ws_panel()
 	main_panel.visible = false
 	skirmish_panel.visible = true
@@ -199,6 +202,7 @@ func show_skirmish_setup() -> void:
 
 ## The campaign panel: the mission list is re-read from the campaign save each time it opens.
 func show_campaign() -> void:
+	_music_context(&"campaign")   # MU13: campaign_map
 	_hide_ws_panel()
 	main_panel.visible = false
 	skirmish_panel.visible = false
@@ -236,6 +240,7 @@ func show_unit_guide() -> void:
 func show_wave_strike() -> void:
 	if ws_panel == null:
 		return
+	_music_context(&"menu")
 	main_panel.visible = false
 	skirmish_panel.visible = false
 	campaign_panel.visible = false
@@ -243,6 +248,13 @@ func show_wave_strike() -> void:
 	ws_panel.visible = true
 	if ws_panel.has_method(&"focus_start"):
 		ws_panel.call(&"focus_start")
+
+
+## MU13: the menu music (MusicDirector, docs/design/music.md 4): setup screens = menu, the campaign panel = campaign.
+func _music_context(context: StringName) -> void:
+	var md := MusicDirector.ensure(get_tree())
+	if md:
+		md.set_music_context(context)
 
 
 func _hide_ws_panel() -> void:
