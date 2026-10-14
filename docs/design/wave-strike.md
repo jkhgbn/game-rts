@@ -7,7 +7,9 @@ the match is won. This spec turns that *genre* into a Four Wizards mode. Nothing
 no lines, no art, no layout, no numbers. Working title **Wave Strike** (in-game name can change; "Strike" alone is fine).
 
 Status: **M1 BUILT (2026-10-06)**, see section 13 "M1 as built"; balance passes 13.1 / 13.2 (4 kingdoms, matrix prices, wizard re-rules, field cap). Q1-Q7 answered with the recommendations (table below).
-**M2 roster and bigger waves specified (2026-10-13, section 14, after JS's playtest), not built**; the rest of M2 (towers, mercs, champion card, titans) and M3 not started. Numbers are first guesses, tuned by the labs (section 9).
+**M2 roster and bigger waves built (2026-10-13, section 14; as built: 9-10 cards, caps 36 / 60 / 84, field cap 200)**;
+**deployment pad (placement, section 15) and unit upgrades (Armoury + 2 upgrades per card, section 16) specified
+2026-10-13, not built**; the rest of M2 (towers, mercs, champion card, titans) and M3 not started. Numbers are first guesses, tuned by the labs (section 9).
 Short names used below: **horn** = one wave tick; **card** = one bought unit line in a player's roster; **Bastion** = a
 team's core building; **lane** = the walkable path between the two Bastions.
 
@@ -898,3 +900,203 @@ when the field passes 300 (unit shadows and far animation off); (4) `last_horns_
 | WS2.B1 | game-designer + lab runs | 14.5 steps 1-3 | Every 14.5 bar met on 24 games; results as 14.7 |
 | WS2.V1 | tech-artist (only if flagged) | Caster cast VFX / mana bar readable at WS camera height in a 300-unit clash | Art Lab no FAIL on a WS clash shot; skip if WS2.U1's shot review raises nothing |
 Order: C1, G1, G2 in parallel -> G3, C2, A1, D1 -> C3, U1 -> B1.
+
+---
+
+## 15. Deployment pad (placement) (spec 2026-10-13, not built)
+
+JS (2026-10-13): "make it so i can play and place unit like u can in the real desert strike". Today every copy spawns on
+an 8-wide grid in front of the gate (melee -> ranged -> casters, rows wrap after 5). New: each seat owns a **Muster Pad**,
+a cell board beside its gate; every copy has its own cell; each horn the wave spawns **in that exact shape** in front of
+the gate and marches as a block until it meets the enemy. Formation design (shield wall in front, archers behind, casters
+in the middle, riders on the wings) becomes the skill. Units still take no orders once they spawn.
+
+### 15.1 The pad and the spawn box
+| Item | Value |
+|---|---|
+| Cell | **1.5 m** square |
+| Pad | **16 columns x 12 rows** = 192 cells, 24 m across x 18 m deep. Row 0 = the front (toward the enemy), column 0 = the left wing seen from behind the formation |
+| Footprint | **1x1** if `UnitType.radius < 0.6`, else **2x2** (blaze / gloam / snowdrift riders, stagrunner, bramblehorn, shadow_knight, barrow_knight, rimehorn_rider, all T3 except nightblood_reaver and shardguard). Override: `WaveCardTable.footprint` (id -> 1 / 2) |
+| Capacity check | Worst case at the 84 cap = 42 two-pop 2x2 riders = 168 cells; 192 cells hold 48 2x2 blocks, so the pop cap always binds before the pad on an empty arrangement |
+| Spawn box (lane) | The same 24 x 18 m rectangle in front of the gate, same orientation: front edge **12 m ahead** of the gate, back edge 6 m behind it, centred on the lane line. Seat 0 (Ashwind Reach): x -77..-59, z -12..12; seat 1 = its rot180 image |
+| Pad (world) | A flat stone plate (off the navmesh, 0.3 m high, 1 m rim) **33 m to the left** of the spawn box, same orientation, so the pad is a 1:1 copy of what will spawn. Seat 0: centre (-68, -33), cells x -77..-59, z -45..-21 (a clearing cut into forest block `wood_n1`); seat 1: centre (68, 33) |
+| Cell -> lane | Copy anchored at (c, r) with footprint f: lateral = (c + f/2 - 8) x 1.5 m, forward = 12 - (r + f/2) x 1.5 m from the gate along the lane direction. Pure translation from the pad (+33 m to the right): the same shape for both seats in their own frame |
+| Layout spots | `slot sub=muster_pad` (pad centre) and `slot sub=muster_spawn` (spawn box centre) per seat; fallback when absent: spawn centre = gate + forward x 3 m, pad = spawn centre + left x 33 m |
+
+**What the player sees**
+- Every copy owned = a **token** on its cells: a disc 0.15 m high, diameter 1.3 m (1x1) / 2.8 m (2x2), rim in the role
+  colour (Melee (0.85, 0.35, 0.30), Ranged (0.35, 0.70, 0.95), Rider (0.95, 0.75, 0.30), Heavy (0.70, 0.50, 0.90),
+  Support (0.45, 0.85, 0.50), Caster (0.95, 0.50, 0.85); role rule = ui-wave-strike.md 1.1), the unit icon lying flat on
+  top. Hover a token = the unit's real model as a 50 % ghost on it + a tooltip (card, rank, cell, `Spawns at row 3`).
+- Empty cells: a faint 1 px grid; the front edge has a gold line and an arrow toward the enemy.
+- The enemy pad shows its tokens the same way (full vision rule, Q6): the bot's formation can be read and countered.
+- During the 5 s horn warning, the spawn box outline glows on the lane (one flat mesh, gold, alpha 0.35).
+- Looks of tokens, grid, outline and any 2D mini-pad in the Muster panel: ui-designer (15.6).
+
+### 15.2 Placing
+| Action | Rule |
+|---|---|
+| Buy (card key / click), cursor **not** over your pad | **Auto-place** into the best free cell for the card's role (15.4 "Line" zones). Same keys as today |
+| Buy, cursor **over** your pad (or setting `Place on buy: Manual`) | A ghost of the copy follows the cursor (snapped to cells, green = free, `WARN` red = blocked); left-click a free spot = pay + place; **Shift+click** = place and keep the ghost for another copy; right-click / Esc = cancel (nothing paid) |
+| Move | Drag a token (press, move > 6 px, release): free spot = move; onto one copy of the same footprint = swap; else it snaps back with a red flash. Left-drag on empty cells = box select; dragging any selected token moves the group with its shape (refused if any cell is blocked) |
+| Sell | Right-click a token = sell that copy; Alt+card key = sell the card's back-most copy (refund rules unchanged: 100 % within 5 s of a buy of that card, else 50 %) |
+| Auto-arrange | **L** (physical) or the pad's button: re-places every own copy by the Line zones (a 5 s undo: **Ctrl+L**) |
+| Camera | **P** (physical) = centre on your pad; P again = back to where the camera was. Space (wizard) / Tab (front line) unchanged |
+| Ranks | Stay **per card** (Ctrl+key): one rank for the line keeps the price formula and the panel simple; per-copy ranks would need pips on 84 tokens for little play |
+| When it counts | The pad is read **at the horn** (a snapshot): moves, buys and sells after it apply to the next horn; a marching wave never changes |
+| New refusal | `"No room on the pad"` (after `Supply full`, before `Not enough crystals`): no free spot for the footprint; the message adds `L = auto-arrange` |
+Setting (Settings > Gameplay): `Place on buy` = **Auto (default)** / Manual. Keys W A S D Q E F untouched; P and L are
+free in WS (P is only the cinematic pause, K the help).
+
+### 15.3 Spawn and march
+1. At the horn, `LaneSpawner` takes the pad snapshot and spawns copies **row by row front to back**, inside a row from the
+   centre outward (left, right, left...), still **0.15 s** apart. Field cap (`field_cap` 200): the copies past it are the
+   back-most ones (they stay home this horn, as today).
+2. **Muster hold**: a spawned unit stands on its cell (auto-aggro on, no order) until the seat's last copy of this horn has
+   spawned + **0.5 s** (at most 84 x 0.15 + 0.5 = 13.1 s).
+3. **March lock** (`WaveStrikeRules.march_lock := true`): the whole wave walks at its **slowest copy's speed** (today 4.0-5.0;
+   floor `march_speed_floor` 4.0: a slower copy simply trails) through a modifier `ws_lock` (flat `move_speed` = wave speed
+   - own speed), each unit on its own lateral offset and depth, so rows stay rows.
+4. **Release** (the formation breaks for every member at once, modifier removed, each at its own speed, normal LaneMarch):
+   the first time any member gets an attack target or loses HP, or **45 s** after the march started, or when the level
+   loads a save. Release costs one loop over the members, once.
+5. LaneMarch starts each unit at the first waypoint ahead of its position (units ahead of the gate skip the gate point).
+   Lateral offsets now reach +-11.25 m (lane 40 m, 30 m at the ring-2 narrowing): leash rules unchanged.
+Why lock until contact: without it riders (7.5 m/s) arrive 20 s before archers (5 m/s) and the shape is gone before the
+clash; with it, "riders on the wings" means they hit the flanks at the clash. Off-switch for the labs: `march_lock = false`.
+
+### 15.4 Auto-formations (player auto-place and WaveBot use the same code)
+`MusterPad.auto_cell(id, style)`: zones in rows (0 = front) and columns; inside a zone, fill front row first, then centre
+outward; 2x2 copies step by 2 cells. If the zone is full, the nearest free spot behind it, then anywhere.
+| Role | **Line** (player default, bot `steward` too) | **Spearhead** (bot `hammer`) |
+|---|---|---|
+| Heavy | rows 0-1, cols 4-11 | rows 0-1, cols 5-10 |
+| Melee | rows 0-3, all cols | rows 2-5, cols 2-13 |
+| Rider | rows 0-5, cols 0-3 and 12-15 (wings) | rows 0-3, cols 1-4 and 11-14 (beside the point) |
+| Ranged | rows 4-7, centre out | rows 5-8, centre out |
+| Support | rows 7-9, cols 5-10 | rows 8-10, cols 5-10 |
+| Caster | rows 9-11, cols 5-10 | rows 9-11, cols 5-10 |
+WaveBot (ai-coder): buys through `auto_cell` with its style, then calls `auto_arrange(style)` once at the end of each
+decision pass (deterministic, no RNG); the swap-at-cap sell (14.3) sells the back-most copy. Future personalities pick one
+of the two styles (Warden = Line, Gambler = Spearhead, Tactician = Spearhead if the enemy has more ranged pop, else Line).
+
+### 15.5 Save, tests, perf
+- **Save**: `MusterRoster.save_state` adds `"cells": {id: [[c, r], ...]}` (one per copy); a save without cells (older)
+  loads with `auto_arrange(&"line")`. Formations are not saved: a load releases every marching wave (15.3 step 4).
+  Replays record `place(id, from, to)`, `swap`, `auto_arrange`.
+- **Perf**: zero per-frame cost. Tokens are rebuilt only on `MusterPad.changed` (2 MultiMeshes per pad for the discs +
+  one flat Sprite3D icon per copy, <= 84 per seat, no script); one hover ghost and one drag ghost at most; the pad has no
+  collider (ray-plane hit on its rectangle); hold / lock / release ride on LaneMarch's existing 0.25 s think.
+  Gate: `test_ws_perf --per-side=200` march p95 within **+0.3 ms** of the pre-pad number.
+| Test | Proves |
+|---|---|
+| `tests/test_ws_pad.gd` (systems) | footprints by radius; place / move / swap / box-move refusals; auto-place zones (Line, Spearhead); `"No room on the pad"`; sell frees the cell; 42 blaze_riders at cap 84 all fit; save round trip of cells + old-save auto-arrange; seat 0 and seat 1 cell (3, 2) map to rot180 images in the lane |
+| `tests/test_ws_formation.gd` (gameplay) | 30 copies from a pad: every unit spawns within 0.3 m of its mapped cell; none moves before the hold ends; 10 s into the march each row is still behind the row in front (>= 1.0 m) and no rider is ahead of row 0; contact with an enemy group releases all members in the same think; the 45 s timeout releases; 0 stalls |
+| `test_ws_ui` (+ UI Lab shot `ws_pad`, en / fr) | P jumps and returns; manual place by a simulated click; drag move and swap; right-click sell; L / Ctrl+L |
+| `test_ws_match` | bots arrange (summary prints each seat's style and front-row roles); 0 stalls; still ends < 30:00 |
+
+### 15.6 Questions for JS (the spec assumes the first answer)
+| # | Question | Recommended | Other |
+|---|---|---|---|
+| P1 | Where is the pad? | **A separate plate beside the lane** (1:1 copy, 33 m to the left; P jumps there) | Draw the tokens directly on the spawn box in front of the gate (no new map area, but clicks compete with the fighting units) |
+| P2 | Does the shape hold on the march? | **Locked at the slowest speed until first contact** | Each unit at its own speed (riders leave the formation early) |
+| P3 | Default placing | **Auto-place, drag to fix; manual when the cursor is on the pad** | Manual click for every copy |
+
+### 15.7 Tasks
+| Id | Owner | Task | Done when |
+|---|---|---|---|
+| WS3.D1 | ui-designer | `ui-wave-strike.md` section "Muster Pad": tokens, grid, ghosts (place / hover / drag), box select, spawn-box outline, `No room` message, hint line, P / L / Ctrl+L, the `Place on buy` setting, optional 2D mini-pad | Spec has every look and the key table |
+| WS3.M1 | four-wizards-high | Ashwind Reach: pad clearing (block kind `pad` or a flat obstacle, no trees) at (-68, -33) 20 x 26 m, split `wood_n1`; slots `muster_pad` / `muster_spawn`; ring-1 tower slots z +-12 -> **+-16**; `start hub` out of the spawn box (-80, -12); World Forge + Map Lab | Map Lab no new FAIL; spawn box >= 2 m clear of the Bastion and of every tower slot |
+| WS3.C1 | systems-coder | `MusterPad` (`scripts/world/wave_strike/muster_pad.gd`, one per seat: `footprint(id)`, `cells_of(id)`, `copy_at(cell)`, `can_place / place / move / swap / move_group -> String`, `auto_cell(id, style)`, `auto_arrange(style)`, signal `changed`); `MusterRoster.buy(id, cell := Vector2i(-1, -1))`, `sell_at(cell)`, refusal, save / load | `test_ws_pad` PASS; `test_ws_director` PASS |
+| WS3.C2 | systems-coder | `LaneSpawner` from the pad snapshot (15.3 steps 1-2, cell -> lane mapping, back-most held by the field cap); a `WaveFormation` per seat per horn (members, speed, `release()`); rules `march_lock`, `march_speed_floor`, `march_release_after` 45, `muster_hold_extra` 0.5; `MAX_ROWS` wrap removed | spawn positions part of `test_ws_formation` PASS; `test_ws_match` 0 stalls |
+| WS3.G1 | gameplay-coder | LaneMarch: hold state, `ws_lock` modifier, release triggers (target / HP loss / timeout), first-waypoint pick | `test_ws_formation` PASS; `test_lane_march` PASS |
+| WS3.A1 | ai-coder | WaveBot styles (15.4), arrange per pass, swap sells back-most | `test_ws_match` both personalities, each kingdom on both seats, PASS |
+| WS3.U1 | ui-coder | Pad view: tokens (MultiMesh), hover ghost, enemy pad, spawn-box outline, P camera | UI Lab `ws_pad` no FAIL; perf gate 15.5 |
+| WS3.U2 | ui-coder | Placement input: manual ghost, Shift+click, drag / swap / box move, right-click sell, L / Ctrl+L, setting | `test_ws_ui` pad rows PASS; French merged |
+| WS3.B1 | game-designer + labs | 24-game batch with formations (both styles) vs the 14.5 bars | Bars met; Line vs Spearhead each 40-60 % head to head |
+Order: D1, M1, C1 in parallel -> C2, G1 -> A1, U1 -> U2 -> B1.
+
+---
+
+## 16. Unit upgrades (spec 2026-10-13, not built)
+
+JS (2026-10-13): "si possible ajouter des upgrades pour les unités". Two layers: the **Armoury** of 4.4 (seat-wide) and
+**card upgrades** (2 per card, change how that unit plays). Both are one-time tech buys (flat price, not per copy) and
+take effect **at the next horn** (same rule as the pad; living units keep what they spawned with). Late game sink: 13.1
+showed every bot at the cap with crystals to spare; upgrades give that money a choice.
+
+### 16.1 Armoury (seat-wide, modifier `ws_armoury` on every own lane unit at spawn)
+| Line | Levels and prices | Effect per level | Gate |
+|---|---|---|---|
+| Weapons | I 200 · II 350 · III 500 | `attack_damage_pct` +0.06 | I Keep, II Stronghold, III Citadel |
+| Armour | I 200 · II 350 · III 500 | `armor` +1 | as Weapons |
+| Arcana | I 250 · II 450 | casters and support cards: `spell_power` +15, `mana_regen_pct` +0.20 | I Stronghold, II Citadel |
+Keys (physical, free in WS: R / Y are skirmish-only bounty / tavern): **R** = next Weapons, **Y** = next Armour,
+**O** = next Arcana. Refusals: `"Requires Stronghold"`, `"Max level"`, `"Not enough crystals"`.
+
+### 16.2 Card upgrades (two per card: **A** from the card's tier, **B** from the next tier, T3 B = Citadel)
+Price: **A = card price x 1.5**, **B = card price x 2.5**, rounded to 5, min 100 / 150. Each upgrade is data in
+`data/wave_strike/card_upgrades.tres` (`WaveUpgradeTable`: role templates + per-card overrides). An upgrade may hold
+three kinds of effect, all on things the code already has:
+- `mods` = a Unit modifier `ws_up:<upgrade_id>` at spawn (Stats contract);
+- `type` = fields on the seat's lane copy of the UnitType (`attack_range`, `aggro_range`, `on_hit_status`,
+  `on_hit_duration`, `support_amount`, `support_interval`); the lane-type cache becomes per seat (`_lane_types[seat][id]`);
+- `release` = applied once when the unit's formation releases (15.3; first contact if `march_lock` is off): `apply_status`
+  (haste, braced, shroud) or `add_shield(amount, seconds)`.
+
+| Role (ui 1.1 rule) | Upgrade A | Upgrade B |
+|---|---|---|
+| Melee | **Shield Drill**: `armor` +3 | **War Cry**: release `haste` 4 s (+1.5 speed, -30 % attack cooldown) |
+| Ranged | **Long Draw**: `attack_range` +1.5, `aggro_range` +1.5 | **Spotter Marks**: `on_hit_status` `marked` 3 s (target takes +15 %); a card that already has an on-hit status gets **Lingering** instead: `on_hit_duration` x1.5 |
+| Rider | **Barding**: `max_hp_pct` +0.20 | **Flank Gallop**: release `haste` 6 s |
+| Heavy (pop >= 3, not T3) | **Plate**: `armor` +4 | **Brace**: release `braced` 6 s (damage taken x0.7) |
+| Support | **Deep Wells**: `support_amount` x1.4 | **Quick Hands**: `support_interval` x0.75 |
+| Caster | **Mana Font**: `max_mana_pct` +0.40, `mana_regen_pct` +0.50 | **Focus**: `spell_power` +25, `cooldown_reduction` +0.20 |
+
+T3 cards keep A from their role and get a **signature B** (Citadel, x2.5):
+| Card | Signature B |
+|---|---|
+| sunforge_cataphract | **Sunforged Charge**: release `haste` 6 s + `braced` 6 s |
+| frostcrown_juggernaut | **Rime Mantle**: `on_hit_status` `chill`, `on_hit_duration` 2.0 |
+| shardguard | **Shard Ward**: release shield 150 for 10 s |
+| briar_roc | **Thorned Pinions**: `max_hp_pct` +0.30 |
+| glade_outrider | **Far Sight**: `attack_range` +2, `aggro_range` +2 |
+| nightblood_reaver | **Blood Feast**: `hp_regen` +6 |
+| veilborn_dreadrider | **Veil Ride**: release `shroud` 5 s (+2 speed, damage taken x0.5) |
+Every card the coder finds with an existing `on_hit_status` is listed in the test with its Lingering result.
+
+### 16.3 With ranks, selling and the bot
+- Independent of ranks: rank = level + "+" (+10 % HP / damage per rank, `ws_rank`), upgrades = their own modifiers; they
+  stack additively inside the Stats formula. Rank-up prices unchanged.
+- Upgrades stay when the last copy is sold (no refund); 100 % refund only within 5 s of the buy (`cancel_window`).
+- **WaveBot**: once supply >= 90 % of the cap, a share of each pass goes to upgrades: steward **25 %** (Armoury first:
+  Armour I, Weapons I, then A of its biggest line), hammer **30 %** (A then B of its biggest line by pop, then Weapons).
+  Lines with < 4 copies are skipped; Arcana only with >= 2 caster or support copies. Max 2 upgrade buys per pass. Logged
+  `upgrade <id>`.
+
+### 16.4 UI needs (ui-designer, `ui-wave-strike.md`)
+- Per card: two small upgrade pips (A, B) beside the rank pips (bought = filled, available = outlined, locked = dim);
+  tooltip lines `Shift+Z: Shield Drill (+3 armour) 145` / `Shift+Ctrl+Z: War Cry ...` with the tier reason in `WARN`.
+- **Shift + card key** = buy upgrade A, **Shift+Ctrl + card key** = upgrade B, **Shift+Alt + card key** = cancel within
+  5 s. Shift+click a card = A, Shift+Ctrl+click = B. (Manual placement uses only Shift+click on the pad, 15.2, no clash.)
+- An Armoury strip of 3 buttons (Weapons / Armour / Arcana, level `2 / 3`, next price, badges R / Y / O); where it sits in
+  the panel is the ui-designer's call. Hint line gains `Shift = upgrade`.
+- Pad tokens (15.1) show a small gold corner tick per upgrade bought on that card.
+
+### 16.5 Tests and tasks
+| Test | Proves |
+|---|---|
+| `tests/test_ws_upgrades.gd` (systems) | prices (x1.5 / x2.5, minima, Armoury table); tier gates; refusals; next-horn rule (a living unit unchanged, the next spawn has it); modifiers present (`ws_armoury`, `ws_up:*`) with the 16.1 / 16.2 numbers; per-seat type copy (seat 1 range unchanged after seat 0 buys Long Draw); Lingering on every on-hit card; save / load keeps upgrades and Armoury levels |
+| `tests/test_ws_formation.gd` (+ rows) | release effects fire once per unit at release (haste, braced, shroud, shield 150) |
+| `test_ws_ui` | Shift / Shift+Ctrl / Shift+Alt + key, R / Y / O |
+| `test_ws_match` | summary lists upgrades bought per seat; bots buy >= 2 upgrades by horn 20 |
+| Id | Owner | Task | Done when |
+|---|---|---|---|
+| WS4.D1 | ui-designer | 16.4 in `ui-wave-strike.md` | Pips, Armoury strip, keys, tooltips specified |
+| WS4.C1 | systems-coder | `WaveUpgradeTable` + `card_upgrades.tres` (16.2 rows), `MusterRoster.buy_upgrade(id, slot)` / `can_buy_upgrade` / `armoury_buy(line)`, save; rule `upgrades_enabled := true` (labs switch) | `test_ws_upgrades` price / gate / save rows PASS |
+| WS4.C2 | systems-coder | Apply at spawn: `ws_armoury`, `ws_up:*` modifiers, per-seat lane type copies, `release` list handed to the formation | `test_ws_upgrades` all rows PASS |
+| WS4.G1 | gameplay-coder | Release effects in LaneMarch's release (status / shield; first contact when the lock is off) | `test_ws_formation` release rows PASS |
+| WS4.A1 | ai-coder | 16.3 bot rules | `test_ws_match` upgrade line PASS, 0 stalls |
+| WS4.U1 | ui-coder | Pips, Armoury strip, keys, tooltips, token ticks per WS4.D1 | `test_ws_ui` upgrade rows PASS; UI Lab `ws_buy` en / fr no FAIL |
+| WS4.B1 | game-designer + labs | 24-game batch: upgrades on vs off (`-Rules "upgrades_enabled=0"`) | 14.5 bars still met; each upgrade bought in >= 15 % of games where its tier is reached |
+Order: after WS3.C1 (pad) for the token ticks; WS4.C1, WS4.D1 can start in parallel with WS3.
