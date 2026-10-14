@@ -57,6 +57,12 @@ const UNIT_FRAMING := {
 	&"glade_outrider": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
 	&"sunforge_cataphract": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
 	&"frostcrown_juggernaut": [0.68, 0.36, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"emberdart_harrier": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"pyrehoof_lancer": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"rime_harrier": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"bramble_harrier": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"thornback_charger": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"duskbolt_harrier": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
 	&"briar_roc": [0.62, 0.40, 30.0, 0.14, 20.0],   # body and inner wings; the full span is unreadable at 64 px
 	# Infantry / casters with tall staffs or bows: a little tighter than the default.
 	&"pyre_adept": [0.62, 0.36, 30.0],
