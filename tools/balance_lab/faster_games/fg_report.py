@@ -58,8 +58,14 @@ def mwu_p(xs, ys):
 	return math.erfc(abs(z) / math.sqrt(2))
 
 
-def load(runs):
+def load(runs, quiet=False):
+	"""Valid games of the runs. Games marked "invalid" by run_fg.py, or that fail fg_validity.check_game now (older
+	runs: stale import, script errors, a side that trained 0 units), are skipped and counted in load.skipped."""
+	import sys
+	sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+	import fg_validity
 	rows = []
+	skipped = []
 	for run in runs:
 		d = os.path.join(os.path.dirname(REPO), "four-wizards-lab-runs", "fg-" + run)
 		for path in glob.glob(os.path.join(d, "*.json")):
@@ -77,9 +83,24 @@ def load(runs):
 			if r.get("end_reason") in ("error", "bad layout", "cap"):   # no game was played: rerun it
 				print(f"skipped (no game): {path} {r.get('error', '')}")
 				continue
+			why = r.get("invalid") or fg_validity.check_game(r, fg_validity.read_text(path[:-5] + ".log"))
+			if why:
+				skipped.append((path, why))
+				continue
 			r["_arm"], r["_level"] = parts[0], parts[1]
 			rows.append(r)
+	load.skipped = skipped
+	if skipped and not quiet:
+		print(f"SKIPPED {len(skipped)} INVALID game(s) (not counted):")
+		for p, why in skipped[:20]:
+			print(f"  {os.path.basename(p)}: {why}")
+		if len(skipped) > 20:
+			print(f"  ... and {len(skipped) - 20} more")
+		print()
 	return rows
+
+
+load.skipped = []
 
 
 def is_rush(r):
@@ -161,7 +182,7 @@ def main():
 	arms = sorted({r["_arm"] for r in rows}, key=lambda x: (x != "baseline", x))
 	levels = [lv for lv in LEVELS if any(r["_level"] == lv for r in rows)] + ["all"]
 	out = {}
-	print(f"{len(rows)} matches, runs {', '.join(a.run)}\n")
+	print(f"{len(rows)} matches, runs {', '.join(a.run)}; {len(load.skipped)} invalid game(s) skipped\n")
 	print("| Arm | Level | N | Median | p25-p75 | p90 | Kill / concede | Early-score | Time-score | Kingdom win % F/S/I/N | Spread | Player seat | 1st building lost | 1st tower | 1st production | Loser bldgs lost | Siege units / side |")
 	print("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
 	for arm in arms:
