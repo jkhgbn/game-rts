@@ -1,22 +1,22 @@
 # Map Lab: Ashwind Reach scorecard: world_forge_ashwind_reach
 
-2026-10-13 21:22 · lab v1.0 · 1.64 s · scanned 2 spots
+2026-10-13 22:42 · lab v1.0 · 1.61 s · scanned 2 spots
 
 ## Result: **WARN** · score **97 / 100**
 
-0 FAIL · 1 WARN · 14 PASS · 6 info checks; findings: 0 FAIL, 16 WARN, 5 info
+0 FAIL · 1 WARN · 14 PASS · 6 info checks; findings: 0 FAIL, 14 WARN, 6 info
 
 ## Improve next
-1. **No navmesh islands** (WARN): island 3 at (-86.9, -33.9): 448.1 m² of ground-level navmesh cut off from the main area (y 0.50) -> a pocket closed by colliders: widen its gap or fill it (trees / rocks) (close or open the pocket) _(from N3 2 / 18 clean (0 FAIL, 16 WARN), 3 info)_
+1. **No navmesh islands** (WARN): island 3 at (-91.9, -33.9): 180.6 m² of ground-level navmesh cut off from the main area (y 0.50) -> a pocket closed by colliders: widen its gap or fill it (trees / rocks) (close or open the pocket) _(from N3 2 / 16 clean (0 FAIL, 14 WARN), 3 info)_
 2. **Open the heat map** (IDEA): heatmap.png shows where the shortest paths crowd: the red metres are the likely fights _(from H1)_
 3. **Combat heat from bot games** (IDEA): v2: feed Bot Lab / Replay Lab unit deaths into the heat map _(from lab idea)_
 
 ## Navmesh (reachability, islands)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| N1 | Navmesh baked | PASS 100 | 155 polygons, main area 7699 m² (21 % of the 192 m map), ground y 0.50 | polygons > 0; main walkable area shown |  |
+| N1 | Navmesh baked | PASS 100 | 147 polygons, main area 8768 m² (24 % of the 192 m map), ground y 0.50 | polygons > 0; main walkable area shown |  |
 | N2 | Every spot reachable | PASS 100 | 2 / 2 clean | a path from the first keep ends within 1.0 m of each spot; spot <= 6 m from the navmesh |  |
-| N3 | No navmesh islands | **WARN** 39 | 2 / 18 clean (0 FAIL, 16 WARN), 3 info | ground-level components other than the main one < 2 m² | close or open the pocket |
+| N3 | No navmesh islands | **WARN** 39 | 2 / 16 clean (0 FAIL, 14 WARN), 3 info | ground-level components other than the main one < 2 m² | close or open the pocket |
 | R5 | Engine limits | PASS 100 | 0 half widths ok, 0 arms ok, 0 circles ok, 0 segments ok, 192 x 96 m ok, 2 spots ok, 1.28x ok | one half width, <= 2 arms, <= 4 circles, <= 16 segments, <= 192 m, <= 140 spots, raster <= 2.5x CH |  |
 | R6 | Mission marks / triggers / paths reachable | PASS 100 | 5 / 5 clean | every mark, trigger centre and path point reachable from the player's keep; spawns > 20 m from it |  |
 
@@ -26,7 +26,7 @@
 | M1 | Every live spot has its mirror twins | PASS 100 | 2 / 2 clean | same kind within 1.0 m of each symmetry image |  |
 | M4 | Spots meet the navmesh at mirrored points | PASS 100 | 2 / 2 clean | each spot's navmesh point vs its twin's, mirrored back: <= 1 m |  |
 | M2 | Spot constants mirror | PASS 100 | 0 / 0 clean | every position constant of preview_level.gd: all entries have a twin under each symmetry (+-0.05 m) with the same kind / sizes / timings, or the list is one-sided (mirrored in code) |  |
-| M3 | Navmesh mirrors itself | PASS 100 | 0.03 % (40 cells) | cells walkable on one side only (1-cell edge noise ignored): WARN > 0.3 %, FAIL > 2 % |  |
+| M3 | Navmesh mirrors itself | PASS 100 | 0.04 % (54 cells) | cells walkable on one side only (1-cell edge noise ignored): WARN > 0.3 %, FAIL > 2 % |  |
 
 ## Path fairness (navmesh path lengths between every pair of spots)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -59,28 +59,26 @@
 ## Findings (FAIL and WARN)
 | Sev | Check | Where | What | Fix |
 |---|---|---|---|---|
-| WARN | N3 | island 3 at (-86.9, -33.9) | 448.1 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 4 at (-52.9, -33.9) | 234.1 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 5 at (-23.9, -33.9) | 1250.6 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 6 at (24.1, -33.9) | 1250.6 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 7 at (72.1, -33.9) | 1250.6 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 8 at (-92.9, 0.1) | 184.1 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 9 at (-39.9, -17.4) | 25.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 10 at (36.1, -17.4) | 25.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 11 at (93.1, 0.1) | 184.1 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 16 at (-35.9, 17.6) | 25.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 17 at (40.1, 17.6) | 25.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 18 at (-71.9, 34.0) | 1238.9 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 19 at (-23.9, 34.0) | 1238.9 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 20 at (24.1, 34.0) | 1238.9 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 21 at (53.1, 34.0) | 231.9 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
-| WARN | N3 | island 22 at (87.1, 34.0) | 443.9 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 3 at (-91.9, -33.9) | 180.6 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 4 at (-24.4, -33.9) | 1277.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 5 at (24.1, -33.9) | 1250.6 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 6 at (72.1, -33.9) | 1250.6 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 7 at (-92.9, 0.1) | 184.1 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 8 at (-39.9, -17.4) | 25.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 9 at (36.1, -17.4) | 25.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 10 at (93.1, 0.1) | 184.1 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 15 at (-35.9, 17.6) | 25.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 16 at (40.1, 17.6) | 25.3 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 17 at (-71.9, 34.0) | 1238.9 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 18 at (-23.9, 34.0) | 1238.9 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 19 at (24.6, 34.0) | 1265.4 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
+| WARN | N3 | island 20 at (92.1, 34.0) | 178.9 m² of ground-level navmesh cut off from the main area (y 0.50) | a pocket closed by colliders: widen its gap or fill it (trees / rocks) |
 
 ## Spot navmesh points (half_turn)
 | Spot | Kind | Position | On navmesh at | Twin | Twin's point, mirrored back | Gap |
 |---|---|---|---|---|---|---|
-| keep_t0 | keep | (-84.0, 0.0) | (-82.4, -3.4) | keep_t1 | (-81.9, -3.6) | 0.6 |
-| keep_t1 | keep | (84.0, 0.0) | (81.9, 3.6) | keep_t0 | (82.4, 3.4) | 0.6 |
+| keep_t0 | keep | (-84.0, 0.0) | (-80.4, -0.1) | keep_t1 | (-80.4, -0.1) | 0.0 |
+| keep_t1 | keep | (84.0, 0.0) | (80.4, 0.1) | keep_t0 | (80.4, 0.1) | 0.0 |
 
 
 ## Spot constants (0)
@@ -91,55 +89,56 @@
 ## Keep to nearest spot by kind (navmesh path, m)
 | From keep | nearest expansion | nearest point | nearest camp | nearest lair | nearest tavern | nearest post | nearest peddler | nearest cache | nearest crown | enemy keep |
 |---|---|---|---|---|---|---|---|---|---|---|
-| west | - | - | - | - | - | - | - | - | - | 164.4 |
-| east | - | - | - | - | - | - | - | - | - | 164.4 |
+| west | - | - | - | - | - | - | - | - | - | 160.8 |
+| east | - | - | - | - | - | - | - | - | - | 160.8 |
 
 
 ## Every spot from the keeps (half_turn)
 | Spot | Kind | From keep_t0 | Twin | From keep_t1 | Diff |
 |---|---|---|---|---|---|
-| keep_t1 | keep | 164.4 | keep_t0 | 164.4 | +0.0 % |
+| keep_t1 | keep | 160.8 | keep_t0 | 160.8 | +0.0 % |
 
 
 ## Travel times per seat (m:ss from the keep; terrain speed costs not included)
 | Seat | Destination | Path (m) | Ford (m) | worker (4.6 m/s) | soldier (5.0 m/s) | cavalry (7.5 m/s) | caravan (4.0 m/s) |
 |---|---|---|---|---|---|---|---|
-| west | enemy keep (keep_t1) | 164.4 | 0.0 | 0:36 | 0:33 | 0:22 | 0:41 |
-| east | enemy keep (keep_t0) | 164.4 | 0.0 | 0:36 | 0:33 | 0:22 | 0:41 |
+| west | enemy keep (keep_t1) | 160.8 | 0.0 | 0:35 | 0:32 | 0:21 | 0:40 |
+| east | enemy keep (keep_t0) | 160.8 | 0.0 | 0:35 | 0:32 | 0:21 | 0:40 |
 
 
 ## Main routes: narrowest corridors (navmesh width; real gap ~ +1.0 m)
 | Route | Length | Narrowest (navmesh m) | At | Chokes < 3 m |
 |---|---|---|---|---|
-| keep_t0 -> keep_t1 | 164.4 | 28.8 | (-37.4, -1.5) | - |
+| keep_t0 -> keep_t1 | 160.8 | 28.8 | (-39.4, -0.1) | - |
 
 
 ## Hottest metres (every spot-pair shortest path, 1 paths)
 | # | Where (x, z) | Shortest paths through this metre | Share |
 |---|---|---|---|
-| 1 | (20.5, 1.5) | 1 | 100 % |
-| 2 | (28.5, 1.5) | 1 | 100 % |
-| 3 | (36.5, 1.5) | 1 | 100 % |
-| 4 | (-0.5, 0.5) | 1 | 100 % |
-| 5 | (7.5, 0.5) | 1 | 100 % |
-| 6 | (61.5, 2.5) | 1 | 100 % |
-| 7 | (69.5, 3.5) | 1 | 100 % |
-| 8 | (77.5, 3.5) | 1 | 100 % |
-| 9 | (44.5, 2.5) | 1 | 100 % |
-| 10 | (52.5, 2.5) | 1 | 100 % |
+| 1 | (20.5, 0.5) | 1 | 100 % |
+| 2 | (28.5, 0.5) | 1 | 100 % |
+| 3 | (36.5, 0.5) | 1 | 100 % |
+| 4 | (0.5, 0.5) | 1 | 100 % |
+| 5 | (8.5, 0.5) | 1 | 100 % |
+| 6 | (61.5, 0.5) | 1 | 100 % |
+| 7 | (69.5, 0.5) | 1 | 100 % |
+| 8 | (77.5, 0.5) | 1 | 100 % |
+| 9 | (44.5, 0.5) | 1 | 100 % |
+| 10 | (52.5, 0.5) | 1 | 100 % |
 
 
-## Info findings (5)
+## Info findings (6)
 | Check | Where | What |
 |---|---|---|
-| N3 | island 14 at (-83.9, 0.1) | 22.6 m² inside the footprint of keep_t0 (unreachable by design) |
-| N3 | island 15 at (84.1, 0.1) | 22.6 m² inside the footprint of keep_t1 (unreachable by design) |
-| N3 | raised islands | 4 islands on top of colliders (444 m², more than 0.3 m above / below the ground navmesh): harmless |
-| M3 | 4 m tile at (82.0, -2.0) | 12 cells (0.8 m²) walkable on one side only (half_turn) |
-| M3 | 4 m tile at (-82.0, 2.0) | 12 cells (0.8 m²) walkable on one side only (half_turn) |
+| N3 | island 13 at (-83.9, 0.1) | 22.6 m² inside the footprint of keep_t0 (unreachable by design) |
+| N3 | island 14 at (84.1, 0.1) | 22.6 m² inside the footprint of keep_t1 (unreachable by design) |
+| N3 | raised islands | 4 islands on top of colliders (363 m², more than 0.3 m above / below the ground navmesh): harmless |
+| M3 | 4 m tile at (-82.0, 2.0) | 13 cells (0.8 m²) walkable on one side only (half_turn) |
+| M3 | 4 m tile at (82.0, -2.0) | 11 cells (0.7 m²) walkable on one side only (half_turn) |
+| M3 | 4 m tile at (-86.0, -2.0) | 9 cells (0.6 m²) walkable on one side only (half_turn) |
 
 ## Notes
-- Octile grid shortest paths (0.5 m, 2 sources) 0.22 s.
+- Octile grid shortest paths (0.5 m, 2 sources) 0.24 s.
 - Map Lab v2 (map-production.md 2.5): layout ashwind_reach, 2 seats, rules none, 0 fixable findings.
-- Navmesh raster 0.48 s (155 polygons, 589824 cells of 0.25 m), spot / mirror checks 0.32 s, 1 paths 0.00 s.
+- Navmesh raster 0.46 s (147 polygons, 589824 cells of 0.25 m), spot / mirror checks 0.31 s, 1 paths 0.00 s.
 - Map Ashwind Reach, scene res://docs/tools/world_forge/out/ashwind_reach/preview.tscn, sim mode off; level load + navmesh bake 0.1 s (15 frames), lab 1.5 s. Spec: docs/design/wave-strike.md.

@@ -267,43 +267,29 @@ zones = Array[Dictionary]([{
 "r1": 12.0
 }])
 blocks = Array[Dictionary]([{
-"center": Vector3(-87, 0, -34),
-"half": Vector3(9, 1.5, 14),
+"center": Vector3(-92, 0, -34),
+"half": Vector3(4, 1.5, 14),
 "height": 4.0,
 "id": "wood_n1w",
 "kind": "forest",
 "yaw": 0.0
 }, {
-"center": Vector3(87, 0, 34),
-"half": Vector3(9, 1.5, 14),
+"center": Vector3(92, 0, 34),
+"half": Vector3(4, 1.5, 14),
 "height": 4.0,
 "id": "wood_n1w_twin",
 "kind": "forest",
 "yaw": 0.0
 }, {
-"center": Vector3(-53, 0, -34),
-"half": Vector3(5, 1.5, 14),
-"height": 4.0,
-"id": "wood_n1e",
-"kind": "forest",
-"yaw": 0.0
-}, {
-"center": Vector3(53, 0, 34),
-"half": Vector3(5, 1.5, 14),
-"height": 4.0,
-"id": "wood_n1e_twin",
-"kind": "forest",
-"yaw": 0.0
-}, {
-"center": Vector3(-24, 0, -34),
-"half": Vector3(24, 1.5, 14),
+"center": Vector3(-24.5, 0, -34),
+"half": Vector3(24.5, 1.5, 14),
 "height": 4.0,
 "id": "wood_n2",
 "kind": "forest",
 "yaw": 0.0
 }, {
-"center": Vector3(24, 0, 34),
-"half": Vector3(24, 1.5, 14),
+"center": Vector3(24.5, 0, 34),
+"half": Vector3(24.5, 1.5, 14),
 "height": 4.0,
 "id": "wood_n2_twin",
 "kind": "forest",
@@ -380,7 +366,7 @@ blocks = Array[Dictionary]([{
 "yaw": 0.0
 }])
 source = "res://data/maps/ashwind_reach.map"
-source_hash = "52c29789ee8d"
+source_hash = "483a63eb5a4e"
 size_x = 192.0
 size_z = 96.0
 biome = "autumn"

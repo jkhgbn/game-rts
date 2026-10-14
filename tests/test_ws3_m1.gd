@@ -1,8 +1,9 @@
 extends SceneTree
 ## WS3.M1 (docs/design/wave-strike.md 15.1 / 15.7): Ashwind Reach's layout has, per seat, a `muster_pad` and a
 ## `muster_spawn` slot; the spawn box (24 x 18 m: 12 m ahead of the gate, 6 m behind it, centred on the lane) is >= 2 m
-## clear of the Bastion and of every tower slot and holds no wizard start; the pad clearing (20 x 26 m around the pad
-## centre) holds no block (forest / rock / cliff). Pure layout check (no level).
+## clear of the Bastion and of every tower slot and holds no wizard start; the pad clearing (28 x 34 m around the pad
+## centre: the 20 x 26 m plate + 4 m, WS3.U1) holds no block (forest / rock / cliff), and forest blocks stay a further
+## TREE_JITTER + CANOPY away (trees are scattered +-1.6 m off the block grid). Pure layout check (no level).
 ## Run: tools\godot_run.ps1 --headless --path . -s tests/test_ws3_m1.gd --fixed-fps 60 --quit-after 600
 
 const TASK_ID := "ws3_m1"
@@ -11,7 +12,9 @@ const CELL := 2.0                 ## BuildGrid.CELL
 const BOX_AHEAD := 12.0           ## spawn box front edge ahead of the gate
 const BOX_BEHIND := 6.0
 const BOX_HALF_WIDTH := 12.0      ## across the lane
-const PAD_HALF := Vector2(10.0, 13.0)   ## clearing x / z half sizes (18 x 24 m of cells + 1 m rim)
+const PAD_HALF := Vector2(14.0, 17.0)   ## clearing x / z half sizes (plate 20 x 26 m + 4 m each side)
+const TREE_JITTER := 1.6         ## WaveStrikeLevel._add_ws_block scatter
+const CANOPY := 2.0              ## tree canopy reach past its trunk
 const MIN_CLEAR := 2.0
 
 var _fails: Array[String] = []
@@ -92,6 +95,9 @@ func _check_seat(layout: Resource, team: int, tower_half: float) -> void:
 		var br := Rect2(Vector2(c.x - h.x, c.z - h.z), Vector2(h.x, h.z) * 2.0)
 		if br.intersects(clearing):
 			_fails.append("seat %d: block %s overlaps the pad clearing %s" % [team, b["id"], clearing])
+		elif String(b.get("kind", "")) == "forest" and _rect_gap(br, clearing) < TREE_JITTER + CANOPY:
+			_fails.append("seat %d: forest %s is %.1f m from the pad clearing (trees reach %.1f m)" % [team, b["id"],
+				_rect_gap(br, clearing), TREE_JITTER + CANOPY])
 	if clearing.intersects(box):
 		_fails.append("seat %d: pad clearing overlaps the spawn box" % team)
 	print("seat %d: pad %s, clearing %s" % [team, pp, clearing])
