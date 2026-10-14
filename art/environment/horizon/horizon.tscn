@@ -8,8 +8,10 @@
 [ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_south_west.res" id="6_yjltw"]
 [ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_west.res" id="7_sabc6"]
 [ext_resource type="ArrayMesh" path="res://art/environment/horizon/meshes/horizon_north_west.res" id="8_he8yd"]
+[ext_resource type="Script" path="res://art/environment/horizon/horizon_fit.gd" id="9_hfit"]
 
 [node name="Horizon" type="Node3D" unique_id=951430571]
+script = ExtResource("9_hfit")
 
 [node name="North" type="MeshInstance3D" parent="." unique_id=1667247068]
 cast_shadow = 0

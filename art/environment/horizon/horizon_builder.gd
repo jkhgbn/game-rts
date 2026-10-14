@@ -935,6 +935,7 @@ func _save_all() -> void:
 	mat = load(DIR + "horizon_mat.tres") as ShaderMaterial
 	var root := Node3D.new()
 	root.name = "Horizon"
+	root.set_script(load(DIR + "horizon_fit.gd"))
 	var total: int = 0
 	for i: int in 8:
 		var ch: Chunk = _chunks[i]
@@ -950,6 +951,8 @@ func _save_all() -> void:
 		for k: int in ch.v.size():
 			uv[k] = Vector2(ch.f[k], 0.0)
 		arrays[Mesh.ARRAY_TEX_UV] = uv
+		# HorizonFit anchors: the ring follows the running map's size (horizon_fit.gd).
+		arrays[Mesh.ARRAY_TEX_UV2] = HorizonFit.anchors(ch.v, ch.idx)
 		arrays[Mesh.ARRAY_INDEX] = ch.idx
 		var mesh := ArrayMesh.new()
 		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)

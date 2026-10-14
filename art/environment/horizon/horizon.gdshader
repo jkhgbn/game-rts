@@ -7,6 +7,8 @@
 //   COLOR.a    fake AO: 0 = deep shadow (crown bottoms, forest floor between trees), 1 = open top
 //   UV.x       facet amount: 1 = flat-shaded faces from screen derivatives (crowns read as painted facets like the
 //              border trees without duplicating vertices), 0 = the smooth vertex normal (hill ground)
+//   UV2        fit anchor x/z (horizon_fit.gd): the vertex moves by fit(anchor) - anchor, so the ring baked around
+//              the 120 x 120 map hugs the running map (map_half, set per sector by HorizonFit; 60 x 60 = no move)
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, specular_disabled;
 
@@ -22,7 +24,19 @@ varying vec3 v_col;
 varying vec3 v_wp;
 varying float v_facet;
 
+const float BAKED_HALF = 60.0;
+instance uniform vec2 map_half = vec2(60.0, 60.0);
+
+// The baked square +-BAKED_HALF onto the map rectangle +-map_half: scaled inside, shifted by the edge move outside.
+vec2 fit_xz(vec2 p) {
+	vec2 a = abs(p);
+	vec2 inside = a * map_half / BAKED_HALF;
+	vec2 outside = a + map_half - BAKED_HALF;
+	return sign(p) * mix(inside, outside, step(vec2(BAKED_HALF), a));
+}
+
 void vertex() {
+	VERTEX.xz += fit_xz(UV2) - UV2;
 	v_col = pow(COLOR.rgb, vec3(2.2)) * mix(ao_floor, 1.0, COLOR.a);
 	v_wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	v_facet = UV.x;
