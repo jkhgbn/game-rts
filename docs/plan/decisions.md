@@ -7,6 +7,7 @@ live in each spec's "User decisions" section (`docs/design/*.md`) and in `docs/p
 ## How we work
 | Date | Decision | Who | Source |
 |---|---|---|---|
+| 2026-10-14 | Music: B (CC0 VSCO 2 CE orchestral samples via the sampler backend) for every track. Game files = stereo 22 050 Hz 16-bit WAV (budget ~160 MB WAV, QOA import for the export); the samples stay outside the repo. No choir samples: `chant` / `boss` use the strings fallback (`choir_fallback`); the synth choir is not shipped unless JS asks | JS (B) / lead (format, choir) | lead session 2026-10-14 |
 | 2026-10-13 | SC2-style console (ui-sc2-console.md): help overlay on `?` + K; hero tile with 32 px item slots bottom-left; command card buttons 56 px (spec defaults, JS can change at playtest) | lead | ui-sc2-console.md questions |
 | 2026-10-13 | Music style target = 90s symphonic RTS score (JS's reference: Total Annihilation soundtrack; style only, no melodies). Try both: pure-code orchestra AND our code-composed scores played with CC0 orchestral samples (VSCO 2 CE subset, 789 MB, downloaded with JS's OK to Documents\four-wizards-samples, outside the repo; only rendered tracks enter the game); compare on the listening sheet | JS | lead session 2026-10-13 |
 | 2026-10-13 | Music (music.md): phase 1 = forge + 4 tracks + listening sheet on the Desktop for JS before wiring; ~77 MB WAV accepted (QOA import later); rival kingdom's theme in the match rotation; the wordless choir ships only if JS approves it by ear. ui-coder owns scripts/audio/ + tools/music_forge/ | lead | music.md decisions |
