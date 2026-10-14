@@ -144,7 +144,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   end_state)` (end state also when skipped / missing / tests; not when the mission leaves the tree mid-film), `win` / `lose(delay)`, `scaled`, `spawn_group`,
   `spawn_wave_at`, `order_wave`, `set_dormant`, `raise_wizard`, `set_player_hero`, `lock_base`, `set_truce` (meta
   `truce`, `Unit.in_truce`), seats `add_seat` / `switch_seat_side` / `withdraw_seat`, `set_mission_flag` /
-  `add_track_counter`, `MissionBase.scene_knob`. `CampaignState`: `MISSION_REWARDS` keys `artifact`, `flags`, `bonus_essence`,
+  `add_track_counter`, `MissionBase.scene_knob`; music (2026-10-14): MissionBase adds a GameAudio child when the scene has
+  none, boss music `boss_type_alive`, `boss_music_on()`, `set_boss_music(on)` (override `_boss_fight_active()` per mission). `CampaignState`: `MISSION_REWARDS` keys `artifact`, `flags`, `bonus_essence`,
   `set_flags`, `items`, `unlock`, `next`, `save_items`; `set_flags`, `flag_value` (int counters), `reward_of`.
   Kits: `T3Kit.enabled_here()` reads the scene's `t3_enabled`, `T3Kit.helpers_here()` its `helpers_enabled`;
   `TierSystem.set_start_tier(team, tier)` / `Keep.set_start_tier(t)` (quiet); `HelperRoster.set_call_price`, `grant()`;

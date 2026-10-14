@@ -26,6 +26,7 @@ var played: Array[Dictionary] = []   ## Read only (tests / debug): {unit, event,
 var _bank: Dictionary = {}       # StringName unit id -> {StringName event -> Array[String] wav paths}
 var _last_idx: Dictionary = {}   # "unit/event" -> last line index (no immediate repeat)
 var _player: AudioStreamPlayer
+var _rng := RandomNumberGenerator.new()   # own RNG: the global one belongs to gameplay / seeded replays
 var _now := 0.0
 var _next_ok := -1000.0
 var _sm: Node = null
@@ -38,6 +39,7 @@ var _order_attack_move := false
 
 
 func _ready() -> void:
+	_rng.randomize()
 	name = "UnitVoice"
 	load_bank()
 	_player = AudioStreamPlayer.new()
@@ -101,7 +103,7 @@ func bark(unit: Node, event: StringName) -> bool:
 	if _player and _player.playing:
 		return false
 	var key := "%s/%s" % [id, event]
-	var i := randi() % paths.size()
+	var i := _rng.randi() % paths.size()
 	if paths.size() > 1 and i == int(_last_idx.get(key, -1)):
 		i = (i + 1) % paths.size()
 	_last_idx[key] = i

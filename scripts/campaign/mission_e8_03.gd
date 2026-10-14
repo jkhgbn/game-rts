@@ -820,6 +820,11 @@ func save_block_reason() -> String:
 	return super()
 
 
+## Boss music (music.md 4, MissionBase._boss_fight_active): from phase 1 (the King stands, boss bar) to his fall (E14).
+func _boss_fight_active() -> bool:
+	return phase >= 1 and not has_fired(&"E14") and king != null and is_instance_valid(king)
+
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if not match_started or game_over or world_is_held or save_restoring:

@@ -585,6 +585,11 @@ func say_id(id: StringName) -> void:
 
 # ---------------------------------------------------------------- the tick
 
+## Boss music (music.md 4, MissionBase._boss_fight_active): the Colossus fight from the ward break (phase 2, the boss bar) to his fall.
+func _boss_fight_active() -> bool:
+	return (phase == 2 or phase == -2 or phase == 3) and keystone != null and keystone.colossus_alive()
+
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if not match_started or game_over or world_is_held:

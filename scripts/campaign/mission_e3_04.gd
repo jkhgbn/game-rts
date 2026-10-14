@@ -1312,6 +1312,11 @@ func _tick_storm_wear() -> void:
 		vey.hp = _vey_worn_hp
 
 
+## Boss music (music.md 4, MissionBase._boss_fight_active): while Vey is on the field (his boss bar, storms 1-3; resting included).
+func _boss_fight_active() -> bool:
+	return vey_state != &"away" and breaks < 3 and vey != null and is_instance_valid(vey) and vey.is_alive()
+
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if not match_started or game_over or world_is_held:

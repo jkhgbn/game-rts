@@ -1374,6 +1374,14 @@ func _tick_torvald() -> void:
 
 # ---------------------------------------------------------------- every frame
 
+## Boss music (music.md 4, MissionBase._boss_fight_active): while a woken Wallwarden stands (its boss bar).
+func _boss_fight_active() -> bool:
+	for id: StringName in wallwardens:
+		if _is_boss_up(wallwardens[id]):
+			return true
+	return false
+
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if not match_started or game_over or world_is_held:

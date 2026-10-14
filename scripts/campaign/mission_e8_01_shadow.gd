@@ -348,6 +348,11 @@ func use_gift() -> String:
 
 # ---------------------------------------------------------------- Hush (B.4)
 
+## Boss music (music.md 4, MissionBase._boss_fight_active): while Mother Hush fights (hush_state 1, her boss bar).
+func _boss_fight_active() -> bool:
+	return hush_state == 1 and _is_boss_up(hush)
+
+
 func _tick_hush() -> void:
 	if hush == null or not is_instance_valid(hush) or hush_state == 2:
 		return

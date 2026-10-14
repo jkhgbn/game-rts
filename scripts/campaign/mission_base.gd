@@ -57,6 +57,9 @@ const META_TRUCE_PREV := &"mission_truce_prev"   ## The truce id a seat node had
 const META_TRUCE_HOOK := &"_mission_truce_hook"
 ## _sleep really ran on this node (immortal guard, out of "units"); a load that only decoded META_DORMANT lacks it.
 const META_ASLEEP := &"_mission_asleep"
+const GAME_AUDIO_SCRIPT := "res://scripts/audio/game_audio.gd"
+const MUSIC_DIRECTOR_SCRIPT := "res://scripts/audio/music_director.gd"
+const BOSS_MUSIC_TICK := 0.5        ## The boss music rule (_boss_fight_active) is checked this often.
 const DEFAULT_SPEAKER_COLORS := {
 	&"vessa": Color(1.0, 0.45, 0.1),
 	&"malrik": Color(0.7, 0.3, 1.0),
@@ -162,6 +165,9 @@ var _local_unit_types: Dictionary = {}
 var _local_building_types: Dictionary = {}
 ## Seats brought in by activate_seat: seat -> {kingdom, profile} (saved: a load restores their Economy / Commander).
 var _activated_seats: Dictionary = {}
+## The boss music context is on (music.md 4; set_boss_music / _boss_fight_active). Not saved: a load re-derives it.
+var _boss_music := false
+var _boss_music_tick := 0.0
 
 
 # ---------------------------------------------------------------- setup
@@ -178,6 +184,7 @@ func _ready() -> void:
 	if config != _applied_config:   # a scene / test gave another config
 		_apply_switches(config)
 	Unit.truce_count = 0   # static: a truce of the previous scene (F9, mission to mission) must not survive it
+	_ensure_game_audio()
 	super()
 	if tier_system:
 		tier_system.max_tier = config.max_tier
@@ -185,6 +192,20 @@ func _ready() -> void:
 		for team: Variant in config.start_tiers:
 			tier_system.set_start_tier(int(team), int(config.start_tiers[team]))
 	_apply_economy_start()
+
+
+## Mission scenes carry no GameAudio node (skirmish.tscn / layout_level.tscn do): add one as a direct child of the
+## level, before main.gd's _ready, so missions get SFX and the combat intensity / drive stem (MU14). Load-guarded.
+func _ensure_game_audio() -> void:
+	if get_node_or_null(^"GameAudio") != null or not ResourceLoader.exists(GAME_AUDIO_SCRIPT):
+		return
+	var s := load(GAME_AUDIO_SCRIPT) as Script
+	if s == null:
+		return
+	var n := Node3D.new()
+	n.set_script(s)
+	n.name = "GameAudio"
+	add_child(n)
 
 
 ## The mission's knobs (override). Default: an empty config (everything off / untouched).
@@ -602,6 +623,8 @@ func _physics_process(delta: float) -> void:
 	if world_is_held:
 		_held_total += delta
 		return
+	if not _ending:
+		_tick_boss_music(delta)
 	_run_timers(mission_time())
 	if game_over or _ending or _events.is_empty():
 		return
@@ -737,6 +760,77 @@ func play_cutscene(id: StringName, end_state: Callable = Callable()) -> String:
 
 
 # ---------------------------------------------------------------- end of the mission
+
+# ---------------------------------------------------------------- boss music (music.md 4, MU14)
+
+## Override: true while this mission's boss fight runs (boss music). Default: a living, awake (not dormant) unit of
+## another team than the player's in group "boss" (e2m5 Doorwarden, m04 Colossus, e3m3 Sexton). Checked every
+## BOSS_MUSIC_TICK s, never while the world is held (a cutscene keeps the music it had) nor once the mission ends.
+func _boss_fight_active() -> bool:
+	for n in get_tree().get_nodes_in_group(&"boss"):
+		if _is_boss_up(n):
+			return true
+	return false
+
+
+## True when a living, awake, non-player unit whose UnitType id is in `type_ids` is on the field (named elites that
+## are not in group "boss": e6m1 Stair-Breaker...).
+func boss_type_alive(type_ids: Array) -> bool:
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u != null and u.unit_type != null and type_ids.has(String(u.unit_type.id)) and _is_boss_up(u):
+			return true
+	return false
+
+
+## A boss unit that counts for the music: alive, awake, not the player's.
+func _is_boss_up(n: Variant) -> bool:
+	if n == null or not is_instance_valid(n):
+		return false   # a freed boss (a typed cast of a freed object is a script error)
+	var u := n as Unit
+	return u != null and u.is_alive() and int(u.team) != Unit.Team.PLAYER and not is_dormant(u)
+
+
+## True while the boss music context is on (read only).
+func boss_music_on() -> bool:
+	return _boss_music
+
+
+func _tick_boss_music(delta: float) -> void:
+	_boss_music_tick -= delta
+	if _boss_music_tick > 0.0:
+		return
+	_boss_music_tick = BOSS_MUSIC_TICK
+	var on := _boss_fight_active()
+	if on != _boss_music:
+		set_boss_music(on)
+
+
+## Boss music on (MusicDirector context `boss`) or off (back to `match`, with the mission's kingdoms; the
+## MissionConfig.music_tracks pool comes back with it). Missions normally leave it to `_boss_fight_active`; a scripted
+## moment may call it. The director is reached load-guarded (no audio scripts = nothing happens).
+func set_boss_music(on: bool) -> void:
+	_boss_music = on
+	var d := _music_director()
+	if d == null:
+		return
+	# Kingdoms passed both ways: a context call without them would clear the director's match kingdoms. The director
+	# keeps the MissionConfig.music_tracks override through `boss` (it only applies to match) and back.
+	var own := player_kingdom if player_kingdom != &"" else &"fire"
+	var foe := enemy_kingdom if enemy_kingdom != &"" else &"shadow"
+	d.call(&"set_music_context", &"boss" if on else &"match", own, foe)
+
+
+## The MusicDirector (a /root child, MusicDirector.ensure), or null when the audio scripts are missing.
+func _music_director() -> Node:
+	if not is_inside_tree() or not ResourceLoader.exists(MUSIC_DIRECTOR_SCRIPT):
+		return null
+	var s := load(MUSIC_DIRECTOR_SCRIPT) as Script
+	if s == null:
+		return null
+	var d: Variant = s.call(&"ensure", get_tree())
+	return d as Node if d is Node and d.has_method(&"set_music_context") else null
+
 
 ## Victory after `delay` seconds of match time (match_time(): it runs on through a hold_world; 0 = now). The first
 ## ending decided wins: once win / lose (or the keep-lost rule) is pending, later calls are ignored, unless `force`

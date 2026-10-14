@@ -1019,6 +1019,11 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 
 # ---------------------------------------------------------------- every frame
 
+## Boss music (music.md 4, MissionBase._boss_fight_active): while the Gate-Breaker stands (its boss bar).
+func _boss_fight_active() -> bool:
+	return boss_type_alive(["gate_breaker"])
+
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if not match_started or game_over or world_is_held or save_restoring:

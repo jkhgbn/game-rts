@@ -86,6 +86,9 @@ extends Resource
 @export var economy_enabled := true
 ## Artifact slots forced at start: [slot 1 id, slot 2 id], "" = leave that slot alone (e8m1 key relic).
 @export var forced_artifacts: Array[String] = []
+## Music pool override (music.md 4, MusicDirector reads it when the level enters the tree): track ids, e.g.
+## [&"ice", &"field"]. [] = the default match pool (own kingdom = the level's player_kingdom).
+@export var music_tracks: Array[StringName] = []
 
 # ---------------------------------------------------------------- bots
 ## Commander profile for `bot_team` (AIProfile id, e.g. &"mission_01"). &"" = no Commander (scripted enemy only).

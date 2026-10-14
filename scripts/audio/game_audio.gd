@@ -254,6 +254,8 @@ var _voice_until: Array[float] = []   # game time when each voice is free again
 var _voice_start: Array[float] = []
 var _ui: Array[AudioStreamPlayer] = []
 var _ui_next := 0
+## Own random numbers (pitch, takes, mine ticks): never the global RNG, which gameplay and seeded replays share.
+var _rng := RandomNumberGenerator.new()
 var _music: MusicDirector = null   # the shared director (made by MusicDirector.ensure)
 var _intensity_left := INTENSITY_POLL
 var _hit_until := -1.0             # game time until which an own building / the wizard was hit
@@ -284,6 +286,7 @@ func _ready() -> void:
 	top_level = true
 	global_transform = Transform3D.IDENTITY
 	process_mode = Node.PROCESS_MODE_ALWAYS   # UI clicks in the pause menu
+	_rng.randomize()
 	GameSettings.ensure_buses()
 	_music = MusicDirector.ensure(get_tree())
 	_load_streams()
@@ -354,7 +357,7 @@ func play_at(id: StringName, pos: Vector3) -> bool:
 	v.stream = stream
 	v.global_position = pos
 	v.volume_db = float(VOLUMES.get(id, 0.0))
-	v.pitch_scale = randf_range(0.93, 1.07)
+	v.pitch_scale = _rng.randf_range(0.93, 1.07)
 	v.play()
 	_voice_start[idx] = _now
 	_voice_until[idx] = _now + stream.get_length() / v.pitch_scale
@@ -819,7 +822,7 @@ func _poll_mining() -> void:
 		if w.gather_state != Worker.GatherState.MINING:
 			_mine_next.erase(w)
 			continue
-		var next: float = _mine_next.get(w, _now + randf() * MINE_TICK_EVERY)
+		var next: float = _mine_next.get(w, _now + _rng.randf() * MINE_TICK_EVERY)
 		if _now >= next:
 			next = _now + MINE_TICK_EVERY
 			play_at(&"mine_tick", w.global_position + Vector3.UP)
@@ -1111,11 +1114,11 @@ func pick_take(id: StringName, stream: AudioStream) -> AudioStream:
 	if takes.size() < 2:
 		return stream
 	var last := int(_last_take.get(id, -1))
-	var i := randi() % (takes.size() - 1)
+	var i := _rng.randi() % (takes.size() - 1)
 	if last >= 0 and i >= last:
 		i += 1   # skip the last one: the others stay equally likely
 	elif last < 0:
-		i = randi() % takes.size()
+		i = _rng.randi() % takes.size()
 	_last_take[id] = i
 	return takes[i]
 

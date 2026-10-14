@@ -823,6 +823,11 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 
 # ---------------------------------------------------------------- every frame
 
+## Boss music (music.md 4, MissionBase._boss_fight_active): while Old Whitepelt hunts (its boss bar, sec_whitepelt active).
+func _boss_fight_active() -> bool:
+	return _is_boss_up(whitepelt) and objective_state("sec_whitepelt") == "active"
+
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if not match_started or game_over or world_is_held or save_restoring:

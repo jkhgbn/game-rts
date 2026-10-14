@@ -1,7 +1,8 @@
 extends SceneTree
 ## MU14 (docs/design/music.md 4): combat intensity (GameAudio, every 0.5 s) and the drive stem curve.
 ## A quiet skirmish (bot off): after 20 s the intensity stays < 0.15 and the drive is silent. Then 12 enemy shades
-## at the player's keep: intensity >= 0.75 within 3 s, and the drive reaches 0 dB.
+## at the player's keep: intensity >= 0.75 within 3 s, and the drive reaches 0 dB. Sound playback leaves the global
+## RNG alone (seeded replays / gameplay share it).
 ## Run: godot --headless --path . -s tests/test_mu14.gd --fixed-fps 60 --quit-after 4000
 
 const TASK_ID := "mu14"
@@ -35,6 +36,8 @@ func _process(_delta: float) -> bool:
 				float(md.call(&"combat_intensity")) if md else -1.0, float(md.call(&"drive_db")) if md else 0.0])
 	if md == null:
 		md = root.get_node_or_null(^"MusicDirector")
+		if md != null and not _rng_untouched():
+			return true
 		return md == null and frame > 30 and _fail("no /root/MusicDirector in a skirmish")
 	var t := frame - _phase_frame
 	var inten := float(md.call(&"combat_intensity"))
@@ -78,6 +81,34 @@ func _spawn_raid() -> void:
 		var a := TAU * i / 12.0
 		var u: Node = main.call(&"make_unit", "shade")
 		main.call(&"_spawn", u, 1, keep.global_position + Vector3(cos(a), 0.0, sin(a)) * 9.0)
+
+
+## GameAudio / UnitVoice / MusicDirector never draw from the global RNG (gameplay + seeded replays own it):
+## seed(1234), play sounds (takes, pitch), barks and pool picks, and the next global randi() is the seeded one.
+func _rng_untouched() -> bool:
+	var audio: Node = null
+	for c in main.get_children():
+		if c.has_method(&"measure_intensity"):
+			audio = c
+	if audio == null:
+		return not _fail("no GameAudio in the skirmish")
+	seed(1234)
+	var expect := randi()
+	seed(1234)
+	audio.set(&"max_hear_distance", 1.0e6)
+	for i in 20:
+		audio.call(&"play_at", &"melee_hit", Vector3(i, 0, 0))
+		audio.call(&"play_ui", &"ui_click")
+		audio.call(&"pick_take", &"melee_hit", null)
+	var voice := audio.get_node_or_null(^"UnitVoice")
+	if voice != null and main.get(&"hero") != null:
+		voice.call(&"bark", main.get(&"hero"), &"select")
+	md.call(&"simulate_picks", 10)
+	var got := randi()
+	if got != expect:
+		return not _fail("sound playback moved the global RNG (randi %d, expected %d)" % [got, expect])
+	print("  global RNG untouched by GameAudio / UnitVoice / MusicDirector")
+	return true
 
 
 func _raw() -> float:

@@ -377,3 +377,16 @@ Z X C V B N M , . / with Coffer G / next tier U). New data for the panel:
 - Caps are now 36 / 60 / 84 (`rules.cap_at(tier)`), start 600, income 120. `_card_tip` says "(Stronghold)" for any
   requires_tier >= 2: T3 cards need "(Citadel)".
 - `wave_strike_level.gd` still says "Buy cards (Z X C V)" at start; I will change it when WS2.U1 fixes the keys.
+
+## MU14 missions (systems-coder, 2026-10-14): GameAudio + boss music in missions are in
+- `MissionBase._ready` adds a `GameAudio` child (script `scripts/audio/game_audio.gd`, load-guarded) when the mission
+  scene has none, before main.gd's `_ready` (same place as in skirmish.tscn). Missions now get SFX + combat intensity.
+- `MissionConfig.music_tracks: Array[StringName]` exists (empty in every mission today: `player_kingdom` already
+  matches music.md 4 per episode).
+- Boss music: `MissionBase` checks `_boss_fight_active()` every 0.5 s (not while the world is held, not once the
+  mission ends) and calls `set_music_context(&"boss", own, enemy)` / `(&"match", own, enemy)`; read `boss_music_on()`.
+  Overrides in m04 / e3m4 / e4m4 / e6m1 / e6m2 / e6m3 / e8m1_shadow / e8m3; default = an awake non-player unit in
+  group "boss" (e2m5, e3m3). Kingdoms are passed both ways because `set_music_context(&"boss")` with no kingdoms
+  clears the director's `_kingdom` / `_enemy`, so a later bare `&"match"` would lose them. Consider keeping the match
+  kingdoms when `boss` is called without any (your call).
+- Not done (yours if wanted): skirmish epic-beast boss bars (`mapfill_bar.gd` BossBar) do not switch to `boss`.
