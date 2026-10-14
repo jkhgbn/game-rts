@@ -58,7 +58,9 @@ Fire 7 / 12 (fire-shadow seat order: Fire 2/6; shadow-fire: Fire 5/6 -> the enem
 Current main on the same pair / map: Fire 8 / 8 (confirm run). Points at 81750691 (Hush R2-3 first suspect), small n.
 Runs: Documents\four-wizards-lab-runs\fg-ab-prefix-57f8.
 
-## A/B 2: current main with the old Mother Hush (2026-10-13 morning)
+## A/B 2: current main with the old Mother Hush (2026-10-13 morning) — INVALID
+
+**Invalid (found 2026-10-13 night, docs/balance/b13_2026-10-13/diagnosis.md):** the CI worktree was moved to a new commit and patched without a re-import, so all 12 games ran a broken build (~55 000 Nonexistent function / parse errors, no units trained). The verdict below is NOT supported; the normal-pace drift's causes are in the diagnosis.
 Run `fg-ab-hush-main`: tag playtest-2026-10-13-2 (8dcc0bb9) with `helper_abilities.gd _drop_targeting` patched back to
 `if e.attack_target == helper: e.command_stop()` (patch not committed, reverted after). Crown Hollow, normal pace, Fire vs
 Shadow both seats, seeds 1-6.

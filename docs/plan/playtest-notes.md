@@ -25,7 +25,7 @@
 ## Problèmes connus
 - **Équilibrage, rythme Normal** : Feu gagne trop souvent contre Ombre (≈ 72-75 %, surtout à Crown Hollow).
   En Blitz c'est correct (Feu 58, Nature 60, Ombre 52), sauf **Glace faible en Blitz** (29 %).
-  Cause confirmée (test A/B) : la correction de Mère Hush. Avant, elle arrêtait net les attaques du bot Feu (Ombre gagnait alors 10 / 12). On garde la correction et on compensera Ombre.
+  Cause : voir docs/balance/b13_2026-10-13/diagnosis.md (le test A/B sur Mère Hush était invalide). À rééquilibrer.
 - **e6m2 (épisode 6, mission 2)** : très dur en difficile, et notre joueur simulé perd parfois aussi en normal (route), même avant les corrections.
 - **e8m3 (mission finale)** : la Frappe de clé de voûte du roi punit les groupes serrés ; Vessa ne régénère pas
   ses PV, les potions comptent.
