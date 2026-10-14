@@ -46,6 +46,11 @@ foreach ($raw in $lines) {
 	if ($isTest -and $code -cmatch '(?<![\w."/])Events\.') {
 		$problems.Add("R4 'Events.' in a test (tests compile before autoloads exist): use get_node_or_null(^`"/root/Events`"): $($raw.Trim())")
 	}
+	# R6 (2026-10-14, seen twice in one day: game_audio.gd, test_unit_upgrades.gd): a `\` + newline line continuation
+	# lost in an edit leaves a run of tabs in the middle of a line. It still parses, so nothing else catches it.
+	if ($code -match '\S\t{2,}\S') {
+		$problems.Add("R6 tabs in the middle of a line (a lost '\' line continuation?): put the '\' and the newline back: $($raw.Trim())")
+	}
 }
 # R5 (2026-10-12, seen twice in one night): a whole-file Write turned a CRLF file into LF, so the commit showed every
 # line changed. Only for Write (Edit keeps line endings) on a file git already tracks with CRLF.
