@@ -1,0 +1,215 @@
+diff --git a/data/spells/rime_bolt.tres b/data/spells/rime_bolt.tres
+index 1a1b185c..985efc0d 100644
+--- a/data/spells/rime_bolt.tres
++++ b/data/spells/rime_bolt.tres
+@@ -11,14 +11,14 @@ target_type = 1
+ mana_cost = 35.0
+ cooldown = 6.0
+ cast_range = 13.0
+-damage = 45.0
++damage = 55.0
+ duration = 3.0
+ status_id = &"chill"
+ icon_abbrev = "RB"
+ tooltip = "Chills the target: slower attacks and movement."
+ max_rank = 3
+ level_required = Array[int]([1, 3, 5])
+-damage_by_rank = Array[float]([45.0, 58.0, 72.0])
++damage_by_rank = Array[float]([55.0, 70.0, 85.0])
+ cooldown_by_rank = Array[float]([6.0, 5.5, 5.0])
+ range_by_rank = Array[float]([13.0, 13.0, 13.0])
+ duration_by_rank = Array[float]([3.0, 4.0, 5.0])
+diff --git a/scripts/units/helper_abilities.gd b/scripts/units/helper_abilities.gd
+index a88cde46..a8363e3c 100644
+--- a/scripts/units/helper_abilities.gd
++++ b/scripts/units/helper_abilities.gd
+@@ -28,6 +28,9 @@ const VEIL := {"idle": 4.0, "near": 5.0, "bonus": 0.6}
+ const HUSH_BOND := {"time": 4.0, "bonus": 0.15}
+ const BLINK := {"range": 14.0, "delay": 0.5, "damage": 55.0}
+ const SMOKE := {"hp_pct": 0.5, "min_targeting": 3, "shroud": 3.0, "radius": 20.0, "daze": 2.0}   # daze: B13.H1 (Knives too)
++## B13.H2 (skirmish only, same gate as the H1 daze: smoke_daze_here): Smoke Cloak every 16 s (missions 22 s) and
++## autocast at 2+ enemies targeting her (missions 3+).
++const SMOKE_SKIRMISH := {"cooldown": 16.0, "min_targeting": 2}
+ const KNIVES := {"radius": 10.0, "min_count": 4, "wizard_pct": 0.4, "vanish": 1.5, "strikes": 6, "gap": 0.25,
+ 		"damage": 40.0, "hero_mult": 1.5, "mark": 4.0}
+ # Aldra Stillwater
+@@ -93,6 +96,8 @@ func cooldown_left(id: StringName) -> float:
+ 
+ 
+ func cooldown_total(id: StringName) -> float:
++	if id == &"hush_smoke" and smoke_daze_here():
++		return float(SMOKE_SKIRMISH["cooldown"])
+ 	return float(COOLDOWNS.get(id, 0.0))
+ 
+ 
+@@ -251,7 +256,7 @@ func _pick(id: StringName) -> Variant:
+ 				if e.attack_target == helper:
+ 					targeting += 1
+ 			if helper.hp < helper.max_hp * float(SMOKE["hp_pct"]) and targeting > 0 \
+-					or targeting >= int(SMOKE["min_targeting"]):
++					or targeting >= smoke_min_targeting():
+ 				return at
+ 			return null
+ 		&"hush_knives":
+@@ -637,6 +642,11 @@ static func smoke_daze_here() -> bool:
+ 	return scene == null or not scene.has_method(&"objectives")
+ 
+ 
++## Smoke Cloak autocast threshold (enemies targeting her): 2 in skirmish (B13.H2), 3 in missions.
++static func smoke_min_targeting() -> int:
++	return int(SMOKE_SKIRMISH["min_targeting"]) if smoke_daze_here() else int(SMOKE["min_targeting"])
++
++
+ func _enemies_near(at: Vector3, r: float) -> Array[Unit]:
+ 	var out: Array[Unit] = []
+ 	if helper == null or not helper.is_inside_tree():
+diff --git a/tests/test_7_g3.gd b/tests/test_7_g3.gd
+index 21884af3..ccb08884 100644
+--- a/tests/test_7_g3.gd
++++ b/tests/test_7_g3.gd
+@@ -2,7 +2,7 @@ extends SceneTree
+ ## Task 7.G3: Torvald's spells (kingdom-ice.md 4.1-4.3). Builds its own SpellCaster on spawned wizards.
+ ## - Rank tables 4.2 exact (SpellType data), mana never changes with rank, slot order F / Q / E.
+ ## - Refusals: Dead, Unknown spell, Not learned, On cooldown, Not enough mana, Invalid target.
+-## - Rime Bolt ranks 1-3: 45 / 58 / 72 damage, chill 3 / 4 / 5 s, cooldown 6 / 5.5 / 5.
++## - Rime Bolt ranks 1-3: 55 / 70 / 85 damage (B13.I2), chill 3 / 4 / 5 s, cooldown 6 / 5.5 / 5.
+ ## - Flash Freeze ranks 1-3: 20 / 30 / 40 damage in r 3 / 3.25 / 3.5, frozen 1.5 / 2 / 2.5 s (half on a
+ ##   wizard: Malrik 0.75 s), then chill 3 s once thawed; cooldown 20 / 18 / 16; outside the circle untouched.
+ ## - Rime Aegis ranks 1-2: shield 80 / 120 for 8 s within 8 / 10 m (Torvald + soldiers, no workers).
+@@ -135,7 +135,7 @@ func _step() -> void:
+ 		1:   # the three bolts landed
+ 			if _elapsed() < 45:
+ 				return
+-			var want_dmg := [45.0, 58.0, 72.0]
++			var want_dmg := [55.0, 70.0, 85.0]
+ 			var want_chill := [3.0, 4.0, 5.0]
+ 			for i in 3:
+ 				var u: Unit = bolt_targets[i]
+@@ -205,7 +205,7 @@ func _setup() -> void:
+ 	if not errors.is_empty():
+ 		return
+ 	for r in [1, 2, 3]:
+-		_near(rb.damage_at(r), [45.0, 58.0, 72.0][r - 1], "rb damage r%d" % r)
++		_near(rb.damage_at(r), [55.0, 70.0, 85.0][r - 1], "rb damage r%d" % r)
+ 		_near(rb.duration_at(r), [3.0, 4.0, 5.0][r - 1], "rb chill r%d" % r)
+ 		_near(rb.cooldown_at(r), [6.0, 5.5, 5.0][r - 1], "rb cd r%d" % r)
+ 		_near(rb.range_at(r), 13.0, "rb range r%d" % r)
+diff --git a/tests/test_7_u1.gd b/tests/test_7_u1.gd
+index a2d682bd..742f54ff 100644
+--- a/tests/test_7_u1.gd
++++ b/tests/test_7_u1.gd
+@@ -13,7 +13,7 @@ const TASK_ID := "7.u1"
+ const TIMEOUT_FRAMES := 1200
+ const WALL_TIP := "Ice Wall  [V]\nCost 20 crystals · 8 s · 500 HP\nBlocks the way. Max 16."
+ const SPELL_TIPS := {
+-	&"rime_bolt": ["35 mana · 45 damage · range 13", "Chills the target: slower attacks and movement."],
++	&"rime_bolt": ["35 mana · 55 damage · range 13", "Chills the target: slower attacks and movement."],
+ 	&"flash_freeze": ["50 mana · 18 s cooldown · radius 3", "Freezes every enemy in the circle."],
+ 	&"rime_aegis": ["60 mana · 40 s cooldown · radius 8", "Shields Torvald and nearby soldiers."],
+ }
+diff --git a/tests/test_bal_1013.gd b/tests/test_bal_1013.gd
+index 31f4e9d7..0fc23e0c 100644
+--- a/tests/test_bal_1013.gd
++++ b/tests/test_bal_1013.gd
+@@ -3,6 +3,9 @@ extends SceneTree
+ ## H1: Mother Hush's Smoke Cloak dazes the enemies it makes drop her (2.0 s, a wizard 1.0 s), only those attacking
+ ##     her, never changes their orders (attack-move and order_serial kept, they move on after); helpers off = no daze.
+ ## I1: flash_freeze.tres damage 40 / 55 / 70, cooldown 18 / 16 / 14.
++## H2: Smoke Cloak cooldown 16 s and autocast at 2+ enemies targeting her (skirmish); helpers off / missions keep
++##     22 s and 3+.
++## I2: rime_bolt.tres damage 55 / 70 / 85 (damage 55), cooldown unchanged 6 / 5.5 / 5.
+ ## Run:  godot --headless --path . -s tests/test_bal_1013.gd --fixed-fps 60 --quit-after 3000
+ 
+ const TASK_ID := "bal_1013"
+@@ -22,6 +25,8 @@ var foe_off: Unit
+ var hero: Unit
+ var foe_serial := 0
+ var foe_pos := Vector3.ZERO
++var hush_two: Helper
++var hush_one: Helper
+ 
+ 
+ func _initialize() -> void:
+@@ -41,6 +46,7 @@ func _process(_delta: float) -> bool:
+ 	match frame:
+ 		1:
+ 			_check_flash_freeze_data()
++			_check_rime_bolt_data()
+ 			_setup()
+ 		5:
+ 			_cast_smoke()
+@@ -58,6 +64,9 @@ func _process(_delta: float) -> bool:
+ 		200:
+ 			if foe.global_position.distance_to(foe_pos) < 0.5:
+ 				_fail("foe did not move on after the daze")
++			_setup_autocast()
++		260:   # 1 s of autocast ticks (every 0.5 s)
++			_check_autocast()
+ 			_check_helpers_off()
+ 			_finish()
+ 			return true
+@@ -96,6 +105,40 @@ func _check_flash_freeze_data() -> void:
+ 	_near(fz.cooldown, 18.0, "ff cooldown")
+ 
+ 
++func _check_rime_bolt_data() -> void:
++	var rb := SpellType.find(&"rime_bolt")
++	if rb == null:
++		_fail("rime_bolt missing")
++		return
++	for r in [1, 2, 3]:
++		_near(rb.damage_at(r), [55.0, 70.0, 85.0][r - 1], "rb damage r%d" % r)
++		_near(rb.cooldown_at(r), [6.0, 5.5, 5.0][r - 1], "rb cooldown r%d" % r)
++	_near(rb.damage, 55.0, "rb damage")
++
++
++# H2: two enemies targeting a full-HP Hush make her autocast Smoke Cloak; one does not.
++func _setup_autocast() -> void:
++	T3Kit.force_enabled = true
++	if HelperAbilities.smoke_min_targeting() != 2:
++		_fail("skirmish smoke threshold %d, expected 2" % HelperAbilities.smoke_min_targeting())
++	hush_two = _make_hush(_base + Vector3(0.0, 0.0, 14.0))
++	hush_one = _make_hush(_base + Vector3(0.0, 0.0, -24.0))
++	for h in [hush_two, hush_one]:
++		(h as Helper).helper_abilities.reset_cooldowns()
++	for i in 2:
++		var u := _spawn("bal_two_%d" % i, Unit.Team.PLAYER, _base + Vector3(-2.0 + 4.0 * i, 0.0, 12.0))
++		u.set_auto_target(hush_two)
++	var lone := _spawn("bal_one", Unit.Team.PLAYER, _base + Vector3(0.0, 0.0, -22.0))
++	lone.set_auto_target(hush_one)
++
++
++func _check_autocast() -> void:
++	if int(hush_two.helper_abilities.casts.get(&"hush_smoke", 0)) < 1:
++		_fail("2 attackers: no Smoke Cloak autocast")
++	if int(hush_one.helper_abilities.casts.get(&"hush_smoke", 0)) != 0:
++		_fail("1 attacker on a full-HP Hush: Smoke Cloak autocast anyway")
++
++
+ func _plain_type(id: String) -> UnitType:
+ 	var t := UnitType.new()
+ 	t.id = StringName(id)
+@@ -166,12 +209,16 @@ func _cast_smoke() -> void:
+ 		_fail("Smoke wiped the attack-move order")
+ 	if foe.order_serial != foe_serial or hero.order_serial != hero_serial:
+ 		_fail("Smoke changed an order_serial")
++	_near(hush.helper_abilities.cooldown_total(&"hush_smoke"), 16.0, "skirmish smoke cooldown")
++	_near(hush.helper_abilities.cooldown_left(&"hush_smoke"), 16.0, "skirmish smoke cooldown left")
+ 
+ 
+ func _check_helpers_off() -> void:
+ 	T3Kit.force_enabled = false
+ 	if HelperAbilities.smoke_daze_here():
+ 		_fail("smoke_daze_here true on a level without helpers")
++	if HelperAbilities.smoke_min_targeting() != 3:
++		_fail("helpers-off smoke threshold %d, expected 3" % HelperAbilities.smoke_min_targeting())
+ 	hush_off = _make_hush(_base + Vector3(-12.0, 0.0, 0.0))
+ 	foe_off = _spawn("bal_foe_off", Unit.Team.PLAYER, _base + Vector3(-9.0, 0.0, 0.0))
+ 	foe_off.command_attack_move(_base + Vector3(-40.0, 0.0, 0.0))
+@@ -188,5 +235,6 @@ func _check_helpers_off() -> void:
+ 		_fail("Smoke (off) did not drop the target")
+ 	if foe_off.has_status(&"dazed"):
+ 		_fail("helpers off: the attacker was dazed")
++	_near(hush_off.helper_abilities.cooldown_total(&"hush_smoke"), 22.0, "helpers-off smoke cooldown")
+ 	if not foe_off.is_attack_moving():
+ 		_fail("Smoke (off) wiped the attack-move order")

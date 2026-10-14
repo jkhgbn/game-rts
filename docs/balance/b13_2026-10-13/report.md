@@ -31,3 +31,15 @@ Nature 60 / Shadow 52, Fire-Shadow 8 / 16.
 - Kept (committed): H1 + I1 are better than before at both paces. Next round (spec fallbacks): H2 (Smoke Cloak cooldown
   22 -> 16 s, autocast at 2+ attackers) for Shadow at normal pace, I2 (Rime Bolt 45/58/72 -> 55/70/85) for Ice at normal pace,
   re-screen; Nature watch.
+
+## Round 2 (H2 + I2) screens, normal pace — NOT kept
+H2 = Smoke Cloak 16 s / autocast at 2+ attackers (skirmish); I2 = Rime Bolt 55/70/85. CI worktree at 69b0b985 + the patch
+(`round2_h2_i2.patch` in this folder).
+| Run | Games | Result |
+|---|---|---|
+| Fire-Shadow CH | 12 | Fire 10 / 12 |
+| Fire-Shadow TW | 12 | Fire 8 / 12 |
+| Ice pairs CH | 18 | Ice 7 / 18 |
+| Ice pairs TW | 18 | Ice 5 / 18 |
+Fire-Shadow 18 / 24 (round 1: 11 / 16) and Ice 12 / 36 = 33 % (round 1: 35 %): no gain within noise, so the patch is not
+applied. Next: a diagnosis of WHY Shadow and Ice lose at normal pace (game logs) before another knob.
