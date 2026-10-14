@@ -47,7 +47,7 @@ spots = Array[Dictionary]([{
 "id": "hub",
 "image": "identity",
 "kind": "start",
-"pos": Vector3(-76, 0, -7),
+"pos": Vector3(-80, 0, -12),
 "props": {},
 "sub": "",
 "team": 0,
@@ -56,7 +56,7 @@ spots = Array[Dictionary]([{
 "id": "hub_twin",
 "image": "rot180",
 "kind": "start",
-"pos": Vector3(76, 0, 7),
+"pos": Vector3(80, 0, 12),
 "props": {},
 "sub": "",
 "team": 1,
@@ -80,10 +80,46 @@ spots = Array[Dictionary]([{
 "team": -1,
 "twin_of": "gate"
 }, {
+"id": "muster_spawn",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-68, 0, 0),
+"props": {},
+"sub": "muster_spawn",
+"team": -1,
+"twin_of": "muster_spawn"
+}, {
+"id": "muster_spawn_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(68, 0, 0),
+"props": {},
+"sub": "muster_spawn",
+"team": -1,
+"twin_of": "muster_spawn"
+}, {
+"id": "muster_pad",
+"image": "identity",
+"kind": "slot",
+"pos": Vector3(-68, 0, -33),
+"props": {},
+"sub": "muster_pad",
+"team": -1,
+"twin_of": "muster_pad"
+}, {
+"id": "muster_pad_twin",
+"image": "rot180",
+"kind": "slot",
+"pos": Vector3(68, 0, 33),
+"props": {},
+"sub": "muster_pad",
+"team": -1,
+"twin_of": "muster_pad"
+}, {
 "id": "ring1_n",
 "image": "identity",
 "kind": "slot",
-"pos": Vector3(-64, 0, -12),
+"pos": Vector3(-64, 0, -16),
 "props": {},
 "sub": "tower_ring1",
 "team": -1,
@@ -92,7 +128,7 @@ spots = Array[Dictionary]([{
 "id": "ring1_n_twin",
 "image": "rot180",
 "kind": "slot",
-"pos": Vector3(64, 0, 12),
+"pos": Vector3(64, 0, 16),
 "props": {},
 "sub": "tower_ring1",
 "team": -1,
@@ -101,7 +137,7 @@ spots = Array[Dictionary]([{
 "id": "ring1_s",
 "image": "identity",
 "kind": "slot",
-"pos": Vector3(-64, 0, 12),
+"pos": Vector3(-64, 0, 16),
 "props": {},
 "sub": "tower_ring1",
 "team": -1,
@@ -110,7 +146,7 @@ spots = Array[Dictionary]([{
 "id": "ring1_s_twin",
 "image": "rot180",
 "kind": "slot",
-"pos": Vector3(64, 0, -12),
+"pos": Vector3(64, 0, -16),
 "props": {},
 "sub": "tower_ring1",
 "team": -1,
@@ -231,17 +267,31 @@ zones = Array[Dictionary]([{
 "r1": 12.0
 }])
 blocks = Array[Dictionary]([{
-"center": Vector3(-72, 0, -34),
-"half": Vector3(24, 1.5, 14),
+"center": Vector3(-87, 0, -34),
+"half": Vector3(9, 1.5, 14),
 "height": 4.0,
-"id": "wood_n1",
+"id": "wood_n1w",
 "kind": "forest",
 "yaw": 0.0
 }, {
-"center": Vector3(72, 0, 34),
-"half": Vector3(24, 1.5, 14),
+"center": Vector3(87, 0, 34),
+"half": Vector3(9, 1.5, 14),
 "height": 4.0,
-"id": "wood_n1_twin",
+"id": "wood_n1w_twin",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(-53, 0, -34),
+"half": Vector3(5, 1.5, 14),
+"height": 4.0,
+"id": "wood_n1e",
+"kind": "forest",
+"yaw": 0.0
+}, {
+"center": Vector3(53, 0, 34),
+"half": Vector3(5, 1.5, 14),
+"height": 4.0,
+"id": "wood_n1e_twin",
 "kind": "forest",
 "yaw": 0.0
 }, {
@@ -330,7 +380,7 @@ blocks = Array[Dictionary]([{
 "yaw": 0.0
 }])
 source = "res://data/maps/ashwind_reach.map"
-source_hash = "f3e95b88a4d2"
+source_hash = "52c29789ee8d"
 size_x = 192.0
 size_z = 96.0
 biome = "autumn"

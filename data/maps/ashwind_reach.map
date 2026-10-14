@@ -3,16 +3,22 @@
 # 144 m gate to gate (the spec's 280 m map breaks Map Lab R5 "size <= 192 m"; a longer lane needs a bend: M2).
 # The off-lane bands (|z| > 20) are forest blocks (navmesh obstacles; the level draws them as trees).
 # Spot use (Wave Strike reads them, LayoutLevel kinds only): keep = the Bastion, start = the wizard start,
-# slot sub=gate = the spawn pad, slot sub=tower_ring1..3 = tower slots (M2), slot sub=ward = the wizard leash line.
+# slot sub=gate = the spawn pad, slot sub=tower_ring1..3 = tower slots (M2), slot sub=ward = the wizard leash line,
+# slot sub=muster_pad / muster_spawn = the Muster Pad centre / the spawn box centre (wave-strike.md 15.1).
 map ashwind_reach  size=192x96  symmetry=rot180  biome=autumn  title="Ashwind Reach"  spec=docs/design/wave-strike.md
 seat 0  name="west"  side=0  frame=identity
 seat 1  name="east"  side=1  frame=rot180
 
 keep   bastion   at=(-84,0)  footprint=6
-start  hub       at=(-76,-7)
+# WS3.M1 (wave-strike.md 15.1): the spawn box = x -77..-59, z -12..12 (24 x 18 m in front of the gate); the wizard
+# start, the Bastion and the ring-1 tower slots stay >= 2 m outside it. The Muster Pad sits 33 m to the left of it in a
+# clearing cut into the north forest (x -78..-58, z -48..-20).
+start  hub       at=(-80,-12)
 slot   gate      at=(-71,0)    sub=gate
-slot   ring1_n   at=(-64,-12)  sub=tower_ring1
-slot   ring1_s   at=(-64,12)   sub=tower_ring1
+slot   muster_spawn  at=(-68,0)    sub=muster_spawn
+slot   muster_pad    at=(-68,-33)  sub=muster_pad
+slot   ring1_n   at=(-64,-16)  sub=tower_ring1
+slot   ring1_s   at=(-64,16)   sub=tower_ring1
 slot   ring2_n   at=(-46,-11)  sub=tower_ring2
 slot   ring2_s   at=(-46,11)   sub=tower_ring2
 slot   ring3_n   at=(-24,-13)  sub=tower_ring3
@@ -23,7 +29,9 @@ slot   ward      at=(-4,0)     sub=ward
 path   lane_a  poly=[(-71,0),(-36,0),(0,0),(36,0),(71,0)]
 
 # off-lane forest bands (west half; the east is their rot180 image)
-block  wood_n1  at=(-72,-34)  size=(48,28)  kind=forest  height=4
+# wood_n1 (x -96..-48) is split around the Muster Pad clearing x -78..-58 (WS3.M1)
+block  wood_n1w at=(-87,-34)  size=(18,28)  kind=forest  height=4
+block  wood_n1e at=(-53,-34)  size=(10,28)  kind=forest  height=4
 block  wood_n2  at=(-24,-34)  size=(48,28)  kind=forest  height=4
 block  wood_s1  at=(-72,34)   size=(48,28)  kind=forest  height=4
 block  wood_s2  at=(-24,34)   size=(48,28)  kind=forest  height=4

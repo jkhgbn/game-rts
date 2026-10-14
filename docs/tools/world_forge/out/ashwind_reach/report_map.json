@@ -55,7 +55,7 @@
 			"score": -1.0,
 			"shot": "",
 			"status": "INFO",
-			"value": "keep 2, start 2, slot 16; crossings 0, roads 2, zones 2, blocks 14",
+			"value": "keep 2, start 2, slot 20; crossings 0, roads 2, zones 2, blocks 16",
 			"weight": 1.0
 		},
 		{
@@ -69,7 +69,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "134 polygons in 0.1 s",
+			"value": "155 polygons in 0.1 s",
 			"weight": 1.5
 		},
 		{
@@ -139,7 +139,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0.03 % (36 cells)",
+			"value": "0.03 % (40 cells)",
 			"weight": 0.5
 		},
 		{
@@ -219,7 +219,7 @@
 		"roundtrip": "Round trip",
 		"scatter": "Scatter"
 	},
-	"hash": "f3e95b88a4d2/be152444f62a",
+	"hash": "52c29789ee8d/1b99de566291",
 	"hash_note": "",
 	"headless": false,
 	"id": "ashwind_reach",
@@ -229,16 +229,16 @@
 	"notes": [
 		"Files: `data/maps/ashwind_reach_layout.tres`, `docs/tools/world_forge/out/ashwind_reach/preview.tscn`, `docs/tools/world_forge/out/ashwind_reach/map_profile.json`, `docs/tools/world_forge/out/ashwind_reach/map_lab/scorecard.md`, `docs/tools/world_forge/out/ashwind_reach/map_lab/heatmap.png`, `docs/tools/world_forge/out/ashwind_reach/layout.png`"
 	],
-	"previous_quality": 69.6,
+	"previous_quality": 100.0,
 	"quality": 100.0,
 	"result": "PASS",
 	"scene": "",
-	"seconds": 10.8,
+	"seconds": 5.7,
 	"shots": {
 		"heatmap": "map_lab/heatmap.png",
 		"layout": "layout.png"
 	},
-	"started": "2026-10-06 06:40:23",
+	"started": "2026-10-13 21:22:27",
 	"tier": "",
 	"tool": "world_forge",
 	"verb": "map"
