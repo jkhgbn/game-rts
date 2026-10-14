@@ -7,6 +7,10 @@ extends Node
 ## swaps cheap T1 copies for a T3 card when the Citadel supply is full, buys Coffers and the next tier on its
 ## personality's schedule (saving ahead for it). Deterministic (no rng unless rng_seed is set).
 ## Personalities (M1 / M2: 2 of the 5): "steward" (eco: Coffers first, strong late), "hammer" (aggro: cards first).
+## WS3.A1 (15.4): the pad formation per personality (steward Line, hammer Spearhead): buys auto-place in that style and
+## every pass ends with `pad.auto_arrange(style)`; a sell (swap at the cap) takes the card's back-most copy.
+## WS4.A1 (16.3): once the supply is >= 90 % of the cap, a share of each pass (steward 25 %, hammer 30 %) is saved for
+## upgrades (max 2 buys a pass, logged "upgrade <key>").
 
 const PERSONALITIES := ["steward", "hammer"]
 ## Card weights per kingdom (14.3): the bot fills its pop toward these shares (cards above its tier are skipped).
@@ -33,6 +37,14 @@ const STYLE := {
 	"steward": {"reserve": 0, "coffers": 6, "coffer_from_horn": 1, "stronghold_horn": 6, "citadel_horn": 14},
 	"hammer": {"reserve": 0, "coffers": 2, "coffer_from_horn": 8, "stronghold_horn": 7, "citadel_horn": 16},
 }
+## Pad formation style per personality (MusterPad.STYLES, wave-strike.md 15.4).
+const FORMATION := {"steward": &"line", "hammer": &"spearhead"}
+## Upgrades (16.3): the share of each pass's spendable crystals put aside once the supply reaches UPGRADE_FROM_SUPPLY.
+const UPGRADE_SHARE := {"steward": 0.25, "hammer": 0.30}
+const UPGRADE_FROM_SUPPLY := 0.9
+const UPGRADE_MAX_PER_PASS := 2
+const UPGRADE_MIN_COPIES := 4          ## card lines with fewer copies get no card upgrade
+const ARCANA_MIN_COPIES := 2           ## caster + support copies needed for Arcana
 const MELEE_SHARE := 0.4
 const MELEE_RANGE := 3.0
 const SUPPORT_MAX_SHARE := 0.10        ## support cards' pop / pop
@@ -49,6 +61,8 @@ var log_lines: Array[String] = []
 var swaps := 0
 var first_caster_horn := -1            ## the horn whose wave first holds a caster card (-1 = never)
 var first_t3_horn := -1                ## same for a T3 card
+var upgrade_fund := 0                  ## crystals put aside for upgrades (16.3), carried between passes
+var first_upgrade_horn := -1           ## the horn of the pass that bought the first upgrade (-1 = never)
 
 ## Labs: a seed > 0 jitters the card weights by +-20 % (seeded, so a batch of equal personalities still varies).
 var rng_seed := 0:
@@ -73,7 +87,32 @@ func setup(p_seat: int, p_roster: MusterRoster, p_bank: WaveBank, p_director: Wa
 	bank = p_bank
 	director = p_director
 	personality = p_personality if STYLE.has(p_personality) else "steward"
+	roster.place_style = formation_style()
 	add_to_group(&"wave_bots")
+
+
+## The bot's pad formation style (&"line" / &"spearhead").
+func formation_style() -> StringName:
+	return FORMATION.get(personality, &"line")
+
+
+## Summary for logs / tests: the roles on the pad's front row (row 0), left to right, e.g. "heavy x4, rider x2".
+func front_row_roles() -> String:
+	if roster == null or roster.pad == null:
+		return ""
+	var counts: Dictionary = {}
+	var order: Array[StringName] = []
+	for c in roster.pad.copies():
+		if (c["cell"] as Vector2i).y != 0:
+			continue
+		var role := roster.table.role_of(StringName(c["id"]))
+		if not counts.has(role):
+			order.append(role)
+		counts[role] = int(counts.get(role, 0)) + 1
+	var parts: Array[String] = []
+	for role in order:
+		parts.append("%s x%d" % [role, counts[role]])
+	return ", ".join(parts)
 
 
 func _physics_process(_delta: float) -> void:
@@ -90,9 +129,16 @@ func poll() -> void:
 		decide()
 
 
-## One decision pass (public for tests).
+## One decision pass (public for tests); ends with the pad re-arranged in the bot's style (15.4).
 func decide() -> void:
 	decisions += 1
+	roster.place_style = formation_style()
+	_decide()
+	if roster.pad != null:
+		roster.pad.auto_arrange(formation_style())
+
+
+func _decide() -> void:
 	var style: Dictionary = STYLE[personality]
 	var horn := director.horn_index + 1
 	var reserve := int(style["reserve"])
@@ -115,6 +161,8 @@ func decide() -> void:
 			if horn >= tier_horn - ceili(float(goal) / float(maxi(bank.income(), 1))):
 				reserve = maxi(reserve, goal)
 	reserve = maxi(reserve, _t3_reserve())
+	# 1b) upgrades (16.3): near the cap, a share of the pass is set aside and spent on the personality's list
+	reserve += _buy_upgrades(horn, reserve)
 	# 2) Coffers (steward: before cards while under its target; hammer: late and only a few)
 	if personality == "steward":
 		_buy_coffers(style, horn, reserve)
@@ -160,6 +208,121 @@ func decide() -> void:
 	if roster.pop_used() >= roster.cap() and bank.crystals() - reserve >= 400:
 		while bank.crystals() - bank.coffer_price() >= reserve and bank.buy_coffer() == "":
 			_log("coffer+ %d" % bank.coffer_level)
+
+
+## WS4.A1 (16.3): adds this pass's share to `upgrade_fund`, buys up to 2 upgrades from it in the personality's order
+## (stops at the first open one it cannot afford yet: it saves for it). Returns the fund still held (kept as reserve).
+func _buy_upgrades(horn: int, reserve: int) -> int:
+	if roster.upgrades == null or not roster.rules.upgrades_enabled:
+		return 0
+	if float(roster.pop_used()) < UPGRADE_FROM_SUPPLY * float(roster.cap()):
+		return 0   # below the threshold (a new tier's cap): cards first, the fund is not held back
+	var spendable := maxi(bank.crystals() - reserve, 0)
+	upgrade_fund = mini(upgrade_fund, spendable)
+	upgrade_fund += int(float(spendable - upgrade_fund) * float(UPGRADE_SHARE.get(personality, 0.25)))
+	var n := 0
+	for item: Dictionary in upgrade_plan():
+		if n >= UPGRADE_MAX_PER_PASS:
+			break
+		var price := _upgrade_item_price(item)
+		var why := _upgrade_item_why(item)
+		if why != "" and why != MusterRoster.REASON_CRYSTALS:
+			continue   # gated by tier / maxed: the next item
+		if price < 0 or price > upgrade_fund or why != "":
+			break      # save for it
+		if _buy_upgrade_item(item) != "":
+			break
+		upgrade_fund -= price
+		n += 1
+		if first_upgrade_horn < 0:
+			first_upgrade_horn = horn
+		_log("upgrade %s" % roster.upgrades_bought.back())
+	return upgrade_fund
+
+
+## The personality's upgrade order (16.3), items not yet bought only: {kind: "armoury", line} or {kind: "card", id, slot}.
+## steward: Armour I, Weapons I, A of its biggest line, then Arcana, the next Armour / Weapons levels, A of the next lines,
+## then the B upgrades. hammer: A then B of its biggest line, then Weapons, then A / B of the next lines, Arcana, Armour.
+## Card lines with < 4 copies are skipped; Arcana only with >= 2 caster + support copies.
+func upgrade_plan() -> Array[Dictionary]:
+	var lines := _lines_by_pop()
+	var out: Array[Dictionary] = []
+	var arcana_ok := _caster_support_copies() >= ARCANA_MIN_COPIES
+	if personality == "hammer":
+		if not lines.is_empty():
+			_add_card_up(out, lines[0], 0)
+			_add_card_up(out, lines[0], 1)
+		_add_armoury(out, &"weapons", 3)
+		for i in range(1, lines.size()):
+			_add_card_up(out, lines[i], 0)
+			_add_card_up(out, lines[i], 1)
+		if arcana_ok:
+			_add_armoury(out, &"arcana", 2)
+		_add_armoury(out, &"armour", 3)
+	else:
+		_add_armoury(out, &"armour", 1)
+		_add_armoury(out, &"weapons", 1)
+		if not lines.is_empty():
+			_add_card_up(out, lines[0], 0)
+		if arcana_ok:
+			_add_armoury(out, &"arcana", 2)
+		_add_armoury(out, &"armour", 3)
+		_add_armoury(out, &"weapons", 3)
+		for i in range(1, lines.size()):
+			_add_card_up(out, lines[i], 0)
+		for id in lines:
+			_add_card_up(out, id, 1)
+	return out
+
+
+func _add_armoury(out: Array[Dictionary], line: StringName, up_to: int) -> void:
+	if roster.armoury_level(line) < mini(up_to, roster.upgrades.armoury_max(line)):
+		out.append({"kind": "armoury", "line": line})
+
+
+func _add_card_up(out: Array[Dictionary], id: StringName, slot: int) -> void:
+	if not roster.has_upgrade(id, slot) and not roster.upgrade_info(id, slot).is_empty():
+		out.append({"kind": "card", "id": id, "slot": slot})
+
+
+## The owned card lines with >= UPGRADE_MIN_COPIES copies, biggest pop first (card order on a tie).
+func _lines_by_pop() -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for id in roster.card_ids():
+		if roster.count(id) >= UPGRADE_MIN_COPIES:
+			ids.append(id)
+	var order := roster.card_ids()
+	ids.sort_custom(func(a: StringName, b: StringName) -> bool:
+		var pa := roster.count(a) * roster.pop_of(a)
+		var pb := roster.count(b) * roster.pop_of(b)
+		return pa > pb if pa != pb else order.find(a) < order.find(b))
+	return ids
+
+
+func _caster_support_copies() -> int:
+	var n := 0
+	for id in roster.card_ids():
+		if roster.table.role_of(id) in [&"caster", &"support"]:
+			n += roster.count(id)
+	return n
+
+
+func _upgrade_item_price(item: Dictionary) -> int:
+	if item["kind"] == "armoury":
+		return roster.armoury_price(item["line"])
+	return roster.upgrade_price(item["id"], int(item["slot"]))
+
+
+func _upgrade_item_why(item: Dictionary) -> String:
+	if item["kind"] == "armoury":
+		return roster.can_armoury_buy(item["line"])
+	return roster.can_buy_upgrade(item["id"], int(item["slot"]))
+
+
+func _buy_upgrade_item(item: Dictionary) -> String:
+	if item["kind"] == "armoury":
+		return roster.armoury_buy(item["line"])
+	return roster.buy_upgrade(item["id"], int(item["slot"]))
 
 
 func _buy_coffers(style: Dictionary, horn: int, reserve: int) -> void:

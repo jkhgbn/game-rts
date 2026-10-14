@@ -60,7 +60,8 @@ var ward_x := 0.0                ## the wizards' leash line (x of the lane's mir
 var _keep_pos: Array[Vector3] = [Vector3(-122, 0, 0), Vector3(122, 0, 0)]
 var _start_pos: Array[Vector3] = [Vector3(-114, 0, -6), Vector3(114, 0, 6)]
 var _gate_pos: Array[Vector3] = [Vector3(-108, 0, 0), Vector3(108, 0, 0)]
-var _lane_types := {}            ## id -> commandable = false copy of the UnitType
+var _lane_types: Array[Dictionary] = [{}, {}]   ## per seat: key (id + type upgrades) -> commandable = false copy
+var _spawn_ups_override: Variant = null   ## save_spawn_unit: the loaded unit's own upgrades (not the roster's)
 var _respawn_left: Array[float] = [0.0, 0.0]
 var _lane_rank := {}             ## lane Unit -> card rank it was spawned with (>= 2 only; the save keeps it)
 var _guard_t := 0.0
@@ -368,7 +369,14 @@ func _apply_wizard_rule(wiz: Wizard, team: int) -> void:
 func spawn_lane_unit(seat: int, id: StringName, pos: Vector3, lateral: float) -> Unit:
 	if game_over:
 		return null
-	var type := _lane_type(id)
+	# upgrades (wave-strike.md 16): the card's bought slots + the Armoury, as snapshot at the last horn
+	var up: Dictionary = {}
+	if _spawn_ups_override is Dictionary:
+		up = _spawn_ups_override
+	elif seat < spawners.size() and spawners[seat]:
+		up = spawners[seat].upgrades_for(id)
+	var ups := _upgrade_rows(seat, id, int(up.get("mask", 0)))
+	var type := _lane_type(id, seat, ups)
 	if type == null:
 		return null
 	var team := seat   # 1v1: seat = team
@@ -386,6 +394,9 @@ func spawn_lane_unit(seat: int, id: StringName, pos: Vector3, lateral: float) ->
 		u.add_xp(Unit.VETERANCY_XP[rk - 1])
 		_apply_rank(u, rk, true)
 		u.hp = u.max_hp
+	_apply_upgrades(u, ups, up.get("arm", {}))
+	if int(up.get("mask", 0)) != 0:
+		u.set_meta(&"ws_up_mask", int(up["mask"]))
 	# WS2.C2 (wave-strike.md 14.1): a lane caster autocasts while marching (lane_mode) and starts with a full bar
 	var ab := u.get_node_or_null(^"CasterAbility") as CasterAbility
 	if ab:
@@ -399,16 +410,62 @@ func spawn_lane_unit(seat: int, id: StringName, pos: Vector3, lateral: float) ->
 	return u
 
 
-func _lane_type(id: StringName) -> UnitType:
-	if _lane_types.has(id):
-		return _lane_types[id]
+## The seat's lane copy of card `id`'s UnitType with the `type_*` fields of upgrades `ups` (wave-strike.md 16.2;
+## one copy per seat and upgrade set: a living unit keeps the copy it spawned with, the other seat never sees it).
+func _lane_type(id: StringName, seat: int = 0, ups: Array[Dictionary] = []) -> UnitType:
+	var key := String(id)
+	for u in ups:
+		if u.has("type_add") or u.has("type_mult") or u.has("type_set"):
+			key += "|" + str(u.get("id", ""))
+	var cache: Dictionary = _lane_types[clampi(seat, 0, _lane_types.size() - 1)]
+	if cache.has(key):
+		return cache[key]
 	var base := UnitType.find(String(id))
 	if base == null:
 		return null
 	var t := base.duplicate() as UnitType
 	t.commandable = false   # wave-strike.md 4.4: lane units are never ordered (selecting one = inspect)
-	_lane_types[id] = t
+	for u in ups:
+		for f: Variant in u.get("type_add", {}):
+			t.set(StringName(str(f)), float(t.get(StringName(str(f)))) + float(u["type_add"][f]))
+		for f: Variant in u.get("type_mult", {}):
+			t.set(StringName(str(f)), float(t.get(StringName(str(f)))) * float(u["type_mult"][f]))
+		for f: Variant in u.get("type_set", {}):
+			var v: Variant = u["type_set"][f]
+			t.set(StringName(str(f)), StringName(v) if v is String else v)
+	cache[key] = t
 	return t
+
+
+## Card `id`'s bought upgrades (slot mask, 1 = A, 2 = B) as WaveUpgradeTable entries.
+func _upgrade_rows(seat: int, id: StringName, mask: int) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if mask == 0:
+		return out
+	var ut := rosters[seat].upgrades if seat < rosters.size() and rosters[seat] else WaveUpgradeTable.load_default()
+	for slot in 2:
+		if mask & (1 << slot):
+			var row := ut.upgrade(table, id, slot)
+			if not row.is_empty():
+				out.append(row)
+	return out
+
+
+## The spawn modifiers of upgrades (wave-strike.md 16): `ws_up:<id>` per card upgrade with `mods`, `ws_armoury` for
+## the seat's Armoury stats. The unit spawns at full HP. Modifier names are saved through the metas, not as modifiers.
+func _apply_upgrades(u: Unit, ups: Array[Dictionary], arm: Variant) -> void:
+	var any := false
+	for row in ups:
+		var mods: Dictionary = row.get("mods", {})
+		if not mods.is_empty():
+			u.add_modifier(StringName("ws_up:%s" % str(row.get("id", ""))), mods)
+			any = true
+	if arm is Dictionary and not (arm as Dictionary).is_empty():
+		u.add_modifier(&"ws_armoury", arm)
+		u.set_meta(&"ws_arm", (arm as Dictionary).duplicate())
+		any = true
+	if any:
+		u.hp = u.max_hp
 
 
 ## Kill bounty (wave-strike.md 4.2): rules.bounty_pct of the card price to the killing team, x defender mult when the
@@ -735,8 +792,11 @@ func save_spawn_unit(row: Dictionary) -> Unit:
 	if not metas.has("ws_card"):
 		return null
 	var seat := int(metas.get("ws_seat", row.get("team", 0)))
+	# its own upgrades (metas), not the roster's current ones; formations are not saved (the unit just marches)
+	_spawn_ups_override = {"mask": int(metas.get("ws_up_mask", 0)), "arm": metas.get("ws_arm", {})}
 	var u := spawn_lane_unit(seat, StringName(str(metas["ws_card"])), row.get("pos", Vector3.ZERO),
 			float(row.get("lane_lateral", 0.0)))
+	_spawn_ups_override = null
 	if u:
 		var march := u.get_node_or_null(^"LaneMarch")
 		if march and row.has("lane_index"):

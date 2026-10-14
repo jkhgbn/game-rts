@@ -3,14 +3,16 @@ extends SceneTree
 ## price x1.5, B = x2.5, rounded to 5, minima 100 / 150) for every card of the 4 kingdoms, the Armoury table (16.1),
 ## tier gates (A = the card's tier, B = the next, T3 B = Citadel), refusals, the 5 s cancel, the role templates + T3
 ## signatures + Lingering on every ranged on-hit card, the Armoury stats, rule upgrades_enabled, save / load of upgrades
-## and Armoury levels. WS4.C2 adds the spawn rows (modifiers on lane units, per-seat type copies).
+## and Armoury levels. WS4.C2 spawn rows (real level): the next-horn rule, `ws_up:*` / `ws_armoury` modifiers with the
+## 16.1 / 16.2 numbers, per-seat lane type copies (Long Draw, Lingering), the release list, saved units' upgrades.
 ## Prints "PASS ws_upgrades" or "FAIL ws_upgrades: <reasons>".
-## Run: tools\godot_run.ps1 --headless --path . -s tests/test_ws_upgrades.gd --fixed-fps 60 --quit-after 600
+## Run: tools\godot_run.ps1 --headless --path . -s tests/test_ws_upgrades.gd --fixed-fps 60 --quit-after 3000
 
 const TASK_ID := "ws_upgrades"
 const A := WaveUpgradeTable.SLOT_A
 const B := WaveUpgradeTable.SLOT_B
 const KINGDOMS: Array[StringName] = [&"fire", &"ice", &"nature", &"shadow"]
+const SCENE := "res://scenes/wave_strike.tscn"
 
 var _fails: Array[String] = []
 var _rules: WaveStrikeRules
@@ -18,6 +20,9 @@ var _table: WaveCardTable
 var _ups: WaveUpgradeTable
 var _dir: WaveDirector
 var _level: Node
+var _ws: Node
+var _frames := 0
+var _n := 0
 
 
 func _check(ok: bool, what: String) -> void:
@@ -41,11 +46,132 @@ func _initialize() -> void:
 	_armoury()
 	_cancel_and_switch()
 	_save()
+	# WS4.C2 spawn rows on the real level (seat 0 Fire, seat 1 Ice)
+	_ws = (load(SCENE) as PackedScene).instantiate()
+	var rules := WaveStrikeRules.load_default()
+	rules.horn_first = 100000.0
+	rules.time_limit = 0.0
+	_ws.set(&"rules", rules)
+	_ws.set(&"player_kingdom", &"fire")
+	_ws.set(&"enemy_kingdom", &"ice")
+	_ws.set(&"autopilot_player", true)
+	_ws.set(&"wizards_enabled", false)
+	root.add_child(_ws)
+	current_scene = _ws
+
+
+func _process(_delta: float) -> bool:
+	_frames += 1
+	if _frames > 3000:
+		_fails.append("level never ready")
+		return _finish()
+	if _ws == null or _ws.get(&"director") == null:
+		return false
+	_spawn_rows()
+	return _finish()
+
+
+func _finish() -> bool:
 	if _fails.is_empty():
 		print("PASS %s" % TASK_ID)
 	else:
 		print("FAIL %s: %s" % [TASK_ID, "; ".join(_fails)])
 	quit(0 if _fails.is_empty() else 1)
+	return true
+
+
+func _spawn(seat: int, id: StringName) -> Unit:
+	var at: Vector3 = _ws.call(&"gate_position", seat)
+	_n += 1
+	var u: Unit = _ws.call(&"spawn_lane_unit", seat, id, at + Vector3(0, 0, float(_n % 9) - 4.0), 0.0)
+	if u == null:
+		_fails.append("spawn %s seat %d returned null" % [id, seat])
+	return u
+
+
+func _spawn_rows() -> void:
+	var rosters: Array = _ws.get(&"rosters")
+	var spawners: Array = _ws.get(&"spawners")
+	var r0: MusterRoster = rosters[0]
+	var r1: MusterRoster = rosters[1]
+	var sp0: LaneSpawner = spawners[0]
+	var sp1: LaneSpawner = spawners[1]
+	for r: MusterRoster in [r0, r1]:
+		r.tier = 3
+		r.bank.economy.crystals = 1000000
+	var fg_base := UnitType.find("flame_guard")
+	var ea_base := UnitType.find("ember_archer")
+	# horn 1 snapshot: nothing bought
+	sp0.queue_horn(r0)
+	sp1.queue_horn(r1)
+	var u1 := _spawn(0, &"flame_guard")
+	# bought after the horn: counts from the next horn only
+	r0.buy_upgrade(&"flame_guard", A)
+	r0.buy_upgrade(&"flame_guard", B)
+	r0.buy_upgrade(&"ember_archer", A)
+	r0.buy_upgrade(&"blaze_rider", A)
+	r0.buy_upgrade(&"kilnwarden", B)
+	r0.armoury_buy(&"weapons")
+	r0.armoury_buy(&"arcana")
+	r1.buy_upgrade(&"shardcaster", B)
+	var u2 := _spawn(0, &"flame_guard")
+	if u1 == null or u2 == null:
+		return
+	_check(not u2.has_modifier(&"ws_up:shield_drill") and not u2.has_modifier(&"ws_armoury"),
+			"next-horn rule: a copy spawned before the next horn has no upgrade")
+	_check(sp0.release_effects(&"flame_guard").is_empty(), "no War Cry before the next horn")
+	# horn 2
+	sp0.queue_horn(r0)
+	sp1.queue_horn(r1)
+	var u3 := _spawn(0, &"flame_guard")
+	_check(u3.has_modifier(&"ws_up:shield_drill") and u3.has_modifier(&"ws_armoury"), "flame_guard: ws_up:shield_drill + ws_armoury")
+	_check(is_equal_approx(u3.get_stat(&"armor") - u1.get_stat(&"armor"), 3.0),
+			"Shield Drill armour +%.1f (want +3)" % (u3.get_stat(&"armor") - u1.get_stat(&"armor")))
+	_check(is_equal_approx(u3.get_stat(&"attack_damage") / u1.get_stat(&"attack_damage"), 1.06),
+			"Weapons I damage x%.3f (want x1.06)" % (u3.get_stat(&"attack_damage") / u1.get_stat(&"attack_damage")))
+	_check(not u1.has_modifier(&"ws_up:shield_drill") and not u1.has_modifier(&"ws_armoury"), "a living unit keeps what it spawned with")
+	_check(is_equal_approx(u3.hp, u3.max_hp), "spawns at full HP")
+	var fx := sp0.release_effects(&"flame_guard")
+	_check(fx.size() == 1 and str(fx[0].get("status", "")) == "haste" and is_equal_approx(float(fx[0]["duration"]), 4.0),
+			"War Cry release list %s" % [fx])
+	var f := sp0.formation
+	_check(f == null or not f.is_member(u3), "a unit spawned outside the horn queue is no formation member")
+	# Long Draw: the seat's own type copy
+	var a0 := _spawn(0, &"ember_archer")
+	var a1 := _spawn(1, &"ember_archer")
+	_check(is_equal_approx(a0.unit_type.attack_range, ea_base.attack_range + 1.5) and is_equal_approx(a0.unit_type.aggro_range,
+			ea_base.aggro_range + 1.5), "Long Draw range %.1f (base %.1f)" % [a0.unit_type.attack_range, ea_base.attack_range])
+	_check(is_equal_approx(a1.unit_type.attack_range, ea_base.attack_range), "seat 1 range unchanged (%.1f)" % a1.unit_type.attack_range)
+	_check(is_equal_approx(ea_base.attack_range, UnitType.find("ember_archer").attack_range) and fg_base.commandable,
+			"the base UnitType is untouched")
+	# Barding: +20 % max HP, full
+	var br := _spawn(0, &"blaze_rider")
+	var br_base := UnitType.find("blaze_rider")
+	_check(br.has_modifier(&"ws_up:barding") and is_equal_approx(br.max_hp, br_base.max_hp * 1.2) and is_equal_approx(br.hp, br.max_hp),
+			"Barding max HP %.0f (base %.0f)" % [br.max_hp, br_base.max_hp])
+	_check(br.has_modifier(&"ws_armoury") and not (br.get_meta(&"ws_arm", {}) as Dictionary).has("spell_power"),
+			"Arcana skips a rider")
+	# Focus + Arcana on a caster
+	var kw := _spawn(0, &"kilnwarden")
+	var kw1 := _spawn(1, &"kilnwarden")
+	if kw and kw1:
+		_check(kw.has_modifier(&"ws_up:focus") and is_equal_approx(kw.get_stat(&"spell_power") - kw1.get_stat(&"spell_power"), 40.0),
+				"kilnwarden Focus + Arcana I spell power +%.1f (want +40)" % (kw.get_stat(&"spell_power") - kw1.get_stat(&"spell_power")))
+	# Lingering (seat 1, Ice shardcaster: the only ranged card with an on-hit status)
+	var sc_base := UnitType.find("shardcaster")
+	var sc := _spawn(1, &"shardcaster")
+	_check(is_equal_approx(sc.unit_type.on_hit_duration, sc_base.on_hit_duration * 1.5) and sc.unit_type.on_hit_status == sc_base.on_hit_status,
+			"Lingering on-hit %.2f s (base %.2f)" % [sc.unit_type.on_hit_duration, sc_base.on_hit_duration])
+	# a saved lane unit comes back with its own upgrades, even after the roster changed
+	var row := {"team": 0, "pos": (_ws.call(&"gate_position", 0) as Vector3) + Vector3(2, 0, 2),
+			"metas": {"ws_card": "flame_guard", "ws_seat": 0, "ws_up_mask": int(u3.get_meta(&"ws_up_mask", 0)),
+			"ws_arm": u3.get_meta(&"ws_arm", {})}}
+	var back: Unit = _ws.call(&"save_spawn_unit", row)
+	_check(back != null and back.has_modifier(&"ws_up:shield_drill") and back.has_modifier(&"ws_armoury")
+			and is_equal_approx(back.get_stat(&"armor"), u3.get_stat(&"armor")), "save_spawn_unit re-applies the unit's upgrades")
+	var plain := {"team": 0, "pos": row["pos"], "metas": {"ws_card": "flame_guard", "ws_seat": 0}}
+	var back2: Unit = _ws.call(&"save_spawn_unit", plain)
+	_check(back2 != null and not back2.has_modifier(&"ws_up:shield_drill"), "a saved unit without upgrades loads without them")
 
 
 func _roster(kingdom: StringName, seat: int, rules: WaveStrikeRules = null) -> MusterRoster:

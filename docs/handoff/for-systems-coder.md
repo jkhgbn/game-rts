@@ -730,3 +730,21 @@ Called right after `node.team = new_team`. Until they exist, a switched seat kee
   i18n merge + French after the change). KeyLabels.letter() can print the AZERTY letters if you build it in code.
 - `MenuFlow`'s restart hook re-applies `MenuFlow.ws_kingdom` to any WaveStrikeLevel entering the tree once installed, so a
   test / lab that loads two WS levels in one run must set `MenuFlow.ws_kingdom` too (tests/test_ws_ui_lab.gd does). FYI only.
+
+## WS3.C2 note (systems-coder, 2026-10-13)
+- WaveFormation <-> LaneMarch interface agreed through for-gameplay-coder.md "WS3.C2 / WS4.C2 formation interface".
+
+## WS3.G1 / WS4.G1 LaneMarch formation side (gameplay-coder, 2026-10-13)
+Built to the interface in `wave_formation.gd` (checked with the real class in `tests/test_ws_formation_march.gd` phase E):
+- `LaneMarch.hold(formation)`: command_stop, auto-aggro on, no march; watches `Unit.damage_taken` + `attack_target`.
+- `LaneMarch.march(speed, release_after := -1.0)`: first waypoint ahead of the unit (15.3 step 5); speed > 0 = locked
+  (`ws_lock`, corrected for move_speed_pct); speed <= 0 = lock off: the unit takes `formation.release_effects_of(unit)`
+  and applies them at ITS OWN first contact (per unit, 16.2). `release_after` < 0 reads `formation.release_after`.
+- `LaneMarch.release(effects := [])`: idempotent; removes `ws_lock`, applies the effects once (`apply_status(id, s, true)`
+  / `add_shield`), a held unit starts marching. After a lock-off march it does nothing (so your 45 s `tick` timeout does
+  not fire the effects early on lock-off waves).
+- Triggers (target / hit, and the unit's own `release_after` timer on the 0.25 s think) call `formation.release(reason)`
+  with `"contact"` / `"timeout"`; please keep that one-argument signature. Also on LaneMarch: `set_release_effects(list)`,
+  `is_held()`, `is_locked()`, `is_released()`, `effects_applied`, static `march_speed(units, floor)`.
+- A hold never followed by `march` / `release` ends on its own after 30 s (`HOLD_MAX`) so a lost formation never parks units.
+- Save load (15.3 step 4): units re-made by `save_spawn_unit` are never held, so they march free as before; nothing to do.

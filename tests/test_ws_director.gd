@@ -220,7 +220,8 @@ func _initialize() -> void:
 	r.buy(&"cinder_arbalest")
 	var order := r.spawn_list()
 	_check(order[order.size() - 1] == &"cinder_arbalest" and order[0] == fg, "spawn order melee -> ranged")
-	# WS2.C1: a big M2 wave (60 units) never spawns past MAX_ROWS rows behind the gate (the Bastion stands 13 m back)
+	# WS2.C1 / WS3.C2: a big M2 wave (60 units) spawns inside the 15.1 spawn box (back edge 6 m behind the gate; the
+	# Bastion stands 13 m back), rows front to back
 	var pad := LaneSpawner.new()
 	pad.setup(0, 0, Vector3(-71, 0, 0), Vector3.RIGHT, level, rules)
 	level.add_child(pad)
@@ -231,10 +232,14 @@ func _initialize() -> void:
 	pad.queue_wave(big)
 	pad.tick(60.0)
 	var deepest := 0.0
-	for p in level.positions:
-		deepest = maxf(deepest, -71.0 - p.x)
-	_check(level.positions.size() == 60 and deepest <= (LaneSpawner.MAX_ROWS - 1) * LaneSpawner.ROW_GAP + 0.01,
+	var back_to_front := 0
+	for i in level.positions.size():
+		deepest = maxf(deepest, -71.0 - level.positions[i].x)
+		if i > 0 and level.positions[i].x > level.positions[i - 1].x + 0.01:
+			back_to_front += 1
+	_check(level.positions.size() == 60 and deepest <= 6.0 + 0.01,
 			"big wave rows: %d spawned, deepest %.1f m behind the gate" % [level.positions.size(), deepest])
+	_check(back_to_front == 0, "big wave: %d copies spawned ahead of the one before (rows front to back)" % back_to_front)
 	# the bot buys within its means and the cap
 	var bot := WaveBot.new()
 	level.add_child(bot)

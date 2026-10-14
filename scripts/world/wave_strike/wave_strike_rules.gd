@@ -79,6 +79,14 @@ const DEFAULT_PATH := "res://data/wave_strike/rules_default.tres"
 ## Mana of a lane caster when it spawns, x its max mana (WS2.C2: at the skirmish 50 the 75-100 mana spells barely fired).
 @export var lane_caster_start_mana_pct := 1.0
 
+@export_group("Formation")
+## Muster Pad waves (wave-strike.md 15.3, WaveFormation): the wave walks as a block at its slowest copy's speed until
+## first contact (false = each unit at its own speed; release effects then fire at first contact).
+@export var march_lock := true
+@export var march_speed_floor := 4.0      ## m/s: the locked wave never walks slower (a slower copy simply trails)
+@export var march_release_after := 45.0   ## s after the march started: the formation breaks anyway
+@export var muster_hold_extra := 0.5      ## s the spawned wave stands after its last copy spawned
+
 
 ## The default rules (a fresh copy: callers may change it).
 static func load_default() -> WaveStrikeRules:

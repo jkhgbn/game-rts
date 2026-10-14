@@ -83,9 +83,8 @@ func _fire_horn() -> void:
 		bank.underdog_mult = _underdog(bank.team)
 		bank.pay_income()
 		var roster := rosters[seat]
-		var wave := roster.spawn_list()
-		last_wave_size[seat] = wave.size()
-		spawners[seat].queue_wave(wave)
+		last_wave_size[seat] = roster.card_total()
+		spawners[seat].queue_horn(roster)   # the Muster Pad snapshot (wave-strike.md 15.3)
 		roster.on_horn()
 	if level and level.has_method(&"on_horn"):
 		level.call(&"on_horn", horn_index)

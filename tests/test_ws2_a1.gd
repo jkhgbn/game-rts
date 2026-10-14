@@ -5,10 +5,15 @@ extends SceneTree
 ## - casters <= 1 at the Stronghold and <= 2 ever; support pop <= 10 % (+1); T3 pop <= 30 % of the Citadel cap;
 ##   melee >= 40 % of pop; max_copies never passed; every MIX entry is a card of its kingdom (and vice versa).
 ## Plus a forced swap: Citadel, supply full of T1, bank rich -> "swap <old> -> <T3>", the T3 card bought next pass.
+## WS3.A1 (15.4): style per personality (steward Line, hammer Spearhead), the pad arranged after each pass, front-row
+## roles, the swap sells the back-most copy. WS4.A1 (16.3): first upgrade by UPGRADE_BY_HORN in the personality's order,
+## max 2 a pass, lines >= 4 copies; forced: Citadel + full supply + rich bank -> exactly the 2 first items of the order.
 ## Run: tools\godot_run.ps1 --headless --path . -s tests/test_ws2_a1.gd --fixed-fps 60 --quit-after 600
 
 const TASK_ID := "ws2_a1"
 const KINGDOMS: Array[StringName] = [&"fire", &"ice", &"nature", &"shadow"]
+## WS4.A1: every personality has bought its first upgrade by this horn (16.3, stub economy).
+const UPGRADE_BY_HORN := 26
 
 var _fails: Array[String] = []
 
@@ -37,6 +42,8 @@ func _initialize() -> void:
 		for p: String in ["hammer", "steward"]:
 			_run(k, p)
 		_swap(k)
+		for p: String in ["hammer", "steward"]:
+			_forced_upgrades(k, p)
 	if _fails.is_empty():
 		print("PASS %s" % TASK_ID)
 	else:
@@ -121,6 +128,41 @@ func _run(kingdom: StringName, personality: String) -> void:
 	_check(float(support) <= 0.1 * float(total) + 1.0, "%s: support %d / %d pop" % [tag, support, total])
 	_check(float(t3) <= 0.3 * float(cap3), "%s: T3 %d pop > 30 %% of %d" % [tag, t3, cap3])
 	_check(float(t3) >= 0.2 * float(cap3) or _all_t3_maxed(r), "%s: T3 floor unmet (%d pop)" % [tag, t3])
+	# WS3.A1: formation style per personality, the pad holds every copy, arranged (re-arranging changes nothing)
+	var style: StringName = &"spearhead" if personality == "hammer" else &"line"
+	_check(bot.formation_style() == style and r.place_style == style, "%s: style %s / %s" % [tag, bot.formation_style(), r.place_style])
+	_check(r.pad.copy_count() == r.card_total(), "%s: pad %d copies, roster %d" % [tag, r.pad.copy_count(), r.card_total()])
+	var before := r.pad.save_cells()
+	r.pad.auto_arrange(style)
+	_check(str(before) == str(r.pad.save_cells()), "%s: pad not arranged in %s" % [tag, style])
+	# 15.4 zones: Spearhead keeps plain melee off row 0 (riders / heavies form the point); Line puts melee or heavies there
+	var front := bot.front_row_roles()
+	if personality == "hammer":
+		_check(not front.contains("melee"), "%s: spearhead front row %s" % [tag, front])
+	else:
+		_check(front.contains("melee") or front.contains("heavy"), "%s: line front row %s" % [tag, front])
+	# WS4.A1: upgrades by the personality's order, max 2 a pass, card lines >= 4 copies only
+	var ups := r.upgrades_bought
+	_check(not ups.is_empty() and bot.first_upgrade_horn > 0 and bot.first_upgrade_horn <= UPGRADE_BY_HORN,
+			"%s: first upgrade horn %d (want <= %d), %s" % [tag, bot.first_upgrade_horn, UPGRADE_BY_HORN, str(ups)])
+	if not ups.is_empty():
+		if personality == "steward":
+			_check(ups[0] == "armoury:armour:1", "%s: steward's first upgrade %s" % [tag, ups[0]])
+			_check(ups.size() < 2 or ups[1] == "armoury:weapons:1", "%s: steward's 2nd upgrade %s" % [tag, ups[1]])
+		else:
+			_check(ups[0].ends_with(":a") and not ups[0].begins_with("armoury"), "%s: hammer's first upgrade %s" % [tag, ups[0]])
+	var per_pass := {}
+	for line in bot.log_lines:
+		if line.contains(":upgrade "):
+			var k := line.get_slice(":", 0)
+			per_pass[k] = int(per_pass.get(k, 0)) + 1
+			var key := line.get_slice("upgrade ", 1)
+			if not key.begins_with("armoury"):
+				var cid := StringName(key.get_slice(":", 0))
+				_check(int(r.bought_by_card.get(cid, 0)) >= WaveBot.UPGRADE_MIN_COPIES, "%s: upgrade %s on a small line" % [tag, key])
+	for k: String in per_pass:
+		_check(int(per_pass[k]) <= WaveBot.UPGRADE_MAX_PER_PASS, "%s: %d upgrades in pass %s" % [tag, per_pass[k], k])
+	print("%s: style %s, front row [%s], upgrades (first horn %d) %s" % [tag, style, front, bot.first_upgrade_horn, str(ups)])
 	(m[0] as Node).free()
 
 
@@ -145,7 +187,19 @@ func _swap(kingdom: StringName) -> void:
 		pass
 	dir.advance(10.0)   # past the cancel window
 	bank.economy.crystals = 600
+	# WS3.A1: the swap sells the back-most copy (watch the pad's first change after the pass starts)
+	var back := r.pad.back_most(cheap)
+	var cells_before := r.pad.cells_of(cheap)
+	var removed: Array[Vector2i] = []
+	var watch := func() -> void:
+		if removed.is_empty() and r.pad.cells_of(cheap).size() == cells_before.size() - 1:
+			for c in cells_before:
+				if not r.pad.cells_of(cheap).has(c):
+					removed.append(c)
+	r.pad.changed.connect(watch)
 	bot.decide()
+	r.pad.changed.disconnect(watch)
+	_check(removed.size() == 1 and removed[0] == back, "%s swap: sold %s, back-most %s" % [kingdom, str(removed), back])
 	var log_text := "\n".join(bot.log_lines)
 	_check(bot.swaps == 1 and log_text.contains("swap "), "%s swap: swaps %d, log %s" % [kingdom, bot.swaps, log_text])
 	var t3_before := 0
@@ -162,4 +216,26 @@ func _swap(kingdom: StringName) -> void:
 	_check(t3_after >= 1, "%s swap: no T3 card after the horn (log %s)" % [kingdom, "\n".join(bot.log_lines)])
 	_check(bot.swaps == 1, "%s swap: %d swaps in one horn" % [kingdom, bot.swaps])
 	print("%s swap: %s" % [kingdom, " | ".join(bot.log_lines)])
+	(m[0] as Node).free()
+
+
+## WS4.A1: Citadel, supply full of one 4+ copy line, bank rich -> exactly 2 upgrades in the personality's order.
+func _forced_upgrades(kingdom: StringName, personality: String) -> void:
+	var m := _match(kingdom, personality)
+	var dir: WaveDirector = m[1]
+	var bank: WaveBank = m[2]
+	var r: MusterRoster = m[3]
+	var bot: WaveBot = m[4]
+	r.tier = 3
+	bank.economy.crystals = 100000
+	var line: StringName = r.card_ids()[0]
+	while r.buy(line) == "":
+		pass
+	dir.advance(10.0)
+	bank.economy.crystals = 5000
+	bot.decide()
+	var ups := r.upgrades_bought
+	var want: Array = ["armoury:armour:1", "armoury:weapons:1"] if personality == "steward" else ["%s:a" % line, "%s:b" % line]
+	_check(str(ups) == str(want), "%s/%s forced upgrades %s (want %s)" % [kingdom, personality, str(ups), str(want)])
+	print("%s/%s forced upgrades: %s" % [kingdom, personality, str(ups)])
 	(m[0] as Node).free()

@@ -324,3 +324,16 @@ model's `play_cast(id)` at the same moment (ChampionAbilities._play_feedback alr
   refunded. Optional for you: add `stub_for_save` if a stub needs more than call_type / revive_type. The roster's own
   state (`queued` / `reviving`) must come back through its saved_state row (your R2-2), or the training stub finishes
   into a roster that thinks no call is pending.
+
+## WS3.C2 / WS4.C2 formation interface (systems-coder, 2026-10-13)
+`WaveFormation` (`scripts/world/wave_strike/wave_formation.gd`, RefCounted, one per seat per horn, made by LaneSpawner).
+Matches your LaneMarch side as it stands; please keep these names:
+- Systems -> LaneMarch: `hold(formation)` right after `LaneMarch.attach` (spawn); `march(speed)` when the seat's last copy
+  of the horn is out + `rules.muster_hold_extra` (speed = slowest living member's `move_speed`, >= `march_speed_floor`;
+  `0.0` when `rules.march_lock` is false); `release(effects: Array)` on every living member, once, when the formation breaks.
+- LaneMarch -> formation: `release(reason: String)` (idempotent; it calls your `release(fx)` on every member),
+  `release_effects_of(unit) -> Array` ([{status, duration} | {shield, duration}] = the card's bought upgrades' `release`
+  rows), `release_after` (float var = rules.march_release_after), `is_released()`, `members`, `speed`, `state`.
+- The formation also times out on the director clock (`release("timeout")` after `release_after` s of march), so both
+  timers agree. A loaded game never holds: lane units come back via `save_spawn_unit` without a formation.
+- `tests/test_ws_formation.gd` exists with the spawn-position rows (systems); add your hold / lock / release rows there.

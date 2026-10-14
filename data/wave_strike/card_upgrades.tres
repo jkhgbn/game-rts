@@ -1,0 +1,229 @@
+[gd_resource type="Resource" script_class="WaveUpgradeTable" format=3]
+
+[ext_resource type="Script" path="res://scripts/world/wave_strike/wave_upgrade_table.gd" id="1_wpuej"]
+
+[resource]
+script = ExtResource("1_wpuej")
+price_mult = Array[float]([1.5, 2.5])
+price_min = Array[int]([100, 150])
+templates = {
+"caster": [{
+"desc": "+40 % max mana, +50 % mana regen",
+"id": "mana_font",
+"mods": {
+"mana_regen_pct": 0.5,
+"max_mana_pct": 0.4
+},
+"name": "Mana Font"
+}, {
+"desc": "+25 spell power, +20 % cooldown reduction",
+"id": "focus",
+"mods": {
+"cooldown_reduction": 0.2,
+"spell_power": 25.0
+},
+"name": "Focus"
+}],
+"heavy": [{
+"desc": "+4 armour",
+"id": "plate",
+"mods": {
+"armor": 4.0
+},
+"name": "Plate"
+}, {
+"desc": "Braced for 6 s when the wave meets the enemy (damage taken x0.7)",
+"id": "brace",
+"name": "Brace",
+"release": [{
+"duration": 6.0,
+"status": "braced"
+}]
+}],
+"melee": [{
+"desc": "+3 armour",
+"id": "shield_drill",
+"mods": {
+"armor": 3.0
+},
+"name": "Shield Drill"
+}, {
+"desc": "Haste for 4 s when the wave meets the enemy",
+"id": "war_cry",
+"name": "War Cry",
+"release": [{
+"duration": 4.0,
+"status": "haste"
+}]
+}],
+"ranged": [{
+"desc": "+1.5 range",
+"id": "long_draw",
+"name": "Long Draw",
+"type_add": {
+"aggro_range": 1.5,
+"attack_range": 1.5
+}
+}, {
+"desc": "Hits mark the target for 3 s (+15 % damage taken)",
+"id": "spotter_marks",
+"name": "Spotter Marks",
+"type_set": {
+"on_hit_duration": 3.0,
+"on_hit_status": "marked"
+}
+}],
+"rider": [{
+"desc": "+20 % max HP",
+"id": "barding",
+"mods": {
+"max_hp_pct": 0.2
+},
+"name": "Barding"
+}, {
+"desc": "Haste for 6 s when the wave meets the enemy",
+"id": "flank_gallop",
+"name": "Flank Gallop",
+"release": [{
+"duration": 6.0,
+"status": "haste"
+}]
+}],
+"support": [{
+"desc": "Support effect x1.4",
+"id": "deep_wells",
+"name": "Deep Wells",
+"type_mult": {
+"support_amount": 1.4
+}
+}, {
+"desc": "Support every 25 % sooner",
+"id": "quick_hands",
+"name": "Quick Hands",
+"type_mult": {
+"support_interval": 0.75
+}
+}]
+}
+on_hit_b = {
+"desc": "On-hit effects last 50 % longer",
+"id": "lingering",
+"name": "Lingering",
+"type_mult": {
+"on_hit_duration": 1.5
+}
+}
+overrides = {
+"briar_roc": {
+"b": {
+"desc": "+30 % max HP",
+"id": "thorned_pinions",
+"mods": {
+"max_hp_pct": 0.3
+},
+"name": "Thorned Pinions"
+}
+},
+"frostcrown_juggernaut": {
+"b": {
+"desc": "Hits chill the target for 2 s",
+"id": "rime_mantle",
+"name": "Rime Mantle",
+"type_set": {
+"on_hit_duration": 2.0,
+"on_hit_status": "chill"
+}
+}
+},
+"glade_outrider": {
+"b": {
+"desc": "+2 range",
+"id": "far_sight",
+"name": "Far Sight",
+"type_add": {
+"aggro_range": 2.0,
+"attack_range": 2.0
+}
+}
+},
+"nightblood_reaver": {
+"b": {
+"desc": "+6 HP regeneration",
+"id": "blood_feast",
+"mods": {
+"hp_regen": 6.0
+},
+"name": "Blood Feast"
+}
+},
+"shardguard": {
+"b": {
+"desc": "A 150 shield for 10 s when the wave meets the enemy",
+"id": "shard_ward",
+"name": "Shard Ward",
+"release": [{
+"duration": 10.0,
+"shield": 150.0
+}]
+}
+},
+"sunforge_cataphract": {
+"b": {
+"desc": "Haste and braced for 6 s when the wave meets the enemy",
+"id": "sunforged_charge",
+"name": "Sunforged Charge",
+"release": [{
+"duration": 6.0,
+"status": "haste"
+}, {
+"duration": 6.0,
+"status": "braced"
+}]
+}
+},
+"veilborn_dreadrider": {
+"b": {
+"desc": "Shroud for 5 s when the wave meets the enemy (+2 speed, damage taken x0.5)",
+"id": "veil_ride",
+"name": "Veil Ride",
+"release": [{
+"duration": 5.0,
+"status": "shroud"
+}]
+}
+}
+}
+armoury = {
+"arcana": {
+"desc": "Casters and support cards: +15 spell power, +20 % mana regen per level",
+"mods": {
+"mana_regen_pct": 0.2,
+"spell_power": 15.0
+},
+"name": "Arcana",
+"only": "caster_support",
+"prices": [250, 450],
+"tiers": [2, 3]
+},
+"armour": {
+"desc": "+1 armour per level",
+"mods": {
+"armor": 1.0
+},
+"name": "Armour",
+"only": "",
+"prices": [200, 350, 500],
+"tiers": [1, 2, 3]
+},
+"weapons": {
+"desc": "+6 % damage per level",
+"mods": {
+"attack_damage_pct": 0.06
+},
+"name": "Weapons",
+"only": "",
+"prices": [200, 350, 500],
+"tiers": [1, 2, 3]
+}
+}
+armoury_order = Array[StringName]([&"weapons", &"armour", &"arcana"])

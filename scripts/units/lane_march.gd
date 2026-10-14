@@ -14,6 +14,15 @@ extends Node
 ## (Unit.SCAN_BUCKETS) picked from the spawn serial, so a horn's burst never scans / thinks on one frame; P3 = every
 ## GATE_EVERY s the unit's RVO avoidance is turned off while no enemy unit is within GATE_RANGE m (and it is not
 ## fighting, nor near the enemy Bastion), and back on as soon as one is.
+## Formations (wave-strike.md 15.3, WS3.G1): `hold(formation)` = the unit stands on its spawn cell (auto-aggro on, no
+## order) until `march(wave_speed)`; the march is then locked to `wave_speed` (modifier `ws_lock`, flat move_speed
+## = wave speed - own speed, never positive) until the release: a target acquired, a hit taken, `release_after` s of
+## march, or the formation's `release()` (which calls `release()` on every member). A trigger asks the formation
+## (`formation.release()` when it has one) so the whole wave breaks in the same think. WS4.G1: `set_release_effects`
+## ([{status, duration} | {shield, duration}], WaveUpgradeTable rows) are applied once at the release, or at the first
+## contact when the march is not locked. Units never held behave as before.
+
+enum State { FREE, HOLD, LOCKED }
 
 const TICK := 0.25
 const ADVANCE_DIST := 5.0
@@ -28,6 +37,9 @@ const GATE_RANGE := 30.0        ## P3: no enemy unit this close = avoidance off
 const GATE_EVERY := 0.5         ## s between two avoidance-gate checks
 ## The think runs this many buckets after the unit's scan bucket (never on the same frame as its own scan).
 const THINK_BUCKET_OFFSET := 7
+const LOCK_MOD := &"ws_lock"
+const RELEASE_AFTER := 45.0     ## s of locked march before the formation breaks on its own (rules.march_release_after)
+const HOLD_MAX := 30.0          ## safety: a hold never started (formation gone) ends on its own
 
 ## Global counters (tests / labs): units that stalled, and the longest stall seen (s).
 static var stall_events := 0
@@ -53,6 +65,15 @@ var _sidestep_left := 0.0
 var _bucket := 0                ## physics-frame bucket of the think
 var _last_think := -1           ## physics frame of the last think
 var _gate_left := 0.0           ## s to the next avoidance-gate check
+## Formation (WS3.G1) / release effects (WS4.G1)
+var state: State = State.FREE   ## read only
+var formation: Object = null    ## WaveFormation (or any object with release()); null = the unit releases alone
+var release_effects: Array = [] ## [{status, duration} | {shield, duration}]
+var effects_applied := 0        ## times the release effects were applied (tests: 1 at most)
+var _effects_pending := false
+var _released := false
+var _hit := false               ## a hit since the hold / lock started
+var _state_left := 0.0          ## HOLD: s to the safety release; LOCKED: s to the timeout release
 
 
 static func reset_counters() -> void:
@@ -83,6 +104,175 @@ static func attach(u: Unit, lane: PackedVector3Array, p_lateral: float, p_leash:
 	lm._issue()
 	lm._update_gate()
 	return lm
+
+
+## The locked speed of a wave: its slowest member's move_speed, never below `speed_floor` (a slower copy trails).
+static func march_speed(units: Array, speed_floor: float = 4.0) -> float:
+	var s := INF
+	for u: Variant in units:
+		if u is Unit and is_instance_valid(u) and (u as Unit).is_alive():
+			s = minf(s, (u as Unit).get_stat(&"move_speed"))
+	return speed_floor if s == INF else maxf(s, speed_floor)
+
+
+## Muster hold (15.3 step 2): stand on the spawn cell, auto-aggro on, no order, until march / release.
+func hold(p_formation: Object = null) -> void:
+	if _released or unit == null or not unit.is_alive():
+		return
+	formation = p_formation
+	state = State.HOLD
+	_state_left = HOLD_MAX
+	_hit = false
+	_watch_hits(true)
+	_goal = Vector3.INF
+	unit.command_stop()
+
+
+## The march (15.3 steps 3 and 5): picks the first waypoint ahead, then walks locked at `wave_speed` (> 0) until the
+## release, or free (wave_speed <= 0 = rules.march_lock off: release effects wait for this unit's first contact).
+## `release_after` < 0 = the formation's `release_after` (rules.march_release_after), else RELEASE_AFTER.
+func march(wave_speed: float, release_after: float = -1.0) -> void:
+	if unit == null or not unit.is_alive() or _released:
+		return
+	_pick_first_waypoint()
+	_reset_stall()
+	if release_after < 0.0:
+		release_after = RELEASE_AFTER
+		if _formation_ok() and formation.get(&"release_after") != null:
+			release_after = float(formation.get(&"release_after"))
+	if wave_speed > 0.0:
+		state = State.LOCKED
+		_state_left = release_after
+		_hit = false
+		_watch_hits(true)
+		if unit.has_modifier(LOCK_MOD):
+			unit.remove_modifier(LOCK_MOD)
+		var own := unit.get_stat(&"move_speed")
+		if own > wave_speed:
+			var d := wave_speed - own
+			unit.add_modifier(LOCK_MOD, {&"move_speed": d}, false)
+			# a move_speed_pct modifier scales the flat one: (base + flat) x (1 + pct); correct it once
+			var k := (unit.get_stat(&"move_speed") - own) / d
+			if k > 0.05 and absf(k - 1.0) > 0.001:
+				unit.add_modifier(LOCK_MOD, {&"move_speed": d / k}, false)
+	else:
+		state = State.FREE
+		_released = true
+		if release_effects.is_empty() and _formation_ok() and formation.has_method(&"release_effects_of"):
+			release_effects = (formation.call(&"release_effects_of", unit) as Array).duplicate(true)
+		_effects_pending = not release_effects.is_empty() and effects_applied == 0
+		_watch_hits(_effects_pending)
+	if unit.attack_target == null:
+		_issue()
+
+
+## Breaks the formation for this unit (idempotent): ws_lock removed, release effects applied (`effects` when given,
+## else the list from set_release_effects), normal LaneMarch on. The formation calls it on every member; a held unit
+## starts marching from its cell. After a lock-off march it does nothing (the effects wait for the unit's contact).
+func release(effects: Array = []) -> void:
+	if _released:
+		return
+	if not effects.is_empty():
+		release_effects = effects.duplicate(true)
+	_released = true
+	var was := state
+	state = State.FREE
+	_watch_hits(false)
+	if unit == null or not is_instance_valid(unit) or not unit.is_alive():
+		return
+	if unit.has_modifier(LOCK_MOD):
+		unit.remove_modifier(LOCK_MOD)
+	_apply_release_effects()
+	if was == State.HOLD:
+		_pick_first_waypoint()
+		_reset_stall()
+	if unit.attack_target == null:
+		_issue()
+
+
+## WS4.G1: the upgrade's `release` list (a copy is kept). Set before the release (or the first contact).
+func set_release_effects(list: Array) -> void:
+	release_effects = list.duplicate(true)
+	if state == State.FREE and effects_applied == 0:   # never held, or the lock is off: the first contact
+		_effects_pending = not release_effects.is_empty()
+		_watch_hits(_effects_pending)
+
+
+func is_held() -> bool:
+	return state == State.HOLD
+
+
+func is_locked() -> bool:
+	return state == State.LOCKED
+
+
+func is_released() -> bool:
+	return _released
+
+
+## A release trigger fired: the formation breaks for every member (or this unit alone without one).
+func _request_release(reason: String) -> void:
+	if _formation_ok() and formation.has_method(&"release"):
+		formation.call(&"release", reason)
+	if not _released:
+		var fx: Array = []
+		if _formation_ok() and formation.has_method(&"release_effects_of"):
+			fx = formation.call(&"release_effects_of", unit)
+		release(fx)
+
+
+func _formation_ok() -> bool:
+	return formation != null and is_instance_valid(formation)
+
+
+func _apply_release_effects() -> void:
+	_effects_pending = false
+	if release_effects.is_empty() or effects_applied > 0:
+		return
+	effects_applied += 1
+	for e: Variant in release_effects:
+		if not e is Dictionary:
+			continue
+		var d: Dictionary = e
+		var dur := float(d.get("duration", 0.0))
+		if d.has("status"):
+			unit.apply_status(StringName(str(d["status"])), dur, true)
+		elif d.has("shield"):
+			unit.add_shield(float(d["shield"]), dur)
+
+
+func _watch_hits(on: bool) -> void:
+	if unit == null or not is_instance_valid(unit):
+		return
+	var c := Callable(self, &"_on_damage_taken")
+	if on and not unit.damage_taken.is_connected(c):
+		unit.damage_taken.connect(c)
+	elif not on and unit.damage_taken.is_connected(c):
+		unit.damage_taken.disconnect(c)
+
+
+func _on_damage_taken(_amount: float, _attacker: Node3D) -> void:
+	_hit = true
+
+
+## 15.3 step 5: the first waypoint ahead of the unit (a unit past a point's plane skips it), so the shape holds.
+func _pick_first_waypoint() -> void:
+	var pos := unit.global_position
+	index = 0
+	while index < path.size() - 1:
+		var wp := waypoint(index)
+		var d := _dir(index + 1)
+		if Vector2(pos.x - wp.x, pos.z - wp.z).dot(Vector2(d.x, d.z)) > 0.0:
+			index += 1
+		else:
+			break
+
+
+func _reset_stall() -> void:
+	_idle_for = 0.0
+	_stuck_for = 0.0
+	_no_progress = 0.0
+	_stuck_ref = unit.global_position
 
 
 func _physics_process(delta: float) -> void:
@@ -172,6 +362,18 @@ func _issue() -> void:
 
 
 func _think(dt: float) -> void:
+	# formation (WS3.G1): a target or a hit (or the timer) releases the whole wave; a held unit does nothing else
+	if state != State.FREE:
+		_state_left -= dt
+		if unit.attack_target != null or _hit:
+			_request_release("contact")
+		elif _state_left <= 0.0:
+			_request_release("timeout")
+		elif state == State.HOLD:
+			return
+	elif _effects_pending and (unit.attack_target != null or _hit):
+		_apply_release_effects()   # WS4.G1, lock off: the first contact
+		_watch_hits(false)
 	var pos := unit.global_position
 	var fighting := unit.attack_target != null
 	# advance along the lane
