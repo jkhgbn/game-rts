@@ -43,8 +43,34 @@ const ABILITIES := {
 	&"cutpurse": &"coin_cutter", &"smoke_pouch": &"coin_cutter", &"marked_for_coin": &"coin_cutter",
 	&"mending_draught": &"mender", &"soothing_circle": &"mender", &"lifeline": &"mender",
 }
-## Per-unit framing tweaks: [centre height ratio, radius x height ratio, yaw degrees]. Default [0.58, 0.44, 30].
-const UNIT_FRAMING := {&"rime_seer": [0.6, 0.36, 30.0]}
+## Per-unit framing: [centre height ratio, radius x height ratio, yaw deg, width ratio (0.42), pitch deg (20), dx m, dz m,
+## whole height 0/1]. Default [0.58, 0.44, 30]. A small width ratio drops a mount's length so the icon frames the rider.
+const UNIT_FRAMING := {
+	&"rime_seer": [0.6, 0.36, 30.0],
+	# Riders and big units: the rider's head and upper body (2026-10-13, Wave Strike panel / Unit Guide icons).
+	&"barrow_knight": [0.70, 0.33, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"veilborn_dreadrider": [0.70, 0.33, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"gloam_rider": [0.48, 0.27, 30.0, 0.0, 12.0, 0.0, 0.0, 1],   # its tall lance would push the rider down
+	&"snowdrift_rider": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"rimehorn_rider": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"stagrunner": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"glade_outrider": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"sunforge_cataphract": [0.70, 0.32, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"frostcrown_juggernaut": [0.68, 0.36, 30.0, 0.0, 12.0, 0.0, 0.0, 1],
+	&"briar_roc": [0.62, 0.40, 30.0, 0.14, 20.0],   # body and inner wings; the full span is unreadable at 64 px
+	# Infantry / casters with tall staffs or bows: a little tighter than the default.
+	&"pyre_adept": [0.62, 0.36, 30.0],
+	&"wildwood_archer": [0.62, 0.36, 30.0],
+	&"vinelasher": [0.62, 0.36, 30.0],
+	&"bleakbow": [0.62, 0.36, 30.0],
+	&"hexweaver": [0.62, 0.36, 30.0],
+	&"gloom_deacon": [0.62, 0.36, 30.0],
+	&"kilnwarden": [0.62, 0.36, 30.0],
+	&"rimecarver": [0.62, 0.36, 30.0],
+	&"shardguard": [0.62, 0.36, 30.0],
+	&"nightblood_reaver": [0.62, 0.36, 30.0],
+	&"bramblesage": [0.62, 0.36, 30.0],
+}
 ## Building ids whose BuildingType has no model_scene yet, mapped to the art scene that will be plugged in.
 ## Trade icons (10.V12) come from art/icons/render_trade_icons.gd (their models live in sub-folders and need their own
 ## framing): skipped here so a full run does not overwrite them with placeholders.
@@ -169,6 +195,9 @@ func _unit_scene(id: StringName) -> String:
 		var p: String = base + group + "/" + String(id) + ".tscn"
 		if ResourceLoader.exists(p):
 			return p
+		var sub: String = base + group + "/" + String(id) + "/" + String(id) + ".tscn"  # newer models: own folder
+		if ResourceLoader.exists(sub):
+			return sub
 	return ""
 
 
@@ -284,11 +313,22 @@ func _render_model(kind: StringName, id: StringName, faction: StringName, scene:
 			var hc: Vector3 = hb.get_center()
 			center.x = lerpf(center.x, hc.x, 0.5)
 			center.z = lerpf(center.z, hc.z, 0.5)
-		var fr: Array = UNIT_FRAMING.get(id, [0.58, 0.44, 30.0])
+		# [centre height ratio, radius x height ratio, yaw deg, optional width ratio (0.42), optional pitch deg (20),
+		#  optional x / z offset of the centre in metres]. A small width ratio frames a rider / big unit's upper body.
+		var fr: Array = _unit_framing(id)
+		if fr.size() > 7 and float(fr[7]) > 0.0:
+			# 8th value 1 = frame on the whole height, centred on the box (riders: the Head found may be the mount's).
+			h = box.size.y
+			center.x = box.get_center().x
+			center.z = box.get_center().z
 		center.y = box.position.y + h * float(fr[0])
-		radius = maxf(h * float(fr[1]), maxf(box.size.x, box.size.z) * 0.42)
-		pitch = deg_to_rad(20.0)
+		var wr: float = float(fr[3]) if fr.size() > 3 else 0.42
+		radius = maxf(h * float(fr[1]), maxf(box.size.x, box.size.z) * wr)
+		pitch = deg_to_rad(float(fr[4]) if fr.size() > 4 else 20.0)
 		yaw = deg_to_rad(float(fr[2]))
+		if fr.size() > 6:
+			center.x += float(fr[5])
+			center.z += float(fr[6])
 	else:
 		# Ignore the flat contact decal: frame on the tallest dimension mostly.
 		radius = maxf(box.size.y * 0.62, maxf(box.size.x, box.size.z) * 0.42)
@@ -306,6 +346,11 @@ func _render_model(kind: StringName, id: StringName, faction: StringName, scene:
 	var bg: Image = await _painted_image(&"bg", id, faction, 0)
 	bg.blend_rect(shot, Rect2i(0, 0, BIG, BIG), Vector2i.ZERO)
 	_save(kind, id, bg)
+
+
+## Unit framing (see _render_model). render_unit_icons.gd overrides it with its own per-unit table.
+func _unit_framing(id: StringName) -> Array:
+	return UNIT_FRAMING.get(id, [0.58, 0.44, 30.0])
 
 
 func _hide_particles(n: Node) -> void:
