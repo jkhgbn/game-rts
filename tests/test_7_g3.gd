@@ -210,9 +210,9 @@ func _setup() -> void:
 		_near(rb.cooldown_at(r), [6.0, 5.5, 5.0][r - 1], "rb cd r%d" % r)
 		_near(rb.range_at(r), 13.0, "rb range r%d" % r)
 		_near(fz.radius_at(r), [3.0, 3.25, 3.5][r - 1], "ff radius r%d" % r)
-		_near(fz.damage_at(r), [20.0, 30.0, 40.0][r - 1], "ff damage r%d" % r)
+		_near(fz.damage_at(r), [40.0, 55.0, 70.0][r - 1], "ff damage r%d" % r)
 		_near(fz.duration_at(r), [1.5, 2.0, 2.5][r - 1], "ff frozen r%d" % r)
-		_near(fz.cooldown_at(r), [20.0, 18.0, 16.0][r - 1], "ff cd r%d" % r)
+		_near(fz.cooldown_at(r), [18.0, 16.0, 14.0][r - 1], "ff cd r%d" % r)
 		_near(fz.range_at(r), 12.0, "ff range r%d" % r)
 	for r in [1, 2]:
 		_near(ra.shield_at(r), [80.0, 120.0][r - 1], "ra shield r%d" % r)
@@ -294,8 +294,8 @@ func _start_freeze(rank: int, c: Vector3, with_malrik: bool) -> void:
 	_check(tc.cast(&"flash_freeze", c) == "", "flash freeze rank %d refused" % rank)
 	_check(not tc.has_pending(), "flash freeze rank %d should cast at once" % rank)
 	_near(torv.mana, 50.0, "flash freeze mana rank %d" % rank)
-	_near(tc.cooldown_left(&"flash_freeze"), [20.0, 18.0, 16.0][rank - 1], "flash freeze cooldown rank %d" % rank)
-	var dmg: float = [20.0, 30.0, 40.0][rank - 1]
+	_near(tc.cooldown_left(&"flash_freeze"), [18.0, 16.0, 14.0][rank - 1], "flash freeze cooldown rank %d" % rank)
+	var dmg: float = [40.0, 55.0, 70.0][rank - 1]   # B13.I1 (2026-10-13)
 	var frz: float = [1.5, 2.0, 2.5][rank - 1]
 	for u in inside:
 		_near(hp0[u] - u.hp, dmg, "flash freeze rank %d damage" % rank)

@@ -27,7 +27,7 @@ const STORMCALL_MOD := &"ability:vey_stormcall"
 const VEIL := {"idle": 4.0, "near": 5.0, "bonus": 0.6}
 const HUSH_BOND := {"time": 4.0, "bonus": 0.15}
 const BLINK := {"range": 14.0, "delay": 0.5, "damage": 55.0}
-const SMOKE := {"hp_pct": 0.5, "min_targeting": 3, "shroud": 3.0}
+const SMOKE := {"hp_pct": 0.5, "min_targeting": 3, "shroud": 3.0, "radius": 20.0, "daze": 2.0}   # daze: B13.H1 (Knives too)
 const KNIVES := {"radius": 10.0, "min_count": 4, "wizard_pct": 0.4, "vanish": 1.5, "strikes": 6, "gap": 0.25,
 		"damage": 40.0, "hero_mult": 1.5, "mark": 4.0}
 # Aldra Stillwater
@@ -380,12 +380,12 @@ func _do(id: StringName, target: Variant) -> bool:
 		&"hush_smoke":
 			helper.apply_status(&"shroud", float(SMOKE["shroud"]), true)
 			helper.hide_from_auto_target(float(SMOKE["shroud"]))
-			_drop_targeting(20.0)
+			_drop_targeting(float(SMOKE["radius"]))
 		&"hush_knives":
 			var vanish := float(KNIVES["vanish"])
 			helper.set_untargetable(vanish + float(KNIVES["strikes"]) * float(KNIVES["gap"]))
 			helper.visible = false
-			_drop_targeting(20.0)
+			_drop_targeting(float(SMOKE["radius"]))
 			var victims := _enemies_near(at, float(KNIVES["radius"]))
 			victims.sort_custom(func(a: Unit, b: Unit) -> bool: return _flat(a.global_position, at) < _flat(b.global_position, at))
 			var strikes := int(KNIVES["strikes"])
@@ -614,10 +614,27 @@ func _later(seconds: float, fn: Callable) -> void:
 	helper.get_tree().create_timer(seconds, false, true).timeout.connect(fn)
 
 
-# Enemies attacking her lose her as a target but keep their orders (attack-move, hold...; R2-3).
+# Enemies attacking her lose her as a target but keep their orders (attack-move, hold...; R2-3). In skirmish they
+# are also `dazed` SMOKE["daze"] s (heroes x0.5 through the status hero_mult; balance-2026-10-13 H1): a status only,
+# never an order change. Missions keep the old behaviour (story Hush, mission sims).
 func _drop_targeting(r: float) -> void:
+	var daze := float(SMOKE["daze"]) if smoke_daze_here() else 0.0
 	for e in _enemies_near(helper.global_position, r):
+		if e.attack_target != helper:
+			continue
+		if daze > 0.0:
+			e.apply_status(&"dazed", daze)
 		e.drop_target_if(helper)
+
+
+## B13.H1 gate: helpers are on here (T3Kit.helpers_here: skirmish, or a test's force_enabled) and the level is not a
+## mission (missions with helpers_enabled, e.g. e2m4 / e3m2 / e4m2, keep the story Hush unchanged).
+static func smoke_daze_here() -> bool:
+	if not T3Kit.helpers_here():
+		return false
+	var tree := Engine.get_main_loop() as SceneTree
+	var scene: Node = tree.current_scene if tree else null
+	return scene == null or not scene.has_method(&"objectives")
 
 
 func _enemies_near(at: Vector3, r: float) -> Array[Unit]:

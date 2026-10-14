@@ -14,7 +14,7 @@ const TIMEOUT_FRAMES := 1200
 const WALL_TIP := "Ice Wall  [V]\nCost 20 crystals · 8 s · 500 HP\nBlocks the way. Max 16."
 const SPELL_TIPS := {
 	&"rime_bolt": ["35 mana · 45 damage · range 13", "Chills the target: slower attacks and movement."],
-	&"flash_freeze": ["50 mana · 20 s cooldown · radius 3", "Freezes every enemy in the circle."],
+	&"flash_freeze": ["50 mana · 18 s cooldown · radius 3", "Freezes every enemy in the circle."],
 	&"rime_aegis": ["60 mana · 40 s cooldown · radius 8", "Shields Torvald and nearby soldiers."],
 }
 
