@@ -687,7 +687,7 @@ func _on_mission_ended(victory: bool) -> void:
 
 ## A new scene under /root (change_scene, F9 reload, MenuFlow.set_scene): read it once it is ready.
 func _on_node_added(node: Node) -> void:
-	if node == self or node.get_parent() != get_tree().root:
+	if node == self or not is_inside_tree() or node.get_parent() != get_tree().root:
 		return
 	_check_scene.call_deferred(node)
 
