@@ -1,4 +1,4 @@
-# UI: Wave Strike HUD (M2 Muster panel, task WS2.D1 for WS2.U1)
+# UI: Wave Strike HUD (M2 Muster panel, task WS2.D1 for WS2.U1; Muster Pad WS3.D1 in 7, upgrades WS4.D1 in 8)
 
 Written 2026-10-13. Source: `wave-strike.md` 14.4 (needs), 7.4 (M1 intent), `ui-style.md` (tokens, frames, fonts, tooltips,
 animations). Pixels at 1600 x 900, bottom panels anchored bottom, right panels anchored right (`ui-hud.md`). Colours use the
@@ -15,7 +15,7 @@ WS (lane units take no orders); the hero column (272-582) stays for the wizard w
 | Cards | 72 x 118 at y 710, gap 6 | Group T1 x 600-978 (5), divider, T2 x 1000-1222 (3), divider, T3 x 1244-1394 (2). Divider = 22 px gap with a 2 px `groove` + 1 px `frame_light` vertical line, 6 x 6 `frame_light` diamond at each end (as 5.1 of ui-style) |
 | Right column | x 1416-1576 (160 wide) | Coffer button 160 x 40 at y 710; Next tier 160 x 40 at y 756; **field counter** 160 x 54 at y 802 (section 3); `Next wave: 14 units` font 12 `text_muted` at y 860 |
 | Supply bar | 794 x 18 at (600, 836) | Bar style 5.3, fill `GOLD`, text `Supply  38 / 52` font 13; `WARN` fill at cap; the next cap shown as a tick + `72` font 10 `text_muted` right of the bar when a tier is rising |
-| Hint line | (600, 860) font 12 `text_muted` | `Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  I = enemy roster` (French may wrap: max 2 lines, font 11 if wider than 794) |
+| Hint line | (600, 860) font 12 `text_muted` | `Key / click = buy  ·  Ctrl = rank  ·  Shift = upgrade  ·  Alt = sell  ·  P = pad  ·  L = arrange  ·  I = enemy` (French may wrap: max 2 lines, font 11 if wider than 794; with the pad / upgrades built, sections 7-8) |
 
 ### 1.1 Card anatomy (72 x 118, one `Button` + `_draw` overlay; `custom_minimum_size` locked so French text never resizes it)
 | Part | Rect in card | Look |
@@ -92,6 +92,8 @@ row 2 with the divider). Footer font 12 `text_muted`: `On the field 142 / 200 ·
 | **G** | Buy next Coffer (was B) |
 | **U** | Next tier (was N) |
 | **I** | Toggle the enemy roster peek |
+| **P** / **L** / **Ctrl+L** / Esc | Pad camera / auto-arrange / undo / cancel a ghost (section 7) |
+| Shift + key / Shift+Ctrl + key / Shift+Alt + key, **R Y O** | Upgrade A / B / cancel, Armoury Weapons / Armour / Arcana (section 8) |
 Unchanged: W A S D Q E F, Space, F1, T, J, Tab, F9 / F12. `,` `.` `/` by physical keycode (`KEY_COMMA`, `KEY_PERIOD`,
 `KEY_SLASH`); the AZERTY labels come from `KeyLabels`, never hard-coded. Keys act only while no `LineEdit` has focus and the
 match is not over (as M1).
@@ -101,7 +103,145 @@ match is not over (as M1).
 at 3440 x 1440 x1.6. Minimum sizes kept: card icon 64, key badge 14 tall, numbers >= font 12. Panel width 994 never grows;
 French strings get the wrap / shrink rules of 1.1 and the two-line buttons of 1.3; test with `-- --lang=fr` in the UI Lab.
 
+## 7. Muster Pad (WS3.D1 for WS3.U1 / U2; rules in wave-strike.md 15)
+Everything on the pad is 3D and **unlit, `no_depth_test` off** (tokens must sit on the plate, never through the forest); 2D
+parts (box select, messages, mini-pad) use the HUD tokens. Role colours (15.1) are **never skinned**: Melee `(0.85, 0.35, 0.30)`,
+Ranged `(0.35, 0.70, 0.95)`, Rider `(0.95, 0.75, 0.30)`, Heavy `(0.70, 0.50, 0.90)`, Support `(0.45, 0.85, 0.50)`, Caster
+`(0.95, 0.50, 0.85)`. Plate: stone `(0.30, 0.28, 0.27)`, 1 m rim `(0.22, 0.20, 0.19)`, own pad rim lit with `trim_glow` alpha 0.25.
+
+### 7.1 Tokens (one per copy; 2 MultiMeshes per pad: discs 1x1 / 2x2, + one flat `Sprite3D` icon each)
+| Part | 1x1 (cell 1.5 m) | 2x2 | Look |
+|---|---|---|---|
+| Disc | diameter 1.3 m, 0.15 m high | 2.8 m, 0.2 m high | Body `panel_inner` lightened 0.15 (enemy pad: enemy kingdom `panel_inner`); **rim** 0.12 m / 0.2 m in the role colour, full bright |
+| Icon | 0.9 m square, 0.05 m above the disc | 2.0 m | `art/icons/units/<id>.png`, lying flat, **front edge toward row 0** (the icon reads from the camera behind the pad); fallback: the 2-letter abbreviation Cinzel in `title` on a dark disc |
+| Rank band | a 0.1 m `GOLD` arc on the rim, 60° per rank (Drilled 60°, Elite 120°), from the back (row side) clockwise | same, 0.15 m | Reads rank without pips; tooltip has the name |
+| Upgrade ticks (8.4) | 0.25 m gold triangle on the rim at 45° front-right (A) and 45° front-left (B) | 0.4 m | Only bought upgrades; 2 px gold corners on the mini-pad |
+| Held marker | | | Copies past the field cap (back-most, 15.3): disc `modulate.a 0.55` + a 0.4 m `WARN` pause glyph on the icon; tooltip `Stays home this horn (lane cap)` |
+States: **normal** as above; **hover** = rim lightened 0.3 + the unit's real model as a 50 % ghost standing on it (`modulate.a
+0.5`, no shadow) + tooltip 7.5, 0.08 s fade; **selected** (box select 7.3) = a 0.1 m `GOLD` ring 0.2 m outside the rim, icon
+`modulate` 1.15; **dragging** = the token lifts 0.4 m over 0.1 s, `modulate.a 0.7`, its source cells keep a dashed `frame_light`
+outline (dash 0.3 m) until release; **just placed** (0.35 s) = disc scale 1.15 -> 1.0, `trim_glow` ring 0.8 -> 1.6 m fading;
+**sold** (0.35 s) = `WARN` flash, scale 1.0 -> 0.6, alpha -> 0; **snap back** (refused move) = token flies back in 0.15 s with a
+`WARN` rim flash 0.3 s. Tokens never cast shadows; max 84 icons per seat, rebuilt only on `MusterPad.changed`.
+
+### 7.2 Grid, edges, spawn box
+- Cells: 1 px lines (0.03 m quads) `frame_light` alpha 0.18 on the own pad, 0.10 on the enemy pad. Every 4th column a 0.05 m
+  line alpha 0.30 (wing / centre reading: cols 4 and 12 = the Line wings). Row numbers `0`-`11` font 0.5 m `text_muted` alpha 0.5
+  along the left edge; no column numbers.
+- **Front edge** (row 0 side): 0.12 m `GOLD` line + a `GOLD` chevron 2 m wide, 1 m ahead of the plate, pointing to the enemy;
+  label `FRONT` 0.6 m Cinzel `GOLD` alpha 0.7 under the chevron (French `AVANT`). Back edge: 0.06 m `frame_dark`.
+- **Zone shading** (own pad only, toggles with the hover of the Arrange button, alpha 0 -> 0.12 in 0.15 s): the Line zones of
+  15.4 tinted in their role colour, so "where will auto-place put this" is visible before pressing L.
+- **Spawn box outline** (lane): one flat 24 x 18 m rectangle mesh, stroke 0.4 m `GOLD` alpha 0.35, front edge 0.6 m + the
+  same chevron, 12 faint row lines alpha 0.12. Fades in 0.3 s at horn - 5 s (`horn_soon`), pulses alpha 0.25-0.45 at 1 Hz, flashes
+  alpha 0.8 at the horn, fades 0.5 s after. Enemy spawn box: same in the enemy kingdom `frame_light`, alpha 0.25, no chevron.
+- **Horn snapshot cue**: at the horn every own token blinks `trim_glow` 0.2 s (the shape was read); tokens moved after it get
+  a 0.3 m `text_muted` hourglass on the icon until the next horn (tooltip `Moves after the horn count next horn`). Hourglass is
+  the only per-token state the panel also shows (mini-pad cell hatched).
+
+### 7.3 Ghosts, drag, box select, sell
+| Interaction | Look |
+|---|---|
+| Place ghost (manual buy, 15.2) | The unit model `modulate.a 0.5` + a footprint quad on the hovered cells: free `(0.45, 0.85, 0.50)` alpha 0.45, blocked `WARN` alpha 0.45 (and the blocking token's rim flashes `WARN`); cursor off the pad: ghost hidden, cursor `CURSOR_FORBIDDEN`. Price follows the cursor: `120` crystal font 12 on a dark badge 8 px right of the cursor, `WARN` when unaffordable. Shift+click keeps the ghost: badge adds `· again` |
+| Hover ghost | 7.1 hover (model 50 %), only on own tokens, never while dragging or placing |
+| Drag | Press, move > 6 px: 7.1 dragging + the footprint quad under the cursor (green / red; **swap** = the target token's rim `GOLD` + quad `GOLD` alpha 0.35). Group drag: every selected token lifts, quads for each, one red = all red |
+| Box select | 2D rectangle 1 px `GOLD` + fill `GOLD` alpha 0.12 (same as unit box select) from a press on empty cells; selection cleared by a click on empty cells / Esc / the horn. Max = all own tokens |
+| Right-click a token | Sell: tooltip-sized confirm **not** needed; the card's 1.2 "Sold" state plays on the panel and the token 7.1 sold. Refund text floats `+60` crystal colour font 12 rising 1 m |
+| Cancel | Esc or right-click with a ghost = ghost gone 0.1 s, nothing paid, message line nothing |
+
+### 7.4 Messages, camera, setting, keys
+- Refusal `No room on the pad` -> message line (y 120) in `WARN` as `No room on the pad  ·  L = auto-arrange`, 2.5 s, plus the
+  card price shake (1.2) and the mini-pad border `WARN` flash 0.3 s. `Cell blocked` (click on a red ghost) = the quad shakes
+  ±0.15 m 0.2 s, no message.
+- **P** = camera to the pad: pivot (pad centre), yaw from behind the pad looking toward the front edge, distance so the plate
+  fills ~70 % of the height, 0.35 s ease; P again (or any pan) = back to the saved camera. The hero tile / Space unchanged.
+- **L** = auto-arrange: every own token flies to its new cell in 0.3 s (staggered 0.01 s), then message `Arranged · Ctrl+L =
+  undo (5 s)` in `text` 2.5 s; **Ctrl+L** within 5 s = the reverse flight, message `Undone`.
+- Setting `Place on buy` (Settings > Gameplay, `OptionButton` **Auto** / **Manual**, tooltip `Auto: new copies fill the Line
+  formation, drag to fix · Manual: every buy shows a ghost on the pad`); mirrored by the mini-pad toggle 7.6.
+| Keys (physical) | Action |
+|---|---|
+| **P** | Centre on the pad / back |
+| **L** / **Ctrl+L** | Auto-arrange (Line) / undo within 5 s |
+| Left-click / Shift+click (ghost) | Place / place and keep the ghost |
+| Right-click, Esc | Cancel the ghost; right-click a token = sell |
+| Drag / drag on empty / drag a selected token | Move or swap / box select / move the group |
+Badges show `KeyLabels.of` (P, L print the same on AZERTY). I, G, U, card keys unchanged.
+
+### 7.5 Tooltips (ui-style 8, 8 px above the cursor, max 320)
+Own token: `Flame Guard  ·  Drilled` / `Cell (5, 2) · spawns row 2, left of centre` font 13 `text_muted` / upgrades bought
+(`Shield Drill`) in `GOLD` / `Drag = move · right-click = sell for 60`. Enemy token: name + `x4` only. Pad button tooltips:
+`Centre on the pad  [P]`, `Auto-arrange: Line formation  [L]`, `Undo the arrangement  [Ctrl+L] (3 s)`.
+
+### 7.6 Enemy pad and the optional 2D mini-pad (console layout, ui-sc2-console.md 6)
+- Enemy pad: tokens 7.1 with the enemy kingdom body, grid alpha 0.10, no hover ghost, no selection, no zone shading; its row
+  numbers hidden. The I peek (4) gains a footer line `Front row: 4 Heavy · 6 Melee · wings 4 Rider` font 12 `text_muted`.
+- **Mini-pad** (optional, build after WS3.U2 if JS keeps it): in the console's free band x 1056-1408 (between the T3 cards
+  ending x 1048 and the right column), a slate 3.2 **114 x 86** at (1064, 780): 16 x 12 cells of 7 px, grid `frame_light` alpha
+  0.18, front edge (top) 1 px `GOLD`, tokens = 5 x 5 (1x1) / 12 x 12 (2x2) rounded squares in the role colour, hatched when
+  moved after the horn, 2 px gold corners for upgrades. Hover a cell = the token's tooltip 7.5; click = centre the camera on
+  that cell (P-like); no placing in 2D. Buttons 108 x 24 (button frame 3.3, font 12, badge 20 x 14): `Pad [P]` at (1184, 780),
+  `Arrange [L]` at (1184, 808), `Undo [Ctrl+L]` at (1184, 836) (disabled outside the 5 s, `modulate.a 0.45`). Status column
+  x 1296-1404: `Pad 38 / 192` font 12 `text` at y 782, `Held 12` in `WARN` at y 800 when any, and a 108 x 24 toggle `Place:
+  Auto` / `Place: Manual` at (1296, 836) bound to the setting. Pre-console layout (994 panel): no mini-pad, the three buttons
+  become 50 x 24 at (1416, 860), (1470, 860), (1524, 860) replacing the `Next wave` line (moved into the field counter tooltip).
+
+## 8. Card upgrades and Armoury (WS4.D1 for WS4.U1; rules in wave-strike.md 16)
+### 8.1 Upgrade pips on the card (1.1 row `Rank pips` keeps x 54 / 62; copies text ends by x 26)
+| Pip | Rect in card | Bought | Available (tier open) | Locked (tier) |
+|---|---|---|---|---|
+| A | 6 x 6 square at (30, 110) | Filled `GOLD` | 1 px `frame_light` outline, inside `panel_inner` | 1 px `(0.3, 0.3, 0.3)` outline |
+| B | 6 x 6 square at (38, 110) | Filled `GOLD` | same | same |
+Squares (not diamonds) so they never read as ranks. Hover a pip = that upgrade's tooltip lines only (8.3); click a pip = buy it
+(same as Shift / Shift+Ctrl + key). **Bought flash** 0.5 s: the pip pops 1.0 -> 1.8 -> 1.0 in `trim_glow` -> `GOLD`, the card rim
+`GOLD` 0.4 s, a float `Shield Drill` font 11 `GOLD` rises 16 px. **Cancel window** (5 s): the pip blinks `GOLD` alpha 0.5-1.0
+at 2 Hz; Shift+Alt + key / Shift+Alt+click = pip back to outlined, `+145` refund float. Unaffordable press: price shake (1.2),
+reason on the message line. Hint line (1) carries `Shift = upgrade`.
+
+### 8.2 Armoury strip (console free band x 1056-1408; 3 buttons 108 x 40 at y 730: Weapons (1064), Armour (1180), Arcana (1296))
+| Part | Look |
+|---|---|
+| Frame | Button frame 3.3; key badge 20 x 14 at (4, 4) `R` / `Y` / `O` (same on AZERTY) |
+| Glyph | 24 px at (6, 10): crossed blades / kite shield / rune circle, `text` colour; drawn in code (6.1 fallback rules) |
+| Text | Line 1 (34, 5) font 13 `text`: `Weapons II` (roman level reached, `Weapons` at level 0); 3 level pips 6 x 6 diamonds at (34 + 8 j, 23), filled `GOLD` per level (Arcana: 2 pips) |
+| Price | (70, 22) right-aligned to x 102: crystal diamond 8 px + `350` font 11 crystal text colour; `WARN` unaffordable; at max: `Max` font 11 `GOLD`, no price |
+| States | Normal / hover / pressed as 3.3; **gated** (`Requires Stronghold` / `Citadel`): `modulate.a 0.45` + a 10 x 12 lock glyph over the price; **max**: rim `GOLD`, disabled, no badge; **bought** flash: rim `trim_glow` 0.4 s, the new pip pops 1.0 -> 1.6 -> 1.0, every own token on the pad blinks the role rim 0.2 s |
+Pre-console layout: the strip is 3 buttons 50 x 40 at (1416, 860), (1470, 860), (1524, 860) (glyph + pips only, text in the tooltip).
+
+### 8.3 Tooltips (card tooltip 2 gains lines 5-6; Armoury tooltip)
+| Line | Text (effect text from the templates below) |
+|---|---|
+| Card 5 (A) | `Shift+Z: Shield Drill (+3 armour) · 145` in `GOLD` when affordable, `text_muted` with ` · Requires Stronghold` in `WARN` when gated; bought: `Shield Drill: bought` `text_muted` + a 10 px check glyph `GOLD`; in the window: `Shift+Alt+Z: cancel Shield Drill (4 s)` `GOLD` |
+| Card 6 (B) | `Shift+Ctrl+Z: War Cry (haste 4 s at release) · 240` same rules; T3: the signature name |
+| Armoury 1 | `Weapons II  [R]` + right `Level 1 / 3` |
+| Armoury 2 | `350 crystals · +6 % damage per level · next horn` (Arcana: `casters and support: +15 spell power, +20 % mana regen`) |
+| Armoury 3 | Reason in `WARN` (`Requires Stronghold`, `Max level`, `Not enough crystals`); else `Applies to units spawned from the next horn` `text_muted` |
+Effect templates (built from `card_upgrades.tres`, never hand-typed per card): `mods` flat -> `+3 armour` / `+6 HP/s` / `+25
+spell power`, pct -> `+20 % HP` / `+40 % mana, +50 % regen`; `type` -> `+1.5 range`, `marked 3 s on hit (+15 % damage taken)`,
+`chill 2 s on hit`, `on-hit lasts x1.5`, `support x1.4`, `interval x0.75`; `release` -> `haste 4 s at release`, `braced 6 s at
+release`, `shroud 5 s at release`, `shield 150 for 10 s at release`. Stat names through `Loc`, numbers formatted `%g`.
+
+### 8.4 Keys and token ticks
+| Keys (physical) | Action |
+|---|---|
+| **Shift** + card key / Shift+click | Buy upgrade A |
+| **Shift+Ctrl** + card key / Shift+Ctrl+click | Buy upgrade B |
+| **Shift+Alt** + card key / Shift+Alt+click | Cancel the last upgrade of that card within 5 s |
+| **R** / **Y** / **O** | Armoury Weapons / Armour / Arcana next level |
+Modifier precedence while a card key is pressed: Shift+Ctrl > Shift+Alt > Shift > Ctrl > Alt > plain. Held Shift shows the
+card rim in `GOLD` (pressed state), like Ctrl today. Token ticks: 7.1 (gold triangles A front-right, B front-left, 0.25 / 0.4 m);
+a bought upgrade adds its tick on every token of the card in the 8.1 flash; ticks persist through moves and saves.
+
 ## Done when
+- [ ] WS3.D1 (this spec, 7): tokens / grid / ghosts / box select / spawn box / messages / P L Ctrl+L / setting / mini-pad.
+- [ ] WS3.U1 (ui-coder): tokens 7.1 (MultiMesh + icons, rank band, held marker), grid + front edge + zone shading 7.2, spawn-box
+  outline on `horn_soon`, enemy pad 7.6, P camera; UI Lab `ws_pad` en / fr no FAIL; perf gate 15.5.
+- [ ] WS3.U2 (ui-coder): place / hover / drag ghosts, swap, box select, right-click sell, `No room` message, L / Ctrl+L,
+  `Place on buy` setting, tooltips 7.5, mini-pad if kept; `test_ws_ui` pad rows PASS.
+- [ ] WS4.D1 (this spec, 8): pips, Armoury strip, keys, tooltips, token ticks.
+- [ ] WS4.U1 (ui-coder): pips 8.1 with the flash / cancel blink, Armoury strip 8.2 in both layouts, tooltip lines 8.3 from the
+  templates, Shift / Shift+Ctrl / Shift+Alt + key and R / Y / O, token ticks; `test_ws_ui` upgrade rows PASS; UI Lab `ws_buy`
+  en / fr no FAIL; strings through `Loc` and merged in `data/i18n/fr/`.
 - [ ] WS2.D1 (this spec): 10-slot panel with groups / lock / states, card anatomy, Coffer + tier buttons, horn ring, field
   counter, enemy peek, tooltips, key table G / U / I.
 - [ ] WS2.U1 (ui-coder): panel 994 x 224 at (590, 660) with the rects of 1-3; the 10 physical keys + Ctrl / Alt + G / U / I
