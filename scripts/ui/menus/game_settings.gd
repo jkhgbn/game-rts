@@ -57,6 +57,9 @@ static var map_detail: StringName = MAP_DETAIL_HIGH
 ## missions) writes a compact local timeline to user://playtests/ (no personal data; never sent anywhere). Mirrors
 ## ReplayHooks.playtest_enabled, which the recorder hook reads.
 static var playtest_data := false
+## Wave Strike "Place on buy" (ui-wave-strike.md 7.4, wave-strike.md 15.2): false = Auto (default: new copies fill the
+## Line formation, drag to fix), true = Manual (every buy shows a ghost on the pad). Read live by MusterPadInput.
+static var ws_place_manual := false
 const _REPLAY_HOOKS := preload("res://scripts/core/replay/replay_hooks.gd")
 ## Language (docs/design/localization.md): "en" / "fr", or "" = not chosen yet (first run: the OS locale, then saved).
 ## Applied live by `apply` / `set_language` (Loc.set_language). Scripted runs (tests, labs) stay English (Loc).
@@ -122,6 +125,7 @@ static func reset_defaults() -> void:
 	upscaler = UPSCALER_OFF
 	render_scale = RENDER_SCALE_DEFAULT
 	language = ""
+	ws_place_manual = false
 
 
 ## Sets the Map detail (&"high" / &"low"; anything else = high) and saves the file. Applies from the next match.
@@ -267,6 +271,14 @@ static func apply_time_limit(level: Node) -> bool:
 	return true
 
 
+## Sets Wave Strike's "Place on buy" (true = Manual) and saves the file (`save`).
+static func set_ws_place_manual(on: bool, save := true) -> void:
+	ensure_read()
+	ws_place_manual = on
+	if save:
+		save_settings()
+
+
 ## Reads user://settings.cfg (missing file or keys = defaults).
 ## Settings "Playtest data": on = record each match to user://playtests/ (applies from the next match start).
 static func set_playtest_data(on: bool, save := true) -> void:
@@ -300,6 +312,7 @@ static func load_settings() -> void:
 			CONTROL_SCHEME_IDS[CONTROLS_CLASSIC])))
 	map_detail = map_detail_from_id(str(cfg.get_value(SECTION, "map_detail", String(MAP_DETAIL_HIGH))))
 	set_playtest_data(bool(cfg.get_value(SECTION, "playtest_data", false)), false)
+	ws_place_manual = str(cfg.get_value(SECTION, "ws_place_on_buy", "auto")) == "manual"
 	upscaler = upscaler_from_id(str(cfg.get_value(SECTION, "upscaler", UPSCALER_IDS[UPSCALER_OFF])))
 	render_scale = clampf(float(cfg.get_value(SECTION, "render_scale", render_scale)), RENDER_SCALE_MIN,
 			RENDER_SCALE_MAX)
@@ -369,6 +382,7 @@ static func save_settings() -> Error:
 	cfg.set_value(SECTION, "control_scheme", CONTROL_SCHEME_IDS[clampi(control_scheme, 0, CONTROL_SCHEME_IDS.size() - 1)])
 	cfg.set_value(SECTION, "map_detail", String(map_detail_from_id(String(map_detail))))
 	cfg.set_value(SECTION, "playtest_data", playtest_data)
+	cfg.set_value(SECTION, "ws_place_on_buy", "manual" if ws_place_manual else "auto")
 	cfg.set_value(SECTION, "upscaler", UPSCALER_IDS[clampi(upscaler, UPSCALER_OFF, UPSCALER_FSR2)])
 	cfg.set_value(SECTION, "render_scale", render_scale)
 	cfg.set_value(SECTION, "language", language)

@@ -19,6 +19,12 @@ var camera: Camera3D
 var _zoom := 30.0
 var _target_zoom := 30.0
 var _rotating := false
+## Bumped every frame the player pans (keys / edge): a saved "back" view (Wave Strike's P) is dropped after a pan.
+var pan_serial := 0
+var _fly_t := -1.0
+var _fly_time := 0.35
+var _fly_from: Array = []
+var _fly_to: Array = []
 
 
 func _ready() -> void:
@@ -31,7 +37,42 @@ func _ready() -> void:
 
 
 func focus_on(pos: Vector3) -> void:
+	_fly_t = -1.0
 	position = Vector3(pos.x, 0.0, pos.z)
+
+
+## [position, yaw, zoom, pitch degrees] (the view to come back to after fly_to).
+func view_state() -> Array:
+	return [position, rotation.y, _target_zoom, pitch_degrees]
+
+
+## Eases the camera to `pos` (ground pivot), `yaw` (radians), `zoom` and `pitch` (degrees; NAN = keep) over `seconds`
+## (0 = at once); a pan during the flight takes the position over (yaw / zoom / pitch keep easing).
+func fly_to(pos: Vector3, yaw: float, zoom: float, seconds := 0.35, pitch := NAN) -> void:
+	_fly_from = view_state()
+	_fly_to = [Vector3(pos.x, 0.0, pos.z), yaw, clampf(zoom, min_zoom, max_zoom),
+			pitch_degrees if is_nan(pitch) else pitch]
+	_fly_time = maxf(seconds, 0.001)
+	_fly_t = 0.0
+	if seconds <= 0.0:
+		_fly_step(1.0)
+
+
+func is_flying() -> bool:
+	return _fly_t >= 0.0
+
+
+func _fly_step(delta: float) -> void:
+	_fly_t += delta
+	var k := clampf(_fly_t / _fly_time, 0.0, 1.0)
+	var e := k * k * (3.0 - 2.0 * k)
+	position = (_fly_from[0] as Vector3).lerp(_fly_to[0], e)
+	rotation.y = lerp_angle(float(_fly_from[1]), float(_fly_to[1]), e)
+	_target_zoom = lerpf(float(_fly_from[2]), float(_fly_to[2]), e)
+	_zoom = _target_zoom
+	pitch_degrees = lerpf(float(_fly_from[3]), float(_fly_to[3]), e)
+	if k >= 1.0:
+		_fly_t = -1.0
 
 
 func _process(delta: float) -> void:
@@ -66,6 +107,13 @@ func _process(delta: float) -> void:
 			elif mouse.y > size.y - edge_margin:
 				input.y += 1.0
 
+	if input != Vector2.ZERO:
+		pan_serial += 1
+		if _fly_t >= 0.0:   # a pan takes the position over; yaw / zoom / pitch keep easing
+			_fly_from[0] = position
+			_fly_to[0] = position
+	if _fly_t >= 0.0:
+		_fly_step(delta)
 	if input != Vector2.ZERO:
 		var dir := Vector3(input.x, 0.0, input.y).normalized().rotated(Vector3.UP, rotation.y)
 		var fast := fast_pan_factor if keys and Input.is_key_pressed(KEY_SHIFT) else 1.0

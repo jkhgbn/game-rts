@@ -137,7 +137,51 @@ func refresh() -> void:
 	footer.text = Loc.t("On the field %d / %d · Supply %d / %d · Last wave %d") % [
 		int(level.call(&"field_count", team)) if level.has_method(&"field_count") else 0, cap,
 		roster.pop_used(), roster.cap(), last]
+	var front := front_row_text(roster)
+	if front != "":
+		footer.text += "
+" + front
 	_cards.queue_redraw()
+
+
+## The enemy formation's front at a glance (ui-wave-strike.md 7.6): `Front row: 4 Heavy · 6 Melee · wings 4 Rider` from
+## the pad (copies anchored on row 0 by role; riders anywhere on the wing columns 0-3 / 12-15 count as wings).
+static func front_row_text(r: MusterRoster) -> String:
+	if r == null or r.pad == null or r.table == null:
+		return ""
+	var front := {}
+	var wings := 0
+	for c in r.pad.copies():
+		var cell: Vector2i = c["cell"]
+		var role := r.table.role_of(StringName(c["id"]))
+		if role == &"rider" and (cell.x <= 3 or cell.x + int(c["size"]) - 1 >= 12):
+			wings += 1
+		elif cell.y == 0:
+			front[role] = int(front.get(role, 0)) + 1
+	var parts: PackedStringArray = []
+	for role: StringName in [&"heavy", &"melee", &"rider", &"ranged", &"support", &"caster"]:
+		if front.has(role):
+			parts.append("%d %s" % [int(front[role]), _role_word(role)])
+	if wings > 0:
+		parts.append(Loc.t("wings %d %s") % [wings, _role_word(&"rider")])
+	if parts.is_empty():
+		return ""
+	return Loc.t("Front row: %s") % " · ".join(parts)
+
+
+static func _role_word(role: StringName) -> String:
+	match role:
+		&"heavy":
+			return Loc.t("Heavy", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+		&"rider":
+			return Loc.t("Rider", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+		&"ranged":
+			return Loc.t("Ranged", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+		&"support":
+			return Loc.t("Support", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+		&"caster":
+			return Loc.t("Caster", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+	return Loc.t("Melee", null, "ws role tag")  # LOC_IGNORE (ctx literal)
 
 
 ## Mini card rect for slot i (rows at y 30 and y 90; T2 + T3 on row 2 with a divider).

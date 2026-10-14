@@ -8,10 +8,18 @@ extends Control
 ## size; the title row has `Muster` and the horn countdown + ring. The extra width between the cards and the column
 ## shows the kingdom emblem faintly. WaveStrikeHud owns the logic (keys, buys); this node only shows and forwards
 ## clicks: signal `card_action(slot, kind)`, `coffer_pressed`, `tier_pressed`.
+## WS3.U2 / WS4.U1 (ui-wave-strike.md 7.6 / 8): the free band right of the T3 cards holds the Armoury strip (Weapons /
+## Armour / Arcana, keys R Y O) and, under it, the mini-pad, the pad buttons (Pad [P], Arrange [L], Undo [Ctrl+L]),
+## the pad status (cells used, held) and the `Place: Auto / Manual` toggle; the cards carry the upgrade pips A / B.
+## Signals `armoury_pressed(line)`, `pad_pressed`, `arrange_pressed`, `undo_pressed`.
 
 signal card_action(slot: int, kind: StringName)
 signal coffer_pressed
 signal tier_pressed
+signal armoury_pressed(line: StringName)
+signal pad_pressed
+signal arrange_pressed
+signal undo_pressed
 
 const SLOTS := 10
 const CARD_W := 72.0
@@ -23,6 +31,10 @@ const COL_W := 160.0
 const COL_RIGHT := 12.0
 const LEFT_W := 794.0
 const EMBLEM_ALPHA := 0.07
+## The free band (7.6 / 8.2): x from the T3 cards' end + 16 (screen 1064 -> local 820), 350 wide.
+const BAND_X := 820.0
+const BAND_W := 340.0
+const ARMOURY_KEYS: Array[int] = [KEY_R, KEY_Y, KEY_O]
 ## Lane autocast line of each kingdom caster (wave-strike.md 14.1 table).
 const CASTER_LANE := {
 	&"kilnwarden": "In the lane: Slag Rain, Mana Scald on auto",
@@ -45,6 +57,22 @@ var card_keys: Array[int] = []
 var coffer_key := KEY_G
 var tier_key := KEY_U
 var peek_key := KEY_I
+var pad_key := KEY_P
+var arrange_key := KEY_L
+var armoury_buttons: Array[ArmouryButton] = []
+var mini_pad: WsMiniPad
+var pad_button: WsMiniPad.SmallButton
+var arrange_button: WsMiniPad.SmallButton
+var undo_button: WsMiniPad.SmallButton
+var place_toggle: WsMiniPad.SmallButton
+var pad_status: Label
+var held_status: Label
+var pad_view: MusterPadView
+var pad_input: MusterPadInput
+var band_compact := false
+var _last_ups: Array[int] = []
+var _up_seen: Dictionary = {}       ## "<id>:<slot>" -> director time the upgrade was seen bought (cancel window)
+var _seen_ready := false
 
 var _title: Label
 var _horn_label: Label
@@ -75,6 +103,7 @@ func setup(p_level: Node, p_roster: MusterRoster, p_bank: WaveBank, p_director: 
 	for i in SLOTS:
 		_last_counts.append(-1)
 		_last_ranks.append(-1)
+		_last_ups.append(-1)
 
 
 func _build() -> void:
@@ -156,6 +185,62 @@ func _build() -> void:
 	_wave_label.clip_text = true
 	_wave_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	add_child(_wave_label)
+	_build_band()
+	_layout()
+
+
+## Armoury strip + pad block (7.6 / 8.2).
+func _build_band() -> void:
+	var lines: Array[StringName] = roster.upgrades.armoury_order if roster and roster.upgrades else [&"weapons", &"armour", &"arcana"]
+	for k in lines.size():
+		var b := ArmouryButton.new()
+		b.line = lines[k]
+		b.name = "Armoury_%s" % lines[k]
+		var line: StringName = lines[k]
+		b.pressed.connect(func() -> void: armoury_pressed.emit(line))
+		add_child(b)
+		armoury_buttons.append(b)
+	pad_button = WsMiniPad.SmallButton.new()
+	pad_button.name = "PadButton"
+	pad_button.pressed.connect(func() -> void: pad_pressed.emit())
+	add_child(pad_button)
+	arrange_button = WsMiniPad.SmallButton.new()
+	arrange_button.name = "ArrangeButton"
+	arrange_button.pressed.connect(func() -> void: arrange_pressed.emit())
+	arrange_button.mouse_entered.connect(func() -> void:
+		if pad_view != null:
+			pad_view.set_zone_shading(true))
+	arrange_button.mouse_exited.connect(func() -> void:
+		if pad_view != null:
+			pad_view.set_zone_shading(false))
+	add_child(arrange_button)
+	undo_button = WsMiniPad.SmallButton.new()
+	undo_button.name = "UndoButton"
+	undo_button.pressed.connect(func() -> void: undo_pressed.emit())
+	add_child(undo_button)
+	place_toggle = WsMiniPad.SmallButton.new()
+	place_toggle.name = "PlaceToggle"
+	place_toggle.pressed.connect(func() -> void:
+		GameSettings.set_ws_place_manual(not GameSettings.ws_place_manual)
+		refresh())
+	add_child(place_toggle)
+	pad_status = UIStyle.panel_label("", 12, UIStyle.token(&"text"))
+	pad_status.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	pad_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(pad_status)
+	held_status = UIStyle.panel_label("", 12, UIStyle.WARN)
+	held_status.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	held_status.mouse_filter = Control.MOUSE_FILTER_PASS
+	add_child(held_status)
+
+
+## The pad view / input (WaveStrikeHud, after both exist): the mini-pad joins the band.
+func setup_pad(view: MusterPadView, input: MusterPadInput) -> void:
+	pad_view = view
+	pad_input = input
+	mini_pad = WsMiniPad.new()
+	add_child(mini_pad)
+	mini_pad.setup(view, input)
 	_layout()
 
 
@@ -191,7 +276,40 @@ func _layout() -> void:
 	_horn_label.position = Vector2(cx - 140.0, -3.0)
 	_horn_label.size = Vector2(COL_W + 140.0 - 26.0, 22)
 	_hint.size = Vector2(maxf(LEFT_W, cx - 20.0), 17)
+	_layout_band(cx)
 	queue_redraw()
+
+
+## Full band (cx - 10 - BAND_X >= BAND_W): Armoury 108 x 40 at y 38, mini-pad 114 x 86 at y 88, pad buttons 108 x 24,
+## status column; narrower: compact Armoury 50 x 40 and pad buttons 50 x 24, no mini-pad / status.
+func _layout_band(cx: float) -> void:
+	if armoury_buttons.is_empty():
+		return
+	band_compact = cx - 10.0 - BAND_X < BAND_W
+	for k in armoury_buttons.size():
+		var b := armoury_buttons[k]
+		b.set_compact(band_compact)
+		b.position = Vector2(BAND_X + k * (54.0 if band_compact else 116.0), CARD_Y)
+	var small_w := 50.0 if band_compact else 108.0
+	for row: Array in [[pad_button, 0], [arrange_button, 1], [undo_button, 2]]:
+		var sb := row[0] as WsMiniPad.SmallButton
+		sb.custom_minimum_size = Vector2(small_w, 24)
+		sb.size = sb.custom_minimum_size
+		if band_compact:
+			sb.position = Vector2(BAND_X + int(row[1]) * 54.0, CARD_Y + 50.0)
+		else:
+			sb.position = Vector2(BAND_X + 120.0, CARD_Y + 50.0 + int(row[1]) * 28.0)
+	place_toggle.custom_minimum_size = Vector2(small_w, 24)
+	place_toggle.size = place_toggle.custom_minimum_size
+	place_toggle.position = Vector2(BAND_X + 232.0, CARD_Y + 106.0) if not band_compact else Vector2(BAND_X, CARD_Y + 78.0)
+	pad_status.position = Vector2(BAND_X + 232.0, CARD_Y + 50.0)
+	pad_status.size = Vector2(108, 16)
+	held_status.position = Vector2(BAND_X + 232.0, CARD_Y + 68.0)
+	held_status.size = Vector2(108, 16)
+	pad_status.visible = not band_compact
+	if mini_pad != null:
+		mini_pad.position = Vector2(BAND_X, CARD_Y + 50.0)
+		mini_pad.visible = not band_compact
 
 
 ## Rect available to group g's label (T3 may run into the empty middle).
@@ -217,7 +335,7 @@ func _draw() -> void:
 					Vector2(x + 1.5, y + 3), Vector2(x - 1.5, y)]), light)
 	var gap_l := GROUP_X[2] + 2 * CARD_STEP + 10.0
 	var gap_r := col_x() - 10.0
-	if gap_r - gap_l > 80.0:
+	if gap_r - gap_l > 80.0 and armoury_buttons.is_empty():
 		var c := Vector2((gap_l + gap_r) * 0.5, CARD_Y + 59.0)
 		UIStyle.draw_emblem(self, roster.kingdom if roster else UIStyle.get_kingdom(), c, minf(56.0, (gap_r - gap_l) * 0.3),
 				Color(UIStyle.token(&"title"), EMBLEM_ALPHA))
@@ -260,14 +378,26 @@ func refresh() -> void:
 			c.play_open()
 		_last_counts[i] = n
 		_last_ranks[i] = r
+		var mask := _up_mask(StringName(d["id"]))
+		if _last_ups[i] >= 0 and mask != _last_ups[i]:
+			for slot in 2:
+				var bit := 1 << slot
+				if mask & bit and not _last_ups[i] & bit:
+					c.play_upgrade(slot, WsUpgradeText.name_of(roster.upgrade_info(StringName(d["id"]), slot)))
+				elif _last_ups[i] & bit and not mask & bit:
+					c.play_upgrade_cancel(roster.upgrade_price(StringName(d["id"]), slot))
+		_last_ups[i] = mask
 	_last_tier = roster.tier
+	_seen_ready = true
 	_refresh_supply()
 	_refresh_buttons()
 	var fc := int(level.call(&"field_count", roster.team)) if level and level.has_method(&"field_count") else 0
 	var held := int(level.call(&"held_last_horn", roster.seat)) if level and level.has_method(&"held_last_horn") else 0
 	field_counter.set_counts(fc, int(director.rules.field_cap), held)
 	_wave_label.text = Loc.tn("Next wave: {n} unit", "Next wave: {n} units", roster.card_total())
-	_hint.text = Loc.t("Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster") % KeyLabels.of(peek_key)
+	_hint.text = Loc.t("Key / click = buy  ·  Ctrl = rank  ·  Shift = upgrade  ·  Alt = sell  ·  %s = pad  ·  %s = arrange  ·  %s = enemy") % [
+			KeyLabels.of(pad_key), KeyLabels.of(arrange_key), KeyLabels.of(peek_key)]
+	_refresh_band()
 	_fit_hint()
 
 
@@ -399,7 +529,10 @@ func card_data(i: int, ids: Array[StringName]) -> Dictionary:
 			"max": most, "rank": rk, "why": why, "locked": locked, "maxed": most > 0 and n >= most,
 			"crystals_short": not locked and not bank.can_afford(price),
 			"supply_short": not locked and roster.pop_used() + pop > roster.cap()}
+	d["ups"] = _ups_data(id, key)
 	d["tip"] = _card_tip(id, t, d)
+	for u: Dictionary in d["ups"]:
+		(d["tip"] as Array).append_array(u["tip"])
 	if role_kind(id) == &"caster":
 		d["role_tip"] = Loc.t("Casters autocast in the lane; max %d copies") % most if most > 0 else Loc.t("Casters autocast in the lane")
 	elif most > 0:
@@ -439,6 +572,113 @@ func _card_tip(id: StringName, t: UnitType, d: Dictionary) -> Array:
 		var refund := int(roundf(roster.unit_price(id) * roster.rules.sell_refund))
 		rows.append([Loc.t("Alt+%s / right-click: sell for %d") % [key, refund], UIStyle.token(&"text_muted"), 13])
 	return rows
+
+
+func _up_mask(id: StringName) -> int:
+	return (1 if roster.has_upgrade(id, 0) else 0) | (2 if roster.has_upgrade(id, 1) else 0)
+
+
+## Upgrade pips + tooltip rows of card `id` (8.1 / 8.3): [{state, window, tip}] for A and B ([] when upgrades are off).
+func _ups_data(id: StringName, key: String) -> Array:
+	var out: Array = []
+	if roster.upgrades == null or not roster.rules.upgrades_enabled:
+		return out
+	for slot in 2:
+		var info := roster.upgrade_info(id, slot)
+		if info.is_empty():
+			continue
+		var nm := WsUpgradeText.name_of(info)
+		var eff := WsUpgradeText.effect(info)
+		var combo := ("Shift+%s" if slot == 0 else "Shift+Ctrl+%s") % key  # LOC_IGNORE (key combo)
+		var price := roster.upgrade_price(id, slot)
+		var seen_key := "%s:%d" % [id, slot]
+		var rows: Array = []
+		var state := &"available"
+		var window := 0.0
+		if roster.has_upgrade(id, slot):
+			state = &"bought"
+			if not _up_seen.has(seen_key):   # bought before the panel looked (a load, the first refresh): no window
+				_up_seen[seen_key] = director.time if _seen_ready else -1.0e9
+			window = roster.rules.cancel_window - (director.time - float(_up_seen[seen_key]))
+			if window > 0.0:
+				rows.append([Loc.t("Shift+Alt+%s: cancel %s (%d s)") % [key, nm, ceili(window)], UIStyle.GOLD, 13])
+			else:
+				rows.append([Loc.t("%s: bought") % nm, UIStyle.token(&"text_muted"), 13])
+		else:
+			_up_seen.erase(seen_key)
+			var why := roster.can_buy_upgrade(id, slot)
+			if why.begins_with("Requires"):
+				state = &"locked"
+				rows.append([Loc.t("%s: %s (%s) · %d") % [combo, nm, eff, price], UIStyle.token(&"text_muted"), 13])
+				rows.append([Loc.sink(why), UIStyle.WARN, 13])
+			else:
+				rows.append([Loc.t("%s: %s (%s) · %d") % [combo, nm, eff, price],
+						UIStyle.GOLD if why == "" else UIStyle.token(&"text_muted"), 13])
+				if why != "" and why != MusterRoster.REASON_BOUGHT:
+					rows.append([Loc.sink(why), UIStyle.WARN, 13])
+		out.append({"state": state, "window": maxf(0.0, window), "tip": rows, "name": nm, "price": price})
+	return out
+
+
+# ---------------------------------------------------------------- band: Armoury strip + pad block
+
+func _refresh_band() -> void:
+	if armoury_buttons.is_empty():
+		return
+	var on := roster.upgrades != null and roster.rules.upgrades_enabled
+	for k in armoury_buttons.size():
+		var b := armoury_buttons[k]
+		b.visible = on
+		if not on:
+			continue
+		var line := b.line
+		var info := roster.upgrades.armoury_line(line)
+		var lv := roster.armoury_level(line)
+		var most := roster.upgrades.armoury_max(line)
+		var price := roster.armoury_price(line)
+		var why := roster.can_armoury_buy(line)
+		var nm := Loc.sink(String(info.get("name", String(line).capitalize())))
+		var title := nm if lv <= 0 else "%s %s" % [nm, WsUpgradeText.roman(lv)]
+		var key := KeyLabels.of(ARMOURY_KEYS[k]) if k < ARMOURY_KEYS.size() else ""
+		var per := WsUpgradeText.effect({"mods": info.get("mods", {})})
+		var effect := Loc.t("casters and support: %s") % per if String(info.get("only", "")) == "caster_support" \
+				else Loc.t("%s per level") % per
+		var rows: Array = [["%s  [%s]\t%s" % [title, key, Loc.t("Level %d / %d") % [lv, most]], UIStyle.token(&"title"), 15]]
+		if lv < most:
+			rows.append([Loc.t("%d crystals · %s · next horn") % [price, effect], UIStyle.CRYSTAL_TEXT, 13])
+		else:
+			rows.append([effect, UIStyle.token(&"text"), 13])
+		if why != "":
+			rows.append([Loc.sink(why), UIStyle.WARN, 13])
+		else:
+			rows.append([Loc.t("Applies to units spawned from the next horn"), UIStyle.token(&"text_muted"), 13])
+		var was := b.level
+		b.set_state(key, title, lv, most, price, why == MusterRoster.REASON_CRYSTALS, why.begins_with("Requires"), rows)
+		if lv > was and b.title != "" and pad_view != null:
+			pad_view.blink_all()
+	var p := KeyLabels.of(pad_key)
+	var l := KeyLabels.of(arrange_key)
+	pad_button.set_content(p, Loc.t("Pad") if not band_compact else "", [[Loc.t("Centre on the pad  [%s]") % p,
+			UIStyle.token(&"text"), 13]])
+	arrange_button.set_content(l, Loc.t("Arrange") if not band_compact else "",
+			[[Loc.t("Auto-arrange: Line formation  [%s]") % l, UIStyle.token(&"text"), 13]])
+	var left := pad_input.undo_left() if pad_input != null else 0.0
+	var ul := "Ctrl+%s" % l
+	undo_button.set_content(ul, Loc.t("Undo") if not band_compact else "",
+			[[Loc.t("Undo the arrangement  [%s] (%d s)") % [ul, ceili(left)] if left > 0.0
+			else Loc.t("Undo the arrangement  [%s]") % ul, UIStyle.token(&"text"), 13]], left <= 0.0)
+	var manual := GameSettings.ws_place_manual
+	place_toggle.set_content("", Loc.t("Place: Manual") if manual else Loc.t("Place: Auto"), [[Loc.t(
+			"Auto: new copies fill the Line formation, drag to fix · Manual: every buy shows a ghost on the pad"),
+			UIStyle.token(&"text"), 13]])
+	var cells := 0
+	for c in roster.pad.copies():
+		cells += int(c["size"]) * int(c["size"])
+	pad_status.text = Loc.t("Pad %d / %d") % [cells, MusterPad.COLS * MusterPad.ROWS]
+	var held := pad_view.held if pad_view != null else 0
+	held_status.text = Loc.t("Held %d") % held
+	held_status.visible = held > 0 and not band_compact
+	held_status.tooltip_text = Loc.t("Stays home this horn (lane cap)")
 
 
 ## &"caster" / &"support" / &"rider" / &"heavy" / &"melee" / &"ranged" (ui-wave-strike.md 1.1).
@@ -486,6 +726,8 @@ func refuse(slot: int) -> void:
 ## The horn fired: the ring bursts.
 func on_horn() -> void:
 	horn_ring.burst()
+	for k: String in _up_seen.keys():   # the horn closes every cancel window
+		_up_seen[k] = -1.0e9
 
 
 ## The 10 x 12 WARN lock glyph used when a tier label has no room for its reason (tooltip = the reason).

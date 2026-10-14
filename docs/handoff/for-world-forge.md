@@ -20,3 +20,11 @@ Checks: skip it in M2 / M3 (camera clearance / line of sight: flyers move, the n
 add `DragonFlock.budget()["draws"]` after one `set_cine_time(0)` (~87 draws with 2 heroes, ~7 with heroes=0). `sheet`
 could call `get_tree().call_group(&"cine_timed", &"set_cine_time", t)` with the mark's a / b / c time so the stills
 show the flock at that moment.
+
+## Ashwind Reach: a wider Muster Pad clearing (ui-coder, WS3.U1, 2026-10-13)
+The pad plate is 26 x 20 m with its rim (24 x 18 cells + 1 m rim, wave-strike.md 15.1), and the WS3.M1 clearing is
+20 x 26 m, so trees stand right on the rim: seen from the pad camera (P: behind the pad, pitch 72, zoom 37) the canopies
+hide row 0 (the front line) and rows 10-11 (casters), see `docs/ui/lab/ws_pad.png`. Request: grow the clearing to about
+**28 x 34 m** (x / z for seat 0: >= 4 m free behind the back edge, i.e. toward -x, >= 3 m ahead of the front edge and on
+both sides) and keep the forest trees' jitter out of it (trees are scattered +-1.6 m around their grid in
+`WaveStrikeLevel._add_ws_block`, so the block edge needs that margin too). Same for seat 1 (rot180). No UI change needed.

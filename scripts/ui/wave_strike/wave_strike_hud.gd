@@ -8,11 +8,20 @@ extends CanvasLayer
 ## Keys (physical; KeyLabels prints the AZERTY letters): the bottom row Z X C V B N M , . / = cards 1-10, G = Coffer,
 ## U = next tier, I = enemy roster; Ctrl + a card key (or Ctrl+click) = rank the line up; Alt + a card key (or
 ## Alt+click / right-click) = sell one. Over the main GameHUD (its top bar and objective are hidden).
+## Muster Pad (WS3.U1 / U2, ui-wave-strike.md 7): a MusterPadView per seat in the world (tokens, grid, spawn box),
+## MusterPadInput for the own pad (hover / place ghost / drag / box select / right-click sell), P = pad camera, L =
+## auto-arrange, Ctrl+L = undo (5 s), Esc = cancel the ghost / selection; a buy with the cursor on the pad (or the
+## `Place on buy: Manual` setting) shows the place ghost instead of auto-placing.
+## Upgrades (WS4.U1, 8): Shift + card key = upgrade A, Shift+Ctrl = B, Shift+Alt = cancel (5 s); R / Y / O = Armoury.
 
 const CARD_KEYS: Array[int] = [KEY_Z, KEY_X, KEY_C, KEY_V, KEY_B, KEY_N, KEY_M, KEY_COMMA, KEY_PERIOD, KEY_SLASH]
 const KEY_COFFER := KEY_G
 const KEY_TIER := KEY_U
 const KEY_PEEK := KEY_I
+const KEY_PAD := KEY_P
+const KEY_ARRANGE := KEY_L
+const ARMOURY_KEYS: Array[int] = [KEY_R, KEY_Y, KEY_O]
+const NO_ROOM_TIME := 2.5
 const REFRESH := 0.1
 const NO_CARD := "No card"
 
@@ -29,6 +38,10 @@ var _bank_label: Label
 var muster: MusterPanel
 var enemy_peek: EnemyRosterPeek
 var top_ring: HornRing
+var pad_view: MusterPadView
+var enemy_pad_view: MusterPadView
+var pad_input: MusterPadInput
+var pad_overlay: MusterPadInput.PadOverlay
 var _refresh_left := 0.0
 var _flash_left := 0.0
 var _name_labels: Array = []          ## U5-7: [[Label, team], ...] side names, rebuilt on a language switch
@@ -111,7 +124,12 @@ func _build() -> void:
 	muster.card_action.connect(_on_card_action)
 	muster.coffer_pressed.connect(func() -> void: buy_coffer())
 	muster.tier_pressed.connect(func() -> void: buy_tier())
+	muster.armoury_pressed.connect(func(line: StringName) -> void: armoury_buy(line))
+	muster.pad_pressed.connect(func() -> void: toggle_pad_camera())
+	muster.arrange_pressed.connect(func() -> void: arrange_pad())
+	muster.undo_pressed.connect(func() -> void: undo_arrange())
 	_place_muster()
+	_build_pads(root)
 	var other: Array = level.get(&"rosters")
 	enemy_peek = EnemyRosterPeek.new()
 	if other.size() > 1 - seat and 1 - seat >= 0:
@@ -123,6 +141,33 @@ func _build() -> void:
 			bar.mouse_filter = Control.MOUSE_FILTER_PASS
 			bar.mouse_entered.connect(func() -> void: enemy_peek.hovered = true)
 			bar.mouse_exited.connect(func() -> void: enemy_peek.hovered = false)
+
+
+## The pad views (own + enemy, in the world) and the own pad's input + 2D overlay.
+func _build_pads(root: Control) -> void:
+	var rosters_all: Array = level.get(&"rosters")
+	pad_view = MusterPadView.new()
+	level.add_child(pad_view)
+	pad_view.setup(roster, true, director)
+	if rosters_all.size() > 1 - seat and 1 - seat >= 0:
+		enemy_pad_view = MusterPadView.new()
+		level.add_child(enemy_pad_view)
+		enemy_pad_view.setup(rosters_all[1 - seat], false, director)
+	pad_overlay = MusterPadInput.PadOverlay.new()
+	root.add_child(pad_overlay)
+	root.move_child(pad_overlay, 0)
+	pad_input = MusterPadInput.new()
+	add_child(pad_input)
+	pad_input.setup(self, level, roster, pad_view, enemy_pad_view, pad_overlay)
+	pad_overlay.input = pad_input
+	muster.setup_pad(pad_view, pad_input)
+
+
+func _exit_tree() -> void:
+	for v: Node in [pad_view, enemy_pad_view]:
+		if v != null and is_instance_valid(v) and not v.is_queued_for_deletion():
+			v.queue_free()
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 
 ## The Muster panel fills the console's muster zone (ui-sc2-console.md 6); without a console: the same rect from the
@@ -244,19 +289,102 @@ func _on_card_action(i: int, kind: StringName) -> void:
 			rank_card(i)
 		&"sell":
 			sell_card(i)
+		&"up_a":
+			upgrade_card(i, WaveUpgradeTable.SLOT_A)
+		&"up_b":
+			upgrade_card(i, WaveUpgradeTable.SLOT_B)
+		&"up_cancel":
+			cancel_upgrade_card(i)
 		_:
 			buy_card(i)
 
 
 ## Buys card `i` (slot 0-9) of the panel; returns "" or the reason (shown as a HUD message, the price shakes).
 ## An empty slot (Fire's slot 10) refuses quietly with "No card".
+## With the cursor on the own pad or `Place on buy: Manual`, a buy that could happen shows the place ghost instead
+## (paid on the click, 15.2); a refused one answers at once.
 func buy_card(i: int) -> String:
 	var ids := roster.card_ids()
 	if i < 0 or i >= ids.size():
 		return NO_CARD
+	if pad_input != null and (pad_input.placing() != &"" or pad_input.wants_ghost()):
+		var pre := roster.can_buy(ids[i])
+		if pre == "" or pre == MusterRoster.REASON_NO_ROOM:   # no room for auto: the player may still pick a spot
+			pad_input.begin_place(ids[i])
+			return ""
+		_after(i, pre)
+		return pre
 	var why := roster.buy(ids[i])
 	_after(i, why)
 	return why
+
+
+## Card `i`'s upgrade `slot` (Shift / Shift+Ctrl + key, a pip click); "" or the reason.
+func upgrade_card(i: int, slot: int) -> String:
+	var ids := roster.card_ids()
+	if i < 0 or i >= ids.size():
+		return NO_CARD
+	var why := roster.buy_upgrade(ids[i], slot)
+	_after(i, why)
+	return why
+
+
+## Shift+Alt + key: takes back card `i`'s latest upgrade inside the cancel window (B first, then A).
+func cancel_upgrade_card(i: int) -> String:
+	var ids := roster.card_ids()
+	if i < 0 or i >= ids.size():
+		return NO_CARD
+	var why := roster.cancel_upgrade(ids[i], WaveUpgradeTable.SLOT_B)
+	if why != "":
+		why = roster.cancel_upgrade(ids[i], WaveUpgradeTable.SLOT_A)
+	_after(i, why)
+	return why
+
+
+## R / Y / O: the next level of Armoury line `line`; "" or the reason.
+func armoury_buy(line: StringName) -> String:
+	var why := roster.armoury_buy(line)
+	_say(why)
+	_refresh()
+	return why
+
+
+## P: the camera flies behind the own pad; again = back.
+func toggle_pad_camera() -> void:
+	if pad_input != null:
+		pad_input.toggle_pad_camera()
+
+
+## L: auto-arrange the own pad (Line).
+func arrange_pad() -> void:
+	if pad_input != null:
+		pad_input.arrange()
+		_refresh()
+
+
+## Ctrl+L: undo the last arrange within 5 s; "" or the reason.
+func undo_arrange() -> String:
+	var why := pad_input.undo_arrange() if pad_input != null else "Nothing to undo"
+	_refresh()
+	return why
+
+
+## A pad action refused for card `id` (the pad input calls it): the card shakes, the message line says why.
+func refuse_card(id: StringName, why: String) -> void:
+	var i := roster.card_ids().find(id)
+	_after(i, why)
+
+
+## The pad changed from a pad action (drop, sell): the panel refreshes now.
+func after_pad_change() -> void:
+	_refresh()
+
+
+## A message on the HUD line (pad / arrange messages).
+func say(text: String, _col := Color.WHITE, seconds := 2.5) -> void:
+	var gh: Node = level.get(&"hud")
+	if gh and gh.has_method(&"show_message"):
+		gh.call(&"show_message", text, seconds)
 
 
 func rank_card(i: int) -> String:
@@ -278,9 +406,14 @@ func sell_card(i: int) -> String:
 
 
 func _after(i: int, why: String) -> void:
-	if why != "" and muster != null:
+	if why != "" and muster != null and i >= 0:
 		muster.refuse(i)
-	_say(why)
+	if why == MusterRoster.REASON_NO_ROOM:
+		say(Loc.t("No room on the pad  ·  %s = auto-arrange") % KeyLabels.of(KEY_ARRANGE), UIStyle.WARN, NO_ROOM_TIME)
+		if muster != null and muster.mini_pad != null:
+			muster.mini_pad.flash()
+	else:
+		_say(why)
 	_refresh()
 
 
@@ -325,16 +458,42 @@ func _input(event: InputEvent) -> void:
 		return
 	var code := k.physical_keycode if k.physical_keycode != KEY_NONE else k.keycode
 	var i := CARD_KEYS.find(code)
-	if k.ctrl_pressed:
-		if i >= 0:
-			rank_card(i)
-			get_viewport().set_input_as_handled()
-		return
+	# 8.4 precedence: Shift+Ctrl > Shift+Alt > Shift > Ctrl > Alt > plain
 	if i >= 0:
-		if k.alt_pressed:
+		if k.shift_pressed and k.ctrl_pressed:
+			upgrade_card(i, WaveUpgradeTable.SLOT_B)
+		elif k.shift_pressed and k.alt_pressed:
+			cancel_upgrade_card(i)
+		elif k.shift_pressed:
+			upgrade_card(i, WaveUpgradeTable.SLOT_A)
+		elif k.ctrl_pressed:
+			rank_card(i)
+		elif k.alt_pressed:
 			sell_card(i)
 		else:
 			buy_card(i)
+		get_viewport().set_input_as_handled()
+		return
+	if code == KEY_ESCAPE and pad_input != null and pad_input.cancel():
+		get_viewport().set_input_as_handled()
+		return
+	if code == KEY_ARRANGE and not k.alt_pressed and not k.shift_pressed:
+		if k.ctrl_pressed:
+			var why := undo_arrange()
+			if why != "":
+				_say(why)
+		else:
+			arrange_pad()
+		get_viewport().set_input_as_handled()
+		return
+	if k.ctrl_pressed or k.shift_pressed:
+		return
+	var a := ARMOURY_KEYS.find(code)
+	if a >= 0 and not k.alt_pressed and roster.upgrades != null and a < roster.upgrades.armoury_order.size():
+		armoury_buy(roster.upgrades.armoury_order[a])
+		get_viewport().set_input_as_handled()
+	elif code == KEY_PAD and not k.alt_pressed:
+		toggle_pad_camera()
 		get_viewport().set_input_as_handled()
 	elif code == KEY_COFFER and not k.alt_pressed:
 		buy_coffer()

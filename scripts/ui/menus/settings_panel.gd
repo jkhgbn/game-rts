@@ -13,6 +13,8 @@ var fullscreen_check: CheckButton
 var edge_pan_check: CheckButton
 ## Controls (UX.1): item 0 = Classic, 1 = Hero WASD (GameSettings.CONTROLS_*).
 var controls_option: OptionButton
+## Wave Strike "Place on buy": Auto / Manual (ui-wave-strike.md 7.4).
+var place_option: OptionButton
 ## The chosen scheme's keys in one line, with the letters of the player's keyboard.
 var controls_hint: Label
 ## Map detail (ui-mapfill.md 11): item 0 = High, 1 = Low (faster). Applies from the next match.
@@ -92,6 +94,7 @@ func _ready() -> void:
 	fullscreen_check = _check_row(box, "Fullscreen")
 	edge_pan_check = _check_row(box, "Scroll at screen edge")
 	_controls_row(box)
+	_place_row(box)
 	_priority_row(box)
 	_map_detail_row(box)
 	_upscaler_row(box)
@@ -133,6 +136,7 @@ func _ready() -> void:
 	fullscreen_check.toggled.connect(func(on: bool) -> void: _changed(&"fullscreen", on))
 	edge_pan_check.toggled.connect(func(on: bool) -> void: _changed(&"edge_pan", on))
 	controls_option.item_selected.connect(func(i: int) -> void: _changed(&"control_scheme", i))
+	place_option.item_selected.connect(func(i: int) -> void: _changed(&"ws_place_manual", i == 1))
 	map_detail_option.item_selected.connect(func(i: int) -> void: _changed(&"map_detail", i))
 	upscaler_option.item_selected.connect(func(i: int) -> void: _changed(&"upscaler", i))
 	render_scale_slider.value_changed.connect(func(v: float) -> void: _changed(&"render_scale", v / 100.0))
@@ -152,6 +156,7 @@ func refresh() -> void:
 	controls_option.select(GameSettings.control_scheme)
 	controls_hint.text = controls_hint_text(GameSettings.control_scheme)
 	controls_option.tooltip_text = controls_tooltip_text()
+	place_option.select(1 if GameSettings.ws_place_manual else 0)
 	language_option.select(maxi(Loc.LANGS.find(Loc.language), 0))
 	map_detail_option.select(1 if GameSettings.map_detail == GameSettings.MAP_DETAIL_LOW else 0)
 	upscaler_option.select(GameSettings.upscaler)
@@ -300,6 +305,8 @@ func _changed(key: StringName, value: Variant) -> void:
 			GameSettings.render_scale = clampf(value, GameSettings.RENDER_SCALE_MIN, GameSettings.RENDER_SCALE_MAX)
 		&"playtest_data":
 			GameSettings.set_playtest_data(bool(value), false)   # Back saves the file
+		&"ws_place_manual":
+			GameSettings.set_ws_place_manual(bool(value), false)   # Back saves the file
 	apply_changed(key)
 
 
@@ -377,6 +384,24 @@ func _controls_row(parent: Control) -> void:
 	controls_hint.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	controls_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	parent.add_child(controls_hint)
+
+
+## Wave Strike "Place on buy" + Auto / Manual (ui-wave-strike.md 7.4; the mini-pad toggle mirrors it).
+func _place_row(parent: Control) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	parent.add_child(row)
+	var name_label := UIStyle.label("Place on buy", 18)
+	name_label.custom_minimum_size = Vector2(190, 0)
+	name_label.tooltip_text = "Wave Strike"
+	row.add_child(name_label)
+	place_option = OptionButton.new()
+	place_option.add_theme_font_size_override("font_size", 18)
+	place_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	place_option.add_item("Auto", 0)
+	place_option.add_item("Manual", 1)
+	place_option.tooltip_text = "Auto: new copies fill the Line formation, drag to fix · Manual: every buy shows a ghost on the pad"
+	row.add_child(place_option)
 
 
 ## Controls > "Unit priority" (playtest 2026-09-27): the Tab order of unit types in a mixed selection (the first one is

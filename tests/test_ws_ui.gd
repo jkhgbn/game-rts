@@ -6,6 +6,12 @@ extends SceneTree
 ## buy, Ctrl = rank up, Alt = sell, the 5th Rimecarver refused "Max 4 copies" (maxed state), I toggles the enemy peek,
 ## the M1 top-right buy panel is gone. Fire (9 cards): slot 10 is empty and its key refuses quietly.
 ## French: every card name of the 4 kingdoms fits 2 lines (font >= 10) and the role tags exist.
+## Pad rows (WS3.U1 / U2, ui-wave-strike.md 7; Fire): a token per copy on both pads (2x2 for riders), P flies the
+## camera behind the pad and P again back, manual place by a simulated click (Shift+click keeps the ghost, right-click
+## cancels without paying), drag move, drag swap, box select + group move, right-click sell, L / Ctrl+L, held markers,
+## the spawn box on horn_soon, token tooltips, the `Place on buy` setting.
+## Upgrade rows (WS4.U1, 8): Shift / Shift+Ctrl / Shift+Alt + card key, pips and their tooltips, R / Y / O Armoury,
+## token ticks, effect text from the data.
 ## Prints "PASS ws_ui" or "FAIL ws_ui: <reasons>".
 ## Run: tools\godot_run.ps1 --headless --path . -s tests/test_ws_ui.gd --fixed-fps 60 --quit-after 6000
 
@@ -20,6 +26,7 @@ var _fails: Array[String] = []
 var _phase := 0          ## 0 ice, 1 fire
 var _frames := 0
 var _step := 0
+var _pad_done := false
 
 
 func _check(ok: bool, what: String) -> void:
@@ -44,7 +51,7 @@ func _start(k: StringName) -> void:
 	_step = 0
 
 
-func _key(code: int, ctrl := false, alt := false) -> void:
+func _key(code: int, ctrl := false, alt := false, shift := false) -> void:
 	for pressed: bool in [true, false]:
 		var ev := InputEventKey.new()
 		ev.physical_keycode = code as Key
@@ -52,12 +59,13 @@ func _key(code: int, ctrl := false, alt := false) -> void:
 		ev.pressed = pressed
 		ev.ctrl_pressed = ctrl
 		ev.alt_pressed = alt
+		ev.shift_pressed = shift
 		root.push_input(ev)
 
 
 func _process(_delta: float) -> bool:
 	_frames += 1
-	if _frames > 5000:
+	if _frames > 8000:
 		print("FAIL %s: timed out (phase %d, step %d)" % [TASK_ID, _phase, _step])
 		return true
 	if hud == null:
@@ -77,8 +85,14 @@ func _process(_delta: float) -> bool:
 		_phase = 1
 		_start(&"fire")
 		return false
-	_fire()
-	_french()
+	if _phase == 1:
+		_fire()
+		_french()
+		_phase = 2
+		_pad_rows()
+		return false
+	if not _pad_done:
+		return false
 	if _fails.is_empty():
 		print("PASS %s" % TASK_ID)
 	else:
@@ -237,3 +251,227 @@ func _french() -> void:
 	_check(Loc.sink("Requires Citadel") != "Requires Citadel", "'Requires Citadel' has no French")
 	c.queue_free()
 	Loc.set_language(lang)
+
+
+# ---------------------------------------------------------------- pad + upgrade rows (WS3.U1 / U2, WS4.U1)
+
+func _wait(n: int) -> void:
+	for i in n:
+		await process_frame
+
+
+func _mouse(kind: StringName, at: Vector2, button := MOUSE_BUTTON_LEFT, shift := false) -> void:
+	var ev: InputEvent
+	if kind == &"move":
+		var mm := InputEventMouseMotion.new()
+		mm.position = at
+		mm.global_position = at
+		ev = mm
+	else:
+		var mb := InputEventMouseButton.new()
+		mb.position = at
+		mb.global_position = at
+		mb.button_index = button
+		mb.pressed = kind == &"down"
+		mb.shift_pressed = shift
+		ev = mb
+	root.push_input(ev, true)
+
+
+func _click(at: Vector2, button := MOUSE_BUTTON_LEFT, shift := false) -> void:
+	_mouse(&"move", at)
+	_mouse(&"down", at, button, shift)
+	_mouse(&"up", at, button, shift)
+
+
+func _drag(from: Vector2, to: Vector2) -> void:
+	_mouse(&"move", from)
+	_mouse(&"down", from)
+	for k in range(1, 6):
+		_mouse(&"move", from.lerp(to, k / 5.0))
+	_mouse(&"up", to)
+
+
+func _pad_rows() -> void:
+	var roster: MusterRoster = hud.get(&"roster")
+	var bank: WaveBank = hud.get(&"bank")
+	var pv: MusterPadView = hud.get(&"pad_view")
+	var ev: MusterPadView = hud.get(&"enemy_pad_view")
+	var input: MusterPadInput = hud.get(&"pad_input")
+	var pad := roster.pad
+	var rig: RTSCamera = level.get(&"camera_rig")
+	rig.edge_pan_enabled = false   # the headless mouse sits in a corner: no edge pan during the pad rows
+	_check(pv != null and ev != null and input != null, "pad views / input missing")
+	if pv == null or input == null:
+		_pad_done = true
+		return
+	var manual_was := GameSettings.ws_place_manual
+	GameSettings.ws_place_manual = false
+	roster.tier = 3
+	bank.refund(50000)
+	var ids := roster.card_ids()
+	for i in [0, 0, 0, 2, 2, 4, 4]:
+		hud.call(&"buy_card", i)
+	await _wait(3)
+	_check(pv.token_count() == pad.copy_count() and pv.token_count() == 7, "tokens %d / copies %d" % [pv.token_count(), pad.copy_count()])
+	var riders := pad.cells_of(ids[4])
+	_check(riders.size() == 2 and pad.footprint(ids[4]) == 2, "blaze riders %s footprint %d" % [riders, pad.footprint(ids[4])])
+	_check(ev.roster.pad.copy_count() == ev.token_count(), "enemy pad tokens %d != copies %d" % [ev.token_count(), ev.roster.pad.copy_count()])
+	# P: the camera flies behind the pad, P again flies back
+	var before := rig.view_state()
+	_key(KEY_P)
+	await _wait(40)
+	var pose := pv.camera_pose()
+	_check(rig.position.distance_to(pose[0]) < 0.2 and is_equal_approx(wrapf(rig.rotation.y - float(pose[1]), -PI, PI), 0.0)
+			and input.at_pad(), "P: camera %s yaw %.2f, want %s %.2f" % [rig.position, rig.rotation.y, pose[0], pose[1]])
+	_key(KEY_P)
+	await _wait(40)
+	_check(rig.position.distance_to(before[0]) < 0.2 and absf(rig.pitch_degrees - float(before[3])) < 0.1,
+			"P again: camera %s pitch %.1f, want %s %.1f" % [rig.position, rig.pitch_degrees, before[0], before[3]])
+	_key(KEY_P)
+	await _wait(40)
+	# manual place: Manual setting -> the buy key shows the ghost; a click on a free cell pays and places
+	GameSettings.ws_place_manual = true
+	var n0 := roster.count(ids[1])
+	var c0 := bank.crystals()
+	_key(KEY_X)
+	_check(input.placing() == ids[1] and roster.count(ids[1]) == n0, "manual: X did not start the ghost (%s)" % input.placing())
+	var free := Vector2i(8, 7)
+	_click(input.cell_screen(free))
+	await _wait(2)
+	_check(roster.count(ids[1]) == n0 + 1 and StringName(pad.copy_at(free).get("id", &"")) == ids[1],
+			"manual click: count %d, at %s = %s" % [roster.count(ids[1]), free, pad.copy_at(free)])
+	_check(bank.crystals() < c0 and input.placing() == &"", "manual click: paid %d, ghost %s" % [c0 - bank.crystals(), input.placing()])
+	# Shift+click keeps the ghost; a right-click cancels it without paying
+	_key(KEY_X)
+	_click(input.cell_screen(Vector2i(9, 7)), MOUSE_BUTTON_LEFT, true)
+	await _wait(2)
+	_check(input.placing() == ids[1] and roster.count(ids[1]) == n0 + 2, "shift+click: ghost %s, count %d" % [input.placing(), roster.count(ids[1])])
+	var c1 := bank.crystals()
+	_click(input.cell_screen(Vector2i(10, 7)), MOUSE_BUTTON_RIGHT)
+	await _wait(2)
+	_check(input.placing() == &"" and bank.crystals() == c1 and roster.count(ids[1]) == n0 + 2, "right-click did not cancel the ghost")
+	# a click on a taken cell is refused (nothing paid)
+	_key(KEY_X)
+	_click(input.cell_screen(free))
+	await _wait(2)
+	_check(roster.count(ids[1]) == n0 + 2 and input.placing() == ids[1], "click on a taken cell placed / dropped the ghost")
+	_key(KEY_ESCAPE)
+	_check(input.placing() == &"", "Esc did not cancel the ghost")
+	GameSettings.ws_place_manual = false
+	# drag move
+	var to := Vector2i(3, 8)
+	_drag(input.cell_screen(free), input.cell_screen(to))
+	await _wait(2)
+	_check(pad.copy_at(free).is_empty() and StringName(pad.copy_at(to).get("id", &"")) == ids[1], "drag move %s -> %s" % [free, to])
+	# drag swap: the scorchling onto a flame guard (same size)
+	var fg := pad.cells_of(ids[0])[0]
+	_drag(input.cell_screen(to), input.cell_screen(fg))
+	await _wait(2)
+	_check(StringName(pad.copy_at(fg).get("id", &"")) == ids[1] and StringName(pad.copy_at(to).get("id", &"")) == ids[0],
+			"drag swap: %s = %s, %s = %s" % [fg, pad.copy_at(fg), to, pad.copy_at(to)])
+	# box select two tokens on an empty part, then move them as a group one row back
+	pad.move(to, Vector2i(12, 9))
+	pad.move(Vector2i(9, 7), Vector2i(13, 9))
+	await _wait(2)
+	_drag(input.cell_screen(Vector2i(11, 8)) + Vector2(-4, -4), input.cell_screen(Vector2i(14, 10)))
+	await _wait(2)
+	_check(pv.selected().size() == 2, "box select picked %d tokens" % pv.selected().size())
+	_drag(input.cell_screen(Vector2i(12, 9)), input.cell_screen(Vector2i(12, 10)))
+	await _wait(2)
+	_check(not pad.copy_at(Vector2i(12, 10)).is_empty() and not pad.copy_at(Vector2i(13, 10)).is_empty()
+			and pad.copy_at(Vector2i(12, 9)).is_empty(), "group move: %s" % pad.save_cells())
+	# right-click a token = sell
+	var total := roster.card_total()
+	_click(input.cell_screen(Vector2i(13, 10)), MOUSE_BUTTON_RIGHT)
+	await _wait(2)
+	_check(roster.card_total() == total - 1 and pad.copy_at(Vector2i(13, 10)).is_empty(), "right-click sell: %d -> %d" % [total, roster.card_total()])
+	# L arranges (Line), Ctrl+L undoes
+	var shape := _norm(pad.save_cells())
+	_key(KEY_L)
+	await _wait(2)
+	var arranged := _norm(pad.save_cells())
+	_check(arranged != shape and input.undo_left() > 0.0, "L did not arrange")
+	_check((muster_undo_enabled()), "undo button disabled inside the window")
+	_key(KEY_L, true)
+	await _wait(2)
+	_check(_norm(pad.save_cells()) == shape, "Ctrl+L did not undo: %s vs %s" % [_norm(pad.save_cells()), shape])
+	# hover: tooltip rows + model ghost; held markers; spawn box on horn_soon
+	var t0: Vector2i = pv.tokens()[0]["cell"]
+	_mouse(&"move", input.cell_screen(t0, int(pv.tokens()[0]["size"])))
+	await _wait(25)
+	_check(pv.hovered() == 0, "hover index %d" % pv.hovered())
+	var tip := MusterPadInput.token_tip(pv, 0)
+	_check(tip.size() >= 3 and String(tip[1][0]).contains("Cell"), "token tooltip %s" % [tip])
+	_check(not (hud.get(&"pad_overlay") as MusterPadInput.PadOverlay).tip_rows.is_empty(), "hover tooltip not shown")
+	_mouse(&"move", Vector2(5, 5))
+	pv.set_held(2)
+	var held := 0
+	for t in pv.tokens():
+		held += 1 if bool(t.get("held", false)) else 0
+	_check(held == 2, "held markers %d" % held)
+	(hud.get(&"director") as WaveDirector).horn_soon.emit(5.0)
+	await _wait(20)
+	_check(pv.spawn_box_visible(), "spawn box hidden after horn_soon")
+	var fr := EnemyRosterPeek.front_row_text(roster)
+	_check(fr.begins_with("Front row:") and fr.contains("Melee"), "front row line '%s'" % fr)
+	# ---- upgrades (WS4.U1)
+	var muster: Node = hud.get(&"muster")
+	_key(KEY_Z, false, false, true)
+	_check(roster.has_upgrade(ids[0], 0), "Shift+Z: no upgrade A")
+	_key(KEY_Z, true, false, true)
+	_check(roster.has_upgrade(ids[0], 1), "Shift+Ctrl+Z: no upgrade B (%s)" % roster.can_buy_upgrade(ids[0], 1))
+	muster.call(&"refresh")
+	var card := (muster.get(&"cards") as Array)[0] as MusterCard
+	var ups: Array = card.data.get("ups", [])
+	_check(ups.size() == 2 and StringName(ups[0]["state"]) == &"bought" and float(ups[1]["window"]) > 0.0, "card 1 pips %s" % [ups])
+	var pip_tip := card._get_tooltip(MusterCard.PIPS[0].get_center())
+	_check(pip_tip.begins_with(MusterCard.PIP_TIP), "pip tooltip '%s'" % pip_tip)
+	var pt: Variant = card._make_custom_tooltip(pip_tip)
+	_check(pt is Control, "pip tooltip panel")
+	if pt is Node:
+		(pt as Node).free()
+	_key(KEY_Z, false, true, true)
+	_check(not roster.has_upgrade(ids[0], 1) and roster.has_upgrade(ids[0], 0), "Shift+Alt+Z did not cancel B")
+	await _wait(3)
+	var ticked := false
+	for t in pv.tokens():
+		if StringName(t["id"]) == ids[0]:
+			ticked = int(t["up"]) == 1
+	_check(ticked, "flame guard tokens have no A tick")
+	_check(WsUpgradeText.effect(roster.upgrade_info(ids[0], 0)) == "+3 armour", "effect text '%s'" % WsUpgradeText.effect(roster.upgrade_info(ids[0], 0)))
+	_check(WsUpgradeText.effect(roster.upgrade_info(ids[2], 0)) == "+1.5 range", "Long Draw text '%s'" % WsUpgradeText.effect(roster.upgrade_info(ids[2], 0)))
+	for k: int in [KEY_R, KEY_Y, KEY_O]:
+		_key(k)
+	_check(roster.armoury_level(&"weapons") == 1 and roster.armoury_level(&"armour") == 1 and roster.armoury_level(&"arcana") == 1,
+			"R / Y / O levels %d %d %d" % [roster.armoury_level(&"weapons"), roster.armoury_level(&"armour"), roster.armoury_level(&"arcana")])
+	muster.call(&"refresh")
+	var ab := (muster.get(&"armoury_buttons") as Array)[0] as ArmouryButton
+	_check(ab.title.ends_with(" I") and ab.tooltip_text.contains("next horn"), "armoury button '%s' / '%s'" % [ab.title, ab.tooltip_text])
+	var at: Variant = ab._make_custom_tooltip(ab.tooltip_text)
+	_check(at is Control, "armoury tooltip")
+	if at is Node:
+		(at as Node).free()
+	# the setting row and the mini-pad toggle
+	var toggle := muster.get(&"place_toggle") as WsMiniPad.SmallButton
+	GameSettings.ws_place_manual = false
+	muster.call(&"refresh")
+	_check(toggle.label.contains("Auto"), "toggle '%s'" % toggle.label)
+	GameSettings.ws_place_manual = manual_was
+	_pad_done = true
+
+
+## The pad cells as a sorted text (order-free compare).
+func _norm(cells: Dictionary) -> String:
+	var rows: PackedStringArray = []
+	for id: Variant in cells:
+		for c: Variant in cells[id]:
+			rows.append("%s@%d,%d" % [id, int(c[0]), int(c[1])])
+	rows.sort()
+	return ";".join(rows)
+
+
+func muster_undo_enabled() -> bool:
+	var b := (hud.get(&"muster") as Node).get(&"undo_button") as Button
+	(hud.get(&"muster") as Node).call(&"refresh")
+	return not b.disabled

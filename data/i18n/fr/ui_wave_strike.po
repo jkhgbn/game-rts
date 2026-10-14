@@ -5,6 +5,11 @@ msgstr ""
 "Language: fr_CA\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#. var mt := Loc.t("Max")
+#: scripts/ui/wave_strike/armoury_button.gd:143
+msgid "Max"
+msgstr "Max"
+
 #. close_button.tooltip_text = Loc.t("Close (%s)") % KeyLabels.of(KEY_I)
 #: scripts/ui/wave_strike/enemy_roster_peek.gd:87
 msgid "Close (%s)"
@@ -19,6 +24,52 @@ msgstr "Effectif ennemi · %s (%s)"
 #: scripts/ui/wave_strike/enemy_roster_peek.gd:137
 msgid "On the field %d / %d · Supply %d / %d · Last wave %d"
 msgstr "Sur le terrain %d / %d · Effectif %d / %d · Dernière vague %d"
+
+#. parts.append(Loc.t("wings %d %s") % [wings, _role_word(&"rider")])
+#: scripts/ui/wave_strike/enemy_roster_peek.gd:166
+msgid "wings %d %s"
+msgstr "ailes %d %s"
+
+#. return Loc.t("Front row: %s") % " · ".join(parts)
+#: scripts/ui/wave_strike/enemy_roster_peek.gd:169
+msgid "Front row: %s"
+msgstr "Première rangée : %s"
+
+#. return Loc.t("Heavy", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+#: scripts/ui/wave_strike/enemy_roster_peek.gd:175 scripts/ui/wave_strike/muster_panel.gd:714
+msgctxt "ws role tag"
+msgid "Heavy"
+msgstr "Lourd"
+
+#. return Loc.t("Rider", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+#: scripts/ui/wave_strike/enemy_roster_peek.gd:177 scripts/ui/wave_strike/muster_panel.gd:712
+msgctxt "ws role tag"
+msgid "Rider"
+msgstr "Monté"
+
+#. return Loc.t("Ranged", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+#: scripts/ui/wave_strike/enemy_roster_peek.gd:179 scripts/ui/wave_strike/muster_panel.gd:716
+msgctxt "ws role tag"
+msgid "Ranged"
+msgstr "Tir"
+
+#. return Loc.t("Support", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+#: scripts/ui/wave_strike/enemy_roster_peek.gd:181 scripts/ui/wave_strike/muster_panel.gd:710
+msgctxt "ws role tag"
+msgid "Support"
+msgstr "Soutien"
+
+#. return Loc.t("Caster", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+#: scripts/ui/wave_strike/enemy_roster_peek.gd:183 scripts/ui/wave_strike/muster_panel.gd:708
+msgctxt "ws role tag"
+msgid "Caster"
+msgstr "Mage"
+
+#. return Loc.t("Melee", null, "ws role tag")  # LOC_IGNORE (ctx literal)
+#: scripts/ui/wave_strike/enemy_roster_peek.gd:184 scripts/ui/wave_strike/muster_panel.gd:717
+msgctxt "ws role tag"
+msgid "Melee"
+msgstr "Mêlée"
 
 #. title.text = Loc.t("On the field")
 #: scripts/ui/wave_strike/field_counter.gd:44
@@ -39,265 +90,399 @@ msgid_plural "Lane cap reached: {n} units of this horn wait at the Bastion and m
 msgstr[0] "Couloir plein : {n} unité de ce cor attend au Bastion et marchera au prochain cor"
 msgstr[1] "Couloir plein : {n} unités de ce cor attendent au Bastion et marcheront au prochain cor"
 
+#. return Loc.t("Your Muster Pad: click a cell to look at it")
+#: scripts/ui/wave_strike/mini_pad.gd:70
+msgid "Your Muster Pad: click a cell to look at it"
+msgstr "Votre plateau de rassemblement : cliquez une case pour la voir"
+
+#. return Loc.t("Cell (%d, %d)") % [c.x, c.y]
+#: scripts/ui/wave_strike/mini_pad.gd:73
+msgid "Cell (%d, %d)"
+msgstr "Case (%d, %d)"
+
 #. _title.text = Loc.t("Muster")
-#: scripts/ui/wave_strike/muster_panel.gd:231
+#: scripts/ui/wave_strike/muster_panel.gd:349
 msgid "Muster"
 msgstr "Rassemblement"
 
 #. _horn_label.text = Loc.t("LAST HORNS") if last and to_horn > director.rules.horn_warning else \
-#: scripts/ui/wave_strike/muster_panel.gd:235 scripts/ui/wave_strike/wave_strike_hud.gd:220
+#: scripts/ui/wave_strike/muster_panel.gd:353 scripts/ui/wave_strike/wave_strike_hud.gd:265
 msgid "LAST HORNS"
 msgstr "DERNIERS CORS"
 
 #. Loc.t("Horn %d in %s") % [director.horn_index + 1, mmss(to_horn)]
-#: scripts/ui/wave_strike/muster_panel.gd:236 scripts/ui/wave_strike/wave_strike_hud.gd:216
+#: scripts/ui/wave_strike/muster_panel.gd:354 scripts/ui/wave_strike/wave_strike_hud.gd:261
 msgid "Horn %d in %s"
 msgstr "Cor %d dans %s"
 
 #. _wave_label.text = Loc.tn("Next wave: {n} unit", "Next wave: {n} units", roster.card_total())
-#: scripts/ui/wave_strike/muster_panel.gd:269
+#: scripts/ui/wave_strike/muster_panel.gd:397
 msgid "Next wave: {n} unit"
 msgid_plural "Next wave: {n} units"
 msgstr[0] "Prochaine vague : {n} unité"
 msgstr[1] "Prochaine vague : {n} unités"
 
-#. _hint.text = Loc.t("Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster")
-#: scripts/ui/wave_strike/muster_panel.gd:270
-msgid "Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster"
-msgstr "Touche / clic = acheter  ·  Ctrl = monter en rang  ·  Alt / clic droit = vendre  ·  %s = effectif ennemi"
+#. _hint.text = Loc.t("Key / click = buy  ·  Ctrl = rank  ·  Shift = upgrade  ·  Alt = sell  ·  %s = pad  ·  %s =
+#: scripts/ui/wave_strike/muster_panel.gd:398
+msgid "Key / click = buy  ·  Ctrl = rank  ·  Shift = upgrade  ·  Alt = sell  ·  %s = pad  ·  %s = arrange  ·  %s = enemy"
+msgstr "Touche / clic = acheter  ·  Ctrl = rang  ·  Maj = amélioration  ·  Alt = vendre  ·  %s = plateau  ·  %s = ranger  ·  %s = ennemi"
 
 #. var names: Array[String] = [Loc.t("Keep"), Loc.t("Stronghold"), Loc.t("Citadel")]
-#: scripts/ui/wave_strike/muster_panel.gd:292 scripts/buildings/tier_system.gd:17
+#: scripts/ui/wave_strike/muster_panel.gd:422 scripts/buildings/tier_system.gd:17
 msgid "Citadel"
 msgstr "Citadelle"
 
 #. nl.text = Loc.t("%s · T%d") % [names[g], tier]
-#: scripts/ui/wave_strike/muster_panel.gd:298
+#: scripts/ui/wave_strike/muster_panel.gd:428
 msgid "%s · T%d"
 msgstr "%s · P%d"
 
 #. reason = Loc.t("Requires Stronghold", null, "ws group lock") if tier == 2 else Loc.t("Requires Citadel", null,
-#: scripts/ui/wave_strike/muster_panel.gd:303
+#: scripts/ui/wave_strike/muster_panel.gd:433
 msgctxt "ws group lock"
 msgid "Requires Stronghold"
 msgstr "Forteresse requise"
 
 #. reason = Loc.t("Requires Stronghold", null, "ws group lock") if tier == 2 else Loc.t("Requires Citadel", null,
-#: scripts/ui/wave_strike/muster_panel.gd:303
+#: scripts/ui/wave_strike/muster_panel.gd:433
 msgctxt "ws group lock"
 msgid "Requires Citadel"
 msgstr "Citadelle requise"
 
 #. _supply_text.text = Loc.t("Supply  %d / %d") % [used, cap]
-#: scripts/ui/wave_strike/muster_panel.gd:332
+#: scripts/ui/wave_strike/muster_panel.gd:462
 msgid "Supply  %d / %d"
 msgstr "Effectif  %d / %d"
 
 #. coffer_button.set_content(KeyLabels.of(coffer_key), Loc.t("Coffer %d / %d") % [bank.coffer_level + 1, total],
-#: scripts/ui/wave_strike/muster_panel.gd:346
+#: scripts/ui/wave_strike/muster_panel.gd:476
 msgid "Coffer %d / %d"
 msgstr "Coffre %d / %d"
 
 #. Loc.t("%d  ·  +%d / horn") % [cp, director.rules.coffer_step], false, cwhy != "", -1.0, [
-#: scripts/ui/wave_strike/muster_panel.gd:347
+#: scripts/ui/wave_strike/muster_panel.gd:477
 msgid "%d  ·  +%d / horn"
 msgstr "%d  ·  +%d / cor"
 
 #. [Loc.t("Coffer %d  [%s]") % [bank.coffer_level + 1, KeyLabels.of(coffer_key)], UIStyle.token(&"title"), 15],
-#: scripts/ui/wave_strike/muster_panel.gd:348
+#: scripts/ui/wave_strike/muster_panel.gd:478
 msgid "Coffer %d  [%s]"
 msgstr "Coffre %d  [%s]"
 
 #. [Loc.t("%d crystals · +%d crystals per horn") % [cp, director.rules.coffer_step], UIStyle.token(&"text"), 13]]
-#: scripts/ui/wave_strike/muster_panel.gd:349
+#: scripts/ui/wave_strike/muster_panel.gd:479
 msgid "%d crystals · +%d crystals per horn"
 msgstr "%d cristaux · +%d cristaux par cor"
 
 #. coffer_button.set_content("", Loc.t("Coffers: all %d bought") % total, "", false, true, -1.0,
-#: scripts/ui/wave_strike/muster_panel.gd:352 scripts/ui/wave_strike/muster_panel.gd:353
+#: scripts/ui/wave_strike/muster_panel.gd:482 scripts/ui/wave_strike/muster_panel.gd:483
 msgid "Coffers: all %d bought"
 msgstr "Coffres : les %d achetés"
 
 #. tier_button.set_content("", Loc.t("%s reached") % Loc.t(roster.tier_name()), "", false, true, -1.0,
-#: scripts/ui/wave_strike/muster_panel.gd:358 scripts/ui/wave_strike/muster_panel.gd:359
+#: scripts/ui/wave_strike/muster_panel.gd:488 scripts/ui/wave_strike/muster_panel.gd:489
 msgid "%s reached"
 msgstr "%s : atteint"
 
 #. var opens := Loc.t("T2 cards, Drilled, supply %d") if roster.tier == 1 else Loc.t("T3 cards, Elite, supply %d"
-#: scripts/ui/wave_strike/muster_panel.gd:362
+#: scripts/ui/wave_strike/muster_panel.gd:492
 msgid "T2 cards, Drilled, supply %d"
 msgstr "Cartes P2, Aguerri, effectif %d"
 
 #. var opens := Loc.t("T2 cards, Drilled, supply %d") if roster.tier == 1 else Loc.t("T3 cards, Elite, supply %d"
-#: scripts/ui/wave_strike/muster_panel.gd:362
+#: scripts/ui/wave_strike/muster_panel.gd:492
 msgid "T3 cards, Elite, supply %d"
 msgstr "Cartes P3, Élite, effectif %d"
 
 #. var opens_long := Loc.t("opens T2 cards, Drilled rank, supply %d") if roster.tier == 1 else Loc.t("opens T3 ca
-#: scripts/ui/wave_strike/muster_panel.gd:363
+#: scripts/ui/wave_strike/muster_panel.gd:493
 msgid "opens T2 cards, Drilled rank, supply %d"
 msgstr "ouvre les cartes P2, le rang Aguerri, effectif %d"
 
 #. var opens_long := Loc.t("opens T2 cards, Drilled rank, supply %d") if roster.tier == 1 else Loc.t("opens T3 ca
-#: scripts/ui/wave_strike/muster_panel.gd:363
+#: scripts/ui/wave_strike/muster_panel.gd:493
 msgid "opens T3 cards, Elite rank, supply %d"
 msgstr "ouvre les cartes P3, le rang Élite, effectif %d"
 
 #. [Loc.t("%d crystals · %s") % [roster.next_tier_price(), opens_long % next_cap], UIStyle.token(&"text"), 13]]
-#: scripts/ui/wave_strike/muster_panel.gd:366
+#: scripts/ui/wave_strike/muster_panel.gd:496
 msgid "%d crystals · %s"
 msgstr "%d cristaux · %s"
 
 #. tier_button.set_content("", Loc.t("%s rising: %d s") % [next_name, ceili(roster.upgrade_left)], opens % next_c
-#: scripts/ui/wave_strike/muster_panel.gd:369
+#: scripts/ui/wave_strike/muster_panel.gd:499
 msgid "%s rising: %d s"
 msgstr "%s en cours : %d s"
 
 #. Loc.t("T2 cards, Drilled") if roster.tier == 1 else Loc.t("T3 cards, Elite"))
-#: scripts/ui/wave_strike/muster_panel.gd:371 scripts/ui/wave_strike/muster_panel.gd:375
+#: scripts/ui/wave_strike/muster_panel.gd:501 scripts/ui/wave_strike/muster_panel.gd:505
 msgid "T2 cards, Drilled"
 msgstr "Cartes P2, Aguerri"
 
 #. Loc.t("T2 cards, Drilled") if roster.tier == 1 else Loc.t("T3 cards, Elite"))
-#: scripts/ui/wave_strike/muster_panel.gd:371 scripts/ui/wave_strike/muster_panel.gd:375
+#: scripts/ui/wave_strike/muster_panel.gd:501 scripts/ui/wave_strike/muster_panel.gd:505
 msgid "T3 cards, Elite"
 msgstr "Cartes P3, Élite"
 
 #. return {"empty": true, "slot": i, "tip": [[Loc.t("Empty slot (later: Ember Crucible)"), UIStyle.token(&"text")
-#: scripts/ui/wave_strike/muster_panel.gd:385
+#: scripts/ui/wave_strike/muster_panel.gd:515
 msgid "Empty slot (later: Ember Crucible)"
 msgstr "Emplacement vide (plus tard : Ember Crucible)"
 
 #. d["role_tip"] = Loc.t("Casters autocast in the lane; max %d copies") % most if most > 0 else Loc.t("Casters au
-#: scripts/ui/wave_strike/muster_panel.gd:404
+#: scripts/ui/wave_strike/muster_panel.gd:537
 msgid "Casters autocast in the lane; max %d copies"
 msgstr "Les mages lancent seuls dans le couloir; max %d exemplaires"
 
 #. d["role_tip"] = Loc.t("Casters autocast in the lane; max %d copies") % most if most > 0 else Loc.t("Casters au
-#: scripts/ui/wave_strike/muster_panel.gd:404
+#: scripts/ui/wave_strike/muster_panel.gd:537
 msgid "Casters autocast in the lane"
 msgstr "Les mages lancent seuls dans le couloir"
 
 #. d["role_tip"] = Loc.t("Max %d copies") % most
-#: scripts/ui/wave_strike/muster_panel.gd:406
+#: scripts/ui/wave_strike/muster_panel.gd:539
 msgid "Max %d copies"
 msgstr "Max %d exemplaires"
 
 #. var rank_names: Array[String] = [Loc.t("Recruit"), Loc.t("Drilled"), Loc.t("Elite")]
-#: scripts/ui/wave_strike/muster_panel.gd:414
+#: scripts/ui/wave_strike/muster_panel.gd:547 scripts/ui/wave_strike/pad_input.gd:638
 msgid "Drilled"
 msgstr "Aguerri"
 
 #. var right := Loc.t("Rank %d / 3") % rk if rk <= 1 else Loc.t("Rank %d / 3 · %s") % [rk, rank_names[rk - 1]]
-#: scripts/ui/wave_strike/muster_panel.gd:415
+#: scripts/ui/wave_strike/muster_panel.gd:548
 msgid "Rank %d / 3"
 msgstr "Rang %d / 3"
 
 #. var right := Loc.t("Rank %d / 3") % rk if rk <= 1 else Loc.t("Rank %d / 3 · %s") % [rk, rank_names[rk - 1]]
-#: scripts/ui/wave_strike/muster_panel.gd:415
+#: scripts/ui/wave_strike/muster_panel.gd:548
 msgid "Rank %d / 3 · %s"
 msgstr "Rang %d / 3 · %s"
 
 #. rows.append([Loc.t("%d crystals · %d pop · %d HP · %d dmg · range %.1f · speed %.1f") % [int(d["price"]), int(
-#: scripts/ui/wave_strike/muster_panel.gd:419
+#: scripts/ui/wave_strike/muster_panel.gd:552
 msgid "%d crystals · %d pop · %d HP · %d dmg · range %.1f · speed %.1f"
 msgstr "%d cristaux · %d pop · %d PV · %d dég · portée %.1f · vitesse %.1f"
 
 #. rows.append([Loc.t("Ctrl+%s: %s for %d") % [key, next_rank, roster.rank_up_price(id)], UIStyle.GOLD, 13])
-#: scripts/ui/wave_strike/muster_panel.gd:435
+#: scripts/ui/wave_strike/muster_panel.gd:568
 msgid "Ctrl+%s: %s for %d"
 msgstr "Ctrl+%s : %s pour %d"
 
 #. rows.append([Loc.t("Ctrl+%s: %s (needs %s)") % [key, next_rank, Loc.t(roster.tier_name(rk + 1))], UIStyle.GOLD
-#: scripts/ui/wave_strike/muster_panel.gd:437
+#: scripts/ui/wave_strike/muster_panel.gd:570
 msgid "Ctrl+%s: %s (needs %s)"
 msgstr "Ctrl+%s : %s (exige %s)"
 
 #. rows.append([Loc.t("Alt+%s / right-click: sell for %d") % [key, refund], UIStyle.token(&"text_muted"), 13])
-#: scripts/ui/wave_strike/muster_panel.gd:440
+#: scripts/ui/wave_strike/muster_panel.gd:573
 msgid "Alt+%s / right-click: sell for %d"
 msgstr "Alt+%s / clic droit : vendre pour %d"
 
-#. return Loc.t("Caster", null, "ws role tag")  # LOC_IGNORE (ctx literal)
-#: scripts/ui/wave_strike/muster_panel.gd:468
-msgctxt "ws role tag"
-msgid "Caster"
-msgstr "Mage"
+#. rows.append([Loc.t("Shift+Alt+%s: cancel %s (%d s)") % [key, nm, ceili(window)], UIStyle.GOLD, 13])
+#: scripts/ui/wave_strike/muster_panel.gd:604
+msgid "Shift+Alt+%s: cancel %s (%d s)"
+msgstr "Maj+Alt+%s : annuler %s (%d s)"
 
-#. return Loc.t("Support", null, "ws role tag")  # LOC_IGNORE (ctx literal)
-#: scripts/ui/wave_strike/muster_panel.gd:470
-msgctxt "ws role tag"
-msgid "Support"
-msgstr "Soutien"
+#. rows.append([Loc.t("%s: bought") % nm, UIStyle.token(&"text_muted"), 13])
+#: scripts/ui/wave_strike/muster_panel.gd:606
+msgid "%s: bought"
+msgstr "%s : acheté"
 
-#. return Loc.t("Rider", null, "ws role tag")  # LOC_IGNORE (ctx literal)
-#: scripts/ui/wave_strike/muster_panel.gd:472
-msgctxt "ws role tag"
-msgid "Rider"
-msgstr "Monté"
+#. rows.append([Loc.t("%s: %s (%s) · %d") % [combo, nm, eff, price], UIStyle.token(&"text_muted"), 13])
+#: scripts/ui/wave_strike/muster_panel.gd:612 scripts/ui/wave_strike/muster_panel.gd:615
+msgid "%s: %s (%s) · %d"
+msgstr "%s : %s (%s) · %d"
 
-#. return Loc.t("Heavy", null, "ws role tag")  # LOC_IGNORE (ctx literal)
-#: scripts/ui/wave_strike/muster_panel.gd:474
-msgctxt "ws role tag"
-msgid "Heavy"
-msgstr "Lourd"
+#. var effect := Loc.t("casters and support: %s") % per if String(info.get("only", "")) == "caster_support" \
+#: scripts/ui/wave_strike/muster_panel.gd:644
+msgid "casters and support: %s"
+msgstr "lanceurs de sorts et soutien : %s"
 
-#. return Loc.t("Ranged", null, "ws role tag")  # LOC_IGNORE (ctx literal)
-#: scripts/ui/wave_strike/muster_panel.gd:476
-msgctxt "ws role tag"
-msgid "Ranged"
-msgstr "Tir"
+#. else Loc.t("%s per level") % per
+#: scripts/ui/wave_strike/muster_panel.gd:645
+msgid "%s per level"
+msgstr "%s par niveau"
 
-#. return Loc.t("Melee", null, "ws role tag")  # LOC_IGNORE (ctx literal)
-#: scripts/ui/wave_strike/muster_panel.gd:477
-msgctxt "ws role tag"
-msgid "Melee"
-msgstr "Mêlée"
+#. var rows: Array = [["%s  [%s]\t%s" % [title, key, Loc.t("Level %d / %d") % [lv, most]], UIStyle.token(&"title"
+#: scripts/ui/wave_strike/muster_panel.gd:646
+msgid "Level %d / %d"
+msgstr "Niveau %d / %d"
+
+#. rows.append([Loc.t("%d crystals · %s · next horn") % [price, effect], UIStyle.CRYSTAL_TEXT, 13])
+#: scripts/ui/wave_strike/muster_panel.gd:648
+msgid "%d crystals · %s · next horn"
+msgstr "%d cristaux · %s · au prochain cor"
+
+#. rows.append([Loc.t("Applies to units spawned from the next horn"), UIStyle.token(&"text_muted"), 13])
+#: scripts/ui/wave_strike/muster_panel.gd:654
+msgid "Applies to units spawned from the next horn"
+msgstr "S'applique aux unités sorties à partir du prochain cor"
+
+#. pad_button.set_content(p, Loc.t("Pad") if not band_compact else "", [[Loc.t("Centre on the pad  [%s]") % p,
+#: scripts/ui/wave_strike/muster_panel.gd:661
+msgid "Pad"
+msgstr "Plateau"
+
+#. pad_button.set_content(p, Loc.t("Pad") if not band_compact else "", [[Loc.t("Centre on the pad  [%s]") % p,
+#: scripts/ui/wave_strike/muster_panel.gd:661
+msgid "Centre on the pad  [%s]"
+msgstr "Centrer sur le plateau  [%s]"
+
+#. arrange_button.set_content(l, Loc.t("Arrange") if not band_compact else "",
+#: scripts/ui/wave_strike/muster_panel.gd:663
+msgid "Arrange"
+msgstr "Ranger"
+
+#. [[Loc.t("Auto-arrange: Line formation  [%s]") % l, UIStyle.token(&"text"), 13]])
+#: scripts/ui/wave_strike/muster_panel.gd:664
+msgid "Auto-arrange: Line formation  [%s]"
+msgstr "Rangement auto : formation en ligne  [%s]"
+
+#. undo_button.set_content(ul, Loc.t("Undo") if not band_compact else "",
+#: scripts/ui/wave_strike/muster_panel.gd:667
+msgid "Undo"
+msgstr "Annuler"
+
+#. [[Loc.t("Undo the arrangement  [%s] (%d s)") % [ul, ceili(left)] if left > 0.0
+#: scripts/ui/wave_strike/muster_panel.gd:668
+msgid "Undo the arrangement  [%s] (%d s)"
+msgstr "Annuler le rangement  [%s] (%d s)"
+
+#. else Loc.t("Undo the arrangement  [%s]") % ul, UIStyle.token(&"text"), 13]], left <= 0.0)
+#: scripts/ui/wave_strike/muster_panel.gd:669
+msgid "Undo the arrangement  [%s]"
+msgstr "Annuler le rangement  [%s]"
+
+#. place_toggle.set_content("", Loc.t("Place: Manual") if manual else Loc.t("Place: Auto"), [[Loc.t(
+#: scripts/ui/wave_strike/muster_panel.gd:671
+msgid "Place: Manual"
+msgstr "Pose : manuelle"
+
+#. place_toggle.set_content("", Loc.t("Place: Manual") if manual else Loc.t("Place: Auto"), [[Loc.t(
+#: scripts/ui/wave_strike/muster_panel.gd:671
+msgid "Place: Auto"
+msgstr "Pose : auto"
+
+#. pad_status.text = Loc.t("Pad %d / %d") % [cells, MusterPad.COLS * MusterPad.ROWS]
+#: scripts/ui/wave_strike/muster_panel.gd:677
+msgid "Pad %d / %d"
+msgstr "Plateau %d / %d"
+
+#. held_status.text = Loc.t("Held %d") % held
+#: scripts/ui/wave_strike/muster_panel.gd:679
+msgid "Held %d"
+msgstr "Retenus %d"
+
+#. held_status.tooltip_text = Loc.t("Stays home this horn (lane cap)")
+#: scripts/ui/wave_strike/muster_panel.gd:681 scripts/ui/wave_strike/pad_input.gd:652
+msgid "Stays home this horn (lane cap)"
+msgstr "Reste au Bastion à ce cor (plafond du couloir)"
 
 #. &"kilnwarden": "In the lane: Slag Rain, Mana Scald on auto",
-#: scripts/ui/wave_strike/muster_panel.gd:28
+#: scripts/ui/wave_strike/muster_panel.gd:40
 msgid "In the lane: Slag Rain, Mana Scald on auto"
 msgstr "Dans le couloir : Slag Rain, Mana Scald en auto"
 
 #. &"rimecarver": "In the lane: Rime Bulwark on auto · Scrying Rune off",
-#: scripts/ui/wave_strike/muster_panel.gd:29
+#: scripts/ui/wave_strike/muster_panel.gd:41
 msgid "In the lane: Rime Bulwark on auto · Scrying Rune off"
 msgstr "Dans le couloir : Rime Bulwark en auto · Scrying Rune désactivé"
 
 #. &"bramblesage": "In the lane: Snagroot, Pollen Haze on auto",
-#: scripts/ui/wave_strike/muster_panel.gd:30
+#: scripts/ui/wave_strike/muster_panel.gd:42
 msgid "In the lane: Snagroot, Pollen Haze on auto"
 msgstr "Dans le couloir : Snagroot, Pollen Haze en auto"
 
 #. &"gloom_deacon": "In the lane: Blood Tithe on auto · Umbral Passage off",
-#: scripts/ui/wave_strike/muster_panel.gd:31
+#: scripts/ui/wave_strike/muster_panel.gd:43
 msgid "In the lane: Blood Tithe on auto · Umbral Passage off"
 msgstr "Dans le couloir : Blood Tithe en auto · Umbral Passage désactivé"
 
+#. hud.call(&"say", Loc.t("Arranged  ·  %s = undo (%d s)") % [_ctrl_label(KEY_L), int(UNDO_TIME)], UIStyle.token(
+#: scripts/ui/wave_strike/pad_input.gd:514
+msgid "Arranged  ·  %s = undo (%d s)"
+msgstr "Rangé  ·  %s = annuler (%d s)"
+
+#. hud.call(&"say", Loc.t("Undone"), UIStyle.token(&"text"))
+#: scripts/ui/wave_strike/pad_input.gd:524
+msgid "Undone"
+msgstr "Annulé"
+
+#. var side := Loc.t("centre") if absf(mid) < 0.01 else (Loc.t("left of centre") if mid < 0.0 else Loc.t("right o
+#: scripts/ui/wave_strike/pad_input.gd:643
+msgid "centre"
+msgstr "au centre"
+
+#. var side := Loc.t("centre") if absf(mid) < 0.01 else (Loc.t("left of centre") if mid < 0.0 else Loc.t("right o
+#: scripts/ui/wave_strike/pad_input.gd:643
+msgid "left of centre"
+msgstr "à gauche du centre"
+
+#. var side := Loc.t("centre") if absf(mid) < 0.01 else (Loc.t("left of centre") if mid < 0.0 else Loc.t("right o
+#: scripts/ui/wave_strike/pad_input.gd:643
+msgid "right of centre"
+msgstr "à droite du centre"
+
+#. rows.append([Loc.t("Cell (%d, %d) · spawns row %d, %s") % [cell.x, cell.y, cell.y, side], UIStyle.token(&"text
+#: scripts/ui/wave_strike/pad_input.gd:644
+msgid "Cell (%d, %d) · spawns row %d, %s"
+msgstr "Case (%d, %d) · sort en rangée %d, %s"
+
+#. rows.append([Loc.t("Moves after the horn count next horn"), UIStyle.token(&"text_muted"), 13])
+#: scripts/ui/wave_strike/pad_input.gd:654
+msgid "Moves after the horn count next horn"
+msgstr "Les déplacements après le cor comptent au prochain cor"
+
+#. rows.append([Loc.t("Drag = move · right-click = sell for %d") % refund, UIStyle.token(&"text_muted"), 13])
+#: scripts/ui/wave_strike/pad_input.gd:656
+msgid "Drag = move · right-click = sell for %d"
+msgstr "Glisser = déplacer · clic droit = vendre pour %d"
+
+#. txt += "  ·  " + Loc.t("again")
+#: scripts/ui/wave_strike/pad_input.gd:699
+msgid "again"
+msgstr "encore"
+
+#. return "No card"
+#: scripts/ui/wave_strike/pad_input.gd:135 scripts/ui/wave_strike/wave_strike_hud.gd:26
+msgid "No card"
+msgstr "Aucune carte"
+
+#. return "Nothing to undo"
+#: scripts/ui/wave_strike/pad_input.gd:520 scripts/ui/wave_strike/wave_strike_hud.gd:367
+msgid "Nothing to undo"
+msgstr "Rien à annuler"
+
+#. var front := _label3d(Loc.t("FRONT"), 120, Color(UIStyle.GOLD, 0.7), tf)
+#: scripts/ui/wave_strike/pad_view.gd:272
+msgid "FRONT"
+msgstr "AVANT"
+
 #. return Loc.t("Your Bastion (%s)") % Loc.t(k) if team == seat else Loc.t("Enemy Bastion (%s)") % Loc.t(k)
-#: scripts/ui/wave_strike/wave_strike_hud.gd:190
+#: scripts/ui/wave_strike/wave_strike_hud.gd:235
 msgid "Your Bastion (%s)"
 msgstr "Votre Bastion (%s)"
 
 #. return Loc.t("Your Bastion (%s)") % Loc.t(k) if team == seat else Loc.t("Enemy Bastion (%s)") % Loc.t(k)
-#: scripts/ui/wave_strike/wave_strike_hud.gd:190
+#: scripts/ui/wave_strike/wave_strike_hud.gd:235
 msgid "Enemy Bastion (%s)"
 msgstr "Bastion ennemi (%s)"
 
 #. _bank_label.text = Loc.t("Crystals %d   ·   +%d / horn   ·   Coffer %d/%d   ·   Supply %d/%d   ·   %s%s") % [
-#: scripts/ui/wave_strike/wave_strike_hud.gd:223
+#: scripts/ui/wave_strike/wave_strike_hud.gd:268
 msgid "Crystals %d   ·   +%d / horn   ·   Coffer %d/%d   ·   Supply %d/%d   ·   %s%s"
 msgstr "Cristaux %d   ·   +%d / cor   ·   Coffre %d/%d   ·   Effectif %d/%d   ·   %s%s"
 
 #. roster.cap(), Loc.t(roster.tier_name()), "" if roster.upgrade_left <= 0.0 else Loc.t(" (%s in %ds)") % [
-#: scripts/ui/wave_strike/wave_strike_hud.gd:225
+#: scripts/ui/wave_strike/wave_strike_hud.gd:270
 msgid " (%s in %ds)"
 msgstr " (%s dans %ds)"
 
-#. const NO_CARD := "No card"
-#: scripts/ui/wave_strike/wave_strike_hud.gd:17
-msgid "No card"
-msgstr "Aucune carte"
+#. say(Loc.t("No room on the pad  ·  %s = auto-arrange") % KeyLabels.of(KEY_ARRANGE), UIStyle.WARN, NO_ROOM_TIME)
+#: scripts/ui/wave_strike/wave_strike_hud.gd:412
+msgid "No room on the pad  ·  %s = auto-arrange"
+msgstr "Plus de place sur le plateau  ·  %s = rangement auto"
 
 #. return Loc.t("Fire (Vessa)")
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:33
@@ -359,6 +544,327 @@ msgstr "Marteau (agressif)"
 msgid "Ashwind Reach"
 msgstr "Ashwind Reach"
 
+#. parts.append(Loc.t("+%s range") % _g(float(add["attack_range"])))
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:20
+msgid "+%s range"
+msgstr "+%s de portée"
+
+#. parts.append(Loc.t("+%s sight") % _g(float(add["aggro_range"])))
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:22
+msgid "+%s sight"
+msgstr "+%s de vision"
+
+#. parts.append(Loc.t("marked %s s on hit (+15 %% damage taken)") % dur)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:29
+msgid "marked %s s on hit (+15 %% damage taken)"
+msgstr "marqué %s s à l'impact (+15 %% de dégâts subis)"
+
+#. parts.append(Loc.t("chill %s s on hit") % dur)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:31
+msgid "chill %s s on hit"
+msgstr "glacé %s s à l'impact"
+
+#. parts.append(Loc.t("%s %s s on hit") % [Loc.sink(st), dur])
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:33
+msgid "%s %s s on hit"
+msgstr "%s %s s à l'impact"
+
+#. parts.append(Loc.t("on-hit lasts x%s") % x)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:39
+msgid "on-hit lasts x%s"
+msgstr "effets à l'impact x%s"
+
+#. parts.append(Loc.t("support x%s") % x)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:41
+msgid "support x%s"
+msgstr "soutien x%s"
+
+#. parts.append(Loc.t("interval x%s") % x)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:43
+msgid "interval x%s"
+msgstr "intervalle x%s"
+
+#. parts.append(Loc.t("shield %s for %s s at release") % [_g(float(d["shield"])), secs])
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:48
+msgid "shield %s for %s s at release"
+msgstr "bouclier de %s pendant %s s au contact"
+
+#. parts.append(Loc.t("haste %s s at release") % secs)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:52
+msgid "haste %s s at release"
+msgstr "hâte %s s au contact"
+
+#. parts.append(Loc.t("braced %s s at release") % secs)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:54
+msgid "braced %s s at release"
+msgstr "arc-bouté %s s au contact"
+
+#. parts.append(Loc.t("shroud %s s at release") % secs)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:56
+msgid "shroud %s s at release"
+msgstr "voile %s s au contact"
+
+#. return Loc.t("+%s armour") % _g(v)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:63
+msgid "+%s armour"
+msgstr "+%s d'armure"
+
+#. return Loc.t("+%s HP/s") % _g(v)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:65
+msgid "+%s HP/s"
+msgstr "+%s PV/s"
+
+#. return Loc.t("+%s spell power") % _g(v)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:67
+msgid "+%s spell power"
+msgstr "+%s de puissance des sorts"
+
+#. return Loc.t("+%s damage") % _g(v)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:69
+msgid "+%s damage"
+msgstr "+%s de dégâts"
+
+#. return Loc.t("+%s speed") % _g(v)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:71
+msgid "+%s speed"
+msgstr "+%s de vitesse"
+
+#. return Loc.t("+%s %% HP") % _g(v * 100.0)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:73
+msgid "+%s %% HP"
+msgstr "+%s %% de PV"
+
+#. return Loc.t("+%s %% mana") % _g(v * 100.0)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:75
+msgid "+%s %% mana"
+msgstr "+%s %% de mana"
+
+#. return Loc.t("+%s %% regen") % _g(v * 100.0)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:77
+msgid "+%s %% regen"
+msgstr "+%s %% de régénération"
+
+#. return Loc.t("+%s %% damage") % _g(v * 100.0)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:79
+msgid "+%s %% damage"
+msgstr "+%s %% de dégâts"
+
+#. return Loc.t("+%s %% cooldown reduction") % _g(v * 100.0)
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:81
+msgid "+%s %% cooldown reduction"
+msgstr "+%s %% de réduction des temps de recharge"
+
+#. return [Loc.t("No room on the pad"), Loc.t("Spot taken"), Loc.t("Off the pad"), Loc.t("No unit there"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:106
+msgid "No room on the pad"
+msgstr "Plus de place sur le plateau"
+
+#. return [Loc.t("No room on the pad"), Loc.t("Spot taken"), Loc.t("Off the pad"), Loc.t("No unit there"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:106
+msgid "Spot taken"
+msgstr "Place prise"
+
+#. return [Loc.t("No room on the pad"), Loc.t("Spot taken"), Loc.t("Off the pad"), Loc.t("No unit there"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:106
+msgid "Off the pad"
+msgstr "Hors du plateau"
+
+#. return [Loc.t("No room on the pad"), Loc.t("Spot taken"), Loc.t("Off the pad"), Loc.t("No unit there"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:106
+msgid "No unit there"
+msgstr "Aucune unité ici"
+
+#. Loc.t("Swap needs the same size"), Loc.t("Already bought"), Loc.t("Too late to cancel"), Loc.t("Not bought"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:107
+msgid "Swap needs the same size"
+msgstr "L'échange exige la même taille"
+
+#. Loc.t("Swap needs the same size"), Loc.t("Already bought"), Loc.t("Too late to cancel"), Loc.t("Not bought"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:107
+msgid "Already bought"
+msgstr "Déjà acheté"
+
+#. Loc.t("Swap needs the same size"), Loc.t("Already bought"), Loc.t("Too late to cancel"), Loc.t("Not bought"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:107
+msgid "Too late to cancel"
+msgstr "Trop tard pour annuler"
+
+#. Loc.t("Swap needs the same size"), Loc.t("Already bought"), Loc.t("Too late to cancel"), Loc.t("Not bought"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:107
+msgid "Not bought"
+msgstr "Pas acheté"
+
+#. Loc.t("Upgrades off"), Loc.t("Unknown upgrade"), Loc.t("Armour"), Loc.t("Arcana"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:108
+msgid "Upgrades off"
+msgstr "Améliorations désactivées"
+
+#. Loc.t("Upgrades off"), Loc.t("Unknown upgrade"), Loc.t("Armour"), Loc.t("Arcana"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:108 scripts/units/bowman_upgrades.gd:46
+msgid "Unknown upgrade"
+msgstr "Amélioration inconnue"
+
+#. Loc.t("Upgrades off"), Loc.t("Unknown upgrade"), Loc.t("Armour"), Loc.t("Arcana"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:108
+msgid "Arcana"
+msgstr "Arcanes"
+
+#. Loc.t("Shield Drill"), Loc.t("War Cry"), Loc.t("Long Draw"), Loc.t("Spotter Marks"), Loc.t("Barding"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:109
+msgid "Shield Drill"
+msgstr "Exercice du bouclier"
+
+#. Loc.t("Shield Drill"), Loc.t("War Cry"), Loc.t("Long Draw"), Loc.t("Spotter Marks"), Loc.t("Barding"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:109
+msgid "War Cry"
+msgstr "Cri de guerre"
+
+#. Loc.t("Shield Drill"), Loc.t("War Cry"), Loc.t("Long Draw"), Loc.t("Spotter Marks"), Loc.t("Barding"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:109
+msgid "Long Draw"
+msgstr "Tir allongé"
+
+#. Loc.t("Shield Drill"), Loc.t("War Cry"), Loc.t("Long Draw"), Loc.t("Spotter Marks"), Loc.t("Barding"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:109
+msgid "Spotter Marks"
+msgstr "Marques de guetteur"
+
+#. Loc.t("Shield Drill"), Loc.t("War Cry"), Loc.t("Long Draw"), Loc.t("Spotter Marks"), Loc.t("Barding"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:109
+msgid "Barding"
+msgstr "Caparaçon"
+
+#. Loc.t("Flank Gallop"), Loc.t("Plate"), Loc.t("Brace"), Loc.t("Deep Wells"), Loc.t("Quick Hands"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:110
+msgid "Flank Gallop"
+msgstr "Galop de flanc"
+
+#. Loc.t("Flank Gallop"), Loc.t("Plate"), Loc.t("Brace"), Loc.t("Deep Wells"), Loc.t("Quick Hands"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:110
+#~ msgid "Plate"
+#~ msgstr "Plaques"
+
+#. Loc.t("Flank Gallop"), Loc.t("Plate"), Loc.t("Brace"), Loc.t("Deep Wells"), Loc.t("Quick Hands"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:110
+msgid "Brace"
+msgstr "Arc-boutement"
+
+#. Loc.t("Flank Gallop"), Loc.t("Plate"), Loc.t("Brace"), Loc.t("Deep Wells"), Loc.t("Quick Hands"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:110
+msgid "Deep Wells"
+msgstr "Puits profonds"
+
+#. Loc.t("Flank Gallop"), Loc.t("Plate"), Loc.t("Brace"), Loc.t("Deep Wells"), Loc.t("Quick Hands"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:110
+msgid "Quick Hands"
+msgstr "Mains vives"
+
+#. Loc.t("Mana Font"), Loc.t("Focus"), Loc.t("Lingering"), Loc.t("Sunforged Charge"), Loc.t("Rime Mantle"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:111
+msgid "Mana Font"
+msgstr "Source de mana"
+
+#. Loc.t("Mana Font"), Loc.t("Focus"), Loc.t("Lingering"), Loc.t("Sunforged Charge"), Loc.t("Rime Mantle"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:111
+msgid "Focus"
+msgstr "Concentration"
+
+#. Loc.t("Mana Font"), Loc.t("Focus"), Loc.t("Lingering"), Loc.t("Sunforged Charge"), Loc.t("Rime Mantle"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:111
+msgid "Lingering"
+msgstr "Persistance"
+
+#. Loc.t("Mana Font"), Loc.t("Focus"), Loc.t("Lingering"), Loc.t("Sunforged Charge"), Loc.t("Rime Mantle"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:111
+msgid "Sunforged Charge"
+msgstr "Charge solforgée"
+
+#. Loc.t("Mana Font"), Loc.t("Focus"), Loc.t("Lingering"), Loc.t("Sunforged Charge"), Loc.t("Rime Mantle"),
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:111
+msgid "Rime Mantle"
+msgstr "Manteau de givre"
+
+#. Loc.t("Shard Ward"), Loc.t("Thorned Pinions"), Loc.t("Far Sight"), Loc.t("Blood Feast"), Loc.t("Veil Ride")]
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:112
+msgid "Shard Ward"
+msgstr "Garde d'éclats"
+
+#. Loc.t("Shard Ward"), Loc.t("Thorned Pinions"), Loc.t("Far Sight"), Loc.t("Blood Feast"), Loc.t("Veil Ride")]
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:112
+msgid "Thorned Pinions"
+msgstr "Rémiges épineuses"
+
+#. Loc.t("Shard Ward"), Loc.t("Thorned Pinions"), Loc.t("Far Sight"), Loc.t("Blood Feast"), Loc.t("Veil Ride")]
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:112
+msgid "Far Sight"
+msgstr "Vue perçante"
+
+#. Loc.t("Shard Ward"), Loc.t("Thorned Pinions"), Loc.t("Far Sight"), Loc.t("Blood Feast"), Loc.t("Veil Ride")]
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:112
+msgid "Blood Feast"
+msgstr "Festin de sang"
+
+#. Loc.t("Shard Ward"), Loc.t("Thorned Pinions"), Loc.t("Far Sight"), Loc.t("Blood Feast"), Loc.t("Veil Ride")]
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:112
+msgid "Veil Ride"
+msgstr "Chevauchée voilée"
+
+#. var q := _mesh_node(pm, unlit(Color(1, 1, 1, 0.45), true), "Quad%d" % _quads.size())
+#: scripts/ui/wave_strike/pad_view.gd:1107
+#~ msgid "Quad%d"
+#~ msgstr ""
+
+#. _mesh_node(st.commit(), unlit(Color.WHITE, true, true), "Grid")
+#: scripts/ui/wave_strike/pad_view.gd:334
+#~ msgid "Grid"
+#~ msgstr ""
+
+#. name = "MusterPadView%d" % roster.seat
+#: scripts/ui/wave_strike/pad_view.gd:167
+#~ msgid "MusterPadView%d"
+#~ msgstr ""
+
+#. const TOKEN_SHADER := """
+#: scripts/ui/wave_strike/pad_view.gd:53
+#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_back, depth_draw_always, blend_mix, shadows_disabled;\nuniform vec4 body_color : source_color = vec4(0.2, 0.2, 0.2, 1.0);\nuniform vec4 gold : source_color = vec4(1.0, 0.85, 0.4, 1.0);\nuniform vec4 glow : source_color = vec4(1.0, 0.55, 0.15, 1.0);\nuniform vec4 warn : source_color = vec4(0.95, 0.35, 0.3, 1.0);\nuniform float radius = 0.65;\nuniform float rim_w = 0.12;\nuniform float band_w = 0.1;\nuniform float tick = 0.25;\nuniform float height = 0.15;\nvarying vec3 lp;\nvarying vec4 cdata;\nvarying vec4 rcol;\nvoid vertex() {\n\tlp = VERTEX;\n\tcdata = INSTANCE_CUSTOM;\n\trcol = COLOR;\n}\nbool in_tick(vec2 p, vec2 dir) {\n\tfloat u = radius - dot(p, dir);\n\tfloat v = abs(dir.x * p.y - dir.y * p.x);\n\tfloat len = tick * 0.9;\n\treturn u >= 0.0 && u <= len && v <= tick * 0.5 * (1.0 - u / len);\n}\nvoid fragment() {\n\tvec2 p = lp.xz;\n\tfloat r = length(p);\n\tbool top = lp.y > height - 0.002;\n\tbool rim = !top || r > radius - rim_w;\n\tvec3 role = pow(rcol.rgb, vec3(2.2));\n\tvec3 col = rim ? role : body_color.rgb;\n\tif (!top) col *= 0.7;\n\tfloat up = cdata.y;\n\tbool a_tick = mod(up, 2.0) > 0.5;\n\tbool b_tick = up > 1.5;\n\tif (top) {\n\t\t// rank band: gold arc on the rim, 60 deg per rank from the back (+Z), clockwise seen from above\n\t\tfloat ang = atan(-p.x, p.y);\n\t\tif (ang < 0.0) ang += 6.2831853;\n\t\tif (r > radius - band_w && ang < cdata.x * 1.0471976) col = gold.rgb;\n\t\t// upgrade ticks: A front-right, B front-left (front = -Z)\n\t\tif (a_tick && in_tick(p, normalize(vec2(1.0, -1.0)))) col = gold.rgb;\n\t\tif (b_tick && in_tick(p, normalize(vec2(-1.0, -1.0)))) col = gold.rgb;\n\t}\n\tif (rim) col = mix(col, vec3(1.0), clamp(cdata.z, 0.0, 1.0));\n\tfloat f = cdata.w;\n\tif (f > 0.0) col = mix(col, glow.rgb, rim ? f : f * 0.5);\n\tif (f < 0.0 && rim) col = mix(col, warn.rgb, -f);\n\tALBEDO = col;\n\tALPHA = rcol.a;\n}\n"
+#~ msgstr ""
+
+#. const ICON_SHADER := """
+#: scripts/ui/wave_strike/pad_view.gd:33
+#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_back, depth_draw_always, blend_mix, shadows_disabled;\nuniform sampler2D tex : source_color, filter_linear_mipmap;\ninstance uniform float alpha = 1.0;\ninstance uniform float tint = 1.0;\nvoid fragment() {\n\tvec2 d = UV - vec2(0.5);\n\tfloat r = length(d) * 2.0;\n\tif (r > 1.0) discard;\n\tvec4 c = texture(tex, UV);\n\tfloat edge = smoothstep(0.8, 1.0, r);\n\tALBEDO = mix(c.rgb * tint, vec3(0.0), edge * 0.55);\n\tALPHA = alpha * (1.0 - smoothstep(0.95, 1.0, r));\n}\n"
+#~ msgstr ""
+
+#. var why := "No target"
+#: scripts/ui/wave_strike/pad_input.gd:434 scripts/units/caster_kit.gd:99
+#: scripts/units/helper_abilities.gd:131
+#~ msgid "No target"
+#~ msgstr ""
+
+#. return ["", "I", "II", "III", "IV"][clampi(level, 0, 4)]
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:100
+#~ msgid "III"
+#~ msgstr ""
+
+#. reason = Loc.t("Requires Stronghold", null, "ws group lock") if tier == 2 else Loc.t("Requires Citadel", null,
+#: scripts/ui/wave_strike/muster_panel.gd:303
+#~ msgid "ws group lock"
+#~ msgstr ""
+
+#. b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]) if i < CARD_KEYS.size() else
+#: scripts/ui/wave_strike/wave_strike_hud.gd:228
+#~ msgid "[%s] %s   %d   ·  pop %d   ·  x%d"
+#~ msgstr "[%s] %s   %d   ·  pop. %d   ·  x%d"
+
+#. _coffer_button.text = Loc.t("[%s] Coffer %d   %s   (+%d / horn)") % [KeyLabels.of(KEY_COFFER),
+#: scripts/ui/wave_strike/wave_strike_hud.gd:233
+#~ msgid "[%s] Coffer %d   %s   (+%d / horn)"
+#~ msgstr "[%s] Coffre %d   %s   (+%d / cor)"
+
+#. _hint.text = Loc.t("Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster")
+#: scripts/ui/wave_strike/muster_panel.gd:270
+#~ msgid "Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster"
+#~ msgstr "Touche / clic = acheter  ·  Ctrl = monter en rang  ·  Alt / clic droit = vendre  ·  %s = effectif ennemi"
+
 #. return Loc.t("Caster", null, "ws role tag")
 #: scripts/ui/wave_strike/muster_panel.gd:466 scripts/ui/wave_strike/muster_panel.gd:468
 #: scripts/ui/wave_strike/muster_panel.gd:470 scripts/ui/wave_strike/muster_panel.gd:472
@@ -391,32 +897,22 @@ msgstr "Ashwind Reach"
 #~ msgid "%s: %d HP, %d damage, range %.1f, speed %.1f%s"
 #~ msgstr "%s : %d PV, %d dégâts, portée %.1f, vitesse %.1f%s"
 
-#. _wave_label.text = Loc.t("Next wave: %d units   (last horn: %d)") % [roster.card_total(), director.last_wave_s
-#: scripts/ui/wave_strike/wave_strike_hud.gd:249
-#~ msgid "Next wave: %d units   (last horn: %d)"
-#~ msgstr "Prochaine vague : %d unités   (dernier cor : %d)"
+#. else Loc.t("Coffers: all 8 bought")
+#: scripts/ui/wave_strike/wave_strike_hud.gd:235
+#~ msgid "Coffers: all 8 bought"
+#~ msgstr "Coffres : les 8 achetés"
 
 #. _tier_button.text = Loc.t("[%s] %s   %d   (%s, supply %d)") % [KeyLabels.of(KEY_TIER),
 #: scripts/ui/wave_strike/wave_strike_hud.gd:244
 #~ msgid "[%s] %s   %d   (%s, supply %d)"
 #~ msgstr "[%s] %s   %d   (%s, effectif %d)"
 
-#. else Loc.t("Coffers: all 8 bought")
-#: scripts/ui/wave_strike/wave_strike_hud.gd:235
-#~ msgid "Coffers: all 8 bought"
-#~ msgstr "Coffres : les 8 achetés"
+#. _wave_label.text = Loc.t("Next wave: %d units   (last horn: %d)") % [roster.card_total(), director.last_wave_s
+#: scripts/ui/wave_strike/wave_strike_hud.gd:249
+#~ msgid "Next wave: %d units   (last horn: %d)"
+#~ msgstr "Prochaine vague : %d unités   (dernier cor : %d)"
 
-#. _coffer_button.text = Loc.t("[%s] Coffer %d   %s   (+%d / horn)") % [KeyLabels.of(KEY_COFFER),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:233
-#~ msgid "[%s] Coffer %d   %s   (+%d / horn)"
-#~ msgstr "[%s] Coffre %d   %s   (+%d / cor)"
-
-#. b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]) if i < CARD_KEYS.size() else
-#: scripts/ui/wave_strike/wave_strike_hud.gd:228
-#~ msgid "[%s] %s   %d   ·  pop %d   ·  x%d"
-#~ msgstr "[%s] %s   %d   ·  pop. %d   ·  x%d"
-
-#. reason = Loc.t("Requires Stronghold", null, "ws group lock") if tier == 2 else Loc.t("Requires Citadel", null,
-#: scripts/ui/wave_strike/muster_panel.gd:303
-#~ msgid "ws group lock"
+#. var combo := ("Shift+%s" if slot == 0 else "Shift+Ctrl+%s") % key
+#: scripts/ui/wave_strike/muster_panel.gd:592
+#~ msgid "Shift+Ctrl+%s"
 #~ msgstr ""

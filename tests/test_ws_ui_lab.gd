@@ -6,6 +6,10 @@ extends SceneTree
 ##   tools\godot_run.ps1 --path . -s tests/test_ws_ui_lab.gd --quit-after 200000 -- res=1600x900,1920x1080 lang=en,fr
 ## Writes docs/ui/lab/ws_buy/<lang>/scorecard.md + <WxH>/ws_buy_<kingdom>.jpg and docs/ui/lab/ws_buy_m2.png (1080p Ice,
 ## English) / ws_buy_m2_fr.png. Prints "PASS ws_ui_lab" (no FAIL) or "FAIL ws_ui_lab: <cells>".
+## WS3.U1 / WS4.U1 shot `ws_pad` (ui-wave-strike.md 7 / 8): Fire mid-match with an arranged army on the Muster Pad
+## (2x2 riders on the wings, ranks, upgrades bought, Armoury levels), the camera on the pad (P), a token hovered (model
+## ghost + tooltip); writes docs/ui/lab/ws_pad/<lang>/... and docs/ui/lab/ws_pad.png (1080p, English).
+## `shots=ws_buy,ws_pad` picks the screens (default both).
 
 const SCENE := "res://scenes/wave_strike.tscn"
 const OUT := "res://docs/ui/lab/ws_buy"
@@ -13,6 +17,7 @@ const OUT := "res://docs/ui/lab/ws_buy"
 var sizes: Array[Vector2i] = [Vector2i(1600, 900), Vector2i(1920, 1080)]
 var langs: Array[String] = ["en", "fr"]
 var kingdoms: Array[StringName] = [&"fire", &"ice"]
+var shots: Array[String] = ["ws_buy", "ws_pad"]
 var headless := false
 var _fails: Array[String] = []
 
@@ -32,6 +37,10 @@ func _initialize() -> void:
 				langs.clear()
 				for l in kv[1].split(",", false):
 					langs.append(l)
+			"shots":
+				shots.clear()
+				for sh in kv[1].split(",", false):
+					shots.append(sh)
 			"kingdoms":
 				kingdoms.clear()
 				for k in kv[1].split(",", false):
@@ -70,32 +79,8 @@ func _main() -> void:
 	GameSettings.ensure_loaded(self)
 	GameSettings.fullscreen = false
 	GameSettings.apply_window(self)
-	for lang in langs:
-		Loc.set_language(lang)
-		var report := UILabReport.new()
-		report.headless = headless
-		report.started = Time.get_datetime_string_from_system(false, true)
-		report.notes.append("Language: %s; WS2.U1 Muster panel (tests/test_ws_ui_lab.gd)" % lang)
-		var out := OUT.path_join(lang)
-		for sz in sizes:
-			var res := "%dx%d" % [sz.x, sz.y]
-			var got := await _set_window(sz)
-			report.actual_sizes[res] = "%dx%d" % [got.x, got.y]
-			if got != sz and not headless:
-				report.notes.append("%s not reachable (window %dx%d): skipped" % [res, got.x, got.y])
-				continue
-			report.resolutions.append(res)
-			for k in kingdoms:
-				var screen := "ws_buy_%s" % k
-				if not report.screens.has(screen):
-					report.screens.append(screen)
-				await _shot(report, screen, res, k, out, lang)
-		report.write(out, "")
-		for c: Dictionary in report.checks:
-			if String(c.get("status", "")) == "FAIL":
-				_fails.append("%s %s@%s %s" % [lang, c.get("screen", ""), c.get("res", ""), c.get("type", "")])
-		print("WS UI LAB %s: %s (quality %.0f, FAIL %d, WARN %d)" % [lang, report.result(), report.quality(),
-				report.count("FAIL"), report.count("WARN")])
+	for shot_kind in shots:
+		await _run_screen(shot_kind)
 	Engine.time_scale = 1.0
 	Loc.set_language("en")
 	if _fails.is_empty():
@@ -105,7 +90,42 @@ func _main() -> void:
 	quit(0 if _fails.is_empty() else 1)
 
 
-func _shot(report: UILabReport, screen: String, res: String, k: StringName, out: String, lang: String) -> void:
+func _run_screen(kind: String) -> void:
+	var out_root := OUT if kind == "ws_buy" else "res://docs/ui/lab/ws_pad"
+	for lang in langs:
+		Loc.set_language(lang)
+		var report := UILabReport.new()
+		report.headless = headless
+		report.started = Time.get_datetime_string_from_system(false, true)
+		report.notes.append("Language: %s; %s (tests/test_ws_ui_lab.gd)" % [lang,
+				"WS2.U1 Muster panel" if kind == "ws_buy" else "WS3.U1 / WS4.U1 Muster Pad + upgrades"])
+		var out := out_root.path_join(lang)
+		for sz in sizes:
+			var res := "%dx%d" % [sz.x, sz.y]
+			var got := await _set_window(sz)
+			report.actual_sizes[res] = "%dx%d" % [got.x, got.y]
+			if got != sz and not headless:
+				report.notes.append("%s not reachable (window %dx%d): skipped" % [res, got.x, got.y])
+				continue
+			report.resolutions.append(res)
+			var ks: Array[StringName] = [&"fire"]
+			if kind == "ws_buy":
+				ks = kingdoms
+			for k in ks:
+				var screen := "%s_%s" % [kind, k]
+				if not report.screens.has(screen):
+					report.screens.append(screen)
+				await _shot(report, screen, res, k, out, lang, kind == "ws_pad")
+		report.write(out, "")
+		for c: Dictionary in report.checks:
+			if String(c.get("status", "")) == "FAIL":
+				_fails.append("%s %s@%s %s" % [lang, c.get("screen", ""), c.get("res", ""), c.get("type", "")])
+		print("WS UI LAB %s %s: %s (quality %.0f, FAIL %d, WARN %d)" % [kind, lang, report.result(), report.quality(),
+				report.count("FAIL"), report.count("WARN")])
+
+
+func _shot(report: UILabReport, screen: String, res: String, k: StringName, out: String, lang: String,
+		pad := false) -> void:
 	var level: Node = (load(SCENE) as PackedScene).instantiate()
 	level.set(&"player_kingdom", k)
 	level.set(&"enemy_kingdom", &"shadow" if k != &"shadow" else &"fire")
@@ -141,7 +161,9 @@ func _shot(report: UILabReport, screen: String, res: String, k: StringName, out:
 	(level.get(&"stats") as Array)[0]["held_horn"] = 12
 	var cam: Node = level.get(&"camera_rig")
 	var lane: PackedVector3Array = level.call(&"lane_for", 0)
-	if cam and lane.size() > 1:
+	if pad:
+		await _pad_army(level, hud, roster, bank)
+	elif cam and lane.size() > 1:
 		cam.call(&"focus_on", lane[0].lerp(lane[lane.size() - 1], 0.3))
 	await _frames(30)
 	var muster := hud.get(&"muster") as Control
@@ -156,14 +178,20 @@ func _shot(report: UILabReport, screen: String, res: String, k: StringName, out:
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out.path_join(res)))
 		img.save_jpg(ProjectSettings.globalize_path(out.path_join(rel)), 0.9)
 		report.shots["%s@%s" % [screen, res]] = rel
-		if res == "1920x1080" and k == &"ice":
+		if res == "1920x1080" and k == &"ice" and not pad:
 			img.save_png(ProjectSettings.globalize_path("res://docs/ui/lab/ws_buy_m2%s.png" % ("" if lang == "en" else "_" + lang)))
+		if res == "1920x1080" and pad:
+			img.save_png(ProjectSettings.globalize_path("res://docs/ui/lab/ws_pad%s.png" % ("" if lang == "en" else "_" + lang)))
 		# a close crop of the panel for the review
 		var sc := float(img.get_width()) / root.get_visible_rect().size.x
 		var r := Rect2i(Vector2i(muster.global_position * sc) - Vector2i(8, 16), Vector2i(muster.size * sc) + Vector2i(16, 24))
 		r = r.intersection(Rect2i(Vector2i.ZERO, img.get_size()))
 		img.get_region(r).save_png(ProjectSettings.globalize_path(out.path_join("%s/%s_panel.png" % [res, screen])))
 	var gh: Node = level.get(&"hud")
+	if pad:   # the token tooltip is a transient hover panel (checked by test_ws_ui); keep it out of the layout checks
+		(hud.get(&"pad_overlay") as Control).set(&"tip_rows", [])
+		(hud.get(&"pad_overlay") as Control).queue_redraw()
+		await _frames(2)
 	var controls := UILabChecks.visible_controls(hud)
 	var all := controls.duplicate()
 	all.append_array(UILabChecks.visible_controls(gh))
@@ -188,7 +216,51 @@ func _shot(report: UILabReport, screen: String, res: String, k: StringName, out:
 	if img != null:
 		report.add_items(screen, res, "icons", UILabChecks.find_low_contrast_icons(controls, img))
 	report.add_items(screen, res, "edge", UILabChecks.find_edge_crowding(controls, screen_rect))
+	if pad:
+		var pv: MusterPadView = hud.get(&"pad_view")
+		report.notes.append("%s %s: %d tokens on the pad, held %d" % [screen, res, pv.token_count(), pv.held])
 	print("WS UI LAB: %s @ %s (%s): %d controls, card 1 at %s, roster %s, level %s" % [screen, res, lang, controls.size(),
 			card.global_position, roster.kingdom, level.get(&"player_kingdom")])
 	level.queue_free()
 	await _frames(4)
+
+
+## The pad shot's army: a Line of shields, archers, casters, riders on the wings, ranks, upgrades and Armoury levels,
+## the camera behind the pad (P) and one token hovered (model ghost + tooltip).
+func _pad_army(level: Node, hud: Node, roster: MusterRoster, bank: WaveBank) -> void:
+	roster.tier = 3
+	bank.refund(20000)
+	roster.rules.field_cap = 200
+	var ids := roster.card_ids()
+	var plan := {0: 8, 1: 4, 2: 6, 3: 3, 4: 4, 5: 3, 6: 2, 7: 2, 8: 1}
+	for i: int in plan:
+		if i < ids.size():
+			for n in int(plan[i]):
+				roster.buy(ids[i])
+	roster.rank_up(ids[0])
+	roster.rank_up(ids[0])
+	roster.rank_up(ids[2])
+	roster.buy_upgrade(ids[0], 0)
+	roster.buy_upgrade(ids[2], 0)
+	roster.buy_upgrade(ids[4], 1)
+	roster.armoury_buy(&"weapons")
+	roster.armoury_buy(&"armour")
+	roster.armoury_buy(&"armour")
+	roster.pad.auto_arrange(&"line")
+	# one copy moved after the last horn (hourglass), then the camera to the pad
+	var pv: MusterPadView = hud.get(&"pad_view")
+	pv.take_snapshot()
+	var c := roster.pad.cells_of(ids[1])
+	if not c.is_empty():
+		roster.pad.move(c[c.size() - 1], Vector2i(7, 11))
+	hud.call(&"toggle_pad_camera")
+	await _frames(60)
+	var input: MusterPadInput = hud.get(&"pad_input")
+	var t := roster.pad.cells_of(ids[2])
+	if not t.is_empty():
+		var sp := input.cell_screen(t[mini(3, t.size() - 1)], 1)
+		var ev := InputEventMouseMotion.new()
+		ev.position = sp
+		ev.global_position = sp
+		root.push_input(ev, true)
+	await _frames(40)

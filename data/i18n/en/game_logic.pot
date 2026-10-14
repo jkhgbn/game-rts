@@ -470,11 +470,6 @@ msgstr ""
 msgid "Every Wildwood Archer trained brings a second one for free (needs 1 free pop). Needs Heartseeker Points."
 msgstr ""
 
-#. const REASON_UNKNOWN := "Unknown upgrade"
-#: scripts/units/bowman_upgrades.gd:46
-msgid "Unknown upgrade"
-msgstr ""
-
 #. const REASON_HALL := "Needs a completed Hall of your kingdom"
 #: scripts/units/bowman_upgrades.gd:50
 msgid "Needs a completed Hall of your kingdom"
@@ -601,7 +596,7 @@ msgid "Out of range"
 msgstr ""
 
 #. const REASON_NO_TARGET := "No target"
-#: scripts/units/caster_kit.gd:99 scripts/units/helper_abilities.gd:126
+#: scripts/units/caster_kit.gd:99 scripts/units/helper_abilities.gd:131
 msgid "No target"
 msgstr ""
 
@@ -791,12 +786,12 @@ msgid "Invalid stance"
 msgstr ""
 
 #. return "Unknown ability"
-#: scripts/units/helper_abilities.gd:112
+#: scripts/units/helper_abilities.gd:117
 msgid "Unknown ability"
 msgstr ""
 
 #. return "Requires level %d" % helper.helper_type.signature_level
-#: scripts/units/helper_abilities.gd:114
+#: scripts/units/helper_abilities.gd:119
 msgid "Requires level %d"
 msgstr ""
 

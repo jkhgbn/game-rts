@@ -36,6 +36,8 @@ const SAVE_METAS := {
 	"ws_seat": "Wave Strike seat of a lane unit",
 	"scripted": "MissionBase.mark_scripted: the Commander leaves this node alone (group is saved too)",
 	"e6_armed": "MissionE6Base.arm_enemy ran on this unit: a load re-arms only those (Breaker x2 hook, scale; C5-4)",
+	"ws_up_mask": "Wave Strike lane unit: card upgrades it spawned with (save_spawn_unit re-applies ws_up:*; WS4.C2)",
+	"ws_arm": "Wave Strike lane unit: Armoury levels it spawned with (save_spawn_unit re-applies ws_armoury; WS4.C2)",
 	# mission framework (MissionBase: 'their metas travel with the units'; times are mission_time(), which is saved)
 	"mission_seat": "MissionBase seat of a node",
 	"mission_home": "MissionBase home point of a mission unit",

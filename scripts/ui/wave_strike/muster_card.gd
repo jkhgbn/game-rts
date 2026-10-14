@@ -4,9 +4,11 @@ extends Button
 ## `_draw` (frame with the kingdom rim, art slot, key badge, role tag, price / pop / copies, rank pips) plus one Label for
 ## the 2-line name (autowrap, shrinks to font 10, then ellipsis). The panel feeds it with `set_data(d)` every refresh
 ## and triggers the small animations (buy pulse, rank-up pop, sell, refusal shake, tier-open flash).
-## Mouse: left = buy, Ctrl+left = rank up, Alt+left / right = sell -> signal `action(slot, kind)`.
+## Mouse: left = buy, Ctrl+left = rank up, Alt+left / right = sell, Shift+left = upgrade A, Shift+Ctrl+left = upgrade
+## B, Shift+Alt+left = cancel the last upgrade (5 s), a click on an upgrade pip = buy that one (8.1, WS4.U1) -> signal
+## `action(slot, kind)`.
 
-signal action(slot: int, kind: StringName)   ## kind: &"buy" / &"rank" / &"sell"
+signal action(slot: int, kind: StringName)   ## kind: &"buy" / &"rank" / &"sell" / &"up_a" / &"up_b" / &"up_cancel"
 
 const SIZE := Vector2(72, 118)
 const ART := Rect2(4, 4, 64, 64)
@@ -19,10 +21,16 @@ const FLOAT_TIME := 0.6
 const OPEN_TIME := 0.4
 const HOVER_FADE := 0.08
 const LOCK_FADE := 0.3
+## Upgrade pips A / B (8.1): 6 x 6 squares at (30, 110) / (38, 110).
+const PIPS: Array[Rect2] = [Rect2(30, 107, 6, 6), Rect2(38, 107, 6, 6)]
+const UP_TIME := 0.5
+const UP_RIM_TIME := 0.4
+const PIP_TIP := "#pip:"   ## _get_tooltip marker: the hovered pip's own rows
 
 var slot := 0
 ## Data from the panel: id, name, abbrev, icon, key, role, price, pop, count, max, rank, why, locked, empty,
-## crystals_short, supply_short, maxed, tip (Array of [text, color, size]), role_tip.
+## crystals_short, supply_short, maxed, tip (Array of [text, color, size]), role_tip, ups (A / B: [{state &"bought" /
+## &"available" / &"locked", window (s left to cancel), tip rows}]).
 var data: Dictionary = {}
 var name_label: Label
 
@@ -40,6 +48,9 @@ var _right_down := false
 var _shown_name := ""
 var _frames: Dictionary = {}
 var _skin := -1
+var _up_t: Array[float] = [0.0, 0.0]   ## pip pop per slot
+var _up_rim := 0.0
+var _float_size := 12
 static var _art_bg: Dictionary = {}   ## skin_version -> GradientTexture2D
 
 
@@ -131,15 +142,37 @@ func play_open() -> void:
 	_open_t = OPEN_TIME
 
 
-func _start_float(text: String, col: Color) -> void:
+## Upgrade `slot` bought (8.1): the pip pops trim_glow -> GOLD, the rim goes GOLD 0.4 s, the name floats up.
+func play_upgrade(slot: int, up_name: String) -> void:
+	_up_t[clampi(slot, 0, 1)] = UP_TIME
+	_up_rim = UP_RIM_TIME
+	_start_float(up_name, UIStyle.GOLD, 11)
+
+
+## An upgrade cancelled inside the window: the refund floats.
+func play_upgrade_cancel(refund: int) -> void:
+	_start_float("+%d" % refund, UIStyle.CRYSTAL_TEXT)
+
+
+func _start_float(text: String, col: Color, fs := 12) -> void:
 	_float_t = FLOAT_TIME
 	_float_text = text
 	_float_color = col
+	_float_size = fs
 
 
 ## True while any of the small animations runs (tests).
 func is_animating() -> bool:
-	return _buy_t > 0.0 or _sell_t > 0.0 or _rank_t > 0.0 or _shake_t > 0.0 or _open_t > 0.0 or _float_t > 0.0
+	return _buy_t > 0.0 or _sell_t > 0.0 or _rank_t > 0.0 or _shake_t > 0.0 or _open_t > 0.0 or _float_t > 0.0 \
+			or _up_t[0] > 0.0 or _up_t[1] > 0.0 or _up_rim > 0.0
+
+
+## True while an upgrade of this card can still be cancelled (its pip blinks).
+func in_cancel_window() -> bool:
+	for u: Dictionary in data.get("ups", []):
+		if float(u.get("window", 0.0)) > 0.0:
+			return true
+	return false
 
 
 func _process(delta: float) -> void:
@@ -149,6 +182,9 @@ func _process(delta: float) -> void:
 	_rank_t = maxf(0.0, _rank_t - delta)
 	_shake_t = maxf(0.0, _shake_t - delta)
 	_float_t = maxf(0.0, _float_t - delta)
+	_up_t[0] = maxf(0.0, _up_t[0] - delta)
+	_up_t[1] = maxf(0.0, _up_t[1] - delta)
+	_up_rim = maxf(0.0, _up_rim - delta)
 	if _open_t > 0.0:
 		_open_t = maxf(0.0, _open_t - delta)
 	var want_lock := 1.0 if bool(data.get("locked", false)) else 0.0
@@ -159,7 +195,7 @@ func _process(delta: float) -> void:
 	var hover_moving := not is_equal_approx(_hover, hv)
 	if hover_moving:
 		_hover = move_toward(_hover, hv, delta / HOVER_FADE)
-	if busy or lock_moving or hover_moving or is_pressed() or _right_down:
+	if busy or lock_moving or hover_moving or is_pressed() or _right_down or in_cancel_window():
 		queue_redraw()
 
 
@@ -174,7 +210,16 @@ func _on_gui_input(ev: InputEvent) -> void:
 			action.emit(slot, &"sell")
 			accept_event()
 	elif mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
-		if mb.ctrl_pressed:
+		var pip := pip_at(mb.position)
+		if mb.shift_pressed and mb.ctrl_pressed:
+			action.emit(slot, &"up_b")
+		elif mb.shift_pressed and mb.alt_pressed:
+			action.emit(slot, &"up_cancel")
+		elif mb.shift_pressed:
+			action.emit(slot, &"up_a")
+		elif pip >= 0:
+			action.emit(slot, &"up_a" if pip == 0 else &"up_b")
+		elif mb.ctrl_pressed:
 			action.emit(slot, &"rank")
 		elif mb.alt_pressed:
 			action.emit(slot, &"sell")
@@ -227,7 +272,9 @@ func _rim_and_state() -> Array:
 	if is_pressed() or _right_down:
 		state = &"pressed"
 		rim = UIStyle.token(&"frame_dark")
-		if _right_down or Input.is_key_pressed(KEY_ALT):
+		if Input.is_key_pressed(KEY_SHIFT):
+			rim = UIStyle.GOLD
+		elif _right_down or Input.is_key_pressed(KEY_ALT):
 			rim = UIStyle.WARN
 		elif Input.is_key_pressed(KEY_CTRL):
 			rim = UIStyle.GOLD
@@ -243,6 +290,8 @@ func _rim_and_state() -> Array:
 		rim = rim.lerp(UIStyle.WARN, _sell_t / BUY_TIME)
 	if _rank_t > 0.0:
 		rim = rim.lerp(UIStyle.GOLD, clampf(_rank_t / RANK_TIME * 1.5, 0.0, 1.0))
+	if _up_rim > 0.0:
+		rim = rim.lerp(UIStyle.GOLD, clampf(_up_rim / UP_RIM_TIME * 1.5, 0.0, 1.0))
 	return [state, rim]
 
 
@@ -264,11 +313,17 @@ func _draw() -> void:
 	_draw_role(font)
 	_draw_numbers()
 	_draw_pips()
+	_draw_up_pips()
 	if _float_t > 0.0:
 		var k := 1.0 - _float_t / FLOAT_TIME
 		var fy := 52.0 - 16.0 * k
-		draw_string_outline(font, Vector2(46, fy), _float_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0, 0, 0, 1.0 - k))
-		draw_string(font, Vector2(46, fy), _float_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(_float_color, 1.0 - k))
+		var fx := 46.0
+		if _float_size != 12:   # an upgrade name: centred over the card
+			fx = 36.0 - font.get_string_size(_float_text, HORIZONTAL_ALIGNMENT_LEFT, -1, _float_size).x * 0.5
+		draw_string_outline(font, Vector2(fx, fy), _float_text, HORIZONTAL_ALIGNMENT_LEFT, -1, _float_size, 3,
+				Color(0, 0, 0, 1.0 - k))
+		draw_string(font, Vector2(fx, fy), _float_text, HORIZONTAL_ALIGNMENT_LEFT, -1, _float_size,
+				Color(_float_color, 1.0 - k))
 
 
 func _draw_art(off: Vector2) -> void:
@@ -391,6 +446,43 @@ func _draw_pips() -> void:
 		_diamond(c, half, UIStyle.GOLD if filled else Color(0.3, 0.3, 0.3))
 
 
+## Upgrade pips A / B (8.1): squares; bought = GOLD (pops after a buy, blinks in the cancel window), available =
+## frame_light outline on panel_inner, locked (tier) = grey outline.
+func _draw_up_pips() -> void:
+	var ups: Array = data.get("ups", [])
+	for j in mini(2, ups.size()):
+		var u: Dictionary = ups[j]
+		var r := PIPS[j]
+		var st := StringName(u.get("state", &"locked"))
+		if _up_t[j] > 0.0:
+			var k := 1.0 - _up_t[j] / UP_TIME
+			var sc := 1.0 + 0.8 * sin(k * PI)
+			r = Rect2(r.get_center() - r.size * sc * 0.5, r.size * sc)
+		match st:
+			&"bought":
+				var col := UIStyle.GOLD
+				if _up_t[j] > 0.0:
+					col = UIStyle.token(&"trim_glow").lerp(UIStyle.GOLD, 1.0 - _up_t[j] / UP_TIME)
+				elif float(u.get("window", 0.0)) > 0.0:
+					col.a = 0.75 + 0.25 * sin(Time.get_ticks_msec() / 1000.0 * TAU * 2.0)
+				draw_rect(r, col)
+			&"available":
+				draw_rect(r, UIStyle.token(&"panel_inner"))
+				draw_rect(r.grow(-0.5), UIStyle.token(&"frame_light"), false, 1.0)
+			_:
+				draw_rect(r.grow(-0.5), Color(0.3, 0.3, 0.3), false, 1.0)
+
+
+## The upgrade pip under `p` (0 = A, 1 = B, -1 = none; a 2 px margin).
+func pip_at(p: Vector2) -> int:
+	if (data.get("ups", []) as Array).is_empty():
+		return -1
+	for j in 2:
+		if PIPS[j].grow(2.0).has_point(p):
+			return j
+	return -1
+
+
 func _diamond(c: Vector2, half: float, col: Color) -> void:
 	draw_colored_polygon(PackedVector2Array([c + Vector2(0, -half), c + Vector2(half, 0), c + Vector2(0, half),
 			c + Vector2(-half, 0)]), col)
@@ -411,6 +503,11 @@ func _plain_tip() -> String:
 
 
 func _get_tooltip(at_position: Vector2) -> String:
+	var pip := pip_at(at_position)
+	if pip >= 0:
+		var rows: Array = (data["ups"] as Array)[pip].get("tip", [])
+		if not rows.is_empty():
+			return PIP_TIP + str(pip)
 	var rt := String(data.get("role_tip", ""))
 	if rt != "" and role_rect().grow(1.0).has_point(at_position):
 		return rt
@@ -420,6 +517,9 @@ func _get_tooltip(at_position: Vector2) -> String:
 func _make_custom_tooltip(for_text: String) -> Object:
 	if for_text == "":
 		return null
+	if for_text.begins_with(PIP_TIP):
+		var pip := int(for_text.substr(PIP_TIP.length()))
+		return MusterCard.tip_panel((data["ups"] as Array)[pip].get("tip", []))
 	if for_text == String(data.get("role_tip", "")) and for_text != tooltip_text:
 		return MusterCard.tip_panel([[for_text, UIStyle.token(&"text"), 13]])
 	return MusterCard.tip_panel(data.get("tip", []))

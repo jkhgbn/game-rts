@@ -91,7 +91,7 @@ msgid "Speed"
 msgstr ""
 
 #. ["range", "Range", false], ["speed", "Speed", false], ["armor", "Armour", false],
-#: scripts/ui/menus/unit_guide.gd:26
+#: scripts/ui/menus/unit_guide.gd:26 scripts/ui/wave_strike/ws_upgrade_text.gd:108
 msgid "Armour"
 msgstr ""
 
@@ -164,7 +164,7 @@ msgstr ""
 #. back_button = _button(row, "Back", 140)
 #: scripts/ui/menus/unit_guide.gd:336 scripts/ui/menus/main_menu.gd:806
 #: scripts/ui/menus/main_menu.gd:897 scripts/ui/menus/pause_menu.gd:269
-#: scripts/ui/menus/settings_panel.gd:110 scripts/ui/wave_strike/wave_strike_lobby.gd:119
+#: scripts/ui/menus/settings_panel.gd:113 scripts/ui/wave_strike/wave_strike_lobby.gd:119
 msgid "Back"
 msgstr ""
 
@@ -472,6 +472,7 @@ msgstr ""
 
 #. out.append({"name": String(ab).capitalize(), "key": "Auto",
 #: scripts/ui/menus/unit_guide_data.gd:319 scripts/ui/menus/unit_guide_data.gd:337
+#: scripts/ui/menus/settings_panel.gd:401
 msgid "Auto"
 msgstr ""
 

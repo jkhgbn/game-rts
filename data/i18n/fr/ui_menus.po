@@ -6,32 +6,32 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:73
+#: scripts/ui/menus/game_settings.gd:76
 msgid "Off (native)"
 msgstr "Désactivé (natif)"
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:73
+#: scripts/ui/menus/game_settings.gd:76
 msgid "FSR 1 (fast)"
 msgstr "FSR 1 (rapide)"
 
 #. const UPSCALER_NAMES: Array[String] = ["Off (native)", "FSR 1 (fast)", "FSR 2 (best quality)"]
-#: scripts/ui/menus/game_settings.gd:73
+#: scripts/ui/menus/game_settings.gd:76
 msgid "FSR 2 (best quality)"
 msgstr "FSR 2 (meilleure qualité)"
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:86
+#: scripts/ui/menus/game_settings.gd:89
 msgid "Classic"
 msgstr "Classique"
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:86
+#: scripts/ui/menus/game_settings.gd:89
 msgid "Hero WASD"
 msgstr "Héros WASD"
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:86 scripts/ui/menus/settings_panel.gd:373
+#: scripts/ui/menus/game_settings.gd:89 scripts/ui/menus/settings_panel.gd:380
 msgid "RTS camera (WASD)"
 msgstr "Caméra libre (WASD)"
 
@@ -405,7 +405,8 @@ msgid "Skirmish 1v1"
 msgstr "Escarmouche 1v1"
 
 #. wave_strike_button = _menu_button(box, "Wave Strike")
-#: scripts/ui/menus/main_menu.gd:679 scripts/ui/wave_strike/wave_strike_lobby.gd:51
+#: scripts/ui/menus/main_menu.gd:679 scripts/ui/menus/settings_panel.gd:396
+#: scripts/ui/wave_strike/wave_strike_lobby.gd:51
 msgid "Wave Strike"
 msgstr "Wave Strike"
 
@@ -426,7 +427,7 @@ msgstr "Toutes les unités des quatre royaumes : stats, capacités, forces et f
 
 #. settings_button = _menu_button(box, "Settings")
 #: scripts/ui/menus/main_menu.gd:687 scripts/ui/menus/pause_menu.gd:57
-#: scripts/ui/menus/settings_panel.gd:67
+#: scripts/ui/menus/settings_panel.gd:69
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -677,189 +678,204 @@ msgid "Mission 1"
 msgstr "Mission 1"
 
 #. return Loc.t("%s: walk your wizard (camera follows)  ·  %s + click: attack-move") % [
-#: scripts/ui/menus/settings_panel.gd:171
+#: scripts/ui/menus/settings_panel.gd:176
 msgid "%s: walk your wizard (camera follows)  ·  %s + click: attack-move"
 msgstr "%s : déplacer votre sorcier (la caméra suit)  ·  %s + clic : attaque-déplacement"
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster
-#: scripts/ui/menus/settings_panel.gd:174
+#: scripts/ui/menus/settings_panel.gd:179
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster)"
 msgstr "Clic droit : déplace votre sorcier  ·  %s + clic : attaque-déplacement  ·  %s / flèches : caméra (Maj : plus vite)"
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera") % KeyLabels.of(KE
-#: scripts/ui/menus/settings_panel.gd:176
+#: scripts/ui/menus/settings_panel.gd:181
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera"
 msgstr "Clic droit : déplace votre sorcier  ·  %s + clic : attaque-déplacement  ·  Flèches : caméra"
 
 #. return Loc.t("Classic: like most strategy games, right click moves your wizard and %s + click "
-#: scripts/ui/menus/settings_panel.gd:182
+#: scripts/ui/menus/settings_panel.gd:187
 msgid "Classic: like most strategy games, right click moves your wizard and %s + click attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.\nRTS camera (WASD): right click moves your wizard, %s move the camera (Shift = faster), %s + click attack-moves."
 msgstr "Classique : comme la plupart des jeux de stratégie, le clic droit déplace votre sorcier et %s + clic fait une attaque-déplacement.\nHéros WASD : %s déplacent votre sorcier, %s + clic fait une attaque-déplacement.\nCaméra libre (WASD) : le clic droit déplace votre sorcier, %s déplacent la caméra (Maj = plus vite), %s + clic fait une attaque-déplacement."
 
 #. var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t el
-#: scripts/ui/menus/settings_panel.gd:490 scripts/ui/champion_bar.gd:62
+#: scripts/ui/menus/settings_panel.gd:515 scripts/ui/champion_bar.gd:62
 #: data/champion_classes/wizard.tres:8
 msgid "Wizard"
 msgstr "Sorcier"
 
 #. const PLAYTEST_TEXT := "Help improve the game: record my playtest to a local file"
-#: scripts/ui/menus/settings_panel.gd:27
+#: scripts/ui/menus/settings_panel.gd:29
 msgid "Help improve the game: record my playtest to a local file"
 msgstr "Aider à améliorer le jeu : enregistrer mes parties localement"
 
 #. const PLAYTEST_HINT := ("Off by default. When on, each match saves a small timeline (times, resources, orders,
-#: scripts/ui/menus/settings_panel.gd:28
+#: scripts/ui/menus/settings_panel.gd:30
 msgid "Off by default. When on, each match saves a small timeline (times, resources, orders, frame rate) to a file on this computer only. No names or personal data, nothing is sent anywhere."
 msgstr "Désactivé par défaut. Activé, chaque partie enregistre une petite chronologie (temps, ressources, ordres, images/s) dans un fichier sur cet ordinateur seulement. Aucun nom ni donnée personnelle, rien n'est envoyé."
 
 #. const MAP_DETAIL_HINT := "Applies from the next match. Deer and rabbits stay on every setting."
-#: scripts/ui/menus/settings_panel.gd:33
+#: scripts/ui/menus/settings_panel.gd:35
 msgid "Applies from the next match. Deer and rabbits stay on every setting."
 msgstr "S'applique dès la prochaine partie. Cerfs et lapins restent à tous les réglages."
 
 #. const UPSCALER_TOOLTIP := ("Draws the 3D at a lower resolution, then upscales it: higher frame rate.\n"
-#: scripts/ui/menus/settings_panel.gd:34
+#: scripts/ui/menus/settings_panel.gd:36
 msgid "Draws the 3D at a lower resolution, then upscales it: higher frame rate.\nFSR 1: fast, a bit soft. FSR 2: sharper, with its own anti-aliasing (best on a good GPU).\nRender scale: 67 % = Quality, 77 % = Ultra Quality. FSR 2 at 100 % = native with better anti-aliasing."
 msgstr "Dessine la 3D à une résolution plus basse, puis l'agrandit : plus d'images par seconde.\nFSR 1 : rapide, un peu flou. FSR 2 : plus net, avec son propre anticrénelage (idéal avec une bonne carte graphique).\nÉchelle de rendu : 67 % = Qualité, 77 % = Ultra qualité. FSR 2 à 100 % = natif avec un meilleur anticrénelage."
 
 #. const MAP_DETAIL_TOOLTIP := ("High: full plants and flowers, birds, butterflies and frogs, animated water.\n"
-#: scripts/ui/menus/settings_panel.gd:37
+#: scripts/ui/menus/settings_panel.gd:39
 msgid "High: full plants and flowers, birds, butterflies and frogs, animated water.\nLow: half the plants, no small animals, simpler water."
 msgstr "Élevé : plantes et fleurs complètes, oiseaux, papillons et grenouilles, eau animée.\nBas : moitié moins de plantes, pas de petits animaux, eau plus simple."
 
 #. master_slider = _slider_row(box, "Master volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:87
+#: scripts/ui/menus/settings_panel.gd:89
 msgid "Master volume"
 msgstr "Volume principal"
 
 #. music_slider = _slider_row(box, "Music volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:88
+#: scripts/ui/menus/settings_panel.gd:90
 msgid "Music volume"
 msgstr "Volume musique"
 
 #. sfx_slider = _slider_row(box, "Effects volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:89
+#: scripts/ui/menus/settings_panel.gd:91
 msgid "Effects volume"
 msgstr "Volume effets"
 
 #. scale_slider = _slider_row(box, "UI scale", GameSettings.UI_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:90
+#: scripts/ui/menus/settings_panel.gd:92
 msgid "UI scale"
 msgstr "Taille de l'interface"
 
 #. fullscreen_check = _check_row(box, "Fullscreen")
-#: scripts/ui/menus/settings_panel.gd:92
+#: scripts/ui/menus/settings_panel.gd:94
 msgid "Fullscreen"
 msgstr "Plein écran"
 
 #. edge_pan_check = _check_row(box, "Scroll at screen edge")
-#: scripts/ui/menus/settings_panel.gd:93
+#: scripts/ui/menus/settings_panel.gd:95
 msgid "Scroll at screen edge"
 msgstr "Défilement au bord de l'écran"
 
 #. render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:98
+#: scripts/ui/menus/settings_panel.gd:101
 msgid "Render scale"
 msgstr "Échelle de rendu"
 
 #. var name_label := UIStyle.label("Language", 18)
-#: scripts/ui/menus/settings_panel.gd:203
+#: scripts/ui/menus/settings_panel.gd:208
 msgid "Language"
 msgstr "Langue"
 
 #. language_option.tooltip_text = "Game language (voices stay in English; subtitles follow the language)."
-#: scripts/ui/menus/settings_panel.gd:213
+#: scripts/ui/menus/settings_panel.gd:218
 msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr "Langue du jeu (les voix restent en anglais; les sous-titres suivent la langue)."
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:365 scripts/ui/hud.gd:166
+#: scripts/ui/menus/settings_panel.gd:372 scripts/ui/hud.gd:166
 msgid "Controls"
 msgstr "Commandes"
 
 #. controls_option.add_item("Classic (right click moves)", GameSettings.CONTROLS_CLASSIC)
-#: scripts/ui/menus/settings_panel.gd:371
+#: scripts/ui/menus/settings_panel.gd:378
 msgid "Classic (right click moves)"
 msgstr "Classique (clic droit pour bouger)"
 
 #. controls_option.add_item("Hero WASD (keys walk the wizard)", GameSettings.CONTROLS_HERO_WASD)
-#: scripts/ui/menus/settings_panel.gd:372
+#: scripts/ui/menus/settings_panel.gd:379
 msgid "Hero WASD (keys walk the wizard)"
 msgstr "Héros WASD (touches pour le sorcier)"
 
+#. var name_label := UIStyle.label("Place on buy", 18)
+#: scripts/ui/menus/settings_panel.gd:394
+msgid "Place on buy"
+msgstr "Pose à l'achat"
+
+#. place_option.add_item("Manual", 1)
+#: scripts/ui/menus/settings_panel.gd:402
+msgid "Manual"
+msgstr "Manuelle"
+
+#. place_option.tooltip_text = "Auto: new copies fill the Line formation, drag to fix · Manual: every buy shows a
+#: scripts/ui/menus/settings_panel.gd:403 scripts/ui/wave_strike/muster_panel.gd:672
+msgid "Auto: new copies fill the Line formation, drag to fix · Manual: every buy shows a ghost on the pad"
+msgstr "Auto : les nouvelles unités remplissent la formation en ligne, glissez pour corriger · Manuelle : chaque achat montre un fantôme sur le plateau"
+
 #. var name_label := UIStyle.label("Unit priority", 18)
-#: scripts/ui/menus/settings_panel.gd:395
+#: scripts/ui/menus/settings_panel.gd:420
 msgid "Unit priority"
 msgstr "Priorité des unités"
 
 #. name_label.tooltip_text = "Tab order of unit types in a selection; the first one is active first."
-#: scripts/ui/menus/settings_panel.gd:397
+#: scripts/ui/menus/settings_panel.gd:422
 msgid "Tab order of unit types in a selection; the first one is active first."
 msgstr "Ordre Tab des types d'unités dans une sélection; le premier est actif en premier."
 
 #. priority_kingdom.tooltip_text = "The kingdom whose unit order is shown."
-#: scripts/ui/menus/settings_panel.gd:402
+#: scripts/ui/menus/settings_panel.gd:427
 msgid "The kingdom whose unit order is shown."
 msgstr "Le royaume dont l'ordre des unités est affiché."
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:408 scripts/ui/menus/settings_panel.gd:411
+#: scripts/ui/menus/settings_panel.gd:433 scripts/ui/menus/settings_panel.gd:436
 msgid "Show"
 msgstr "Afficher"
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:408
+#: scripts/ui/menus/settings_panel.gd:433
 msgid "Show / hide the list (Tab cycles unit types in this order)"
 msgstr "Afficher ou masquer la liste (Tab parcourt les types d'unités dans cet ordre)"
 
 #. priority_toggle.text = "Hide" if priority_list.visible else "Show")
-#: scripts/ui/menus/settings_panel.gd:411
+#: scripts/ui/menus/settings_panel.gd:436
 msgid "Hide"
 msgstr "Masquer"
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:412
+#: scripts/ui/menus/settings_panel.gd:437
 msgid "Reset"
 msgstr "Rétablir"
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:412
+#: scripts/ui/menus/settings_panel.gd:437
 msgid "Default order: wizard, dearest soldiers first, workers last"
 msgstr "Ordre par défaut : sorcier, soldats les plus chers d'abord, ouvriers en dernier"
 
 #. var up := _small_button(row, "+", "Higher priority")
-#: scripts/ui/menus/settings_panel.gd:493
+#: scripts/ui/menus/settings_panel.gd:518
 msgid "Higher priority"
 msgstr "Priorité plus haute"
 
 #. var down := _small_button(row, "−", "Lower priority")
-#: scripts/ui/menus/settings_panel.gd:496
+#: scripts/ui/menus/settings_panel.gd:521
 msgid "Lower priority"
 msgstr "Priorité plus basse"
 
 #. var name_label := UIStyle.label("Map detail", 18)
-#: scripts/ui/menus/settings_panel.gd:506
+#: scripts/ui/menus/settings_panel.gd:531
 msgid "Map detail"
 msgstr "Détail de la carte"
 
 #. map_detail_option.add_item("High", 0)
-#: scripts/ui/menus/settings_panel.gd:512
+#: scripts/ui/menus/settings_panel.gd:537
 msgid "High"
 msgstr "Élevé"
 
 #. map_detail_option.add_item("Low (faster)", 1)
-#: scripts/ui/menus/settings_panel.gd:513
+#: scripts/ui/menus/settings_panel.gd:538
 msgid "Low (faster)"
 msgstr "Bas (plus rapide)"
 
 #. var name_label := UIStyle.label("Upscaler", 18)
-#: scripts/ui/menus/settings_panel.gd:527
+#: scripts/ui/menus/settings_panel.gd:552
 msgid "Upscaler"
 msgstr "Mise à l'échelle"
 
-#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
-#: scripts/ui/menus/unit_guide_data.gd:444
-#~ msgid "any army"
+#. _add(out, seen, T3Kit.GENIE_ID, "unit", NEUTRAL, "%s (Wonders)" % TAVERN)
+#: scripts/ui/menus/unit_guide_data.gd:97
+#~ msgid "%s (Wonders)"
 #~ msgstr ""
 
 #. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
@@ -997,11 +1013,6 @@ msgstr "Mise à l'échelle"
 #. ["sight", "Sight", false], ["cooldown", "Attack every", true], ["ehp", "Effective HP", false],
 #: scripts/ui/menus/unit_guide.gd:27
 #~ msgid "Sight"
-#~ msgstr ""
-
-#. role_select.add_item("All roles")
-#: scripts/ui/menus/unit_guide.gd:333
-#~ msgid "All roles"
 #~ msgstr ""
 
 #. var back := _menu_button(actions, "Back")
@@ -1149,9 +1160,9 @@ msgstr "Mise à l'échelle"
 #~ msgid "Crystals"
 #~ msgstr ""
 
-#. _add(out, seen, T3Kit.GENIE_ID, "unit", NEUTRAL, "%s (Wonders)" % TAVERN)
-#: scripts/ui/menus/unit_guide_data.gd:97
-#~ msgid "%s (Wonders)"
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:444
+#~ msgid "any army"
 #~ msgstr ""
 
 #. ["range", "Range", false], ["speed", "Speed", false], ["armor", "Armour", false],
@@ -1289,6 +1300,11 @@ msgstr "Mise à l'échelle"
 #. pc.add_child(_list_column("Pros", e["pros"], PRO_COLOR, "+"))
 #: scripts/ui/menus/unit_guide.gd:605 scripts/ui/menus/unit_guide.gd:780
 #~ msgid "Pros"
+#~ msgstr ""
+
+#. role_select.add_item("All roles")
+#: scripts/ui/menus/unit_guide.gd:333
+#~ msgid "All roles"
 #~ msgstr ""
 
 #. _section(detail_box, "Stats")
