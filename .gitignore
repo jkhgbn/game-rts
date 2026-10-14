@@ -19,3 +19,7 @@ data/maps/gen/*_s[0-9]*_layout.tres
 !data/maps/gen/thornwater_s4.map
 art/blender/**/__pycache__/
 *.blend1
+
+# Music Forge: listening excerpts and scratch renders stay local (decisions 2026-10-14)
+docs/audio/listening_*/*.wav
+tools/music_forge/renders/*.wav

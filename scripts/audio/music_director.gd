@@ -128,6 +128,24 @@ static func ensure(tree: SceneTree) -> MusicDirector:
 	return _inst
 
 
+## Every music player (main + drive of both slots, the sting) back on the Music bus.
+func _assign_buses() -> void:
+	for s in _slots:
+		s.main.bus = &"Music"
+		s.drive.bus = &"Music"
+	_sting.bus = &"Music"
+
+
+## The buses of every music player (tests: all &"Music").
+func player_buses() -> Array[StringName]:
+	var out: Array[StringName] = []
+	for s in _slots:
+		out.append(s.main.bus)
+		out.append(s.drive.bus)
+	out.append(_sting.bus)
+	return out
+
+
 ## True when `<id>.wav` exists under MUSIC_DIR.
 static func has_track(id: StringName) -> bool:
 	return id != &"" and ResourceLoader.exists(MUSIC_DIR + String(id) + ".wav")
@@ -135,15 +153,20 @@ static func has_track(id: StringName) -> bool:
 
 func _init() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# The Music bus must exist before a player is told to use it: a missing bus reads back as Master (and plays
+	# there, so the Music slider would do nothing). GameSettings makes the buses; _ready sets them again.
+	GameSettings.ensure_buses()
 	_rng.randomize()
 	for i in 2:
 		var s := Slot.new()
-		s.main = AudioStreamPlayer.new()
-		s.main.bus = &"Music"
-		s.drive = AudioStreamPlayer.new()
-		s.drive.bus = &"Music"
-		add_child(s.main)
-		add_child(s.drive)
+		var main := AudioStreamPlayer.new()
+		main.bus = &"Music"
+		var drive := AudioStreamPlayer.new()
+		drive.bus = &"Music"
+		s.main = main
+		s.drive = drive
+		add_child(main)
+		add_child(drive)
 		_slots.append(s)
 	_sting = AudioStreamPlayer.new()
 	_sting.bus = &"Music"
@@ -151,6 +174,8 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	GameSettings.ensure_buses()
+	_assign_buses()
 	var events := get_node_or_null(^"/root/Events")
 	if events and events.has_signal(&"mission_ended"):
 		events.connect(&"mission_ended", _on_mission_ended)

@@ -23,9 +23,26 @@ var _time_before := 0.0
 var _sting_seen := false
 var _briefing: Node = null
 var _film: Node = null
+var _bus_fail := ""
 
 
 func _initialize() -> void:
+	# bare tree (no GameAudio, no GameSettings yet): ensure() must put every player on an existing Music bus
+	var had_bus := AudioServer.get_bus_index(&"Music") != -1
+	var d: Node = load("res://scripts/audio/music_director.gd").call(&"ensure", self)
+	var buses: Array = d.call(&"player_buses")
+	var idx := AudioServer.get_bus_index(&"Music")
+	for b: StringName in buses:
+		if b != &"Music" or idx == -1 or AudioServer.get_bus_index(b) != idx:
+			_bus_fail = "player bus %s (Music bus index %d, existed before: %s)" % [b, idx, had_bus]
+	if _bus_fail == "":
+		AudioServer.set_bus_mute(idx, true)   # the Music bus level reaches them: muting it mutes their bus
+		for b: StringName in buses:
+			if not AudioServer.is_bus_mute(AudioServer.get_bus_index(b)):
+				_bus_fail = "muting Music does not reach bus %s" % b
+		AudioServer.set_bus_mute(idx, false)
+	if _bus_fail == "":
+		print("  buses: %d music players on Music (bus existed before ensure: %s)" % [buses.size(), had_bus])
 	var menu: Node = load("res://scenes/ui/main_menu.tscn").instantiate()
 	root.add_child(menu)
 	current_scene = menu
@@ -33,6 +50,8 @@ func _initialize() -> void:
 
 func _process(_delta: float) -> bool:
 	frame += 1
+	if _bus_fail != "":
+		return _fail(_bus_fail)
 	if frame > TIMEOUT_FRAMES:
 		return _fail("timed out in phase %d" % _phase)
 	if md == null:
