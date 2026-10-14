@@ -43,3 +43,13 @@ H2 = Smoke Cloak 16 s / autocast at 2+ attackers (skirmish); I2 = Rime Bolt 55/7
 | Ice pairs TW | 18 | Ice 5 / 18 |
 Fire-Shadow 18 / 24 (round 1: 11 / 16) and Ice 12 / 36 = 33 % (round 1: 35 %): no gain within noise, so the patch is not
 applied. Next: a diagnosis of WHY Shadow and Ice lose at normal pace (game logs) before another knob.
+
+## Diagnosis levers (diagnosis.md), screens at normal pace (CI worktree, 69b0b985 + patch)
+| Change | Fire-Shadow normal (24) | Ice pairs normal (36) | Blitz Fire-Shadow (12) | Kept |
+|---|---|---|---|---|
+| Cause 1: Fireball 60/66/78 | Fire 17 / 24 | - | - | no (no gain) |
+| Causes 1 + 2 + 3 | Fire 18 / 24 | Ice 16 / 36 (44 %) | Shadow 9 / 12 (moved) | no |
+| **Cause 3 alone** (Shadow 7 home workers, Ice gets the Blitz aggression knobs; normal pace + normal difficulty only) | - | **Ice 15 / 36 (42 %)** | 6 / 12 (unchanged) | **yes** |
+Cause 2 (wizard retreat at 50 % without an escape) is built but OFF (AICasts.retreat_rule): it moved Blitz and did not help
+Fire-Shadow. Fire-Shadow at normal pace (~70 % Fire) is still open: Shadow needs a different lever (diagnosis: champions /
+worker raids decide normal games).

@@ -748,3 +748,13 @@ Built to the interface in `wave_formation.gd` (checked with the real class in `t
   `is_held()`, `is_locked()`, `is_released()`, `effects_applied`, static `march_speed(units, floor)`.
 - A hold never followed by `march` / `release` ends on its own after 30 s (`HOLD_MAX`) so a lost formation never parks units.
 - Save load (15.3 step 4): units re-made by `save_spawn_unit` are never held, so they march free as before; nothing to do.
+
+## B13 Cause 3 (ai-coder helper, 2026-10-14): PaceSwitch needs NO change
+- The diagnosis (docs/balance/b13_2026-10-13/diagnosis.md, Cause 3 b) asked you to make `PaceSwitch` skip Ice's
+  `BLITZ.ai_kingdom` knobs because `data/ai/ice_normal.tres` would carry them. It does not: `ice_normal.tres` is unchanged.
+  The normal-pace knobs live in `AIProfile.NORMAL_PACE_KNOBS` and are laid on only when no PaceSwitch is applied
+  (`AIProfile.for_faction(faction, difficulty, PaceSwitch.is_applied())` in `Commander._setup`). Under Fast / Blitz the
+  bot gets the old base profile and your patches exactly as before (tests/test_bal_cause3.gd checks all 4 kingdoms live).
+- So please do NOT skip / remove `BLITZ.ai_kingdom.ice` (that WOULD change Blitz Ice: ratio 0.936 -> 1.17, reserve 2).
+  Optional hardening only: writing the Ice block as absolute numbers (`attack_ratio 0.936`, `attack_ratio_floor 0.576`,
+  `min_attack_pop 6`, `attack_reserve 1`) gives the same values and no longer depends on the base.

@@ -18,7 +18,9 @@ extends Node
 ## ONE CASTING OWNER: Malrik's own 0.5 s loop (ShadowWizard._ai_cast_with_caster -> SpellCaster.suggest_cast,
 ## the spells.md rules 1-4) casts; the Commander never calls command_cast / auto_cast while that loop runs.
 ## The Commander's rule 8 matches it: its HEAL threshold (HERO_LOW) is rule 1's 35 %, so Shroud + the walk
-## home and the Commander's retreat send him the same way. If the wizard exposes `ai_auto_cast`
+## home and the Commander's retreat send him the same way. B13 Cause 2: without a ready slot-E escape and with a foe fighter
+## near, rule 8 sends him home from 50 % (AICasts.low_hp_line), around the foes (AICasts.retreat_point), and _cast_check
+## casts on the chasers first (AICasts.suggest_retreat_cast). Vessa keeps 35 %. If the wizard exposes `ai_auto_cast`
 ## (handoff for gameplay-coder), the Commander switches it off and becomes the only caster (_cast_check):
 ## same suggest_cast() rules, every 0.5 s, only after an enemy has stayed within 12 m for ai.reaction_delay.
 ## Items (items.md "The bot", task 4.A1): AIItems (ai_items.gd) buys the difficulty's build list near an own
@@ -275,6 +277,8 @@ var sub_usec_max := {}                    ## Read only (perf, 20.A3): named sub-
 var spells_learned: Array[String] = []    ## Read only: "Q1", "F2"... in the order the bot learned them.
 var casts_owned := false                  ## Read only: true = this Commander casts (Malrik's loop is off).
 var vessa_casts := {}                     ## Read only (8.A2): Vessa's accepted casts per AICasts rule ("cluster"...).
+var hero_retreats := 0                    ## Read only (B13 Cause 2): times rule 8 sent the wizard home hurt.
+var retreat_casts := 0                    ## Read only (B13 Cause 2): AICasts.suggest_retreat_cast casts on chasers.
 var items: AIItems                        ## Read only (4.A1): build list progress, purchases, item uses.
 var scout_goal := Vector3.INF             ## Read only (6.A1): where the scout is walking (INF = none).
 var scout_goals: Array[Vector3] = []      ## Read only (6.A1): every scouting point chosen so far.
@@ -716,7 +720,8 @@ func _setup() -> void:
 	_faction = _detect_faction(k)
 	faction = _faction
 	if profile == null and profile_id == &"":
-		ai = AIProfile.for_id(AIProfile.id_for_faction(_faction), int(difficulty))
+		# B13 Cause 3: the normal-pace kingdom knobs only when no Fast / Blitz PaceSwitch is applied (Blitz unchanged).
+		ai = AIProfile.for_faction(_faction, int(difficulty), PaceSwitch.is_applied())
 		_timer.wait_time = ai.decision_interval
 	for t in BuildingType.buildable_for(_faction):
 		_types[t.kind] = t
@@ -3074,6 +3079,10 @@ func _rule_wizard() -> void:
 		_log("WIZARD back, waits at the anchor")
 	var ratio := w.hp / maxf(w.max_hp, 1.0)
 	var home := _keep.drop_off_point() if _keep else _anchor
+	# B13 Cause 2: chasers (seen foe fighters near) raise the line to 50 % for a wizard without a ready escape and
+	# bend his walk home around them (Vessa keeps 35 % and the straight walk: her Ember Step does the escaping).
+	var chasers := _hero_chasers(w)
+	var vessa := AICasts.is_vessa(w)
 
 	if _hero_state == HeroState.HEAL:
 		if ratio >= HERO_OK or _now - _hero_since >= HERO_HEAL_MAX:
@@ -3081,15 +3090,16 @@ func _rule_wizard() -> void:
 			_log("WIZARD healed (%.0f %%)" % (ratio * 100.0))
 		else:
 			if _flat(w.global_position, home) > HERO_HOME:
-				_order_move(w, home)
+				_order_move(w, home if vessa else AICasts.retreat_point(w.global_position, home, chasers))
 			return
-	elif ratio < HERO_LOW:
+	elif ratio < AICasts.low_hp_line(w, not chasers.is_empty(), HERO_LOW):
 		_hero_state = HeroState.HEAL
 		_hero_since = _now
-		_log("WIZARD low (%.0f %%), goes home" % (ratio * 100.0))
+		hero_retreats += 1
+		_log("WIZARD low (%.0f %%), goes home%s" % [ratio * 100.0, "" if ratio < HERO_LOW else " (no escape ready)"])
 		if _cast_retreat_spell(w):
 			_log("WIZARD casts %s before the retreat" % ai.retreat_spell)
-		_order_move(w, home, 1.0)
+		_order_move(w, home if vessa else AICasts.retreat_point(w.global_position, home, chasers), 1.0)
 		_items_move_start()
 		return
 
@@ -3162,6 +3172,18 @@ func _rule_wizard() -> void:
 		return
 	if w.attack_target == null and _flat(w.global_position, _anchor) > HERO_ANCHOR_SLACK:
 		_order_move(w, _anchor)
+
+
+## B13 Cause 2: seen foe fighters (no workers) within AICasts.RETREAT_DANGER of the wizard (this tick's _enemies).
+func _hero_chasers(w: Wizard) -> Array[Unit]:
+	var out: Array[Unit] = []
+	if not AICasts.retreat_rule:
+		return out   # switch off: the pre-Cause-2 rule 8
+	for e in _enemies:
+		if e != null and is_instance_valid(e) and e.is_alive() and not e.is_worker() \
+				and _flat(e.global_position, w.global_position) <= AICasts.RETREAT_DANGER:
+			out.append(e)
+	return out
 
 
 ## ai.retreat_spell (Rime Aegis: self; Wild Bloom: an area centred on the wizard). False if not cast.
@@ -3494,6 +3516,21 @@ func _cast_check() -> void:
 		_threat_since = now
 	if now - _threat_since < ai.reaction_delay:
 		return
+	# B13 Cause 2: walking home hurt without a ready escape, the wizard first casts on his chasers.
+	if AICasts.retreat_rule and _hero_state == HeroState.HEAL and not is_scripted(w) and not AICasts.escape_ready(w):
+		var foes: Array[Unit] = []
+		for node in get_tree().get_nodes_in_group(&"units"):
+			var u := node as Unit
+			if u and u.is_alive() and _is_hostile_seat(int(u.team)) and w.is_enemy_of(u) \
+					and _flat(u.global_position, w.global_position) <= AICasts.RETREAT_DANGER \
+					and (_fog == null or _fog.is_visible(int(team), u.global_position)):
+				foes.append(u)
+		var r := AICasts.suggest_retreat_cast(w, foes)
+		if not r.is_empty() and w.command_cast(StringName(str(r["spell_id"])), r.get("target")) == "":
+			retreat_casts += 1
+			_orders.erase(w.get_instance_id())   # the cast may have stopped the walk: rule 8 re-sends it
+			_log("WIZARD casts %s on a chaser" % str(r["spell_id"]))
+			return
 	var s: Dictionary = w.spell_caster.call(&"suggest_cast")
 	if s.is_empty():
 		return

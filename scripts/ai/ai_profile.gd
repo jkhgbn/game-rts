@@ -137,6 +137,37 @@ enum MalrikJoins { NEVER, SECOND_ATTACK_OR_STRENGTH, EVERY_ATTACK }
 const PROFILE_IDS: Array[StringName] = [&"shadow_default", &"ice_default", &"nature_default", &"mission_01"]
 const DATA_PATH := "res://data/ai/%s.tres"
 const DIFFICULTY_NAMES: Array[String] = ["easy", "normal", "hard"]
+## B13 Cause 3 (docs/balance/b13_2026-10-13/diagnosis.md): kingdom knobs laid on the kingdom profile at NORMAL pace
+## only (no PaceSwitch applied: Fast / Blitz never read them; Blitz keeps its own PaceSwitch.BLITZ knobs on the
+## untouched base, so it stays as measured). Keyed by kingdom, then difficulty name. Same spec format as PaceSwitch:
+## a number = set, "x0.8" = multiply. Shadow: its own normal profile (Fire keeps shadow_default's 6 home workers).
+## Ice: Blitz's "ai_kingdom.ice" aggression knobs (min pop 6, ratio / floor x0.8, reserve 1).
+const NORMAL_PACE_KNOBS := {
+	"shadow": {"normal": {"worker_target_home": 7}},
+	"ice": {"normal": {"min_attack_pop": 6, "attack_ratio": "x0.8", "attack_ratio_floor": "x0.8", "attack_reserve": 1}},
+}
+
+
+## The skirmish bot profile of a kingdom: for_id(id_for_faction(faction)), plus NORMAL_PACE_KNOBS when `paced` is
+## false (normal pace; `paced` = a Fast / Blitz PaceSwitch is applied, which patches the profile itself).
+static func for_faction(faction: StringName, difficulty: int, paced := false) -> AIProfile:
+	var p := for_id(id_for_faction(faction), difficulty)
+	if not paced:
+		apply_normal_pace_knobs(p, faction, difficulty)
+	return p
+
+
+## Lays NORMAL_PACE_KNOBS[faction][difficulty name] on `p` (in place; nothing when the kingdom / difficulty has none).
+static func apply_normal_pace_knobs(p: AIProfile, faction: StringName, difficulty: int) -> void:
+	var per: Dictionary = NORMAL_PACE_KNOBS.get(String(faction), {})
+	var knobs: Dictionary = per.get(DIFFICULTY_NAMES[clampi(difficulty, 0, 2)], {})
+	for k: String in knobs:
+		if not (StringName(k) in p):
+			continue
+		var old: Variant = p.get(StringName(k))
+		var spec: Variant = knobs[k]
+		var v := float(spec) if (spec is int or spec is float) else float(old) * String(spec).trim_prefix("x").to_float()
+		p.set(StringName(k), roundi(v) if old is int else v)
 
 
 ## The profile `id` at `difficulty` (0 easy, 1 normal, 2 hard): `data/ai/<kingdom>_<difficulty>.tres`

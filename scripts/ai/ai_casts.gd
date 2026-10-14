@@ -30,6 +30,101 @@ const ENGAGE_LAND := 11.0
 const SPARE_MANA := 0.7              ## 6. Spare mana: Fireball a pair of foes from this share of max mana...
 const FULL_MANA := 0.95              ## ...or any foe from this share.
 
+## B13 Cause 2 (docs/balance/b13_2026-10-13/diagnosis.md): a bot wizard other than Vessa whose escape spell (slot E:
+## Umbral Shroud, Rime Aegis, Call the Thicket) is not ready (not learned, cooldown, mana) goes home from
+## NO_ESCAPE_LOW HP while a foe fighter is within RETREAT_DANGER, on a path that bends around the foes
+## (retreat_point), and casts on its chasers on the way (suggest_retreat_cast). Vessa keeps her rules (35 %, blink).
+## Switch (lead 2026-10-14, Cause 3 measured alone): false = the bot behaves exactly as before Cause 2 (35 % line,
+## straight walk home, no chaser casts). A static var so tests / labs can turn it on (tests/test_bal_cause2.gd).
+static var retreat_rule := false
+const NO_ESCAPE_LOW := 0.5
+const RETREAT_DANGER := 16.0         ## Foe fighters this close count as chasers.
+const DETOUR_STEP := 12.0            ## Detour waypoint distance when the foes stand between the wizard and home.
+const DETOUR_CONE := 0.3             ## Detour while dot(home dir, foes dir) > this (foes within ~70 deg of the way home).
+const SIPHON_RETREAT_FOES := 2       ## Malrik: Soul Siphon on the chasers from this many foes in the circle.
+
+
+## The wizard's escape spell: Vessa's Ember Step, else its slot E spell (&"" when it has fewer than 3 slots).
+static func escape_spell(w: Wizard) -> StringName:
+	if w == null or not is_instance_valid(w):
+		return &""
+	if is_vessa(w):
+		return &"ember_step"
+	var ids := w.spell_ids()
+	return ids[2] if ids.size() >= 3 else &""
+
+
+## True when the escape spell could be cast now (learned, off cooldown, mana).
+static func escape_ready(w: Wizard) -> bool:
+	var id := escape_spell(w)
+	if id == &"" or w.spell_caster == null or not w.spell_caster.has_method(&"can_cast"):
+		return false
+	return str(w.spell_caster.call(&"can_cast", id)) == ""
+
+
+## HP share under which the bot sends its wizard home: 0.35 (Commander.HERO_LOW) for Vessa, with a ready escape or
+## with no chaser near; NO_ESCAPE_LOW for the others while `chased`.
+static func low_hp_line(w: Wizard, chased: bool, base := 0.35) -> float:
+	if not retreat_rule or not chased or is_vessa(w) or escape_ready(w):
+		return base
+	return maxf(base, NO_ESCAPE_LOW)
+
+
+## Where a hurt wizard walks now: `home`, unless the foe fighters' centre lies on the way home (within the
+## DETOUR_CONE and nearer than home): then a point `step` away that goes sideways around them (toward home's side) and
+## a little away from them. Re-asked every tick, it bends the walk around the threat instead of through it.
+static func retreat_point(me: Vector3, home: Vector3, fighters: Array[Unit], step := DETOUR_STEP) -> Vector3:
+	var to_home := home - me
+	to_home.y = 0.0
+	if not retreat_rule or fighters.is_empty() or to_home.length() < 0.5:
+		return home
+	var c := Vector3.ZERO
+	for f in fighters:
+		c += f.global_position
+	c /= float(fighters.size())
+	var toward := c - me
+	toward.y = 0.0
+	if toward.length() < 0.01 or toward.length() > to_home.length():
+		return home
+	var t := toward.normalized()
+	var hd := to_home.normalized()
+	if hd.dot(t) <= DETOUR_CONE:
+		return home
+	var side := hd - t * hd.dot(t)
+	if side.length() < 0.05:
+		side = Vector3(-t.z, 0.0, t.x)
+	var dir := (side.normalized() - t * 0.5).normalized()
+	var p := me + dir * step
+	p.y = me.y
+	return p
+
+
+## A cast on the chasers while the wizard walks home, or {} ({"spell_id", "target", "retreat": true, "rule"}):
+## Torvald: Flash Freeze on the nearest foe fighter in range; Malrik: Soul Siphon on the best circle with >=
+## SIPHON_RETREAT_FOES foes in range. Others: {} (their suggest_cast rules stay).
+static func suggest_retreat_cast(w: Wizard, foes: Array[Unit]) -> Dictionary:
+	if not retreat_rule or w == null or not is_instance_valid(w) or not w.is_alive() or not w.can_act() or foes.is_empty():
+		return {}
+	var c := w.spell_caster as SpellCaster
+	if c == null:
+		return {}
+	var me := w.global_position
+	var ids := w.spell_ids()
+	if ids.has(&"flash_freeze") and c.can_cast(&"flash_freeze") == "":
+		var nearest: Unit = null
+		for u in foes:
+			if not u.is_worker() and _dist(me, u.global_position) <= c.range_of(&"flash_freeze") \
+					and (nearest == null or _dist(me, u.global_position) < _dist(me, nearest.global_position)):
+				nearest = u
+		if nearest:
+			return {"spell_id": &"flash_freeze", "target": nearest.global_position, "retreat": true, "rule": "chaser"}
+	if ids.has(&"soul_siphon") and c.can_cast(&"soul_siphon") == "":
+		var center: Variant = best_cluster(me, foes, c.range_of(&"soul_siphon"), c.radius_of(&"soul_siphon"),
+				SIPHON_RETREAT_FOES)
+		if center != null:
+			return {"spell_id": &"soul_siphon", "target": center, "retreat": true, "rule": "chaser"}
+	return {}
+
 
 ## True if the wizard casts Nature spells (one of its spell ids is a Nature one).
 static func is_nature(w: Wizard) -> bool:
