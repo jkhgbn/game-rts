@@ -128,6 +128,82 @@ Appears after 0.25 s, 8 px above the control, clamped on screen. Unit icons in t
 - Tests that read rects (`tests/test_6_u1.gd`, `test_9_c7`...) are updated by ui-coder to the new rects; tests that read
   letters, tooltip strings, `modulate.a 0.45`, `COLUMNS`-independent slot letters pass unchanged.
 
+## 7. Unit research (UR.D1, 2026-10-14; rules in `unit-upgrades.md` 7-15, API `UnitResearch` 13)
+Skirmish only (`UnitResearch.enabled_here()`); everything below is absent when it is false. Inside the console grid of 1 / 4.4;
+keys are physical, every printed key goes through `KeyLabels.of` (AZERTY shows its own letters). One new colour,
+**`RESEARCH (0.45, 0.80, 0.95)`** (cool blue, distinct from `GOLD` training progress and `MANA`), added to the shared list.
+
+### 7.1 Pages on the command card (Hall, Stables, keep; own, completed)
+| Page | Slot | Content |
+|---|---|---|
+| Main card | r3c5 (`PLUS_SLOT 14`) | `+` button: icon = a 32 px `+` glyph in `GOLD` over a scroll; key badge `KeyLabels.of(=)`. Shown on Hall, Stables, keep when `unit_ids_for_building(b)` is not empty. While this building researches: a 4 px `RESEARCH` progress bar along its bottom edge (48 x 4 at (4, 50)). Stables B / N rank-3 keep their main-card slots |
+| **Research page** | each unit on **its own training slot and key** (Hall Z X C V B N M `,`; keep: caster on B, tier-3 unit on its slot; Stables its 4 slots) | Unit icon 48; **done chip** 26 x 12 at (2, 42) (the cost tag place): `1/3` font 10, `text` on slate, `GOLD` text when all done; a unit with nothing to research = empty slot (no frame). Running research on that unit: the 4 px `RESEARCH` bar as above. r3c5 = Back (`Esc`); r3c1 = header tile |
+| **Unit page** | **Z** = its "+", **X C V B** = rows in table order, then rank-3 on the next free key (row 1 only, max 5) | Row buttons (7.2); no "+" = empty Z slot. r3c1 = header tile, r3c5 = Back (`Esc` -> research page); `+` closes both pages |
+| Header tile (r3c1, both pages) | not a button: no key badge, no hover halo, no press | 56 px `panel_inner` with 1 px `frame_dark`; research page: the scroll glyph 32 px `RESEARCH`; unit page: the unit icon 40 px, alpha 0.8. Tooltip: `Unit research` / the unit name |
+| Rows 2 on both pages | empty | (spells / casters never show on these pages) |
+Icon of a row: `art/icons/research/<id>.png`, else the unit icon with a 16 x 16 `+` badge (`GOLD` on `panel_bg`, 1 px `frame_dark`)
+at (2, 2). Page change: no animation, the card redraws in the same frame. Pressing a unit's training key while a page is open never trains.
+
+### 7.2 Row button states (56 px button, 4.4 looks unless said)
+| State | Look | Press |
+|---|---|---|
+| Available | normal frame, icon full, cost tag `75` crystals colour, key badge | starts research (button turns In progress) |
+| Can't afford | as available, cost tag text `WARN`; tooltip row 4 `Not enough crystals` | refused: top-bar failed-spend shake + message (unchanged path) |
+| In progress | radial sweep in `RESEARCH` alpha 0.45 clockwise from 12 o'clock (filled = done part) + `62%` font 13 embolden 0.5 white centred; frame rim `RESEARCH` 2 px; hover shows `x` font 12 `WARN` at (44, 2) | **cancel**, full refund; message `Research cancelled: Kindled Mail` |
+| Done | icon full, rim `GOLD` 1 px, check glyph 14 px `GOLD` at (40, 2), cost tag hidden, key badge alpha 0.5 | nothing; message `Already researched` |
+| Locked by tier / chain | `modulate.a 0.45` + lock glyph 12 px at (22, 22) (4.4); tooltip row 4 `Requires Stronghold` / `Requires Citadel` / `Needs Keen Eye` | refused with that reason |
+| Busy (other research here) | `modulate.a 0.45`, no lock glyph; row 4 `Busy with another upgrade` | refused |
+| Hover / pressed | 4.4 (trim_glow halo / frame_light) on every state except Done (no halo) | |
+Unit buttons on the research page use only Available (has an open row), Done (all done: `GOLD` rim, chip `3/3` gold) or In progress.
+
+### 7.3 Tooltips (5 renderer; strings built with `Loc.t`, one string per line)
+| Button | Line 1 (Cinzel 15 + key badge right) | Line 2 (cost icons) | Line 3 (`text`, wraps 320) | Line 4 (`text_muted`) | Line 5 (status) |
+|---|---|---|---|---|---|
+| `+` | `Unit research  [=]` | - | `Upgrade the units this building trains.` | `Researching: Backdraft 62%` (only while busy) | - |
+| Unit (research page) | `Flame Guard  [Z]` | - | `Research: 1 / 2 done` | done names, `GOLD`, `·`-separated | `Researching: Backdraft 62%` in `RESEARCH` |
+| Row | `Kindled Mail  [X]` | `Cost 75 crystals · 30 s` (diamond + hourglass) | effect text (`+5 armor`) | `For: Flame Guard` (all units of the row) `· At: Hall` (buildings that can research it) | reason `WARN` (`Requires Stronghold`, `Needs Keen Eye`, `Busy with another upgrade`, `Not enough crystals`); `Researching 62% · press again to cancel (full refund)` `RESEARCH`; `Researched` `GOLD` |
+| "+" on the unit page | unchanged "+" tooltip (tiers.md 5), key now `[Z]` | | | | |
+| Rank-3 on the unit page | unchanged Stables rank-3 tooltip, its key = its slot here | | | | |
+| Training button (main card) | unchanged + one line under the description, font 13 `text_muted`: `Research: 1 / 3 done` (counts rows, "+", rank-3); hidden when the unit has none | | | | |
+
+### 7.4 Research slot in the building view (4.2 Building)
+- **Research chip** 44 x 44 at **(508, 776)**, right of the 5 queue slots (which end at x 488); a 2 px `groove` + 1 px
+  `frame_light` vertical rule 44 tall at x 498. Label `Research` font 10 `text_muted` at (508, 762).
+- Idle: empty slot frame, scroll glyph 24 px alpha 0.25, tooltip `No research · open with +`. Working: row icon 40, progress bar
+  44 x 6 `RESEARCH` at (508, 822) (queue slot 1 uses `GOLD`: the colour tells them apart), time left `18 s` font 10 at (508, 830);
+  hover = `x` font 10 `WARN` top-right; click the `x` = cancel (full refund, same as the row button); tooltip = row tooltip
+  lines 1, 3, 5. Shown on Hall, Stables, keep only; the Stables rank-3 keeps its own display (unchanged).
+- Multi-building selection (Tab cycles): the chip follows the active building.
+
+### 7.5 "Researched" marks on units
+| Where | Mark |
+|---|---|
+| 1-unit view (4.2) | line at **(252, 836)**, width 320, font 13: `Research:` `text_muted` + names in `GOLD` `·`-separated (rows, `Flame Guard+`, rank-3 name), ellipsis if too long; hover = tooltip one line per name `Kindled Mail: +5 armor`. Hidden when nothing applies. Enemy units show theirs (a known count, no new intel: the effects are visible) |
+| Portrait window (4.3) | up to 5 **research pips**: 8 x 8 diamonds `GOLD` with 1 px `frame_dark` at (1150 + 11 i, 700), one per done research for this unit; tooltip on the portrait unchanged |
+| Multi-select type tab (4.2) | a 6 x 6 `GOLD` diamond at the tab's top-right when that type has any research done |
+| 40 px grid icon / tooltip | grid icon unchanged; its tooltip adds ` · 2 upgrades` |
+| Forge line (unit-upgrades 5) | the `Forge:` row keeps Weapons / Armor / kingdom line only, at (252, 856) when both lines show |
+
+### 7.6 Alert: research complete
+New alert kind in the stack (3.3): **`RESEARCH` border, glyph 24 px = scroll with a small check**. Tooltip = the message
+`Research complete: Kindled Mail (Flame Guard)` (also on the message line as today); click = `camera_rig.focus_on` the building;
+same building merges (count badge); fades after 12 s; minimap ping uses the `RESEARCH` colour for its 3 rings. Sound: the
+existing building-done chime. Not raised for the bots, nor when a load grants rows.
+
+### 7.7 Unit Guide
+- Detail pane: new block **`Upgrades`** after Abilities, before Pros: header Cinzel 15 `title`, then one row per research
+  in page order (Z "+", X C V B rows, rank-3): key badge 18 x 14 (`KeyLabels`), name font 14 `text`, then font 13 `text_muted`
+  `Hall · T2 · 125 · 40 s`, effect on the next line font 13 `text`. Units with none: block hidden.
+- Search matches row names (`kindled` finds Flame Guard). Compare view: unchanged (stats at level 0, no research).
+- Replaces the Forge unit-line entries and the bowmen's hand "Hall research" lines (UnitGuideData builds it from the table).
+
+### 7.8 Defaults taken (JS to confirm)
+| Question | Default |
+|---|---|
+| Research colour | new `RESEARCH (0.45, 0.80, 0.95)` so research progress never looks like training (`GOLD`) |
+| Nag when research is ready | none: the `+` button shows only a progress bar while busy, no "available" badge |
+| Enemy research visible | yes, on the 1-unit line and pips (the effects are visible on the field anyway) |
+
 ## Tasks for ui-coder, in order (done when)
 - [ ] **SC2.U1** Console frame + zones (1): one framed `PanelContainer` at y 684-900, dividers, minimap at (14, 692), selection
   block, portrait window 136 (4.3), card 5 x 3 of 56 with remapped indices (4.4) and the old top bar / help / hero column / big
@@ -143,5 +219,11 @@ Appears after 0.25 s, 8 px above the control, clamped on screen. Unit icons in t
 - [ ] **SC2.U5** Tooltips (5) + card states (4.4): cost line as icons, requirement row in `WARN`, mana tag on spells, lock glyph;
   every `tooltip_text` string unchanged (`test_ui_card_hotkeys` tooltips).
 - [ ] **SC2.U6** Wave Strike Muster inside the console (6) with WS2.U1; UI Lab `ws_buy` no FAIL at 1080p / 1440p.
+- [ ] **UR.U1** (7.1-7.3) `+` on Hall / Stables / keep, research page, unit page (Z "+", X C V B rows, rank-3, max 5), header
+  tile, row states and tooltips, cancel on re-press; `tests/test_research_card.gd` + `test_ui_card_hotkeys` PASS; UI Lab `hud_keep`
+  with the page open no FAIL at 1600 x 900 and 3440 x 1440.
+- [ ] **UR.U2** (7.4-7.7) research chip at (508, 776), `Research:` line, portrait pips, type-tab mark, alert kind, Unit Guide
+  `Upgrades` block; `test_unit_guide`, `test_i18n` PASS; UI Lab shots en / fr no FAIL (French `Recherche :` line fits 320 px or
+  ellipsises).
 - [ ] All: French (`-- --lang=fr`) fits every label (autowrap / shrink rules of ui-wave-strike.md 1.1 where text is long);
   `tests/test_ui_*.gd` pass; `PERF OK` with the portrait on screen.
