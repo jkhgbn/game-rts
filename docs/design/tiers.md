@@ -74,6 +74,8 @@ Price `50 + cost / 2` rounded to 5, within 75-200 crystals; time `30 s + cost / 
 39 s; Shadow Knight+: 180, 56 s). One research at a time per Hall; Hall destroyed = 75 % refund. Bots: every 6 s at
 tier 2+, the "+" of the unit they have most of (>= 3 alive) when crystals >= price + 200.
 Knobs: `UnitUpgrades.STATS` / `STATS_OVERRIDE` (per unit), `TierSystem.UPGRADES`, `HP_MULT`, `DAMAGE_BONUS`, `BOT_START`.
+**2026-10-14** (`unit-upgrades.md` 7-14): the "+" page becomes the research page (Hall, Stables, keep); a unit's key
+opens its unit page where Z = its "+" and X C V B = its unit-specific rows. The "+" shares the building's one research slot.
 
 ## 6. Campaign missions (2026-09-30)
 A mission opts in by setting `tiers_enabled = true` in its `_init` (after `super()`), then sets on its `tier_system`:

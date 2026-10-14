@@ -63,3 +63,5 @@ When JS asks for something new, add a line here first, then work on it.
 - 2026-10-13 night: "ok je vais sleep essais de travailler sur le jeu et si possible de ajouter des upgrade pour le unie" -> doing overnight: Wave Strike unit upgrades (wave-strike.md 16: the 4.4 Armoury + per-card Desert-Strike-style upgrades, bot buys them) on top of the deployment pad (15); B13 round 2 balance screens; icons. Read as Wave Strike (skirmish already has forge upgrades).
 
 - 2026-10-14: "b sur les chanson essaie de delete le + juck possible" -> doing: music B (CC0 orchestral samples) for every track (music.md phase 2: remaining scores + MusicDirector); disk clean-up of junk (list shown to JS; deletes need his OK on the exact list).
+
+- 2026-10-14: "add unit specique upgrade to most unit and a way in the barrack to upgrade that specique unit" -> doing: skirmish unit-specific upgrades (unit-upgrades.md extension): 1-2 upgrades for most trainable units, researched at the building that trains the unit (barracks etc.), bot buys them; the Forge keeps the generic lines.

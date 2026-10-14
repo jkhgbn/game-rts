@@ -80,6 +80,8 @@ When step 14's ResearchBank exists, these 7 rows can become `ResearchType`s with
 - No micro: all effects are passive or autocast.
 
 ## 7. Glue the lead / ui-coder owes (not built here)
+**2026-10-14:** superseded by `unit-upgrades.md` 7-14: the 7 rows join `UnitResearch` (same ids and numbers) and are
+bought on the Hall's unit page (`+`, the bowman's key, then X C V); the bot rule moves to `ai_research.gd`.
 - **Upgrade buttons** on a selected own Hall: rows from `BowmanUpgrades.options_for(hall)` (`id, name, text, crystals, time,
   state (&"ready" / &"working" / &"done" / &"locked"), progress, reason`) -> `BowmanUpgrades.for_team(team).buy(id, hall)`.
   Suggested: card row 2 after Set Rally, keys free on the Hall card (N, M). Tooltip = `text`.
