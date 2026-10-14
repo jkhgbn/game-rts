@@ -1,0 +1,60 @@
+{
+	"bytes": 10584044,
+	"channels": 2,
+	"file": "res://assets/audio/music/campaign_map.wav",
+	"hash": "ed0953aa92397858abab275395e17089|smp1.2|g22050s",
+	"id": "campaign_map",
+	"length_s": 120.0,
+	"loop": true,
+	"lufs": -12.202703811714,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 46,
+			"inst": "celesta",
+			"ms": 1698,
+			"name": "bell",
+			"share": 0.278624277162488
+		},
+		{
+			"events": 152,
+			"inst": "harp",
+			"ms": 3696,
+			"name": "harp",
+			"share": 0.074956705161252
+		},
+		{
+			"events": 28,
+			"inst": "cellos",
+			"ms": 1820,
+			"name": "cellos",
+			"share": 0.398009187562758
+		},
+		{
+			"events": 20,
+			"inst": "flute",
+			"ms": 978,
+			"name": "flute",
+			"share": 0.230522347809951
+		},
+		{
+			"events": 58,
+			"inst": "violas",
+			"ms": 2373,
+			"name": "violas",
+			"share": 0.017887482303551
+		}
+	],
+	"peak_db": -2.60000002885557,
+	"rate": 22050,
+	"render_s": 33.103,
+	"reverb_ms": 14539,
+	"rms_db": -16.3772369215761,
+	"sampler": {
+		"fallback": 0,
+		"notes": 304
+	},
+	"samples": 2646000,
+	"seam_slope": 0.00000000267491451211299,
+	"seam_step": 0.0000000121195142810393
+}

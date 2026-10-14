@@ -1,0 +1,102 @@
+{
+	"bytes": 13547564,
+	"channels": 2,
+	"file": "res://assets/audio/music/field.wav",
+	"hash": "8eeff7ae163f4a369cffb84943bc7cd6|smp1.2|g22050s",
+	"id": "field",
+	"length_s": 153.6,
+	"loop": true,
+	"lufs": -12.0926383851069,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 174,
+			"inst": "fife",
+			"ms": 5334,
+			"name": "fife",
+			"share": 0.316951081561774
+		},
+		{
+			"events": 178,
+			"inst": "trumpets",
+			"ms": 7083,
+			"name": "trumpets",
+			"share": 0.153431025696245
+		},
+		{
+			"events": 219,
+			"inst": "horns",
+			"ms": 9182,
+			"name": "horns",
+			"share": 0.108035992068603
+		},
+		{
+			"events": 102,
+			"inst": "trombones",
+			"ms": 4727,
+			"name": "trombones",
+			"share": 0.091433039874963
+		},
+		{
+			"events": 190,
+			"inst": "trombones",
+			"ms": 2778,
+			"name": "tuba",
+			"share": 0.0626526881074775
+		},
+		{
+			"events": 301,
+			"inst": "cellos",
+			"ms": 8977,
+			"name": "ostinato",
+			"share": 0.125364778324217
+		},
+		{
+			"events": 50,
+			"inst": "violins",
+			"ms": 2257,
+			"name": "violins",
+			"share": 0.0884195328208621
+		},
+		{
+			"events": 24,
+			"inst": "violas",
+			"ms": 1770,
+			"name": "violas",
+			"share": 0.0112580453968713
+		},
+		{
+			"events": 605,
+			"inst": "snare",
+			"ms": 3901,
+			"name": "snare",
+			"share": 0.00818051956523528
+		},
+		{
+			"events": 126,
+			"inst": "taiko",
+			"ms": 4899,
+			"name": "bass_drum",
+			"share": 0.0305497269192605
+		},
+		{
+			"events": 13,
+			"inst": "timpani",
+			"ms": 1578,
+			"name": "timpani",
+			"share": 0.00372356966449105
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 81.042,
+	"reverb_ms": 19314,
+	"rms_db": -15.0792335362617,
+	"sampler": {
+		"fallback": 0,
+		"notes": 1982
+	},
+	"samples": 3386880,
+	"seam_slope": 0.0000183507800102234,
+	"seam_step": 0.00014479155652225
+}

@@ -1,0 +1,74 @@
+{
+	"bytes": 7938044,
+	"channels": 2,
+	"file": "res://assets/audio/music/tavern.wav",
+	"hash": "6a75196702c76befd77b4e8e6760dae3|smp1.2|g22050s",
+	"id": "tavern",
+	"length_s": 90.0,
+	"loop": true,
+	"lufs": -12.1407874873457,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 342,
+			"inst": "lute",
+			"ms": 2899,
+			"name": "lute",
+			"share": 0.381138584232775
+		},
+		{
+			"events": 228,
+			"inst": "lute",
+			"ms": 2235,
+			"name": "rhythm_lute",
+			"share": 0.0169320711482667
+		},
+		{
+			"events": 72,
+			"inst": "violins",
+			"ms": 2001,
+			"name": "fiddle",
+			"share": 0.240907036848491
+		},
+		{
+			"events": 48,
+			"inst": "whistle",
+			"ms": 1448,
+			"name": "whistle",
+			"share": 0.182883708391798
+		},
+		{
+			"events": 116,
+			"inst": "cellos",
+			"ms": 2956,
+			"name": "bass",
+			"share": 0.159125388776577
+		},
+		{
+			"events": 278,
+			"inst": "tom",
+			"ms": 2928,
+			"name": "hand_drum",
+			"share": 0.00574035988417632
+		},
+		{
+			"events": 102,
+			"inst": "frame_dum",
+			"ms": 1772,
+			"name": "stomp",
+			"share": 0.0132728507179152
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 33.334,
+	"reverb_ms": 11907,
+	"rms_db": -14.9456437171738,
+	"sampler": {
+		"fallback": 1,
+		"notes": 1185
+	},
+	"samples": 1984500,
+	"seam_slope": 0.000000000542357270205684,
+	"seam_step": 0.0000000095631094154669
+}

@@ -1,0 +1,28 @@
+{
+	"id": "ice_drive", "drive_of": "ice", "title": "Glasswater (drive)", "use": "combat drum layer under ice, fades in with combat",
+	"mood": "cold, tense",
+	"instruments": "bass drum + low toms in 3/4 (muted bass drum), snare ghost notes, shaker, frame tek (unpitched, loops in sync with Ice)",
+	"listen_for": "A waltz-time pulse that tightens the Ice theme without warming it up? Too heavy for the still bell melody?",
+	"excerpt_note": "drive B", "excerpt_bar": 4,
+	"bpm": 72, "meter": [3, 4], "bars": 16, "loop": true,
+	"key": "-", "mode": "unpitched", "lead": "taiko", "seed": 4402, "lufs": -16,
+	"room": {"size": 0.75, "damp": 0.4, "wet_db": -11},
+	"sections": [{"name": "Drive A", "bar": 0, "bars": 8}, {"name": "Drive B (busier)", "bar": 8, "bars": 8}],
+	"dyn": [[0, 0.88], [8, 0.95], [15, 1.05], [16, 0.88]],
+	"parts": [
+		{"name": "drums", "inst": "taiko", "gain_db": 3.0, "send": 0.4,
+			"kit": {"k": ["taiko", 1.0, 36], "o": ["tom", 0.8, 41], "p": ["tom", 0.75, 47]},
+			"seq": [{"bar": 0, "bars": 8, "patterns": ["K.......o...", "K.....k.o..p"], "vel": 0.72, "fill": "K..o..p.opop", "fill_every": 4},
+				{"bar": 8, "bars": 8, "patterns": ["K..k....o.o.", "K..k..k.o..p"], "vel": 0.82, "fill": "KoopKoopKpKK", "fill_every": 4}]},
+		{"name": "snare", "inst": "snare", "gain_db": -1.0, "send": 0.35,
+			"kit": {"s": ["snare", 0.7]},
+			"seq": [{"bar": 0, "bars": 8, "pattern": "....S.....s.", "vel": 0.42},
+				{"bar": 8, "bars": 8, "pattern": "..s.S..s..s.", "vel": 0.5}]},
+		{"name": "shaker", "inst": "shaker", "gain_db": -5.0, "send": 0.15,
+			"kit": {"h": ["shaker", 0.6]},
+			"seq": [{"bar": 0, "bars": 16, "pattern": "H.h.H.h.H.hh", "vel": 0.45}]},
+		{"name": "tek", "inst": "frame_tek", "gain_db": -10.0, "send": 0.3,
+			"kit": {"t": ["frame_tek", 0.7]},
+			"seq": [{"bar": 8, "bars": 8, "pattern": "..t...t...t.", "vel": 0.5}]}
+	]
+}

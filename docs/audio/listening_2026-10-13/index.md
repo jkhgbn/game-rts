@@ -55,3 +55,61 @@ B check numbers (whole files):
 | fire_drive_b | 40.00 s | 1764000 x 2 | -1.20 dBFS | -16.95 dB | -16.12 LUFS | 0.0115 / 0.0039 | 31 s | 6.7 MB | 226 / 420 |
 | sting_victory_b | 8.00 s | 352800 x 2 | -1.20 dBFS | -15.97 dB | -12.11 LUFS | no loop (ends < -60 dBFS) | 12 s | 1.3 MB | 101 / 2 |
 | choir_test_b | 40.00 s | 1764000 x 2 | -1.20 dBFS | -14.72 dB | -12.05 LUFS | no loop (ends < -60 dBFS) | 25 s | 6.7 MB | 80 / 0 |
+
+## Phase 2 (2026-10-14): every track, recorded instruments (B), game format
+
+JS picked **B for every track** and **no singing anywhere** (melody only). Every game track is now rendered by the
+sampler backend (CC0 VSCO 2 Community Edition, outside the repo) in the game format: **16-bit stereo 22 050 Hz WAV**
+(orchestra seating pan + stereo room kept), in `assets/audio/music/`. The four phase 1 tracks (theme_main, fire,
+fire_drive, sting_victory) were re-rendered in this format (theme_main's choir swell is now a horn / viola swell).
+`chant` and `boss` have no choir: their lead is instrumental (see each row). Excerpts: 20 s with 0.5 s fades,
+stings complete. Full tracks in the Desktop copy's `complet` folder.
+Still synth (no sample in the library): tubular / tolling bells, log mallet, frame-drum tek, claps, shaker, the
+low drone pads (support only, <= 20 %). Celesta / glass bell = glockenspiel samples; lute = damped harp; fiddle =
+violin section; pizzicato = cello pizzicato samples; hand drum / heartbeat / foot stomp = muted bass drum.
+
+| # | File | Track | Mood | Instruments | Key, tempo | Excerpt | What to listen for | JS verdict |
+|---|---|---|---|---|---|---|---|---|
+| 6 | `06_ice.wav` | Glasswater | still, crystalline | glass bell lead (glockenspiel), alto flute (B), violins (low tremolo, bridge melody), violas, cellos, harp, soft timpani rolls | F lydian, 72.0 bpm 3/4 | 20 s from 0:30 (bell A into the flute B) of 2:40 | Still and glassy, not sleepy? The bell plays the Call upside down (F B C D, the B natural is the Lydian colour); the flute takes B, the strings the bridge (F# on D major, the brightest moment). Clearly different from Fire and the menu theme? | |
+| 7 | `07_ice_drive.wav` | Glasswater (drive) | cold, tense | bass drum + low toms in 3/4 (muted bass drum), snare ghost notes, shaker, frame tek (unpitched, loops in sync with Ice) | unpitched, 72.0 bpm 3/4 | 20 s from 0:10 (drive B) of 0:40 | A waltz-time pulse that tightens the Ice theme without warming it up? Too heavy for the still bell melody? | |
+| 8 | `08_nature.wav` | Sighing Wood | warm, lilting folk | wooden flute lead (grace notes), harp, violin drone + counter-melody (fiddle), log mallet + cello pizzicato (B), hand drums | G mixolydian, 64.0 bpm 6/8 | 20 s from 0:45 (A2 with the fiddle counter-melody) of 2:30 | Does the 6/8 lilt feel like a forest folk dance? The flute's Call skips in 6/8 and cadences through F natural (G F C G). B: pizzicato + log mallet dance. Too close to the tavern jig? | |
+| 9 | `09_nature_drive.wav` | Sighing Wood (drive) | rustling, urgent | hand drums + low toms in 6/8 (muted bass drum), bass drum on the dotted beats, shaker, frame tek (unpitched, loops in sync with Nature) | unpitched, 64.0 bpm 6/8 | 20 s from 0:07 (drive B) of 0:30 | Keeps the 6/8 skip but adds urgency? Does it sit under the folk theme without turning it into a march? | |
+| 10 | `10_shadow.wav` | Hollow Bells | grave, whispering | low tolling bell + solo-register cellos lead, horns + trombones (soft swells, B), violas, low strings, dark harp, heartbeat drum, timpani | C harmonic minor, 60.0 bpm 4/4 | 20 s from 0:48 (A into the brass B) of 2:40 | Grave and quiet but not empty? The cellos sing the Call falling (C G A-flat G F E-flat D), with the leading tone B into C. The bridge turns to D-flat then G. Does the tolling bell sound like a bell or a synth? | |
+| 11 | `11_shadow_drive.wav` | Hollow Bells (drive) | creeping, ominous | heartbeat drum (muted bass drum) speeding up, low toms, bass drum, snare ghost rolls, frame tek (unpitched, loops in sync with Shadow) | unpitched, 60.0 bpm 4/4 | 20 s from 0:00 (whole drive) of 0:32 | Does the quickened heartbeat feel like danger closing in? Enough weight at 60 bpm without sounding slow? | |
+| 12 | `12_field.wav` | Crossroads March | martial, steady | fife lead (high flute), trumpets + horns + trombones, tuba oom-pah, cello spiccato ostinato, violins (C), marching snare, bass drum, timpani | G dorian, 100.0 bpm 4/4 | 20 s from 0:57 (brass B into the fife's return) of 2:33 | A steady march, not a fanfare? The fife plays the Call in dotted rhythm (G D C B-flat A, G F G). B = brass in B-flat, C = strings turning to D major. Does it stay neutral (no kingdom colour)? | |
+| 13 | `13_field_drive.wav` | Crossroads March (drive) | martial, pressing | marching snare (rudiments, rolls), bass drum, low toms, frame tek (unpitched, loops in sync with Field) | unpitched, 100.0 bpm 4/4 | 20 s from 0:14 (drive B) of 0:38 | Does the marching snare turn the march into a battle without clashing with the field snare part? | |
+| 14 | `14_wave_strike.wav` | Lanebreaker | urgent, relentless | staccato violins ostinato lead (B B D B E B F# E), horns + trombones (the Call in B minor), trumpets, cello / tuba spiccato bass, taiko (bass drum), toms, snare, timpani | B aeolian, 128.0 bpm 4/4 | 20 s from 0:37 (brass B over the strings) of 2:00 | Relentless without being tiring? The violins' 8th ostinato drives A; B and A2 put the brass Call (B F# E D C#, B A B) over it; bars 36-43 are a drums-only break. Clearly faster and harder than the other tracks? | |
+| 15 | `15_wave_strike_drive.wav` | Lanebreaker (drive) | relentless | taiko (bass drum) + toms in 16ths, snare backbeat and rolls, shaker, claps (unpitched, loops in sync with Wave Strike) | unpitched, 128.0 bpm 4/4 | 20 s from 0:11 (drive B) of 0:30 | Hard-hitting at 128 bpm, but leaves room for the string ostinato? Too busy? | |
+| 16 | `16_boss.wav` | The Hollow King | menacing, huge | horns lead (no choir: JS 2026-10-14, melody only), trumpets (B), trombones + tuba, tremolo violins, violas, cello / bass spiccato in 3+2, timpani, bass drum, tubular bells, low organ drone | C# locrian, 112.0 bpm 5/4 | 20 s from 1:15 (B (trumpets) into the bridge hits) of 2:30 | Huge and menacing, 5/4 felt as 3+2? The horns bend the Call to Locrian (C# G F# E D, C# B C#): the tritone C#-G is the hit, hammered in the bridge. Any instrument that sounds cheap (the tubular bell and the organ drone are synth)? | |
+| 17 | `17_boss_drive.wav` | The Hollow King (drive) | crushing | bass drum + toms in 5/4 (3+2), snare, frame tek (unpitched, loops in sync with Boss) | unpitched, 112.0 bpm 5/4 | 20 s from 0:00 (whole drive) of 0:21 | Does the 3+2 pattern lock with the boss ostinato and make it heavier, not messier? | |
+| 18 | `18_chant.wav` | The Four Keys | solemn, hopeful | violins lead (no choir: JS 2026-10-14, melody only); verse 1 = two voices (violins + cellos), verse 2 = four parts (violins, violas, horns, cellos), coda in D major with harp; low strings; one tubular bell per phrase | D aeolian, 60.0 bpm 4/4 | 20 s from 0:44 (verse 2 into the D major coda) of 1:36 | A hymn without voices: the violins sing the Call in half notes (D A G F E D C D) and the Answer; verse 2 opens to four parts; the coda turns to D major. Solemn and hopeful enough for the ending and the credits? | |
+| 19 | `19_campaign_map.wav` | The Empty Tower | lonely, curious | celesta bell lead (glockenspiel), harp, low solo-register cellos (B), flute answers, soft violas | A aeolian, 64.0 bpm 4/4 | 20 s from 0:30 (cello and flute B into the bell's return) of 2:00 | Lonely and curious, good under reading (briefings)? The bell plays the Call at half speed (A E D C B, A G A) and ends open on E; the cellos and flute answer in B; the coda is the bell alone. | |
+| 20 | `20_tavern.wav` | The Warm Lantern | cosy, light | lute lead (damped harp), fiddle (violins), low whistle (flute), cello pizzicato bass, hand drum + foot stomp (muted bass drum) | Bb ionian, 72.0 bpm 6/8 | 20 s from 1:10 (lute + fiddle A2 into the Tag (the Call)) of 1:30 | Cosy and light, a tavern by the fire? The lute's jig is the Answer in jig form (F B-flat C D C B-flat, E-flat D C B-flat); B = the fiddle with the whistle an octave below; A2 = lute and fiddle together; the Tag quotes the Call in jig form (B-flat F E-flat D C, B-flat A B-flat). Different enough from Sighing Wood? | |
+| 21 | `21_sting_defeat.wav` | Defeat | sorrow | cellos (the Call slowed), violas + low strings, one tubular bell | D minor, 60.0 bpm 4/4 | complete, 0:08 | Sad without being a joke? The cellos start the Call slowly and stop on E (unresolved), the strings fall to a B-flat chord, then D minor low with one bell. | |
+
+Game files check numbers (`tests/test_music_check.gd`, whole files):
+
+| Track | Length | Samples | Peak | RMS | Loudness | Loop seam step / slope | Pad share | Render time | Size | Sampled / synth notes |
+|---|---|---|---|---|---|---|---|---|---|---|
+| theme_main | 148.57 s | 3276000 x 2 | -1.20 dBFS | -15.69 dB | -12.36 LUFS | 0.0015 / 0.0020 | 0.6 % | 85 s | 12.5 MB | 1469 / 87 |
+| campaign_map | 120.00 s | 2646000 x 2 | -2.60 dBFS | -16.38 dB | -12.20 LUFS | 0.0000 / 0.0000 | 0.0 % | 33 s | 10.1 MB | 304 / 0 |
+| fire | 160.00 s | 3528000 x 2 | -1.20 dBFS | -15.64 dB | -12.11 LUFS | 0.0000 / 0.0000 | 0.0 % | 114 s | 13.5 MB | 4020 / 805 |
+| fire_drive | 40.00 s | 882000 x 2 | -1.20 dBFS | -18.09 dB | -16.14 LUFS | 0.0157 / 0.0113 | 0.0 % | 14 s | 3.4 MB | 226 / 420 |
+| ice | 160.00 s | 3528000 x 2 | -2.60 dBFS | -15.75 dB | -12.17 LUFS | 0.0026 / 0.0005 | 0.0 % | 56 s | 13.5 MB | 805 / 0 |
+| ice_drive | 40.00 s | 882000 x 2 | -1.20 dBFS | -18.36 dB | -16.21 LUFS | 0.0095 / 0.0012 | 0.0 % | 12 s | 3.4 MB | 128 / 136 |
+| nature | 150.00 s | 3307500 x 2 | -1.20 dBFS | -15.33 dB | -12.11 LUFS | 0.0072 / 0.0015 | 0.0 % | 62 s | 12.6 MB | 1324 / 121 |
+| nature_drive | 30.00 s | 661500 x 2 | -1.20 dBFS | -18.01 dB | -16.12 LUFS | 0.0102 / 0.0025 | 0.0 % | 11 s | 2.5 MB | 172 / 176 |
+| shadow | 160.00 s | 3528000 x 2 | -1.20 dBFS | -14.69 dB | -12.06 LUFS | 0.0006 / 0.0011 | 0.0 % | 65 s | 13.5 MB | 721 / 12 |
+| shadow_drive | 32.00 s | 705600 x 2 | -1.20 dBFS | -18.73 dB | -16.35 LUFS | 0.0004 / 0.0007 | 0.0 % | 10 s | 2.7 MB | 118 / 32 |
+| field | 153.60 s | 3386880 x 2 | -1.20 dBFS | -15.08 dB | -12.09 LUFS | 0.0001 / 0.0000 | 0.0 % | 81 s | 12.9 MB | 1982 / 0 |
+| field_drive | 38.40 s | 846720 x 2 | -1.20 dBFS | -18.33 dB | -16.15 LUFS | 0.0056 / 0.0083 | 0.0 % | 12 s | 3.2 MB | 278 / 64 |
+| wave_strike | 120.00 s | 2646000 x 2 | -1.20 dBFS | -15.01 dB | -12.09 LUFS | 0.0003 / 0.0000 | 0.0 % | 81 s | 10.1 MB | 2387 / 0 |
+| wave_strike_drive | 30.00 s | 661500 x 2 | -1.20 dBFS | -18.08 dB | -16.05 LUFS | 0.0014 / 0.0007 | 0.0 % | 12 s | 2.5 MB | 245 / 269 |
+| boss | 150.00 s | 3307500 x 2 | -1.20 dBFS | -15.07 dB | -12.15 LUFS | 0.0002 / 0.0002 | 2.0 % | 97 s | 12.6 MB | 1725 / 137 |
+| boss_drive | 21.43 s | 472500 x 2 | -1.20 dBFS | -18.16 dB | -16.14 LUFS | 0.0116 / 0.0076 | 0.0 % | 7 s | 1.8 MB | 92 / 40 |
+| tavern | 90.00 s | 1984500 x 2 | -1.20 dBFS | -14.95 dB | -12.14 LUFS | 0.0000 / 0.0000 | 0.0 % | 33 s | 7.6 MB | 1185 / 1 |
+| chant | 96.00 s | 2116800 x 2 | -1.20 dBFS | -15.71 dB | -12.10 LUFS | 0.0034 / 0.0011 | 0.0 % | 35 s | 8.1 MB | 311 / 6 |
+| sting_victory | 8.00 s | 176400 x 2 | -1.20 dBFS | -16.22 dB | -12.06 LUFS | no loop (ends < -60 dBFS) | 0.0 % | 9 s | 0.7 MB | 101 / 2 |
+| sting_defeat | 8.00 s | 176400 x 2 | -1.20 dBFS | -14.98 dB | -12.05 LUFS | no loop (ends < -60 dBFS) | 0.0 % | 4 s | 0.7 MB | 27 / 1 |
+
+Total: 147.7 MB of WAV (QOA on import for the export).

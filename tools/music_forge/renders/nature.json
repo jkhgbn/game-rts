@@ -1,0 +1,88 @@
+{
+	"bytes": 13230044,
+	"channels": 2,
+	"file": "res://assets/audio/music/nature.wav",
+	"hash": "cf04676908eec3f91c71ec0249aa6e24|smp1.2|g22050s",
+	"id": "nature",
+	"length_s": 150.0,
+	"loop": true,
+	"lufs": -12.1100692358473,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 178,
+			"inst": "flute",
+			"ms": 3576,
+			"name": "flute",
+			"share": 0.464758114571298
+		},
+		{
+			"events": 50,
+			"inst": "violins",
+			"ms": 1882,
+			"name": "fiddle",
+			"share": 0.143446514250182
+		},
+		{
+			"events": 40,
+			"inst": "violins",
+			"ms": 2750,
+			"name": "drone",
+			"share": 0.00611926979402994
+		},
+		{
+			"events": 121,
+			"inst": "mallet",
+			"ms": 2148,
+			"name": "mallet",
+			"share": 0.0713368039487997
+		},
+		{
+			"events": 69,
+			"inst": "cellos",
+			"ms": 2153,
+			"name": "pizz",
+			"share": 0.0780108089681173
+		},
+		{
+			"events": 147,
+			"inst": "cellos",
+			"ms": 3741,
+			"name": "bass",
+			"share": 0.0780855134617047
+		},
+		{
+			"events": 132,
+			"inst": "violas",
+			"ms": 3549,
+			"name": "violas",
+			"share": 0.0247116379979728
+		},
+		{
+			"events": 432,
+			"inst": "harp",
+			"ms": 9480,
+			"name": "harp",
+			"share": 0.117095376837466
+		},
+		{
+			"events": 276,
+			"inst": "frame_dum",
+			"ms": 3590,
+			"name": "hand_drum",
+			"share": 0.0164359601704298
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 62.336,
+	"reverb_ms": 20206,
+	"rms_db": -15.3292346681708,
+	"sampler": {
+		"fallback": 121,
+		"notes": 1324
+	},
+	"samples": 3307500,
+	"seam_slope": 0.00154216215014458,
+	"seam_step": 0.00723710283637047
+}

@@ -568,9 +568,20 @@ static func _add(buf: PackedFloat32Array, note: PackedFloat32Array, at: int) -> 
 		buf[at + i] += note[i]
 
 
+## True when any part of the score plays the choir instrument.
+static func has_choir(score: Dictionary) -> bool:
+	for p in score.get("parts", []):
+		if str((p as Dictionary).get("inst", "")) == "choir":
+			return true
+	return false
+
+
 # ---------------------------------------------------------------- B render: sampler backend, stereo 44.1 kHz
 
 const RATE_B := 44100
+const RATE_GAME := 22050
+const DECIMATE_FC := 9500.0
+const DECIMATE_Q := [0.5176, 0.7071, 1.9319]   # 6th-order Butterworth sections
 ## Orchestra seating (pan -1 left .. +1 right); a part's "pan" overrides it.
 const PAN := {"violins": -0.45, "strings": -0.4, "violas": 0.15, "cellos": 0.4, "basses": 0.55, "horns": -0.25,
 	"trumpets": 0.25, "trombones": 0.45, "flute": -0.15, "fife": -0.15, "whistle": -0.15, "shawm": 0.12, "harp": -0.6,
@@ -580,8 +591,19 @@ const PAN := {"violins": -0.45, "strings": -0.4, "violas": 0.15, "cellos": 0.4, 
 
 ## Same score, recorded instruments (`sampler` = a set-up Sampler), stereo 44.1 kHz, stereo room.
 ## Part fields used only here: gain_b_db (else gain_db), eq_b (else none: the samples are real instruments), pan.
-func render_b(score: Dictionary, sampler: Sampler, verbose: bool = true) -> Dictionary:
+## `out_rate` 22 050 = the game format (phase 2, JS 2026-10-14): everything up to the stereo room runs at 44.1 kHz (the
+## sound JS approved), then a 6th-order Butterworth low-pass (9.5 kHz) and a 2:1 decimation on the linear timeline,
+## BEFORE the loop fold, so the seam and the mastering (loudness, limiter) work on the 22 050 Hz file itself.
+## No-choir rule (JS 2026-10-14, no singing in any shipped track): the GAME format (out_rate 22 050) REFUSES a score
+## with a choir part and returns {"error": reason} without rendering anything; the forge then exits non-zero. Only
+## the dev backends (synth, 44.1 kHz sampler listening renders) may still play the dev-only kit_demo / choir_test.
+func render_b(score: Dictionary, sampler: Sampler, verbose: bool = true, out_rate: int = RATE_B) -> Dictionary:
+	if out_rate == RATE_GAME and has_choir(score):
+		var why := "music_forge: %s has a choir part: refused for the game format (no singing, JS 2026-10-14)" % score.get("id", "?")
+		push_error(why)
+		return {"error": why}
 	var t_start := Time.get_ticks_msec()
+	sampler.reset_round_robin()
 	var notes0: int = sampler.stats["notes"]
 	var fall0: int = sampler.stats["fallback"]
 	var rate := RATE_B
@@ -681,6 +703,31 @@ func render_b(score: Dictionary, sampler: Sampler, verbose: bool = true) -> Dict
 	var hp := Dsp.biquad("hp", 30.0, 0.7071, 0.0, rate)
 	Dsp.run_biquad(dl, hp)
 	Dsp.run_biquad(dr, hp)
+	if out_rate != rate:
+		var t_dec := Time.get_ticks_msec()
+		for q in DECIMATE_Q:
+			var lp := Dsp.biquad("lp", DECIMATE_FC, float(q), 0.0, rate)
+			Dsp.run_biquad(dl, lp)
+			Dsp.run_biquad(dr, lp)
+		var step := int(rate / out_rate)
+		var pre2 := int(PRE_S * out_rate)
+		var ext2 := pre2 + int((ext_n - pre) / step)
+		var nl := PackedFloat32Array()
+		nl.resize(ext2)
+		var nr := PackedFloat32Array()
+		nr.resize(ext2)
+		for j in ext2:
+			var i44 := pre + step * (j - pre2)
+			if i44 >= 0 and i44 < ext_n:
+				nl[j] = dl[i44]
+				nr[j] = dr[i44]
+		dl = nl
+		dr = nr
+		rate = out_rate
+		pre = pre2
+		ext_n = ext2
+		n = length_samples(score, rate)
+		rev_ms += Time.get_ticks_msec() - t_dec
 	var ol := PackedFloat32Array()
 	ol.resize(n)
 	var orr := PackedFloat32Array()
@@ -700,7 +747,8 @@ func render_b(score: Dictionary, sampler: Sampler, verbose: bool = true) -> Dict
 			ol[n - fo + i] *= (1.0 - x) * (1.0 - x)
 			orr[n - fo + i] *= (1.0 - x) * (1.0 - x)
 	var target := float(score.get("lufs", -12.0))
-	var ceiling := Dsp.db2lin(-1.2)
+	# ceiling_db: extra headroom for bright transient tracks (glockenspiel lead): the QOA import adds up to +1.2 dB
+	var ceiling := Dsp.db2lin(float(score.get("ceiling_db", -1.2)))
 	var gain := Dsp.db2lin(target - Dsp.lufs_ch([ol, orr], rate))
 	var ml := PackedFloat32Array()
 	var mr := PackedFloat32Array()

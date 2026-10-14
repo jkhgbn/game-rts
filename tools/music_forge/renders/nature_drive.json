@@ -1,0 +1,53 @@
+{
+	"bytes": 2646044,
+	"channels": 2,
+	"file": "res://assets/audio/music/nature_drive.wav",
+	"hash": "4bb0d3e74e6390064b0f7779c0090f6b|smp1.2|g22050s",
+	"id": "nature_drive",
+	"length_s": 30.0,
+	"loop": true,
+	"lufs": -16.1226386851612,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 132,
+			"inst": "frame_dum",
+			"ms": 1918,
+			"name": "hands",
+			"share": 0.585406279078046
+		},
+		{
+			"events": 40,
+			"inst": "taiko",
+			"ms": 1283,
+			"name": "kick",
+			"share": 0.380080589094639
+		},
+		{
+			"events": 128,
+			"inst": "shaker",
+			"ms": 350,
+			"name": "shaker",
+			"share": 0.0299481695995195
+		},
+		{
+			"events": 48,
+			"inst": "frame_tek",
+			"ms": 271,
+			"name": "tek",
+			"share": 0.00456496222779545
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 11.019,
+	"reverb_ms": 4807,
+	"rms_db": -18.008943838101,
+	"sampler": {
+		"fallback": 176,
+		"notes": 172
+	},
+	"samples": 661500,
+	"seam_slope": 0.00246870517730713,
+	"seam_step": 0.0101625323295593
+}

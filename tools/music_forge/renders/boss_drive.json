@@ -1,0 +1,46 @@
+{
+	"bytes": 1890044,
+	"channels": 2,
+	"file": "res://assets/audio/music/boss_drive.wav",
+	"hash": "1fc44a318edcbfb574b83eeaf40ac01d|smp1.2|g22050s",
+	"id": "boss_drive",
+	"length_s": 21.4285714285714,
+	"loop": true,
+	"lufs": -16.1355325357858,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 64,
+			"inst": "taiko",
+			"ms": 1504,
+			"name": "drums",
+			"share": 0.918813854019793
+		},
+		{
+			"events": 28,
+			"inst": "snare",
+			"ms": 325,
+			"name": "snare",
+			"share": 0.0743803471911307
+		},
+		{
+			"events": 40,
+			"inst": "frame_tek",
+			"ms": 199,
+			"name": "tek",
+			"share": 0.00680579878907662
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 7.15,
+	"reverb_ms": 3741,
+	"rms_db": -18.1649323308739,
+	"sampler": {
+		"fallback": 40,
+		"notes": 92
+	},
+	"samples": 472500,
+	"seam_slope": 0.00759515166282654,
+	"seam_step": 0.0115998983383179
+}

@@ -1,0 +1,46 @@
+{
+	"bytes": 3386924,
+	"channels": 2,
+	"file": "res://assets/audio/music/field_drive.wav",
+	"hash": "921ce5c2fa040bb009e47613de66bf32|smp1.2|g22050s",
+	"id": "field_drive",
+	"length_s": 38.4,
+	"loop": true,
+	"lufs": -16.1533436171932,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 214,
+			"inst": "snare",
+			"ms": 1508,
+			"name": "snare",
+			"share": 0.131631643327212
+		},
+		{
+			"events": 64,
+			"inst": "taiko",
+			"ms": 1702,
+			"name": "drums",
+			"share": 0.860917819272357
+		},
+		{
+			"events": 64,
+			"inst": "frame_tek",
+			"ms": 329,
+			"name": "tek",
+			"share": 0.00745053740043154
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 11.617,
+	"reverb_ms": 5364,
+	"rms_db": -18.330417146083,
+	"sampler": {
+		"fallback": 64,
+		"notes": 278
+	},
+	"samples": 846720,
+	"seam_slope": 0.00830900389701128,
+	"seam_step": 0.00560176931321621
+}

@@ -1,0 +1,46 @@
+{
+	"id": "chant", "title": "The Four Keys", "use": "Ep8 ending, credits, ep8_choice",
+	"mood": "solemn, hopeful",
+	"instruments": "violins lead (no choir: JS 2026-10-14, melody only); verse 1 = two voices (violins + cellos), verse 2 = four parts (violins, violas, horns, cellos), coda in D major with harp; low strings; one tubular bell per phrase",
+	"listen_for": "A hymn without voices: the violins sing the Call in half notes (D A G F E D C D) and the Answer; verse 2 opens to four parts; the coda turns to D major. Solemn and hopeful enough for the ending and the credits?",
+	"excerpt_note": "verse 2 into the D major coda", "excerpt_bar": 11,
+	"bpm": 60, "meter": [4, 4], "bars": 24, "loop": true,
+	"key": "D", "mode": "aeolian", "lead": "violins", "seed": 9951, "lufs": -12,
+	"room": {"size": 0.92, "damp": 0.4, "wet_db": -8},
+	"sections": [
+		{"name": "Verse 1 (two voices)", "bar": 0, "bars": 8}, {"name": "Verse 2 (four parts)", "bar": 8, "bars": 8},
+		{"name": "Coda (D major)", "bar": 16, "bars": 8}
+	],
+	"dyn": [[0, 0.62], [7, 0.72], [8, 0.74], [15, 0.85], [16, 0.88], [22, 0.95], [24, 0.65]],
+	"phrases": {
+		"v1": "D5:2 A5:2 | G5:2 F5:2 | E5:2 D5:2 | C5:2 D5:2 | F5:2 G5:2 | A5:2 C6:2 | Bb5:2 A5:2 | A5:4",
+		"v2": "D5:2 A5:2 | G5:1 A5:1 F5:2 | E5:2 D5:2 | C5:2 D5:2 | F5:2 G5:2 | A5:2 C6:2 | Bb5:1 A5:1 G5:1 E5:1 | A5:4",
+		"coda": "D5:2 A5:2 | G5:2 F#5:2 | E5:2 D5:2 | C#5:2 D5:2 | F#5:2 G5:2 | A5:2 D6:2 | C#6:2 B5:1 C#6:1 | D6:3 r:1",
+		"v1_low": "D3:2 F3:2 | E3:2 D3:2 | C3:2 Bb2:2 | A2:2 D3:2 | A2:2 C3:2 | F3:2 E3:2 | G3:2 F3:2 | E3:4",
+		"v2_ch": "Dm:2 F:2 | C:2 Dm:2 | Am:2 Bb:2 | C:2 Dm:2 | F:2 C:2 | F:2 Am:2 | Gm:2 A:2 | A:4",
+		"coda_ch": "D:4 | G:2 D:2 | A:2 Bm:2 | A:2 D:2 | D:2 G:2 | D:2 Bm:2 | A:4 | D:3 r:1"
+	},
+	"parts": [
+		{"name": "violins", "inst": "violins", "gain_db": 11.0, "send": 0.6, "gate": 1.02, "opt": {"section": 4},
+			"seq": [{"bar": 0, "notes": "$v1", "vel": 0.62, "vel_to": 0.72},
+				{"bar": 8, "notes": "$v2", "vel": 0.74, "vel_to": 0.85},
+				{"bar": 16, "notes": "$coda", "vel": 0.88, "vel_to": 0.95}]},
+		{"name": "cellos", "inst": "cellos", "gain_db": 7.0, "send": 0.55, "gate": 1.02, "opt": {"section": 3},
+			"seq": [{"bar": 0, "notes": "$v1_low", "vel": 0.6, "vel_to": 0.68},
+				{"bar": 8, "chords": "$v2_ch", "style": "bass", "rhythm": "2", "oct": 2, "vel": 0.66},
+				{"bar": 16, "chords": "$coda_ch", "style": "bass", "rhythm": "2", "oct": 2, "vel": 0.75}]},
+		{"name": "violas", "inst": "violas", "gain_db": 4.0, "send": 0.6, "opt": {"section": 3},
+			"seq": [{"bar": 8, "chords": "$v2_ch", "style": "hold", "oct": 4, "voicing": "0 1", "vel": 0.55},
+				{"bar": 16, "chords": "$coda_ch", "style": "hold", "oct": 4, "voicing": "0 1", "vel": 0.65}]},
+		{"name": "horns", "inst": "horns", "gain_db": 1.0, "send": 0.6, "gate": 1.0, "opt": {"section": 4},
+			"seq": [{"bar": 8, "chords": "$v2_ch", "style": "hold", "oct": 3, "voicing": "1 2", "vel": 0.45, "vel_to": 0.55},
+				{"bar": 16, "chords": "$coda_ch", "style": "hold", "oct": 3, "voicing": "1 2 3", "vel": 0.6, "vel_to": 0.7}]},
+		{"name": "basses", "inst": "basses", "gain_db": 3.0, "send": 0.4, "opt": {"section": 2},
+			"seq": [{"bar": 8, "chords": "$v2_ch", "style": "bass", "rhythm": "4", "oct": 1, "vel": 0.5},
+				{"bar": 16, "chords": "$coda_ch", "style": "bass", "rhythm": "4", "oct": 1, "vel": 0.6}]},
+		{"name": "harp", "inst": "harp", "gain_db": 7.0, "send": 0.55,
+			"seq": [{"bar": 16, "chords": "$coda_ch", "style": "arp", "pattern": "0 2 3 4 5 4 3 2", "step": 0.5, "oct": 3, "vel": 0.5}]},
+		{"name": "bell", "inst": "tubular", "gain_db": -4.0, "send": 0.7, "pan": 0.3,
+			"seq": [{"bar": 0, "notes": "D5:4 | r:4 | r:4 | r:4 | A4:4 | r:4 | r:4 | r:4 | D5:4 | r:4 | r:4 | r:4 | A4:4 | r:4 | r:4 | r:4 | D5:4 | r:4 | r:4 | r:4 | F#5:4 | r:4 | r:4 | r:4", "vel": 0.55}]}
+	]
+}

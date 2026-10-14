@@ -1,0 +1,53 @@
+{
+	"bytes": 2822444,
+	"channels": 2,
+	"file": "res://assets/audio/music/shadow_drive.wav",
+	"hash": "164edcd59b980a799d39703025583cac|smp1.2|g22050s",
+	"id": "shadow_drive",
+	"length_s": 32.0,
+	"loop": true,
+	"lufs": -16.3540760897229,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 48,
+			"inst": "frame_dum",
+			"ms": 880,
+			"name": "heart",
+			"share": 0.593017417099388
+		},
+		{
+			"events": 38,
+			"inst": "taiko",
+			"ms": 980,
+			"name": "drums",
+			"share": 0.398762313582819
+		},
+		{
+			"events": 32,
+			"inst": "snare",
+			"ms": 383,
+			"name": "snare",
+			"share": 0.00447745245734695
+		},
+		{
+			"events": 32,
+			"inst": "frame_tek",
+			"ms": 264,
+			"name": "tek",
+			"share": 0.00374281686044584
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 10.433,
+	"reverb_ms": 5281,
+	"rms_db": -18.7271248681215,
+	"sampler": {
+		"fallback": 32,
+		"notes": 118
+	},
+	"samples": 705600,
+	"seam_slope": 0.000657878816127777,
+	"seam_step": 0.000446762889623642
+}

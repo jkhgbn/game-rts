@@ -1,0 +1,28 @@
+{
+	"id": "nature_drive", "drive_of": "nature", "title": "Sighing Wood (drive)", "use": "combat drum layer under nature, fades in with combat",
+	"mood": "rustling, urgent",
+	"instruments": "hand drums + low toms in 6/8 (muted bass drum), bass drum on the dotted beats, shaker, frame tek (unpitched, loops in sync with Nature)",
+	"listen_for": "Keeps the 6/8 skip but adds urgency? Does it sit under the folk theme without turning it into a march?",
+	"excerpt_note": "drive B", "excerpt_bar": 4,
+	"bpm": 64, "meter": [6, 8], "bars": 16, "loop": true,
+	"key": "-", "mode": "unpitched", "lead": "frame_dum", "seed": 5502, "lufs": -16,
+	"room": {"size": 0.7, "damp": 0.5, "wet_db": -12},
+	"sections": [{"name": "Drive A", "bar": 0, "bars": 8}, {"name": "Drive B (busier)", "bar": 8, "bars": 8}],
+	"dyn": [[0, 0.88], [8, 0.95], [15, 1.05], [16, 0.88]],
+	"parts": [
+		{"name": "hands", "inst": "frame_dum", "gain_db": 2.0, "send": 0.25,
+			"kit": {"d": ["frame_dum", 1.0, 40], "o": ["tom", 0.75, 41], "p": ["tom", 0.7, 47]},
+			"seq": [{"bar": 0, "bars": 8, "patterns": ["D..o.oD..o.p", "D..o.oD.op.p"], "vel": 0.7, "fill": "D.opopD.opop", "fill_every": 4},
+				{"bar": 8, "bars": 8, "patterns": ["D.oo.oD.oo.p", "D.oo.oD.opop"], "vel": 0.8, "fill": "DpopopDpopDD", "fill_every": 4}]},
+		{"name": "kick", "inst": "taiko", "gain_db": 1.0, "send": 0.3,
+			"kit": {"k": ["taiko", 1.0, 36]},
+			"seq": [{"bar": 0, "bars": 8, "pattern": "K.....k.....", "vel": 0.6},
+				{"bar": 8, "bars": 8, "pattern": "K.....K...k.", "vel": 0.7}]},
+		{"name": "shaker", "inst": "shaker", "gain_db": -4.0, "send": 0.15,
+			"kit": {"h": ["shaker", 0.6]},
+			"seq": [{"bar": 0, "bars": 16, "pattern": "H.hh.hH.hh.h", "vel": 0.5}]},
+		{"name": "tek", "inst": "frame_tek", "gain_db": -9.0, "send": 0.25,
+			"kit": {"t": ["frame_tek", 0.7]},
+			"seq": [{"bar": 0, "bars": 16, "patterns": ["...t.....t..", "...t..t..t.t"], "vel": 0.5}]}
+	]
+}

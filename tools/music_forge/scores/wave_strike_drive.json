@@ -1,0 +1,31 @@
+{
+	"id": "wave_strike_drive", "drive_of": "wave_strike", "title": "Lanebreaker (drive)", "use": "combat drum layer under wave_strike, fades in with combat",
+	"mood": "relentless",
+	"instruments": "taiko (bass drum) + toms in 16ths, snare backbeat and rolls, shaker, claps (unpitched, loops in sync with Wave Strike)",
+	"listen_for": "Hard-hitting at 128 bpm, but leaves room for the string ostinato? Too busy?",
+	"excerpt_note": "drive B", "excerpt_bar": 6,
+	"bpm": 128, "meter": [4, 4], "bars": 16, "loop": true,
+	"key": "-", "mode": "unpitched", "lead": "taiko", "seed": 8802, "lufs": -16,
+	"room": {"size": 0.6, "damp": 0.55, "wet_db": -13},
+	"sections": [{"name": "Drive A", "bar": 0, "bars": 8}, {"name": "Drive B (busier)", "bar": 8, "bars": 8}],
+	"dyn": [[0, 0.88], [8, 0.95], [15, 1.05], [16, 0.88]],
+	"parts": [
+		{"name": "taiko", "inst": "taiko", "gain_db": 2.0, "send": 0.3,
+			"kit": {"k": ["taiko", 1.0, 36], "o": ["tom", 0.8, 41], "p": ["tom", 0.75, 47]},
+			"seq": [{"bar": 0, "bars": 8, "patterns": ["K..k..k.K..k....", "K..k..k.K..k.opo"], "vel": 0.78, "fill": "KopKopKoKKopKKKK", "fill_every": 4},
+				{"bar": 8, "bars": 7, "patterns": ["K.ok.ok.K.ok.opo", "K.ok.ok.KookKopp"], "vel": 0.85, "fill": "KKopKKopKopKKKKK", "fill_every": 4},
+				{"bar": 15, "bars": 1, "pattern": "KKopKKopKopKK...", "vel": 0.85}]},
+		{"name": "snare", "inst": "snare", "gain_db": 2.0, "send": 0.3,
+			"kit": {"s": ["snare", 0.7]},
+			"seq": [{"bar": 0, "bars": 8, "pattern": "....S.......S..s", "vel": 0.6},
+				{"bar": 8, "bars": 7, "pattern": "..s.S..s..s.S.ss", "vel": 0.68},
+				{"bar": 15, "bars": 1, "pattern": "..s.S..s..s.S...", "vel": 0.68}]},
+		{"name": "shaker", "inst": "shaker", "gain_db": -5.0, "send": 0.15,
+			"kit": {"h": ["shaker", 0.6]},
+			"seq": [{"bar": 0, "bars": 15, "pattern": "HhhhHhhhHhhhHhhh", "vel": 0.5},
+				{"bar": 15, "bars": 1, "pattern": "HhhhHhhhHhhhH...", "vel": 0.5}]},
+		{"name": "claps", "inst": "clap", "gain_db": -6.0, "send": 0.3,
+			"kit": {"c": ["clap", 0.9]},
+			"seq": [{"bar": 8, "bars": 8, "pattern": "....C.......C...", "vel": 0.6}]}
+	]
+}

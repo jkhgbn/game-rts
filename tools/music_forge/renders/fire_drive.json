@@ -1,55 +1,60 @@
 {
-	"bytes": 1764044,
+	"bytes": 3528044,
+	"channels": 2,
 	"file": "res://assets/audio/music/fire_drive.wav",
-	"hash": "330a2f62f5a2a9b04a9671ffc51f27f8",
-	"hf_share": 0.00412650944039257,
+	"hash": "6d9e2687044c2fb6d379caac5ce58053|smp1.2|g22050s",
 	"id": "fire_drive",
 	"length_s": 40.0,
 	"loop": true,
-	"lufs": -16.5247465102672,
+	"lufs": -16.1433590185857,
 	"pad_share": 0.0,
 	"parts": [
 		{
 			"events": 110,
 			"inst": "taiko",
-			"ms": 1649,
+			"ms": 2744,
 			"name": "taiko",
-			"share": 0.842250546310561
+			"share": 0.844269914326047
 		},
 		{
 			"events": 168,
 			"inst": "frame_dum",
-			"ms": 609,
+			"ms": 1165,
 			"name": "frame",
-			"share": 0.145158320269333
+			"share": 0.143258055221298
 		},
 		{
 			"events": 80,
 			"inst": "snare",
-			"ms": 313,
+			"ms": 830,
 			"name": "snare",
-			"share": 0.00557929830168375
+			"share": 0.00555460667233411
 		},
 		{
 			"events": 32,
 			"inst": "clap",
-			"ms": 230,
+			"ms": 397,
 			"name": "claps",
-			"share": 0.00196940779983692
+			"share": 0.00195342448512028
 		},
 		{
 			"events": 256,
 			"inst": "shaker",
-			"ms": 406,
+			"ms": 592,
 			"name": "shaker",
-			"share": 0.00504242731858531
+			"share": 0.00496399929520096
 		}
 	],
 	"peak_db": -1.20000016455283,
-	"render_s": 6.983,
-	"reverb_ms": 1699,
-	"rms_db": -14.1345864924104,
+	"rate": 22050,
+	"render_s": 14.2,
+	"reverb_ms": 5987,
+	"rms_db": -18.0898159567974,
+	"sampler": {
+		"fallback": 420,
+		"notes": 226
+	},
 	"samples": 882000,
-	"seam_slope": 0.000464092940092087,
-	"seam_step": 0.00391153991222382
+	"seam_slope": 0.0113305598497391,
+	"seam_step": 0.015696631744504
 }

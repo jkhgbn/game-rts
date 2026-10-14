@@ -1,0 +1,25 @@
+{
+	"id": "field_drive", "drive_of": "field", "title": "Crossroads March (drive)", "use": "combat drum layer under field, fades in with combat",
+	"mood": "martial, pressing",
+	"instruments": "marching snare (rudiments, rolls), bass drum, low toms, frame tek (unpitched, loops in sync with Field)",
+	"listen_for": "Does the marching snare turn the march into a battle without clashing with the field snare part?",
+	"excerpt_note": "drive B", "excerpt_bar": 6,
+	"bpm": 100, "meter": [4, 4], "bars": 16, "loop": true,
+	"key": "-", "mode": "unpitched", "lead": "snare", "seed": 7702, "lufs": -16,
+	"room": {"size": 0.65, "damp": 0.5, "wet_db": -12},
+	"sections": [{"name": "Drive A", "bar": 0, "bars": 8}, {"name": "Drive B (busier)", "bar": 8, "bars": 8}],
+	"dyn": [[0, 0.88], [8, 0.95], [15, 1.05], [16, 0.88]],
+	"parts": [
+		{"name": "snare", "inst": "snare", "gain_db": 1.0, "send": 0.3, "opt": {"march": true},
+			"kit": {"s": ["snare", 0.7]},
+			"seq": [{"bar": 0, "bars": 8, "patterns": ["S.sss.s.S.sss.ss", "S.sss.s.S.s.Ssss"], "vel": 0.65, "fill": "SsssSsssSsSsSSSS", "fill_every": 4},
+				{"bar": 8, "bars": 8, "patterns": ["SsssS.ssSsssS.ss", "SsssS.ssS.ssSsSs"], "vel": 0.72, "fill": "SsSsSsSsSSSSSSSS", "fill_every": 4}]},
+		{"name": "drums", "inst": "taiko", "gain_db": 2.0, "send": 0.3,
+			"kit": {"k": ["taiko", 1.0, 36], "o": ["tom", 0.8, 41], "p": ["tom", 0.75, 47]},
+			"seq": [{"bar": 0, "bars": 8, "patterns": ["K.......K.......", "K.......K...o.p."], "vel": 0.72},
+				{"bar": 8, "bars": 8, "patterns": ["K.....k.K.......", "K.....k.K.o.p.pp"], "vel": 0.8}]},
+		{"name": "tek", "inst": "frame_tek", "gain_db": -8.0, "send": 0.25,
+			"kit": {"t": ["frame_tek", 0.7]},
+			"seq": [{"bar": 0, "bars": 16, "pattern": "..t...t...t...t.", "vel": 0.45}]}
+	]
+}

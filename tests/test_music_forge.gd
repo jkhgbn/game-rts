@@ -1,35 +1,39 @@
 extends SceneTree
-## Music Forge phase 1 audio check (docs/design/music.md 5 + MU1 / MU11 subset) on the rendered tracks:
-## format (16-bit mono 22 050 Hz), exact length from the score (bars x beats x 60 / bpm), peak <= -1 dBFS,
-## integrated loudness (music -12 +-1.5 LUFS, drives -16 +-2), RMS range, loop seam click-free (|last - first| and the
-## slope change <= 0.02), stings fade to < -60 dBFS, pad share <= 20 %, the render is up to date with its score,
-## rule 1.4 (no two tracks share lead + mode + tempo +-8 + meter), the listening excerpts exist, and a re-render of
-## sting_victory gives the same bytes as the file (deterministic).
-## Phase 1b: when the VSCO 2 CE sample library is present (env FW_MUSIC_SAMPLES or the default path), also checks the
-## sampler key map and the B renders (stereo 44.1 kHz, outside the repo) + their excerpts; otherwise prints SKIP.
+## Music Forge checks (docs/design/music.md 5, MU1 + phase 2). The per-file audio checks of the shipped tracks live in
+## tests/test_music_check.gd (MU11); this test checks the forge itself:
+## - determinism: the same score renders to the same bytes twice, and equal to the shipped file (sting_victory, game
+##   format = sampler backend, stereo 22 050 Hz); without the sample library: the synth kit twice (SKIP for the file);
+## - the sampler key map from the VSCO 2 CE file names (VSCO "A3" sounds A4; harp names are scientific) and every set
+##   (incl. phase 2: cello pizzicato, tuba staccato, marching snare) has zones;
+## - no shipped score holds a choir part (no singing, JS 2026-10-14); choir_test stays a listening-only score;
+## - the listening sheet index.md (committed) lists every excerpt: phase 1 01-04 and phase 2 06-21 (the excerpt WAVs
+##   themselves are not committed, so they are not needed here);
+## - the game backend refuses a score with a choir part (renders nothing). Samples missing (FW_MUSIC_SAMPLES unset) = SKIP.
 ## Run: & tools\godot_run.ps1 --headless --path . -s tests/test_music_forge.gd --quit-after 100000
-## Render first: & tools\godot_run.ps1 --headless --path . -s tools/music_forge/music_forge.gd --quit-after 2000000 -- track=all excerpts
 
 const TASK_ID := "music_forge"
 const Core := preload("res://tools/music_forge/forge_core.gd")
 const Dsp := preload("res://tools/music_forge/dsp.gd")
 const Forge := preload("res://tools/music_forge/music_forge.gd")
 const Sampler := preload("res://tools/music_forge/sampler.gd")
-const TRACKS := ["theme_main", "fire", "fire_drive", "sting_victory", "choir_test"]
-const LISTEN := ["01_theme_main", "02_fire", "03_fire_drive", "04_sting_victory", "05_choir_test"]
+const LISTEN_PHASE1 := ["01_theme_main", "02_fire", "03_fire_drive", "04_sting_victory"]
 
 var _fails: PackedStringArray = []
 
 
 func _initialize() -> void:
-	var tuples := {}
-	for id in TRACKS:
-		_check_track(id, tuples)
-	_check_determinism()
-	_check_sampler()
-	for nm in LISTEN:
-		if not FileAccess.file_exists("res://docs/audio/listening_2026-10-13/%s.wav" % nm):
-			_fails.append("missing listening excerpt %s.wav" % nm)
+	_check_scores()
+	var root_dir := Sampler.sample_root()
+	if Sampler.available(root_dir):
+		var smp := Sampler.new()
+		smp.setup(root_dir)
+		_check_key_map(smp)
+		_check_determinism_game(smp)
+		_check_choir_refused(smp)
+	else:
+		print("SKIP sampler checks: no sample library at %s (set FW_MUSIC_SAMPLES)" % root_dir)
+		_check_determinism_synth()
+	_check_listening()
 	if _fails.is_empty():
 		print("PASS %s" % TASK_ID)
 	else:
@@ -39,99 +43,26 @@ func _initialize() -> void:
 	quit.call_deferred(0 if _fails.is_empty() else 1)
 
 
-func _check_track(id: String, tuples: Dictionary) -> void:
-	var score := Core.load_score("res://tools/music_forge/scores/%s.json" % id)
-	if score.is_empty():
-		_fails.append("%s: no score" % id)
-		return
-	var path := Forge.out_path(score)
-	var w := Dsp.read_wav(path)
-	if w.is_empty():
-		_fails.append("%s: cannot read %s" % [id, path])
-		return
-	var buf: PackedFloat32Array = w["samples"]
-	var drive := score.has("drive_of")
-	var loop := bool(score.get("loop", true))
-	var expect := Core.length_samples(score)
-	var peak := Dsp.peak_db(buf)
-	var rms := Dsp.rms_db(buf)
-	var lufs := Dsp.lufs(buf)
-	var seam := Dsp.seam(buf) if loop else Vector2.ZERO
-	var meta: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://tools/music_forge/renders/%s.json" % id))
-	var pad := 1.0
-	var fresh := false
-	if meta is Dictionary:
-		pad = float((meta as Dictionary).get("pad_share", 1.0))
-		fresh = str((meta as Dictionary).get("hash", "")) == str(score["_hash"])
-	var end_db := -200.0
-	for i in range(buf.size() - int(0.005 * Dsp.RATE), buf.size()):
-		end_db = maxf(end_db, Dsp.lin2db(absf(buf[i])))
-	print("%-14s length %.2f s  %d samples  peak %.2f dB  rms %.2f dB  %.2f LUFS  %s  pad %.1f %%" % [id,
-		float(buf.size()) / Dsp.RATE, buf.size(), peak, rms, lufs,
-		("seam %.4f slope %.4f" % [seam.x, seam.y]) if loop else ("end %.1f dBFS" % end_db), pad * 100.0])
-	if int(w["rate"]) != 22050 or int(w["channels"]) != 1 or int(w["bits"]) != 16:
-		_fails.append("%s: format %s Hz %s ch %s bit" % [id, w["rate"], w["channels"], w["bits"]])
-	if not Core.length_exact(score):
-		_fails.append("%s: bars x beats x 60 / bpm is not a whole number of samples" % id)
-	if buf.size() != expect:
-		_fails.append("%s: %d samples, expected %d" % [id, buf.size(), expect])
-	if peak > -1.0:
-		_fails.append("%s: peak %.2f dBFS > -1" % [id, peak])
-	var target := -16.0 if drive else -12.0
-	var tol := 2.0 if drive else 1.5
-	if absf(lufs - target) > tol:
-		_fails.append("%s: loudness %.2f LUFS outside %.0f +-%.1f" % [id, lufs, target, tol])
-	var rms_lo := -24.0 if drive else -20.0
-	var rms_hi := -10.0 if drive else -8.0
-	if rms < rms_lo or rms > rms_hi:
-		_fails.append("%s: RMS %.2f dB outside [%.0f, %.0f]" % [id, rms, rms_lo, rms_hi])
-	if loop and (seam.x > 0.02 or seam.y > 0.02):
-		_fails.append("%s: loop seam step %.4f slope %.4f (max 0.02)" % [id, seam.x, seam.y])
-	if not loop and end_db > -60.0:
-		_fails.append("%s: end at %.1f dBFS (needs < -60)" % [id, end_db])
-	if pad > 0.2:
-		_fails.append("%s: pad share %.1f %% > 20 %%" % [id, pad * 100.0])
-	if not fresh:
-		_fails.append("%s: render is older than its score (hash differs): re-run the forge" % id)
-	if drive or str(score.get("out", "")) != "":
-		return
-	var m := Core.meter_of(score)
-	var key := "%s|%s|%d/%d" % [score.get("lead", ""), score.get("mode", ""), m.x, m.y]
-	for other in tuples.get(key, []):
-		if absf(float(other) - float(score.get("bpm", 0))) <= 8.0:
-			_fails.append("%s: shares lead / mode / meter / tempo +-8 with another track (rule 1.4)" % id)
-	var lst: Array = tuples.get(key, [])
-	lst.append(float(score.get("bpm", 0)))
-	tuples[key] = lst
+func _check_scores() -> void:
+	for id in Forge.GAME_TRACKS:
+		var score := Core.load_score("res://tools/music_forge/scores/%s.json" % id)
+		if score.is_empty():
+			_fails.append("%s: no score" % id)
+			continue
+		if str(score.get("out", "")) != "":
+			_fails.append("%s: a game track must not have out = %s" % [id, score.get("out")])
+		for p in score.get("parts", []):
+			if str((p as Dictionary).get("inst", "")) == "choir":
+				_fails.append("%s: choir part %s" % [id, (p as Dictionary).get("name", "?")])
+	var ct := Core.load_score("res://tools/music_forge/scores/choir_test.json")
+	if not ct.is_empty() and str(ct.get("out", "")) != "listen":
+		_fails.append("choir_test must stay a listening-only score (out = listen)")
 
 
-func _check_determinism() -> void:
-	var score := Core.load_score("res://tools/music_forge/scores/sting_victory.json")
-	var a: PackedFloat32Array = Core.new().render(score, false)["samples"]
-	var b: PackedFloat32Array = Core.new().render(score, false)["samples"]
-	var ha := _hash16(a)
-	var hb := _hash16(b)
-	var file := Dsp.read_wav(Forge.out_path(score))
-	var hf := _hash16(file.get("samples", PackedFloat32Array()), 32768.0)
-	print("determinism: render 1 %s  render 2 %s  file %s" % [ha.substr(0, 12), hb.substr(0, 12), hf.substr(0, 12)])
-	if ha != hb:
-		_fails.append("sting_victory: two renders differ")
-	if ha != hf:
-		_fails.append("sting_victory: render differs from the file on disk")
-
-
-## Phase 1b: the sampler B versions (stereo 44.1 kHz, outside the repo). Skips cleanly without the sample library.
-func _check_sampler() -> void:
-	var root := Sampler.sample_root()
-	if not Sampler.available(root):
-		print("SKIP sampler checks: no sample library at %s (set FW_MUSIC_SAMPLES)" % root)
-		return
-	var smp := Sampler.new()
-	smp.setup(root)
+func _check_key_map(smp: Sampler) -> void:
 	for sid in Sampler.SETS:
 		if (smp.zones.get(sid, []) as Array).is_empty():
 			_fails.append("sampler: set %s has no zones" % sid)
-	# key map from file names: VSCO "A3" sounds A4 (measured 440 Hz); the harp names are scientific
 	var roots := {}
 	for z in smp.zones.get("vln_sus", []):
 		roots[float(z["root"])] = true
@@ -142,55 +73,68 @@ func _check_sampler() -> void:
 		harp[float(z["root"])] = true
 	if not harp.has(69.0):
 		_fails.append("sampler: harp key map lost A4 (KSHarp_A4)")
-	for i in TRACKS.size():
-		var id: String = TRACKS[i]
-		var score := Core.load_score("res://tools/music_forge/scores/%s.json" % id)
-		var path := Forge.b_path(id, root)
-		var w := Dsp.read_wav(path)
-		if w.is_empty():
-			_fails.append("%s_b: missing %s" % [id, path])
-			continue
-		var l: PackedFloat32Array = w["samples"]
-		var r: PackedFloat32Array = w["right"]
-		var loop := bool(score.get("loop", true))
-		var expect := Core.length_samples(score, 44100)
-		var peak := maxf(Dsp.peak_db(l), Dsp.peak_db(r))
-		var lufs := Dsp.lufs_ch([l, r], 44100)
-		var s1 := Dsp.seam(l) if loop else Vector2.ZERO
-		var s2 := Dsp.seam(r) if loop else Vector2.ZERO
-		var end_db := -200.0
-		for k in range(l.size() - 220, l.size()):
-			end_db = maxf(end_db, Dsp.lin2db(maxf(absf(l[k]), absf(r[k]))))
-		print("%-16s %d Hz %d ch  %d samples  peak %.2f dB  %.2f LUFS  %s" % [id + "_b", w["rate"], w["channels"], l.size(), peak,
-			lufs, ("seam %.4f / %.4f" % [maxf(s1.x, s2.x), maxf(s1.y, s2.y)]) if loop else ("end %.1f dBFS" % end_db)])
-		if int(w["rate"]) != 44100 or int(w["channels"]) != 2 or int(w["bits"]) != 16:
-			_fails.append("%s_b: format %s Hz %s ch %s bit" % [id, w["rate"], w["channels"], w["bits"]])
-		if l.size() != expect or r.size() != expect:
-			_fails.append("%s_b: %d samples, expected %d" % [id, l.size(), expect])
-		if peak > -1.0:
-			_fails.append("%s_b: peak %.2f dBFS > -1" % [id, peak])
-		var target := -16.0 if score.has("drive_of") else -12.0
-		var tol := 2.0 if score.has("drive_of") else 1.5
-		if absf(lufs - target) > tol:
-			_fails.append("%s_b: loudness %.2f LUFS outside %.0f +-%.1f" % [id, lufs, target, tol])
-		if loop and (maxf(s1.x, s2.x) > 0.02 or maxf(s1.y, s2.y) > 0.02):
-			_fails.append("%s_b: loop seam %.4f / %.4f (max 0.02)" % [id, maxf(s1.x, s2.x), maxf(s1.y, s2.y)])
-		if not loop and end_db > -60.0:
-			_fails.append("%s_b: end at %.1f dBFS (needs < -60)" % [id, end_db])
-		var meta: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://tools/music_forge/renders/%s_b.json" % id))
-		if not (meta is Dictionary) or str((meta as Dictionary).get("hash", "")) != str(score["_hash_b"]) + "|" + Sampler.SAMPLER_VERSION:
-			_fails.append("%s_b: render is older than its score: re-run the forge with backend=sampler" % id)
-		var ex := "res://docs/audio/listening_2026-10-13/%02db_%s.wav" % [i + 1, id]
-		if not FileAccess.file_exists(ex):
-			_fails.append("%s_b: missing listening excerpt %s" % [id, ex.get_file()])
+	if Sampler.set_for("cellos", 0.5, 1.0, {"pizz": true}, 48.0) != "vc_pizz":
+		_fails.append("sampler: pizz option does not pick the cello pizzicato set")
+	if Sampler.set_for("snare", 0.1, 1.0, {"march": true}, 60.0) != "snare_march":
+		_fails.append("sampler: march option does not pick the marching snare")
 
 
-## Hash of the 16-bit samples as the WAV writer stores them.
-static func _hash16(buf: PackedFloat32Array, scale: float = 32767.0) -> String:
+## Game format: two renders of sting_victory equal each other and the shipped file.
+func _check_determinism_game(smp: Sampler) -> void:
+	var score := Core.load_score("res://tools/music_forge/scores/sting_victory.json")
+	var a: Dictionary = Core.new().render_b(score, smp, false, Core.RATE_GAME)
+	var b: Dictionary = Core.new().render_b(score, smp, false, Core.RATE_GAME)
+	var ha := _hash16(a["left"], a["right"])
+	var hb := _hash16(b["left"], b["right"])
+	var file := Dsp.read_wav(Forge.game_path("sting_victory"))
+	var hf := _hash16(file.get("samples", PackedFloat32Array()), file.get("right", PackedFloat32Array()), 32768.0)
+	print("determinism (game format): render 1 %s  render 2 %s  file %s" % [ha.substr(0, 12), hb.substr(0, 12), hf.substr(0, 12)])
+	if ha != hb:
+		_fails.append("sting_victory: two renders differ")
+	if ha != hf:
+		_fails.append("sting_victory: render differs from assets/audio/music/sting_victory.wav")
+
+
+## The game format must refuse a choir score (choir_test) and render nothing.
+func _check_choir_refused(smp: Sampler) -> void:
+	var score := Core.load_score("res://tools/music_forge/scores/choir_test.json")
+	if score.is_empty():
+		return
+	var res: Dictionary = Core.new().render_b(score, smp, false, Core.RATE_GAME)
+	if not res.has("error") or res.has("left"):
+		_fails.append("game backend rendered choir_test (a choir score must be refused)")
+
+
+func _check_determinism_synth() -> void:
+	var score := Core.load_score("res://tools/music_forge/scores/sting_victory.json")
+	var a: PackedFloat32Array = Core.new().render(score, false)["samples"]
+	var b: PackedFloat32Array = Core.new().render(score, false)["samples"]
+	if _hash16(a, PackedFloat32Array()) != _hash16(b, PackedFloat32Array()):
+		_fails.append("sting_victory (synth): two renders differ")
+
+
+func _check_listening() -> void:
+	var idx := FileAccess.get_file_as_string(Forge.LISTEN_DIR + "index.md")
+	if not idx.contains(Forge.PHASE2_MARK) or not idx.contains("# Music Forge phase 1"):
+		_fails.append("index.md: phase 1 sheet or the Phase 2 section is missing")
+	for nm in LISTEN_PHASE1:
+		if not idx.contains("`%s.wav`" % nm):
+			_fails.append("index.md does not list %s.wav" % nm)
+	for k in Forge.PHASE2_LISTEN.size():
+		var nm := "%02d_%s.wav" % [Forge.PHASE2_FIRST + k, Forge.PHASE2_LISTEN[k]]
+		if not idx.contains("`%s`" % nm):
+			_fails.append("index.md does not list %s" % nm)
+
+
+## Hash of the 16-bit samples as the WAV writer stores them (interleaved when `r` is not empty).
+static func _hash16(l: PackedFloat32Array, r: PackedFloat32Array, scale: float = 32767.0) -> String:
+	var ch := 1 if r.is_empty() else 2
 	var bytes := PackedByteArray()
-	bytes.resize(buf.size() * 2)
-	for i in buf.size():
-		bytes.encode_s16(i * 2, int(round(clampf(buf[i], -1.0, 1.0) * scale)))
+	bytes.resize(l.size() * 2 * ch)
+	for i in l.size():
+		bytes.encode_s16(i * 2 * ch, int(round(clampf(l[i], -1.0, 1.0) * scale)))
+		if ch == 2:
+			bytes.encode_s16(i * 4 + 2, int(round(clampf(r[i], -1.0, 1.0) * scale)))
 	var ctx := HashingContext.new()
 	ctx.start(HashingContext.HASH_MD5)
 	ctx.update(bytes)

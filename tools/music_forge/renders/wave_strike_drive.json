@@ -1,0 +1,53 @@
+{
+	"bytes": 2646044,
+	"channels": 2,
+	"file": "res://assets/audio/music/wave_strike_drive.wav",
+	"hash": "38eba7fbfe01a77a4815c2506eab0ca3|smp1.2|g22050s",
+	"id": "wave_strike_drive",
+	"length_s": 30.0,
+	"loop": true,
+	"lufs": -16.0534508581257,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 167,
+			"inst": "taiko",
+			"ms": 3794,
+			"name": "taiko",
+			"share": 0.941611824176526
+		},
+		{
+			"events": 78,
+			"inst": "snare",
+			"ms": 705,
+			"name": "snare",
+			"share": 0.0289654276772129
+		},
+		{
+			"events": 253,
+			"inst": "shaker",
+			"ms": 533,
+			"name": "shaker",
+			"share": 0.0258856923706882
+		},
+		{
+			"events": 16,
+			"inst": "clap",
+			"ms": 262,
+			"name": "claps",
+			"share": 0.00353705577557339
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 11.556,
+	"reverb_ms": 4778,
+	"rms_db": -18.0832692165014,
+	"sampler": {
+		"fallback": 269,
+		"notes": 245
+	},
+	"samples": 661500,
+	"seam_slope": 0.000749029219150543,
+	"seam_step": 0.00141774863004684
+}

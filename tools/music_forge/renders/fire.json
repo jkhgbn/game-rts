@@ -1,118 +1,123 @@
 {
-	"bytes": 7056044,
+	"bytes": 14112044,
+	"channels": 2,
 	"file": "res://assets/audio/music/fire.wav",
-	"hash": "4b8b1449813801075a8d8f41a41a6951",
-	"hf_share": 0.000446885455371542,
+	"hash": "b87713093cf6712974f2f8b80da27a36|smp1.2|g22050s",
 	"id": "fire",
 	"length_s": 160.0,
 	"loop": true,
-	"lufs": -12.183836695284,
+	"lufs": -12.1080342348223,
 	"pad_share": 0.0,
 	"parts": [
 		{
 			"events": 185,
 			"inst": "shawm",
-			"ms": 3486,
+			"ms": 2993,
 			"name": "shawm",
-			"share": 0.156112410971862
+			"share": 0.154600663805165
 		},
 		{
 			"events": 1661,
 			"inst": "lute",
-			"ms": 17813,
+			"ms": 9849,
 			"name": "lute",
-			"share": 0.0616830441807903
+			"share": 0.0610388654396697
 		},
 		{
 			"events": 139,
 			"inst": "violins",
-			"ms": 13591,
+			"ms": 3241,
 			"name": "violins",
-			"share": 0.132316458632372
+			"share": 0.13223835326951
 		},
 		{
 			"events": 150,
 			"inst": "violas",
-			"ms": 16066,
+			"ms": 4051,
 			"name": "violas",
-			"share": 0.0361266959118541
+			"share": 0.0356985477058253
 		},
 		{
 			"events": 544,
 			"inst": "cellos",
-			"ms": 7988,
+			"ms": 14368,
 			"name": "cellos",
-			"share": 0.113034172937213
+			"share": 0.113205066762796
 		},
 		{
 			"events": 170,
 			"inst": "basses",
-			"ms": 7458,
+			"ms": 4689,
 			"name": "basses",
-			"share": 0.0600163657844526
+			"share": 0.0587631291869173
 		},
 		{
 			"events": 200,
 			"inst": "horns",
-			"ms": 16887,
+			"ms": 5951,
 			"name": "horns",
-			"share": 0.209720929733592
+			"share": 0.209457128348802
 		},
 		{
 			"events": 266,
 			"inst": "trumpets",
-			"ms": 5326,
+			"ms": 8670,
 			"name": "trumpets",
-			"share": 0.0682061220724958
+			"share": 0.0677280303084923
 		},
 		{
 			"events": 312,
 			"inst": "trombones",
-			"ms": 9746,
+			"ms": 11992,
 			"name": "trombones",
-			"share": 0.0529387276592671
+			"share": 0.0582888777499931
 		},
 		{
 			"events": 29,
 			"inst": "timpani",
-			"ms": 7110,
+			"ms": 1775,
 			"name": "timpani",
-			"share": 0.0249939918750403
+			"share": 0.0247385006007353
 		},
 		{
 			"events": 549,
 			"inst": "frame_dum",
-			"ms": 2433,
+			"ms": 4472,
 			"name": "frame",
-			"share": 0.0304824753976001
+			"share": 0.0302497128243448
 		},
 		{
 			"events": 336,
 			"inst": "shaker",
-			"ms": 843,
+			"ms": 1351,
 			"name": "shaker",
-			"share": 0.000536905672691329
+			"share": 0.000527791649780822
 		},
 		{
 			"events": 112,
 			"inst": "clap",
-			"ms": 881,
+			"ms": 1318,
 			"name": "claps",
-			"share": 0.000498780335370476
+			"share": 0.000494241047224504
 		},
 		{
 			"events": 172,
 			"inst": "taiko",
-			"ms": 2993,
+			"ms": 5446,
 			"name": "taiko",
-			"share": 0.053332918835398
+			"share": 0.0529710913007441
 		}
 	],
 	"peak_db": -1.20000016455283,
-	"render_s": 126.929,
-	"reverb_ms": 6008,
-	"rms_db": -11.9624899049952,
+	"rate": 22050,
+	"render_s": 113.915,
+	"reverb_ms": 21610,
+	"rms_db": -15.6423140337976,
+	"sampler": {
+		"fallback": 805,
+		"notes": 4020
+	},
 	"samples": 3528000,
-	"seam_slope": 0.00000190015748557926,
-	"seam_step": 0.00000914211523195263
+	"seam_slope": 0.000000126132135847001,
+	"seam_step": 0.000000285116584564094
 }

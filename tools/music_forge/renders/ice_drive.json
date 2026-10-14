@@ -1,0 +1,53 @@
+{
+	"bytes": 3528044,
+	"channels": 2,
+	"file": "res://assets/audio/music/ice_drive.wav",
+	"hash": "9e41be95ff139e0a4292613a6c386d79|smp1.2|g22050s",
+	"id": "ice_drive",
+	"length_s": 40.0,
+	"loop": true,
+	"lufs": -16.214548758282,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 80,
+			"inst": "taiko",
+			"ms": 1815,
+			"name": "drums",
+			"share": 0.969976172790413
+		},
+		{
+			"events": 48,
+			"inst": "snare",
+			"ms": 534,
+			"name": "snare",
+			"share": 0.0060426741071113
+		},
+		{
+			"events": 112,
+			"inst": "shaker",
+			"ms": 403,
+			"name": "shaker",
+			"share": 0.0216131377326268
+		},
+		{
+			"events": 24,
+			"inst": "frame_tek",
+			"ms": 273,
+			"name": "tek",
+			"share": 0.00236801536984916
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 12.24,
+	"reverb_ms": 6112,
+	"rms_db": -18.3551535022716,
+	"sampler": {
+		"fallback": 136,
+		"notes": 128
+	},
+	"samples": 882000,
+	"seam_slope": 0.00124463066458702,
+	"seam_step": 0.00946839991956949
+}

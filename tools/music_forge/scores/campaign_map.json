@@ -1,0 +1,44 @@
+{
+	"id": "campaign_map", "title": "The Empty Tower", "use": "campaign map, briefings, story screens",
+	"mood": "lonely, curious",
+	"instruments": "celesta bell lead (glockenspiel), harp, low solo-register cellos (B), flute answers, soft violas",
+	"listen_for": "Lonely and curious, good under reading (briefings)? The bell plays the Call at half speed (A E D C B, A G A) and ends open on E; the cellos and flute answer in B; the coda is the bell alone.",
+	"excerpt_note": "cello and flute B into the bell's return", "excerpt_bar": 8,
+	"bpm": 64, "meter": [4, 4], "bars": 32, "loop": true,
+	"key": "A", "mode": "aeolian", "lead": "celesta", "seed": 1201, "lufs": -12, "ceiling_db": -2.6,
+	"room": {"size": 0.9, "damp": 0.35, "wet_db": -8},
+	"sections": [
+		{"name": "A (bell, the Call at half speed)", "bar": 0, "bars": 8}, {"name": "B (cellos + flute)", "bar": 8, "bars": 8},
+		{"name": "A2 (bell + harp)", "bar": 16, "bars": 8}, {"name": "Coda (bell alone)", "bar": 24, "bars": 8}
+	],
+	"dyn": [[0, 0.66], [7, 0.7], [8, 0.72], [15, 0.8], [16, 0.78], [23, 0.75], [24, 0.62], [32, 0.58]],
+	"phrases": {
+		"a_mel": "A5:2 E6:2 | D6:1 C6:1 B5:2 | A5:3 G5:1 | A5:4 | C6:2 B5:1 A5:1 | G5:2 E5:2 | F5:2 D5:1 B4:1 | E5:4",
+		"a_ch": "Am:4 | Dm:2 G:2 | Am:2 Em:2 | Am:4 | F:2 Am:2 | C:4 | Dm:2 G:2 | Em:4",
+		"b_cello": "F3:2 A3:2 | C4:3 B3:1 | A3:2 G3:1 E3:1 | F3:4 | D3:2 F3:2 | A3:3 G3:1 | E3:2 D3:1 C3:1 | B2:4",
+		"b_flute": "r:4 | r:2 E5:1 D5:1 | C5:2 r:2 | r:2 A4:1 C5:1 | D5:4 | r:2 E5:1 F5:1 | E5:2 C5:2 | B4:4",
+		"b_ch": "F:4 | Am:2 G:2 | F:2 C:2 | Dm:4 | Dm:4 | F:2 C:2 | Am:4 | Em:4",
+		"coda": "A5:2 E6:2 | D6:2 C6:2 | B5:4 | A5:4 | C6:2 B5:2 | A5:2 G5:2 | E5:4 | r:4"
+	},
+	"parts": [
+		{"name": "bell", "inst": "celesta", "gain_db": 18.0, "send": 0.65, "gate": 1.0,
+			"seq": [{"bar": 0, "notes": "$a_mel", "vel": 0.66, "vel_to": 0.75},
+				{"bar": 12, "notes": "r:4 | r:4 | r:4 | r:2 E6:2", "vel": 0.4},
+				{"bar": 16, "notes": "$a_mel", "vel": 0.75, "vel_to": 0.8},
+				{"bar": 24, "notes": "$coda", "vel": 0.62, "vel_to": 0.5}]},
+		{"name": "harp", "inst": "harp", "gain_db": 4.0, "send": 0.55, "pan": -0.5,
+			"seq": [{"bar": 0, "chords": "$a_ch", "style": "arp", "pattern": "0 2 3 4 -1 3 2 -1", "step": 0.5, "oct": 3, "vel": 0.42},
+				{"bar": 8, "chords": "$b_ch", "style": "arp", "pattern": "0 -1 2 -1 3 -1 2 -1", "step": 0.5, "oct": 3, "vel": 0.38},
+				{"bar": 16, "chords": "$a_ch", "style": "arp", "pattern": "0 2 3 4 5 4 3 2", "step": 0.5, "oct": 3, "vel": 0.48}]},
+		{"name": "cellos", "inst": "cellos", "gain_db": 8.0, "send": 0.55, "gate": 1.0, "pan": 0.25, "opt": {"section": 3},
+			"seq": [{"bar": 8, "notes": "$b_cello", "vel": 0.62, "vel_to": 0.72},
+				{"bar": 16, "chords": "$a_ch", "style": "bass", "rhythm": "4", "oct": 2, "vel": 0.45}]},
+		{"name": "flute", "inst": "flute", "gain_db": 7.0, "send": 0.55, "gate": 0.98, "pan": -0.1,
+			"seq": [{"bar": 8, "notes": "$b_flute", "vel": 0.58, "vel_to": 0.66},
+				{"bar": 20, "notes": "C5:2 B4:1 A4:1 | G4:2 E4:2 | F4:2 D4:1 B3:1 | E4:4", "vel": 0.5}]},
+		{"name": "violas", "inst": "violas", "gain_db": 1.0, "send": 0.6, "opt": {"section": 3},
+			"seq": [{"bar": 4, "chords": "F:2 Am:2 | C:4 | Dm:2 G:2 | Em:4", "style": "hold", "oct": 3, "voicing": "1 2", "vel": 0.32},
+				{"bar": 8, "chords": "$b_ch", "style": "hold", "oct": 3, "voicing": "1 2", "vel": 0.36},
+				{"bar": 16, "chords": "$a_ch", "style": "hold", "oct": 3, "voicing": "1 2", "vel": 0.38}]}
+	]
+}

@@ -1,82 +1,87 @@
 {
-	"bytes": 352844,
+	"bytes": 705644,
+	"channels": 2,
 	"end_db": -180.0,
 	"file": "res://assets/audio/music/sting_victory.wav",
-	"hash": "66f04798c42b652b2b829e9473735916",
-	"hf_share": 0.000168450644924036,
+	"hash": "993070e39cd9740a8c90fc3db8901f9a|smp1.2|g22050s",
 	"id": "sting_victory",
 	"length_s": 8.0,
 	"loop": false,
-	"lufs": -12.1794508541661,
+	"lufs": -12.0590286007521,
 	"pad_share": 0.0,
 	"parts": [
 		{
 			"events": 10,
 			"inst": "trumpets",
-			"ms": 314,
+			"ms": 664,
 			"name": "trumpets",
-			"share": 0.17898642600637
+			"share": 0.173867413205174
 		},
 		{
 			"events": 10,
 			"inst": "horns",
-			"ms": 392,
+			"ms": 745,
 			"name": "horns",
-			"share": 0.143735925487573
+			"share": 0.139324706376818
 		},
 		{
 			"events": 24,
 			"inst": "trombones",
-			"ms": 1119,
+			"ms": 1397,
 			"name": "trombones",
-			"share": 0.265181253097515
+			"share": 0.258736312861535
 		},
 		{
 			"events": 24,
 			"inst": "violins",
-			"ms": 1697,
+			"ms": 1023,
 			"name": "strings",
-			"share": 0.118714930401274
+			"share": 0.116390307878426
 		},
 		{
 			"events": 11,
 			"inst": "cellos",
-			"ms": 349,
+			"ms": 454,
 			"name": "basses",
-			"share": 0.0911613137310395
+			"share": 0.0889215341404775
 		},
 		{
 			"events": 9,
 			"inst": "harp",
-			"ms": 119,
+			"ms": 644,
 			"name": "harp",
-			"share": 0.0102700890063721
+			"share": 0.00999642928705825
 		},
 		{
 			"events": 2,
 			"inst": "tubular",
-			"ms": 268,
+			"ms": 449,
 			"name": "bells",
-			"share": 0.0118232911615683
+			"share": 0.0117078088022397
 		},
 		{
 			"events": 3,
 			"inst": "celesta",
-			"ms": 119,
+			"ms": 438,
 			"name": "celesta",
-			"share": 0.00396261858349256
+			"share": 0.0304650012745766
 		},
 		{
 			"events": 10,
 			"inst": "timpani",
-			"ms": 1059,
+			"ms": 856,
 			"name": "timpani",
-			"share": 0.176164152524796
+			"share": 0.170590486173696
 		}
 	],
 	"peak_db": -1.20000016455283,
-	"render_s": 6.323,
-	"reverb_ms": 536,
-	"rms_db": -12.9367690189452,
+	"rate": 22050,
+	"render_s": 9.447,
+	"reverb_ms": 2275,
+	"rms_db": -16.216829643033,
+	"sampler": {
+		"fallback": 2,
+		"notes": 101
+	},
 	"samples": 176400
 }

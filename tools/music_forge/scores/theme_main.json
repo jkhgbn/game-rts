@@ -1,5 +1,5 @@
 {
-	"id": "theme_main", "instruments": "flutes a2 (A), violins x4 (B), trumpets x3 + horns x4 + trombones (bridge fanfare), cellos 8th ostinato, basses, harp, celesta, timpani, choir swell under the last tutti", "listen_for": "Does the brass fanfare sound like a brass section or like a synth? Does the tutti feel heroic? Is the Call (D A G F E, D C D) recognisable? Full track: harp intro, flute Call, string Answer, brass bridge in Bb / F, tutti.", "excerpt_note": "bridge climax into the tutti", "title": "The Master's Call", "use": "main menu, setup screens",
+	"id": "theme_main", "instruments": "flutes a2 (A), violins x4 (B), trumpets x3 + horns x4 + trombones (bridge fanfare), cellos 8th ostinato, basses, harp, celesta, timpani, horn swell under the last tutti", "listen_for": "Does the brass fanfare sound like a brass section or like a synth? Does the tutti feel heroic? Is the Call (D A G F E, D C D) recognisable? Full track: harp intro, flute Call, string Answer, brass bridge in Bb / F, tutti.", "excerpt_note": "bridge climax into the tutti", "title": "The Master's Call", "use": "main menu, setup screens",
 	"mood": "noble, longing; heroic main title", "bpm": 84, "meter": [4, 4], "bars": 52, "loop": true,
 	"key": "D", "mode": "dorian", "lead": "flute", "seed": 1101, "excerpt_bar": 40, "lufs": -12,
 	"room": {"size": 0.82, "damp": 0.45, "wet_db": -9},
@@ -72,7 +72,7 @@
 				{"bar": 28, "notes": "D2:4 | r:4 | r:4 | r:2 C2:2* | F2:4 | r:4 | r:4 | r:2 G2:2*", "vel": 0.5},
 				{"bar": 36, "notes": "F2:.75 F2:.25 F2:1 r:2 | F2:2 r:2 | F2:.75 F2:.25 F2:1 r:2 | F2:2 r:2 | G2:.75 G2:.25 G2:1 r:2 | D2:2 r:2 | F2:1 r:1 G2:1 r:1 | A2:4*", "vel": 0.8},
 				{"bar": 44, "notes": "D2:1! r:3 | r:2 D2:2 | F2:1 r:3 | G2:1 r:1 A2:1 A2:1 | D2:1! r:3 | r:2 C2:2 | G2:1 r:1 A2:2* | D2:1! r:3", "vel": 0.9}]},
-		{"name": "choir", "inst": "choir", "gain_db": -9.0, "gain_b_db": -9.5, "send": 0.7, "opt": {"vowel": "oh", "vowel_to": "ah", "section": 5},
+		{"name": "swell", "inst": "horns", "gain_db": -9.0, "gain_b_db": -9.5, "send": 0.7, "pan": 0.0, "opt": {"section": 5},
 			"seq": [{"bar": 43, "chords": "A:4", "style": "hold", "oct": 3, "voicing": "1 2 3", "vel": 0.55},
 				{"bar": 48, "chords": "Dm:2 C:2 | Bb:2 C:2 | Gm:2 A:2 | Dm:3 r:1", "style": "hold", "oct": 3, "voicing": "1 2 3 4", "vel": 0.6, "vel_to": 0.75}]},
 		{"name": "pad", "inst": "pad", "pad": true, "gain_db": -16.0, "send": 0.6,

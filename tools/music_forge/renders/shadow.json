@@ -1,0 +1,88 @@
+{
+	"bytes": 14112044,
+	"channels": 2,
+	"file": "res://assets/audio/music/shadow.wav",
+	"hash": "f0df0d65ba1d167fff1ccc91ff85a838|smp1.2|g22050s",
+	"id": "shadow",
+	"length_s": 160.0,
+	"loop": true,
+	"lufs": -12.0634140482335,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 64,
+			"inst": "cellos",
+			"ms": 2540,
+			"name": "cello_lead",
+			"share": 0.247278878537935
+		},
+		{
+			"events": 12,
+			"inst": "toll",
+			"ms": 2289,
+			"name": "bells",
+			"share": 0.0399626387422224
+		},
+		{
+			"events": 84,
+			"inst": "horns",
+			"ms": 5387,
+			"name": "horns",
+			"share": 0.255774603627523
+		},
+		{
+			"events": 75,
+			"inst": "trombones",
+			"ms": 5194,
+			"name": "trombones",
+			"share": 0.0974604854459342
+		},
+		{
+			"events": 32,
+			"inst": "violas",
+			"ms": 2355,
+			"name": "violas",
+			"share": 0.0605324434527352
+		},
+		{
+			"events": 52,
+			"inst": "basses",
+			"ms": 3074,
+			"name": "low_strings",
+			"share": 0.231527834068005
+		},
+		{
+			"events": 233,
+			"inst": "harp",
+			"ms": 6742,
+			"name": "harp",
+			"share": 0.030660897680403
+		},
+		{
+			"events": 176,
+			"inst": "frame_dum",
+			"ms": 2904,
+			"name": "heartbeat",
+			"share": 0.0243272609701871
+		},
+		{
+			"events": 5,
+			"inst": "timpani",
+			"ms": 1024,
+			"name": "timpani",
+			"share": 0.0124749574750548
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 65.394,
+	"reverb_ms": 21630,
+	"rms_db": -14.6900706498343,
+	"sampler": {
+		"fallback": 12,
+		"notes": 721
+	},
+	"samples": 3528000,
+	"seam_slope": 0.00110455602407455,
+	"seam_step": 0.00063227117061615
+}

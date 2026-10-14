@@ -1,8 +1,8 @@
 extends RefCounted
 ## Music Forge sampler backend (phase 1b, 2026-10-13): plays the SAME scores with recorded instruments from the CC0
 ## VSCO 2 Community Edition library, which lives OUTSIDE the repo (never copied in; only rendered tracks are kept).
-## Path: env FW_MUSIC_SAMPLES, else forge arg `samples=<dir>`, else DEFAULT_ROOT. Missing path = the forge stays on the
-## synth instruments (CI / other PCs).
+## Path: env FW_MUSIC_SAMPLES, else forge arg `samples=<dir>`; no default path. Missing = the game backend stops with
+## an error (nothing rendered) and the tests that need samples print SKIP (CI / other PCs).
 ## No .sfz in the subset: the key / velocity map comes from the file names (note, `_vN` layer or pp..fff, `_rrN`).
 ## VSCO names notes one octave low (measured: "A2" sounds A3 = 220 Hz), except the harp (scientific); timpani drums
 ## have no note in the name, their measured principal pitches are in TIMPANI_ROOTS.
@@ -14,8 +14,7 @@ extends RefCounted
 const Instruments := preload("res://tools/music_forge/instruments.gd")
 
 const RATE := 44100
-const DEFAULT_ROOT := "C:/Users/elzzo/Documents/four-wizards-samples/VSCO-2-CE"
-const SAMPLER_VERSION := "smp1.0"
+const SAMPLER_VERSION := "smp1.2"
 const LOAD_MAX_S := 6.5
 const ONE_SHOT_MAX_S := 4.0
 const TIMPANI_ROOTS := [41.4, 46.9, 49.7, 52.8, 54.9]   # Timpani1..5 principal tones (measured, MIDI)
@@ -31,6 +30,7 @@ const SETS := {
 	"vla_spic": ["Strings/Viola Section/spic", 12, "", "one"],
 	"vc_sus": ["Strings/Cello Section/susvib", 12, "", "sus"],
 	"vc_spic": ["Strings/Cello Section/spic", 12, "", "one"],
+	"vc_pizz": ["Strings/Cello Section/pizzT", 12, "", "one"],
 	"harp": ["Strings/Harp", 0, "", "one"],
 	"hn_sus": ["Brass/F Horn/sus", 12, "", "sus"],
 	"hn_stac": ["Brass/F Horn/stac", 12, "", "one"],
@@ -39,6 +39,7 @@ const SETS := {
 	"tbn_sus": ["Brass/Tenor Trombone/sus", 12, "", "sus"],
 	"tbn_stac": ["Brass/Tenor Trombone/stac", 12, "", "one"],
 	"tuba_sus": ["Brass/Tuba/sus", 12, "", "sus"],
+	"tuba_stac": ["Brass/Tuba/stac", 12, "", "one"],
 	"fl_sus": ["Woodwinds/Flute/susvib", 12, "", "sus"],
 	"fl_stac": ["Woodwinds/Flute/stac", 12, "", "one"],
 	"ob_sus": ["Woodwinds/Oboe/Vib", 12, "", "sus"],
@@ -48,11 +49,12 @@ const SETS := {
 	"bdrum": ["VSCO 1 Percussion/drums/bass", 0, "bdrum_", "one"],
 	"bdrum_muted": ["VSCO 1 Percussion/drums/bass", 0, "bdrum_muted_", "one"],
 	"snare": ["VSCO 1 Percussion/drums/snare/drum1", 0, "snare1_", "one"],
+	"snare_march": ["VSCO 1 Percussion/drums/snare/drum3_marching", 0, "snare3_", "one"],
 }
 const RELEASE := {"vln_sus": 0.35, "vla_sus": 0.35, "vc_sus": 0.35, "vln_trem": 0.3, "hn_sus": 0.25, "tpt_sus": 0.22,
 	"tbn_sus": 0.25, "tuba_sus": 0.25, "fl_sus": 0.2, "ob_sus": 0.18, "timp_roll": 0.5}
 ## One-shot ring caps (seconds) so long natural tails do not cost render time
-const RING := {"harp": 3.2, "glock": 2.5, "timp": 3.0, "bdrum": 2.5, "bdrum_muted": 1.2, "snare": 0.8}
+const RING := {"vc_pizz": 1.6, "tuba_stac": 1.2, "snare_march": 0.9, "harp": 3.2, "glock": 2.5, "timp": 3.0, "bdrum": 2.5, "bdrum_muted": 1.2, "snare": 0.8}
 const STACKED := ["hn_sus", "hn_stac", "tpt_sus", "tpt_stac", "tbn_sus", "tbn_stac", "fl_sus", "fl_stac", "ob_sus"]
 const DRUM_ROOT := 60.0   # unpitched sets: the kit midi only shifts toms (tom = muted bass drum up)
 
@@ -63,13 +65,19 @@ var _rr := {}
 var stats := {"files": 0, "load_ms": 0, "notes": 0, "fallback": 0}
 
 
+## Round-robin counters back to the start: every render begins from the same state, so a track renders to the same bytes
+## whatever was rendered before it in the same run (forge_core.render_b calls it).
+func reset_round_robin() -> void:
+	_rr.clear()
+
+
 static func sample_root(arg: String = "") -> String:
 	var env := OS.get_environment("FW_MUSIC_SAMPLES")
 	if env != "":
 		return env.replace("\\", "/")
 	if arg != "":
 		return arg.replace("\\", "/")
-	return DEFAULT_ROOT
+	return ""   # no default path: the caller reports the missing library (tests SKIP)
 
 
 static func available(dir: String) -> bool:
@@ -99,7 +107,7 @@ func setup(dir: String) -> bool:
 				continue   # the v1 hits peak near -60 dBFS: noise floor only
 			if id == "bdrum" and (f.contains("muted") or f.contains("roll") or f.contains("special")):
 				continue
-			if id == "snare" and (f.contains("click") or f.contains("rim") or f.contains("nosnare") or f.contains("_snare")):
+			if id.begins_with("snare") and (f.contains("click") or f.contains("rim") or f.contains("nosnare") or f.contains("_snare")):
 				continue
 			var z := {"path": folder + "/" + f, "root": DRUM_ROOT, "layer": 1, "rr": 1}
 			var m := note_re.search(f)
@@ -110,7 +118,7 @@ func setup(dir: String) -> bool:
 				z["root"] = float(TIMPANI_ROOTS[clampi(int(dm.get_string(1)) - 1, 0, 4)])
 			elif m != null:
 				z["root"] = float(_midi(m.get_string(1), int(m.get_string(2))) + int(def[1]))
-			elif not id.begins_with("bdrum") and id != "snare":
+			elif not id.begins_with("bdrum") and not id.begins_with("snare"):
 				continue
 			var v := vel_re.search(f)
 			if v != null:
@@ -135,6 +143,8 @@ static func _midi(name: String, octave: int) -> int:
 ## Which sample set plays this score instrument ("" = synth fallback).
 static func set_for(inst: String, gate_s: float, gate_mul: float, opt: Dictionary, midi: float) -> String:
 	var short := gate_s < 0.3 or gate_mul < 0.6
+	if bool(opt.get("pizz", false)) and inst in ["violins", "strings", "violas", "cellos", "basses"]:
+		return "vc_pizz"
 	match inst:
 		"violins", "strings":
 			if bool(opt.get("tremolo", false)):
@@ -150,7 +160,7 @@ static func set_for(inst: String, gate_s: float, gate_mul: float, opt: Dictionar
 			return "tpt_stac" if short else "tpt_sus"
 		"trombones":
 			if midi < 40.0:
-				return "tuba_sus"
+				return "tuba_stac" if short else "tuba_sus"
 			return "tbn_stac" if short else "tbn_sus"
 		"flute", "fife", "whistle":
 			return "fl_stac" if short else "fl_sus"
@@ -167,7 +177,7 @@ static func set_for(inst: String, gate_s: float, gate_mul: float, opt: Dictionar
 		"frame_dum", "tom":
 			return "bdrum_muted"
 		"snare":
-			return "snare"
+			return "snare_march" if bool(opt.get("march", false)) else "snare"
 	return ""
 
 
@@ -182,7 +192,7 @@ func render(inst: String, midi: float, gate_s: float, vel: float, gate_mul: floa
 		return _fallback(inst, midi, gate_s, vel, rng, opt)
 	var target := midi
 	var kind := str(SETS[sid][3])
-	if sid.begins_with("bdrum") or sid == "snare":
+	if sid.begins_with("bdrum") or sid.begins_with("snare"):
 		target = DRUM_ROOT + (12.0 if inst == "tom" else 0.0) + (midi - 47.0 if inst == "tom" else 0.0) * 0.5
 	var z := _pick(sid, list, target, vel)
 	if z.is_empty():

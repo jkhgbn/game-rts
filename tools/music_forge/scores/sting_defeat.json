@@ -1,0 +1,23 @@
+{
+	"id": "sting_defeat", "title": "Defeat", "use": "loss sting (skirmish, missions, Wave Strike)",
+	"mood": "sorrow",
+	"instruments": "cellos (the Call slowed), violas + low strings, one tubular bell",
+	"listen_for": "Sad without being a joke? The cellos start the Call slowly and stop on E (unresolved), the strings fall to a B-flat chord, then D minor low with one bell.",
+	"excerpt_note": "complete", "excerpt_bar": 0,
+	"bpm": 60, "meter": [4, 4], "bars": 2, "loop": false, "fade_out_s": 1.6,
+	"key": "D", "mode": "minor", "lead": "cellos", "seed": 3311, "lufs": -12,
+	"room": {"size": 0.9, "damp": 0.45, "wet_db": -8},
+	"sections": [{"name": "The Call slowed, stops on E", "bar": 0, "bars": 1}, {"name": "B-flat, then D minor low", "bar": 1, "bars": 1}],
+	"parts": [
+		{"name": "cello_lead", "inst": "cellos", "gain_db": 9.0, "send": 0.6, "gate": 1.02, "pan": 0.15, "opt": {"section": 3},
+			"seq": [{"bar": 0, "notes": "D4:.75 A4:.75 G4:.5 F4:.5 E4:1.5 | r:4", "vel": 0.72}]},
+		{"name": "violas", "inst": "violas", "gain_db": 4.0, "send": 0.6, "opt": {"section": 3},
+			"seq": [{"bar": 0, "chords": "Dm:2 Gm:2 | Bb:1.5 Dm:2.5", "style": "hold", "oct": 3, "voicing": "1 2 3", "vel": 0.5}]},
+		{"name": "low_strings", "inst": "basses", "gain_db": 5.0, "send": 0.45, "opt": {"section": 2},
+			"seq": [{"bar": 0, "notes": "D3:2 G2:2 | Bb2:1.5 D2:2.5", "vel": 0.6}]},
+		{"name": "violins", "inst": "violins", "gain_db": 6.0, "send": 0.65, "opt": {"section": 4},
+			"seq": [{"bar": 1, "chords": "Bb:1.5 Dm:2.5", "style": "hold", "oct": 4, "voicing": "0 1 2", "vel": 0.45}]},
+		{"name": "bell", "inst": "tubular", "gain_db": -6.0, "send": 0.7, "pan": 0.3,
+			"seq": [{"bar": 1, "notes": "r:1.5 D4:2.5", "vel": 0.55}]}
+	]
+}

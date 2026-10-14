@@ -134,3 +134,17 @@ Each run of tools/audio_lab/audio_lab.gd appends one entry (newest last): asset 
 - Next 1: **WARN Loudness (in game)** - Raise the in-game level into the range (volume_db in game_audio.gd, or re-render the file)  _(ability_cast +3 dB; spell: -22..-9 cue)_
 - Next 2: **WARN Loudness (in game)** - Re-level the takes (or re-render them) so a random pick never jumps out of the mix.  _(building_hit takes; takes of one cue within 2.0 dB)_
 - Next 3: **WARN Peaks and clipping** - The source file itself peaks at -0.4 dBFS (the import adds -0.1 dB): normalise the file to -1 dBTP.  _(building_collapse, fireball_explode, spell_ember_step; true peak <= -1 dBTP, no clipping)_
+
+## 2026-10-14 10:02:54 - music (set `res://assets/audio/music`, kind music)
+
+- Score **76 / 100** - PASS 122, WARN 51, FAIL 2, INFO 0; 22 cues; scorecard `res://docs/audio/lab/music/scorecard.md`
+- Next 1: **FAIL Bus routing** - Set `bus = &"SFX"` (or "Music"): on Master the SFX / Music sliders don't reach it.  _(res://scripts/audio/music_director.gd:162, res://scripts/audio/music_director.gd:164; bus in Music, SFX, Voice)_
+- Next 2: **WARN Loudness (in game)** - Lower the in-game level into the range (volume_db in the player, or re-render the file)  _(boss_drive -4 dB, field_drive -4 dB, fire_drive -4 dB, ice_drive -4 dB, nature_drive -4 dB, shadow_drive -4 dB (+1 more); music: -26..-18 integrated)_
+- Next 3: **WARN Peaks and clipping** - The source file itself peaks at -1.2 dBFS (the import adds +0.5 dB): normalise the file to -1 dBTP.  _(boss, boss_drive, chant, field, field_drive, fire (+9 more); true peak <= -1 dBTP, no clipping)_
+
+## 2026-10-14 10:04:44 - music (set `res://assets/audio/music`, kind music)
+
+- Score **87 / 100** - PASS 124, WARN 51, FAIL 0, INFO 0; 22 cues; scorecard `res://docs/audio/lab/music/scorecard.md`
+- Next 1: **WARN Loudness (in game)** - Lower the in-game level into the range (volume_db in the player, or re-render the file)  _(boss_drive -4 dB, field_drive -4 dB, fire_drive -4 dB, ice_drive -4 dB, nature_drive -4 dB, shadow_drive -4 dB (+1 more); music: -26..-18 integrated)_
+- Next 2: **WARN Peaks and clipping** - The source file itself peaks at -1.2 dBFS (the import adds +0.5 dB): normalise the file to -1 dBTP.  _(boss, boss_drive, chant, field, field_drive, fire (+9 more); true peak <= -1 dBTP, no clipping)_
+- Next 3: **WARN Duration, silence, tails** - Longer track / more tracks: a short loop repeats dozens of times in a match.  _(boss_drive, field_drive, fire_drive, ice_drive, music_match, music_menu (+5 more); music loop >= 60 s)_

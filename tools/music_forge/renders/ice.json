@@ -1,0 +1,81 @@
+{
+	"bytes": 14112044,
+	"channels": 2,
+	"file": "res://assets/audio/music/ice.wav",
+	"hash": "d95271010da4b29725d54a57acb916b6|smp1.2|g22050s",
+	"id": "ice",
+	"length_s": 160.0,
+	"loop": true,
+	"lufs": -12.1669198366202,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 66,
+			"inst": "glass",
+			"ms": 2438,
+			"name": "bell",
+			"share": 0.153051361605
+		},
+		{
+			"events": 46,
+			"inst": "flute",
+			"ms": 1836,
+			"name": "flute",
+			"share": 0.21581653741197
+		},
+		{
+			"events": 60,
+			"inst": "violins",
+			"ms": 2627,
+			"name": "tremolo",
+			"share": 0.0127116943023545
+		},
+		{
+			"events": 56,
+			"inst": "violins",
+			"ms": 2562,
+			"name": "violins",
+			"share": 0.265738437756718
+		},
+		{
+			"events": 120,
+			"inst": "violas",
+			"ms": 4724,
+			"name": "violas",
+			"share": 0.132534096643266
+		},
+		{
+			"events": 76,
+			"inst": "cellos",
+			"ms": 2923,
+			"name": "cellos",
+			"share": 0.140323618937432
+		},
+		{
+			"events": 376,
+			"inst": "harp",
+			"ms": 8565,
+			"name": "harp",
+			"share": 0.0769319869777374
+		},
+		{
+			"events": 5,
+			"inst": "timpani",
+			"ms": 1014,
+			"name": "timpani",
+			"share": 0.00289226636552324
+		}
+	],
+	"peak_db": -2.60000002885557,
+	"rate": 22050,
+	"render_s": 56.275,
+	"reverb_ms": 18886,
+	"rms_db": -15.752038381177,
+	"sampler": {
+		"fallback": 0,
+		"notes": 805
+	},
+	"samples": 3528000,
+	"seam_slope": 0.000486541073769331,
+	"seam_step": 0.00264683365821838
+}

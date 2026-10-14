@@ -1,0 +1,102 @@
+{
+	"bytes": 13230044,
+	"channels": 2,
+	"file": "res://assets/audio/music/boss.wav",
+	"hash": "d3fcdccc01bb1a1ef0842085d4ed8102|smp1.2|g22050s",
+	"id": "boss",
+	"length_s": 150.0,
+	"loop": true,
+	"lufs": -12.1516532639743,
+	"pad_share": 0.0203509967792077,
+	"parts": [
+		{
+			"events": 193,
+			"inst": "horns",
+			"ms": 6263,
+			"name": "horns",
+			"share": 0.316180524123966
+		},
+		{
+			"events": 192,
+			"inst": "trumpets",
+			"ms": 6232,
+			"name": "trumpets",
+			"share": 0.136262489511803
+		},
+		{
+			"events": 344,
+			"inst": "trombones",
+			"ms": 12549,
+			"name": "trombones",
+			"share": 0.114389206354768
+		},
+		{
+			"events": 107,
+			"inst": "trombones",
+			"ms": 2972,
+			"name": "tuba",
+			"share": 0.0515233998138659
+		},
+		{
+			"events": 219,
+			"inst": "violins",
+			"ms": 6173,
+			"name": "violins",
+			"share": 0.159894712584979
+		},
+		{
+			"events": 180,
+			"inst": "violas",
+			"ms": 4753,
+			"name": "violas",
+			"share": 0.0449124180593662
+		},
+		{
+			"events": 325,
+			"inst": "cellos",
+			"ms": 11233,
+			"name": "ostinato",
+			"share": 0.102017685951317
+		},
+		{
+			"events": 48,
+			"inst": "timpani",
+			"ms": 2478,
+			"name": "timpani",
+			"share": 0.0228970110168751
+		},
+		{
+			"events": 117,
+			"inst": "taiko",
+			"ms": 3665,
+			"name": "bass_drum",
+			"share": 0.0245237353539979
+		},
+		{
+			"events": 11,
+			"inst": "tubular",
+			"ms": 2058,
+			"name": "bells",
+			"share": 0.0070663668064473
+		},
+		{
+			"events": 126,
+			"inst": "pad",
+			"ms": 8667,
+			"name": "organ",
+			"share": 0.020332450422615
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 96.811,
+	"reverb_ms": 20434,
+	"rms_db": -15.07238790849,
+	"sampler": {
+		"fallback": 137,
+		"notes": 1725
+	},
+	"samples": 3307500,
+	"seam_slope": 0.000152245862409472,
+	"seam_step": 0.00024608091916889
+}

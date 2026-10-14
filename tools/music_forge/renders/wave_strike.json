@@ -1,0 +1,95 @@
+{
+	"bytes": 10584044,
+	"channels": 2,
+	"file": "res://assets/audio/music/wave_strike.wav",
+	"hash": "38266a034e8532278192896296f9258b|smp1.2|g22050s",
+	"id": "wave_strike",
+	"length_s": 120.0,
+	"loop": true,
+	"lufs": -12.0942851574519,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 412,
+			"inst": "violins",
+			"ms": 7854,
+			"name": "violins",
+			"share": 0.405643311781837
+		},
+		{
+			"events": 142,
+			"inst": "violas",
+			"ms": 3383,
+			"name": "violas",
+			"share": 0.0399310731013485
+		},
+		{
+			"events": 141,
+			"inst": "horns",
+			"ms": 3924,
+			"name": "horns",
+			"share": 0.140815339907914
+		},
+		{
+			"events": 124,
+			"inst": "trombones",
+			"ms": 3563,
+			"name": "trombones",
+			"share": 0.0431692112967692
+		},
+		{
+			"events": 200,
+			"inst": "trumpets",
+			"ms": 6556,
+			"name": "trumpets",
+			"share": 0.0767608268879866
+		},
+		{
+			"events": 476,
+			"inst": "cellos",
+			"ms": 13878,
+			"name": "cellos",
+			"share": 0.145177160461339
+		},
+		{
+			"events": 164,
+			"inst": "trombones",
+			"ms": 2254,
+			"name": "tuba",
+			"share": 0.0345792046651921
+		},
+		{
+			"events": 477,
+			"inst": "taiko",
+			"ms": 10892,
+			"name": "taiko",
+			"share": 0.103660730023983
+		},
+		{
+			"events": 240,
+			"inst": "snare",
+			"ms": 2200,
+			"name": "snare",
+			"share": 0.00616433941059572
+		},
+		{
+			"events": 11,
+			"inst": "timpani",
+			"ms": 1204,
+			"name": "timpani",
+			"share": 0.00409880246303516
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 81.37,
+	"reverb_ms": 16434,
+	"rms_db": -15.0134540680472,
+	"sampler": {
+		"fallback": 0,
+		"notes": 2387
+	},
+	"samples": 2646000,
+	"seam_slope": 0.0000112224370241165,
+	"seam_step": 0.00025982316583395
+}

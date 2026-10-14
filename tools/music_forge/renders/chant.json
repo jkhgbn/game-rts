@@ -1,0 +1,74 @@
+{
+	"bytes": 8467244,
+	"channels": 2,
+	"file": "res://assets/audio/music/chant.wav",
+	"hash": "0be95af9cd4a030ad3bfdd7789092bac|smp1.2|g22050s",
+	"id": "chant",
+	"length_s": 96.0,
+	"loop": true,
+	"lufs": -12.09984372269,
+	"pad_share": 0.0,
+	"parts": [
+		{
+			"events": 49,
+			"inst": "violins",
+			"ms": 1792,
+			"name": "violins",
+			"share": 0.482342585734258
+		},
+		{
+			"events": 47,
+			"inst": "cellos",
+			"ms": 2345,
+			"name": "cellos",
+			"share": 0.242105807609687
+		},
+		{
+			"events": 56,
+			"inst": "violas",
+			"ms": 2047,
+			"name": "violas",
+			"share": 0.0845987546597585
+		},
+		{
+			"events": 69,
+			"inst": "horns",
+			"ms": 3863,
+			"name": "horns",
+			"share": 0.118049782260399
+		},
+		{
+			"events": 28,
+			"inst": "basses",
+			"ms": 1844,
+			"name": "basses",
+			"share": 0.0335849060772865
+		},
+		{
+			"events": 62,
+			"inst": "harp",
+			"ms": 2085,
+			"name": "harp",
+			"share": 0.0336848705910641
+		},
+		{
+			"events": 6,
+			"inst": "tubular",
+			"ms": 1224,
+			"name": "bell",
+			"share": 0.00563329306754682
+		}
+	],
+	"peak_db": -1.20000016455283,
+	"rate": 22050,
+	"render_s": 34.669,
+	"reverb_ms": 13542,
+	"rms_db": -15.7078254256882,
+	"sampler": {
+		"fallback": 6,
+		"notes": 311
+	},
+	"samples": 2116800,
+	"seam_slope": 0.00111012905836105,
+	"seam_step": 0.00335924420505762
+}

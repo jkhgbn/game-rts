@@ -1,0 +1,25 @@
+{
+	"id": "boss_drive", "drive_of": "boss", "title": "The Hollow King (drive)", "use": "combat drum layer under boss, fades in with combat",
+	"mood": "crushing",
+	"instruments": "bass drum + toms in 5/4 (3+2), snare, frame tek (unpitched, loops in sync with Boss)",
+	"listen_for": "Does the 3+2 pattern lock with the boss ostinato and make it heavier, not messier?",
+	"excerpt_note": "whole drive", "excerpt_bar": 0,
+	"bpm": 112, "meter": [5, 4], "bars": 8, "loop": true,
+	"key": "-", "mode": "unpitched", "lead": "taiko", "seed": 9902, "lufs": -16,
+	"room": {"size": 0.75, "damp": 0.45, "wet_db": -11},
+	"sections": [{"name": "Drive A", "bar": 0, "bars": 4}, {"name": "Drive B (busier)", "bar": 4, "bars": 4}],
+	"dyn": [[0, 0.88], [4, 0.95], [7, 1.05], [8, 0.88]],
+	"parts": [
+		{"name": "drums", "inst": "taiko", "gain_db": 2.0, "send": 0.35,
+			"kit": {"k": ["taiko", 1.0, 36], "o": ["tom", 0.8, 41], "p": ["tom", 0.75, 47]},
+			"seq": [{"bar": 0, "bars": 4, "patterns": ["K.k.k.K.o.", "K.k.k.K.op"], "vel": 0.78, "fill": "KoKoKoKopp", "fill_every": 4},
+				{"bar": 4, "bars": 4, "patterns": ["KokokoK.op", "KokokoKopp"], "vel": 0.86, "fill": "KKopKoKKKK", "fill_every": 4}]},
+		{"name": "snare", "inst": "snare", "gain_db": 6.0, "send": 0.35,
+			"kit": {"s": ["snare", 0.7]},
+			"seq": [{"bar": 0, "bars": 4, "pattern": "....S...S.", "vel": 0.6},
+				{"bar": 4, "bars": 4, "pattern": "..s.S.s.Ss", "vel": 0.68}]},
+		{"name": "tek", "inst": "frame_tek", "gain_db": -7.0, "send": 0.3,
+			"kit": {"t": ["frame_tek", 0.7]},
+			"seq": [{"bar": 0, "bars": 8, "pattern": ".t.t.t.t.t", "vel": 0.45}]}
+	]
+}
