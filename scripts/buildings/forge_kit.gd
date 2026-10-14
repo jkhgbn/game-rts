@@ -6,6 +6,9 @@ extends Node
 ## "forge_upgrades") holding the levels; it applies them to every living soldier when a level lands and to every new one
 ## (SceneTree.node_added, end of frame). The Unit Lab never creates one: its fights run at level 0.
 ## The whole feature hangs on ENABLED.
+## 2026-10-14 (unit-upgrades.md 7, UR.S2): the 12 unit-specific lines (V B N) moved to UnitResearch (same ids and
+## numbers, researched at the building that trains the unit); the Forge card keeps Z X C. An old save's moved line
+## (set_level, a queued stub) maps to UnitResearch: a level loads as the granted row, a queued one is refunded.
 
 signal research_completed(line: StringName, level: int)
 
@@ -24,7 +27,7 @@ const SKIRMISH_SCRIPT := "res://scripts/world/skirmish.gd"
 const LEVEL_PRICE: Array[int] = [100, 150, 200]
 const LEVEL_TIME: Array[float] = [35.0, 45.0, 55.0]
 const LEVEL_TIER: Array[int] = [1, 2, 3]
-## Unit-specific lines (1 level).
+## The moved unit-specific lines (UnitResearch rows with "forge": true; old saves, Unit Guide until UR.U2).
 const UNIT_PRICE := 125
 const UNIT_TIME := 40.0
 const UNIT_TIER := 2
@@ -41,37 +44,12 @@ const LINES := {
 const KINGDOM_LINE := {
 	&"fire": &"fire_fury", &"shadow": &"shadow_shroud", &"ice": &"ice_hide", &"nature": &"nature_sap",
 }
-## Unit-specific lines (1 level): only the listed unit ids get them. `range` = + attack range (a plain Unit field).
-const UNIT_LINES := {
-	&"fire_bowstrings": {"name": "Ember Bowstrings", "units": [&"ember_archer", &"scorchbow"], "stats": {},
-			"range": 1.0, "text": "+1 attack range"},
-	&"fire_lances": {"name": "Lance Drill", "units": [&"blaze_rider", &"pyrehoof_lancer"],
-			"stats": {&"attack_damage_pct": 0.10, &"move_speed": 0.3}, "text": "+10 % damage and +0.3 speed"},
-	&"fire_caster": {"name": "Kiln Focus", "units": [&"kilnwarden"],
-			"stats": {&"max_mana_pct": 0.25, &"mana_regen_pct": 0.25}, "text": "+25 % max mana and mana regeneration"},
-	&"shadow_bowstrings": {"name": "Nightstring", "units": [&"nightbolt", &"bleakbow"], "stats": {},
-			"range": 1.0, "text": "+1 attack range"},
-	&"shadow_knights": {"name": "Dread Charge", "units": [&"shadow_knight", &"barrow_knight"],
-			"stats": {&"attack_damage_pct": 0.10, &"move_speed": 0.3}, "text": "+10 % damage and +0.3 speed"},
-	&"shadow_caster": {"name": "Vigil Focus", "units": [&"gloom_deacon"],
-			"stats": {&"max_mana_pct": 0.25, &"mana_regen_pct": 0.25}, "text": "+25 % max mana and mana regeneration"},
-	&"ice_bowstrings": {"name": "Rime Fletching", "units": [&"shardcaster", &"frostbow"], "stats": {},
-			"range": 1.0, "text": "+1 attack range"},
-	&"ice_shields": {"name": "Shield Wall", "units": [&"rimeshield"], "stats": {&"armor": 6.0}, "text": "+6 armor"},
-	&"ice_caster": {"name": "Carver's Focus", "units": [&"rimecarver"],
-			"stats": {&"max_mana_pct": 0.25, &"mana_regen_pct": 0.25}, "text": "+25 % max mana and mana regeneration"},
-	&"nature_bowstrings": {"name": "Thornstring", "units": [&"wildwood_archer", &"burr_slinger"], "stats": {},
-			"range": 1.0, "text": "+1 attack range"},
-	&"nature_bark": {"name": "Barkskin", "units": [&"thornling"], "stats": {&"armor": 6.0}, "text": "+6 armor"},
-	&"nature_caster": {"name": "Sage's Focus", "units": [&"bramblesage"],
-			"stats": {&"max_mana_pct": 0.25, &"mana_regen_pct": 0.25}, "text": "+25 % max mana and mana regeneration"},
-}
-## Card order (keys Z X C V B N) per kingdom.
+## Card order (keys Z X C) per kingdom.
 const CARD := {
-	&"fire": [&"weapons", &"armor", &"fire_fury", &"fire_bowstrings", &"fire_lances", &"fire_caster"],
-	&"shadow": [&"weapons", &"armor", &"shadow_shroud", &"shadow_bowstrings", &"shadow_knights", &"shadow_caster"],
-	&"ice": [&"weapons", &"armor", &"ice_hide", &"ice_bowstrings", &"ice_shields", &"ice_caster"],
-	&"nature": [&"weapons", &"armor", &"nature_sap", &"nature_bowstrings", &"nature_bark", &"nature_caster"],
+	&"fire": [&"weapons", &"armor", &"fire_fury"],
+	&"shadow": [&"weapons", &"armor", &"shadow_shroud"],
+	&"ice": [&"weapons", &"armor", &"ice_hide"],
+	&"nature": [&"weapons", &"armor", &"nature_sap"],
 }
 
 ## Research tooltips (logic text, shown through Loc.sink: printf msgids in game_logic.po).
@@ -88,7 +66,6 @@ const BOT_EVERY := 8.0
 ## After a failed Forge spot search (17 x 17 placement checks), the bot waits this long before searching again
 ## (review 2026-10-08 L7).
 const BOT_SPOT_BACKOFF := 60.0
-const BOT_UNIT_MIN := 2
 
 ## Tests may set this true (the build menu lists the Forge only in a skirmish-type game otherwise).
 static var force_enabled := false
@@ -141,12 +118,13 @@ static func card_lines(faction: StringName) -> Array[StringName]:
 	return out
 
 
+## True for a line that moved to UnitResearch (UR.S2; same id).
 static func is_unit_line(line: StringName) -> bool:
-	return UNIT_LINES.has(line)
+	return bool(UnitResearch.row(line).get("forge", false))
 
 
 static func line_data(line: StringName) -> Dictionary:
-	return UNIT_LINES[line] if UNIT_LINES.has(line) else LINES.get(line, {})
+	return UnitResearch.row(line) if is_unit_line(line) else LINES.get(line, {})
 
 
 static func max_level(line: StringName) -> int:
@@ -175,12 +153,14 @@ static func tier_of(line: StringName, level: int) -> int:
 
 
 ## The unit-specific line of a unit id (&"" = none) in the kingdom of `faction` (&"" = any kingdom).
+## (Moved lines: UnitResearch rows with "forge": true, ids start with the kingdom.)
 static func unit_line_of(unit_id: StringName, faction: StringName = &"") -> StringName:
-	for line: StringName in UNIT_LINES:
-		if faction != &"" and not (CARD.get(faction, []) as Array).has(line):
+	for line in UnitResearch.rows_for_unit(unit_id):
+		if not is_unit_line(line):
 			continue
-		if ((UNIT_LINES[line] as Dictionary)["units"] as Array).has(unit_id):
-			return line
+		if faction != &"" and not String(line).begins_with(String(faction) + "_"):
+			continue
+		return line
 	return &""
 
 
@@ -248,6 +228,8 @@ static func for_team(for_team_id: int, create: bool = true) -> ForgeKit:
 
 
 static func level_of(for_team_id: int, line: StringName) -> int:
+	if is_unit_line(line):
+		return 1 if UnitResearch.team_has(for_team_id, line) else 0
 	var b := for_team(for_team_id, false)
 	return int(b.levels.get(line, 0)) if b else 0
 
@@ -330,9 +312,7 @@ func range_for(unit_id: StringName) -> float:
 	return r
 
 
-func _touches(line: StringName, unit_id: StringName) -> bool:
-	if is_unit_line(line):
-		return ((UNIT_LINES[line] as Dictionary)["units"] as Array).has(unit_id)
+func _touches(line: StringName, _unit_id: StringName) -> bool:
 	return LINES.has(line)
 
 
@@ -343,9 +323,27 @@ func complete(line: StringName) -> void:
 
 
 ## Tests / cheats: sets `line` to `lv` (clamped) and re-applies.
+## A moved unit line (an old save / old test) grants the UnitResearch row instead (lv > 0).
 func set_level(line: StringName, lv: int) -> void:
+	if is_unit_line(line):
+		if lv <= 0:
+			return
+		var ur := UnitResearch.for_team(team)
+		if ur:
+			ur.grant(line)
+		else:
+			# No unit research here (a mission with forge_enabled only, e2m4): the paid level is refunded. Deferred: a
+			# load restores the saved crystals after this call in the same frame (SaveWorld phase 1).
+			_refund_moved.call_deferred(line)
+		return
 	levels[line] = clampi(lv, 0, max_level(line))
 	refresh_units()
+
+
+func _refund_moved(line: StringName) -> void:
+	var eco := Economy.for_team(team)
+	if eco:
+		eco.add(price_of(line, 1))
 
 
 func refresh_units() -> void:
@@ -378,8 +376,8 @@ func _flush() -> void:
 # ---------------------------------------------------------------- bot (Commander rule 5)
 
 ## Builds the Forge from BOT_BUILD_AT (only with cost + reserve in hand: never saves), then, every BOT_EVERY s with an
-## empty Forge queue, queues the cheapest open research up to BOT_MAX_LEVEL (unit lines: normal / hard, with >= 2 of
-## those units) while crystals >= price + BOT_RESERVE. `skip`: a champion hire waits for crystals. True = spent.
+## empty Forge queue, queues the cheapest open research up to BOT_MAX_LEVEL while crystals >= price + BOT_RESERVE
+## (the unit lines moved to UnitResearch: the bot buys them through ai_research, UR.A1). `skip`: a champion hire waits for crystals. True = spent.
 static func bot_step(for_team_id: int, faction: StringName, eco: Economy, now: float, grid: BuildGrid, workers: Array,
 		keep: Node3D, difficulty: int, skip: bool = false) -> bool:
 	if not ENABLED or skip or eco == null or grid == null or not enabled_here():
@@ -407,24 +405,11 @@ static func bot_step(for_team_id: int, faction: StringName, eco: Economy, now: f
 		return _bot_build(for_team_id, type, grid, workers, keep, now)
 	if not forge.is_constructed() or not forge.queue.is_empty():
 		return false
-	var counts := {}
-	for n in forge.get_tree().get_nodes_in_group(&"units"):
-		var u := n as Unit
-		if u and int(u.team) == for_team_id and u.is_alive() and u.unit_type:
-			counts[u.unit_type.id] = int(counts.get(u.unit_type.id, 0)) + 1
 	var pick: UnitType = null
 	for line in card_lines(faction):
 		var lv := level_of(for_team_id, line)
 		if lv >= mini(max_level(line), int(BOT_MAX_LEVEL[d])):
 			continue
-		if is_unit_line(line):
-			if d == 0:
-				continue
-			var have := 0
-			for uid: StringName in (UNIT_LINES[line] as Dictionary)["units"]:
-				have += int(counts.get(uid, 0))
-			if have < BOT_UNIT_MIN:
-				continue
 		var s := stub(line, lv + 1)
 		var r := forge.can_queue(s)
 		if r != "" and r != TrainingBuilding.REASON_NO_CRYSTALS:

@@ -27,6 +27,10 @@ var source_id: StringName = &""
 var show_placeholder_beam := true
 
 var _left := FIRST_TRY
+var _research_sig := ""
+var _cur_amount := 0.0
+var _cur_interval := 1.0
+var _cur_range := 0.0
 
 
 ## Reads the numbers from `u.unit_type`. Called by Unit before add_child.
@@ -42,6 +46,29 @@ func setup(u: Unit) -> void:
 	duration = t.support_duration
 	source_id = StringName("support:" + String(t.id))
 	_left = minf(FIRST_TRY, interval)
+	_refresh_research()
+
+
+## The numbers in use now: the type's, or the team's unit research row (UR.G3, unit-upgrades.md 10:
+## support_amount / support_interval / support_range through UnitResearch.param). Cached; refreshed at setup and
+## whenever UnitResearch re-applies the unit (its row signature meta changes: a row done mid-life, a load).
+func current_amount() -> float:
+	return _cur_amount
+
+
+func current_interval() -> float:
+	return _cur_interval
+
+
+func current_range() -> float:
+	return _cur_range
+
+
+func _refresh_research() -> void:
+	_research_sig = str(unit.get_meta(UnitResearch.SIG_META, "")) if unit else ""
+	_cur_amount = UnitResearch.param(unit, &"support_amount", amount) if unit else amount
+	_cur_interval = maxf(0.1, UnitResearch.param(unit, &"support_interval", interval)) if unit else interval
+	_cur_range = UnitResearch.param(unit, &"support_range", support_range) if unit else support_range
 
 
 ## Seconds before the next try.
@@ -57,7 +84,9 @@ func _physics_process(delta: float) -> void:
 		return
 	if not unit.is_alive() or not unit.can_act():
 		return   # frozen: try again as soon as it thaws
-	_left = interval
+	if unit.get_meta(UnitResearch.SIG_META, "") != _research_sig:
+		_refresh_research()
+	_left = _cur_interval
 	try_cast()
 
 
@@ -68,14 +97,15 @@ func try_cast() -> Unit:
 	var target := find_target()
 	if target == null:
 		return null
+	var amt := current_amount()
 	match kind:
 		&"shield":
-			if target.shield >= amount:
+			if target.shield >= amt:
 				return null
-			target.add_shield(amount, duration)
+			target.add_shield(amt, duration)
 			target.shield_source = source_id
 		&"heal":
-			target.heal(amount)
+			target.heal(amt)
 		_:
 			return null
 	# The character model's support pose (Rime Seer, Bloomtender): play_cast(&"support").
@@ -91,7 +121,9 @@ func find_target() -> Unit:
 	var best: Unit = null
 	var best_ratio := HP_RATIO_BELOW
 	var me := unit.global_position
-	var r2 := support_range * support_range
+	var reach := current_range()
+	var r2 := reach * reach
+	var amt := current_amount()
 	for node in unit.get_tree().get_nodes_in_group(&"units"):
 		var u := node as Unit
 		if u == null or u == unit or not Teams.is_allied_fast(int(u.team), int(unit.team)) or not u.is_alive() or u.max_hp <= 0.0:
@@ -104,7 +136,7 @@ func find_target() -> Unit:
 		if dx * dx + dz * dz > r2 or not _is_soldier_or_wizard(u):
 			continue
 		# Never replace a shield as large or larger (Snow Shield, Vow, Rime Aegis, items; R3-2), nor our own.
-		if kind == &"shield" and u.shield > 0.0 and (u.shield_source == source_id or u.shield >= amount):
+		if kind == &"shield" and u.shield > 0.0 and (u.shield_source == source_id or u.shield >= amt):
 			continue
 		best = u
 		best_ratio = ratio

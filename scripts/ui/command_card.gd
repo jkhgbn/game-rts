@@ -81,6 +81,9 @@ var _clock := 0.0
 var _last_hero_level := -1
 var _learn_pulse_left := 0.0   ## > 0 for 2 s after Vessa levels up with a point to spend.
 var _decos: Array[Control] = []
+var _own_buildings: Array = []   ## UR.U1 `At:` line: the team's buildings, rescanned every 0.5 s
+var _own_buildings_until := 0
+var _own_buildings_team := -1
 var _pending: Array[bool] = []
 var _was_on: Array[bool] = []
 var _flash: Array[float] = []        ## Ready flash left (s).
@@ -106,8 +109,10 @@ const MANA_TEXT := Color(0.55, 0.7, 1.0)
 const ATTENTION_PERIOD := 1.0   ## Seconds per breath of the gold "do this now" border (the keep's tier button).
 ## tiers.md 5: slot of the Hall's "+" upgrades page toggle (key +, SelectionManager.upgrades_hall = the open page), r3c5.
 const PLUS_SLOT := 14
-const PLUS_PAGE_TOOLTIP := "Upgrades  [%s]\n\"+\" research for this Hall's units: +10 %% HP and damage each. Needs a" \
-		+ " Stronghold.\nOn the page each unit's \"+\" has the unit's own key."
+## UR.U1 (ui-sc2-console.md 7.3): the r3c5 button that opens the research page.
+const PLUS_PAGE_TOOLTIP := "Unit research  [{key}]\nUpgrade the units this building trains."
+## ui-sc2-console.md 7: research progress (cool blue, never the GOLD of training).
+const RESEARCH_COLOR := UIStyle.RESEARCH
 var inspect_block: Control
 var inspect_line: Label       ## "Champions act on their own."
 var inspect_key_line: Label   ## "Bounty  " / "Hunt it with a bounty  " (+ the [R] badge)
@@ -528,13 +533,20 @@ func refresh() -> void:
 		key_labels[i].text = s["key"]
 		key_labels[i].visible = s["key"] != ""
 		UIStyle.set_font_size_if_changed(key_labels[i], &"font_size", 12 if str(s["key"]).length() <= 1 else 10)
-		var disabled: bool = s["reason"] != ""
-		b.disabled = disabled
+		# UR.U1: a "soft" reason (a research short of crystals) keeps the button bright and pressable (the refusal shakes
+		# the top bar); the research header tile is never a button.
+		var soft := bool(s.get("soft", false))
+		var header := bool(s.get("header", false))
+		var disabled: bool = s["reason"] != "" and not soft
+		b.disabled = disabled or header
 		# A spell on cooldown stays bright: the dark sweep shows it.
 		b.modulate.a = 0.45 if disabled and s["reason"] != "On cooldown" else 1.0
 		icons[i].self_modulate = Color(0.55, 0.55, 0.55) if disabled and s["reason"] != "On cooldown" else Color.WHITE
+		if header:
+			icons[i].self_modulate = Color(1, 1, 1, 0.8)
+		key_labels[i].modulate.a = 0.5 if bool(s.get("done", false)) else 1.0
 		# Refusal reasons (and tooltips other scripts build) stay English in the logic: translated where shown.
-		b.tooltip_text = Loc.sink(s["tooltip"]) + ("\n" + Loc.sink(s["reason"]) if disabled else "")
+		b.tooltip_text = Loc.sink(s["tooltip"]) + ("\n" + Loc.sink(s["reason"]) if s["reason"] != "" else "")
 		_pending[i] = s["order"] != &"" and s["order"] == pending
 		var highlight: bool = _pending[i]
 		if s.has("active"):
@@ -547,9 +559,13 @@ func refresh() -> void:
 				HudSkin.style_button(b)
 			key_labels[i].add_theme_stylebox_override("normal", HudSkin.badge_style(highlight))
 			key_labels[i].add_theme_color_override("font_color", Color.BLACK if highlight else KEY_COLOR)
-		var has_cost := s.has("cost") or s.has("value") or int(s.get("mana", 0)) > 0
+		var has_cost := s.has("cost") or s.has("value") or int(s.get("mana", 0)) > 0 or s.has("chip")
 		cost_tags[i].visible = has_cost
-		if s.has("value"):   # a route button: gold per trip
+		if s.has("chip"):   # UR.U1 research page: `1/3` done, GOLD when all done
+			cost_tags[i].text = str(s["chip"])
+			UIStyle.set_color_if_changed(cost_tags[i], &"font_color",
+					UIStyle.GOLD if bool(s.get("chip_gold", false)) else HudSkin.token(&"text"))
+		elif s.has("value"):   # a route button: gold per trip
 			cost_tags[i].text = str(s["value"])
 			UIStyle.set_color_if_changed(cost_tags[i], &"font_color", GOLD_TEXT)
 		elif int(s.get("mana", 0)) > 0:   # a spell: its mana cost in blue (WARN when short)
@@ -579,7 +595,7 @@ func press_slot(index: int) -> void:
 	if index < 0 or index >= slots.size():
 		return
 	var s: Dictionary = slots[index]
-	if s.is_empty() or s["reason"] != "":
+	if s.is_empty() or (s["reason"] != "" and not bool(s.get("soft", false))) or bool(s.get("header", false)):
 		return
 	(s["action"] as Callable).call()
 	refresh()
@@ -909,8 +925,13 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 				func() -> void: sel.cancel_site())
 		return
 	if sel.upgrades_open() and sel.upgrades_hall == keep:
-		_plus_slots(out, keep)
+		var page_unit := sel.open_research_unit_id()
+		if page_unit != &"" and SelectionManager.research_units(keep).has(page_unit):
+			_research_unit_slots(out, keep, page_unit)
+		else:
+			_research_page_slots(out, keep)
 		return
+	var research_on := int(keep.get(&"team")) == Unit.Team.PLAYER and sel.can_open_upgrades()
 	var types := sel.train_slots()
 	var n_train := types.size()   # up to 5, 8 on a Hall (new-units-12.md)
 	for i in n_train:
@@ -950,6 +971,10 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 					shown_name, key, int(type.get("cost")), int(type.get("pop")), roundi(float(type.get("train_time")))]
 		if desc != "":
 			tip += "\n" + Loc.sink(desc)   # descriptions come from data / other scripts: translated where shown
+		if research_on and type is UnitType and not Stables16.is_rank_stub(type as UnitType):   # 7.3
+			var rc := research_counts(keep, (type as UnitType).id)
+			if rc.y > 0:
+				tip += "\n" + Loc.t("Research: {done} / {total} done", {"done": rc.x, "total": rc.y})
 		if reason == TierSystem.MSG_T2 or reason == TierSystem.MSG_T3:
 			tip += "\n" + tier_way_line(int(keep.get("team")))
 		out[i] = _slot("train_" + str(type.get("id")), UIStyle.abbrev(type_name), key, tip,
@@ -970,10 +995,17 @@ func _building_slots(out: Array[Dictionary], keep: Node) -> void:
 		out[rally_i] = _slot("rally", "RL", "",
 				Loc.t("Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining."),
 				func() -> void: sel.begin_order(SelectionManager.ORDER_RALLY), "", SelectionManager.ORDER_RALLY)
-	# tiers.md 5: an own Hall opens its "+" upgrades page from r3c5 (the + key or a click).
-	if out[PLUS_SLOT].is_empty() and sel.can_open_upgrades():
-		out[PLUS_SLOT] = _slot("plus_page", "+", SelectionManager.UPGRADES_KEY_LABEL,
-				Loc.t(PLUS_PAGE_TOOLTIP) % SelectionManager.UPGRADES_KEY_LABEL, sel.open_upgrades)
+	# UR.U1 (ui-sc2-console.md 7.1): an own Hall / Stables / keep opens its research page from r3c5 (the + key or a
+	# click); a 4 px RESEARCH bar along its bottom while this building researches.
+	if out[PLUS_SLOT].is_empty() and research_on:
+		var tip := Loc.t(PLUS_PAGE_TOOLTIP, {"key": SelectionManager.UPGRADES_KEY_LABEL})
+		var running := SelectionManager.research_running_at(keep)
+		if not running.is_empty():
+			tip += "\n" + Loc.t("Researching: {name} {pct}%", {"name": Loc.sink(str(running["name"])),
+					"pct": roundi(float(running["progress"]) * 100.0)})
+		out[PLUS_SLOT] = _slot("plus_page", "+", SelectionManager.UPGRADES_KEY_LABEL, tip, sel.open_upgrades)
+		if not running.is_empty():
+			out[PLUS_SLOT]["research_bar"] = float(running["progress"])
 
 
 ## The tooltip line under a unit greyed `Requires Stronghold / Citadel`: where the way up is ("Upgrade your Keep to a
@@ -1000,41 +1032,253 @@ static func tier_way_line(team: int) -> String:
 	return Loc.t("Upgrade your {keep} to a {tier}: select it, press {key}", args)
 
 
-## The "+" upgrades page of a Hall (tiers.md 5): each unit's "+" on the slot of its training button, with the same key
-## (SelectionManager.buy_upgrade_slot); Back at r3c5 (Esc, or + again).
-func _plus_slots(out: Array[Dictionary], hall: Node) -> void:
+## UR.U1 research page (ui-sc2-console.md 7.1): each unit with something to research on its own training slot and key
+## (the key opens its page), a `1/3` done chip, the RESEARCH bar while one of its rows runs here; r3c1 = header tile,
+## r3c5 = Back (Esc).
+func _research_page_slots(out: Array[Dictionary], b: Node) -> void:
 	var sel := selection
-	var rows := UnitUpgrades.options_for(hall)
-	var free := 0   # a "+" whose unit has no training slot (never today) takes the next free place
-	for r: Dictionary in rows:
-		var id: StringName = r["id"]
-		var i := sel.train_slot_of(id)
-		var key := sel.train_key(null, i) if i >= 0 else ""
-		if i < 0 or i >= PLUS_SLOT or not out[i].is_empty():
-			while free < PLUS_SLOT and not out[free].is_empty():
-				free += 1
-			if free >= PLUS_SLOT:
-				break
-			i = free
-			key = ""
-		var state: StringName = r["state"]
-		var reason: String = r["reason"]
-		if state == &"done":
-			reason = Loc.t("Researched")
-		elif state == &"working":
-			reason = Loc.t("Researching %d %%") % roundi(float(r["progress"]) * 100.0)
-		var shown := Loc.sink(String(r["name"]))   # U2-7: data names through the sink
-		var head: String = shown if key == "" else "%s  [%s]" % [shown, key]
-		var tip := Loc.t("%s\n%d crystals · %d s\n%s for every %s of your kingdom.") % [head, int(r["crystals"]),
-				roundi(float(r["time"])), Loc.sink(str(r["text"])), Loc.sink(String(r["name"]).trim_suffix("+"))]
-		var s := _slot("plus_" + String(id), UIStyle.abbrev(String(r["name"]).trim_suffix("+")) + "+", key, tip,
-				func() -> void: sel.buy_upgrade(id), reason)
-		s["cost"] = int(r["crystals"])
-		s["icon"] = ["units", String(id)]
-		s["active"] = state == &"working" or state == &"done"
+	var units := SelectionManager.research_units(b)
+	var running := SelectionManager.research_running_at(b)
+	var types := sel.train_slots()
+	for i in mini(types.size(), PLUS_SLOT):
+		var type: Variant = types[i]
+		if type == null:
+			continue
+		var uid := StringName(str((type as Object).get(&"id")))
+		if not units.has(uid):
+			continue
+		var key := sel.train_key(type, i)
+		var entries := SelectionManager.research_entries(b, uid)
+		var infos := _entry_infos(b, uid, entries)
+		var done_names: PackedStringArray = []
+		var total := 0
+		var working := ""
+		var working_p := 0.0
+		for info: Dictionary in infos:
+			if info.is_empty():
+				continue
+			total += 1
+			if info["state"] == &"done":
+				done_names.append(Loc.sink(str(info["name"])))
+			elif info["state"] == &"working":
+				working = Loc.sink(str(info["name"]))
+				working_p = float(info["progress"])
+		var shown := Loc.sink(str((type as Object).get(&"display_name")))
+		var tip := Loc.t("%s  [%s]") % [shown, key] + "\n" \
+				+ Loc.t("Research: {done} / {total} done", {"done": done_names.size(), "total": total})
+		if not done_names.is_empty():
+			tip += "\n" + " · ".join(done_names)
+		if working != "":
+			tip += "\n" + Loc.t("Researching: {name} {pct}%", {"name": working, "pct": roundi(working_p * 100.0)})
+		var s := _slot("research_unit_" + String(uid), UIStyle.abbrev(shown), key, tip,
+				func() -> void: sel.open_research_unit(uid))
+		s["icon"] = ["units", String(uid)]
+		s["chip"] = "%d/%d" % [done_names.size(), total]
+		s["chip_gold"] = total > 0 and done_names.size() == total
+		s["all_done"] = total > 0 and done_names.size() == total
+		if working != "" and not running.is_empty():
+			s["research_bar"] = working_p
 		out[i] = s
-	out[PLUS_SLOT] = _slot("plus_back", "<", "Esc", Loc.t("Back  [Esc]\nThe Hall's training buttons (%s does the same).")
+	out[RALLY_KEEP_SLOT] = _header_slot(Loc.t("Unit research"), [])
+	out[PLUS_SLOT] = _slot("plus_back", "<", "Esc", Loc.t("Back  [Esc]\nThe building's training buttons (%s does the same).")
 			% SelectionManager.UPGRADES_KEY_LABEL, sel.close_upgrades)
+
+
+## UR.U1 unit page (7.1-7.3): Z = its "+", X C V B = its research rows, then the Stables rank-3 (max 5, row 1 only); a
+## running entry's key cancels it (full refund). r3c1 = header tile (the unit), r3c5 = Back (Esc -> research page).
+func _research_unit_slots(out: Array[Dictionary], b: Node, uid: StringName) -> void:
+	var sel := selection
+	var entries := SelectionManager.research_entries(b, uid)
+	var infos := _entry_infos(b, uid, entries)
+	for i in mini(entries.size(), SelectionManager.RESEARCH_PAGE_MAX):
+		var e: Dictionary = entries[i]
+		var info: Dictionary = infos[i]
+		if e.is_empty() or info.is_empty():
+			continue
+		var key := sel.train_key(null, i)
+		var kind: StringName = e["kind"]
+		var id: StringName = e["id"]
+		var state: StringName = info["state"]
+		var reason: String = info["reason"]
+		var name := Loc.sink(str(info["name"]))
+		var pct := roundi(float(info["progress"]) * 100.0)
+		var tip := ""
+		var s: Dictionary
+		if kind == &"plus":   # the "+" keeps its tiers.md 5 tooltip; its key is Z here
+			tip = Loc.t("%s\n%d crystals · %d s\n%s for every %s of your kingdom.") % ["%s  [%s]" % [name, key],
+					int(info["crystals"]), roundi(float(info["time"])), Loc.sink(str(info["text"])),
+					Loc.sink(str(info["name"]).trim_suffix("+"))]
+			s = _slot("plus_" + String(id), UIStyle.abbrev(str(info["name"]).trim_suffix("+")) + "+", key, tip,
+					func() -> void: sel.buy_upgrade(id))
+			s["icon"] = ["units", String(id)]
+		else:
+			tip = Loc.t("%s  [%s]") % [name, key] + "\n" + Loc.t("Cost %d crystals · %d s") % [int(info["crystals"]),
+					roundi(float(info["time"]))] + "\n" + Loc.sink(str(info["text"]))
+			if kind == &"row":
+				tip += "\n" + Loc.t("For: {units} · At: {where}", {"units": _units_text(id), "where": _research_where(b, id)})
+			if state == &"working":
+				tip += "\n" + Loc.t("Researching {pct}% · press again to cancel (full refund)", {"pct": pct})
+			if kind == &"rank":
+				s = _slot("rank_" + String(id), UIStyle.abbrev(str(info["name"])), key, tip,
+						func() -> void: sel.rank_up_research(id))
+				s["icon"] = ["units", String(id)]
+			else:
+				s = _slot("research_" + String(id), UIStyle.abbrev(str(info["name"])), key, tip,
+						func() -> void: sel.buy_research(id))
+				var art := "res://art/icons/research/%s.png" % id
+				s["icon"] = ["research", String(id)] if ResourceLoader.exists(art) else ["units", String(uid)]
+				s["plus_badge"] = not ResourceLoader.exists(art)
+		# States (7.2): done / working press through (message / cancel); short of crystals presses through (refusal
+		# shake); tier / chain locks and a busy slot are greyed.
+		match state:
+			&"done":
+				s["reason"] = ""
+				s["done"] = true
+				s["tooltip"] += "\n" + Loc.t("Researched")
+			&"working":
+				s["reason"] = ""
+				s["research_progress"] = float(info["progress"])
+				if kind == &"plus":
+					s["tooltip"] += "\n" + Loc.t("Researching %d %%") % pct
+			_:
+				s["reason"] = reason
+				s["cost"] = int(info["crystals"])
+				if reason == UnitResearch.REASON_NO_CRYSTALS:
+					s["soft"] = true
+				elif reason == TierSystem.MSG_T2 or reason == TierSystem.MSG_T3 or reason.begins_with("Needs "):
+					s["lock"] = true
+		out[i] = s
+	var shown := Loc.sink(_unit_name(uid))
+	out[RALLY_KEEP_SLOT] = _header_slot(shown, ["units", String(uid)])
+	out[PLUS_SLOT] = _slot("research_back", "<", "Esc", Loc.t("Back  [Esc]\nThe unit research page."),
+			sel.research_back)
+
+
+## The live view of each unit-page entry (same order): {name, text, crystals, time, state, progress, reason} or {}.
+func _entry_infos(b: Node, uid: StringName, entries: Array[Dictionary]) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var rows := {}
+	_ensure_research_nodes(int(b.get(&"team")))
+	if UnitResearch.enabled_here():
+		for r: Dictionary in UnitResearch.options_for_unit(b, uid):
+			rows[r["id"]] = r
+	var t := int(b.get(&"team"))
+	for e: Dictionary in entries:
+		var info: Dictionary = {}
+		if not e.is_empty():
+			var id: StringName = e["id"]
+			match StringName(e["kind"]):
+				&"plus":
+					for r: Dictionary in UnitUpgrades.options_for(b):
+						if r["id"] == id:
+							info = r
+				&"rank":
+					info = _rank_info(b, t, id)
+				_:
+					info = rows.get(id, {})
+		out.append(info)
+	return out
+
+
+## The Stables rank-3 of `uid` as a unit-page entry.
+func _rank_info(b: Node, t: int, uid: StringName) -> Dictionary:
+	var ranks := ResearchMarks.rank_node(t)
+	if ranks == null and t == Unit.Team.PLAYER:
+		ranks = Stables16.for_team(t)   # made once (the game makes it on the first rank-up anyway)
+	var reason := ranks.can_rank(uid, b) if ranks != null else UnitResearch.REASON_UNKNOWN
+	var state := &"ready"
+	var progress := 0.0
+	if ResearchMarks.rank_done(t, uid):
+		state = &"done"
+	elif ranks != null and ranks.is_working(uid):
+		state = &"working"
+		progress = ranks.progress(uid)
+	elif reason != "" and reason != TrainingBuilding.REASON_NO_CRYSTALS:
+		state = &"locked"
+	var stub := Stables16.rank_stub(uid)
+	return {"id": uid, "name": Stables16.rank_name(uid), "text": str(stub.get_meta(&"card_text", "")),
+			"crystals": Stables16.rank_price(uid), "time": Stables16.rank_time(uid), "state": state,
+			"progress": progress, "reason": reason}
+
+
+## (done, total) research entries of `uid` at `b` (the training button's `Research: 1 / 3 done` line).
+## Cheap (8 training buttons x 10 refreshes a second): done flags only, no reasons.
+func research_counts(b: Node, uid: StringName) -> Vector2i:
+	var t := int(b.get(&"team"))
+	var done := 0
+	var total := 0
+	for e: Dictionary in SelectionManager.research_entries(b, uid):
+		if e.is_empty():
+			continue
+		total += 1
+		var id: StringName = e["id"]
+		match StringName(e["kind"]):
+			&"plus":
+				done += 1 if ResearchMarks.plus_done(t, id) else 0
+			&"rank":
+				done += 1 if ResearchMarks.rank_done(t, id) else 0
+			_:
+				done += 1 if UnitResearch.team_has(t, id) else 0
+	return Vector2i(done, total)
+
+
+## The page's team nodes exist before the option rows are read (else UnitResearch / UnitUpgrades build and free a
+## throwaway node per row for the reasons). Only the player's: pages open on own buildings only.
+func _ensure_research_nodes(t: int) -> void:
+	if t != Unit.Team.PLAYER:
+		return
+	if ResearchMarks.research_node(t) == null and UnitResearch.enabled_here():
+		UnitResearch.for_team(t)
+	if ResearchMarks.plus_node(t) == null:
+		UnitUpgrades.for_team(t)
+
+
+## The header tile of both research pages (r3c1): not a button (no key, no press), `title` as its tooltip.
+func _header_slot(title: String, icon: Array) -> Dictionary:
+	var s := _slot("research_header", "", "", title, func() -> void: pass)
+	s["header"] = true
+	if not icon.is_empty():
+		s["icon"] = icon
+	return s
+
+
+static func _unit_name(uid: StringName) -> String:
+	var t := UnitType.find(String(uid))
+	return t.display_name if t else String(uid).capitalize()
+
+
+## "Ember Archer, Scorchbow" (translated names) for the row's `For:` line.
+static func _units_text(id: StringName) -> String:
+	var names: PackedStringArray = []
+	for u: StringName in UnitResearch.row(id).get("units", []):
+		names.append(Loc.sink(_unit_name(u)))
+	return ", ".join(names)
+
+
+## The own building names where row `id` can be researched (`At: Hall, Stables`); `b`'s own name when none is found.
+func _research_where(b: Node, id: StringName) -> String:
+	var names: PackedStringArray = []
+	var t := int(b.get(&"team"))
+	var now := Time.get_ticks_msec()
+	if now >= _own_buildings_until or _own_buildings_team != t:   # one group scan per 0.5 s, not per row
+		_own_buildings_until = now + 500
+		_own_buildings_team = t
+		_own_buildings.clear()
+		for n in b.get_tree().get_nodes_in_group(&"buildings"):
+			if int(n.get(&"team")) == t:
+				_own_buildings.append(n)
+	for v: Variant in _own_buildings:
+		if not is_instance_valid(v) or not UnitResearch.building_trains(v as Node, id):
+			continue
+		var n := v as Node
+		var bt: Variant = n.get(&"building_type")
+		var nm := Loc.sink((bt as BuildingType).display_name) if bt is BuildingType else ""
+		if nm != "" and not names.has(nm):
+			names.append(nm)
+	if names.is_empty():
+		var bt: Variant = b.get(&"building_type")
+		names.append(Loc.sink((bt as BuildingType).display_name) if bt is BuildingType else "")
+	return ", ".join(names)
 
 
 ## A Bazaar (building kind &"market").
@@ -1148,9 +1392,13 @@ func _icon_for(s: Dictionary) -> Texture2D:
 ## Hover halo, pending gold pulse, ready flash and learn flash of button `i` (drawn by its Deco).
 func draw_deco(d: Control, i: int) -> void:
 	var r := Rect2(Vector2.ZERO, d.size)
+	if bool(slots[i].get("header", false)):
+		_draw_research_header(d, r, i)
+		return
 	if bool(slots[i].get("held", false)):
 		d.draw_rect(r.grow(-0.5), UIStyle.WARN, false, 1.0)   # a route to a post held by the enemy
-	if _hover_a[i] > 0.0:
+	_draw_research_state(d, r, i)
+	if _hover_a[i] > 0.0 and not bool(slots[i].get("done", false)):
 		d.draw_rect(r.grow(0.5), Color(HudSkin.token(&"trim_glow"), 0.6 * _hover_a[i]), false, 1.0)
 	if int(slots[i].get("autocast", 0)) > 0:
 		_draw_autocast(d, r.grow(-1.0), int(slots[i]["autocast"]) == 1)
@@ -1172,7 +1420,86 @@ func is_locked(i: int) -> bool:
 	if i < 0 or i >= slots.size() or slots[i].is_empty():
 		return false
 	var r := str(slots[i].get("reason", ""))
-	return r == TierSystem.MSG_T2 or r == TierSystem.MSG_T3
+	return r == TierSystem.MSG_T2 or r == TierSystem.MSG_T3 or bool(slots[i].get("lock", false))
+
+
+## UR.U1 research looks (ui-sc2-console.md 7.1-7.2) of slot `i`: the RESEARCH bar (the "+" button, a unit on the
+## research page), the in-progress sweep + percent + rim + hover `x`, the done rim + check, the unit-icon `+` badge.
+func _draw_research_state(d: Control, r: Rect2, i: int) -> void:
+	var s: Dictionary = slots[i]
+	if bool(s.get("plus_badge", false)):
+		var o := Vector2(2, 2)
+		d.draw_rect(Rect2(o, Vector2(16, 16)), HudSkin.token(&"panel_bg"))
+		d.draw_rect(Rect2(o, Vector2(16, 16)).grow(-0.5), HudSkin.token(&"frame_dark"), false, 1.0)
+		d.draw_rect(Rect2(o + Vector2(4, 7), Vector2(8, 2)), UIStyle.GOLD)
+		d.draw_rect(Rect2(o + Vector2(7, 4), Vector2(2, 8)), UIStyle.GOLD)
+	if s.has("research_bar"):
+		d.draw_rect(Rect2(4, 50, 48, 4), Color(0, 0, 0, 0.7))
+		d.draw_rect(Rect2(4, 50, 48.0 * clampf(float(s["research_bar"]), 0.0, 1.0), 4), RESEARCH_COLOR)
+	if s.has("research_progress"):
+		var p := clampf(float(s["research_progress"]), 0.0, 1.0)
+		_draw_pie(d, r, p, Color(RESEARCH_COLOR, 0.45))
+		d.draw_rect(r.grow(-1.0), RESEARCH_COLOR, false, 2.0)
+		var font := d.get_theme_default_font()
+		var txt := "%d%%" % roundi(p * 100.0)
+		var w := font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+		var at := Vector2((r.size.x - w) * 0.5, r.size.y * 0.5 + 5.0)
+		d.draw_string_outline(font, at, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0, 0, 0, 0.85))
+		d.draw_string(font, at, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color.WHITE)
+		if buttons[i].is_hovered():
+			d.draw_string(font, Vector2(44, 13), "x", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, UIStyle.WARN)
+	if bool(s.get("done", false)) or bool(s.get("all_done", false)):
+		d.draw_rect(r.grow(-0.5), UIStyle.GOLD, false, 1.0)
+	if bool(s.get("done", false)):
+		var c := Vector2(47, 9)
+		var pts := PackedVector2Array([c + Vector2(-6, 0), c + Vector2(-2, 4), c + Vector2(6, -5)])
+		d.draw_polyline(pts, Color(0, 0, 0, 0.8), 4.0, true)
+		d.draw_polyline(pts, UIStyle.GOLD, 2.0, true)
+
+
+## A filled pie from 12 o'clock clockwise over `ratio` of the turn, clipped to `r`.
+static func _draw_pie(ci: CanvasItem, r: Rect2, ratio: float, col: Color) -> void:
+	if ratio <= 0.0:
+		return
+	if ratio >= 0.999:
+		ci.draw_rect(r, col)
+		return
+	var c := r.get_center()
+	var rad := r.size.length()
+	var pie := PackedVector2Array([c])
+	var steps := maxi(2, ceili(36.0 * ratio))
+	for k in steps + 1:
+		var a := -PI * 0.5 + TAU * ratio * float(k) / float(steps)
+		pie.append(c + Vector2(cos(a), sin(a)) * rad)
+	var box := PackedVector2Array([r.position, Vector2(r.end.x, r.position.y), r.end, Vector2(r.position.x, r.end.y)])
+	for poly: PackedVector2Array in Geometry2D.intersect_polygons(pie, box):
+		ci.draw_colored_polygon(poly, col)
+
+
+## The research pages' header tile (r3c1): a `panel_inner` square with a 1 px `frame_dark` rim, the scroll glyph in
+## RESEARCH (research page) or the unit icon (unit page, the TextureRect at alpha 0.8).
+func _draw_research_header(d: Control, r: Rect2, i: int) -> void:
+	if icons[i].visible:   # the unit icon (the Deco draws over it: rim only)
+		d.draw_rect(r.grow(-0.5), HudSkin.token(&"frame_dark"), false, 1.0)
+		return
+	d.draw_rect(r, HudSkin.token(&"panel_inner"))
+	d.draw_rect(r.grow(-0.5), HudSkin.token(&"frame_dark"), false, 1.0)
+	draw_scroll(d, r.get_center(), 32.0, RESEARCH_COLOR)
+
+
+## A small scroll glyph `size` px wide centred on `c` (research header, chip, alert).
+static func draw_scroll(ci: CanvasItem, c: Vector2, size: float, col: Color) -> void:
+	var w := size * 0.62
+	var h := size * 0.78
+	var body := Rect2(c - Vector2(w, h) * 0.5, Vector2(w, h))
+	ci.draw_rect(body, Color(col, col.a * 0.25))
+	ci.draw_rect(body, col, false, maxf(1.0, size / 16.0))
+	var roll := size * 0.12
+	ci.draw_circle(Vector2(body.position.x, body.position.y), roll, col)
+	ci.draw_circle(Vector2(body.end.x, body.end.y), roll, col)
+	for k in 3:
+		var y := body.position.y + h * (0.3 + 0.2 * k)
+		ci.draw_line(Vector2(body.position.x + w * 0.2, y), Vector2(body.end.x - w * 0.2, y), col, maxf(1.0, size / 24.0))
 
 
 ## The 12 px lock: a shackle arc over a body, gold on a dark outline.

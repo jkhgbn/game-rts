@@ -12,8 +12,10 @@ extends Node
 ## left click places (Shift keeps placing), right click / Esc backs out.
 ## Building selected: Z X C V B N M , = its training slots 1-8 (`train_slots()`: the keep keeps X for its tier button,
 ## empty at the Citadel, so a unit's key never changes). Construction site selected: Delete = cancel.
-## Hall selected (tiers.md 5): + (the =/+ key, or numpad +) opens / closes its "+" upgrades page; while it is open the
-## slot keys buy the "+" of the unit trained with that key, Esc / Back close it (`upgrades_hall`).
+## Hall / Stables / keep selected (UR.U1, ui-sc2-console.md 7.1): + (the =/+ key, or numpad +) opens / closes its
+## research page (`upgrades_hall`); there a unit's training key opens that unit's page (`research_unit`): Z = its "+",
+## X C V B = its research rows, then the Stables rank-3; a key again on a running research cancels it (full refund).
+## Esc / Back = one page back; + closes both. While a page is open the slot keys never train.
 ## Own tier-3 helper inspected (t3-helpers.md 2.1): Z / X / C = its stances Escort / Vanguard / Hold home.
 ## Every button of the command card shows the key that does the same (2026-09-29, JS: "each unit / building shows its
 ## own hotkey"); the card reads its letters from here (`train_slots`, `train_key`, SLOT_LETTERS, STANCE_KEYS).
@@ -119,6 +121,10 @@ const STANCE_KEYS: Array[Key] = [KEY_Z, KEY_X, KEY_C]
 const CASTER_KEYS: Array[Key] = [KEY_Z, KEY_V]
 const CASTER_KEEP_SLOT := 4
 const MSG_NO_UPGRADE := "No upgrade for that unit"
+## UR.U1: a unit page holds at most 5 buttons (Z "+", X C V B rows, then the Stables rank-3), row 1 only.
+const RESEARCH_PAGE_MAX := 5
+const RESEARCH_UNITS_TTL_MS := 500
+static var _research_units_cache: Dictionary = {}   # building instance id -> [msec, Array[StringName]]
 const GHOST_TEXT_COLOR := Color(1.0, 0.45, 0.4)
 
 var camera: Camera3D
@@ -139,6 +145,8 @@ var placing_type: BuildingType = null
 ## Read only: the Hall whose "+" upgrades page the command card shows (tiers.md 5), or null. `upgrades_open()` is true
 ## while it is the selected building; any new selection or Tab to another building closes it.
 var upgrades_hall: Node3D = null
+## Read only (UR.U1): the unit whose page is open on top of the research page, &"" = the research page itself.
+var research_unit: StringName = &""
 ## W A S D direct control of the wizard.
 var wizard_control: WizardControl
 ## Read only: the bounty flag selected (own or a visible enemy one), or null. Never with units or a building.
@@ -508,8 +516,8 @@ func _handle_key(key: InputEventKey) -> bool:
 	if code == KEY_R and not key.ctrl_pressed and not key.alt_pressed and bounty_mode != null:
 		bounty_mode.toggle()
 		return true
-	# A Hall's "+" upgrades page (tiers.md 5): + opens / closes it; while it is open the slot keys buy the "+" of the
-	# unit trained with the same key (the card shows those letters on the "+" buttons).
+	# UR.U1 research pages: + opens / closes them; while open the slot keys act on the page (unit key = its page, then
+	# Z = "+", X C V B = rows) and never train.
 	if selected_building != null and not key.ctrl_pressed and not key.alt_pressed:
 		if is_upgrades_key(key):
 			if upgrades_open():
@@ -522,7 +530,7 @@ func _handle_key(key: InputEventKey) -> bool:
 		if upgrades_open():
 			var up_slot := SLOT_KEYS.find(code)
 			if up_slot >= 0:
-				buy_upgrade_slot(up_slot)
+				press_research_slot(up_slot)
 				return true
 	# Training slots Z X C V B N M , only act while a building is selected.
 	if selected_building != null:
@@ -586,7 +594,7 @@ func _handle_key(key: InputEventKey) -> bool:
 			elif build_menu_open:
 				close_build_menu()
 			elif upgrades_open():
-				close_upgrades()   # back to the Hall's training buttons
+				research_back()   # unit page -> research page -> the training buttons
 			elif inspected != null or selected_bounty != null or selected_neutral != null:
 				select_units([])   # Esc drops the inspect view / the selected flag / post / guild house
 			else:
@@ -2147,37 +2155,55 @@ func train_slot_of(id: StringName) -> int:
 	return -1
 
 
-# ---------------------------------------------------------------- Hall "+" upgrades page (tiers.md 5)
+# ---------------------------------------------------------------- research pages (UR.U1, ui-sc2-console.md 7.1)
 
-## True when the selected building is an own living Hall with "+" upgrades (the card shows its "+" button).
+## True when the selected building is an own, living, completed Hall / Stables / keep with something to research (the
+## card shows its "+" button at r3c5).
 func can_open_upgrades() -> bool:
 	var b := selected_building
 	return b != null and _building_alive(b) and int(b.get(&"team")) == Unit.Team.PLAYER \
-			and not UnitUpgrades.ids_for_hall(b).is_empty()
+			and (not b.has_method(&"is_constructed") or bool(b.call(&"is_constructed"))) \
+			and not research_units(b).is_empty()
 
 
-## The card's "+" button / the + key: the command card shows the Hall's "+" page. Ends a pending rally order.
+## The card's "+" button / the + key: the command card shows the building's research page. Ends a pending rally order.
 func open_upgrades() -> void:
 	if not can_open_upgrades():
 		return
 	if _pending == ORDER_RALLY:
 		cancel_targeting()
 	upgrades_hall = selected_building
+	research_unit = &""
 	mode_changed.emit()
 
 
-## Back / Esc / + on the "+" page: the Hall's training buttons again.
+## + on a page (or Back on the research page): the building's training buttons again (both pages close).
 func close_upgrades() -> void:
-	if upgrades_hall == null:
+	if upgrades_hall == null and research_unit == &"":
 		return
 	upgrades_hall = null
+	research_unit = &""
 	mode_changed.emit()
 
 
-## True while the "+" page of the selected Hall is open.
+## Esc / Back: the unit page goes back to the research page, the research page closes.
+func research_back() -> void:
+	if research_unit != &"" and upgrades_open():
+		research_unit = &""
+		mode_changed.emit()
+	else:
+		close_upgrades()
+
+
+## True while a research page (or a unit page on top of it) of the selected building is open.
 func upgrades_open() -> bool:
 	return upgrades_hall != null and is_instance_valid(upgrades_hall) and upgrades_hall == selected_building \
 			and _building_alive(upgrades_hall)
+
+
+## The unit page shown now (&"" = none: the research page or no page).
+func open_research_unit_id() -> StringName:
+	return research_unit if upgrades_open() else &""
 
 
 ## True for the key that opens / closes the "+" page: physical =/+ or numpad +, or a layout's own + key.
@@ -2186,8 +2212,98 @@ static func is_upgrades_key(key: InputEventKey) -> bool:
 	return UPGRADES_KEYS.has(code) or key.keycode == KEY_PLUS
 
 
-## The "+" page's slot `index` (the letter of the unit's training button): buys that unit's "+" at the Hall. "" or the
-## reason (also sent as a message, like a refused training key).
+## The units of building `b` shown on its research page, in its card order: each has a "+" here (Hall), a research row
+## (UnitResearch, skirmish games) or a Stables rank-3.
+## Cached 0.5 s per building (the selection panel asks every frame; a keep's card can change with its tier).
+static func research_units(b: Node) -> Array[StringName]:
+	var out: Array[StringName] = []
+	if b == null or not is_instance_valid(b) or not b.has_method(&"trainable_types"):
+		return out
+	var now := Time.get_ticks_msec()
+	var hit: Variant = _research_units_cache.get(b.get_instance_id())
+	if hit != null and now - int((hit as Array)[0]) < RESEARCH_UNITS_TTL_MS:
+		return (hit as Array)[1]
+	if _research_units_cache.size() > 64:
+		_research_units_cache.clear()
+	_research_units_cache[b.get_instance_id()] = [now, out]
+	var plus := UnitUpgrades.ids_for_hall(b)
+	var rows_on := UnitResearch.enabled_here()
+	for t: Variant in b.call(&"trainable_types"):
+		var ut := t as UnitType
+		if ut == null or out.has(ut.id) or Stables16.is_rank_stub(ut):
+			continue
+		if plus.has(ut.id) or (rows_on and not UnitResearch.rows_for_unit(ut.id).is_empty()) or rank_here(b, ut.id):
+			out.append(ut.id)
+	return out
+
+
+## True when `b` is a Stables that ranks `unit_id` up (stables.md 3).
+static func rank_here(b: Node, unit_id: StringName) -> bool:
+	if b == null or not is_instance_valid(b) or not Stables16.has_rank_up(unit_id) or not Stables16.enabled_here():
+		return false
+	var bt: Variant = b.get(&"building_type")
+	return bt is BuildingType and (bt as BuildingType).kind == &"stables" \
+			and (Stables16.ROSTER.get((bt as BuildingType).faction, []) as Array).has(unit_id)
+
+
+## The unit page of `unit_id` at `b`, slot by slot (Z X C V B, max RESEARCH_PAGE_MAX): {} = empty slot, else
+## {kind: &"plus" / &"row" / &"rank", id} (plus / rank: the unit id; row: the UnitResearch row id). Z = the "+".
+static func research_entries(b: Node, unit_id: StringName) -> Array[Dictionary]:
+	var out: Array[Dictionary] = [{}]
+	if b == null or not is_instance_valid(b):
+		return []
+	if UnitUpgrades.ids_for_hall(b).has(unit_id):
+		out[0] = {"kind": &"plus", "id": unit_id}
+	if UnitResearch.enabled_here():
+		for id in UnitResearch.rows_for_unit(unit_id):
+			out.append({"kind": &"row", "id": id})
+	if rank_here(b, unit_id):
+		out.append({"kind": &"rank", "id": unit_id})
+	if out.size() > RESEARCH_PAGE_MAX:
+		out.resize(RESEARCH_PAGE_MAX)
+	if out.size() == 1 and out[0].is_empty():
+		return []
+	return out
+
+
+## Slot key `index` (Z X C V B N M ,) while a page is open. Research page: the unit trained with that key opens its
+## page. Unit page: the entry of that slot (buy, or cancel when it runs). "" or the reason (also a message).
+func press_research_slot(index: int) -> String:
+	if not upgrades_open():
+		return MSG_NO_UPGRADE
+	var b := upgrades_hall
+	if research_unit == &"":
+		var slots := train_slots()
+		if index < 0 or index >= slots.size() or slots[index] == null:
+			return MSG_NO_UPGRADE
+		var uid := StringName(str((slots[index] as Object).get(&"id")))
+		if not research_units(b).has(uid):
+			message.emit(MSG_NO_UPGRADE)
+			return MSG_NO_UPGRADE
+		open_research_unit(uid)
+		return ""
+	var entries := research_entries(b, research_unit)
+	if index < 0 or index >= entries.size() or entries[index].is_empty():
+		return MSG_NO_UPGRADE
+	var e: Dictionary = entries[index]
+	match StringName(e["kind"]):
+		&"plus":
+			return buy_upgrade(StringName(e["id"]))
+		&"rank":
+			return rank_up_research(StringName(e["id"]))
+	return buy_research(StringName(e["id"]))
+
+
+## Opens the page of unit `unit_id` (one of research_units) on the open research page.
+func open_research_unit(unit_id: StringName) -> void:
+	if not upgrades_open() or not research_units(upgrades_hall).has(unit_id):
+		return
+	research_unit = unit_id
+	mode_changed.emit()
+
+
+## The "+" page's slot `index` (the letter of the unit's training button): buys that unit's "+" at the building. Kept
+## for callers of the old "+" page; the keys go through press_research_slot.
 func buy_upgrade_slot(index: int) -> String:
 	if not upgrades_open():
 		return MSG_NO_UPGRADE
@@ -2197,9 +2313,9 @@ func buy_upgrade_slot(index: int) -> String:
 	return buy_upgrade(StringName(str((slots[index] as Object).get(&"id"))))
 
 
-## Buys the "+" of unit `unit_id` at the open "+" page's Hall (UnitUpgrades.buy). "" or the reason (also a message).
+## Buys the "+" of unit `unit_id` at the open page's Hall (UnitUpgrades.buy). "" or the reason (also a message).
 func buy_upgrade(unit_id: StringName) -> String:
-	var hall := upgrades_hall if upgrades_open() else selected_building
+	var hall := _own_research_building()
 	if hall == null or not UnitUpgrades.ids_for_hall(hall).has(unit_id):
 		message.emit(MSG_NO_UPGRADE)
 		return MSG_NO_UPGRADE
@@ -2211,6 +2327,94 @@ func buy_upgrade(unit_id: StringName) -> String:
 		message.emit(reason)
 	mode_changed.emit()   # the card shows the research at once
 	return reason
+
+
+## The building research acts on: the open page's, else the selected one; null unless it is a valid own building (the
+## player never researches for another team, and no enemy research node is ever made from here).
+func _own_research_building() -> Node3D:
+	var b := upgrades_hall if upgrades_open() else selected_building
+	if b == null or not is_instance_valid(b) or b.get(&"team") == null or int(b.get(&"team")) != Unit.Team.PLAYER:
+		return null
+	return b
+
+
+## A research row of the open unit page: starts it at the page's building, or cancels it while it runs (full refund,
+## message `Research cancelled: <name>`); a done row answers "Already researched". "" or the reason (also a message).
+func buy_research(row_id: StringName) -> String:
+	var b := _own_research_building()
+	var bank := UnitResearch.for_team(Unit.Team.PLAYER) if b != null else null
+	if bank == null or UnitResearch.row(row_id).is_empty():
+		message.emit(MSG_NO_UPGRADE)
+		return MSG_NO_UPGRADE
+	if bank.is_working(row_id):
+		bank.cancel(row_id)
+		message.emit(Loc.t("Research cancelled: {name}", {"name": Loc.sink(str(UnitResearch.row(row_id)["name"]))}))
+		mode_changed.emit()
+		return ""
+	var reason := bank.buy(row_id, b)
+	if reason != "":
+		message.emit(reason)
+	mode_changed.emit()
+	return reason
+
+
+## The Stables rank-3 of `unit_id` on its unit page: starts it at the page's Stables, or cancels it while it runs.
+func rank_up_research(unit_id: StringName) -> String:
+	var b := _own_research_building()
+	var ranks := Stables16.for_team(Unit.Team.PLAYER) if b != null else null
+	if ranks == null:
+		message.emit(MSG_NO_UPGRADE)
+		return MSG_NO_UPGRADE
+	if ranks.is_working(unit_id):
+		ranks.cancel(unit_id)
+		message.emit(Loc.t("Research cancelled: {name}", {"name": Loc.sink(Stables16.rank_name(unit_id))}))
+		mode_changed.emit()
+		return ""
+	var reason := ranks.rank_up(unit_id, b)
+	if reason != "":
+		message.emit(reason)
+	mode_changed.emit()
+	return reason
+
+
+## The research running at building `b` (its one slot: a unit row or its "+"): {kind: &"row" / &"plus", id, progress,
+## left (s), name} or {} when idle. The building view's research chip and the card's "+" bar read it.
+static func research_running_at(b: Node) -> Dictionary:
+	if b == null or not is_instance_valid(b):
+		return {}
+	var t := int(b.get(&"team"))
+	var bank := ResearchMarks.research_node(t)   # registry read: no group scan (asked every frame)
+	if bank != null:
+		var id := bank.working_at(b)
+		if id != &"":
+			var p := bank.progress(id)
+			return {"kind": &"row", "id": id, "progress": p, "name": str(UnitResearch.row(id)["name"]),
+					"left": float(UnitResearch.row(id)["time"]) * (1.0 - p)}
+	var plus := ResearchMarks.plus_node(t)
+	if plus != null:
+		var uid := plus.working_at(b)
+		if uid != &"":
+			var p := plus.progress(uid)
+			return {"kind": &"plus", "id": uid, "progress": p, "name": UnitUpgrades.display_name(uid),
+					"left": UnitUpgrades.time_of(uid) * (1.0 - p)}
+	return {}
+
+
+## Cancels the research running at building `b` (the building view's research chip `x`): full refund. True if one ran.
+func cancel_research_at(b: Node) -> bool:
+	if b == null or not is_instance_valid(b) or int(b.get(&"team")) != Unit.Team.PLAYER:
+		return false
+	var r := research_running_at(b)
+	if r.is_empty():
+		return false
+	var t := int(b.get(&"team"))
+	if r["kind"] == &"row":
+		UnitResearch.for_team(t, false).cancel(r["id"])
+	else:
+		UnitUpgrades.for_team(t, false).cancel(r["id"])
+	message.emit(Loc.t("Research cancelled: {name}", {"name": Loc.sink(str(r["name"]))}))
+	mode_changed.emit()
+	return true
 
 
 # ---------------------------------------------------------------- helper stances (t3-helpers.md 2.1)

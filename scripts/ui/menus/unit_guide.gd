@@ -666,6 +666,11 @@ func _build_single(e: Dictionary) -> void:
 		_section(detail_box, "Abilities")
 		for a: Dictionary in e["abilities"]:
 			detail_box.add_child(_ability_row(a))
+	# UR.U2 (ui-sc2-console.md 7.7): the unit's research, page order (Z "+", X C V B rows, rank-3).
+	if not (e.get("upgrades", []) as Array).is_empty():
+		_section(detail_box, "Upgrades", 15)
+		for u: Dictionary in e["upgrades"]:
+			detail_box.add_child(_upgrade_row(u))
 	var pc := HBoxContainer.new()
 	pc.add_theme_constant_override("separation", 28)
 	detail_box.add_child(pc)
@@ -709,9 +714,36 @@ static func _extras(e: Dictionary) -> String:
 	return "   ·   ".join(parts)
 
 
-func _section(parent: Control, text: String) -> void:
-	var l := UIStyle.display_label(text, 19, UIStyle.GOLD)
+func _section(parent: Control, text: String, font_size := 19) -> void:
+	var l := UIStyle.display_label(text, font_size, UIStyle.GOLD if font_size == 19 else UIStyle.token(&"title"))
 	parent.add_child(l)
+
+
+## One Upgrades row: key badge 18 x 14 (KeyLabels), name font 14, `Hall · T2 · 125 · 40 s` font 13 muted; the effect
+## on the next line, font 13.
+func _upgrade_row(u: Dictionary) -> Control:
+	var box := VBoxContainer.new()
+	box.name = "Upgrade_" + String(u["name"]).validate_node_name()
+	box.add_theme_constant_override("separation", 0)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	box.add_child(row)
+	var badge := CommandCard.add_key_badge(row, KeyLabels.letter(String(u["key"])))
+	badge.custom_minimum_size = Vector2(18, 14)
+	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	badge.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	var nm := UIStyle.panel_label(Loc.sink(String(u["name"])), 14, TEXT)
+	nm.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	row.add_child(nm)
+	var meta := UIStyle.panel_label(UnitGuideData.upgrade_line(u), 13, MUTED)
+	meta.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	row.add_child(meta)
+	var fx := UIStyle.panel_label(UnitGuideData.ability_text(u), 13, TEXT)
+	fx.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	fx.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	fx.custom_minimum_size = Vector2(300, 0)
+	box.add_child(fx)
+	return box
 
 
 func _ability_row(a: Dictionary) -> Control:

@@ -337,3 +337,23 @@ Matches your LaneMarch side as it stands; please keep these names:
 - The formation also times out on the director clock (`release("timeout")` after `release_after` s of march), so both
   timers agree. A loaded game never holds: lane units come back via `save_spawn_unit` without a formation.
 - `tests/test_ws_formation.gd` exists with the spawn-position rows (systems); add your hold / lock / release rows there.
+
+## UR.S1 / S2 done (systems-coder, 2026-10-14): UnitResearch is in, for UR.G1-G5
+`scripts/buildings/unit_research.gd` (`class_name UnitResearch`). Reads for unit code (all static, cheap, cached per
+team + unit type): `UnitResearch.has(unit, id) -> bool`, `param(unit, key: StringName, default: float) -> float`
+(section 10 keys, e.g. `param(self, &"flashpoint_damage", 15.0)`), `effects_of(unit) -> Array[Dictionary]` (the H dicts:
+`{"kind": &"thorns", "damage": 3.0}` ... exact params per row in `UnitResearch.ROWS[id]["effect"]`), `team_has(team, id)`.
+`lab_off` (static) makes all of them return "nothing". `apply_to(unit)` already does M (modifier `research:<id>`) and R
+(`_research_range`), then calls `ResearchEffects.on_applied(unit)` through a load guard: the static func must exist in
+`res://scripts/units/research_effects.gd` (checked once per run with get_script_method_list).
+- Mossback: its idle_regen effect is `{"kind": &"idle_regen", "pct": 0.03}` (fraction per second, like
+  `UnitType.idle_regen_pct`); change the number in ROWS through me if your field uses another unit.
+- UR.G5 (BowmanUpgrades facade): the 7 bowman rows are in ROWS with `"bowman": true` (same ids, prices, times, needs,
+  texts). Heavy Draw's `+3 attack_damage` is now `mods` of the row -> modifier `research:scorchbow_heavy_draw`: the facade
+  must stop adding `bowman:scorchbow_heavy_draw` (and an old save's unit that carries the saved `bowman:` modifier should
+  drop it on load, else it is doubled). BowmanKit's `BowmanUpgrades.team_has` reads should become
+  `UnitResearch.team_has`; the Hunting Party hook stays yours. UnitResearch does NOT mirror into BowmanUpgrades today.
+- Save note (unit.gd is yours): `research:` modifiers are not in `SAVE_MODIFIER_PREFIXES` (spec 12). UnitResearch
+  re-applies them in SaveWorld phase 2 (saved_state), after `load_snapshot_late` restored HP against the max HP without
+  the row; a unit restored at full HP is healed to the new max (tested), a damaged one keeps its HP. Adding `research:`
+  to the kept prefixes would make the HP exact; harmless with apply_to (same id replaces).

@@ -611,7 +611,7 @@ msgid "Frostglass Shard"
 msgstr "Frostglass Shard"
 
 #. name (glossary: stays English)
-#: data/items/glacier_heart.tres:10
+#: data/items/glacier_heart.tres:10 scripts/buildings/unit_research.gd:208
 msgid "Glacier Heart"
 msgstr "Glacier Heart"
 

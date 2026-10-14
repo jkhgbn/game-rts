@@ -298,11 +298,6 @@ msgstr "Archer"
 msgid "Every arrow sets the target burning for a few seconds."
 msgstr "Chaque flèche enflamme la cible quelques secondes."
 
-#. text
-#: data/ui/unit_guide.json:scorchbow
-msgid "Heavy Draw, then Pitch Arrows."
-msgstr "Heavy Draw, puis Pitch Arrows."
-
 #. pros
 #: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:cinder_arbalest
 msgid "Top 3 for range in the Fire army"
@@ -945,11 +940,6 @@ msgstr "Chaque flèche gèle la cible."
 msgid "Every few seconds, the next arrow at a running unit chills it much longer."
 msgstr "À intervalles de quelques secondes, la flèche suivante sur une unité en course la gèle bien plus longtemps."
 
-#. text
-#: data/ui/unit_guide.json:frostbow
-msgid "Rimed Shafts: longer chill, faster Hamstring."
-msgstr "Rimed Shafts : gel plus long, Hamstring plus rapide."
-
 #. pros
 #: data/ui/unit_guide.json:frostbow
 msgid "Top 3 for range in any army"
@@ -1477,11 +1467,6 @@ msgstr "Saignement / brûlure"
 msgid "Nature's Hall bowman: the cheapest bowman, built up by Grove Hall research."
 msgstr "Archer de la salle de Nature : l'archer le moins cher, renforcé par les recherches de la Grove Hall."
 
-#. text
-#: data/ui/unit_guide.json:wildwood_archer
-msgid "Keen Eye and Heartseeker give crits; Hunting Party trains a free second archer."
-msgstr "Keen Eye et Heartseeker donnent des critiques; Hunting Party forme un 2e archer gratuit."
-
 #. pros
 #: data/ui/unit_guide.json:wildwood_archer
 msgid "Longest range in the Nature army"
@@ -1972,11 +1957,6 @@ msgstr "Archer de la salle d'Ombre : saignements cumulés qui usent les cibles 
 #: data/ui/unit_guide.json:bleakbow
 msgid "Every arrow adds a bleed stack (up to 3) that keeps ticking."
 msgstr "Chaque flèche ajoute un saignement (jusqu'à 3) qui continue de frapper."
-
-#. text
-#: data/ui/unit_guide.json:bleakbow
-msgid "Serrated Barbs: more bleed stacks."
-msgstr "Serrated Barbs : plus de saignements cumulés."
 
 #. pros
 #: data/ui/unit_guide.json:bleakbow
@@ -2650,6 +2630,26 @@ msgstr "Vraies armées"
 msgid "Trade routes"
 msgstr "Routes de commerce"
 
+#. text
+#: data/ui/unit_guide.json:frostbow
+#~ msgid "Rimed Shafts: longer chill, faster Hamstring."
+#~ msgstr "Rimed Shafts : gel plus long, Hamstring plus rapide."
+
+#. text
+#: data/ui/unit_guide.json:scorchbow
+#~ msgid "Heavy Draw, then Pitch Arrows."
+#~ msgstr "Heavy Draw, puis Pitch Arrows."
+
+#. text
+#: data/ui/unit_guide.json:wildwood_archer
+#~ msgid "Keen Eye and Heartseeker give crits; Hunting Party trains a free second archer."
+#~ msgstr "Keen Eye et Heartseeker donnent des critiques; Hunting Party forme un 2e archer gratuit."
+
+#. text
+#: data/ui/unit_guide.json:bleakbow
+#~ msgid "Serrated Barbs: more bleed stacks."
+#~ msgstr "Serrated Barbs : plus de saignements cumulés."
+
 #. pros
 #: data/ui/unit_guide.json:shardguard
 #~ msgid "Best HP per crystal in any army"
@@ -2660,15 +2660,15 @@ msgstr "Routes de commerce"
 #~ msgid "Most armour in any army"
 #~ msgstr "Plus d'armure de toutes les armées"
 
-#. pros
-#: data/ui/unit_guide.json:frostcrown_juggernaut
-#~ msgid "Highest HP in any army"
-#~ msgstr "Plus de PV de toutes les armées"
+#. cons
+#: data/ui/unit_guide.json:shardguard
+#~ msgid "Low damage for 3 pop"
+#~ msgstr "Peu de dégâts pour 3 pop."
 
 #. pros
-#: data/ui/unit_guide.json:greenheart_oathkeeper
-#~ msgid "Top 3 for HP per crystal in the Nature army"
-#~ msgstr "Top 3 en PV par cristal dans l'armée de Nature"
+#: data/ui/unit_guide.json:bramblehorn
+#~ msgid "Best HP per crystal in the Nature army"
+#~ msgstr "Meilleurs PV par cristal de l'armée de Nature"
 
 #. pros
 #: data/ui/unit_guide.json:bramblehorn
@@ -2676,11 +2676,11 @@ msgstr "Routes de commerce"
 #~ msgstr "Top 3 en dégâts par coup dans l'armée de Nature"
 
 #. pros
-#: data/ui/unit_guide.json:bramblehorn
-#~ msgid "Best HP per crystal in the Nature army"
-#~ msgstr "Meilleurs PV par cristal de l'armée de Nature"
+#: data/ui/unit_guide.json:greenheart_oathkeeper
+#~ msgid "Top 3 for HP per crystal in the Nature army"
+#~ msgstr "Top 3 en PV par cristal dans l'armée de Nature"
 
-#. cons
-#: data/ui/unit_guide.json:shardguard
-#~ msgid "Low damage for 3 pop"
-#~ msgstr "Peu de dégâts pour 3 pop."
+#. pros
+#: data/ui/unit_guide.json:frostcrown_juggernaut
+#~ msgid "Highest HP in any army"
+#~ msgstr "Plus de PV de toutes les armées"

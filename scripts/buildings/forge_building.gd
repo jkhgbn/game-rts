@@ -1,8 +1,9 @@
 class_name ForgeBuilding
 extends TrainingBuilding
 ## The Forge (docs/design/unit-upgrades.md; kind &"forge", one per team, tier 1). Its card shows the next level of each
-## research line (ForgeKit.CARD, keys Z X C V B N); the research is its queue: a stub UnitType queued like a unit (pay on
-## queue, full refund on cancel or when the Forge falls), and when it "comes out" ForgeKit.complete raises the level.
+## research line (ForgeKit.CARD, keys Z X C; the V B N unit lines moved to UnitResearch, UR.S2); the research is its
+## queue: a stub UnitType queued like a unit (pay on queue, full refund on cancel or when the Forge falls), and when it
+## "comes out" ForgeKit.complete raises the level.
 ## One level of a line in the queue at a time. Not a drop-off, not a shop, no rally flag.
 ## Placeholder look (anvil yard, chimney) until art/buildings/forge/<kingdom>/ lands (BuildingType.model_path).
 

@@ -52,6 +52,8 @@ const CRYSTAL_TEXT := Color(0.75, 0.92, 1.0)
 const ESSENCE := Color(0.75, 0.45, 1.0)
 const ESSENCE_TEXT := Color(0.9, 0.8, 1.0)
 const DEFEAT := Color(0.85, 0.30, 0.30)
+## Unit research progress, marks and alerts (ui-sc2-console.md 7): cool blue, distinct from GOLD training and MANA.
+const RESEARCH := Color(0.45, 0.80, 0.95)
 
 const SKINS := {
 	&"fire": {

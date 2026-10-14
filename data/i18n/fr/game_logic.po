@@ -86,156 +86,79 @@ msgid "Must be within %d m of your keep"
 msgstr "Doit être à moins de %d m de votre donjon"
 
 #. &"weapons": {"name": "Weapons", "stats": {&"attack_damage_pct": 0.06}, "text": "+6 % attack damage"},
-#: scripts/buildings/forge_kit.gd:34
+#: scripts/buildings/forge_kit.gd:37
 msgid "Weapons"
 msgstr "Armes"
 
 #. &"weapons": {"name": "Weapons", "stats": {&"attack_damage_pct": 0.06}, "text": "+6 % attack damage"},
-#: scripts/buildings/forge_kit.gd:34
+#: scripts/buildings/forge_kit.gd:37
 msgid "+6 % attack damage"
 msgstr "+6 % de dégâts d'attaque"
 
 #. &"armor": {"name": "Armor", "stats": {&"armor": 6.0}, "text": "+6 armor"},
-#: scripts/buildings/forge_kit.gd:35 scripts/buildings/forge_kit.gd:60
-#: scripts/buildings/forge_kit.gd:65
+#: scripts/buildings/forge_kit.gd:38 scripts/buildings/unit_research.gd:170
+#: scripts/buildings/unit_research.gd:226
 msgid "+6 armor"
 msgstr "+6 d'armure"
 
 #. &"fire_fury": {"name": "Kindled Fury", "stats": {&"attack_cooldown_pct": -0.04}, "text": "+4 % attack speed"},
-#: scripts/buildings/forge_kit.gd:36
+#: scripts/buildings/forge_kit.gd:39
 msgid "Kindled Fury"
 msgstr "Kindled Fury"
 
 #. &"fire_fury": {"name": "Kindled Fury", "stats": {&"attack_cooldown_pct": -0.04}, "text": "+4 % attack speed"},
-#: scripts/buildings/forge_kit.gd:36
+#: scripts/buildings/forge_kit.gd:39
 msgid "+4 % attack speed"
 msgstr "+4 % de vitesse d'attaque"
 
 #. &"shadow_shroud": {"name": "Shroudstep", "stats": {&"move_speed_pct": 0.04}, "text": "+4 % move speed"},
-#: scripts/buildings/forge_kit.gd:37
+#: scripts/buildings/forge_kit.gd:40
 msgid "Shroudstep"
 msgstr "Shroudstep"
 
 #. &"shadow_shroud": {"name": "Shroudstep", "stats": {&"move_speed_pct": 0.04}, "text": "+4 % move speed"},
-#: scripts/buildings/forge_kit.gd:37
+#: scripts/buildings/forge_kit.gd:40
 msgid "+4 % move speed"
 msgstr "+4 % de vitesse de déplacement"
 
 #. &"ice_hide": {"name": "Rimeforged Hide", "stats": {&"max_hp_pct": 0.05}, "text": "+5 % max HP"},
-#: scripts/buildings/forge_kit.gd:38
+#: scripts/buildings/forge_kit.gd:41
 msgid "Rimeforged Hide"
 msgstr "Rimeforged Hide"
 
 #. &"ice_hide": {"name": "Rimeforged Hide", "stats": {&"max_hp_pct": 0.05}, "text": "+5 % max HP"},
-#: scripts/buildings/forge_kit.gd:38
+#: scripts/buildings/forge_kit.gd:41
 msgid "+5 % max HP"
 msgstr "+5 % de PV max"
 
 #. &"nature_sap": {"name": "Sapblood", "stats": {&"hp_regen": 0.25}, "text": "+0.25 HP regeneration per second"},
-#: scripts/buildings/forge_kit.gd:39
+#: scripts/buildings/forge_kit.gd:42
 msgid "Sapblood"
 msgstr "Sapblood"
 
 #. &"nature_sap": {"name": "Sapblood", "stats": {&"hp_regen": 0.25}, "text": "+0.25 HP regeneration per second"},
-#: scripts/buildings/forge_kit.gd:39
+#: scripts/buildings/forge_kit.gd:42
 msgid "+0.25 HP regeneration per second"
 msgstr "+0,25 PV régénérés par seconde"
 
-#. &"fire_bowstrings": {"name": "Ember Bowstrings", "units": [&"ember_archer", &"scorchbow"], "stats": {},
-#: scripts/buildings/forge_kit.gd:46
-msgid "Ember Bowstrings"
-msgstr "Ember Bowstrings"
-
-#. "range": 1.0, "text": "+1 attack range"},
-#: scripts/buildings/forge_kit.gd:47 scripts/buildings/forge_kit.gd:53
-#: scripts/buildings/forge_kit.gd:59 scripts/buildings/forge_kit.gd:64
-msgid "+1 attack range"
-msgstr "+1 de portée d'attaque"
-
-#. &"fire_lances": {"name": "Lance Drill", "units": [&"blaze_rider", &"pyrehoof_lancer"],
-#: scripts/buildings/forge_kit.gd:48
-msgid "Lance Drill"
-msgstr "Lance Drill"
-
-#. "stats": {&"attack_damage_pct": 0.10, &"move_speed": 0.3}, "text": "+10 % damage and +0.3 speed"},
-#: scripts/buildings/forge_kit.gd:49 scripts/buildings/forge_kit.gd:55
-msgid "+10 % damage and +0.3 speed"
-msgstr "+10 % de dégâts et +0,3 de vitesse"
-
-#. &"fire_caster": {"name": "Kiln Focus", "units": [&"kilnwarden"],
-#: scripts/buildings/forge_kit.gd:50
-msgid "Kiln Focus"
-msgstr "Kiln Focus"
-
-#. "stats": {&"max_mana_pct": 0.25, &"mana_regen_pct": 0.25}, "text": "+25 % max mana and mana regeneration"},
-#: scripts/buildings/forge_kit.gd:51 scripts/buildings/forge_kit.gd:57
-#: scripts/buildings/forge_kit.gd:62 scripts/buildings/forge_kit.gd:67
-msgid "+25 % max mana and mana regeneration"
-msgstr "+25 % de mana max et de régénération de mana"
-
-#. &"shadow_bowstrings": {"name": "Nightstring", "units": [&"nightbolt", &"bleakbow"], "stats": {},
-#: scripts/buildings/forge_kit.gd:52
-msgid "Nightstring"
-msgstr "Nightstring"
-
-#. &"shadow_knights": {"name": "Dread Charge", "units": [&"shadow_knight", &"barrow_knight"],
-#: scripts/buildings/forge_kit.gd:54
-msgid "Dread Charge"
-msgstr "Dread Charge"
-
-#. &"shadow_caster": {"name": "Vigil Focus", "units": [&"gloom_deacon"],
-#: scripts/buildings/forge_kit.gd:56
-msgid "Vigil Focus"
-msgstr "Vigil Focus"
-
-#. &"ice_bowstrings": {"name": "Rime Fletching", "units": [&"shardcaster", &"frostbow"], "stats": {},
-#: scripts/buildings/forge_kit.gd:58
-msgid "Rime Fletching"
-msgstr "Rime Fletching"
-
-#. &"ice_shields": {"name": "Shield Wall", "units": [&"rimeshield"], "stats": {&"armor": 6.0}, "text": "+6 armor"
-#: scripts/buildings/forge_kit.gd:60
-msgid "Shield Wall"
-msgstr "Shield Wall"
-
-#. &"ice_caster": {"name": "Carver's Focus", "units": [&"rimecarver"],
-#: scripts/buildings/forge_kit.gd:61
-msgid "Carver's Focus"
-msgstr "Carver's Focus"
-
-#. &"nature_bowstrings": {"name": "Thornstring", "units": [&"wildwood_archer", &"burr_slinger"], "stats": {},
-#: scripts/buildings/forge_kit.gd:63
-msgid "Thornstring"
-msgstr "Thornstring"
-
-#. &"nature_bark": {"name": "Barkskin", "units": [&"thornling"], "stats": {&"armor": 6.0}, "text": "+6 armor"},
-#: scripts/buildings/forge_kit.gd:65
-msgid "Barkskin"
-msgstr "Barkskin"
-
-#. &"nature_caster": {"name": "Sage's Focus", "units": [&"bramblesage"],
-#: scripts/buildings/forge_kit.gd:66
-msgid "Sage's Focus"
-msgstr "Sage's Focus"
-
 #. const CARD_TEXT_LEVEL := "Level %d of %d: %s per level for every soldier of your kingdom."
-#: scripts/buildings/forge_kit.gd:78
+#: scripts/buildings/forge_kit.gd:56
 msgid "Level %d of %d: %s per level for every soldier of your kingdom."
 msgstr "Niveau %d sur %d : %s par niveau pour chaque soldat de votre royaume."
 
 #. const CARD_TEXT_UNIT := "%s for every %s, living and future."
-#: scripts/buildings/forge_kit.gd:79
+#: scripts/buildings/forge_kit.gd:57
 msgid "%s for every %s, living and future."
 msgstr "%s pour chaque %s, présent et futur."
 
 #. const REASON_MAX := "Max level"
-#: scripts/buildings/forge_kit.gd:80
+#: scripts/buildings/forge_kit.gd:58
 msgid "Max level"
 msgstr "Niveau maximum"
 
 #. const REASON_WORKING := "Already in progress"
-#: scripts/buildings/forge_kit.gd:81 scripts/buildings/unit_upgrades.gd:42
-#: scripts/units/bowman_upgrades.gd:48 scripts/units/stables16.gd:282
+#: scripts/buildings/forge_kit.gd:59 scripts/buildings/unit_research.gd:31
+#: scripts/buildings/unit_upgrades.gd:42 scripts/units/stables16.gd:282
 msgid "Already in progress"
 msgstr "Déjà en cours"
 
@@ -385,95 +308,702 @@ msgid "Can't train that here"
 msgstr "Impossible de former ça ici"
 
 #. const REASON_DONE := "Already researched"
-#: scripts/buildings/unit_upgrades.gd:41 scripts/units/bowman_upgrades.gd:47
+#: scripts/buildings/unit_research.gd:30 scripts/buildings/unit_upgrades.gd:41
 #: scripts/units/stables16.gd:280
 msgid "Already researched"
 msgstr "Déjà recherché"
 
-#. const REASON_BUSY := "The Hall is busy with another upgrade"
-#: scripts/buildings/unit_upgrades.gd:43 scripts/units/bowman_upgrades.gd:49
-msgid "The Hall is busy with another upgrade"
-msgstr "La salle est occupée par une autre amélioration"
+#. const REASON_BUILDING := "Needs a completed building that trains it"
+#: scripts/buildings/unit_research.gd:32
+msgid "Needs a completed building that trains it"
+msgstr "Exige un bâtiment terminé qui la forme"
 
-#. const REASON_HALL := "Needs a completed Hall that trains it"
-#: scripts/buildings/unit_upgrades.gd:44
-msgid "Needs a completed Hall that trains it"
-msgstr "Exige une salle terminée qui forme cette unité"
+#. const REASON_NEEDS := "Needs %s"
+#: scripts/buildings/unit_research.gd:33
+msgid "Needs %s"
+msgstr "Exige %s"
 
-#. &"frostbow_rimed_shafts": {"name": "Rimed Shafts", "unit": &"frostbow", "crystals": 100, "time": 40.0,
-#: scripts/units/bowman_upgrades.gd:20
-msgid "Rimed Shafts"
-msgstr "Rimed Shafts"
+#. const REASON_BUSY := "Busy with another upgrade"
+#: scripts/buildings/unit_research.gd:34 scripts/buildings/unit_upgrades.gd:44
+msgid "Busy with another upgrade"
+msgstr "Occupé par une autre amélioration"
 
-#. "text": "Frostbow arrows chill for 2.5 s (was 1.5); Hamstring Shot every 8 s (was 12)."},
-#: scripts/units/bowman_upgrades.gd:22
-msgid "Frostbow arrows chill for 2.5 s (was 1.5); Hamstring Shot every 8 s (was 12)."
-msgstr "Les flèches des Frostbow ralentissent 2,5 s (avant 1,5) ; Hamstring Shot toutes les 8 s (avant 12)."
+#. &"flame_guard_kindled_mail": {"name": "Kindled Mail", "units": [&"flame_guard"], "tier": 1, "price": 75,
+#: scripts/buildings/unit_research.gd:43
+msgid "Kindled Mail"
+msgstr "Kindled Mail"
 
-#. &"scorchbow_heavy_draw": {"name": "Heavy Draw", "unit": &"scorchbow", "crystals": 100, "time": 35.0,
-#: scripts/units/bowman_upgrades.gd:23
+#. "time": 30.0, "needs": &"", "text": "+5 armor", "mods": {&"armor": 5.0}, "range": 0.0, "effect": {}, "kit": {}
+#: scripts/buildings/unit_research.gd:44
+msgid "+5 armor"
+msgstr "+5 d'armure"
+
+#. &"flame_guard_backdraft": {"name": "Backdraft", "units": [&"flame_guard"], "tier": 2, "price": 125, "time": 40
+#: scripts/buildings/unit_research.gd:45
+msgid "Backdraft"
+msgstr "Backdraft"
+
+#. "needs": &"", "text": "Melee attackers take 3 damage per hit they land on it.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:46
+msgid "Melee attackers take 3 damage per hit they land on it."
+msgstr "Les attaquants au corps à corps subissent 3 dégâts par coup porté contre elle."
+
+#. &"ember_archer_quick_nock": {"name": "Quick Nock", "units": [&"ember_archer"], "tier": 1, "price": 75, "time":
+#: scripts/buildings/unit_research.gd:48
+msgid "Quick Nock"
+msgstr "Quick Nock"
+
+#. "needs": &"", "text": "-10 % attack cooldown", "mods": {&"attack_cooldown_pct": -0.10}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:49
+msgid "-10 % attack cooldown"
+msgstr "-10 % de délai d'attaque"
+
+#. &"blaze_rider_running_start": {"name": "Running Start", "units": [&"blaze_rider"], "tier": 1, "price": 100,
+#: scripts/buildings/unit_research.gd:51
+msgid "Running Start"
+msgstr "Running Start"
+
+#. "time": 35.0, "needs": &"", "text": "The first hit on a fresh target deals +12 damage.", "mods": {},
+#: scripts/buildings/unit_research.gd:52 scripts/buildings/unit_research.gd:250
+msgid "The first hit on a fresh target deals +12 damage."
+msgstr "Le premier coup sur une nouvelle cible inflige +12 dégâts."
+
+#. &"ash_hurler_wheeled_mantlet": {"name": "Wheeled Mantlet", "units": [&"ash_hurler"], "tier": 1, "price": 100,
+#: scripts/buildings/unit_research.gd:54
+msgid "Wheeled Mantlet"
+msgstr "Wheeled Mantlet"
+
+#. "time": 35.0, "needs": &"", "text": "+35 % max HP", "mods": {&"max_hp_pct": 0.35}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:55
+msgid "+35 % max HP"
+msgstr "+35 % de PV max"
+
+#. &"ash_hurler_packed_shot": {"name": "Packed Shot", "units": [&"ash_hurler"], "tier": 2, "price": 150, "time":
+#: scripts/buildings/unit_research.gd:57
+msgid "Packed Shot"
+msgstr "Packed Shot"
+
+#. "needs": &"", "text": "Each shot also hits enemy units within 1.5 m of the target for 40 % of its damage.",
+#: scripts/buildings/unit_research.gd:58
+msgid "Each shot also hits enemy units within 1.5 m of the target for 40 % of its damage."
+msgstr "Chaque tir touche aussi les unités ennemies à moins de 1,5 m de la cible pour 40 % de ses dégâts."
+
+#. &"scorchbow_heavy_draw": {"name": "Heavy Draw", "units": [&"scorchbow"], "tier": 1, "price": 100, "time": 35.0
+#: scripts/buildings/unit_research.gd:60 scripts/units/bowman_upgrades.gd:29
 msgid "Heavy Draw"
 msgstr "Heavy Draw"
 
-#. "text": "Scorchbows +3 arrow damage (17)."},
-#: scripts/units/bowman_upgrades.gd:25
+#. "needs": &"", "text": "Scorchbows +3 arrow damage (17).", "mods": {&"attack_damage": 3.0}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:61 scripts/units/bowman_upgrades.gd:31
 msgid "Scorchbows +3 arrow damage (17)."
 msgstr "Scorchbows : +3 dégâts par flèche (17)."
 
-#. &"scorchbow_pitch_arrows": {"name": "Pitch Arrows", "unit": &"scorchbow", "crystals": 125, "time": 45.0,
-#: scripts/units/bowman_upgrades.gd:26
+#. &"scorchbow_pitch_arrows": {"name": "Pitch Arrows", "units": [&"scorchbow"], "tier": 1, "price": 125, "time":
+#: scripts/buildings/unit_research.gd:63 scripts/units/bowman_upgrades.gd:32
 msgid "Pitch Arrows"
 msgstr "Pitch Arrows"
 
-#. "text": "Scorchbow burn: 3.5 damage per second for 4 s (was 2 for 3 s). Needs Heavy Draw."},
-#: scripts/units/bowman_upgrades.gd:28
+#. "text": "Scorchbow burn: 3.5 damage per second for 4 s (was 2 for 3 s). Needs Heavy Draw.", "mods": {},
+#: scripts/buildings/unit_research.gd:65 scripts/units/bowman_upgrades.gd:34
 msgid "Scorchbow burn: 3.5 damage per second for 4 s (was 2 for 3 s). Needs Heavy Draw."
 msgstr "Brûlure des Scorchbow : 3,5 dégâts par seconde pendant 4 s (avant 2 pendant 3 s). Exige Heavy Draw."
 
-#. &"bleakbow_serrated_barbs": {"name": "Serrated Barbs", "unit": &"bleakbow", "crystals": 100, "time": 40.0,
-#: scripts/units/bowman_upgrades.gd:29
+#. &"fire_bowstrings": {"name": "Ember Bowstrings", "units": [&"ember_archer", &"scorchbow"], "tier": 2, "price":
+#: scripts/buildings/unit_research.gd:67
+msgid "Ember Bowstrings"
+msgstr "Ember Bowstrings"
+
+#. "time": 40.0, "needs": &"", "text": "+1 attack range", "mods": {}, "range": 1.0, "effect": {}, "kit": {},
+#: scripts/buildings/unit_research.gd:68 scripts/buildings/unit_research.gd:116
+#: scripts/buildings/unit_research.gd:179 scripts/buildings/unit_research.gd:241
+msgid "+1 attack range"
+msgstr "+1 de portée d'attaque"
+
+#. &"fire_lances": {"name": "Lance Drill", "units": [&"blaze_rider", &"pyrehoof_lancer"], "tier": 2, "price": 125
+#: scripts/buildings/unit_research.gd:70
+msgid "Lance Drill"
+msgstr "Lance Drill"
+
+#. "time": 40.0, "needs": &"", "text": "+10 % damage and +0.3 speed",
+#: scripts/buildings/unit_research.gd:71 scripts/buildings/unit_research.gd:129
+msgid "+10 % damage and +0.3 speed"
+msgstr "+10 % de dégâts et +0,3 de vitesse"
+
+#. &"scorchling_volatile_core": {"name": "Volatile Core", "units": [&"scorchling"], "tier": 1, "price": 75,
+#: scripts/buildings/unit_research.gd:74
+msgid "Volatile Core"
+msgstr "Volatile Core"
+
+#. "time": 30.0, "needs": &"", "text": "Flashpoint deals 25 damage (was 15) in 2.5 m (was 2).", "mods": {},
+#: scripts/buildings/unit_research.gd:75
+msgid "Flashpoint deals 25 damage (was 15) in 2.5 m (was 2)."
+msgstr "Flashpoint inflige 25 dégâts (avant 15) sur 2,5 m (avant 2)."
+
+#. &"pyre_adept_kindling_lore": {"name": "Kindling Lore", "units": [&"pyre_adept"], "tier": 2, "price": 125,
+#: scripts/buildings/unit_research.gd:77
+msgid "Kindling Lore"
+msgstr "Kindling Lore"
+
+#. "time": 40.0, "needs": &"", "text": "Flame Burst fires on 2+ enemies (was 3), radius 3 m (was 2.5).",
+#: scripts/buildings/unit_research.gd:78
+msgid "Flame Burst fires on 2+ enemies (was 3), radius 3 m (was 2.5)."
+msgstr "Flame Burst se déclenche dès 2 ennemis (avant 3), rayon de 3 m (avant 2,5)."
+
+#. &"cinder_arbalest_barbed_bolts": {"name": "Barbed Bolts", "units": [&"cinder_arbalest"], "tier": 2, "price": 1
+#: scripts/buildings/unit_research.gd:80
+msgid "Barbed Bolts"
+msgstr "Barbed Bolts"
+
+#. "time": 40.0, "needs": &"", "text": "Bolts pierce to the enemy behind for 80 % (was 50 %).", "mods": {},
+#: scripts/buildings/unit_research.gd:81
+msgid "Bolts pierce to the enemy behind for 80 % (was 50 %)."
+msgstr "Les carreaux transpercent jusqu'à l'ennemi derrière pour 80 % (avant 50 %)."
+
+#. &"emberdart_harrier_firebrand": {"name": "Firebrand Javelins", "units": [&"emberdart_harrier"], "tier": 1,
+#: scripts/buildings/unit_research.gd:83
+msgid "Firebrand Javelins"
+msgstr "Firebrand Javelins"
+
+#. "price": 100, "time": 35.0, "needs": &"", "text": "Hits burn for 2 damage per second for 3 s.", "mods": {},
+#: scripts/buildings/unit_research.gd:84
+msgid "Hits burn for 2 damage per second for 3 s."
+msgstr "Ses coups brûlent : 2 dégâts par seconde pendant 3 s."
+
+#. &"sunforge_cataphract_dawnshield": {"name": "Dawnshield", "units": [&"sunforge_cataphract"], "tier": 3,
+#: scripts/buildings/unit_research.gd:86
+msgid "Dawnshield"
+msgstr "Dawnshield"
+
+#. "text": "Hit after 5 s unhurt: a 120 shield for 6 s (once per 20 s).", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:88
+msgid "Hit after 5 s unhurt: a 120 shield for 6 s (once per 20 s)."
+msgstr "Touchée après 5 s sans blessure : bouclier de 120 pendant 6 s (une fois par 20 s)."
+
+#. &"fire_caster": {"name": "Kiln Focus", "units": [&"kilnwarden"], "tier": 2, "price": 125, "time": 40.0,
+#: scripts/buildings/unit_research.gd:91
+msgid "Kiln Focus"
+msgstr "Kiln Focus"
+
+#. "needs": &"", "text": "+25 % max mana and mana regeneration",
+#: scripts/buildings/unit_research.gd:92 scripts/buildings/unit_research.gd:155
+#: scripts/buildings/unit_research.gd:212 scripts/buildings/unit_research.gd:273
+msgid "+25 % max mana and mana regeneration"
+msgstr "+25 % de mana max et de régénération de mana"
+
+#. &"kilnwarden_molten_slag": {"name": "Molten Slag", "units": [&"kilnwarden"], "tier": 3, "price": 175, "time":
+#: scripts/buildings/unit_research.gd:95
+msgid "Molten Slag"
+msgstr "Molten Slag"
+
+#. "needs": &"", "text": "Slag Rain deals 18 damage (was 12) in 3.5 m (was 3).", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:96
+msgid "Slag Rain deals 18 damage (was 12) in 3.5 m (was 3)."
+msgstr "Slag Rain inflige 18 dégâts (avant 12) sur 3,5 m (avant 3)."
+
+#. &"ashveil_saboteur_double_powder": {"name": "Double Powder", "units": [&"ashveil_saboteur"], "tier": 3,
+#: scripts/buildings/unit_research.gd:98
+msgid "Double Powder"
+msgstr "Double Powder"
+
+#. "text": "Powder Charge deals 325 damage (was 250) and pauses training 14 s (was 10).", "mods": {},
+#: scripts/buildings/unit_research.gd:100
+msgid "Powder Charge deals 325 damage (was 250) and pauses training 14 s (was 10)."
+msgstr "Powder Charge inflige 325 dégâts (avant 250) et suspend la formation 14 s (avant 10)."
+
+#. &"shade_siphoning_blades": {"name": "Siphoning Blades", "units": [&"shade"], "tier": 1, "price": 75, "time": 3
+#: scripts/buildings/unit_research.gd:103
+msgid "Siphoning Blades"
+msgstr "Siphoning Blades"
+
+#. "needs": &"", "text": "15 % lifesteal", "mods": {&"lifesteal": 15.0}, "range": 0.0, "effect": {}, "kit": {}},
+#: scripts/buildings/unit_research.gd:104
+msgid "15 % lifesteal"
+msgstr "15 % de vol de vie"
+
+#. &"shade_shroudcloak": {"name": "Shroudcloak", "units": [&"shade"], "tier": 2, "price": 125, "time": 40.0,
+#: scripts/buildings/unit_research.gd:105
+msgid "Shroudcloak"
+msgstr "Shroudcloak"
+
+#. "needs": &"", "text": "+8 % speed and +5 armor", "mods": {&"move_speed_pct": 0.08, &"armor": 5.0},
+#: scripts/buildings/unit_research.gd:106
+msgid "+8 % speed and +5 armor"
+msgstr "+8 % de vitesse et +5 d'armure"
+
+#. &"nightbolt_hexed_bolts": {"name": "Hexed Bolts", "units": [&"nightbolt"], "tier": 2, "price": 125, "time": 40
+#: scripts/buildings/unit_research.gd:108
+msgid "Hexed Bolts"
+msgstr "Hexed Bolts"
+
+#. "needs": &"", "text": "Hits mark the target for 2 s (it takes +15 % damage).", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:109
+msgid "Hits mark the target for 2 s (it takes +15 % damage)."
+msgstr "Ses coups marquent la cible 2 s (elle subit +15 % de dégâts)."
+
+#. &"bleakbow_serrated_barbs": {"name": "Serrated Barbs", "units": [&"bleakbow"], "tier": 1, "price": 100,
+#: scripts/buildings/unit_research.gd:111 scripts/units/bowman_upgrades.gd:35
 msgid "Serrated Barbs"
 msgstr "Serrated Barbs"
 
-#. "text": "Bleed stacks up to 5 times (was 3): 7.5 damage per second at full stacks."},
-#: scripts/units/bowman_upgrades.gd:31
+#. "text": "Bleed stacks up to 5 times (was 3): 7.5 damage per second at full stacks.", "mods": {},
+#: scripts/buildings/unit_research.gd:113 scripts/units/bowman_upgrades.gd:37
 msgid "Bleed stacks up to 5 times (was 3): 7.5 damage per second at full stacks."
 msgstr "Le saignement se cumule jusqu'à 5 fois (avant 3) : 7,5 dégâts par seconde au maximum."
 
-#. &"wildwood_keen_eye": {"name": "Keen Eye", "unit": &"wildwood_archer", "crystals": 75, "time": 30.0,
-#: scripts/units/bowman_upgrades.gd:32
+#. &"shadow_bowstrings": {"name": "Nightstring", "units": [&"nightbolt", &"bleakbow"], "tier": 2, "price": 125,
+#: scripts/buildings/unit_research.gd:115
+msgid "Nightstring"
+msgstr "Nightstring"
+
+#. &"grave_hound_pack_hunger": {"name": "Pack Hunger", "units": [&"grave_hound"], "tier": 1, "price": 75, "time":
+#: scripts/buildings/unit_research.gd:118
+msgid "Pack Hunger"
+msgstr "Pack Hunger"
+
+#. "needs": &"", "text": "+2 damage while another Grave Hound is within 5 m.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:119
+msgid "+2 damage while another Grave Hound is within 5 m."
+msgstr "+2 dégâts tant qu'un autre Grave Hound est à moins de 5 m."
+
+#. &"grave_hound_bone_fed": {"name": "Bone-Fed", "units": [&"grave_hound"], "tier": 2, "price": 125, "time": 40.0
+#: scripts/buildings/unit_research.gd:121
+msgid "Bone-Fed"
+msgstr "Bone-Fed"
+
+#. "needs": &"", "text": "+25 % max HP", "mods": {&"max_hp_pct": 0.25}, "range": 0.0, "effect": {}, "kit": {}},
+#: scripts/buildings/unit_research.gd:122 scripts/buildings/unit_research.gd:194
+msgid "+25 % max HP"
+msgstr "+25 % de PV max"
+
+#. &"shadow_knight_grim_reprisal": {"name": "Grim Reprisal", "units": [&"shadow_knight"], "tier": 1, "price": 100
+#: scripts/buildings/unit_research.gd:123
+msgid "Grim Reprisal"
+msgstr "Grim Reprisal"
+
+#. "text": "Under 50 % HP: braced for 4 s (takes 30 % less damage), once per 30 s.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:125
+msgid "Under 50 % HP: braced for 4 s (takes 30 % less damage), once per 30 s."
+msgstr "Sous 50 % de PV : arc-bouté 4 s (subit 30 % de dégâts en moins), une fois par 30 s."
+
+#. &"shadow_knights": {"name": "Dread Charge", "units": [&"shadow_knight", &"barrow_knight"], "tier": 2, "price":
+#: scripts/buildings/unit_research.gd:128
+msgid "Dread Charge"
+msgstr "Dread Charge"
+
+#. &"barrow_ghoul_gorge": {"name": "Gorge", "units": [&"barrow_ghoul"], "tier": 1, "price": 75, "time": 30.0,
+#: scripts/buildings/unit_research.gd:132
+msgid "Gorge"
+msgstr "Gorge"
+
+#. "needs": &"", "text": "Grave Feast heals 50 % on a kill (was 30 %).", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:133
+msgid "Grave Feast heals 50 % on a kill (was 30 %)."
+msgstr "Grave Feast soigne 50 % sur une mise à mort (avant 30 %)."
+
+#. &"hexweaver_deepening_hex": {"name": "Deepening Hex", "units": [&"hexweaver"], "tier": 2, "price": 125,
+#: scripts/buildings/unit_research.gd:135
+msgid "Deepening Hex"
+msgstr "Deepening Hex"
+
+#. "time": 40.0, "needs": &"", "text": "Wither Hex lasts 8 s (was 6) and slows by 1.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:136
+msgid "Wither Hex lasts 8 s (was 6) and slows by 1."
+msgstr "Wither Hex dure 8 s (avant 6) et ralentit de 1."
+
+#. &"hollow_oathsworn_oath_unending": {"name": "Oath Unending", "units": [&"hollow_oathsworn"], "tier": 2,
+#: scripts/buildings/unit_research.gd:138
+msgid "Oath Unending"
+msgstr "Oath Unending"
+
+#. "text": "Unbroken Vow every 30 s (was 45), shield 80 (was 50).", "mods": {}, "range": 0.0, "effect": {},
+#: scripts/buildings/unit_research.gd:140
+msgid "Unbroken Vow every 30 s (was 45), shield 80 (was 50)."
+msgstr "Unbroken Vow toutes les 30 s (avant 45), bouclier de 80 (avant 50)."
+
+#. &"gloam_rider_nightdrinker": {"name": "Nightdrinker", "units": [&"gloam_rider"], "tier": 1, "price": 100,
+#: scripts/buildings/unit_research.gd:142
+msgid "Nightdrinker"
+msgstr "Nightdrinker"
+
+#. "time": 35.0, "needs": &"", "text": "20 % lifesteal", "mods": {&"lifesteal": 20.0}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:143
+msgid "20 % lifesteal"
+msgstr "20 % de vol de vie"
+
+#. &"duskbolt_harrier_bleeding_bolts": {"name": "Bleeding Bolts", "units": [&"duskbolt_harrier"], "tier": 1,
+#: scripts/buildings/unit_research.gd:145
+msgid "Bleeding Bolts"
+msgstr "Bleeding Bolts"
+
+#. "price": 100, "time": 35.0, "needs": &"", "text": "Hits bleed for 2 damage per second for 4 s.", "mods": {},
+#: scripts/buildings/unit_research.gd:146
+msgid "Hits bleed for 2 damage per second for 4 s."
+msgstr "Ses coups font saigner : 2 dégâts par seconde pendant 4 s."
+
+#. "text": "Under 50 % HP: shrouded for 4 s (+2 speed, takes half damage), once per 30 s.", "mods": {},
+#: scripts/buildings/unit_research.gd:150
+msgid "Under 50 % HP: shrouded for 4 s (+2 speed, takes half damage), once per 30 s."
+msgstr "Sous 50 % de PV : voilé 4 s (+2 de vitesse, subit moitié moins de dégâts), une fois par 30 s."
+
+#. &"shadow_caster": {"name": "Vigil Focus", "units": [&"gloom_deacon"], "tier": 2, "price": 125, "time": 40.0,
+#: scripts/buildings/unit_research.gd:154
+msgid "Vigil Focus"
+msgstr "Vigil Focus"
+
+#. &"gloom_deacon_hungering_tithe": {"name": "Hungering Tithe", "units": [&"gloom_deacon"], "tier": 3, "price": 1
+#: scripts/buildings/unit_research.gd:158
+msgid "Hungering Tithe"
+msgstr "Hungering Tithe"
+
+#. "time": 50.0, "needs": &"", "text": "Blood Tithe heals 14 per second (was 10) and drains 7 (was 5).",
+#: scripts/buildings/unit_research.gd:159
+msgid "Blood Tithe heals 14 per second (was 10) and drains 7 (was 5)."
+msgstr "Blood Tithe soigne 14 par seconde (avant 10) et draine 7 (avant 5)."
+
+#. &"nightblood_reaver_crimson_thirst": {"name": "Crimson Thirst", "units": [&"nightblood_reaver"], "tier": 3,
+#: scripts/buildings/unit_research.gd:161
+msgid "Crimson Thirst"
+msgstr "Crimson Thirst"
+
+#. "text": "Heals 45 % of its damage (was 35 %); Blood Frenzy under 50 % HP (was 40 %).", "mods": {},
+#: scripts/buildings/unit_research.gd:163
+msgid "Heals 45 % of its damage (was 35 %); Blood Frenzy under 50 % HP (was 40 %)."
+msgstr "Se soigne de 45 % de ses dégâts (avant 35 %) ; Blood Frenzy sous 50 % de PV (avant 40 %)."
+
+#. &"rimeshield_frostrim": {"name": "Frostrim Shields", "units": [&"rimeshield"], "tier": 1, "price": 75, "time":
+#: scripts/buildings/unit_research.gd:166
+msgid "Frostrim Shields"
+msgstr "Frostrim Shields"
+
+#. "needs": &"", "text": "Hits chill for 1 s.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:167
+msgid "Hits chill for 1 s."
+msgstr "Ses coups ralentissent 1 s."
+
+#. &"ice_shields": {"name": "Shield Wall", "units": [&"rimeshield"], "tier": 2, "price": 125, "time": 40.0,
+#: scripts/buildings/unit_research.gd:169
+msgid "Shield Wall"
+msgstr "Shield Wall"
+
+#. &"shardcaster_deep_chill": {"name": "Deep Chill", "units": [&"shardcaster"], "tier": 1, "price": 100, "time":
+#: scripts/buildings/unit_research.gd:172
+msgid "Deep Chill"
+msgstr "Deep Chill"
+
+#. "needs": &"", "text": "Hits chill for 2.5 s (was 1.5).", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:173
+msgid "Hits chill for 2.5 s (was 1.5)."
+msgstr "Ses coups ralentissent 2,5 s (avant 1,5)."
+
+#. &"frostbow_rimed_shafts": {"name": "Rimed Shafts", "units": [&"frostbow"], "tier": 1, "price": 100, "time": 40
+#: scripts/buildings/unit_research.gd:175 scripts/units/bowman_upgrades.gd:26
+msgid "Rimed Shafts"
+msgstr "Rimed Shafts"
+
+#. "needs": &"", "text": "Frostbow arrows chill for 2.5 s (was 1.5); Hamstring Shot every 8 s (was 12).",
+#: scripts/buildings/unit_research.gd:176 scripts/units/bowman_upgrades.gd:28
+msgid "Frostbow arrows chill for 2.5 s (was 1.5); Hamstring Shot every 8 s (was 12)."
+msgstr "Les flèches des Frostbow ralentissent 2,5 s (avant 1,5) ; Hamstring Shot toutes les 8 s (avant 12)."
+
+#. &"ice_bowstrings": {"name": "Rime Fletching", "units": [&"shardcaster", &"frostbow"], "tier": 2, "price": 125,
+#: scripts/buildings/unit_research.gd:178
+msgid "Rime Fletching"
+msgstr "Rime Fletching"
+
+#. &"rime_seer_thick_rime": {"name": "Thick Rime", "units": [&"rime_seer"], "tier": 1, "price": 100, "time": 35.0
+#: scripts/buildings/unit_research.gd:181
+msgid "Thick Rime"
+msgstr "Thick Rime"
+
+#. "needs": &"", "text": "Ward shield 85 (was 60).", "mods": {}, "range": 0.0, "effect": {},
+#: scripts/buildings/unit_research.gd:182
+msgid "Ward shield 85 (was 60)."
+msgstr "Bouclier de protection de 85 (avant 60)."
+
+#. &"rime_seer_quick_ward": {"name": "Quick Ward", "units": [&"rime_seer"], "tier": 2, "price": 125, "time": 40.0
+#: scripts/buildings/unit_research.gd:184
+msgid "Quick Ward"
+msgstr "Quick Ward"
+
+#. "needs": &"", "text": "A ward every 9 s (was 12).", "mods": {}, "range": 0.0, "effect": {},
+#: scripts/buildings/unit_research.gd:185
+msgid "A ward every 9 s (was 12)."
+msgstr "Une protection toutes les 9 s (avant 12)."
+
+#. &"rime_colossus_glacial_stride": {"name": "Glacial Stride", "units": [&"rime_colossus"], "tier": 1, "price": 1
+#: scripts/buildings/unit_research.gd:187
+msgid "Glacial Stride"
+msgstr "Glacial Stride"
+
+#. "time": 35.0, "needs": &"", "text": "+0.6 move speed", "mods": {&"move_speed": 0.6}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:188
+msgid "+0.6 move speed"
+msgstr "+0,6 de vitesse de déplacement"
+
+#. &"rime_colossus_shatter_blow": {"name": "Shatter Blow", "units": [&"rime_colossus"], "tier": 2, "price": 150,
+#: scripts/buildings/unit_research.gd:190
+msgid "Shatter Blow"
+msgstr "Shatter Blow"
+
+#. "time": 45.0, "needs": &"", "text": "+20 % damage to a chilled or frozen target.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:191
+msgid "+20 % damage to a chilled or frozen target."
+msgstr "+20 % de dégâts contre une cible ralentie ou gelée."
+
+#. &"rimeling_thick_furs": {"name": "Thick Furs", "units": [&"rimeling"], "tier": 1, "price": 75, "time": 30.0,
+#: scripts/buildings/unit_research.gd:193
+msgid "Thick Furs"
+msgstr "Thick Furs"
+
+#. &"hoarlight_magebow_needle_volley": {"name": "Needle Volley", "units": [&"hoarlight_magebow"], "tier": 2,
+#: scripts/buildings/unit_research.gd:195
+msgid "Needle Volley"
+msgstr "Needle Volley"
+
+#. "price": 125, "time": 40.0, "needs": &"", "text": "Frost Needle every 6 s (was 8), 26 damage (was 20).",
+#: scripts/buildings/unit_research.gd:196
+msgid "Frost Needle every 6 s (was 8), 26 damage (was 20)."
+msgstr "Frost Needle toutes les 6 s (avant 8), 26 dégâts (avant 20)."
+
+#. &"frost_mortar_wide_shells": {"name": "Wide Shells", "units": [&"frost_mortar"], "tier": 2, "price": 150,
+#: scripts/buildings/unit_research.gd:198
+msgid "Wide Shells"
+msgstr "Wide Shells"
+
+#. "time": 45.0, "needs": &"", "text": "Frost Shell radius 2.75 m (was 2).", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:199
+msgid "Frost Shell radius 2.75 m (was 2)."
+msgstr "Rayon de Frost Shell de 2,75 m (avant 2)."
+
+#. &"snowdrift_rider_snowblind_charge": {"name": "Snowblind Charge", "units": [&"snowdrift_rider"], "tier": 1,
+#: scripts/buildings/unit_research.gd:201
+msgid "Snowblind Charge"
+msgstr "Snowblind Charge"
+
+#. "text": "The first hit on a fresh target deals +10 damage and chills for 2 s.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:203
+msgid "The first hit on a fresh target deals +10 damage and chills for 2 s."
+msgstr "Le premier coup sur une nouvelle cible inflige +10 dégâts et la ralentit 2 s."
+
+#. &"rime_harrier_hoarfrost_tips": {"name": "Hoarfrost Tips", "units": [&"rime_harrier"], "tier": 1, "price": 100
+#: scripts/buildings/unit_research.gd:205
+msgid "Hoarfrost Tips"
+msgstr "Hoarfrost Tips"
+
+#. "time": 35.0, "needs": &"", "text": "Hits chill for 2 s (was 1).", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:206
+msgid "Hits chill for 2 s (was 1)."
+msgstr "Ses coups ralentissent 2 s (avant 1)."
+
+#. "price": 200, "time": 60.0, "needs": &"", "text": "+20 % max HP and +5 armor",
+#: scripts/buildings/unit_research.gd:209
+msgid "+20 % max HP and +5 armor"
+msgstr "+20 % de PV max et +5 d'armure"
+
+#. &"ice_caster": {"name": "Carver's Focus", "units": [&"rimecarver"], "tier": 2, "price": 125, "time": 40.0,
+#: scripts/buildings/unit_research.gd:211
+msgid "Carver's Focus"
+msgstr "Carver's Focus"
+
+#. &"rimecarver_deep_bulwark": {"name": "Deep Bulwark", "units": [&"rimecarver"], "tier": 3, "price": 175,
+#: scripts/buildings/unit_research.gd:215
+msgid "Deep Bulwark"
+msgstr "Deep Bulwark"
+
+#. "time": 50.0, "needs": &"", "text": "Rime Bulwark lasts 12 s (was 8) and is 5 m long (was 4).", "mods": {},
+#: scripts/buildings/unit_research.gd:216
+msgid "Rime Bulwark lasts 12 s (was 8) and is 5 m long (was 4)."
+msgstr "Rime Bulwark dure 12 s (avant 8) et mesure 5 m (avant 4)."
+
+#. "needs": &"", "text": "Hold the Line also shields it for 100 during 6 s.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:219
+msgid "Hold the Line also shields it for 100 during 6 s."
+msgstr "Hold the Line lui donne aussi un bouclier de 100 pendant 6 s."
+
+#. &"thornling_briar_coat": {"name": "Briar Coat", "units": [&"thornling"], "tier": 1, "price": 75, "time": 30.0,
+#: scripts/buildings/unit_research.gd:222
+msgid "Briar Coat"
+msgstr "Briar Coat"
+
+#. "needs": &"", "text": "Melee attackers take 2 damage per hit they land on it.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:223
+msgid "Melee attackers take 2 damage per hit they land on it."
+msgstr "Les attaquants au corps à corps subissent 2 dégâts par coup porté contre elle."
+
+#. &"nature_bark": {"name": "Barkskin", "units": [&"thornling"], "tier": 2, "price": 125, "time": 40.0, "needs":
+#: scripts/buildings/unit_research.gd:225
+msgid "Barkskin"
+msgstr "Barkskin"
+
+#. &"burr_slinger_sticky_burrs": {"name": "Sticky Burrs", "units": [&"burr_slinger"], "tier": 1, "price": 75,
+#: scripts/buildings/unit_research.gd:227
+msgid "Sticky Burrs"
+msgstr "Sticky Burrs"
+
+#. "time": 30.0, "needs": &"", "text": "Every 5th hit roots the target for 0.5 s.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:228
+msgid "Every 5th hit roots the target for 0.5 s."
+msgstr "Un coup sur 5 enracine la cible 0,5 s."
+
+#. &"wildwood_keen_eye": {"name": "Keen Eye", "units": [&"wildwood_archer"], "tier": 1, "price": 75, "time": 30.0
+#: scripts/buildings/unit_research.gd:230 scripts/units/bowman_upgrades.gd:38
 msgid "Keen Eye"
 msgstr "Keen Eye"
 
-#. "text": "Wildwood Archers: 15 % of arrows crit for double damage."},
-#: scripts/units/bowman_upgrades.gd:34
+#. "needs": &"", "text": "Wildwood Archers: 15 % of arrows crit for double damage.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:231 scripts/units/bowman_upgrades.gd:40
 msgid "Wildwood Archers: 15 % of arrows crit for double damage."
 msgstr "Wildwood Archers : 15 % des flèches sont critiques (dégâts doublés)."
 
-#. &"wildwood_heartseeker": {"name": "Heartseeker Points", "unit": &"wildwood_archer", "crystals": 100,
-#: scripts/units/bowman_upgrades.gd:35
+#. &"wildwood_heartseeker": {"name": "Heartseeker Points", "units": [&"wildwood_archer"], "tier": 1, "price": 100
+#: scripts/buildings/unit_research.gd:233 scripts/units/bowman_upgrades.gd:41
 msgid "Heartseeker Points"
 msgstr "Heartseeker Points"
 
-#. "text": "Crits: 20 % of arrows, x2.75 damage. Needs Keen Eye."},
-#: scripts/units/bowman_upgrades.gd:37
+#. "time": 40.0, "needs": &"wildwood_keen_eye", "text": "Crits: 20 % of arrows, x2.75 damage. Needs Keen Eye.",
+#: scripts/buildings/unit_research.gd:234 scripts/units/bowman_upgrades.gd:43
 msgid "Crits: 20 % of arrows, x2.75 damage. Needs Keen Eye."
 msgstr "Critiques : 20 % des flèches, dégâts x2,75. Exige Keen Eye."
 
-#. &"wildwood_hunting_party": {"name": "Hunting Party", "unit": &"wildwood_archer", "crystals": 200,
-#: scripts/units/bowman_upgrades.gd:38
+#. &"wildwood_hunting_party": {"name": "Hunting Party", "units": [&"wildwood_archer"], "tier": 1, "price": 200,
+#: scripts/buildings/unit_research.gd:236 scripts/units/bowman_upgrades.gd:44
 msgid "Hunting Party"
 msgstr "Hunting Party"
 
 #. "text": "Every Wildwood Archer trained brings a second one for free (needs 1 free pop). Needs Heartseeker Poin
-#: scripts/units/bowman_upgrades.gd:40
+#: scripts/buildings/unit_research.gd:238 scripts/units/bowman_upgrades.gd:46
 msgid "Every Wildwood Archer trained brings a second one for free (needs 1 free pop). Needs Heartseeker Points."
 msgstr "Chaque Wildwood Archer formé en amène un second gratuitement (exige 1 pop. libre). Exige Heartseeker Points."
 
-#. const REASON_HALL := "Needs a completed Hall of your kingdom"
-#: scripts/units/bowman_upgrades.gd:50
-msgid "Needs a completed Hall of your kingdom"
-msgstr "Exige une salle terminée de votre royaume"
+#. &"nature_bowstrings": {"name": "Thornstring", "units": [&"wildwood_archer", &"burr_slinger"], "tier": 2,
+#: scripts/buildings/unit_research.gd:240
+msgid "Thornstring"
+msgstr "Thornstring"
+
+#. &"bloomtender_deep_roots": {"name": "Deep Roots", "units": [&"bloomtender"], "tier": 1, "price": 75, "time": 3
+#: scripts/buildings/unit_research.gd:243
+msgid "Deep Roots"
+msgstr "Deep Roots"
+
+#. "needs": &"", "text": "Heals 16 (was 12).", "mods": {}, "range": 0.0, "effect": {},
+#: scripts/buildings/unit_research.gd:244
+msgid "Heals 16 (was 12)."
+msgstr "Soigne 16 (avant 12)."
+
+#. &"bloomtender_wide_bloom": {"name": "Wide Bloom", "units": [&"bloomtender"], "tier": 2, "price": 125, "time":
+#: scripts/buildings/unit_research.gd:246
+msgid "Wide Bloom"
+msgstr "Wide Bloom"
+
+#. "needs": &"", "text": "Heal range 9 m (was 7).", "mods": {}, "range": 0.0, "effect": {},
+#: scripts/buildings/unit_research.gd:247
+msgid "Heal range 9 m (was 7)."
+msgstr "Portée de soin de 9 m (avant 7)."
+
+#. &"bramblehorn_gorehorn": {"name": "Gorehorn", "units": [&"bramblehorn"], "tier": 1, "price": 100, "time": 35.0
+#: scripts/buildings/unit_research.gd:249
+msgid "Gorehorn"
+msgstr "Gorehorn"
+
+#. &"bramblehorn_mossback": {"name": "Mossback", "units": [&"bramblehorn"], "tier": 2, "price": 150, "time": 45.0
+#: scripts/buildings/unit_research.gd:252
+msgid "Mossback"
+msgstr "Mossback"
+
+#. "needs": &"", "text": "+5 armor; out-of-combat regeneration 3 % per second (was 2 %).",
+#: scripts/buildings/unit_research.gd:253
+msgid "+5 armor; out-of-combat regeneration 3 % per second (was 2 %)."
+msgstr "+5 d'armure ; régénération hors combat de 3 % par seconde (avant 2 %)."
+
+#. &"thistle_darter_quickfoot": {"name": "Quickfoot", "units": [&"thistle_darter"], "tier": 1, "price": 75,
+#: scripts/buildings/unit_research.gd:255
+msgid "Quickfoot"
+msgstr "Quickfoot"
+
+#. "time": 30.0, "needs": &"", "text": "Skitter gives +1.5 speed for 2.5 s (was +1 for 1.5 s).", "mods": {},
+#: scripts/buildings/unit_research.gd:256
+msgid "Skitter gives +1.5 speed for 2.5 s (was +1 for 1.5 s)."
+msgstr "Skitter donne +1,5 de vitesse pendant 2,5 s (avant +1 pendant 1,5 s)."
+
+#. &"vinelasher_strangling_vines": {"name": "Strangling Vines", "units": [&"vinelasher"], "tier": 2, "price": 125
+#: scripts/buildings/unit_research.gd:258
+msgid "Strangling Vines"
+msgstr "Strangling Vines"
+
+#. "time": 40.0, "needs": &"", "text": "Snare Lash deals 18 damage (was 10) and roots 2 s (was 1.5).",
+#: scripts/buildings/unit_research.gd:259
+msgid "Snare Lash deals 18 damage (was 10) and roots 2 s (was 1.5)."
+msgstr "Snare Lash inflige 18 dégâts (avant 10) et enracine 2 s (avant 1,5)."
+
+#. &"greenheart_oathkeeper_heartwood_oath": {"name": "Heartwood Oath", "units": [&"greenheart_oathkeeper"], "tier
+#: scripts/buildings/unit_research.gd:261
+msgid "Heartwood Oath"
+msgstr "Heartwood Oath"
+
+#. "price": 150, "time": 45.0, "needs": &"", "text": "Grove Oath radius 6.5 m (was 5), brace 5 s (was 4).",
+#: scripts/buildings/unit_research.gd:262
+msgid "Grove Oath radius 6.5 m (was 5), brace 5 s (was 4)."
+msgstr "Rayon de Grove Oath de 6,5 m (avant 5), arc-boutement 5 s (avant 4)."
+
+#. &"stagrunner_wild_gallop": {"name": "Wild Gallop", "units": [&"stagrunner"], "tier": 1, "price": 100, "time":
+#: scripts/buildings/unit_research.gd:264
+msgid "Wild Gallop"
+msgstr "Wild Gallop"
+
+#. "needs": &"", "text": "Its attack kills a unit: haste for 3 s.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:265
+msgid "Its attack kills a unit: haste for 3 s."
+msgstr "Quand son attaque tue une unité : hâte pendant 3 s."
+
+#. &"bramble_harrier_pollen_darts": {"name": "Pollen Darts", "units": [&"bramble_harrier"], "tier": 1, "price": 1
+#: scripts/buildings/unit_research.gd:267
+msgid "Pollen Darts"
+msgstr "Pollen Darts"
+
+#. "time": 35.0, "needs": &"", "text": "Every 3rd hit hazes the target for 1.5 s.", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:268
+msgid "Every 3rd hit hazes the target for 1.5 s."
+msgstr "Un coup sur 3 embrume la cible 1,5 s."
+
+#. "time": 60.0, "needs": &"", "text": "+2 attack range", "mods": {}, "range": 2.0, "effect": {}, "kit": {}},
+#: scripts/buildings/unit_research.gd:271
+msgid "+2 attack range"
+msgstr "+2 de portée d'attaque"
+
+#. &"nature_caster": {"name": "Sage's Focus", "units": [&"bramblesage"], "tier": 2, "price": 125, "time": 40.0,
+#: scripts/buildings/unit_research.gd:272
+msgid "Sage's Focus"
+msgstr "Sage's Focus"
+
+#. &"bramblesage_deep_snag": {"name": "Deep Snag", "units": [&"bramblesage"], "tier": 3, "price": 175, "time": 50
+#: scripts/buildings/unit_research.gd:276
+msgid "Deep Snag"
+msgstr "Deep Snag"
+
+#. "needs": &"", "text": "Snagroot drags 9 m (was 7) and roots 1.5 s (was 1); heroes unchanged.", "mods": {},
+#: scripts/buildings/unit_research.gd:277
+msgid "Snagroot drags 9 m (was 7) and roots 1.5 s (was 1); heroes unchanged."
+msgstr "Snagroot tire de 9 m (avant 7) et enracine 1,5 s (avant 1) ; héros inchangés."
+
+#. &"briar_roc_thornstorm": {"name": "Thornstorm", "units": [&"briar_roc"], "tier": 3, "price": 200, "time": 60.0
+#: scripts/buildings/unit_research.gd:279
+msgid "Thornstorm"
+msgstr "Thornstorm"
+
+#. "needs": &"", "text": "Seed Storm every 12 s (was 16), 40 damage (was 30).", "mods": {}, "range": 0.0,
+#: scripts/buildings/unit_research.gd:280
+msgid "Seed Storm every 12 s (was 16), 40 damage (was 30)."
+msgstr "Seed Storm toutes les 12 s (avant 16), 40 dégâts (avant 30)."
+
+#. const REASON_HALL := "Needs a completed Hall that trains it"
+#: scripts/buildings/unit_upgrades.gd:45
+msgid "Needs a completed Hall that trains it"
+msgstr "Exige une salle terminée qui forme cette unité"
+
+#. _mana_shader.code = """
+#: scripts/units/caster_ability.gd:1228
+msgid "\r\nshader_type spatial;\r\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\r\nuniform float fill = 1.0;\r\nuniform vec4 fill_color : source_color = vec4(0.35, 0.55, 1.0, 1.0);\r\nvoid vertex() {\r\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\r\n}\r\nvoid fragment() {\r\n\tbool border = UV.y < 0.2 || UV.y > 0.8 || UV.x < 0.02 || UV.x > 0.98;\r\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : vec4(0.08, 0.08, 0.1, 0.85));\r\n\tALBEDO = c.rgb;\r\n\tALPHA = c.a;\r\n}\r\n"
+msgstr ""
 
 #. "text": "Caster: Slag Rain melts armour; Mana Scald burns an enemy caster's mana."},
 #: scripts/units/caster_kit.gd:22
@@ -596,7 +1126,7 @@ msgid "Out of range"
 msgstr "Hors de portée"
 
 #. const REASON_NO_TARGET := "No target"
-#: scripts/units/caster_kit.gd:99 scripts/units/helper_abilities.gd:131
+#: scripts/units/caster_kit.gd:99 scripts/units/helper_abilities.gd:126
 #~ msgid "No target"
 #~ msgstr "Aucune cible"
 
@@ -786,12 +1316,12 @@ msgid "Invalid stance"
 msgstr "Posture invalide"
 
 #. return "Unknown ability"
-#: scripts/units/helper_abilities.gd:117
+#: scripts/units/helper_abilities.gd:112
 msgid "Unknown ability"
 msgstr "Capacité inconnue"
 
 #. return "Requires level %d" % helper.helper_type.signature_level
-#: scripts/units/helper_abilities.gd:119
+#: scripts/units/helper_abilities.gd:114
 msgid "Requires level %d"
 msgstr "Exige le niveau %d"
 
@@ -1125,7 +1655,7 @@ msgstr "Espion de palier 3. Ressemble à un ouvrier ennemi hors combat ; pose d
 msgid "Tier 3 vampire duelist. Heals 35 % of its damage (halved 4 s by fire); Blood Frenzy under 40 % HP."
 msgstr "Duelliste vampire de palier 3. Récupère 35 % de ses dégâts (moitié moins 4 s après du feu) ; Blood Frenzy sous 40 % PV."
 
-#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off 
+#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off
 #: scripts/units/t3_kit.gd:26
 msgid "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off your archers."
 msgstr "Hallebardier de palier 3. Hold the Line : arrête une charge et fige le cavalier 1 s ; provoque les plongeurs loin de vos archers."
@@ -1181,7 +1711,7 @@ msgid "Can't hire that here"
 msgstr "Impossible d'engager ça ici"
 
 #. @export var unit_name := "Soldier"
-#: scripts/units/unit.gd:159
+#: scripts/units/unit.gd:160
 msgid "Soldier"
 msgstr "Soldat"
 
@@ -1897,7 +2427,7 @@ msgstr "Millstone Cross"
 msgid "Lantern Wharf"
 msgstr "Lantern Wharf"
 
-#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0), 
+#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0),
 #: scripts/world/skirmish.gd:101
 msgid "Saltgate"
 msgstr "Saltgate"
@@ -2112,40 +2642,15 @@ msgstr "Y : engager des champions"
 msgid "The Magpies are on the roads"
 msgstr "Les Magpies sont sur les routes"
 
-#. var hub: Variant = (g["nodes"] as Dictionary).get(StringName("hub_t%d" % team))
-#: scripts/world/layout_level.gd:359 scripts/world/layout_level.gd:852
-#~ msgid "hub_t%d"
-#~ msgstr ""
-
-#. const MSG_DROPPED := " + %s dropped"
-#: scripts/world/camp_manager.gd:77 scripts/world/epic_beasts.gd:685
-#~ msgid " + %s dropped"
-#~ msgstr ""
-
-#. var id := StringName("herd_%d" % i)
-#: scripts/world/critter_herds.gd:88
-#~ msgid "herd_%d"
-#~ msgstr ""
-
-#. _warn_once("abilities", "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities" % ABILITIE
-#: scripts/world/epic_beasts.gd:488
-#~ msgid "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities"
+#. _layout_error = "LayoutLevel: no layout (layout_path=%s)" % layout_path
+#: scripts/world/layout_level.gd:77
+#~ msgid "LayoutLevel: no layout (layout_path=%s)"
 #~ msgstr ""
 
 #. var key := "held:%d" % LOCAL_TEAM
 #: scripts/economy/caravan.gd:857
 #~ msgid "held:%d"
 #~ msgstr ""
-
-#. _layout_error = "LayoutLevel: no layout (layout_path=%s)" % layout_path
-#: scripts/world/layout_level.gd:77
-#~ msgid "LayoutLevel: no layout (layout_path=%s)"
-#~ msgstr ""
-
-#. const NAMES: Array[String] = ["Keep", "Stronghold", "Citadel"]
-#: scripts/buildings/tier_system.gd:17
-#~ msgid "Citadel"
-#~ msgstr "Citadelle"
 
 #. return "2v2 map: plays as a 1v1 for now (one seat per side; 2v2 skirmish comes later)."
 #: scripts/world/map_catalog.gd:126
@@ -2160,6 +2665,141 @@ msgstr "Les Magpies sont sur les routes"
 #. const OVERLAY_SHADER := """
 #: scripts/world/fog_of_war.gd:515
 #~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled;\n\nuniform sampler2D vis_tex : filter_linear, repeat_disable;\nuniform sampler2D exp_tex : filter_linear, repeat_disable;\nuniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;\nuniform vec2 map_half = vec2(60.0, 60.0);\nuniform float explored_alpha = 0.55;\n\nvoid fragment() {\n\tfloat depth = texture(depth_tex, SCREEN_UV).r;\n\tvec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);\n\tview.xyz /= view.w;\n\tvec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;\n\tvec2 uv = (world.xz + map_half) / (2.0 * map_half);\n\tALBEDO = vec3(0.0);\n\tif (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {\n\t\tALPHA = 0.0;\n\t} else {\n\t\tfloat e = texture(exp_tex, uv).r;\n\t\tfloat v = texture(vis_tex, uv).r;\n\t\tALPHA = mix(1.0, mix(explored_alpha, 0.0, v), e);\n\t}\n}\n"
+#~ msgstr ""
+
+#. _warn_once("abilities", "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities" % ABILITIE
+#: scripts/world/epic_beasts.gd:488
+#~ msgid "EpicBeasts: no CreatureAbilities (%s) yet, beasts fight without abilities"
+#~ msgstr ""
+
+#. var id := StringName("herd_%d" % i)
+#: scripts/world/critter_herds.gd:88
+#~ msgid "herd_%d"
+#~ msgstr ""
+
+#. const MSG_DROPPED := " + %s dropped"
+#: scripts/world/camp_manager.gd:77 scripts/world/epic_beasts.gd:685
+#~ msgid " + %s dropped"
+#~ msgstr ""
+
+#. var hub: Variant = (g["nodes"] as Dictionary).get(StringName("hub_t%d" % team))
+#: scripts/world/layout_level.gd:359 scripts/world/layout_level.gd:852
+#~ msgid "hub_t%d"
+#~ msgstr ""
+
+#. const REASON_HALL := "Needs a completed Hall of your kingdom"
+#: scripts/units/bowman_upgrades.gd:50
+#~ msgid "Needs a completed Hall of your kingdom"
+#~ msgstr "Exige une salle terminée de votre royaume"
+
+#. const REASON_BUSY := "The Hall is busy with another upgrade"
+#: scripts/buildings/unit_upgrades.gd:43 scripts/units/bowman_upgrades.gd:49
+#~ msgid "The Hall is busy with another upgrade"
+#~ msgstr "La salle est occupée par une autre amélioration"
+
+#. {"id": &"ford_n", "name": "Reed Ford", "kind": &"ford", "center": Vector3(-8.5, 0.0, -34.0),
+#: scripts/world/skirmish.gd:151
+#~ msgid "Reed Ford"
+#~ msgstr "Reed Ford"
+
+#. return StringName("item:artifact_%d" % (slot - ARTIFACT_SLOT + 1))
+#: scripts/items/inventory.gd:657
+#~ msgid "item:artifact_%d"
+#~ msgstr ""
+
+#. @export_group("Kingdom mechanics")   # kingdom-ice.md 2.2 (step 7, shared with Nature)
+#: scripts/units/unit_type.gd:38
+#~ msgid "Kingdom mechanics"
+#~ msgstr ""
+
+#. var dims := "%d m" % int(s.x) if is_equal_approx(s.x, s.y) else "%d x %d m" % [int(s.x), int(s.y)]
+#: scripts/world/map_catalog.gd:133
+#~ msgid "%d x %d m"
+#~ msgstr "%d x %d m"
+
+#. {"id": &"camp_nest_n", "name": "Reed Ford Nest", "kind": &"mirefang", "tier": 2,
+#: scripts/world/skirmish.gd:185
+#~ msgid "Reed Ford Nest"
+#~ msgstr "Reed Ford Nest"
+
+#. {"id": &"camp_nest_s", "name": "Willow Ford Nest", "kind": &"mirefang", "tier": 2,
+#: scripts/world/skirmish.gd:183
+#~ msgid "Willow Ford Nest"
+#~ msgstr "Willow Ford Nest"
+
+#. {"id": &"shrine_e", "name": "East Wayshrine", "kind": &"shrine", "pos": Vector3(22.0, 0.0, 6.0)},
+#: scripts/world/skirmish.gd:173
+#~ msgid "East Wayshrine"
+#~ msgstr "East Wayshrine"
+
+#. _warn_once("band", "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens" % THIEF_BAND_PATH)
+#: scripts/world/thieves_guild.gd:678
+#~ msgid "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens"
+#~ msgstr ""
+
+#. @export_group("Personality (champions.md 4.2, 8)")
+#: scripts/units/champion_type.gd:43
+#~ msgid "Personality (champions.md 4.2, 8)"
+#~ msgstr ""
+
+#. @export_group("Stats (level 1)")
+#: scripts/units/champion_type.gd:24
+#~ msgid "Stats (level 1)"
+#~ msgstr ""
+
+#. @export_group("Draw and UI")
+#: scripts/units/champion_class.gd:50
+#~ msgid "Draw and UI"
+#~ msgstr ""
+
+#. @export_group("Weapon (level 1)")
+#: scripts/units/champion_class.gd:27
+#~ msgid "Weapon (level 1)"
+#~ msgstr ""
+
+#. line2 += " · autocast %s" % ("on" if bool(autocast_on) else "off")
+#: scripts/units/caster_kit.gd:234
+#~ msgid " · autocast %s"
+#~ msgstr ""
+
+#. line2 += " · cooldown %d s" % roundi(float(s.get("cooldown", 0.0)))
+#: scripts/units/caster_kit.gd:232
+#~ msgid " · cooldown %d s"
+#~ msgstr ""
+
+#. _mana_shader.code = """
+#: scripts/units/caster_ability.gd:1207
+#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.35, 0.55, 1.0, 1.0);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.y < 0.2 || UV.y > 0.8 || UV.x < 0.02 || UV.x > 0.98;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : vec4(0.08, 0.08, 0.1, 0.85));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
+#~ msgstr ""
+
+#. _hp_shader.code = """
+#: scripts/buildings/building.gd:728
+#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < 0.01 || UV.x > 0.99 || UV.y < 0.12 || UV.y > 0.88;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : back_color);\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
+#~ msgstr ""
+
+#. _hp_shader.code = """
+#: scripts/units/unit.gd:2334
+#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform float shield_end = 0.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\n// Frame (UV fractions): soldiers a thin black one; champions a gold one with a black inner line (9.C10).\nuniform vec4 frame_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);\nuniform vec2 frame_size = vec2(0.02, 0.12);\nuniform vec2 inner_size = vec2(0.0, 0.0);\nvoid vertex() {\n\t// Always face the camera (billboard).\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < frame_size.x || UV.x > 1.0 - frame_size.x || UV.y < frame_size.y || UV.y > 1.0 - frame_size.y;\n\tvec2 ie = frame_size + inner_size;\n\tbool inner = UV.x < ie.x || UV.x > 1.0 - ie.x || UV.y < ie.y || UV.y > 1.0 - ie.y;\n\tvec4 c = border ? frame_color : (inner ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color\n\t\t\t: (UV.x < shield_end ? vec4(1.0, 1.0, 1.0, 1.0) : back_color)));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
+#~ msgstr ""
+
+#. return "Claim"
+#: scripts/world/bounty.gd:235
+#~ msgid "Claim"
+#~ msgstr "Réclamer"
+
+#. _warn_once("brain", "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs" % BRAIN_PATH)
+#: scripts/world/epic_beasts.gd:507
+#~ msgid "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs"
+#~ msgstr ""
+
+#. const REASON_POP_CAP := "Population cap reached"
+#: scripts/buildings/training_building.gd:17 scripts/world/champion_guild.gd:76
+#~ msgid "Population cap reached"
+#~ msgstr "Plafond de population atteint"
+
+#. return StringName("item:%d" % (slot + 1))
+#: scripts/items/inventory.gd:658
+#~ msgid "item:%d"
 #~ msgstr ""
 
 #. _cached.maps = [{"id": DEFAULT_ID, "title": "Crown Hollow", "scene": "res://scenes/skirmish.tscn",
@@ -2274,107 +2914,7 @@ msgstr "Les Magpies sont sur les routes"
 #~ msgid "West Wayshrine"
 #~ msgstr "West Wayshrine"
 
-#. {"id": &"ford_n", "name": "Reed Ford", "kind": &"ford", "center": Vector3(-8.5, 0.0, -34.0),
-#: scripts/world/skirmish.gd:151
-#~ msgid "Reed Ford"
-#~ msgstr "Reed Ford"
-
-#. return StringName("item:artifact_%d" % (slot - ARTIFACT_SLOT + 1))
-#: scripts/items/inventory.gd:657
-#~ msgid "item:artifact_%d"
-#~ msgstr ""
-
-#. @export_group("Kingdom mechanics")   # kingdom-ice.md 2.2 (step 7, shared with Nature)
-#: scripts/units/unit_type.gd:38
-#~ msgid "Kingdom mechanics"
-#~ msgstr ""
-
-#. var dims := "%d m" % int(s.x) if is_equal_approx(s.x, s.y) else "%d x %d m" % [int(s.x), int(s.y)]
-#: scripts/world/map_catalog.gd:133
-#~ msgid "%d x %d m"
-#~ msgstr "%d x %d m"
-
-#. {"id": &"camp_nest_n", "name": "Reed Ford Nest", "kind": &"mirefang", "tier": 2,
-#: scripts/world/skirmish.gd:185
-#~ msgid "Reed Ford Nest"
-#~ msgstr "Reed Ford Nest"
-
-#. {"id": &"camp_nest_s", "name": "Willow Ford Nest", "kind": &"mirefang", "tier": 2,
-#: scripts/world/skirmish.gd:183
-#~ msgid "Willow Ford Nest"
-#~ msgstr "Willow Ford Nest"
-
-#. {"id": &"shrine_e", "name": "East Wayshrine", "kind": &"shrine", "pos": Vector3(22.0, 0.0, 6.0)},
-#: scripts/world/skirmish.gd:173
-#~ msgid "East Wayshrine"
-#~ msgstr "East Wayshrine"
-
-#. _warn_once("band", "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens" % THIEF_BAND_PATH)
-#: scripts/world/thieves_guild.gd:678
-#~ msgid "ThievesGuild: no ThiefBand (%s) yet, no Magpies leave the Dens"
-#~ msgstr ""
-
-#. @export_group("Personality (champions.md 4.2, 8)")
-#: scripts/units/champion_type.gd:43
-#~ msgid "Personality (champions.md 4.2, 8)"
-#~ msgstr ""
-
-#. @export_group("Stats (level 1)")
-#: scripts/units/champion_type.gd:24
-#~ msgid "Stats (level 1)"
-#~ msgstr ""
-
-#. @export_group("Draw and UI")
-#: scripts/units/champion_class.gd:50
-#~ msgid "Draw and UI"
-#~ msgstr ""
-
-#. @export_group("Weapon (level 1)")
-#: scripts/units/champion_class.gd:27
-#~ msgid "Weapon (level 1)"
-#~ msgstr ""
-
-#. line2 += " · autocast %s" % ("on" if bool(autocast_on) else "off")
-#: scripts/units/caster_kit.gd:234
-#~ msgid " · autocast %s"
-#~ msgstr ""
-
-#. line2 += " · cooldown %d s" % roundi(float(s.get("cooldown", 0.0)))
-#: scripts/units/caster_kit.gd:232
-#~ msgid " · cooldown %d s"
-#~ msgstr ""
-
-#. _mana_shader.code = """
-#: scripts/units/caster_ability.gd:1207
-#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.35, 0.55, 1.0, 1.0);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.y < 0.2 || UV.y > 0.8 || UV.x < 0.02 || UV.x > 0.98;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : vec4(0.08, 0.08, 0.1, 0.85));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
-#~ msgstr ""
-
-#. _hp_shader.code = """
-#: scripts/buildings/building.gd:728
-#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, shadows_disabled;\nuniform float fill = 1.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\nvoid vertex() {\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < 0.01 || UV.x > 0.99 || UV.y < 0.12 || UV.y > 0.88;\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : back_color);\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
-#~ msgstr ""
-
-#. _hp_shader.code = """
-#: scripts/units/unit.gd:2334
-#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\nuniform float fill = 1.0;\nuniform float shield_end = 0.0;\nuniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);\nuniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);\n// Frame (UV fractions): soldiers a thin black one; champions a gold one with a black inner line (9.C10).\nuniform vec4 frame_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);\nuniform vec2 frame_size = vec2(0.02, 0.12);\nuniform vec2 inner_size = vec2(0.0, 0.0);\nvoid vertex() {\n\t// Always face the camera (billboard).\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\n}\nvoid fragment() {\n\tbool border = UV.x < frame_size.x || UV.x > 1.0 - frame_size.x || UV.y < frame_size.y || UV.y > 1.0 - frame_size.y;\n\tvec2 ie = frame_size + inner_size;\n\tbool inner = UV.x < ie.x || UV.x > 1.0 - ie.x || UV.y < ie.y || UV.y > 1.0 - ie.y;\n\tvec4 c = border ? frame_color : (inner ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color\n\t\t\t: (UV.x < shield_end ? vec4(1.0, 1.0, 1.0, 1.0) : back_color)));\n\tALBEDO = c.rgb;\n\tALPHA = c.a;\n}\n"
-#~ msgstr ""
-
-#. return "Claim"
-#: scripts/world/bounty.gd:235
-#~ msgid "Claim"
-#~ msgstr "Réclamer"
-
-#. _warn_once("brain", "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs" % BRAIN_PATH)
-#: scripts/world/epic_beasts.gd:507
-#~ msgid "EpicBeasts: no BeastBrain (%s) yet, beasts stand at their lairs"
-#~ msgstr ""
-
-#. const REASON_POP_CAP := "Population cap reached"
-#: scripts/buildings/training_building.gd:17 scripts/world/champion_guild.gd:76
-#~ msgid "Population cap reached"
-#~ msgstr "Plafond de population atteint"
-
-#. return StringName("item:%d" % (slot + 1))
-#: scripts/items/inventory.gd:658
-#~ msgid "item:%d"
-#~ msgstr ""
+#. const NAMES: Array[String] = ["Keep", "Stronghold", "Citadel"]
+#: scripts/buildings/tier_system.gd:17
+#~ msgid "Citadel"
+#~ msgstr "Citadelle"

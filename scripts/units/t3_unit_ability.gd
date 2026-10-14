@@ -37,6 +37,11 @@ var _reveal_left := 0.0       # Saboteur: seconds before it can re-disguise
 var _sunburn_left := 0.0
 var _frenzy_left := 0.0
 var _hold_left := 0.0
+# Reaver research numbers (Crimson Thirst), cached: the hit path reads a field. Refreshed at spawn, on the team's
+# research_completed and when its UnitResearch node appears / is replaced (a load).
+var _drink := float(NIGHTBLOOD["drink"])
+var _frenzy_pct := float(FRENZY["hp_pct"])
+var _research: UnitResearch = null
 var _last_pos := {}           # Shardguard: enemy instance id -> Vector3 (last tick)
 var _disguise_model: Node3D = null
 var _braced_shown := false
@@ -50,6 +55,8 @@ func _ready() -> void:
 	unit.damage_taken.connect(_on_damage_taken)
 	if id == &"ashveil_saboteur":
 		_set_disguised(true)
+	if id == &"nightblood_reaver":
+		_watch_research()
 
 
 func _physics_process(delta: float) -> void:
@@ -84,6 +91,7 @@ func _physics_process(delta: float) -> void:
 		&"ashveil_saboteur":
 			_try_charge()
 		&"nightblood_reaver":
+			_watch_research()
 			_try_frenzy()
 		&"shardguard":
 			_try_challenge()
@@ -221,12 +229,16 @@ func _try_charge() -> void:
 			return   # killed while planting: no charge
 		unit.command_stop()
 		_count(&"powder_charge")
-		_arm_fuse(unit.get_tree(), ref, weakref(unit), float(CHARGE["fuse"])))
+		_arm_fuse(unit.get_tree(), ref, weakref(unit), float(CHARGE["fuse"]),
+				UnitResearch.param(unit, &"powder_damage", float(CHARGE["damage"])),
+				UnitResearch.param(unit, &"powder_pause", float(CHARGE["pause"]))))
 
 
 # The 5 s fuse lives outside this node (a lambda made in a static function holds no `self`): the charge still blows
 # when the Saboteur dies during the fuse (R3-4). Credit goes to the Saboteur while it exists.
-static func _arm_fuse(tree: SceneTree, building_ref: WeakRef, unit_ref: WeakRef, seconds: float) -> void:
+# Damage / pause are read when the charge is planted (Double Powder, UnitResearch K row).
+static func _arm_fuse(tree: SceneTree, building_ref: WeakRef, unit_ref: WeakRef, seconds: float,
+		damage: float = float(CHARGE["damage"]), pause: float = float(CHARGE["pause"])) -> void:
 	if tree == null:
 		return
 	tree.create_timer(seconds, false, true).timeout.connect(func() -> void:
@@ -235,8 +247,8 @@ static func _arm_fuse(tree: SceneTree, building_ref: WeakRef, unit_ref: WeakRef,
 			return
 		var by: Variant = unit_ref.get_ref()
 		var attacker: Node3D = by as Node3D if by is Node3D and is_instance_valid(by) else null
-		t.call(&"take_damage", float(CHARGE["damage"]), attacker)
-		T3Kit.pause_building(t, float(CHARGE["pause"])))
+		t.call(&"take_damage", damage, attacker)
+		T3Kit.pause_building(t, pause))
 
 
 ## An enemy building whose edge is within 2.5 m, the one it attacks first.
@@ -265,7 +277,7 @@ func _on_attack_landed(target: Node3D, dealt: float) -> void:
 			reveal()
 		&"nightblood_reaver":
 			if dealt > 0.0:
-				var drink := float(FRENZY["drink"]) if _frenzy_left > 0.0 else float(NIGHTBLOOD["drink"])
+				var drink := float(FRENZY["drink"]) if _frenzy_left > 0.0 else _drink
 				if _sunburn_left > 0.0:
 					drink *= float(NIGHTBLOOD["sunburn_mult"])
 				unit.heal(dealt * drink)
@@ -305,7 +317,7 @@ func sunburn_left() -> float:
 
 
 func _try_frenzy() -> void:
-	if cooldown_left(&"blood_frenzy") > 0.0 or unit.hp > unit.max_hp * float(FRENZY["hp_pct"]):
+	if cooldown_left(&"blood_frenzy") > 0.0 or unit.hp > unit.max_hp * _frenzy_pct:
 		return
 	if _nearest_enemy(unit.global_position, unit.attack_range + 4.0, []) == null:
 		return
@@ -315,6 +327,25 @@ func _try_frenzy() -> void:
 	_count(&"blood_frenzy")
 	if unit.model_has(&"set_status"):
 		unit.model_call(&"set_status", [&"frenzy", true])   # eyes and blade flare crimson
+
+
+## Reaver: (re)finds the team's UnitResearch node (cheap field check once connected) and refreshes the cache.
+func _watch_research() -> void:
+	if _research != null and is_instance_valid(_research) and _research.is_inside_tree():
+		return
+	_research = UnitResearch.for_team(int(unit.team), false)
+	if _research and not _research.research_completed.is_connected(_on_research_completed):
+		_research.research_completed.connect(_on_research_completed)
+	_refresh_research()
+
+
+func _on_research_completed(_id: StringName) -> void:
+	_refresh_research()
+
+
+func _refresh_research() -> void:
+	_drink = UnitResearch.param(unit, &"reaver_lifesteal", float(NIGHTBLOOD["drink"]))
+	_frenzy_pct = UnitResearch.param(unit, &"frenzy_hp_pct", float(FRENZY["hp_pct"]))
 
 
 func is_frenzied() -> bool:
@@ -356,6 +387,9 @@ func hold_the_line(attacker: Unit) -> bool:
 	_hold_left = float(HOLD["every"])
 	attacker.velocity = Vector3.ZERO
 	attacker.apply_status(&"frozen", float(HOLD["freeze"]))
+	var ward := UnitResearch.param(unit, &"hold_line_shield", 0.0)   # Shard Ward (K row)
+	if ward > 0.0 and unit.shield < ward:   # never replaces a bigger shield (support_caster R3-2 rule)
+		unit.add_shield(ward, UnitResearch.param(unit, &"hold_line_shield_time", 6.0))
 	_count(&"hold_the_line")
 	return true
 
@@ -398,13 +432,14 @@ func _try_seed_storm() -> void:
 
 ## Seed Storm at `at`: 30 + rooted 1 s to ground enemy units within 3 m (flyers are never rooted).
 func seed_storm(at: Vector3) -> void:
+	var dmg := UnitResearch.param(unit, &"seed_storm_damage", float(SEED_STORM["damage"]))   # Thornstorm (K row)
 	for e in _enemies_near(at, float(SEED_STORM["radius"])):
 		if HelperAbilities.is_flyer(e):
 			continue
-		e.take_damage(float(SEED_STORM["damage"]), unit)
+		e.take_damage(dmg, unit)
 		if e.is_alive():
 			e.apply_status(&"rooted", float(SEED_STORM["root"]))
-	_cd[&"seed_storm"] = float(SEED_STORM["cd"])
+	_cd[&"seed_storm"] = UnitResearch.param(unit, &"seed_storm_cd", float(SEED_STORM["cd"]))
 	_count(&"seed_storm")
 
 

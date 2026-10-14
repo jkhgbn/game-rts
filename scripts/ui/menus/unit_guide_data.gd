@@ -181,9 +181,13 @@ static func _build(row: Dictionary) -> Dictionary:
 	e["weak"] = _strings(t.get("weak_against", []))
 	e["good_with"] = _strings(t.get("good_with", []))
 	e["abilities"] = abilities_of(id, String(row["kind"]))
+	e["upgrades"] = upgrades_of(id, String(row["kind"]), String(row.get("building", "")))
 	e["cost_text"] = cost_text(e)
-	e["search"] = ("%s %s %s %s %s %s" % [e["name"], e["class"], e["role"], e["kingdom"], e["building"],
-			" ".join(PackedStringArray(e["strong"] + e["weak"] + e["good_with"]))]).to_lower()
+	var up_names: PackedStringArray = []
+	for u: Dictionary in e["upgrades"]:
+		up_names.append(String(u["name"]))
+	e["search"] = ("%s %s %s %s %s %s %s" % [e["name"], e["class"], e["role"], e["kingdom"], e["building"],
+			" ".join(PackedStringArray(e["strong"] + e["weak"] + e["good_with"])), " ".join(up_names)]).to_lower()
 	return e
 
 
@@ -335,23 +339,54 @@ static func abilities_of(id: StringName, kind: String = "unit") -> Array[Diction
 	for a in t.get("abilities", []):
 		if a is Dictionary:
 			out.append({"name": str(a.get("name", "")), "key": str(a.get("key", "Auto")), "text": str(a.get("text", ""))})
-	if Stables16.has_rank_up(id):
-		var bonus: Dictionary = Stables16.RANK_STATS
-		var rk := _templ({"key": "Stables"},
-			"Stables research once your keep is a Citadel ({price} crystals, {time} s): +{hp} % HP, +{dmg} % damage, +{armor} armour.",
-			{"price": Stables16.rank_price(id), "time": int(Stables16.rank_time(id)),
-				"hp": int(round(float(bonus[&"max_hp_pct"]) * 100.0)),
-				"dmg": int(round(float(bonus[&"attack_damage_pct"]) * 100.0)), "armor": int(bonus[&"armor"])})
-		rk["name_tmpl"] = "Rank 3: {name}"
-		rk["name_args"] = {"name": Stables16.rank_name(id)}
-		rk["name"] = String(rk["name_tmpl"]).format(rk["name_args"])
-		out.append(rk)
+	# UR.U2: the Stables rank-3 and the unit research live in the Upgrades block (upgrades_of).
 	out.append_array(forge_abilities(id, kind))
 	return out
 
 
-## docs/design/unit-upgrades.md: the Forge research that touches a soldier: its kingdom's 3 generic lines, then its
-## unit-specific line when it has one.
+## UR.U2 (ui-sc2-console.md 7.7): the unit's research in unit-page order (Z "+", X C V B rows, then the Stables rank-3):
+## [{key, name, building, tier, price, time, text (or tmpl / args)}], read from UnitUpgrades, UnitResearch and Stables16.
+## `building` = the guide's "From" building (the "+" and the rows are bought where the unit trains).
+static func upgrades_of(id: StringName, kind: String = "unit", building: String = "") -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if kind != "unit":
+		return out
+	var keys := SelectionManager.SLOT_LETTERS.substr(0, SelectionManager.RESEARCH_PAGE_MAX)
+	var t := UnitType.find(String(id))
+	if UnitUpgrades.has_plus(id):
+		out.append({"key": "Z", "name": UnitUpgrades.display_name(id), "building": building,
+				"tier": UnitUpgrades.TIER_NEEDED, "price": UnitUpgrades.price_of(id), "time": int(UnitUpgrades.time_of(id)),
+				"text": UnitUpgrades.stats_text(id)})
+	var i := 1
+	for rid in UnitResearch.rows_for_unit(id):
+		if i >= keys.length():
+			break
+		var r := UnitResearch.row(rid)
+		out.append({"key": keys[i], "name": str(r["name"]), "building": building, "tier": int(r["tier"]),
+				"price": int(r["price"]), "time": int(float(r["time"])), "text": str(r["text"]), "row": rid})
+		i += 1
+	if Stables16.has_rank_up(id) and i < keys.length():
+		var bonus: Dictionary = Stables16.RANK_STATS
+		var st := Stables16.stables_type(t.faction) if t else null
+		var rk := _templ({"key": keys[i], "name": Stables16.rank_name(id),
+				"building": st.display_name if st else "Stables", "tier": Stables16.RANK_TIER,
+				"price": Stables16.rank_price(id), "time": int(Stables16.rank_time(id))},
+				"Rank 3: +{hp} % HP, +{dmg} % damage, +{armor} armour, +{speed} speed",
+				{"hp": int(round(float(bonus[&"max_hp_pct"]) * 100.0)),
+					"dmg": int(round(float(bonus[&"attack_damage_pct"]) * 100.0)), "armor": int(bonus[&"armor"]),
+					"speed": str(bonus[&"move_speed"])})
+		out.append(rk)
+	return out
+
+
+## One Upgrades row's info line in the current language: "Ember Hall · T2 · 125 · 40 s".
+static func upgrade_line(u: Dictionary) -> String:
+	return Loc.t("{building} · T{tier} · {price} · {time} s", {"building": building_label(String(u["building"])),
+			"tier": int(u["tier"]), "price": int(u["price"]), "time": int(u["time"])})
+
+
+## docs/design/unit-upgrades.md: the Forge research that touches a soldier: its kingdom's 3 generic lines (its old
+## unit-specific lines moved to unit research: upgrades_of).
 static func forge_abilities(id: StringName, kind: String = "unit") -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	if kind != "unit" or not ForgeKit.ENABLED:
@@ -370,13 +405,7 @@ static func forge_abilities(id: StringName, kind: String = "unit") -> Array[Dict
 	g["name_args"] = {}
 	g["name"] = "Forge upgrades"
 	out.append(g)
-	var ul := ForgeKit.unit_line_of(id, t.faction)
-	if ul != &"":
-		var u := _templ({"key": "Forge", "name": ForgeKit.line_name(ul)},
-			"Forge research once your keep is a Stronghold ({price} crystals, {time} s): {text}.",
-			{"price": ForgeKit.UNIT_PRICE, "time": int(ForgeKit.UNIT_TIME), "text": ForgeKit.line_text(ul)})
-		out.append(u)
-	return out
+	return out   # UR.U2: the unit lines moved to unit research (the Upgrades block)
 
 
 ## An ability whose text is a template: "text" = the English, "tmpl" / "args" let the screen show it in any language.

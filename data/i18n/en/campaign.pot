@@ -1401,7 +1401,7 @@ msgid "Keep your escort alive (%d)"
 msgstr ""
 
 #. return _card(EP1_INTRO_ID, "Episode 1", "The Night of Knives", lines, VESSA_START, Vector3(14.0, 22.0, 18.0),
-#: scripts/campaign/mission_00.gd:995 scripts/campaign/mission_04.gd:1158
+#: scripts/campaign/mission_00.gd:995 scripts/campaign/mission_04.gd:1163
 msgid "Episode 1"
 msgstr ""
 
@@ -1560,7 +1560,7 @@ msgstr ""
 
 #. c.keep_lost_message = "The Fire keep has fallen"
 #: scripts/campaign/mission_01.gd:233 scripts/campaign/mission_02.gd:254
-#: scripts/campaign/mission_03.gd:297 scripts/campaign/mission_04.gd:1175
+#: scripts/campaign/mission_03.gd:297 scripts/campaign/mission_04.gd:1180
 #: scripts/campaign/mission_e2_01.gd:277
 msgid "The Fire keep has fallen"
 msgstr ""
@@ -2524,62 +2524,62 @@ msgid "Hollow %d %%"
 msgstr ""
 
 #. var card := _card(&"m4_war", "Mission 4", MISSION_TITLE, lines, THRONE_POS, Vector3(-40.0, 34.0, 46.0),
-#: scripts/campaign/mission_04.gd:717
+#: scripts/campaign/mission_04.gd:722
 msgid "Mission 4"
 msgstr ""
 
 #. _play_card(&"m4_rise", _text_card(&"m4_rise", "The Rise", CARD_RISE_TEXT, THRONE_POS, 45.0), _rise_end_state)
-#: scripts/campaign/mission_04.gd:777
+#: scripts/campaign/mission_04.gd:782
 msgid "The Rise"
 msgstr ""
 
 #. _play_card(&"m4_storm", _text_card(&"m4_storm", "The Darkest Hour", CARD_STORM_TEXT, hero_pos(), 105.0),
-#: scripts/campaign/mission_04.gd:1034
+#: scripts/campaign/mission_04.gd:1039
 msgid "The Darkest Hour"
 msgstr ""
 
 #. hud.show_message("Malrik's army is broken. The Hollow is not.", 4.0)
-#: scripts/campaign/mission_04.gd:1101
+#: scripts/campaign/mission_04.gd:1106
 msgid "Malrik's army is broken. The Hollow is not."
 msgstr ""
 
 #. _play_card(&"ep1_credits", _text_card(&"ep1_credits", "Episode 1 complete", CARD_CREDITS_TEXT,
-#: scripts/campaign/mission_04.gd:1160
+#: scripts/campaign/mission_04.gd:1165
 msgid "Episode 1 complete"
 msgstr ""
 
 #. why = "Cinematics off"
-#: scripts/campaign/mission_base.gd:713
+#: scripts/campaign/mission_base.gd:739
 msgid "Cinematics off"
 msgstr ""
 
 #. why = "No cinematic %s" % id
-#: scripts/campaign/mission_base.gd:715
+#: scripts/campaign/mission_base.gd:741
 msgid "No cinematic %s"
 msgstr ""
 
 #. return "Continue"
-#: scripts/campaign/mission_base.gd:848
+#: scripts/campaign/mission_base.gd:945
 msgid "Continue"
 msgstr ""
 
 #. return "Continue: Mission %d" % int(num)
-#: scripts/campaign/mission_base.gd:849
+#: scripts/campaign/mission_base.gd:946
 msgid "Continue: Mission %d"
 msgstr ""
 
 #. const SAVE_REASON_UNSUPPORTED := "Saving is not supported in this mission"
-#: scripts/campaign/mission_base.gd:1835
+#: scripts/campaign/mission_base.gd:1932
 msgid "Saving is not supported in this mission"
 msgstr ""
 
 #. const SAVE_REASON_SCENE := "Can't save during a scene"
-#: scripts/campaign/mission_base.gd:1836
+#: scripts/campaign/mission_base.gd:1933
 msgid "Can't save during a scene"
 msgstr ""
 
 #. const SAVE_REASON_SCRIPTED := "Can't save now: a scripted event is in progress"
-#: scripts/campaign/mission_base.gd:1837
+#: scripts/campaign/mission_base.gd:1934
 msgid "Can't save now: a scripted event is in progress"
 msgstr ""
 

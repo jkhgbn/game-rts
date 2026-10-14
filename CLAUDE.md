@@ -66,7 +66,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   query nearby cells (same targets as the scan); `team` has a setter that marks the grid dirty; code that moves a unit more
   than 2 m in one frame goes through `set_down` or calls `UnitGrid.mark_dirty()`. Lane units: `scan_bucket` (0-14, scans
   on frame mod `SCAN_BUCKETS`; -1 = the old 0.25 s timer, every other unit), `set_avoidance_gated(off)`,
-  `has_enemy_within(dist)`. Modifiers saved with a unit: prefixes `mission:`, `save:`, `rank3`, `bowman:`.
+  `has_enemy_within(dist)`. Modifiers saved with a unit: prefixes `mission:`, `save:`, `rank3`, `bowman:`, `research:` (2026-10-14: re-apply
+  on load replaces by id, never doubles or heals).
   `Champion.restore_fallen()` (quiet fallen state, used by loads).
 - **Saved state** (2026-10-12): metas whose names do not start with `_` are saved by `SaveCodec` (runtime markers and
   absolute times must start with `_`; `tests/test_save_metas.gd`). A node in group `"saved_state"` with `save_key()`,
@@ -164,6 +165,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   **X** = attack-move, **C** = stop, **H** = hold, **G** = gather, **B** = build menu (workers only) then
   **Z / X / C** = Hearth / Hall / Spire, **Z / V** = caster spells (Ctrl+Z / Ctrl+V autocast; any selection holding
   casters). Building selected: **Z X C V B** = its training slots 1-5 (keep **B** = caster, T2), right-click = rally.
+  Own Hall / Stables / keep selected: **+** (= / numpad +) = research page, a unit's training key = its unit page
+  (**Z** = its "+", **X C V B** = its research rows), the same key on a running row cancels it, **Esc** = one page back.
   Construction site selected: **Delete** = cancel. Groups (SC2 style): Ctrl+N set, Shift+N add, Alt+N steal,
   Shift+Alt+N steal-add, N select, N twice = centre (N = 1-9, 0 = group 10); F2 = all army (twice = centre, Shift+F2 = add), F3 = next idle worker (Ctrl+F3 = all; idle button on the minimap: click next, Ctrl+click all); Ctrl+A = all own units (Ctrl+Shift+A adds); Tab / Shift+Tab = next / previous unit type (order: Settings > Unit priority).
   **R** = bounty mode (Shift+click stays), **Y** = tavern window, **F5 / F6 / F7** = centre on champion 1 / 2 / 3;
@@ -332,6 +335,17 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   messages, objectives, dialogue) stays English in the logic and is shown through `Loc.sink(text)`. Never concatenate
   sentence fragments. After adding player text: `tools/i18n/extract_strings.gd '--' merge`, translate, `tests/test_i18n.gd`.
   Settings > Language (`GameSettings.language`); tests / labs run English unless `-- --lang=fr` (UI Lab: `lang=fr`).
+- **Unit research** (UR.S1 2026-10-14, `docs/design/unit-upgrades.md` 7-15, UI `ui-sc2-console.md` 7): `UnitResearch`
+  (`scripts/buildings/unit_research.gd`, one node per team, groups `"unit_research"` / `"saved_state"`; `ENABLED`,
+  `MissionConfig.research_enabled` off by default): `ROWS` (74: unit rows, the Forge's old V B N lines, bowman rows),
+  static `for_team(team, create := true)` (null when off), `enabled_here()`, `row(id)`, `rows_for_unit(unit_id)`,
+  `unit_ids_for_building(b)`, `team_has(team, id)`, `has(unit, id)`, `param(unit, key, default) -> float`,
+  `effects_of(unit)`, `apply_to(unit, heal_gain := true)`, `building_busy(b)`, `options_for_unit(b, unit_id)`; instance
+  `can_buy(id, b) -> String`, `buy(id, b) -> String`, `cancel(id)`, `grant(id)`, `is_done`, `is_working`, `progress`,
+  `working_at(b)`; signals `research_started(id)`, `research_completed(id)`, `research_cancelled(id, refund)`. Modifier
+  prefix `research:` (saved with the unit). Rule effects: `ResearchEffects` (`scripts/units/research_effects.gd`, static)
+  fills the read-only Unit arrays `research_hit_fx` / `research_hurt_fx` used on the hit / damage path. One research slot per building, shared with the rank-3 "+" (`UnitUpgrades.working_at`); research
+  never blocks training. The Forge card is Z X C only.
 - **Music** (MU13 2026-10-14, `docs/design/music.md` 4-5; pool rule in decisions.md 2026-10-14): `MusicDirector`
   (`scripts/audio/music_director.gd`, `static ensure(tree)` = a /root child that survives scene changes):
   `set_music_context(context, kingdom := &"", enemy_kingdom := &"")` (menu / campaign / chant / match / wave_strike / boss /

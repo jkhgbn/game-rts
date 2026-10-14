@@ -39,6 +39,7 @@ func _ready() -> void:
 ## docs/design/tiers.md 5: every unit that comes out (bowman twins too) gets the team's "+" if researched.
 func _on_unit_trained_plus(unit: Unit) -> void:
 	UnitUpgrades.apply_to(unit)
+	UnitResearch.apply_to(unit)   # unit-upgrades.md 8 (the node_added flush also does it at the end of the frame)
 
 
 # ---------------------------------------------------------------- public
@@ -366,24 +367,36 @@ func load_snapshot(d: Dictionary, nodes: Dictionary) -> void:
 			eco.release_pop(t.pop)
 	queue.clear()
 	_load_refunds.clear()
+	var head_dropped := false   # the saved slot 1 (whose progress train_time holds) did not come back
+	var first := true
 	for e: Variant in d.get("queue", []):
 		var row := e as Dictionary
 		var t: UnitType = null
-		if row.has("forge"):
+		var was_first := first
+		first = false
+		if row.has("forge") and ForgeKit.is_unit_line(StringName(str(row["forge"]))):
+			# An old save's Forge V B N research (moved to UnitResearch, UR.S2): paid back in the late phase.
+			_load_refunds.append({"cost": ForgeKit.price_of(StringName(str(row["forge"])), 1)})
+			head_dropped = head_dropped or was_first
+			continue
+		elif row.has("forge"):
 			t = ForgeKit.stub(StringName(str(row["forge"])), int(row.get("level", 1)))
 		elif row.has("stub"):
 			t = _stub_from_save(StringName(str(row["stub"])))
 			if t == null:
 				_load_refunds.append(row)   # paid back in load_snapshot_late, once the saved purses are restored
+				head_dropped = head_dropped or was_first
 				continue
 		else:
 			t = UnitType.find(String(row.get("id", "")))
 		if t == null:
+			head_dropped = head_dropped or was_first
 			continue
 		queue.append(t)
 		if eco:
 			eco.reserve_pop(t.pop)
-	_train_time = float(d.get("train_time", 0.0))
+	# The dropped head's progress must not carry over to the next unit (no free progress).
+	_train_time = 0.0 if head_dropped else float(d.get("train_time", 0.0))
 	var rally: Variant = d.get("rally", Vector3.INF)
 	_rally_point = rally if rally is Vector3 else Vector3.INF
 	_rally_node = null

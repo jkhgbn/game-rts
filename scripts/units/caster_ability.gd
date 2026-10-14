@@ -541,7 +541,7 @@ func _tick_approach() -> void:
 # ---------------------------------------------------------------- Kilnwarden
 
 func _release_slag_rain(point: Vector3, ctx: Dictionary) -> void:
-	var r := float(CasterKit.spell_value(&"slag_rain", "radius", 3.0))
+	var r := UnitResearch.param(unit, &"slag_rain_radius", float(CasterKit.spell_value(&"slag_rain", "radius", 3.0)))
 	_vfx(&"slag_rain", point, {"from": unit, "radius": r, "team": int(unit.team)})
 	_slag_inflight.append(point)
 	_after(float(CasterKit.spell_value(&"slag_rain", "flight", 0.6)), _slag_land, [point, ctx])
@@ -557,8 +557,11 @@ func _slag_land(point: Vector3, ctx: Dictionary) -> void:
 	for key: Variant in _slagged.keys():
 		if float(_slagged[key]) < now:
 			_slagged.erase(key)
-	for e in _enemies_near(point, float(s["radius"])):
-		e.take_damage(float(s["damage"]), src)
+	# Molten Slag (K row): read from the caster while it lives (a dead caster's slag keeps the base numbers).
+	var who: Unit = unit if is_instance_valid(unit) else null
+	var dmg := UnitResearch.param(who, &"slag_rain_damage", float(s["damage"]))
+	for e in _enemies_near(point, UnitResearch.param(who, &"slag_rain_radius", float(s["radius"]))):
+		e.take_damage(dmg, src)
 		if not e.is_alive():
 			continue
 		var t := float(s["slag_big"]) if CasterKit.is_big_target(e) else float(s["slag"])
@@ -585,7 +588,14 @@ func _release_bulwark(point: Vector3) -> void:
 	var facing := point - unit.global_position
 	if _wall_facing != Vector3.ZERO:
 		facing = _wall_facing
-	var wall := RimeBulwark.spawn(_level(), point, facing, int(unit.team), s)
+	var data: Dictionary = s
+	var t := UnitResearch.param(unit, &"bulwark_time", float(s["time"]))   # Deep Bulwark (K row)
+	var l := UnitResearch.param(unit, &"bulwark_length", float(s["length"]))
+	if t != float(s["time"]) or l != float(s["length"]):
+		data = s.duplicate()
+		data["time"] = t
+		data["length"] = l
+	var wall := RimeBulwark.spawn(_level(), point, facing, int(unit.team), data)
 	CasterKit.register_bulwark(int(unit.team), wall)
 	var alive := CasterKit.bulwarks_of(int(unit.team))
 	while alive.size() > int(s["max"]):
@@ -630,7 +640,7 @@ func _snag_hit(ref: WeakRef) -> void:
 		return
 	var s := CasterKit.spell(&"snagroot")
 	var big := CasterKit.is_big_target(target)
-	var drag := float(s["drag_hero"]) if big else float(s["drag"])
+	var drag := float(s["drag_hero"]) if big else UnitResearch.param(unit, &"snag_drag", float(s["drag"]))
 	var from := unit.global_position
 	var to := target.global_position
 	var flat := Vector3(from.x - to.x, 0.0, from.z - to.z)
@@ -641,7 +651,7 @@ func _snag_hit(ref: WeakRef) -> void:
 		target.displace(to + flat.normalized() * move, float(s["drag_time"]))
 	else:
 		target.displaced.emit(target)   # no room to pull: still breaks its channel
-	var root := float(s["root_hero"]) if big else float(s["root"])
+	var root := float(s["root_hero"]) if big else UnitResearch.param(unit, &"snag_root", float(s["root"]))
 	_after(float(s["drag_time"]), _snag_root, [ref, root])
 
 
@@ -680,7 +690,10 @@ func _on_damage_taken(_amount: float, _attacker: Node3D) -> void:
 
 func _start_tithe(ally: Unit) -> void:
 	_channel = {"id": &"blood_tithe", "target": ally, "tick_left": 0.0, "healed": 0.0, "drained": {}, "ctx": {"xp": 0},
-			"heal_xp": 0.0}
+			"heal_xp": 0.0,
+			# Hungering Tithe (K row): read once per cast, the ticks read the channel.
+			"heal": UnitResearch.param(unit, &"tithe_heal", float(CasterKit.spell_value(&"blood_tithe", "heal", 10.0))),
+			"drain": UnitResearch.param(unit, &"tithe_drain", float(CasterKit.spell_value(&"blood_tithe", "drain", 5.0)))}
 	unit.attacks_blocked = true
 	if unit.model_has(&"set_channeling"):
 		unit.model_call(&"set_channeling", [true])
@@ -709,7 +722,7 @@ func _tick_channel(delta: float) -> void:
 		return
 	mana = maxf(0.0, mana - cost)
 	var before := ally.hp
-	ally.heal(float(s["heal"]) * step)
+	ally.heal(float(_channel.get("heal", s["heal"])) * step)
 	ally.apply_status(&"tithed", 0.5, true)
 	var ctx: Dictionary = _channel["ctx"]
 	_channel["heal_xp"] = float(_channel["heal_xp"]) + (ally.hp - before)
@@ -719,7 +732,7 @@ func _tick_channel(delta: float) -> void:
 	_channel["healed"] = float(_channel["healed"]) + (ally.hp - before)
 	var foe := _nearest_enemy_unit(ally.global_position, float(s["drain_radius"]))
 	if foe:
-		foe.take_damage(float(s["drain"]) * step, unit)
+		foe.take_damage(float(_channel.get("drain", s["drain"])) * step, unit)
 		var drained: Dictionary = _channel["drained"]
 		if not drained.has(foe.get_instance_id()):
 			drained[foe.get_instance_id()] = true

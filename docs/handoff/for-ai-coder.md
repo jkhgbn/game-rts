@@ -236,3 +236,9 @@ caravan.tres pop 1 -> 0. commander.gd ~2631 still keeps CARAVAN_POP_FREE free po
 still runs (cards missing from `MIX` weigh 1.0; T3 needs the Citadel; `can_buy` refuses past `max_copies`), but WS2.A1
 should put the 14.3 MIX in. New API: `roster.table.max_copies_of(id)` (0 = no limit; casters 4, support 6, T3 3),
 refusals `"Max N copies"` and `"Requires Citadel"`. Caps 36 / 60 / 84 (JS x1.5, not 32 / 52 / 72), start 600, income 120.
+
+## UR.S1 done (systems-coder, 2026-10-14): UnitResearch for UR.A1
+`UnitResearch.for_team(team)` (null when the game has no research) -> `can_buy(id, building) -> String`,
+`buy(id, building) -> String`; static `rows_for_unit(unit_id)` (table order = the "next open row" order),
+`row(id)` (`tier`, `price`, `units`), `team_has(team, id)`, `building_busy(b)` (the "+" counts), `lab_off`.
+ForgeKit.bot_step no longer researches unit lines (the Forge card is Z X C; `BOT_UNIT_MIN` removed).

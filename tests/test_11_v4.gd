@@ -31,6 +31,12 @@ var _world: Node3D
 func _initialize() -> void:
 	_world = Node3D.new()
 	root.add_child(_world)
+	# A close camera keeps the models at LOD tier 0 (fidgets only play there): without one, the 0.5 s tier timer
+	# drops them to tier 1 and the idle-fidget check depended on that timer's phase.
+	var cam := Camera3D.new()
+	cam.position = Vector3(0.0, 2.0, 6.0)
+	_world.add_child(cam)
+	cam.current = true
 	_run.call_deferred()
 
 

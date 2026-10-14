@@ -40,7 +40,8 @@ const PRICE_MAX := 200
 const REASON_UNKNOWN := "No upgrade for that unit"
 const REASON_DONE := "Already researched"
 const REASON_QUEUED := "Already in progress"
-const REASON_BUSY := "The Hall is busy with another upgrade"
+## Shared research slot per building (unit-upgrades.md 8): a "+" and a UnitResearch row never run at once there.
+const REASON_BUSY := "Busy with another upgrade"
 const REASON_HALL := "Needs a completed Hall that trains it"
 const REASON_NO_CRYSTALS := "Not enough crystals"
 
@@ -271,6 +272,14 @@ func progress(id: StringName) -> float:
 	return 0.0
 
 
+## The "+" (unit id) running at `hall` (&"" = none): UnitResearch.building_busy counts it.
+func working_at(hall: Node) -> StringName:
+	for w in _work:
+		if w["hall"] == hall:
+			return w["id"]
+	return &""
+
+
 ## "" when the "+" of `id` can be bought at `hall` now, else the reason (unknown, done, in progress, Hall, tier,
 ## Hall busy, crystals).
 func can_buy(id: StringName, hall: Node) -> String:
@@ -287,9 +296,8 @@ func can_buy(id: StringName, hall: Node) -> String:
 	var gate := TierSystem.gate_reason(TIER_NEEDED, team)
 	if gate != "":
 		return gate
-	for w in _work:
-		if w["hall"] == hall:
-			return REASON_BUSY
+	if UnitResearch.building_busy(hall) or working_at(hall) != &"":
+		return REASON_BUSY
 	var eco := Economy.for_team(team)
 	if eco == null or not eco.can_afford(price_of(id)):
 		return REASON_NO_CRYSTALS

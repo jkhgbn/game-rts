@@ -142,6 +142,8 @@ var _icon_dots: Array = []          ## Array[Array[ColorRect]]: 3 veterancy dots
 var _icon_status_dots: Array = []   ## Array[Dictionary]: status id -> coloured dot, per icon.
 var _icon_units: Array[Unit] = []
 var _icon_sig: Array = []                    ## Per icon: _icon_signature() of what it shows (0 = hidden)
+var _research_counts: Dictionary = {}           ## UR.U2: type instance id x 4 + team -> research count
+var _research_counts_fp := 0                    ## ResearchMarks fingerprints the counts were taken with
 var _icon_status_ids: Array[StringName] = [] ## The status ids that have a dot (same keys on every icon)
 
 ## Champion view (9.C7, champions.md 9, ui-champions.md 4): read-only, nothing can be ordered from it. Positions are
@@ -194,7 +196,22 @@ var _queue_row: Control
 var keep_tier: Label
 var keep_tier_bar: ProgressBar
 var _queue_x: Array[Label] = []   ## The `x` shown on a hovered queue slot (click cancels).
+## UR.U2 research slot of the building view (7.4).
+var research_slot: Control
+var research_chip: Button
+var research_chip_bar: ProgressBar
+var research_chip_time: Label
+var research_chip_x: Label
+var _research_running: Dictionary = {}
+var _research_slot_key := 0
+var _research_slot_site := false
+var _research_slot_next := 0
+const RESEARCH_SLOT_INTERVAL_MS := 100
 const KEEP_RIGHT_X := 328.0
+## UR.U2 (ui-sc2-console.md 7.4-7.5): the `Research:` line width; the research chip (44 x 44 at block (256, 80) =
+## screen (508, 776), right of the 5 queue slots).
+const RESEARCH_LINE_W := 320.0
+const RESEARCH_CHIP_POS := Vector2(256, 80)
 const QUEUE_SLOT := 44.0
 
 ## Trade (10.C7, ui-trade.md 5.2 / 6.2 / 6.3). Colours never skinned.
@@ -359,9 +376,15 @@ func setup(p_hero: Wizard, p_selection: SelectionManager) -> void:
 	selection = p_selection
 	if selection != null:
 		selection.selection_changed.connect(_on_selection_changed)
+		if not selection.mode_changed.is_connected(_on_mode_changed):
+			selection.mode_changed.connect(_on_mode_changed)   # a research bought / cancelled: the chip at once
 	portrait_window.selection = selection
 	hero_name.text = GameHUD.wizard_short_name(hero)
 	hero_name.tooltip_text = Loc.t("Select your wizard  [F1]")
+
+
+func _on_mode_changed() -> void:
+	_research_slot_next = 0
 
 
 ## Shows `champion` (own or visible enemy) read-only in the selection area until the selection changes.
@@ -1060,10 +1083,51 @@ func _update_mapfill_lines(u: Unit) -> void:
 			row1.append([Loc.t(" · Underdog bonus"), NEAR_COLOR])
 		_set_segments(single_extra_rows[1], row1)
 	else:
-		# docs/design/unit-upgrades.md: the Forge levels that touch this soldier ("Forge: Weapons 2/3 · Lance Drill").
+		# UR.U2 (ui-sc2-console.md 7.5): `Research:` + the done names in GOLD (hover = one line per effect), then the
+		# Forge levels that touch this soldier ("Forge: Weapons 2/3 · Armor 1/3") on the next row.
+		var names := ResearchMarks.names_text(u)
 		var forge := forge_line(u)
-		_set_segments(single_extra_rows[0], [[forge, UIStyle.token(&"text_muted")]] if forge != "" else [])
-		_set_segments(single_extra_rows[1], [])
+		var rows: Array = []
+		if names != "":
+			rows.append([[Loc.t("Research: "), UIStyle.token(&"text_muted")], [names, UIStyle.GOLD]])
+		if forge != "":
+			rows.append([[forge, UIStyle.token(&"text_muted")]])
+		for i in 2:
+			_set_segments(single_extra_rows[i], rows[i] if i < rows.size() else [])
+		_set_research_row(single_extra_rows[0], names != "", u)
+		return
+	_set_research_row(single_extra_rows[0], false, null)
+
+
+## The `Research:` row (row 0 of the extra rows): max 320 px wide (the names ellipsise), tooltip = one line per
+## research. Off: the row takes no clicks and has no tooltip (camp / beast rows reuse it).
+func _set_research_row(row: HBoxContainer, on: bool, u: Unit) -> void:
+	row.mouse_filter = Control.MOUSE_FILTER_STOP if on else Control.MOUSE_FILTER_IGNORE
+	var tip := ResearchMarks.tooltip_text(u) if on else ""
+	if row.tooltip_text != tip:
+		row.tooltip_text = tip
+	if row.get_child_count() >= 2:
+		var names := row.get_child(1) as Label
+		var want := 0.0
+		if on:
+			var head := row.get_child(0) as Label
+			var font := names.get_theme_font(&"font")
+			var fs := names.get_theme_font_size(&"font_size")
+			var room := RESEARCH_LINE_W - head.get_theme_font(&"font").get_string_size(head.text,
+					HORIZONTAL_ALIGNMENT_LEFT, -1, head.get_theme_font_size(&"font_size")).x
+			want = minf(ceilf(font.get_string_size(names.text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x) + 1.0, room)
+		names.clip_text = on
+		names.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS if on else TextServer.OVERRUN_NO_TRIMMING
+		if not is_equal_approx(names.custom_minimum_size.x, want):
+			names.custom_minimum_size.x = want
+
+
+## The `Research:` text of the 1-unit view ("" when hidden), for tests.
+func research_line_text() -> String:
+	var row := single_extra_rows[0] if not single_extra_rows.is_empty() else null
+	if row == null or not row.visible or row.get_child_count() < 2 or row.tooltip_text == "":
+		return ""
+	return (row.get_child(0) as Label).text + (row.get_child(1) as Label).text
 
 
 ## The Forge row of a soldier (unit-upgrades.md 5): "Forge: Weapons 2/3 · Armor 1/3 · Lance Drill", "" = none.
@@ -1928,6 +1992,10 @@ func _update_multi(units: Array[Unit]) -> void:
 	if multi_header.text != header:
 		multi_header.text = header
 	multi_header.tooltip_text = ", ".join(parts)
+	var fp := ResearchMarks.fingerprint(Unit.Team.PLAYER) ^ ResearchMarks.fingerprint(Unit.Team.ENEMY)
+	if fp != _research_counts_fp:   # counts kept across frames; dropped when a team's done lists change
+		_research_counts_fp = fp
+		_research_counts.clear()
 	_update_type_tabs()
 	_icon_units.clear()
 	# SC2 subgroups: with 2+ unit types, the active type's icons stay bright, the others dim (Tab cycles it).
@@ -1951,7 +2019,8 @@ func _update_multi(units: Array[Unit]) -> void:
 		b.visible = true
 		# Perf pass 2026-10-09: the icon is rebuilt only when something it shows changed (48 icons x text, tooltip,
 		# strips and dots every frame cost ~1 ms with a big army selected). Same output.
-		var sig := _icon_signature(u, active_key)
+		var n_research := _research_count_cached(u)
+		var sig := _icon_signature(u, active_key) + n_research * 7919
 		if _icon_sig[i] == sig:
 			continue
 		_icon_sig[i] = sig
@@ -1983,6 +2052,8 @@ func _update_multi(units: Array[Unit]) -> void:
 		if cab:
 			mstrip.size.x = ICON_SIZE * clampf(cab.mana / maxf(1.0, cab.max_mana()), 0.0, 1.0)
 			b.tooltip_text += "  ·  " + Loc.t("Mana %d / %d") % [int(cab.mana), int(cab.max_mana())]
+		if n_research > 0:   # UR.U2 (7.5): ` · 2 upgrades`
+			b.tooltip_text += " · " + Loc.tn("{n} upgrade", "{n} upgrades", n_research)
 		# Veterancy dots: 1-3 gold dots for Veteran / Elite / Paragon soldiers.
 		var marks := 0
 		if not (u is Wizard) and u.get("level") != null:
@@ -2036,9 +2107,11 @@ func _update_type_tabs() -> void:
 		t.visible = true
 		var key := types[i]
 		var u: Unit = sample.get(key)
-		var sig := "%s|%d|%s" % [key, int(counts.get(key, 0)), active == key]
+		var researched := u != null and _research_count_cached(u) > 0
+		var sig := "%s|%d|%s|%s" % [key, int(counts.get(key, 0)), active == key, researched]
 		if t.get_meta(&"_sig", "") == sig:
 			continue
+		_tab_research_mark(t).visible = researched   # UR.U2 (7.5): a 6 x 6 GOLD diamond top-right
 		t.set_meta(&"_sig", sig)
 		t.set_meta(&"_type_key", key)
 		var tex := unit_icon(u)
@@ -2048,6 +2121,43 @@ func _update_type_tabs() -> void:
 		t.tooltip_text = Loc.t("%s  ·  %d\nClick: select only these  ·  Tab: next type") % [
 				u.unit_name if u != null else String(key), int(counts.get(key, 0))]
 		UIStyle.style_button(t, UIStyle.GOLD if active == key and types.size() >= 2 else UIStyle.PANEL_BORDER)
+
+
+## The research count of `u`'s type for its team, once per type per refresh (48 icons share it).
+func _research_count_cached(u: Unit) -> int:
+	if u == null or u.unit_type == null:
+		return 0
+	var k := u.unit_type.get_instance_id() * 4 + int(u.team)
+	var n: Variant = _research_counts.get(k)
+	if n == null:
+		n = ResearchMarks.count(u)
+		_research_counts[k] = n
+	return int(n)
+
+
+## The type tab's research mark (made on first use).
+func _tab_research_mark(t: Control) -> Control:
+	var m := t.get_node_or_null(^"ResearchMark") as Control
+	if m != null:
+		return m
+	m = Control.new()
+	m.name = "ResearchMark"
+	m.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	m.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	m.offset_left = -8.0
+	m.offset_right = -1.0
+	m.offset_top = 1.0
+	m.offset_bottom = 8.0
+	m.draw.connect(func() -> void: ResearchMarks.draw_pip(m, Vector2(3.5, 3.5), 6.0))
+	m.visible = false
+	t.add_child(m)
+	return m
+
+
+## True when type tab `i` shows the research mark (tests).
+func type_tab_research_mark(i: int) -> bool:
+	var m := type_tabs[i].get_node_or_null(^"ResearchMark") as Control if i >= 0 and i < type_tabs.size() else null
+	return m != null and m.visible and type_tabs[i].visible
 
 
 ## True when multi-view icon `i` belongs to the active type (bright; the others dim with 2+ types), for tests.
@@ -2119,6 +2229,7 @@ func _update_keep(keep: Node3D) -> void:
 		_update_market_block(keep)
 	building_info.visible = true
 	_update_keep_tier(keep if not site else null)
+	_update_research_slot(keep, site)
 	if site:
 		_update_site(keep)
 		return
@@ -3294,6 +3405,8 @@ func _build_keep_view() -> Control:
 			queue_progress.add_theme_stylebox_override("fill", fill)
 			queue_row.add_child(queue_progress)
 
+	_build_research_slot(view)
+
 	# Right part (x 328): tier line (+ bar), rally, info, queue count; placed by _place_keep_right().
 	keep_tier = UIStyle.panel_label("", 13)
 	keep_tier.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
@@ -3319,6 +3432,146 @@ func _build_keep_view() -> Control:
 		c.position = Vector2(KEEP_RIGHT_X, 0)
 	view.visible = false
 	return view
+
+
+## UR.U2 (ui-sc2-console.md 7.4): the research slot right of the queue: a 2 px groove + 1 px frame_light rule at x 246,
+## `Research` font 10 over a 44 x 44 chip at RESEARCH_CHIP_POS, its RESEARCH bar 44 x 6 under it and the time left.
+func _build_research_slot(view: Control) -> void:
+	research_slot = Control.new()
+	research_slot.name = "ResearchSlot"
+	research_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	research_slot.position = Vector2.ZERO
+	research_slot.size = Vector2(RESEARCH_CHIP_POS.x + 48.0, RESEARCH_CHIP_POS.y + 66.0)
+	research_slot.visible = false
+	view.add_child(research_slot)
+	var rule := Control.new()
+	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rule.position = Vector2(RESEARCH_CHIP_POS.x - 10.0, RESEARCH_CHIP_POS.y)
+	rule.size = Vector2(3, QUEUE_SLOT)
+	rule.draw.connect(func() -> void:
+		rule.draw_rect(Rect2(0, 0, 2, QUEUE_SLOT), UIStyle.token(&"groove"))
+		rule.draw_rect(Rect2(2, 0, 1, QUEUE_SLOT), UIStyle.token(&"frame_light")))
+	research_slot.add_child(rule)
+	var head := UIStyle.panel_label("Research", 10)
+	head.position = Vector2(RESEARCH_CHIP_POS.x, RESEARCH_CHIP_POS.y - 14.0)
+	head.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_muted_labels.append(head)
+	research_slot.add_child(head)
+	research_chip = Button.new()
+	research_chip.name = "ResearchChip"
+	research_chip.position = RESEARCH_CHIP_POS
+	research_chip.size = Vector2(QUEUE_SLOT, QUEUE_SLOT)
+	research_chip.custom_minimum_size = Vector2(QUEUE_SLOT, QUEUE_SLOT)
+	research_chip.focus_mode = Control.FOCUS_NONE
+	research_chip.expand_icon = true
+	research_chip.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	UIStyle.style_button(research_chip)
+	_skin_buttons.append(research_chip)
+	research_chip.pressed.connect(_on_research_chip_pressed)
+	research_slot.add_child(research_chip)
+	var glyph := Control.new()   # idle: the scroll glyph 24 px at alpha 0.25
+	glyph.name = "Glyph"
+	glyph.set_anchors_preset(Control.PRESET_FULL_RECT)
+	glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	glyph.draw.connect(func() -> void:
+		if research_chip.icon == null:
+			CommandCard.draw_scroll(glyph, glyph.size * 0.5, 24.0, Color(UIStyle.token(&"text"), 0.25)))
+	research_chip.add_child(glyph)
+	research_chip_x = UIStyle.panel_label("x", 10, UIStyle.WARN)
+	research_chip_x.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	research_chip_x.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	research_chip_x.add_theme_constant_override("outline_size", 3)
+	research_chip_x.position = Vector2(QUEUE_SLOT - 9.0, -2.0)
+	research_chip_x.visible = false
+	research_chip.add_child(research_chip_x)
+	var rb := UIStyle.bar(UIStyle.RESEARCH, 6.0)
+	research_chip_bar = rb[0]
+	research_chip_bar.max_value = 1.0
+	research_chip_bar.position = RESEARCH_CHIP_POS + Vector2(0, QUEUE_SLOT + 2.0)
+	research_chip_bar.size = Vector2(QUEUE_SLOT, 6)
+	research_chip_bar.custom_minimum_size = Vector2(QUEUE_SLOT, 6)
+	research_chip_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if rb.size() > 1 and rb[1] is Control:
+		(rb[1] as Control).visible = false
+	research_slot.add_child(research_chip_bar)
+	research_chip_time = UIStyle.panel_label("", 10)
+	research_chip_time.position = RESEARCH_CHIP_POS + Vector2(0, QUEUE_SLOT + 8.0)
+	research_chip_time.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	research_chip_time.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	research_slot.add_child(research_chip_time)
+
+
+## The research slot of building `b` (own Hall / Stables / keep with something to research; hidden otherwise).
+## Throttled to RESEARCH_SLOT_INTERVAL_MS (the card's 0.1 s), at once when the building changes; the hover `x` every
+## frame.
+func _update_research_slot(b: Node3D, site: bool) -> void:
+	research_chip_x.visible = research_slot.visible and not _research_running.is_empty() and research_chip.is_hovered()
+	var now := Time.get_ticks_msec()
+	var key := b.get_instance_id() if b != null else 0
+	if key == _research_slot_key and site == _research_slot_site and now < _research_slot_next:
+		return
+	_research_slot_key = key
+	_research_slot_site = site
+	_research_slot_next = now + RESEARCH_SLOT_INTERVAL_MS
+	var on := not site and b != null and is_own(b) and UnitResearch.ENABLED \
+			and not SelectionManager.research_units(b).is_empty()
+	research_slot.visible = on
+	if not on:
+		_research_running = {}
+		return
+	var r := SelectionManager.research_running_at(b)
+	_research_running = r
+	var tex: Texture2D = null
+	var tip := ""
+	if r.is_empty():
+		tip = Loc.t("No research · open with {key}", {"key": SelectionManager.UPGRADES_KEY_LABEL})
+	else:
+		var uid := String(r["id"])
+		var text := ""
+		if r["kind"] == &"row":
+			var row := UnitResearch.row(r["id"])
+			uid = String((row["units"] as Array)[0])
+			text = Loc.sink(str(row["text"]))
+			if ResourceLoader.exists("res://art/icons/research/%s.png" % r["id"]):
+				tex = ItemTooltip.HudSkin.icon("research", String(r["id"]))
+		else:
+			text = Loc.sink(UnitUpgrades.stats_text(r["id"]))
+		if tex == null:
+			tex = ItemTooltip.HudSkin.icon("units", uid)
+		tip = "%s\n%s\n%s" % [Loc.sink(str(r["name"])), text, Loc.t("Researching {pct}% · click to cancel (full refund)",
+				{"pct": roundi(float(r["progress"]) * 100.0)})]
+	if research_chip.icon != tex:
+		research_chip.icon = tex
+		research_chip.get_node(^"Glyph").queue_redraw()
+	if research_chip.tooltip_text != tip:
+		research_chip.tooltip_text = tip
+	research_chip_bar.visible = not r.is_empty()
+	research_chip_time.visible = not r.is_empty()
+	research_chip_x.visible = not r.is_empty() and research_chip.is_hovered()
+	if not r.is_empty():
+		research_chip_bar.value = clampf(float(r["progress"]), 0.0, 1.0)
+		var t := Loc.t("{s} s", {"s": ceili(float(r["left"]))})
+		if research_chip_time.text != t:
+			research_chip_time.text = t
+
+
+## Research chip click: cancels the running research (full refund), else opens the research page.
+func _on_research_chip_pressed() -> void:
+	var b := selection.selected_building if selection != null else null
+	if b == null:
+		return
+	if not selection.cancel_research_at(b):
+		selection.open_upgrades()
+
+
+## The research chip's view for tests: {shown, running (row / "+" id or &""), progress}.
+func research_chip_state() -> Dictionary:
+	if keep_view.visible and selection != null and selection.selected_building != null:   # read it fresh (throttled)
+		_research_slot_next = 0
+		_update_research_slot(selection.selected_building, false)
+	return {"shown": research_slot != null and research_slot.visible and keep_view.visible,
+			"running": _research_running.get("id", &""), "progress": float(_research_running.get("progress", 0.0)),
+			"tooltip": research_chip.tooltip_text if research_chip else ""}
 
 
 func _select_hero() -> void:

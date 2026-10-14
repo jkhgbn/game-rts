@@ -390,3 +390,19 @@ Z X C V B N M , . / with Coffer G / next tier U). New data for the panel:
   clears the director's `_kingdom` / `_enemy`, so a later bare `&"match"` would lose them. Consider keeping the match
   kingdoms when `boss` is called without any (your call).
 - Not done (yours if wanted): skirmish epic-beast boss bars (`mapfill_bar.gd` BossBar) do not switch to `boss`.
+
+## UR.S1 / S2 done (systems-coder, 2026-10-14): UnitResearch for UR.U1 / U2
+`scripts/buildings/unit_research.gd`. UI API: static `unit_ids_for_building(b) -> Array[StringName]` (trainable units
+with at least one row; add the "+"-only units yourself via `UnitUpgrades.has_plus` if any), `rows_for_unit(unit_id) ->
+Array[StringName]` (unit-page order X C V B), `options_for_unit(b, unit_id) -> Array[Dictionary]` ({id, name, text,
+crystals, time, state &"ready"/&"working"/&"done"/&"locked", progress, reason}; busy = locked + reason), `building_busy(b)`,
+`row(id)` (the ROWS dict), `units_text(id)`; instance (`UnitResearch.for_team(team)`; null outside skirmish games):
+`can_buy(id, b)`, `buy(id, b)`, `cancel(id)` (full refund), `is_working(id)`, `progress(id)`, `working_at(b)`, signals
+`research_started(id)`, `research_completed(id)`, `research_cancelled(id, refund)`. The completion message
+`Research complete: {name} ({unit})` and the alert are yours (hook `research_completed`).
+- New logic strings needing French (game_logic.po): the 74 row texts, `"No upgrade for that unit"`,
+  `"Needs a completed building that trains it"`, `"Needs %s"`, `"Busy with another upgrade"` (also replaces
+  `"The Hall is busy with another upgrade"` in `UnitUpgrades.REASON_BUSY`).
+- ForgeKit (UR.S2): the Forge card is Z X C only. `ForgeKit.UNIT_PRICE / UNIT_TIME / unit_line_of / line_name /
+  line_text` still answer for the 12 moved ids (through UnitResearch) so `UnitGuideData.forge_abilities` keeps working
+  until U2 replaces it with the table.

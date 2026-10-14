@@ -15,6 +15,9 @@ var team_label: Label
 var pop_label: Label
 var _slate: PanelContainer
 var _team_key := ""
+## UR.U2 (ui-sc2-console.md 7.5): up to 5 research pips, 8 x 8 GOLD diamonds at (6 + 11 i, 4) over the portrait.
+var research_pips: Control
+var _pip_count := 0
 
 
 ## `p_portrait` = the selection panel's Portrait (moved in here).
@@ -24,6 +27,8 @@ func setup_portrait(p_portrait: Portrait) -> void:
 		portrait.get_parent().remove_child(portrait)
 	add_child(portrait)
 	move_child(portrait, 0)
+	if research_pips != null:
+		move_child(research_pips, -1)
 	portrait.position = Vector2.ZERO
 	portrait.size = Vector2(ConsoleFrame.PORTRAIT_SIZE, ConsoleFrame.PORTRAIT_SIZE)
 
@@ -64,7 +69,24 @@ func _ready() -> void:
 	pop_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pop_label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	box.add_child(pop_label)
+	research_pips = Control.new()
+	research_pips.name = "ResearchPips"
+	research_pips.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	research_pips.position = Vector2(6, 4)
+	research_pips.size = Vector2(11.0 * ResearchMarks.PIP_MAX, 10)
+	research_pips.draw.connect(_draw_pips)
+	add_child(research_pips)
 	apply_skin()
+
+
+func _draw_pips() -> void:
+	for i in _pip_count:
+		ResearchMarks.draw_pip(research_pips, Vector2(4.0 + 11.0 * i, 4.0))
+
+
+## Number of research pips shown (tests).
+func pip_count() -> int:
+	return _pip_count if research_pips != null and research_pips.visible else 0
 
 
 func apply_skin() -> void:
@@ -76,6 +98,17 @@ func apply_skin() -> void:
 
 func _process(_delta: float) -> void:
 	_refresh_slate()
+	_refresh_pips()
+
+
+func _refresh_pips() -> void:
+	if research_pips == null:
+		return
+	var t: Node = portrait.target if portrait != null and is_instance_valid(portrait.target) else null
+	var n := mini(ResearchMarks.count(t), ResearchMarks.PIP_MAX) if t is Unit else 0
+	if n != _pip_count:
+		_pip_count = n
+		research_pips.queue_redraw()
 
 
 ## The status slate lines for `node` (["", ""] when nothing is shown): team / kingdom, then the pop.

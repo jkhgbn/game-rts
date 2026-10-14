@@ -700,7 +700,7 @@ msgid "Upgrades off"
 msgstr "Améliorations désactivées"
 
 #. Loc.t("Upgrades off"), Loc.t("Unknown upgrade"), Loc.t("Armour"), Loc.t("Arcana"),
-#: scripts/ui/wave_strike/ws_upgrade_text.gd:108 scripts/units/bowman_upgrades.gd:46
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:108
 msgid "Unknown upgrade"
 msgstr "Amélioration inconnue"
 
@@ -785,7 +785,7 @@ msgid "Rime Mantle"
 msgstr "Manteau de givre"
 
 #. Loc.t("Shard Ward"), Loc.t("Thorned Pinions"), Loc.t("Far Sight"), Loc.t("Blood Feast"), Loc.t("Veil Ride")]
-#: scripts/ui/wave_strike/ws_upgrade_text.gd:112
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:112 scripts/buildings/unit_research.gd:218
 msgid "Shard Ward"
 msgstr "Garde d'éclats"
 
@@ -795,7 +795,7 @@ msgid "Thorned Pinions"
 msgstr "Rémiges épineuses"
 
 #. Loc.t("Shard Ward"), Loc.t("Thorned Pinions"), Loc.t("Far Sight"), Loc.t("Blood Feast"), Loc.t("Veil Ride")]
-#: scripts/ui/wave_strike/ws_upgrade_text.gd:112
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:112 scripts/buildings/unit_research.gd:270
 msgid "Far Sight"
 msgstr "Vue perçante"
 
@@ -805,7 +805,7 @@ msgid "Blood Feast"
 msgstr "Festin de sang"
 
 #. Loc.t("Shard Ward"), Loc.t("Thorned Pinions"), Loc.t("Far Sight"), Loc.t("Blood Feast"), Loc.t("Veil Ride")]
-#: scripts/ui/wave_strike/ws_upgrade_text.gd:112
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:112 scripts/buildings/unit_research.gd:148
 msgid "Veil Ride"
 msgstr "Chevauchée voilée"
 

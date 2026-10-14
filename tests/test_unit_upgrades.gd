@@ -1,14 +1,15 @@
 extends SceneTree
 ## The Forge (docs/design/unit-upgrades.md, ForgeKit / ForgeBuilding), scenes/skirmish.tscn (Fire player).
-## - data: 4 Forge types (kind forge, key M, tier 1, max 1), 6 lines per kingdom (Z X C generic 3 levels, V B N unit
-##   lines 1 level) whose unit ids exist, modest numbers (<= 10 % / 6 armor / 1 range per level);
+## - data: 4 Forge types (kind forge, key M, tier 1, max 1), 3 lines per kingdom (Z X C generic 3 levels; the V B N
+##   unit lines moved to UnitResearch on 2026-10-14, UR.S2: same ids, rows with "forge": true), modest numbers;
 ## - the game: on in the skirmish, off in a mission / Wave Strike / plain scene; the build menu shows the Forge on M (r2c2)
 ##   and M starts its placement;
-## - the card: 6 research buttons Z X C V B N, no rally, each key badge in the tooltip, pressing each key queues that
-##   research or answers its refusal (V B N "Requires Stronghold" at tier 1); a second Z = "Already in progress";
+## - the card: 3 research buttons Z X C, no rally, each key badge in the tooltip, pressing each key queues that
+##   research, V B N queue nothing; a second Z = "Already in progress";
 ## - research: Weapons 1 lands -> a living Flame Guard and a new one get +6 % damage, a worker / the wizard nothing;
 ##   cancel = full refund; Weapons 2 needs the Stronghold, level 3 then "Max level";
-## - unit lines: Ember Bowstrings +1 range once (idempotent), Lance Drill on the Blaze Rider only, Kiln Focus +25 % mana;
+## - moved unit lines (old-save mapping): ForgeKit.set_level(fire_lances, 1) = the UnitResearch row granted; Ember
+##   Bowstrings +1 range once (idempotent), Lance Drill on the Blaze Rider only, Kiln Focus +25 % mana;
 ## - UI: the selection panel's Forge row, the Unit Guide's Forge entries, French text;
 ## - bot: a hard bot builds its Forge (after BOT_BUILD_AT, with the crystals), researches the cheapest line, easy caps
 ##   at level 1.
@@ -90,11 +91,11 @@ func _check_data() -> void:
 				and t.faction == k and t.cost > 0 and t.requires_kind == &"",
 				"%s Forge data (kind %s key %s tier %d max %d)" % [k, t.kind, t.hotkey_label, t.requires_tier, t.max_count])
 		var lines := ForgeKit.card_lines(k)
-		_ok(lines.size() == 6, "%s card has 6 lines (%d)" % [k, lines.size()])
+		_ok(lines.size() == 3, "%s card has 3 lines (%d)" % [k, lines.size()])
 		for i in lines.size():
 			var line := lines[i]
-			_ok(ForgeKit.max_level(line) == (3 if i < 3 else 1), "%s %s max level" % [k, line])
-			_ok(ForgeKit.is_unit_line(line) == (i >= 3), "%s %s: unit lines on V B N" % [k, line])
+			_ok(ForgeKit.max_level(line) == 3, "%s %s max level" % [k, line])
+			_ok(not ForgeKit.is_unit_line(line), "%s %s: no unit line on the card" % [k, line])
 			var d := ForgeKit.line_data(line)
 			_ok(str(d.get("name", "")) != "" and str(d.get("text", "")) != "", "%s %s name / text" % [k, line])
 			for stat: StringName in d.get("stats", {}):
@@ -106,6 +107,18 @@ func _check_data() -> void:
 				var ut := UnitType.find(String(uid))
 				_ok(ut != null and ut.faction == k, "%s %s unit %s exists in the kingdom" % [k, line, uid])
 		_ok(lines[2] == ForgeKit.KINGDOM_LINE[k], "%s kingdom line on C" % k)
+	# The 12 moved lines: UnitResearch rows, same ids and numbers (125 crystals, 40 s, Stronghold).
+	var moved := 0
+	for id: StringName in UnitResearch.ROWS:
+		var r: Dictionary = UnitResearch.ROWS[id]
+		if not bool(r.get("forge", false)):
+			continue
+		moved += 1
+		_ok(ForgeKit.is_unit_line(id) and int(r["price"]) == ForgeKit.UNIT_PRICE and is_equal_approx(float(r["time"]),
+				ForgeKit.UNIT_TIME) and int(r["tier"]) == ForgeKit.UNIT_TIER and ForgeKit.line_name(id) == str(r["name"]),
+				"moved line %s keeps its numbers" % id)
+	_ok(moved == 12, "12 moved Forge lines (%d)" % moved)
+	_ok(ForgeKit.unit_line_of(&"blaze_rider", &"fire") == &"fire_lances", "unit_line_of maps to the moved row")
 	var s1 := ForgeKit.stub(&"weapons", 1)
 	var s2 := ForgeKit.stub(&"weapons", 2)
 	_ok(s1 != s2 and s1 == ForgeKit.stub(&"weapons", 1) and s1.pop == 0 and s1.requires_tier == 1 \
@@ -181,9 +194,9 @@ func _check_game() -> void:
 	card.refresh()
 	await _frames(1)
 	card.refresh()
-	var want_keys := ["Z", "X", "C", "V", "B", "N"]
+	var want_keys := ["Z", "X", "C"]
 	var lines := ForgeKit.card_lines(&"fire")
-	for i in 6:
+	for i in 3:
 		var s: Dictionary = card.slots[i]
 		var id := "train_" + String(ForgeKit.stub(lines[i], 1).id)
 		_ok(str(s.get("id", "")) == id and card.key_labels[i].text == want_keys[i] \
@@ -192,18 +205,21 @@ func _check_game() -> void:
 	_ok(_slot_index("rally") < 0, "the Forge card has no Set Rally")
 	for d: Dictionary in UILabChecks.find_duplicate_badges(card.key_labels):
 		_ok(false, "Forge card: letter %s twice" % d["value"])
-	# Each key: queues its research or answers the refusal (unit lines: Requires Stronghold at tier 1).
-	for i in 6:
-		_msgs.clear()
+	for i in range(3, 6):
+		_ok(not str(card.slots[i].get("id", "")).begins_with("train_" + ForgeKit.STUB_PREFIX) \
+				or not card.buttons[i].visible, "no Forge research on slot %d (V B N moved)" % i)
+	# Each key queues its research; V B N queue nothing.
+	for i in 3:
 		var q0 := forge.queue.size()
 		_press(_code(want_keys[i]))
 		await _frames(2)
-		if i < 3:
-			_ok(forge.queue.size() == q0 + 1 and ForgeKit.stub_line(forge.queue.back()) == lines[i],
-					"key %s queues %s" % [want_keys[i], lines[i]])
-		else:
-			_ok(forge.queue.size() == q0 and _msgs.has(TierSystem.MSG_T2),
-					"key %s at tier 1 answers '%s' (%s)" % [want_keys[i], TierSystem.MSG_T2, str(_msgs)])
+		_ok(forge.queue.size() == q0 + 1 and ForgeKit.stub_line(forge.queue.back()) == lines[i],
+				"key %s queues %s" % [want_keys[i], lines[i]])
+	for key in ["V", "B", "N"]:
+		var q1 := forge.queue.size()
+		_press(_code(key))
+		await _frames(2)
+		_ok(forge.queue.size() == q1, "key %s queues nothing on the Forge" % key)
 	_msgs.clear()
 	_press(KEY_Z)
 	await _frames(2)
@@ -213,6 +229,27 @@ func _check_game() -> void:
 	while not forge.queue.is_empty():
 		forge.cancel(forge.queue.size() - 1)
 	_ok(eco.crystals == c0 + 300, "cancel refunds 3 x 100 (%d -> %d)" % [c0, eco.crystals])
+
+	# Old saves (UR.S2): a moved line queued at the Forge's slot 1 is refunded and its progress is not handed on.
+	var snap := forge.save_snapshot({})
+	snap["queue"] = [{"forge": "fire_bowstrings", "level": 1}, {"forge": "weapons", "level": 1}]
+	snap["train_time"] = 20.0
+	var c_old := eco.crystals
+	forge.load_snapshot(snap, {})
+	forge.load_snapshot_late(snap, {})
+	_ok(forge.queue.size() == 1 and ForgeKit.stub_line(forge.queue[0]) == &"weapons", "old queue: the moved line is dropped")
+	_ok(eco.crystals == c_old + ForgeKit.UNIT_PRICE, "old queue: the moved line is refunded (%d -> %d)" % [c_old, eco.crystals])
+	_ok(is_zero_approx(forge.train_progress()), "old queue: no free progress for Weapons (%.2f)" % forge.train_progress())
+	_ok(not UnitResearch.team_has(PLAYER, &"fire_bowstrings"), "old queue: the queued moved line is not granted")
+	forge.cancel(0)
+	# Old save in a game without unit research (e2m4: forge_enabled only): a done moved level is refunded.
+	UnitResearch.lab_off = true
+	var c_m := eco.crystals
+	ForgeKit.for_team(PLAYER).set_level(&"shadow_caster", 1)
+	await _frames(2)
+	UnitResearch.lab_off = false
+	_ok(eco.crystals == c_m + ForgeKit.UNIT_PRICE and not UnitResearch.team_has(PLAYER, &"shadow_caster"),
+			"no unit research here: the old save's moved level is refunded (%d -> %d)" % [c_m, eco.crystals])
 
 	# Research lands: living and new soldiers, not workers / the wizard.
 	var guard := _unit(&"flame_guard", keep, Vector3(6, 0, 6))
@@ -250,7 +287,7 @@ func _check_game() -> void:
 	_ok(is_equal_approx(guard.get_stat(&"attack_damage"), base_dmg * 1.18), "Weapons 3 = +18 %")
 	bank.set_level(&"armor", 2)
 	_ok(is_equal_approx(guard.get_stat(&"armor"), guard.get_base_stat(&"armor") + 12.0), "Armor 2 = +12 armor")
-	# Unit lines.
+	# Moved unit lines: an old save's level (ForgeKit.set_level) = the UnitResearch row granted.
 	var r0 := archer.attack_range
 	bank.set_level(&"fire_bowstrings", 1)
 	bank.refresh_units()
@@ -262,6 +299,9 @@ func _check_game() -> void:
 	bank.set_level(&"fire_lances", 1)
 	_ok(is_equal_approx(rider.get_stat(&"move_speed"), sp0 + 0.3) and is_equal_approx(guard.get_stat(&"attack_damage"),
 			base_dmg * 1.18), "Lance Drill on the Blaze Rider only")
+	_ok(UnitResearch.team_has(PLAYER, &"fire_lances") and ForgeKit.level_of(PLAYER, &"fire_lances") == 1 \
+			and not bank.levels.has(&"fire_lances") and rider.has_modifier(&"research:fire_lances"),
+			"old Forge save fire_lances 1 loads as the granted UnitResearch row")
 	var m0 := kiln.get_stat(&"max_mana")
 	bank.set_level(&"fire_caster", 1)
 	_ok(m0 > 0.0 and is_equal_approx(kiln.get_stat(&"max_mana"), m0 * 1.25), "Kiln Focus +25 %% max mana (%.0f)" % m0)
@@ -273,18 +313,17 @@ func _check_game() -> void:
 	_ok(row.contains("Weapons 3/3") and row.contains("Armor 2/3") and not row.contains("Lance"), "panel row '%s'" % row)
 	_ok(SelectionPanel.forge_line(worker) == "", "no Forge row on a worker")
 	var ga := UnitGuideData.forge_abilities(&"blaze_rider")
-	_ok(ga.size() == 2 and str(ga[1]["name"]) == "Lance Drill", "Unit Guide: Blaze Rider lists the Forge + Lance Drill")
+	# UR.U2: the Forge entry only (Lance Drill moved to the unit-research Upgrades block).
+	_ok(ga.size() == 1 and str(ga[0]["name"]) == "Forge upgrades", "Unit Guide: Blaze Rider lists the Forge entry only")
 	_ok(UnitGuideData.forge_abilities(&"cinder_hand").is_empty(), "Unit Guide: no Forge entry on the worker")
 	Loc.set_language("fr")
 	var fr_row := SelectionPanel.forge_line(guard)
 	var fr_tip := Loc.sink(str(ForgeKit.stub(&"weapons", 2).get_meta(&"card_text")))
-	var fr_unit := Loc.sink(str(ForgeKit.stub(&"fire_lances", 1).get_meta(&"card_text")))
 	var fr_guide := UnitGuideData.ability_text(ga[0])
 	var fr_build := Loc.t("Researches Weapons, Armor and kingdom upgrades for all your soldiers, and upgrades for key units. One per kingdom.")
 	Loc.set_language("en")
 	_ok(fr_row != row and fr_row.begins_with("Forge"), "French panel row '%s'" % fr_row)
 	_ok(fr_tip != str(ForgeKit.stub(&"weapons", 2).get_meta(&"card_text")), "French research text '%s'" % fr_tip)
-	_ok(fr_unit != str(ForgeKit.stub(&"fire_lances", 1).get_meta(&"card_text")), "French unit research text '%s'" % fr_unit)
 	_ok(fr_guide != UnitGuideData.ability_text(ga[0]), "French Unit Guide text '%s'" % fr_guide)
 	_ok(fr_build.begins_with("Recherche") or fr_build.begins_with("AmÃ©liore"), "French build tooltip '%s'" % fr_build)
 
@@ -294,7 +333,7 @@ func _check_game() -> void:
 	for u in [guard, archer, rider, late]:
 		_ok(not (u as Unit).has_modifier(ForgeKit.MODIFIER) or ForgeKit.for_team(PLAYER).stats_for((u as Unit).unit_type.id).is_empty(),
 				"levels 0: modifier gone")
-	_ok(is_equal_approx(archer.attack_range, r0), "levels 0: range back")
+	_ok(is_equal_approx(archer.attack_range, r0 + 1.0), "levels 0: the moved Ember Bowstrings row stays (+1 range)")
 	eco.add(5000)
 	ts.set_tier(PLAYER, 3)
 	_ok(ForgeKit.bot_step(PLAYER, &"fire", eco, 3000.0, grid, [], keep, 2) and forge.queue.size() == 1 \
@@ -302,9 +341,9 @@ func _check_game() -> void:
 	_ok(not ForgeKit.bot_step(PLAYER, &"fire", eco, 3001.0, grid, [], keep, 2), "the bot waits BOT_EVERY between checks")
 	forge.cancel(0)
 	for line in lines:
-		bank.set_level(line, 1 if not ForgeKit.is_unit_line(line) else 0)
+		bank.set_level(line, 1)
 	_ok(not ForgeKit.bot_step(PLAYER, &"fire", eco, 4000.0, grid, [], keep, 0) and forge.queue.is_empty(),
-			"easy bot stops at level 1 and skips unit lines")
+			"easy bot stops at level 1")
 	var eeco := Economy.for_team(ENEMY)
 	eeco.add(2000)
 	var ekeep: Node3D = null

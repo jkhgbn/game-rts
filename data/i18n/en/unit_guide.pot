@@ -298,11 +298,6 @@ msgstr ""
 msgid "Every arrow sets the target burning for a few seconds."
 msgstr ""
 
-#. text
-#: data/ui/unit_guide.json:scorchbow
-msgid "Heavy Draw, then Pitch Arrows."
-msgstr ""
-
 #. pros
 #: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:cinder_arbalest
 msgid "Top 3 for range in the Fire army"
@@ -945,11 +940,6 @@ msgstr ""
 msgid "Every few seconds, the next arrow at a running unit chills it much longer."
 msgstr ""
 
-#. text
-#: data/ui/unit_guide.json:frostbow
-msgid "Rimed Shafts: longer chill, faster Hamstring."
-msgstr ""
-
 #. pros
 #: data/ui/unit_guide.json:frostbow
 msgid "Top 3 for range in any army"
@@ -1477,11 +1467,6 @@ msgstr ""
 msgid "Nature's Hall bowman: the cheapest bowman, built up by Grove Hall research."
 msgstr ""
 
-#. text
-#: data/ui/unit_guide.json:wildwood_archer
-msgid "Keen Eye and Heartseeker give crits; Hunting Party trains a free second archer."
-msgstr ""
-
 #. pros
 #: data/ui/unit_guide.json:wildwood_archer
 msgid "Longest range in the Nature army"
@@ -1971,11 +1956,6 @@ msgstr ""
 #. text
 #: data/ui/unit_guide.json:bleakbow
 msgid "Every arrow adds a bleed stack (up to 3) that keeps ticking."
-msgstr ""
-
-#. text
-#: data/ui/unit_guide.json:bleakbow
-msgid "Serrated Barbs: more bleed stacks."
 msgstr ""
 
 #. pros

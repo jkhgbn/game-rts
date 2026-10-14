@@ -155,7 +155,7 @@ func _kingdom(k: StringName) -> void:
 	var select_keep := func() -> void: sel.select_building(keep)
 	var tier1 := await _card("keep tier 1", select_keep)
 	_expect_ids(tier1, ["train_" + String(keep.building_type.trains[0].id), "train_keep_upgrade", t3_id, call_id, caster_id,
-			"rally"], "keep tier 1")
+			"rally", "plus_page"], "keep tier 1")   # UR.U1: the keep's research page on r3c5
 	# SC2.U1 (ui-sc2-console.md 4.4, 5 x 3 card): B = r1c5 (slot 4), Set Rally r3c1 (slot 10).
 	if _slot_of(tier1, caster_id) != 4 or _key_of(tier1, caster_id) != "B" or _slot_of(tier1, "rally") != 10:
 		_fail("keep caster on %d key '%s', rally on %d (want B on r1c5, rally r3c1)" % [_slot_of(tier1, caster_id),
@@ -188,11 +188,24 @@ func _kingdom(k: StringName) -> void:
 	var plus := await _card("Hall + page", func() -> void:
 		sel.select_building(hall)
 		sel.open_upgrades())
+	# UR.U1: the research page puts each unit on its training key (the key opens its unit page).
 	for row: Dictionary in plus:
 		var id: String = row["id"]
-		if id.begins_with("plus_") and id != "plus_back" and row["key"] != _key_of(hall2, "train_" + id.trim_prefix("plus_")):
+		if id.begins_with("research_unit_") \
+				and row["key"] != _key_of(hall2, "train_" + id.trim_prefix("research_unit_")):
 			_fail("+ page: %s shows '%s', its unit's training key is '%s'" % [id, row["key"],
-					_key_of(hall2, "train_" + id.trim_prefix("plus_"))])
+					_key_of(hall2, "train_" + id.trim_prefix("research_unit_"))])
+	# A unit page (the first unit): Z "+", X C V B rows, Esc back.
+	var first_unit := ""
+	for row: Dictionary in plus:
+		if String(row["id"]).begins_with("research_unit_"):
+			first_unit = String(row["id"]).trim_prefix("research_unit_")
+			break
+	if first_unit != "":
+		await _card("Hall unit page", func() -> void:
+			sel.select_building(hall)
+			sel.open_upgrades()
+			sel.open_research_unit(StringName(first_unit)))
 	await _check_upgrades_page_keys(hall)
 	# Stables, Bazaar, a construction site (Citadel: everything open).
 	ts.set_tier(PLAYER, 3)
@@ -330,8 +343,8 @@ func _rows() -> Array:
 
 ## Needs a key: it trains, builds, upgrades, casts, sets a stance, or opens / closes a page.
 static func _needs_key(id: String) -> bool:
-	return id.begins_with("train_") or id.begins_with("build_") or id.begins_with("plus_") \
-			or id.begins_with("stance_") or id.begins_with("caster_") or SPELL_IDS.has(id) or id in ["move", "stop", "hold", "attack", "gather", \
+	return id.begins_with("train_") or id.begins_with("build_") or id.begins_with("plus_") or id.begins_with("rank_") \
+			or (id.begins_with("research_") and id != "research_header") or id.begins_with("stance_") or id.begins_with("caster_") or SPELL_IDS.has(id) or id in ["move", "stop", "hold", "attack", "gather", \
 			"trade", "build", "back", "cancel", "raise", "remove", "wares"]
 
 
@@ -456,6 +469,21 @@ func _press_and_check(where: String, row: Dictionary, setup: Callable) -> void:
 	elif id == "plus_back":
 		if sel.upgrades_open():
 			_fail("%s: Esc did not close the upgrades page" % where)
+	elif id == "research_back":
+		if not sel.upgrades_open() or sel.open_research_unit_id() != &"":
+			_fail("%s: Esc on a unit page did not go back to the research page" % where)
+	elif id.begins_with("research_unit_"):
+		if sel.open_research_unit_id() != StringName(id.trim_prefix("research_unit_")):
+			_fail("%s: key %s did not open the %s page" % [where, row["key"], id])
+	elif id.begins_with("research_") or id.begins_with("rank_"):
+		var rid := StringName(id.trim_prefix("research_") if id.begins_with("research_") else id.trim_prefix("rank_"))
+		var rb := UnitResearch.for_team(PLAYER, false)
+		if id.begins_with("research_") and rb != null and rb.is_working(rid):
+			rb.cancel(rid)
+		elif id.begins_with("rank_") and ranks != null and ranks.is_working(rid):
+			ranks.cancel(rid)
+		elif not (reason != "" and _msgs.has(reason)) and _msgs.is_empty():
+			_fail("%s: key %s on '%s' did not start that research (msgs %s)" % [where, row["key"], id, str(_msgs)])
 	elif id.begins_with("stance_"):
 		var h := sel.inspected as Helper
 		if h == null or String(h.stance) != id.trim_prefix("stance_"):

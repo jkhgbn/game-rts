@@ -37,7 +37,7 @@
 		"scorchbow": {
 			"summary": "Fire's Hall bowman: burning arrows that hit hard but fire slowly.",
 			"role": "ranged", "class": "Bowman",
-			"abilities": [{"name": "Burning Arrows", "key": "Passive", "text": "Every arrow sets the target burning for a few seconds."}, {"name": "Hall research", "key": "Ember Hall", "text": "Heavy Draw, then Pitch Arrows."}],
+			"abilities": [{"name": "Burning Arrows", "key": "Passive", "text": "Every arrow sets the target burning for a few seconds."}],
 			"pros": ["Top 3 for range in the Fire army", "Burn ticks stop enemy regeneration", "Hits harder per shot than an Ember Archer"],
 			"cons": ["Low HP for its price", "Shoots less often than an Ember Archer"],
 			"strong_against": ["Slow melee", "Regenerating units"], "weak_against": ["Cavalry", "Fast raiders", "Divers"], "good_with": ["Flame Guard", "Kilnwarden"]
@@ -134,7 +134,7 @@
 		"frostbow": {
 			"summary": "Ice's Hall bowman: very long range, every arrow chills.",
 			"role": "ranged", "class": "Bowman",
-			"abilities": [{"name": "Frost Arrows", "key": "Passive", "text": "Every arrow chills the target."}, {"name": "Hamstring Shot", "key": "Auto", "text": "Every few seconds, the next arrow at a running unit chills it much longer."}, {"name": "Hall research", "key": "Frost Hall", "text": "Rimed Shafts: longer chill, faster Hamstring."}],
+			"abilities": [{"name": "Frost Arrows", "key": "Passive", "text": "Every arrow chills the target."}, {"name": "Hamstring Shot", "key": "Auto", "text": "Every few seconds, the next arrow at a running unit chills it much longer."}],
 			"pros": ["Top 3 for range in any army", "Longest sight in the Ice army", "Chills every target; Hamstring slows runners"],
 			"cons": ["Slow rate of fire", "Low HP for its price"],
 			"strong_against": ["Cavalry", "Fleeing units", "Slow melee"], "weak_against": ["Swarms", "Pollen Haze", "Divers"], "good_with": ["Rimeshield", "Shardguard"]
@@ -242,7 +242,7 @@
 		"wildwood_archer": {
 			"summary": "Nature's Hall bowman: the cheapest bowman, built up by Grove Hall research.",
 			"role": "ranged", "class": "Bowman",
-			"abilities": [{"name": "Hall research", "key": "Grove Hall", "text": "Keen Eye and Heartseeker give crits; Hunting Party trains a free second archer."}],
+			"abilities": [],
 			"pros": ["Longest range in the Nature army", "Cheapest bowman of the four kingdoms", "Research turns it into a crit machine"],
 			"cons": ["Fragile: low HP", "Weak until its Hall research is done"],
 			"strong_against": ["Slow melee", "Late mass fights"], "weak_against": ["Cavalry", "Area damage", "Early rushes"], "good_with": ["Thornling", "Bloomtender"]
@@ -349,7 +349,7 @@
 		"bleakbow": {
 			"summary": "Shadow's Hall bowman: stacking bleed that wears down tough targets.",
 			"role": "ranged", "class": "Bowman",
-			"abilities": [{"name": "Bleeding Arrows", "key": "Passive", "text": "Every arrow adds a bleed stack (up to 3) that keeps ticking."}, {"name": "Hall research", "key": "Gloom Hall", "text": "Serrated Barbs: more bleed stacks."}],
+			"abilities": [{"name": "Bleeding Arrows", "key": "Passive", "text": "Every arrow adds a bleed stack (up to 3) that keeps ticking."}],
 			"pros": ["Longest range in the Shadow army", "Bleed stacks melt tanks and heroes", "Bleed keeps ticking after the fight"],
 			"cons": ["Worst HP per crystal in the Shadow army", "Bleed spreads thin over many small units"],
 			"strong_against": ["Tanks", "Heroes", "Champions"], "weak_against": ["Swarms", "Cavalry", "Burst"], "good_with": ["Shade", "Hollow Oathsworn"]

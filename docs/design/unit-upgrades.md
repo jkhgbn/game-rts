@@ -304,7 +304,8 @@ Bowman rows follow the same rule (bowmen.md 6 thresholds replaced). Log line `re
 **Save / load.** `UnitResearch` (one node per team, groups `"unit_research"` and `"saved_state"`): `save_key()` =
 `"unit_research_<team>"`, `save_state()` = `{done: [ids], work: [{id, building save id, left, paid}]}`, `load_state`
 grants the done rows (re-applies to every unit) and restores the work; static `create_for_save(level, key)`. Unit
-modifiers `research:<id>` are **not** saved with the unit (re-applied on load, like `forge`); runtime state lives in
+modifiers `research:<id>` are saved with the unit (lead 2026-10-14, so a damaged unit keeps its bonus max HP on load;
+the re-apply replaces by id, never doubles or heals); runtime state lives in
 `_`-prefixed metas (`_rs_nth`, `_rs_first_hit`, `_rs_cd_<kind>`, `_research_range`), absolute times only in `_` metas.
 Old saves: ForgeKit unit-line levels and BowmanUpgrades done ids load as granted rows. `tests/test_save_metas.gd` passes.
 

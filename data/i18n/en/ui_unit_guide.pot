@@ -41,37 +41,37 @@ msgid "{shown} of {total} units"
 msgstr ""
 
 #. var role_line := Loc.t("{kingdom}  ·  Tier {tier}  ·  {role}  ·  {class}", args) if e["class"] != "" \
-#: scripts/ui/menus/unit_guide.gd:682
+#: scripts/ui/menus/unit_guide.gd:687
 msgid "{kingdom}  ·  Tier {tier}  ·  {role}  ·  {class}"
 msgstr ""
 
 #. else Loc.t("{kingdom}  ·  Tier {tier}  ·  {role}", args)
-#: scripts/ui/menus/unit_guide.gd:683
+#: scripts/ui/menus/unit_guide.gd:688
 msgid "{kingdom}  ·  Tier {tier}  ·  {role}"
 msgstr ""
 
 #. var where := Loc.t("From: {building}   [{key}]", {"building": bld, "key": key}) if key != "" \
-#: scripts/ui/menus/unit_guide.gd:688
+#: scripts/ui/menus/unit_guide.gd:693
 msgid "From: {building}   [{key}]"
 msgstr ""
 
 #. else Loc.t("From: {building}", {"building": bld})
-#: scripts/ui/menus/unit_guide.gd:689
+#: scripts/ui/menus/unit_guide.gd:694
 msgid "From: {building}"
 msgstr ""
 
 #. parts.append(Loc.t("Regenerates {n} % HP/s out of combat", {"n": _trim(float(s["regen"]), 1)}))
-#: scripts/ui/menus/unit_guide.gd:703
+#: scripts/ui/menus/unit_guide.gd:708
 msgid "Regenerates {n} % HP/s out of combat"
 msgstr ""
 
 #. parts.append(Loc.t(ON_HIT_TEXT[on_hit]) if ON_HIT_TEXT.has(on_hit) else Loc.t("Every hit: {status}", {"status"
-#: scripts/ui/menus/unit_guide.gd:706
+#: scripts/ui/menus/unit_guide.gd:711
 msgid "Every hit: {status}"
 msgstr ""
 
 #. parts.append(Loc.t("Ranged attack"))
-#: scripts/ui/menus/unit_guide.gd:708
+#: scripts/ui/menus/unit_guide.gd:713
 msgid "Ranged attack"
 msgstr ""
 
@@ -146,7 +146,7 @@ msgid "%s m/s"
 msgstr ""
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Unit Guide", 34))
-#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:684
+#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:696
 #: scripts/ui/menus/pause_menu.gd:59
 msgid "Unit Guide"
 msgstr ""
@@ -162,8 +162,8 @@ msgid "Type a name, role, kingdom, building or tag (\"archers\", \"chill\", \"st
 msgstr ""
 
 #. back_button = _button(row, "Back", 140)
-#: scripts/ui/menus/unit_guide.gd:336 scripts/ui/menus/main_menu.gd:806
-#: scripts/ui/menus/main_menu.gd:897 scripts/ui/menus/pause_menu.gd:269
+#: scripts/ui/menus/unit_guide.gd:336 scripts/ui/menus/main_menu.gd:818
+#: scripts/ui/menus/main_menu.gd:909 scripts/ui/menus/pause_menu.gd:278
 #: scripts/ui/menus/settings_panel.gd:113 scripts/ui/wave_strike/wave_strike_lobby.gd:119
 msgid "Back"
 msgstr ""
@@ -258,80 +258,90 @@ msgstr ""
 msgid "Abilities"
 msgstr ""
 
+#. _section(detail_box, "Upgrades", 15)
+#: scripts/ui/menus/unit_guide.gd:671
+msgid "Upgrades"
+msgstr ""
+
 #. pc.add_child(_list_column("Pros", e["pros"], PRO_COLOR, "+"))
-#: scripts/ui/menus/unit_guide.gd:672 scripts/ui/menus/unit_guide.gd:853
+#: scripts/ui/menus/unit_guide.gd:677 scripts/ui/menus/unit_guide.gd:885
 msgid "Pros"
 msgstr ""
 
 #. pc.add_child(_list_column("Cons", e["cons"], CON_COLOR, "-"))
-#: scripts/ui/menus/unit_guide.gd:673 scripts/ui/menus/unit_guide.gd:854
+#: scripts/ui/menus/unit_guide.gd:678 scripts/ui/menus/unit_guide.gd:886
 msgid "Cons"
 msgstr ""
 
 #. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
-#: scripts/ui/menus/unit_guide.gd:763 scripts/ui/mission/spotlight_card.gd:69
+#: scripts/ui/menus/unit_guide.gd:795 scripts/ui/mission/spotlight_card.gd:69
 msgid "Strong against"
 msgstr ""
 
 #. for spec: Array in [["Strong against", "strong", PRO_COLOR], ["Weak against", "weak", CON_COLOR],
-#: scripts/ui/menus/unit_guide.gd:763
+#: scripts/ui/menus/unit_guide.gd:795
 msgid "Weak against"
 msgstr ""
 
 #. ["Good with", "good_with", UIStyle.GOLD]]:
-#: scripts/ui/menus/unit_guide.gd:764
+#: scripts/ui/menus/unit_guide.gd:796
 msgid "Good with"
 msgstr ""
 
 #. detail_box.add_child(UIStyle.panel_label("Pick two units to compare.", 16, MUTED))
-#: scripts/ui/menus/unit_guide.gd:799
+#: scripts/ui/menus/unit_guide.gd:831
 msgid "Pick two units to compare."
 msgstr ""
 
 #. _section(detail_box, "Stats  (green = better)")
-#: scripts/ui/menus/unit_guide.gd:819
+#: scripts/ui/menus/unit_guide.gd:851
 msgid "Stats  (green = better)"
 msgstr ""
 
 #. return Loc.t("Contract from {gold} gold (Greywater Lodge)", {"gold": int(s["gold"])})
-#: scripts/ui/menus/unit_guide_data.gd:274
+#: scripts/ui/menus/unit_guide_data.gd:278
 msgid "Contract from {gold} gold (Greywater Lodge)"
 msgstr ""
 
 #. parts.append(Loc.tn("{n} crystal", "{n} crystals", int(s["crystals"])))
-#: scripts/ui/menus/unit_guide_data.gd:277
+#: scripts/ui/menus/unit_guide_data.gd:281
 msgid "{n} crystal"
 msgid_plural "{n} crystals"
 msgstr[0] ""
 msgstr[1] ""
 
 #. parts.append(Loc.t("{n} essence", {"n": int(s["essence"])}))
-#: scripts/ui/menus/unit_guide_data.gd:279
+#: scripts/ui/menus/unit_guide_data.gd:283
 msgid "{n} essence"
 msgstr ""
 
 #. parts.append(Loc.t("{n} pop", {"n": int(s["pop"])}))
-#: scripts/ui/menus/unit_guide_data.gd:280
+#: scripts/ui/menus/unit_guide_data.gd:284
 msgid "{n} pop"
 msgstr ""
 
 #. t = Loc.t("{cost} (first hire)", {"cost": t})
-#: scripts/ui/menus/unit_guide_data.gd:285
+#: scripts/ui/menus/unit_guide_data.gd:289
 msgid "{cost} (first hire)"
 msgstr ""
 
+#. return Loc.t("{building} · T{tier} · {price} · {time} s", {"building": building_label(String(u["building"])),
+#: scripts/ui/menus/unit_guide_data.gd:384
+msgid "{building} · T{tier} · {price} · {time} s"
+msgstr ""
+
 #. return Loc.t("Auto, L{n}", {"n": int(k.substr(7))})
-#: scripts/ui/menus/unit_guide_data.gd:409
+#: scripts/ui/menus/unit_guide_data.gd:438
 msgid "Auto, L{n}"
 msgstr ""
 
 #. return Loc.t("%s (Citadel)") % b.trim_suffix(" (Citadel)")
-#: scripts/ui/menus/unit_guide_data.gd:442 scripts/ui/menus/unit_guide_data.gd:102
+#: scripts/ui/menus/unit_guide_data.gd:471 scripts/ui/menus/unit_guide_data.gd:102
 msgid "%s (Citadel)"
 msgstr ""
 
 #. return Loc.t("%s (Wonders)") % b.trim_suffix(" (Wonders)")
-#: scripts/ui/menus/unit_guide_data.gd:444 scripts/ui/menus/unit_guide_data.gd:106
+#: scripts/ui/menus/unit_guide_data.gd:473 scripts/ui/menus/unit_guide_data.gd:106
 msgid "%s (Wonders)"
 msgstr ""
 
@@ -416,8 +426,8 @@ msgid "Shadow"
 msgstr ""
 
 #. const KINGDOM_NAMES := {"fire": "Fire", "ice": "Ice", "nature": "Nature", "shadow": "Shadow", "neutral": "Neut
-#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/unit_guide_data.gd:426
-#: scripts/ui/menus/main_menu.gd:13 scripts/ui/point_panel.gd:324 scripts/ui/portrait_window.gd:91
+#: scripts/ui/menus/unit_guide_data.gd:18 scripts/ui/menus/unit_guide_data.gd:455
+#: scripts/ui/menus/main_menu.gd:13 scripts/ui/point_panel.gd:324 scripts/ui/portrait_window.gd:124
 msgid "Neutral"
 msgstr ""
 
@@ -427,9 +437,9 @@ msgid "Tavern"
 msgstr ""
 
 #. var keep_name := keep.display_name if keep else "Keep"
-#: scripts/ui/menus/unit_guide_data.gd:78 scripts/ui/command_card.gd:985
-#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:2105
-#: scripts/ui/selection_panel.gd:3203
+#: scripts/ui/menus/unit_guide_data.gd:78 scripts/ui/command_card.gd:1014
+#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:2199
+#: scripts/ui/selection_panel.gd:3298
 msgid "Keep"
 msgstr ""
 
@@ -439,7 +449,7 @@ msgid "Hall"
 msgstr ""
 
 #. var stables_name := stables.display_name if stables else "Stables"
-#: scripts/ui/menus/unit_guide_data.gd:80 scripts/ui/menus/unit_guide_data.gd:340
+#: scripts/ui/menus/unit_guide_data.gd:80 scripts/ui/menus/unit_guide_data.gd:372
 #: scripts/campaign/mission_e8_02.gd:107 scripts/campaign/mission_e8_03.gd:131
 msgid "Stables"
 msgstr ""
@@ -455,58 +465,48 @@ msgid "Greywater Lodge (contract)"
 msgstr ""
 
 #. s = {"name": "The " + c.title.trim_prefix("the ").strip_edges() if c.title != "" else String(id).capitalize(),
-#: scripts/ui/menus/unit_guide_data.gd:208
+#: scripts/ui/menus/unit_guide_data.gd:212
 msgid "The "
 msgstr ""
 
 #. "{text} ({mana} mana)", {"text": str(d.get("text", "")), "mana": int(d.get("mana", 0))}))
-#: scripts/ui/menus/unit_guide_data.gd:309
+#: scripts/ui/menus/unit_guide_data.gd:313
 msgid "{text} ({mana} mana)"
 msgstr ""
 
 #. out.append({"name": str(pd.get("name", p)), "key": "Passive",
-#: scripts/ui/menus/unit_guide_data.gd:313 scripts/ui/selection_panel.gd:253
-#: scripts/ui/selection_panel.gd:261 scripts/units/creature_abilities.gd:63
+#: scripts/ui/menus/unit_guide_data.gd:317 scripts/ui/selection_panel.gd:265
+#: scripts/ui/selection_panel.gd:273 scripts/units/creature_abilities.gd:63
 msgid "Passive"
 msgstr ""
 
 #. out.append({"name": String(ab).capitalize(), "key": "Auto",
-#: scripts/ui/menus/unit_guide_data.gd:319 scripts/ui/menus/unit_guide_data.gd:337
+#: scripts/ui/menus/unit_guide_data.gd:323 scripts/ui/menus/unit_guide_data.gd:341
 #: scripts/ui/menus/settings_panel.gd:401
 msgid "Auto"
 msgstr ""
 
 #. out.append(_templ({"name": nm, "key": "Auto, L%d" % lv}, "Cooldown {n} s.",
-#: scripts/ui/menus/unit_guide_data.gd:332
+#: scripts/ui/menus/unit_guide_data.gd:336
 msgid "Cooldown {n} s."
 msgstr ""
 
-#. "Stables research once your keep is a Citadel ({price} crystals, {time} s): +{hp} % HP, +{dmg} % damage, +{arm
-#: scripts/ui/menus/unit_guide_data.gd:341
-msgid "Stables research once your keep is a Citadel ({price} crystals, {time} s): +{hp} % HP, +{dmg} % damage, +{armor} armour."
-msgstr ""
-
-#. rk["name_tmpl"] = "Rank 3: {name}"
-#: scripts/ui/menus/unit_guide_data.gd:345
-msgid "Rank 3: {name}"
+#. "Rank 3: +{hp} % HP, +{dmg} % damage, +{armor} armour, +{speed} speed",
+#: scripts/ui/menus/unit_guide_data.gd:374
+msgid "Rank 3: +{hp} % HP, +{dmg} % damage, +{armor} armour, +{speed} speed"
 msgstr ""
 
 #. var g := _templ({"key": "Forge"},
-#: scripts/ui/menus/unit_guide_data.gd:363 scripts/ui/menus/unit_guide_data.gd:375
+#: scripts/ui/menus/unit_guide_data.gd:398
 msgid "Forge"
 msgstr ""
 
 #. "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / 
-#: scripts/ui/menus/unit_guide_data.gd:364
+#: scripts/ui/menus/unit_guide_data.gd:399
 msgid "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / {p2} / {p3} crystals; level 2 needs a Stronghold, level 3 a Citadel)."
 msgstr ""
 
 #. g["name_tmpl"] = "Forge upgrades"
-#: scripts/ui/menus/unit_guide_data.gd:369 scripts/ui/menus/unit_guide_data.gd:371
+#: scripts/ui/menus/unit_guide_data.gd:404 scripts/ui/menus/unit_guide_data.gd:406
 msgid "Forge upgrades"
-msgstr ""
-
-#. "Forge research once your keep is a Stronghold ({price} crystals, {time} s): {text}.",
-#: scripts/ui/menus/unit_guide_data.gd:376
-msgid "Forge research once your keep is a Stronghold ({price} crystals, {time} s): {text}."
 msgstr ""

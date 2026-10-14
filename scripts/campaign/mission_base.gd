@@ -94,6 +94,8 @@ var titan_max_trained := -1
 var lair_min_time := -1.0
 ## ForgeKit.enabled_here reads it in a mission (config.forge_enabled).
 var forge_enabled := false
+## UnitResearch.enabled_here reads it in a mission (config.research_enabled; unit-upgrades.md 13).
+var research_enabled := false
 ## Stables16.enabled_here reads it in a mission (config.cavalry_enabled).
 var cavalry_enabled := false
 
@@ -231,6 +233,7 @@ func _apply_switches(c: MissionConfig) -> void:
 	titan_max_trained = c.titan_max_trained
 	lair_min_time = c.lair_min_time
 	forge_enabled = c.forge_enabled
+	research_enabled = c.research_enabled
 	cavalry_enabled = c.cavalry_enabled
 	if not c.seat_sides.is_empty():
 		seat_sides = c.seat_sides.duplicate()

@@ -52,6 +52,8 @@ extends Resource
 @export var lair_min_time := -1.0
 ## The kingdom's Forge (unit upgrades, ForgeKit) in this mission (e2m4 spotlights it; default off in missions).
 @export var forge_enabled := false
+## Unit research at the training buildings (UnitResearch, unit-upgrades.md 7-15) in this mission (default off).
+@export var research_enabled := false
 ## The kingdom's Stables (cavalry + the wizard's mount, Stables16) in this mission (e2m3 on; default off in missions).
 @export var cavalry_enabled := false
 

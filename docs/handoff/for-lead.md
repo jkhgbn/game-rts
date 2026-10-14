@@ -168,3 +168,18 @@ written. The 16.1 / 16.2 data lives as the export defaults of `scripts/world/wav
 (`load_default()` uses them when the .tres is absent). Please either add `data/wave_strike/` to systems-coder in
 owners.json (CLAUDE.md already lists WS data under the task) or save the defaults once:
 `ResourceSaver.save(WaveUpgradeTable.new(), "res://data/wave_strike/card_upgrades.tres")`.
+
+## UR.U1 / UR.U2 (ui-coder, 2026-10-14)
+- CLAUDE.md "Keys": the Hall-only `+` page is now the research page of an own Hall / Stables / keep: `+` (=/numpad +)
+  opens it, a unit's training key opens its unit page, there Z = its "+", X C V B = its rows, then the Stables rank-3;
+  the same key on a running row cancels it (full refund); Esc = one page back, `+` closes both. Public API on
+  SelectionManager: `research_units(b)`, `research_entries(b, unit_id)`, `open_research_unit`, `research_back`,
+  `press_research_slot`, `buy_research`, `rank_up_research`, `research_running_at(b)`, `cancel_research_at(b)`.
+- UI Lab (`tools/ui_lab/`, not mine): `hud_keep` shows "Nothing selected" at 1600 x 900 because the STR / INT path panel
+  is still open when the keep is selected (the lab never picks a path). A `hud_research` screen (keep selected, research
+  page open, a row running) would cover UR.U1's "UI Lab hud_keep with the page open"; until then
+  `tests/test_research_ui.gd -- shots=<dir> [lang=fr]` (windowed, `--resolution 1600x900`) takes those shots and runs
+  the lab's frame / overlap / off-screen checks on them.
+- `tests/test_ui_card_hotkeys.gd` updated (keep card has `plus_page`; research page / unit page keys).
+- `data/ui/unit_guide.json` (the 4 bowmen "Hall research" abilities removed) and `data/i18n/fr/*.po` (74 row texts,
+  refusals, templates) were edited for UR.U2 as the task says; `.claude/hooks/owners.json` does not list them for ui-coder.

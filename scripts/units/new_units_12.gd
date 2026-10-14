@@ -82,6 +82,22 @@ const SKITTER_MOD := &"ability:skitter"
 const SNARE_LASH := {"cd": 10.0, "range": 5.0, "damage": 10.0, "root": 1.5}
 const GROVE_OATH := {"cd": 14.0, "radius": 5.0, "taunt": 2.5, "brace": 4.0}
 
+## Unit research K keys each ability reads (unit-upgrades.md 10) -> today's value. `_refresh_kit` copies the team's
+## numbers into the fields of the same name with a leading "_".
+const KIT_KEYS := {
+	&"scorchling": {&"flashpoint_damage": 15.0, &"flashpoint_radius": 2.0},
+	&"pyre_adept": {&"flame_burst_min_count": 3.0, &"flame_burst_radius": 2.5},
+	&"cinder_arbalest": {&"pierce_ratio": 0.5},
+	&"barrow_ghoul": {&"grave_feast_heal_pct": 0.30},
+	&"hexweaver": {&"wither_time": 6.0, &"wither_move_speed": 0.0},
+	&"hollow_oathsworn": {&"vow_cd": 45.0, &"vow_shield": 50.0},
+	&"hoarlight_magebow": {&"frost_needle_cd": 8.0, &"frost_needle_damage": 20.0},
+	&"frost_mortar": {&"frost_shell_radius": 2.0},
+	&"thistle_darter": {&"skitter_speed": 1.0, &"skitter_time": 1.5},
+	&"vinelasher": {&"snare_damage": 10.0, &"snare_root": 1.5},
+	&"greenheart_oathkeeper": {&"grove_oath_radius": 5.0, &"grove_oath_brace": 4.0},
+}
+
 const SKIRMISH_SCRIPT := "res://scripts/world/skirmish.gd"
 const NODE_NAME := "NewUnitAbility"
 
@@ -95,6 +111,27 @@ var enemy_scans := 0        ## Full "units" passes made by _enemies_near (tests:
 var _tick_left := TICK
 var _cd_left := 0.0
 var _mod_left := 0.0        ## Timed self modifier (Vow, Skitter).
+# Kit numbers in use (KIT_KEYS; refreshed by _refresh_kit, read on the hit path as plain fields).
+var _kit_sig := ""
+var _flashpoint_damage := float(FLASHPOINT["damage"])
+var _flashpoint_radius := float(FLASHPOINT["radius"])
+var _flame_burst_min_count := float(FLAME_BURST["min_count"])
+var _flame_burst_radius := float(FLAME_BURST["radius"])
+var _pierce_ratio := float(PIERCE["ratio"])
+var _grave_feast_heal_pct := float(GRAVE_FEAST["heal_pct"])
+var _wither_time := float(WITHER_HEX["time"])
+var _wither_move_speed := 0.0
+var _vow_cd := float(VOW["cd"])
+var _vow_shield := float(VOW["shield"])
+var _frost_needle_cd := float(FROST_NEEDLE["cd"])
+var _frost_needle_damage := float(FROST_NEEDLE["damage"])
+var _frost_shell_radius := float(FROST_SHELL["radius"])
+var _skitter_speed := float(SKITTER["speed"])
+var _skitter_time := float(SKITTER["time"])
+var _snare_damage := float(SNARE_LASH["damage"])
+var _snare_root := float(SNARE_LASH["root"])
+var _grove_oath_radius := float(GROVE_OATH["radius"])
+var _grove_oath_brace := float(GROVE_OATH["brace"])
 
 
 # ---------------------------------------------------------------- static: roster, gate, bots
@@ -184,6 +221,16 @@ static func attach(u: Unit) -> void:
 	u.add_child(n)
 
 
+## Seconds before the ability may fire again (0 = ready). Read only (UI, tests).
+func cooldown_left() -> float:
+	return maxf(0.0, _cd_left)
+
+
+## Seconds left on the timed self modifier (Unbroken Vow, Skitter). Read only (UI, tests).
+func self_modifier_left() -> float:
+	return maxf(0.0, _mod_left)
+
+
 ## The ability node of a new unit, or null.
 static func ability_of(u: Node) -> NewUnits12:
 	return u.get_node_or_null(NODE_NAME) as NewUnits12 if u else null
@@ -196,6 +243,7 @@ func _ready() -> void:
 		unit = get_parent() as Unit
 	# Stagger the 0.5 s checks so a clump of casters does not tick on the same frame.
 	_tick_left = TICK * float(CasterKit.next_stagger() % 10) / 10.0 + 0.05
+	_refresh_kit()
 	match id:
 		&"scorchling":
 			unit.died.connect(_on_died_flashpoint)
@@ -218,6 +266,8 @@ func _physics_process(delta: float) -> void:
 	if _tick_left > 0.0:
 		return
 	_tick_left += TICK
+	if unit.get_meta(UnitResearch.SIG_META, "") != _kit_sig:
+		_refresh_kit()   # UnitResearch re-applied this unit (a row done, a load): one meta read per 0.5 s
 	if _cd_left > 0.0 or not unit.can_act():
 		return
 	match id:
@@ -236,8 +286,9 @@ func _physics_process(delta: float) -> void:
 # Scorchling: on death, 15 to enemy units within 2 m (never buildings, never own units).
 func _on_died_flashpoint(_u: Unit) -> void:
 	var at := unit.global_position
-	for e in _enemies_near(at, float(FLASHPOINT["radius"])):
-		e.take_damage(float(FLASHPOINT["damage"]), unit)
+	var dmg := _flashpoint_damage
+	for e in _enemies_near(at, _flashpoint_radius):
+		e.take_damage(dmg, unit)
 	casts += 1
 
 
@@ -245,7 +296,7 @@ func _on_died_flashpoint(_u: Unit) -> void:
 # One enemy scan (range + radius + the widest unit), then the clusters are counted inside that list with squared
 # distances: no second "units" pass per candidate (review 2026-10-08 M3, was O(k * n) is_enemy_of calls).
 func _try_flame_burst() -> void:
-	var r := float(FLAME_BURST["radius"])
+	var r := _flame_burst_radius
 	var reach := float(FLAME_BURST["range"])
 	var me := unit.global_position
 	var pool := _enemies_near(me, reach + r + FLAME_POOL_MARGIN)
@@ -263,7 +314,7 @@ func _try_flame_burst() -> void:
 				group.append(u)
 		if group.size() > best.size():
 			best = group
-	if best.size() < int(FLAME_BURST["min_count"]):
+	if best.size() < roundi(_flame_burst_min_count):
 		return
 	for e in best:
 		e.take_damage(float(FLAME_BURST["damage"]), unit)
@@ -286,23 +337,27 @@ func _try_wither_hex() -> void:
 			pick = e
 	if pick == null:
 		return
-	var t := float(WITHER_HEX["time"])
+	var t := _wither_time
 	if pick.is_in_group(&"champions"):
 		t *= 0.5
-	apply_withered(pick, t)
+	apply_withered(pick, t, _wither_move_speed)
 	_cast_fx()
 	_cd_left = float(WITHER_HEX["cd"])
 
 
 ## `withered` (new-units-12.md 4): attack_damage_pct -0.20 for `seconds`, never stacks with itself.
-static func apply_withered(target: Unit, seconds: float) -> void:
+## `move_speed` (flat, <= 0): Deepening Hex's extra slow (unit-upgrades.md 9.2), 0 = none.
+static func apply_withered(target: Unit, seconds: float, move_speed: float = 0.0) -> void:
 	var until := _now() + seconds
 	target.set_meta(WITHER_META, until)
 	# Cast serial (R3-1): the timer runs on game time (Blitz time_scale 1.3) while _now() counts frames, so the
 	# callback compares serials, never times: only the newest cast's timer removes the modifier.
 	var serial := int(target.get_meta(WITHER_SERIAL_META, 0)) + 1
 	target.set_meta(WITHER_SERIAL_META, serial)
-	target.add_modifier(WITHER_MOD, {&"attack_damage_pct": float(WITHER_HEX["attack_pct"])})
+	var stats := {&"attack_damage_pct": float(WITHER_HEX["attack_pct"])}
+	if move_speed != 0.0:
+		stats[&"move_speed"] = move_speed
+	target.add_modifier(WITHER_MOD, stats)
 	var tree := target.get_tree()
 	if tree == null:
 		return
@@ -321,10 +376,10 @@ static func apply_withered(target: Unit, seconds: float) -> void:
 func _on_damage_taken(_amount: float, _attacker: Node3D) -> void:
 	if _cd_left > 0.0 or not unit.is_alive() or unit.hp > unit.max_hp * float(VOW["hp_pct"]):
 		return
-	unit.add_shield(float(VOW["shield"]), float(VOW["time"]))
+	unit.add_shield(_vow_shield, float(VOW["time"]))
 	unit.add_modifier(VOW_MOD, {&"attack_damage_pct": float(VOW["attack_pct"])})
 	_mod_left = float(VOW["time"])
-	_cd_left = float(VOW["cd"])
+	_cd_left = _vow_cd
 	_cast_fx()
 
 
@@ -337,11 +392,11 @@ func _try_frost_needle() -> void:
 		target = _nearest_enemy(rng)
 	if target == null:
 		return
-	target.take_damage(float(FROST_NEEDLE["damage"]), unit)
+	target.take_damage(_frost_needle_damage, unit)
 	if target.is_alive():
 		target.apply_status(&"chill", maxf(float(FROST_NEEDLE["chill"]), target.status_time_left(&"chill")))
 	_cast_fx()
-	_cd_left = float(FROST_NEEDLE["cd"])
+	_cd_left = _frost_needle_cd
 
 
 # Vinelasher: the nearest enemy unit within 5 m: 10 + rooted 1.5 s (heroes half, by apply_status).
@@ -349,20 +404,20 @@ func _try_snare_lash() -> void:
 	var target := _nearest_enemy(float(SNARE_LASH["range"]))
 	if target == null:
 		return
-	target.take_damage(float(SNARE_LASH["damage"]), unit)
-	target.apply_status(&"rooted", float(SNARE_LASH["root"]))
+	target.take_damage(_snare_damage, unit)
+	target.apply_status(&"rooted", _snare_root)
 	_cast_fx()
 	_cd_left = float(SNARE_LASH["cd"])
 
 
 # Greenheart Oathkeeper: enemies within 5 m are taunted onto it for 2.5 s; it braces (damage taken x0.7) 4 s.
 func _try_grove_oath() -> void:
-	var near := _enemies_near(unit.global_position, float(GROVE_OATH["radius"]))
+	var near := _enemies_near(unit.global_position, _grove_oath_radius)
 	if near.is_empty():
 		return
 	for e in near:
 		e.apply_status(&"taunted", float(GROVE_OATH["taunt"]), false, unit)
-	unit.apply_status(&"braced", float(GROVE_OATH["brace"]), true)
+	unit.apply_status(&"braced", _grove_oath_brace, true)
 	_cast_fx()
 	_cd_left = float(GROVE_OATH["cd"])
 
@@ -387,16 +442,16 @@ func _on_attack_landed(target: Node3D, _amount: float) -> void:
 					best_d = d
 					best = e
 			if best:
-				best.take_damage(unit.attack_damage * float(PIERCE["ratio"]), unit)
+				best.take_damage(unit.attack_damage * _pierce_ratio, unit)
 				casts += 1
 		&"barrow_ghoul":
 			var victim := target as Unit
 			if victim and not victim.is_alive() and unit.is_alive():
-				unit.heal(unit.max_hp * float(GRAVE_FEAST["heal_pct"]))
+				unit.heal(unit.max_hp * _grave_feast_heal_pct)
 				casts += 1
 		&"frost_mortar":
 			var at := target.global_position
-			for e in _enemies_near(at, float(FROST_SHELL["radius"])):
+			for e in _enemies_near(at, _frost_shell_radius):
 				if e != target:
 					e.take_damage(unit.attack_damage, unit)
 				if e.is_alive():
@@ -406,12 +461,22 @@ func _on_attack_landed(target: Node3D, _amount: float) -> void:
 			casts += 1
 		&"thistle_darter":
 			if unit.is_alive():
-				unit.add_modifier(SKITTER_MOD, {&"move_speed": float(SKITTER["speed"])})
-				_mod_left = float(SKITTER["time"])
+				unit.add_modifier(SKITTER_MOD, {&"move_speed": _skitter_speed})
+				_mod_left = _skitter_time
 				casts += 1
 
 
 # ---------------------------------------------------------------- helpers
+
+## Re-reads this unit's kit numbers (the team's unit research rows, UR.G3, unit-upgrades.md 10 K keys; else today's
+## constants) into the `_<key>` fields. Called at spawn and when UnitResearch re-applies the unit (its row signature
+## meta changes: a row done mid-life, a load); the ability code then only reads plain fields.
+func _refresh_kit() -> void:
+	_kit_sig = str(unit.get_meta(UnitResearch.SIG_META, "")) if unit else ""
+	var keys: Dictionary = KIT_KEYS.get(id, {})
+	for key: StringName in keys:
+		set(StringName("_" + String(key)), UnitResearch.param(unit, key, float(keys[key])))
+
 
 func _cast_fx() -> void:
 	casts += 1

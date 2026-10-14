@@ -120,7 +120,8 @@ const ITEM_PCT_FLOORS := {&"attack_cooldown": -0.35}   # items make attacks at m
 const TOTAL_CAPS := {&"spell_power": 60.0, &"cooldown_reduction": 40.0, &"lifesteal": 30.0,
 		&"spell_feed": 60.0}
 # ---- Damage over time (apply_dot), auras (apply_aura).
-const DOT_COLORS := {&"burn": Color(1.0, 0.4, 0.1), &"bleed": Color(0.6, 0.05, 0.08)}
+const DOT_COLORS := {&"burn": Color(1.0, 0.4, 0.1), &"bleed": Color(0.6, 0.05, 0.08),
+		&"dusk_bleed": Color(0.45, 0.05, 0.3)}
 const AURA_TICK := 0.25     # a carrier refreshes its auras 4 times per second
 const AURA_LINGER := 1.0    # a received aura stays this long after the last refresh
 const AURA_PREFIX := "aura:"
@@ -207,6 +208,9 @@ var _idle_regen_left := IDLE_REGEN_TICK
 var _lifetime_total := 0.0       # summons: 0 = permanent
 var _lifetime_left := 0.0
 var _since_damage := 1000.0
+## Unit research H effects (ResearchEffects.on_applied fills them; read only): attacker side / victim side.
+var research_hit_fx: Array[Dictionary] = []
+var research_hurt_fx: Array[Dictionary] = []
 var _dots: Dictionary = {}       # StringName id -> {per_tick, interval, left, next, source, jump}
 var _auras: Dictionary = {}      # StringName modifier id -> {radius, stats, filter, priority} (carrier)
 var _aura_tick_left := 0.0
@@ -1063,6 +1067,10 @@ func _tick_aura_in(delta: float) -> void:
 
 # Attacker side of attack_landed: lifesteal (stat "lifesteal", percent, cap 30) then the signal.
 func _on_attack_hit(target: Node3D, dealt: float) -> void:
+	# Unit research (unit-upgrades.md 10): bonus_vs_status reads the target's statuses before this hit's land.
+	var rs_bonus := 0.0
+	if not research_hit_fx.is_empty():
+		rs_bonus = ResearchEffects.pre_hit(self, target)
 	# UnitType.on_hit_status (Shardcaster, Rime Colossus: chill). Units only: buildings are immune.
 	# Applied even if the attacker died while its bolt was flying.
 	if unit_type and unit_type.on_hit_status != &"" and unit_type.on_hit_duration > 0.0:
@@ -1074,6 +1082,8 @@ func _on_attack_hit(target: Node3D, dealt: float) -> void:
 				_play_trade_vfx(&"snare", victim)
 	if unit_type and BowmanKit.is_bowman(unit_type.id):   # bowmen.md: chill / burn / bleed
 		BowmanKit.on_hit(self, target, dealt)
+	if not research_hit_fx.is_empty():
+		ResearchEffects.on_hit(self, target, dealt, rs_bonus)
 	if _dead:
 		return
 	if dealt > 0.0:
@@ -1580,6 +1590,8 @@ func target_radius() -> float:
 func take_damage(amount: float, attacker: Node3D = null) -> void:
 	if _dead:
 		return
+	if not research_hurt_fx.is_empty():
+		ResearchEffects.before_damage(self, amount)   # combat_shield: before the shield absorbs
 	amount *= _damage_taken_mult   # shroud: before armor and before the HP check (items.md order)
 	if _armor != 0.0:
 		amount *= armor_multiplier(_armor)
@@ -1598,6 +1610,8 @@ func take_damage(amount: float, attacker: Node3D = null) -> void:
 		_model.call(&"play_hit")
 	_update_hp_bar()
 	damage_taken.emit(amount, attacker if attacker != null and is_instance_valid(attacker) else null)
+	if not research_hurt_fx.is_empty():
+		ResearchEffects.after_damage(self, attacker)   # thorns, low_hp_status
 	if hp <= 0.0:
 		if death_guard.is_valid() and bool(death_guard.call(attacker)) and hp > 0.0:
 			_update_hp_bar()
@@ -2750,11 +2764,13 @@ void fragment() {
 
 # ---------------------------------------------------------------- save / load (docs/design/save-load.md)
 
-## Modifier sources a save keeps (the others are re-derived: level, veterancy, items, Forge, upgrades, wares, path...,
-## or timed: statuses, auras, abilities).
-## `rank3` (Stables rank 3) and `bowman:` (bowman upgrades) are kept too (R3-3): their researches come back through the
-## saved_state rows of Stables16 / BowmanUpgrades, and the unit's HP is restored on top of the right max HP.
-const SAVE_MODIFIER_PREFIXES: Array[String] = ["mission:", "save:", "rank3", "bowman:"]
+## Modifier sources a save keeps (the others are re-derived: level, veterancy, items, Forge, the "+" upgrades, wares,
+## path..., or timed: statuses, auras, abilities).
+## `rank3` (Stables rank 3), `bowman:` (bowman upgrades, R3-3) and `research:` (unit research rows, UR.G2) are kept so
+## the unit's HP is restored on top of the right max HP (a damaged unit keeps its bonus HP). Their rows still come back
+## through the saved_state of Stables16 / BowmanUpgrades / UnitResearch, which re-apply the same ids afterwards
+## (same id = replaced, never doubled, no heal on a load).
+const SAVE_MODIFIER_PREFIXES: Array[String] = ["mission:", "save:", "rank3", "bowman:", "research:"]
 
 
 ## The unit as a save row (SaveWorld): `ids` maps saved nodes -> save id (targets, sites are saved as ids).

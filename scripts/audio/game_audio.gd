@@ -849,6 +849,27 @@ func _hook_orders() -> void:
 			n.connect(&"upgrade_cancelled", func(_id: StringName, _refund: int) -> void:
 				if is_instance_valid(n) and int(n.get(&"team")) == Unit.Team.PLAYER:
 					play_ui(&"ui_upgrade_cancel"))
+	# UR.U2 (ui-sc2-console.md 7.6): unit research (player): start = the "+" start cue, complete = the building-done
+	# chime, cancel = the upgrade-cancel cue.
+	for n in tree.get_nodes_in_group(&"unit_research"):
+		if n.has_meta(META) or not n.has_signal(&"research_completed"):
+			continue
+		n.set_meta(META, true)
+		var started := {}   # a load's granted rows were never started here: no chime
+		for b in tree.get_nodes_in_group(&"buildings"):   # started before this hook found the node (the first buy)
+			var wid: StringName = n.call(&"working_at", b)
+			if wid != &"":
+				started[wid] = true
+		n.connect(&"research_started", func(id: StringName) -> void:
+			started[id] = true
+			if is_instance_valid(n) and int(n.get(&"team")) == Unit.Team.PLAYER:
+				play_ui(&"ui_plus_start"))
+		n.connect(&"research_completed", func(id: StringName) -> void:
+			if started.has(id) and is_instance_valid(n) and int(n.get(&"team")) == Unit.Team.PLAYER:
+				play_ui(&"construction_done"))
+		n.connect(&"research_cancelled", func(_id: StringName, _refund: int) -> void:
+			if is_instance_valid(n) and int(n.get(&"team")) == Unit.Team.PLAYER:
+				play_ui(&"ui_upgrade_cancel"))
 	for n in tree.get_nodes_in_group(&"helper_rosters"):
 		if n.has_meta(META) or not n.has_signal(&"helper_ready"):
 			continue

@@ -6,22 +6,22 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. var kicker := UIStyle.display_label(StoryText.tr_text(str(data.get("subtitle", "Mission briefing"))), 13, UISt
-#: scripts/ui/mission/briefing_screen.gd:100
+#: scripts/ui/mission/briefing_screen.gd:106
 msgid "Mission briefing"
 msgstr ""
 
 #. var head := UIStyle.display_label("Primary objectives", 15)
-#: scripts/ui/mission/briefing_screen.gd:116
+#: scripts/ui/mission/briefing_screen.gd:122
 msgid "Primary objectives"
 msgstr ""
 
 #. begin_button.text = "Begin"
-#: scripts/ui/mission/briefing_screen.gd:141
+#: scripts/ui/mission/briefing_screen.gd:147
 msgid "Begin"
 msgstr ""
 
 #. var hint := UIStyle.panel_label("Enter: begin", 11, UIStyle.token(&"text_muted"))
-#: scripts/ui/mission/briefing_screen.gd:150
+#: scripts/ui/mission/briefing_screen.gd:156
 msgid "Enter: begin"
 msgstr ""
 

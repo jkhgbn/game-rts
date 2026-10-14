@@ -3,7 +3,7 @@ extends Control
 ## The alert stack (docs/design/ui-sc2-console.md 3.3, task SC2.U3): up to 5 tiles 36 x 36 at (8, 340 - 40 i) at
 ## 1600 x 900 (newest at the bottom), bottom-left above the champion slots. Kinds: under attack (WARN, crossed
 ## swords), building done (GOLD, hammer), tier reached (GOLD, crown), champion fallen (WARN, skull), horn / wave
-## (trim_glow, horn), hunt bounty on you (WARN, coin). Each fades after 12 s; a new alert of the same kind near an
+## (trim_glow, horn), hunt bounty on you (WARN, coin), research complete (RESEARCH, scroll + check; UR.U2). Each fades after 12 s; a new alert of the same kind near an
 ## existing one (same source) merges into it (count badge, timer reset). Click = centre the camera there; tooltip =
 ## the message. Every alert also pings the minimap (3 rings 0.9 s; the hunt bounty's own ping is the minimap's).
 ## Sources, all read from the outside (no hook in other owners' code): own buildings' `damaged`, own units' HP drops
@@ -21,7 +21,7 @@ const FADE := 1.0                   ## The last second fades out.
 const MERGE_RADIUS := 25.0          ## Same kind within this many metres = the same source.
 const POLL := 0.5
 const ATTACK_REPEAT := 5.0          ## A merged under-attack alert counts again at most this often.
-const KINDS := [&"attack", &"built", &"tier", &"champion", &"horn", &"hunt"]
+const KINDS := [&"attack", &"built", &"tier", &"champion", &"horn", &"hunt", &"research"]
 
 var selection: SelectionManager
 var minimap: Minimap
@@ -35,6 +35,8 @@ var _watched_buildings := {}
 var _tier_connected := false
 var _horn_connected := false
 var _last_attack_ms := {}   # alert index key -> ms
+var _research_node: Node = null   # the own team's UnitResearch (UR.U2, 7.6), connected once
+var _research_at := {}            # row id -> where it started (the building's position)
 
 
 func _ready() -> void:
@@ -182,6 +184,7 @@ func _poll() -> void:
 		if ts != null:
 			_tier_connected = true
 			ts.tier_changed.connect(_on_tier_changed)
+	_hook_research(team)
 	if not _horn_connected:
 		var wd := tree.get_first_node_in_group(&"wave_director")
 		if wd != null and wd.has_signal(&"horn"):
@@ -245,6 +248,60 @@ func _on_horn(index: int) -> void:
 	push(&"horn", Loc.t("Horn {n}: the wave marches", {"n": index + 1}), at, false)
 
 
+## UR.U2 (ui-sc2-console.md 7.6): the own team's UnitResearch, once it exists (made on the first buy).
+func _hook_research(team: int) -> void:
+	if _research_node != null and is_instance_valid(_research_node):
+		return
+	var bank := ResearchMarks.research_node(team)   # registry read, no group scan
+	if bank == null:
+		return
+	_research_node = bank
+	_research_at.clear()
+	bank.research_started.connect(_on_research_started)
+	bank.research_completed.connect(_on_research_completed)
+	for b in get_tree().get_nodes_in_group(&"buildings"):   # started before the node was found (the first buy)
+		if b is Node3D and bank.working_at(b) != &"":
+			_research_at[bank.working_at(b)] = b
+
+
+func _on_research_started(id: StringName) -> void:
+	var bank := _research_node as UnitResearch
+	if bank == null or not is_instance_valid(bank):
+		return
+	for b in get_tree().get_nodes_in_group(&"buildings"):
+		if b is Node3D and bank.working_at(b) == id:
+			_research_at[id] = b
+			return
+	_research_at[id] = null
+
+
+## `Research complete: Kindled Mail (Flame Guard)` (+ the message line); click = the building. A row granted by a load
+## (never started here) raises nothing.
+func _on_research_completed(id: StringName) -> void:
+	if not _research_at.has(id):
+		return
+	var b: Variant = _research_at[id]
+	_research_at.erase(id)
+	var at := Vector3.ZERO
+	if is_instance_valid(b) and b is Node3D:
+		at = (b as Node3D).global_position
+	else:
+		var st := TierSystem.status(_team())
+		if st.get("keep") is Node3D:
+			at = (st["keep"] as Node3D).global_position
+	var row := UnitResearch.row(id)
+	var units: PackedStringArray = []
+	for u: StringName in row.get("units", []):
+		var t := UnitType.find(String(u))
+		units.append(Loc.sink(t.display_name if t else String(u)))
+	var msg := Loc.t("Research complete: {name} ({unit})", {"name": Loc.sink(str(row.get("name", id))), "unit": ", ".join(units)})
+	push(&"research", msg, at)
+	var level := get_tree().current_scene
+	var hud: Variant = level.get(&"hud") if level != null and &"hud" in level else null
+	if hud is Object and (hud as Object).has_method(&"show_message"):
+		(hud as Object).call(&"show_message", msg, 4.0)
+
+
 func _on_hunt_pinged(at: Vector3) -> void:
 	push(&"hunt", Loc.t("A bounty is on your head"), at, false)
 
@@ -269,6 +326,8 @@ class AlertTile extends Button:
 				return UIStyle.GOLD
 			&"horn":
 				return UIStyle.token(&"trim_glow")
+			&"research":
+				return UIStyle.RESEARCH
 		return UIStyle.WARN
 
 	func _draw() -> void:
@@ -295,6 +354,11 @@ class AlertTile extends Button:
 			&"horn":
 				draw_colored_polygon(PackedVector2Array([o + Vector2(2, 16), o + Vector2(14, 8), o + Vector2(22, 3),
 						o + Vector2(22, 21), o + Vector2(14, 16), o + Vector2(2, 20)]), col)
+			&"research":   # a scroll with a small check
+				CommandCard.draw_scroll(self, o + Vector2(11, 12), 24.0, col)
+				var ck := PackedVector2Array([o + Vector2(13, 18), o + Vector2(17, 22), o + Vector2(24, 13)])
+				draw_polyline(ck, Color(0, 0, 0, 0.85), 4.0, true)
+				draw_polyline(ck, UIStyle.GOLD, 2.0, true)
 			_:
 				draw_circle(o + Vector2(12, 12), 10.0, col)
 				draw_arc(o + Vector2(12, 12), 7.0, 0.0, TAU, 20, Color(0, 0, 0, 0.5), 1.5, true)

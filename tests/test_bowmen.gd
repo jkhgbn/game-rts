@@ -220,7 +220,7 @@ func _check_scorchbow_and_upgrades() -> void:
 	_check(bank.can_buy(&"scorchbow_heavy_draw", _halls[&"fire"]) == BowmanUpgrades.REASON_QUEUED, "Heavy Draw twice")
 	_check(BowmanUpgrades.options_for(_halls[&"fire"]).size() == 2, "Ember Hall options")
 	_check(BowmanUpgrades.options_for(_halls[&"fire"])[0]["state"] == &"working", "Heavy Draw state")
-	(bank._work[0] as Dictionary)["left"] = 0.05
+	(UnitResearch.for_team(PLAYER)._work[0] as Dictionary)["left"] = 0.05   # UR.G5: the work lives in UnitResearch
 	await _frames(5)
 	_check(BowmanUpgrades.team_has(PLAYER, &"scorchbow_heavy_draw"), "Heavy Draw never completed")
 	_check(is_equal_approx(bow.attack_damage, 17.0), "living Scorchbow damage %.1f after Heavy Draw" % bow.attack_damage)

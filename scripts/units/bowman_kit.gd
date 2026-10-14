@@ -4,7 +4,8 @@ extends RefCounted
 ## Bleakbow (Shadow, stacking bleed), Wildwood Archer (Nature, crits and Hunting Party from its upgrades).
 ## Everything is static and keyed by UnitType.id, so Unit only calls three cheap hooks:
 ## on_unit_ready (Unit._ready), shot_damage (Unit._spawn_shot), on_hit (Unit._on_attack_hit).
-## Upgrades live in BowmanUpgrades (one node per team). The whole feature hangs on BOWMEN_ENABLED.
+## Upgrades are UnitResearch rows (unit-upgrades.md, UR.G5; BowmanUpgrades is the facade + Hunting Party), read here
+## through _has (UnitResearch.team_has). The whole feature hangs on BOWMEN_ENABLED.
 
 ## THE switch (bowmen.md 1): false = no Hall lists a bowman, bots never train one, hooks are no-ops.
 const BOWMEN_ENABLED := true
@@ -66,9 +67,15 @@ static func bot_share(type_id: StringName) -> float:
 
 # ---------------------------------------------------------------- unit hooks
 
-## Unit._ready: finished upgrades of the team (stat modifiers) and the Frostbow's ready bow string.
+## Unit._ready: finished research of the team (now, not on UnitResearch's deferred pass, so a new bowman has its
+## stats at once), the Hunting Party hook (the first archer after the research gets its twin) and the Frostbow's
+## ready bow string.
 static func on_unit_ready(unit: Unit) -> void:
 	BowmanUpgrades.apply_to(unit)
+	if unit.unit_type.id == &"wildwood_archer" and _has(int(unit.team), BowmanUpgrades.HUNTING_PARTY):
+		var bu := BowmanUpgrades.for_team(int(unit.team))
+		if bu:
+			bu.hook_halls()
 	if unit.unit_type.id == &"frostbow":
 		_set_hamstring_ready(unit, true)
 
@@ -136,36 +143,41 @@ static func on_hit(unit: Unit, target: Node3D, _dealt: float) -> void:
 # ---------------------------------------------------------------- numbers (base + upgrades)
 
 static func chill_seconds(team: int) -> float:
-	return 2.5 if BowmanUpgrades.team_has(team, &"frostbow_rimed_shafts") else float(BOWMEN[&"frostbow"]["chill"])
+	return 2.5 if _has(team, &"frostbow_rimed_shafts") else float(BOWMEN[&"frostbow"]["chill"])
 
 
 static func hamstring_cooldown(team: int) -> float:
-	return 8.0 if BowmanUpgrades.team_has(team, &"frostbow_rimed_shafts") \
+	return 8.0 if _has(team, &"frostbow_rimed_shafts") \
 			else float(BOWMEN[&"frostbow"]["hamstring_cd"])
 
 
 ## (damage per second, seconds).
 static func burn_numbers(team: int) -> Vector2:
-	if BowmanUpgrades.team_has(team, &"scorchbow_pitch_arrows"):
+	if _has(team, &"scorchbow_pitch_arrows"):
 		return Vector2(3.5, 4.0)
 	var b: Dictionary = BOWMEN[&"scorchbow"]
 	return Vector2(float(b["burn_dps"]), float(b["burn_time"]))
 
 
 static func bleed_cap(team: int) -> int:
-	return 5 if BowmanUpgrades.team_has(team, &"bleakbow_serrated_barbs") else int(BOWMEN[&"bleakbow"]["bleed_cap"])
+	return 5 if _has(team, &"bleakbow_serrated_barbs") else int(BOWMEN[&"bleakbow"]["bleed_cap"])
 
 
 ## (crit chance, crit damage multiplier); chance 0 = no crits yet.
 static func crit_numbers(team: int) -> Vector2:
-	if BowmanUpgrades.team_has(team, &"wildwood_heartseeker"):
+	if _has(team, &"wildwood_heartseeker"):
 		return Vector2(0.20, 2.75)
-	if BowmanUpgrades.team_has(team, &"wildwood_keen_eye"):
+	if _has(team, &"wildwood_keen_eye"):
 		return Vector2(0.15, 2.0)
 	return Vector2.ZERO
 
 
 # ---------------------------------------------------------------- helpers
+
+## True when `team` has bowman row `id` done (UnitResearch; nothing while a lab arm sets lab_off).
+static func _has(team: int, id: StringName) -> bool:
+	return not UnitResearch.lab_off and UnitResearch.team_has(team, id)
+
 
 static func _now() -> float:
 	return CasterKit.now_s()   # the shared pausable match clock (R3-7)
