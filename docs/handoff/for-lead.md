@@ -207,3 +207,21 @@ All files are LF like the originals. Numbers and usage: the agent's report and t
 ## From tech-artist G-C champions (2026-10-15)
 - `tests/test_9_v2.gd` (Oathwall model test, line `_expect(acc[3] <= 2950, ...)`) still caps the Oathwall at the 9.V2 soldier budget (2500 + face). The G-C hero armour measures 5401 (variant A: body ~4600 + face 746 + door 844), same class as the Wayfinder (6742) / Mender (8353); Art Lab B4 = soft WARN, 0 FAIL. Please raise it to 5600 (or delete the cap: `tests/test_gc_champions.gd` now holds per-champion caps). It is the only test that fails on this pass.
 - `ChampionPalette.foldable` now also folds `art/units/nature/nature_living.gdshader` (the G-C Nature move of the nature_* palette files had left the Wildcaller drawing up to 8 unfolded surfaces per pivot; its UVs carry no Nature tag, so nothing of the look is lost).
+
+## From tech-artist G-D ambient life (2026-10-15)
+`AmbientLife` (art/environment/ambient/ambient_life.gd, docs/art/gd_ambient.md) installs itself behind a static
+`ensure(level)` (null headless / at Low; idempotent). Hook for `scripts/world/main.gd`:
+- constant next to `GROUND_DETAIL_PATH` (line ~20):
+```gdscript
+const AMBIENT_LIFE_PATH := "res://art/environment/ambient/ambient_life.gd"
+```
+- in `_ready`, right after the G2a GroundDetail block (after `gd_script.call(&"ensure", self)`):
+```gdscript
+	# G-D ambient life: high flocks, butterflies / fireflies, leaves, dust, mist, ripples, snow (draw-only; Low / headless = no node).
+	if ResourceLoader.exists(AMBIENT_LIFE_PATH) and not _SIM.enabled:
+		var al_script := load(AMBIENT_LIFE_PATH) as Script
+		if al_script and al_script.has_method(&"ensure"):
+			al_script.call(&"ensure", self)
+```
+Wave Strike (extends main.gd) gets it too; headless tests / labs never build it. Shots: commit only
+`docs/art/lab/gd_ambient/gd_ambient_sheet.jpg` + the 4 PNGs named in docs/art/gd_ambient.md (the rest stays local).

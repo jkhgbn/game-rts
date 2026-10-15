@@ -34,8 +34,21 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
   3dfd52e5 + hook b91f5ed1, G-B Shadow 868fcc1a, fog ghost no_ghost cc860e32, G-B Fire 371f5844, spell VFX e6112f6f,
   neutral fd4f6dac, Nature 6683e181, forge model fallback bc47e251, i18n stable 3ee5a6aa.
 - Also committed: G-B Ice 9d6c449e, G-C Fire units 160823cf, fog leaks (VfxFog + tests/test_fog_leak.gd) 4bb1ca8c.
-- Running: G-C Shadow / Ice / Nature units, champions, mounts / titans; shader-lint fixes (then commit
-  tests/test_shader_lint.gd); balance fs7-r5 (1 game at a time).
+- Also committed: shader lint a8ea447f, G-C Shadow 2e5d742e + 33ea21bf, Ice 3a52cb46, Nature d4d5e814.
+- G-C done: champions 7b242a3e (test_9_v2 cap -> 5600), mounts / titans fc42c96a.
+- G-D committed: creatures e438805a, map props 72c045f6. Perf A/B (same load): 4a88047e 6.51-6.59 vs HEAD 6.68-7.13 = a
+  real ~4 % perf_test regression -> bisect agent.
+- Running (JS "continue fait le + possible", weekly 67 %): ambient life (review fixes: never built in a real match;
+  lead added the main.gd hook), combat feedback (review), trees, menu diorama, perf bisect, G-B leftovers (Fire /
+  Nature / Shadow forge models, Fire stables, build puffs, no-grass under Shadow dead ground), G-C leftovers (riders,
+  Nature mounts, Ice T2, Shadow T2 boxes, Mender), selection rings + HP bars (gameplay-coder); balance fs7-r5.
+- G-D left: fog / selection rings / health bars in 3D (live in scripts/units|buildings: needs the owners), menu diorama.
+- Art Lab: mount + rider scenes (Blaze Rider, Stagrunner, Glade Outrider) FAIL B2 because guess_tier scores them on the
+  rider-only cavalry tier: score them on cavalry + mount (12 + 8).
+- Perf: perf_test over the limit in most runs since G-C (6.76-7.15 vs 6.72, load 1.3-1.4 with 6-8 Godot runs); the
+  models add no per-frame CPU, so likely load: re-measure on a quiet machine before G-F (else bisect 69d1fdf2..HEAD).
+- Recurring: emitters that keep running offscreen (Shadow wisps, Ice snow) -> root-cause test in G-F
+  (every GPUParticles3D under a CharacterModel stops when _offscreen). New tests print "1 resources still in use at exit".
 - Next: G-D world life (also: the white puffs on freshly built buildings,
   a no-grass mask under Shadow dead ground, Fire stables shader, forge models for Fire / Nature / Shadow); G-E; G-F build.
 - Follow-ups: ui-coder `GameSettings.gfx_test_override` (handoff for-ui-coder.md); Art Lab B5 exception for Ultra-only
