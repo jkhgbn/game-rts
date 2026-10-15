@@ -269,7 +269,10 @@ func make_ghost(material: Material) -> Node3D:
 	return ghost
 
 
+## A node with meta `no_ghost` == true (ground decals, dressing) is skipped with its whole subtree.
 func _copy_meshes(node: Node, xf: Transform3D, into: Node3D, material: Material) -> void:
+	if node.get_meta(&"no_ghost", false) == true:
+		return
 	var mi := node as MeshInstance3D
 	if mi and mi.mesh and mi.visible:
 		var copy := MeshInstance3D.new()
