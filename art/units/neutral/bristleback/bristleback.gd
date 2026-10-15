@@ -73,6 +73,8 @@ var _quill_w: Vector2 = Vector2(99.0, 99.0)
 var _dig_wait: float = 0.0
 var _cast_last: float = -1.0
 var _strikes: int = 0
+## G-D signature emitter (High / Ultra only; null otherwise).
+var _sig: GPUParticles3D
 
 
 static func _m(name: StringName) -> Material:
@@ -150,6 +152,14 @@ func _after_ready() -> void:
 	if _face:
 		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 	_write_quills(0.0, 0.0, true)
+	# G-D signature (High+): warm snort puffs at the snout disc.
+	var head: Node3D = $Root/Mount/Head
+	_sig = CreatureSignature.attach(self, head, Vector3(0.0, 0.5, 1.12) - model_origin(head), &"breath", 0.8)
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
 
 
 # ================================================================ hooks

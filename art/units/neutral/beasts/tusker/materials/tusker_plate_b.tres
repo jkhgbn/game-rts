@@ -7,11 +7,11 @@
 resource_name = "tusker_plate_b"
 render_priority = 0
 shader = ExtResource("1_tsk")
-shader_parameter/base_color = Color(0.31, 0.285, 0.275, 1)
+shader_parameter/base_color = Color(0.3, 0.28, 0.27, 1)
 shader_parameter/noise_tex = ExtResource("2_tsk")
 shader_parameter/noise_scale_a = 1.4
 shader_parameter/noise_scale_b = 0.3
-shader_parameter/spec_strength = 0.18
+shader_parameter/spec_strength = 0.1
 shader_parameter/rim_color = Color(0.62, 0.55, 0.5, 1)
 shader_parameter/rim_strength = 0.3
-shader_parameter/surface_kind = 2
+shader_parameter/surface_kind = 7

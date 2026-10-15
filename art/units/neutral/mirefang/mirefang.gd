@@ -82,6 +82,8 @@ var _jaw_w: float = 99.0
 var _frill_w: Vector2 = Vector2(99.0, 99.0)
 var _tail_w: Vector2 = Vector2(99.0, 99.0)
 var _bob_wait: float = 0.0
+## G-D signature emitter (High / Ultra only; null otherwise).
+var _sig: GPUParticles3D
 var _strikes: int = 0
 
 
@@ -172,6 +174,14 @@ func _after_ready() -> void:
 	if _face:
 		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 	_write_parts(true)
+	# G-D signature (High+): marsh vapour clinging round the body.
+	var mount: Node3D = $Root/Mount
+	_sig = CreatureSignature.attach(self, mount, Vector3(0.0, 0.18, -0.1) - model_origin(mount), &"mist", 1.1)
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
 
 
 # ================================================================ hooks

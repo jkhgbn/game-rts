@@ -98,6 +98,21 @@ static func patch_on(acc: Array, c: Vector3, n: Vector3, r: float, h: float, rad
 	ellipsoid(acc, c, Vector3(r, h, r * aspect), radial, rings, b)
 
 
+## G-D: a raised fungal wart on a cap (replaces a flat painted spot, same vertex count): a domed wart `r` across,
+## sunk a little into the cap so it reads as a growth, not a sticker; `satellite` adds a smaller wart beside it.
+static func warts(acc: Array, c: Vector3, n: Vector3, r: float, seed_f: float, aspect: float = 0.85,
+		satellite: bool = false, rise: float = 0.42) -> void:
+	var nn := n.normalized()
+	patch_on(acc, c - nn * r * 0.08, nn, r * 0.92, r * rise, 8, 3, aspect, seed_f * 1.7)
+	if not satellite:
+		return
+	var t := nn.cross(Vector3.UP if absf(nn.y) < 0.9 else Vector3.RIGHT).normalized()
+	var b := nn.cross(t).normalized()
+	var a := seed_f * 2.3 + 0.6 * sin(seed_f * 5.0)
+	var rr := r * 0.36
+	patch_on(acc, c + (t * cos(a) + b * sin(a)) * r * 1.2 - nn * rr * 0.25, nn, rr, rr * 0.55, 6, 2, 0.9, a)
+
+
 ## Smooth tube through pts (radius per point, 0 = a point), `seg` sides; `ref` must not be parallel to the path.
 static func tube(acc: Array, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int,
 		ref: Vector3 = Vector3.FORWARD) -> void:

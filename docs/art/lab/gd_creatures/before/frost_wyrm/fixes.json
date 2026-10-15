@@ -1,0 +1,75 @@
+{
+	"asset": "frost_wyrm",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.181,
+					"from": 1.0,
+					"material": "wyrm_scale_a",
+					"material_path": "res://art/units/neutral/beasts/frost_wyrm/materials/wyrm_scale_a.tres",
+					"node": "Root/Spine/BodyMesh, Root/Body/LegFL/LegFLMesh, Root/Body/LegFR/LegFRMesh",
+					"param": "shader_parameter/glow_energy",
+					"peak_x_bloom": 4.14,
+					"to": 0.181,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 3 point(s), peak 4.14 x the level",
+					"words": "glow_energy 1.0 -> 0.18 on BodyMesh, LegFLMesh, LegFRMesh (dim under the bloom level: 3 point(s), peak 4.14 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 4,
+				"points_this_phase": 4,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Spine/BodyMesh",
+						"peak_x_bloom": 4.11,
+						"px": 68
+					},
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
+						"peak_x_bloom": 3.17,
+						"px": 42
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFL/LegFLMesh",
+						"peak_x_bloom": 4.14,
+						"px": 15
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFR/LegFRMesh",
+						"peak_x_bloom": 3.14,
+						"px": 11
+					}
+				],
+				"value": "4 point(s) above the bloom level 1.2 (median of 4/4/5): BodyMesh, HeadMesh, LegFLMesh, LegFRMesh, 8 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 2"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 4 -> 1 (want 0-3): wyrm_scale_a glow_energy 1.0 -> 0.18 on BodyMesh, LegFLMesh, LegFRMesh (dim under the bloom level: 3 point(s), peak 4.14 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 4 -> 1 (want 0-3): wyrm_scale_a glow_energy 1.0 -> 0.18 on BodyMesh, LegFLMesh, LegFRMesh (dim under the bloom level: 3 point(s), peak 4.14 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "0-3 above the bloom level 1.2"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 90.6,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/beasts/frost_wyrm/frost_wyrm.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

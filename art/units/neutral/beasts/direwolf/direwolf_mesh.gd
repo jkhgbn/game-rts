@@ -14,6 +14,8 @@ extends RefCounted
 const DIR := "res://art/units/neutral/beasts/direwolf/materials/direwolf_"
 const DEG := PI / 180.0
 const SUFFIX: Array[String] = ["_a", "_b"]
+## G-D: how far fur-lock normals lean to the coat normal (soft painted fur).
+const SOFT_FUR := 0.62
 
 # ---- pivots (model space; the .tscn uses the same numbers). Legs: x mirrored by side (sx -1 = left / FL / BL).
 const HEAD_PIVOT := Vector3(0.0, 1.20, 0.52)     # neck base (Root/Mount/Head)
@@ -27,13 +29,16 @@ const HOCK_B := Vector3(0.19, 0.45, -0.86)       # hind hock: the Lower joint
 const EYE := Vector3(0.108, 1.532, 1.10)         # eye centre (right side)
 
 # ---- variant shape factors [A Greymane, B Moonpelt]
-const BODY_W: Array[float] = [1.1, 0.95]
+const BODY_W: Array[float] = [1.16, 1.0]
 const BELLY: Array[float] = [1.0, 0.92]
-const LEG_W: Array[float] = [1.3, 1.12]
+const LEG_W: Array[float] = [1.42, 1.22]
 const NECK_W: Array[float] = [1.0, 0.86]
 const HEAD_W: Array[float] = [1.12, 1.02]
 const MANE: Array[float] = [1.0, 0.36]
 const TAIL_W: Array[float] = [1.0, 0.72]
+## G-D: half-angle (rad) of the dark / blue-silver saddle down the back: B's is wider so the white coat keeps a
+## value break when seen from the RTS camera (it read as one flat white shape).
+const SADDLE: Array[float] = [0.7, 1.0]
 
 # Body loft rump -> chest: [z, centre y, half-width, half-height]. Withers ~1.45 m, deep chest (belly 0.78), tucked
 # waist (belly 0.94), strong haunch.
@@ -276,9 +281,21 @@ static func _cone(acc: Array, base: Vector3, tip: Vector3, r: float, sides: int 
 
 ## A shaggy fur lock growing from surface point p (outward normal n) toward dir: a flattened 5-sided cone whose base
 ## sinks into the surface, `length` long, `r` wide; flattened along n (lies on the coat like a tuft).
+## G-D: the lock's shading normals lean SOFT_FUR of the way to the coat normal n after the winding is set, so a mane of
+## locks shades like one soft painted fur mass with a shaggy silhouette, not a pile of faceted cones.
 static func _lock(acc: Array, p: Vector3, n: Vector3, dir: Vector3, length: float, r: float) -> void:
 	var d := dir.normalized()
+	var v0: int = (acc[1] as PackedVector3Array).size()
 	_cone(acc, p - n * r * 0.45, p + d * length, r, 5, 0.55, n)
+	soften(acc, v0, n, SOFT_FUR)
+
+
+## Leans the normals of acc's vertices from v0 on toward n by k (0 = unchanged, 1 = all n).
+static func soften(acc: Array, v0: int, n: Vector3, k: float) -> void:
+	var nr: PackedVector3Array = acc[1]
+	for i: int in range(v0, nr.size()):
+		nr[i] = nr[i].lerp(n, k).normalized()
+	acc[1] = nr
 
 
 ## One ArrayMesh from [acc, material] pairs (empty accs skipped), cached by key.
@@ -343,9 +360,10 @@ static func body_mesh(v: int) -> Mesh:
 	var rx: Array[float] = bl[1]
 	var ry: Array[float] = bl[2]
 	var n := c.size()
-	_loft_patch(mane, c, rx, ry, 0, n - 1, _even(-0.7, 0.7, 4))
-	_loft_patch(fur, c, rx, ry, 0, n - 1, _even(0.7, 2.25, 5))
-	_loft_patch(fur, c, rx, ry, 0, n - 1, _even(-2.25, -0.7, 5))
+	var sd: float = SADDLE[v]
+	_loft_patch(mane, c, rx, ry, 0, n - 1, _even(-sd, sd, 4))
+	_loft_patch(fur, c, rx, ry, 0, n - 1, _even(sd, 2.25, 5))
+	_loft_patch(fur, c, rx, ry, 0, n - 1, _even(-2.25, -sd, 5))
 	_loft_patch(pale, c, rx, ry, 0, n - 1, _even(2.25, TAU - 2.25, 5))
 	_disc(fur, c, rx, ry, 0, Vector3.FORWARD, 0.05, 12)
 	_disc(pale, c, rx, ry, n - 1, Vector3.BACK, 0.04, 12)

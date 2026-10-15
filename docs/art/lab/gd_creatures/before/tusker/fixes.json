@@ -1,0 +1,13 @@
+{
+	"asset": "tusker",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 95.1,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/beasts/tusker/tusker.tscn",
+	"tier": "hero",
+	"version": "1.0"
+}

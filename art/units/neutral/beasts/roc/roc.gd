@@ -125,6 +125,8 @@ var _strikes: int = 0
 var _swoops: int = 0
 var _updrafts: int = 0
 var _bursts: int = 0
+## G-D signature emitter (High / Ultra only; null otherwise): A storm crackle, B dusk motes.
+var _sig: GPUParticles3D
 
 
 # ================================================================ public (tests, preview, gameplay)
@@ -262,7 +264,17 @@ func _add(i: int, mesh: Mesh, shadow: bool, nm: String) -> MeshInstance3D:
 
 func _after_ready() -> void:
 	_feathers = get_node_or_null(^"Fx/Feathers") as GPUParticles3D
+	_sig = CreatureSignature.attach(self, _piv[P_BODY], Vector3.ZERO, _sig_kind(), 1.6)
 	_apply_variant()
+
+
+func _sig_kind() -> StringName:
+	return &"dusk_motes" if variant == 1 else &"sparks"
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier and alive (the gate adds the on-screen test).
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _dead
 
 
 ## Swaps every A surface for its B twin (surface override, shared .tres, no runtime material) or back.
@@ -280,6 +292,7 @@ func _apply_variant() -> void:
 		var pm: ParticleProcessMaterial = feathers_b if variant == 1 else feathers_a
 		if pm:
 			_feathers.process_material = pm
+	CreatureSignature.restyle(_sig, _sig_kind(), 1.6)
 
 
 func _on_revive() -> void:

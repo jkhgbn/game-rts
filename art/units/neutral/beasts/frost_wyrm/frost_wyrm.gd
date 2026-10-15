@@ -169,6 +169,8 @@ var _lashes: int = 0
 var _blizzards: int = 0
 var _breaths: int = 0
 var _bursts: int = 0
+## G-D signature emitter (High / Ultra only; null otherwise): frost motes shed along the body.
+var _sig: GPUParticles3D
 
 
 # ================================================================ public (gameplay, tests, preview)
@@ -383,7 +385,13 @@ func _add(i: int, mesh: Mesh, shadow: bool, nm: String) -> MeshInstance3D:
 
 
 func _after_ready() -> void:
+	_sig = CreatureSignature.attach(self, _piv[P_BODY], Vector3.ZERO, &"frost_motes", 2.4)
 	_apply_variant()
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier and alive (the gate adds the on-screen test).
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _dead
 
 
 ## B: the crystal-horned head (mesh swap on the same instance), every A surface overridden by its B twin (shared .tres,

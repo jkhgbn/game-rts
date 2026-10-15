@@ -99,6 +99,8 @@ var _strikes: int = 0
 var _charges: int = 0
 var _tosses: int = 0
 var _bristle_kicks: int = 0
+## G-D signature emitter (High / Ultra only; null otherwise).
+var _sig: GPUParticles3D
 
 
 # ================================================================ public (EpicBeasts, tests, preview)
@@ -228,6 +230,9 @@ func _after_ready() -> void:
 		_face.set_host(_merged_nodes.get(P_MOUNT_HEAD))
 	_write_bristles(0.0, 0.0, true)
 	_apply_variant()
+	# G-D signature (High+): hot breath steaming from the snout.
+	var head: Node3D = $Root/Mount/Head
+	_sig = CreatureSignature.attach(self, head, Vector3(0.0, 0.76, 2.04) - model_origin(head), &"breath", 1.3)
 
 
 ## Size, the right tusk (whole / broken + eye scar), the B scars and arrow, and the B material swaps.
@@ -254,6 +259,11 @@ func _apply_variant() -> void:
 			mi.set_surface_override_material(i, _swap_mats.get(base) if b and _swap_mats.has(base) else null)
 	for gi: GeometryInstance3D in _flash_all_targets:
 		gi.set_instance_shader_parameter(&"ao_height", body_height * s)
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
 
 
 # ================================================================ hooks

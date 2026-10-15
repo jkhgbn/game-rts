@@ -110,12 +110,19 @@ var _sack_forced: bool = false         # the snatch shows the sack before gamepl
 var _fleeing: bool = false
 var _idle_left: float = 8.0
 var _fidget_next: float = 0.0
+## G-D signature emitter (High / Ultra only; null otherwise).
+var _sig: GPUParticles3D
 
 
 static func _mat(name: StringName) -> Material:
 	if not _own_mats.has(name):
 		_own_mats[name] = load(DIR + "magpie_" + String(name) + ".tres")
 	return _own_mats[name]
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
 
 
 # ================================================================ hooks
@@ -230,6 +237,9 @@ func _after_ready() -> void:
 		_glow_nodes.erase(_eye_glow)
 	_idle_left = 6.0 + 6.0 * fmod(_phase_off * 3.1, 1.0)
 	_drive_eyes()
+	# G-D signature (High+): a stolen coin glinting at the belt now and then.
+	var hips: Node3D = $Root/Hips
+	_sig = CreatureSignature.attach(self, hips, Vector3(0.16, 0.92, 0.12) - model_origin(hips), &"glints", 0.8)
 
 
 # ================================================================ mesh helpers (built once per game, model space)

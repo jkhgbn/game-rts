@@ -332,9 +332,39 @@ static func body_n(z: float, a: float) -> Vector3:
 
 
 ## A tuft of fur sticking out of the body at (z, a): out along the normal, swept by `sweep`.
+## G-D: the tuft's normals lean toward the coat normal (soft painted fur, the silhouette stays shaggy).
 static func _body_tuft(acc: Array, z: float, a: float, out: float, sweep: Vector3, r: float) -> void:
 	var p := body_pt(z, a, -0.03)
-	_cone(acc, p, p + body_n(z, a) * out + sweep, r, 4)
+	var n := body_n(z, a)
+	var v0: int = (acc[1] as PackedVector3Array).size()
+	_cone(acc, p, p + n * out + sweep, r, 4)
+	_soften(acc, v0, n, 0.6)
+
+
+## Leans the normals of acc's vertices from v0 on toward n by k.
+static func _soften(acc: Array, v0: int, n: Vector3, k: float) -> void:
+	var nr: PackedVector3Array = acc[1]
+	for i: int in range(v0, nr.size()):
+		nr[i] = nr[i].lerp(n, k).normalized()
+	acc[1] = nr
+
+
+## G-D: a moss CUSHION on the body at (z, a) instead of a flat painted fan: four or five soft domes of different sizes
+## clustered inside a `length` x `h` oval (half sunk into the fur), so the saddle reads as living moss with lumps,
+## shadows between them and a ragged outline.
+static func _moss_cushion(acc: Array, z: float, a: float, along: Vector3, length: float, h: float, seed_i: int) -> void:
+	var n := body_n(z, a)
+	var c := body_pt(z, a)
+	var t := (along - n * along.dot(n)).normalized()
+	var b := n.cross(t).normalized()
+	var lumps: int = 5 if length > 0.45 else 4
+	for k: int in lumps:
+		var ang: float = float(k) * 2.39996 + float(seed_i) * 0.7
+		var rr: float = 0.0 if k == 0 else 0.62 * sqrt(float(k) / float(lumps))
+		var off := t * cos(ang) * rr * length * 0.5 + b * sin(ang) * rr * h * 0.5
+		var sz: float = (1.0 - 0.35 * rr) * (0.85 + 0.15 * sin(float(seed_i * 7 + k * 3)))
+		var r := Vector3(length * 0.3 * sz, 0.07 * sz + 0.02, h * 0.36 * sz)
+		_ellipsoid(acc, c + off + n * 0.012, r, 6, 3, Basis(Quaternion(Vector3.UP, n)) * Basis(Vector3.UP, ang))
 
 
 ## A streak lying ON the curved body (it follows the surface, so long streaks never lift off like quills): from
@@ -415,6 +445,19 @@ static func body_mesh(v: int) -> Mesh:
 		while z < 0.62:
 			_body_tuft(dark, z, 2.25 * sx, 0.03, Vector3(0.02 * sx, -0.13, -0.05), 0.09)
 			z += 0.24
+	# G-D: a shag of soft fur locks over the flanks, haunches and shoulders, raked back and down (breaks the smooth
+	# loft into a furry silhouette; the normals lean to the coat so it still shades as one soft mass).
+	var shag := RandomNumberGenerator.new()
+	shag.seed = 4409 + v
+	for sx: float in [-1.0, 1.0]:
+		var zz := -1.15
+		while zz < 0.75:
+			for a: float in [0.7, 1.15, 1.6]:
+				var aj: float = (a + shag.randf_range(-0.12, 0.12)) * sx
+				var zj: float = zz + shag.randf_range(-0.08, 0.08) + 0.07 * a
+				_body_tuft(fur, zj, aj, 0.05 + shag.randf_range(0.0, 0.03),
+					Vector3(0.03 * sx, -0.05 - 0.04 * a, -0.13), 0.075 + shag.randf_range(0.0, 0.02))
+			zz += 0.27
 	# Tail: a stubby dark tuft.
 	_ellipsoid(dark, Vector3(0.0, 1.60, -1.42), Vector3(0.11, 0.11, 0.12), 7, 4)
 	_cone(dark, Vector3(0.0, 1.62, -1.46), Vector3(0.0, 1.52, -1.6), 0.07, 4)
@@ -427,7 +470,7 @@ static func body_mesh(v: int) -> Mesh:
 		if v == 1 and not (i in keep_v1):
 			continue
 		var c: Array = clumps[i]
-		_body_patch(moss, c[0], c[1], Vector3(float(c[1]) * 0.3, 0.0, 1.0), c[2], c[3], 0.075, 8)
+		_moss_cushion(moss, c[0], c[1], Vector3(float(c[1]) * 0.3, 0.0, 1.0), c[2], c[3], i)
 	for sx: float in [-1.0, 1.0]:
 		var zs: Array = [-0.04, 0.2, 0.44, 0.62] if v == 0 else [0.44]
 		for z: float in zs:

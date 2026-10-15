@@ -123,6 +123,8 @@ var _fidget_last: float = -1.0
 var _bites: int = 0
 var _pounces: int = 0
 var _howls: int = 0
+## G-D signature emitter (High / Ultra only; null otherwise): A breath, B frost breath.
+var _sig: GPUParticles3D
 
 
 # ================================================================ public (EpicBeasts, tests, preview)
@@ -246,6 +248,8 @@ func _after_ready() -> void:
 		_face.set_host(_skull_mi)
 	_write_parts(true)
 	_write_glow(true)
+	# G-D signature (High+): breath at the nose (Moonpelt: frosty).
+	_sig = CreatureSignature.attach(self, _skull, Vector3(0.0, 1.38, 1.5) - model_origin(_skull), _sig_kind())
 
 
 ## Swaps every part to the current variant's meshes (cached per variant; materials are the variant's own).
@@ -258,6 +262,16 @@ func _apply_variant() -> void:
 		_face.switch("direwolf_%d" % _variant, face_spec(_variant))
 	_eye_w = -1.0
 	_write_glow(true)
+	CreatureSignature.restyle(_sig, _sig_kind())
+
+
+func _sig_kind() -> StringName:
+	return &"frost_breath" if _variant == 1 else &"breath"
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
 
 
 # ================================================================ hooks

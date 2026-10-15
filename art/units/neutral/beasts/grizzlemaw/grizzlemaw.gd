@@ -153,6 +153,8 @@ var _roars: int = 0
 var _slams: int = 0
 var _dusts: int = 0
 var _breaths: int = 0
+## G-D signature emitter (High / Ultra only; null otherwise).
+var _sig: GPUParticles3D
 
 
 # ================================================================ public (tests, preview, EpicBeasts)
@@ -311,6 +313,9 @@ func _after_ready() -> void:
 	set_variant(_variant)
 	_write_parts(true)
 	_write_glow(true)
+	# G-D signature (High+): pale spores shaken loose from the moss saddle over the hump.
+	var mount: Node3D = $Root/Mount
+	_sig = CreatureSignature.attach(self, mount, Vector3(0.0, 2.05, 0.25) - model_origin(mount), &"moss_dust", 1.4)
 
 
 ## Puts the meshes of the current variant / enrage state on the SAME instances (cached ArrayMeshes, local to each
@@ -340,6 +345,11 @@ func _apply_meshes() -> void:
 			up.mesh = GM.upper_leg_mesh(front, sx, v)
 		if k < _paws.size() and _paws[k]:
 			_paws[k].mesh = GM.lower_leg_mesh(front, sx, v)
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
 
 
 # ================================================================ hooks

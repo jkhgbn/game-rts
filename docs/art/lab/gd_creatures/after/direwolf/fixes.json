@@ -1,0 +1,31 @@
+{
+	"asset": "direwolf",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R7",
+			"computed": false,
+			"measured": {
+				"value": "bar hides 9% of the silhouette (gap -12 px)"
+			},
+			"predicted": {},
+			"proposal": "HP bar over the body at 40 m: The HP bar hides 9% of the body: lower / narrow what sticks up, or fix body_height",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R7 HP bar over the body at 40 m: The HP bar hides 9% of the body: lower / narrow what sticks up, or fix body_height",
+			"title": "HP bar over the body at 40 m",
+			"wanted": {
+				"rule": "<= 8% (FAIL > 25%); bar at body_height + 0.5 = 2.3 m, 2.08 m wide"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 92.5,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/beasts/direwolf/direwolf.tscn",
+	"tier": "hero",
+	"version": "1.0"
+}

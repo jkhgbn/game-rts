@@ -1,0 +1,98 @@
+{
+	"asset": "frost_wyrm",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.185,
+					"from": 1.0,
+					"material": "wyrm_scale_a",
+					"material_path": "res://art/units/neutral/beasts/frost_wyrm/materials/wyrm_scale_a.tres",
+					"node": "Root/Spine/BodyMesh, Root/Body/LegFL/LegFLMesh, Root/Body/LegFR/LegFRMesh",
+					"param": "shader_parameter/glow_energy",
+					"peak_x_bloom": 4.05,
+					"to": 0.185,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 4 point(s), peak 4.05 x the level",
+					"words": "glow_energy 1.0 -> 0.19 on BodyMesh, LegFLMesh, LegFRMesh (dim under the bloom level: 4 point(s), peak 4.05 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 5,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Body/Neck1/Neck2/Head/Jaw/JawMesh",
+						"peak_x_bloom": 3.39,
+						"px": 77
+					},
+					{
+						"above": true,
+						"part": "Root/Spine/BodyMesh",
+						"peak_x_bloom": 4.05,
+						"px": 64
+					},
+					{
+						"above": true,
+						"part": "Root/Spine/BodyMesh",
+						"peak_x_bloom": 3.48,
+						"px": 10
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFL/LegFLMesh",
+						"peak_x_bloom": 3.98,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Root/Body/LegFR/LegFRMesh",
+						"peak_x_bloom": 3.14,
+						"px": 8
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 5/3/5): LegFRMesh x2, BodyMesh x2, LegFLMesh, 7 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 3"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 5 -> 1 (want 0-3): wyrm_scale_a glow_energy 1.0 -> 0.19 on BodyMesh, LegFLMesh, LegFRMesh (dim under the bloom level: 4 point(s), peak 4.05 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 5 -> 1 (want 0-3): wyrm_scale_a glow_energy 1.0 -> 0.19 on BodyMesh, LegFLMesh, LegFRMesh (dim under the bloom level: 4 point(s), peak 4.05 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "0-3 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5w",
+			"computed": false,
+			"measured": {
+				"value": "points per frame 5/7/6/6/6/6/5/4 (median 6, range 3, 0 frame(s) at 0; at rest 5)"
+			},
+			"predicted": {},
+			"proposal": "Glow points while walking (flicker): The glow points blink while walking (5/7/6/6/6/6/5/4 per frame): put them on parts the gait does not cover",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R5w Glow points while walking (flicker): The glow points blink while walking (5/7/6/6/6/6/5/4 per frame): put them on parts the gait does not cover",
+			"title": "Glow points while walking (flicker)",
+			"wanted": {
+				"rule": "the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "beast",
+	"kingdom": "neutral",
+	"quality": 89.8,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/beasts/frost_wyrm/frost_wyrm.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

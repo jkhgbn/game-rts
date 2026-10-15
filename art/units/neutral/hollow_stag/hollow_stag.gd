@@ -101,6 +101,8 @@ var _shin_skel: Skeleton3D
 var _shin_mi: MeshInstance3D
 static var _shin_cache: Dictionary = {}   # "mesh" -> skinned ArrayMesh, "skin" -> Skin
 var _cast_last: float = -1.0
+## G-D signature emitter (High / Ultra only; null otherwise).
+var _sig: GPUParticles3D
 var _fidget_last: float = -1.0
 var _gores: int = 0
 var _sweeps: int = 0
@@ -218,6 +220,9 @@ func _after_ready() -> void:
 	_write_parts(true)
 	_write_glow(true)
 	_sync_shins()
+	# G-D signature (High+): forest motes drifting round the leafy antler crown.
+	var crown: Node3D = $Root/Mount/Head/Crown
+	_sig = CreatureSignature.attach(self, crown, Vector3(0.0, 0.35, -0.1), &"pollen", 1.2)
 
 
 ## One skinned mesh for the 4 shins (see _shin_skel): vertices in MODEL space at the rest pose (so a static read of
@@ -335,6 +340,11 @@ func _sync_shins() -> void:
 func _process(delta: float) -> void:
 	super._process(delta)
 	_sync_shins()
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
 
 
 # ================================================================ hooks

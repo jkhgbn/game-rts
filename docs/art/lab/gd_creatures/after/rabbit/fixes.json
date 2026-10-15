@@ -1,0 +1,13 @@
+{
+	"asset": "rabbit",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "critter",
+	"kingdom": "neutral",
+	"quality": 84.0,
+	"result": "PASS",
+	"scene": "res://art/units/neutral/critters/rabbit.tscn",
+	"tier": "rabbit",
+	"version": "1.0"
+}

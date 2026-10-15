@@ -1,0 +1,36 @@
+{
+	"asset": "magpie",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R5",
+			"computed": false,
+			"measured": {
+				"points": 0,
+				"points_this_phase": 0,
+				"spots": [],
+				"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 0"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-3 above the bloom level 1.2"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 90.4,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/magpie/magpie.tscn",
+	"tier": "creature",
+	"version": "1.0"
+}

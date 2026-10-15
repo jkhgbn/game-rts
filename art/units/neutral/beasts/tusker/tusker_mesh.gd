@@ -279,8 +279,26 @@ static func head_point(z: float, a: float, inf: float = 1.0) -> Vector3:
 
 ## Body (Mount): the leathery dark hide barrel with the massive shoulder hump, six iron armour bands across the back
 ## (collar, shoulder saddle, three back bands, rump plate), round shoulder shields over the forelegs, the tail.
+## G-D: a row of low horn knobs (osteoderms) along the rear lip of an armour band, so the plates read as grown horn
+## scutes, not sheet metal: one knob every ~0.3 rad across the band, bigger along the spine.
+static func _scutes(acc: Array, pl: Array) -> void:
+	var z0: float = pl[0]
+	var z1: float = pl[1]
+	var h: float = pl[2]
+	var inf: float = pl[3]
+	var z: float = lerpf(z0, z1, 0.3)
+	var n_k: int = maxi(3, int(h * 2.0 / 0.3))
+	for k: int in n_k + 1:
+		var a: float = lerpf(-h + 0.16, h - 0.16, float(k) / float(n_k))
+		var p := _sp(BODY_C, BODY_RX, BODY_RY, z, a, inf + 0.004)
+		var nn := (p - _centre(BODY_C, z)).normalized()
+		var big: float = 1.0 - 0.45 * absf(a) / maxf(h, 0.01)
+		var sz := Vector3(0.075, 0.034, 0.09) * (0.75 + 0.35 * big)
+		_ellipsoid(acc, p, sz, 5, 2, Basis(Quaternion(Vector3.UP, nn)))
+
+
 static func body_mesh() -> Mesh:
-	const KEY := "body_v1"
+	const KEY := "body_v2"
 	if _meshes.has(KEY):
 		return _meshes[KEY]
 	var hide := _bucket()
@@ -290,6 +308,7 @@ static func body_mesh() -> Mesh:
 	_loft(hide, BODY_C, BODY_RX, BODY_RY)
 	for pl: Array in PLATES:
 		_plate(plate, BODY_C, BODY_RX, BODY_RY, float(pl[0]), float(pl[1]), float(pl[2]), float(pl[3]))
+		_scutes(plate, pl)
 	# Shoulder shields: big round iron plates on each flank over the foreleg tops (widen the top-down silhouette).
 	for sx: float in [-1.0, 1.0]:
 		var sb := Basis(Vector3.BACK, -0.32 * sx) * Basis(Vector3.UP, 0.12 * sx)
@@ -412,7 +431,7 @@ static func tusk_r_mesh(broken: bool) -> Mesh:
 ## One leg (model space): a thick hide shoulder / ham, an iron greave on the front of the foreleg, a stout hide shin
 ## with a knobbly joint, a split dark hoof.
 static func leg_mesh(front: bool, sx: float) -> Mesh:
-	var key := "leg_v1_%s_%s" % [front, sx]
+	var key := "leg_v2_%s_%s" % [front, sx]
 	if _meshes.has(key):
 		return _meshes[key]
 	var hide := _bucket()
@@ -436,6 +455,11 @@ static func leg_mesh(front: bool, sx: float) -> Mesh:
 		hz = -1.0
 	for t: float in [-1.0, 1.0]:
 		_ellipsoid(dark, Vector3(x + 0.068 * t, 0.086, hz), Vector3(0.08, 0.075, 0.125), 7, 3)
+	# G-D: heavy skin folds sagging round the ankle and over the knee (an old pachyderm's legs, not pipes).
+	var lz: float = 0.6 if front else -1.06
+	for f: Array in [[0.2, 0.172, 0.03], [0.255, 0.165, 0.026], [0.47 if front else 0.52, 0.178, 0.028]]:
+		_ellipsoid(hide, Vector3(x, float(f[0]), lz + (0.0 if f[0] < 0.4 else (0.0 if front else 0.04))),
+			Vector3(float(f[1]), float(f[2]), float(f[1])), 8, 2, Basis(Vector3.RIGHT, 0.12 if front else -0.12))
 	return _commit(key, [[hide, "tusker_hide"], [plate, "tusker_plate"], [dark, "tusker_dark"]])
 
 

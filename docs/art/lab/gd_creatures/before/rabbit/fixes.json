@@ -1,0 +1,31 @@
+{
+	"asset": "rabbit",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R4",
+			"computed": false,
+			"measured": {
+				"value": "worst snow: dE 3.5 (heath dE 41.1, old_wood dE 64.0, riverbank dE 64.7, snow dE 3.5, ash dE 67.7, sand dE 28.5, marsh dE 74.9)"
+			},
+			"predicted": {},
+			"proposal": "Contrast on the other grounds: On snow the body drops to dE 3.5: add a value accent that separates it there too",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R4 Contrast on the other grounds: On snow the body drops to dE 3.5: add a value accent that separates it there too",
+			"title": "Contrast on the other grounds",
+			"wanted": {
+				"rule": "dE >= 7 on every skirmish ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "critter",
+	"kingdom": "neutral",
+	"quality": 78.9,
+	"result": "WARN",
+	"scene": "res://art/units/neutral/critters/rabbit.tscn",
+	"tier": "rabbit",
+	"version": "1.0"
+}

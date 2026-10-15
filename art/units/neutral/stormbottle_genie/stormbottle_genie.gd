@@ -72,6 +72,8 @@ static var C_FLARE := PackedFloat32Array([0.0, 0.0, 0, 0.40, 1.0, 1, 0.60, 1.0, 
 var _bolt: MeshInstance3D
 var _burst: GPUParticles3D
 var _cast_burst: GPUParticles3D
+## G-D signature emitter (High / Ultra only; null otherwise).
+var _sig: GPUParticles3D
 var _lip_sparks: GPUParticles3D
 var _flare: float = 0.0
 var _cast_fired: bool = false
@@ -275,6 +277,17 @@ static func _bolt_mesh() -> Mesh:
 
 
 # ================================================================ motion
+
+## G-D signature (High+): a faint storm crackle round the cloud torso.
+func _after_ready() -> void:
+	var chest: Node3D = $Root/Chest
+	_sig = CreatureSignature.attach(self, chest, Vector3(0.0, 1.75, 0.0) - model_origin(chest), &"sparks", 0.9)
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
+
 
 func glow_level() -> float:
 	return super() * (1.0 + 2.0 * _flare)

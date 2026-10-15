@@ -75,6 +75,8 @@ var _bolts: int = 0
 var _bursts: int = 0
 var _last_puff: float = -9.0
 var _cast_last: float = -1.0
+## G-D signature emitter (High / Ultra only; null otherwise).
+var _sig: GPUParticles3D
 
 
 # ================================================================ public (tests, preview, camp idle)
@@ -157,6 +159,9 @@ func _after_ready() -> void:
 	if _face:
 		_face.set_host(_merged_nodes.get(P_CHEST))
 	_write_glow()
+	# G-D signature (High+): a dank low mist round the root feet (the cap spores loop at every tier already).
+	var root_n: Node3D = $Root
+	_sig = CreatureSignature.attach(self, root_n, Vector3(0.0, 0.15, 0.0) - model_origin(root_n), &"mist", 1.0)
 
 
 func _on_revive() -> void:
@@ -168,6 +173,11 @@ func _on_revive() -> void:
 	_swell_w = -1.0
 	_write_swell()
 	_write_glow()
+
+
+## G-D signature gate (CreatureSignature, High / Ultra only): near tier, animating, alive.
+func signature_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead
 
 
 # ================================================================ hooks
@@ -414,7 +424,7 @@ static func _cap_normal(a: float, r: float) -> Vector3:
 ## The cap (Head): lumpy blue-grey dome with a low boss and a drooping, wavy rim; dark ridged gills underneath; big
 ## pale spots.
 static func _cap_mesh() -> Mesh:
-	const KEY := "elder_cap_v2"
+	const KEY := "elder_cap_v3"
 	if GM.cached(KEY):
 		return GM.cached(KEY)
 	var cap := GM.bucket()
@@ -444,8 +454,8 @@ static func _cap_mesh() -> Mesh:
 			Vector3(3.3, 0.38, 0.14), Vector3(4.25, 0.6, 0.115), Vector3(5.2, 0.3, 0.11), Vector3(5.85, 0.64, 0.095),
 			Vector3(0.85, 0.66, 0.1), Vector3(2.95, 0.72, 0.075), Vector3(4.9, 0.72, 0.07)]:
 		var n := _cap_normal(sp.x, sp.y)
-		GM.patch_on(spots, _cap_point(sp.x, sp.y) + n * 0.004, n, sp.z, 0.026, 8, 3, 0.62 + 0.3 * absf(sin(sp.x * 3.1)),
-			sp.x * 1.7)
+		GM.warts(spots, _cap_point(sp.x, sp.y), n, sp.z * 0.82, sp.x, 0.62 + 0.3 * absf(sin(sp.x * 3.1)), false,
+			0.3 if sp.y > 0.3 else 0.12)
 	return GM.commit(KEY, [[cap, GM.mat(&"gloomcap_cap")], [band, GM.mat(&"gloomcap_cap_rim")],
 		[gills, GM.mat(&"gloomcap_gills")],
 		[spots, GM.mat(&"gloomcap_spots")]])
