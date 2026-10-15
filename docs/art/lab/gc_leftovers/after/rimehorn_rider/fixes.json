@@ -1,0 +1,227 @@
+{
+	"asset": "rimehorn_rider",
+	"count": 6,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B2",
+			"computed": false,
+			"measured": {
+				"draw": 17
+			},
+			"predicted": {
+				"draw": 17
+			},
+			"proposal": "17 -> 17 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 17 -> 17 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 12"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B6",
+			"computed": false,
+			"measured": {
+				"value": "2"
+			},
+			"predicted": {},
+			"proposal": "Particle systems: One system with emission points instead of several; pre-built one-shots",
+			"rank": 2,
+			"status": "FAIL",
+			"text": "B6 Particle systems: One system with emission points instead of several; pre-built one-shots",
+			"title": "Particle systems",
+			"wanted": {
+				"rule": "<= 1 (cavalry-mounts.md 10 (cavalry rider, mount separate))"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.7,
+					"node": "res://data/units/rimehorn_rider.tres",
+					"param": "radius",
+					"to": 1.37
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.7,
+				"x_m": 0.98,
+				"z_m": 2.4
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.7 -> 1.37, or pull the widest parts in to x <= 1.22 / z <= 1.22 m",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.7 -> 1.37, or pull the widest parts in to x <= 1.22 / z <= 1.22 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.22",
+				"z_m": "<= 1.22"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2523,
+					"node": "Rimehorn/Root/Mount/Merged",
+					"to": 1262,
+					"words": "`Merged` 2523 -> 1262 verts"
+				},
+				{
+					"from": 1439,
+					"node": "Rimehorn/Root/Mount/Head/Merged",
+					"to": 720,
+					"words": "`Merged` 1439 -> 720 verts"
+				},
+				{
+					"from": 1380,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 690,
+					"words": "`Merged` 1380 -> 690 verts"
+				},
+				{
+					"from": 971,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 486,
+					"words": "`Merged` 971 -> 486 verts"
+				},
+				{
+					"from": 746,
+					"node": "Rider/Root/Chest/ArmL/Merged",
+					"to": 373,
+					"words": "`Merged` 746 -> 373 verts"
+				},
+				{
+					"from": 450,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 225,
+					"words": "`Merged` 450 -> 225 verts"
+				},
+				{
+					"from": 367,
+					"node": "Rider/Root/Chest/ArmR/Axe",
+					"to": 184,
+					"words": "`Axe` 367 -> 184 verts"
+				},
+				{
+					"from": 320,
+					"node": "Rider/Root/Hips/LegL/Merged",
+					"to": 160,
+					"words": "`Merged` 320 -> 160 verts"
+				},
+				{
+					"from": 320,
+					"node": "Rider/Root/Hips/LegR/Merged",
+					"to": 160,
+					"words": "`Merged` 320 -> 160 verts"
+				},
+				{
+					"from": 283,
+					"node": "Rimehorn/Root/Mount/LegBL/Merged",
+					"to": 142,
+					"words": "`Merged` 283 -> 142 verts"
+				},
+				{
+					"from": 283,
+					"node": "Rimehorn/Root/Mount/LegBR/Merged",
+					"to": 142,
+					"words": "`Merged` 283 -> 142 verts"
+				},
+				{
+					"from": 283,
+					"node": "Rimehorn/Root/Mount/LegFR/Merged",
+					"to": 142,
+					"words": "`Merged` 283 -> 142 verts"
+				},
+				{
+					"from": 283,
+					"node": "Rimehorn/Root/Mount/LegFL/Merged",
+					"to": 142,
+					"words": "`Merged` 283 -> 142 verts"
+				},
+				{
+					"from": 282,
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"to": 141,
+					"words": "`Merged` 282 -> 141 verts"
+				},
+				{
+					"from": 112,
+					"node": "Rimehorn/Root/Mount/Tail/Merged",
+					"to": 56,
+					"words": "`Merged` 112 -> 56 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 9634
+			},
+			"predicted": {
+				"verts": 4617
+			},
+			"proposal": "9634 -> 4617 (want <= 2500): `Merged` 2523 -> 1262 verts; `Merged` 1439 -> 720 verts; `Merged` 1380 -> 690 verts; `Merged` 971 -> 486 verts; `Merged` 746 -> 373 verts; `Merged` 450 -> 225 verts; `Axe` 367 -> 184 verts; `Merged` 320 -> 160 verts; `Merged` 320 -> 160 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 282 -> 141 verts; `Merged` 112 -> 56 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B4 9634 -> 4617 (want <= 2500): `Merged` 2523 -> 1262 verts; `Merged` 1439 -> 720 verts; `Merged` 1380 -> 690 verts; `Merged` 971 -> 486 verts; `Merged` 746 -> 373 verts; `Merged` 450 -> 225 verts; `Axe` 367 -> 184 verts; `Merged` 320 -> 160 verts; `Merged` 320 -> 160 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 283 -> 142 verts; `Merged` 282 -> 141 verts; `Merged` 112 -> 56 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.57 m, Axe 0.75 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.57 m, Axe 0.75 m so the HP bar reads over the head",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.57 m, Axe 0.75 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 3.6 on the team-colour area (normal vision 38.2; 177 px); deutan: fire / nature dE 3.6; protan: fire / nature dE 11.3; worst vs ground: fire colour (deutan) dE 45.4"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 3.6): add a value step inside the team-colour area",
+			"rank": 6,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 3.6): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 88.7,
+	"result": "FAIL",
+	"scene": "res://art/units/ice/rimehorn_rider/rimehorn_rider.tscn",
+	"tier": "cavalry",
+	"version": "1.0"
+}

@@ -326,22 +326,37 @@ func _hips_sculpt(s: Dictionary) -> void:
 	var leather := m("fire_leather")
 	var bronze := m("fire_bronze")
 	var sec := m("fire_sec_rider")
-	_put(s, cyl(0.225, 0.26, 0.22, 8), sec, Vector3(0, 0.82, 0))
-	_put(s, cyl(0.238, 0.238, 0.07, 8, false), leather, Vector3(0, 0.935, 0))
+	# G-C leftovers: padded bell skirt with a rolled hem, bevelled pointed surcoat skirt, legs as smooth tubes with domed
+	# knee cops, greaves with a calf swell and a ridge, rounded boots (were 6-sided cans and cylinders)
+	RiderShapes.lathe(s, sec, PackedVector2Array([Vector2(0.265, 0.71), Vector2(0.276, 0.725), Vector2(0.265, 0.75),
+		Vector2(0.248, 0.83), Vector2(0.225, 0.93)]), 12)
+	RiderShapes.band(s, leather, 0.228, 0.07, 0.016, 12, Transform3D(Basis.IDENTITY, Vector3(0, 0.935, 0)))
 	# the surcoat skirt hanging over the cantle, a dark hem (a front one would sit inside the boar's hump)
-	_put(s, box(Vector3(0.34, 0.40, 0.03)), cloth, Vector3(0, 0.74, -0.25), Vector3(16, 0, 0))
-	_put(s, box(Vector3(0.345, 0.05, 0.035)), cdark, Vector3(0, 0.575, -0.30), Vector3(16, 0, 0))
+	RiderShapes.box_plate(s, cloth, Vector3(0.35, 0.42, 0.026), Vector3(0, 0.735, -0.25), Vector3(16, 0, 0), Vector3.ONE,
+		0.9, 0.16)
+	RiderShapes.box_plate(s, cdark, Vector3(0.31, 0.07, 0.03), Vector3(0, 0.565, -0.30), Vector3(16, 0, 0), Vector3.ONE,
+		0.55, 0.55)
 	for sx: float in [-1.0, 1.0]:
 
 		# the leg astride: thigh out and forward over the barrel, shin hanging down to the stirrup, boot forward
 		var hip := Vector3(0.13 * sx, 0.83, 0.02)
 		var knee := Vector3(0.41 * sx, 0.62, 0.24)
 		var ankle := Vector3(0.50 * sx, 0.40, 0.12)
-		_seg(s, cdark, hip, knee, 0.105, 0.082, 6)
-		_put(s, sphere(0.088, 6, 3), bronze, knee + Vector3(0.01 * sx, 0.01, 0.04), Vector3.ZERO, Vector3(1.0, 1.1, 0.95))
-		_seg(s, bronze, knee, ankle + Vector3(0, -0.04, 0), 0.078, 0.07, 6)
-		MountModel.sculpt_add(s, cyl(0.06, 0.074, 0.26, 6), Transform3D(_to_dir(Vector3(0.05 * sx, 0.03, 1.0)),
-			ankle + Vector3(0.01 * sx, -0.05, 0.10)), leather)
+		RiderShapes.tube(s, cdark, PackedVector3Array([hip, hip.lerp(knee, 0.45), knee]),
+			PackedFloat32Array([0.105, 0.11, 0.082]), 9)
+		RiderShapes.lathe(s, bronze, PackedVector2Array([Vector2(0.09, 0.0), Vector2(0.086, 0.035), Vector2(0.06, 0.066),
+			Vector2(0.0, 0.08)]), 10, MountModel.frame(knee + Vector3(0.01 * sx, 0.01, -0.005), Vector3(0.1 * sx, 0.1, 1.0),
+			Vector3.UP), 1.0, 1.15)
+		var an := ankle + Vector3(0, -0.04, 0)
+		RiderShapes.tube(s, bronze, PackedVector3Array([knee, knee.lerp(an, 0.3), an]),
+			PackedFloat32Array([0.078, 0.084, 0.068]), 9)
+		var fr := Vector3(0.0, 0.25, 1.0).normalized()
+		RiderShapes.tube(s, bronze, PackedVector3Array([knee.lerp(an, 0.12) + fr * 0.072, knee.lerp(an, 0.5) + fr * 0.078,
+			an + fr * 0.058]), PackedFloat32Array([0.02, 0.018, 0.01]), 5)
+		var fd := Vector3(0.05 * sx, 0.03, 1.0).normalized()
+		var fc := ankle + Vector3(0.01 * sx, -0.05, 0.10)
+		RiderShapes.boot(s, leather, fc - fd * 0.12, fc + fd * 0.15, 0.072)
+		RiderShapes.band(s, leather, 0.07, 0.06, 0.014, 9, MountModel.frame(an + Vector3(0, 0.02, 0), knee - an, Vector3.BACK))
 
 
 func _chest_sculpt(s: Dictionary) -> void:
@@ -353,12 +368,13 @@ func _chest_sculpt(s: Dictionary) -> void:
 	# gambeson torso, then the burnished bronze cuirass (broad, flattened front-back)
 	var prof := PackedVector2Array([Vector2(0.20, 0.90), Vector2(0.23, 1.0), Vector2(0.265, 1.14), Vector2(0.278, 1.26),
 		Vector2(0.255, 1.36), Vector2(0.15, 1.45), Vector2(0.0, 1.47)])
-	MountModel.sculpt_add(s, MountModel.lathe_mesh("pl_torso_v3", prof, 8),
-		Transform3D(Basis.from_scale(Vector3(1.0, 1.0, 0.82)), Vector3.ZERO), sec)
-	var cu := PackedVector2Array([Vector2(0.245, 1.00), Vector2(0.285, 1.14), Vector2(0.298, 1.26), Vector2(0.28, 1.35),
-		Vector2(0.21, 1.425)])
-	MountModel.sculpt_add(s, MountModel.lathe_mesh("pl_cuirass_v3", cu, 10, false),
-		Transform3D(Basis.from_scale(Vector3(1.0, 1.0, 0.86)), Vector3.ZERO), bronze)
+	RiderShapes.lathe(s, sec, prof, 12, Transform3D.IDENTITY, 1.0, 0.82)
+	# G-C leftovers: the cuirass turned on 16 sides with a rolled waist lip, a faceted centre ridge
+	var cu := PackedVector2Array([Vector2(0.252, 0.985), Vector2(0.258, 1.0), Vector2(0.285, 1.14), Vector2(0.298, 1.26),
+		Vector2(0.28, 1.35), Vector2(0.21, 1.425)])
+	RiderShapes.lathe(s, bronze, cu, 16, Transform3D.IDENTITY, 1.0, 0.86, false)
+	RiderShapes.tube(s, bronze, PackedVector3Array([Vector3(0, 1.02, 0.222), Vector3(0, 1.14, 0.247), Vector3(0, 1.26, 0.258),
+		Vector3(0, 1.35, 0.242)]), PackedFloat32Array([0.012, 0.016, 0.016, 0.01]), 4)
 	# the sun on the breast: a gold disc, a dark heart and five gold rays fanning up and out
 	_put(s, cyl(0.072, 0.072, 0.022, 8), gold, Vector3(0, 1.20, 0.262), Vector3(84, 0, 0))
 	_put(s, box(Vector3(0.05, 0.05, 0.03)), cdark, Vector3(0, 1.20, 0.272), Vector3(-6, 0, 45))
@@ -367,16 +383,23 @@ func _chest_sculpt(s: Dictionary) -> void:
 		_put(s, prism(Vector3(0.05, 0.10, 0.02)), gold, Vector3(0, 1.20, 0.258) + Vector3(sin(a), cos(a), 0) * 0.125,
 			Vector3(-6, 0, -rad_to_deg(a)))
 	# short team tabard below the sun, a dark hem
-	_put(s, box(Vector3(0.30, 0.13, 0.03)), cloth, Vector3(0, 1.055, 0.25), Vector3(-5, 0, 0))
-	_put(s, box(Vector3(0.305, 0.04, 0.035)), cdark, Vector3(0, 0.99, 0.255), Vector3(-5, 0, 0))
-	# bronze gorget
-	_put(s, cyl(0.12, 0.165, 0.10, 8, false), bronze, Vector3(0, 1.45, -0.005))
-	# bronze pauldrons with a gold rim (bronze: the Blaze Rider's are team)
+	RiderShapes.box_plate(s, cloth, Vector3(0.30, 0.15, 0.026), Vector3(0, 1.05, 0.25), Vector3(-5, 0, 0), Vector3.ONE,
+		0.9, 0.2)
+	RiderShapes.box_plate(s, cdark, Vector3(0.27, 0.05, 0.03), Vector3(0, 0.985, 0.255), Vector3(-5, 0, 0), Vector3.ONE,
+		0.5, 0.6)
+	# bronze gorget: two rolled lames
+	RiderShapes.lame(s, bronze, 0.168, 0.14, 1.40, 1.45, 0.0, TAU, 12, 0.014)
+	RiderShapes.lame(s, bronze, 0.142, 0.118, 1.445, 1.50, 0.0, TAU, 12, 0.012)
+	# bronze pauldrons with a gold rim (bronze: the Blaze Rider's are team): a smooth dome over two rolled lames
 	for sx: float in [-1.0, 1.0]:
 		var pf := MountModel.frame(Vector3(0.345 * sx, 1.41, -0.01), Vector3(0.55 * sx, 1.0, 0.0), Vector3.BACK)
-		MountModel.sculpt_add(s, MountModel.lathe_mesh("pl_pauldron_v4", PackedVector2Array([Vector2(0.17, -0.07),
-			Vector2(0.178, -0.01), Vector2(0.145, 0.045), Vector2(0.075, 0.075), Vector2(0.0, 0.082)]), 8), pf, bronze)
-		MountModel.sculpt_add(s, cyl(0.182, 0.182, 0.035, 8, false), Transform3D(pf.basis, pf * Vector3(0, -0.05, 0)), gold)
+		RiderShapes.lathe(s, bronze, PackedVector2Array([Vector2(0.17, -0.07), Vector2(0.178, -0.01), Vector2(0.145, 0.045),
+			Vector2(0.075, 0.075), Vector2(0.0, 0.082)]), 14, pf)
+		RiderShapes.band(s, gold, 0.172, 0.035, 0.012, 14, Transform3D(pf.basis, pf * Vector3(0, -0.05, 0)))
+		for k: int in 2:
+			var rk: float = 0.168 - 0.02 * float(k)
+			RiderShapes.lame(s, bronze, rk + 0.012, rk, 0.0, 0.055, 0.0, TAU, 12, 0.013,
+				Transform3D(pf.basis, pf * Vector3(0.012 * sx * float(k + 1), -0.13 - 0.06 * float(k), 0.0)))
 	# a team cape from the shoulders, falling back over the cantle
 	_put(s, cape(0.62, 0.58), m("fire_cape"), Vector3(0, 1.11, -0.34), Vector3(30, 0, 0))
 
@@ -387,7 +410,7 @@ func _head_sculpt(s: Dictionary) -> void:
 	var bronze := m("fire_bronze")
 	var gold := m("unit_gold_trim")
 	var cloth := m("fire_cloth")
-	_put(s, cyl(0.075, 0.085, 0.12, 6), skin, Vector3(0, 1.50, 0.02))
+	_put(s, cyl(0.075, 0.085, 0.12, 10), skin, Vector3(0, 1.50, 0.02))
 	# the face sphere (the FaceKit canvas) and the short auburn beard (the mouth canvas) with a jutting point
 	_put(s, sphere(HEAD_R, 10, 6), skin, HEAD_C, Vector3.ZERO, Vector3(0.96, 1.04, 0.95))
 	_put(s, sphere(0.108, 7, 3), hair, Vector3(0, 1.515, 0.12), Vector3(20, 0, 0), Vector3(1.2, 0.82, 0.78))
@@ -456,7 +479,7 @@ func _arm_l_sculpt(s: Dictionary) -> void:
 	MountModel.sculpt_add(s, cyl(0.13, 0.13, 0.022, 10, false), Transform3D(sb, sun + Vector3(0.012, 0, 0)), gold)
 	MountModel.sculpt_add(s, _flame_mesh(), Transform3D(Basis(Vector3(0.012, 0, 0), Vector3(0, 0.30, 0), Vector3(0, 0, 0.22)),
 		SHIELD_C + Vector3(-0.056, -0.34, 0.0)), cdark)
-	_put(s, box(Vector3(0.03, 0.05, 0.24)), leather, SHIELD_C + Vector3(0.06, 0.02, 0.0))
+	RiderShapes.box_plate(s, leather, Vector3(0.24, 0.05, 0.03), SHIELD_C + Vector3(0.06, 0.02, 0.0), Vector3(0, 90, 0))
 
 
 func _arm_r_sculpt(s: Dictionary) -> void:
@@ -472,10 +495,17 @@ func _arm_sculpt(s: Dictionary, sx: float) -> void:
 	var sh: Vector3 = SH_L if sx < 0.0 else SH_R
 	var el: Vector3 = ELBOW_L if sx < 0.0 else ELBOW_R
 	var fi: Vector3 = FIST_L if sx < 0.0 else FIST_R
-	_seg(s, sec, sh + Vector3(0, 0.02, 0), el, 0.088, 0.072, 6)
-	_put(s, sphere(0.074, 7, 3), bronze, el + Vector3(0, 0, -0.02), Vector3.ZERO, Vector3(1.0, 1.0, 1.2))
-	_seg(s, bronze, el, fi - (fi - el).normalized() * 0.04, 0.078, 0.07, 6)
-	_put(s, sphere(0.08, 7, 3), leather, fi, Vector3.ZERO, Vector3(1.0, 1.05, 1.1))
+	# G-C leftovers: a padded sleeve with a bicep swell, a cupped elbow cop, a flared vambrace, a cuffed gauntlet
+	var s0 := sh + Vector3(0, 0.02, 0)
+	var d := (fi - el).normalized()
+	RiderShapes.tube(s, sec, PackedVector3Array([s0, s0.lerp(el, 0.45), el]), PackedFloat32Array([0.088, 0.093, 0.072]), 9)
+	RiderShapes.lathe(s, bronze, PackedVector2Array([Vector2(0.078, 0.0), Vector2(0.074, 0.03), Vector2(0.048, 0.06),
+		Vector2(0.0, 0.07)]), 9, MountModel.frame(el - d * 0.01, (el - s0).normalized() - d, Vector3(sx, 0, 0)))
+	var w0 := fi - d * 0.04
+	RiderShapes.tube(s, bronze, PackedVector3Array([el, el.lerp(w0, 0.3), w0, w0 + d * 0.006]),
+		PackedFloat32Array([0.074, 0.079, 0.084, 0.06]), 9)
+	RiderShapes.band(s, m("unit_gold_trim"), 0.08, 0.025, 0.01, 10, MountModel.frame(w0 - d * 0.015, d, Vector3.UP))
+	_put(s, sphere(0.08, 9, 4), leather, fi, Vector3.ZERO, Vector3(1.0, 1.05, 1.1))
 
 
 ## The war lance (keep_separate "Lance", node-local at the fist, shaft along +Z): bronze butt, leather grip, a big bronze

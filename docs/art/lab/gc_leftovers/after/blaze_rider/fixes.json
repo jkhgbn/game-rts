@@ -1,0 +1,193 @@
+{
+	"asset": "blaze_rider",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B2",
+			"computed": false,
+			"measured": {
+				"draw": 18
+			},
+			"predicted": {
+				"draw": 18
+			},
+			"proposal": "18 -> 18 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 18 -> 18 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 12"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.6,
+					"node": "res://data/units/blaze_rider.tres",
+					"param": "radius",
+					"to": 1.01
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.6,
+				"x_m": 0.75,
+				"z_m": 1.76
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.6 -> 1.01, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.6 -> 1.01, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.05",
+				"z_m": "<= 1.05"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2481,
+					"node": "Boar/Root/Mount/Merged",
+					"to": 1241,
+					"words": "`Merged` 2481 -> 1241 verts"
+				},
+				{
+					"from": 1491,
+					"node": "Boar/Root/Mount/Head/Merged",
+					"to": 746,
+					"words": "`Merged` 1491 -> 746 verts"
+				},
+				{
+					"from": 1464,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 732,
+					"words": "`Merged` 1464 -> 732 verts"
+				},
+				{
+					"from": 1013,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 507,
+					"words": "`Merged` 1013 -> 507 verts"
+				},
+				{
+					"from": 834,
+					"node": "Rider/Root/Chest/ArmL/Merged",
+					"to": 417,
+					"words": "`Merged` 834 -> 417 verts"
+				},
+				{
+					"from": 758,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 379,
+					"words": "`Merged` 758 -> 379 verts"
+				},
+				{
+					"from": 381,
+					"node": "Rider/Root/Chest/ArmR/Lance",
+					"to": 191,
+					"words": "`Lance` 381 -> 191 verts"
+				},
+				{
+					"from": 301,
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"to": 151,
+					"words": "`Merged` 301 -> 151 verts"
+				},
+				{
+					"from": 286,
+					"node": "Rider/Root/Hips/LegL/Merged",
+					"to": 143,
+					"words": "`Merged` 286 -> 143 verts"
+				},
+				{
+					"from": 286,
+					"node": "Rider/Root/Hips/LegR/Merged",
+					"to": 143,
+					"words": "`Merged` 286 -> 143 verts"
+				},
+				{
+					"from": 272,
+					"node": "Boar/Root/Mount/LegBL/Merged",
+					"to": 136,
+					"words": "`Merged` 272 -> 136 verts"
+				},
+				{
+					"from": 272,
+					"node": "Boar/Root/Mount/LegBR/Merged",
+					"to": 136,
+					"words": "`Merged` 272 -> 136 verts"
+				},
+				{
+					"from": 230,
+					"node": "Boar/Root/Mount/LegFR/Merged",
+					"to": 115,
+					"words": "`Merged` 230 -> 115 verts"
+				},
+				{
+					"from": 230,
+					"node": "Boar/Root/Mount/LegFL/Merged",
+					"to": 115,
+					"words": "`Merged` 230 -> 115 verts"
+				},
+				{
+					"from": 137,
+					"node": "Boar/Root/Mount/Tail/Merged",
+					"to": 69,
+					"words": "`Merged` 137 -> 69 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 9990
+			},
+			"predicted": {
+				"verts": 4775
+			},
+			"proposal": "9990 -> 4775 (want <= 2500): `Merged` 2481 -> 1241 verts; `Merged` 1491 -> 746 verts; `Merged` 1464 -> 732 verts; `Merged` 1013 -> 507 verts; `Merged` 834 -> 417 verts; `Merged` 758 -> 379 verts; `Lance` 381 -> 191 verts; `Merged` 301 -> 151 verts; `Merged` 286 -> 143 verts; `Merged` 286 -> 143 verts; `Merged` 272 -> 136 verts; `Merged` 272 -> 136 verts; `Merged` 230 -> 115 verts; `Merged` 230 -> 115 verts; `Merged` 137 -> 69 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 9990 -> 4775 (want <= 2500): `Merged` 2481 -> 1241 verts; `Merged` 1491 -> 746 verts; `Merged` 1464 -> 732 verts; `Merged` 1013 -> 507 verts; `Merged` 834 -> 417 verts; `Merged` 758 -> 379 verts; `Lance` 381 -> 191 verts; `Merged` 301 -> 151 verts; `Merged` 286 -> 143 verts; `Merged` 286 -> 143 verts; `Merged` 272 -> 136 verts; `Merged` 272 -> 136 verts; `Merged` 230 -> 115 verts; `Merged` 230 -> 115 verts; `Merged` 137 -> 69 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Lance 0.71 m, Pennon 0.37 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Lance 0.71 m, Pennon 0.37 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Lance 0.71 m, Pennon 0.37 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 91.2,
+	"result": "FAIL",
+	"scene": "res://art/units/fire/blaze_rider.tscn",
+	"tier": "cavalry",
+	"version": "1.0"
+}

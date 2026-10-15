@@ -1,0 +1,124 @@
+{
+	"asset": "rimeling",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#a3adbf",
+					"material": "ice_fur_pale",
+					"material_path": "res://art/units/ice/materials/ice_fur_pale.tres",
+					"node": "Root/Hips/LegL/Merged, Root/Hips/LegR/Merged, Root/Chest/Head/Merged, Root/Chest/ArmL/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/ice/materials/ice_fur_pale.tres): give rimeling its own copy first, other assets use it too",
+					"snap": {
+						"close": false,
+						"color": "#337ac7",
+						"de_to_wanted": 17.3,
+						"from_folder": "res://art/units/ice/materials",
+						"material_path": "res://art/units/ice/materials/ice_frost_glass.tres"
+					},
+					"to": "#1b9aff",
+					"weight": 0.21
+				}
+			],
+			"check": "R4k",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				1.8,
+				1.3,
+				1.0
+			],
+			"measured": {
+				"body_lab": [
+					72.7,
+					-1.3,
+					-4.8
+				],
+				"dE": {
+					"R3 meadow": 52.7,
+					"R3t fire": 45.9,
+					"R3t ice": 52.7,
+					"R3t nature": 35.0,
+					"R3t shadow": 71.1,
+					"R4 ash": 50.1,
+					"R4 heath": 28.1,
+					"R4 marsh": 59.0,
+					"R4 old_wood": 50.6,
+					"R4 riverbank": 51.8,
+					"R4 sand": 38.3,
+					"R4k snow": 19.3
+				},
+				"ground_lab": [
+					63.6,
+					-20.4,
+					43.5
+				],
+				"melt_share": 0.0
+			},
+			"predicted": {
+				"R3 meadow": 58.3,
+				"R3t fire": 51.7,
+				"R3t ice": 58.3,
+				"R3t nature": 41.8,
+				"R3t shadow": 77.7,
+				"R4 ash": 50.1,
+				"R4 heath": 31.7,
+				"R4 marsh": 59.9,
+				"R4 old_wood": 52.9,
+				"R4 riverbank": 53.7,
+				"R4 sand": 45.3,
+				"R4k snow": 24.0
+			},
+			"proposal": "shader_parameter/base_color of `ice_fur_pale` #a3adbf -> #1b9aff (21% of the visible body): predicted dE R3 meadow 52.7 -> 58.3, R3t fire 45.9 -> 51.7, R3t shadow 71.1 -> 77.7, R3t ice 52.7 -> 58.3, R3t nature 35.0 -> 41.8, R4k snow 19.3 -> 24.0 (want >= 24); other grounds heath 31.7, old_wood 52.9, riverbank 53.7, ash 50.1, sand 45.3, marsh 59.9; `ice_fur_pale` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `ice_frost_glass.tres` (#337ac7, dE 17.3 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `ice_cloth` 30% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"team_coloured": [
+				"`ice_cloth` 30%"
+			],
+			"text": "shader_parameter/base_color of `ice_fur_pale` #a3adbf -> #1b9aff (21% of the visible body): predicted dE R3 meadow 52.7 -> 58.3, R3t fire 45.9 -> 51.7, R3t shadow 71.1 -> 77.7, R3t ice 52.7 -> 58.3, R3t nature 35.0 -> 41.8, R4k snow 19.3 -> 24.0 (want >= 24); other grounds heath 31.7, old_wood 52.9, riverbank 53.7, ash 50.1, sand 45.3, marsh 59.9; `ice_fur_pale` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `ice_frost_glass.tres` (#337ac7, dE 17.3 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `ice_cloth` 30% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5",
+			"computed": false,
+			"measured": {
+				"points": 0,
+				"points_this_phase": 0,
+				"spots": [],
+				"value": "0 point(s) above the bloom level 1.2 (median of 0/0/0); soft glows under the bloom (v1 count, luma > 0.4): 2"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 0 -> 1 (want 1-3): add 1 glow point(s) high on the body (eyes / rune / weapon tip): an unshaded kit glow with energy >= 1.7 or emission x colour >= 1.3 x the bloom level 1.2",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "1-3 above the bloom level 1.2"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 92.8,
+	"result": "WARN",
+	"scene": "res://art/units/ice/rimeling/rimeling.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

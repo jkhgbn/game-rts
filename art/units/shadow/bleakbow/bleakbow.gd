@@ -100,7 +100,10 @@ func _build_parts() -> void:
 	var qc := Vector3(0.02, 1.08, -0.24)
 	add_part(chest, cyl(0.07, 0.06, 0.60, 6), leather, qc, _euler_up(qa))
 	add_part(chest, cyl(0.08, 0.08, 0.05, 6), iron, qc + qa * 0.27, _euler_up(qa))
-	add_part(chest, box(Vector3(0.05, 0.62, 0.03)), leather, Vector3(0.0, 1.12, 0.20), Vector3(-8, 0, 36))
+	# baldric: a strap that follows the chest curve (G-C leftovers 2026-10-15: was a flat box)
+	add_part(chest, _path("bb_gc_strap", PackedVector3Array([Vector3(0.18, 0.87, 0.175), Vector3(0.09, 0.995, 0.198),
+		Vector3(0.0, 1.12, 0.207), Vector3(-0.09, 1.245, 0.196), Vector3(-0.18, 1.37, 0.168)]),
+		PackedFloat32Array([0.017, 0.018, 0.018, 0.018, 0.017]), 2), leather, Vector3.ZERO)
 	var qtop := qc + qa * 0.30
 	add_part(chest, _quiver_shafts_mesh(qtop, qa), leather, Vector3.ZERO)
 	add_part(chest, _barbs_mesh(qtop, qa), glow, Vector3.ZERO)

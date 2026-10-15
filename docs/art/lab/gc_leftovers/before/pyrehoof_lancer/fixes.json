@@ -1,0 +1,91 @@
+{
+	"asset": "pyrehoof_lancer",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.7,
+					"node": "res://data/units/pyrehoof_lancer.tres",
+					"param": "radius",
+					"to": 1.65
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.7,
+				"x_m": 0.79,
+				"z_m": 2.88
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.7 -> 1.65, or pull the widest parts in to x <= 1.22 / z <= 1.22 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.7 -> 1.65, or pull the widest parts in to x <= 1.22 / z <= 1.22 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.22",
+				"z_m": "<= 1.22"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 3231,
+					"node": "Boar/Root/Mount/Merged",
+					"to": 1616,
+					"words": "`Merged` 3231 -> 1616 verts"
+				},
+				{
+					"from": 1584,
+					"node": "Boar/Root/Mount/Head/Merged",
+					"to": 792,
+					"words": "`Merged` 1584 -> 792 verts"
+				},
+				{
+					"from": 527,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 264,
+					"words": "`Merged` 527 -> 264 verts"
+				},
+				{
+					"from": 478,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 441,
+					"words": "`Merged` 478 -> 441 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 8578
+			},
+			"predicted": {
+				"verts": 5871
+			},
+			"proposal": "8578 -> 5871 (want <= 6000): `Merged` 3231 -> 1616 verts; `Merged` 1584 -> 792 verts; `Merged` 527 -> 264 verts; `Merged` 478 -> 441 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 8578 -> 5871 (want <= 6000): `Merged` 3231 -> 1616 verts; `Merged` 1584 -> 792 verts; `Merged` 527 -> 264 verts; `Merged` 478 -> 441 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 6000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 93.3,
+	"result": "WARN",
+	"scene": "res://art/units/fire/pyrehoof_lancer/pyrehoof_lancer.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

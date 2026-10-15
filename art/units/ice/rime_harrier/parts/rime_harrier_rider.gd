@@ -257,11 +257,15 @@ func _hips_sculpt(s: Dictionary) -> void:
 		var hip := Vector3(0.11 * sx, HIP_Y - 0.03, 0.0)
 		var knee := Vector3(0.33 * sx, HIP_Y - 0.24, 0.17)
 		var ankle := Vector3(0.40 * sx, HIP_Y - 0.56, 0.08)
-		_seg(s, leather, hip, knee, 0.09, 0.07)
-		_put(s, sphere(0.075, 5, 2), steel, knee + Vector3(0.0, 0.0, 0.02))
-		_seg(s, steel, knee, ankle, 0.068, 0.056)
-		_put(s, cyl(0.07, 0.078, 0.07, 6, false), fur, ankle + Vector3(0, 0.03, 0))
-		_put(s, soft_box(Vector3(0.11, 0.10, 0.25)), leather, ankle + Vector3(0.0, -0.04, 0.06))
+		# G-C leftovers (light rider, 2500-vertex budget: same ring counts): one smooth thigh tube with a swell, a
+		# smooth greave, a jagged fur cuff, a rounded boot (was a soft box)
+		RiderShapes.tube(s, leather, PackedVector3Array([hip, hip.lerp(knee, 0.45), knee]), PackedFloat32Array([0.09, 0.094, 0.07]),
+			6, false)
+		_put(s, sphere(0.075, 6, 3), steel, knee + Vector3(0.0, 0.0, 0.02))
+		RiderShapes.tube(s, steel, PackedVector3Array([knee, knee.lerp(ankle, 0.3), ankle]), PackedFloat32Array([0.068, 0.072, 0.056]),
+			6, false)
+		_put(s, IceModel.fur_ring(0.066, 0.08, 0.08, 4, 0.022), fur, ankle + Vector3(0, -0.005, 0))
+		RiderShapes.boot(s, leather, ankle + Vector3(0.0, -0.05, -0.06), ankle + Vector3(0.0, -0.05, 0.19), 0.058, 6)
 
 
 func _chest_sculpt(s: Dictionary) -> void:
@@ -279,7 +283,7 @@ func _chest_sculpt(s: Dictionary) -> void:
 	# the team cowl: a thick collar round the shoulders, the pushed-down hood at the back, a light trim
 	_put(s, cyl(0.15, 0.30, 0.17, 8, false), dark, Vector3(0, 1.39, -0.01))
 	_put(s, sphere(0.16, 6, 3), dark, Vector3(0, 1.43, -0.18), Vector3.ZERO, Vector3(1.15, 0.8, 0.85))
-	_put(s, cyl(0.30, 0.315, 0.035, 8, false), cloth, Vector3(0, 1.30, -0.01))
+	_put(s, IceModel.fur_ring(0.30, 0.32, 0.06, 7, 0.025), cloth, Vector3(0, 1.275, -0.01))
 	# the team scarf streaming back over the ram (two panels, a light tip)
 	_put(s, soft_box(Vector3(0.16, 0.44, 0.025)), dark, Vector3(-0.07, 1.20, -0.34), Vector3(52, 0, 8))
 	_put(s, soft_box(Vector3(0.15, 0.36, 0.025)), dark, Vector3(-0.10, 1.00, -0.62), Vector3(74, 0, 12))
@@ -308,8 +312,11 @@ func _arm_l_sculpt(s: Dictionary) -> void:
 	var steel := m("ice_steel")
 	var cloth := m("ice_cloth")
 	var elbow := SH_L + Vector3(-0.01, -0.28, 0)
-	_seg(s, dark, SH_L, elbow, 0.07, 0.062)
-	_seg(s, leather, elbow, HAND_L + Vector3(0, 0.05, 0), 0.064, 0.055)
+	RiderShapes.tube(s, dark, PackedVector3Array([SH_L, SH_L.lerp(elbow, 0.45), elbow]), PackedFloat32Array([0.07, 0.074, 0.062]),
+		6, false)
+	var wl := HAND_L + Vector3(0, 0.05, 0)
+	RiderShapes.tube(s, leather, PackedVector3Array([elbow, elbow.lerp(wl, 0.3), wl]), PackedFloat32Array([0.064, 0.068, 0.055]),
+		6, false)
 	_put(s, sphere(0.062, 5, 2), leather, HAND_L)
 	# a small round buckler strapped to the forearm (face -X): steel, a light team boss
 	var bc := elbow.lerp(HAND_L, 0.5) + Vector3(-0.07, 0.0, 0.0)
@@ -323,8 +330,11 @@ func _arm_r_sculpt(s: Dictionary) -> void:
 	var steel := m("ice_steel")
 	var elbow := SH_R + Vector3(0.01, -0.28, 0)
 	_put(s, sphere(0.085, 5, 2), dark, SH_R + Vector3(0, -0.02, 0))
-	_seg(s, dark, SH_R, elbow, 0.07, 0.062)
-	_seg(s, steel, elbow, HAND_R + Vector3(0, 0.05, 0), 0.066, 0.056)
+	RiderShapes.tube(s, dark, PackedVector3Array([SH_R, SH_R.lerp(elbow, 0.45), elbow]), PackedFloat32Array([0.07, 0.074, 0.062]),
+		6, false)
+	var wr := HAND_R + Vector3(0, 0.05, 0)
+	RiderShapes.tube(s, steel, PackedVector3Array([elbow, elbow.lerp(wr, 0.3), wr]), PackedFloat32Array([0.066, 0.07, 0.056]),
+		6, false)
 	_put(s, sphere(0.062, 5, 2), leather, HAND_R)
 
 

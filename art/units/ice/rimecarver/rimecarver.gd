@@ -196,49 +196,30 @@ func _build_parts() -> void:
 	var leg_r: Node3D = $Root/Hips/LegR
 	var cloth := ice(&"ice_cloth")
 	var cdark := ice(&"ice_cloth_dark")
-	var fur := ice(&"ice_fur")
 	var leather := ice(&"ice_leather")
 	var steel := ice(&"ice_steel")
 	var metal := ice(&"ice_metal")
-	var stone := ice(&"ice_sec_carver")
 	var sdark := ice(&"ice_stone_dark")
 	var wood := ice(&"ice_wood")
 	var skin := ice(&"ice_skin")
 	var glow := ice(&"ice_glow_unit")
 	# ---- Legs: steel-blue trousers, dark fur boots with a turned-down cuff.
-	for leg: Node3D in [leg_l, leg_r]:
-		var sx: float = -1.0 if leg == leg_l else 1.0
-		add_limb(leg, Vector3(0.12 * sx, 0.78, 0.0), Vector3(0.13 * sx, 0.22, 0.01), 0.085, steel, 0.0, null, true)
-		add_part(leg, sphere(0.10, 6, 3), fur, Vector3(0.13 * sx, 0.075, 0.045), Vector3.ZERO, Vector3(0.95, 0.78, 1.55))
-		add_part(leg, cyl(0.105, 0.115, 0.09, 6, false), fur, Vector3(0.13 * sx, 0.20, 0.01))
+	# (G-C leftovers 2026-10-15: shaped trousers with a knee, lathed fur boots with a jagged cuff.)
+	IceUnitShapes.put(self, leg_l, "rc_gc_leg_l", func(acc: Dictionary) -> void: _gc_leg(acc, -1.0))
+	IceUnitShapes.put(self, leg_r, "rc_gc_leg_r", func(acc: Dictionary) -> void: _gc_leg(acc, 1.0))
 	# ---- Hips: the team coat's skirt (folded, knee length) over a dark fur hem, the stone-grey mason's apron with a
 	# pocket of rune pebbles, a leather belt with an iron buckle and a pouch.
 	var coat := PackedVector2Array([Vector2(0.205, 0.98), Vector2(0.235, 0.86), Vector2(0.27, 0.72), Vector2(0.305, 0.58),
 		Vector2(0.335, 0.46), Vector2(0.35, 0.40)])
 	add_part(hips, GroveKinModel.lathe("rc_coat_v1", coat, 12, 5, 0.07, 2, 0.02), cdark, Vector3.ZERO)
-	add_part(hips, torus(0.29, 0.37, 10), fur, Vector3(0, 0.40, 0), Vector3.ZERO, Vector3(1.0, 0.75, 1.0))
-	add_part(hips, box(Vector3(0.34, 0.58, 0.035)), stone, Vector3(0, 0.67, 0.30), Vector3(-11, 0, 0))
-	add_part(hips, box(Vector3(0.36, 0.05, 0.045)), sdark, Vector3(0, 0.39, 0.355), Vector3(-11, 0, 0))
-	add_part(hips, box(Vector3(0.20, 0.12, 0.05)), sdark, Vector3(0.02, 0.63, 0.335), Vector3(-11, 0, 0))
-	for k: int in 3:
-		add_part(hips, sphere(0.032, 6, 3), metal, Vector3(-0.05 + 0.05 * k, 0.70, 0.345), Vector3.ZERO, Vector3(1.0, 0.8, 0.7))
-	add_part(hips, cyl(0.235, 0.24, 0.06, 10, false), leather, Vector3(0, 0.93, 0))
-	add_part(hips, box(Vector3(0.09, 0.07, 0.04)), metal, Vector3(0, 0.93, 0.245))
-	add_part(hips, box(Vector3(0.11, 0.13, 0.08)), leather, Vector3(-0.235, 0.85, 0.08), Vector3(0, 20, 0))
+	IceUnitShapes.put(self, hips, "rc_gc_hips", _gc_hips)
 	# ---- Chest: team coat torso, dark placket, a dark fur collar (the hood's lining), the hood bunched on the back,
 	# leather harness straps over the shoulders to the slab. The SLAB: deep rune-ice, two iron bands, the rune.
-	add_part(chest, cyl(0.215, 0.245, 0.46, 10), cloth, Vector3(0, 1.17, 0))
-	add_part(chest, box(Vector3(0.06, 0.44, 0.03)), cdark, Vector3(0, 1.15, 0.235), Vector3(-5, 0, 0))
-	add_part(chest, torus(0.13, 0.25, 10), fur, Vector3(0, 1.385, 0.0), Vector3.ZERO, Vector3(1.0, 0.85, 1.0))
 	add_part(chest, sphere(0.19, 8, 4), cloth, Vector3(0, 1.40, -0.17), Vector3(-15, 0, 0), Vector3(1.15, 0.75, 0.8))
-	for sx: float in [-1.0, 1.0]:
-		add_part(chest, box(Vector3(0.07, 0.035, 0.50)), leather, Vector3(0.15 * sx, 1.41, -0.03), Vector3(8, 0, 0))
-		add_part(chest, box(Vector3(0.065, 0.40, 0.03)), leather, Vector3(0.14 * sx, 1.20, 0.225), Vector3(-6, 0, -9.0 * sx))
+	IceUnitShapes.put(self, chest, "rc_gc_chest", _gc_chest)
 	# The slab leans back SLAB_TILT deg about its middle (y 1.4): its centre line is z = _slab_z(y).
 	add_part(chest, _slab_mesh(), ice(&"ice_frost_deep"), Vector3(0, 0, SLAB_Z + 1.4 * sin(SLAB_TILT * DEG)),
 		Vector3(-SLAB_TILT, 0, 0))
-	for y: float in [1.00, 1.58]:
-		add_part(chest, box(Vector3(0.55, 0.065, 0.215)), steel, Vector3(0, y, _slab_z(y)), Vector3(-SLAB_TILT, 0, 0))
 	# The carver's rune on both faces of the slab near its top (keep_separate: it pulses with Stillness).
 	var zr := _slab_z(RUNE_Y)
 	var rune_parts: Array = [
@@ -273,12 +254,8 @@ func _build_parts() -> void:
 		trim.set_meta(&"vet_trim", true)
 		trim.visible = false
 	# ---- Arms: team sleeves, dark fur cuffs, leather gloves. Right fist holds the maul; the left hangs by the pouch.
-	add_limb(arm_r, Vector3(0.29, 1.32, 0.0), GRIP_R, 0.075, cdark, 0.0, null, true)
-	add_part(arm_r, cyl(0.085, 0.09, 0.08, 6, false), fur, GRIP_R + Vector3(-0.005, 0.10, -0.02), Vector3(-10, 0, 0))
-	add_part(arm_r, sphere(0.075, 8, 4), leather, GRIP_R)
-	add_limb(arm_l, Vector3(-0.29, 1.32, 0.0), GRIP_L, 0.075, cdark, 0.0, null, true)
-	add_part(arm_l, cyl(0.085, 0.09, 0.08, 6, false), fur, GRIP_L + Vector3(0.005, 0.10, -0.02), Vector3(-10, 0, 0))
-	add_part(arm_l, sphere(0.075, 8, 4), leather, GRIP_L)
+	IceUnitShapes.put(self, arm_r, "rc_gc_arm_r", func(acc: Dictionary) -> void: _gc_arm(acc, 1.0))
+	IceUnitShapes.put(self, arm_l, "rc_gc_arm_l", func(acc: Dictionary) -> void: _gc_arm(acc, -1.0))
 	# ---- The maul (keep_separate "wrist" pivot at the right fist): ash shaft, leather grip, iron pommel, a banded
 	# stone-steel head across the swing (long axis along Z), three runes on its top face.
 	_maul = Node3D.new()
@@ -290,16 +267,30 @@ func _build_parts() -> void:
 	var along := Basis(Quaternion(Vector3.UP, d))
 	var e := along.get_euler() / DEG
 	var hp := GRIP_R + d * MAUL_HEAD
+	# G-C leftovers: a tapered ash shaft with a swelling at the grip, an octagonal chamfered stone head (flat faces up /
+	# down, the runes on the top face) with steel collars at both ends and a steel socket where the shaft goes in.
+	var head_xf := Transform3D(along * Basis(Vector3.RIGHT, PI * 0.5), hp - GRIP_R)
 	var maul_parts: Array = [
-		[cyl(0.027, 0.032, 1.24, 6), Transform3D(along, GRIP_R + d * 0.30 - GRIP_R), wood],
-		[cyl(0.037, 0.037, 0.18, 6), Transform3D(along, d * 0.02), leather],
-		[sphere(0.045, 6, 3), Transform3D(along, d * -0.32), metal],
-		[box(Vector3(0.16, 0.18, 0.34)), Transform3D(along, hp - GRIP_R), sdark],
-		[cyl(0.105, 0.105, 0.05, 8), Transform3D(along * Basis(Vector3.RIGHT, PI * 0.5), hp - GRIP_R + along * Vector3(0, 0, 0.18)), steel],
-		[cyl(0.105, 0.105, 0.05, 8), Transform3D(along * Basis(Vector3.RIGHT, PI * 0.5), hp - GRIP_R + along * Vector3(0, 0, -0.18)), steel],
-		[box(Vector3(0.175, 0.05, 0.12)), Transform3D(along, hp - GRIP_R + along * Vector3(0, -0.07, 0)), metal],
+		[IceUnitShapes.mesh("rc_gc_maul_shaft", func(s: SurfaceTool) -> void:
+			ChampionShapes.tube(s, PackedVector3Array([d * -0.30, d * 0.08, d * 0.55, d * 0.90]),
+				PackedFloat32Array([0.034, 0.032, 0.027, 0.030]), 6, true)), Transform3D.IDENTITY, wood],
+		[IceUnitShapes.mesh("rc_gc_maul_grip", func(s: SurfaceTool) -> void:
+			for k: int in 3:
+				ChampionShapes.band(s, 0.031, 0.05, 0.008, 6, IceUnitShapes.on(d, d * (-0.06 + 0.07 * k)))), Transform3D.IDENTITY,
+			leather],
+		[IceUnitShapes.mesh("rc_gc_maul_pommel", func(s: SurfaceTool) -> void:
+			ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.0, -0.06), Vector2(0.042, -0.035), Vector2(0.045, 0.0),
+				Vector2(0.03, 0.03)]), 6, IceUnitShapes.on(d, d * -0.31), 1.0, 1.0, false)), Transform3D.IDENTITY, metal],
+		[IceUnitShapes.mesh("rc_gc_maul_head", func(s: SurfaceTool) -> void:
+			ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.074, -0.17), Vector2(0.097, -0.15), Vector2(0.097, 0.15),
+				Vector2(0.074, 0.17)]), 8, Transform3D.IDENTITY, 0.9, 1.0, true, PI / 8.0, PI / 8.0 + TAU, true)), head_xf, sdark],
+		[IceUnitShapes.mesh("rc_gc_maul_collars", func(s: SurfaceTool) -> void:
+			for z: float in [-0.12, 0.12]:
+				ChampionShapes.band(s, 0.095, 0.045, 0.014, 8, Transform3D(Basis.IDENTITY, Vector3(0, z, 0)), 0.9, 1.0)
+			ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.05, 0.0), Vector2(0.044, 0.05), Vector2(0.036, 0.075)]), 6,
+				Transform3D(Basis(Vector3.RIGHT, PI * 0.5), Vector3(0, 0, 0.07)), 1.0, 1.0, false)), head_xf, steel],
 	]
-	add_part(_maul, GroveKinModel.bake("rc_maul_v1", maul_parts), null, GRIP_R, Vector3.ZERO, Vector3.ONE, true, "MaulMesh")
+	add_part(_maul, GroveKinModel.bake("rc_maul_v2", maul_parts), null, GRIP_R, Vector3.ZERO, Vector3.ONE, true, "MaulMesh")
 	var mr: Array = []
 	for k: int in 3:
 		mr.append([box(Vector3(0.06, 0.024, 0.06)), Transform3D(along * Basis(Vector3.UP, PI * 0.25),
@@ -331,6 +322,71 @@ func _build_parts() -> void:
 	_impact_mist.name = "MaulMist"
 	$Fx.add_child(_impact_mist)
 	ensure_shadow_blob(0.45, BLOB_TINT)
+
+
+# ---- G-C leftovers (2026-10-15): shaped pieces (IceUnitShapes / ChampionShapes, cached per process, model space).
+
+func _gc_leg(acc: Dictionary, sx: float) -> void:
+	IceUnitShapes.limb(IceUnitShapes.st(acc, ice(&"ice_steel")), Vector3(0.12 * sx, 0.80, 0.0), Vector3(0.125 * sx, 0.50, 0.03),
+		Vector3(0.13 * sx, 0.22, 0.01), 0.09, 0.075, 0.066, 7)
+	var fur := IceUnitShapes.st(acc, ice(&"ice_fur"))
+	ChampionShapes.append(fur, boot(0.10, 0.17), IceUnitShapes.xf(Vector3(0.13 * sx, 0.0, 0.035), Vector3.ZERO, Vector3(0.95, 1.0, 1.45)))
+	ChampionShapes.append(fur, fur_ring(0.085, 0.118, 0.07, 4, 0.03), Transform3D(Basis.IDENTITY, Vector3(0.13 * sx, 0.18, 0.01)))
+
+
+## Fur hem, the curved stone-grey apron (dark hem, a pocket with three rune pebbles), the belt, buckle and pouch.
+func _gc_hips(acc: Dictionary) -> void:
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur")), fur_ring(0.33, 0.38, 0.09, 6, 0.04),
+		Transform3D(Basis.IDENTITY, Vector3(0, 0.355, 0)))
+	ChampionShapes.lame(IceUnitShapes.st(acc, ice(&"ice_sec_carver")), 0.39, 0.255, 0.38, 0.95, -0.52, 0.52, 5, 0.022)
+	var sdark := IceUnitShapes.st(acc, ice(&"ice_stone_dark"))
+	ChampionShapes.lame(sdark, 0.402, 0.392, 0.372, 0.425, -0.53, 0.53, 5, 0.024)
+	ChampionShapes.lame(sdark, 0.352, 0.334, 0.57, 0.69, -0.30, 0.30, 3, 0.02)
+	var metal := IceUnitShapes.st(acc, ice(&"ice_metal"))
+	for k: int in 3:
+		var a: float = -0.16 + 0.16 * k
+		ChampionShapes.stud(metal, Vector3(sin(a) * 0.335, 0.695, cos(a) * 0.335), Vector3(sin(a), 0.6, cos(a)), 0.03)
+	var leather := IceUnitShapes.st(acc, ice(&"ice_leather"))
+	ChampionShapes.band(leather, 0.232, 0.065, 0.016, 12, Transform3D(Basis.IDENTITY, Vector3(0, 0.93, 0)))
+	ChampionShapes.plate(metal, PackedVector2Array([Vector2(-0.045, 0.035), Vector2(0.045, 0.035), Vector2(0.045, -0.035),
+		Vector2(-0.045, -0.035)]), 0.022, 0.009, Transform3D(Basis.IDENTITY, Vector3(0, 0.93, 0.252)))
+	IceUnitShapes.egg(leather, IceUnitShapes.xf(Vector3(-0.25, 0.85, 0.08), Vector3(0, 20, 0), Vector3(1.0, 1.0, 0.75)), 0.065, 0.15, 6)
+
+
+## Coat torso (shoulder slope), the dark placket with toggles, the fur collar, harness straps over the shoulders to
+## the slab, the slab's two iron bands.
+func _gc_chest(acc: Dictionary) -> void:
+	ChampionShapes.lathe(IceUnitShapes.st(acc, ice(&"ice_cloth")), PackedVector2Array([Vector2(0.245, 0.94), Vector2(0.25, 1.06),
+		Vector2(0.236, 1.24), Vector2(0.20, 1.36), Vector2(0.12, 1.42)]), 12, Transform3D.IDENTITY, 1.0, 0.9, false)
+	ChampionShapes.plate(IceUnitShapes.st(acc, ice(&"ice_cloth_dark")), PackedVector2Array([Vector2(-0.03, 0.22),
+		Vector2(0.03, 0.22), Vector2(0.034, -0.22), Vector2(-0.034, -0.22)]), 0.024, 0.008,
+		IceUnitShapes.xf(Vector3(0, 1.15, 0.222), Vector3(-5, 0, 0)))
+	var metal := IceUnitShapes.st(acc, ice(&"ice_metal"))
+	for y: float in [1.04, 1.16, 1.28]:
+		ChampionShapes.stud(metal, Vector3(0, y, 0.236 - (y - 1.15) * 0.09), Vector3(0, 0, 1), 0.018)
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur")), fur_ring(0.13, 0.25, 0.10, 6, 0.03),
+		Transform3D(Basis.IDENTITY, Vector3(0, 1.335, 0)))
+	var leather := IceUnitShapes.st(acc, ice(&"ice_leather"))
+	for sx: float in [-1.0, 1.0]:
+		IceUnitShapes.strap(leather, PackedVector3Array([Vector3(0.14 * sx, 0.98, 0.22), Vector3(0.15 * sx, 1.20, 0.226),
+			Vector3(0.155 * sx, 1.36, 0.17), Vector3(0.16 * sx, 1.44, 0.02), Vector3(0.16 * sx, 1.40, -0.16),
+			Vector3(0.15 * sx, 1.30, -0.27)]), 0.065, 0.022)
+	var steel := IceUnitShapes.st(acc, ice(&"ice_steel"))
+	for y: float in [1.00, 1.58]:
+		ChampionShapes.band(steel, 0.262, 0.065, 0.018, 8, Transform3D(Basis(Vector3.RIGHT, -SLAB_TILT * DEG), Vector3(0, y, _slab_z(y))),
+			1.0, 0.37)
+
+
+## Sleeve with an elbow bend, the fur cuff, the leather glove (the right one wraps the maul's grip).
+func _gc_arm(acc: Dictionary, sx: float) -> void:
+	var sh := Vector3(0.29 * sx, 1.32, 0.0)
+	var hand: Vector3 = GRIP_R if sx > 0.0 else GRIP_L
+	var elbow := Vector3(0.33 * sx, 1.135, 0.01)
+	IceUnitShapes.limb(IceUnitShapes.st(acc, ice(&"ice_cloth_dark")), sh, elbow, hand, 0.078, 0.07, 0.062, 6)
+	var fd := (hand - elbow).normalized()
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur")), fur_ring(0.07, 0.095, 0.07, 4, 0.025),
+		IceUnitShapes.on(-fd, hand - fd * 0.10))
+	IceUnitShapes.egg(IceUnitShapes.st(acc, ice(&"ice_leather")), IceUnitShapes.on(fd, hand - fd * 0.01), 0.075, 0.16, 6)
 
 
 func _ice_ready() -> void:

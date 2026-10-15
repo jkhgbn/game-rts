@@ -1,0 +1,13 @@
+{
+	"asset": "gloom_deacon",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 96.1,
+	"result": "PASS",
+	"scene": "res://art/units/shadow/gloom_deacon/gloom_deacon.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

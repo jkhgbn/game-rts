@@ -1,0 +1,46 @@
+{
+	"asset": "frostrune_rifleman",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 910,
+					"node": "Root/Chest/Merged",
+					"to": 455,
+					"words": "`Merged` 910 -> 455 verts"
+				},
+				{
+					"from": 873,
+					"node": "Root/Chest/ArmR/Rifle",
+					"to": 470,
+					"words": "`Rifle` 873 -> 470 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3317
+			},
+			"predicted": {
+				"verts": 2459
+			},
+			"proposal": "3317 -> 2459 (want <= 2500): `Merged` 910 -> 455 verts; `Rifle` 873 -> 470 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 3317 -> 2459 (want <= 2500): `Merged` 910 -> 455 verts; `Rifle` 873 -> 470 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 95.5,
+	"result": "FAIL",
+	"scene": "res://art/units/ice/frostrune_rifleman/frostrune_rifleman.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

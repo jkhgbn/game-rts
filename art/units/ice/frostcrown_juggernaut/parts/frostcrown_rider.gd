@@ -264,18 +264,30 @@ func _hips_sculpt(s: Dictionary) -> void:
 	var dark := m("ice_cloth_dark")
 	var cloth := m("ice_cloth")
 	var leather := m("ice_leather")
-	_put(s, cyl(0.26, 0.26, 0.07, 8, false), leather, Vector3(0, 0.955, 0))
+	# G-C leftovers: a fauld of two rolled steel lames under a rolled belt (was a cylinder), bevelled tabard flaps with
+	# pointed hems, cuisses / greaves as smooth swelling tubes, domed knee cops, rounded sabatons with a toe lame
+	RiderShapes.lame(s, steel, 0.285, 0.262, 0.83, 0.92, 0.0, TAU, 14, 0.016)
+	RiderShapes.lame(s, steel, 0.30, 0.276, 0.76, 0.845, 0.0, TAU, 14, 0.016)
+	RiderShapes.band(s, leather, 0.25, 0.07, 0.016, 14, Transform3D(Basis.IDENTITY, Vector3(0, 0.955, 0)))
 	# tabard: front flap forward over the pommel, back flap down over the bear's back (team, a light stripe)
-	_put(s, soft_box(Vector3(0.30, 0.40, 0.03)), dark, Vector3(0, 0.78, 0.30), Vector3(-62, 0, 0))
-	_put(s, soft_box(Vector3(0.08, 0.40, 0.034)), cloth, Vector3(0, 0.782, 0.302), Vector3(-62, 0, 0))
+	RiderShapes.box_plate(s, dark, Vector3(0.31, 0.42, 0.026), Vector3(0, 0.775, 0.30), Vector3(-62, 0, 0), Vector3.ONE,
+		0.85, 0.18)
+	RiderShapes.box_plate(s, cloth, Vector3(0.08, 0.40, 0.03), Vector3(0, 0.78, 0.303), Vector3(-62, 0, 0), Vector3.ONE,
+		0.8, 0.12)
 	for sx: float in [-1.0, 1.0]:
 		var hip := Vector3(0.14 * sx, HIP_Y - 0.02, 0.0)
 		var knee := Vector3(0.52 * sx, HIP_Y - 0.26, 0.14)
 		var ankle := Vector3(0.66 * sx, HIP_Y - 0.62, 0.08)
-		_seg(s, steel, hip, knee, 0.115, 0.095, 6, false)
-		_put(s, sphere(0.10, 5, 2), metal, knee + Vector3(0.01 * sx, 0.0, 0.02))
-		_seg(s, steel, knee, ankle, 0.085, 0.072, 6, false)
-		_put(s, soft_box(Vector3(0.13, 0.11, 0.28)), leather, ankle + Vector3(0.0, -0.05, 0.07))
+		RiderShapes.tube(s, steel, PackedVector3Array([hip, hip.lerp(knee, 0.45), knee]), PackedFloat32Array([0.115, 0.12, 0.095]), 10,
+			false)
+		RiderShapes.lathe(s, metal, PackedVector2Array([Vector2(0.105, 0.0), Vector2(0.1, 0.04), Vector2(0.07, 0.075),
+			Vector2(0.0, 0.09)]), 10, MountModel.frame(knee + Vector3(0.01 * sx, 0.0, -0.02), Vector3(0.1 * sx, 0.1, 1.0),
+			Vector3.UP), 1.0, 1.1)
+		RiderShapes.tube(s, steel, PackedVector3Array([knee, knee.lerp(ankle, 0.3), ankle]), PackedFloat32Array([0.085, 0.092, 0.072]),
+			10, false)
+		RiderShapes.boot(s, leather, ankle + Vector3(0.0, -0.06, -0.07), ankle + Vector3(0.0, -0.06, 0.21), 0.07)
+		RiderShapes.lame(s, steel, 0.082, 0.07, 0.0, 0.08, 0.0, TAU, 10, 0.014, Transform3D(Basis.IDENTITY,
+			ankle + Vector3(0, -0.02, 0)))
 
 
 func _chest_sculpt(s: Dictionary) -> void:
@@ -288,20 +300,31 @@ func _chest_sculpt(s: Dictionary) -> void:
 	# breastplate (lathe, flattened front-back)
 	var prof := PackedVector2Array([Vector2(0.21, 0.93), Vector2(0.26, 1.05), Vector2(0.315, 1.24), Vector2(0.30, 1.38),
 		Vector2(0.20, 1.50), Vector2(0.08, 1.56), Vector2(0.0, 1.565)])
-	MountModel.sculpt_add(s, MountModel.lathe_mesh("fjr_torso_v2", prof, 8), Transform3D(Basis.from_scale(Vector3(1.0, 1.0,
-		0.84)), Vector3.ZERO), steel)
-	# team tabard over the chest, front and back, light stripe
-	_put(s, soft_box(Vector3(0.34, 0.44, 0.03)), dark, Vector3(0, 1.17, 0.255), Vector3(-7, 0, 0))
-	# the long team cape from the shoulders, falling back over the bear (a light hem)
-	# (two panels: from the shoulders down the back, then lying back over the bear's rump)
-	_put(s, soft_box(Vector3(0.62, 0.42, 0.035)), dark, Vector3(0, 1.32, -0.31), Vector3(30, 0, 0))
-	_put(s, soft_box(Vector3(0.70, 0.58, 0.035)), dark, Vector3(0, 1.05, -0.68), Vector3(68, 0, 0))
-	_put(s, soft_box(Vector3(0.72, 0.07, 0.045)), cloth, Vector3(0, 0.95, -0.95), Vector3(68, 0, 0))
-	# gorget
-	_put(s, cyl(0.13, 0.19, 0.10, 8, false), steel, Vector3(0, 1.555, 0.0))
-	# domed pauldrons, light rims, a cyan crystal each
+	RiderShapes.lathe(s, steel, prof, 14, Transform3D.IDENTITY, 1.0, 0.84)
+	# team tabard over the chest, front and back, light stripe (bevelled, a pointed hem)
+	RiderShapes.box_plate(s, dark, Vector3(0.34, 0.46, 0.026), Vector3(0, 1.165, 0.262), Vector3(-7, 0, 0), Vector3.ONE,
+		0.85, 0.14)
+	# the long team cape from the shoulders, falling back over the bear (a light hem): G-C leftovers, two folded,
+	# double-sided cloth sheets (were flat soft boxes) bowing away from the bear's back
+	RiderShapes.cloth(s, dark, ChampionShapes.arc(Vector3(0, 1.50, -0.07), 0.36, 0.14, deg_to_rad(240.0),
+		deg_to_rad(120.0), 7), 0.36, 1.08, 0.21, 6, 2, 2.0, 0.025)
+	RiderShapes.cloth(s, dark, ChampionShapes.arc(Vector3(0, 1.14, -0.33), 0.40, 0.08, deg_to_rad(240.0),
+		deg_to_rad(120.0), 7), 0.2, 1.04, 0.54, 6, 3, 2.0, 0.03)
+	RiderShapes.box_plate(s, cloth, Vector3(0.72, 0.07, 0.04), Vector3(0, 0.95, -0.95), Vector3(68, 0, 0), Vector3.ONE,
+		0.9, 0.0, true)
+	# gorget: two rolled lames
+	RiderShapes.lame(s, steel, 0.195, 0.165, 1.50, 1.555, 0.0, TAU, 14, 0.016)
+	RiderShapes.lame(s, steel, 0.168, 0.135, 1.55, 1.61, 0.0, TAU, 14, 0.014)
+	# domed pauldrons (smooth domes over two rolled lames), light rims, a cyan crystal each
 	for sx: float in [-1.0, 1.0]:
-		_put(s, sphere(0.19, 7, 3), steel, Vector3(0.42 * sx, 1.45, 0.0), Vector3.ZERO, Vector3(1.25, 0.8, 1.2))
+		var pf := MountModel.frame(Vector3(0.42 * sx, 1.43, 0.0), Vector3(0.5 * sx, 1.0, 0.0), Vector3.BACK)
+		RiderShapes.lathe(s, steel, PackedVector2Array([Vector2(0.2, -0.06), Vector2(0.21, -0.01), Vector2(0.18, 0.06),
+			Vector2(0.1, 0.11), Vector2(0.0, 0.125)]), 14, pf, 1.0, 0.98)
+		RiderShapes.band(s, metal, 0.205, 0.035, 0.014, 14, Transform3D(pf.basis, pf * Vector3(0, -0.045, 0)))
+		for k: int in 2:
+			var rk: float = 0.19 - 0.02 * float(k)
+			RiderShapes.lame(s, steel, rk + 0.014, rk, 0.0, 0.06, 0.0, TAU, 12, 0.014,
+				Transform3D(pf.basis, pf * Vector3(0.014 * sx * float(k + 1), -0.13 - 0.065 * float(k), 0.0)))
 		MountModel.sculpt_crystal(s, frost, Vector3(0.48 * sx, 1.53, -0.02), Vector3(0.6 * sx, 1.0, -0.2), 0.045, 0.20, 0.45)
 	# neck + head (the face canvas)
 	_put(s, sphere(HEAD_R, 8, 5), skin, HEAD_C, Vector3.ZERO, Vector3(0.95, 1.05, 0.95))
@@ -311,7 +334,8 @@ func _chest_sculpt(s: Dictionary) -> void:
 	MountModel.sculpt_add(s, MountModel.lathe_mesh("fjr_helm_v2", dome, 8, false), Transform3D(Basis.IDENTITY,
 		Vector3(0, 0, 0.025)), steel)
 	for sx: float in [-1.0, 1.0]:
-		_put(s, soft_box(Vector3(0.035, 0.15, 0.12)), steel, Vector3(0.158 * sx, 1.69, 0.06), Vector3(0, 12.0 * sx, 0))
+		RiderShapes.box_plate(s, steel, Vector3(0.13, 0.16, 0.03), Vector3(0.16 * sx, 1.69, 0.06), Vector3(0, 102.0 * sx, 0),
+			Vector3.ONE, 0.75, 0.22)
 	# THE FROSTCROWN: a light circlet with five cyan ice spikes (tallest at the front)
 	_put(s, cyl(0.172, 0.182, 0.07, 9, false), metal, Vector3(0, 1.84, 0.025))
 	var spikes: Array = [[0.0, 0.25], [55.0, 0.16], [-55.0, 0.16], [130.0, 0.12], [-130.0, 0.12]]
@@ -332,9 +356,8 @@ func _arm_l_sculpt(s: Dictionary) -> void:
 	var leather := m("ice_leather")
 	var frost := m("ice_frost_crystal")
 	var elbow := Vector3(-0.39, 1.16, 0.0)
-	_seg(s, steel, SH_L, elbow, 0.09, 0.08, 6, false)
-	_seg(s, steel, elbow, HAND_L + Vector3(0, 0.05, 0), 0.085, 0.072, 6, false)
-	_put(s, sphere(0.08, 6, 2), leather, HAND_L)
+	_arm_plates(s, SH_L, elbow, HAND_L, steel, -1.0)
+	_put(s, sphere(0.08, 8, 4), leather, HAND_L)
 	# the tower shield (face -X): steel back, team face, a light team cross, a cyan crystal boss
 	var poly := PackedVector2Array()
 	var face := PackedVector2Array()
@@ -353,9 +376,22 @@ func _arm_r_sculpt(s: Dictionary) -> void:
 	var steel := m("ice_steel")
 	var leather := m("ice_leather")
 	var elbow := Vector3(0.39, 1.16, 0.0)
-	_seg(s, steel, SH_R, elbow, 0.09, 0.08, 6, false)
-	_seg(s, steel, elbow, HAND_R + Vector3(0, 0.05, 0), 0.085, 0.072, 6, false)
-	_put(s, sphere(0.08, 6, 2), leather, HAND_R)
+	_arm_plates(s, SH_R, elbow, HAND_R, steel, 1.0)
+	_put(s, sphere(0.08, 8, 4), leather, HAND_R)
+
+
+## G-C leftovers: a plate arm: rerebrace and vambrace as smooth swelling tubes, a cupped couter at the elbow, a flared
+## cuff at the wrist (was two 6-sided cylinders).
+static func _arm_plates(s: Dictionary, sh: Vector3, elbow: Vector3, hand: Vector3, steel: Material, sx: float) -> void:
+	var w0 := hand + Vector3(0, 0.05, 0)
+	var d := (w0 - elbow).normalized()
+	var u := (elbow - sh).normalized()
+	RiderShapes.tube(s, steel, PackedVector3Array([sh, sh.lerp(elbow, 0.45), elbow]), PackedFloat32Array([0.09, 0.095, 0.08]), 10,
+		false)
+	RiderShapes.lathe(s, steel, PackedVector2Array([Vector2(0.086, 0.0), Vector2(0.082, 0.035), Vector2(0.054, 0.066),
+		Vector2(0.0, 0.078)]), 10, MountModel.frame(elbow - d * 0.01, u - d, Vector3(sx, 0, 0)))
+	RiderShapes.tube(s, steel, PackedVector3Array([elbow, elbow.lerp(w0, 0.35), w0, w0 + d * 0.008]),
+		PackedFloat32Array([0.085, 0.088, 0.094, 0.07]), 10, false)
 
 
 ## The great war-hammer (keep_separate "Hammer", node-local: the fist at the origin, haft along +Y, striking face +Z).
@@ -364,11 +400,15 @@ func _hammer_sculpt(s: Dictionary) -> void:
 	var metal := m("ice_metal")
 	var frost := m("ice_frost_crystal")
 	var h := Vector3(0, HAMMER_HEAD, 0.02)
-	_seg(s, m("ice_wood"), Vector3(0, -0.20, 0), Vector3(0, HAMMER_LEN, 0), 0.036, 0.034, 6, false)
+	_seg(s, m("ice_wood"), Vector3(0, -0.20, 0), Vector3(0, HAMMER_LEN, 0), 0.036, 0.034, 8, false)
+	for k: int in 3:
+		RiderShapes.band(s, m("ice_leather"), 0.036, 0.04, 0.008, 8, Transform3D(Basis.IDENTITY, Vector3(0, -0.1 + 0.07 * float(k), 0)))
 	MountModel.sculpt_add(s, cyl(0.0, 0.055, 0.10, 4), Transform3D(Basis(Vector3.RIGHT, PI), Vector3(0, -0.25, 0)), metal)
-	_put(s, soft_box(Vector3(0.25, 0.29, 0.44)), steel, h)
+	# G-C leftovers: the head as a bevelled block chamfered on both faces (catches a light line on every edge)
+	RiderShapes.box_plate(s, steel, Vector3(0.25, 0.29, 0.44), h, Vector3.ZERO, Vector3.ONE, 1.0, 0.0, true, 0.03)
 	# the ice block on the striking face, the back spike, the glowing frost band, the top spike
-	_put(s, soft_box(Vector3(0.21, 0.24, 0.08)), frost, h + Vector3(0, 0, 0.25))
+	RiderShapes.box_plate(s, frost, Vector3(0.21, 0.24, 0.08), h + Vector3(0, 0, 0.25), Vector3.ZERO, Vector3.ONE, 1.0, 0.0,
+		true, 0.025)
 	MountModel.sculpt_add(s, cyl(0.0, 0.08, 0.28, 4), Transform3D(_to_dir(Vector3(0, 0, -1)), h + Vector3(0, 0, -0.35)), steel)
 	_put(s, soft_box(Vector3(0.255, 0.05, 0.36)), m("ice_glow_unit"), h + Vector3(0, 0.125, -0.02))
 	MountModel.sculpt_crystal(s, frost, h + Vector3(0, 0.14, 0.0), Vector3.UP, 0.055, 0.20, 0.55)

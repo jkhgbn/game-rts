@@ -274,11 +274,15 @@ func _hips_sculpt(s: Dictionary) -> void:
 		var hip := Vector3(0.12 * sx, HIP_Y - 0.03, 0.0)
 		var knee := Vector3(0.36 * sx, HIP_Y - 0.25, 0.17)
 		var ankle := Vector3(0.43 * sx, HIP_Y - 0.57, 0.08)
-		_seg(s, leather, hip, knee, 0.095, 0.075)
-		_put(s, sphere(0.08, 5, 2), steel, knee + Vector3(0.0, 0.0, 0.02))
-		_seg(s, steel, knee, ankle, 0.072, 0.06)
-		_put(s, cyl(0.075, 0.085, 0.07, 6, false), fur, ankle + Vector3(0, 0.03, 0))
-		_put(s, soft_box(Vector3(0.115, 0.10, 0.26)), leather, ankle + Vector3(0.0, -0.04, 0.06))
+		# G-C leftovers (light rider, 2500-vertex budget: same ring counts): smooth swelling thigh / greave tubes, a jagged
+		# fur cuff, a rounded boot (was a soft box)
+		RiderShapes.tube(s, leather, PackedVector3Array([hip, hip.lerp(knee, 0.45), knee]), PackedFloat32Array([0.095, 0.1, 0.075]),
+			6, false)
+		_put(s, sphere(0.08, 6, 3), steel, knee + Vector3(0.0, 0.0, 0.02))
+		RiderShapes.tube(s, steel, PackedVector3Array([knee, knee.lerp(ankle, 0.3), ankle]), PackedFloat32Array([0.072, 0.077, 0.06]),
+			6, false)
+		_put(s, IceModel.fur_ring(0.07, 0.086, 0.08, 4, 0.022), fur, ankle + Vector3(0, -0.005, 0))
+		RiderShapes.boot(s, leather, ankle + Vector3(0.0, -0.05, -0.065), ankle + Vector3(0.0, -0.05, 0.19), 0.06, 6)
 
 
 func _chest_sculpt(s: Dictionary) -> void:
@@ -334,9 +338,12 @@ func _arm_l_sculpt(s: Dictionary) -> void:
 	var dark := m("ice_cloth_dark")
 	var steel := m("ice_steel")
 	var elbow := SH_L + Vector3(-0.01, -0.28, 0)
-	_seg(s, dark, SH_L, elbow, 0.075, 0.066)
-	_seg(s, steel, elbow, HAND_L + Vector3(0, 0.05, 0), 0.068, 0.058)
-	_put(s, sphere(0.066, 5, 2), leather, HAND_L)
+	RiderShapes.tube(s, dark, PackedVector3Array([SH_L, SH_L.lerp(elbow, 0.45), elbow]), PackedFloat32Array([0.075, 0.079, 0.066]),
+		6, false)
+	var wl := HAND_L + Vector3(0, 0.05, 0)
+	RiderShapes.tube(s, steel, PackedVector3Array([elbow, elbow.lerp(wl, 0.3), wl]), PackedFloat32Array([0.068, 0.072, 0.058]),
+		6, false)
+	_put(s, sphere(0.066, 6, 3), leather, HAND_L)
 
 
 ## The sabre arm and the FROST SABRE (merged): a curved steel blade with a glowing cyan edge, a steel guard, a
@@ -347,9 +354,12 @@ func _arm_r_sculpt(s: Dictionary) -> void:
 	var steel := m("ice_steel")
 	var metal := m("ice_metal")
 	var elbow := SH_R + Vector3(0.01, -0.28, 0)
-	_seg(s, dark, SH_R, elbow, 0.075, 0.066)
-	_seg(s, steel, elbow, HAND_R + Vector3(0, 0.05, 0), 0.068, 0.058)
-	_put(s, sphere(0.066, 5, 2), leather, HAND_R)
+	RiderShapes.tube(s, dark, PackedVector3Array([SH_R, SH_R.lerp(elbow, 0.45), elbow]), PackedFloat32Array([0.075, 0.079, 0.066]),
+		6, false)
+	var wr := HAND_R + Vector3(0, 0.05, 0)
+	RiderShapes.tube(s, steel, PackedVector3Array([elbow, elbow.lerp(wr, 0.3), wr]), PackedFloat32Array([0.068, 0.072, 0.058]),
+		6, false)
+	_put(s, sphere(0.066, 6, 3), leather, HAND_R)
 	# the blade outline in its own (L along SABRE_DIR, W along SABRE_BACK) frame, curving back toward the tip
 	var d := SABRE_DIR.normalized()
 	var bk := SABRE_BACK.normalized()

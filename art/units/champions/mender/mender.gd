@@ -1110,12 +1110,31 @@ func _geo_pouch() -> Geo:
 func _geo_leg(side: float) -> Geo:
 	var g := Geo.new()
 	var x := 0.15 * side
-	g.prim(cyl(0.078, 0.07, 0.28), _xf(Vector3(x, 0.27, 0)), HERB_DARK)
+	# G-C leftovers (2026-10-15): a stocking with a calf swell, a lathed boot shaft with a rolled cuff, the foot as a
+	# rounded tube toward the toe, a bevelled sole with a rounded toe (was a cylinder, a torus and a box).
+	g.tube(PackedVector3Array([Vector3(x, 0.42, 0.0), Vector3(x, 0.31, -0.008), Vector3(x, 0.17, 0.0)]),
+		PackedFloat32Array([0.078, 0.082, 0.068]), 8, HERB_DARK, 0.0, false)
 	var yaw := Vector3(0, 9.0 * side, 0)
-	g.prim(sphere(1.0, 10, 5), _xf(Vector3(x + 0.01 * side, 0.088, 0.05), yaw, Vector3(0.115, 0.088, 0.165)), LEATHER)
-	g.prim(torus(0.058, 0.098, 10), _xf(Vector3(x, 0.165, 0.0)), LEATHER)
-	g.prim(box(Vector3(0.19, 0.03, 0.30)), _xf(Vector3(x + 0.01 * side, 0.015, 0.05), yaw), SOLE)
+	var ft := _xf(Vector3(x + 0.01 * side, 0.0, 0.05), yaw)
+	g.lathe(_p([0.084, 0.045, 0.094, 0.10, 0.088, 0.15, 0.08, 0.17]), _xf(Vector3(x, 0.0, 0.0)), 10, LEATHER, 0.0)
+	g.lathe(_p([0.084, 0.162, 0.1, 0.172, 0.104, 0.188, 0.096, 0.204, 0.078, 0.208]), _xf(Vector3(x, 0.0, 0.0)), 10, LEATHER, 0.0)
+	g.tube(PackedVector3Array([ft * Vector3(0, 0.075, -0.07), ft * Vector3(0, 0.075, 0.03), ft * Vector3(0, 0.06, 0.12),
+		ft * Vector3(0, 0.045, 0.185)]), PackedFloat32Array([0.075, 0.078, 0.06, 0.03]), 9, LEATHER, 0.0, true, 1.35)
+	g.prim(_sole_mesh(), ft, SOLE)
 	return g
+
+
+## The boot sole (foot space: heel at -Z, toe at +Z, top at y 0.03): a rounded outline, bevelled.
+static func _sole_mesh() -> Mesh:
+	if _meshes.has("gc_sole"):
+		return _meshes["gc_sole"]
+	var st := ChampionShapes.begin()
+	ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.085, 0.10), Vector2(0.085, 0.10), Vector2(0.097, -0.02),
+		Vector2(0.088, -0.13), Vector2(0.05, -0.195), Vector2(-0.05, -0.195), Vector2(-0.088, -0.13), Vector2(-0.097, -0.02)]),
+		0.03, 0.009, Transform3D(Basis(Vector3.RIGHT, -PI * 0.5), Vector3(0, 0.015, 0)))
+	var m := ChampionShapes.commit(st)
+	_meshes["gc_sole"] = m
+	return m
 
 
 # ---------------------------------------------------------------- chest
@@ -1448,8 +1467,17 @@ func _geo_arm(side: float) -> Geo:
 	g.tube(PackedVector3Array([s, s.lerp(e, 0.5) + Vector3(0.01 * side, 0, 0), e]), PackedFloat32Array([0.105, 0.1, 0.09]),
 		8, LINEN)
 	g.prim(torus(0.062, 0.112, 10), _along(e, w, Vector3(1.0, 1.3, 1.0)), LINEN_SH)
-	g.tube(PackedVector3Array([e, w]), PackedFloat32Array([0.076, 0.068]), 8, SKIN, M_SKIN)
-	g.prim(sphere(0.105, 10, 6), _xf(h), SKIN, M_SKIN)
+	# G-C leftovers (2026-10-15): a forearm with a muscle swell and a narrower wrist, a mitten hand (lathe: flatter than
+	# wide, knuckles forward) and a thumb (were a straight tube and a ball).
+	var mid := e.lerp(w, 0.4) + Vector3(0.006 * side, 0.0, 0.0)
+	g.tube(PackedVector3Array([e, mid, w]), PackedFloat32Array([0.074, 0.08, 0.06]), 8, SKIN, M_SKIN, false)
+	var fd := (h - w).normalized() if h.distance_to(w) > 0.01 else (w - e).normalized()
+	var hb := Basis(Quaternion(Vector3.UP, fd))
+	g.lathe(_p([0.0, -0.075, 0.07, -0.06, 0.09, -0.005, 0.085, 0.05, 0.05, 0.088, 0.0, 0.098]),
+		Transform3D(hb.scaled_local(Vector3(1.0, 1.0, 0.8)), h - fd * 0.01), 9, SKIN, M_SKIN)
+	var th := (Vector3.BACK - fd * fd.dot(Vector3.BACK)).normalized()   # the thumb on the forward side of the fist
+	g.tube(PackedVector3Array([h + th * 0.055 - fd * 0.02, h + th * 0.085 + fd * 0.03, h + th * 0.075 + fd * 0.075]),
+		PackedFloat32Array([0.032, 0.027, 0.02]), 6, SKIN, M_SKIN)
 	return g
 
 

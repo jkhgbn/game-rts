@@ -57,19 +57,36 @@ func _build_parts() -> void:
 	# ---- Hips: fauld, tassets, long team tabard front and back, the crimson sash knotted at the left hip.
 	add_part(hips, cyl(0.21, 0.27, 0.2, 10), plate, Vector3(0, 1.0, 0.0))
 	add_part(hips, cyl(0.275, 0.275, 0.035, 10), trim, Vector3(0, 0.9, 0.0))
-	for s: float in [-1.0, 1.0]:
-		add_part(hips, box(Vector3(0.17, 0.22, 0.04)), plate, Vector3(0.19 * s, 0.84, 0.1), Vector3(-8, 20 * s, 8 * s))
-	add_part(hips, box(Vector3(0.24, 0.78, 0.035)), cloth, Vector3(0, 0.62, 0.21), Vector3(-5, 0, 0))
-	add_part(hips, box(Vector3(0.24, 0.05, 0.04)), trim, Vector3(0, 0.25, 0.245), Vector3(-5, 0, 0))
-	add_part(hips, box(Vector3(0.32, 0.84, 0.035)), cdark, Vector3(0, 0.6, -0.2), Vector3(7, 0, 0))
-	add_part(hips, torus(0.2, 0.26, 10), sash, Vector3(0, 1.08, 0.0), Vector3(0, 0, -8), Vector3(1.0, 2.2, 1.0))
+	# G-C leftovers (2026-10-15): curved tasset lames, a tabard with a pointed silver-edged hem, a torn back panel, a
+	# wrapped sash with forked tails (bevelled plates / lames / tubes instead of boxes and a stretched torus).
+	add_part(hips, _gc("ho_gc_tassets", func(st: SurfaceTool) -> void:
+		for s: float in [-1.0, 1.0]:
+			ChampionShapes.lame(st, 0.31, 0.272, 0.72, 0.95, s * 1.09 - 0.36, s * 1.09 + 0.36, 2, 0.03)), plate, Vector3.ZERO)
+	var tab := Transform3D(Basis.from_euler(Vector3(-5, 0, 0) * DEG), Vector3(0, 0.62, 0.21))
+	add_part(hips, _gc("ho_gc_tabard", func(st: SurfaceTool) -> void:
+		ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.12, 0.39), Vector2(0.12, 0.39), Vector2(0.12, -0.30),
+			Vector2(0.0, -0.40), Vector2(-0.12, -0.30)]), 0.03, 0.008, tab)), cloth, Vector3.ZERO)
+	add_part(hips, _gc("ho_gc_tabard_hem", func(st: SurfaceTool) -> void:
+		ChampionShapes.tube(st, PackedVector3Array([tab * Vector3(-0.125, -0.295, 0.018), tab * Vector3(0.0, -0.405, 0.018),
+			tab * Vector3(0.125, -0.295, 0.018)]), PackedFloat32Array([0.013, 0.016, 0.013]), 4, false)), trim, Vector3.ZERO)
+	add_part(hips, _gc("ho_gc_back_panel", func(st: SurfaceTool) -> void:
+		ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.16, 0.42), Vector2(0.16, 0.42), Vector2(0.16, -0.32),
+			Vector2(0.04, -0.42), Vector2(-0.16, -0.36)]), 0.03, 0.008,
+			Transform3D(Basis.from_euler(Vector3(-7, 180, 0) * DEG), Vector3(0, 0.6, -0.2)))), cdark, Vector3.ZERO)
+	add_part(hips, _gc("ho_gc_sash", func(st: SurfaceTool) -> void:
+		ChampionShapes.band(st, 0.212, 0.12, 0.03, 10, Transform3D(Basis.from_euler(Vector3(0, 0, -8) * DEG), Vector3(0, 1.08, 0)))
+		for t: Array in [[0.5, Vector3(-0.28, 0.8, 0.12), Vector3(-4, 20, -10)], [0.36, Vector3(-0.3, 0.86, 0.02), Vector3(6, 40, -18)]]:
+			var h: float = t[0]
+			ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.04, h * 0.5), Vector2(0.04, h * 0.5), Vector2(0.043, -h * 0.5),
+				Vector2(0.0, -h * 0.5 + 0.06), Vector2(-0.043, -h * 0.5)]), 0.022, 0.006,
+				Transform3D(Basis.from_euler(t[2] * DEG), t[1]))), sash, Vector3.ZERO)
 	add_part(hips, sphere(0.06, 6, 3), sash, Vector3(-0.24, 1.04, 0.1))
-	add_part(hips, box(Vector3(0.08, 0.5, 0.025)), sash, Vector3(-0.28, 0.8, 0.12), Vector3(-4, 20, -10))
-	add_part(hips, box(Vector3(0.07, 0.36, 0.025)), sash, Vector3(-0.3, 0.86, 0.02), Vector3(6, 40, -18))
 	# ---- Chest: cuirass with a silver ridge, narrow waist, gorget, huge pauldrons, torn team cape.
 	add_part(chest, cyl(0.24, 0.19, 0.22, 10), plate, Vector3(0, 1.16, 0.0))
 	add_part(chest, sphere(0.27, 10, 5), plate, Vector3(0, 1.4, 0.0), Vector3.ZERO, Vector3(1.18, 1.1, 0.82))
-	add_part(chest, box(Vector3(0.035, 0.36, 0.05)), trim, Vector3(0, 1.4, 0.21), Vector3(-8, 0, 0))
+	add_part(chest, _gc("ho_gc_ridge", func(st: SurfaceTool) -> void:
+		ChampionShapes.tube(st, PackedVector3Array([Vector3(0, 1.235, 0.2), Vector3(0, 1.40, 0.228), Vector3(0, 1.565, 0.19)]),
+			PackedFloat32Array([0.014, 0.02, 0.013]), 4, false)), trim, Vector3.ZERO)
 	add_part(chest, cyl(0.12, 0.16, 0.1, 10), trim, Vector3(0, 1.66, 0.0))
 	# the oath medallion (bronze) on the breast, over the silver ridge.
 	add_part(chest, cyl(0.065, 0.065, 0.03, 10), palette(&"fire_bronze"), Vector3(0, 1.47, 0.225), Vector3(80, 0, 0))
@@ -77,17 +94,29 @@ func _build_parts() -> void:
 		add_part(chest, sphere(0.17, 9, 4), trim, Vector3(0.37 * s, 1.62, 0.0), Vector3(0, 0, -14 * s), Vector3(1.3, 0.85, 1.15))
 		add_part(chest, torus(0.17, 0.2, 10), plate, Vector3(0.39 * s, 1.58, 0.0), Vector3(0, 0, -20 * s), Vector3(1.25, 1.2, 1.15))
 		add_part(chest, cyl(0.15, 0.17, 0.07, 9), plate, Vector3(0.42 * s, 1.47, 0.0), Vector3(0, 0, -24 * s))
-	add_part(chest, box(Vector3(0.05, 0.2, 0.26)), trim, Vector3(-0.3, 1.8, 0.0), Vector3(0, 0, 14))
+	# the left haute-piece: a raised silver neck guard with a swept top edge (bevelled plate, side outline)
+	add_part(chest, _gc("ho_gc_haute", func(st: SurfaceTool) -> void:
+		ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.13, -0.10), Vector2(0.13, -0.10), Vector2(0.12, 0.03),
+			Vector2(0.05, 0.10), Vector2(-0.06, 0.10), Vector2(-0.13, 0.03)]), 0.045, 0.012,
+			Transform3D(Basis.from_euler(Vector3(0, 0, 14) * DEG) * Basis(Vector3(0, 0, 1), Vector3(0, 1, 0), Vector3(-1, 0, 0)),
+				Vector3(-0.3, 1.8, 0.0)))), trim, Vector3.ZERO)
 	add_part(chest, cape(0.6, 1.25), palette(&"shadow_cape"), Vector3(0, 1.0, -0.24), Vector3(7, 0, 0))
 	# ---- Head: great helm, visor slit with violet eyes, the split mitre crest, team lappets down the back.
 	add_part(head, cyl(0.125, 0.135, 0.26, 10), plate, Vector3(0, 1.84, 0.01))
 	add_part(head, sphere(0.125, 10, 3), plate, Vector3(0, 1.97, 0.01), Vector3.ZERO, Vector3(1.0, 0.6, 1.0))
 	add_part(head, box(Vector3(0.2, 0.035, 0.03)), dark, Vector3(0, 1.87, 0.135))
-	add_part(head, box(Vector3(0.03, 0.14, 0.03)), trim, Vector3(0, 1.8, 0.14))
+	add_part(head, _gc("ho_gc_nasal", func(st: SurfaceTool) -> void:
+		ChampionShapes.tube(st, PackedVector3Array([Vector3(0, 1.872, 0.142), Vector3(0, 1.80, 0.15), Vector3(0, 1.735, 0.146)]),
+			PackedFloat32Array([0.018, 0.016, 0.011]), 4, false)), trim, Vector3.ZERO)
 	for s: float in [-1.0, 1.0]:
 		add_part(head, sphere(0.022, 5, 2), palette(&"shadow_glow_hero"), Vector3(0.045 * s, 1.87, 0.14))
 		add_part(head, prism(Vector3(0.13, 0.36, 0.2)), trim, Vector3(0.06 * s, 2.11, 0.0), Vector3(0, 0, -12 * s))
-		add_part(head, box(Vector3(0.05, 0.36, 0.02)), cloth, Vector3(0.05 * s, 1.84, -0.15), Vector3(10, 0, 4 * s))
+	# team lappets down the back of the helm, pointed tips (bevelled plates)
+	add_part(head, _gc("ho_gc_lappets", func(st: SurfaceTool) -> void:
+		for s: float in [-1.0, 1.0]:
+			ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.025, 0.18), Vector2(0.025, 0.18), Vector2(0.027, -0.12),
+				Vector2(0.0, -0.18), Vector2(-0.027, -0.12)]), 0.02, 0.006,
+				Transform3D(Basis.from_euler(Vector3(-10, 180, -4 * s) * DEG), Vector3(0.05 * s, 1.84, -0.15)))), cloth, Vector3.ZERO)
 	add_part(head, cyl(0.13, 0.13, 0.04, 10), trim, Vector3(0, 1.96, 0.01))
 	var vt := add_part(head, torus(0.15, 0.19, 10), palette(&"unit_gold_trim"), Vector3(0, 1.99, 0.01),
 		Vector3.ZERO, Vector3.ONE, true, "VetTrim")
@@ -107,11 +136,21 @@ func _build_parts() -> void:
 	# ---- The sword (right arm): pommel, grip, guard, a long single-edged silver blade with a dark spine, the tip.
 	add_part(arm_r, sphere(0.045, 6, 3), trim, Vector3(GRIP.x, 1.38, GRIP.z))
 	add_part(arm_r, cyl(0.024, 0.024, 0.3, 6), leather, Vector3(GRIP.x, 1.2, GRIP.z))
-	add_part(arm_r, box(Vector3(0.24, 0.04, 0.07)), trim, Vector3(GRIP.x, 1.04, GRIP.z))
-	add_part(arm_r, box(Vector3(0.06, 0.07, 0.09)), plate, Vector3(GRIP.x, 1.04, GRIP.z))
-	add_part(arm_r, box(Vector3(0.02, 0.84, 0.085)), trim, Vector3(GRIP.x, 0.6, GRIP.z + 0.01))
-	add_part(arm_r, box(Vector3(0.026, 0.84, 0.022)), plate, Vector3(GRIP.x, 0.6, GRIP.z - 0.035))
-	add_part(arm_r, prism(Vector3(0.105, 0.16, 0.02)), trim, Vector3(GRIP.x, 0.1, GRIP.z), Vector3(180, 90, 0))
+	# G-C leftovers: quillons curling at the ends, an octagonal ricasso block, a bevelled single-edged blade with a clip
+	# point (one outline, was two boxes and a prism) and a dark rounded spine.
+	var side := Basis(Vector3(0, 0, 1), Vector3(0, 1, 0), Vector3(-1, 0, 0))   # plate x -> +Z, plate y -> +Y
+	add_part(arm_r, _gc("ho_gc_sword_trim", func(st: SurfaceTool) -> void:
+		ChampionShapes.tube(st, PackedVector3Array([Vector3(GRIP.x - 0.135, 1.068, GRIP.z), Vector3(GRIP.x - 0.10, 1.042, GRIP.z),
+			Vector3(GRIP.x + 0.10, 1.042, GRIP.z), Vector3(GRIP.x + 0.135, 1.068, GRIP.z)]),
+			PackedFloat32Array([0.016, 0.02, 0.02, 0.016]), 5, true)
+		ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.032, 1.02), Vector2(0.052, 1.02), Vector2(0.054, 0.32),
+			Vector2(0.035, 0.16), Vector2(-0.03, 0.02), Vector2(-0.034, 0.30)]), 0.02, 0.007,
+			Transform3D(side, Vector3(GRIP.x, 0.0, GRIP.z)))), trim, Vector3.ZERO)
+	add_part(arm_r, _gc("ho_gc_sword_iron", func(st: SurfaceTool) -> void:
+		ChampionShapes.lathe(st, PackedVector2Array([Vector2(0.045, -0.035), Vector2(0.052, -0.02), Vector2(0.052, 0.02),
+			Vector2(0.045, 0.035)]), 6, Transform3D(Basis.IDENTITY, Vector3(GRIP.x, 1.04, GRIP.z)), 0.65, 1.0, true)
+		ChampionShapes.tube(st, PackedVector3Array([Vector3(GRIP.x, 1.02, GRIP.z - 0.036), Vector3(GRIP.x, 0.28, GRIP.z - 0.036)]),
+			PackedFloat32Array([0.012, 0.009]), 4, true)), plate, Vector3.ZERO)
 	_rune = add_part(arm_r, box(Vector3(0.026, 0.42, 0.016)), palette(&"shadow_glow_hero"),
 		Vector3(GRIP.x, 0.8, GRIP.z + 0.02), Vector3.ZERO, Vector3.ONE, true, "BladeRune")
 	_rune.set_meta(&"own_glow", true)
@@ -148,6 +187,15 @@ static func _tube(key: String, pts: PackedVector3Array, radii: PackedFloat32Arra
 	var last := radii.size() - 1
 	return _cached(key, ShadowGeo.tube(pts, radii, {"seg": seg + 2, "cap_start": caps and radii[0] > 0.0,
 		"cap_end": caps and radii[last] > 0.0}))
+
+
+## A cached mesh built by build(st) (ChampionShapes into one SurfaceTool, model space; G-C leftovers 2026-10-15).
+static func _gc(key: String, build: Callable) -> Mesh:
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var st := ChampionShapes.begin()
+	build.call(st)
+	return _cached(key, ChampionShapes.commit(st))
 
 
 # ================================================================ motion

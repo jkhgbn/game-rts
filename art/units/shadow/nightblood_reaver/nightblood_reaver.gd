@@ -64,34 +64,63 @@ func _build_parts() -> void:
 		add_part(leg, _nr_path("nr_leg_%s" % sx, PackedVector3Array([Vector3(0.14 * sx, 1.08, 0.0),
 			Vector3(0.15 * sx, 0.62, 0.04), Vector3(0.15 * sx, 0.14, 0.0)]), PackedFloat32Array([0.1, 0.075, 0.065]), 5),
 			plate, Vector3.ZERO)
-		add_part(leg, sphere(0.085, 5, 2), blood, Vector3(0.15 * sx, 0.62, 0.08), Vector3.ZERO, Vector3(1.0, 1.1, 0.8))
+		# G-C leftovers (2026-10-15): a domed knee cop with a rolled rim and a long pointed sabaton (smooth, flattened tube)
+		add_part(leg, _gc("nr_gc_knee_%s" % sx, func(st: SurfaceTool) -> void:
+			ChampionShapes.lathe(st, PackedVector2Array([Vector2(0.085, -0.02), Vector2(0.088, 0.0), Vector2(0.07, 0.045),
+				Vector2(0.0, 0.06)]), 8, Transform3D(Basis(Vector3.RIGHT, PI * 0.5).scaled_local(Vector3(1.0, 1.0, 1.15)),
+				Vector3(0.15 * sx, 0.62, 0.05)), 1.0, 1.0, false)), blood, Vector3.ZERO)
 		add_part(leg, cyl(0.0, 0.03, 0.12, 4), silver, Vector3(0.15 * sx, 0.70, 0.14), Vector3(-60, 0, 0))
-		add_part(leg, cyl(0.0, 0.075, 0.28, 5, false), iron, Vector3(0.15 * sx, 0.06, 0.12), Vector3(90, 0, 0), Vector3(1.0, 1.0, 0.6))
+		add_part(leg, _gc("nr_gc_sabaton_%s" % sx, func(st: SurfaceTool) -> void:
+			ChampionShapes.tube(st, PackedVector3Array([Vector3(0.15 * sx, 0.07, -0.06), Vector3(0.15 * sx, 0.065, 0.06),
+				Vector3(0.15 * sx, 0.05, 0.17), Vector3(0.15 * sx, 0.035, 0.28)]), PackedFloat32Array([0.07, 0.075, 0.05, 0.0]),
+				6, true, 0.62)), iron, Vector3.ZERO)
 	# ---- Hips: black fauld, oxblood tassets flaring out, team tabard front and back, a belt with a silver clasp.
-	add_part(hips, cyl(0.24, 0.31, 0.3, 7), plate, Vector3(0, 0.98, 0))
-	for k: int in 4:
-		var a: float = deg_to_rad(-65.0 + 43.0 * k)
-		var d := Vector3(sin(a), 0, cos(a))
-		add_part(hips, box(Vector3(0.17, 0.3, 0.03)), blood, Vector3(0, 0.8, 0) + d * 0.3,
-			Vector3(-18, rad_to_deg(a), 0))
-	add_part(hips, box(Vector3(0.2, 0.7, 0.03)), cloth, Vector3(0, 0.66, 0.31), Vector3(-7, 0, 0))
-	add_part(hips, cyl(0.0, 0.1, 0.14, 4), cloth, Vector3(0, 0.25, 0.35), Vector3(180, 45, 0), Vector3(1.0, 1.0, 0.25))
-	add_part(hips, box(Vector3(0.2, 0.6, 0.03)), cdark, Vector3(0, 0.7, -0.3), Vector3(7, 0, 0))
-	add_part(hips, cyl(0.25, 0.25, 0.07, 7), leather, Vector3(0, 1.1, 0.0))
+	# G-C leftovers (2026-10-15): a flared lathed fauld, curved oxblood tasset lames, a tabard with a pointed hem and a
+	# torn back panel (bevelled plates), a round belt (were a 7-sided cylinder and boxes).
+	add_part(hips, _gc("nr_gc_fauld", func(st: SurfaceTool) -> void:
+		ChampionShapes.lathe(st, PackedVector2Array([Vector2(0.315, 0.83), Vector2(0.30, 0.90), Vector2(0.265, 1.04),
+			Vector2(0.24, 1.13)]), 10, Transform3D.IDENTITY, 1.0, 1.0, false)), plate, Vector3.ZERO)
+	add_part(hips, _gc("nr_gc_tassets", func(st: SurfaceTool) -> void:
+		for k: int in 4:
+			var a: float = deg_to_rad(-65.0 + 43.0 * k)
+			ChampionShapes.lame(st, 0.37, 0.31, 0.66, 0.95, a - 0.27, a + 0.27, 3, 0.03)), blood, Vector3.ZERO)
+	add_part(hips, _gc("nr_gc_tabard", func(st: SurfaceTool) -> void:
+		ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.1, 0.35), Vector2(0.1, 0.35), Vector2(0.1, -0.30),
+			Vector2(0.0, -0.43), Vector2(-0.1, -0.30)]), 0.03, 0.008,
+			Transform3D(Basis.from_euler(Vector3(-7, 0, 0) * DEG), Vector3(0, 0.66, 0.31)))), cloth, Vector3.ZERO)
+	add_part(hips, _gc("nr_gc_back", func(st: SurfaceTool) -> void:
+		ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.1, 0.30), Vector2(0.1, 0.30), Vector2(0.1, -0.22),
+			Vector2(0.05, -0.30), Vector2(0.0, -0.24), Vector2(-0.06, -0.30), Vector2(-0.1, -0.23)]), 0.03, 0.008,
+			Transform3D(Basis.from_euler(Vector3(-7, 180, 0) * DEG), Vector3(0, 0.7, -0.3)))), cdark, Vector3.ZERO)
+	add_part(hips, _gc("nr_gc_belt", func(st: SurfaceTool) -> void:
+		ChampionShapes.band(st, 0.24, 0.07, 0.016, 10, Transform3D(Basis.IDENTITY, Vector3(0, 1.1, 0.0)))), leather, Vector3.ZERO)
 	add_part(hips, sphere(0.05, 5, 2), silver, Vector3(0, 1.1, 0.25), Vector3.ZERO, Vector3(1.2, 1.0, 0.6))
 	# ---- Chest: black breastplate with a silver ridge, oxblood ribbing, the fan collar, the torn bat-wing cape.
 	add_part(chest, sphere(0.28, 8, 3), plate, Vector3(0, 1.44, 0.0), Vector3(-4, 0, 0), Vector3(1.05, 1.2, 0.82))
-	add_part(chest, box(Vector3(0.035, 0.36, 0.05)), silver, Vector3(0, 1.46, 0.225), Vector3(-10, 0, 0))
-	add_part(chest, torus(0.2, 0.26, 5), blood, Vector3(0, 1.22, 0.0), Vector3.ZERO, Vector3(1.0, 1.8, 0.85))
+	add_part(chest, _gc("nr_gc_ridge", func(st: SurfaceTool) -> void:
+		ChampionShapes.tube(st, PackedVector3Array([Vector3(0, 1.28, 0.205), Vector3(0, 1.46, 0.232), Vector3(0, 1.63, 0.19)]),
+			PackedFloat32Array([0.013, 0.02, 0.012]), 4, true)), silver, Vector3.ZERO)
+	# oxblood waist ribbing: two rolled bands (was a 5-ring torus stretched tall)
+	add_part(chest, _gc("nr_gc_ribbing", func(st: SurfaceTool) -> void:
+		for y: float in [1.17, 1.27]:
+			ChampionShapes.band(st, 0.215, 0.075, 0.03, 9, Transform3D(Basis.IDENTITY, Vector3(0, y, 0.0)), 1.0, 0.85)), blood,
+		Vector3.ZERO)
 	add_part(chest, cyl(0.08, 0.1, 0.16, 6, false), iron, Vector3(0, 1.73, 0.0))
-	for k: int in 5:
-		var a: float = deg_to_rad(-120.0 + 60.0 * k)
-		var d := Vector3(sin(a), 0, -cos(a))
-		var lean: float = 16.0 + 6.0 * absf(float(k) - 2.0)
-		add_part(chest, box(Vector3(0.11, 0.42 - 0.05 * absf(float(k) - 2.0), 0.03)), silver,
-			Vector3(0, 1.86, -0.02) + d * 0.15, Vector3(-lean, rad_to_deg(a), 0))
-		if k == 2:
-			add_part(chest, box(Vector3(0.09, 0.34, 0.02)), blood, Vector3(0, 1.84, -0.02) + d * 0.13, Vector3(-lean, rad_to_deg(a), 0))
+	# the fan collar: five pointed silver blades (bevelled plates) behind the head, an oxblood blade in the middle
+	add_part(chest, _gc("nr_gc_collar", func(st: SurfaceTool) -> void:
+		for k: int in 5:
+			var a: float = deg_to_rad(-120.0 + 60.0 * k)
+			var d := Vector3(sin(a), 0, -cos(a))
+			var lean: float = 16.0 + 6.0 * absf(float(k) - 2.0)
+			var h: float = 0.42 - 0.05 * absf(float(k) - 2.0)
+			ChampionShapes.plate(st, _blade_outline(0.11, h), 0.028, 0.008,
+				Transform3D(Basis.from_euler(Vector3(-lean, rad_to_deg(a), 0) * DEG), Vector3(0, 1.86, -0.02) + d * 0.15))), silver,
+		Vector3.ZERO)
+	add_part(chest, _gc("nr_gc_collar_mid", func(st: SurfaceTool) -> void:
+		var d := Vector3(0, 0, -1)
+		ChampionShapes.plate(st, _blade_outline(0.09, 0.34), 0.02, 0.006,
+			Transform3D(Basis.from_euler(Vector3(-16, 0, 0) * DEG), Vector3(0, 1.84, -0.02) + d * 0.13 + Vector3(0, 0, 0.012)))), blood,
+		Vector3.ZERO)
 	for s: float in [-1.0, 1.0]:
 		add_part(chest, cape(0.4, 1.2), palette(&"shadow_cape"), Vector3(0.18 * s, 1.12, -0.3), Vector3(10, 180 - 22 * s, 0))
 		for k: int in 2:
@@ -124,16 +153,26 @@ func _build_parts() -> void:
 	if trim:
 		trim.set_meta(&"vet_trim", true)
 	# ---- Left arm: small pauldron with an oxblood rim, iron arm, clawed silver gauntlet.
-	add_part(arm_l, sphere(0.14, 6, 2), plate, Vector3(-0.35, 1.68, 0.0), Vector3(0, 0, 20), Vector3(1.15, 0.8, 1.1))
-	add_part(arm_l, torus(0.13, 0.16, 6), blood, Vector3(-0.37, 1.63, 0.0), Vector3(0, 0, 25), Vector3(1.0, 1.0, 1.0))
+	add_part(arm_l, _gc("nr_gc_pauldron_l", func(st: SurfaceTool) -> void:
+		_pauldron(st, 0.14, Transform3D(Basis.from_euler(Vector3(0, 0, 20) * DEG).scaled_local(Vector3(1.15, 0.8, 1.1)),
+			Vector3(-0.35, 1.66, 0.0)))), plate, Vector3.ZERO)
+	add_part(arm_l, _gc("nr_gc_rim_l", func(st: SurfaceTool) -> void:
+		ChampionShapes.lame(st, 0.165, 0.15, -0.05, 0.015, 0.0, TAU, 10, 0.022,
+			Transform3D(Basis.from_euler(Vector3(0, 0, 25) * DEG).scaled_local(Vector3(1.0, 1.0, 1.05)), Vector3(-0.37, 1.63, 0.0)))),
+		blood, Vector3.ZERO)
 	add_part(arm_l, _nr_path("nr_arm_l", PackedVector3Array([Vector3(-0.34, 1.64, 0.0), Vector3(-0.38, 1.38, 0.03),
 		HAND_L + Vector3(0, 0.08, -0.03)]), PackedFloat32Array([0.075, 0.068, 0.07]), 5), iron, Vector3.ZERO)
 	add_part(arm_l, cyl(0.075, 0.09, 0.14, 6), plate, HAND_L + Vector3(0, 0.1, -0.03), Vector3(18, 0, 0))
 	add_part(arm_l, sphere(0.065, 5, 2), silver, HAND_L)
 	add_part(arm_l, _claws_mesh(), silver, Vector3.ZERO)
 	# ---- Right arm: big spiked pauldron (3 silver spikes), iron arm, the long curved sabre held forward-down.
-	add_part(arm_r, sphere(0.18, 6, 3), plate, Vector3(0.36, 1.70, 0.0), Vector3(0, 0, -18), Vector3(1.2, 0.8, 1.15))
-	add_part(arm_r, torus(0.17, 0.2, 5), blood, Vector3(0.38, 1.64, 0.0), Vector3(0, 0, -22))
+	add_part(arm_r, _gc("nr_gc_pauldron_r", func(st: SurfaceTool) -> void:
+		_pauldron(st, 0.18, Transform3D(Basis.from_euler(Vector3(0, 0, -18) * DEG).scaled_local(Vector3(1.2, 0.8, 1.15)),
+			Vector3(0.36, 1.68, 0.0)))), plate, Vector3.ZERO)
+	add_part(arm_r, _gc("nr_gc_rim_r", func(st: SurfaceTool) -> void:
+		ChampionShapes.lame(st, 0.205, 0.185, -0.055, 0.02, 0.0, TAU, 10, 0.026,
+			Transform3D(Basis.from_euler(Vector3(0, 0, -22) * DEG).scaled_local(Vector3(1.0, 1.0, 1.05)), Vector3(0.38, 1.64, 0.0)))),
+		blood, Vector3.ZERO)
 	for k: int in 3:
 		add_part(arm_r, cyl(0.0, 0.04, 0.24 - 0.04 * k, 4), silver, Vector3(0.38 + 0.05 * k, 1.84 - 0.04 * k, -0.08 + 0.08 * k),
 			Vector3(0, 0, -30 - 12 * k))
@@ -170,6 +209,27 @@ static func _nr_path(key: String, pts: PackedVector3Array, radii: PackedFloat32A
 	var last := radii.size() - 1
 	return _cached(key, ShadowGeo.tube(pts, radii, {"seg": seg + 2, "cap_start": radii[0] > 0.0,
 		"cap_end": radii[last] > 0.0}))
+
+
+## A cached mesh built by build(st) (ChampionShapes into one SurfaceTool, model space; G-C leftovers 2026-10-15).
+static func _gc(key: String, build: Callable) -> Mesh:
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var st := ChampionShapes.begin()
+	build.call(st)
+	return _cached(key, ChampionShapes.commit(st))
+
+
+## A pointed blade outline (w x h, centred): straight sides, a spear point at the top.
+static func _blade_outline(w: float, h: float) -> PackedVector2Array:
+	return PackedVector2Array([Vector2(-w * 0.5, -h * 0.5), Vector2(w * 0.5, -h * 0.5), Vector2(w * 0.45, h * 0.5 - w * 0.6),
+		Vector2(0.0, h * 0.5), Vector2(-w * 0.45, h * 0.5 - w * 0.6)])
+
+
+## A smooth pauldron dome of radius r (local +Y up, placed by xf).
+static func _pauldron(st: SurfaceTool, r: float, xf: Transform3D) -> void:
+	ChampionShapes.lathe(st, PackedVector2Array([Vector2(r, -0.03), Vector2(r * 0.97, 0.03), Vector2(r * 0.66, r * 0.62),
+		Vector2(0.0, r * 0.76)]), 9, xf, 1.0, 1.0, false)
 
 
 static func _nr_append(st: SurfaceTool, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int) -> void:

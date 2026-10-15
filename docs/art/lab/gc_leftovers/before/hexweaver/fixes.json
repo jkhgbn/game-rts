@@ -1,0 +1,47 @@
+{
+	"asset": "hexweaver",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.45,
+					"node": "res://data/units/hexweaver.tres",
+					"param": "radius",
+					"to": 0.45
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.45,
+				"x_m": 0.44,
+				"z_m": 0.79
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.45 -> 0.45, or pull the widest parts in to x <= 0.79 / z <= 0.79 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.45 -> 0.45, or pull the widest parts in to x <= 0.79 / z <= 0.79 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.79",
+				"z_m": "<= 0.79"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 94.9,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/hexweaver/hexweaver.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

@@ -1,0 +1,228 @@
+{
+	"asset": "gloam_rider",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B2",
+			"computed": false,
+			"measured": {
+				"draw": 20
+			},
+			"predicted": {
+				"draw": 20
+			},
+			"proposal": "20 -> 20 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 20 -> 20 (want <= 12): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 12"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.6,
+					"node": "res://data/units/gloam_rider.tres",
+					"param": "radius",
+					"to": 1.22
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.6,
+				"x_m": 0.66,
+				"z_m": 2.14
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.6 -> 1.22, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.6 -> 1.22, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.05",
+				"z_m": "<= 1.05"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2421,
+					"node": "Steed/Root/Mount/Merged",
+					"to": 1211,
+					"words": "`Merged` 2421 -> 1211 verts"
+				},
+				{
+					"from": 1975,
+					"node": "Steed/Root/Mount/Head/Merged",
+					"to": 988,
+					"words": "`Merged` 1975 -> 988 verts"
+				},
+				{
+					"from": 1230,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 615,
+					"words": "`Merged` 1230 -> 615 verts"
+				},
+				{
+					"from": 867,
+					"node": "Rider/Root/Chest/ArmR/ForearmR/Lance",
+					"to": 434,
+					"words": "`Lance` 867 -> 434 verts"
+				},
+				{
+					"from": 673,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 337,
+					"words": "`Merged` 673 -> 337 verts"
+				},
+				{
+					"from": 599,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 300,
+					"words": "`Merged` 599 -> 300 verts"
+				},
+				{
+					"from": 357,
+					"node": "Rider/Root/Hips/LegR/Merged",
+					"to": 179,
+					"words": "`Merged` 357 -> 179 verts"
+				},
+				{
+					"from": 357,
+					"node": "Rider/Root/Hips/LegL/Merged",
+					"to": 179,
+					"words": "`Merged` 357 -> 179 verts"
+				},
+				{
+					"from": 329,
+					"node": "Steed/Root/Mount/LegBR/Merged",
+					"to": 165,
+					"words": "`Merged` 329 -> 165 verts"
+				},
+				{
+					"from": 329,
+					"node": "Steed/Root/Mount/LegBL/Merged",
+					"to": 165,
+					"words": "`Merged` 329 -> 165 verts"
+				},
+				{
+					"from": 307,
+					"node": "Steed/Root/Mount/Tail/Merged",
+					"to": 154,
+					"words": "`Merged` 307 -> 154 verts"
+				},
+				{
+					"from": 300,
+					"node": "Rider/Root/Chest/ArmL/Merged",
+					"to": 150,
+					"words": "`Merged` 300 -> 150 verts"
+				},
+				{
+					"from": 253,
+					"node": "Steed/Root/Mount/LegFR/Merged",
+					"to": 127,
+					"words": "`Merged` 253 -> 127 verts"
+				},
+				{
+					"from": 253,
+					"node": "Steed/Root/Mount/LegFL/Merged",
+					"to": 127,
+					"words": "`Merged` 253 -> 127 verts"
+				},
+				{
+					"from": 160,
+					"node": "Rider/Root/Chest/ArmR/ForearmR/Lance/Pennon",
+					"to": 80,
+					"words": "`Pennon` 160 -> 80 verts"
+				},
+				{
+					"from": 145,
+					"node": "Rider/Root/Chest/ArmR/ForearmR",
+					"to": 73,
+					"words": "`ForearmR` 145 -> 73 verts"
+				},
+				{
+					"from": 130,
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"to": 65,
+					"words": "`Merged` 130 -> 65 verts"
+				},
+				{
+					"from": 96,
+					"node": "Rider/Root/Chest/Cloak",
+					"to": 48,
+					"words": "`Cloak` 96 -> 48 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 10369
+			},
+			"predicted": {
+				"verts": 4985
+			},
+			"proposal": "10369 -> 4985 (want <= 2500): `Merged` 2421 -> 1211 verts; `Merged` 1975 -> 988 verts; `Merged` 1230 -> 615 verts; `Lance` 867 -> 434 verts; `Merged` 673 -> 337 verts; `Merged` 599 -> 300 verts; `Merged` 357 -> 179 verts; `Merged` 357 -> 179 verts; `Merged` 329 -> 165 verts; `Merged` 329 -> 165 verts; `Merged` 307 -> 154 verts; `Merged` 300 -> 150 verts; `Merged` 253 -> 127 verts; `Merged` 253 -> 127 verts; `Pennon` 160 -> 80 verts; `ForearmR` 145 -> 73 verts; `Merged` 130 -> 65 verts; `Cloak` 96 -> 48 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 10369 -> 4985 (want <= 2500): `Merged` 2421 -> 1211 verts; `Merged` 1975 -> 988 verts; `Merged` 1230 -> 615 verts; `Lance` 867 -> 434 verts; `Merged` 673 -> 337 verts; `Merged` 599 -> 300 verts; `Merged` 357 -> 179 verts; `Merged` 357 -> 179 verts; `Merged` 329 -> 165 verts; `Merged` 329 -> 165 verts; `Merged` 307 -> 154 verts; `Merged` 300 -> 150 verts; `Merged` 253 -> 127 verts; `Merged` 253 -> 127 verts; `Pennon` 160 -> 80 verts; `ForearmR` 145 -> 73 verts; `Merged` 130 -> 65 verts; `Cloak` 96 -> 48 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.78 m, Lance 1.31 m, Pennon 0.77 m, Merged 0.8 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.78 m, Lance 1.31 m, Pennon 0.77 m, Merged 0.8 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.78 m, Lance 1.31 m, Pennon 0.77 m, Merged 0.8 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R7",
+			"computed": false,
+			"measured": {
+				"value": "bar hides 10% of the silhouette (gap -11 px)"
+			},
+			"predicted": {},
+			"proposal": "HP bar over the body at 40 m: The HP bar hides 10% of the body: lower / narrow what sticks up, or fix body_height",
+			"rank": 5,
+			"status": "WARN",
+			"text": "R7 HP bar over the body at 40 m: The HP bar hides 10% of the body: lower / narrow what sticks up, or fix body_height",
+			"title": "HP bar over the body at 40 m",
+			"wanted": {
+				"rule": "<= 8% (FAIL > 25%); bar at body_height + 0.5 = 2.5 m, 1.56 m wide"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 89.2,
+	"result": "FAIL",
+	"scene": "res://art/units/shadow/gloam_rider/gloam_rider.tscn",
+	"tier": "cavalry",
+	"version": "1.0"
+}

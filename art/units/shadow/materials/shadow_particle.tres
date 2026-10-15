@@ -13,6 +13,7 @@ fill_to = Vector2(1, 0.5)
 [resource]
 transparency = 1
 blend_mode = 1
+disable_fog = true
 shading_mode = 0
 vertex_color_use_as_albedo = true
 albedo_color = Color(1.6, 1.6, 1.6, 1)

@@ -1,0 +1,13 @@
+{
+	"asset": "frost_mortar",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 97.5,
+	"result": "PASS",
+	"scene": "res://art/units/ice/frost_mortar/frost_mortar.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

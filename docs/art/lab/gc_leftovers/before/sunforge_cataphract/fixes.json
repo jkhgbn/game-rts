@@ -1,0 +1,102 @@
+{
+	"asset": "sunforge_cataphract",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.8,
+					"node": "res://data/units/sunforge_cataphract.tres",
+					"param": "radius",
+					"to": 0.95
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.8,
+				"x_m": 1.01,
+				"z_m": 1.66
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.8 -> 0.95, or pull the widest parts in to x <= 1.4 / z <= 1.4 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.8 -> 0.95, or pull the widest parts in to x <= 1.4 / z <= 1.4 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.4",
+				"z_m": "<= 1.4"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 3363,
+					"node": "Boar/Root/Mount/Merged",
+					"to": 1682,
+					"words": "`Merged` 3363 -> 1682 verts"
+				},
+				{
+					"from": 1905,
+					"node": "Boar/Root/Mount/Head/Merged",
+					"to": 953,
+					"words": "`Merged` 1905 -> 953 verts"
+				},
+				{
+					"from": 795,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 560,
+					"words": "`Merged` 795 -> 560 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 8731
+			},
+			"predicted": {
+				"verts": 5863
+			},
+			"proposal": "8731 -> 5863 (want <= 6000): `Merged` 3363 -> 1682 verts; `Merged` 1905 -> 953 verts; `Merged` 795 -> 560 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 8731 -> 5863 (want <= 6000): `Merged` 3363 -> 1682 verts; `Merged` 1905 -> 953 verts; `Merged` 795 -> 560 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 6000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 12.4 on the team-colour area (normal vision 70.0; 286 px); deutan: fire / nature dE 12.4; protan: fire / nature dE 17.9; worst vs ground: fire colour (deutan) dE 3.0"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 12.4): add a value step inside the team-colour area",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 12.4): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 93.6,
+	"result": "WARN",
+	"scene": "res://art/units/fire/sunforge_cataphract/sunforge_cataphract.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

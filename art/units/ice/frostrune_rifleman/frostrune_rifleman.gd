@@ -189,7 +189,7 @@ func _build_parts() -> void:
 			mi.rotation = Vector3.ZERO
 	# The Shardcaster's glowing eye slit is gone (faces pass 2026-09-28: a painted face): the ice-silver visor band now
 	# sits pushed up on the brow, over the hood edge, above the rifleman's own face (_face_spec below).
-	add_part(head, box(Vector3(0.25, 0.055, 0.07)), ice(&"ice_metal"), Vector3(0, 1.475, 0.165), Vector3(-18, 0, 0))
+	add_part(head, _visor_mesh(), ice(&"ice_metal"), Vector3.ZERO)
 	# 3. Arms (one merged mesh each: sleeve, forearm, glove) and the rifle (own glow, keeps its pitch level).
 	add_part(arm_r, _arm_mesh(true), null, Vector3.ZERO)
 	add_part(arm_l, _arm_mesh(false), null, Vector3.ZERO)
@@ -252,98 +252,118 @@ static func _limb_items(items: Array, a: Vector3, b: Vector3, r: float, mat: Mat
 	items.append([capsule(r, d.length() + r * 1.4), _along(a + d * 0.5, d), [mat]])
 
 
+## G-C leftovers (2026-10-15, docs/art/gc_leftovers.md): the arms, the mantle and the rifle are built from smooth tubes,
+## lathes, fur rings and bevelled side-profile plates (ChampionShapes / IceUnitShapes) instead of capsules and boxes; the
+## model drops from 3317 to ~2300 vertices (soldier budget 2500) while the stock, grip and forestock get real outlines.
+## Items for _merge_items from {Material: SurfaceTool} (one committed mesh per material).
+static func _acc_items(acc: Dictionary) -> Array:
+	var items: Array = []
+	for m: Material in acc:
+		items.append([ChampionShapes.commit(acc[m]), Transform3D.IDENTITY, [m]])
+	return items
+
+
 static func _arm_mesh(right: bool) -> Mesh:
-	var key := "arm_r" if right else "arm_l"
+	var key := "arm_r_v2" if right else "arm_l_v2"
 	if _rf_cache.has(key):
 		return _rf_cache[key]
-	var dark := ice(&"ice_cloth_dark")
-	var fur := ice(&"ice_fur_pale")
-	var glove := ice(&"ice_leather")
 	var s := SH_R if right else SH_L
 	var e := EL_R if right else EL_L
 	var h := GRIP_R if right else GRIP_R + Basis(Vector3.UP, RIFLE_YAW * DEG) * Vector3(0, 0, HAND_S)
-	var items: Array = []
-	_limb_items(items, s, e, 0.085, dark)
-	_limb_items(items, e, h, 0.078, dark)
-	items.append([sphere(0.088, 8, 4), _along(e, h - e), [dark]])                       # elbow
-	var cuff := e.lerp(h, 0.62)
-	items.append([cyl(0.10, 0.092, 0.09, 8), _along(cuff, h - e), [fur]])            # fur cuff
-	items.append([sphere(0.088, 8, 4), _xf(h, Vector3.ZERO, Vector3(1.0, 0.9, 1.15)), [glove]])   # glove
-	var m := _merge_items(items)
+	var acc: Dictionary = {}
+	# sleeve with the elbow bend, forearm narrowing to the wrist
+	IceUnitShapes.limb(IceUnitShapes.st(acc, ice(&"ice_cloth_dark")), s, e, h, 0.086, 0.08, 0.068, 7)
+	var fd := (h - e).normalized()
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur_pale")), fur_ring(0.078, 0.104, 0.085, 4, 0.03),
+		IceUnitShapes.on(-fd, e.lerp(h, 0.66)))
+	IceUnitShapes.egg(IceUnitShapes.st(acc, ice(&"ice_leather")), IceUnitShapes.on(fd, h - fd * 0.02), 0.088, 0.19, 7)
+	var m := _merge_items(_acc_items(acc))
 	_rf_cache[key] = m
 	return m
 
 
-## The Shardcaster's pale collar, made a big shaggy fur mantle (open V at the throat) + an ice-silver right pauldron
-## and a silver clasp (model space).
+## The Shardcaster's pale collar, made a big shaggy fur mantle (a jagged fur ring) + an ice-silver right pauldron (a
+## flattened dome over a rolled lame) and a silver diamond clasp (model space).
 static func _mantle_mesh() -> Mesh:
-	if _rf_cache.has("mantle"):
-		return _rf_cache["mantle"]
-	var pale := ice(&"ice_fur_pale")
-	var metal := ice(&"ice_metal")
-	var items: Array = []
-	items.append([cyl(0.15, 0.38, 0.17, 10), _xf(Vector3(0, 1.21, -0.03)), [pale]])
-	for i: int in 11:
-		var a: float = TAU * (float(i) + 0.5) / 11.0
-		var out := Vector3(sin(a), 0.0, cos(a))
-		if out.z > 0.85:
-			continue   # the front V stays open over the chest
-		var tilt := Basis(Vector3.UP.cross(out).normalized(), deg_to_rad(158.0 + 8.0 * sin(a * 3.0)))
-		var h: float = 0.14 + 0.04 * cos(a * 2.0)
-		items.append([cyl(0.0, 0.065, h, 5), Transform3D(tilt, Vector3(0, 1.13, -0.03) + out * 0.33 + tilt * Vector3(0, h * 0.5, 0)), [pale]])
-	items.append([sphere(0.14, 8, 4), _xf(Vector3(0.33, 1.28, 0.0), Vector3(0, 0, -18), Vector3(1.05, 0.62, 1.15)), [metal]])
-	items.append([box(Vector3(0.20, 0.035, 0.26)), _xf(Vector3(0.36, 1.22, 0.0), Vector3(0, 0, -30)), [metal]])
-	items.append([box(Vector3(0.11, 0.08, 0.05)), _xf(Vector3(0, 1.21, 0.25), Vector3(-15, 0, 0)), [metal]])
-	var m := _merge_items(items)
-	_rf_cache["mantle"] = m
+	if _rf_cache.has("mantle_v2"):
+		return _rf_cache["mantle_v2"]
+	var acc: Dictionary = {}
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur_pale")), fur_ring(0.15, 0.38, 0.17, 9, 0.05, 1.0, 0.95),
+		Transform3D(Basis.IDENTITY, Vector3(0, 1.125, -0.03)))
+	var metal := IceUnitShapes.st(acc, ice(&"ice_metal"))
+	var sh := IceUnitShapes.xf(Vector3(0.33, 1.25, 0.0), Vector3(0, 0, -18))
+	ChampionShapes.lathe(metal, PackedVector2Array([Vector2(0.145, -0.03), Vector2(0.135, 0.03), Vector2(0.09, 0.075),
+		Vector2(0.0, 0.09)]), 8, sh * Transform3D(Basis.from_scale(Vector3(1.0, 0.9, 1.12)), Vector3.ZERO), 1.0, 1.0, false)
+	ChampionShapes.lame(metal, 0.16, 0.145, -0.10, -0.03, PI * 0.5 - 1.5, PI * 0.5 + 1.5, 5, 0.015, sh, 1.0, 1.12)
+	ChampionShapes.plate(metal, PackedVector2Array([Vector2(0.0, 0.055), Vector2(0.05, 0.0), Vector2(0.0, -0.055),
+		Vector2(-0.05, 0.0)]), 0.03, 0.012, IceUnitShapes.xf(Vector3(0, 1.21, 0.25), Vector3(-15, 0, 0)))
+	var m := _merge_items(_acc_items(acc))
+	_rf_cache["mantle_v2"] = m
 	return m
+
+
+## The visor band pushed up on the brow: a rolled silver lame round the front of the hood (model space).
+static func _visor_mesh() -> Mesh:
+	return IceUnitShapes.mesh("fr_gc_visor", func(st: SurfaceTool) -> void:
+		ChampionShapes.lame(st, 0.172, 0.165, -0.028, 0.028, -1.0, 1.0, 6, 0.016,
+			IceUnitShapes.xf(Vector3(0, 1.475, 0.035), Vector3(-18, 0, 0)), 1.0, 1.0))
+
+
+## Side-profile plate in rifle space: outline (z, y), thickness along X, bevelled both sides.
+static func _side(st: SurfaceTool, outline: PackedVector2Array, thick: float, bevel: float) -> void:
+	ChampionShapes.plate(st, outline, thick, bevel, Transform3D(Basis(Vector3(0, 0, 1), Vector3(0, 1, 0), Vector3(-1, 0, 0)),
+		Vector3.ZERO), true)
 
 
 ## The rune rifle in rifle space: grip at the origin, barrel along +Z (2.0 m butt to muzzle crown).
 static func _rifle_mesh() -> Mesh:
-	if _rf_cache.has("rifle"):
-		return _rf_cache["rifle"]
-	var wood := ice(&"ice_wood")
-	var metal := ice(&"ice_metal")
-	var steel := ice(&"ice_steel")
-	var crystal := ice(&"ice_frost_crystal")
-	var glow := ice(&"ice_glow_unit")
-	var leather := ice(&"ice_leather")
-	var fwd := Vector3(90, 0, 0)   # a cylinder's +Y along +Z
-	var items: Array = []
-	# stock: butt (drops a little), silver butt plate, wrist, pistol grip
-	items.append([box(Vector3(0.08, 0.17, 0.30)), _xf(Vector3(0, -0.045, -0.29), Vector3(-5, 0, 0)), [wood]])
-	items.append([box(Vector3(0.09, 0.19, 0.035)), _xf(Vector3(0, -0.06, -0.45), Vector3(-5, 0, 0)), [metal]])
-	items.append([box(Vector3(0.07, 0.10, 0.18)), _xf(Vector3(0, -0.005, -0.07)), [wood]])
-	items.append([box(Vector3(0.055, 0.13, 0.07)), _xf(Vector3(0, -0.085, 0.02), Vector3(-18, 0, 0)), [wood]])
-	items.append([box(Vector3(0.085, 0.05, 0.14)), _xf(Vector3(0, 0.055, -0.18)), [leather]])       # cheek pad
-	# receiver (dark steel) with two silver bands
-	items.append([box(Vector3(0.085, 0.11, 0.30)), _xf(Vector3(0, 0.02, 0.17)), [steel]])
-	items.append([box(Vector3(0.10, 0.125, 0.035)), _xf(Vector3(0, 0.02, 0.03)), [metal]])
-	items.append([box(Vector3(0.10, 0.125, 0.035)), _xf(Vector3(0, 0.02, 0.31)), [metal]])
-	# forestock + its silver end cap, monopod clamp
-	items.append([box(Vector3(0.08, 0.085, 0.44)), _xf(Vector3(0, -0.01, 0.54)), [wood]])
-	items.append([box(Vector3(0.09, 0.095, 0.04)), _xf(Vector3(0, -0.01, 0.765)), [metal]])
-	items.append([box(Vector3(0.05, 0.035, 0.06)), _xf(Vector3(0, -0.055, 0.74)), [steel]])
-	# the long ice-silver barrel, 3 glowing rune collars (hex), the crystal muzzle crown
-	items.append([cyl(0.03, 0.034, 1.16, 8), _xf(Vector3(0, 0.03, 0.88), fwd), [metal]])
-	for s: float in [0.90, 1.11, 1.32]:
-		items.append([cyl(0.046, 0.046, 0.055, 6), _xf(Vector3(0, 0.03, s), fwd), [glow]])
-		items.append([cyl(0.04, 0.04, 0.012, 6), _xf(Vector3(0, 0.03, s + 0.04), fwd), [steel]])
-	items.append([cyl(0.04, 0.056, 0.12, 6), _xf(Vector3(0, 0.03, 1.47), fwd), [crystal]])
+	if _rf_cache.has("rifle_v2"):
+		return _rf_cache["rifle_v2"]
+	var acc: Dictionary = {}
+	var wood := IceUnitShapes.st(acc, ice(&"ice_wood"))
+	var metal := IceUnitShapes.st(acc, ice(&"ice_metal"))
+	var steel := IceUnitShapes.st(acc, ice(&"ice_steel"))
+	var crystal := IceUnitShapes.st(acc, ice(&"ice_frost_crystal"))
+	var glow := IceUnitShapes.st(acc, ice(&"ice_glow_unit"))
+	var leather := IceUnitShapes.st(acc, ice(&"ice_leather"))
+	var zf := Basis(Vector3.RIGHT, PI * 0.5)   # a lathe's +Y along +Z
+	# stock in one outline: dropping butt with a toe, a raised comb, the slim wrist, the pistol grip
+	_side(wood, PackedVector2Array([Vector2(-0.45, 0.045), Vector2(-0.21, 0.065), Vector2(-0.07, 0.042), Vector2(0.03, 0.04),
+		Vector2(0.03, -0.04), Vector2(0.05, -0.06), Vector2(0.025, -0.165), Vector2(-0.035, -0.155), Vector2(-0.07, -0.065),
+		Vector2(-0.26, -0.11), Vector2(-0.45, -0.155)]), 0.075, 0.016)
+	ChampionShapes.append(metal, soft_box(Vector3(0.085, 0.21, 0.025)), IceUnitShapes.xf(Vector3(0, -0.055, -0.457), Vector3(-3, 0, 0)))
+	ChampionShapes.append(leather, soft_box(Vector3(0.082, 0.035, 0.15)), IceUnitShapes.xf(Vector3(0, 0.07, -0.21), Vector3(-4, 0, 0)))
+	# receiver with two silver bands, the forestock (tapered nose) with its silver cap, the monopod clamp
+	ChampionShapes.append(steel, soft_box(Vector3(0.085, 0.11, 0.30)), Transform3D(Basis.IDENTITY, Vector3(0, 0.02, 0.17)))
+	for z: float in [0.03, 0.31]:
+		ChampionShapes.append(metal, soft_box(Vector3(0.10, 0.125, 0.035)), Transform3D(Basis.IDENTITY, Vector3(0, 0.02, z)))
+	_side(wood, PackedVector2Array([Vector2(0.32, 0.032), Vector2(0.745, 0.03), Vector2(0.775, 0.008), Vector2(0.765, -0.045),
+		Vector2(0.42, -0.058), Vector2(0.32, -0.052)]), 0.078, 0.014)
+	ChampionShapes.band(metal, 0.036, 0.04, 0.014, 6, Transform3D(zf, Vector3(0, -0.005, 0.765)), 1.15, 1.25)
+	ChampionShapes.append(steel, soft_box(Vector3(0.05, 0.035, 0.06)), Transform3D(Basis.IDENTITY, Vector3(0, -0.055, 0.74)))
+	# the long ice-silver barrel, 3 glowing rune collars, the crystal muzzle crown (a flared cup and three prongs)
+	ChampionShapes.tube(metal, PackedVector3Array([Vector3(0, 0.03, 0.30), Vector3(0, 0.03, 1.46)]), PackedFloat32Array([0.034, 0.03]),
+		7, false)
+	for z: float in [0.90, 1.11, 1.32]:
+		ChampionShapes.band(glow, 0.031, 0.055, 0.015, 6, Transform3D(zf, Vector3(0, 0.03, z)))
+	ChampionShapes.lathe(crystal, PackedVector2Array([Vector2(0.036, 0.0), Vector2(0.058, 0.12)]), 6,
+		Transform3D(zf, Vector3(0, 0.03, 1.41)), 1.0, 1.0, false, 0.0, TAU, true)
 	for k: int in 3:
 		var a: float = TAU * float(k) / 3.0 + 0.5
-		var d := Vector3(cos(a) * 0.45, sin(a) * 0.45, 1.0)
-		items.append([cyl(0.0, 0.024, 0.13, 6), _along(Vector3(0, 0.03, 1.53) + Vector3(cos(a), sin(a), 0) * 0.035 + d.normalized() * 0.05, d), [crystal]])
-	# scope: mounts, dark tube, ocular bell, crystal objective (hex) + the glowing lens
-	items.append([box(Vector3(0.03, 0.06, 0.035)), _xf(Vector3(0, 0.085, 0.07)), [steel]])
-	items.append([box(Vector3(0.03, 0.06, 0.035)), _xf(Vector3(0, 0.085, 0.28)), [steel]])
-	items.append([cyl(0.033, 0.033, 0.36, 8), _xf(Vector3(0, 0.115, 0.18), fwd), [steel]])
-	items.append([cyl(0.034, 0.044, 0.07, 8), _xf(Vector3(0, 0.115, -0.03), fwd), [metal]])
-	items.append([cyl(0.062, 0.04, 0.09, 6), _xf(Vector3(0, 0.115, 0.39), fwd), [crystal]])
-	items.append([cyl(0.052, 0.052, 0.018, 6), _xf(Vector3(0, 0.115, 0.44), fwd), [glow]])
-	var m := _merge_items(items)
-	_rf_cache["rifle"] = m
+		var d := Vector3(cos(a) * 0.45, sin(a) * 0.45, 1.0).normalized()
+		var b := Vector3(0, 0.03, 1.52) + Vector3(cos(a), sin(a), 0) * 0.045
+		ChampionShapes.tube(crystal, PackedVector3Array([b, b + d * 0.13]), PackedFloat32Array([0.022, 0.0]), 4, true)
+	# scope: two mounts, the dark tube with an ocular bell, the crystal objective, the glowing lens
+	for z: float in [0.07, 0.28]:
+		ChampionShapes.append(steel, soft_box(Vector3(0.03, 0.06, 0.035)), Transform3D(Basis.IDENTITY, Vector3(0, 0.085, z)))
+	ChampionShapes.lathe(steel, PackedVector2Array([Vector2(0.03, -0.07), Vector2(0.045, -0.035), Vector2(0.035, -0.0),
+		Vector2(0.033, 0.36)]), 7, Transform3D(zf, Vector3(0, 0.115, -0.0)), 1.0, 1.0, true)
+	ChampionShapes.lathe(crystal, PackedVector2Array([Vector2(0.036, 0.0), Vector2(0.062, 0.08)]), 6,
+		Transform3D(zf, Vector3(0, 0.115, 0.355)), 1.0, 1.0, false, 0.0, TAU, true)
+	ChampionShapes.lathe(glow, PackedVector2Array([Vector2(0.052, 0.0), Vector2(0.052, 0.018)]), 6,
+		Transform3D(zf, Vector3(0, 0.115, 0.43)), 1.0, 1.0, true)
+	var m := _merge_items(_acc_items(acc))
+	_rf_cache["rifle_v2"] = m
 	return m
 
 

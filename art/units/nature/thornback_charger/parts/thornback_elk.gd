@@ -143,13 +143,19 @@ func _body_sculpt(s: Dictionary) -> void:
 	var prof := PackedVector2Array()
 	for i: int in BARREL_Z.size():
 		prof.append(Vector2(BARREL_R[i], BARREL_Z[i]))
-	sculpt_add(s, lathe_mesh("tb_barrel_v1", prof, 9), Transform3D(Basis(Vector3.RIGHT, PI * 0.5) *
+	# G-C leftovers: the barrel turned on 16 sides (was 9: the boxy read at zoom 30), rounder hump / rump masses,
+	# shoulder and haunch muscles over the leg roots, a woven breastplate with a rolled rim
+	sculpt_add(s, lathe_mesh("tb_barrel_v2", prof, 16), Transform3D(Basis(Vector3.RIGHT, PI * 0.5) *
 		Basis.from_scale(Vector3(1, 1, SY)), BC), coat)
-	_blob(s, coat, HUMP_C, HUMP_R, 8, 4)
-	_blob(s, coat, RUMP_C, RUMP_R, 8, 3)
+	_blob(s, coat, HUMP_C, HUMP_R, 14, 7)
+	_blob(s, coat, RUMP_C, RUMP_R, 14, 6)
+	for sx: float in [-1.0, 1.0]:
+		MountShapes.muscle(s, coat, Vector3(0.34 * sx, 1.15, 0.55), Vector3(0.15, 0.32, 0.2), Vector3(0.0, 1.0, -0.4))
+		MountShapes.muscle(s, coat, Vector3(0.34 * sx, 1.18, -0.62), Vector3(0.16, 0.3, 0.24), Vector3(0.0, 1.0, 0.3))
 	# the woven bark breastplate over the chest front, a dark rim and thorn studs
-	_blob(s, bark, Vector3(0, 1.14, 0.64), Vector3(0.42, 0.40, 0.20), 8, 3)
-	sculpt_put(s, cyl(0.40, 0.42, 0.06, 9, false), dark, Vector3(0, 1.12, 0.66), Vector3(90, 0, 0), Vector3(1.0, 1.0, 0.95))
+	_blob(s, bark, Vector3(0, 1.14, 0.64), Vector3(0.42, 0.40, 0.20), 14, 6)
+	RiderShapes.lame(s, dark, 0.41, 0.4, -0.03, 0.03, 0.0, TAU, 16, 0.02, Transform3D(Basis(Vector3.RIGHT, PI * 0.5) *
+		Basis.from_scale(Vector3(1.0, 1.0, 0.95)), Vector3(0, 1.12, 0.66)))
 	for k: int in 3:
 		var u: float = float(k) - 1.0
 		_thorn(s, thorn, Vector3(u * 0.20, 1.20 - absf(u) * 0.06, 0.82), Vector3(u * 0.3, 0.2, 1.0), 0.04, 0.14)
@@ -174,7 +180,9 @@ func _body_sculpt(s: Dictionary) -> void:
 		var a1 := 106.0 * sx
 		sculpt_add(s, drape_mesh("tb_hem_%s_v1" % sx, 0.525, 0.565, minf(a0, a1), maxf(a0, a1), -0.53, 0.13, 1, 2, 1.0, 0.1),
 			at, straw)
-	sculpt_put(s, box(Vector3(0.40, 0.16, 0.07)), bark, Vector3(0, 1.74, -0.50), Vector3(-14, 0, 0))
+	RiderShapes.plate(s, bark, PackedVector2Array([Vector2(-0.2, -0.08), Vector2(0.2, -0.08), Vector2(0.19, 0.03),
+		Vector2(0.12, 0.08), Vector2(-0.12, 0.08), Vector2(-0.19, 0.03)]), 0.07, 0.018,
+		Transform3D(Basis.from_euler(Vector3(-14, 0, 0) * DEG), Vector3(0, 1.74, -0.50)), true)
 	# a short tail tuft
 	sculpt_put(s, spike_mesh(4), dark, Vector3(0, 1.36, -1.02), Vector3(-130, 0, 0), Vector3(0.08, 0.22, 0.07))
 
@@ -188,14 +196,17 @@ func _head_sculpt(s: Dictionary) -> void:
 	var bark := m("nature_bark")
 	var thorn := m("nature_thorn")
 	var ant := m("antler")
-	sculpt_add(s, tube_mesh("tb_neck_v1", PackedVector3Array([Vector3(0, 1.30, 0.58), Vector3(0, 1.42, 0.84),
-		Vector3(0, 1.48, 1.00)]), PackedFloat32Array([0.32, 0.25, 0.20]), 8, false), Transform3D.IDENTITY, coat)
+	# G-C leftovers: a 12-sided neck with a dewlap swell, a rounder skull and muzzle (were 8 / 7 sides)
+	sculpt_add(s, tube_mesh("tb_neck_v2", PackedVector3Array([Vector3(0, 1.30, 0.58), Vector3(0, 1.37, 0.72),
+		Vector3(0, 1.42, 0.84), Vector3(0, 1.48, 1.00)]), PackedFloat32Array([0.32, 0.29, 0.25, 0.20]), 12, false),
+		Transform3D.IDENTITY, coat)
 	# the long moose skull (face canvas), the pale bulbous muzzle, dark nostrils, the throat bell
-	sculpt_put(s, sphere(SKULL_R, 8, 5), coat, SKULL_C, Vector3.ZERO, SKULL_S)
-	sculpt_add(s, tube_mesh("tb_muzzle_v1", PackedVector3Array([Vector3(0, 1.48, 1.22), Vector3(0, 1.42, 1.38),
-		Vector3(0, 1.37, 1.48)]), PackedFloat32Array([0.15, 0.14, 0.11]), 7, true), Transform3D.IDENTITY, pale)
-	sculpt_put(s, sphere(0.05, 5, 2), dark, Vector3(0.05, 1.40, 1.52))
-	sculpt_put(s, sphere(0.05, 5, 2), dark, Vector3(-0.05, 1.40, 1.52))
+	sculpt_put(s, sphere(SKULL_R, 12, 7), coat, SKULL_C, Vector3.ZERO, SKULL_S)
+	sculpt_add(s, tube_mesh("tb_muzzle_v2", PackedVector3Array([Vector3(0, 1.49, 1.18), Vector3(0, 1.48, 1.22),
+		Vector3(0, 1.42, 1.38), Vector3(0, 1.385, 1.46), Vector3(0, 1.37, 1.49)]),
+		PackedFloat32Array([0.13, 0.15, 0.145, 0.12, 0.08]), 10, true), Transform3D.IDENTITY, pale)
+	sculpt_put(s, sphere(0.05, 7, 4), dark, Vector3(0.05, 1.40, 1.52))
+	sculpt_put(s, sphere(0.05, 7, 4), dark, Vector3(-0.05, 1.40, 1.52))
 	sculpt_lock(s, dark, Vector3(0, 1.30, 0.98), Vector3(0, -1.0, 0.1).normalized(), Vector3(0, -0.2, 1.0), 0.12, 0.30, 0.06)
 	# ears: broad leaf cones out sideways under the rack
 	for sx: float in [-1.0, 1.0]:
@@ -208,14 +219,14 @@ func _head_sculpt(s: Dictionary) -> void:
 		for i: int in RACK.size():
 			pts.append(Vector3(RACK[i].x * sx, RACK[i].y, RACK[i].z))
 			rad.append(RACK_R[i])
-		sculpt_add(s, tube_mesh("tb_rack_%s_v2" % sx, pts, rad, 6, true), Transform3D.IDENTITY, ant)
+		sculpt_add(s, tube_mesh("tb_rack_%s_v3" % sx, pts, rad, 9, true), Transform3D.IDENTITY, ant)
 		sculpt_add(s, tube_mesh("tb_tine_%s_v2" % sx, PackedVector3Array([Vector3(0.34 * sx, 1.78, 1.08),
 			Vector3(0.38 * sx, 1.95, 1.10), Vector3(0.40 * sx, 2.05, 1.17)]), PackedFloat32Array([0.05, 0.038, 0.0]), 5, true),
 			Transform3D.IDENTITY, ant)
 		sculpt_add(s, tube_mesh("tb_tine2_%s_v2" % sx, PackedVector3Array([Vector3(0.48 * sx, 1.78, 1.20),
 			Vector3(0.62 * sx, 1.86, 1.24), Vector3(0.68 * sx, 1.95, 1.28)]), PackedFloat32Array([0.04, 0.03, 0.0]), 5, true),
 			Transform3D.IDENTITY, ant)
-	sculpt_put(s, sphere(0.14, 7, 3), bark, Vector3(0, 1.68, 1.10), Vector3(-20, 0, 0), Vector3(1.2, 0.6, 1.0))
+	sculpt_put(s, sphere(0.14, 10, 5), bark, Vector3(0, 1.68, 1.10), Vector3(-20, 0, 0), Vector3(1.2, 0.6, 1.0))
 	for k: int in 3:
 		var u: float = float(k) - 1.0
 		_thorn(s, thorn, Vector3(u * 0.08, 1.73, 1.14 + 0.02 * (1.0 - absf(u))), Vector3(u * 0.3, 0.6, 1.0), 0.035, 0.14)
@@ -246,16 +257,25 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	var coat := m("tb_coat")
 	var pale := m("tb_pale")
 	var dark := m("nature_bark_dark")
+	# G-C leftovers: MountShapes jointed legs (the horse templates made heavier for a moose: forearm into a bony knee,
+	# a long cannon, fetlock, pastern; hind stifle, gaskin back to the hock) in two bands (coat, pale straw sock), a
+	# forearm / gaskin muscle mass, a rounded split hoof (was a straight 7-sided thigh on a 6-sided shank and a can)
 	var front: bool = p.z > 0.0
 	var x := p.x
 	var z := p.z
-	var knee := Vector3(0, 0.62, 0.04) if front else Vector3(0, 0.64, -0.16)
-	sculpt_add(s, tube_mesh("tb_leg_up_%s_v1" % front, PackedVector3Array([Vector3(0, 1.12, 0), knee]),
-		PackedFloat32Array([0.19, 0.11]), 7, false), Transform3D(Basis.IDENTITY, Vector3(x, 0, z)), coat)
-	sculpt_add(s, tube_mesh("tb_leg_lo_%s_v1" % front, PackedVector3Array([knee, Vector3(0, 0.30, 0.02),
-		Vector3(0, 0.10, 0.03)]), PackedFloat32Array([0.10, 0.085, 0.08]), 6, false),
-		Transform3D(Basis.IDENTITY, Vector3(x, 0, z)), pale)
-	sculpt_put(s, cyl(0.07, 0.10, 0.12, 6), dark, Vector3(x, 0.06, z + 0.03))
+	if front:
+		var rows := MountShapes.scaled(MountShapes.HORSE_FORE, 0.2, 0.948, 1.0, 1.55)
+		MountShapes.leg_bands(s, "tb_leg_f_v2", p, rows, [4], [coat, pale], 1.0, 0.8, 9)
+		MountShapes.muscle(s, coat, Vector3(x, 0.92, z - 0.02), Vector3(0.15, 0.2, 0.17), Vector3(0, 1.0, 0.05))
+	else:
+		var rows := MountShapes.scaled(MountShapes.HORSE_HIND, 0.2, 0.948, 1.1, 1.5)
+		MountShapes.leg_bands(s, "tb_leg_b_v2", p, rows, [5], [coat, pale], 1.0, 0.8, 9)
+		MountShapes.muscle(s, coat, Vector3(x, 0.88, z - 0.04), Vector3(0.15, 0.22, 0.17), Vector3(0, 1.0, -0.35))
+	var dz: float = 0.05 if front else -0.05
+	# the split hoof: a rounded dark lathe with a cleft line down the front
+	RiderShapes.lathe(s, dark, PackedVector2Array([Vector2(0.09, 0.0), Vector2(0.094, 0.02), Vector2(0.085, 0.07),
+		Vector2(0.07, 0.11), Vector2(0.0, 0.118)]), 10, Transform3D(Basis.IDENTITY, Vector3(x, 0.0, z + dz)), 1.0, 1.15)
+	RiderShapes.box_plate(s, pale, Vector3(0.012, 0.08, 0.02), Vector3(x, 0.05, z + dz + 0.1), Vector3(-10, 0, 0))
 
 
 # ================================================================ motion (on top of MountModel)

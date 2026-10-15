@@ -55,8 +55,11 @@ func _build_parts() -> void:
 	# ---- Hips: long dark robe skirt to the ankles, a cord belt with bone charms.
 	add_part(hips, cyl(0.21, 0.38, 0.66, 10), cdark, Vector3(0, 0.47, 0.0), Vector3(-5, 0, 0))
 	add_part(hips, cyl(0.215, 0.225, 0.07, 8), leather, Vector3(0, 0.78, 0.02))
-	add_part(hips, box(Vector3(0.04, 0.10, 0.03)), bone, Vector3(-0.12, 0.70, 0.19), Vector3(0, 0, 8))
-	add_part(hips, box(Vector3(0.035, 0.08, 0.03)), bone, Vector3(-0.05, 0.69, 0.22), Vector3(0, 0, -6))
+	# finger-bone charms with knuckles on the cord (G-C leftovers 2026-10-15: were two boxes)
+	add_part(hips, _hw_path("hw_gc_charm_a", PackedVector3Array([Vector3(-0.118, 0.755, 0.19), Vector3(-0.122, 0.70, 0.193),
+		Vector3(-0.128, 0.65, 0.19)]), PackedFloat32Array([0.017, 0.012, 0.016]), 4), bone, Vector3.ZERO)
+	add_part(hips, _hw_path("hw_gc_charm_b", PackedVector3Array([Vector3(-0.05, 0.735, 0.22), Vector3(-0.048, 0.69, 0.223),
+		Vector3(-0.045, 0.65, 0.22)]), PackedFloat32Array([0.015, 0.011, 0.014]), 4), bone, Vector3.ZERO)
 	# ---- Chest: the hunch. A forward-leaning team robe torso, a rounded dark hump behind, a shawl, a skull pendant.
 	add_part(chest, _hw_path("hw_torso", PackedVector3Array([Vector3(0, 0.78, 0.01), Vector3(0, 1.02, 0.07),
 		Vector3(0, 1.19, 0.15)]), PackedFloat32Array([0.21, 0.22, 0.16]), 10, false), cloth, Vector3.ZERO)

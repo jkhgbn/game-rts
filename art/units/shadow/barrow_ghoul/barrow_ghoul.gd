@@ -52,15 +52,27 @@ func _build_parts() -> void:
 	# ---- Hips: bony pelvis, team-dark loin rag with team tatters.
 	add_part(hips, sphere(0.15, 6, 3), bone, Vector3(0, 0.75, -0.01), Vector3.ZERO, Vector3(1.15, 0.8, 0.9))
 	add_part(hips, cyl(0.16, 0.21, 0.2, 8), cdark, Vector3(0, 0.66, 0.0))
-	add_part(hips, box(Vector3(0.12, 0.26, 0.025)), cloth, Vector3(0.03, 0.52, 0.17), Vector3(-10, 0, 6))
-	add_part(hips, box(Vector3(0.1, 0.2, 0.025)), cloth, Vector3(-0.07, 0.54, -0.17), Vector3(12, 0, -8))
+	# G-C leftovers (2026-10-15): torn rags with ragged hems (bevelled plates) instead of flat boxes.
+	add_part(hips, _gc("bg_gc_loin", func(st: SurfaceTool) -> void:
+		_rag(st, 0.12, 0.26, Transform3D(Basis.from_euler(Vector3(-10, 0, 6) * DEG), Vector3(0.03, 0.52, 0.17)))
+		_rag(st, 0.10, 0.20, Transform3D(Basis.from_euler(Vector3(-12, 180, 8) * DEG), Vector3(-0.07, 0.54, -0.17)))),
+		cloth, Vector3.ZERO)
 	# ---- Chest: forward-leaning torso, ribs, violet flank veins, the hump with a spiked spine ridge, the shroud.
 	add_part(chest, _tube("bg_torso", PackedVector3Array([Vector3(0, 0.78, -0.02), Vector3(0, 0.98, 0.04),
 		Vector3(0, 1.13, 0.18)]), PackedFloat32Array([0.15, 0.21, 0.17]), 8, false), bone, Vector3.ZERO)
 	add_part(chest, sphere(0.2, 8, 4), bone, Vector3(0, 1.1, -0.02), Vector3(-20, 0, 0), Vector3(1.15, 0.95, 1.0))
-	for k: int in 3:
-		add_part(chest, torus(0.15, 0.17, 7), grey, Vector3(0, 0.9 + 0.07 * k, 0.07 + 0.03 * k), Vector3(-14, 0, 0),
-			Vector3(1.0, 1.0, 0.75))
+	# ribs: thin bony arcs round the front of the chest (G-C leftovers: were full tori)
+	add_part(chest, _gc("bg_gc_ribs", func(st: SurfaceTool) -> void:
+		# (centre z, radius) follow the torso tube at each rib's height, so the ribs ride on the hide
+		var ring: Array[Vector3] = [Vector3(0.016, 0.19, 0.185), Vector3(0.037, 0.212, 0.205), Vector3(0.096, 0.198, 0.192)]
+		for k: int in 3:
+			var c := Vector3(0, 0.9 + 0.07 * k, ring[k].x)
+			var pts := ChampionShapes.arc(c, ring[k].y, ring[k].z, -1.75, 1.75, 6)
+			for i: int in pts.size():
+				var u: float = absf(float(i) / float(pts.size() - 1) - 0.5) * 2.0
+				pts[i] += Vector3(0, -0.035 * u * u, 0)   # the rib ends sweep down round the flank
+			ChampionShapes.tube(st, pts, PackedFloat32Array([0.009, 0.016, 0.019, 0.019, 0.016, 0.009]), 4, false)), grey,
+		Vector3.ZERO)
 	for s: float in [-1.0, 1.0]:
 		add_part(chest, _tube("bg_vein_%s" % s, PackedVector3Array([Vector3(0.17 * s, 1.08, 0.06), Vector3(0.2 * s, 0.97, 0.03),
 			Vector3(0.16 * s, 0.84, 0.02)]), PackedFloat32Array([0.018, 0.016, 0.01]), 4, false), vein, Vector3.ZERO)
@@ -70,10 +82,15 @@ func _build_parts() -> void:
 		add_part(chest, cyl(0.0, 0.04, 0.13 - 0.015 * k, 5), grey, p + Vector3(0, 0.1, -0.05), Vector3(-40 + 15 * u, 0, 0))
 	# shroud: a torn cap over the hump, tatters down the back, one flap over the left shoulder (the asymmetry).
 	add_part(chest, sphere(0.19, 10, 3), cloth, Vector3(0.02, 1.12, -0.04), Vector3(-25, 0, 8), Vector3(1.2, 0.55, 1.1))
-	for k: int in 3:
-		add_part(chest, box(Vector3(0.1, 0.3 - 0.05 * k, 0.025)), cdark if k != 1 else cloth, Vector3(-0.1 + 0.1 * k, 0.92 - 0.02 * k, -0.2),
-			Vector3(18, 0, -8 + 8 * k))
-	add_part(chest, box(Vector3(0.16, 0.26, 0.025)), cdark, Vector3(-0.25, 1.0, 0.1), Vector3(-10, 10, -15))
+	add_part(chest, _gc("bg_gc_tatters_d", func(st: SurfaceTool) -> void:
+		for k: int in [0, 2]:
+			_rag(st, 0.1, 0.3 - 0.05 * k, Transform3D(Basis.from_euler(Vector3(-18, 180, 8 - 8 * k) * DEG),
+				Vector3(-0.1 + 0.1 * k, 0.92 - 0.02 * k, -0.2)))
+		_rag(st, 0.16, 0.26, Transform3D(Basis.from_euler(Vector3(-10, 10, -15) * DEG), Vector3(-0.25, 1.0, 0.1)))), cdark,
+		Vector3.ZERO)
+	add_part(chest, _gc("bg_gc_tatters_c", func(st: SurfaceTool) -> void:
+		_rag(st, 0.1, 0.25, Transform3D(Basis.from_euler(Vector3(-18, 180, 0) * DEG), Vector3(0.0, 0.90, -0.2)))), cloth,
+		Vector3.ZERO)
 	# the shroud's cowl round the neck and shoulders (reads from the game camera above).
 	add_part(chest, cyl(0.13, 0.27, 0.2, 8, false), cloth, Vector3(0, 1.13, 0.1), Vector3(38, 0, 0), Vector3(1.0, 1.0, 0.85))
 	add_part(chest, torus(0.12, 0.16, 7), cdark, Vector3(0, 1.2, 0.16), Vector3(38, 0, 0))
@@ -97,7 +114,11 @@ func _build_parts() -> void:
 		"hair_fn": func(acc: Dictionary) -> void:
 			ShadowFaces.sparks(acc, cv, Vector2(0.042, 0.020), 0.03, 0.02),
 	}, Vector3(-10, 0, 0), 0.003))
-	add_part(head, box(Vector3(0.2, 0.04, 0.05)), grey, Vector3(0, 1.25, 0.4), Vector3(-20, 0, 0))
+	# heavy brow ridge: an arched bony bar over the sockets (G-C leftovers: was a box)
+	add_part(head, _gc("bg_gc_brow", func(st: SurfaceTool) -> void:
+		ChampionShapes.tube(st, PackedVector3Array([Vector3(-0.105, 1.235, 0.36), Vector3(-0.05, 1.258, 0.405),
+			Vector3(0.0, 1.252, 0.415), Vector3(0.05, 1.258, 0.405), Vector3(0.105, 1.235, 0.36)]),
+			PackedFloat32Array([0.014, 0.024, 0.02, 0.024, 0.014]), 5, true, 0.8)), grey, Vector3.ZERO)
 	add_part(head, cyl(0.035, 0.05, 0.1, 6), grey, Vector3(0, 1.14, 0.45), Vector3(95, 0, 0))
 	for s: float in [-1.0, 1.0]:
 		add_part(head, cyl(0.0, 0.045, 0.2, 5), bone, Vector3(0.1 * s, 1.23, 0.23), Vector3(-65, 0, -30 * s),
@@ -170,16 +191,35 @@ static func _claws_mesh(side: float) -> Mesh:
 	return _cached(key, st.commit())
 
 
-## Lower jaw in the jaw node's frame (origin = the hinge): a narrow bony wedge forward with a row of teeth.
+## Lower jaw in the jaw node's frame (origin = the hinge): a narrow bony U-shaped jaw forward (bevelled plate, sloping
+## down) with four pointed teeth along its front (G-C leftovers 2026-10-15: were a box and a prism).
 static func _jaw_mesh() -> Mesh:
-	const KEY := "bg_jaw"
-	if _mesh_cache.has(KEY):
-		return _mesh_cache[KEY]
-	var st := SurfaceTool.new()
-	st.append_from(box(Vector3(0.12, 0.035, 0.16)), 0, Transform3D(Basis(Vector3.RIGHT, deg_to_rad(12.0)), Vector3(0, -0.03, 0.09)))
-	st.append_from(prism(Vector3(0.1, 0.04, 0.02)), 0, Transform3D(Basis.IDENTITY, Vector3(0, 0.0, 0.16)))
-	st.index()
-	return _cached(KEY, st.commit())
+	return _gc("bg_jaw_v2", func(st: SurfaceTool) -> void:
+		ChampionShapes.plate(st, PackedVector2Array([Vector2(-0.06, 0.08), Vector2(0.06, 0.08), Vector2(0.055, -0.03),
+			Vector2(0.03, -0.08), Vector2(-0.03, -0.08), Vector2(-0.055, -0.03)]), 0.035, 0.01,
+			Transform3D(Basis(Vector3.RIGHT, deg_to_rad(-78.0)), Vector3(0, -0.03, 0.09)), true)
+		for x: float in [-0.042, -0.015, 0.015, 0.042]:
+			var b := Vector3(x, -0.03, 0.15 - absf(x) * 0.6)
+			ChampionShapes.tube(st, PackedVector3Array([b, b + Vector3(-x * 0.1, 0.045 - absf(x) * 0.3, 0.004)]),
+				PackedFloat32Array([0.009, 0.0]), 3, true))
+
+
+## A cached mesh built by build(st) (ChampionShapes into one SurfaceTool, model space).
+static func _gc(key: String, build: Callable) -> Mesh:
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var st := ChampionShapes.begin()
+	build.call(st)
+	return _cached(key, ChampionShapes.commit(st))
+
+
+## A torn rag (w x h, centred, face +Z of xf): a straight top edge and a ragged hem (bevelled plate, both faces drawn).
+static func _rag(st: SurfaceTool, w: float, h: float, xf: Transform3D) -> void:
+	var o := PackedVector2Array()
+	for p: Vector2 in [Vector2(-0.5, 0.5), Vector2(0.5, 0.5), Vector2(0.52, -0.22), Vector2(0.34, -0.5), Vector2(0.16, -0.3),
+			Vector2(-0.04, -0.46), Vector2(-0.24, -0.28), Vector2(-0.46, -0.42)]:
+		o.append(Vector2(p.x * w, p.y * h))
+	ChampionShapes.plate(st, o, 0.02, 0.006, xf)
 
 
 # ================================================================ motion

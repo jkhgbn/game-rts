@@ -28,6 +28,10 @@ var _muzzle_written: float = -1.0
 var _face_loader: FaceRig                 # the kneeling loader's face (on the sled pivot); _face = the gunner's
 
 
+## G-C leftovers (2026-10-15, docs/art/gc_leftovers.md): the sled, the loader and the gunner are built from smooth
+## tubes, lathes, faceted ice and bevelled plates (ChampionShapes, one mesh per pivot and material, cached per process)
+## instead of boxes / capsules / tori: curled runners, a faceted ice block, a lathed mortar with breech, banded barrel and
+## flared bored muzzle, egg shells, a hunched hooded loader and gunner with fur hems. Under the soldier budget (was 5039).
 func _build_parts() -> void:
 	var mount: Node3D = $Root/Mount
 	var leg_l: Node3D = $Root/Hips/LegL
@@ -36,73 +40,12 @@ func _build_parts() -> void:
 	var head: Node3D = $Root/Chest/Head
 	var arm_l: Node3D = $Root/Chest/ArmL
 	var arm_r: Node3D = $Root/Chest/ArmR
-	var cloth := ice(&"ice_cloth")
-	var cdark := ice(&"ice_cloth_dark")
-	var skin := ice(&"ice_skin")
-	var leather := ice(&"ice_leather")
-	var fur := ice(&"ice_fur")
-	var pale := ice(&"ice_fur_pale")
-	var wood := ice(&"ice_wood")
-	var metal := ice(&"ice_metal")
-	var steel := ice(&"ice_steel")
-	var frost := ice(&"ice_frost_crystal")
-	var deep := ice(&"ice_frost_deep")
-	var glow := ice(&"ice_glow_unit")
-	# ================= the sled (Mount pivot)
-	for s: float in [-1.0, 1.0]:
-		var x: float = 0.40 * s
-		add_part(mount, _path("fm_runner", PackedVector3Array([Vector3(0, 0.06, -0.80), Vector3(0, 0.04, 0.42),
-			Vector3(0, 0.10, 0.66), Vector3(0, 0.25, 0.80), Vector3(0, 0.38, 0.76)]),
-			PackedFloat32Array([0.045, 0.045, 0.042, 0.038, 0.03]), 6), steel, Vector3(x, 0, 0))
-		for z: float in [-0.55, -0.05, 0.40]:
-			add_part(mount, box(Vector3(0.07, 0.16, 0.07)), wood, Vector3(x, 0.13, z))
-	add_part(mount, box(Vector3(0.92, 0.08, 1.30)), wood, Vector3(0, 0.23, -0.08))
-	for z: float in [-0.60, -0.20, 0.20]:
-		add_part(mount, box(Vector3(0.96, 0.03, 0.05)), steel, Vector3(0, 0.275, z))
-	# ice block around the mortar base (+ a deeper blue chunk frozen to it)
-	add_part(mount, box(Vector3(0.62, 0.30, 0.62)), frost, Vector3(0, 0.41, 0.16), Vector3(0, 14, 0))
-	add_part(mount, box(Vector3(0.30, 0.22, 0.28)), deep, Vector3(0.26, 0.36, 0.38), Vector3(8, -20, 6))
-	add_crystal(mount, Vector3(-0.28, 0.46, 0.34), Vector3(-0.6, 1.0, 0.4), 0.06, 0.30, frost, 0.5)
-	# palette depth: a dark stone plinth under the block, snow caked on the block top and on the runner curls
-	add_part(mount, box(Vector3(0.70, 0.07, 0.70)), ice(&"ice_stone_dark"), Vector3(0, 0.29, 0.16), Vector3(0, 14, 0))
-	add_part(mount, sphere(0.30, 10, 5), ice(&"ice_hair"), Vector3(-0.08, 0.56, 0.14), Vector3(0, 14, 0), Vector3(1.0, 0.22, 0.9))
-	for s: float in [-1.0, 1.0]:
-		add_part(mount, sphere(0.07, 7, 4), ice(&"ice_hair"), Vector3(0.40 * s, 0.30, 0.80), Vector3.ZERO, Vector3(1.0, 0.6, 1.2))
-	add_crystal(mount, Vector3(0.30, 0.50, -0.02), Vector3(0.7, 1.0, -0.2), 0.05, 0.24, frost, 0.5)
-	# the mortar tube: squat steel barrel raised forward, silver bands, trunnions, frost crystals on it
 	var d := TUBE_DIR.normalized()
 	var e := Basis(Quaternion(Vector3.UP, d)).get_euler() * (180.0 / PI)
-	add_part(mount, sphere(0.25, 10, 5), steel, TUBE_BASE + Vector3(0, 0.02, -0.04), Vector3.ZERO, Vector3(1.0, 0.8, 1.0))
-	add_part(mount, cyl(0.23, 0.27, 0.74, 12), steel, TUBE_BASE + d * 0.35, e)
-	add_part(mount, cyl(0.29, 0.23, 0.10, 12, false), steel, TUBE_BASE + d * 0.74, e)
-	add_part(mount, cyl(0.28, 0.28, 0.07, 12), metal, TUBE_BASE + d * 0.20, e)
-	add_part(mount, cyl(0.265, 0.265, 0.06, 12), metal, TUBE_BASE + d * 0.48, e)
-	add_part(mount, torus(0.22, 0.31, 12), metal, TUBE_BASE + d * 0.79, e)
-	add_part(mount, cyl(0.06, 0.06, 0.62, 8), metal, TUBE_BASE + Vector3(0, 0.02, 0.0), Vector3(0, 0, 90))
-	add_crystal(mount, TUBE_BASE + d * 0.40 + Vector3(-0.2, 0.0, 0.0), Vector3(-1.0, 0.5, 0.2), 0.045, 0.22, frost, 0.5)
-	add_crystal(mount, TUBE_BASE + d * 0.28 + Vector3(0.18, 0.06, 0.0), Vector3(1.0, 0.8, -0.1), 0.04, 0.18, frost, 0.5)
-	# back rack with 3 frost shells (back left) and the push bar at the back
-	add_part(mount, box(Vector3(0.36, 0.08, 0.34)), wood, Vector3(-0.24, 0.31, -0.52))
-	for p: Vector3 in [Vector3(-0.32, 0.43, -0.45), Vector3(-0.16, 0.43, -0.56), Vector3(-0.28, 0.43, -0.62)]:
-		add_part(mount, sphere(0.085, 8, 4), frost, p, Vector3.ZERO, Vector3(1.0, 1.25, 1.0))
-		add_part(mount, cyl(0.03, 0.05, 0.05, 6), metal, p + Vector3(0, 0.11, 0))
-	for s: float in [-1.0, 1.0]:
-		add_part(mount, cyl(0.03, 0.03, 0.52, 6), wood, Vector3(0.30 + 0.24 * s, 0.48, BAR_Z - 0.02), Vector3(-12, 0, 0))
-	add_part(mount, cyl(0.035, 0.035, 0.62, 6), wood, Vector3(0.30, BAR_Y, BAR_Z - 0.07), Vector3(0, 0, 90))
-	# the kneeling loader at the front left (static, part of the sled), holding the next shell
 	var lo := Vector3(-0.60, 0.0, 0.34)
-	add_part(mount, cyl(0.20, 0.30, 0.42, 9), cloth, lo + Vector3(0, 0.44, 0), Vector3(-10, 0, 0))
-	add_part(mount, cyl(0.30, 0.32, 0.09, 9), fur, lo + Vector3(0, 0.25, -0.03), Vector3(-10, 0, 0))
-	add_part(mount, cyl(0.16, 0.25, 0.12, 9), pale, lo + Vector3(0, 0.66, 0.02))
-	add_part(mount, capsule(0.09, 0.36), fur, lo + Vector3(-0.1, 0.16, 0.14), Vector3(80, 0, 0))
-	add_part(mount, capsule(0.09, 0.32), fur, lo + Vector3(0.1, 0.12, -0.08), Vector3(0, 0, 0))
-	add_part(mount, box(Vector3(0.16, 0.09, 0.26)), leather, lo + Vector3(0.1, 0.045, 0.0))
-	add_part(mount, sphere(0.16, 9, 5), skin, lo + Vector3(0, 0.80, 0.06))
-	add_part(mount, sphere(0.2, 9, 5), cloth, lo + Vector3(0, 0.84, -0.02), Vector3.ZERO, Vector3(1.0, 1.05, 1.0))
-	add_part(mount, cyl(0.0, 0.12, 0.24, 6), cloth, lo + Vector3(0, 0.95, -0.2), Vector3(-60, 0, 0))
-	add_part(mount, torus(0.11, 0.19, 10), pale, lo + Vector3(0, 0.81, 0.13), Vector3(80, 0, 0))
-	# the loader's face (faces pass 2026-09-28): its own FaceRig on the sled pivot (replaces the eye bar: the eye_dark
-	# surface of the sled merge goes, the face node comes: same draw count). A young loader, straw fringe.
+	# ================= the sled + the kneeling loader (Mount pivot)
+	IceUnitShapes.put(self, mount, "fm_gc_sled", _gc_sled)
+	# the loader's face (faces pass 2026-09-28): its own FaceRig on the sled pivot. A young loader, straw fringe.
 	var lh := Color(0.88, 0.80, 0.56)
 	_face_loader = UnitFaces.attach_lean(self, mount, "frost_mortar_loader", {"center": lo + Vector3(0, 0.80, 0.06), "radius": 0.16,
 		"head_mesh": sphere(0.16, 9, 5), "preset": &"bright", "detail": &"low", "skin": ICE_SKIN, "hair": lh,
@@ -110,25 +53,11 @@ func _build_parts() -> void:
 		"palette": {"brow": lh.darkened(0.4)}, "eye": {"c": Vector2(0.056, 0.016)},
 		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, lo + Vector3(0, 0.80, 0.06), 0.16, lh,
 			Color(0.98, 0.94, 0.78), -1.0)}, false)
-	for s: float in [-1.0, 1.0]:
-		add_limb(mount, lo + Vector3(0.22 * s, 0.62, 0.0), lo + Vector3(0.10 + 0.08 * s, 0.50, 0.26), 0.07, cloth, 0.08, leather)
-	add_part(mount, sphere(0.10, 8, 4), frost, lo + Vector3(0.10, 0.56, 0.30), Vector3.ZERO, Vector3(1.0, 1.25, 1.0))
 	# ================= the gunner (kit rig): hauler build, both hands on the push bar
-	for leg: Node3D in [leg_l, leg_r]:
-		var sx: float = -1.0 if leg == leg_l else 1.0
-		add_part(leg, capsule(0.11, 0.40), fur, G + Vector3(0.14 * sx, 0.30, 0))
-		add_part(leg, box(Vector3(0.23, 0.13, 0.32)), leather, G + Vector3(0.14 * sx, 0.065, 0.05))
-		add_part(leg, cyl(0.12, 0.115, 0.06, 8), pale, G + Vector3(0.14 * sx, 0.16, 0.0))
-	add_part(chest, cyl(0.25, 0.37, 0.54, 10), cloth, G + Vector3(0, 0.80, 0))
-	add_part(chest, cyl(0.37, 0.40, 0.12, 10), fur, G + Vector3(0, 0.56, 0))
-	add_part(chest, cyl(0.28, 0.30, 0.07, 10), leather, G + Vector3(0, 0.84, 0))
-	add_part(chest, cyl(0.19, 0.32, 0.14, 10), pale, G + Vector3(0, 1.06, 0))
-	add_part(chest, box(Vector3(0.14, 0.40, 0.04)), cdark, G + Vector3(0, 0.80, 0.26), Vector3(-12, 0, 0))
-	add_part(chest, cyl(0.08, 0.07, 0.26, 6), leather, G + Vector3(-0.30, 0.78, 0.02), Vector3(0, 0, 10))
-	add_part(head, sphere(0.19, 10, 5), skin, G + Vector3(0, 1.20, 0.06))
-	add_part(head, sphere(0.245, 10, 6), cloth, G + Vector3(0, 1.25, -0.05), Vector3.ZERO, Vector3(1.0, 1.05, 1.0))
-	add_part(head, cyl(0.0, 0.15, 0.30, 6), cloth, G + Vector3(0, 1.38, -0.24), Vector3(-62, 0, 0))
-	add_part(head, torus(0.14, 0.23, 12), pale, G + Vector3(0, 1.21, 0.14), Vector3(90, 0, 0))
+	IceUnitShapes.put(self, leg_l, "fm_gc_leg_l", func(acc: Dictionary) -> void: _gc_leg(acc, -1.0))
+	IceUnitShapes.put(self, leg_r, "fm_gc_leg_r", func(acc: Dictionary) -> void: _gc_leg(acc, 1.0))
+	IceUnitShapes.put(self, chest, "fm_gc_chest", _gc_chest)
+	IceUnitShapes.put(self, head, "fm_gc_head", _gc_head)
 	# the gunner's face (faces pass 2026-09-28): a grizzled hauler, grey moustache, grey-blue eyes (replaces the eye bar)
 	_face = UnitFaces.attach_lean(self, head, "frost_mortar_gunner", {"center": G + Vector3(0, 1.20, 0.06), "radius": 0.19,
 		"head_mesh": sphere(0.19, 10, 5), "preset": &"elder", "detail": &"low", "skin": ICE_SKIN,
@@ -139,13 +68,12 @@ func _build_parts() -> void:
 	if trim:
 		trim.set_meta(&"vet_trim", true)
 		trim.visible = false
-	for arm: Node3D in [arm_l, arm_r]:
-		var sx: float = -1.0 if arm == arm_l else 1.0
-		var hand := Vector3(G.x + 0.22 * sx, BAR_Y, BAR_Z - 0.07)
-		add_limb(arm, G + Vector3(0.34 * sx, 1.02, 0), hand, 0.095, cloth, 0.105, leather)
+	IceUnitShapes.put(self, arm_l, "fm_gc_arm_l", func(acc: Dictionary) -> void: _gc_arm(acc, -1.0))
+	IceUnitShapes.put(self, arm_r, "fm_gc_arm_r", func(acc: Dictionary) -> void: _gc_arm(acc, 1.0))
+	var glow := ice(&"ice_glow_unit")
 	# ================= glow + fx
 	var tip := TUBE_BASE + d * 0.76
-	_muzzle = add_part(mount, cyl(0.2, 0.2, 0.03, 12), glow, tip, e, Vector3.ONE, true, "Muzzle")
+	_muzzle = add_part(mount, cyl(0.2, 0.2, 0.03, 10), glow, tip, e, Vector3.ONE, true, "Muzzle")
 	_muzzle.set_meta(&"own_glow", true)
 	# Half-size, shorter vapour (in-game grade 2026-09-30: the muzzle cloud read as a white puff the size of a unit).
 	_vapour = _puffs(0.4, 6, 1.0, 0.85, 0.12, Vector3(0, 1, 0.3), 25.0, 0.4, 0.8, Vector3(0, 0.25, 0), 0.45)
@@ -160,6 +88,145 @@ func _build_parts() -> void:
 	add_hit_chips(Vector3(0, 0.6, 0.1), 7)
 	add_shatter(Vector3(0, 0.55, 0), 16, 0.55, 0.12)
 	ensure_shadow_blob(0.85, BLOB_TINT)
+
+
+# ================================================================ G-C shape builders (model space, IceUnitShapes)
+
+func _gc_sled(acc: Dictionary) -> void:
+	var steel := IceUnitShapes.st(acc, ice(&"ice_steel"))
+	var wood := IceUnitShapes.st(acc, ice(&"ice_wood"))
+	var metal := IceUnitShapes.st(acc, ice(&"ice_metal"))
+	var frost := IceUnitShapes.st(acc, ice(&"ice_frost_crystal"))
+	var deep := IceUnitShapes.st(acc, ice(&"ice_frost_deep"))
+	var stone := IceUnitShapes.st(acc, ice(&"ice_stone_dark"))
+	var snow := IceUnitShapes.st(acc, ice(&"ice_hair"))
+	var d := TUBE_DIR.normalized()
+	var txf := IceUnitShapes.on(d, TUBE_BASE)
+	for s: float in [-1.0, 1.0]:
+		var x: float = 0.40 * s
+		# iron-shod runner: flat along the ground, a swan-neck curl at the front
+		ChampionShapes.tube(steel, PackedVector3Array([Vector3(x, 0.05, -0.84), Vector3(x, 0.035, -0.40), Vector3(x, 0.035, 0.40),
+			Vector3(x, 0.08, 0.63), Vector3(x, 0.24, 0.80), Vector3(x, 0.41, 0.74)]),
+			PackedFloat32Array([0.035, 0.042, 0.042, 0.04, 0.034, 0.026]), 6, true)
+		# raked struts from the runner up to the deck
+		for z: float in [-0.50, 0.36]:
+			ChampionShapes.tube(wood, PackedVector3Array([Vector3(x, 0.05, z - 0.03), Vector3(x * 0.96, 0.21, z + 0.02)]),
+				PackedFloat32Array([0.036, 0.030]), 5, false)
+	# plank deck (bevelled, a tapered nose), two iron straps
+	ChampionShapes.plate(wood, PackedVector2Array([Vector2(-0.46, 0.72), Vector2(0.46, 0.72), Vector2(0.47, -0.38),
+		Vector2(0.30, -0.60), Vector2(-0.30, -0.60), Vector2(-0.47, -0.38)]), 0.08, 0.022,
+		Transform3D(Basis(Vector3.RIGHT, -PI * 0.5), Vector3(0, 0.23, 0)))
+	for z: float in [-0.45, 0.30]:
+		ChampionShapes.append(steel, soft_box(Vector3(0.96, 0.03, 0.06)), Transform3D(Basis.IDENTITY, Vector3(0, 0.275, z)))
+	# dark stone plinth, the faceted ice block on it, a deeper blue chunk frozen to it, a snow cap on the block
+	ChampionShapes.append(stone, soft_box(Vector3(0.68, 0.07, 0.68)), IceUnitShapes.xf(Vector3(0, 0.29, 0.16), Vector3(0, 14, 0)))
+	ChampionShapes.lathe(frost, PackedVector2Array([Vector2(0.33, 0.0), Vector2(0.38, 0.11), Vector2(0.33, 0.24),
+		Vector2(0.20, 0.31)]), 6, IceUnitShapes.xf(Vector3(0, 0.30, 0.16), Vector3(0, 14, 0)), 1.05, 0.95, true, 0.0, TAU, true)
+	ChampionShapes.lathe(deep, PackedVector2Array([Vector2(0.13, 0.0), Vector2(0.15, 0.09), Vector2(0.06, 0.20)]), 5,
+		IceUnitShapes.xf(Vector3(0.27, 0.31, 0.38), Vector3(8, -20, 6)), 1.0, 0.9, false, 0.0, TAU, true)
+	ChampionShapes.lathe(snow, PackedVector2Array([Vector2(0.27, 0.0), Vector2(0.22, 0.035), Vector2(0.0, 0.05)]), 8,
+		IceUnitShapes.xf(Vector3(-0.06, 0.585, 0.12), Vector3(0, 14, 0)), 1.0, 0.85, false)
+	IceUnitShapes.crystal(frost, Vector3(-0.28, 0.46, 0.34), Vector3(-0.6, 1.0, 0.4), 0.06, 0.30)
+	IceUnitShapes.crystal(frost, Vector3(0.30, 0.50, -0.02), Vector3(0.7, 1.0, -0.2), 0.05, 0.24)
+	# the mortar: rounded breech, swelling barrel, flared muzzle lip, a dark bore (profile turns back inside)
+	ChampionShapes.lathe(steel, PackedVector2Array([Vector2(0.0, -0.25), Vector2(0.16, -0.21), Vector2(0.25, -0.08),
+		Vector2(0.275, 0.06), Vector2(0.255, 0.42), Vector2(0.235, 0.66), Vector2(0.30, 0.74), Vector2(0.305, 0.80),
+		Vector2(0.215, 0.80), Vector2(0.20, 0.62), Vector2(0.0, 0.60)]), 9, txf, 1.0, 1.0, false)
+	ChampionShapes.band(metal, 0.262, 0.07, 0.022, 10, IceUnitShapes.on(d, TUBE_BASE + d * 0.22))
+	ChampionShapes.tube(metal, PackedVector3Array([TUBE_BASE + Vector3(-0.32, 0.02, 0), TUBE_BASE + Vector3(0.32, 0.02, 0)]),
+		PackedFloat32Array([0.06, 0.06]), 6, true)
+	IceUnitShapes.crystal(frost, TUBE_BASE + d * 0.40 + Vector3(-0.22, 0.0, 0.0), Vector3(-1.0, 0.5, 0.2), 0.045, 0.22)
+	# back rack with 3 frost shells
+	ChampionShapes.append(wood, soft_box(Vector3(0.36, 0.08, 0.34)), Transform3D(Basis.IDENTITY, Vector3(-0.24, 0.31, -0.52)))
+	for p: Vector3 in [Vector3(-0.32, 0.43, -0.45), Vector3(-0.16, 0.43, -0.56), Vector3(-0.28, 0.43, -0.62)]:
+		IceUnitShapes.egg(frost, Transform3D(Basis.IDENTITY, p), 0.085, 0.24, 6)
+	# push bar: two raked posts and the bar (the gunner's mitts sit on it)
+	for s: float in [-1.0, 1.0]:
+		ChampionShapes.tube(wood, PackedVector3Array([Vector3(0.30 + 0.24 * s, 0.25, BAR_Z + 0.04),
+			Vector3(0.30 + 0.24 * s, BAR_Y, BAR_Z - 0.07)]), PackedFloat32Array([0.032, 0.03]), 5, false)
+	ChampionShapes.tube(wood, PackedVector3Array([Vector3(-0.02, BAR_Y, BAR_Z - 0.07), Vector3(0.62, BAR_Y, BAR_Z - 0.07)]),
+		PackedFloat32Array([0.036, 0.036]), 6, true)
+	_gc_loader(acc)
+
+
+## The kneeling loader at the front left (static, part of the sled), holding the next shell.
+func _gc_loader(acc: Dictionary) -> void:
+	var lo := Vector3(-0.60, 0.0, 0.34)
+	var cloth := IceUnitShapes.st(acc, ice(&"ice_cloth"))
+	var fur := IceUnitShapes.st(acc, ice(&"ice_fur"))
+	var pale := IceUnitShapes.st(acc, ice(&"ice_fur_pale"))
+	var leather := IceUnitShapes.st(acc, ice(&"ice_leather"))
+	var skin := IceUnitShapes.st(acc, ice(&"ice_skin"))
+	var frost := IceUnitShapes.st(acc, ice(&"ice_frost_crystal"))
+	var hunch := IceUnitShapes.xf(lo, Vector3(-10, 0, 0))
+	# hunched coat with a fur hem and a pale fur collar
+	ChampionShapes.lathe(cloth, PackedVector2Array([Vector2(0.31, 0.22), Vector2(0.28, 0.40), Vector2(0.22, 0.57),
+		Vector2(0.15, 0.68)]), 9, hunch, 1.0, 0.92, false)
+	ChampionShapes.append(fur, fur_ring(0.30, 0.34, 0.10, 5, 0.04), hunch * Transform3D(Basis.IDENTITY, Vector3(0, 0.17, 0)))
+	ChampionShapes.append(pale, fur_ring(0.15, 0.24, 0.10, 5, 0.03), Transform3D(Basis.IDENTITY, lo + Vector3(0, 0.60, 0.02)))
+	# the raised knee and its boot (the other knee is down under the coat)
+	ChampionShapes.tube(fur, PackedVector3Array([lo + Vector3(0.10, 0.28, 0.04), lo + Vector3(0.12, 0.34, 0.25),
+		lo + Vector3(0.12, 0.09, 0.27)]), PackedFloat32Array([0.10, 0.085, 0.07]), 6, false)
+	ChampionShapes.append(leather, boot(0.085, 0.11), IceUnitShapes.xf(lo + Vector3(0.12, 0.0, 0.31), Vector3.ZERO, Vector3(1.0, 1.0, 1.4)))
+	# head in a pointed hood, open at the front, pale fur trim round the face
+	ChampionShapes.append(skin, sphere(0.16, 9, 5), Transform3D(Basis.IDENTITY, lo + Vector3(0, 0.80, 0.06)))
+	ChampionShapes.tube(cloth, PackedVector3Array([lo + Vector3(0, 0.80, 0.10), lo + Vector3(0, 0.84, -0.04),
+		lo + Vector3(0, 0.90, -0.18), lo + Vector3(0, 0.99, -0.34)]), PackedFloat32Array([0.19, 0.21, 0.15, 0.0]), 8, false)
+	ChampionShapes.append(pale, fur_ring(0.17, 0.20, 0.05, 5, 0.02),
+		Transform3D(Basis(Vector3.RIGHT, PI * 0.5), lo + Vector3(0, 0.80, 0.09)))
+	# arms forward, mitts round the next shell
+	for s: float in [-1.0, 1.0]:
+		var hand := lo + Vector3(0.10 + 0.08 * s, 0.50, 0.26)
+		ChampionShapes.tube(cloth, PackedVector3Array([lo + Vector3(0.20 * s, 0.62, 0.0), lo + Vector3(0.20 * s, 0.46, 0.13), hand]),
+			PackedFloat32Array([0.075, 0.066, 0.056]), 6, false)
+		IceUnitShapes.egg(leather, IceUnitShapes.on(Vector3(0, -0.3, 1), hand), 0.07, 0.15, 6)
+	IceUnitShapes.egg(frost, Transform3D(Basis.IDENTITY, lo + Vector3(0.10, 0.50, 0.30)), 0.10, 0.27, 6)
+
+
+func _gc_leg(acc: Dictionary, sx: float) -> void:
+	var x := G.x + 0.14 * sx
+	ChampionShapes.tube(IceUnitShapes.st(acc, ice(&"ice_fur")), PackedVector3Array([Vector3(x, 0.52, G.z), Vector3(x, 0.31, G.z + 0.04),
+		Vector3(x, 0.12, G.z)]), PackedFloat32Array([0.115, 0.10, 0.085]), 7, false)
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur_pale")), fur_ring(0.09, 0.125, 0.07, 3, 0.03),
+		Transform3D(Basis.IDENTITY, Vector3(x, 0.12, G.z)))
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_leather")), boot(0.115, 0.15),
+		IceUnitShapes.xf(Vector3(x, 0.0, G.z + 0.05), Vector3.ZERO, Vector3(1.0, 1.0, 1.4)))
+
+
+func _gc_chest(acc: Dictionary) -> void:
+	var cloth := IceUnitShapes.st(acc, ice(&"ice_cloth"))
+	ChampionShapes.lathe(cloth, PackedVector2Array([Vector2(0.38, 0.50), Vector2(0.345, 0.62), Vector2(0.30, 0.82),
+		Vector2(0.275, 0.97), Vector2(0.21, 1.08)]), 10, Transform3D(Basis.IDENTITY, G), 1.0, 0.9, false)
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur")), fur_ring(0.36, 0.41, 0.12, 5, 0.045),
+		Transform3D(Basis.IDENTITY, G + Vector3(0, 0.47, 0)))
+	ChampionShapes.band(IceUnitShapes.st(acc, ice(&"ice_leather")), 0.285, 0.07, 0.02, 10, Transform3D(Basis.IDENTITY, G + Vector3(0, 0.84, 0)),
+		1.0, 0.9)
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur_pale")), fur_ring(0.18, 0.32, 0.13, 5, 0.035),
+		Transform3D(Basis.IDENTITY, G + Vector3(0, 0.98, 0)))
+	# dark tabard strip with a pointed hem down the front
+	ChampionShapes.plate(IceUnitShapes.st(acc, ice(&"ice_cloth_dark")), PackedVector2Array([Vector2(-0.075, 0.16), Vector2(0.075, 0.16),
+		Vector2(0.08, -0.15), Vector2(0.0, -0.23), Vector2(-0.08, -0.15)]), 0.03, 0.01,
+		IceUnitShapes.xf(G + Vector3(0, 0.76, 0.285), Vector3(-12, 0, 0)))
+
+
+func _gc_head(acc: Dictionary) -> void:
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_skin")), sphere(0.19, 10, 5), Transform3D(Basis.IDENTITY, G + Vector3(0, 1.20, 0.06)))
+	ChampionShapes.tube(IceUnitShapes.st(acc, ice(&"ice_cloth")), PackedVector3Array([G + Vector3(0, 1.22, 0.12), G + Vector3(0, 1.27, -0.04),
+		G + Vector3(0, 1.34, -0.21), G + Vector3(0, 1.45, -0.42)]), PackedFloat32Array([0.23, 0.25, 0.18, 0.0]), 8, false)
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur_pale")), fur_ring(0.20, 0.245, 0.06, 5, 0.025),
+		Transform3D(Basis(Vector3.RIGHT, PI * 0.5), G + Vector3(0, 1.21, 0.11)))
+
+
+func _gc_arm(acc: Dictionary, sx: float) -> void:
+	var sh := G + Vector3(0.34 * sx, 1.02, 0)
+	var hand := Vector3(G.x + 0.22 * sx, BAR_Y, BAR_Z - 0.07)
+	var elbow := (sh + hand) * 0.5 + Vector3(0.08 * sx, -0.06, -0.05)
+	ChampionShapes.tube(IceUnitShapes.st(acc, ice(&"ice_cloth")), PackedVector3Array([sh, elbow, hand]),
+		PackedFloat32Array([0.095, 0.085, 0.07]), 6, false)
+	var fd := (hand - elbow).normalized()
+	ChampionShapes.append(IceUnitShapes.st(acc, ice(&"ice_fur_pale")), fur_ring(0.07, 0.095, 0.06, 3, 0.025),
+		IceUnitShapes.on(-fd, hand - fd * 0.03))
+	IceUnitShapes.egg(IceUnitShapes.st(acc, ice(&"ice_leather")), IceUnitShapes.on(fd, hand + fd * 0.02), 0.095, 0.19, 6)
 
 
 static func _path(key: String, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int) -> Mesh:
