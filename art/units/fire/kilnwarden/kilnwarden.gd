@@ -422,13 +422,8 @@ static func _path_mesh(key: String, pts: PackedVector3Array, radii: PackedFloat3
 
 
 static func _append_path(st: SurfaceTool, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int, caps: bool) -> void:
-	for i: int in pts.size() - 1:
-		var a := pts[i]
-		var d := pts[i + 1] - a
-		var extra: float = 0.02 if radii[i + 1] > 0.0 else 0.0
-		var len_total := d.length() + extra
-		var c := cyl(radii[i + 1], radii[i], len_total, seg, caps and (i == 0 or i == pts.size() - 2))
-		st.append_from(c, 0, Transform3D(Basis(Quaternion(Vector3.UP, d.normalized())), a + d.normalized() * len_total * 0.5))
+	# G-C: one smooth continuous tube (FireShapes) instead of stacked cylinders (hard kinks at every joint).
+	st.append_from(FireShapes.tube(pts, radii, seg, caps), 0, Transform3D.IDENTITY)
 
 
 ## The smith's tongs: two iron arms crossing at a rivet, handles spread behind the fist, curved jaws gripping the ingot.

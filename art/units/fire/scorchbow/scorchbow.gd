@@ -82,15 +82,19 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if leg == leg_l else 1.0
 		var x: float = 0.12 * sx
 		add_part(leg, _path("sb_thigh", PackedVector3Array([Vector3(0, 0.86, 0), Vector3(0, 0.60, 0.02),
-			Vector3(0, 0.36, 0.0)]), PackedFloat32Array([0.11, 0.095, 0.08]), 7), leather, Vector3(x, 0, 0))
+			Vector3(0, 0.36, 0.0)]), PackedFloat32Array([0.11, 0.10, 0.08]), 8), leather, Vector3(x, 0, 0))
 		add_part(leg, _path("sb_boot", PackedVector3Array([Vector3(0, 0.30, -0.01), Vector3(0, 0.06, -0.01),
-			Vector3(0, 0.05, 0.11), Vector3(0, 0.04, 0.18)]), PackedFloat32Array([0.085, 0.08, 0.065, 0.035]), 7),
+			Vector3(0, 0.05, 0.11), Vector3(0, 0.04, 0.18)]), PackedFloat32Array([0.085, 0.08, 0.065, 0.035]), 8),
 			palette(&"fire_hair"), Vector3(x, 0, 0))
-		add_part(leg, cyl(0.10, 0.09, 0.26, 7), bronze, Vector3(x, 0.24, 0.025), Vector3(-4, 0, 0),
-			Vector3(1.0, 1.0, 0.9))
+		# G-C: a shaped greave (narrow ankle, swelling calf, flared knee guard) instead of a straight 7-sided can.
+		add_part(leg, fs_lathe("sb_greave", PackedVector2Array([Vector2(0.078, -0.13), Vector2(0.09, -0.07),
+			Vector2(0.10, 0.03), Vector2(0.104, 0.09), Vector2(0.118, 0.125), Vector2(0.10, 0.135)]), 10, 1.0, 0.9, false),
+			bronze, Vector3(x, 0.24, 0.025), Vector3(-4, 0, 0))
 	# ---- Hips: dark leather apron-skirt, bronze belt with a buckle, hip quiver.
-	add_part(hips, cyl(0.24, 0.33, 0.34, 9, false), leather, Vector3(0, 0.72, 0))
-	add_part(hips, cyl(0.25, 0.25, 0.07, 9), bronze, Vector3(0, 0.88, 0), Vector3.ZERO, Vector3(1.0, 1.0, 0.9))
+	# G-C: the apron-skirt flares in a smooth bell with a hem roll (was a 9-sided cone).
+	add_part(hips, fs_lathe("sb_skirt", PackedVector2Array([Vector2(0.335, 0.55), Vector2(0.345, 0.565),
+		Vector2(0.33, 0.60), Vector2(0.29, 0.72), Vector2(0.245, 0.89)]), 12, 1.0, 1.0, false), leather, Vector3.ZERO)
+	add_part(hips, cyl(0.25, 0.25, 0.07, 12), bronze, Vector3(0, 0.88, 0), Vector3.ZERO, Vector3(1.0, 1.0, 0.9))
 	add_part(hips, sphere(0.055, 6, 3), bronze, Vector3(0, 0.88, 0.23), Vector3.ZERO, Vector3(1.2, 1.0, 0.6))
 	# ---- Back brazier: a bronze fire cup on a bracket rising behind the right shoulder (where the draw hand lights
 	# each arrow); its flame is the only glow point, high up so it reads over the crowd.
@@ -112,16 +116,16 @@ func _build_parts() -> void:
 	# ---- Chest: crimson team gambeson (lathe), bronze half-breastplate, team tabard, fur collar, left pauldron.
 	add_part(chest, _path("sb_torso", PackedVector3Array([Vector3(0, 0.86, 0), Vector3(0, 1.00, 0.0),
 		Vector3(0, 1.17, 0.01), Vector3(0, 1.30, 0.0), Vector3(0, 1.38, 0.0)]),
-		PackedFloat32Array([0.22, 0.235, 0.27, 0.27, 0.17]), 8), cdark, Vector3.ZERO, Vector3.ZERO,
+		PackedFloat32Array([0.22, 0.235, 0.27, 0.27, 0.17]), 10), cdark, Vector3.ZERO, Vector3.ZERO,
 		Vector3(1.0, 1.0, 0.82))
-	add_part(chest, sphere(0.25, 9, 5), bronze, Vector3(0, 1.14, 0.05), Vector3(-6, 0, 0), Vector3(1.0, 0.95, 0.78))
+	add_part(chest, sphere(0.25, 12, 6), bronze, Vector3(0, 1.14, 0.05), Vector3(-6, 0, 0), Vector3(1.0, 0.95, 0.78))
 	add_part(chest, torus(0.20, 0.235, 8), leather, Vector3(0, 1.03, 0.03), Vector3(-6, 0, 0), Vector3(1.0, 1.4, 0.85))
 	add_part(chest, cyl(0.07, 0.10, 0.32, 6), cdark, Vector3(0, 0.84, 0.215), Vector3(-8, 0, 0), Vector3(1.0, 1.0, 0.35))
 	add_part(chest, torus(0.12, 0.23, 8), fur, Vector3(0, 1.36, 0.0), Vector3.ZERO, Vector3(1.0, 1.6, 0.9))
 	# Big bronze pauldron on the bow shoulder: two stacked lames + a dark rim.
-	add_part(chest, sphere(0.16, 8, 4), bronze, SH_L + Vector3(-0.04, 0.03, 0.0), Vector3(0, 0, 18),
+	add_part(chest, sphere(0.16, 10, 5), bronze, SH_L + Vector3(-0.04, 0.03, 0.0), Vector3(0, 0, 18),
 		Vector3(1.15, 0.75, 1.1))
-	add_part(chest, sphere(0.14, 8, 4), bronze, SH_L + Vector3(-0.09, -0.07, 0.0), Vector3(0, 0, 30),
+	add_part(chest, sphere(0.14, 10, 5), bronze, SH_L + Vector3(-0.09, -0.07, 0.0), Vector3(0, 0, 30),
 		Vector3(1.05, 0.55, 1.05))
 	# ---- Head: bearded face under a bronze kettle helm (dome + wide brim + a crest ridge). The face (faces pass
 	# 2026-09-28): a gruff veteran, dark-auburn brows, brown eyes, the mouth just above the (lowered) beard; FaceKit,
@@ -135,8 +139,11 @@ func _build_parts() -> void:
 		"hair": Color(0.30, 0.09, 0.05), "eyes": Color(0.45, 0.26, 0.10), "ears": &"none",
 		"eye": {"c": Vector2(0.044, 0.018), "hw": 0.024, "top": 0.016, "ir": 0.012},
 		"mouth": {"c": Vector2(0.0, -0.032), "hw": 0.026}}, false)
-	add_part(head, sphere(0.155, 9, 5), bronze, Vector3(0, 1.60, 0.0), Vector3.ZERO, Vector3(1.0, 0.85, 1.05))
-	add_part(head, cyl(0.34, 0.31, 0.04, 10), bronze, Vector3(0, 1.585, 0.01), Vector3(-6, 0, 0))
+	add_part(head, sphere(0.155, 12, 6), bronze, Vector3(0, 1.60, 0.0), Vector3.ZERO, Vector3(1.0, 0.85, 1.05))
+	# G-C: the kettle brim as a smooth disc with a rolled edge (was a 10-sided slab).
+	add_part(head, fs_lathe("sb_brim", PackedVector2Array([Vector2(0.0, -0.014), Vector2(0.30, -0.022),
+		Vector2(0.338, -0.012), Vector2(0.345, 0.004), Vector2(0.322, 0.016), Vector2(0.20, 0.02), Vector2(0.0, 0.022)]), 16),
+		bronze, Vector3(0, 1.585, 0.01), Vector3(-6, 0, 0))
 	# Crest ridge + a swept-back team horsehair plume (the head hook; the Ember Archer's hood point droops instead).
 	add_part(head, _path("sb_ridge", PackedVector3Array([Vector3(0, 1.70, 0.12), Vector3(0, 1.75, 0.0),
 		Vector3(0, 1.73, -0.12)]), PackedFloat32Array([0.02, 0.035, 0.03]), 5), bronze, Vector3.ZERO)
@@ -225,13 +232,8 @@ func get_bow_tip_position() -> Vector3:
 # ================================================================ meshes (cached)
 
 static func _path_into(st: SurfaceTool, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int) -> void:
-	for i: int in pts.size() - 1:
-		var a := pts[i]
-		var d := pts[i + 1] - a
-		var extra: float = 0.02 if radii[i + 1] > 0.0 else 0.0
-		var len_total := d.length() + extra
-		st.append_from(cyl(radii[i + 1], radii[i], len_total, seg, false), 0,
-			Transform3D(Basis(Quaternion(Vector3.UP, d.normalized())), a + d.normalized() * len_total * 0.5))
+	# G-C: one smooth continuous tube (FireShapes) instead of stacked cylinders (hard kinks at every joint).
+	st.append_from(FireShapes.tube(pts, radii, seg, false), 0, Transform3D.IDENTITY)
 
 
 ## Tapered tube through `pts`, cached by key.

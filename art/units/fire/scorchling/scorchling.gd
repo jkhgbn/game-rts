@@ -57,7 +57,7 @@ func _build_parts() -> void:
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
 		add_part(leg, _tube("sc_leg_%s" % sx, PackedVector3Array([Vector3(0.09 * sx, 0.36, 0.0),
-			Vector3(0.13 * sx, 0.22, 0.07), Vector3(0.12 * sx, 0.07, -0.03)]), PackedFloat32Array([0.06, 0.045, 0.04]), 6),
+			Vector3(0.13 * sx, 0.22, 0.07), Vector3(0.12 * sx, 0.07, -0.03)]), PackedFloat32Array([0.06, 0.045, 0.04]), 8),
 			burnt, Vector3.ZERO)
 		add_part(leg, cyl(0.045, 0.05, 0.1, 6), burnt, Vector3(0.12 * sx, 0.1, -0.01), Vector3(-15, 0, 0))
 		add_part(leg, sphere(0.055, 6, 3), burnt, Vector3(0.12 * sx, 0.035, 0.05), Vector3.ZERO, Vector3(1.1, 0.6, 1.7))
@@ -65,7 +65,7 @@ func _build_parts() -> void:
 			var tx: float = 0.12 * sx + (float(k) - 0.5) * 0.05
 			add_part(leg, cyl(0.0, 0.018, 0.07, 4), horn, Vector3(tx, 0.03, 0.14), Vector3(80, 0, 0))
 	# ---- Hips: team loincloth (front flap longer), a charred belt, the whip tail with a team spade.
-	add_part(hips, cyl(0.15, 0.19, 0.14, 8), cloth, Vector3(0, 0.33, 0.0))
+	add_part(hips, cyl(0.15, 0.19, 0.14, 10), cloth, Vector3(0, 0.33, 0.0))
 	add_part(hips, box(Vector3(0.13, 0.16, 0.03)), cloth, Vector3(0.02, 0.23, 0.17), Vector3(-12, 0, 4))
 	add_part(hips, torus(0.15, 0.185, 8), burnt, Vector3(0, 0.39, 0.0), Vector3.ZERO, Vector3(1.0, 1.6, 1.0))
 	add_part(hips, _tube("sc_tail", PackedVector3Array([Vector3(0, 0.32, -0.14), Vector3(0.02, 0.24, -0.3),
@@ -73,8 +73,8 @@ func _build_parts() -> void:
 		hide, Vector3.ZERO)
 	add_part(hips, prism(Vector3(0.14, 0.14, 0.03)), cdark, Vector3(0.145, 0.62, -0.505), Vector3(0, -20, 0))
 	# ---- Chest: pot belly with the coal set in a charred crust ring, hunched shoulders, team scarf + torn tail.
-	add_part(chest, sphere(0.2, 10, 5), hide, Vector3(0, 0.47, 0.0), Vector3.ZERO, Vector3(1.05, 1.0, 0.95))
-	add_part(chest, sphere(0.14, 8, 4), hide, Vector3(0, 0.61, -0.03), Vector3.ZERO, Vector3(1.35, 0.8, 1.0))
+	add_part(chest, sphere(0.2, 12, 6), hide, Vector3(0, 0.47, 0.0), Vector3.ZERO, Vector3(1.05, 1.0, 0.95))
+	add_part(chest, sphere(0.14, 10, 5), hide, Vector3(0, 0.61, -0.03), Vector3.ZERO, Vector3(1.35, 0.8, 1.0))
 	add_part(chest, torus(0.085, 0.13, 10), burnt, BELLY + Vector3(0, 0, 0.02), Vector3(80, 0, 0), Vector3(1.0, 1.0, 1.2))
 	for k: int in 3:
 		var a: float = -0.9 + 0.9 * k
@@ -102,7 +102,7 @@ func _build_parts() -> void:
 			&"worried": {"blush": 0.0}, &"shout": {"blush": 0.0}}}, false)
 	for s: float in [-1.0, 1.0]:
 		# bat ears: a long cone out sideways with a dark inner fold
-		add_part(head, cyl(0.0, 0.085, 0.38, 6), skull, Vector3(0.36 * s, 0.93, -0.01), Vector3(0, 0, -72 * s),
+		add_part(head, cyl(0.0, 0.085, 0.38, 8), skull, Vector3(0.36 * s, 0.93, -0.01), Vector3(0, 0, -72 * s),
 			Vector3(1.0, 1.0, 0.45))
 		add_part(head, cyl(0.0, 0.05, 0.26, 4), cdark, Vector3(0.34 * s, 0.925, 0.02), Vector3(0, 0, -72 * s),
 			Vector3(1.0, 1.0, 0.3))
@@ -120,7 +120,7 @@ func _build_parts() -> void:
 		var sx: float = -1.0 if arm == arm_l else 1.0
 		add_part(arm, _tube("sc_arm_%s" % sx, PackedVector3Array([Vector3(0.19 * sx, 0.62, 0.0),
 			Vector3(0.29 * sx, 0.45, 0.03), HAND * Vector3(sx, 1, 1) + Vector3(0, 0.03, 0)]),
-			PackedFloat32Array([0.05, 0.04, 0.035]), 6), hide, Vector3.ZERO)
+			PackedFloat32Array([0.05, 0.04, 0.035]), 8), hide, Vector3.ZERO)
 		add_part(arm, cyl(0.045, 0.052, 0.1, 6), cloth, Vector3(0.29 * sx, 0.33, 0.08), Vector3(-25, 0, 0))
 		add_part(arm, sphere(0.05, 6, 3), hide, HAND * Vector3(sx, 1, 1))
 		add_part(arm, _claws_mesh(sx), horn, Vector3.ZERO)
@@ -150,13 +150,8 @@ static func _tube(key: String, pts: PackedVector3Array, radii: PackedFloat32Arra
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
 	var st := SurfaceTool.new()
-	for i: int in pts.size() - 1:
-		var a := pts[i]
-		var d := pts[i + 1] - a
-		var extra: float = 0.02 if radii[i + 1] > 0.0 else 0.0
-		var len_total := d.length() + extra
-		var c := cyl(radii[i + 1], radii[i], len_total, seg, caps and (i == 0 or i == pts.size() - 2))
-		st.append_from(c, 0, Transform3D(Basis(Quaternion(Vector3.UP, d.normalized())), a + d.normalized() * len_total * 0.5))
+	# G-C: one smooth continuous tube (FireShapes) instead of stacked cylinders (hard kinks at every joint).
+	st.append_from(FireShapes.tube(pts, radii, seg, caps), 0, Transform3D.IDENTITY)
 	st.index()
 	return _cached(key, st.commit())
 

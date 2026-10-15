@@ -164,13 +164,8 @@ static func _tube(key: String, pts: PackedVector3Array, radii: PackedFloat32Arra
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
 	var st := SurfaceTool.new()
-	for i: int in pts.size() - 1:
-		var a := pts[i]
-		var d := pts[i + 1] - a
-		var extra: float = 0.02 if radii[i + 1] > 0.0 else 0.0
-		var len_total := d.length() + extra
-		var c := cyl(radii[i + 1], radii[i], len_total, seg, caps and (i == 0 or i == pts.size() - 2))
-		st.append_from(c, 0, Transform3D(Basis(Quaternion(Vector3.UP, d.normalized())), a + d.normalized() * len_total * 0.5))
+	# G-C: one smooth continuous tube (FireShapes) instead of stacked cylinders (hard kinks at every joint).
+	st.append_from(FireShapes.tube(pts, radii, seg, caps), 0, Transform3D.IDENTITY)
 	st.index()
 	return _cached(key, st.commit())
 

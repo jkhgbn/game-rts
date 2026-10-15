@@ -178,12 +178,8 @@ static func _sb_path(key: String, pts: PackedVector3Array, radii: PackedFloat32A
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
 	var st := SurfaceTool.new()
-	for i: int in pts.size() - 1:
-		var a := pts[i]
-		var d := pts[i + 1] - a
-		var len_total := d.length() + 0.02
-		var c := cyl(radii[i + 1], radii[i], len_total, seg, i == 0 or i == pts.size() - 2)
-		st.append_from(c, 0, Transform3D(Basis(Quaternion(Vector3.UP, d.normalized())), a + d.normalized() * len_total * 0.5))
+	# G-C: one smooth continuous tube (FireShapes) instead of stacked cylinders (hard kinks at every joint).
+	st.append_from(FireShapes.tube(pts, radii, seg, true), 0, Transform3D.IDENTITY)
 	st.index()
 	return _cached(key, st.commit())
 

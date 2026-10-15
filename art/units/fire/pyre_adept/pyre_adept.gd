@@ -63,23 +63,28 @@ func _build_parts() -> void:
 		add_part(leg, cyl(0.065, 0.075, 0.42, 8), leather, Vector3(0.11 * sx, 0.30, 0.0))
 		add_part(leg, sphere(0.08, 6, 4), leather, Vector3(0.11 * sx, 0.07, 0.07), Vector3.ZERO, Vector3(1.0, 0.7, 1.6))
 	# ---- Hips: the long team cassock (a flared cone to the ankles), bronze hem, dark front panel, belt.
-	add_part(hips, cyl(0.21, 0.43, 0.74, 10), robe, Vector3(0, 0.53, 0))
-	add_part(hips, torus(0.40, 0.46, 8), bronze, Vector3(0, 0.17, 0), Vector3.ZERO, Vector3(1.0, 1.4, 1.0))
+	# G-C: the cassock as a smooth bell that kicks out at the hem (was a 10-sided cone) + a soft fold at the knee.
+	add_part(hips, fs_lathe("pa_robe", PackedVector2Array([Vector2(0.43, 0.16), Vector2(0.415, 0.25), Vector2(0.37, 0.40),
+		Vector2(0.33, 0.52), Vector2(0.27, 0.70), Vector2(0.21, 0.90)]), 14, 1.0, 1.0, false), robe, Vector3.ZERO)
+	add_part(hips, torus(0.40, 0.46, 14), bronze, Vector3(0, 0.17, 0), Vector3.ZERO, Vector3(1.0, 1.4, 1.0))
 	add_part(hips, cyl(0.07, 0.12, 0.66, 8), cdark, Vector3(0, 0.50, 0.30), Vector3(-15.5, 0, 0), Vector3(1.3, 1.0, 0.45))
 	add_part(hips, cyl(0.235, 0.235, 0.08, 8), leather, Vector3(0, 0.89, 0.01), Vector3(9, 0, -4))
 	add_part(hips, sphere(0.06, 6, 3), bronze, Vector3(0, 0.90, 0.23), Vector3.ZERO, Vector3(1.0, 0.9, 0.5))
 	add_part(hips, sphere(0.08, 6, 3), leather, Vector3(-0.20, 0.80, 0.12), Vector3.ZERO, Vector3(0.8, 1.0, 0.6))
 	add_part(hips, cyl(0.05, 0.05, 0.02, 8), bronze, Vector3(0.17, 0.78, 0.17), Vector3(80, 0, 35))
 	# ---- Chest: team torso, crimson shoulder mantle, gold stole hanging down the front (vertical accent).
-	add_part(chest, sphere(0.24, 10, 5), cloth, Vector3(0, 1.14, 0), Vector3(8, 0, 0), Vector3(1.0, 1.25, 0.82))
-	add_part(chest, cyl(0.13, 0.36, 0.24, 8), cdark, Vector3(0, 1.34, -0.01), Vector3(-7, 0, 3))
+	add_part(chest, sphere(0.24, 12, 6), cloth, Vector3(0, 1.14, 0), Vector3(8, 0, 0), Vector3(1.0, 1.25, 0.82))
+	# G-C: the shoulder mantle drapes in a rounded curve with a rolled edge (was an 8-sided cone).
+	add_part(chest, fs_lathe("pa_mantle", PackedVector2Array([Vector2(0.355, -0.12), Vector2(0.365, -0.105),
+		Vector2(0.34, -0.05), Vector2(0.27, 0.03), Vector2(0.17, 0.10), Vector2(0.13, 0.12)]), 14), cdark,
+		Vector3(0, 1.34, -0.01), Vector3(-7, 0, 3))
 	for s: float in [-1.0, 1.0]:
 		add_part(chest, cyl(0.04, 0.045, 0.78, 8), gold, Vector3(0.105 * s, 1.02, 0.235), Vector3(-9, 0, 6 * s), Vector3(1.0, 1.0, 0.5))
 	for s: float in [-1.0, 1.0]:
 		add_part(chest, sphere(0.045, 6, 3), bronze, Vector3(0.09 * s, 1.36, 0.20))
 		add_part(chest, cyl(0.0, 0.05, 0.12, 6), gold, Vector3(0.09 * s + 0.03 * s, 0.58, 0.30), Vector3(-9, 0, 6 * s))
 	# ---- Head: deep crimson hood with a gold rim round the face, the face in shadow, hood tip falling back.
-	add_part(head, sphere(0.18, 10, 5), cdark, Vector3(0, 1.58, -0.01), Vector3.ZERO, Vector3(1.0, 1.08, 1.12))
+	add_part(head, sphere(0.18, 12, 6), cdark, Vector3(0, 1.58, -0.01), Vector3.ZERO, Vector3(1.0, 1.08, 1.12))
 	add_part(head, cyl(0.0, 0.11, 0.26, 8), cdark, Vector3(0, 1.66, -0.21), Vector3(-118, 0, 0))
 	add_part(head, sphere(0.11, 8, 4), skin, Vector3(0, 1.54, 0.12), Vector3.ZERO, Vector3(0.95, 1.05, 0.9))
 	# Face (faces pass 2026-09-28): a young pyromancer, black fringe under the hood, ember irises that glow a little
@@ -117,8 +122,8 @@ func _build_parts() -> void:
 	# Brazier: three prongs curving out from a collar up to an open bowl, a coal bed inside.
 	add_part(arm_r, cyl(0.07, 0.05, 0.10, 6), bronze, Vector3(STAFF_X, 2.28, STAFF_Z))
 	add_part(arm_r, _prongs_mesh(), bronze, Vector3.ZERO)
-	add_part(arm_r, cyl(0.15, 0.07, 0.18, 8, false), bronze, Vector3(STAFF_X, BOWL_Y, STAFF_Z))
-	add_part(arm_r, torus(0.13, 0.165, 8), bronze, Vector3(STAFF_X, BOWL_Y + 0.09, STAFF_Z))
+	add_part(arm_r, cyl(0.15, 0.07, 0.18, 12, false), bronze, Vector3(STAFF_X, BOWL_Y, STAFF_Z))
+	add_part(arm_r, torus(0.13, 0.165, 12), bronze, Vector3(STAFF_X, BOWL_Y + 0.09, STAFF_Z))
 	add_part(arm_r, cyl(0.13, 0.07, 0.04, 6), leather, Vector3(STAFF_X, BOWL_Y + 0.04, STAFF_Z))
 	# The fire in the bowl (the glow point): driven by this script (flicker, flare), never merged.
 	_fire = add_part(arm_r, _fire_mesh(), palette(&"fire_flame"), Vector3(STAFF_X, BOWL_Y + 0.03, STAFF_Z),
@@ -153,13 +158,8 @@ static func _path_mesh(key: String, pts: PackedVector3Array, radii: PackedFloat3
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
 	var st := SurfaceTool.new()
-	for i: int in pts.size() - 1:
-		var a := pts[i]
-		var d := pts[i + 1] - a
-		var extra: float = 0.03 if radii[i + 1] > 0.0 else 0.0
-		var len_total := d.length() + extra
-		var c := cyl(radii[i + 1], radii[i], len_total, seg, i == 0 or i == pts.size() - 2)
-		st.append_from(c, 0, Transform3D(Basis(Quaternion(Vector3.UP, d.normalized())), a + d.normalized() * len_total * 0.5))
+	# G-C: one smooth continuous tube (FireShapes) instead of stacked cylinders (hard kinks at every joint).
+	st.append_from(FireShapes.tube(pts, radii, seg, true), 0, Transform3D.IDENTITY)
 	st.index()
 	return _cached(key, st.commit())
 

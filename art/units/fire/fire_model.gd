@@ -178,6 +178,15 @@ func _build_parts() -> void:
 			_face = FaceKit.attach(self, head, "fire_" + String(fire_kind), spec)
 
 
+## G-C: a cached smooth lathe (FireShapes.lathe) for the code-built Fire units: profile Vector2(radius, y) around
+## local Y, placed by add_part like the kit primitives. Built once per key (kit mesh cache), shared by every instance.
+static func fs_lathe(key: String, prof: PackedVector2Array, seg: int = 12, sx: float = 1.0, sz: float = 1.0,
+		caps: bool = true) -> Mesh:
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	return _cached(key, FireShapes.lathe(prof, seg, Transform3D.IDENTITY, sx, sz, caps))
+
+
 ## Cinematic / UI hook: FaceKit.EXPRESSIONS (&"neutral" default, &"smile", &"fierce", &"worried", &"shout").
 func set_expression(id: StringName) -> void:
 	if _face:

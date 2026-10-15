@@ -7,11 +7,11 @@
 resource_name = "fire_bronze_guard"
 render_priority = 0
 shader = ExtResource("1_af1ar")
-shader_parameter/base_color = Color(0.77, 0.46, 0.21, 1)
+shader_parameter/base_color = Color(0.8, 0.6, 0.3, 1)
 shader_parameter/noise_tex = ExtResource("2_fshno")
 shader_parameter/noise_scale_a = null
 shader_parameter/noise_scale_b = null
-shader_parameter/spec_strength = 0.35
+shader_parameter/spec_strength = 0.42
 shader_parameter/rim_color = null
 shader_parameter/rim_strength = 0.25
 shader_parameter/crack_strength = null

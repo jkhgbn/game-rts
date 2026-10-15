@@ -46,11 +46,15 @@ func _make_materials() -> void:
 	M["blob"] = load(KIT_MAT_DIR + "unit_shadow_blob.tres")
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(DIR + "materials"))
 	# Same recipe as the kit's make_materials.gd (painted shader, paint noise, rim 0.25).
-	M["fire_sec_cinderlock"] = _painted("fire_sec_cinderlock", Color(0.70, 0.45, 0.20), 0.0)
-	M["fire_gunmetal"] = _painted("fire_gunmetal", Color(0.17, 0.14, 0.13), 0.35)
+	M["fire_sec_cinderlock"] = _painted("fire_sec_cinderlock", Color(0.70, 0.45, 0.20), 0.0, 1)
+	M["fire_gunmetal"] = _painted("fire_gunmetal", Color(0.17, 0.14, 0.13), 0.35, 2)
 
 
-func _painted(id: String, col: Color, spec: float) -> Material:
+## kind = G3b surface_kind (docs/art/g3b_materials.md: 1 cloth, 2 metal...), written when the file is created.
+func _painted(id: String, col: Color, spec: float, kind: int = -1) -> Material:
+	var path: String = DIR + "materials/" + id + ".tres"
+	if ResourceLoader.exists(path):
+		return load(path)   # G-C: never re-write an existing material (G3b tuned it); delete the file to rebuild it
 	var m := ShaderMaterial.new()
 	m.shader = load("res://art/units/kit/unit_painted.gdshader")
 	m.resource_name = id
@@ -58,7 +62,7 @@ func _painted(id: String, col: Color, spec: float) -> Material:
 	m.set_shader_parameter(&"noise_tex", load("res://art/shaders/paint_noise.tres"))
 	m.set_shader_parameter(&"spec_strength", spec)
 	m.set_shader_parameter(&"rim_strength", 0.25)
-	var path: String = DIR + "materials/" + id + ".tres"
+	m.set_shader_parameter(&"surface_kind", kind)
 	var err: int = ResourceSaver.save(m, path)
 	if err != OK:
 		push_error("material save failed " + path)
@@ -169,7 +173,7 @@ func lathe(prof: Array, seg: int = 10, xf: Transform3D = Transform3D.IDENTITY, s
 				n1 = (sn[i] + sn[i + 1]).normalized()
 		for j: int in seg:
 			var a0: float = TAU * j / seg
-			var a1: float = TAU * (j + 1) / seg
+			var a1: float = TAU * ((j + 1) % seg) / seg   # G-C: the seam welds (one ring of vertices less)
 			var va := _lv(p0, a0, sx, sz)
 			var vb := _lv(p0, a1, sx, sz)
 			var vc := _lv(p1, a1, sx, sz)
@@ -188,7 +192,7 @@ func lathe(prof: Array, seg: int = 10, xf: Transform3D = Transform3D.IDENTITY, s
 		var c := Vector3(0, pe.y, 0)
 		for j: int in seg:
 			var a0: float = TAU * j / seg
-			var a1: float = TAU * (j + 1) / seg
+			var a1: float = TAU * ((j + 1) % seg) / seg
 			_xtri(st, xf, nb, c, _lv(pe, a0, sx, sz), _lv(pe, a1, sx, sz), up, up, up, false)
 	return _done(st)
 
@@ -469,13 +473,14 @@ func _blob(radius: float) -> void:
 	_authored += 1
 
 
+## G-C: a rounded toe-forward foot (half ellipsoid, flat sole) under the tall boot shaft; was a flat extruded side
+## profile (a "brick" foot) of the old Fire builder.
 func boot(pv: Node3D, x: float, z: float, s: float, mat: String) -> void:
-	var pts: Array = [Vector2(-0.13, 0.0), Vector2(0.16, 0.0), Vector2(0.215, 0.035), Vector2(0.215, 0.09),
-		Vector2(0.15, 0.14), Vector2(0.07, 0.16), Vector2(0.07, 0.25), Vector2(-0.12, 0.25), Vector2(-0.145, 0.12)]
-	var poly := PackedVector2Array()
-	for q: Vector2 in pts:
-		poly.append(q * s)
-	geo(pv, extrude(poly, 0.25 * s, frame(Vector3(x, 0, z), Vector3.UP, Vector3.LEFT)), mat)
+	var prof: Array = []
+	for q: Vector2 in [Vector2(0.0, 0.0), Vector2(0.105, 0.0), Vector2(0.118, 0.03), Vector2(0.108, 0.075),
+			Vector2(0.075, 0.115), Vector2(0.0, 0.135)]:
+		prof.append(q * s)
+	geo(pv, lathe(prof, 8, Transform3D(Basis.IDENTITY, Vector3(x, 0, z + 0.042 * s)), true, 0.95, 1.55), mat)
 
 
 func vet_trim(parent: Node3D, pos: Vector3, rot: Vector3 = Vector3.ZERO, s: float = 1.0) -> void:
@@ -683,18 +688,19 @@ func _cinderlock() -> Node3D:
 	for s: int in [-1, 1]:
 		var pv: Node3D = p.LegL if s < 0 else p.LegR
 		var x: float = 0.14 * s
-		geo(pv, tube([Vector3(x, 0.54, 0.0), Vector3(x, 0.45, 0.01), Vector3(x, 0.36, 0.015)], [0.105, 0.10, 0.092], 5),
+		# G-C: 7-sided legs (were pentagons: they read as square posts at zoom 10), a calf swell in the boot shaft.
+		geo(pv, tube([Vector3(x, 0.54, 0.0), Vector3(x, 0.45, 0.01), Vector3(x, 0.36, 0.015)], [0.105, 0.10, 0.09], 7),
 			"fire_cloth_dark")
-		geo(pv, tube([Vector3(x, 0.40, 0.015), Vector3(x, 0.27, 0.012), Vector3(x, 0.14, 0.0)], [0.098, 0.093, 0.085], 5),
+		geo(pv, tube([Vector3(x, 0.40, 0.015), Vector3(x, 0.30, 0.0), Vector3(x, 0.14, 0.0)], [0.096, 0.10, 0.08], 7),
 			"fire_leather")
-		geo(pv, lathe([Vector2(0.092, 0.33), Vector2(0.135, 0.41), Vector2(0.158, 0.455), Vector2(0.148, 0.465)], 6,
+		geo(pv, lathe([Vector2(0.092, 0.33), Vector2(0.135, 0.41), Vector2(0.158, 0.455), Vector2(0.148, 0.465)], 8,
 			xf(Vector3(x, 0.0, 0.02), Vector3(-6, 0, 0)), true, 1.0, 1.0, false, false), "fire_leather")
 		boot(pv, x, 0.02, 1.0, "fire_leather")
 	# ---- coat: long flared tan leather (Fire secondary), dark hem, front seam, belt + buckle, team sash + knot.
 	geo(p.Chest, lathe([Vector2(0.375, 0.33), Vector2(0.335, 0.45), Vector2(0.29, 0.61), Vector2(0.272, 0.72),
-		Vector2(0.295, 0.92), Vector2(0.305, 1.06), Vector2(0.265, 1.17), Vector2(0.15, 1.25), Vector2(0.0, 1.26)], 9,
+		Vector2(0.295, 0.92), Vector2(0.305, 1.06), Vector2(0.265, 1.17), Vector2(0.15, 1.25), Vector2(0.0, 1.26)], 11,
 		Transform3D.IDENTITY, true, 1.0, 0.85), "fire_sec_cinderlock")
-	part(p.Chest, "Hem", band(0.382, 0.032, 9), Vector3(0, 0.345, 0), "fire_cloth_dark", Vector3.ZERO, false,
+	part(p.Chest, "Hem", band(0.382, 0.032, 11), Vector3(0, 0.345, 0), "fire_cloth_dark", Vector3.ZERO, false,
 		Vector3(1, 1.3, 0.86))
 	part(p.Chest, "Seam", box(0.045, 0.36, 0.03), Vector3(0, 0.52, 0.272), "fire_cloth_dark", Vector3(-15, 0, 0))
 	part(p.Chest, "Belt", band(0.283, 0.034, 9), Vector3(0, 0.71, 0), "fire_leather", Vector3.ZERO, false,
@@ -759,8 +765,8 @@ func _cinderlock() -> Node3D:
 		var el: Vector3 = a[2]
 		var wr: Vector3 = a[3]
 		var fist: Vector3 = a[4]
-		geo(pv, tube([s0, el], [0.10, 0.088], 5), "fire_sec_cinderlock")
-		geo(pv, tube([el, wr], [0.088, 0.08], 5), "fire_sec_cinderlock")
+		geo(pv, tube([s0, s0.lerp(el, 0.45), el], [0.10, 0.104, 0.086], 7), "fire_sec_cinderlock")
+		geo(pv, tube([el, el.lerp(wr, 0.4), wr], [0.088, 0.092, 0.078], 7), "fire_sec_cinderlock")
 		var fd: Vector3 = (wr - el).normalized()
 		geo(pv, lathe([Vector2(0.078, -0.02), Vector2(0.118, 0.10), Vector2(0.126, 0.125)], 6,
 			frame(wr - fd * 0.13, fd, Vector3.UP), true, 1.0, 1.0, false, false), "fire_leather")

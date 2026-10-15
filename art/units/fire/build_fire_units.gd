@@ -25,6 +25,7 @@ var M: Dictionary = {}          # material name -> Material
 var _root: Node3D
 var _acc: Dictionary = {}       # "pivot id|material" -> [pivot, material, verts, normals, uvs, indices]
 var _acc_order: Array[String] = []
+var _dir: String = DIR
 var _authored: int = 0          # MeshInstance3D count before this pre-merge (for the budget line)
 
 
@@ -35,11 +36,14 @@ func _init() -> void:
 	for a: String in OS.get_cmdline_user_args():
 		if a.begins_with("only="):
 			only = a.substr(5).split(",")
+		elif a.begins_with("out="):
+			_dir = a.substr(4)   # dry run elsewhere (e.g. out=user://fire_try/): budgets without touching the scenes
 	if only.is_empty() or only.has("cinder_hand"):
 		_save(_cinder_hand(), "cinder_hand")
 	if only.is_empty() or only.has("flame_guard"):
 		# The Guard's plates use a brighter polished bronze (Art Lab R3t fire_bronze #9e6629 -> #c57535, 45 % of its
-		# body; in-game grade 2026-09-30): its own material, the rest of the army keeps the kit bronze.
+		# body; in-game grade 2026-09-30): its own material, the rest of the army keeps the kit bronze. G-C: shifted to a
+		# polished brass #cc994d so the plates separate from the red-orange team cloth (and stay metal on a blue team).
 		var kit_bronze: Material = M["fire_bronze"]
 		M["fire_bronze"] = load("res://art/units/fire/materials/fire_bronze_guard.tres")
 		_save(_flame_guard(), "flame_guard")
@@ -63,6 +67,9 @@ func _make_materials() -> void:
 	M["gold_trim"] = load(KIT_MAT_DIR + "unit_gold_trim.tres")
 	M["crystal"] = load(KIT_MAT_DIR + "crystal_glow.tres")
 	M["blob"] = load(KIT_MAT_DIR + "unit_shadow_blob.tres")
+	# G-C (2026-10-15): blackened forge iron (rivets, blade cores, bands): a cool dark accent that breaks the orange
+	# bronze / team mass into readable plates. Fire-only material next to fire_bronze_guard (same shader, surface metal).
+	M["fire_iron"] = load("res://art/units/fire/materials/fire_iron.tres")
 
 # ---------------------------------------------------------------- primitive meshes
 
@@ -207,7 +214,7 @@ func lathe(prof: Array, seg: int = 10, xf: Transform3D = Transform3D.IDENTITY, s
 				n1 = (sn[i] + sn[i + 1]).normalized()
 		for j: int in seg:
 			var a0: float = TAU * j / seg
-			var a1: float = TAU * (j + 1) / seg
+			var a1: float = TAU * ((j + 1) % seg) / seg   # G-C: the seam welds (same angle bits as j = 0)
 			var va := _lv(p0, a0, sx, sz)
 			var vb := _lv(p0, a1, sx, sz)
 			var vc := _lv(p1, a1, sx, sz)
@@ -226,7 +233,7 @@ func lathe(prof: Array, seg: int = 10, xf: Transform3D = Transform3D.IDENTITY, s
 		var c := Vector3(0, pe.y, 0)
 		for j: int in seg:
 			var a0: float = TAU * j / seg
-			var a1: float = TAU * (j + 1) / seg
+			var a1: float = TAU * ((j + 1) % seg) / seg
 			_xtri(st, xf, nb, c, _lv(pe, a0, sx, sz), _lv(pe, a1, sx, sz), up, up, up, false)
 	return _done(st)
 
@@ -329,6 +336,94 @@ func _poly(pts: Array) -> PackedVector2Array:
 	for p: Vector2 in pts:
 		out.append(p)
 	return out
+
+
+## Profile points scaled by s (lathe profiles authored at scale 1).
+func _sc(prof: Array, s: float) -> Array:
+	var out: Array = []
+	for q: Vector2 in prof:
+		out.append(q * s)
+	return out
+
+
+## Polygon moved inward by d along each corner's bisector (sharp corners clamped to 3 d).
+func _inset(poly: PackedVector2Array, d: float) -> PackedVector2Array:
+	var n: int = poly.size()
+	var area: float = 0.0
+	for i: int in n:
+		area += poly[i].x * poly[(i + 1) % n].y - poly[(i + 1) % n].x * poly[i].y
+	var sgn: float = 1.0 if area > 0.0 else -1.0
+	var out := PackedVector2Array()
+	for i: int in n:
+		var a: Vector2 = poly[(i + n - 1) % n]
+		var p: Vector2 = poly[i]
+		var c: Vector2 = poly[(i + 1) % n]
+		var e0: Vector2 = (p - a).normalized()
+		var e1: Vector2 = (c - p).normalized()
+		var n0 := Vector2(e0.y, -e0.x) * sgn
+		var n1 := Vector2(e1.y, -e1.x) * sgn
+		var bis: Vector2 = n0 + n1
+		if bis.length_squared() < 1e-6:
+			bis = n0
+		bis = bis.normalized()
+		out.append(p - bis * d / maxf(bis.dot(n0), 0.33))
+	return out
+
+
+## Bevelled plate (G-C): like extrude() but the front face is inset by `bevel` and joined to the sides by a chamfer
+## ring, so every plate edge catches a thin light line (flat shaded). back = chamfer the back edge too (free-standing
+## blades, shields). Falls back to a plain extrude when the inset outline cannot be triangulated.
+func plate(poly: PackedVector2Array, depth: float, bevel: float, xf: Transform3D = Transform3D.IDENTITY,
+		back: bool = false) -> ArrayMesh:
+	var ins: PackedVector2Array = _inset(poly, bevel)
+	var idx: PackedInt32Array = Geometry2D.triangulate_polygon(ins)
+	if idx.is_empty():
+		return extrude(poly, depth, xf)
+	var st := _st()
+	var nb: Basis = xf.basis.inverse().transposed()
+	var h: float = depth * 0.5
+	var bz: float = minf(bevel, depth * (0.45 if back else 0.7))
+	var zf: float = h
+	var zc: float = h - bz
+	var zbc: float = -h + bz if back else -h
+	var n: int = poly.size()
+	for k: int in range(0, idx.size(), 3):
+		var a: Vector2 = ins[idx[k]]
+		var b: Vector2 = ins[idx[k + 1]]
+		var c: Vector2 = ins[idx[k + 2]]
+		_xtri(st, xf, nb, Vector3(a.x, a.y, zf), Vector3(b.x, b.y, zf), Vector3(c.x, c.y, zf),
+			Vector3.BACK, Vector3.BACK, Vector3.BACK, false)
+	# back face: the inset outline when the back is chamfered too, else the full outline
+	var bpoly: PackedVector2Array = ins if back else poly
+	var bidx: PackedInt32Array = idx if back else Geometry2D.triangulate_polygon(poly)
+	for k: int in range(0, bidx.size(), 3):
+		var a: Vector2 = bpoly[bidx[k]]
+		var b: Vector2 = bpoly[bidx[k + 1]]
+		var c: Vector2 = bpoly[bidx[k + 2]]
+		_xtri(st, xf, nb, Vector3(a.x, a.y, -h), Vector3(b.x, b.y, -h), Vector3(c.x, c.y, -h),
+			Vector3.FORWARD, Vector3.FORWARD, Vector3.FORWARD, false)
+	var area: float = 0.0
+	for i: int in n:
+		area += poly[i].x * poly[(i + 1) % n].y - poly[(i + 1) % n].x * poly[i].y
+	var sgn: float = 1.0 if area > 0.0 else -1.0
+	for i: int in n:
+		var j: int = (i + 1) % n
+		var p: Vector2 = poly[i]
+		var q: Vector2 = poly[j]
+		var pi: Vector2 = ins[i]
+		var qi: Vector2 = ins[j]
+		var e: Vector2 = q - p
+		var o := Vector3(e.y, -e.x, 0.0).normalized() * sgn
+		_xtri(st, xf, nb, Vector3(p.x, p.y, zc), Vector3(q.x, q.y, zc), Vector3(q.x, q.y, zbc), o, o, o, true)
+		_xtri(st, xf, nb, Vector3(p.x, p.y, zc), Vector3(q.x, q.y, zbc), Vector3(p.x, p.y, zbc), o, o, o, true)
+		var of: Vector3 = (o + Vector3.BACK).normalized()
+		_xtri(st, xf, nb, Vector3(p.x, p.y, zc), Vector3(q.x, q.y, zc), Vector3(qi.x, qi.y, zf), of, of, of, true)
+		_xtri(st, xf, nb, Vector3(p.x, p.y, zc), Vector3(qi.x, qi.y, zf), Vector3(pi.x, pi.y, zf), of, of, of, true)
+		var ob: Vector3 = (o + Vector3.FORWARD).normalized() if back else Vector3.FORWARD
+		if back:
+			_xtri(st, xf, nb, Vector3(p.x, p.y, zbc), Vector3(q.x, q.y, zbc), Vector3(qi.x, qi.y, -zf), ob, ob, ob, true)
+			_xtri(st, xf, nb, Vector3(p.x, p.y, zbc), Vector3(qi.x, qi.y, -zf), Vector3(pi.x, pi.y, -zf), ob, ob, ob, true)
+	return _done(st)
 
 # ---------------------------------------------------------------- scene helpers
 
@@ -493,35 +588,59 @@ func _blob(radius: float) -> void:
 	_authored += 1
 
 
-## Chunky boot: side profile (z forward, y up) extruded to `w` wide, centred at (x, 0, z).
-func boot(pv: Node3D, x: float, z: float, s: float, mat: String) -> void:
-	var pts: Array = [Vector2(-0.13, 0.0), Vector2(0.16, 0.0), Vector2(0.215, 0.035), Vector2(0.215, 0.09),
-		Vector2(0.15, 0.14), Vector2(0.07, 0.16), Vector2(0.07, 0.25), Vector2(-0.12, 0.25), Vector2(-0.145, 0.12)]
-	var poly := PackedVector2Array()
-	for q: Vector2 in pts:
-		poly.append(q * s)
-	geo(pv, extrude(poly, 0.25 * s, frame(Vector3(x, 0, z), Vector3.UP, Vector3.LEFT)), mat)
+## Rounded boot (G-C; was a flat extruded side profile = a "brick" foot): a toe-forward half-ellipsoid foot with a
+## flat sole, a tapered shaft and an optional cuff band (another material) at the top, centred at (x, 0, z).
+func boot(pv: Node3D, x: float, z: float, s: float, mat: String, cuff: String = "", sole: String = "") -> void:
+	geo(pv, lathe(_sc([Vector2(0.0, 0.0), Vector2(0.105, 0.0), Vector2(0.118, 0.028), Vector2(0.112, 0.07),
+		Vector2(0.075, 0.115), Vector2(0.0, 0.13)], s), 8,
+		Transform3D(Basis.IDENTITY, Vector3(x, 0, z + 0.042 * s)), true, 0.95, 1.55), mat)
+	geo(pv, lathe(_sc([Vector2(0.088, 0.05), Vector2(0.094, 0.15), Vector2(0.104, 0.235), Vector2(0.116, 0.268),
+		Vector2(0.0, 0.272)], s), 8, Transform3D(Basis.IDENTITY, Vector3(x, 0, z - 0.03 * s)),
+		true, 1.0, 1.08), mat)
+	if cuff != "":
+		part(pv, "Cuff", band(0.112 * s, 0.024 * s, 8), Vector3(x, 0.255 * s, z - 0.03 * s), cuff, Vector3.ZERO, false,
+			Vector3(1, 1, 1.08))
+	if sole != "":
+		part(pv, "Sole", band(0.108 * s, 0.018 * s, 8), Vector3(x, 0.014 * s, z + 0.042 * s), sole, Vector3.ZERO, false,
+			Vector3(0.95, 1, 1.55))
 
 
-## Legs: a thigh-to-ankle tube hanging from each leg pivot + a boot.
-func legs(p: Dictionary, x: float, top: float, r: float, leg_mat: String, boot_mat: String, bs: float = 1.0) -> void:
+## Legs (G-C): a shaped thigh -> knee -> calf -> ankle tube from each leg pivot (thigh full, knee narrow, calf
+## swelling, slim ankle; was a straight cylinder) + a rounded boot. armour = a domed knee cop in that material.
+func legs(p: Dictionary, x: float, top: float, r: float, leg_mat: String, boot_mat: String, bs: float = 1.0,
+		armour: String = "", cuff: String = "", sole: String = "") -> void:
+	var k: float = 0.15 + (top - 0.15) * 0.5
 	for side: int in [-1, 1]:
 		var pv: Node3D = p.LegL if side < 0 else p.LegR
 		var sx: float = x * side
-		geo(pv, tube([Vector3(sx, top + 0.02, 0.0), Vector3(sx, top * 0.55, 0.01), Vector3(sx, 0.16, 0.0)],
-			[r, r * 0.92, r * 0.8], 7), leg_mat)
-		boot(pv, sx, 0.02, bs, boot_mat)
+		geo(pv, tube([Vector3(sx, top + 0.03, 0.0), Vector3(sx * 1.03, top - (top - k) * 0.45, 0.004),
+			Vector3(sx, k + 0.01, 0.018), Vector3(sx, k - (k - 0.2) * 0.45, -0.014), Vector3(sx, 0.2, 0.0)],
+			[r, r * 1.02, r * 0.80, r * 0.90, r * 0.70], 7), leg_mat)
+		boot(pv, sx, 0.02, bs, boot_mat, cuff, sole)
+		if armour != "":
+			part(pv, "KneeCop", sph(r * 0.62, 6, 3), Vector3(sx, k + 0.01, 0.018 + r * 0.55), armour, Vector3(-10, 0, 0),
+				false, Vector3(1.0, 0.95, 0.7))
 
 
-## Arm: shoulder -> elbow (upper material) -> wrist (lower material) + fist sphere. pts in +X (right) space.
+## Arm (G-C): shoulder -> bicep swell -> elbow (upper material) -> forearm swell -> wrist (lower material) + a mitten
+## fist (was two straight tubes and a ball). pts in +X (right) space.
 func arm(p: Dictionary, sh: Vector3, el: Vector3, wr: Vector3, r: Array, up_mat: String, lo_mat: String,
 		fist_r: float, fist_mat: String) -> void:
 	for side: int in [-1, 1]:
 		var pv: Node3D = p.ArmL if side < 0 else p.ArmR
 		var m := Vector3(side, 1, 1)
-		geo(pv, tube([sh * m, el * m], [r[0], r[1]], 7), up_mat)
-		geo(pv, tube([el * m, wr * m], [r[1], r[2]], 7), lo_mat)
-		part(pv, "Fist", sph(fist_r, 8, 4), (wr + Vector3(0.0, -fist_r * 0.55, 0.02)) * m, fist_mat)
+		var mu: Vector3 = sh.lerp(el, 0.42) + Vector3(0.012, 0, 0.006)
+		var ml: Vector3 = el.lerp(wr, 0.38) + Vector3(0.006, 0, 0.004)
+		geo(pv, tube([sh * m, mu * m, el * m], [r[0], float(r[0]) * 1.05, float(r[1]) * 0.9], 8), up_mat)
+		geo(pv, tube([el * m, ml * m, wr * m], [float(r[1]) * 0.92, float(r[1]) * 1.04, float(r[2]) * 0.86], 8), lo_mat)
+		var fc: Vector3 = wr + Vector3(0.0, -fist_r * 0.55, 0.02)
+		part(pv, "Fist", sph(fist_r, 8, 4), fc * m, fist_mat, Vector3.ZERO, false, Vector3(0.9, 1.0, 1.1))
+
+
+## Small domed studs (rivets / bolts) at feet-space points: they catch a sun glint at zoom 10 and merge into the plate.
+func rivets(pv: Node3D, pts: Array, r: float, mat: String) -> void:
+	for q: Vector3 in pts:
+		part(pv, "Rivet", sph(r, 5, 2), q, mat)
 
 
 ## Level-4 gold trim (7.1), hidden, toggled by set_veterancy.
@@ -546,7 +665,8 @@ func _save(root: Node3D, id: String) -> void:
 	if err != OK:
 		push_error("pack failed " + id)
 		return
-	var path: String = DIR + id + ".tscn"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_dir))
+	var path: String = _dir + id + ".tscn"
 	err = ResourceSaver.save(ps, path)
 	var c: Array[int] = [0, 0]
 	_count(root, c)
@@ -669,20 +789,29 @@ func burn_fx(p: Dictionary, y: float, spread_xz: float, puff: bool = true) -> vo
 func _cinder_hand() -> Node3D:
 	var sh := Vector3(0.40, 0.90, 0.0)
 	var p: Dictionary = rig("CinderHand", 0.42, 0.44, 0.94, sh, Vector3(0.15, 0.40, 0.0))
-	legs(p, 0.15, 0.40, 0.115, "fire_leather", "fire_leather", 1.05)
+	# G-C: shaped legs, rounded work boots on iron-shod soles.
+	legs(p, 0.15, 0.40, 0.115, "fire_leather", "fire_leather", 1.05, "", "", "fire_iron")
 	# Body: a round bell, the dusty apron colour.
 	geo(p.Chest, lathe([Vector2(0.30, 0.34), Vector2(0.37, 0.41), Vector2(0.39, 0.52), Vector2(0.37, 0.66),
-		Vector2(0.31, 0.80), Vector2(0.22, 0.90), Vector2(0.10, 0.96), Vector2(0.0, 0.97)], 10,
+		Vector2(0.31, 0.80), Vector2(0.22, 0.90), Vector2(0.10, 0.96), Vector2(0.0, 0.97)], 12,
 		Transform3D.IDENTITY, true, 1.0, 0.92), "fire_sec_worker")
-	# Leather bib apron on the belly + two basket straps.
-	geo(p.Chest, extrude(_poly([Vector2(-0.19, -0.22), Vector2(0.19, -0.22), Vector2(0.17, 0.10), Vector2(0.12, 0.21),
-		Vector2(-0.12, 0.21), Vector2(-0.17, 0.10)]), 0.05,
-		frame(Vector3(0, 0.60, 0.352), Vector3(0, 1, -0.18), Vector3.BACK)), "fire_leather")
+	# Leather bib apron on the belly (G-C: bevelled, a cloth pocket, iron rivets) + two bevelled basket straps.
+	var af: Transform3D = frame(Vector3(0, 0.60, 0.352), Vector3(0, 1, -0.18), Vector3.BACK)
+	geo(p.Chest, plate(_poly([Vector2(-0.19, -0.22), Vector2(0.19, -0.22), Vector2(0.17, 0.10), Vector2(0.12, 0.21),
+		Vector2(-0.12, 0.21), Vector2(-0.17, 0.10)]), 0.05, 0.016, af), "fire_leather")
+	geo(p.Chest, plate(_poly([Vector2(-0.10, -0.06), Vector2(0.10, -0.06), Vector2(0.105, 0.05), Vector2(-0.105, 0.05)]),
+		0.03, 0.01, af * Transform3D(Basis.IDENTITY, Vector3(0, -0.11, 0.03))), "fire_sec_worker")
+	rivets(p.Chest, [af * Vector3(-0.10, 0.17, 0.028), af * Vector3(0.10, 0.17, 0.028)], 0.02, "fire_iron")
 	for s: int in [-1, 1]:
-		part(p.Chest, "Strap", box(0.075, 0.34, 0.04), Vector3(0.20 * s, 0.80, 0.25), "fire_leather", Vector3(-28, 0, 0))
+		geo(p.Chest, plate(_poly([Vector2(-0.037, -0.17), Vector2(0.037, -0.17), Vector2(0.037, 0.17), Vector2(-0.037, 0.17)]),
+			0.04, 0.012, xf(Vector3(0.20 * s, 0.80, 0.25), Vector3(-28, 0, 0))), "fire_leather")
 	# Belt (team) + bronze buckle.
-	part(p.Hips, "Belt", band(0.388, 0.043), Vector3(0, 0.43, 0), "fire_cloth", Vector3.ZERO, false, Vector3(1, 1.3, 0.93))
-	part(p.Hips, "Buckle", box(0.15, 0.13, 0.05), Vector3(0, 0.43, 0.375), "fire_bronze")
+	part(p.Hips, "Belt", band(0.388, 0.043, 12), Vector3(0, 0.43, 0), "fire_cloth", Vector3.ZERO, false, Vector3(1, 1.3, 0.93))
+	geo(p.Hips, plate(_poly([Vector2(-0.075, -0.065), Vector2(0.075, -0.065), Vector2(0.075, 0.065), Vector2(-0.075, 0.065)]),
+		0.05, 0.016, frame(Vector3(0, 0.43, 0.375), Vector3.UP, Vector3.BACK)), "fire_bronze")
+	# G-C: a hammer hangs from the belt on the left hip (iron head, wood haft).
+	geo(p.Hips, tube([Vector3(-0.42, 0.47, 0.08), Vector3(-0.45, 0.21, 0.11)], [0.022, 0.02], 5), "fire_wood")
+	part(p.Hips, "HammerHead", box(0.07, 0.07, 0.17), Vector3(-0.42, 0.48, 0.08), "fire_iron", Vector3(0, 0, 8))
 	# Head: big round face, nose, a bushy beard. Eyes, brows, mouth, ears, hair: the FaceKit face FireModel attaches
 	# at runtime (faces pass 2026-09-28; the old dark eye bar is gone).
 	part(p.Head, "Head", sph(0.26), Vector3(0, 1.13, 0.03), "fire_skin")
@@ -691,8 +820,9 @@ func _cinder_hand() -> Node3D:
 	# Miner's hard-hat (team) with a brim; bronze lamp housing and the glowing lamp (the unit's one glow), mounted
 	# high on the hat front and tipped up so it reads over the head from the game camera.
 	geo(p.Head, lathe([Vector2(0.335, 1.20), Vector2(0.335, 1.232), Vector2(0.28, 1.25), Vector2(0.272, 1.32),
-		Vector2(0.24, 1.40), Vector2(0.17, 1.47), Vector2(0.07, 1.505), Vector2(0.0, 1.51)], 10,
+		Vector2(0.24, 1.40), Vector2(0.17, 1.47), Vector2(0.07, 1.505), Vector2(0.0, 1.51)], 14,
 		Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.02))), "fire_cloth")
+	part(p.Head, "HatBand", band(0.276, 0.022, 14), Vector3(0, 1.275, 0.02), "fire_leather")
 	part(p.Head, "LampHousing", cyl(0.105, 0.105, 0.10, 8), Vector3(0, 1.41, 0.24), "fire_bronze", Vector3(62, 0, 0))
 	part(p.Head, "Lamp", sph(0.095), Vector3(0, 1.435, 0.285), "fire_glow")
 	# Arms: rolled sleeves (apron colour), bare forearms, leather gloves.
@@ -717,8 +847,9 @@ func _cinder_hand() -> Node3D:
 	var bo := Vector3(0, 0, -0.41)   # snug on the back: the rim stays inside the 0.4 m radius footprint (R10)
 	geo(p.Chest, lathe([Vector2(0.0, 0.58), Vector2(0.17, 0.58), Vector2(0.23, 0.78), Vector2(0.26, 0.98),
 		Vector2(0.275, 1.02), Vector2(0.24, 1.03), Vector2(0.0, 1.0)], 9, Transform3D(Basis.IDENTITY, bo)), "fire_leather")
-	part(p.Chest, "BasketBand", band(0.266, 0.023), bo + Vector3(0, 0.80, 0), "fire_wood", Vector3.ZERO, false,
-		Vector3(1, 1.4, 1))
+	for by: float in [0.70, 0.80, 0.90]:
+		part(p.Chest, "BasketBand", band(0.236 + (by - 0.70) * 0.17, 0.02, 9), bo + Vector3(0, by, 0), "fire_wood",
+			Vector3.ZERO, false, Vector3(1, 1.4, 1))
 	var cx: Array[Transform3D] = [xf(bo + Vector3(0.0, 1.10, 0.02), Vector3(0, 20, 6)),
 		xf(bo + Vector3(-0.12, 1.05, 0.05), Vector3(0, 0, 24)), xf(bo + Vector3(0.11, 1.04, -0.06), Vector3(15, 0, -22))]
 	var cr: MeshInstance3D = multi(p.Chest, "Crystals", octa(0.12, 0.22), cx, "crystal")
@@ -739,34 +870,56 @@ func _cinder_hand() -> Node3D:
 func _flame_guard() -> Node3D:
 	var sh := Vector3(0.48, 1.16, 0.0)
 	var p: Dictionary = rig("FlameGuard", 0.45, 0.70, 1.24, sh, Vector3(0.18, 0.52, 0.0))
-	legs(p, 0.18, 0.52, 0.125, "fire_leather", "fire_bronze", 1.12)
-	# Plated skirt (faceted) + belt.
-	geo(p.Hips, lathe([Vector2(0.37, 0.44), Vector2(0.31, 0.70), Vector2(0.27, 0.77), Vector2(0.0, 0.77)], 6,
-		Transform3D.IDENTITY, false, 1.0, 0.85), "fire_cloth_dark")
-	part(p.Hips, "Belt", band(0.33, 0.037), Vector3(0, 0.75, 0), "fire_leather", Vector3.ZERO, false, Vector3(1, 1.2, 0.85))
-	# Torso keg (team) + shaped bronze breastplate.
+	# G-C: shaped legs, dark leather boots with bronze cuffs (bottoms darker, tops lighter).
+	legs(p, 0.18, 0.52, 0.125, "fire_leather", "fire_leather", 1.12, "", "fire_bronze")
+	# Skirt (smooth, dark cloth) + a team tabard hanging front and back (the team colour now reaches the lower body)
+	# + leather belt with an iron buckle.
+	geo(p.Hips, lathe([Vector2(0.35, 0.46), Vector2(0.33, 0.58), Vector2(0.30, 0.70), Vector2(0.27, 0.77),
+		Vector2(0.0, 0.77)], 8, Transform3D.IDENTITY, true, 1.0, 0.85), "fire_cloth_dark")
+	for fb: int in [1, -1]:
+		geo(p.Hips, extrude(_poly([Vector2(-0.15, 0.0), Vector2(0.15, 0.0), Vector2(0.135, -0.30), Vector2(0.0, -0.40),
+			Vector2(-0.135, -0.30)]), 0.03, frame(Vector3(0, 0.76, 0.27 * fb), Vector3(0, 1, -0.20 * fb),
+			Vector3.BACK * fb)), "fire_cloth")
+	part(p.Hips, "Belt", band(0.33, 0.04, 12), Vector3(0, 0.76, 0), "fire_leather", Vector3.ZERO, false, Vector3(1, 1.2, 0.86))
+	geo(p.Hips, plate(_poly([Vector2(-0.075, -0.05), Vector2(0.075, -0.05), Vector2(0.075, 0.05), Vector2(-0.075, 0.05)]),
+		0.04, 0.014, frame(Vector3(0, 0.76, 0.285), Vector3.UP, Vector3.BACK)), "fire_iron")
+	# Torso keg (team) + shaped bronze breastplate with a centre ridge and an iron gorget.
 	geo(p.Chest, lathe([Vector2(0.26, 0.70), Vector2(0.30, 0.80), Vector2(0.37, 1.00), Vector2(0.38, 1.14),
-		Vector2(0.33, 1.24), Vector2(0.20, 1.31), Vector2(0.0, 1.33)], 10, Transform3D.IDENTITY, true, 1.0, 0.85), "fire_cloth")
-	geo(p.Chest, extrude(_poly([Vector2(-0.29, 0.20), Vector2(0.29, 0.20), Vector2(0.31, 0.04), Vector2(0.25, -0.15),
-		Vector2(0.10, -0.30), Vector2(-0.10, -0.30), Vector2(-0.25, -0.15), Vector2(-0.31, 0.04)]), 0.10,
-		frame(Vector3(0, 1.03, 0.262), Vector3(0, 1, -0.12), Vector3.BACK)), "fire_bronze")
+		Vector2(0.33, 1.24), Vector2(0.20, 1.31), Vector2(0.0, 1.33)], 8, Transform3D.IDENTITY, true, 1.0, 0.85), "fire_cloth")
+	var bp_f: Transform3D = frame(Vector3(0, 1.03, 0.262), Vector3(0, 1, -0.12), Vector3.BACK)
+	geo(p.Chest, plate(_poly([Vector2(-0.29, 0.20), Vector2(0.29, 0.20), Vector2(0.31, 0.04), Vector2(0.25, -0.15),
+		Vector2(0.10, -0.24), Vector2(-0.10, -0.24), Vector2(-0.25, -0.15), Vector2(-0.31, 0.04)]), 0.10, 0.035, bp_f),
+		"fire_bronze")
+	geo(p.Chest, extrude(_poly([Vector2(-0.035, 0.17), Vector2(0.035, 0.17), Vector2(0.03, -0.18), Vector2(0.0, -0.22),
+		Vector2(-0.03, -0.18)]), 0.03, bp_f * Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.055))), "fire_bronze")
+	part(p.Chest, "Gorget", band(0.20, 0.035, 10), Vector3(0, 1.27, 0.0), "fire_iron", Vector3(-8, 0, 0), false,
+		Vector3(1, 1.2, 0.9))
+	rivets(p.Chest, [bp_f * Vector3(-0.22, 0.13, 0.05), bp_f * Vector3(0.22, 0.13, 0.05)], 0.028, "fire_iron")
 	# Big layered pauldrons: two stepped team plates (painted bands) with a bronze rim.
 	for s: int in [-1, 1]:
 		var po := Vector3(0.49 * s, 1.16, 0.0)
 		var tilt := Vector3(0.50 * s, 1, 0)
 		var pf: Transform3D = frame(po, tilt, Vector3.BACK)
-		geo(p.Chest, lathe([Vector2(0.30, -0.10), Vector2(0.31, -0.04), Vector2(0.27, 0.02), Vector2(0.255, 0.06),
-			Vector2(0.20, 0.13), Vector2(0.11, 0.18), Vector2(0.0, 0.195)], 8, pf, false, 1.0, 1.08), "fire_cloth")
-		part(p.Chest, "PauldronRim", band(0.313, 0.032), pf * Vector3(0, -0.07, 0), "fire_bronze",
+		# G-C: smooth stepped lames (the painted step kept in the profile), an iron stud on top.
+		geo(p.Chest, lathe([Vector2(0.30, -0.10), Vector2(0.31, -0.04), Vector2(0.27, 0.02),
+			Vector2(0.255, 0.06), Vector2(0.20, 0.13), Vector2(0.11, 0.18), Vector2(0.0, 0.195)], 8, pf, true, 1.0, 1.08),
+			"fire_cloth")
+		part(p.Chest, "PauldronRim", band(0.313, 0.032, 12), pf * Vector3(0, -0.07, 0), "fire_bronze",
 			Vector3(0, 0, -rad_to_deg(atan2(0.50, 1.0)) * s), false, Vector3(1, 1.2, 1.08))
-		part(p.Chest, "PauldronStud", sph(0.07, 6, 3), pf * Vector3(0, 0.19, 0), "fire_bronze")
-	# Helm: bronze bucket with a flared rim, open at the front (the FaceKit face + its face sphere look out of it,
-	# faces pass 2026-09-28: FireModel attaches it), a glowing band above the brows, flame crest (team).
-	geo(p.Head, lathe([Vector2(0.315, 1.20), Vector2(0.325, 1.235), Vector2(0.285, 1.26), Vector2(0.285, 1.45),
-		Vector2(0.265, 1.56), Vector2(0.20, 1.65), Vector2(0.10, 1.70), Vector2(0.0, 1.71)], 10), "fire_bronze")
+		part(p.Chest, "PauldronStud", sph(0.065, 5, 2), pf * Vector3(0, 0.19, 0), "fire_iron")
+	# Helm: a rounded bronze dome with a rolled rim, open at the front (the FaceKit face + its face sphere look out of
+	# it, faces pass 2026-09-28: FireModel attaches it), a glowing band above the brows, bevelled cheek guards, an
+	# iron brow band with rivets, the flame crest (team).
+	geo(p.Head, lathe([Vector2(0.318, 1.20), Vector2(0.33, 1.225), Vector2(0.29, 1.262), Vector2(0.292, 1.40),
+		Vector2(0.28, 1.51), Vector2(0.24, 1.60), Vector2(0.165, 1.672), Vector2(0.08, 1.703), Vector2(0.0, 1.71)], 12),
+		"fire_bronze")
+	part(p.Head, "BrowBand", band(0.296, 0.03, 12), Vector3(0, 1.44, 0), "fire_iron")
 	part(p.Head, "Visor", box(0.30, 0.05, 0.06), Vector3(0, 1.565, 0.262), "fire_glow", Vector3(-12, 0, 0))
 	for s: int in [-1, 1]:
 		part(p.Head, "Brow", box(0.17, 0.06, 0.08), Vector3(0.095 * s, 1.505, 0.262), "fire_bronze", Vector3(-8, 0, 16 * s))
+		geo(p.Head, extrude(_poly([Vector2(-0.07, 0.10), Vector2(0.07, 0.10), Vector2(0.06, -0.10), Vector2(-0.01, -0.16),
+			Vector2(-0.07, -0.08)]), 0.035, frame(Vector3(0.255 * s, 1.30, 0.13), Vector3(0, 1, 0),
+			Vector3(0.75 * s, 0, 0.66))), "fire_bronze")
 	geo(p.Head, extrude(_poly([Vector2(0.21, 1.60), Vector2(0.10, 1.685), Vector2(0.0, 1.705), Vector2(-0.12, 1.675),
 		Vector2(-0.24, 1.58), Vector2(-0.30, 1.47), Vector2(-0.42, 1.60), Vector2(-0.28, 1.70), Vector2(-0.33, 1.90),
 		Vector2(-0.16, 1.80), Vector2(-0.11, 2.00), Vector2(0.02, 1.84), Vector2(0.12, 1.94), Vector2(0.13, 1.78),
@@ -777,18 +930,27 @@ func _flame_guard() -> Node3D:
 		"fire_cloth_dark", 0.14, "fire_bronze")
 	for s: int in [-1, 1]:
 		var pv: Node3D = p.ArmL if s < 0 else p.ArmR
-		part(pv, "Bracer", cyl(0.115, 0.105, 0.16, 8), Vector3(0.53 * s, 0.84, 0.03), "fire_bronze")
-	# Flame tower shield (team face, bronze rim, glowing flame glyph), front-left, slightly turned out.
+		# flared bronze bracer (lathe) with an iron edge
+		geo(pv, lathe([Vector2(0.104, -0.085), Vector2(0.112, -0.06), Vector2(0.118, 0.04), Vector2(0.13, 0.085),
+			Vector2(0.118, 0.092)], 8, Transform3D(Basis.IDENTITY, Vector3(0.53 * s, 0.84, 0.03)), true, 1.0, 1.0, false,
+			false), "fire_bronze")
+	# Flame tower shield (team face, bronze rim, glowing flame glyph), front-left, slightly turned out. G-C: bevelled
+	# face and rim (light lines on every tongue) and iron rivets.
 	var shield_pts: Array = [Vector2(0.0, -0.60), Vector2(0.30, -0.48), Vector2(0.40, -0.28), Vector2(0.40, 0.36),
 		Vector2(0.36, 0.68), Vector2(0.20, 0.46), Vector2(0.02, 0.82), Vector2(-0.18, 0.46), Vector2(-0.38, 0.64),
 		Vector2(-0.40, 0.36), Vector2(-0.40, -0.28), Vector2(-0.30, -0.48)]
 	var fwd := Vector3(sin(-12.0 * DEG), 0, cos(-12.0 * DEG))
 	var sc := Vector3(-0.44, 0.86, 0.34)
-	geo(p.ArmL, extrude(_poly(shield_pts), 0.08, frame(sc, Vector3.UP, fwd)), "fire_cloth")
+	geo(p.ArmL, plate(_poly(shield_pts), 0.08, 0.03, frame(sc, Vector3.UP, fwd)), "fire_cloth")
 	var rim := PackedVector2Array()
 	for q: Vector2 in shield_pts:
 		rim.append(q * 1.075 + Vector2(0, -0.01))
 	geo(p.ArmL, extrude(rim, 0.05, frame(sc - fwd * 0.05, Vector3.UP, fwd)), "fire_bronze")
+	var sf: Transform3D = frame(sc, Vector3.UP, fwd)
+	var srv: Array = []
+	for q: Vector2 in [Vector2(-0.34, 0.30), Vector2(0.34, 0.30)]:
+		srv.append(sf * Vector3(q.x, q.y, 0.045))
+	rivets(p.ArmL, srv, 0.026, "fire_iron")
 	# Dark team foot on the shield face: a value step inside the team colour (Art Lab R6cb, colour-blind fire / nature;
 	# in-game grade 2026-09-30) that also grounds the tall shield shape from the RTS camera.
 	geo(p.ArmL, extrude(_poly([Vector2(-0.37, -0.12), Vector2(-0.37, -0.27), Vector2(-0.28, -0.45), Vector2(0.0, -0.56),
@@ -801,13 +963,21 @@ func _flame_guard() -> Node3D:
 	var fist := Vector3(0.53, 0.72, 0.06)
 	var d := Vector3(0, -0.707, 0.707)
 	var e := Vector3(0, 0.707, 0.707)
+	# G-C: leather grip between iron rings, an iron pommel, a swept iron crossguard, a bevelled leaf blade (both edges
+	# catch light) with an ember-hot fuller on each face (its own glow node: +1 draw instance).
 	geo(p.ArmR, tube([fist - d * 0.14, fist + d * 0.10], [0.045, 0.045], 6), "fire_leather")
-	part(p.ArmR, "Pommel", sph(0.07, 8, 4), fist - d * 0.16, "fire_bronze")
-	geo(p.ArmR, extrude(_poly([Vector2(-0.19, -0.035), Vector2(0.19, -0.035), Vector2(0.21, 0.035), Vector2(-0.21, 0.035)]),
-		0.12, Transform3D(Basis(Vector3.RIGHT, d, -e), fist + d * 0.12)), "fire_bronze")
-	geo(p.ArmR, extrude(_poly([Vector2(0.0, 0.0), Vector2(0.09, 0.04), Vector2(0.125, 0.38), Vector2(0.11, 0.62),
-		Vector2(0.0, 0.92), Vector2(-0.11, 0.62), Vector2(-0.125, 0.38), Vector2(-0.09, 0.04)]), 0.05,
-		Transform3D(Basis(Vector3.RIGHT, d, -e), fist + d * 0.15)), "fire_bronze")
+	part(p.ArmR, "Pommel", sph(0.07, 6, 3), fist - d * 0.17, "fire_iron", Vector3.ZERO, false, Vector3(1, 1.2, 1))
+	part(p.ArmR, "GripRing", band(0.05, 0.014, 8), fist - d * 0.11, "fire_iron", Vector3(45, 0, 0))
+	geo(p.ArmR, tube([fist + d * 0.13 - Vector3.RIGHT * 0.22 + d * 0.05, fist + d * 0.12 - Vector3.RIGHT * 0.10,
+		fist + d * 0.12 + Vector3.RIGHT * 0.10, fist + d * 0.13 + Vector3.RIGHT * 0.22 + d * 0.05],
+		[0.025, 0.04, 0.04, 0.025], 6), "fire_iron")
+	var bx := Transform3D(Basis(Vector3.RIGHT, d, -e), fist + d * 0.15)
+	geo(p.ArmR, plate(_poly([Vector2(0.0, 0.0), Vector2(0.09, 0.04), Vector2(0.125, 0.38), Vector2(0.11, 0.62),
+		Vector2(0.0, 0.92), Vector2(-0.11, 0.62), Vector2(-0.125, 0.38), Vector2(-0.09, 0.04)]), 0.05, 0.022, bx),
+		"fire_bronze")
+	for fz: float in [0.027, -0.027]:
+		geo(p.ArmR, extrude(_poly([Vector2(-0.02, 0.06), Vector2(0.02, 0.06), Vector2(0.024, 0.50), Vector2(0.0, 0.66),
+			Vector2(-0.024, 0.50)]), 0.006, bx * Transform3D(Basis.IDENTITY, Vector3(0, 0, fz))), "fire_glow")
 	burn_fx(p, 0.8, 0.3)
 	return _finish({"scale": INFANTRY_SCALE, "body_height": 2.0, "attack_style": &"melee_swing", "attack_windup": 0.0, "fire_kind": &"guard",
 		"death_style": &"fall", "stride_time": 0.58, "is_quadruped": false, "stride_speed": 5.0,
@@ -821,29 +991,40 @@ func _flame_guard() -> Node3D:
 func _ember_archer() -> Node3D:
 	var sh := Vector3(0.34, 1.14, 0.0)
 	var p: Dictionary = rig("EmberArcher", 0.45, 0.64, 1.20, sh, Vector3(0.14, 0.52, 0.0))
-	legs(p, 0.14, 0.52, 0.10, "fire_leather", "fire_leather", 0.98)
+	# G-C: shaped legs, soft leather boots with gold turned-down cuffs.
+	legs(p, 0.14, 0.52, 0.10, "fire_leather", "fire_leather", 0.98, "", "fire_sec_archer")
 	# Gold doublet (secondary) over a dark-crimson coat skirt (tops light, bottoms dark: the gold reads on top from
 	# the game camera, the skirt sinks toward the ground), bronze hem, belt over the seam, team sash.
 	geo(p.Chest, lathe([Vector2(0.265, 0.70), Vector2(0.295, 0.92),
-		Vector2(0.305, 1.06), Vector2(0.26, 1.18), Vector2(0.14, 1.25), Vector2(0.0, 1.26)], 10,
+		Vector2(0.305, 1.06), Vector2(0.26, 1.18), Vector2(0.14, 1.25), Vector2(0.0, 1.26)], 12,
 		Transform3D.IDENTITY, true, 1.0, 0.85), "fire_sec_archer")
-	geo(p.Chest, lathe([Vector2(0.35, 0.40), Vector2(0.30, 0.55), Vector2(0.262, 0.71)], 10,
+	geo(p.Chest, lathe([Vector2(0.35, 0.40), Vector2(0.325, 0.47), Vector2(0.30, 0.55), Vector2(0.262, 0.71)], 12,
 		Transform3D.IDENTITY, true, 1.0, 0.85), "fire_cloth_dark")
 	part(p.Chest, "Hem", band(0.362, 0.034), Vector3(0, 0.42, 0), "fire_bronze", Vector3.ZERO, false, Vector3(1, 1.3, 0.86))
 	part(p.Chest, "Belt", band(0.289, 0.029), Vector3(0, 0.70, 0), "fire_leather", Vector3.ZERO, false, Vector3(1, 1.3, 0.86))
 	part(p.Chest, "Sash", band(0.323, 0.032), Vector3(0, 0.96, 0), "fire_cloth", Vector3(0, 0, 24), false, Vector3(1, 1.2, 0.86))
 	# Team capelet over the shoulders.
 	geo(p.Chest, lathe([Vector2(0.41, 1.00), Vector2(0.405, 1.05), Vector2(0.33, 1.15), Vector2(0.20, 1.23),
-		Vector2(0.0, 1.27)], 10, Transform3D.IDENTITY, true, 1.0, 0.9), "fire_cloth")
+		Vector2(0.0, 1.27)], 14, Transform3D.IDENTITY, true, 1.0, 0.9), "fire_cloth")
+	# G-C: a bronze hem on the capelet, a leather baldric from the left shoulder to the right hip (it carries the
+	# quiver) with a bronze buckle, and a belt pouch: mid-size value blocks that read at zoom 10 and merge at 30.
+	part(p.Chest, "CapeHem", band(0.405, 0.022, 14), Vector3(0, 1.005, 0), "fire_bronze", Vector3.ZERO, false,
+		Vector3(1, 1, 0.9))
+	geo(p.Chest, tube([Vector3(-0.22, 1.10, 0.24), Vector3(-0.05, 0.98, 0.29), Vector3(0.14, 0.84, 0.275),
+		Vector3(0.27, 0.72, 0.18)], [0.032, 0.032, 0.032, 0.03], 5), "fire_leather")
+	part(p.Chest, "BaldricBuckle", box(0.08, 0.07, 0.03), Vector3(0.045, 0.915, 0.295), "fire_bronze", Vector3(0, 0, 38))
+	geo(p.Chest, plate(_poly([Vector2(-0.07, -0.06), Vector2(0.07, -0.06), Vector2(0.075, 0.05), Vector2(0.0, 0.07),
+		Vector2(-0.075, 0.05)]), 0.07, 0.018, frame(Vector3(-0.20, 0.64, 0.225), Vector3.UP, Vector3(-0.6, 0, 0.8))),
+		"fire_leather")
 	# Pointed team hood swept back (lab pass: the dark-crimson moved down to the coat skirt, so the archer is light on
 	# top and dark at the ground; the role still reads by value through the dark skirt and the gold doublet). The hood
 	# IS the head (a closed shell); a small skin oval shows in its opening with the eye bar.
 	geo(p.Head, lathe([Vector2(0.0, -0.12), Vector2(0.27, -0.11), Vector2(0.31, 0.0), Vector2(0.295, 0.13),
-		Vector2(0.22, 0.28), Vector2(0.12, 0.40), Vector2(0.04, 0.50), Vector2(0.0, 0.53)], 10,
+		Vector2(0.22, 0.28), Vector2(0.12, 0.40), Vector2(0.04, 0.50), Vector2(0.0, 0.53)], 14,
 		frame(Vector3(0, 1.40, -0.04), Vector3(0, cos(12.0 * DEG), -sin(12.0 * DEG)), Vector3.BACK)), "fire_cloth")
 	# Liripipe: the hood point flops back into a long tail that swings out over the right shoulder (silhouette hook).
 	geo(p.Head, tube([Vector3(0, 1.87, -0.13), Vector3(0.03, 1.86, -0.30), Vector3(0.10, 1.74, -0.42),
-		Vector3(0.17, 1.56, -0.45)], [0.07, 0.06, 0.045, 0.0], 6), "fire_cloth")
+		Vector3(0.17, 1.56, -0.45)], [0.07, 0.06, 0.045, 0.0], 7), "fire_cloth")
 	part(p.Head, "Face", sph(0.18), Vector3(0, 1.395, 0.20), "fire_skin", Vector3.ZERO, false, Vector3(1.0, 0.92, 0.55))
 	vet_trim(p.Head, Vector3(0, 1.36, -0.07), Vector3(-15, 0, 0), 1.35)
 	# Arms: coat sleeves, leather bracers, bare hands.
@@ -851,7 +1032,10 @@ func _ember_archer() -> Node3D:
 		"fire_sec_archer", 0.12, "fire_skin")
 	for s: int in [-1, 1]:
 		var pv: Node3D = p.ArmL if s < 0 else p.ArmR
-		part(pv, "Bracer", cyl(0.10, 0.095, 0.15, 8), Vector3(0.38 * s, 0.83, 0.02), "fire_leather")
+		geo(pv, lathe([Vector2(0.092, -0.075), Vector2(0.10, -0.05), Vector2(0.103, 0.05), Vector2(0.112, 0.078),
+			Vector2(0.10, 0.082)], 10, Transform3D(Basis.IDENTITY, Vector3(0.38 * s, 0.83, 0.02)), true, 1.0, 1.0, false,
+			false), "fire_leather")
+		part(pv, "BracerLace", band(0.103, 0.012, 10), Vector3(0.38 * s, 0.83, 0.02), "fire_bronze")
 	# Bow in the left fist, carried level along +Z (front tip up 22 deg), string on top. When the arm rises to
 	# -85 deg for the shot the bow turns vertical with the string toward the archer (fire_model.gd).
 	var g := Vector3(-0.38, 0.73, 0.05)
@@ -917,37 +1101,50 @@ func _ember_archer() -> Node3D:
 func _ash_hurler() -> Node3D:
 	var sh := Vector3(0.38, 1.02, 0.06)
 	var p: Dictionary = rig("AshHurler", 0.45, 0.54, 1.10, sh, Vector3(0.16, 0.50, 0.0))
-	legs(p, 0.16, 0.50, 0.115, "fire_leather", "fire_leather", 1.05)
+	# G-C: shaped legs, heavy boots with dark turned-down cuffs.
+	legs(p, 0.16, 0.50, 0.115, "fire_leather", "fire_leather", 1.05, "", "fire_cloth_dark")
 	# Hunched body (12 deg forward), leather apron and crossed harness.
 	var lean := Vector3(0, cos(12.0 * DEG), sin(12.0 * DEG))
 	geo(p.Chest, lathe([Vector2(0.32, 0.0), Vector2(0.365, 0.12), Vector2(0.365, 0.32), Vector2(0.31, 0.50),
-		Vector2(0.22, 0.62), Vector2(0.10, 0.68), Vector2(0.0, 0.69)], 10, frame(Vector3(0, 0.46, 0), lean, Vector3.BACK),
+		Vector2(0.22, 0.62), Vector2(0.10, 0.68), Vector2(0.0, 0.69)], 12, frame(Vector3(0, 0.46, 0), lean, Vector3.BACK),
 		true, 1.0, 0.9), "fire_sec_hurler")
-	geo(p.Chest, extrude(_poly([Vector2(-0.20, -0.24), Vector2(0.20, -0.24), Vector2(0.22, 0.12), Vector2(0.14, 0.22),
-		Vector2(-0.14, 0.22), Vector2(-0.22, 0.12)]), 0.05, frame(Vector3(0, 0.66, 0.345), Vector3(0, 1, -0.02),
-		Vector3.BACK)), "fire_leather")
-	part(p.Chest, "HarnessA", box(0.08, 0.60, 0.05), Vector3(0, 0.90, 0.30), "fire_leather", Vector3(-4, 0, 30))
-	part(p.Chest, "HarnessB", box(0.08, 0.60, 0.05), Vector3(0, 0.90, 0.30), "fire_leather", Vector3(-4, 0, -30))
+	# G-C: bevelled apron with a coat-cloth pocket and iron rivets, bevelled harness straps crossing on an iron ring.
+	var af: Transform3D = frame(Vector3(0, 0.66, 0.345), Vector3(0, 1, -0.02), Vector3.BACK)
+	geo(p.Chest, plate(_poly([Vector2(-0.20, -0.24), Vector2(0.20, -0.24), Vector2(0.22, 0.12), Vector2(0.14, 0.22),
+		Vector2(-0.14, 0.22), Vector2(-0.22, 0.12)]), 0.05, 0.016, af), "fire_leather")
+	geo(p.Chest, plate(_poly([Vector2(-0.09, -0.07), Vector2(0.09, -0.07), Vector2(0.095, 0.05), Vector2(-0.095, 0.05)]),
+		0.03, 0.01, af * Transform3D(Basis.IDENTITY, Vector3(0.06, -0.09, 0.03))), "fire_sec_hurler")
+	rivets(p.Chest, [af * Vector3(-0.17, 0.15, 0.028), af * Vector3(0.17, 0.15, 0.028)], 0.022, "fire_iron")
+	var strap := _poly([Vector2(-0.04, -0.30), Vector2(0.04, -0.30), Vector2(0.04, 0.30), Vector2(-0.04, 0.30)])
+	geo(p.Chest, plate(strap, 0.05, 0.014, xf(Vector3(0, 0.90, 0.30), Vector3(-4, 0, 30))), "fire_leather")
+	geo(p.Chest, plate(strap, 0.05, 0.014, xf(Vector3(0, 0.90, 0.30), Vector3(-4, 0, -30))), "fire_leather")
+	part(p.Chest, "HarnessRing", band(0.05, 0.016, 8), Vector3(0, 0.90, 0.33), "fire_iron", Vector3(90, 0, 0))
 	part(p.Chest, "Scarf", torus(0.15, 0.30), Vector3(0, 1.10, 0.08), "fire_cloth", Vector3(-12, 0, 0), false, Vector3(1, 1.5, 1))
-	part(p.Chest, "ScarfTail", box(0.15, 0.36, 0.05), Vector3(0.12, 0.93, -0.25), "fire_cloth", Vector3(-20, 0, -10))
+	geo(p.Chest, plate(_poly([Vector2(-0.075, 0.18), Vector2(0.075, 0.18), Vector2(0.06, -0.12), Vector2(0.0, -0.19),
+		Vector2(-0.06, -0.12)]), 0.04, 0.012, xf(Vector3(0.12, 0.93, -0.25), Vector3(-20, 0, -10))), "fire_cloth")
 	# Head (forward), leather cap with flaps, glowing goggles pushed UP onto the cap, the bronze respirator pulled
 	# down under the chin: the face shows (FaceKit face attached by FireModel, faces pass 2026-09-28).
 	part(p.Head, "Head", sph(0.25), Vector3(0, 1.28, 0.14), "fire_skin")
 	geo(p.Head, lathe([Vector2(0.27, 1.37), Vector2(0.267, 1.43), Vector2(0.235, 1.49), Vector2(0.15, 1.54),
-		Vector2(0.0, 1.56)], 10, Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.12))), "fire_leather")
+		Vector2(0.0, 1.56)], 12, Transform3D(Basis.IDENTITY, Vector3(0, 0, 0.12))), "fire_leather")
 	for s: int in [-1, 1]:
-		part(p.Head, "Flap", box(0.07, 0.19, 0.13), Vector3(0.245 * s, 1.285, 0.12), "fire_leather")
+		geo(p.Head, extrude(_poly([Vector2(-0.065, 0.10), Vector2(0.065, 0.10), Vector2(0.06, -0.05), Vector2(0.0, -0.10),
+			Vector2(-0.06, -0.05)]), 0.06, frame(Vector3(0.25 * s, 1.285, 0.12), Vector3.UP, Vector3(s, 0, 0))), "fire_leather")
 		part(p.Head, "Lens", cyl(0.078, 0.078, 0.06, 10), Vector3(0.095 * s, 1.47, 0.345), "fire_glow", Vector3(52, 0, 0))
 		part(p.Head, "LensRim", band(0.097, 0.02), Vector3(0.095 * s, 1.465, 0.335), "fire_bronze", Vector3(52, 0, 0))
 	part(p.Head, "Strap", band(0.272, 0.02), Vector3(0, 1.44, 0.13), "fire_leather", Vector3(-4, 0, 0), false, Vector3(1, 1.4, 1))
-	part(p.Head, "Respirator", cyl(0.09, 0.10, 0.13, 8), Vector3(0, 1.06, 0.30), "fire_bronze", Vector3(118, 0, 0))
+	var rf: Transform3D = xf(Vector3(0, 1.06, 0.30), Vector3(118, 0, 0))
+	geo(p.Head, lathe([Vector2(0.10, -0.065), Vector2(0.104, -0.03), Vector2(0.096, 0.03), Vector2(0.088, 0.06),
+		Vector2(0.06, 0.07), Vector2(0.0, 0.072)], 10, rf), "fire_bronze")
 	vet_trim(p.Head, Vector3(0, 1.26, 0.12), Vector3.ZERO, 1.25)
 	# Arms: sleeves + big bronze gloves.
 	arm(p, sh, Vector3(0.43, 0.82, 0.10), Vector3(0.44, 0.68, 0.12), [0.11, 0.10, 0.09], "fire_sec_hurler",
 		"fire_sec_hurler", 0.15, "fire_bronze")
 	for s: int in [-1, 1]:
 		var pv: Node3D = p.ArmL if s < 0 else p.ArmR
-		part(pv, "Cuff", cyl(0.12, 0.11, 0.10, 8), Vector3(0.44 * s, 0.70, 0.12), "fire_leather")
+		geo(pv, lathe([Vector2(0.108, -0.05), Vector2(0.114, -0.02), Vector2(0.125, 0.04), Vector2(0.135, 0.06),
+			Vector2(0.12, 0.065)], 10, Transform3D(Basis.IDENTITY, Vector3(0.44 * s, 0.70, 0.12)), true, 1.0, 1.0, false,
+			false), "fire_leather")
 	# Ash pot on the back: bronze body, glowing rim, dark lid, smoke.
 	var po := Vector3(0, 0, -0.42)
 	geo(p.Chest, lathe([Vector2(0.0, 0.70), Vector2(0.15, 0.70), Vector2(0.24, 0.78), Vector2(0.285, 0.93),
@@ -956,7 +1153,14 @@ func _ash_hurler() -> Node3D:
 	part(p.Chest, "PotGlow", band(0.233, 0.032), po + Vector3(0, 1.31, 0), "fire_glow")
 	geo(p.Chest, lathe([Vector2(0.20, 1.30), Vector2(0.19, 1.34), Vector2(0.10, 1.39), Vector2(0.0, 1.40)], 8,
 		Transform3D(Basis.IDENTITY, po)), "fire_cloth_dark")
-	part(p.Chest, "PotBand", band(0.301, 0.023), po + Vector3(0, 0.93, 0), "fire_leather", Vector3.ZERO, false, Vector3(1, 1.4, 1))
+	part(p.Chest, "PotBand", band(0.301, 0.023, 12), po + Vector3(0, 0.93, 0), "fire_iron", Vector3.ZERO, false, Vector3(1, 1.4, 1))
+	var prv: Array = []
+	for i: int in 3:
+		var a: float = -1.2 + 1.2 * i
+		prv.append(po + Vector3(sin(a) * 0.305, 0.93, cos(a) * 0.305 * -1.0))
+	rivets(p.Chest, prv, 0.022, "fire_bronze")
+	for s: int in [-1, 1]:
+		part(p.Chest, "PotHandle", band(0.065, 0.014, 8), po + Vector3(0.29 * s, 1.12, 0), "fire_iron", Vector3(0, 0, 90))
 	particles(p.Fx, "PotSmoke", 6, 2.0, po + Vector3(0, 1.44, 0), Vector3(0.08, 0.02, 0.08), 0.5, 0.25, 0.65,
 		[Color(0.30, 0.24, 0.22, 0.35), Color(0.28, 0.22, 0.20, 0.2), Color(0.28, 0.22, 0.20, 0.0)], false)
 	# Staff-sling: pole up from the right glove, bronze bands, a 3-prong claw holding the ash ball.
