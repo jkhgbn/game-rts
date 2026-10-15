@@ -386,6 +386,9 @@ Agents only edit what they own (plus their own `tests/test_<task-id>.gd`). Reque
   `class_name` equal to an autoload, `Events.` in tests, a Write that turns a CRLF file into LF. Fix what it reports
   right away. Prefer Edit over rewriting a whole existing file (keeps line endings and escapes like `\n`).
   Hook self-test: `powershell -NoProfile -File .claude\hooks\test_hooks.ps1`.
+- **Pre-commit guard** (2026-10-14, `tools/git_hooks/`, `core.hooksPath`): a commit is refused when a staged code / data
+  file flipped its line endings vs HEAD, lost or gained a UTF-8 BOM, or has a lost `\` line continuation (tabs mid-line
+  in a .gd). Fix and re-stage; never `--no-verify`. Self-test: `tools\git_hooks\pre_commit_guard.ps1 -SelfTest`.
 - **Effort rule (JS 2026-09-30):** all agents Opus 5.5 MEDIUM (`fw-art-medium` or the owner agent); never Haiku, never Fable.
 - **Recurring bugs:** when a bug class comes back (example: the map_dressing plug-in added after the navmesh bake put
   colliders on nav layers and froze every unit), a separate root-cause pass turns it into a test or a
