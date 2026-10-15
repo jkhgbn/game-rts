@@ -109,7 +109,8 @@ var _smoke: Array[GPUParticles3D] = []
 var _blaze: Array[GPUParticles3D] = []
 var _train_burst: GPUParticles3D
 var _build_ring: GPUParticles3D
-var _build_flash: GPUParticles3D
+var _build_flash: GPUParticles3D  ## G-B leftovers: the completion glints (BuildSettle), with _build_dust
+var _build_dust: GPUParticles3D
 var _dust: GPUParticles3D
 var _outline: MultiMeshInstance3D
 var _outline_mat: ShaderMaterial
@@ -243,7 +244,7 @@ func set_construction_progress(p: float) -> void:
 		_outline_mat.set_shader_parameter(&"energy", 2.0)
 	elif _was_building:
 		_outline_fade = 1.0
-		_fire(_build_flash)
+		BuildSettle.play(_build_dust, _build_flash, self)   # G-B leftovers: dust + glints, fog-safe
 	else:
 		_outline.visible = false
 	_was_building = building
@@ -941,9 +942,13 @@ func _make_particle_quads() -> void:
 		_add_quad = _quad(true)
 		_mix_quad = _quad(false)
 	var g := Gradient.new()
-	g.set_color(0, danger_ramp_hot)
+	# G-E 4: these flames draw ADDITIVE and stack 4-6 deep over the chimney / forge / braziers: at full value the
+	# stack summed to a white disc under the bloom. Hot end half-way to the mid colour and both dimmed, so the stack
+	# reads as a saturated flame.
+	var hot: Color = danger_ramp_hot.lerp(danger_ramp_mid, 0.5)
+	g.set_color(0, Color(hot.r * 0.5, hot.g * 0.5, hot.b * 0.5, 1.0))
 	g.set_color(1, Color(danger_ramp_end, 0.0))
-	g.add_point(0.4, danger_ramp_mid)
+	g.add_point(0.4, Color(danger_ramp_mid.r * 0.6, danger_ramp_mid.g * 0.6, danger_ramp_mid.b * 0.6, 1.0))
 	g.add_point(0.8, Color(danger_ramp_end, 0.8))
 	_fire_ramp = GradientTexture1D.new()
 	_fire_ramp.gradient = g
@@ -963,6 +968,7 @@ func _quad(additive: bool) -> QuadMesh:
 	var m := StandardMaterial3D.new()
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD if additive else BaseMaterial3D.BLEND_MODE_MIX
+	m.disable_fog = additive  # G-E 5: an additive quad must not fog
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.vertex_color_use_as_albedo = true
 	m.albedo_texture = tex
@@ -1180,8 +1186,16 @@ func _build_state_nodes() -> void:
 	br.emission_ring_inner_radius = 3.7
 	br.emission_ring_height = 0.05
 	_build_ring = _particles("BuildRing", self, Vector3(0, 0.1, 0), 32, 1.2, br, _add_quad, false)
-	var bf := _pm(Vector3.UP, 180.0, 2.5, 5.0, Vector3(0, -3.0, 0), 0.35, 0.1, _ramp(glow_color, glow_color, true))
-	_build_flash = _particles("BuildFlash", _body, Vector3(0, _top_y - 1.0, 0), 32, 1.0, bf, _add_quad, true)
+	# G-B leftovers: the completion settle (BuildSettle) instead of the 32 white-hot sparks raining from the roof.
+	var st: int = BuildSettle.style_of(glow_color)
+	var gl := BuildSettle.glint_pm(2.6, 1.6, st, _ramp(glow_color, glow_color, true))
+	_build_flash = _particles("BuildFlash", _body, Vector3(0, PLINTH_TOP + 1.8, 0), BuildSettle.glint_amount(),
+		BuildSettle.GLINT_LIFE, gl, _add_quad, true)
+	var dc: Color = BuildSettle.dust_color(dust_color, stone_color)
+	var sd := BuildSettle.dust_pm_cached(3.3, st, dc)
+	_build_dust = _particles("BuildDust", self, Vector3(0, 0.2, 0), BuildSettle.dust_amount(), BuildSettle.DUST_LIFE, sd,
+		_mix_quad, true)
+	BuildSettle.mark(_build_dust, _build_flash)
 	var du := _pm(Vector3.UP, 80.0, 0.8, 2.5, Vector3(0, -0.5, 0), 0.9, 2.6,
 		_ramp(Color(dust_color, 0.6), Color(dust_color, 0.0), false))
 	du.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX

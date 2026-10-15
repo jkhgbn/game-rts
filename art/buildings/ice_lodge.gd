@@ -168,7 +168,7 @@ func _build_parts() -> void:
 		_ramp(Color(0.85, 0.92, 1.0, 0.35), Color(0.85, 0.92, 1.0, 0.0), false))
 	_idle_particles("ChimneyVapour", CHIM + Vector3(0, 3.8, 0), 8, 2.6, va, false)
 	var sp := _pm(Vector3.UP, 180.0, 0.2, 0.5, Vector3(0, -0.2, 0), 0.09, 0.03,
-		_ramp(Color(0.9, 0.97, 1.0), Color(0.55, 0.8, 1.0), false))
+		_ramp(Color(0.62, 0.78, 0.95), Color(0.38, 0.6, 0.9), false))   # G-B leftovers: under the bloom (no white puffs)
 	sp.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	sp.emission_sphere_radius = 0.5
 	_idle_particles("CrystalSparkles", CHIM + Vector3(0, _crystal_y + 0.3, 0), 8, 1.4, sp, true)

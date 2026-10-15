@@ -15,6 +15,18 @@ const BOAR_DARK := Color(0.17, 0.07, 0.05)
 const EMBER := Color(1.0, 0.52, 0.16)
 const BONE := Color(0.92, 0.86, 0.70)
 const IRON := Color(0.16, 0.14, 0.15)
+const FIRE_STABLES_PAINT: Shader = preload("res://art/buildings/stables/fire/fire_stables_painted.gdshader")
+const FBL := preload("res://art/buildings/fire/fire_building_look.gd")
+
+
+## G-B leftovers: the body draws on the Fire paint layer (fire_stables_painted.gdshader: the shared Stables vertex
+## contract with fire_paint.gdshaderinc), tier read once here. FireBuildingLook.legacy keeps the old look (shots).
+func _post_build() -> void:
+	super()
+	if FBL.legacy or mat_body == null or mat_body.shader != PAINT:
+		return
+	mat_body.shader = FIRE_STABLES_PAINT
+	mat_body.set_shader_parameter(&"gb_detail", float(FBL.detail()))
 
 
 func _setup_palette() -> void:

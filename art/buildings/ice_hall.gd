@@ -308,7 +308,7 @@ func _build_structure() -> void:
 	flame.emission_sphere_radius = 0.22
 	_idle_fx.append(_particles("ColdFlame", _body, Vector3(2.72, 1.9, -0.55), 12, 0.9, flame, _add_quad, false))
 	var motes := _pm(Vector3.DOWN, 40.0, 0.3, 0.6, Vector3(0, -0.3, 0), 0.12, 0.06,
-		_ramp(Color(0.9, 0.97, 1.0), Color(0.6, 0.85, 1.0), false))
+		_ramp(Color(0.62, 0.78, 0.95), Color(0.4, 0.62, 0.9), false))   # G-B leftovers: under the bloom (no white puffs)
 	motes.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	motes.emission_sphere_radius = 1.6
 	_idle_fx.append(_particles("SnowMotes", crystal, Vector3(0, 4.0, 0), 16, 3.0, motes, _add_quad, false))

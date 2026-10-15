@@ -84,6 +84,8 @@ var _smoke: Array[GPUParticles3D] = []
 var _blaze: Array[GPUParticles3D] = []
 var _dust: GPUParticles3D
 var _flash: GPUParticles3D
+var _settle_dust: GPUParticles3D   ## G-B leftovers: the completion settle (BuildSettle)
+var _settle_glint: GPUParticles3D
 var _outline: MultiMeshInstance3D
 var _outline_mat: ShaderMaterial
 var _decal: MeshInstance3D
@@ -200,7 +202,7 @@ func set_construction_progress(p: float) -> void:
 		_outline_mat.set_shader_parameter(&"energy", 2.0)
 	elif _was_building:
 		_outline_fade = 1.0
-		_fire(_flash)
+		BuildSettle.play(_settle_dust, _settle_glint, self)   # G-B leftovers: dust + glints, fog-safe
 	else:
 		_outline.visible = false
 	_was_building = building
@@ -822,7 +824,18 @@ func _build_state_nodes() -> void:
 	du.emission_box_extents = Vector3(footprint * 0.3, 0.3, footprint * 0.3)
 	_dust = _particles("CollapseDust", self, Vector3(0, 1.0, 0), 14, 1.6, du, false, true)
 	var fl := _pm(Vector3.UP, 180.0, 1.5, 3.5, Vector3(0, -4.0, 0), 0.14, 0.04, _ramp(glow_color, glow_color, true))
-	_flash = _particles("Flash", self, Vector3(0, _height, 0), 24, 0.7, fl, true, true)
+	_flash = _particles("Flash", self, Vector3(0, _height, 0), 24, 0.7, fl, true, true)   # the collapse burst only
+	# G-B leftovers: the completion settle (BuildSettle) instead of the white-hot spark rain.
+	var st: int = BuildSettle.style_of(glow_color)
+	var half: float = footprint * 0.5
+	var gl := BuildSettle.glint_pm(half * 0.8, maxf(_height * 0.3, 0.5), st, _ramp(glow_color, glow_color, true))
+	_settle_glint = _particles("SettleGlint", self, Vector3(0, plinth_top + maxf(_height * 0.35, 0.6), 0),
+		BuildSettle.glint_amount() * 2 / 3, BuildSettle.GLINT_LIFE, gl, true, true)
+	var dc: Color = BuildSettle.dust_color(smoke_color.lerp(stone_color, 0.6), stone_color)
+	var sd := BuildSettle.dust_pm_cached(half + 0.2, st, dc)
+	_settle_dust = _particles("SettleDust", self, Vector3(0, 0.15, 0), BuildSettle.dust_amount() * 2 / 3, BuildSettle.DUST_LIFE,
+		sd, false, true)
+	BuildSettle.mark(_settle_dust, _settle_glint)
 	# Glowing construction outline: 4 thin emissive bars around the footprint.
 	_outline_mat = ShaderMaterial.new()
 	_outline_mat.shader = GLOW
@@ -900,6 +913,7 @@ static func _quad(add: bool) -> QuadMesh:
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD if add else BaseMaterial3D.BLEND_MODE_MIX
+	m.disable_fog = add  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	m.vertex_color_use_as_albedo = true

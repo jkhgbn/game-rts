@@ -1,0 +1,5 @@
+res://art/buildings/forge/fire/fire_forge.tscn kind=building kingdom=fire out=docs/art/lab/gb_leftovers/after/fire_forge
+res://art/buildings/forge/nature/nature_forge.tscn kind=building kingdom=nature out=docs/art/lab/gb_leftovers/after/nature_forge
+res://art/buildings/forge/shadow/shadow_forge.tscn kind=building kingdom=shadow out=docs/art/lab/gb_leftovers/after/shadow_forge
+res://art/buildings/stables/fire/fire_stables.tscn kind=building kingdom=fire out=docs/art/lab/gb_leftovers/after/fire_stables
+res://art/buildings/forge/ice/ice_forge.tscn kind=building kingdom=ice out=docs/art/lab/gb_leftovers/after/ice_forge

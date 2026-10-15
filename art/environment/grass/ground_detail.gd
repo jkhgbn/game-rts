@@ -444,6 +444,7 @@ func refresh_clears(c: Vector3, reach: float) -> void:
 			if n3.has_method(&"target_radius"):
 				rad = float(n3.call(&"target_radius"))
 			rad += 0.3
+			rad = maxf(rad, model_clear_radius(n3))
 			var p := n3.global_position
 			var dd := Vector2(p.x - c.x, p.z - c.z).length()
 			if dd > reach + rad or not _clear_known(n3):
@@ -452,6 +453,17 @@ func refresh_clears(c: Vector3, reach: float) -> void:
 	if _mat:
 		_mat.set_shader_parameter(&"clears", _clear_buf)
 		_mat.set_shader_parameter(&"clear_count", _clear_n)
+
+
+## A building model's own grass-free radius (G-B leftovers: ShadowDress's dead ground sets the runtime meta
+## `_grass_clear_radius` on its model), 0 when it has none.
+static func model_clear_radius(b: Node3D) -> float:
+	if not b.has_method(&"model"):
+		return 0.0
+	var m := b.call(&"model") as Node3D
+	if m == null or not m.has_meta(&"_grass_clear_radius"):
+		return 0.0
+	return float(m.get_meta(&"_grass_clear_radius")) * absf(m.global_transform.basis.get_scale().x)
 
 
 ## The grass-free circles in use (x, z, radius, 0) (tests / tools).

@@ -1,0 +1,1 @@
+res://art/buildings/forge/shadow/shadow_forge.tscn kind=building kingdom=shadow out=docs/art/lab/gb_leftovers/after_low/shadow_forge

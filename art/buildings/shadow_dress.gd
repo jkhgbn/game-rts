@@ -13,6 +13,7 @@ extends Node3D
 const GROUND_SHADER: Shader = preload("res://art/buildings/shadow_dead_ground.gdshader")
 const MIST_COLOR := Color(0.15, 0.1, 0.2, 0.3)
 const DEFAULT_GLOW := Color(0.7, 0.3, 1.0)
+const GRASS_CLEAR_K := 0.72   ## grass-free circle = dead-ground half size x this (inside its ragged edge)
 
 static var _ground_mat: ShaderMaterial
 static var _planes: Dictionary = {}
@@ -59,6 +60,9 @@ static func attach_at(model: Node3D, opts: Dictionary, q: int) -> ShadowDress:
 	d._glow = opts.get("glow", DEFAULT_GLOW)
 	model.add_child(d)
 	d._build()
+	# G-B leftovers: the G2a grass field (GroundDetail.refresh_clears) keeps its blades off the dead ground's solid
+	# part (the ragged fbm fringe still lets grass in). Runtime meta (leading _): never saved.
+	model.set_meta(&"_grass_clear_radius", float(opts.get("radius", 5.0)) * GRASS_CLEAR_K)
 	return d
 
 
@@ -206,6 +210,7 @@ static func _quad(add: bool) -> QuadMesh:
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD if add else BaseMaterial3D.BLEND_MODE_MIX
+	m.disable_fog = add  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	m.vertex_color_use_as_albedo = true
@@ -282,10 +287,12 @@ static func _wisp_pm(c: Color, r: float) -> ParticleProcessMaterial:
 	pm.orbit_velocity_min = 0.05
 	pm.orbit_velocity_max = 0.1
 	pm.gravity = Vector3(0, 0.08, 0)
-	pm.scale_min = 0.16
-	pm.scale_max = 0.24
+	pm.scale_min = 0.12
+	pm.scale_max = 0.18
 	pm.scale_curve = _scale_curve(1.0, 0.25)
-	pm.color_ramp = _ramp3(Color(c.lightened(0.4), 0.0), Color(c.lightened(0.25), 0.95), Color(c.darkened(0.3), 0.0))
+	# G-B leftovers: the team glow itself at 0.6 (was lightened 25 % at 0.95): additive wisps over a fresh building
+	# summed past the bloom threshold and read as white puffs at High.
+	pm.color_ramp = _ramp3(Color(c, 0.0), Color(c.darkened(0.1), 0.5), Color(c.darkened(0.45), 0.0))
 	_pms[key] = pm
 	return pm
 
@@ -308,6 +315,6 @@ static func _ember_pm(c: Color) -> ParticleProcessMaterial:
 	pm.scale_min = 0.07
 	pm.scale_max = 0.13
 	pm.scale_curve = _scale_curve(1.0, 0.2)
-	pm.color_ramp = _ramp3(Color(c.lightened(0.6), 1.0), Color(c.lightened(0.15), 0.9), Color(c.darkened(0.5), 0.0))
+	pm.color_ramp = _ramp3(Color(c.lightened(0.3), 0.85), Color(c, 0.7), Color(c.darkened(0.5), 0.0))   # G-B leftovers: under the bloom
 	_pms[key] = pm
 	return pm

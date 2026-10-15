@@ -1,0 +1,1 @@
+res://art/buildings/stables/fire/fire_stables.tscn kind=building kingdom=fire out=docs/art/lab/gb_leftovers/after/fire_stables
