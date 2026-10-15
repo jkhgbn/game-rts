@@ -8,6 +8,6 @@ resource_name = "mender_painted"
 render_priority = 0
 shader = ExtResource("1_mdp")
 shader_parameter/noise_tex = ExtResource("2_mdp")
-shader_parameter/rim_strength = 0.25
+shader_parameter/rim_strength = 0.32
 shader_parameter/weave_scale = 21.0
 shader_parameter/weave_depth = 0.34

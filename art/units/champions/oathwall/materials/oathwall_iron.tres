@@ -7,8 +7,8 @@
 resource_name = "oathwall_iron"
 render_priority = 0
 shader = ExtResource("1_oath")
-shader_parameter/base_color = Color(0.45, 0.46, 0.5, 1)
+shader_parameter/base_color = Color(0.33, 0.35, 0.41, 1)
 shader_parameter/noise_tex = ExtResource("2_oath")
-shader_parameter/spec_strength = 0.35
-shader_parameter/rim_strength = 0.3
+shader_parameter/spec_strength = 0.45
+shader_parameter/rim_strength = 0.36
 shader_parameter/surface_kind = 2

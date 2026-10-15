@@ -1,0 +1,123 @@
+{
+	"asset": "mender",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 2949,
+					"node": "Root/Chest/Merged",
+					"to": 1475,
+					"words": "`Merged` 2949 -> 1475 verts"
+				},
+				{
+					"from": 747,
+					"node": "Root/Chest/Head/Merged",
+					"to": 374,
+					"words": "`Merged` 747 -> 374 verts"
+				},
+				{
+					"from": 707,
+					"node": "Root/Hips/Merged",
+					"to": 354,
+					"words": "`Merged` 707 -> 354 verts"
+				},
+				{
+					"from": 544,
+					"node": "Root/Chest/ArmR/Staff/StaffMesh",
+					"to": 272,
+					"words": "`StaffMesh` 544 -> 272 verts"
+				},
+				{
+					"from": 510,
+					"node": "Root/Chest/ArmR/Staff/Censer/Kettle",
+					"to": 255,
+					"words": "`Kettle` 510 -> 255 verts"
+				},
+				{
+					"from": 432,
+					"node": "Root/Chest/ArmR/Staff/Censer/Core",
+					"to": 216,
+					"words": "`Core` 432 -> 216 verts"
+				},
+				{
+					"from": 344,
+					"node": "Root/Chest/Jars",
+					"to": 172,
+					"words": "`Jars` 344 -> 172 verts"
+				},
+				{
+					"from": 338,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 169,
+					"words": "`Merged` 338 -> 169 verts"
+				},
+				{
+					"from": 338,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 169,
+					"words": "`Merged` 338 -> 169 verts"
+				},
+				{
+					"from": 270,
+					"node": "Root/Chest/Head/Variant",
+					"to": 135,
+					"words": "`Variant` 270 -> 135 verts"
+				},
+				{
+					"from": 225,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 113,
+					"words": "`Merged` 225 -> 113 verts"
+				},
+				{
+					"from": 225,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 113,
+					"words": "`Merged` 225 -> 113 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 7633
+			},
+			"predicted": {
+				"verts": 3821
+			},
+			"proposal": "7633 -> 3821 (want <= 3000): `Merged` 2949 -> 1475 verts; `Merged` 747 -> 374 verts; `Merged` 707 -> 354 verts; `StaffMesh` 544 -> 272 verts; `Kettle` 510 -> 255 verts; `Core` 432 -> 216 verts; `Jars` 344 -> 172 verts; `Merged` 338 -> 169 verts; `Merged` 338 -> 169 verts; `Variant` 270 -> 135 verts; `Merged` 225 -> 113 verts; `Merged` 225 -> 113 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 7633 -> 3821 (want <= 3000): `Merged` 2949 -> 1475 verts; `Merged` 747 -> 374 verts; `Merged` 707 -> 354 verts; `StaffMesh` 544 -> 272 verts; `Kettle` 510 -> 255 verts; `Core` 432 -> 216 verts; `Jars` 344 -> 172 verts; `Merged` 338 -> 169 verts; `Merged` 338 -> 169 verts; `Variant` 270 -> 135 verts; `Merged` 225 -> 113 verts; `Merged` 225 -> 113 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.76 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.76 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.76 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.6 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 92.3,
+	"result": "WARN",
+	"scene": "res://art/units/champions/mender/mender.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

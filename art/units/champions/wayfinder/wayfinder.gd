@@ -257,12 +257,11 @@ func _build_parts() -> void:
 	var head: Node3D = $Root/Chest/Head
 	var arm_l: Node3D = $Root/Chest/ArmL
 	var arm_r: Node3D = $Root/Chest/ArmR
-	var hat := _m(&"wayfinder_hat")
 	_authored = 0
-	# ---- Legs: dark trousers, tall leather boots with turned-down cuffs
+	# ---- Legs: shaped dark trousers (G-C), tall leather boots with turned-down cuffs
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
-		_part(leg, capsule(0.10, 0.46), hat, Vector3(0.135 * sx, 0.48, 0.005), Vector3(-1.5, 0, 0))
+		_part(leg, _leg_mesh(sx), null, Vector3.ZERO)
 		_part(leg, _boot_mesh(), null, Vector3(0.14 * sx, 0.0, 0.0))
 	# ---- Hips: the long split coat skirt (leather hem + front trims), belt, team sash + tails, hip quiver
 	_part(hips, _skirt_mesh(), null, Vector3.ZERO)
@@ -274,6 +273,8 @@ func _build_parts() -> void:
 	_part(chest, _pole_mesh(), null, Vector3.ZERO)
 	var pen_top := Vector3(0.012, 2.275, -0.495)
 	_part(chest, cape(0.27, 0.50), _m(&"wayfinder_pennon"), pen_top - Vector3(0, 0.25, 0))
+	# G-C: the team half-cloak over the left shoulder (heraldic glyph of the banner shader)
+	_part(chest, _mantle_mesh(), null, Vector3.ZERO)
 	_lantern = _part(chest, _lantern_mesh(), null, HANG, Vector3.ZERO, true, "Lantern")
 	_lantern.set_meta(&"own_glow", true)
 	_motes = make_motes(GLOW, 5, 1.5, 0.05, 0.28, 0.05)
@@ -295,11 +296,7 @@ func _build_parts() -> void:
 	# ---- Arms: coat sleeves, leather pauldrons / cuffs / gloves; the bow in the right fist
 	for side: float in [-1.0, 1.0]:
 		var arm: Node3D = arm_r if side > 0.0 else arm_l
-		var sh := SHOULDER_R if side > 0.0 else SHOULDER_L
-		var hand := GRIP_R if side > 0.0 else HAND_L
-		var wrist := sh.lerp(hand, 0.86) + Vector3(0, 0.02, 0)
-		var d := wrist - sh
-		_part(arm, capsule(0.088, d.length() + 0.10), _m(&"wayfinder_coat"), sh + d * 0.5, _euler_down(d))
+		_part(arm, _sleeve_mesh(side), null, Vector3.ZERO)   # G-C: shaped sleeve (bicep, bent elbow, forearm)
 		_part(arm, _arm_leather_mesh(side), _m(&"wayfinder_leather"), Vector3.ZERO)
 	_bow = _part(arm_r, _bow_mesh(false), null, GRIP_R, BOW_REST, true, "Bow")
 	_bow.set_meta(&"own_glow", true)
@@ -466,16 +463,24 @@ static func _xf(at: Vector3, rot_deg: Vector3 = Vector3.ZERO, scl: Vector3 = Vec
 
 # ---------------------------------------------------------------- legs
 
+## Tall riding boot (G-C): a rounded toe-forward foot (lathe, no more brick), a shaft swelling at the calf, the dark
+## turned-down cuff and a dark sole rim.
 static func _boot_mesh() -> ArrayMesh:
 	if _wf_meshes.has("boot"):
 		return _wf_meshes["boot"]
 	var lea := _bucket()
 	var dark := _bucket()
-	_put(lea, cyl(0.115, 0.105, 0.28, 8), _xf(Vector3(0, 0.225, 0.01)))
-	_put(lea, box(Vector3(0.21, 0.12, 0.28)), _xf(Vector3(0, 0.06, 0.06)))
-	_put(lea, sphere(0.105, 8, 4), _xf(Vector3(0, 0.07, 0.19), Vector3.ZERO, Vector3(1.0, 0.62, 1.0)))
-	_put(dark, cyl(0.138, 0.116, 0.08, 8), _xf(Vector3(0, 0.395, 0.01)))
-	_put(dark, box(Vector3(0.22, 0.035, 0.36)), _xf(Vector3(0, 0.0175, 0.08)))
+	var s := ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.0, 0.012), Vector2(0.10, 0.012), Vector2(0.112, 0.04),
+		Vector2(0.105, 0.09), Vector2(0.07, 0.135), Vector2(0.0, 0.15)]), 9, _xf(Vector3(0, 0.0, 0.07)), 1.0, 1.6)
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.098, 0.05), Vector2(0.11, 0.17), Vector2(0.118, 0.27),
+		Vector2(0.112, 0.36)]), 9, _xf(Vector3(0, 0.0, 0.01)), 1.0, 1.06, false)
+	_put_st(lea, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.112, 0.35), Vector2(0.138, 0.36), Vector2(0.142, 0.415),
+		Vector2(0.118, 0.43)]), 9, _xf(Vector3(0, 0.0, 0.01)), 1.0, 1.06, false)
+	ChampionShapes.band(s, 0.10, 0.024, 0.012, 9, _xf(Vector3(0, 0.012, 0.07)), 1.0, 1.6)
+	_put_st(dark, s)
 	return _commit("boot", [[lea, _m(&"wayfinder_leather")], [dark, _m(&"wayfinder_hat")]])
 
 
@@ -570,34 +575,47 @@ static func _sash_mesh() -> ArrayMesh:
 
 # ---------------------------------------------------------------- chest
 
-## Coat torso (keg), double-sided turned-up collar, leather vest and a baldric in 3 pieces following the chest.
 static func _torso_mesh() -> ArrayMesh:
 	if _wf_meshes.has("torso"):
 		return _wf_meshes["torso"]
 	var coat := _bucket()
 	var lea := _bucket()
 	var vest := _bucket()
-	_put(coat, cyl(0.29, 0.255, 0.50, 12), _xf(Vector3(0, 1.25, 0)))
+	# G-C: a shaped coat body (waist -> chest swell -> shoulders) instead of a 12-sided can
+	var s := ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.25, 1.0), Vector2(0.262, 1.10), Vector2(0.29, 1.27),
+		Vector2(0.294, 1.38), Vector2(0.27, 1.47), Vector2(0.24, 1.50)]), 14, Transform3D.IDENTITY, 1.0, 0.92)
+	_put_st(coat, s)
 	# turned-up collar, lowered under the chin (faces pass 2026-09-28: it used to hide the mouth)
 	var collar := PackedVector2Array([Vector2(0.255, 1.40), Vector2(0.24, 1.44), Vector2(0.225, 1.475), Vector2(0.232, 1.495)])
 	_lathe(coat, collar, 12, Transform3D(Basis(), Vector3(0, 0, -0.012)), true, 0.02)
-	_put(vest, box(Vector3(0.25, 0.40, 0.07)), _xf(Vector3(0, 1.245, 0.245), Vector3(4, 0, 0)))
+	# the leather vest: a bevelled panel with rounded corners
+	s = ChampionShapes.begin()
+	ChampionShapes.plate(s, _round_rect(0.125, 0.20, 0.04), 0.06, 0.018, _xf(Vector3(0, 1.245, 0.236), Vector3(4, 0, 0)))
+	_put_st(vest, s)
 	var pieces: Array = [[Vector3(0.155, 1.43, 0.245), 28.0], [Vector3(0.0, 1.265, 0.292), 0.0], [Vector3(-0.155, 1.10, 0.255), -28.0]]
+	s = ChampionShapes.begin()
 	for p: Array in pieces:
-		_put(lea, box(Vector3(0.075, 0.25, 0.035)), _xf(p[0], Vector3(0, float(p[1]), -42.0)))
-	_put(lea, sphere(0.045, 8, 4), _xf(Vector3(0.0, 1.265, 0.31)))
+		ChampionShapes.plate(s, _round_rect(0.037, 0.125, 0.01), 0.035, 0.008, _xf(p[0], Vector3(0, float(p[1]), -42.0)))
+	ChampionShapes.stud(s, Vector3(0.0, 1.265, 0.305), Vector3.BACK, 0.045, 0.03)
+	_put_st(lea, s)
 	return _commit("torso", [[coat, _m(&"wayfinder_coat")], [lea, _m(&"wayfinder_leather")], [vest, _m(&"wayfinder_hat")]])
 
 
-## Back pack: leather body, dark flap and straps, pale canvas bedroll across the top, map tube on the right.
+## Back pack: a soft leather body (bevelled, rounded), dark flap and straps, pale canvas bedroll across the top, map
+## tube on the right.
 static func _pack_mesh() -> ArrayMesh:
 	if _wf_meshes.has("pack"):
 		return _wf_meshes["pack"]
 	var lea := _bucket()
 	var dark := _bucket()
 	var pale := _bucket()
-	_put(lea, box(Vector3(0.36, 0.38, 0.16)), _xf(Vector3(0, 1.17, -0.355)))
-	_put(dark, box(Vector3(0.375, 0.13, 0.175)), _xf(Vector3(0, 1.30, -0.352), Vector3(-6, 0, 0)))
+	var s := ChampionShapes.begin()
+	ChampionShapes.plate(s, _round_rect(0.18, 0.19, 0.05), 0.16, 0.035, _xf(Vector3(0, 1.17, -0.355), Vector3(0, 180, 0)), true)
+	_put_st(lea, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.plate(s, _round_rect(0.1875, 0.07, 0.025), 0.175, 0.02, _xf(Vector3(0, 1.30, -0.352), Vector3(-6, 180, 0)), true)
+	_put_st(dark, s)
 	_put(pale, cyl(0.09, 0.09, 0.52, 10), _xf(Vector3(0.02, 1.435, -0.395), Vector3(0, 0, 90)))
 	for sx: float in [-0.14, 0.16]:
 		_put(dark, torus(0.086, 0.106, 10), _xf(Vector3(sx, 1.435, -0.395), Vector3(0, 0, 90)))
@@ -1110,3 +1128,68 @@ func _on_revive() -> void:
 	_lantern_w = -1.0
 	_bow_glow_w = -1.0
 	_swing_w = Vector3(999, 0, 0)
+
+
+# ---------------------------------------------------------------- G-C hero layer (docs/art/gc_champions.md)
+
+## A ChampionShapes SurfaceTool committed and appended to a bucket.
+static func _put_st(acc: Array, st: SurfaceTool) -> void:
+	var m := ChampionShapes.commit(st)
+	if m.get_surface_count() > 0:
+		_put(acc, m, Transform3D.IDENTITY)
+
+
+## Rectangle (half sizes hx, hy) with rounded corners of radius r (3 points per corner), counter-clockwise.
+static func _round_rect(hx: float, hy: float, r: float) -> PackedVector2Array:
+	var out := PackedVector2Array()
+	var cs: Array[Vector2] = [Vector2(hx - r, -hy + r), Vector2(hx - r, hy - r), Vector2(-hx + r, hy - r), Vector2(-hx + r, -hy + r)]
+	for k: int in 4:
+		for j: int in 3:
+			var a := -PI * 0.5 + PI * 0.5 * (float(k) + float(j) / 2.0)
+			out.append(cs[k] + Vector2(cos(a), sin(a)) * r)
+	return out
+
+
+## Dark trousers (G-C): thigh -> knee -> calf -> ankle (was a 162-vertex capsule), the bottom inside the boot.
+static func _leg_mesh(sx: float) -> ArrayMesh:
+	var key := "leg%d" % int(sx)
+	if _wf_meshes.has(key):
+		return _wf_meshes[key]
+	var acc := _bucket()
+	var x := 0.135 * sx
+	var s := ChampionShapes.begin()
+	ChampionShapes.tube(s, PackedVector3Array([Vector3(x, 0.74, 0.0), Vector3(x * 1.02, 0.60, 0.008), Vector3(x, 0.47, 0.022),
+		Vector3(x, 0.36, 0.0), Vector3(x, 0.28, 0.0)]), PackedFloat32Array([0.105, 0.108, 0.086, 0.09, 0.08]), 8, false)
+	_put_st(acc, s)
+	return _commit(key, [[acc, _m(&"wayfinder_hat")]])
+
+
+## Coat sleeve (G-C): shoulder -> bicep -> elbow (bent back) -> forearm swell -> wrist (was a capsule).
+static func _sleeve_mesh(side: float) -> ArrayMesh:
+	var key := "sleeve%d" % int(side)
+	if _wf_meshes.has(key):
+		return _wf_meshes[key]
+	var sh := SHOULDER_R if side > 0.0 else SHOULDER_L
+	var hand := GRIP_R if side > 0.0 else HAND_L
+	var wrist := sh.lerp(hand, 0.86) + Vector3(0, 0.02, 0)
+	var el := sh.lerp(wrist, 0.5) + Vector3(0.012 * side, 0.0, -0.025)
+	var acc := _bucket()
+	var s := ChampionShapes.begin()
+	ChampionShapes.tube(s, PackedVector3Array([sh + Vector3(0, 0.03, 0), sh.lerp(el, 0.45), el, el.lerp(wrist, 0.45), wrist]),
+		PackedFloat32Array([0.088, 0.094, 0.076, 0.082, 0.07]), 8, true)
+	_put_st(acc, s)
+	return _commit(key, [[acc, _m(&"wayfinder_coat")]])
+
+
+## The traveller's half-cloak (G-C, team colour: wayfinder_pennon, banner shader with its glyph): pinned at the right
+## collar, it sweeps over the left shoulder and down the left side of the back, clear of the pack and the pole.
+static func _mantle_mesh() -> ArrayMesh:
+	if _wf_meshes.has("mantle"):
+		return _wf_meshes["mantle"]
+	var acc := _bucket()
+	var s := ChampionShapes.begin()
+	var top := ChampionShapes.arc(Vector3(-0.03, 1.505, -0.03), 0.37, 0.34, -0.1, -2.5, 7)
+	ChampionShapes.cloth(s, top, 0.56, 1.3, 0.12, 6, 4, 2.0, 0.025, 0.04)
+	var m := ChampionShapes.commit(s)
+	_put(acc, m, Transform3D.IDENTITY)
+	return _commit("mantle", [[acc, _m(&"wayfinder_pennon")]])

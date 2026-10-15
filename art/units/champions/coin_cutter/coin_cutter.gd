@@ -630,18 +630,30 @@ static func _sack_mesh() -> ArrayMesh:
 	return m
 
 
-## Charcoal trousers and tall boots, burgundy folded cuffs, brass buckles.
+## Leg (G-C): a shaped burgundy-trousered leg in charcoal (thigh -> knee -> calf; was a straight can), a tall boot
+## swelling at the calf over a rounded toe-forward foot (was a box), the folded burgundy cuff and the brass buckle.
 static func _leg_mesh(side: float) -> ArrayMesh:
 	if _meshes.has("cc_leg%d" % int(side)):
 		return _meshes["cc_leg%d" % int(side)]
 	var x := 0.13 * side
 	var bx := 0.145 * side
-	return _bake("cc_leg%d" % int(side), [
-		[[_seg(Vector3(x, 0.71, 0.0), Vector3(bx, 0.27, 0.0), 0.095, 0.088, 8),
-			_at(cyl(0.104, 0.116, 0.26, 8), Vector3(bx, 0.14, 0.0)),
-			_at(box(Vector3(0.19, 0.11, 0.31)), Vector3(bx, 0.055, 0.06))], _mat(&"charcoal")],
-		[[_at(cyl(0.13, 0.11, 0.08, 8), Vector3(bx, 0.29, 0.0))], _mat(&"burgundy")],
-		[[_at(box(Vector3(0.09, 0.055, 0.035)), Vector3(bx, 0.17, 0.108))], _mat(&"brass")]])
+	var leg := ChampionShapes.begin()
+	ChampionShapes.tube(leg, PackedVector3Array([Vector3(x, 0.72, 0.0), Vector3(x * 1.04, 0.56, 0.008),
+		Vector3(lerpf(x, bx, 0.6), 0.43, 0.02), Vector3(bx, 0.32, 0.0)]), PackedFloat32Array([0.096, 0.098, 0.08, 0.086]), 7,
+		false)
+	ChampionShapes.lathe(leg, PackedVector2Array([Vector2(0.096, 0.04), Vector2(0.112, 0.15), Vector2(0.116, 0.24),
+		Vector2(0.106, 0.30)]), 8, _xf3(Vector3(bx, 0.0, 0.0)), 1.0, 1.05, false)
+	ChampionShapes.lathe(leg, PackedVector2Array([Vector2(0.0, 0.0), Vector2(0.10, 0.0), Vector2(0.11, 0.035),
+		Vector2(0.098, 0.085), Vector2(0.06, 0.12), Vector2(0.0, 0.13)]), 8, _xf3(Vector3(bx, 0.0, 0.065)), 1.0, 1.6)
+	var cuff := ChampionShapes.begin()
+	ChampionShapes.lathe(cuff, PackedVector2Array([Vector2(0.105, 0.255), Vector2(0.13, 0.265), Vector2(0.128, 0.32),
+		Vector2(0.105, 0.33)]), 8, _xf3(Vector3(bx, 0.0, 0.0)), 1.0, 1.05, false)
+	var brass := ChampionShapes.begin()
+	ChampionShapes.plate(brass, PackedVector2Array([Vector2(-0.042, -0.026), Vector2(0.042, -0.026), Vector2(0.042, 0.026),
+		Vector2(-0.042, 0.026)]), 0.022, 0.008, _xf3(Vector3(bx, 0.17, 0.118)))
+	return _bake("cc_leg%d" % int(side), [[[[ChampionShapes.commit(leg), Transform3D.IDENTITY]], _mat(&"charcoal")],
+		[[[ChampionShapes.commit(cuff), Transform3D.IDENTITY]], _mat(&"burgundy")],
+		[[[ChampionShapes.commit(brass), Transform3D.IDENTITY]], _mat(&"brass")]])
 
 
 ## Burgundy mantle: a round capelet over the shoulders, open at the throat, its hem cut into jagged dags.
@@ -869,7 +881,8 @@ static func _tri(verts: PackedVector3Array, norms: PackedVector3Array, a: Vector
 	norms.append_array(PackedVector3Array([fn, fn, fn]))
 
 
-## Sleeve, shoulder, burgundy bracer and glove (the knife is its own part: _knife_mesh).
+## Arm (G-C): a shaped charcoal sleeve (shoulder -> bicep -> bent elbow -> forearm; was one straight can), the
+## shoulder and glove balls, a flared burgundy bracer.
 static func _arm_mesh(side: float) -> ArrayMesh:
 	var key := "cc_arm%d" % int(side)
 	if _meshes.has(key):
@@ -878,10 +891,18 @@ static func _arm_mesh(side: float) -> ArrayMesh:
 	var hand := HAND_R if side > 0.0 else HAND_L
 	var d := hand - sh
 	var bracer_c := sh + d * 0.74
-	var charcoal: Array = [_seg(sh, hand, 0.078, 0.072, 8), _at(sphere(0.09, 8, 4), sh + Vector3(0.0, 0.01, 0.0)),
-		_at(sphere(0.096, 8, 5), hand)]
-	var burgundy: Array = [_seg(bracer_c + d.normalized() * 0.075, bracer_c - d.normalized() * 0.075, 0.098, 0.086, 8)]
-	return _bake(key, [[charcoal, _mat(&"charcoal")], [burgundy, _mat(&"burgundy")]])
+	var el := sh.lerp(hand, 0.48) + Vector3(0.012 * side, 0.0, -0.02)
+	var sleeve := ChampionShapes.begin()
+	ChampionShapes.tube(sleeve, PackedVector3Array([sh, sh.lerp(el, 0.5), el, el.lerp(hand, 0.5), hand]),
+		PackedFloat32Array([0.078, 0.083, 0.068, 0.074, 0.068]), 7, false)
+	var charcoal: Array = [[ChampionShapes.commit(sleeve), Transform3D.IDENTITY],
+		_at(sphere(0.09, 8, 4), sh + Vector3(0.0, 0.01, 0.0)), _at(sphere(0.096, 8, 5), hand)]
+	var dn := d.normalized()
+	var br := ChampionShapes.begin()
+	ChampionShapes.tube(br, PackedVector3Array([bracer_c + dn * 0.08, bracer_c, bracer_c - dn * 0.075]),
+		PackedFloat32Array([0.092, 0.094, 0.084]), 8, true)
+	# (no brass here: brass in the arm merges is the sign of the archetype knives, test_11_v4)
+	return _bake(key, [[charcoal, _mat(&"charcoal")], [[[ChampionShapes.commit(br), Transform3D.IDENTITY]], _mat(&"burgundy")]])
 
 
 ## The crescent knife in the fist (right: forward grip, blade up and forward; left: reverse grip, blade trailing back
@@ -1233,3 +1254,8 @@ func _on_revive() -> void:
 	_coin_written = -1.0
 	_coin.visible = false
 	_pouch.visible = false
+
+
+## Translation-only transform (G-C helpers).
+static func _xf3(p: Vector3) -> Transform3D:
+	return Transform3D(Basis.IDENTITY, p)

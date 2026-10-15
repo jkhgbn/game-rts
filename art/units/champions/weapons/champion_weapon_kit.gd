@@ -389,23 +389,48 @@ static func _commit(surfaces: Array) -> ArrayMesh:
 # Chunky on purpose (the "3 heads tall" painted style, read at 40 m): lengths follow skills-rework.md 5, shafts and
 # blades are thicker / wider than real ones. Blades show their flat to the front (width along X) at rest.
 
-## Spear: ash shaft (butt -0.92 .. socket 1.38), leather grip wrap at the fist, iron butt cap and socket, a leaf blade
-## with a raised midrib, a team-colour tassel (collar + 6 strands hanging back under the blade).
+## Spear (G-C ornate pass): smooth ash shaft (butt -0.92 .. socket 1.38), a raised leather grip (4 wraps) at the
+## fist, an iron butt spike with a brass ferrule, a lathed iron socket with brass rings and two swept lugs, a leaf
+## blade with a raised midrib and a gilded rune line down both flats, a team-colour tassel (collar + 6 strands
+## hanging back under the blade).
 static func _spear_mesh() -> ArrayMesh:
 	var ash := _bucket()
 	var iron := _bucket()
 	var steel := _bucket()
 	var lea := _bucket()
 	var team := _bucket()
-	_seg(ash, Vector3(0, -0.92, 0), Vector3(0, 1.38, 0), 0.036, 0.031, 7)
-	_seg(lea, Vector3(0, -0.13, 0), Vector3(0, 0.13, 0), 0.043, 0.043, 7, true)
-	for y: float in [-0.15, 0.15]:
-		_put(lea, _torus(0.036, 0.052, 8), _xf(Vector3(0, y, 0)))
-	_seg(iron, Vector3(0, -1.0, 0), Vector3(0, -0.90, 0), 0.018, 0.042, 7, true)
-	_seg(iron, Vector3(0, 1.31, 0), Vector3(0, 1.46, 0), 0.043, 0.024, 7, true)
-	_put(iron, _torus(0.034, 0.052, 8), _xf(Vector3(0, 1.32, 0)))
+	var brass := _bucket()
+	var s := ChampionShapes.begin()
+	ChampionShapes.tube(s, PackedVector3Array([Vector3(0, -0.92, 0), Vector3(0, 0.2, 0), Vector3(0, 1.38, 0)]),
+		PackedFloat32Array([0.034, 0.036, 0.031]), 7, false)
+	_put_st(ash, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.tube(s, PackedVector3Array([Vector3(0, -0.14, 0), Vector3(0, 0.14, 0)]), PackedFloat32Array([0.041, 0.041]),
+		7, true)
+	for k: int in 4:
+		ChampionShapes.band(s, 0.040, 0.03, 0.008, 7, _xf(Vector3(0, -0.105 + 0.07 * k, 0), Vector3(0, 0, 9.0)))
+	_put_st(lea, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.0, -1.02), Vector2(0.03, -0.96), Vector2(0.04, -0.90)]), 7)
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.034, 1.30), Vector2(0.046, 1.34), Vector2(0.040, 1.40),
+		Vector2(0.026, 1.46)]), 8)
+	for sx: float in [-1.0, 1.0]:
+		ChampionShapes.plate(s, PackedVector2Array([Vector2(0.0, 0.0), Vector2(0.075, 0.035), Vector2(0.10, 0.075),
+			Vector2(0.05, 0.05), Vector2(0.0, 0.035)]), 0.016, 0.005,
+			Transform3D(Basis.from_scale(Vector3(sx, 1.0, 1.0)), Vector3(0.02 * sx, 1.32, 0)), true)
+	_put_st(iron, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.band(s, 0.040, 0.025, 0.01, 7, _xf(Vector3(0, -0.885, 0)))
+	ChampionShapes.band(s, 0.044, 0.02, 0.01, 8, _xf(Vector3(0, 1.315, 0)))
+	ChampionShapes.band(s, 0.039, 0.018, 0.008, 8, _xf(Vector3(0, 1.43, 0)))
+	_put_st(brass, s)
 	_blade(steel, 1.44, 0.36, [[0.0, 0.02, 0.018], [0.14, 0.064, 0.019], [0.42, 0.078, 0.02], [0.78, 0.044, 0.015],
 		[1.0, 0.0, 0.0]], true)
+	s = ChampionShapes.begin()
+	for sz: float in [-1.0, 1.0]:
+		ChampionShapes.plate(s, PackedVector2Array([Vector2(-0.006, 1.49), Vector2(0.006, 1.49), Vector2(0.004, 1.68),
+			Vector2(0.0, 1.71), Vector2(-0.004, 1.68)]), 0.004, 0.0015, _xf(Vector3(0, 0, 0.0185 * sz)))
+	_put_st(brass, s)
 	# Tassel: hangs down and back along the shaft (piece space: -Y streams back, +Z droops toward the ground at rest).
 	_put(team, _sphere(0.05, 8, 4), _xf(Vector3(0, 1.28, 0), Vector3.ZERO, Vector3(1.0, 0.8, 1.0)))
 	var hang := Vector3(0.0, -0.75, 0.43).normalized()
@@ -415,7 +440,7 @@ static func _spear_mesh() -> ArrayMesh:
 		var tip := root + hang * (0.24 + 0.05 * float(k % 2)) + Vector3(cos(a) * 0.05, 0.0, sin(a) * 0.05)
 		_seg(team, root, tip, 0.021, 0.007, 4, true)
 	return _commit([[ash, material(&"weapon_ash")], [lea, material(&"weapon_leather")], [iron, material(&"weapon_iron")],
-		[steel, material(&"weapon_steel")], [team, material(&"weapon_team_cloth")]])
+		[steel, material(&"weapon_steel")], [team, material(&"weapon_team_cloth")], [brass, material(&"weapon_brass")]])
 
 
 ## Back quiver (origin = its centre, axis +Y): leather tube with an iron rim, bands and foot; 3 short javelins
@@ -467,101 +492,188 @@ static func _javelin_mesh() -> ArrayMesh:
 	return _commit([[ash, material(&"weapon_ash")], [lea, material(&"weapon_leather")], [steel, material(&"weapon_steel")]])
 
 
-## Arming sword (origin = the fist): leather grip, brass pommel and cross-guard with knobs, a 0.72 m steel blade
-## (width along X: its flat faces the front and the camera above).
+## Arming sword (G-C ornate pass; origin = the fist): a leather grip with raised wraps, a brass wheel pommel with a
+## steel button, a bevelled brass cross-guard with swept quillons and a langet, the 0.72 m steel blade (width along
+## X: its flat faces the front and the camera above), a dark fuller with a gilded rune line down both flats (no glow: one glow per kit = the staff crystal).
 static func _sword_mesh() -> ArrayMesh:
 	var lea := _bucket()
 	var brass := _bucket()
 	var steel := _bucket()
 	var iron := _bucket()
-	_seg(lea, Vector3(0, -0.08, 0), Vector3(0, 0.08, 0), 0.03, 0.03, 6, true)
-	_put(brass, _sphere(0.048, 8, 4), _xf(Vector3(0, -0.11, 0), Vector3.ZERO, Vector3(1.0, 0.85, 1.0)))
-	_put(brass, _box(Vector3(0.30, 0.046, 0.056)), _xf(Vector3(0, 0.1, 0)))
-	for x: float in [-0.155, 0.155]:
-		_put(brass, _sphere(0.034, 6, 3), _xf(Vector3(x, 0.1, 0)))
+	var s := ChampionShapes.begin()
+	ChampionShapes.tube(s, PackedVector3Array([Vector3(0, -0.09, 0), Vector3(0, 0.0, 0), Vector3(0, 0.085, 0)]),
+		PackedFloat32Array([0.028, 0.031, 0.028]), 7, true)
+	for k: int in 3:
+		ChampionShapes.band(s, 0.029, 0.02, 0.006, 7, _xf(Vector3(0, -0.055 + 0.055 * k, 0), Vector3(0, 0, 10.0)))
+	_put_st(lea, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.0, -0.022), Vector2(0.042, -0.02), Vector2(0.052, 0.0),
+		Vector2(0.042, 0.02), Vector2(0.0, 0.022)]), 10, Transform3D(Basis(Vector3.RIGHT, PI * 0.5), Vector3(0, -0.125, 0)))
+	ChampionShapes.plate(s, _guard_poly(0.165, 0.024, 0.045), 0.05, 0.013, _xf(Vector3(0, 0.10, 0)), true)
+	ChampionShapes.plate(s, PackedVector2Array([Vector2(-0.03, 0.0), Vector2(0.03, 0.0), Vector2(0.02, 0.06),
+		Vector2(-0.02, 0.06)]), 0.036, 0.008, _xf(Vector3(0, 0.12, 0)), true)
+	_put_st(brass, s)
+	s = ChampionShapes.begin()
+	for sz: float in [-1.0, 1.0]:
+		ChampionShapes.stud(s, Vector3(0, -0.125, 0.022 * sz), Vector3(0, 0, sz), 0.016)
+	_put_st(steel, s)
 	_blade(steel, 0.12, 0.72, [[0.0, 0.044, 0.015], [0.10, 0.043, 0.015], [0.80, 0.033, 0.012], [1.0, 0.0, 0.0]], true)
-	# a dark fuller down both flats
-	_put(iron, _box(Vector3(0.018, 0.46, 0.032)), _xf(Vector3(0, 0.40, 0)))
+	# a dark fuller down both flats, a gilded rune line inside it
+	_put(iron, _box(Vector3(0.018, 0.46, 0.029)), _xf(Vector3(0, 0.40, 0)))
+	s = ChampionShapes.begin()
+	for sz: float in [-1.0, 1.0]:
+		ChampionShapes.plate(s, PackedVector2Array([Vector2(-0.0045, 0.20), Vector2(0.0045, 0.20), Vector2(0.0045, 0.58),
+			Vector2(0.0, 0.61), Vector2(-0.0045, 0.58)]), 0.003, 0.001, _xf(Vector3(0, 0, 0.0152 * sz)))
+	_put_st(brass, s)
 	return _commit([[lea, material(&"weapon_leather")], [brass, material(&"weapon_brass")], [steel, material(&"weapon_steel")],
 		[iron, material(&"weapon_iron")]])
 
 
-## Round shield (origin = the fist behind it, face +Z): oak board r 0.4, 4 plank seams, iron rim and 6 rivets, an iron
-## ring round the team-colour boss, a leather grip on the back.
+## Round shield (G-C ornate pass; origin = the fist behind it, face +Z): a slightly domed oak board r 0.4 with 4 plank
+## seams, a bevelled iron rim, 8 brass studs, an iron ring round a raised team-colour boss with a brass spike, a thin
+## gilded ward ring between them, a leather grip on the back.
 static func _shield_mesh() -> ArrayMesh:
 	var oak := _bucket()
 	var iron := _bucket()
 	var team := _bucket()
 	var lea := _bucket()
+	var brass := _bucket()
 	var zc := 0.075
-	_put(oak, _cyl(0.40, 0.40, 0.04, 22), _xf(Vector3(0, 0, zc), Vector3(90, 0, 0)))
+	var face := Basis(Vector3.RIGHT, PI * 0.5)   # lathe axis (+Y) -> the shield's face (+Z)
+	var s := ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.40, -0.02), Vector2(0.40, 0.02), Vector2(0.28, 0.034),
+		Vector2(0.0, 0.042)]), 20, Transform3D(face, Vector3(0, 0, zc)), 1.0, 1.0, true)
+	_put_st(oak, s)
 	var front := zc + 0.02
 	for x: float in [-0.20, -0.067, 0.067, 0.20]:
 		var chord := 2.0 * sqrt(0.40 * 0.40 - x * x) - 0.05
-		_put(iron, _box(Vector3(0.012, chord, 0.006)), _xf(Vector3(x, 0, front + 0.002)))
-	_put(iron, _torus(0.372, 0.43, 24), _xf(Vector3(0, 0, zc), Vector3(90, 0, 0)))
-	for k: int in 6:
-		var a := TAU * float(k) / 6.0 + PI / 6.0
-		_put(iron, _sphere(0.024, 6, 3), _xf(Vector3(cos(a) * 0.32, sin(a) * 0.32, front + 0.004)))
-	_put(iron, _torus(0.11, 0.15, 14), _xf(Vector3(0, 0, front + 0.004), Vector3(90, 0, 0)))
-	_put(team, _sphere(0.12, 10, 5), _xf(Vector3(0, 0, front + 0.01), Vector3.ZERO, Vector3(1.0, 1.0, 0.6)))
+		_put(iron, _box(Vector3(0.012, chord, 0.006)), _xf(Vector3(x, 0, front + 0.012 - absf(x) * 0.04)))
+	s = ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.37, -0.03), Vector2(0.43, -0.026), Vector2(0.435, 0.02),
+		Vector2(0.40, 0.04), Vector2(0.37, 0.034)]), 24, Transform3D(face, Vector3(0, 0, zc)), 1.0, 1.0, false)
+	ChampionShapes.band(s, 0.115, 0.03, 0.03, 14, Transform3D(face, Vector3(0, 0, front + 0.025)))
+	_put_st(iron, s)
+	s = ChampionShapes.begin()
+	for k: int in 8:
+		var a := TAU * float(k) / 8.0 + PI / 8.0
+		ChampionShapes.stud(s, Vector3(cos(a) * 0.33, sin(a) * 0.33, front + 0.016), Vector3.BACK, 0.022)
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.028, 0.0), Vector2(0.018, 0.04), Vector2(0.0, 0.07)]), 7,
+		Transform3D(face, Vector3(0, 0, front + 0.085)))
+	_put_st(brass, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.115, 0.0), Vector2(0.11, 0.04), Vector2(0.075, 0.08),
+		Vector2(0.0, 0.095)]), 12, Transform3D(face, Vector3(0, 0, front)))
+	_put_st(team, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.band(s, 0.17, 0.012, 0.004, 20, Transform3D(face, Vector3(0, 0, front + 0.019)))
+	_put_st(brass, s)
 	_put(lea, _box(Vector3(0.06, 0.18, 0.035)), _xf(Vector3(0, 0, zc - 0.035)))
 	return _commit([[oak, material(&"weapon_wood_dark")], [iron, material(&"weapon_iron")], [team, material(&"weapon_team_cloth")],
-		[lea, material(&"weapon_leather")]])
+		[lea, material(&"weapon_leather")], [brass, material(&"weapon_brass")]])
 
 
-## Greatsword (origin = the fist, near the guard): 0.42 m leather grip with a brass band, iron pommel, wide iron
-## cross-guard with knobbed quillons and a brass langet, a 1.6 m x 0.13 m blade with a dark fuller (width along X).
+## Greatsword (G-C ornate pass; origin = the fist, near the guard): a 0.42 m leather grip with raised wraps and a
+## brass band, a faceted iron pommel with a brass cap, a wide bevelled iron cross-guard with swept quillons and a brass
+## langet, a leather-wrapped ricasso, the 1.6 m x 0.13 m blade with a dark fuller and a gilded rune line (width
+## along X).
 static func _greatsword_mesh() -> ArrayMesh:
 	var lea := _bucket()
 	var iron := _bucket()
 	var brass := _bucket()
 	var steel := _bucket()
-	_seg(lea, Vector3(0, -0.30, 0), Vector3(0, 0.12, 0), 0.034, 0.034, 7, true)
-	_put(brass, _cyl(0.04, 0.04, 0.03, 8), _xf(Vector3(0, -0.09, 0)))
-	_put(iron, _sphere(0.064, 8, 4), _xf(Vector3(0, -0.35, 0), Vector3.ZERO, Vector3(1.0, 1.2, 1.0)))
-	_put(brass, _cyl(0.0, 0.034, 0.05, 6), _xf(Vector3(0, -0.42, 0), Vector3(180, 0, 0)))
-	_put(iron, _box(Vector3(0.52, 0.064, 0.07)), _xf(Vector3(0, 0.15, 0)))
-	for x: float in [-0.27, 0.27]:
-		_put(iron, _sphere(0.045, 6, 3), _xf(Vector3(x, 0.13, 0)))
-	_put(brass, _box(Vector3(0.15, 0.09, 0.05)), _xf(Vector3(0, 0.2, 0)))
+	var s := ChampionShapes.begin()
+	ChampionShapes.tube(s, PackedVector3Array([Vector3(0, -0.31, 0), Vector3(0, -0.09, 0), Vector3(0, 0.12, 0)]),
+		PackedFloat32Array([0.032, 0.035, 0.032]), 7, true)
+	for k: int in 4:
+		ChampionShapes.band(s, 0.033, 0.022, 0.007, 7, _xf(Vector3(0, -0.26 + 0.1 * k, 0), Vector3(0, 0, 10.0)))
+	ChampionShapes.tube(s, PackedVector3Array([Vector3(0, 0.21, 0), Vector3(0, 0.31, 0)]), PackedFloat32Array([0.05, 0.046]),
+		6, true, 0.55)
+	_put_st(lea, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.band(s, 0.036, 0.03, 0.008, 8, _xf(Vector3(0, -0.09, 0)))
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.0, -0.45), Vector2(0.03, -0.43), Vector2(0.036, -0.405)]), 8)
+	ChampionShapes.plate(s, PackedVector2Array([Vector2(-0.045, 0.0), Vector2(0.045, 0.0), Vector2(0.03, 0.10),
+		Vector2(-0.03, 0.10)]), 0.05, 0.01, _xf(Vector3(0, 0.17, 0)), true)
+	_put_st(brass, s)
+	s = ChampionShapes.begin()
+	ChampionShapes.lathe(s, PackedVector2Array([Vector2(0.03, -0.31), Vector2(0.064, -0.34), Vector2(0.06, -0.38),
+		Vector2(0.034, -0.405)]), 8, Transform3D.IDENTITY, 1.0, 1.0, true, 0.0, TAU, true)
+	ChampionShapes.plate(s, _guard_poly(0.29, 0.034, 0.07), 0.07, 0.016, _xf(Vector3(0, 0.15, 0)), true)
+	_put_st(iron, s)
 	_blade(steel, 0.18, 1.60, [[0.0, 0.066, 0.022], [0.10, 0.066, 0.022], [0.13, 0.06, 0.02], [0.88, 0.052, 0.017],
 		[1.0, 0.0, 0.0]], true)
-	_put(iron, _box(Vector3(0.024, 1.0, 0.046)), _xf(Vector3(0, 0.88, 0)))
+	_put(iron, _box(Vector3(0.024, 1.0, 0.042)), _xf(Vector3(0, 0.88, 0)))
+	s = ChampionShapes.begin()
+	for sz: float in [-1.0, 1.0]:
+		ChampionShapes.plate(s, PackedVector2Array([Vector2(-0.006, 0.44), Vector2(0.006, 0.44), Vector2(0.006, 1.26),
+			Vector2(0.0, 1.30), Vector2(-0.006, 1.26)]), 0.003, 0.001, _xf(Vector3(0, 0, 0.0218 * sz)))
+	_put_st(brass, s)
 	return _commit([[lea, material(&"weapon_leather")], [iron, material(&"weapon_iron")], [brass, material(&"weapon_brass")],
 		[steel, material(&"weapon_steel")]])
 
 
-## Wizard staff (origin = the fist): gnarled dark shaft with knots, iron foot, leather wrap, brass bands, a bulb and 3
-## curling prongs around a FLOATING glowing crystal (a gap between prongs and crystal).
+## Wizard staff (G-C ornate pass; origin = the fist): a smooth gnarled dark shaft with knots, an iron foot, a leather
+## wrap with raised bands, brass bands, a bulb and 3 smoothly curling prongs around a FLOATING glowing crystal (a gap
+## between prongs and crystal), a brass ring floating round the crystal's waist and three small glowing shards
+## orbiting under it.
 static func _staff_mesh() -> ArrayMesh:
 	var wood := _bucket()
 	var iron := _bucket()
 	var lea := _bucket()
 	var brass := _bucket()
 	var glow := _bucket()
-	var pts: Array[Vector3] = [Vector3(0, -0.80, 0), Vector3(0.018, -0.45, -0.01), Vector3(-0.016, -0.10, 0.009),
-		Vector3(0.013, 0.25, 0.016), Vector3(-0.017, 0.58, -0.008), Vector3(0.0, 0.84, 0.0)]
-	var radii: Array[float] = [0.036, 0.040, 0.041, 0.041, 0.040, 0.046]
-	for k: int in pts.size() - 1:
-		_seg(wood, pts[k], pts[k + 1], radii[k], radii[k + 1], 6)
+	var pts := PackedVector3Array([Vector3(0, -0.80, 0), Vector3(0.018, -0.45, -0.01), Vector3(-0.016, -0.10, 0.009),
+		Vector3(0.013, 0.25, 0.016), Vector3(-0.017, 0.58, -0.008), Vector3(0.0, 0.84, 0.0)])
+	var radii := PackedFloat32Array([0.036, 0.040, 0.041, 0.041, 0.040, 0.046])
+	var s := ChampionShapes.begin()
+	ChampionShapes.tube(s, pts, radii, 7, false)
 	for k: int in range(1, pts.size() - 1):
 		var off := Vector3(0.012 * float(k % 2 * 2 - 1), 0.0, 0.01)
-		_put(wood, _sphere(radii[k] + 0.011, 6, 3), _xf(pts[k] + off, Vector3.ZERO, Vector3(1.0, 1.4, 1.0)))
-	_seg(iron, Vector3(0, -0.86, 0), Vector3(0, -0.78, 0), 0.024, 0.042, 6, true)
-	_seg(lea, Vector3(0, -0.12, 0), Vector3(0, 0.13, 0), 0.049, 0.049, 6, true)
-	for y: float in [0.56, 0.80]:
-		_put(brass, _cyl(0.05, 0.05, 0.03, 7), _xf(Vector3(0, y, 0)))
-	_put(wood, _sphere(0.064, 7, 4), _xf(Vector3(0, 0.88, 0)))
+		ChampionShapes.append(s, _sphere(radii[k] + 0.011, 6, 3), _xf(pts[k] + off, Vector3.ZERO, Vector3(1.0, 1.4, 1.0)))
+	ChampionShapes.append(s, _sphere(0.064, 8, 4), _xf(Vector3(0, 0.88, 0)))
 	for k: int in 3:
 		var a := TAU * float(k) / 3.0 + 0.4
 		var d := Vector3(cos(a), 0.0, sin(a))
-		var chain: Array[Vector3] = [Vector3(0, 0.9, 0) + d * 0.04, Vector3(0, 0.98, 0) + d * 0.1,
-			Vector3(0, 1.1, 0) + d * 0.122, Vector3(0, 1.21, 0) + d * 0.092, Vector3(0, 1.27, 0) + d * 0.048]
-		var pr: Array[float] = [0.024, 0.021, 0.017, 0.013, 0.008]
-		for j: int in chain.size() - 1:
-			_seg(wood, chain[j], chain[j + 1], pr[j], pr[j + 1], 5)
-			_put(wood, _sphere(pr[j + 1] + 0.001, 5, 3), _xf(chain[j + 1]))
+		ChampionShapes.tube(s, PackedVector3Array([Vector3(0, 0.9, 0) + d * 0.04, Vector3(0, 0.98, 0) + d * 0.1,
+			Vector3(0, 1.1, 0) + d * 0.122, Vector3(0, 1.21, 0) + d * 0.092, Vector3(0, 1.27, 0) + d * 0.048]),
+			PackedFloat32Array([0.024, 0.021, 0.017, 0.013, 0.006]), 5, true)
+	_put_st(wood, s)
+	_seg(iron, Vector3(0, -0.86, 0), Vector3(0, -0.78, 0), 0.024, 0.042, 6, true)
+	s = ChampionShapes.begin()
+	ChampionShapes.tube(s, PackedVector3Array([Vector3(0, -0.12, 0), Vector3(0, 0.13, 0)]), PackedFloat32Array([0.047, 0.047]),
+		7, true)
+	for k: int in 3:
+		ChampionShapes.band(s, 0.046, 0.025, 0.008, 7, _xf(Vector3(0, -0.085 + 0.085 * k, 0), Vector3(0, 0, 9.0)))
+	_put_st(lea, s)
+	s = ChampionShapes.begin()
+	for y: float in [0.56, 0.80]:
+		ChampionShapes.band(s, 0.044, 0.035, 0.01, 8, _xf(Vector3(0, y, 0)))
+	ChampionShapes.band(s, 0.135, 0.016, 0.01, 16, _xf(Vector3(0, 1.10, 0), Vector3(12, 0, 8)))
+	_put_st(brass, s)
 	_crystal(glow, Vector3(0, 1.10, 0), 0.075, 0.15, 0.11, 6, 15.0)
+	for k: int in 3:
+		var a2 := TAU * float(k) / 3.0 + 1.45
+		_crystal(glow, Vector3(cos(a2) * 0.165, 1.0 + 0.03 * float(k), sin(a2) * 0.165), 0.018, 0.04, 0.03, 4, 30.0 * k)
 	return _commit([[wood, material(&"weapon_wood_dark")], [iron, material(&"weapon_iron")], [lea, material(&"weapon_leather")],
 		[brass, material(&"weapon_brass")], [glow, material(&"weapon_crystal_glow")]])
+
+
+## G-C: a SurfaceTool built with ChampionShapes, committed and appended to a bucket (smooth / bevelled pieces).
+static func _put_st(acc: Array, st: SurfaceTool) -> void:
+	var m := ChampionShapes.commit(st)
+	if m.get_surface_count() > 0:
+		_put(acc, m, Transform3D.IDENTITY)
+
+
+## A sword cross-guard outline (face +Z, the blade along +Y): a centre block, quillons out to +-`half` that sweep up
+## toward the blade at their flared, knobbed ends. `t` = quillon half height, `blk` = centre block half width.
+static func _guard_poly(half: float, t: float, blk: float) -> PackedVector2Array:
+	var right: Array[Vector2] = [Vector2(blk, -t * 1.1), Vector2(half * 0.62, -t * 0.55), Vector2(half * 0.92, -t * 0.1),
+		Vector2(half, t * 1.0), Vector2(half * 0.9, t * 1.9), Vector2(half * 0.8, t * 1.0), Vector2(half * 0.6, t * 0.5),
+		Vector2(blk, t * 1.1)]
+	var out := PackedVector2Array()
+	for p: Vector2 in right:
+		out.append(p)
+	for i: int in range(right.size() - 1, -1, -1):
+		out.append(Vector2(-right[i].x, right[i].y))
+	return out

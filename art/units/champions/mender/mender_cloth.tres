@@ -10,5 +10,5 @@ shader = ExtResource("1_mdc")
 shader_parameter/base_color = Color(0.85, 0.3, 0.12, 1)
 shader_parameter/noise_tex = ExtResource("2_mdc")
 shader_parameter/spec_strength = 0.05
-shader_parameter/rim_strength = 0.3
+shader_parameter/rim_strength = 0.36
 shader_parameter/surface_kind = 1

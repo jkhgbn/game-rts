@@ -17,8 +17,8 @@ extends CharacterModel
 ## the sky, shield shoved forward, stomp, rune flare), `shield_bash` (shove + step stomp), `bulwark_stand` (shield
 ## PLANTED in the ground, knees braced, hammer cocked; held 6 s until the next animation: an attack, another cast,
 ## a death or walking ends it). Unknown ids play oath_of_iron. Idle fidget (< 30 m): lifts the shield and thumps it
-## down, rolls the neck. Budget: 25 authored meshes (blob incl.), 10 draw instances + 2 one-shot emitters (11
-## nodes, one door hidden), 5 materials, 0 lights, ~2 470 vertices. Preview / pose tools: tools/oathwall_preview.gd,
+## down, rolls the neck. Budget (G-C hero armour, docs/art/gc_champions.md): 17 authored meshes (blob incl.), 11 draw
+## instances + 2 one-shot emitters (one door hidden), 5 materials, 0 lights, ~5 400 vertices (face and door included). Preview / pose tools: tools/oathwall_preview.gd,
 ## tools/oathwall_pose_check.gd, tools/oathwall_classes_preview.gd (task 11.V3).
 ##
 ## Champion classes (task 11.V3, skills-rework.md 5; kit convention: docs/handoff/for-tech-artist.md "11.V1"):
@@ -259,52 +259,46 @@ func _build_parts() -> void:
 	var head: Node3D = $Root/Chest/Head
 	var arm_l: Node3D = $Root/Chest/ArmL
 	var arm_r: Node3D = $Root/Chest/ArmR
-	var iron := own(&"oathwall_iron")
 	var oak := own(&"oathwall_oak")
-	var pad := own(&"oathwall_padding")
 	var team := own(&"oathwall_cape")
-	# Legs (4): short dark leather trousers (the dark base) + chunky flat-shaded iron sabatons.
+	# G-C champions (docs/art/gc_champions.md): the hero armour layer. Every piece is ONE multi-surface mesh per pivot
+	# (iron / brass / oak / padding / glow fold into the palette), so the authored count went down, not up.
+	# Legs (2): shaped trousers (thigh -> knee -> calf), an iron greave, a domed knee cop with a fan, a rounded
+	# toe-forward sabaton with a lame over the instep (was a straight 8-sided can + a flat-shaded box).
 	for leg: Node3D in [leg_l, leg_r]:
-		var sx: float = -1.0 if leg == leg_l else 1.0
-		# a plain 8-sided leg (was a 162-vertex capsule; its ends hide in the skirt / sabaton: faces pass trim)
-		add_part(leg, cyl(0.15, 0.15, 0.56, 8), oak, Vector3(0.22 * sx, 0.42, 0.0))
-		add_part(leg, frustum(Vector2(0.32, 0.46), Vector2(0.26, 0.34), 0.24), iron, Vector3(0.22 * sx, 0.12, 0.06))
-	# Hips (2): quilted gambeson skirt + the team sash (band, knot, two tails on the hammer hip).
-	add_part(hips, cyl(0.37, 0.47, 0.40, 8), pad, Vector3(0, 0.80, 0), Vector3(0, 22.5, 0))
+		add_part(leg, _gc_leg_mesh(-1.0 if leg == leg_l else 1.0), null, Vector3.ZERO)
+	# Hips (2): a quilted gambeson bell (flat facets = the quilting), an iron fauld of two lames under the sash, two
+	# bevelled tassets over the thighs (brass rivets); the team sash + a heraldic front tabard (banner shader: glyph).
+	add_part(hips, _gc_hips_mesh(), null, Vector3.ZERO)
 	add_part(hips, _sash_mesh(), team, Vector3.ZERO)
-	# Chest (5): square iron cuirass (flat-shaded, wider at the shoulders), round pauldrons, the team cape, collar.
-	add_part(chest, frustum(Vector2(0.64, 0.50), Vector2(0.80, 0.58), 0.66), iron, Vector3(0, 1.25, 0))
-	for sx: float in [-1.0, 1.0]:
-		add_part(chest, sphere(0.27), iron, Vector3(0.54 * sx, 1.50, 0.0), Vector3.ZERO, Vector3(1.05, 0.72, 1.12))
-	add_part(chest, cape(0.84, 1.15), team, Vector3(0, 1.03, -0.41), Vector3(8, 0, 0))
-	# Padded roll collar: a light band between the helm and the cuirass (the head reads apart from the body).
-	add_part(chest, cyl(0.34, 0.38, 0.11, 8), pad, Vector3(0, 1.605, 0.0), Vector3(0, 22.5, 0))
-	# Head (3 + face): square great helm (flat-shaded, a little wider at the top) with an OPEN FACE WINDOW (faces pass
-	# 2026-09-28: was a closed box + a glowing visor slit; same outline), the flat bevelled lid overhanging it, the
-	# variant; the face in the window is the FaceKit Face node (its steel-blue irises carry the old visor glow).
-	add_part(head, _helm_mesh(), iron, Vector3.ZERO)
-	add_part(head, frustum(Vector2(0.72, 0.70), Vector2(0.66, 0.64), 0.07), iron, Vector3(0, 1.965, 0))
+	# Chest (2): a barrel cuirass (smooth, centre ridge, bevelled plackart with the glowing oath rune, brass waist
+	# trim and rivets), a padded roll collar, stepped pauldrons (dome + 2 lames, brass-edged); the layered team
+	# cape (a long cape with folds + a short mantle over the shoulder blades).
+	add_part(chest, _gc_chest_mesh(), null, Vector3.ZERO)
+	add_part(chest, _gc_cape_mesh(), team, Vector3.ZERO)
+	# Head (2 + face): the square great helm with its face window (bevelled lid, a crest fin, brass brow band and
+	# cheek rivets), the variant; the face in the window is the FaceKit Face node (steel-blue irises = the old visor).
+	add_part(head, _gc_helm_mesh(), null, Vector3.ZERO)
 	_variant_node = add_part(head, _beard_mesh(), null, Vector3.ZERO, Vector3.ZERO, Vector3.ONE, true, "Variant")
 	_face = ChampionFaces.attach(self, head, "oathwall", _face_spec, _variant)
 	_face.set_meta(&"own_glow", true)   # driven with the old visor flare (_write_glows)
-	# ArmL (3): sleeve; the door (ONE keep_separate node, 3 surfaces: iron rim / straps / rivets / boss, three oak
-	# planks, the oath rune); a left gauntlet for the classes that sling the door on the back.
-	_limb(arm_l, Vector3(-0.58, 1.50, 0.0), Vector3(-0.48, 1.04, 0.22), 0.12, pad)
+	# ArmL (3): shaped sleeve + couter + vambrace; the door (ONE keep_separate node, 3 surfaces: iron rim / straps /
+	# rivets / boss, three oak planks, the oath rune); a left gauntlet for the classes that sling the door on the back.
+	add_part(arm_l, _gc_arm_mesh(-1.0), null, Vector3.ZERO)
 	_door_arm = add_part(arm_l, _door_mesh(), null, SHIELD_C, SHIELD_ROT, Vector3.ONE, true, "DoorShield")
 	mark_weapon_classes(_door_arm, [&"", &"spear", &"sword_shield"])
-	mark_weapon_classes(add_part(arm_l, _gauntlet_l_mesh(), iron, Vector3.ZERO), BACK_CLASSES)
+	mark_weapon_classes(add_part(arm_l, _gauntlet_l_mesh(), null, Vector3.ZERO), BACK_CLASSES)
 	# Chest (+2): the same door slung on the back, and its leather strap across the cuirass (two_hand, wizard).
 	_door_back = add_part(chest, _door_mesh(), null, DOOR_BACK_C, DOOR_BACK_ROT, Vector3.ONE, true, "DoorBack")
 	mark_weapon_classes(_door_back, BACK_CLASSES)
-	mark_weapon_classes(add_part(chest, box(Vector3(0.11, 0.90, 0.04)), oak, Vector3(0.0, 1.27, 0.30),
+	mark_weapon_classes(add_part(chest, box(Vector3(0.11, 0.90, 0.04)), oak, Vector3(0.0, 1.27, 0.315),
 		Vector3(-4.0, 0.0, -40.0)), BACK_CLASSES)
-	# ArmR (4): sleeve, iron gauntlet + cuff, then the archetype weapon: oak haft, forged hammer head (square core,
-	# flared striking face, back spike, haft cap).
-	_limb(arm_r, Vector3(0.60, 1.48, 0.0), FIST_R + Vector3(0, 0.04, -0.02), 0.13, pad)
-	add_part(arm_r, _gauntlet_mesh(), iron, Vector3.ZERO)
-	mark_archetype_weapon(add_part(arm_r, cyl(0.055, 0.055, 0.98, 8), oak, FIST_R + HAFT_DIR * 0.33,
+	# ArmR (3): shaped sleeve + couter + vambrace + the iron gauntlet (brass cuff rim), then the archetype weapon: the
+	# haft (leather grip wrap, brass rings) and the forged hammer head (bevelled faces, brass bands, back spike).
+	add_part(arm_r, _gc_arm_mesh(1.0), null, Vector3.ZERO)
+	mark_archetype_weapon(add_part(arm_r, _gc_haft_mesh(), null, FIST_R + HAFT_DIR * 0.33,
 		_euler_deg(_basis_y(HAFT_DIR))))
-	mark_archetype_weapon(add_part(arm_r, _hammer_head_mesh(), iron, FIST_R + HAFT_DIR * HEAD_AT,
+	mark_archetype_weapon(add_part(arm_r, _hammer_head_mesh(), null, FIST_R + HAFT_DIR * HEAD_AT,
 		_euler_deg(_basis_y(HAFT_DIR))))
 	# Fx: dust puffs (stomps, slam, plant, fidget thump, the fall) and steel-blue sparks (clangs, rune flares).
 	_dust = _make_dust()
@@ -945,13 +939,17 @@ static func _door_mesh() -> Mesh:
 	return m
 
 
-## Left gauntlet (model space) for the classes that sling the door on the back: iron fist + flared cuff.
+## Left gauntlet (model space) for the classes that sling the door on the back: iron fist + flared cuff (G-C: a lame
+## cuff with a brass rim, knuckle studs).
 static func _gauntlet_l_mesh() -> Mesh:
-	var up := (Vector3(-0.58, 1.50, 0.0) - FIST_L).normalized()
-	var pieces: Array = []
-	pieces.append([sphere(0.14), _xf(FIST_L)])
-	pieces.append([cyl(0.14, 0.17, 0.20, 8), Transform3D(_basis_y(up), FIST_L + up * 0.17)])
-	return _compound("gauntlet_l", pieces)
+	if _own.has("gc_gauntlet_l"):
+		return _own["gc_gauntlet_l"]
+	var metal := ChampionShapes.begin()
+	var brass := ChampionShapes.begin()
+	_gauntlet_into(metal, brass, FIST_L, (Vector3(-0.58, 1.50, 0.0) - FIST_L).normalized(), 0.14)
+	var m := ChampionShapes.commit_multi([[metal, own(&"oathwall_iron")], [brass, _brass()]])
+	_own["gc_gauntlet_l"] = m
+	return m
 
 
 static func _basis_y(dir: Vector3) -> Basis:
@@ -1075,28 +1073,37 @@ static func _rune_mesh() -> Mesh:
 	return _compound("rune", pieces)
 
 
-## Hammer-hand gauntlet (model space): a big iron fist and a flared cuff up the forearm.
-static func _gauntlet_mesh() -> Mesh:
-	var up := (Vector3(0.60, 1.48, 0.0) - FIST_R).normalized()
-	var pieces: Array = []
-	pieces.append([sphere(0.145), _xf(FIST_R)])
-	pieces.append([cyl(0.145, 0.175, 0.20, 8), Transform3D(_basis_y(up), FIST_R + up * 0.17)])
-	return _compound("gauntlet", pieces)
-
-
-## War hammer head in the haft frame (Y = haft direction; +Z = the striking side, it hits the ground in `slam`): a
-## square core, a flared square striking face, a stubby pyramid spike on the back, a cap over the haft end.
+## War hammer head in the haft frame (Y = haft direction; +Z = the striking side, it hits the ground in `slam`).
+## G-C: a bevelled square core with two brass collars and a glowing steel-blue rune line down each cheek, a bevelled
+## flared striking face, a stubby pyramid spike on the back, a brass cap over the haft end. Surfaces iron / brass /
+## glow (all fold into the palette).
 static func _hammer_head_mesh() -> Mesh:
-	var pieces: Array = []
-	pieces.append([box(Vector3(0.24, 0.26, 0.30)), _xf(Vector3(0, 0, 0.03))])
-	pieces.append([frustum(Vector2(0.24, 0.24), Vector2(0.32, 0.32), 0.10), _xf(Vector3(0, 0, 0.22), Vector3(90, 0, 0))])
-	pieces.append([box(Vector3(0.34, 0.34, 0.05)), _xf(Vector3(0, 0, 0.285))])
+	if _own.has("gc_hammer_head"):
+		return _own["gc_hammer_head"]
+	var metal := ChampionShapes.begin()
+	var brass := ChampionShapes.begin()
+	var glow := ChampionShapes.begin()
+	var sq := func(hx: float, hy: float) -> PackedVector2Array:
+		return PackedVector2Array([Vector2(-hx, -hy), Vector2(hx, -hy), Vector2(hx, hy), Vector2(-hx, hy)])
+	ChampionShapes.plate(metal, sq.call(0.12, 0.13), 0.30, 0.025, _xf(Vector3(0, 0, 0.03)), true)
+	# the flared neck and the striking face (bevelled both sides: a light line round the face)
+	ChampionShapes.lathe(metal, PackedVector2Array([Vector2(0.17, -0.05), Vector2(0.225, 0.05)]), 4,
+		Transform3D(Basis(Vector3.RIGHT, PI * 0.5) * Basis(Vector3.UP, PI * 0.25), Vector3(0, 0, 0.21)), 1.0, 1.0, false,
+		0.0, TAU, true)
+	ChampionShapes.plate(metal, sq.call(0.17, 0.17), 0.07, 0.022, _xf(Vector3(0, 0, 0.29)), true)
+	for z: float in [-0.07, 0.12]:
+		ChampionShapes.plate(brass, sq.call(0.133, 0.143), 0.035, 0.01, _xf(Vector3(0, 0, z)), true)
+	for sx: float in [-1.0, 1.0]:
+		ChampionShapes.plate(glow, PackedVector2Array([Vector2(-0.012, -0.08), Vector2(0.012, -0.08), Vector2(0.012, 0.08),
+			Vector2(-0.012, 0.08)]), 0.012, 0.004, Transform3D(Basis(Vector3.UP, PI * 0.5 * sx), Vector3(0.122 * sx, 0, 0.025)))
 	# Spike: a 4-sided cone twisted 45 deg about its own axis (faces square with the core), tip toward -Z.
 	var spike := Basis(Vector3.RIGHT, deg_to_rad(-90.0)) * Basis(Vector3.UP, deg_to_rad(45.0))
-	pieces.append([cyl(0.0, 0.13, 0.26, 4), Transform3D(spike, Vector3(0, 0, -0.24))])
-	pieces.append([box(Vector3(0.11, 0.06, 0.11)), _xf(Vector3(0, 0.16, 0.03))])
-	return _compound("hammer_head", pieces)
-
+	ChampionShapes.append(metal, cyl(0.0, 0.13, 0.26, 4), Transform3D(spike, Vector3(0, 0, -0.24)))
+	ChampionShapes.lathe(brass, PackedVector2Array([Vector2(0.075, -0.03), Vector2(0.075, 0.02), Vector2(0.05, 0.05),
+		Vector2(0.0, 0.06)]), 8, _xf(Vector3(0, 0.14, 0.03)))
+	var m := ChampionShapes.commit_multi([[metal, own(&"oathwall_iron")], [brass, _brass()], [glow, own(&"oathwall_glow")]])
+	_own["gc_hammer_head"] = m
+	return m
 
 ## Team sash: an 8-sided band around the waist (UV.y 0.1: no wave, no stripe), a knot on the hammer hip and two
 ## hanging tails (UV.y 0 -> 1 down the tail: the banner shader waves them and paints the stripes; UV.x kept in
@@ -1125,6 +1132,9 @@ static func _sash_mesh() -> Mesh:
 	_frustum_into(st, kxf, Vector2(0.16, 0.10), Vector2(0.13, 0.08), 0.15, Vector2(0.15, 0.1))
 	_tail(st, Vector3(0.455, 0.92, 0.29), Vector3(0.49, 0.47, 0.33), 0.15, deg_to_rad(58.0))
 	_tail(st, Vector3(0.485, 0.93, 0.21), Vector3(0.555, 0.58, 0.17), 0.13, deg_to_rad(72.0))
+	# G-C: a heraldic front tabard between the tassets (full UV: the banner shader paints the glyph and the cut).
+	ChampionShapes.cloth(st, PackedVector3Array([Vector3(-0.15, 0.90, 0.47), Vector3(0.0, 0.90, 0.495),
+		Vector3(0.15, 0.90, 0.47)]), 0.44, 1.2, -0.06, 2, 4, 1.0, 0.012)
 	st.index()
 	var m := st.commit()
 	_own[key] = m
@@ -1300,3 +1310,239 @@ static func _make_dust() -> GPUParticles3D:
 		_own["dust_quad"] = q
 	p.draw_pass_1 = q
 	return p
+
+
+# ================================================================ G-C hero armour (docs/art/gc_champions.md)
+
+## Polished brass trims (a code copy of the iron, like the door paint: a palette entry, not a 6th material file).
+static func _brass() -> Material:
+	if not _own.has("mat_brass"):
+		var m := (own(&"oathwall_iron") as ShaderMaterial).duplicate() as ShaderMaterial
+		m.resource_name = "oathwall_brass"
+		m.set_shader_parameter(&"base_color", Color(0.80, 0.60, 0.27))
+		m.set_shader_parameter(&"spec_strength", 0.55)
+		m.set_shader_parameter(&"rim_strength", 0.35)
+		_own["mat_brass"] = m
+	return _own["mat_brass"]
+
+
+## The left arm's plates: the iron under its own name (same look, its own palette entry).
+static func _steel() -> Material:
+	if not _own.has("mat_steel"):
+		var m := (own(&"oathwall_iron") as ShaderMaterial).duplicate() as ShaderMaterial
+		m.resource_name = "oathwall_steel"
+		m.set_shader_parameter(&"spec_strength", 0.44)   # not a look-alike: its own palette entry
+		_own["mat_steel"] = m
+	return _own["mat_steel"]
+
+
+## An armoured fist: a rounded iron fist, a flared lame cuff up the forearm (`up` = toward the elbow), a brass cuff
+## rim.
+static func _gauntlet_into(metal: SurfaceTool, brass: SurfaceTool, fist: Vector3, up: Vector3, r: float) -> void:
+	ChampionShapes.append(metal, sphere(r, 9, 5), Transform3D(Basis.from_scale(Vector3(1.0, 0.92, 1.08)), fist))
+	var b := _basis_y(up)
+	ChampionShapes.lame(metal, r * 1.02, r * 1.24, 0.06, 0.25, 0.0, TAU, 8, 0.022, Transform3D(b, fist), 1.0, 1.0, 0.6)
+	ChampionShapes.band(brass, r * 1.22, 0.025, 0.012, 8, Transform3D(b, fist + up * 0.245))
+
+
+static func _gc_leg_mesh(sx: float) -> Mesh:
+	var key := "gc_leg%d" % int(sx)
+	if _own.has(key):
+		return _own[key]
+	var x := 0.22 * sx
+	var cloth := ChampionShapes.begin()
+	var metal := ChampionShapes.begin()
+	var brass := ChampionShapes.begin()
+	# trousers: thigh -> knee -> calf (the top hides in the gambeson, the bottom in the greave)
+	ChampionShapes.tube(cloth, PackedVector3Array([Vector3(x, 0.74, 0.0), Vector3(x * 1.03, 0.58, 0.012),
+		Vector3(x, 0.46, 0.03), Vector3(x, 0.34, 0.0)]), PackedFloat32Array([0.16, 0.165, 0.13, 0.125]), 8, false)
+	# greave: a flared lame round the shin, a front ridge
+	ChampionShapes.lame(metal, 0.125, 0.145, 0.16, 0.42, 0.0, TAU, 8, 0.022, _xf(Vector3(x, 0, 0.0)), 1.0, 1.12, 0.8)
+	ChampionShapes.tube(metal, PackedVector3Array([Vector3(x, 0.19, 0.155), Vector3(x, 0.30, 0.165), Vector3(x, 0.41, 0.168)]),
+		PackedFloat32Array([0.012, 0.016, 0.012]), 4, false)
+	# knee cop: a dome facing forward with a brass stud
+	var kb := Basis(Quaternion(Vector3.UP, Vector3(0.12 * sx, 0.25, 1.0).normalized()))
+	ChampionShapes.lathe(metal, PackedVector2Array([Vector2(0.105, -0.02), Vector2(0.10, 0.02), Vector2(0.075, 0.055),
+		Vector2(0.0, 0.07)]), 9, Transform3D(kb, Vector3(x, 0.455, 0.075)), 1.0, 0.9)
+	ChampionShapes.stud(brass, Vector3(x, 0.455, 0.075) + kb.y * 0.07, kb.y, 0.024)
+	# sabaton: a rounded toe-forward shoe, an oak cuff at the ankle
+	ChampionShapes.lathe(metal, PackedVector2Array([Vector2(0.0, 0.0), Vector2(0.13, 0.0), Vector2(0.148, 0.03),
+		Vector2(0.14, 0.085), Vector2(0.10, 0.145), Vector2(0.0, 0.165)]), 8, _xf(Vector3(x, 0.0, 0.06)), 1.0, 1.55)
+	ChampionShapes.band(cloth, 0.13, 0.04, 0.012, 9, _xf(Vector3(x, 0.17, 0.0)), 1.0, 1.1)
+	var m := ChampionShapes.commit_multi([[cloth, own(&"oathwall_oak")], [metal, own(&"oathwall_iron")], [brass, _brass()]])
+	_own[key] = m
+	return m
+
+
+static func _gc_hips_mesh() -> Mesh:
+	if _own.has("gc_hips"):
+		return _own["gc_hips"]
+	var pad := ChampionShapes.begin()
+	var metal := ChampionShapes.begin()
+	var brass := ChampionShapes.begin()
+	# the gambeson bell
+	ChampionShapes.lathe(pad, PackedVector2Array([Vector2(0.475, 0.56), Vector2(0.455, 0.68), Vector2(0.425, 0.82),
+		Vector2(0.395, 0.95), Vector2(0.37, 1.0)]), 10, Transform3D.IDENTITY, 1.0, 0.92, false)
+	# fauld: an iron lame round the front and the hips, under the sash
+	ChampionShapes.lame(metal, 0.50, 0.46, 0.74, 0.89, -2.0, 2.0, 8, 0.026, Transform3D.IDENTITY, 1.0, 0.94)
+	# tassets: bevelled plates over the thighs, a brass rivet at each top corner
+	var tp := PackedVector2Array([Vector2(-0.13, 0.11), Vector2(0.13, 0.11), Vector2(0.15, -0.07), Vector2(0.10, -0.12),
+		Vector2(-0.10, -0.12), Vector2(-0.15, -0.07)])
+	for sx: float in [-1.0, 1.0]:
+		var txf := Transform3D(Basis(Vector3.UP, deg_to_rad(20.0 * sx)) * Basis(Vector3.RIGHT, deg_to_rad(-10.0)),
+			Vector3(0.24 * sx, 0.59, 0.405))
+		ChampionShapes.plate(metal, tp, 0.03, 0.012, txf)
+		ChampionShapes.stud(brass, txf * Vector3(0.0, 0.07, 0.016), txf.basis.z, 0.022)
+	var m := ChampionShapes.commit_multi([[pad, own(&"oathwall_padding")], [metal, own(&"oathwall_iron")], [brass, _brass()]])
+	_own["gc_hips"] = m
+	return m
+
+
+const CUIRASS: Array[Vector2] = [Vector2(0.32, 0.90), Vector2(0.35, 1.02), Vector2(0.395, 1.20), Vector2(0.415, 1.36),
+	Vector2(0.405, 1.48), Vector2(0.36, 1.57), Vector2(0.26, 1.62)]
+const CUIRASS_Z := 0.74
+
+
+## The cuirass radius (x half-width) at height y.
+static func _cuir_r(y: float) -> float:
+	for i: int in CUIRASS.size() - 1:
+		if y <= CUIRASS[i + 1].y:
+			return lerpf(CUIRASS[i].x, CUIRASS[i + 1].x, clampf((y - CUIRASS[i].y) / (CUIRASS[i + 1].y - CUIRASS[i].y), 0, 1))
+	return CUIRASS[CUIRASS.size() - 1].x
+
+
+static func _gc_chest_mesh() -> Mesh:
+	if _own.has("gc_chest"):
+		return _own["gc_chest"]
+	var metal := ChampionShapes.begin()
+	var brass := ChampionShapes.begin()
+	var pad := ChampionShapes.begin()
+	var glow := ChampionShapes.begin()
+	# barrel cuirass (smooth steel) + the centre ridge
+	ChampionShapes.lathe(metal, PackedVector2Array(CUIRASS), 14, Transform3D.IDENTITY, 1.0, CUIRASS_Z)
+	var ridge := PackedVector3Array()
+	var rr := PackedFloat32Array()
+	for y: float in [1.18, 1.30, 1.42, 1.52]:
+		ridge.append(Vector3(0, y, _cuir_r(y) * CUIRASS_Z + 0.004))
+		rr.append(0.017)
+	ChampionShapes.tube(metal, ridge, rr, 4, true)
+	# plackart: a curved lame over the belly, brass rivets
+	ChampionShapes.lame(metal, 0.355, 0.40, 0.93, 1.17, -0.95, 0.95, 7, 0.026, Transform3D.IDENTITY, 1.0, CUIRASS_Z + 0.04)
+	for a: float in [-0.62, 0.62]:
+		ChampionShapes.stud(brass, Vector3(sin(a) * 0.392, 1.07, cos(a) * 0.392 * (CUIRASS_Z + 0.04)),
+			Vector3(sin(a), 0.0, cos(a)), 0.02)
+	# brass waist trim
+	ChampionShapes.band(brass, 0.322, 0.03, 0.014, 12, _xf(Vector3(0, 0.915, 0)), 1.0, CUIRASS_Z)
+	# the oath rune on the breast (steel-blue glow) in a brass ring
+	var rz := _cuir_r(1.36) * CUIRASS_Z
+	var rxf := Transform3D(Basis(Vector3.RIGHT, PI * 0.5), Vector3(0, 1.36, rz + 0.005))
+	ChampionShapes.band(brass, 0.085, 0.022, 0.016, 10, rxf)
+	ChampionShapes.band(glow, 0.06, 0.016, 0.012, 10, rxf * _xf(Vector3(0, 0.004, 0)))
+	ChampionShapes.plate(glow, PackedVector2Array([Vector2(-0.013, -0.045), Vector2(0.013, -0.045), Vector2(0.013, 0.045),
+		Vector2(-0.013, 0.045)]), 0.016, 0.005, _xf(Vector3(0, 1.355, rz + 0.012)))
+	# padded roll collar
+	ChampionShapes.lathe(pad, PackedVector2Array([Vector2(0.30, 1.555), Vector2(0.36, 1.585), Vector2(0.37, 1.62),
+		Vector2(0.335, 1.655), Vector2(0.26, 1.665)]), 10, Transform3D.IDENTITY, 1.0, 0.9, false)
+	# stepped pauldrons: a steel dome, a steel lame, a brass lower lame, a brass stud on the dome
+	for sx: float in [-1.0, 1.0]:
+		var c := Vector3(0.50 * sx, 1.47, 0.0)
+		var xf := Transform3D(Basis(Vector3.BACK, deg_to_rad(16.0 * sx)), c)
+		var out := PI * 0.5 * sx
+		ChampionShapes.lathe(metal, PackedVector2Array([Vector2(0.235, 0.08), Vector2(0.21, 0.14), Vector2(0.14, 0.19),
+			Vector2(0.0, 0.21)]), 9, xf, 1.0, 1.12, false, out - 1.75, out + 1.75)
+		ChampionShapes.lame(metal, 0.27, 0.235, -0.01, 0.10, out - 1.7, out + 1.7, 7, 0.024, xf, 1.0, 1.12)
+		ChampionShapes.lame(brass, 0.295, 0.262, -0.11, 0.01, out - 1.6, out + 1.6, 7, 0.024, xf, 1.0, 1.12)
+		ChampionShapes.stud(brass, xf * Vector3(0.13 * sx, 0.185, 0.0), xf.basis * Vector3(0.55 * sx, 1.0, 0.0), 0.03)
+	var m := ChampionShapes.commit_multi([[metal, own(&"oathwall_iron")], [brass, _brass()], [pad, own(&"oathwall_padding")],
+		[glow, own(&"oathwall_glow")]])
+	_own["gc_chest"] = m
+	return m
+
+
+## The layered team cape (banner shader, unit_cloth): a long cape from the shoulder blades to the calves, wider at
+## the hem, soft folds, leaning back clear of the gambeson; over it a short mantle across the shoulders.
+static func _gc_cape_mesh() -> Mesh:
+	if _own.has("gc_cape"):
+		return _own["gc_cape"]
+	var st := ChampionShapes.begin()
+	ChampionShapes.cloth(st, ChampionShapes.arc(Vector3(0, 1.56, -0.12), 0.40, 0.24, PI - 1.15, PI + 1.15, 7), 1.22, 1.45,
+		0.40, 6, 6, 2.5, 0.035, 0.05)
+	ChampionShapes.cloth(st, ChampionShapes.arc(Vector3(0, 1.665, -0.03), 0.50, 0.33, PI - 1.35, PI + 1.35, 7), 0.36, 1.12,
+		0.12, 6, 2, 3.0, 0.02)
+	var m := ChampionShapes.commit(st)
+	_own["gc_cape"] = m
+	return m
+
+
+## The great helm (the old square outline: back block, cheek plates, brow band) + a bevelled lid, a brass crest fin
+## along the lid, a brass brow band over the face window and three brass rivets down each cheek plate.
+static func _gc_helm_mesh() -> Mesh:
+	if _own.has("gc_helm"):
+		return _own["gc_helm"]
+	var metal := ChampionShapes.begin()
+	var brass := ChampionShapes.begin()
+	ChampionShapes.append(metal, _helm_mesh())
+	var sq := PackedVector2Array([Vector2(-0.36, -0.35), Vector2(0.36, -0.35), Vector2(0.36, 0.35), Vector2(-0.36, 0.35)])
+	ChampionShapes.plate(metal, sq, 0.07, 0.024, Transform3D(Basis(Vector3.RIGHT, -PI * 0.5), Vector3(0, 1.965, 0)), true)
+	ChampionShapes.plate(brass, PackedVector2Array([Vector2(-0.31, 0.0), Vector2(0.33, 0.0), Vector2(0.30, 0.05),
+		Vector2(0.10, 0.115), Vector2(-0.12, 0.10), Vector2(-0.31, 0.06)]), 0.05, 0.016,
+		Transform3D(Basis(Vector3.UP, -PI * 0.5), Vector3(0, 1.995, -0.02)), true)
+	ChampionShapes.plate(brass, PackedVector2Array([Vector2(-0.155, -0.026), Vector2(0.155, -0.026), Vector2(0.155, 0.026),
+		Vector2(-0.155, 0.026)]), 0.02, 0.007, _xf(Vector3(0, 1.858, 0.279)))
+	for sx: float in [-1.0, 1.0]:
+		for y: float in [1.67, 1.79]:
+			ChampionShapes.stud(brass, Vector3(0.235 * sx, y, 0.274), Vector3.BACK, 0.017)
+	var m := ChampionShapes.commit_multi([[metal, own(&"oathwall_iron")], [brass, _brass()]])
+	_own["gc_helm"] = m
+	return m
+
+
+## A padded sleeve shoulder -> elbow -> wrist (bicep / forearm swell), an iron couter on the elbow, a lame vambrace
+## on the forearm with a brass band; the right arm also carries its hammer gauntlet.
+static func _gc_arm_mesh(sx: float) -> Mesh:
+	var key := "gc_arm%d" % int(sx)
+	if _own.has(key):
+		return _own[key]
+	var pad := ChampionShapes.begin()
+	var metal := ChampionShapes.begin()
+	var brass := ChampionShapes.begin()
+	var sh := Vector3(0.59 * sx, 1.49, 0.0)
+	var wr := Vector3(-0.48, 1.04, 0.22) if sx < 0.0 else FIST_R + Vector3(0, 0.04, -0.02)
+	var el := Vector3(0.62 * sx, 1.26, 0.07)
+	ChampionShapes.tube(pad, PackedVector3Array([sh, sh.lerp(el, 0.45) + Vector3(0.01 * sx, 0, 0), el,
+		el.lerp(wr, 0.4), wr]), PackedFloat32Array([0.13, 0.135, 0.11, 0.115, 0.10]), 8, false)
+	var out := Vector3(sx, -0.1, -0.55).normalized()
+	ChampionShapes.lathe(metal, PackedVector2Array([Vector2(0.095, -0.02), Vector2(0.09, 0.025), Vector2(0.06, 0.055),
+		Vector2(0.0, 0.065)]), 8, Transform3D(Basis(Quaternion(Vector3.UP, out)), el + out * 0.05))
+	var fa := (wr - el).normalized()
+	var vb := Transform3D(_basis_y(fa), el)
+	var flen := el.distance_to(wr)
+	ChampionShapes.lame(metal, 0.12, 0.112, flen * 0.25, flen * 0.88, 0.0, TAU, 8, 0.02, vb, 1.0, 1.0, 0.6)
+	ChampionShapes.band(brass, 0.122, 0.022, 0.01, 8, vb * _xf(Vector3(0, flen * 0.27, 0)))
+	if sx > 0.0:
+		_gauntlet_into(metal, brass, FIST_R, (Vector3(0.60, 1.48, 0.0) - FIST_R).normalized(), 0.145)
+	# the left arm's plates use a code copy of the iron: `oathwall_iron` on ArmL stays the sign of the slung-door
+	# classes' left gauntlet (test_11_v3)
+	var m := ChampionShapes.commit_multi([[pad, own(&"oathwall_padding")],
+		[metal, own(&"oathwall_iron") if sx > 0.0 else _steel()], [brass, _brass()]])
+	_own[key] = m
+	return m
+
+
+## The hammer haft in its own frame (Y along the haft, centred, 0.98 m): oak, a raised leather-bound grip round the
+## fist, a brass collar under the head and a brass pommel knob.
+static func _gc_haft_mesh() -> Mesh:
+	if _own.has("gc_haft"):
+		return _own["gc_haft"]
+	var wood := ChampionShapes.begin()
+	var brass := ChampionShapes.begin()
+	ChampionShapes.tube(wood, PackedVector3Array([Vector3(0, -0.49, 0), Vector3(0, 0.0, 0), Vector3(0, 0.49, 0)]),
+		PackedFloat32Array([0.05, 0.053, 0.05]), 7, true)
+	for k: int in 3:
+		ChampionShapes.band(wood, 0.052, 0.04, 0.008, 7, _xf(Vector3(0, -0.42 + 0.07 * k, 0), Vector3(0, 0, 8.0)))
+	ChampionShapes.band(brass, 0.052, 0.05, 0.012, 8, _xf(Vector3(0, 0.40, 0)))
+	ChampionShapes.lathe(brass, PackedVector2Array([Vector2(0.0, -0.56), Vector2(0.05, -0.54), Vector2(0.065, -0.51),
+		Vector2(0.055, -0.48)]), 8)
+	var m := ChampionShapes.commit_multi([[wood, own(&"oathwall_oak")], [brass, _brass()]])
+	_own["gc_haft"] = m
+	return m

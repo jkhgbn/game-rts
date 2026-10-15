@@ -1,0 +1,4 @@
+res://art/units/champions/oathwall/oathwall.tscn kind=unit out=docs/art/lab/gc_champions/after/oathwall
+res://art/units/champions/wayfinder/wayfinder.tscn kind=unit out=docs/art/lab/gc_champions/after/wayfinder
+res://art/units/champions/coin_cutter/coin_cutter.tscn kind=unit out=docs/art/lab/gc_champions/after/coin_cutter
+res://art/units/champions/mender/mender.tscn kind=unit out=docs/art/lab/gc_champions/after/mender

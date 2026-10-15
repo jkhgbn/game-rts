@@ -1,0 +1,111 @@
+{
+	"asset": "wayfinder",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 2101,
+					"node": "Root/Chest/Merged",
+					"to": 1051,
+					"words": "`Merged` 2101 -> 1051 verts"
+				},
+				{
+					"from": 1039,
+					"node": "Root/Hips/Merged",
+					"to": 520,
+					"words": "`Merged` 1039 -> 520 verts"
+				},
+				{
+					"from": 621,
+					"node": "Root/Chest/Head/Merged",
+					"to": 311,
+					"words": "`Merged` 621 -> 311 verts"
+				},
+				{
+					"from": 585,
+					"node": "Root/Chest/Head/Variant",
+					"to": 293,
+					"words": "`Variant` 585 -> 293 verts"
+				},
+				{
+					"from": 426,
+					"node": "Root/Chest/Lantern",
+					"to": 213,
+					"words": "`Lantern` 426 -> 213 verts"
+				},
+				{
+					"from": 384,
+					"node": "Root/Chest/ArmR/Bow",
+					"to": 192,
+					"words": "`Bow` 384 -> 192 verts"
+				},
+				{
+					"from": 259,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 130,
+					"words": "`Merged` 259 -> 130 verts"
+				},
+				{
+					"from": 259,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 130,
+					"words": "`Merged` 259 -> 130 verts"
+				},
+				{
+					"from": 211,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 106,
+					"words": "`Merged` 211 -> 106 verts"
+				},
+				{
+					"from": 211,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 106,
+					"words": "`Merged` 211 -> 106 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 6100
+			},
+			"predicted": {
+				"verts": 3056
+			},
+			"proposal": "6100 -> 3056 (want <= 3000): `Merged` 2101 -> 1051 verts; `Merged` 1039 -> 520 verts; `Merged` 621 -> 311 verts; `Variant` 585 -> 293 verts; `Lantern` 426 -> 213 verts; `Bow` 384 -> 192 verts; `Merged` 259 -> 130 verts; `Merged` 259 -> 130 verts; `Merged` 211 -> 106 verts; `Merged` 211 -> 106 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 6100 -> 3056 (want <= 3000): `Merged` 2101 -> 1051 verts; `Merged` 1039 -> 520 verts; `Merged` 621 -> 311 verts; `Variant` 585 -> 293 verts; `Lantern` 426 -> 213 verts; `Bow` 384 -> 192 verts; `Merged` 259 -> 130 verts; `Merged` 259 -> 130 verts; `Merged` 211 -> 106 verts; `Merged` 211 -> 106 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.6 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.6 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.6 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.6 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 92.2,
+	"result": "WARN",
+	"scene": "res://art/units/champions/wayfinder/wayfinder.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

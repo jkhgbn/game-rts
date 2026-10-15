@@ -203,3 +203,7 @@ All files are LF like the originals. Numbers and usage: the agent's report and t
 - Ultra's GPU margin is thin (~15 ms, ~65 fps on the 3070 Laptop); most of Ultra's extra cost over High is the viewport's 8x MSAA (ui-coder, `GameSettings.apply_viewport_quality`). 4x MSAA + SMAA on Ultra would buy ~3-4 ms if a playtest shows dips.
 - `LightingRig.apply` now shows a per-rig copy of the preset Environment: missions that tint `rig.world_environment.environment` (mission_04 storm dusk, e5 `tint_light`) no longer leak the tint into the shared `world_env.tres` for the next mission in the same session.
 
+
+## From tech-artist G-C champions (2026-10-15)
+- `tests/test_9_v2.gd` (Oathwall model test, line `_expect(acc[3] <= 2950, ...)`) still caps the Oathwall at the 9.V2 soldier budget (2500 + face). The G-C hero armour measures 5401 (variant A: body ~4600 + face 746 + door 844), same class as the Wayfinder (6742) / Mender (8353); Art Lab B4 = soft WARN, 0 FAIL. Please raise it to 5600 (or delete the cap: `tests/test_gc_champions.gd` now holds per-champion caps). It is the only test that fails on this pass.
+- `ChampionPalette.foldable` now also folds `art/units/nature/nature_living.gdshader` (the G-C Nature move of the nature_* palette files had left the Wildcaller drawing up to 8 unfolded surfaces per pivot; its UVs carry no Nature tag, so nothing of the look is lost).

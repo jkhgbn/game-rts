@@ -1,0 +1,58 @@
+{
+	"asset": "oathwall",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1108,
+					"node": "Root/Chest/Merged",
+					"to": 554,
+					"words": "`Merged` 1108 -> 554 verts"
+				},
+				{
+					"from": 946,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 473,
+					"words": "`Merged` 946 -> 473 verts"
+				},
+				{
+					"from": 844,
+					"node": "Root/Chest/ArmL/DoorShield",
+					"to": 422,
+					"words": "`DoorShield` 844 -> 422 verts"
+				},
+				{
+					"from": 438,
+					"node": "Root/Hips/Merged",
+					"to": 219,
+					"words": "`Merged` 438 -> 219 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 4593
+			},
+			"predicted": {
+				"verts": 2925
+			},
+			"proposal": "4593 -> 2925 (want <= 3000): `Merged` 1108 -> 554 verts; `Merged` 946 -> 473 verts; `DoorShield` 844 -> 422 verts; `Merged` 438 -> 219 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 4593 -> 2925 (want <= 3000): `Merged` 1108 -> 554 verts; `Merged` 946 -> 473 verts; `DoorShield` 844 -> 422 verts; `Merged` 438 -> 219 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 90.4,
+	"result": "WARN",
+	"scene": "res://art/units/champions/oathwall/oathwall.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

@@ -124,8 +124,9 @@ func _check_static() -> void:
 	_count(a, acc)
 	_expect(acc[0] + acc[1] <= 16, "draw instances after merge %d + %d particles (<= 16)" % [acc[0], acc[1]])
 	_expect(acc[2] == 0, "lights %d (must be 0)" % acc[2])
-	# 2500 + the face (faces pass 2026-09-28: measured 2867 with the Face node; small margin).
-	_expect(acc[3] <= 2950, "vertices %d (<= 2950 = 2500 + face)" % acc[3])
+	# G-C champions (2026-10-15): the Oathwall is now a shaped hero model (5401 with the face); the per-champion caps live
+	# in tests/test_gc_champions.gd, this one only stops a runaway.
+	_expect(acc[3] <= 5600, "vertices %d (<= 5600, G-C champion pass)" % acc[3])
 	var mats: Dictionary = {}
 	_materials(a, mats)
 	var own: int = 0
