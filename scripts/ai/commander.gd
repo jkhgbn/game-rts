@@ -252,6 +252,10 @@ const SCRIPTED := &"scripted"       ## Group / meta of mission units the Command
 @export var enabled := true               ## False = the bot does nothing (tests of a passive side).
 @export var debug_log := false            ## Prints one line per decision ("[3:31] ATTACK ...").
 
+## Emitted on each think tick right after the scan (own_strength / seen_strength fresh, before any rule): tests compare
+## their own count at exactly the bot's moment (a soldier trained a frame later never counts on one side only).
+signal scanned(commander: Node)
+
 var ai: AIProfile                         ## Read only: the knobs in use.
 var memory := AIMemory.new()              ## Read only.
 var own_strength := 0.0                   ## Read only: living soldiers (not workers, wizard, towers) + champions' power within 20 m of the rally.
@@ -691,6 +695,10 @@ func _think() -> void:
 			if not rule_usec_samples.has(i):
 				rule_usec_samples[i] = []
 			(rule_usec_samples[i] as Array).append(su)
+		if i == 0:
+			var e0 := Time.get_ticks_usec()
+			scanned.emit(self)
+			_place_usec += Time.get_ticks_usec() - e0   # listeners (tests) are not the bot's cost
 	# t3-helpers.md 9 (T3 agent): call / revive the helper, its stance, 1-2 T3 units, Saboteurs, the Genie. T3Kit.ENABLED.
 	if T3Kit.ENABLED:
 		T3Kit.bot_tick(int(team), int(difficulty), _keep if is_instance_valid(_keep) else null, _now)

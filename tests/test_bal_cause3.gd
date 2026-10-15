@@ -110,9 +110,19 @@ func _part0() -> void:
 		_errors.append("Shadow normal worker_target_home %d, want 7" % sh.worker_target_home)
 	if fi.worker_target_home != 6:
 		_errors.append("Fire normal worker_target_home %d, want 6" % fi.worker_target_home)
+	# Allowed differences: the home workers (cause 3) and, when AIProfile.SHADOW_FS_COMBO_A is on (2026-10-15,
+	# docs/balance/fs_2026-10-14/results.md), the combo A knobs.
+	var allowed: Array[String] = ["worker_target_home"]
+	if AIProfile.SHADOW_FS_COMBO_A:
+		for knob: String in AIProfile.SHADOW_FS_COMBO_A_KNOBS:
+			allowed.append(knob)
 	var sh_rest := _diff(sh, _before(&"shadow"))
-	if sh_rest.size() != 1 or not sh_rest[0].begins_with("worker_target_home"):
-		_errors.append("Shadow normal differs beyond workers: %s" % str(sh_rest))
+	var extra: Array[String] = []
+	for line: String in sh_rest:
+		if not allowed.has(line.get_slice(" ", 0)):
+			extra.append(line)
+	if not extra.is_empty() or sh_rest.is_empty():
+		_errors.append("Shadow normal differs beyond workers / combo A: %s" % str(sh_rest))
 	for k: StringName in [&"fire", &"nature"]:
 		var d := _diff(AIProfile.for_faction(k, 1), _before(k))
 		if not d.is_empty():

@@ -377,16 +377,19 @@ func _normal_tick() -> void:
 		2:   # the champion back: own_strength counts it at the rally
 			if cc != null and cc.call(&"is_alive"):
 				cc.global_position = RALLY + Vector3(1.5, 0.0, 1.0)
-				_s["tick_at"] = int(bot.tick_count)
+				# Compare at the bot's own scan (Commander.scanned): checked a frame later, a soldier trained or a
+				# champion crossing the 20 m line in between counted on one side only (FS combo A flake, 1170 vs 910).
+				bot.connect(&"scanned", _on_normal_scan, CONNECT_ONE_SHOT)
 				_s["stage"] = 3
 		3:
-			if int(bot.tick_count) > int(_s["tick_at"]):
-				var want := _expected_own_strength()
+			if _s.has("scan_own"):
+				var got := float(_s["scan_own"])
+				var want := float(_s["scan_want"])
 				print("[normal] own_strength %.1f, expected %.1f (soldiers + champions within 20 m of the rally)" % [
-						bot.own_strength, want])
-				if absf(float(bot.own_strength) - want) > 1.0:
+						got, want])
+				if absf(got - want) > 1.0:
 					_errors.append("normal: own_strength %.1f, expected %.1f with the champion at the rally" % [
-							bot.own_strength, want])
+							got, want])
 				_s["stage"] = 4
 		4:   # wait for the Oathwall (later), then 20 s
 			var ow_t := _hire_time(&"oathwall")
@@ -459,6 +462,12 @@ func _print_doors() -> void:
 				who.append("%s team %d %.1f m%s" % [u.unit_name, int(u.team), d,
 						" (%s)" % str(u.get(&"intent")) if u.is_in_group(&"champions") else ""])
 		print("  door %s held for player %s: %s" % [str(door), str(t.call(&"is_held_by_enemy_of", PLAYER)), str(who)])
+
+
+## Commander.scanned (one shot, stage 2 -> 3): the bot's own_strength and the test's count at the same instant.
+func _on_normal_scan(_c: Node) -> void:
+	_s["scan_own"] = float(bot.own_strength)
+	_s["scan_want"] = _expected_own_strength()
 
 
 ## Bot soldiers' strength (the Commander's _scan rules) + its champions within 20 m of the rally.

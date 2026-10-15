@@ -146,6 +146,15 @@ const NORMAL_PACE_KNOBS := {
 	"shadow": {"normal": {"worker_target_home": 7}},
 	"ice": {"normal": {"min_attack_pop": 6, "attack_ratio": "x0.8", "attack_ratio_floor": "x0.8", "attack_reserve": 1}},
 }
+## FS 2026-10-14 combo A (docs/balance/fs_2026-10-14, variants/fs_combo_a_bot.json = levers L1 + L2): the Shadow bot's
+## extra NORMAL_PACE_KNOBS at normal pace + normal difficulty, merged over NORMAL_PACE_KNOBS.shadow.normal. Read only
+## while SHADOW_FS_COMBO_A is true (Fire 71 % -> 56 % vs Shadow over 48 games; off until the Ice / Nature check passes).
+const SHADOW_FS_COMBO_A_KNOBS := {
+	"champion_earliest": 120, "bounty_max_flags": 3, "bounty_budget_pct": 0.35,
+	"defend_radius": 36.0, "reaction_delay": 0.75, "attack_reserve": 3,
+}
+## The switch of SHADOW_FS_COMBO_A_KNOBS (one line to ship it).
+static var SHADOW_FS_COMBO_A := true
 
 
 ## The skirmish bot profile of a kingdom: for_id(id_for_faction(faction)), plus NORMAL_PACE_KNOBS when `paced` is
@@ -157,10 +166,20 @@ static func for_faction(faction: StringName, difficulty: int, paced := false) ->
 	return p
 
 
-## Lays NORMAL_PACE_KNOBS[faction][difficulty name] on `p` (in place; nothing when the kingdom / difficulty has none).
-static func apply_normal_pace_knobs(p: AIProfile, faction: StringName, difficulty: int) -> void:
+## NORMAL_PACE_KNOBS[faction][difficulty name] (a copy), plus SHADOW_FS_COMBO_A_KNOBS for Shadow normal while
+## SHADOW_FS_COMBO_A is on. Empty when the kingdom / difficulty has none.
+static func normal_pace_knobs(faction: StringName, difficulty: int) -> Dictionary:
+	var d := DIFFICULTY_NAMES[clampi(difficulty, 0, 2)]
 	var per: Dictionary = NORMAL_PACE_KNOBS.get(String(faction), {})
-	var knobs: Dictionary = per.get(DIFFICULTY_NAMES[clampi(difficulty, 0, 2)], {})
+	var knobs: Dictionary = (per.get(d, {}) as Dictionary).duplicate()
+	if SHADOW_FS_COMBO_A and faction == &"shadow" and d == "normal":
+		knobs.merge(SHADOW_FS_COMBO_A_KNOBS, true)
+	return knobs
+
+
+## Lays normal_pace_knobs(faction, difficulty) on `p` (in place; nothing when the kingdom / difficulty has none).
+static func apply_normal_pace_knobs(p: AIProfile, faction: StringName, difficulty: int) -> void:
+	var knobs := normal_pace_knobs(faction, difficulty)
 	for k: String in knobs:
 		if not (StringName(k) in p):
 			continue

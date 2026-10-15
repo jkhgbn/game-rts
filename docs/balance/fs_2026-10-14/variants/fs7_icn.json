@@ -1,0 +1,5 @@
+{
+	"name": "fs7_icn",
+	"notes": "FS round 5 (2026-10-15): combo A (Shadow) + the same early-champion / line-defence knobs for the Ice and Nature bots (no attack_reserve: Ice keeps cause 3's reserve 1). Bot only, normal pace.",
+	"fg": {"ai_kingdom": {"shadow": {"champion_earliest": 120, "bounty_max_flags": 3, "bounty_budget_pct": 0.35, "defend_radius": 36.0, "reaction_delay": 0.75, "attack_reserve": 3}, "ice": {"champion_earliest": 120, "bounty_max_flags": 3, "bounty_budget_pct": 0.35, "defend_radius": 36.0, "reaction_delay": 0.75}, "nature": {"champion_earliest": 120, "bounty_max_flags": 3, "bounty_budget_pct": 0.35, "defend_radius": 36.0, "reaction_delay": 0.75}}}
+}
