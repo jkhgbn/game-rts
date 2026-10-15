@@ -55,9 +55,9 @@ msgstr ""
 msgid "High: full lighting, smoother edges on plants and shine, more model detail."
 msgstr ""
 
-#. "Ultra: everything at maximum (8x MSAA, full model detail) for a strong GPU.",
+#. "Ultra: everything at maximum (full model detail, richest lighting) for a strong GPU.",
 #: scripts/ui/menus/game_settings.gd:98
-msgid "Ultra: everything at maximum (8x MSAA, full model detail) for a strong GPU."
+msgid "Ultra: everything at maximum (full model detail, richest lighting) for a strong GPU."
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]

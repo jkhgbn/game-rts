@@ -55,10 +55,10 @@ msgstr "Moyen : éclairage plus riche et textures du sol plus nettes, pour un p
 msgid "High: full lighting, smoother edges on plants and shine, more model detail."
 msgstr "Élevé : éclairage complet, contours plus lisses sur les plantes et les reflets, modèles plus détaillés."
 
-#. "Ultra: everything at maximum (8x MSAA, full model detail) for a strong GPU.",
+#. "Ultra: everything at maximum (full model detail, richest lighting) for a strong GPU.",
 #: scripts/ui/menus/game_settings.gd:98
-msgid "Ultra: everything at maximum (8x MSAA, full model detail) for a strong GPU."
-msgstr "Ultra : tout au maximum (MSAA 8x, modèles en détail complet), pour une carte graphique puissante."
+msgid "Ultra: everything at maximum (full model detail, richest lighting) for a strong GPU."
+msgstr "Ultra : tout au maximum (modèles en détail complet, éclairage le plus riche), pour une carte graphique puissante."
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
 #: scripts/ui/menus/game_settings.gd:108

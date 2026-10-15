@@ -95,7 +95,7 @@ const GFX_TOOLTIPS: Array[String] = [
 	"Low: fastest, simple lighting and shadows.",
 	"Medium: richer lighting and sharper ground textures at a small cost.",
 	"High: full lighting, smoother edges on plants and shine, more model detail.",
-	"Ultra: everything at maximum (8x MSAA, full model detail) for a strong GPU.",
+	"Ultra: everything at maximum (full model detail, richest lighting) for a strong GPU.",
 ]
 const GROUP_LIGHTING_RIGS := &"lighting_rigs"
 static var graphics_quality := GFX_MEDIUM
@@ -569,7 +569,8 @@ static func apply_graphics(tree: SceneTree, q := -1) -> int:
 
 ## The viewport side of a tier. Low = the project's values (today's look). FSR 2 (when on) keeps its own temporal AA,
 ## so MSAA and screen-space AA stay off with it. Medium: 4x MSAA, 8x anisotropy. High: 4x MSAA + SMAA (shader and
-## foliage edges), 16x anisotropy, finer mesh LOD, debanding. Ultra: 8x MSAA + SMAA, 16x anisotropy, no LOD reduction.
+## foliage edges), 16x anisotropy, finer mesh LOD, debanding. Ultra: 4x MSAA + SMAA like High (8x cost ~3-4 ms
+## for little gain, docs/art/lighting.md), 16x anisotropy, no LOD reduction.
 static func apply_viewport_quality(vp: Viewport, q: int) -> void:
 	if vp == null:
 		return
@@ -578,7 +579,7 @@ static func apply_viewport_quality(vp: Viewport, q: int) -> void:
 	var project_msaa := int(ProjectSettings.get_setting("rendering/anti_aliasing/quality/msaa_3d", 0))
 	var project_aniso := int(ProjectSettings.get_setting(
 			"rendering/textures/default_filters/anisotropic_filtering_level", 2))
-	var msaa: int = [project_msaa, Viewport.MSAA_4X, Viewport.MSAA_4X, Viewport.MSAA_8X][q]
+	var msaa: int = [project_msaa, Viewport.MSAA_4X, Viewport.MSAA_4X, Viewport.MSAA_4X][q]
 	var ssaa: int = Viewport.SCREEN_SPACE_AA_SMAA if q >= GFX_HIGH else int(ProjectSettings.get_setting(
 			"rendering/anti_aliasing/quality/screen_space_aa", 0))
 	if fsr2:

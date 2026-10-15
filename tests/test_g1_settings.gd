@@ -103,7 +103,8 @@ func _viewport_checks() -> void:
 	if &"anisotropic_filtering_level" in vp:
 		_check(int(vp.get(&"anisotropic_filtering_level")) == Viewport.ANISOTROPY_16X, "High 16x aniso")
 	GameSettings.apply_viewport_quality(vp, GameSettings.GFX_ULTRA)
-	_check(vp.msaa_3d == Viewport.MSAA_8X, "Ultra 8x MSAA")
+	_check(vp.msaa_3d == Viewport.MSAA_4X, "Ultra 4x MSAA (same AA as High)")
+	_check(vp.screen_space_aa == Viewport.SCREEN_SPACE_AA_SMAA, "Ultra SMAA")
 	_check(is_zero_approx(vp.mesh_lod_threshold), "Ultra LOD 0")
 	vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2
 	GameSettings.apply_viewport_quality(vp, GameSettings.GFX_ULTRA)
@@ -125,7 +126,7 @@ func _panel_checks() -> void:
 	opt.item_selected.emit(GameSettings.GFX_ULTRA)
 	_check(GameSettings.graphics_quality == GameSettings.GFX_ULTRA, "panel sets the tier")
 	_check(rig.got.size() == 1 and rig.got[0] == GameSettings.GFX_ULTRA, "panel change calls lighting_rigs.set_quality(3) at once")
-	_check(root.msaa_3d == Viewport.MSAA_8X or root.scaling_3d_mode == Viewport.SCALING_3D_MODE_FSR2,
+	_check(root.msaa_3d == Viewport.MSAA_4X or root.scaling_3d_mode == Viewport.SCALING_3D_MODE_FSR2,
 			"panel change sets the root viewport")
 	rig.queue_free()
 	_panel.queue_free()
