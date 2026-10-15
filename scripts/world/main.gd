@@ -17,6 +17,7 @@ const SHADOW_COLOR := Color(0.42, 0.22, 0.6)
 const WORLD_ENV_PATH := "res://art/environment/world_env.tres"
 const LIGHTING_RIG_PATH := "res://art/environment/lighting/lighting_rig.gd"
 const CRITTER_SYSTEM_PATH := "res://art/environment/critters/critter_system.gd"
+const GROUND_DETAIL_PATH := "res://art/environment/grass/ground_detail.gd"
 const _SIM := preload("res://scripts/core/sim_mode.gd")   # Bot Lab sim mode: no draw-only art (docs/plan/bot-lab.md)
 ## Replay Lab (docs/plan/replay-lab.md): deterministic runs (BAKE_SYNC) bake the first navmesh on the main thread,
 ## so the match starts on the level's first frame (no wall-clock-dependent wait before it).
@@ -100,6 +101,11 @@ func _ready() -> void:
 			critters.name = "CritterSystem"
 			add_child(critters)
 			critters.call(&"setup", self)
+	# G2a ground relief + 3D grass field (draw-only; Low / headless = nothing; idempotent, MapDressingArt's call reuses it).
+	if ResourceLoader.exists(GROUND_DETAIL_PATH) and not _SIM.enabled:
+		var gd_script := load(GROUND_DETAIL_PATH) as Script
+		if gd_script and gd_script.has_method(&"ensure"):
+			gd_script.call(&"ensure", self)
 
 	camera_rig = RTSCamera.new()
 	camera_rig.bounds = MapInfo.bounds().grow(-2.0)   # MT1: 116 x 116 on the 120 m maps (the old default)

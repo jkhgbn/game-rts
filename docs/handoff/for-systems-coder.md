@@ -773,7 +773,7 @@ MissionBase / scripts/campaign (ui-coder does not edit there):
    but no SFX and no combat intensity / drive stem. Adding a `GameAudio` node (script `scripts/audio/game_audio.gd`)
    to MissionBase or the mission scenes, like skirmish.tscn, turns both on.
 
-## G2a ground detail hook (from tech-artist, 2026-10-15, docs/art/g2a_ground.md)
+## G2a ground detail hook (from tech-artist, 2026-10-15, docs/art/g2a_ground.md) -- DONE 2026-10-15 (systems-coder: main.gd `_ready` after CritterSystem)
 `GroundDetail` (`art/environment/grass/ground_detail.gd`, draw-only) adds the High / Ultra ground relief and the 3D grass
 field. Today only MapDressingArt creates it, so only Crown Hollow layouts get it. Please add it for every level in
 `scripts/world/main.gd` `_ready`, right after the CritterSystem block (same load-guard pattern; `ensure` is idempotent,

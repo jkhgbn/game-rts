@@ -12,6 +12,9 @@ review, lead commit.
   (4 runs at once, windowed GPU shots): the balance batch runs 1 game at a time during the graphics week.
 - Checkpoints: before each wave read the meters; at 85 % weekly stop launching new waves and finish with G-F.
 
+- Shots (2026-10-15, after G-A put ~290 MB of PNGs in docs/art/lab): every shot folder gets an empty `.gdignore` first;
+  git gets one contact sheet JPG + at most 4 key PNGs, the rest stays local (`.git/info/exclude`). C: had 9.5 GB free.
+
 ## Waves
 | Wave | When | Agents | Pieces |
 |---|---|---|---|
