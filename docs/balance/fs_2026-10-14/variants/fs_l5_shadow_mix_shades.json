@@ -1,0 +1,12 @@
+{
+	"name": "fs_l5_shadow_mix_shades",
+	"notes": "FS 2026-10-14 L5: Shadow bot army mix leans on the 100-HP Shade instead of 70-HP units: Shadow Hall slots Shade 0.40 -> 0.48, Nightbolt 0.30 -> 0.22, Grave Hound 0.15, Shadow Knight 0.15 (bot_share writes the same shares into the default / vs-ranged / vs-melee mixes). Shadow bot only (the ids are Shadow units). Ships as Shadow mix knobs at normal pace (needs a small ai_profile.gd change: NORMAL_PACE_KNOBS accepting a mix array).",
+	"fg": {
+		"bot_share": {
+			"shade": 0.48,
+			"nightbolt": 0.22,
+			"grave_hound": 0.15,
+			"shadow_knight": 0.15
+		}
+	}
+}

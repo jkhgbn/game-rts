@@ -1,0 +1,9 @@
+{
+	"name": "fs_l3_thrall_hp70",
+	"notes": "FS 2026-10-14 L3: Gloom Thrall (Shadow worker) max_hp 50 -> 70. Fireball rank 1 (60) and most champion bursts no longer one-shot a thrall; rank 2 (72) still does. Data change: moves Blitz too (check with fs_l3_thrall_hp70_bz). Ships in data/units/gloom_thrall.tres.",
+	"units": {
+		"gloom_thrall": {
+			"max_hp": 70.0
+		}
+	}
+}

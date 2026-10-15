@@ -1,0 +1,21 @@
+{
+	"name": "fs_combo_b_bot_thrall",
+	"notes": "FS 2026-10-14 combo B = L1 + L2 + L3 (Shadow bot knobs + Gloom Thrall 70 HP). The thrall part moves Blitz: check with fs_l3_thrall_hp70_bz.",
+	"units": {
+		"gloom_thrall": {
+			"max_hp": 70.0
+		}
+	},
+	"fg": {
+		"ai_kingdom": {
+			"shadow": {
+				"champion_earliest": 120,
+				"bounty_max_flags": 3,
+				"bounty_budget_pct": 0.35,
+				"defend_radius": 36.0,
+				"reaction_delay": 0.75,
+				"attack_reserve": 3
+			}
+		}
+	}
+}

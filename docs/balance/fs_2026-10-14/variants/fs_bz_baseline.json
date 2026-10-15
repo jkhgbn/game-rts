@@ -1,0 +1,7 @@
+{
+	"name": "fs_bz_baseline",
+	"notes": "FS 2026-10-14 Blitz baseline: the real Blitz pace (PaceSwitch.BLITZ untouched), no override. Compare the *_bz arms against it in the same run.",
+	"fg": {
+		"blitz": {}
+	}
+}

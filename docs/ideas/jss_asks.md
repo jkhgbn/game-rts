@@ -67,3 +67,5 @@ When JS asks for something new, add a line here first, then work on it.
 - 2026-10-14: "add unit specique upgrade to most unit and a way in the barrack to upgrade that specique unit" -> doing: skirmish unit-specific upgrades (unit-upgrades.md extension): 1-2 upgrades for most trainable units, researched at the building that trains the unit (barracks etc.), bot buys them; the Forge keeps the generic lines.
 
 - 2026-10-14: "is there think u can do to help on the game and tools" -> JS picked all 4: (1) balance the unit research (UR.B1) then Fire vs Shadow at normal pace, (2) a pre-commit guard (EOL flips, lost BOM, lost line continuations), (3) faster CI (finer test selection) + a reliable perf gate, (4) Wave Strike balance / more units on screen + the missions our sims fail (e3m1, e4m4, e5m4, e6m2 hard).
+
+- 2026-10-14 night: "im going to sleep if u need other thing to work on try to 50/50 balance" -> doing overnight: kingdom balance toward 50 / 50 (each kingdom 45-55 % at normal and Blitz): unit research (UR.B1) first, then Fire vs Shadow at normal pace, measured bot-vs-bot, kept only when measured.

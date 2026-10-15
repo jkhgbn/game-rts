@@ -1,0 +1,11 @@
+{
+	"name": "fs_l6_fire_champs_late",
+	"notes": "FS 2026-10-14 L6 (last resort): Fire bot hires its first champion at 4:00 instead of 3:00 (fewer early worker raids by Fire's champions). Fire bot only; weakens the Fire bot against every kingdom and against the player. Ships as AIProfile.NORMAL_PACE_KNOBS.fire.normal.",
+	"fg": {
+		"ai_kingdom": {
+			"fire": {
+				"champion_earliest": 240
+			}
+		}
+	}
+}

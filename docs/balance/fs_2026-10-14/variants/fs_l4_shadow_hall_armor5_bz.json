@@ -1,0 +1,13 @@
+{
+	"name": "fs_l4_shadow_hall_armor5_bz",
+	"notes": "FS 2026-10-14 Blitz check of L4: real Blitz + armor 5 on Nightbolt, Grave Hound, Bleakbow, Barrow Ghoul.",
+	"units": {
+		"nightbolt": {"armor": 5.0},
+		"grave_hound": {"armor": 5.0},
+		"bleakbow": {"armor": 5.0},
+		"barrow_ghoul": {"armor": 5.0}
+	},
+	"fg": {
+		"blitz": {}
+	}
+}

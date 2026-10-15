@@ -1,0 +1,13 @@
+{
+	"name": "fs_l2_shadow_line_defence",
+	"notes": "FS 2026-10-14 L2: Shadow bot answers raids on its worker line faster and from further out: defend_radius 28 -> 36 m, reaction_delay 1.5 -> 0.75 s (also Malrik's cast reaction), attack_reserve 2 -> 3 pop kept home. Shadow bot only. Ships as AIProfile.NORMAL_PACE_KNOBS.shadow.normal.",
+	"fg": {
+		"ai_kingdom": {
+			"shadow": {
+				"defend_radius": 36.0,
+				"reaction_delay": 0.75,
+				"attack_reserve": 3
+			}
+		}
+	}
+}

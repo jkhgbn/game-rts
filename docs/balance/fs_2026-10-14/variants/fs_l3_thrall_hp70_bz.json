@@ -1,0 +1,12 @@
+{
+	"name": "fs_l3_thrall_hp70_bz",
+	"notes": "FS 2026-10-14 Blitz check of L3 (and of combo B's data part): real Blitz + Gloom Thrall max_hp 70 (Blitz worker_hp_x 2.0 makes it 140 vs Fire's 100).",
+	"units": {
+		"gloom_thrall": {
+			"max_hp": 70.0
+		}
+	},
+	"fg": {
+		"blitz": {}
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"name": "fs_l1_shadow_champs_early",
+	"notes": "FS 2026-10-14 L1: Shadow bot hires at the tavern opening (2:00 instead of 3:00) and may run one more bounty flag with a larger budget. Shadow bot only (ai_kingdom). Ships as AIProfile.NORMAL_PACE_KNOBS.shadow.normal (normal pace only; Blitz never reads it).",
+	"fg": {
+		"ai_kingdom": {
+			"shadow": {
+				"champion_earliest": 120,
+				"bounty_max_flags": 3,
+				"bounty_budget_pct": 0.35
+			}
+		}
+	}
+}

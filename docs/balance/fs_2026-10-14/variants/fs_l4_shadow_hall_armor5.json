@@ -1,0 +1,10 @@
+{
+	"name": "fs_l4_shadow_hall_armor5",
+	"notes": "FS 2026-10-14 L4: Shadow's 70-75 HP Hall units get armor 0 -> 5 (x0.952 damage): Fireball rank 2 (72 -> 68.6) no longer kills a 70-HP unit, rank 3 (85 -> 81) still does; ~5 % more effective HP vs everything. Data change: moves Blitz and every Shadow pair (check with fs_l4_shadow_hall_armor5_bz). Ships in data/units/{nightbolt,grave_hound,bleakbow,barrow_ghoul}.tres.",
+	"units": {
+		"nightbolt": {"armor": 5.0},
+		"grave_hound": {"armor": 5.0},
+		"bleakbow": {"armor": 5.0},
+		"barrow_ghoul": {"armor": 5.0}
+	}
+}
