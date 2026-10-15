@@ -37,8 +37,15 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
 - Also committed: shader lint a8ea447f, G-C Shadow 2e5d742e + 33ea21bf, Ice 3a52cb46, Nature d4d5e814.
 - G-C done: champions 7b242a3e (test_9_v2 cap -> 5600), mounts / titans fc42c96a.
 - G-D committed: creatures e438805a, map props 72c045f6. Perf A/B (same load): 4a88047e 6.51-6.59 vs HEAD 6.68-7.13 = a
-  real ~4 % perf_test regression -> bisect agent.
-- Running (JS "continue fait le + possible", weekly 67 %): ambient life (review fixes: never built in a real match;
+  real ~4 % perf_test regression -> bisect: the G-C Flame Guard blade-fuller glow as its own moving keep_separate node
+  (one extra draw instance per unit); fixed 2da2453b (glows merge into the pivot again), now ~5 % faster than
+  4a88047e. Ambient life 5fa4c8f7, combat feedback a185008f committed.
+- Committed after that: rings + HP bars 03bed8e3, menu diorama 7e8a5abe, trees d9cf2110 (weekly 70 % at 18:50 UTC).
+- Running: G-B leftovers, G-C leftovers, building rings (systems-coder), G-E art-direction review (read-only:
+  docs/art/ge_review.md, top-8 list feeds the next wave), autumn maps wiring (AutumnSwap restore + ensure_for_level;
+  lead adds the main.gd hook from for-lead.md), balance fs7-r5. Then: G-E fixes from the review, G-F (quiet perf_test
+  re-run, real-match tier test, emitter-offscreen root-cause test, Art Lab mount+rider tier, full CI, playtest build).
+- Earlier list (JS "continue fait le + possible", weekly 67 %): ambient life (review fixes: never built in a real match;
   lead added the main.gd hook), combat feedback (review), trees, menu diorama, perf bisect, G-B leftovers (Fire /
   Nature / Shadow forge models, Fire stables, build puffs, no-grass under Shadow dead ground), G-C leftovers (riders,
   Nature mounts, Ice T2, Shadow T2 boxes, Mender), selection rings + HP bars (gameplay-coder); balance fs7-r5.
