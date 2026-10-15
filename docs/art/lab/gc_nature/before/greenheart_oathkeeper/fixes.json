@@ -1,0 +1,90 @@
+{
+	"asset": "greenheart_oathkeeper",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 871,
+					"node": "Root/Chest/Merged",
+					"to": 657,
+					"words": "`Merged` 871 -> 657 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 2703
+			},
+			"predicted": {
+				"verts": 2489
+			},
+			"proposal": "2703 -> 2489 (want <= 2500): `Merged` 871 -> 657 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 2703 -> 2489 (want <= 2500): `Merged` 871 -> 657 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.55,
+					"node": "res://data/units/greenheart_oathkeeper.tres",
+					"param": "radius",
+					"to": 0.56
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.55,
+				"x_m": 0.91,
+				"z_m": 0.99
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.55 -> 0.56, or pull the widest parts in to x <= 0.96 / z <= 0.96 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.55 -> 0.56, or pull the widest parts in to x <= 0.96 / z <= 0.96 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.96",
+				"z_m": "<= 0.96"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 10.3 on the team-colour area (normal vision 59.5; 246 px); deutan: fire / nature dE 10.3; protan: fire / nature dE 17.4; worst vs ground: fire colour (deutan) dE 3.5"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 10.3): add a value step inside the team-colour area",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 10.3): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 90.8,
+	"result": "FAIL",
+	"scene": "res://art/units/nature/greenheart_oathkeeper/greenheart_oathkeeper.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

@@ -1,0 +1,95 @@
+{
+	"asset": "bramblehorn",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#754f2b",
+					"material": "nature_bark",
+					"material_path": "res://art/units/nature/materials/nature_bark.tres",
+					"node": "Root/Mount/Head/Merged, Root/Mount/LegFL/Merged, Root/Mount/LegFR/Merged, Root/Mount/LegBL/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#75502b",
+					"weight": 0.52
+				}
+			],
+			"check": "R4",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				2.8,
+				2.4,
+				3.4
+			],
+			"measured": {
+				"body_lab": [
+					73.5,
+					-2.5,
+					33.3
+				],
+				"dE": {
+					"R3 meadow": 24.5,
+					"R3t fire": 40.1,
+					"R3t ice": 38.7,
+					"R3t nature": 24.3,
+					"R3t shadow": 50.4,
+					"R4 ash": 60.4,
+					"R4 heath": 21.1,
+					"R4 marsh": 62.5,
+					"R4 riverbank": 44.4,
+					"R4 sand": 8.7,
+					"R4 snow": 35.0,
+					"R4k old_wood": 47.9
+				},
+				"ground_lab": [
+					62.9,
+					-22.4,
+					42.9
+				],
+				"melt_share": 0.02
+			},
+			"predicted": {
+				"R3 meadow": 24.3,
+				"R3t fire": 39.9,
+				"R3t ice": 38.5,
+				"R3t nature": 24.2,
+				"R3t shadow": 50.2,
+				"R4 ash": 60.5,
+				"R4 heath": 21.1,
+				"R4 marsh": 62.6,
+				"R4 riverbank": 44.3,
+				"R4 sand": 8.8,
+				"R4 snow": 35.1,
+				"R4k old_wood": 48.0
+			},
+			"proposal": "shader_parameter/base_color of `nature_bark` #754f2b -> #75502b (51% of the visible body): predicted dE R3 meadow 24.5 -> 24.3, R3t fire 40.1 -> 39.9, R3t shadow 50.4 -> 50.2, R3t ice 38.7 -> 38.5, R3t nature 24.3 -> 24.2, R4k old_wood 47.9 -> 48.0 (want >= 24); other grounds heath 21.1, riverbank 44.3, snow 35.1, ash 60.5, sand 8.8, marsh 62.6; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 15% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"team_coloured": [
+				"`nature_cloth` 15%"
+			],
+			"text": "shader_parameter/base_color of `nature_bark` #754f2b -> #75502b (51% of the visible body): predicted dE R3 meadow 24.5 -> 24.3, R3t fire 40.1 -> 39.9, R3t shadow 50.4 -> 50.2, R3t ice 38.7 -> 38.5, R3t nature 24.3 -> 24.2, R4k old_wood 47.9 -> 48.0 (want >= 24); other grounds heath 21.1, riverbank 44.3, snow 35.1, ash 60.5, sand 8.8, marsh 62.6; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 15% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 92.9,
+	"result": "WARN",
+	"scene": "res://art/units/nature/bramblehorn.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

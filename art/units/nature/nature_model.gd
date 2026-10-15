@@ -28,6 +28,10 @@ extends CharacterModel
 const NATURE_MAT_DIR := "res://art/units/nature/materials/"
 const NATURE_GLOW := Color(0.75, 1.0, 0.40)
 const NATURE_TEAM := Color(0.35, 0.70, 0.25)
+## G-C (docs/art/gc_nature_units.md): mesh UV tags read by nature_living.gdshader. Negative on purpose: kit primitives,
+## lathes and tubes keep UV.x >= 0, so only tagged leaves (-3..-2) and thorns (-5..-4) get the leaf / thorn look.
+const LEAF_UV_TAG := -3.0
+const THORN_UV_TAG := -5.0
 
 static var _nature_cache: Dictionary = {}
 
@@ -101,7 +105,7 @@ func add_leaf_crown(pivot: Node3D, centre: Vector3, n: int, ring_r: float, size:
 ## The leaf primitive (cached): a pointed, double-sided lens with a raised mid-rib, spanning -0.5..0.5 on each axis
 ## (x width, y thickness, z length; the tip at +Z, the widest part a little toward the base). Scale it per leaf.
 static func leaf_mesh() -> Mesh:
-	const KEY := "nature_leaf_lens"
+	const KEY := "nature_leaf_lens_uv"
 	if _mesh_cache.has(KEY):
 		return _mesh_cache[KEY]
 	const N := 6
@@ -128,9 +132,11 @@ static func leaf_mesh() -> Mesh:
 		for k: int in range(0, tri.size(), 3):
 			if (tri[k + 1] - tri[k]).cross(tri[k + 2] - tri[k]).length_squared() < 1e-10:
 				continue   # the pointed ends make some triangles degenerate
-			st.add_vertex(tri[k])
-			st.add_vertex(tri[k + 1])
-			st.add_vertex(tri[k + 2])
+			for q: int in 3:
+				# G-C: the leaf UV tag (nature_living.gdshader): x = -3 + across (0..1), y = base 0 .. tip 1. Derived from
+				# the position, so shared vertices still weld (same vertex count).
+				st.set_uv(Vector2(LEAF_UV_TAG + tri[k + q].x + 0.5, tri[k + q].z + 0.5))
+				st.add_vertex(tri[k + q])
 	st.index()          # shared vertices: ~22 per leaf, smooth normals across the rib
 	st.generate_normals()
 	return _cached(KEY, st.commit())
@@ -166,7 +172,51 @@ static func thorn_ring_mesh(n: int, ring_r: float, r: float, h: float, tilt_deg:
 		var out := Vector3(sin(a), 0, cos(a))
 		var b := Basis(Vector3.UP.cross(out).normalized(), tilt_deg * DEG)
 		xs.append(Transform3D(b, out * ring_r + b * Vector3(0, h * 0.5, 0)))
-	return cluster_mesh(key, cyl(0.0, r, h, 6, false), xs)   # base caps hidden in the body (face budget)
+	return cluster_mesh(key, thorn_cone(r, h), xs)   # base caps hidden in the body (face budget)
+
+
+## A thorn cone (6 sides, open base, tip at +y h/2) carrying the thorn UV tag of nature_living.gdshader: UV.x -5..-4,
+## UV.y 0 at the tip .. 1 at the root, so the shader paints a dark root and a pale bone point. Same 14 vertices as
+## cyl(0, r, h, 6, false). thorn_cone(1, 1) is the unit cone the per-unit spine / crest builders scale.
+static func thorn_cone(r: float = 1.0, h: float = 1.0) -> Mesh:
+	var key := "nature_thorn_cone%s_%s" % [r, h]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var src := cyl(0.0, r, h, 6, false)
+	var arr := src.surface_get_arrays(0)
+	var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+	var uv := PackedVector2Array()
+	uv.resize(v.size())
+	for j: int in v.size():
+		var a := atan2(v[j].z, v[j].x) / TAU + 0.5
+		uv[j] = Vector2(THORN_UV_TAG + clampf(a, 0.0, 1.0), clampf(0.5 - v[j].y / maxf(h, 0.001), 0.0, 1.0))
+	arr[Mesh.ARRAY_TEX_UV] = uv
+	var am := ArrayMesh.new()
+	am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+	return _cached(key, am)
+
+
+## A copy of `src` (surface 0, cached under `key`) carrying the thorn UV tag of nature_living.gdshader: each vertex
+## gets UV.y = 0 at `tip` .. 1 at `root` (its projection on the root -> tip line), so claws, horns and spines built with
+## tapered_path_mesh / append_from get a dark root and a pale bone point. Same vertices.
+static func thorn_tagged(key: String, src: Mesh, root: Vector3, tip: Vector3) -> Mesh:
+	if _mesh_cache.has(key):
+		return _mesh_cache[key]
+	var am := ArrayMesh.new()
+	var axis := tip - root
+	var len2: float = maxf(axis.length_squared(), 0.000001)
+	for s: int in src.get_surface_count():
+		var arr := src.surface_get_arrays(s)
+		var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+		var uv := PackedVector2Array()
+		uv.resize(v.size())
+		for j: int in v.size():
+			var t: float = clampf((v[j] - root).dot(axis) / len2, 0.0, 1.0)
+			uv[j] = Vector2(THORN_UV_TAG + 0.5, 1.0 - t)
+		arr[Mesh.ARRAY_TEX_UV] = uv
+		am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+		am.surface_set_material(s, src.surface_get_material(s))
+	return _cached(key, am)
 
 
 ## Bakes one copy of `base` (surface 0) per transform into a single cached ArrayMesh (no negative scales).
@@ -177,8 +227,10 @@ static func cluster_mesh(key: String, base: Mesh, xforms: Array[Transform3D]) ->
 	var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
 	var nr: PackedVector3Array = arr[Mesh.ARRAY_NORMAL]
 	var ix: PackedInt32Array = arr[Mesh.ARRAY_INDEX] if arr[Mesh.ARRAY_INDEX] != null else PackedInt32Array()
+	var uv: PackedVector2Array = arr[Mesh.ARRAY_TEX_UV] if arr[Mesh.ARRAY_TEX_UV] != null else PackedVector2Array()
 	var verts := PackedVector3Array()
 	var norms := PackedVector3Array()
+	var uvs := PackedVector2Array()
 	var idx := PackedInt32Array()
 	for xf: Transform3D in xforms:
 		var nb := xf.basis.inverse().transposed()
@@ -186,6 +238,8 @@ static func cluster_mesh(key: String, base: Mesh, xforms: Array[Transform3D]) ->
 		for j: int in v.size():
 			verts.append(xf * v[j])
 			norms.append((nb * nr[j]).normalized())
+			if uv.size() == v.size():
+				uvs.append(uv[j])   # G-C: keeps the leaf / thorn UV tags (nature_living.gdshader)
 		if ix.is_empty():
 			for j: int in v.size():
 				idx.append(b0 + j)
@@ -196,6 +250,8 @@ static func cluster_mesh(key: String, base: Mesh, xforms: Array[Transform3D]) ->
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = verts
 	arrays[Mesh.ARRAY_NORMAL] = norms
+	if uvs.size() == verts.size():
+		arrays[Mesh.ARRAY_TEX_UV] = uvs
 	arrays[Mesh.ARRAY_INDEX] = idx
 	var am := ArrayMesh.new()
 	am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)

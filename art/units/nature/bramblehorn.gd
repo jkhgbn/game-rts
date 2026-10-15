@@ -175,7 +175,7 @@ static func _spine_mesh() -> Mesh:
 	if _mesh_cache.has(KEY):
 		return _mesh_cache[KEY]
 	var st := SurfaceTool.new()
-	var cone := cyl(0.0, 1.0, 1.0, 6)
+	var cone := thorn_cone()   # G-C: UV-tagged (dark root, pale point)
 	var ys: Array[float] = [1.98, 1.90, 1.80, 1.74, 1.68]
 	var zs: Array[float] = [-0.18, -0.42, -0.66, -0.88, -1.08]
 	var hs: Array[float] = [0.56, 0.54, 0.46, 0.38, 0.30]
@@ -274,7 +274,10 @@ static func _horn_pts(side: float) -> PackedVector3Array:
 
 
 static func _horn_mesh(side: float) -> Mesh:
-	return tapered_path_mesh("bramblehorn_horn_a22_%s" % side, _horn_pts(side), PackedFloat32Array(HORN_R))
+	var pts := _horn_pts(side)
+	# G-C: thorn UV tag: the horn darkens to its root and pales to a bone point.
+	return thorn_tagged("bramblehorn_horn_gc_%s" % side, tapered_path_mesh("bramblehorn_horn_a22_%s" % side, pts,
+		PackedFloat32Array(HORN_R)), pts[0], pts[pts.size() - 1])
 
 
 const VINE_N := 7
@@ -312,7 +315,7 @@ static func _horn_thorns_mesh(side: float) -> Mesh:
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
 	var st := SurfaceTool.new()
-	var cone := cyl(0.0, 1.0, 1.0, 5)
+	var cone := thorn_cone()   # G-C: UV-tagged
 	for k: int in [1, 2, 4, 5]:
 		var v: Array = _vine_at(side, k)
 		var n := (v[1] as Vector3 + Vector3(0, 0.25, 0.2)).normalized()

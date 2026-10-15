@@ -1,0 +1,119 @@
+{
+	"asset": "vinelasher",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#9e7847",
+					"material": "nature_thorn",
+					"material_path": "res://art/units/nature/materials/nature_thorn.tres",
+					"node": "Root/Chest/Head/Merged, Root/Chest/ArmL/Merged, Root/Chest/ArmR/WhipLoop, Root/Chest/ArmR/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/nature/materials/nature_thorn.tres): give vinelasher its own copy first, other assets use it too",
+					"snap": {
+						"close": false,
+						"color": "#c7a87a",
+						"de_to_wanted": 14.1,
+						"from_folder": "res://art/units/nature/materials",
+						"material_path": "res://art/units/nature/materials/nature_skin.tres"
+					},
+					"to": "#bf8a65",
+					"weight": 0.29
+				}
+			],
+			"check": "R3t",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				2.4,
+				1.9,
+				2.4
+			],
+			"measured": {
+				"body_lab": [
+					62.1,
+					-1.5,
+					34.4
+				],
+				"dE": {
+					"R3 meadow": 21.8,
+					"R3t fire": 36.6,
+					"R3t ice": 32.4,
+					"R3t nature": 19.9,
+					"R3t shadow": 45.1,
+					"R4 ash": 51.8,
+					"R4 heath": 21.8,
+					"R4 marsh": 52.6,
+					"R4 riverbank": 38.6,
+					"R4 sand": 18.9,
+					"R4 snow": 42.3,
+					"R4k old_wood": 37.5
+				},
+				"ground_lab": [
+					63.3,
+					-21.4,
+					43.1
+				],
+				"melt_share": 0.03
+			},
+			"predicted": {
+				"R3 meadow": 25.8,
+				"R3t fire": 39.4,
+				"R3t ice": 35.3,
+				"R3t nature": 24.1,
+				"R3t shadow": 47.2,
+				"R4 ash": 52.1,
+				"R4 heath": 21.2,
+				"R4 marsh": 53.4,
+				"R4 riverbank": 42.0,
+				"R4 sand": 16.1,
+				"R4 snow": 39.5,
+				"R4k old_wood": 39.7
+			},
+			"proposal": "shader_parameter/base_color of `nature_thorn` #9e7847 -> #bf8a65 (28% of the visible body): predicted dE R3 meadow 21.8 -> 25.8, R3t fire 36.6 -> 39.4, R3t shadow 45.1 -> 47.2, R3t ice 32.4 -> 35.3, R3t nature 19.9 -> 24.1, R4k old_wood 37.5 -> 39.7 (want >= 24); other grounds heath 21.2, riverbank 42.0, snow 39.5, ash 52.1, sand 16.1, marsh 53.4; `nature_thorn` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `nature_skin.tres` (#c7a87a, dE 14.1 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 17% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"team_coloured": [
+				"`nature_cloth` 17%"
+			],
+			"text": "shader_parameter/base_color of `nature_thorn` #9e7847 -> #bf8a65 (28% of the visible body): predicted dE R3 meadow 21.8 -> 25.8, R3t fire 36.6 -> 39.4, R3t shadow 45.1 -> 47.2, R3t ice 32.4 -> 35.3, R3t nature 19.9 -> 24.1, R4k old_wood 37.5 -> 39.7 (want >= 24); other grounds heath 21.2, riverbank 42.0, snow 39.5, ash 52.1, sand 16.1, marsh 53.4; `nature_thorn` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `nature_skin.tres` (#c7a87a, dE 14.1 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 17% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 9.4 on the team-colour area (normal vision 51.8; 153 px); deutan: fire / nature dE 9.4; protan: fire / nature dE 15.9; worst vs ground: fire colour (deutan) dE 5.2"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.4): add a value step inside the team-colour area",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.4): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 91.4,
+	"result": "WARN",
+	"scene": "res://art/units/nature/vinelasher/vinelasher.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

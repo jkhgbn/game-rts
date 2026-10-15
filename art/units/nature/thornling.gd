@@ -45,7 +45,9 @@ func _build_parts() -> void:
 	add_part(hips, leaf_ring_mesh(6, 0.13, Vector3(0.17, 0.035, 0.30), -68.0, 12.0), cdark, Vector3(0, 0.60, 0.0))
 	# ---- Chest: bark keg leaning forward, team leaf-scales on the back and shoulders, spine + shoulder thorns,
 	# the glowing sap-knot between the shoulder blades.
-	add_part(chest, sphere(0.25, 8, 4), bark, Vector3(0, 0.86, 0.03), Vector3(28, 0, 0), Vector3(1.0, 1.3, 0.92))
+	add_part(chest, sphere(0.25, 12, 6), bark, Vector3(0, 0.86, 0.03), Vector3(28, 0, 0), Vector3(1.0, 1.3, 0.92))
+	# G-C: a dark vine belt round the keg's waist: breaks the bark mass at zoom 10.
+	add_part(chest, torus(0.17, 0.215, 12), dark, Vector3(0, 0.70, 0.07), Vector3(28, 0, 0), Vector3(1.0, 1.0, 0.92))
 	add_part(chest, _scales_mesh(), cloth, Vector3.ZERO)
 	add_part(chest, _spine_mesh(), thorn, Vector3.ZERO)
 	add_part(chest, sphere(0.085, 8, 4), glow, Vector3(0, 1.06, -0.13), Vector3.ZERO, Vector3(1.0, 0.8, 1.0))
@@ -81,7 +83,8 @@ func _build_parts() -> void:
 	for arm: Node3D in [arm_l, arm_r]:
 		var sx: float = -1.0 if arm == arm_l else 1.0
 		add_part(arm, _arm_mesh(sx), dark, Vector3.ZERO)
-		add_part(arm, cyl(0.075, 0.11, 0.22, 7), cloth, Vector3(0.405 * sx, 0.66, 0.21), Vector3(-38, 0, 0))
+		# G-C: a bracer of 3 team leaves wrapped round the forearm, tips down to the wrist (was a plain cylinder).
+		add_part(arm, _bracer_mesh(sx), cloth, Vector3.ZERO)
 		add_part(arm, sphere(0.085, 6, 3), dark, Vector3(0.40 * sx, 0.56, 0.28))
 		add_part(arm, _claws_mesh(sx), thorn, Vector3(0.40 * sx, 0.56, 0.28))
 	# ---- Fx
@@ -128,13 +131,30 @@ static func _scales_mesh() -> Mesh:
 	return cluster_mesh("thornling_scales_a22", leaf_mesh(), xs)
 
 
+## G-C: 3 team leaves wrapped round the forearm (shoulder-elbow-wrist path of _arm_mesh), bases at the elbow side, tips
+## overlapping down toward the wrist; side +1 / -1 (model space).
+static func _bracer_mesh(side: float) -> Mesh:
+	var elbow := Vector3(0.40 * side, 0.80, 0.10)
+	var wrist := Vector3(0.40 * side, 0.57, 0.27)
+	var axis := (wrist - elbow).normalized()
+	var xs: Array[Transform3D] = []
+	for i: int in 3:
+		var a := TAU * float(i) / 3.0 + 0.4 * side
+		var out := (Basis(axis, a) * Vector3(1, 0, 0).cross(axis)).normalized()
+		var base := elbow + axis * 0.07 + out * 0.055
+		# leaf along the forearm, its flat face turned to `out`
+		var b := Basis(out.cross(axis).normalized(), out, axis)
+		xs.append(Transform3D(b.scaled_local(Vector3(0.17, 0.05, 0.27)), base + axis * 0.135))
+	return cluster_mesh("thornling_bracer_gc_%s" % side, leaf_mesh(), xs)
+
+
 ## 5 raking spine thorns through the scales + one thorn on each shoulder (one mesh, model space).
 static func _spine_mesh() -> Mesh:
-	const KEY := "thornling_spine_a22"
+	const KEY := "thornling_spine_gc"
 	if _mesh_cache.has(KEY):
 		return _mesh_cache[KEY]
 	var st := SurfaceTool.new()
-	var cone := cyl(0.0, 1.0, 1.0, 6)
+	var cone := thorn_cone()   # G-C: UV-tagged (dark root, pale bone point)
 	var ys: Array[float] = [1.14, 1.03, 0.92, 0.81, 0.70]
 	var zs: Array[float] = [-0.02, -0.12, -0.19, -0.23, -0.25]
 	var hs: Array[float] = [0.42, 0.56, 0.50, 0.40, 0.28]
@@ -152,11 +172,11 @@ static func _spine_mesh() -> Mesh:
 
 ## Swept-back thorn crest (3 on the crown) + two ear thorns sideways-back (one mesh, model space).
 static func _crest_mesh() -> Mesh:
-	const KEY := "thornling_crest_a22"
+	const KEY := "thornling_crest_gc"
 	if _mesh_cache.has(KEY):
 		return _mesh_cache[KEY]
 	var st := SurfaceTool.new()
-	var cone := cyl(0.0, 1.0, 1.0, 6)
+	var cone := thorn_cone()   # G-C: UV-tagged
 	var defs: Array = [   # base, dir, length, radius
 		[Vector3(0, 1.30, 0.34), Vector3(0, 0.55, -0.83), 0.40, 0.065],
 		[Vector3(-0.07, 1.29, 0.27), Vector3(-0.25, 0.50, -0.83), 0.32, 0.055],
@@ -194,7 +214,7 @@ static func _claws_mesh(side: float) -> Mesh:
 		var pts := PackedVector3Array([o, o + Vector3(0.015 * side, -0.06, 0.16) * k,
 			o + Vector3(0.03 * side, -0.17, 0.29) * k, o + Vector3(0.025 * side, -0.33, 0.35) * k])
 		var m := tapered_path_mesh("%s_%d" % [key, i], pts, PackedFloat32Array([0.045, 0.04, 0.026, 0.0]), 4)
-		st.append_from(m, 0, Transform3D.IDENTITY)
+		st.append_from(thorn_tagged("%s_%d_gc" % [key, i], m, pts[0], pts[3]), 0, Transform3D.IDENTITY)   # G-C: pale points
 	return _cached(key, _indexed(st))
 
 

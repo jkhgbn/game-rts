@@ -1,0 +1,47 @@
+{
+	"asset": "thistle_darter",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.4,
+					"node": "res://data/units/thistle_darter.tres",
+					"param": "radius",
+					"to": 0.52
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.4,
+				"x_m": 0.35,
+				"z_m": 0.92
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.4 -> 0.52, or pull the widest parts in to x <= 0.7 / z <= 0.7 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.4 -> 0.52, or pull the widest parts in to x <= 0.7 / z <= 0.7 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.7",
+				"z_m": "<= 0.7"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 92.3,
+	"result": "WARN",
+	"scene": "res://art/units/nature/thistle_darter/thistle_darter.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

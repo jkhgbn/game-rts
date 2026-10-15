@@ -1,0 +1,31 @@
+{
+	"asset": "wildwood_archer",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 9.7 on the team-colour area (normal vision 54.0; 101 px); deutan: fire / nature dE 9.7; protan: fire / nature dE 19.7; worst vs ground: nature colour (deutan) dE 5.6"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.7): add a value step inside the team-colour area",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 9.7): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 92.8,
+	"result": "WARN",
+	"scene": "res://art/units/nature/wildwood_archer/wildwood_archer.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

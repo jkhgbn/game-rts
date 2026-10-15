@@ -1,0 +1,216 @@
+{
+	"asset": "glade_outrider",
+	"count": 5,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "B2",
+			"computed": false,
+			"measured": {
+				"draw": 20
+			},
+			"predicted": {
+				"draw": 20
+			},
+			"proposal": "20 -> 20 (want <= 16): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B2 20 -> 20 (want <= 16): no merge group found (every mesh has its own pivot and material): Fewer keep_separate parts, bake static props into one mesh, one MultiMesh per repeated part",
+			"title": "Draw instances at rest",
+			"wanted": {
+				"draw": "<= 16"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.7,
+					"node": "res://data/units/glade_outrider.tres",
+					"param": "radius",
+					"to": 0.87
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.7,
+				"x_m": 1.31,
+				"z_m": 1.52
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.7 -> 0.87, or pull the widest parts in to x <= 1.22 / z <= 1.22 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.7 -> 0.87, or pull the widest parts in to x <= 1.22 / z <= 1.22 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.22",
+				"z_m": "<= 1.22"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2956,
+					"node": "Stag/Root/Mount/Head/Merged",
+					"to": 1478,
+					"words": "`Merged` 2956 -> 1478 verts"
+				},
+				{
+					"from": 2521,
+					"node": "Stag/Root/Mount/Merged",
+					"to": 1261,
+					"words": "`Merged` 2521 -> 1261 verts"
+				},
+				{
+					"from": 1030,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 515,
+					"words": "`Merged` 1030 -> 515 verts"
+				},
+				{
+					"from": 885,
+					"node": "Rider/Root/Hips/Merged",
+					"to": 443,
+					"words": "`Merged` 885 -> 443 verts"
+				},
+				{
+					"from": 479,
+					"node": "Rider/Root/Chest/Merged",
+					"to": 240,
+					"words": "`Merged` 479 -> 240 verts"
+				},
+				{
+					"from": 406,
+					"node": "Rider/Root/Hips/LegL/Merged",
+					"to": 203,
+					"words": "`Merged` 406 -> 203 verts"
+				},
+				{
+					"from": 406,
+					"node": "Rider/Root/Hips/LegR/Merged",
+					"to": 203,
+					"words": "`Merged` 406 -> 203 verts"
+				},
+				{
+					"from": 343,
+					"node": "Stag/Root/Mount/LegBR/Merged",
+					"to": 172,
+					"words": "`Merged` 343 -> 172 verts"
+				},
+				{
+					"from": 343,
+					"node": "Stag/Root/Mount/LegBL/Merged",
+					"to": 172,
+					"words": "`Merged` 343 -> 172 verts"
+				},
+				{
+					"from": 343,
+					"node": "Rider/Root/Chest/ArmL/Bow",
+					"to": 172,
+					"words": "`Bow` 343 -> 172 verts"
+				},
+				{
+					"from": 321,
+					"node": "Rider/Root/Chest/ArmL/Merged",
+					"to": 161,
+					"words": "`Merged` 321 -> 161 verts"
+				},
+				{
+					"from": 289,
+					"node": "Stag/Root/Mount/LegFR/Merged",
+					"to": 145,
+					"words": "`Merged` 289 -> 145 verts"
+				},
+				{
+					"from": 289,
+					"node": "Stag/Root/Mount/LegFL/Merged",
+					"to": 145,
+					"words": "`Merged` 289 -> 145 verts"
+				},
+				{
+					"from": 275,
+					"node": "Rider/Root/Chest/Cloak",
+					"to": 138,
+					"words": "`Cloak` 275 -> 138 verts"
+				},
+				{
+					"from": 244,
+					"node": "Stag/Root/Mount/Neck/Merged",
+					"to": 122,
+					"words": "`Merged` 244 -> 122 verts"
+				},
+				{
+					"from": 235,
+					"node": "Rider/Root/Chest/ArmL/Bow/Arrow",
+					"to": 157,
+					"words": "`Arrow` 235 -> 157 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 11369
+			},
+			"predicted": {
+				"verts": 5731
+			},
+			"proposal": "11369 -> 5731 (want <= 6000): `Merged` 2956 -> 1478 verts; `Merged` 2521 -> 1261 verts; `Merged` 1030 -> 515 verts; `Merged` 885 -> 443 verts; `Merged` 479 -> 240 verts; `Merged` 406 -> 203 verts; `Merged` 406 -> 203 verts; `Merged` 343 -> 172 verts; `Merged` 343 -> 172 verts; `Bow` 343 -> 172 verts; `Merged` 321 -> 161 verts; `Merged` 289 -> 145 verts; `Merged` 289 -> 145 verts; `Cloak` 275 -> 138 verts; `Merged` 244 -> 122 verts; `Arrow` 235 -> 157 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B4 11369 -> 5731 (want <= 6000): `Merged` 2956 -> 1478 verts; `Merged` 2521 -> 1261 verts; `Merged` 1030 -> 515 verts; `Merged` 885 -> 443 verts; `Merged` 479 -> 240 verts; `Merged` 406 -> 203 verts; `Merged` 406 -> 203 verts; `Merged` 343 -> 172 verts; `Merged` 343 -> 172 verts; `Bow` 343 -> 172 verts; `Merged` 321 -> 161 verts; `Merged` 289 -> 145 verts; `Merged` 289 -> 145 verts; `Cloak` 275 -> 138 verts; `Merged` 244 -> 122 verts; `Arrow` 235 -> 157 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 6000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 2.38 m, Merged 0.66 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 2.38 m, Merged 0.66 m so the HP bar reads over the head",
+			"rank": 4,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 2.38 m, Merged 0.66 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "A3",
+			"computed": false,
+			"measured": {
+				"value": "strike pose changes 4% of the silhouette (t 0.36 s)"
+			},
+			"predicted": {},
+			"proposal": "Attack reads at 40 m: Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 4%)",
+			"rank": 5,
+			"status": "WARN",
+			"text": "A3 Attack reads at 40 m: Push the attack pose: the strike should change >= 30% of the 40 m silhouette (now 4%)",
+			"title": "Attack reads at 40 m",
+			"wanted": {
+				"rule": ">= 12% (1 - IoU rest vs strike)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 88.5,
+	"result": "FAIL",
+	"scene": "res://art/units/nature/glade_outrider/glade_outrider.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

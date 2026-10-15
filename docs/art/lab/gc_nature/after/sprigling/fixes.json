@@ -1,0 +1,76 @@
+{
+	"asset": "sprigling",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1.2,
+					"node": "res://art/units/nature/sprigling.tscn (root), res://data/units/sprigling.tres",
+					"param": "body_height",
+					"to": 1.94
+				}
+			],
+			"check": "R8",
+			"computed": true,
+			"measured": {
+				"body_height": 1.2,
+				"head_top_m": 1.94,
+				"ratio": 1.62
+			},
+			"predicted": {
+				"ratio": 1.0
+			},
+			"proposal": "body_height 1.2 -> 1.94 in res://art/units/nature/sprigling.tscn (root) and res://data/units/sprigling.tres (the head top; x1.62 now), or lower the head / crest 0.44 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R8: body_height 1.2 -> 1.94 in res://art/units/nature/sprigling.tscn (root) and res://data/units/sprigling.tres (the head top; x1.62 now), or lower the head / crest 0.44 m",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"ratio": "0.75-1.25"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "SproutMesh 0.56 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow SproutMesh 0.56 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow SproutMesh 0.56 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R7",
+			"computed": false,
+			"measured": {
+				"value": "bar hides 9% of the silhouette (gap -10 px)"
+			},
+			"predicted": {},
+			"proposal": "HP bar over the body at 40 m: The HP bar hides 9% of the body: lower / narrow what sticks up, or fix body_height",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R7 HP bar over the body at 40 m: The HP bar hides 9% of the body: lower / narrow what sticks up, or fix body_height",
+			"title": "HP bar over the body at 40 m",
+			"wanted": {
+				"rule": "<= 8% (FAIL > 25%); bar at body_height + 0.5 = 1.7 m, 1.0 m wide"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 89.3,
+	"result": "WARN",
+	"scene": "res://art/units/nature/sprigling.tscn",
+	"tier": "worker",
+	"version": "1.0"
+}

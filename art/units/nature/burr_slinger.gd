@@ -55,7 +55,7 @@ static func burr_mesh() -> Mesh:
 	var parts: Array = [[sphere(0.11, 6, 3), Transform3D.IDENTITY]]
 	var dirs: Array[Vector3] = [Vector3.UP, Vector3.DOWN, Vector3(1, 0.2, 0.9), Vector3(-1, 0.2, -0.9),
 		Vector3(1, -0.4, -0.8), Vector3(-1, -0.4, 0.8), Vector3(0.2, 0.9, -1), Vector3(-0.2, -0.9, 1)]
-	var spike := cyl(0.0, 0.05, 0.18, 4, false)   # base inside the ball: no cap (face budget)
+	var spike := thorn_cone(0.05, 0.18)   # base inside the ball, no cap; G-C: UV-tagged pale points
 	for d: Vector3 in dirs:
 		var n := d.normalized()
 		parts.append([spike, Transform3D(Basis(Quaternion(Vector3.UP, n)), n * 0.17)])
@@ -93,14 +93,19 @@ func _build_parts() -> void:
 		var fz: float = 0.06 if sx < 0.0 else -0.04
 		_rod(leg, Vector3(0.14 * sx, 0.50, -0.02), Vector3(0.17 * sx, 0.32, 0.14 + fz), 0.09, dark, 0.09)
 		_rod(leg, Vector3(0.17 * sx, 0.32, 0.14 + fz), Vector3(0.17 * sx, 0.10, 0.03 + fz), 0.085, dark)
-		add_part(leg, box(Vector3(0.20, 0.13, 0.32)), bdark, Vector3(0.17 * sx, 0.065, 0.09 + fz))
+		# G-C: a rounded bark boot (was a box).
+		add_part(leg, sphere(0.12, 8, 4), bdark, Vector3(0.17 * sx, 0.07, 0.10 + fz), Vector3.ZERO, Vector3(0.85, 0.6, 1.4))
 	# ---- Hips: short tunic (the unit's ochre straw), bark belt, a burr pouch on the hip.
-	add_part(hips, cyl(0.22, 0.31, 0.30, 8), sec, Vector3(0, 0.53, 0))
+	# G-C: the tunic flares into a scalloped straw hem (lathe, 7 lobes; was an 8-sided cylinder).
+	add_part(hips, GroveKinModel.lathe("gc_slinger_tunic", PackedVector2Array([Vector2(0.23, 0.15), Vector2(0.26, 0.06),
+		Vector2(0.30, -0.05), Vector2(0.335, -0.15)]), 12, 7, 0.10, 1, 0.04), sec, Vector3(0, 0.53, 0))
 	add_part(hips, cyl(0.25, 0.25, 0.07, 8, false), bark, Vector3(0, 0.67, 0))
 	add_part(hips, sphere(0.10, 6, 3), bdark, Vector3(0.24, 0.58, -0.10), Vector3.ZERO, Vector3(0.9, 1.1, 0.9))
 	# ---- Chest: team torso leaning forward, a mantle of team leaves over the shoulders, the burr sack on the back
 	# with spare burrs sticking out over the shoulder.
-	add_part(chest, cyl(0.27, 0.21, 0.46, 8), cloth, Vector3(0, 0.88, 0.04), Vector3(14, 0, 0))
+	# G-C: a rounded team jerkin (barrel lathe; was an 8-sided cylinder).
+	add_part(chest, GroveKinModel.lathe("gc_slinger_torso", PackedVector2Array([Vector2(0.19, 0.24), Vector2(0.255, 0.16),
+		Vector2(0.285, 0.04), Vector2(0.265, -0.10), Vector2(0.215, -0.23)]), 10), cloth, Vector3(0, 0.88, 0.04), Vector3(14, 0, 0))
 	# The shoulder mantle is team-DARK (Art Lab R3): a dark collar between the bright team hood leaf and the torso.
 	add_part(chest, leaf_ring_mesh(7, 0.16, Vector3(0.26, 0.06, 0.34), -38.0, 8.0), dark, Vector3(0, 1.10, 0.0))
 	add_part(chest, sphere(0.20, 8, 4), bark, Vector3(-0.06, 0.90, -0.28), Vector3(0, 0, 12), Vector3(1.0, 1.25, 0.8))
@@ -164,7 +169,7 @@ func _build_parts() -> void:
 ## Cheaper spare burr for the sack (5 spikes; the sack burrs are half hidden).
 static func _spare_burr_mesh() -> Mesh:
 	var parts: Array = [[sphere(0.11, 5, 3), Transform3D.IDENTITY]]
-	var spike := cyl(0.0, 0.05, 0.18, 4, false)   # base inside the ball: no cap (face budget)
+	var spike := thorn_cone(0.05, 0.18)   # base inside the ball, no cap; G-C: UV-tagged pale points
 	for d: Vector3 in [Vector3.UP, Vector3(1, 0.3, 0.6), Vector3(-1, 0.3, 0.5), Vector3(0.2, 0.5, -1), Vector3(0.1, 0.4, 1)]:
 		var n := d.normalized()
 		parts.append([spike, Transform3D(Basis(Quaternion(Vector3.UP, n)), n * 0.17)])

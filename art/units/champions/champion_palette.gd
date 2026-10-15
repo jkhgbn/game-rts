@@ -16,6 +16,11 @@ extends RefCounted
 const SHADER := preload("res://art/units/champions/champion_palette.gdshader")
 const PAINTED_PATH := "res://art/units/kit/unit_painted.gdshader"
 const GLOW_PATH := "res://art/units/kit/unit_glow.gdshader"
+## G-C Nature (2026-10-15): the shared nature_* palette files moved to this copy of unit_painted (same parameters + leaf /
+## thorn / bark layers keyed on a NEGATIVE UV tag that only the Nature builders write). A champion that borrows them
+## (the Wildcaller) folds them like painted entries again (its UVs carry no tag, so nothing of the look is lost; without
+## this its 5 pivots drew up to 8 unfolded surfaces each).
+const NATURE_LIVING_PATH := "res://art/units/nature/nature_living.gdshader"
 const NOISE_PATH := "res://art/shaders/paint_noise.tres"
 const PAL_MAX := 32
 
@@ -71,7 +76,7 @@ static func foldable(mat: Material) -> bool:
 	if sm.shader.resource_path == GLOW_PATH:
 		var bands: Variant = sm.get_shader_parameter(&"rune_bands")
 		return bands == null or int(bands) <= 0
-	if sm.shader.resource_path != PAINTED_PATH:
+	if sm.shader.resource_path != PAINTED_PATH and sm.shader.resource_path != NATURE_LIVING_PATH:
 		return false
 	var crack: Variant = sm.get_shader_parameter(&"crack_strength")
 	var dmg: Variant = sm.get_shader_parameter(&"damage")

@@ -38,7 +38,7 @@ static func bake(key: String, parts: Array) -> Mesh:
 	for p: Array in parts:
 		var mat: Material = p[2]
 		if not by_mat.has(mat):
-			by_mat[mat] = [PackedVector3Array(), PackedVector3Array(), PackedInt32Array()]
+			by_mat[mat] = [PackedVector3Array(), PackedVector3Array(), PackedInt32Array(), PackedVector2Array()]
 			order.append(mat)
 		var acc: Array = by_mat[mat]
 		var xf: Transform3D = p[1]
@@ -47,10 +47,12 @@ static func bake(key: String, parts: Array) -> Mesh:
 		var v: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
 		var nr: PackedVector3Array = arr[Mesh.ARRAY_NORMAL] if arr[Mesh.ARRAY_NORMAL] != null else PackedVector3Array()
 		var ix: PackedInt32Array = arr[Mesh.ARRAY_INDEX] if arr[Mesh.ARRAY_INDEX] != null else PackedInt32Array()
+		var uv: PackedVector2Array = arr[Mesh.ARRAY_TEX_UV] if arr[Mesh.ARRAY_TEX_UV] != null else PackedVector2Array()
 		var b0: int = (acc[0] as PackedVector3Array).size()
 		for j: int in v.size():
 			acc[0].append(xf * v[j])
 			acc[1].append((nb * nr[j]).normalized() if j < nr.size() else Vector3.UP)
+			acc[3].append(uv[j] if j < uv.size() else Vector2.ZERO)   # G-C: leaf / thorn UV tags (nature_living)
 		if ix.is_empty():
 			for j: int in v.size():
 				acc[2].append(b0 + j)
@@ -64,6 +66,7 @@ static func bake(key: String, parts: Array) -> Mesh:
 		arrays.resize(Mesh.ARRAY_MAX)
 		arrays[Mesh.ARRAY_VERTEX] = acc[0]
 		arrays[Mesh.ARRAY_NORMAL] = acc[1]
+		arrays[Mesh.ARRAY_TEX_UV] = acc[3]
 		arrays[Mesh.ARRAY_INDEX] = acc[2]
 		am.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 		am.surface_set_material(am.get_surface_count() - 1, mat)
