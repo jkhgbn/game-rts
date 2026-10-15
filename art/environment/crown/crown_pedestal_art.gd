@@ -57,9 +57,24 @@ var _embers: GPUParticles3D
 var _embers_mat: StandardMaterial3D
 var _burst: GPUParticles3D
 var _manual_tint: ShaderMaterial   # red runes in manual mode (EmberCrown tints them itself)
+# G-D (docs/art/gd_props.md), by GameSettings.effective_graphics_quality() at _ready:
+#   High+  "BeaconCore": a narrow, hotter inner column inside the beacon (the same beacon mesh, no new material)
+#   Ultra  "CrownLight": one warm OmniLight3D (no shadow) that follows the glow pool's colour and intensity, so the
+#          altar, the wardens and the units around it are lit by the crown (the only prop light, Ultra only)
+const CORE_SCALE := Vector3(0.38, 1.3, 0.38)
+const CORE_TINT := Color(1.0, 0.86, 0.6)
+const LIGHT_ENERGY := 1.4
+const LIGHT_RANGE := 9.0
+const STONE_MAT := "res://art/environment/crown/crown_stone_mat.tres"   ## High+: dressed stone lit by the crown
+var _core: GeometryInstance3D
+var _light: OmniLight3D
+var _stone: GeometryInstance3D
 
 
 func _ready() -> void:
+	PropsLook.ensure()
+	set_detail_tier(PropsLook.tier())
+	add_to_group(&"lighting_rigs")
 	_runes = get_node_or_null(^"Runes") as GeometryInstance3D
 	_rings_root = get_node_or_null(^"SealRings") as Node3D
 	if _rings_root:
@@ -80,6 +95,53 @@ func _ready() -> void:
 	_update_state(true)
 	_snap()
 	_apply(0.0)
+
+
+## The G-D tier pieces for graphics tier q (0 Low .. 3 Ultra): High+ BeaconCore + the crown-lit stone, Ultra the
+## CrownLight. Both ways, idempotent. _ready uses PropsLook.tier(); GameSettings.apply_graphics reaches it through the
+## "lighting_rigs" group (set_quality); tests and labs call it directly.
+func set_detail_tier(q: int) -> void:
+	q = clampi(q, 0, 3)
+	var beacon := get_node_or_null(^"Beacon") as MeshInstance3D
+	if q >= 2 and beacon and _core == null:
+		var core := MeshInstance3D.new()
+		core.name = "BeaconCore"
+		core.mesh = beacon.mesh
+		core.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		core.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+		core.transform = Transform3D(Basis.from_scale(CORE_SCALE), beacon.position)
+		add_child(core)
+		_core = core
+		_core.set_instance_shader_parameter(&"tint", CORE_TINT)
+	elif q < 2 and _core != null:
+		_core.queue_free()
+		_core = null
+	var stone := get_node_or_null(^"Stone") as MeshInstance3D
+	if stone and stone.mesh and ResourceLoader.exists(STONE_MAT):
+		for i: int in stone.mesh.get_surface_count():   # the env_painted surface (the other one is the gold trim)
+			var m := stone.mesh.surface_get_material(i) as ShaderMaterial
+			if m and m.shader and m.shader.resource_path.ends_with("env_painted.gdshader"):
+				stone.set_surface_override_material(i, load(STONE_MAT) as Material if q >= 2 else null)
+		_stone = stone if q >= 2 else null
+	if q >= 3 and _light == null:
+		var l := OmniLight3D.new()
+		l.name = "CrownLight"
+		l.position = Vector3(0.0, 2.2, 0.0)
+		l.omni_range = LIGHT_RANGE
+		l.omni_attenuation = 1.6
+		l.shadow_enabled = false
+		l.light_energy = 0.0
+		l.light_specular = 0.3
+		add_child(l)
+		_light = l
+	elif q < 3 and _light != null:
+		_light.queue_free()
+		_light = null
+
+
+## GameSettings.apply_graphics -> group "lighting_rigs" (G-D).
+func set_quality(q: int) -> void:
+	set_detail_tier(q)
 
 
 ## Binds the crown this altar shows (EmberCrown or Artifact). Called automatically in _ready.
@@ -256,6 +318,16 @@ func _apply(delta: float) -> void:
 	if _beacon:
 		_beacon.visible = _beacon_i > 0.01
 		_beacon.set_instance_shader_parameter(&"intensity", _beacon_i)
+	if _core:
+		_core.visible = _beacon_i > 0.01
+		_core.set_instance_shader_parameter(&"intensity", _beacon_i * 0.9)
+	if _stone:
+		_stone.set_instance_shader_parameter(&"glow_tint", _pool_col)
+		_stone.set_instance_shader_parameter(&"glow_i", clampf(_pool_i + pool_flash + _beacon_i * 0.2, 0.0, 3.0))
+	if _light:
+		_light.light_color = _pool_col
+		_light.light_energy = LIGHT_ENERGY * clampf(_pool_i + pool_flash + _beacon_i * 0.3, 0.0, 3.0)
+		_light.visible = _light.light_energy > 0.02
 	if _pool:
 		_pool.set_instance_shader_parameter(&"intensity", _pool_i + pool_flash)
 		_pool.set_instance_shader_parameter(&"tint", _pool_col)

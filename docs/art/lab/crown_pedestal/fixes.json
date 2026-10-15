@@ -1,0 +1,13 @@
+{
+	"asset": "crown_pedestal",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "landmark",
+	"kingdom": "neutral",
+	"quality": 91.4,
+	"result": "PASS",
+	"scene": "res://art/environment/crown_pedestal.tscn",
+	"tier": "objective",
+	"version": "1.0"
+}

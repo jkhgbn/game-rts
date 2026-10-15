@@ -17,12 +17,21 @@ var _sparkles: GPUParticles3D
 
 
 func _ready() -> void:
+	# G-D: the shared prop materials' graphics tier (once per tier; a Settings change comes through set_quality).
+	PropsLook.ensure()
+	add_to_group(&"lighting_rigs")
 	_crystals = get_node_or_null(^"Crystals") as GeometryInstance3D
 	_pool = get_node_or_null(^"GroundGlow") as GeometryInstance3D
 	_sparkles = get_node_or_null(^"Sparkles") as GPUParticles3D
 	var p := global_position
 	rotation.y = fposmod(sin(p.x * 12.9898 + p.z * 78.233) * 43758.5453, 1.0) * TAU
 	_apply()
+
+
+## GameSettings.apply_graphics -> group "lighting_rigs": the shared prop materials follow a tier change (G-D).
+func set_quality(q: int) -> void:
+	if q != PropsLook.applied():
+		PropsLook.apply(q)
 
 
 ## r = crystals left / crystals at start (0-1).

@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://art/environment/crown/crown_stone.gdshader" id="1_cstone"]
+[ext_resource type="Texture2D" path="res://art/shaders/paint_noise.tres" id="2_cnoise"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_cstone")
+shader_parameter/noise_tex = ExtResource("2_cnoise")

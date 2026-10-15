@@ -63,6 +63,24 @@ uniform float stone_top_light = 0.35;
 uniform vec3 rim_color : source_color = vec3(0.55, 0.65, 0.85);
 uniform float rim_strength = 0.12;                                // x albedo: stays subtle on dark stone
 uniform float leaf_rim = 0.10;
+// G-D map props (docs/art/gd_props.md): graphics tier, 0 Low (= the look and cost before G-D: the new code sits
+// behind uniform branches that stay off), 1 Medium, 2 High, 3 Ultra. PropsLook writes it into nature_mat.tres.
+//   Medium+  warm sunlit leaves / cool crown undersides, sun shining through the crown edges on the shadow side
+//            (translucency), a softer light ramp on stone (no "crumpled paper" facets), rock strata, warm stone tops
+//   High+    leaf dabs (a finer painted value layer on the crowns), lichen spots on stone, bark cracks
+uniform float gd_detail = 0.0;
+uniform vec3 leaf_light_tint : source_color = vec3(1.0, 0.96, 0.80);
+uniform vec3 leaf_trans_color : source_color = vec3(1.0, 1.0, 0.42);   // x albedo: yellow-green light through leaves
+uniform float leaf_trans = 0.55;
+uniform vec3 crown_shade : source_color = vec3(0.80, 0.90, 1.0);       // crown undersides: cooler and darker
+uniform vec3 leaf_highlight = vec3(1.45, 1.38, 0.78);                 // x albedo: sunlit leaf clusters (linear)
+uniform float leaf_highlight_k = 0.45;
+uniform float leaf_rim_gd = 2.2;                                       // leaf_rim x this at Medium+
+uniform float stone_soft = 0.75;                                       // 0 = toon ramp, 1 = soft ramp (stone only)
+uniform float strata = 0.20;
+uniform float strata_freq = 3.0;                                       // bands per local metre
+uniform vec3 lichen_color : source_color = vec3(0.74, 0.70, 0.50);
+uniform float lichen = 0.45;
 
 varying vec3 v_wp;
 varying vec3 v_wn;
@@ -72,6 +90,7 @@ varying float v_y;
 varying float v_moss;
 varying flat float v_kind;
 varying float v_ih;
+varying vec3 v_lk;   // fragment -> light (G-D): x leaf translucency, y soft stone ramp, z warm sunlit leaves
 
 // Sine-free hash (same result on every GPU; nature_preview.gd mirrors it to pick variants).
 float hash1(vec2 p) {
@@ -183,6 +202,8 @@ float triplanar(vec3 p, vec3 n, float scale) {
 }
 
 void fragment() {
+	// Derivatives first (shader lint: only at the top level): the strata lines' anti-alias width.
+	float fy = fwidth(v_y);
 	vec3 n = normalize(v_wn);
 	float na = triplanar(v_wp, n, 0.5);
 	vec3 albedo = v_col * (1.0 + (na - 0.5) * 0.2);
@@ -190,6 +211,9 @@ void fragment() {
 	float kind = lite ? v_kind - 10.0 : v_kind;
 	bool foliage = kind > 0.5 && kind < 2.5 || kind > 4.5;
 	float rim_k = 0.0;
+	v_lk = vec3(0.0);
+	bool gd = gd_detail > 0.5;
+	bool gd_high = gd_detail > 1.5;
 	if (foliage) {
 		// Leaf clumps: a coarse, posterised brush pattern + a brushy light / shadow edge (strong on round
 		// crowns, light on the needle tiers whose big planes would look blotchy). Lite: the fine noise stands in.
@@ -204,12 +228,51 @@ void fragment() {
 		albedo = mix(albedo, albedo * sun_tint * 1.25, top * sunlit_top * (0.5 + 0.5 * c2));
 		albedo *= mix(0.72, 1.04, smoothstep(0.0, 1.0, v_grad));
 		rim_k = leaf_rim;
+		if (gd) {
+			// Crown undersides cooler / darker (the crown reads as a volume, not a flat green blob).
+			float under = smoothstep(0.15, -0.55, wn.y);
+			float low = 1.0 - smoothstep(0.05, 0.45, v_grad);
+			albedo *= mix(vec3(1.0), crown_shade * 0.82, clamp(under * 0.85 + low * 0.30, 0.0, 1.0));
+			// Sunlit leaf clusters: warm yellow-green light on the faces turned to the sky, in soft broad patches
+			// (a hard noise edge read as camouflage at zoom 10).
+			float sky = smoothstep(0.35, 0.95, wn.y) * smoothstep(0.35, 0.95, v_grad);
+			float hl = sky * smoothstep(0.30, 0.80, clump);
+			albedo = mix(albedo, albedo * leaf_highlight, hl * leaf_highlight_k);
+			if (gd_high && !lite) {
+				// Leaf dabs: a faint finer value layer (its mip fades it out at long range by itself).
+				float dab = triplanar(v_wp + vec3(v_ih * 23.0), n, 1.3);
+				albedo *= mix(0.95, 1.04, smoothstep(0.35, 0.65, dab));
+			}
+			rim_k = leaf_rim * leaf_rim_gd;
+			v_lk = vec3(leaf_trans * (needles ? 0.7 : 1.0), 0.0, 1.0);
+		}
 	} else if (kind > 2.5 && kind < 3.5) {
 		// Stone: moss patches on the faces turned to the sky (noisy painted edge), lit warm tops, darker feet.
 		// Moss: big soft caps (low-frequency edge), never a fine camouflage pattern.
 		float nlow = texture(noise_tex, v_wp.xz * 0.3 + vec2(5.3, 2.1)).r;   // top-down: moss grows on tops
 		float moss = smoothstep(0.60, 0.68, (n.y - 0.55) * 1.4 + (nlow - 0.5) * 1.0 + (na - 0.5) * 0.12) * v_moss;
 		albedo *= 1.0 + max(n.y, 0.0) * stone_top_light;
+		if (gd) {
+			// Strata: soft wavy bands on the sides (bedding lines), never on the tops.
+			float sy = v_y * strata_freq + (na - 0.5) * 1.4 + v_ih * 7.0 + v_wp.x * 0.11;
+			float lw = 0.10 + fy * strata_freq * 1.5;
+			float line = 1.0 - smoothstep(lw * 0.4, lw, abs(fract(sy) - 0.5));
+			float sides = 1.0 - smoothstep(0.35, 0.8, abs(n.y));
+			albedo *= 1.0 - line * strata * sides * mix(1.0, 0.5, step(1.0, fy * strata_freq));
+			// Lighter bands between the lines and warm sun-bleached tops.
+			albedo *= 1.0 + (fract(sy * 0.5 + 0.25) - 0.5) * 0.08 * sides;
+			albedo *= mix(vec3(1.0), vec3(1.07, 1.03, 0.94), smoothstep(0.3, 0.9, n.y));
+			if (gd_high) {
+				// Lichen: small pale rosettes on the faces turned up (not under the moss).
+				// Grey stone only: coloured stone (camp mud rocks, red clay) keeps its own paint.
+				float sat = max(albedo.r, max(albedo.g, albedo.b)) - min(albedo.r, min(albedo.g, albedo.b));
+				float grey = 1.0 - smoothstep(0.015, 0.05, sat);
+				float lk = texture(noise_tex, v_wp.xz * 2.3 + v_wp.y * 0.9 + vec2(v_ih * 9.0)).r;
+				float spots = smoothstep(0.68, 0.71, lk) * smoothstep(-0.2, 0.5, n.y) * (1.0 - moss) * grey;
+				albedo = mix(albedo, lichen_color * (0.85 + na * 0.3), spots * lichen);
+			}
+			v_lk = vec3(0.0, stone_soft, 0.0);
+		}
 		albedo = mix(albedo, mix(moss_dark, moss_color, smoothstep(0.3, 0.7, na)), moss);
 		albedo *= mix(0.62, 1.06, smoothstep(0.0, 1.0, v_grad));
 	} else {
@@ -222,6 +285,11 @@ void fragment() {
 			albedo *= mix(0.94, 1.04, streak);
 		} else {
 			albedo *= mix(0.84, 1.1, streak);
+			if (gd_high) {
+				// Bark plates: dark vertical cracks between lighter ridges.
+				float crack = texture(noise_tex, vec2(ang * 2.4 + v_wp.x * 0.7, v_wp.y * 0.35)).r;
+				albedo *= mix(1.06, 0.62, smoothstep(0.58, 0.68, crack));
+			}
 		}
 		albedo *= mix(0.72, 1.06, smoothstep(0.0, 1.0, v_grad));
 	}
@@ -238,5 +306,19 @@ void fragment() {
 void light() {
 	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
 	float ramp = smoothstep(0.32, 0.44, d) * 0.55 + smoothstep(0.58, 0.70, d) * 0.45;
-	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
+	vec3 lc = LIGHT_COLOR;
+	if (gd_detail > 0.5) {
+		// Stone: a softer ramp, so neighbouring facets differ by a step, not by lit / unlit.
+		float soft = smoothstep(0.12, 0.62, d) * 0.6 + smoothstep(0.50, 0.86, d) * 0.4;
+		ramp = mix(ramp, soft, v_lk.y);
+		// Leaves: warm where the sun hits them.
+		lc *= mix(vec3(1.0), leaf_light_tint, v_lk.z);
+		// Leaves: sun shining through the crown on its shadow side, strongest at the silhouette (half the shadow
+		// still counts: light passes through the crown that casts it).
+		float edge = 1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0);
+		float back = smoothstep(0.52, 0.12, d);
+		DIFFUSE_LIGHT += leaf_trans_color * (v_lk.x * back * (0.3 + 0.7 * edge * edge))
+				* (0.45 + 0.55 * ATTENUATION) * LIGHT_COLOR / PI;
+	}
+	DIFFUSE_LIGHT += ramp * ATTENUATION * lc / PI;
 }

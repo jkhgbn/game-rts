@@ -12,6 +12,14 @@ uniform float spec_power = 26.0;
 uniform vec3 rim_color : source_color = vec3(1.0, 0.78, 0.42);
 uniform float rim_strength = 0.35;
 uniform float self_glow = 0.06;   // gold never goes muddy in shadow
+// G-D (docs/art/gd_props.md): graphics tier written by PropsLook, 0 Low (= the look before G-D, uniform branch off).
+//   Medium+  painted metal: a fake sky / ground reflection band (bright warm sky above the horizon line, dark
+//            ground below), so the gold reads polished from the RTS camera without real reflections
+//   High+    + small hard glints that hop across the faces
+uniform float gd_detail = 0.0;
+uniform vec3 refl_sky : source_color = vec3(1.0, 0.93, 0.72);
+uniform vec3 refl_ground : source_color = vec3(0.30, 0.17, 0.07);
+uniform float refl_strength = 0.55;
 
 varying vec3 v_wp;
 varying vec3 v_wn;
@@ -41,9 +49,25 @@ void fragment() {
 	// Brushed bands: faces turned to the sky are brighter (painted "lit top" of metal).
 	albedo *= 1.0 + max(n.y, 0.0) * 0.15;
 	float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
+	vec3 extra = vec3(0.0);
+	if (gd_detail > 0.5) {
+		// Reflection band: the view ray mirrored on the face, its height picks sky or ground (sharp horizon).
+		vec3 wv = normalize((INV_VIEW_MATRIX * vec4(VIEW, 0.0)).xyz);
+		vec3 r = reflect(-wv, n);
+		float horizon = smoothstep(-0.05, 0.08, r.y + (na - 0.5) * 0.2);
+		vec3 env = mix(refl_ground, refl_sky * mix(0.8, 1.15, smoothstep(0.1, 0.8, r.y)), horizon);
+		albedo *= mix(1.0, 0.75, horizon * 0.5);
+		extra = env * albedo * refl_strength * 2.0;
+		if (gd_detail > 1.5) {
+			vec3 cell = floor(v_wp * 9.0 + n * 0.5);
+			float h = fract(sin(dot(cell, vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+			float flash = pow(max(sin(TIME * (0.9 + h * 1.4) + h * 40.0), 0.0), 40.0) * step(0.78, h);
+			extra += refl_sky * flash * 2.5;
+		}
+	}
 	ALBEDO = albedo;
 	ROUGHNESS = 0.4;
-	EMISSION = albedo * self_glow + rim * rim_color * rim_strength;
+	EMISSION = albedo * self_glow + rim * rim_color * rim_strength + extra;
 }
 
 void light() {

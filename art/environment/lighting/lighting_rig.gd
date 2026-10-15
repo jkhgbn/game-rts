@@ -83,6 +83,7 @@ var vignette: CanvasLayer
 var quality: int = -1               ## The tier applied now (-1 = none yet).
 var _vignette_mat: ShaderMaterial
 var _env_copies := {}             ## preset Environment -> this rig's copy (same copy each time it comes back)
+var _prop_mats: Array[ShaderMaterial] = []   ## G-D: the prop materials PropsLook wrote (held while the rig lives)
 
 
 ## The preset resource for an id (&"warm", &"ice"); unknown ids give the warm one.
@@ -143,6 +144,9 @@ func _ready() -> void:
 
 	quality = settings_quality()
 	apply(preset if preset else load_preset(preset_id))
+	# G-D: the shared map-prop materials take the tier on every level with a rig (Wave Strike, stage sets too); the
+	# rig keeps them referenced for its lifetime so the cached instances (and their tier) stay until the level leaves.
+	_prop_mats = PropsLook.apply(quality)
 
 
 func _exit_tree() -> void:
@@ -193,6 +197,7 @@ func _env_copy(src: Environment) -> Environment:
 ## Sets the graphics tier (0 Low, 1 Medium, 2 High, 3 Ultra). Any time, both ways, idempotent.
 func set_quality(q: int) -> void:
 	q = clampi(q, QUALITY_LOW, QUALITY_ULTRA)
+	_prop_mats = PropsLook.apply(q)   # G-D: the shared map-prop materials follow the tier (docs/art/gd_props.md)
 	if world_environment == null:   # before _ready: _ready applies it
 		quality = q
 		return
