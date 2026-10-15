@@ -354,6 +354,12 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   `hold_for_briefing(screen)` / `release_briefing()`, `current_track()`, signal `track_changed(id)`; films
   (`CinematicPlayer`) hold the music silent. Files `assets/audio/music/<id>.wav` (+ `<id>_drive.wav`, stereo 22 050 Hz,
   rendered by the Music Forge sampler backend); a missing file falls back to `music_match` / `music_menu`.
+- **Graphics quality** (G1 2026-10-15, JS "most beautiful graphics possible"): `GameSettings.graphics_quality` 0 Low / 1 Medium /
+  2 High / 3 Ultra (`GFX_*`, saved; default High on a discrete GPU), read it with `GameSettings.effective_graphics_quality()`
+  (`-- --gfx=low|medium|high|ultra` first, then **Low in every headless or `-s` run**, so tests / labs are unchanged; windowed
+  shot / fps scripts pass `--gfx`). `GameSettings.apply_graphics(tree)` (settings change + match start) sets the viewport and calls
+  `set_quality(q: int)` on group `"lighting_rigs"`. Art that scales with the tier reads `effective_graphics_quality()` in
+  `_ready`; **Low = the look before G1**.
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
 - **SelectionManager**: `select_units(units)`, `formation_move(center)` are public (the smoke test uses them).
