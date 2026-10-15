@@ -253,6 +253,8 @@ var _refresh_left := 0.0
 var _skin := -1
 var _clock := 0.0
 var _scan_left := 0.0
+## True while only slot 1 shows (taverns closed, no champion hired or arriving; read only).
+var compact := false
 var _announced: Dictionary = {}       ## champion instance id -> class id already announced (one message each).
 
 static var _info_cache: Dictionary = {}
@@ -386,7 +388,11 @@ func refresh() -> void:
 	var list := roster(guild)
 	var pending := pending_ids(guild)
 	var open := guild_is_open(guild)
+	# G-F review 2 item 12: before the taverns open, with no champion hired or on its way, only slot 1 shows (one
+	# "Hire a champion / Tavern opens at 2:00" button); F6 / F7 still open the tavern window.
+	compact = list.is_empty() and pending.is_empty() and not open
 	for i in SLOTS:
+		slots[i].visible = not compact or i == 0
 		if i < list.size():
 			_watch_class(list[i])
 			slots[i].show_champion(list[i], guild)

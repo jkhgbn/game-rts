@@ -9,6 +9,7 @@ extends Node3D
 ## runs only while an animation plays. MusterPadInput (own pad) drives the hover / drag / ghost calls.
 
 const PLATE_H := 0.3
+const PLATE_MAT := "res://art/environment/lane_dressing/muster_plate_mat.tres"   ## tech-artist, G-F r2 item 10
 const RIM := 1.0
 const ROLE_COLORS := {
 	&"melee": Color(0.85, 0.35, 0.30), &"ranged": Color(0.35, 0.70, 0.95), &"rider": Color(0.95, 0.75, 0.30),
@@ -230,7 +231,11 @@ func _build_plate() -> void:
 		for v: Vector3 in [p0, p1, p2, p0, p2, p3]:
 			st.set_color(side)
 			st.add_vertex(v)
-	_mesh_node(st.commit(), unlit(Color.WHITE, false, true), "Plate")  # LOC_IGNORE
+	# G-F r2 item 10: the tech-artist's lit flagstone material (load-guarded; the old unlit vertex-colour look otherwise).
+	var plate_mat: Material = load(PLATE_MAT) as Material if ResourceLoader.exists(PLATE_MAT) else null
+	if plate_mat != null:
+		st.generate_normals()   # lit: the shader takes the sun (cull disabled, back faces flip their normal)
+	_mesh_node(st.commit(), plate_mat if plate_mat else unlit(Color.WHITE, false, true), "Plate")  # LOC_IGNORE
 	if own:   # the own pad's rim lit with trim_glow alpha 0.25 (a thin inner frame)
 		var gl := SurfaceTool.new()
 		gl.begin(Mesh.PRIMITIVE_TRIANGLES)

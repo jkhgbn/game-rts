@@ -54,6 +54,15 @@ var _selection: SelectionManager
 var _objective: Label
 var _objective_header: Button   ## "v Objective" / "> Objective": click folds the objective to this line.
 var objective_collapsed := false   ## Kept for the match (the HUD is rebuilt with the level).
+## G-F review 2 item 12: the objective folds to its header by itself after OBJECTIVE_FOLD_TIME s of unpaused play
+## with a text (once per match); a click on the header (toggle_objective) turns this off.
+var objective_auto_fold := true
+var _objective_shown_s := 0.0
+const OBJECTIVE_FOLD_TIME := 10.0
+## Messages longer than this many characters use MESSAGE_LONG_FONT (the 10 s start hint: a slimmer plate).
+const MESSAGE_LONG_CHARS := 64
+const MESSAGE_FONT := 22
+const MESSAGE_LONG_FONT := 18
 var _message: Label
 var _banner: Label
 var _help_panel: Control         ## The controls overlay (hidden until ? / K).
@@ -488,7 +497,19 @@ func _adopt(parent: Control, node: Control) -> void:
 
 ## Folds / unfolds the objective to its header line (state kept for the match).
 func toggle_objective() -> void:
+	objective_auto_fold = false   # the player chose: never fold it again by itself
 	set_objective_collapsed(not objective_collapsed)
+
+
+# Item 12: counts unpaused seconds while the objective shows a text, then folds it once.
+func _tick_objective_fold(delta: float) -> void:
+	if not objective_auto_fold or objective_collapsed or _obj_panel == null or not _obj_panel.visible \
+			or _objective.text == "":
+		return
+	_objective_shown_s += delta
+	if _objective_shown_s >= OBJECTIVE_FOLD_TIME:
+		objective_auto_fold = false
+		set_objective_collapsed(true)
 
 
 func set_objective_collapsed(v: bool) -> void:
@@ -763,10 +784,11 @@ func _notification(what: int) -> void:
 		_objective.text = Loc.sink(_objective_source)
 
 
-## The message line's plate: near-black at 62 %, rounded, 16 x 5 px padding.
+## The message line's plate: near-black at 80 % (G-F review 2 item 12: was 62 %, the start hint read thin over the
+## keep's roofs), rounded, 16 x 5 px padding.
 static func message_backing() -> StyleBoxFlat:
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.04, 0.03, 0.03, 0.62)
+	sb.bg_color = Color(0.04, 0.03, 0.03, 0.8)
 	sb.set_corner_radius_all(6)
 	sb.content_margin_left = 16.0
 	sb.content_margin_right = 16.0
@@ -781,6 +803,12 @@ func show_message(text: String, seconds := 2.0) -> void:
 		return   # the end stats are already in the end panel
 	_message.text = text
 	_message.visible = text != ""
+	# Item 12: a long line (the start hint) gets a smaller font, so its plate covers less of the base.
+	_message.add_theme_font_size_override("font_size",
+			MESSAGE_LONG_FONT if text.length() > MESSAGE_LONG_CHARS else MESSAGE_FONT)
+	var w := _message.get_combined_minimum_size().x   # plate = the text's width, centred (shrinks after a long line)
+	_message.offset_left = -w * 0.5
+	_message.offset_right = w * 0.5
 	_message_time = seconds
 
 
@@ -976,6 +1004,7 @@ func _process(delta: float) -> void:
 		_heroes_left = HEROES_POLL
 		_refresh_heroes()
 	_check_hero_levels()
+	_tick_objective_fold(delta)
 	_refresh_help()
 	if _clock_holder != null:
 		_clock_holder.visible = top_bar.visible   # Wave Strike hides the resources: its strip has the clock

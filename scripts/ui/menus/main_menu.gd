@@ -14,6 +14,12 @@ const MAP_WORDS := ["Autumn", "Grass", "Marsh", "Meadow", "Snow", "Neutral", "Fi
 ## Campaign mission titles (mission-01.md); ids and scenes come from CampaignState.
 const MISSION_TITLES := {&"m00": "The Night of Knives", &"m01": "The Crown in the Ashes",
 		&"m02": "The Orb Beneath the Ice", &"m04": "The Hollow Throne", &"e2m1": "The Burning Grove"}
+## G-F review 2 item 13: the main panel column's left anchor (fraction of the width) and right margin (px).
+const COLUMN_SIDE_LEFT := 0.45
+const COLUMN_SIDE_MARGIN := 32.0
+const TAGLINE_COLOR := Color(1.0, 0.94, 0.82)
+## The main panel's slate at this alpha (translucent over the diorama).
+const MAIN_PANEL_ALPHA := 0.78
 const MENU_DIORAMA := "res://art/environment/menu_diorama/menu_diorama.tscn"
 const MAP_LIST_W := 250.0     ## MT9 map picker: the list's width (px)...
 const MAP_PREVIEW := 230.0    ## ...the preview square beside it (the mapsheet render, data/maps/previews/<id>.png)...
@@ -25,6 +31,7 @@ const WS_LOBBY := "res://scripts/ui/wave_strike/wave_strike_lobby.gd"
 var diorama: Node3D   ## MenuDiorama (3D background); null if the scene is missing.
 
 var main_panel: PanelContainer
+var column_on_side := false   ## True while the title + main panel sit in the right part (read only).
 var skirmish_panel: PanelContainer
 var settings_panel: SettingsPanel
 var skirmish_button: Button
@@ -35,6 +42,8 @@ var settings_button: Button
 var unit_guide_button: Button
 var unit_guide: UnitGuide   ## Built on first open (show_unit_guide); null before.
 var menu_column: VBoxContainer   ## Title + panels; hidden while the Unit Guide fills the screen.
+var _title_label: Label
+var tagline_label: Label         ## The line under the title (light fill, dark outline + shadow: G-F review 2 item 13).
 var quit_button: Button
 var start_button: Button
 var difficulty_buttons: Array[Button] = []
@@ -120,15 +129,15 @@ func _ready() -> void:
 	add_child(column)
 
 	var title := UIStyle.use_title_font(UIStyle.label("Four Wizards", 84))
+	_title_label = title
 	title.add_theme_color_override("font_color", UIStyle.GOLD)
 	title.add_theme_constant_override("outline_size", 10)
 	title.add_theme_color_override("font_outline_color", Color(0.18, 0.05, 0.02))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(title)
-	var tagline := UIStyle.label(TAGLINE, 20)
-	tagline.modulate = Color(1, 0.92, 0.8, 0.9)
-	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	column.add_child(tagline)
+	tagline_label = UIStyle.label(TAGLINE, 20)
+	style_tagline(tagline_label)
+	column.add_child(tagline_label)
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 20)
 	column.add_child(spacer)
@@ -157,7 +166,40 @@ func _ready() -> void:
 	footer.position -= Vector2(16, 12)
 	add_child(footer)
 
+	# G-F review 2 item 13: the main panel sits in the right part of the screen so the diorama's focus (the 4 wizards
+	# round the fire, left third) stays in view; every other panel is centred as before.
+	main_panel.visibility_changed.connect(place_column, CONNECT_DEFERRED)
+	get_viewport().size_changed.connect(place_column)
 	show_main()
+	place_column()
+
+
+## Title + main panel in the right part (anchors COLUMN_SIDE_LEFT..1) while the main panel shows and the window is
+## wide enough for the title; else the whole width (the setup / campaign / settings panels, narrow windows).
+func place_column() -> void:
+	if menu_column == null:
+		return
+	var w := get_viewport_rect().size.x
+	var need := maxf(_title_label.get_combined_minimum_size().x, main_panel.get_combined_minimum_size().x)
+	var side := main_panel != null and main_panel.visible and w * (1.0 - COLUMN_SIDE_LEFT) - COLUMN_SIDE_MARGIN >= need
+	menu_column.anchor_left = COLUMN_SIDE_LEFT if side else 0.0
+	menu_column.anchor_right = 1.0
+	menu_column.offset_left = 0.0
+	menu_column.offset_right = -COLUMN_SIDE_MARGIN if side else 0.0
+	column_on_side = side
+
+
+## The tagline style (item 13): cream fill, 6 px near-black outline and a soft drop shadow, readable on the bright sky.
+static func style_tagline(l: Label) -> void:
+	l.modulate = Color.WHITE
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.add_theme_color_override("font_color", TAGLINE_COLOR)
+	l.add_theme_color_override("font_outline_color", Color(0.08, 0.03, 0.02))
+	l.add_theme_constant_override("outline_size", 6)
+	l.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.6))
+	l.add_theme_constant_override("shadow_offset_x", 2)
+	l.add_theme_constant_override("shadow_offset_y", 2)
+	l.add_theme_constant_override("shadow_outline_size", 8)
 
 
 ## Live language switch (localization.md): auto-translated labels redraw by themselves; the text built in code
@@ -682,6 +724,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _build_main_panel(parent: Control) -> PanelContainer:
 	var panel := UIStyle.panel(parent, 22.0)
+	var sb := UIStyle.panel_style(22.0)
+	sb.bg_color.a = minf(sb.bg_color.a, MAIN_PANEL_ALPHA)   # item 13: the diorama shows through
+	panel.add_theme_stylebox_override("panel", sb)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
 	panel.add_child(box)

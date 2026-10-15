@@ -433,10 +433,11 @@ use `Unit.kingdom_color_for(team, kingdom)` so a Wave Strike mirror's pads match
 Units also show a faint always-on relation ring (green own / red enemy / blue ally / gold neutral) at Medium+ tiers.
 **DONE (ui-coder 2026-10-15):** minimap building / held post / bounty ring marks use `Minimap.team_mark_color(team)` (= `Unit.team_display_color`, cached per redraw); `UIStyle.team_kingdom_color(team, kingdom)` (signature colour, the alt palette for the later mirror side) in the Wave Strike HUD bars / names and the enemy roster peek; `GameHUD.show_score` recolours a mirror side in its alt palette; `pad_view` models use `Unit.kingdom_color_for(roster.team, kingdom)`. Unit dots stay relation green / red. Test `tests/test_ge_team_ui.gd`.
 
-## G-F review 2 item 1: HP bar hover (from gameplay-coder, 2026-10-15)
+## DONE (ui-coder, 2026-10-15) G-F review 2 item 1: HP bar hover (from gameplay-coder, 2026-10-15)
 Unit HP bars now fade to 35 % opacity 2 s after the unit's last hit (wizards / champions 60 %), full again on a new
 hit or while selected. Request: `SelectionManager` calls `unit.set_hp_bar_hover(true)` on the unit under the cursor
 (your existing hover pick, ~20 Hz is enough) and `set_hp_bar_hover(false)` on the previous one when it changes (guard
 with `is_instance_valid` and `has_method(&"set_hp_bar_hover")`). Optional (review item 1 "WC3 Alt" idea): a Settings
 toggle to show bars only for selected / hovered units would be a later gameplay + UI task. `Unit.hp_bar_opacity()`
 (read only) gives the current opacity for tests.
+**DONE (ui-coder 2026-10-15):** `SelectionManager.set_hovered_unit(u)` (read-only `hovered_unit`) runs on the 20 Hz hover tick with `unit_at(mouse)`; it calls `set_hp_bar_hover(false)` on the previous unit and `true` on the new one (guarded with `is_instance_valid` / `has_method`). Test in `tests/test_gf_r2_ui.gd` (step "hovered unit HP bar").

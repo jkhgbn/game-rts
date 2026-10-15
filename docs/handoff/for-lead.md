@@ -283,6 +283,8 @@ _mesh_node(st.commit(), plate_mat if plate_mat else unlit(Color.WHITE, false, tr
 ```
    Keep the grid lines / chevron / tokens unlit on top (unchanged). The yard round the plate (flagstone apron, 4 corner
    banners) is already in LaneDressing (art).
+   **DONE (ui-coder 2026-10-15):** `pad_view.gd` `PLATE_MAT` load-guarded on the "Plate" node (+ `generate_normals()` for the lit
+   shader), old unlit fallback; grid / chevron / tokens unchanged. test_ws_pad, test_ws_ui, test_ws_director PASS.
 2. **Forest grid (systems-coder, optional)**: `WaveStrikeLevel._add_ws_block` still plants forest blocks on a 4.6 m grid.
    The art now replants them in windowed runs (`art/environment/lane_dressing/forest_replant.gd`, via LevelLooks, after
    `EnvProps.commit()`: treeline + clusters + glades, 3 sizes, every tier). Nothing is needed; if the grid code is ever

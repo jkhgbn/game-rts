@@ -161,6 +161,8 @@ var hovered_post: Node3D = null
 ## Read only: the visible game critter under the mouse while hunters are selected and no order is pending (the
 ## cross cursor and the red ring are up), or null.
 var hovered_critter: Node3D = null
+## Read only: the unit under the mouse (20 Hz), whose world HP bar shows at full opacity (`Unit.set_hp_bar_hover`).
+var hovered_unit: Node3D = null
 var _critter_cursor := false
 var _critter_check_left := 0.0
 var _hover_left := 0.0
@@ -345,6 +347,7 @@ func _process(delta: float) -> void:
 		_hover_left = HOVER_INTERVAL
 		hovered_post = post_at(_mouse_pos) if enabled and camera != null else null
 		_update_critter_hover()
+		set_hovered_unit(unit_at(_mouse_pos) if enabled and camera != null else null)
 	elif hovered_critter != null:
 		if _critter_ok(hovered_critter):
 			_target_ring.global_position = hovered_critter.global_position + Vector3.UP * 0.06
@@ -2839,6 +2842,17 @@ func ground_point(screen_pos: Vector2) -> Variant:
 	var from := camera.project_ray_origin(screen_pos)
 	var dir := camera.project_ray_normal(screen_pos)
 	return Plane(Vector3.UP, 0.0).intersects_ray(from, dir)
+
+
+## G-F review 2 item 1: the unit under the cursor shows its HP bar at full opacity; the previous one fades again.
+func set_hovered_unit(u: Node3D) -> void:
+	if u == hovered_unit:
+		return
+	if hovered_unit != null and is_instance_valid(hovered_unit) and hovered_unit.has_method(&"set_hp_bar_hover"):
+		hovered_unit.call(&"set_hp_bar_hover", false)
+	hovered_unit = u
+	if u != null and is_instance_valid(u) and u.has_method(&"set_hp_bar_hover"):
+		u.call(&"set_hp_bar_hover", true)
 
 
 func unit_at(screen_pos: Vector2) -> Unit:
