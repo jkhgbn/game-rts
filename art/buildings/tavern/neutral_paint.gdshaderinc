@@ -19,7 +19,7 @@
 //   if (gb_detail > 1.5) { NORMAL = np_bump(NORMAL, VERTEX, bh); }   (uniform branch: derivatives stay defined)
 //   v_np = vec3(spec, float(kind), gb_detail);  and in light(): np_light(NORMAL, LIGHT, VIEW, ..., v_np, ...).
 
-uniform float gb_detail = 2.0;
+uniform float gb_detail = 0.0;   // NeutralBuildingLook.set_detail writes the tier (shader lint A)
 uniform vec3 np_shade_tint : source_color = vec3(0.52, 0.58, 0.86);
 uniform vec3 np_crease_tint : source_color = vec3(0.66, 0.60, 0.64);
 uniform float np_light_rim : hint_range(0.0, 1.0) = 0.22;

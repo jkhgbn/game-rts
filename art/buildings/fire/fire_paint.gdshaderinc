@@ -16,7 +16,7 @@
 //   1 Medium = + sky catch, crease, soot, patina, bronze reflection, ember bounce, joint seep glow
 //   2 High / 3 Ultra = + fine detail and bump (only pixels closer than ~10 m pay for it)
 
-uniform float gb_detail = 2.0;
+uniform float gb_detail = 0.0;   // FireBuildingLook.apply / set_detail write the tier (shader lint A)
 uniform vec3 fp_shade_tint : source_color = vec3(0.50, 0.56, 0.84);
 uniform vec3 fp_crease_tint : source_color = vec3(0.70, 0.58, 0.52);
 uniform vec3 fp_bounce_color : source_color = vec3(1.0, 0.42, 0.14);

@@ -15,6 +15,8 @@ uniform float translucency = 0.45;
 const vec3 MARK[4] = vec3[4](vec3(0.68, 0.52, 0.92), vec3(0.97, 0.98, 1.0), vec3(0.96, 0.80, 0.32), vec3(1.0, 0.76, 0.24));
 
 varying float v_fold;
+// Emblem index (-1 = none), constant per flag: flat, so the emblem branch keeps derivatives defined (shader lint B).
+varying flat int v_em;
 
 void vertex() {
 	float w = UV.x;
@@ -25,6 +27,7 @@ void vertex() {
 	VERTEX += side * (wave * 0.75 + wave2 * 0.25) * amp * w;
 	VERTEX.xz += normalize(wind_dir) * amp * 0.35 * w * (0.6 + 0.4 * wave);
 	v_fold = wave * 0.5 + 0.5;
+	v_em = UV2.y > 0.01 ? int(UV2.y * 4.0) : -1;
 }
 
 float emblem(int k, vec2 p) {
@@ -53,8 +56,8 @@ float emblem(int k, vec2 p) {
 
 void fragment() {
 	vec3 col = pow(COLOR.rgb, vec3(2.2));
-	if (UV2.y > 0.01) {
-		int k = int(UV2.y * 4.0);
+	if (v_em >= 0) {
+		int k = v_em;
 		float u = UV.y;
 		float v = UV.x;
 		if (v > 0.86 && abs(u - 0.5) < (v - 0.86) * 2.6) {

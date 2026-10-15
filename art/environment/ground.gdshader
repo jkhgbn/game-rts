@@ -228,6 +228,17 @@ float poster(float x, float n) {
 	return (i + smoothstep(0.5 - w, 0.5 + w, fr)) / n;
 }
 
+// poster() with the screen width of x given: fw = fwidth(x), taken in fragment() before any per-pixel branch (shader
+// lint B: derivatives inside a branch whose condition changes within a 2x2 pixel quad are undefined). Same result,
+// since fwidth(x * n) = n * fwidth(x).
+float poster_w(float x, float n, float fw) {
+	float f = x * n;
+	float i = floor(f);
+	float fr = f - i;
+	float w = clamp(fw * n, 0.001, 0.5);
+	return (i + smoothstep(0.5 - w, 0.5 + w, fr)) / n;
+}
+
 // Anti-aliased "inside a disc of radius r at distance d" (1 inside).
 float disc(float d, float r, float aa) {
 	return 1.0 - smoothstep(r - aa, r + aa, d);
@@ -487,19 +498,27 @@ vec4 road_nearest(vec2 p, float cutoff, out float sid) {
 
 // Painted trade road: trodden dust lighter in the middle, streaks along the way, two wheel ruts with a lit lip,
 // a broken grassy crown, pebbles and stretches of old half-buried cobbles. `grass` = the plain grass colour here.
-vec3 road_paint(vec2 p, vec4 r, float sid, vec3 grass, float px, float mid, float fine, float micro) {
+// The road's dust streaks along the segment (road space).
+float road_streak(vec4 r, float sid, float micro) {
+	float lat = r.y + (micro - 0.5) * 0.08;
+	return nz(vec2(r.z * 0.09 + sid * 0.37, lat * 0.55 + 0.21));
+}
+
+// tone / streak: the two posterised values (road_tone(), road_streak()) and their fwidth, taken by fragment() before
+// the per-pixel `road > 0` branch (shader lint B).
+vec3 road_paint(vec2 p, vec4 r, float sid, vec3 grass, float px, float mid, float fine, float micro, vec2 tone,
+		vec2 streak) {
 	float aa = px * 0.8;
 	float hw = road_width * 0.5;
 	float lat = r.y + (micro - 0.5) * 0.08;
 	float alat = abs(lat);
 	float on = step(0.0, r.z) * step(r.z, r.w);
 	// Dust: posterised light / dark blocks, lighter where the traffic runs, streaks along the road.
-	vec3 c = mix(road_dark, road_color, 0.35 + 0.65 * (poster(smoothstep(0.25, 0.75, fine * 0.6 + mid * 0.4), 3.0)
+	vec3 c = mix(road_dark, road_color, 0.35 + 0.65 * (poster_w(tone.x, 3.0, tone.y)
 			* 0.7 + smoothstep(0.25, 0.75, fine) * 0.3));
 	c *= 0.92 + micro * 0.16;
 	c *= 1.0 + 0.08 * (1.0 - smoothstep(0.2, hw, alat));
-	float streak = nz(vec2(r.z * 0.09 + sid * 0.37, lat * 0.55 + 0.21));
-	c *= 0.93 + poster(streak, 3.0) * 0.12;
+	c *= 0.93 + poster_w(streak.x, 3.0, streak.y) * 0.12;
 	// Old cobbles in stretches along the road (road space: rows across, staggered stones along).
 	float stretch_n = nz(vec2(r.z * 0.016 + sid * 0.713, 0.29 + sid * 0.17)) * 0.8 + fine * 0.2;
 	float stretch = smoothstep(0.64 - road_cobble * 0.3, 0.72 - road_cobble * 0.3, stretch_n) * step(0.001, road_cobble);
@@ -542,7 +561,9 @@ vec3 road_paint(vec2 p, vec4 r, float sid, vec3 grass, float px, float mid, floa
 }
 
 // Painted canopy seen from above: overlapping round crowns with a lit sun side.
-vec3 canopy(vec2 p, float px) {
+// canopy_crown: the crown over p as (shade value before posterising, inside 0 / 1, crown hash); `grad` = d value / d p
+// (analytic, inside the winning crown; 0 where the value is clamped).
+vec3 canopy_crown(vec2 p, out vec2 grad) {
 	float cs = 3.4;
 	vec2 g = p / cs;
 	vec2 id = floor(g);
@@ -550,6 +571,8 @@ vec3 canopy(vec2 p, float px) {
 	float lit = 0.0;
 	float hid = 0.0;
 	float height = -1.0;
+	vec2 wpos = p;
+	float wr = 1.0;
 	for (int y = -1; y <= 1; y++) {
 		for (int x = -1; x <= 1; x++) {
 			vec2 cid = id + vec2(float(x), float(y));
@@ -564,16 +587,43 @@ vec3 canopy(vec2 p, float px) {
 				best = d;
 				lit = dot((p - cpos) / r, sun_dir);
 				hid = h.y;
+				wpos = cpos;
+				wr = r;
 			}
 		}
 	}
-	float inside = step(0.0, height);
-	float v = clamp(0.5 + lit * 0.55 + (hid - 0.5) * 0.25 - best * best * 0.25, 0.0, 1.0);
-	vec3 c = mix(canopy_dark, canopy_light, poster(v, 4.0));
-	c = mix(c, c * vec3(1.18, 1.08, 0.72), step(0.86, hid) * 0.55);   // a few yellowing crowns
-	c = mix(c, c * vec3(0.8, 0.95, 1.12), step(hid, 0.12) * 0.5);    // and a few blue-green firs
-	c *= 0.8 + nz(p * 0.018 + vec2(4.4, 1.7)) * 0.4;                  // large light / dark stands
-	return mix(canopy_dark * 0.45, c, inside);
+	float raw = 0.5 + lit * 0.55 + (hid - 0.5) * 0.25 - best * best * 0.25;
+	vec2 rel = p - wpos;
+	float rl = length(rel);
+	vec2 unit = rl > 1e-5 ? rel / rl : vec2(0.0);
+	grad = (sun_dir * 0.55 - unit * (0.5 * best)) / wr * step(0.0, raw) * step(raw, 1.0) * step(0.0, height);
+	return vec3(clamp(raw, 0.0, 1.0), step(0.0, height), hid);
+}
+
+// Colour of the crown k (canopy_crown) with its posterised shade vp and the stand noise `stand`.
+vec3 canopy_paint(vec3 k, float vp, float stand) {
+	vec3 c = mix(canopy_dark, canopy_light, vp);
+	c = mix(c, c * vec3(1.18, 1.08, 0.72), step(0.86, k.z) * 0.55);   // a few yellowing crowns
+	c = mix(c, c * vec3(0.8, 0.95, 1.12), step(k.z, 0.12) * 0.5);    // and a few blue-green firs
+	c *= 0.8 + stand * 0.4;                                           // large light / dark stands
+	return mix(canopy_dark * 0.45, c, k.y);
+}
+
+// Uniform-branch callers only (takes derivatives).
+vec3 canopy(vec2 p, float px) {
+	vec2 grad;
+	vec3 k = canopy_crown(p, grad);
+	return canopy_paint(k, poster(k.x, 4.0), nz(p * 0.018 + vec2(4.4, 1.7)));
+}
+
+// Per-pixel-branch callers: no derivative here; dpx / dpy = dFdx / dFdy of p taken before the branch (shader lint B).
+// The shade's width comes from the chain rule, the stand noise from textureGrad (same mip as the implicit read).
+vec3 canopy_grad(vec2 p, vec2 dpx, vec2 dpy) {
+	vec2 grad;
+	vec3 k = canopy_crown(p, grad);
+	float fw = abs(dot(grad, dpx)) + abs(dot(grad, dpy));
+	float stand = textureGrad(noise_tex, p * 0.018 + vec2(4.4, 1.7), dpx * 0.018, dpy * 0.018).r;
+	return canopy_paint(k, poster_w(k.x, 4.0, fw), stand);
 }
 
 // ------------------------------------------------------------------ 12.V2 river cut, banks, biomes
@@ -696,10 +746,11 @@ vec3 biome_paint(vec2 p, vec3 grass, vec3 f, vec4 w, float ruin, float px, float
 		flower_cut = max(flower_cut, w.y * 0.7);
 	}
 	// Old Wood: dark needle litter in two crossing stroke directions, moss cushions; few tufts, no flowers.
+	// The needle strokes are read before the per-pixel w.z branch: poster() takes a derivative (shader lint B).
+	vec2 q = vec2(p.x * 0.8 + p.y * 0.6, p.y * 0.8 - p.x * 0.6);
+	float n1 = nz(q * vec2(1.3, 0.22) + vec2(3.3, 7.7));   // needle strokes (the only extra read here)
+	float lit = poster(smoothstep(0.30, 0.72, n1 * 0.8 + micro * 0.2), 3.0);
 	if (w.z > 0.001) {
-		vec2 q = vec2(p.x * 0.8 + p.y * 0.6, p.y * 0.8 - p.x * 0.6);
-		float n1 = nz(q * vec2(1.3, 0.22) + vec2(3.3, 7.7));   // needle strokes (the only extra read here)
-		float lit = poster(smoothstep(0.30, 0.72, n1 * 0.8 + micro * 0.2), 3.0);
 		// Needle litter over the dark tinted grass (forest shade), not bare earth: the lane and roads stay lighter.
 		vec3 fl = mix(grass, needle_color, 0.6) * mix(0.82, 1.12, mix(0.5, lit, detail)) * (0.93 + micro * 0.14);
 		float moss = smoothstep(0.62 - nw, 0.62 + nw, fine + (micro - 0.5) * 0.3);
@@ -727,7 +778,8 @@ vec3 biome_paint(vec2 p, vec3 grass, vec3 f, vec4 w, float ruin, float px, float
 // Wet bank band over the finished ground colour `col` at signed water distance wsd (< 0: a ford / Crown Steps bed
 // under the 12.V1 film): dark wet earth and pebbles at the lip, damp earth, then sand with grass islands and the
 // same painted lips as the dirt edges. Roads and the lane (`dirt`) stay dirt, only darker toward the water.
-vec3 bank_paint(vec2 p, vec3 col, float wsd, float dirt, float px, float mid, float fine, float micro) {
+// tone = (smoothstep(0.3, 0.7, fine), its fwidth), taken before the per-pixel bank branch (shader lint B).
+vec3 bank_paint(vec2 p, vec3 col, float wsd, float dirt, float px, float mid, float fine, float micro, vec2 tone) {
 	float aa = px;
 	float pf = 1.0 - smoothstep(0.06, 0.14, px);   // pebble detail fades when far
 	if (wsd < 0.0) {
@@ -757,7 +809,7 @@ vec3 bank_paint(vec2 p, vec3 col, float wsd, float dirt, float px, float mid, fl
 	vec3 bc = mix(bank_wet, bank_damp, smoothstep(mud_w - sw, mud_w + sw, wsd));
 	bc = mix(bc, bank_sand, smoothstep(damp_w - sw, damp_w + sw, wsd));
 	bc *= 0.90 + micro * 0.2;
-	bc *= 0.95 + poster(smoothstep(0.3, 0.7, fine), 3.0) * 0.10;
+	bc *= 0.95 + poster_w(tone.x, 3.0, tone.y) * 0.10;
 	// A pale wet glint along the lip (sky in the mud) and the darkest line right at the edge.
 	float glint = disc(abs(wsd - 0.17 - (micro - 0.5) * 0.08), 0.035, aa) * (1.0 - smoothstep(0.1, 0.25, px));
 	bc = mix(bc, bc * 1.5 + vec3(0.03, 0.04, 0.045), glint * 0.45);
@@ -786,6 +838,14 @@ void fragment() {
 	float mid = nz(p * 0.040 + vec2(3.7, 1.9));
 	float fine = nz(p * 0.20 + vec2(11.3, 4.2));
 	float micro = nz(p * 0.9 + vec2(2.2, 6.1));
+	// Shader lint B: every derivative the per-pixel branches below need is taken here, in uniform control flow.
+	vec2 dpx2 = dFdx(p);
+	vec2 dpy2 = dFdy(p);
+	float fw_fine = fwidth(fine);
+	float bank_tone = smoothstep(0.3, 0.7, fine);
+	vec2 bank_t = vec2(bank_tone, fwidth(bank_tone));
+	float road_tone = smoothstep(0.25, 0.75, fine * 0.6 + mid * 0.4);
+	vec2 road_t = vec2(road_tone, fwidth(road_tone));
 	float edge = (mid - 0.5) * edge_noise + (fine - 0.5) * 0.9 + (micro - 0.5) * 0.35;
 	// Area harmony: the outer ring of the map (last ~20 m before the cliffs) turns a little darker and cooler,
 	// a painted frame that keeps the eye on the play space; the plaza and the bases stay in the warm light.
@@ -860,9 +920,12 @@ void fragment() {
 	float road = 0.0;
 	vec4 rn = vec4(1e4, 0.0, 0.0, 1.0);
 	float road_id = 0.0;
+	vec2 road_s = vec2(0.0);
 	if (road_count > 0) {
 		float rhw = road_width * 0.5;
 		rn = road_nearest(p, rhw + 1.5, road_id);
+		float streak = road_streak(rn, road_id, micro);
+		road_s = vec2(streak, fwidth(streak));   // before the per-pixel `road > 0` branch (shader lint B)
 		if (rn.x < rhw + 1.5) {
 			float e_road = rn.x + edge * 0.55 - rhw + 0.02;
 			road = edge_mask(e_road, aa);
@@ -882,7 +945,7 @@ void fragment() {
 	dcol = mix(dcol, mix(dcol, grass * 0.95, 0.75), crown * (1.0 - trod));
 	dcol = pebbles(p, dcol, px, 1.0);
 	if (road > 0.0) {
-		dcol = mix(dcol, road_paint(p, rn, road_id, grass, px, mid, fine, micro), road);
+		dcol = mix(dcol, road_paint(p, rn, road_id, grass, px, mid, fine, micro, road_t, road_s), road);
 		dirt = max(dirt, road);
 	}
 
@@ -904,7 +967,7 @@ void fragment() {
 	float hgt = -0.30 * dirt - 0.10 * rut * dirt;
 	// Wet bank band along the river and moat (12.V2), under the plaza flagstones.
 	if (river_on && wsd < bank_width + 1.6) {
-		col = bank_paint(p, col, wsd, dirt, px, mid, fine, micro);
+		col = bank_paint(p, col, wsd, dirt, px, mid, fine, micro, bank_t);
 		hgt -= (1.0 - smoothstep(0.0, bank_width + 0.8, wsd)) * 0.45;
 	}
 	vec3 emit = vec3(0.0);
@@ -941,11 +1004,11 @@ void fragment() {
 		scree = pebbles(p * 1.3, scree, px, 1.0);
 		col = mix(col, scree, scree_t);
 		float rock_t = smoothstep(2.0, 2.6, od + (micro - 0.5) * 0.8);
-		vec3 rock = rock_color * (0.55 + poster(fine, 3.0) * 0.35);
+		vec3 rock = rock_color * (0.55 + poster_w(fine, 3.0, fw_fine) * 0.35);
 		rock *= 0.8 + 0.2 * step(0.5, fract((p.x + p.y) * 0.9 + fine * 2.0));
 		col = mix(col, rock, rock_t);
 		float can_t = smoothstep(canopy_start - 0.5, canopy_start + 0.5, od + (mid - 0.5) * 4.0);
-		col = mix(col, canopy(p, px), can_t);
+		col = mix(col, canopy_grad(p, dpx2, dpy2), can_t);
 		col = mix(col, haze_color, smoothstep(canopy_start + 10.0, canopy_start + 90.0, od) * 0.75);
 	}
 
@@ -953,11 +1016,12 @@ void fragment() {
 	// discard). Fades out when a pixel is wider than the features (no shimmer at max zoom).
 	vec3 relief_n = vec3(0.0, 1.0, 0.0);
 	float rk = relief * (1.0 - smoothstep(0.07, 0.14, px));
+	// The four derivatives are taken before the branch: rk fades with px, so it can change inside a pixel quad.
+	vec3 dpx = dFdx(v_wp);
+	vec3 dpy = dFdy(v_wp);
+	float hx = dFdx(hgt);
+	float hy = dFdy(hgt);
 	if (rk > 0.0 && bake_mode == 0) {
-		vec3 dpx = dFdx(v_wp);
-		vec3 dpy = dFdy(v_wp);
-		float hx = dFdx(hgt);
-		float hy = dFdy(hgt);
 		float det = dpx.x * dpy.z - dpx.z * dpy.x;
 		if (abs(det) > 1e-9) {
 			vec2 g = vec2(hx * dpy.z - hy * dpx.z, dpx.x * hy - dpy.x * hx) / det;

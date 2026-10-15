@@ -48,7 +48,7 @@ instance uniform float ao_bottom : instance_index(1) = 0.0;
 instance uniform float ao_height : instance_index(2) = 10.0;
 instance uniform float hit_flash : instance_index(3) = 0.0;
 instance uniform vec3 flash_color : instance_index(4) = vec3(1.0, 1.0, 1.0);
-instance uniform float kit_detail : instance_index(12) = 2.0;
+instance uniform float kit_detail : instance_index(12) = 0.0;   // CharacterModel writes it per draw instance (shader lint A)
 
 #include "res://art/units/kit/unit_paint.gdshaderinc"
 

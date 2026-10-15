@@ -90,6 +90,15 @@ float poster(float x, float n) {
 	return (i + smoothstep(0.5 - w, 0.5 + w, fr)) / n;
 }
 
+// poster() with fw = fwidth(x) taken by the caller in uniform control flow (shader lint B); fwidth(x * n) = n * fwidth(x).
+float poster_w(float x, float n, float fw) {
+	float f = x * n;
+	float i = floor(f);
+	float fr = f - i;
+	float w = clamp(fw * n, 0.001, 0.5);
+	return (i + smoothstep(0.5 - w, 0.5 + w, fr)) / n;
+}
+
 float disc(float d, float r, float aa) {
 	return 1.0 - smoothstep(r - aa, r + aa, d);
 }
@@ -249,13 +258,19 @@ void fragment() {
 	float wdepth = bed_depth * mix(1.0, (1.0 - exp(-edge_m * 1.1)), bankw) * (0.8 + n_big * 0.4);
 	if (q >= 1 && sh < 0.999) {
 		float vis = exp(-wdepth * clarity) * bankw;
+		// Shader lint B: the bed point, its posterised noise and both posterised values' fwidth are taken here, before
+		// the per-pixel `vis` branch.
+		vec2 par = -vw.xz / max(vw.y, 0.35) * wdepth;
+		vec2 refr = nw.xz * wdepth * (q >= 3 ? 0.9 : 0.5);
+		vec2 bp = wp + par + refr;
+		float bn_tone = nz(bp * 1.1 + vec2(0.7, 2.2));
+		float fw_bn_tone = fwidth(bn_tone);
+		float vis_c = clamp(vis, 0.0, 1.0);
+		float fw_vis = fwidth(vis_c);
 		if (vis > 0.01) {
-			vec2 par = -vw.xz / max(vw.y, 0.35) * wdepth;
-			vec2 refr = nw.xz * wdepth * (q >= 3 ? 0.9 : 0.5);
-			vec2 bp = wp + par + refr;
 			float bn = nz(bp * 0.31 + vec2(3.3, 8.1));
 			vec3 bed = mix(bed_silt, bed_sand, smoothstep(0.25, 0.75, bn + (1.0 - smoothstep(0.0, 1.2, edge_m)) * 0.35));
-			bed *= 0.86 + poster(nz(bp * 1.1 + vec2(0.7, 2.2)), 3.0) * 0.26;
+			bed *= 0.86 + poster_w(bn_tone, 3.0, fw_bn_tone) * 0.26;
 			if (q >= 2) {
 				vec3 st = stones(bp * 1.25, aa * 1.25, true);   // simple cells: the full Voronoi cost 1 ms at Ultra z10
 				vec3 sc = mix(bed_silt, stone_color, 0.75) * (0.75 + st.z * 0.4) * (1.0 + st.y * 0.25);
@@ -270,7 +285,7 @@ void fragment() {
 			}
 			vec3 seen = bed * shallow_tint * 1.15;
 			// Posterised visibility: painted steps, not a gradient.
-			float pv = poster(clamp(vis, 0.0, 1.0), 4.0) * 0.6 + vis * 0.4;
+			float pv = poster_w(vis_c, 4.0, fw_vis) * 0.6 + vis * 0.4;
 			col = mix(col, seen, pv * 0.85 * (1.0 - sh));
 		}
 	}

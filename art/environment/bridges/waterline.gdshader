@@ -14,7 +14,7 @@ render_mode blend_mul, unshaded, depth_draw_never, cull_back, shadows_disabled, 
 uniform sampler2D noise_tex : hint_default_white, filter_linear_mipmap, repeat_enable;
 uniform vec3 wet_tint : source_color = vec3(0.55, 0.62, 0.62);
 uniform float band_height = 0.28;
-uniform int quality = 2;
+uniform int quality = 0;   // WaterQuality.apply writes the tier (shader lint A)
 instance uniform float water_y = -0.35;
 
 varying vec3 v_wp;

@@ -36,6 +36,8 @@ varying float v_spec_in;
 varying float v_crack;
 varying vec2 v_crack_ss;
 varying vec3 v_m;
+// Hole flag (UV2.x < -0.5), constant per part: flat, so the lit branch keeps derivatives defined (shader lint B).
+varying flat int v_hole;
 
 void vertex() {
 	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -43,6 +45,7 @@ void vertex() {
 	v_lp = VERTEX;
 	v_ln = NORMAL;
 	v_crack = UV2.x;
+	v_hole = UV2.x < -0.5 ? 1 : 0;
 	v_crack_ss = CUSTOM0.xy;
 	v_spec_in = UV2.y;
 }
@@ -61,7 +64,7 @@ void fragment() {
 	bool team = COLOR.a < 0.5;
 	vec3 col = team ? base_color * vc : vc;
 	v_m = vec3(0.0);
-	if (v_crack < -0.5) {
+	if (v_hole == 1) {
 		ALBEDO = vec3(0.0);
 		EMISSION = col;
 		ROUGHNESS = 1.0;

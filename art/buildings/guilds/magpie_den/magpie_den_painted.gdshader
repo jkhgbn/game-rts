@@ -50,10 +50,13 @@ varying vec3 v_lp;
 varying vec3 v_ln;
 
 varying float v_spec;
+// Palette index, constant per triangle: flat, so branches on the pattern keep derivatives defined (shader lint B).
+varying flat int v_pi;
 
 #include "res://art/buildings/tavern/neutral_paint.gdshaderinc"
 
 void vertex() {
+	v_pi = clamp(int(UV.x + 0.5), 0, 23);
 	v_wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	v_wn = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
 	v_lp = VERTEX;
@@ -79,7 +82,7 @@ float along(vec3 ln) {
 }
 
 void fragment() {
-	int p_i = clamp(int(UV.x + 0.5), 0, 23);
+	int p_i = v_pi;
 	vec3 p_base = palette ? pal_a[p_i].rgb : base_color;
 	float p_spec = palette ? pal_a[p_i].w : spec_strength;
 	vec3 p_moss = palette ? pal_b[p_i].rgb : moss_color;

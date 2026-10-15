@@ -66,8 +66,11 @@ void vertex() {
 
 void fragment() {
 	vec3 n = NORMAL;
+	// Screen derivatives before the branch: v_facet is interpolated, so it can change inside a pixel quad.
+	vec3 dpx = dFdx(VERTEX);
+	vec3 dpy = dFdy(VERTEX);
 	if (v_facet > 0.0) {
-		vec3 fn = normalize(cross(dFdx(VERTEX), dFdy(VERTEX)));
+		vec3 fn = normalize(cross(dpx, dpy));
 		fn *= sign(dot(fn, n) + 1e-4);
 		n = normalize(mix(n, fn, v_facet));
 		NORMAL = n;

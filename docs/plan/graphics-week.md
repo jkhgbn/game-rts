@@ -33,10 +33,10 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
 - Committed: G1 setting 97e10f6f + Ultra AA a787667b, G1 lighting e694aa3e, G3a+G3b 1f61a0ea, G2b water 09c78776, G2a grass
   3dfd52e5 + hook b91f5ed1, G-B Shadow 868fcc1a, fog ghost no_ghost cc860e32, G-B Fire 371f5844, spell VFX e6112f6f,
   neutral fd4f6dac, Nature 6683e181, forge model fallback bc47e251, i18n stable 3ee5a6aa.
-- Running: G-C Fire / Shadow / Ice units; G-B Ice buildings (review fix: derivatives in branches; then commit with the
-  Frost Forge, test_forge_model needs it); fog leaks: old art/vfx hubs (fw-art) + projectile.gd (gameplay-coder), then
-  commit tests/test_fog_leak.gd (fails today: 43 leaks); tests/test_shader_lint.gd (tier defaults, derivatives).
-- Next: G-C Nature units, champions, mounts / titans; G-D world life (also: the white puffs on freshly built buildings,
+- Also committed: G-B Ice 9d6c449e, G-C Fire units 160823cf, fog leaks (VfxFog + tests/test_fog_leak.gd) 4bb1ca8c.
+- Running: G-C Shadow / Ice / Nature units, champions, mounts / titans; shader-lint fixes (then commit
+  tests/test_shader_lint.gd); balance fs7-r5 (1 game at a time).
+- Next: G-D world life (also: the white puffs on freshly built buildings,
   a no-grass mask under Shadow dead ground, Fire stables shader, forge models for Fire / Nature / Shadow); G-E; G-F build.
 - Follow-ups: ui-coder `GameSettings.gfx_test_override` (handoff for-ui-coder.md); Art Lab B5 exception for Ultra-only
   building lights; hero vertex budget 4500; stagrunner garbled .tres lines; balance batch fs7-r5 runs 1 game at a time.

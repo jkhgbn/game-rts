@@ -20,7 +20,7 @@ uniform float ring_energy = 1.6;
 uniform float scorch = 0.0;
 uniform float damage = 0.0;
 uniform float build = 1.0;
-uniform float tier = 1.0;      // G-B: keep tier 1..3 (rune circles)
+uniform float tier = 1.0;      // G-B: keep tier 1..3 (rune circles), not a graphics tier  // lint: tier-default-ok
 uniform float upgrade = 0.0;   // G-B: upgrade progress 0..1 (0 = not upgrading)
 
 float hash2(vec2 p) {

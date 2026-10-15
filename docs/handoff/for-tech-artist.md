@@ -402,3 +402,77 @@ biome sets are scattered (after the marsh set's meshes are placed):
 		(load("res://art/environment/water/water_quality.gd") as Script).call(&"ensure")
 ```
 Without it such puddles stay at the Low (12.V1) look, which is correct, just not upgraded.
+
+## From the fog-leak root-cause pass (2026-10-15, tests/test_fog_leak.gd)
+The test casts every wizard / caster spell of an ENEMY team in never-explored fog and fails on any visual node drawn
+there. The G layer (SpellFxG) and the caster families pass; the older spell hubs do not gate one-shot effects on the
+fog. Leaking (node -> script), all at the enemy cast / impact point while the player has never seen it:
+- `art/vfx/spell_vfx.gd`: hand_fire, hand_shadow, impact_smoke / sparks / flames, fire_column, land_sparks,
+  dash_embers, shadow_puff, shadow_motes, implode, lance_shards, Trail_fire (trail_fire / smoke / embers),
+  Trail_lance (trail_lance / umbra), EmberGround (mesh + ground_flames / smoke), Siphon (mesh + motes / wisps),
+  Kindle (mesh + kindle_flames), a loose MeshInstance3D (the fireball head?).
+- `art/vfx/ice_vfx.gd`: Aura_dome mesh, a ground mesh, a GPUParticles3D + mesh (rime_bolt impact?), FlashFreeze
+  (mesh + MultiMesh).
+- `art/vfx/nature_vfx.gd`: a GPUParticles3D, a ground mesh, Thornburst (mesh + MultiMesh).
+- `art/vfx/combat_vfx.gd`: a hit / death GPUParticles3D.
+The fog overlay is drawn at render_priority -100, so transparent / additive VFX draw ON TOP of the black fog.
+Suggested fix, same rule as SpellFxG._fog_ok / the caster families: skip (or keep hidden) an effect whose caster team
+is not FogOfWar.local_team when its point is not `is_visible(local_team, pos)`; follow effects (trails, hand glows,
+auras) hide while the followed node is not visible_in_tree. Re-run `tests/test_fog_leak.gd` (++ --gfx=ultra) to check.
+
+## From the shader lint (2026-10-15, tests/test_shader_lint.gd)
+**DONE (2026-10-15, tech-artist): 47 hits -> 0, `PASS shader_lint`.** Lint change (lead decision): `flat` varyings count
+as uniform for rule B (12 hits gone: watchtower, fire_keep_painted, nature_vc, old_wood_web). Rule A: gb_detail (fire /
+ice / neutral paint), waterline `quality` and unit / champion `kit_detail` default to 0 (every material is written by
+FireBuildingLook, IceShapes / IceStables, NeutralBuildingLook, WaterQuality, CharacterModel; checked);
+nature_keep_ground `tier` carries `lint: tier-default-ok`. Rule B: index branches now read flat varyings (tavern /
+greywater / magpie `v_pi`, em_cloth `v_em`, fire_painted_vc `v_hole`); horizon / horizon_autumn take dFdx / dFdy
+before the facet branch; ground / water / riverbed take every derivative before their per-pixel branches (`poster_w`,
+canopy_grad with an analytic shade gradient + textureGrad, riverbed picks its projection by a select). High shots
+before / after (ground Crown Hollow, water river / ford / moat / bridge, tavern): no visible change.
+The list below is the original report, kept for reference.
+
+`tools\godot_run.ps1 --headless --path . -s tests/test_shader_lint.gd --quit-after 600` (~3 s, text only) prints every
+hit as file:line. Rule A: a tier uniform (quality, gfx_detail, gb_detail, kit_detail, detail_tier, gfx_tier, tier) whose
+default is > 0 (an unset material runs the High path at Low): default it to 0 and let the look script set it, or add
+`// lint: tier-default-ok` on the line when the name is not a graphics tier. Rule B: dFdx / dFdy / fwidth (or a helper
+that calls one) inside an `if` / `switch` whose condition reads a per-fragment value (varying, flat varying, UV / UV2 /
+COLOR, a local fed from them, a texture read, a helper parameter fed per-fragment): take the derivative (or the helper's
+`px` / AA width) before the branch, or add `// lint: deriv-ok` on the call line when it is really safe.
+Not listed: `art/buildings/ice/ice_paint.gdshaderinc:20` (A, gb_detail = 2.0) because the G-B Ice agent is on it now.
+
+Rule A (graphics tier default > 0):
+- `art/buildings/fire/fire_paint.gdshaderinc:19` gb_detail = 2.0
+- `art/buildings/tavern/neutral_paint.gdshaderinc:22` gb_detail = 2.0
+- `art/environment/bridges/waterline.gdshader:17` quality = 2
+- `art/units/kit/unit_painted.gdshader:51` kit_detail = 2.0 (instance uniform)
+- `art/units/champions/champion_palette.gdshader:31` kit_detail = 2.0 (instance uniform)
+- `art/buildings/nature_keep_ground.gdshader:23` `tier = 1.0` is the keep tier (rune circles), not a graphics tier:
+  add `// lint: tier-default-ok` on that line.
+
+Rule B, real per-pixel conditions (speckle / seam risk where the condition changes inside a 2x2 pixel quad):
+- `art/environment/ground.gdshader:702` poster() under `if (w.z > 0.001)` (biome weight, line 699)
+- `art/environment/ground.gdshader:885` road_paint() under `if (road > 0.0)` (line 884)
+- `art/environment/ground.gdshader:907` bank_paint() under `if (river_on && wsd < ...)` (line 906)
+- `art/environment/ground.gdshader:944, 948` poster() / canopy() under the `od` branches (line 938)
+- `art/environment/ground.gdshader:957-960` dFdx / dFdy under `if (rk > 0.0 && ...)` (rk fades with px, line 956): take
+  the four derivatives before the if
+- `art/environment/water/riverbed.gdshader:110, 112` wall() under `if (w2.y >= w2.x)` (normal-based, line 109)
+- `art/environment/water/water.gdshader:258, 273` poster() under `if (vis > 0.01)` (line 252)
+
+Rule B, per-surface index branches (kind / pattern / material id from a flat varying or a vertex attribute; constant
+per triangle, so lower risk in practice, but undefined by the spec and the same pattern the review fixes moved out today):
+- `art/buildings/capture/watchtower/watchtower_painted.gdshader:97, 109, 124` fwidth under `kind` branches (line 88)
+- `art/buildings/tavern/tavern_painted.gdshader:103` fwidth under `p_pat` (from UV.x, line 91)
+- `art/buildings/guilds/greywater_lodge/greywater_lodge_painted.gdshader:112, 129, 138, 151` under `p_pat` (line 102)
+- `art/buildings/guilds/magpie_den/magpie_den_painted.gdshader:111, 132, 147` under `p_pat` (line 101)
+- `art/buildings/fire_keep_painted.gdshader:115, 130, 149` blocks() under `pattern` (= patterns[v_slot], line 114)
+- `art/buildings/fire/fire_painted_vc.gdshader:80, 83, 87` fwidth / fp_flat_normal() / fp_bump() in the else of
+  `if (v_crack < -0.5)` (smooth varying from UV2.x, line 64)
+- `art/buildings/nature/nature_vc.gdshader:184, 248, 280` blocks() / nv_bump() under `v_mat` branches (line 139)
+- `art/cinematics/stage_sets/forge_evenmead/parts/materials/em_cloth.gdshader:64, 66` under `if (UV2.y > 0.01)` (line 56)
+- `art/environment/horizon/horizon.gdshader:48` and `art/environment/autumn/horizon_autumn.gdshader:70` dFdx / dFdy
+  under `if (v_facet > 0.0)` (smooth varying from UV.x)
+- `art/environment/biomes/old_wood/old_wood_web.gdshader:81, 84, 92` under `v_kind` branches (line 63)
+Watchtower, nature_vc and neutral_paint were edited in the last half hour: if an agent is still on them, re-run the
+lint after it lands. Candidate names not in the tier list (not flagged): `water.gdshader:42 detail = 1.0` (map detail).

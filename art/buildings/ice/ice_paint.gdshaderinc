@@ -17,7 +17,7 @@
 //   2 High / 3 Ultra = + a second interior layer (fracture planes), snow / frost glints (only on pixels < ~6 cm)
 // Include it AFTER the shader's own uniforms (it reads noise_tex).
 
-uniform float gb_detail = 2.0;
+uniform float gb_detail = 0.0;   // IceShapes.ice_vc / ice_part, IceStables write the tier (shader lint A)
 uniform vec3 ip_shade_tint : source_color = vec3(0.46, 0.60, 0.95);
 uniform vec3 ip_sky : source_color = vec3(0.80, 0.90, 1.00);
 uniform vec3 ip_snow_color : source_color = vec3(0.74, 0.80, 0.89);

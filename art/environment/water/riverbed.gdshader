@@ -40,30 +40,40 @@ float hash(vec2 p) {
 	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
 }
 
-float poster(float x, float n) {
+// poster() with fw = fwidth(x) taken by the caller in uniform control flow (shader lint B).
+float poster_w(float x, float n, float fw) {
 	float f = x * n;
 	float i = floor(f);
 	float fr = f - i;
-	float w = clamp(fwidth(f), 0.001, 0.5);
+	float w = clamp(fw * n, 0.001, 0.5);
 	return (i + smoothstep(0.5 - w, 0.5 + w, fr)) / n;
 }
 
-// Painted wall in one projection: u = metres along the wall, y = world height. Returns the colour.
-vec3 wall(float u, float y, float h, float px, out float root_m) {
-	float aa = px * 0.8;
+// The wall's two noise reads and its block tone (before posterising) at u / y: (n1, n2, tone).
+vec3 wall_in(float u, float y) {
 	float n1 = nz(vec2(u * 0.35, y * 0.9));
 	float n2 = nz(vec2(u * 1.3 + 3.1, y * 2.6 + 1.7));
+	float row = floor((y + (n1 - 0.5) * 0.08) / 0.16);
+	float uu = u / (0.42 + hash(vec2(row, 1.7)) * 0.2) + hash(vec2(row, 9.1)) * 3.0;
+	float hb = hash(vec2(floor(uu), row));
+	return vec3(n1, n2, clamp(0.25 + hb * 0.55 + (n2 - 0.5) * 0.35, 0.0, 1.0));
+}
+
+// Painted wall in one projection: u = metres along the wall, y = world height, k = wall_in(u, y), fw = fwidth(k.z).
+// Returns the colour.
+vec3 wall(float u, float y, float h, float px, vec3 k, float fw, out float root_m) {
+	float aa = px * 0.8;
+	float n1 = k.x;
+	float n2 = k.y;
 	// Rock blocks: staggered rows ~0.16 m high, 0.3-0.6 m long, each its own value.
 	float row_h = 0.16;
 	float yy = y + (n1 - 0.5) * 0.08;
 	float row = floor(yy / row_h);
 	float uu = u / (0.42 + hash(vec2(row, 1.7)) * 0.2) + hash(vec2(row, 9.1)) * 3.0;
-	float cell = floor(uu);
-	float hb = hash(vec2(cell, row));
 	float bu = min(fract(uu), 1.0 - fract(uu)) * 0.45;
 	float bv = min(fract(yy / row_h), 1.0 - fract(yy / row_h)) * row_h;
 	float joint = smoothstep(0.0, 0.025 + aa, min(bu, bv));
-	vec3 rock = mix(rock_dark, rock_light, poster(clamp(0.25 + hb * 0.55 + (n2 - 0.5) * 0.35, 0.0, 1.0), 3.0));
+	vec3 rock = mix(rock_dark, rock_light, poster_w(k.z, 3.0, fw));
 	rock *= 0.78 + 0.22 * smoothstep(0.0, 0.05, bv);        // top of each block lit, underside dark
 	rock = mix(rock * 0.45, rock, joint);
 	// Earth band under the lip, rock below it (wavy border).
@@ -103,14 +113,12 @@ void fragment() {
 	// Sharp triplanar between the two vertical projections (roots must not double up).
 	vec2 w2 = pow(abs(n.xz), vec2(8.0));
 	w2 /= (w2.x + w2.y + 0.0001);
-	float rm_a;
-	float rm_b;
-	vec3 wall_col;
-	if (w2.y >= w2.x) {
-		wall_col = wall(p.x, p.y, h, px, rm_a);
-	} else {
-		wall_col = wall(p.z + 13.7, p.y, h, px, rm_b);
-	}
+	// The projection is picked per pixel by a select, not a branch, so the block tone's fwidth is taken in uniform
+	// control flow (shader lint B; a quad across the projection seam just gets a soft tone step).
+	float wu = w2.y >= w2.x ? p.x : p.z + 13.7;
+	vec3 wk = wall_in(wu, p.y);
+	float rm;
+	vec3 wall_col = wall(wu, p.y, h, px, wk, fwidth(wk.z), rm);
 	// Wet darkening toward the water, pale scum line just above it, near black under it.
 	float above = p.y - water_y;
 	vec3 c = wall_col;
