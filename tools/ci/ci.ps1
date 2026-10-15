@@ -24,6 +24,7 @@ param(
 	[string]$Run = "",
 	[int]$SmokeRuns = 3,
 	[int[]]$PerfUnits = @(100, 200),
+	[string]$PerfScript = "tests/perf_test.gd",   # another perf script (a staged copy) for checking the gate itself
 	[string[]]$Tests = @(),
 	[switch]$SkipImport,
 	[switch]$SkipSmoke,
@@ -36,7 +37,7 @@ param(
 	[switch]$NoFull
 )
 $ErrorActionPreference = "Stop"
-$CiVersion = "2.2"
+$CiVersion = "2.3"
 # Tests with an early stop (their verdict is final before the match ends); `-- --full` plays the whole match.
 $EarlyStopTests = @("test_8_a1", "test_8_a2", "test_9_c11", "test_casters_bots")
 $wholeSuite = (-not $SkipTests) -and $Tests.Count -eq 0
@@ -44,6 +45,7 @@ if ($wholeSuite -and -not $NoFull) { $Full = [switch]$true }   # milestone CI: t
 if ($NoFull) { $Full = [switch]$false }
 $Scope = if ($SkipTests) { "no-tests" } elseif ($Tests.Count -gt 0) { "subset" } elseif ($Full) { "full" } else { "full-short" }
 $LabRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
+while ($LabRoot -and -not (Test-Path (Join-Path $LabRoot "project.godot"))) { $LabRoot = Split-Path $LabRoot -Parent }   # a staged copy
 $Gate = Join-Path $LabRoot "tools\godot_run.ps1"
 $ErrorLab = Join-Path $LabRoot "tools\error_lab\error_lab.ps1"
 if (-not $Dir) {
@@ -128,20 +130,44 @@ if (-not $SkipSmoke -and $SmokeRuns -gt 0) {
 }
 
 # ---------- 3. perf ----------
+# Load-proof gate (2026-10-14): perf_test.gd times a fixed calibration slice every frame and judges the frame time
+# divided by that load factor ("PERF load ... norm_ms_per_frame"), so other Godot runs / the slow cores no longer fail
+# it while a real regression (game slower, calibration not) still does. A timing-only miss (stuck=0) is measured once
+# more and the better run counts (a real regression misses twice). The raw line ("PERF units ... ms_per_frame") stays
+# in the result lines for history. WARN instead of FAIL only when the machine was more than $PerfMaxLoad x slower than
+# the quiet reference (the normalisation is then less trustworthy).
+$PerfMaxLoad = 2.5
+function Read-Perf([object]$r) {
+	$pl = @($r.lines | Where-Object { $_ -match '^PERF units' } | Select-Object -First 1)
+	$ll = @($r.lines | Where-Object { $_ -match '^PERF load' } | Select-Object -First 1)
+	$norm = -1.0; $load = 1.0
+	if ($ll.Count -and $ll[0] -match 'norm_ms_per_frame=([\d.]+)') { $norm = [double]$Matches[1] }
+	if ($ll.Count -and $ll[0] -match ' load=([\d.]+)') { $load = [double]$Matches[1] }
+	return @{ raw = $(if ($pl.Count) { $pl[0].Trim() } else { "" }); load_line = $(if ($ll.Count) { $ll[0].Trim() } else { "" })
+		ok = (@($r.lines | Where-Object { $_ -match '^PERF OK' }).Count -gt 0); norm = $norm; load = $load
+		stuck0 = ($pl.Count -gt 0 -and $pl[0] -match 'stuck=0') }
+}
 if (-not $SkipPerf) {
 	foreach ($n in $PerfUnits) {
 		$busy = Count-Godot
-		$r = Invoke-Godot @("--headless", "--path", $Dir, "-s", "tests/perf_test.gd", "--fixed-fps", "60", "--quit-after", "3000", "--", "units=$n") (Join-Path $LogDir "perf_$n.log")
+		$r = Invoke-Godot @("--headless", "--path", $Dir, "-s", $PerfScript, "--fixed-fps", "60", "--quit-after", "3000", "--", "units=$n") (Join-Path $LogDir "perf_$n.log")
+		$pf = Read-Perf $r
+		$tries = 1
+		if (-not $pf.ok -and $pf.stuck0) {
+			# Timing-only miss: measure once more, keep the better run.
+			$r2 = Invoke-Godot @("--headless", "--path", $Dir, "-s", $PerfScript, "--fixed-fps", "60", "--quit-after", "3000", "--", "units=$n") (Join-Path $LogDir "perf_${n}_retry.log")
+			$pf2 = Read-Perf $r2
+			$tries = 2
+			if ($pf2.raw -and ($pf2.ok -or ($pf2.norm -ge 0 -and ($pf.norm -lt 0 -or $pf2.norm -lt $pf.norm)))) { $pf = $pf2; $r = $r2 }
+		}
 		$busy = [math]::Max($busy, (Count-Godot))
-		$pl = @($r.lines | Where-Object { $_ -match '^PERF units' } | Select-Object -First 1)
-		$ok = @($r.lines | Where-Object { $_ -match '^PERF OK' }).Count -gt 0
-		foreach ($l in $pl) { $out.Add($l.Trim()) }
-		$detail = if ($pl.Count) { $pl[0].Trim() } elseif ($r.harness) { "HARNESS (runner, not Godot, exit $($r.exit)): $($r.harness)" } else { "no PERF line (exit $($r.exit), logs/perf_$n.log)" }
-		if ($ok) { Add-Step "Perf $n units" "PASS" $detail }
-		elseif ($pl.Count -gt 0 -and $pl[0] -match 'stuck=0' -and $busy -ge 2) {
-			# Frame times are noise while other Godot runs share the CPU: never a FAIL, re-measure on a quiet PC.
-			Add-Step "Perf $n units" "WARN" "$detail - OVER BUDGET while $busy Godot processes ran on the PC (noise, not a verdict)" "Re-run on a quiet PC (Perf Lab: tools\perf_lab\run_perf_lab.ps1 -WaitQuietS 600)."
-		} else { Add-Step "Perf $n units" "FAIL" $detail "Read logs/perf_$n.log (stuck units = a pathing bug; ms over budget on a quiet PC = the Perf Lab breakdown)." }
+		if ($pf.raw) { $out.Add($pf.raw) }
+		if ($pf.load_line) { $out.Add($pf.load_line) }
+		$detail = if ($pf.raw) { $pf.raw + $(if ($pf.norm -ge 0) { " | load x{0:N2}, normalised {1:N2} ms" -f $pf.load, $pf.norm } else { "" }) + $(if ($tries -gt 1) { " (2 runs, the better kept)" } else { "" }) } elseif ($r.harness) { "HARNESS (runner, not Godot, exit $($r.exit)): $($r.harness)" } else { "no PERF line (exit $($r.exit), logs/perf_$n.log)" }
+		if ($pf.ok) { Add-Step "Perf $n units" "PASS" $detail }
+		elseif ($pf.stuck0 -and $pf.load -gt $PerfMaxLoad) {
+			Add-Step "Perf $n units" "WARN" "$detail - OVER BUDGET with the PC $("{0:N1}" -f $pf.load) x slower than the quiet reference ($busy Godot processes): too loaded to judge" "Re-run on a quieter PC (Perf Lab: tools\perf_lab\run_perf_lab.ps1 -WaitQuietS 600)."
+		} else { Add-Step "Perf $n units" "FAIL" $detail "Read logs/perf_$n.log (stuck units = a pathing bug; normalised ms over budget = a real slowdown: the Perf Lab breakdown)." }
 	}
 }
 

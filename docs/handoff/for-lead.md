@@ -183,3 +183,17 @@ owners.json (CLAUDE.md already lists WS data under the task) or save the default
 - `tests/test_ui_card_hotkeys.gd` updated (keep card has `plus_page`; research page / unit page keys).
 - `data/ui/unit_guide.json` (the 4 bowmen "Hall research" abilities removed) and `data/i18n/fr/*.po` (74 row texts,
   refusals, templates) were edited for UR.U2 as the task says; `.claude/hooks/owners.json` does not list them for ui-coder.
+
+## CI speed + load-proof perf gate (four-wizards-high, 2026-10-14): STAGED, the lead installs
+The owners hook blocks this agent from `tools/ci/`, `tests/perf_test.gd` and `.claude/skills/`, so the finished files
+are staged under `docs/handoff/ci-speed/` with the target paths mirrored. Install (diff first if tools/ci changed since):
+```powershell
+$s = "docs\handoff\ci-speed"
+Copy-Item "$s\tools\ci\*.ps1" tools\ci\ -Force   # dep_index, select_tests_legacy, measure_selection (new); select_tests, ci, ci_quick, test_select_tests
+Copy-Item "$s\tests\perf_test.gd" tests\perf_test.gd -Force
+Copy-Item "$s\.claude\skills\ci-suite\SKILL.md" .claude\skills\ci-suite\SKILL.md -Force
+Remove-Item -Recurse -Force $s                    # no .gd left in docs/ for Godot to import
+powershell -NoProfile -File tools\ci\test_select_tests.ps1   # must print PASS (27 checks)
+tools\ci\measure_selection.ps1 -Commits 10        # per-commit old / reach / near numbers (agents cannot run git)
+```
+All files are LF like the originals. Numbers and usage: the agent's report and the updated ci-suite skill.
