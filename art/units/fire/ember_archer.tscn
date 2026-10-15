@@ -463,7 +463,7 @@ size = Vector2(0.35, 0.35)
 [sub_resource type="PlaneMesh" id="PlaneMesh_ixvks"]
 size = Vector2(1, 1)
 
-[node name="EmberArcher" type="Node3D" unique_id=531520966]
+[node name="EmberArcher" type="Node3D" unique_id=312328571]
 transform = Transform3D(1.12, 0, 0, 0, 1.12, 0, 0, 0, 1.12, 0, 0, 0)
 script = ExtResource("1_udhiy")
 fire_kind = &"archer"
@@ -475,43 +475,43 @@ stride_speed = 5.2
 leg_swing_deg = 30.0
 walk_bounce = 0.05
 
-[node name="Root" type="Node3D" parent="." unique_id=1440612659]
+[node name="Root" type="Node3D" parent="." unique_id=1915328124]
 
-[node name="Hips" type="Node3D" parent="Root" unique_id=331088071]
+[node name="Hips" type="Node3D" parent="Root" unique_id=1313337632]
 
-[node name="LegL" type="Node3D" parent="Root/Hips" unique_id=357354917]
+[node name="LegL" type="Node3D" parent="Root/Hips" unique_id=1710277192]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14, 0.52, 0)
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Hips/LegL" unique_id=841769510]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Hips/LegL" unique_id=1660495850]
 material_override = ExtResource("2_m7g2b")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_gd1h5")
 
-[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Hips/LegL" unique_id=600449314]
+[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Hips/LegL" unique_id=1623102852]
 material_override = ExtResource("3_gaqy3")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_qlwsq")
 
-[node name="LegR" type="Node3D" parent="Root/Hips" unique_id=1936103914]
+[node name="LegR" type="Node3D" parent="Root/Hips" unique_id=493271493]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14, 0.52, 0)
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Hips/LegR" unique_id=2133003390]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Hips/LegR" unique_id=1871934031]
 material_override = ExtResource("2_m7g2b")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_3sd5a")
 
-[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Hips/LegR" unique_id=113495349]
+[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Hips/LegR" unique_id=649712241]
 material_override = ExtResource("3_gaqy3")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_81oep")
 
-[node name="Chest" type="Node3D" parent="Root" unique_id=1484303069]
+[node name="Chest" type="Node3D" parent="Root" unique_id=1568618769]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64, 0)
 
-[node name="Head" type="Node3D" parent="Root/Chest" unique_id=170539491]
+[node name="Head" type="Node3D" parent="Root/Chest" unique_id=1765813806]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56000006, 0)
 
-[node name="VetTrim" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=323397803]
+[node name="VetTrim" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1112470749]
 transform = Transform3D(1.35, 0, 0, 0, 1.3039999, 0.3494057, 0, -0.3494057, 1.3039999, 0, 0.15999997, -0.07)
 visible = false
 material_override = ExtResource("4_qdx76")
@@ -520,27 +520,27 @@ mesh = SubResource("ArrayMesh_53e0h")
 metadata/keep_separate = true
 metadata/vet_trim = true
 
-[node name="FireCloth" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=881894366]
+[node name="FireCloth" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1635489864]
 material_override = ExtResource("5_b401x")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_5wo2e")
 
-[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=1358109429]
+[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/Head" unique_id=794607286]
 material_override = ExtResource("6_tstiu")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_t1afy")
 
-[node name="ArmL" type="Node3D" parent="Root/Chest" unique_id=263818131]
+[node name="ArmL" type="Node3D" parent="Root/Chest" unique_id=1852397262]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34, 0.5, 0)
 
-[node name="String" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=553194477]
+[node name="String" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=163099997]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, -1.14, 0)
 material_override = ExtResource("6_tstiu")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_th2tf")
 metadata/keep_separate = true
 
-[node name="DrawnString" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=807514532]
+[node name="DrawnString" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=2038559067]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, -1.14, 0)
 visible = false
 material_override = ExtResource("6_tstiu")
@@ -548,7 +548,7 @@ cast_shadow = 0
 mesh = SubResource("ArrayMesh_pwqh5")
 metadata/keep_separate = true
 
-[node name="DrawnArrow" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1754835034]
+[node name="DrawnArrow" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=305370552]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, -1.14, 0)
 visible = false
 material_override = ExtResource("7_xywma")
@@ -556,94 +556,92 @@ cast_shadow = 0
 mesh = SubResource("ArrayMesh_th7v4")
 metadata/keep_separate = true
 
-[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=713276312]
+[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1981034755]
 material_override = ExtResource("3_gaqy3")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_4k7o2")
 
-[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1516038118]
+[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1479040402]
 material_override = ExtResource("6_tstiu")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_pynhf")
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1027902545]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=477733686]
 material_override = ExtResource("2_m7g2b")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_hfd16")
 
-[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=2066742717]
+[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1463195642]
 material_override = ExtResource("8_r5ipp")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_7f56s")
 
-[node name="GlowFireGlow" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=132139771]
+[node name="FireGlow" type="MeshInstance3D" parent="Root/Chest/ArmL" unique_id=1511399116]
 material_override = ExtResource("7_xywma")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_v8ixj")
-metadata/keep_separate = true
 
-[node name="ArmR" type="Node3D" parent="Root/Chest" unique_id=1315050230]
+[node name="ArmR" type="Node3D" parent="Root/Chest" unique_id=1040342337]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34, 0.5, 0)
 
-[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=1500354249]
+[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=2119267280]
 material_override = ExtResource("3_gaqy3")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_p8iej")
 
-[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=998449140]
+[node name="FireSkin" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=1134546794]
 material_override = ExtResource("6_tstiu")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_qlbxs")
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=1614102175]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=857235257]
 material_override = ExtResource("2_m7g2b")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_nxyn6")
 
-[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=711083730]
+[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest/ArmR" unique_id=1522681538]
 material_override = ExtResource("8_r5ipp")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_1r0t8")
 
-[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Chest" unique_id=683312431]
+[node name="FireSecArcher" type="MeshInstance3D" parent="Root/Chest" unique_id=733249989]
 material_override = ExtResource("3_gaqy3")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_hokad")
 
-[node name="FireClothDark" type="MeshInstance3D" parent="Root/Chest" unique_id=2075715192]
+[node name="FireClothDark" type="MeshInstance3D" parent="Root/Chest" unique_id=79147625]
 material_override = ExtResource("9_n0fw0")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_sx5dq")
 
-[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest" unique_id=1239775583]
+[node name="FireBronze" type="MeshInstance3D" parent="Root/Chest" unique_id=829896826]
 material_override = ExtResource("8_r5ipp")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_8h2hd")
 
-[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest" unique_id=1052001802]
+[node name="FireLeather" type="MeshInstance3D" parent="Root/Chest" unique_id=1335885533]
 material_override = ExtResource("2_m7g2b")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_8rd84")
 
-[node name="FireCloth" type="MeshInstance3D" parent="Root/Chest" unique_id=1498726661]
+[node name="FireCloth" type="MeshInstance3D" parent="Root/Chest" unique_id=134294238]
 material_override = ExtResource("5_b401x")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_gmh34")
 
-[node name="FireWood" type="MeshInstance3D" parent="Root/Chest" unique_id=901092154]
+[node name="FireWood" type="MeshInstance3D" parent="Root/Chest" unique_id=1075144267]
 material_override = ExtResource("10_4r71t")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_akcjc")
 
-[node name="GlowFireFlame" type="MeshInstance3D" parent="Root/Chest" unique_id=1384431119]
+[node name="FireFlame" type="MeshInstance3D" parent="Root/Chest" unique_id=555540660]
 material_override = ExtResource("11_xxrmv")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_443m5")
-metadata/keep_separate = true
 
-[node name="Fx" type="Node3D" parent="." unique_id=1368735770]
+[node name="Fx" type="Node3D" parent="." unique_id=2098547000]
 
-[node name="BurnEmbers" type="GPUParticles3D" parent="Fx" unique_id=369630824]
+[node name="BurnEmbers" type="GPUParticles3D" parent="Fx" unique_id=44577147]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 cast_shadow = 0
 emitting = false
@@ -657,7 +655,7 @@ draw_pass_1 = SubResource("QuadMesh_ld8ah")
 metadata/keep_separate = true
 metadata/burn_fx = true
 
-[node name="AshPuff" type="GPUParticles3D" parent="Fx" unique_id=974750581]
+[node name="AshPuff" type="GPUParticles3D" parent="Fx" unique_id=237068183]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48, 0)
 cast_shadow = 0
 emitting = false
@@ -669,7 +667,7 @@ draw_pass_1 = SubResource("QuadMesh_kn1w3")
 metadata/keep_separate = true
 metadata/burn_fx = true
 
-[node name="Shadow" type="MeshInstance3D" parent="." unique_id=1278607096]
+[node name="Shadow" type="MeshInstance3D" parent="." unique_id=1350815178]
 transform = Transform3D(1.17, 0, 0, 0, 1, 0, 0, 0, 1.17, 0, 0.02, 0)
 material_override = ExtResource("12_07mav")
 cast_shadow = 0

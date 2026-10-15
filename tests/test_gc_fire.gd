@@ -2,7 +2,7 @@ extends SceneTree
 ## G-C Fire units (docs/art/gc_fire_units.md): the Fire army's look pass keeps every contract.
 ## - Hall units + worker (build_fire_units.gd scenes): pivots, the nodes FireModel / tests read (String, DrawnString,
 ##   DrawnArrow, AshBall, MineSparks, Fx burn emitters, VetTrim), unit-facing exports (body_height, attack_style,
-##   attack_windup, fire_kind, INFANTRY_SCALE), glow parts on their own keep_separate nodes.
+##   attack_windup, fire_kind, INFANTRY_SCALE), glow parts merged into their pivot (no separate glow node, perf).
 ## - Every Fire foot unit stays inside the Art Lab soldier budgets after _ready (body vertices <= 2500, the face apart;
 ##   draw instances <= 14), hit flash still lands on the merged body, set_team_color still recolours the cloth.
 ## - The code-built units sweep FireShapes tubes (no stacked-cylinder paths left) and the shared helpers produce
@@ -127,8 +127,10 @@ func _hall(id: String) -> void:
 		_check(m.scale.is_equal_approx(Vector3(1.12, 1.12, 1.12)), "%s keeps INFANTRY_SCALE" % id)
 	for path: String in NODES[id]:
 		_check(m.get_node_or_null(NodePath(path)) != null, "%s has %s" % [id, path])
-	for gi: Node in m.find_children("Glow*", "MeshInstance3D", true, false):
-		_check(gi.has_meta(&"keep_separate"), "%s %s glow stays keep_separate" % [id, gi.name])
+	# Perf 2026-10-15: glow parts merge into their pivot's mesh (glow_boost is slot 5 since A.16); a separate glow node
+	# was one more moving draw instance per unit.
+	var glow_sep := m.find_children("Glow*", "MeshInstance3D", true, false)
+	_check(glow_sep.is_empty(), "%s glows merged into their pivots (separate: %d)" % [id, glow_sep.size()])
 	# hit flash still reaches a merged painted body part
 	m.call(&"play_hit")
 	await process_frame

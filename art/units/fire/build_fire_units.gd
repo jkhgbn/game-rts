@@ -15,7 +15,7 @@ const MODEL_SCRIPT: String = "res://art/units/fire/fire_model.gd"
 const DEG: float = PI / 180.0
 ## Godot front faces are clockwise; flip if a test render shows inside-out meshes.
 const FLIP: bool = false
-## unit_glow materials: pre-merged into their own keep_separate node per pivot (see _flush).
+## unit_glow materials: pre-merged per pivot like the others and left to the kit's runtime merge (see _flush).
 ## Fire infantry is drawn 12 % larger than authored (in-game grade 2026-09-30: small at the RTS zoom 30); body_height
 ## (scene + UnitType) is the scaled head top. Workers stay 1.0.
 const INFANTRY_SCALE := Vector3(1.12, 1.12, 1.12)
@@ -513,12 +513,11 @@ func _flush() -> void:
 		mi.mesh = am
 		mi.material_override = M[e[1]]
 		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		if GLOW_MATS.has(e[1]):
-			# Glow parts never share a GeometryInstance3D with painted parts: unit_glow's `glow_boost` and
-			# unit_painted's `ao_bottom` are both instance uniform #0, so a mixed merged mesh renders the glow at a
-			# random 0 / 1 boost. Their own node (kit-boosted, not merged) keeps them bright.
-			mi.set_meta(&"keep_separate", true)
-			mi.name = "Glow" + mi.name
+		# Glow parts (GLOW_MATS) are merged with the painted parts of their pivot by the kit at runtime. Before the
+		# A.16 slot map they had to stay on their own keep_separate node (unit_glow's `glow_boost` and unit_painted's
+		# `ao_bottom` shared instance uniform #0); now `glow_boost` is slot 5, so one merged node per pivot renders both
+		# and the kit boosts it. Perf 2026-10-15: each separate glow node was one more moving draw instance per unit
+		# (the G-C blade fuller on ArmR alone cost ~3 % of perf_test at 200 Flame Guards).
 		(e[0] as Node3D).add_child(mi)
 		mi.owner = _root
 	_acc.clear()
