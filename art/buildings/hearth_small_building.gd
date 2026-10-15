@@ -23,6 +23,8 @@ const FIRE_RAMP_A := Color(1.0, 0.92, 0.55)
 const FIRE_RAMP_B := Color(1.0, 0.5, 0.1)
 const BMG := preload("res://art/buildings/fire_hall_merge.gd")
 const PVC := preload("res://art/buildings/painted_vc.gd")
+## G-B Fire look layer (docs/art/gb_fire_buildings.md): only the Fire models use it (_gb_fire()).
+const GBF := preload("res://art/buildings/fire/fire_building_look.gd")
 
 static var _mesh_cache: Dictionary = {}
 static var _quad_cache: Dictionary = {}
@@ -48,6 +50,8 @@ var vc_merge: bool = false
 var crack_glow: float = 1.0   ## vc_merge: crack emission x this (< 1 keeps the veins under the bloom level)
 var _glow_vc: ShaderMaterial   ## vc_merge: the merged glow material (PaintedVC.convert_glow)
 var smoke_points: Array[Vector3] = []
+var _m_wood: ShaderMaterial   ## G-B Fire: timber (scaffold, woodpile); null = the trim stand-in
+var _hazes: Array[Node3D] = []   ## G-B Fire: heat-haze quads (High / Ultra)
 var blaze_points: Array[Vector3] = []
 
 var _body: Node3D
@@ -118,6 +122,8 @@ func _ready() -> void:
 	if vc_merge:
 		PVC.convert(self, _m_team, _vc_team(), [_m_hole] if _m_hole else [], _vc_skip())
 		_m_team.set_shader_parameter(&"crack_energy", crack_glow)
+		if _gb_fire():
+			GBF.apply(_m_team)   # G-B: the Fire paint layer (same vertex contract and uniforms)
 	_post_build()
 	if vc_merge:
 		_glow_vc = PVC.convert_glow(self)   # one glow material; _process copies the sources' state over
@@ -184,6 +190,8 @@ func set_construction_progress(p: float) -> void:
 		f.visible = floating
 	for fx: GPUParticles3D in _idle_fx:
 		fx.emitting = not building
+	for hz: Node3D in _hazes:
+		hz.visible = not building
 	if _scaffold:
 		_scaffold.visible = building and _progress > 0.0
 	if building:
@@ -225,6 +233,8 @@ func play_destroyed() -> void:
 		_scaffold.visible = false
 	for fx: GPUParticles3D in _idle_fx:
 		fx.emitting = false
+	for hz: Node3D in _hazes:
+		hz.visible = false
 	for s: GPUParticles3D in _smoke:
 		s.emitting = true
 	for m: ShaderMaterial in _painted:
@@ -304,6 +314,18 @@ func _quad_for(add: bool) -> Mesh:
 ## NatureKit materials here).
 func _post_build() -> void:
 	pass
+
+
+## G-B Fire: true for the Fire models (Hearth, Ember Spire) that opt in; the other kingdoms keep their look.
+func _gb_fire() -> bool:
+	return false
+
+
+## G-B Fire: a heat-haze quad (High / Ultra only) kept with the idle effects.
+func _gb_haze(parent: Node3D, pos: Vector3, size: Vector2, strength: float = 1.0) -> void:
+	var hz: MeshInstance3D = GBF.add_heat_haze(parent, pos, size, strength)
+	if hz:
+		_hazes.append(hz)
 
 
 ## vc_merge: painted materials whose base_color is the team colour (a material, or [material, multiplier] for a
@@ -473,15 +495,16 @@ func _build_scaffold(size: float, top: float, decks: Array[float]) -> void:
 	var box1: Mesh = _box(Vector3.ONE)
 	var h: float = size * 0.5
 	var it: Array = []
+	var wood: ShaderMaterial = _m_wood if _m_wood else _m_trim   # G-B Fire: timber when the model made it
 	for c: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1)]:
-		it.append(_it(box1, Vector3(c.x * h, top * 0.5, c.y * h), _m_trim, Vector3.ZERO, Vector3(0.16, top, 0.16)))
+		it.append(_it(box1, Vector3(c.x * h, top * 0.5, c.y * h), wood, Vector3.ZERO, Vector3(0.16, top, 0.16)))
 	for y: float in decks:
 		for s: float in [-1.0, 1.0]:
-			it.append(_it(box1, Vector3(0, y, s * h), _m_trim, Vector3(0, 0, s * 2.5), Vector3(size + 0.25, 0.08, 0.4)))
-			it.append(_it(box1, Vector3(s * h, y, 0), _m_trim, Vector3(s * 2.5, 0, 0), Vector3(0.4, 0.08, size + 0.25)))
+			it.append(_it(box1, Vector3(0, y, s * h), wood, Vector3(0, 0, s * 2.5), Vector3(size + 0.25, 0.08, 0.4)))
+			it.append(_it(box1, Vector3(s * h, y, 0), wood, Vector3(s * 2.5, 0, 0), Vector3(0.4, 0.08, size + 0.25)))
 	var ang: float = atan2(top * 0.8, size)
 	it.append(_itx(box1, Transform3D(Basis(Vector3.RIGHT, -ang).scaled_local(Vector3(0.1, 0.1,
-		sqrt(size * size + top * top * 0.64))), Vector3(-h - 0.1, top * 0.45, 0)), _m_trim))
+		sqrt(size * size + top * top * 0.64))), Vector3(-h - 0.1, top * 0.45, 0)), wood))
 	for p: Vector3 in [Vector3(h + 0.55, 0.22, -h - 0.35), Vector3(h + 0.2, 0.22, -h - 0.75), Vector3(h + 0.4, 0.64, -h - 0.5)]:
 		it.append(_it(box1, p, _m_stone, Vector3(0, p.z * 30.0, 0), Vector3.ONE * (0.2 + footprint * 0.07)))
 	_scaffold = Node3D.new()

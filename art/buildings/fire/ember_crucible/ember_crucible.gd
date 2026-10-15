@@ -41,6 +41,7 @@ signal forge_poured(at: Vector3)
 
 const DIR := "res://art/buildings/fire/ember_crucible/materials/"
 const PVC := preload("res://art/buildings/painted_vc.gd")
+const GBF := preload("res://art/buildings/fire/fire_building_look.gd")
 ## Crucible tilt axis (the trunnion pins), annex space.
 const AXLE := Vector3(0.0, 1.62, 0.35)
 const TILT_DEG := 38.0
@@ -192,7 +193,13 @@ func _ready() -> void:
 	# B8: the five painted .tres (stone, dark, bronze, iron, leather) are drawn with ONE vertex-coloured material,
 	# ec_painted.tres (PaintedVC, painted_vc shader: the same shading), shared by every annex like the others.
 	# ec_team parts get COLOR.a 0: drawn as ec_painted's base_color (the team colour, see _apply_team).
-	PVC.convert(self, m("ec_painted") as ShaderMaterial, [m("ec_team")])
+	# G-B: ec_painted is shared; an earlier annex already switched it to the Fire shader, which PaintedVC.convert does
+	# not accept: back to painted_vc for the convert, then the Fire paint layer again (same contract, in memory).
+	var body := m("ec_painted") as ShaderMaterial
+	if body.shader == GBF.FIRE_VC:
+		body.shader = GBF.PAINTED_VC
+	PVC.convert(self, body, [m("ec_team")])
+	GBF.apply(body)
 	_ready_done = true
 	_apply_team()
 	set_notify_transform(true)

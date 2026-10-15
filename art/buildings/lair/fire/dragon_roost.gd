@@ -492,6 +492,7 @@ func _build_lava(box1: BoxMesh, rng: RandomNumberGenerator) -> void:
 	em.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
 	em.emission_box_extents = Vector3(0.6, 0.05, 0.6)
 	_idle_fx.append(_particles("LavaEmbers", _body, POOL + Vector3(0, 0.3, 0), 10, 1.6, em, _add_quad, false))
+	_gb_haze(_body, POOL + Vector3(0, 0.2, 0), Vector2(1.8, 2.0), 0.8)   # G-B: heat over the lava pool (High+)
 
 
 ## The perch ledge (one construction part): a stone slab jutting from the spire over the gate toward -Z, a corbel, a
@@ -621,6 +622,7 @@ func _build_nest(box1: BoxMesh, rng: RandomNumberGenerator) -> void:
 	fire.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
 	fire.emission_box_extents = Vector3(0.75, 0.05, 0.75)
 	_idle_fx.append(_particles("NestFire", _nest, Vector3(0.1, 1.0, -0.1), 16, 0.75, fire, _add_quad, false))
+	_gb_haze(_nest, Vector3(0.1, 1.0, -0.1), Vector2(1.6, 2.6))
 	var sm := _pm(Vector3.UP, 10.0, 0.8, 1.2, Vector3(0.25, 0.0, 0.0), 0.8, 2.4,
 		_ramp(Color(smoke_color, 0.4), Color(smoke_color, 0.0), false))
 	_idle_fx.append(_particles("NestSmoke", _nest, Vector3(0, 1.9, 0), 10, 3.5, sm, _mix_quad, false))
@@ -705,3 +707,8 @@ func _strip(a: Vector3, b: Vector3, across: Vector3, w: float, t: float) -> Tran
 	x = x.normalized()
 	var y: Vector3 = z.cross(x).normalized()
 	return Transform3D(Basis(x, y, z).scaled_local(Vector3(w, t, len)), (a + b) * 0.5)
+
+
+## G-B Fire: the Fire paint layer (fire_painted_vc) on this Fire model too.
+func _gb_fire() -> bool:
+	return true

@@ -451,6 +451,7 @@ func _build_brazier(box1: BoxMesh) -> void:
 	fire.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	fire.emission_sphere_radius = 0.22
 	_idle_fx.append(_particles("BrazierFire", _body, p + Vector3(0, 1.72, 0), 14, 0.65, fire, _add_quad, false))
+	_gb_haze(_body, p + Vector3(0, 1.7, 0), Vector2(1.1, 1.8), 0.8)
 
 
 ## The mast group (one construction part; topples on collapse): bronze column rising through the roof, dark bands, a
@@ -500,6 +501,7 @@ func _build_mast(box1: BoxMesh) -> Node3D:
 	up_fire.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
 	up_fire.emission_box_extents = Vector3(0.25, 0.05, 0.25)
 	_idle_fx.append(_particles("BeaconFire", mast, Vector3(0, MAST_TOP + 0.55, 0), 14, 0.6, up_fire, _add_quad, false))
+	_gb_haze(mast, Vector3(0, MAST_TOP + 0.5, 0), Vector2(1.2, 2.4))   # G-B: heat over the beacon (High+)
 	var sm := _pm(Vector3.UP, 10.0, 0.8, 1.1, Vector3(0.2, 0.0, 0.0), 0.5, 1.6,
 		_ramp(Color(smoke_color, 0.4), Color(smoke_color, 0.0), false))
 	_idle_fx.append(_particles("BeaconSmoke", mast, Vector3(0, MAST_TOP + 1.2, 0), 8, 3.0, sm, _mix_quad, false))
@@ -632,3 +634,8 @@ func _sph(r: float) -> SphereMesh:
 	s.radial_segments = 10
 	s.rings = 5
 	return s
+
+
+## G-B Fire: the Fire paint layer (fire_painted_vc) on this Fire model too.
+func _gb_fire() -> bool:
+	return true

@@ -55,6 +55,12 @@ const TEAM_SLOT := 4
 const STONE_SLOT := 0
 const DARK_SLOT := 2
 const OUTLINE_KIND := 7
+## G-B Fire (docs/art/gb_fire_buildings.md): the Fire paint tier, tier looks (set_tier), the upgrade scaffold
+## (set_upgrading), the tier-up flourish (play_tier_up) and heat haze. The tier kit is loaded at run time (it uses
+## the keep builder's mesh kit, which preloads this script).
+const GBF := preload("res://art/buildings/fire/fire_building_look.gd")
+const TIERS_PATH := "res://art/buildings/fire/fire_keep_tiers.gd"
+const TIER_UP_TIME := 1.4
 
 @export var painted_materials: Array[ShaderMaterial] = []
 @export var glow_materials: Array[ShaderMaterial] = []
@@ -130,6 +136,13 @@ var _spire_down: bool = false
 var _stone_crack: float = 0.55
 var _slot_colors: PackedColorArray = PackedColorArray()
 var _slot_cracks: PackedFloat32Array = PackedFloat32Array()
+# G-B tiers / upgrade.
+var _tier: int = 1
+var _upgrading: bool = false
+var _tier_nodes: Dictionary = {}
+var _tier_up_left: float = 0.0
+var _hazes: Array[Node3D] = []
+var _smoke_base := Vector3.INF   ## ChimneySmoke rest position (tier 3 raises the chimney 3.1 m)
 
 
 func _ready() -> void:
@@ -144,6 +157,7 @@ func _ready() -> void:
 			_stone_crack = _slot_cracks[STONE_SLOT]
 	_collect_parts()
 	_build_state_nodes()
+	_gb_setup()
 	set_team_color(_team_color)
 	set_construction_progress(_progress)
 	_sel_k = 1.0 if _selected else 0.0
@@ -158,6 +172,7 @@ func _process(delta: float) -> void:
 	if _destroyed:
 		_process_destroyed(delta)
 		return
+	_gb_process(delta)
 	# Crystal ring: rotates (x3 during a training pulse) and bobs; crystals spin on themselves.
 	var ring_mult: float = 3.0 if _pulse_left > 0.0 else 1.0
 	_ring.rotation.y += deg_to_rad(_ring_speed_deg) * ring_mult * delta
@@ -250,6 +265,9 @@ func set_construction_progress(p: float) -> void:
 	else:
 		_outline.visible = false
 	_was_building = building
+	for hz: Node3D in _hazes:
+		hz.visible = not building
+	_apply_tier()
 	_apply_health()
 	_apply_rim_and_glow()
 
@@ -286,6 +304,10 @@ func play_destroyed() -> void:
 			_parts[i].visible = true
 	_outline.visible = false
 	_build_ring.emitting = false
+	for hz: Node3D in _hazes:
+		hz.visible = false
+	if not _tier_nodes.is_empty():
+		(_tier_nodes["scaffold"] as Node3D).visible = false
 	for fx: GPUParticles3D in _idle_fx:
 		fx.emitting = false
 	for s: GPUParticles3D in _smoke:
@@ -330,7 +352,82 @@ func set_team_color(c: Color) -> void:
 	_apply_rim_and_glow()
 
 
+## G-B: keep tier 1-3 (Keep._show_tier): tier 2 Stronghold, tier 3 Citadel additions. Safe before _ready.
+func set_tier(t: int) -> void:
+	_tier = clampi(t, 1, 3)
+	_apply_tier()
+
+
+## G-B: an upgrade is running (Keep.upgrade / cancel_upgrade / set_tier_now): scaffold cage round the donjon, a
+## glowing forging band climbing it, the construction sparks on the plinth.
+func set_upgrading(on: bool) -> void:
+	_upgrading = on
+	_apply_tier()
+
+
+## G-B: the tier was reached (not on quiet campaign starts): a flash from the heart, a crystal burst, the heart and
+## crystals flare for TIER_UP_TIME s.
+func play_tier_up() -> void:
+	if not _ready_done or _destroyed or _progress < 1.0:
+		return
+	_tier_up_left = TIER_UP_TIME
+	_fire(_build_flash)
+	_crystal_burst.position = _ring.position
+	_fire(_crystal_burst)
+
+
 # --- Internals ---
+
+## G-B: paint tier, the banner glyph under the bloom (Art Lab R5), the tier kit, heat haze over the chimney.
+func _gb_setup() -> void:
+	for m: ShaderMaterial in painted_materials:
+		GBF.set_detail(m)
+	if GBF.legacy:
+		return
+	if banner_material:
+		banner_material.set_shader_parameter(&"glyph_energy", 0.35)
+	var body_mat: ShaderMaterial = cap_material if cap_material else (painted_materials[0] if painted_materials.size() > 0 else null)
+	var scr: GDScript = load(TIERS_PATH) as GDScript
+	if scr and body_mat and glow_materials.size() > 0:
+		_tier_nodes = scr.call(&"build", _body, _spire, body_mat, glow_materials[0], banner_material)
+		for k: String in ["t2", "t3"]:
+			_hide_at_16.append(_tier_nodes[k] as Node3D)
+	var hz: MeshInstance3D = GBF.add_heat_haze(_body, Vector3(-2.6, 14.75, 2.6), Vector2(1.7, 3.6))
+	if hz:
+		_hazes.append(hz)
+
+
+func _apply_tier() -> void:
+	if not _ready_done or _tier_nodes.is_empty() or _destroyed:
+		return
+	var standing: bool = _progress >= 1.0
+	(_tier_nodes["t2"] as Node3D).visible = standing and _tier >= 2
+	(_tier_nodes["t3"] as Node3D).visible = standing and _tier >= 3
+	(_tier_nodes["t3_spire"] as Node3D).visible = standing and _tier >= 3
+	(_tier_nodes["scaffold"] as Node3D).visible = standing and _upgrading
+	var cs: Node3D = _idle_fx[2]   # ChimneySmoke
+	if _smoke_base == Vector3.INF:
+		_smoke_base = cs.position
+	var lift := Vector3(0, 3.1 if _tier >= 3 else 0.0, 0)
+	cs.position = _smoke_base + lift
+	for hz: Node3D in _hazes:
+		hz.position = Vector3(-2.6, 14.75, 2.6) + lift
+	_build_ring.emitting = not standing or _upgrading
+
+
+## G-B: the forging band climbs the donjon while upgrading; the tier-up flare fades.
+func _gb_process(delta: float) -> void:
+	if _upgrading and not _tier_nodes.is_empty() and _progress >= 1.0:
+		var band: Node3D = _tier_nodes["band"]
+		band.position.y = 6.4 + fmod(_t * 1.4, 6.2)
+	if _tier_up_left > 0.0:
+		_tier_up_left = maxf(_tier_up_left - delta, 0.0)
+		var k: float = _tier_up_left / TIER_UP_TIME
+		var boost: float = 1.0 + 2.2 * k * k
+		if crystal_material:
+			crystal_material.set_shader_parameter(&"core_boost", boost)
+		if heart_material:
+			heart_material.set_shader_parameter(&"core_boost", boost)
 
 func _collect_parts() -> void:
 	for child: Node in _body.get_children():

@@ -24,6 +24,9 @@ const NOISE: Texture2D = preload("res://art/shaders/paint_noise.tres")
 const RIM_IDLE := Color(0.55, 0.65, 0.85)
 const BMG := preload("res://art/buildings/fire_hall_merge.gd")
 const PVC := preload("res://art/buildings/painted_vc.gd")
+## G-B Fire look layer (docs/art/gb_fire_buildings.md): only the Fire models use it (`_gb_fire()`).
+const GBF := preload("res://art/buildings/fire/fire_building_look.gd")
+const FIRE_HALL_PATH := "res://art/buildings/fire_hall.gd"
 const PULSE_TIME := 0.6
 const DESTROY_TIME := 3.0
 const PLINTH_TOP := 0.8
@@ -86,6 +89,8 @@ var _wreck: Node3D  ## collapse leftovers, shown at 1.6 s of play_destroyed
 var _show_below_50: Array[Node3D] = []  ## damage details (roof holes) shown below 50 % HP
 var _show_below_25: Array[Node3D] = []  ## shown below 25 % HP
 var mat_hole: StandardMaterial3D  ## dark unshaded (holes, doorways); made by _hole_mat()
+var mat_wood: ShaderMaterial  ## G-B Fire: timber (firewood, rack, scaffold); null = the old bronze stand-in
+var _hazes: Array[Node3D] = []  ## G-B Fire: heat-haze quads (High / Ultra), hidden while building / after the collapse
 
 # Construction bookkeeping.
 var _parts: Array[Node3D] = []
@@ -150,6 +155,8 @@ func _ready() -> void:
 		# R5 (hall: 2-4 glow points): the lava / rime veins glow under the bloom level (like the Stables), so the
 		# coals, gate and lanterns stay the building's few bright points.
 		mat_team.set_shader_parameter(&"crack_energy", crack_glow)
+		if _gb_fire():
+			GBF.apply(mat_team)   # G-B: the Fire paint layer (same vertex contract and uniforms)
 	if _budget_wanted() and mat_banner and mat_banner.shader == BANNER:
 		mat_banner.set_shader_parameter(&"glyph_energy", 0.2)   # R5: the glyph reads as paint, not as a glow point
 	_make_light_pool()
@@ -225,6 +232,8 @@ func set_construction_progress(p: float) -> void:
 		_squash(i, clampf((h - b) / maxf(_part_t[i] - b, 0.01), 0.05, 1.0), b, Vector3.ZERO)
 	for fx: GPUParticles3D in _idle_fx:
 		fx.emitting = not building
+	for hz: Node3D in _hazes:
+		hz.visible = not building
 	if _scaffold:
 		_scaffold.visible = building and _progress > 0.0
 	_build_ring.emitting = building
@@ -276,6 +285,8 @@ func play_destroyed() -> void:
 		_scaffold.visible = false
 	for fx: GPUParticles3D in _idle_fx:
 		fx.emitting = false
+	for hz: Node3D in _hazes:
+		hz.visible = false
 	for s: GPUParticles3D in _smoke:
 		s.emitting = true
 	for b: GPUParticles3D in _blaze:
@@ -318,7 +329,26 @@ func _cloth_of(c: Color) -> Color:
 ## B8 vertex-colour merge (PaintedVC) on when the team material is a plain painted.gdshader one (the Stables bring
 ## their own one-material shader and stay as they are).
 func _vc_wanted() -> bool:
-	return mat_team != null and (mat_team.shader == PAINTED or mat_team.shader == PVC.PAINTED_VC)
+	return mat_team != null and (mat_team.shader == PAINTED or mat_team.shader == PVC.PAINTED_VC
+		or mat_team.shader == GBF.FIRE_VC)
+
+
+## G-B Fire: the Fire paint layer, timber and heat haze. True for the Fire hall itself; the Fire models built on this
+## script (Bazaar, Dragon Roost) override it. Ice / Nature / Shadow halls and the Stables keep their look.
+func _gb_fire() -> bool:
+	return (get_script() as Script).resource_path == FIRE_HALL_PATH
+
+
+## G-B Fire: a heat-haze quad (High / Ultra only) kept with the idle effects.
+func _gb_haze(parent: Node3D, pos: Vector3, size: Vector2, strength: float = 1.0) -> void:
+	var hz: MeshInstance3D = GBF.add_heat_haze(parent, pos, size, strength)
+	if hz:
+		_hazes.append(hz)
+
+
+## G-B Fire: timber for the scaffold / racks when the model made one, else the metal stand-in (other kingdoms).
+func _scaffold_mat() -> ShaderMaterial:
+	return mat_wood if mat_wood else mat_metal
 
 
 ## The other budget passes (shared particle quads / process materials, one decal material for the contact decal and
@@ -365,6 +395,8 @@ func _build_structure() -> void:
 	const HX := -0.4   # hall axis (walls shifted left, the forge sits on the right)
 	const HZ := 0.3
 	var box1: BoxMesh = _boxm(Vector3.ONE)
+	# G-B Fire: seasoned timber for the firewood, the weapon rack and the scaffold (was the bronze stand-in).
+	mat_wood = _painted_mat(Color(0.36, 0.22, 0.12), 0.0, 0.0)
 	# --- Plinth: two dark tiers, raised corner blocks, steps and a flagstone path at the gate.
 	var it: Array = []
 	it.append(BMG.item(box1, Vector3(0, 0.25, 0), mat_dark, Vector3.ZERO, Vector3(6.4, 0.5, 6.4)))
@@ -430,9 +462,9 @@ func _build_structure() -> void:
 		var p := Vector3(2.55 + rng.randf_range(-0.35, 0.35), 0.62 + (0.3 if i > 3 else 0.0), -3.05 + rng.randf_range(-0.12, 0.12))
 		it.append(BMG.item(box1, p, mat_dark, Vector3(rng.randf_range(-30, 30), rng.randf() * 90.0, rng.randf_range(-30, 30)),
 			Vector3.ONE * rng.randf_range(0.36, 0.48)))
-	# Firewood stacked against the back wall (bronze reads as seasoned wood).
+	# Firewood stacked against the back wall.
 	for l: Vector3 in [Vector3(-1.2, 1.0, 2.72), Vector3(-1.2, 0.72, 3.02), Vector3(-1.2, 1.38, 2.74)]:
-		it.append(BMG.item(_cyl(0.19, 0.19, 1.6, 7), l, mat_metal, Vector3(0, 0, 90)))
+		it.append(BMG.item(_cyl(0.19, 0.19, 1.6, 7), l, mat_wood, Vector3(0, 0, 90)))
 	# Detail pass: quoins (alternating long / short blocks) up the four corner pillars, a quench barrel with iron
 	# hoops and a water face beside the forge, more coal lumps, and three more logs on the firewood stack.
 	var quoin: ShaderMaterial = _painted_mat(stone_color.lightened(0.08), 0.0, crack_strength * 0.5)
@@ -452,7 +484,7 @@ func _build_structure() -> void:
 		it.append(BMG.item(box1, p, mat_dark, Vector3(drng.randf_range(-30, 30), drng.randf() * 90.0, drng.randf_range(-30, 30)),
 			Vector3.ONE * drng.randf_range(0.22, 0.34)))
 	for l: Vector3 in [Vector3(-1.2, 0.72, 2.66), Vector3(-1.2, 1.05, 3.0), Vector3(-1.2, 1.4, 3.06)]:
-		it.append(BMG.item(_cyl(0.16, 0.16, 1.45, 7), l, flag_b if l.y > 1.0 else mat_metal, Vector3(0, 0, 90)))
+		it.append(BMG.item(_cyl(0.16, 0.16, 1.45, 7), l, flag_b if l.y > 1.0 else mat_wood, Vector3(0, 0, 90)))
 	_merged("Walls", "walls", it)
 	# --- Roof tier: stone gable core, 4 tile courses a side, bronze ridge, crossed bargeboards, gable shield.
 	it = []
@@ -518,8 +550,8 @@ func _build_structure() -> void:
 	_body.add_child(rack)
 	it = []
 	for z: float in [-1.3, 1.6]:
-		it.append(BMG.item(box1, Vector3(-3.05, 1.65, z), mat_metal, Vector3.ZERO, Vector3(0.35, 2.3, 0.35)))
-	it.append(BMG.item(box1, Vector3(-3.05, 2.6, 0.15), mat_metal, Vector3.ZERO, Vector3(0.35, 0.35, 3.3)))
+		it.append(BMG.item(box1, Vector3(-3.05, 1.65, z), mat_wood, Vector3.ZERO, Vector3(0.35, 2.3, 0.35)))
+	it.append(BMG.item(box1, Vector3(-3.05, 2.6, 0.15), mat_wood, Vector3.ZERO, Vector3(0.35, 0.35, 3.3)))
 	for i: int in 3:
 		it.append(BMG.item(_prism(Vector3(0.4, 2.1, 0.14), 0.5), Vector3(-3.25, 1.95, -0.6 + 0.75 * i), mat_metal,
 			Vector3(180, 90, 8.0 - 8.0 * i)))
@@ -543,6 +575,9 @@ func _build_structure() -> void:
 	var ps := _pm(Vector3.UP, 8.0, 0.5, 0.8, Vector3(0.2, 0.0, 0.0), 0.3, 0.9,
 		_ramp(Color(smoke_color, 0.35), Color(smoke_color, 0.0), false))
 	_idle_fx.append(_particles("PipeSmoke", _body, Vector3(2.35, 5.45, -1.75), 6, 2.2, ps, _mix_quad, false))
+	# G-B: heat shimmer over the chimney crown and the forge mouth (High / Ultra).
+	_gb_haze(chimney, Vector3(0, 8.1, 0), Vector2(1.9, 3.2))
+	_gb_haze(_body, Vector3(2.15, 1.75, -2.85), Vector2(1.3, 1.6), 0.7)
 	# Construction scaffolding and the collapse wreck.
 	_build_scaffold(HX, HZ, 5.75, 5.4, 4.3)
 	_build_wreck(HX, HZ, 4.8, 4.4, PLINTH_TOP + 3.0 * 0.3, Vector3(1.95, 1.75, 1.7), Vector3(1.75, 1.9, 1.75), 5151)
@@ -693,24 +728,25 @@ func _build_scaffold(cx: float, cz: float, sx: float, sz: float, top: float) -> 
 	var box1: BoxMesh = _boxm(Vector3.ONE)
 	var it: Array = []
 	var hx: float = sx * 0.5
+	var sm: ShaderMaterial = _scaffold_mat()
 	var hz: float = sz * 0.5
 	for c: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1)]:
-		it.append(BMG.item(box1, Vector3(cx + c.x * hx, (top + 0.7) * 0.5, cz + c.y * hz), mat_metal, Vector3.ZERO,
+		it.append(BMG.item(box1, Vector3(cx + c.x * hx, (top + 0.7) * 0.5, cz + c.y * hz), sm, Vector3.ZERO,
 			Vector3(0.2, top + 0.7, 0.2)))
 	for y: float in [top * 0.5, top]:
 		for s: float in [-1.0, 1.0]:
-			it.append(BMG.item(box1, Vector3(cx, y, cz + s * hz), mat_metal, Vector3(0, 0, s * 2.0),
+			it.append(BMG.item(box1, Vector3(cx, y, cz + s * hz), sm, Vector3(0, 0, s * 2.0),
 				Vector3(sx + 0.3, 0.1, 0.5)))
-			it.append(BMG.item(box1, Vector3(cx + s * hx, y, cz), mat_metal, Vector3(s * 2.0, 0, 0),
+			it.append(BMG.item(box1, Vector3(cx + s * hx, y, cz), sm, Vector3(s * 2.0, 0, 0),
 				Vector3(0.5, 0.1, sz + 0.3)))
 	var ang: float = atan2(top - 0.5, sz)
 	for s: float in [-1.0, 1.0]:
 		it.append(BMG.item_xf(box1, Transform3D(Basis(Vector3.RIGHT, -ang * s).scaled_local(
 			Vector3(0.12, 0.12, sqrt(sz * sz + (top - 0.5) * (top - 0.5)))), Vector3(cx + s * (hx + 0.12), (top + 0.5) * 0.5, cz)),
-			mat_metal))
+			sm))
 	for p: Vector3 in [Vector3(-3.55, 0.3, -3.5), Vector3(-2.9, 0.3, -3.75), Vector3(-3.25, 0.88, -3.6)]:
 		it.append(BMG.item(box1, p, mat_stone, Vector3(0, p.x * 25.0, 0), Vector3(0.62, 0.56, 0.62)))
-	it.append(BMG.item(box1, Vector3(-3.25, 0.03, -3.6), mat_metal, Vector3(0, -10, 0), Vector3(1.6, 0.06, 1.0)))
+	it.append(BMG.item(box1, Vector3(-3.25, 0.03, -3.6), sm, Vector3(0, -10, 0), Vector3(1.6, 0.06, 1.0)))
 	_scaffold = Node3D.new()
 	_scaffold.name = "Scaffold"
 	add_child(_scaffold)

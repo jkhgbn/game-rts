@@ -30,10 +30,13 @@ func _setup() -> void:
 	wreck_top = 1.05
 	smoke_points = [Vector3(0.5, 3.4, -1.4)]
 	blaze_points = [Vector3(1.45, 4.1, -0.2)]
+	# G-B: one vertex-coloured painted material (PaintedVC, B8: 11 -> 6 materials) drawn with the Fire paint layer.
+	vc_merge = true
 
 
 func _build_parts() -> void:
 	var box1: Mesh = _box(Vector3.ONE)
+	_m_wood = _painted_mat(Color(0.36, 0.22, 0.12), 0.0, 0.0)   # G-B: woodpile, stump, scaffold
 	_window_mat = _glow_mat(glow_color, 2.2, 3.0, false)
 	_coal_mat = _glow_mat(glow_color, 3.0, 2.0, false)
 	# Plinth (never collapses): slab, a door step, a corner stone.
@@ -66,8 +69,8 @@ func _build_parts() -> void:
 	it.append(_it(_cyl(0.0, 0.22, 0.2, 4), Vector3(0.14, 2.03, -2.0), _m_dark, Vector3(0, 45, 0)))
 	# Woodpile against the left wall, a chopping stump at the front-left corner.
 	for l: Vector3 in [Vector3(-1.98, 0.62, 0.0), Vector3(-1.98, 0.62, 0.36), Vector3(-1.98, 0.93, 0.18)]:
-		it.append(_it(_cyl(0.17, 0.17, 1.5, 7), l, _m_trim, Vector3(90, 0, 0)))
-	it.append(_it(_cyl(0.28, 0.3, 0.45, 8), Vector3(-1.6, 0.67, -2.2), _m_trim))
+		it.append(_it(_cyl(0.17, 0.17, 1.5, 7), l, _m_wood, Vector3(90, 0, 0)))
+	it.append(_it(_cyl(0.28, 0.3, 0.45, 8), Vector3(-1.6, 0.67, -2.2), _m_wood))
 	_merged("Walls", "walls", it)
 	# Roof tier: bronze eave, three stepped team tiers with bronze hip ridges, the chimney with its glowing coal.
 	it = []
@@ -101,6 +104,11 @@ func _build_parts() -> void:
 	var em := _pm(Vector3.UP, 25.0, 0.8, 1.6, Vector3(0, -0.3, 0), 0.08, 0.04,
 		_ramp(Color(1.0, 0.65, 0.2), Color(1.0, 0.4, 0.1), false))
 	_idle_particles("ChimneyEmbers", Vector3(1.05, 5.7, 0.9), 8, 1.6, em, true)
+	_gb_haze(_body, Vector3(1.05, 5.7, 0.9), Vector2(1.2, 2.4))   # G-B: heat over the chimney (High / Ultra)
+
+
+func _gb_fire() -> bool:
+	return true
 
 
 ## Transform on the face of a roof tier looking along the horizontal `d`, `along` metres sideways from its middle:

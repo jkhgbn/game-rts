@@ -44,6 +44,8 @@ func _setup() -> void:
 func _build_parts() -> void:
 	var box1: Mesh = _box(Vector3.ONE)
 	var oct := Basis(Vector3.UP, PI / 8.0)
+	if _gb_fire():
+		_m_wood = _painted_mat(Color(0.36, 0.22, 0.12), 0.0, 0.0)   # G-B: timber scaffold
 	var slit_mat: ShaderMaterial = _glow_mat(glow_color, 2.2, 1.5, false)
 	var ember_mat: ShaderMaterial = _glow_mat(glow_color, 2.4, 2.0, false)
 	var it: Array = []
@@ -206,6 +208,11 @@ func play_shot() -> void:
 
 
 # --- Overrides ---
+
+## G-B Fire: the Ember Spire itself (NightSpireModel extends this script and keeps its own look).
+func _gb_fire() -> bool:
+	return (get_script() as Script).resource_path == "res://art/buildings/fire_tower.gd"
+
 
 func _idle(delta: float) -> void:
 	_orb.position.y = _orb_y + 0.08 * sin(_t * 2.2)
