@@ -8,27 +8,29 @@ extends RefCounted
 ## Keys = ground.gdshader uniform names (sRGB colours; the uniforms are `source_color`).
 
 ## The style bible's swatches (sRGB). style-autumn.md 1 prints the same values as hex.
-const GRASS_DARK := Color(0.26, 0.23, 0.13)      # olive umber: the shade side of the grass patches
-const GRASS_LIGHT := Color(0.45, 0.39, 0.20)     # ochre: the lit patches
-const GRASS_WARM := Color(0.50, 0.35, 0.17)      # russet ochre
-const GRASS_COOL := Color(0.22, 0.26, 0.15)      # the last green (cool accent, keeps the painted temperature swing)
-const GRASS_DRY := Color(0.56, 0.47, 0.28)       # straw
-const CLOVER := Color(0.28, 0.29, 0.13)
+const GRASS_DARK := Color(0.32, 0.35, 0.20)      # dark olive: the shade side of the grass patches (G-F r2: was umber)
+const GRASS_LIGHT := Color(0.52, 0.56, 0.32)     # dry olive: the lit patches (hue ~70 deg, s 0.43)
+const GRASS_WARM := Color(0.54, 0.52, 0.30)      # gold-olive (the russet moved to the trees and the fallen leaves)
+const GRASS_COOL := Color(0.25, 0.32, 0.19)      # the last green (cool accent, keeps the painted temperature swing)
+const GRASS_DRY := Color(0.58, 0.56, 0.38)       # pale dry grass
+const CLOVER := Color(0.30, 0.34, 0.17)
 const LEAF_CREAM := Color(0.93, 0.86, 0.66)      # flower_a: pale seed heads
 const LEAF_GOLD := Color(0.95, 0.68, 0.20)       # flower_b: fallen gold leaves
 const LEAF_MAUVE := Color(0.58, 0.36, 0.50)      # flower_c: late asters
 const LEAF_RED := Color(0.78, 0.33, 0.16)        # flower_d: fallen russet leaves
-const DIRT := Color(0.42, 0.33, 0.23)
-const DIRT_DARK := Color(0.28, 0.20, 0.14)
-const ROAD := Color(0.50, 0.40, 0.30)
-const ROAD_DARK := Color(0.34, 0.26, 0.19)
+## G-F review 2 item 2: dirt and roads a darker red-brown (hue ~20 deg), >= 0.12 value under the grass mean, so the
+## roads and the plazas read against the olive grass (was one mustard / brown hue and value).
+const DIRT := Color(0.31, 0.20, 0.14)
+const DIRT_DARK := Color(0.21, 0.135, 0.10)
+const ROAD := Color(0.33, 0.22, 0.155)
+const ROAD_DARK := Color(0.23, 0.15, 0.11)
 const COBBLE := Color(0.55, 0.51, 0.45)
 const PEBBLE := Color(0.48, 0.44, 0.39)
 const PAVING := Color(0.57, 0.54, 0.49)
 const ROCK := Color(0.38, 0.35, 0.33)
 const CANOPY_DARK := Color(0.17, 0.08, 0.05)
 const CANOPY_LIGHT := Color(0.56, 0.31, 0.10)
-const HAZE := Color(0.62, 0.52, 0.42)
+const HAZE := Color(0.68, 0.64, 0.57)        # lighter, less saturated edge haze (G-F r2)
 const BANK_WET := Color(0.16, 0.12, 0.09)
 const BANK_DAMP := Color(0.32, 0.25, 0.17)
 const BANK_SAND := Color(0.58, 0.49, 0.34)
@@ -38,8 +40,9 @@ const BLOSSOM := Color(0.95, 0.66, 0.22)
 const NEEDLE := Color(0.36, 0.21, 0.11)          # old wood floor: leaf litter
 const MOSS := Color(0.28, 0.30, 0.12)
 ## biome_tints order of GroundParams.TINT_SETS: meadow, heath, old wood, riverbank.
-const BIOME_TINTS: Array[Color] = [Color(0.43, 0.38, 0.19), Color(0.50, 0.31, 0.18), Color(0.23, 0.15, 0.09),
-	Color(0.28, 0.31, 0.17)]
+## G-F r2: meadow and heath olive / gold-olive (the bracken red stays in heather_color accents), old wood leaf litter.
+const BIOME_TINTS: Array[Color] = [Color(0.44, 0.47, 0.26), Color(0.50, 0.46, 0.25), Color(0.25, 0.18, 0.11),
+	Color(0.30, 0.37, 0.20)]
 
 
 ## Every autumn ground uniform (colours + the few look knobs). `amount` scales nothing but biome_amount's companion

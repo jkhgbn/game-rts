@@ -9,6 +9,8 @@ extends Node3D
 ##   ward line    a ruined shrine on each side of the central plaza (plinths, drums, flagstones, ember moss, a
 ##                broken pillar), at the lane's edge, not on the march line
 ##   plazas       burnt grass and charred wood in the layout's ash zones (round the Bastions)
+##   muster pads  G-F review 2 item 10: a broken flagstone apron round each pad's plate (the plate itself is drawn by
+##                scripts/ui/wave_strike/pad_view.gd) and a banner at each corner, so the pad sits in a dressed yard
 ## One MultiMeshInstance3D per mesh kind (~14 draws, shadows only on the big pieces). Draw-only: no collider, no
 ## navmesh effect, nothing on nav layers; tall pieces stay at the lane edges. Kept clear: Bastions, spawn boxes,
 ## tower / muster slots, rock blocks, the wizard starts. Deterministic (same layout = same dressing). No new shader
@@ -128,6 +130,7 @@ func build() -> int:
 	_grass_bands()
 	_shrines()
 	_ash_plazas()
+	_muster_pads()
 	var total := 0
 	for path: String in _lists:
 		var list: Array = _lists[path]
@@ -387,3 +390,69 @@ func _ash_plazas() -> void:
 			var p2 := c + Vector3(cos(a2) * r2, 0.0, sin(a2) * r2)
 			if not _blocked(p2, 1.0):
 				_put(CHARRED, p2, _rng.randf_range(0.85, 1.1))
+
+
+## The Muster Pad yards (G-F r2 item 10): around every `slot sub=muster_pad` (MusterPad: COLS x ROWS cells of CELL m,
+## + the view's 1 m rim; rows along the lane direction), a broken flagstone apron 0.4-2.2 m outside the rim, a few kerb
+## stones, and a banner at each corner facing out. The plate's own look is the ui view's (see docs/art/gf_r2_autumn.md).
+func _muster_pads() -> void:
+	var spots: Array = _layout.get(&"spots")
+	var he := Vector2(MusterPad.ROWS * MusterPad.CELL * 0.5 + 1.0, MusterPad.COLS * MusterPad.CELL * 0.5 + 1.0)
+	for sp: Dictionary in spots:
+		if String(sp.get("kind", "")) != "slot" or String(sp.get("sub", "")) != "muster_pad":
+			continue
+		var c: Vector3 = sp.get("pos", Vector3.ZERO)
+		# The lane runs along x (Ashwind): the pad's forward axis is x, its lateral axis z.
+		var perim := 2.0 * (he.x + he.y) * 2.0
+		var t := _rng.randf_range(0.0, 1.0)
+		while t < perim:
+			var q := _rim_point(t, he)
+			var out := _rim_normal(t, he)
+			var d := _rng.randf_range(0.4, 2.2)
+			var p := c + Vector3(q.x + out.x * d, 0.0, q.y + out.y * d)
+			if not _off_map(p):
+				_put(FLAGS, p, _rng.randf_range(0.8, 1.15))
+				if _rng.randf() < 0.18:
+					_put(KERB, p + Vector3(out.x, 0.0, out.y) * _rng.randf_range(0.8, 1.4), _rng.randf_range(0.45, 0.75))
+			t += _rng.randf_range(1.0, 2.6) if _rng.randf() > 0.12 else _rng.randf_range(3.0, 5.0)   # a broken run
+		for sx: float in [-1.0, 1.0]:
+			for sz: float in [-1.0, 1.0]:
+				var b := c + Vector3(sx * (he.x + 1.6), 0.0, sz * (he.y + 0.6))
+				b.z = clampf(b.z, -MapInfo.half_z() + 1.3, MapInfo.half_z() - 1.3)   # Ashwind: the outer yard edge is the map edge
+				if not _off_map(b):
+					# The cloth hangs along +X: point it away from the pad along the lane axis.
+					_put(BANNER, b, 1.0, (0.0 if sx > 0.0 else PI) + _rng.randf_range(-0.15, 0.15))
+
+
+## A point on the rim rectangle (half extents `he`, x = forward, y = lateral) at arc length `t` (clockwise from +x, -y).
+static func _rim_point(t: float, he: Vector2) -> Vector2:
+	var w := he.x * 2.0
+	var h := he.y * 2.0
+	t = fposmod(t, 2.0 * (w + h))
+	if t < h:
+		return Vector2(he.x, -he.y + t)
+	t -= h
+	if t < w:
+		return Vector2(he.x - t, he.y)
+	t -= w
+	if t < h:
+		return Vector2(-he.x, he.y - t)
+	t -= h
+	return Vector2(-he.x + t, -he.y)
+
+
+static func _rim_normal(t: float, he: Vector2) -> Vector2:
+	var w := he.x * 2.0
+	var h := he.y * 2.0
+	t = fposmod(t, 2.0 * (w + h))
+	if t < h:
+		return Vector2(1, 0)
+	if t < h + w:
+		return Vector2(0, 1)
+	if t < 2.0 * h + w:
+		return Vector2(-1, 0)
+	return Vector2(0, -1)
+
+
+func _off_map(p: Vector3) -> bool:
+	return absf(p.x) > MapInfo.half_x() - 1.0 or absf(p.z) > MapInfo.half_z() - 1.0

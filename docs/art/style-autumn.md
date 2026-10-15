@@ -20,6 +20,8 @@ Test: `tests/test_20_v0.gd` (`PASS 20.v0`).
 
 ## 1. Palette (sRGB; the ground / material uniforms are `source_color`)
 ### 1.1 Ground (`autumn_ground_params.gd`)
+**2026-10-15 G-F r2:** grass moved to olive, dirt / roads to a darker red-brown, fog / haze lighter: the current values are in `docs/art/gf_r2_autumn.md` (the table below is the 20.V0 original).
+
 | Role | Uniform | Value | Hex |
 |---|---|---|---|
 | Grass shade side | `grass_dark` | (0.26, 0.23, 0.13) | `#423B21` olive umber |

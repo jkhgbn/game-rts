@@ -7,11 +7,15 @@ extends RefCounted
 ##   ForestMood   (art/environment/sighing_wood/forest_mood.gd)   Sighing Wood (mission 3): forest ground + decor, green-gold
 ##                light, dappled canopy shade and light shafts at High+, the Oldroot / Warden Gate art.
 ##   LaneDressing (art/environment/lane_dressing/lane_dressing.gd) Wave Strike lanes (Ashwind Reach): road-edge stones,
-##                waystones, fences, banners, a ruined shrine at the ward line, ash at the Bastion plazas.
+##                waystones, fences, banners, a ruined shrine at the ward line, ash at the Bastion plazas, the Muster
+##                Pad surrounds (flagstones, corner banners).
+##   ForestReplant (art/environment/lane_dressing/forest_replant.gd) Wave Strike forest blocks: the level's grid trees
+##                replanted as a treeline + clusters + glades, 3 sizes (every tier: same meshes, same count).
 
 const LOOKS: Array[String] = [
 	"res://art/environment/sighing_wood/forest_mood.gd",
 	"res://art/environment/lane_dressing/lane_dressing.gd",
+	"res://art/environment/lane_dressing/forest_replant.gd",
 ]
 
 

@@ -267,3 +267,23 @@ func flash_ring(pos: Vector3, radius: float) -> void:
 ```
 - In `_gold_ring` add `mat.disable_fog = true` (the gold torus under the spotlit unit greys the same way at night).
 Every other flash_ring caller (missions) gets the same rim; nothing reads the old disc node.
+
+## G-F r2 item 10 (tech-artist, 2026-10-15): the Muster Pad plate (ui-coder) and the forest grid (systems-coder)
+
+1. **Pad plate (ui-coder, `scripts/ui/wave_strike/pad_view.gd` `_build_plate`)**: the plate is an unlit flat
+   `STONE` (0.30, 0.28, 0.27) quad, so it reads as a grey slab at every zoom. The art is ready:
+   `art/environment/lane_dressing/muster_plate_mat.tres` (lit worn flagstones, one flag per 1.5 m cell so the drawn grid
+   sits on the joints; it reads the view's vertex colour as a value multiplier, so the rim / sides stay darker). Request:
+   in `_build_plate` use it for the "Plate" node instead of `unlit(Color.WHITE, false, true)`, load-guarded:
+```gdscript
+const PLATE_MAT := "res://art/environment/lane_dressing/muster_plate_mat.tres"
+...
+var plate_mat: Material = load(PLATE_MAT) as Material if ResourceLoader.exists(PLATE_MAT) else null
+_mesh_node(st.commit(), plate_mat if plate_mat else unlit(Color.WHITE, false, true), "Plate")  # LOC_IGNORE
+```
+   Keep the grid lines / chevron / tokens unlit on top (unchanged). The yard round the plate (flagstone apron, 4 corner
+   banners) is already in LaneDressing (art).
+2. **Forest grid (systems-coder, optional)**: `WaveStrikeLevel._add_ws_block` still plants forest blocks on a 4.6 m grid.
+   The art now replants them in windowed runs (`art/environment/lane_dressing/forest_replant.gd`, via LevelLooks, after
+   `EnvProps.commit()`: treeline + clusters + glades, 3 sizes, every tier). Nothing is needed; if the grid code is ever
+   touched, it can stay as is (the replant drops every instance inside a forest block + 1.8 m and plants its own).
