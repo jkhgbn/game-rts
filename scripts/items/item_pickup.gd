@@ -147,7 +147,7 @@ func load_state(d: Dictionary, _nodes: Dictionary) -> void:
 		if is_inside_tree():
 			queue_free()
 		else:
-			free()
+			queue_free()   # never a bare free(): the exported game's GDScript refuses it (parse error)
 		return
 	type = t
 	count = maxi(1, int(d.get("count", 1)))
@@ -158,7 +158,7 @@ func load_state(d: Dictionary, _nodes: Dictionary) -> void:
 		var parent: Node = _restore_parent if is_instance_valid(_restore_parent) else null
 		_restore_parent = null
 		if parent == null:
-			free()
+			queue_free()   # never a bare free(): the exported game's GDScript refuses it (parse error)
 			return
 		parent.add_child(self)
 	if pos is Vector3:

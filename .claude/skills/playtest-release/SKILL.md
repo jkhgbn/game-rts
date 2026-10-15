@@ -14,7 +14,10 @@ description: Make a playable Four Wizards build for JS (tag, CI on the tag, play
    "Four Wizards - Playtest" at it.
 4. **Export** from the CI worktree (templates in `%APPDATA%\Godot\export_templates\4.7.2.stable`):
    `& tools\godot_run.ps1 --headless --path ..\four-wizards-rts-ci --export-release "Windows Desktop" <out>\FourWizards.exe`,
-   then smoke-run the exe headless.
+   then smoke-run the exe headless (`FourWizards.exe --headless --quit-after 600`, stderr to a file) and **fail the
+   build on any `SCRIPT ERROR` / `Parse Error` line**: the exported game compiles GDScript stricter than the editor
+   (2026-10-14: a bare `free()` broke items / champions / helpers in two builds while every test passed).
+   Templates are installed (4.7.2, Windows only): `--export-release` makes one FourWizards.exe (+ the debug-draw dll).
 5. **Zip** to the Desktop as `FourWizards-<date>.zip`. Copy into OneDrive only after JS says yes.
 6. **Notes**: update `docs/plan/playtest-notes.md` (Québec French: what's new, how to play, known issues, what to look at).
 7. Tell JS in 3-5 lines where the build is and what to test. Update `docs/plan/lead-status.md`.

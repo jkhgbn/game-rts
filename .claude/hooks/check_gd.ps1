@@ -48,6 +48,11 @@ foreach ($raw in $lines) {
 	}
 	# R6 (2026-10-14, seen twice in one day: game_audio.gd, test_unit_upgrades.gd): a `\` + newline line continuation
 	# lost in an edit leaves a run of tabs in the middle of a line. It still parses, so nothing else catches it.
+	# R7 (2026-10-14): a bare free() parses in the editor / tests but is a parse error in the EXPORTED game (release
+	# template), which then fails every script that depends on it (items, inventory, champions, helpers broke in 2 builds).
+	if ($code -match '(^|[^\w.])free\(\)') {
+		$problems.Add("R7 bare free(): the exported game refuses it (parse error). Use queue_free() or obj.free(): $($raw.Trim())")
+	}
 	if ($code -match '\S[ \t]*\t{2,}\S') {
 		$problems.Add("R6 tabs in the middle of a line (a lost '\' line continuation?): put the '\' and the newline back: $($raw.Trim())")
 	}
