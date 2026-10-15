@@ -772,3 +772,20 @@ MissionBase / scripts/campaign (ui-coder does not edit there):
 4. Mission scenes (`missions/*.tscn`) have no GameAudio node: their music works (the director watches scene changes),
    but no SFX and no combat intensity / drive stem. Adding a `GameAudio` node (script `scripts/audio/game_audio.gd`)
    to MissionBase or the mission scenes, like skirmish.tscn, turns both on.
+
+## G2a ground detail hook (from tech-artist, 2026-10-15, docs/art/g2a_ground.md)
+`GroundDetail` (`art/environment/grass/ground_detail.gd`, draw-only) adds the High / Ultra ground relief and the 3D grass
+field. Today only MapDressingArt creates it, so only Crown Hollow layouts get it. Please add it for every level in
+`scripts/world/main.gd` `_ready`, right after the CritterSystem block (same load-guard pattern; `ensure` is idempotent,
+does nothing headless or at Low, and MapDressingArt's own call then finds the same node):
+
+	const GROUND_DETAIL_PATH := "res://art/environment/grass/ground_detail.gd"   # (next to CRITTER_SYSTEM_PATH)
+
+	# G2a ground relief + 3D grass field (draw-only; Low / headless = nothing).
+	if ResourceLoader.exists(GROUND_DETAIL_PATH) and not _SIM.enabled:
+		var gd_script := load(GROUND_DETAIL_PATH) as Script
+		if gd_script:
+			gd_script.call(&"ensure", self)
+
+It must run after `_build_map()` (the ground material holds the river / road / biome uniforms by then); it bakes the
+ground top-down 3 frames later. Thornwater check: `art/environment/grass/g2a_shots.gd '--' --map=thornwater --gfx=high`.

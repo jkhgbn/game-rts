@@ -34,6 +34,7 @@ const SCENE_PATH := "res://art/environment/map_dressing.tscn"
 const MESH_DIR := "res://art/environment/meshes/"
 const GROUND_SHADER := "res://art/environment/ground.gdshader"
 const BIOME_MAP := preload("res://art/environment/biomes/biome_map.gd")
+const GROUND_DETAIL := "res://art/environment/grass/ground_detail.gd"
 const GAME_SETTINGS_PATH := "res://scripts/ui/menus/game_settings.gd"
 const MAP_HALF := 60.0
 const CHUNK := 40.0
@@ -144,6 +145,11 @@ func _ready() -> void:
 	_build_border()
 	get_tree().node_added.connect(_on_node_added)
 	_populate.call_deferred()
+	# G2a: the per-tier ground relief + 3D grass field (draw-only; one per level, Low / headless = nothing).
+	if ResourceLoader.exists(GROUND_DETAIL):
+		var gd := load(GROUND_DETAIL) as Script
+		if gd and gd.has_method(&"ensure"):
+			gd.call_deferred(&"ensure", get_parent())
 
 
 ## Hides every decor instance within `radius` of `center` (world x/z). Cheap; call it for new buildings.

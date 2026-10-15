@@ -146,6 +146,14 @@ uniform vec3 scorch_color : source_color = vec3(0.29, 0.25, 0.21);
 // surface), but with the river discard every shadow cascade would run this fragment shader over the whole 520 m
 // plane (+1.3 ms on a GTX 1660, even with the river off). false = the old behaviour.
 uniform bool skip_sun_shadow = true;
+// G2a (docs/art/g2a_ground.md). Both default to today's look.
+// bake_mode: 0 = the game; 1 = unlit grass colour (EMISSION, no tufts / flowers / dirt) and 2 = unlit grass mask
+// (R grass amount, G flower patches, B blade height x 0.5) for GroundDetail's top-down bake (the 3D grass field).
+uniform int bake_mode = 0;
+// Painted relief (High / Ultra): dirt sits a little below the grass, ruts and the river banks dip, plaza stones stand
+// proud of their joints; the light ramp is then shaded by that relief (lit lips facing the sun, cool ones away).
+// 0 = off (flat normal, the old light exactly). Fades out when a pixel is wider than ~0.12 m.
+uniform float relief = 0.0;
 
 varying vec3 v_wp;
 // 12.V2 biome tint factors (per-draw constants, computed once per vertex instead of once per pixel).
@@ -374,7 +382,8 @@ vec3 pebbles(vec2 p, vec3 col, float px, float amount) {
 }
 
 // Ruined round plaza around `c` (radius R), fades with `m`. Returns the paved colour mixed over `under`.
-vec3 plaza(vec2 p, vec2 c, float R, float m, vec3 under, float px, float mid, float fine, inout vec3 emit) {
+vec3 plaza(vec2 p, vec2 c, float R, float m, vec3 under, float px, float mid, float fine, inout vec3 emit,
+		inout float hgt) {
 	vec2 v = p - c;
 	float r = length(v);
 	float ang = atan(v.y, v.x);
@@ -428,6 +437,9 @@ vec3 plaza(vec2 p, vec2 c, float R, float m, vec3 under, float px, float mid, fl
 	emit += groove_glow * groove * groove_energy * m * (0.7 + 0.3 * sin(TIME * 1.3 + r * 2.0));
 	vec3 gap_col = mix(under * 0.7, under, smoothstep(0.45, 0.65, fine));
 	vec3 pc = mix(gap_col, stone, gap * present);
+	// Relief: stones stand ~proud of the joints (bevelled), grooves cut in.
+	float sh = smoothstep(0.03, 0.12, border) * present * 0.28 - groove * 0.12;
+	hgt = mix(hgt, hgt + 0.35 + sh, smoothstep(0.15, 0.6, m));
 	return mix(under, pc, smoothstep(0.15, 0.6, m));
 }
 
@@ -888,13 +900,16 @@ void fragment() {
 	vec3 col = mix(gcol, dcol, dirt);
 	// Far away (lips faded) keep a faint dark seam so the edge still reads.
 	col *= 1.0 - 0.12 * clamp(dirt * (1.0 - dirt) * 4.0, 0.0, 1.0);
+	// G2a relief height (metres-ish, only its gradient matters): dirt below the grass, ruts below the dirt.
+	float hgt = -0.30 * dirt - 0.10 * rut * dirt;
 	// Wet bank band along the river and moat (12.V2), under the plaza flagstones.
 	if (river_on && wsd < bank_width + 1.6) {
 		col = bank_paint(p, col, wsd, dirt, px, mid, fine, micro);
+		hgt -= (1.0 - smoothstep(0.0, bank_width + 0.8, wsd)) * 0.45;
 	}
 	vec3 emit = vec3(0.0);
 	if (pave > 0.0) {
-		col = plaza(p, pave_spot.xy, pave_spot.z, pave, col, px, mid, fine, emit);
+		col = plaza(p, pave_spot.xy, pave_spot.z, pave, col, px, mid, fine, emit, hgt);
 	}
 
 	// Cliff-foot occlusion (map_dressing cliffs: north 10 m, west 8.5, east 7.5, south 3): a cool painted shade
@@ -934,17 +949,79 @@ void fragment() {
 		col = mix(col, haze_color, smoothstep(canopy_start + 10.0, canopy_start + 90.0, od) * 0.75);
 	}
 
+	// G2a relief: a world-space normal from the screen-space gradient of hgt (cheap; derivatives taken before the
+	// discard). Fades out when a pixel is wider than the features (no shimmer at max zoom).
+	vec3 relief_n = vec3(0.0, 1.0, 0.0);
+	float rk = relief * (1.0 - smoothstep(0.07, 0.14, px));
+	if (rk > 0.0 && bake_mode == 0) {
+		vec3 dpx = dFdx(v_wp);
+		vec3 dpy = dFdy(v_wp);
+		float hx = dFdx(hgt);
+		float hy = dFdy(hgt);
+		float det = dpx.x * dpy.z - dpx.z * dpy.x;
+		if (abs(det) > 1e-9) {
+			vec2 g = vec2(hx * dpy.z - hy * dpx.z, dpx.x * hy - dpy.x * hx) / det;
+			g = clamp(g * rk, vec2(-1.5), vec2(1.5));
+			relief_n = normalize(vec3(-g.x, 1.0, -g.y));
+		}
+	}
+
 	// 12.V2: open the ground over deep water (the 12.V1 trench and water show through).
 	if (cut) {
 		discard;
 	}
-	ALBEDO = col;
-	EMISSION = emit;
-	ROUGHNESS = 1.0;
+	if (bake_mode == 1) {
+		// G2a colour bake: the plain (biome-tinted, framed) grass colour; blades add their own detail.
+		vec3 gb = grass;
+		if (cliff_ao > 0.0 && in_map > 0.5) {
+			float hx2 = p.x < 0.0 ? 0.85 : 0.75;
+			float hz2 = p.y < 0.0 ? 1.0 : 0.3;
+			float ao2 = max(hx2 * (1.0 - smoothstep(0.0, cliff_ao_width * hx2, inside.x)),
+					hz2 * (1.0 - smoothstep(0.0, cliff_ao_width * hz2, inside.y)));
+			gb = mix(gb, gb * vec3(0.62, 0.68, 0.80), min(ao2 * ao2 * cliff_ao * 2.0, 1.0));
+		}
+		ALBEDO = vec3(0.0);
+		EMISSION = gb;
+		ROUGHNESS = 1.0;
+		SPECULAR = 0.0;
+	} else if (bake_mode == 2) {
+		// G2a mask bake: R = grass (no dirt, paving, bank band, border), G = flower patches, B = blade height x 0.5.
+		float bank_free = river_on ? smoothstep(bank_width * 0.7, bank_width + 1.2, wsd) : 1.0;
+		float g_amt = (1.0 - dirt) * (1.0 - smoothstep(0.0, 0.3, pave)) * bank_free * in_map;
+		g_amt *= mix(1.0, tuft_amt, 0.55);
+		float hmul = 1.0;
+		if (biome_amount > 0.0) {
+			// Taller on the heath and the riverbank, short in the Old Wood shade (tuft_amt already thins it).
+			hmul = mix(1.0, 0.75, 1.0 - tuft_amt) * (1.0 + 0.25 * flower_cut);
+		}
+		ALBEDO = vec3(0.0);
+		// The bake viewport stores sRGB: emit the linear value that encodes back to the mask value.
+		vec3 mk = clamp(vec3(g_amt, flower_mask, hmul * 0.5), 0.0, 1.0);
+		EMISSION = mix(mk / 12.92, pow((mk + 0.055) / 1.055, vec3(2.4)), step(vec3(0.04045), mk));
+		ROUGHNESS = 1.0;
+		SPECULAR = 0.0;
+	} else {
+		ALBEDO = col;
+		EMISSION = emit;
+		ROUGHNESS = 1.0;
+		if (rk > 0.0) {
+			NORMAL = normalize(mat3(VIEW_MATRIX) * relief_n);
+		}
+	}
 }
 
 void light() {
-	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
-	float ramp = smoothstep(0.32, 0.42, d) * 0.55 + smoothstep(0.58, 0.68, d) * 0.45;
-	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
+	if (relief > 0.0) {
+		// G2a: the painted ramp from the flat ground (same look), shaded by the relief normal.
+		vec3 up = normalize(mat3(VIEW_MATRIX) * vec3(0.0, 1.0, 0.0));
+		float fl = dot(up, LIGHT);
+		float d0 = fl * 0.5 + 0.5;
+		float ramp0 = smoothstep(0.32, 0.42, d0) * 0.55 + smoothstep(0.58, 0.68, d0) * 0.45;
+		float rel = clamp(1.0 + (dot(NORMAL, LIGHT) - fl) / max(fl, 0.3) * 0.9, 0.55, 1.35);
+		DIFFUSE_LIGHT += ramp0 * rel * ATTENUATION * LIGHT_COLOR / PI;
+	} else {
+		float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
+		float ramp = smoothstep(0.32, 0.42, d) * 0.55 + smoothstep(0.58, 0.68, d) * 0.45;
+		DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
+	}
 }
