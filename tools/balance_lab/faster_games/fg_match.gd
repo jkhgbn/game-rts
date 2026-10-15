@@ -17,6 +17,7 @@ extends "../balance_match.gd"
 ##                                                        nodes a / b in the same 2:1 pattern (faster_games_2026-10-08.md)
 ##     "start_crystals": "+150" | 400 | "workers"         starting crystals (Economy.START_CRYSTALS = 250); "workers" =
 ##                                                        + the crystal cost of the extra start workers
+##     "research_off": true                               UnitResearch.lab_off (arm ur_off): no unit research
 ##     "blitz": {} | {"<PaceSwitch.BLITZ key>": value}    the REAL Blitz pace (Skirmish.blitz_pace = true, PaceSwitch);
 ##                                                        keys given replace PaceSwitch.BLITZ's (PaceSwitch.tuning) to
 ##                                                        tune it (docs/balance/blitz_2026-10-10.md)
@@ -59,6 +60,9 @@ func apply_variant(data: Dictionary) -> void:
 		for id: String in siege:
 			_siege_mult[id] = float((siege[id] as Dictionary).get("building_mult", 1.0)) if siege[id] is Dictionary else 1.0
 	_prefer = bool(fg.get("prefer_buildings", false))
+	if bool(fg.get("research_off", false)):
+		UnitResearch.lab_off = true   # arm ur_off (unit-upgrades.md 12): no unit research at all
+		print("FG variant %s: unit research OFF" % variant_name)
 	var shares: Variant = fg.get("bot_share", {})
 	if shares is Dictionary:
 		_bot_share = shares
@@ -362,8 +366,18 @@ func _finish(reason: String, winner: int, error: String) -> bool:
 		sides[SIDES[team]] = {"buildings_lost": lost, "first_building_lost": first, "first_tower_lost": first_tower,
 				"first_production_lost": first_prod, "siege_bonus_dmg": roundi(_bonus[team]),
 				"siege_building_dmg": roundi(_siege_hits[team]), "siege_units": seen}
+	var research := {}
+	for team: int in [0, 1]:
+		var ur: Node = UnitResearch.for_team(team, false)
+		var done: Array = []
+		if ur != null:
+			for rid: StringName in UnitResearch.ROWS:
+				if ur.call(&"is_done", rid):
+					done.append(String(rid))
+		research[SIDES[team]] = done
 	data["fg"] = {"active": not fg.is_empty(), "sides": sides, "deaths": _b_deaths, "added": _added, "start": _start_log,
-			"blitz": {"on": PaceSwitch.is_blitz(), "tuning": PaceSwitch.tuning}}
+			"blitz": {"on": PaceSwitch.is_blitz(), "tuning": PaceSwitch.tuning}, "research_off": UnitResearch.lab_off,
+			"research": research}
 	var w := FileAccess.open(out_path, FileAccess.WRITE)
 	if w:
 		w.store_line(JSON.stringify(data))

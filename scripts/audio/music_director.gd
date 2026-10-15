@@ -689,11 +689,13 @@ func _on_mission_ended(victory: bool) -> void:
 func _on_node_added(node: Node) -> void:
 	if node == self or not is_inside_tree() or node.get_parent() != get_tree().root:
 		return
-	_check_scene.call_deferred(node)
+	# Deferred by instance id: a node freed before the deferred call would fail the argument conversion.
+	_check_scene.call_deferred(node.get_instance_id())
 
 
-func _check_scene(node: Node) -> void:
-	if is_instance_valid(node) and node.is_inside_tree() and node == get_tree().current_scene:
+func _check_scene(node_id: int) -> void:
+	var node := instance_from_id(node_id) as Node
+	if is_instance_valid(node) and node.is_inside_tree() and is_inside_tree() and node == get_tree().current_scene:
 		apply_scene(node)
 
 

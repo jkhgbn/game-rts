@@ -1,0 +1,5 @@
+{
+	"name": "ur_off",
+	"notes": "Unit research off (UnitResearch.lab_off), unit-upgrades.md 12 measuring plan.",
+	"fg": {"research_off": true}
+}
