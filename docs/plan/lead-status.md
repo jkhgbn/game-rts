@@ -3,31 +3,33 @@
 Read first after a reset, with `docs/plan/owner-asks.md` (waiting for JS) and `docs/plan/decisions.md` (already decided).
 History: `docs/plan/history/lead-status-2026-09.md`, restart notes `docs/ideas/restart_*.md`.
 
-**Updated:** 2026-10-14 evening, laptop (nothing pushed).
+**Updated:** 2026-10-15 ~22:00 UTC, laptop (nothing pushed).
 
 ## Where things are
 - Main repo `Documents\four-wizards-rts` (main). Remote https://github.com/jkhgbn/game-rts (private): push only on JS's word.
-- Last playtest build: tag `playtest-2026-10-14-5`, `Desktop\FourWizards-2026-10-14-soir.zip` (a real single
-  FourWizards.exe + debug-draw dll; export templates 4.7.2 installed with JS's OK, Windows only). NOT copied to OneDrive.
-- CI worktree `four-wizards-rts-ci` at playtest-2026-10-14-5. Music samples (CC0) in `Documents\four-wizards-samples\`.
-  Template download kept in `Documents\four-wizards-downloads\` (1.28 GB, checksum verified; delete only with JS's OK).
-- ci_quick on ce2076c9: 434 / 434, Error Lab WARN (both fixed after), perf 6.9 / 12.8 ms.
-- Pre-commit guard installed (`core.hooksPath tools/git_hooks`): EOL flips, BOM, lost `\` continuations.
+- Last playtest build: tag `playtest-2026-10-14-5`, `Desktop\FourWizards-2026-10-14-soir.zip` (not on OneDrive).
+- CI worktree `four-wizards-rts-ci` moved to c47509c0 (G-F); full CI run `gf-2026-10-15` running there (-Parallel 3).
+- Disk: C: ~5.6 GB free. Local-only lab PNGs ~3.4 GB in `docs/art/lab` (git-excluded): delete only with JS's OK (asked).
+- Weekly usage 74 % (resets 2026-10-18 05:00 UTC). Stop new waves at 85 %, keep 8 % reserve.
 
-## Done 2026-10-14
-- Music B for every track (13 + 7 drives), MusicDirector (random pool with the 4 kingdom themes, drive stems, boss,
-  film hold, briefings), missions get GameAudio (they had no SFX), GameAudio own RNG.
-- Unit research (unit-upgrades.md 7-15, ui-sc2-console.md 7): 55 rows + Forge V B N + bowman rows at the training
-  buildings, effects, kits, UI pages, French, bot (AIResearch). Reviews done and fixed.
-- Recurring-bug rules: check_gd R6 (lost `\` continuation, 30 old ones fixed), R7 (bare `free()`: a parse error in the
-  exported game; broke items / inventory / champions / helpers in the 10-13 and 10-14 morning builds), BootCheck
-  (`-- --boot-check` in the exe), playtest-release fails a build on SCRIPT ERROR.
+## Graphics week (JS 2026-10-15 "les graphiques les + beaux possible"; plan + full log `docs/plan/graphics-week.md`)
+- Done and committed: G-A lighting tiers / water / grass / wizards / shared materials, G-B buildings (4 kingdoms +
+  neutral) + spell VFX, G-C units (4 kingdoms, champions, mounts, titans), G-D world life (creatures, props, ambient life,
+  combat feedback, rings + HP bars, menu diorama, trees, fog look), G-E review round 1 (`docs/art/ge_review.md`) and all
+  its 14 fixes (team readability, value pass, night / snow / forest moods, Ashwind lane, autumn maps).
+- G-F committed: minimap framing in small-bounds levels a4b2eef2, Art Lab `cavalry_mounted` tier c036d618, offscreen
+  emitters root cause (`OffscreenEmitters`, test_gf_offscreen_emitters) 39a4f8c3, G-E fixes D c47509c0.
+- Running: Nature death leaves in `art/vfx/combat_vfx.gd`, art review round 2 (`docs/art/gf_review2.md`, read-only),
+  full CI, balance fs7-r5 (1 game at a time, ~95 / 144 at 21:00 UTC).
+- Next: fixes from review round 2 while budget allows; windowed fps at High / Ultra (200 units + Wave Strike) on a quiet
+  machine; playtest build (playtest-release skill) + French notes in `docs/plan/playtest-notes.md`.
 
-## Running / next (JS picked all four 2026-10-14)
-1. UR.B1 balance: `run_fg.py` arms baseline vs `docs/balance/ur_2026-10-14/variants/ur_off.json` (fg `research_off`;
-   the JSON now lists research rows bought per side), then Fire vs Shadow at normal pace (champions / worker raids).
-2. Faster CI + reliable perf: four-wizards-high agent working in `tools/ci/` + `tests/perf_test.gd`.
-3. Wave Strike balance (WS3.B1 / WS4.B1) + more units on screen; missions our sims fail (e3m1, e4m4, e5m4, e6m2 hard).
-4. Small: e3m3 lambda-capture warning, world_forge nav warning, UI Lab `hud_research` screen + STR pick, tooltip delay,
-   mission objectives folding, music.md still says mono / 77 MB, skirmish beast boss bars without boss music,
-   test_casters_bots hard ice:shadow fails (pre-existing, research off too), test_e5m1 flaked once.
+## Balance (JS "try to 50/50 balance")
+- Combo A shipped (decisions.md 2026-10-15). fs7-r5 compares 4 bot-only arms; when done: `fg_report.py --run fs7-r5`,
+  ship the best variant if it beats combo A, update `docs/balance/fs_2026-10-14/results.md` + decisions.md.
+
+## Known follow-ups
+- Team ring off at Low; `TEAM_RING_ALPHA` may be weak on dirt. `em_cloth` ownership table vs owners.json mismatch.
+- "1 resources still in use at exit" in every test (global, not a leak of one test).
+- Older list (2026-10-14): Wave Strike balance, sims failing e3m1 / e4m4 / e5m4 / e6m2 hard, e3m3 lambda warning, UI Lab
+  `hud_research`, tooltip delay, music.md mono note, test_casters_bots hard ice:shadow.

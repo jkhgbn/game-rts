@@ -73,6 +73,10 @@ const STONE: Array[Color] = [Color(0.52, 0.45, 0.4), Color(0.4, 0.35, 0.5), Colo
 const STONE_DARK: Array[Color] = [Color(0.16, 0.12, 0.12), Color(0.12, 0.1, 0.17), Color(0.36, 0.45, 0.56),
 		Color(0.3, 0.27, 0.18), Color(0.22, 0.2, 0.18)]
 const GOLD := Color(1.0, 0.78, 0.3)
+## Nature death leaf fall (G-F, ge_fixes_d.md 3): leaf count, size range (m, x = min, y = max), lifetime (s).
+const NATURE_LEAF_COUNT := 13
+const NATURE_LEAF_SIZE := Vector2(0.12, 0.2)
+const NATURE_LEAF_LIFE := 1.1
 
 const GROUND_SHADER := preload("res://art/vfx/vfx_ground.gdshader")
 const STREAK_SHADER := preload("res://art/vfx/combat_streak.gdshader")
@@ -1083,9 +1087,9 @@ func _build_looks() -> void:
 	m.gravity = Vector3(0, 1.8, 0)
 	m.tangential_accel_min = 1.5
 	m.tangential_accel_max = 3.0
-	_size(m, 0.14, 0.26, false)
+	_size(m, 0.1, 0.18, false)   # G-F: was 24 motes of 0.14-0.26 m for 1.3 s rising through the HP bars
 	m.color_ramp = _ramp([Color(GLOW[sh], 0.0), GLOW[sh], Color(0.6, 0.2, 1.1), Color(DEEP[sh], 0.0)])
-	_look(&"death_shadow", &"burst", 24, 1.3, &"soft_add", m)
+	_look(&"death_shadow", &"burst", 18, 1.1, &"soft_add", m)
 	m = _smoke([Color(0.2, 0.1, 0.3, 0.0), Color(0.17, 0.07, 0.27, 0.65), Color(0.1, 0.05, 0.16, 0.0)])
 	_look(&"smoke_shadow", &"puff", 6, 1.2, &"soft_mix", m)
 	# Ice death: shatter. Crystal spikes fly out along their velocity and fall, frost mist, bright glints.
@@ -1099,9 +1103,9 @@ func _build_looks() -> void:
 	m.damping_min = 0.5
 	m.damping_max = 1.0
 	m.particle_flag_align_y = true
-	_size_hold(m, 0.18, 0.4)
+	_size_hold(m, 0.14, 0.3)   # G-F: was 0.18-0.4 m (a 0.5 m plate on a big unit)
 	m.color_initial_ramp = _ramp([Color(0.55, 0.82, 1.0), Color(0.36, 0.6, 0.86), Color(0.24, 0.42, 0.66)], false)
-	_look(&"death_ice", &"burst", 16, 0.95, &"shard", m)
+	_look(&"death_ice", &"burst", 14, 0.95, &"shard", m)
 	# Frost mist: half the old size and life, cyan (a white puff the size of a unit read as a render glitch;
 	# 2026-10-12: the blue-grey still read pale over snow, now a saturated cyan at alpha 0.28).
 	m = _smoke([Color(ICE_MIST, 0.0), ICE_MIST, Color(0.24, 0.5, 0.8, 0.0)])
@@ -1121,26 +1125,28 @@ func _build_looks() -> void:
 	_size(m, 0.05, 0.08, false)
 	m.color_ramp = _ramp([HOT[ic], GLOW[ic], Color(DEEP[ic], 0.0)])
 	_look(&"glint_ice", &"spark", 10, 0.6, &"streak", m)
-	# Nature death: a burst of spinning leaves that flutter down + green spores drifting up.
+	# Nature death: a small fall of spinning leaves + green spores drifting up.
+	# G-F (docs/art/ge_review.md 13, ge_fixes_d.md 3): was 18 pale-green leaves of 0.28-0.46 m for 1.5 s, a cloud over
+	# the melee and its HP bars; now a small leaf fall in the Nature value pass's moss green / bronze (nature_leaf.tres).
 	m = _pm()
-	_sphere(m, 0.35)
+	_sphere(m, 0.3)
 	m.direction = Vector3.UP
 	m.spread = 70.0
-	m.initial_velocity_min = 2.5
-	m.initial_velocity_max = 5.5
-	m.gravity = Vector3(0, -2.6, 0)
+	m.initial_velocity_min = 1.6
+	m.initial_velocity_max = 3.4
+	m.gravity = Vector3(0, -3.2, 0)
 	m.damping_min = 2.0
 	m.damping_max = 3.0
-	m.tangential_accel_min = -2.0
-	m.tangential_accel_max = 2.0
+	m.tangential_accel_min = -1.5
+	m.tangential_accel_max = 1.5
 	m.angle_min = 0.0
 	m.angle_max = 360.0
 	m.angular_velocity_min = -320.0
 	m.angular_velocity_max = 320.0
-	_size_hold(m, 0.28, 0.46)
-	m.color_initial_ramp = _ramp([Color(0.5, 0.9, 0.22), Color(0.3, 0.68, 0.16), Color(0.72, 0.85, 0.2)], false)
+	_size_hold(m, NATURE_LEAF_SIZE.x, NATURE_LEAF_SIZE.y)
+	m.color_initial_ramp = _ramp([Color(0.34, 0.46, 0.15), Color(0.44, 0.4, 0.16), Color(0.52, 0.4, 0.18)], false)
 	m.color_ramp = _ramp([Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0)])
-	_look(&"death_nature", &"burst", 18, 1.5, &"leaf", m)
+	_look(&"death_nature", &"burst", NATURE_LEAF_COUNT, NATURE_LEAF_LIFE, &"leaf", m)
 	m = _pm()
 	_sphere(m, 0.55)
 	m.direction = Vector3.UP
@@ -1200,6 +1206,20 @@ func _build_looks() -> void:
 	_size(m, 0.08, 0.16, false)
 	m.color_ramp = _ramp([Color(1.5, 1.3, 0.7), Color(1.3, 0.9, 0.3), Color(1.0, 0.6, 0.15, 0.0)])
 	_look(&"pickup_sparkle", &"burst", 18, 0.9, &"soft_add", m)
+
+
+## Read-only view of a look for tests: {count, life, scale_min, scale_max, colors (initial ramp, or [])}; {} = unknown.
+func look_info(look: StringName) -> Dictionary:
+	if not _looks.has(look):
+		return {}
+	var info: Array = _looks[look]
+	var m: ParticleProcessMaterial = info[4]
+	var cols: Array = []
+	var cr := m.color_initial_ramp as GradientTexture1D
+	if cr and cr.gradient:
+		cols = Array(cr.gradient.colors)
+	return {"count": int(info[1]), "life": float(info[2]), "scale_min": m.scale_min, "scale_max": m.scale_max,
+			"colors": cols}
 
 
 func _look(look: StringName, pool: StringName, count: int, life: float, draw: StringName,

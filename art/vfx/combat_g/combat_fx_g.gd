@@ -315,8 +315,9 @@ func unit_death(u: Node3D, k: int, hero: bool, team: int) -> void:
 		3:   # Nature: a burst of small leaves falls and settles round the body; spores drift up.
 			# G-E 13 (docs/art/ge_fixes_c.md): leaves were 0.16-0.24 m plates lying 3.5-4.8 s over the melee and its HP
 			# bars; now half the size, twice the count, a shorter life (a leaf burst, not plates).
-			var greens: Array[Color] = [Color(0.42, 0.72, 0.2, 0.1), Color(0.3, 0.56, 0.15, 0.1), Color(0.7, 0.72, 0.22, 0.1),
-					Color(0.55, 0.42, 0.16, 0.1)]
+			# G-F: moss green / bronze of the Nature value pass (nature_leaf.tres), no pale lime.
+			var greens: Array[Color] = [Color(0.36, 0.5, 0.16, 0.1), Color(0.3, 0.44, 0.14, 0.1), Color(0.48, 0.42, 0.17, 0.1),
+					Color(0.52, 0.4, 0.18, 0.1)]
 			for i in int(20 * n):
 				var p := pos + Vector3(_rng.randf_range(-r, r), h * _rng.randf_range(0.4, 1.0), _rng.randf_range(-r, r))
 				_chip(Sys.RUBBLE, p, Vector3(_rng.randf_range(-1.7, 1.7), _rng.randf_range(0.6, 2.2), _rng.randf_range(-1.7, 1.7)),
