@@ -47,6 +47,11 @@ const ZOOM_MIN := 1.0
 const ZOOM_MAX := 3.0
 const ZOOM_STEP := 0.5
 const FOLLOW_INNER := 0.6   ## The camera is kept inside this fraction of the zoomed view.
+## G-F (ge_review item 6): a level whose camera bounds cover only part of the map (the prologue plays in a 50 m corner
+## of a 120 m map) opens the minimap framed on them (bounds + this margin), so the play area is not a dot in black fog.
+const FRAME_MARGIN := 6.0
+## Bounds narrower than this fraction of the map on both axes are framed; the full-map default (map - 2 m) never is.
+const FRAME_MAX_FRACTION := 0.75
 const REDRAW_INTERVAL := 0.1
 
 const GROUND_COLOR := Color(0.20, 0.30, 0.15)
@@ -180,11 +185,15 @@ var drawn_sight_rings := 0
 var water_drawn := false       ## True once the river mask texture is drawn under the map.
 var beast_pings := 0           ## Read only: lair pings started on beast_spawned since setup.
 var _water_tex: ImageTexture
+var _water_img: Image   ## The RGBA water layer (composite_image reads it).
 var _water_world := Rect2()   # the river mask's world rect (x, z)
 ## Read only (set_zoom): 1 = the whole map, up to ZOOM_MAX.
 var zoom := 1.0
 ## Read only: the world point (x, z) at the centre of the minimap (0, 0 at zoom 1).
 var view_center := Vector2.ZERO
+## Read only: the camera bounds the view was last framed on (G-F; Rect2() = never framed, the whole map).
+var framed_bounds := Rect2()
+var _seen_bounds := Rect2()
 var _last_cam := Vector2(INF, INF)
 var _water_layer: Control
 var _mapfill_left := 0.0
@@ -259,7 +268,11 @@ func setup(p_selection: SelectionManager, p_camera_rig: RTSCamera, p_map_size: f
 	_roads_left = 0.0
 	_refresh_roads()
 	_water_tex = null
+	_water_img = null
 	water_drawn = false
+	_seen_bounds = Rect2()
+	framed_bounds = Rect2()
+	_frame_camera_bounds()
 	_beasts_svc = null
 	_lairs = []
 	_lair_alive = {}
@@ -388,6 +401,56 @@ func map_half_extents() -> Vector2:
 	return Vector2(minf(MapInfo.half_x(), map_size * 0.5), minf(MapInfo.half_z(), map_size * 0.5))
 
 
+## G-F: when the camera rig's bounds change (a mission narrows them after the HUD setup), the view frames them if
+## they cover only part of the map; the player's own wheel zoom is kept until the bounds change again.
+func _frame_camera_bounds() -> void:
+	if camera_rig == null or not is_instance_valid(camera_rig):
+		return
+	var b := camera_rig.bounds
+	if b == _seen_bounds:
+		return
+	_seen_bounds = b
+	var half := map_half_extents()
+	if b.size.x <= 0.0 or b.size.y <= 0.0 or half.x <= 0.0 or half.y <= 0.0:
+		return
+	if b.size.x > half.x * 2.0 * FRAME_MAX_FRACTION or b.size.y > half.y * 2.0 * FRAME_MAX_FRACTION:
+		if framed_bounds != Rect2():   # widened again: back to the whole map
+			framed_bounds = Rect2()
+			zoom = ZOOM_MIN
+			view_center = Vector2.ZERO
+			_clamp_view()
+			_view_changed()
+		return
+	var r := b.grow(FRAME_MARGIN)
+	framed_bounds = b
+	zoom = clampf(map_size / maxf(r.size.x, r.size.y), ZOOM_MIN, ZOOM_MAX)
+	view_center = r.get_center()
+	_clamp_view()
+	_view_changed()
+
+
+## A CPU copy of what the minimap paints under its icons (ground fill, river, fog), `res` x `res` pixels over the
+## draw area: no 3D light, environment or render involved (tests: the minimap reads the same at night and at day).
+func composite_image(res := 50) -> Image:
+	var img := Image.create(res, res, false, Image.FORMAT_RGB8)
+	var half := map_half_extents()
+	for j in res:
+		for i in res:
+			var p := Vector2((float(i) + 0.5) * SIZE / float(res), (float(j) + 0.5) * SIZE / float(res))
+			var w := (p - Vector2(SIZE, SIZE) * 0.5) / _scale() + view_center
+			var c := OUTSIDE_COLOR
+			if absf(w.x) <= half.x and absf(w.y) <= half.y:
+				c = GROUND_COLOR
+				if _water_img != null and _water_world.has_point(w):
+					var u := (w - _water_world.position) / _water_world.size
+					var wc := _water_img.get_pixel(clampi(int(u.x * _water_img.get_width()), 0, _water_img.get_width() - 1),
+							clampi(int(u.y * _water_img.get_height()), 0, _water_img.get_height() - 1))
+					c = c.lerp(Color(wc.r, wc.g, wc.b), wc.a)
+				c = c.lerp(Color.BLACK, fog_alpha_at(Vector3(w.x, 0.0, w.y)))
+			img.set_pixel(i, j, c)
+	return img
+
+
 func _view_changed() -> void:
 	queue_redraw()
 	if _water_layer:
@@ -417,6 +480,7 @@ func _follow_camera() -> void:
 
 
 func _process(delta: float) -> void:
+	_frame_camera_bounds()
 	_follow_camera()
 	if _roads.is_empty():
 		_roads_left -= delta
@@ -567,6 +631,7 @@ func _build_water() -> void:
 		out[o + 3] = 255
 	var tex_img := Image.create_from_data(w, h, false, Image.FORMAT_RGBA8, out)
 	_water_tex = ImageTexture.create_from_image(tex_img)
+	_water_img = tex_img
 	var cell := 0.5
 	var script := river.get_script() as Script
 	if script != null:
