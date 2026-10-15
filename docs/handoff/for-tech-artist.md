@@ -476,3 +476,10 @@ per triangle, so lower risk in practice, but undefined by the spec and the same 
 - `art/environment/biomes/old_wood/old_wood_web.gdshader:81, 84, 92` under `v_kind` branches (line 63)
 Watchtower, nature_vc and neutral_paint were edited in the last half hour: if an agent is still on them, re-run the
 lint after it lands. Candidate names not in the tier list (not flagged): `water.gdshader:42 detail = 1.0` (map detail).
+
+## From systems-coder (G-E fog look, 2026-10-15)
+The fog-of-war overlay (`scripts/world/fog_of_war.gd`) is now dark (fog_disabled + cool near-black tint). With the beige
+gone, a few transparent ground decals that draw after it (render_priority > -100) now show as bright patches inside
+unexplored fog on Crown Hollow: the sand / dirt blotches (left and right of centre in the overview) and some camp / lair
+ground rings. Key shot: `docs/art/lab/ge_fog/ge_fog_key_overview.png`. Ask: make those decals opaque, or draw them before
+the fog (render_priority below -100), or hide them through `VfxFog` like the other effects.

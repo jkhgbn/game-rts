@@ -27,6 +27,7 @@ const MAP_HALF := CELL * HALF          ## 60 m: the default map's half size (the
 const TICK := 0.1                      ## One team pass per tick, so each team updates at 5 Hz.
 const START_REVEAL := 20.0             ## Explored circle around a team's start (fog-of-war.md).
 const EXPLORED_ALPHA := 0.55
+const CLOUD_AMOUNT := 0.7             ## High+: slow drifting cloud noise over unexplored ground (0 = off).
 const GHOST_COLOR := Color(0.5, 0.5, 0.55, 0.5)
 const GRID_BYTES := [0, 140, 255]      ## grid_image() values per state.
 
@@ -485,8 +486,9 @@ func _build_overlay() -> void:
 	_img_exp = Image.create_empty(grid_w, grid_d, false, Image.FORMAT_R8)
 	_tex_vis = ImageTexture.create_from_image(_img_vis)
 	_tex_exp = ImageTexture.create_from_image(_img_exp)
+	var q := GameSettings.effective_graphics_quality()
 	var shader := Shader.new()
-	shader.code = OVERLAY_SHADER
+	shader.code = OVERLAY_SHADER if q <= GameSettings.GFX_LOW else OVERLAY_SHADER.replace("render_mode", "#define FOG_RICH\nrender_mode")
 	_overlay_mat = ShaderMaterial.new()
 	_overlay_mat.shader = shader
 	_overlay_mat.render_priority = -100   # before the other see-through things (rings, HP bars, VFX)
@@ -494,6 +496,7 @@ func _build_overlay() -> void:
 	_overlay_mat.set_shader_parameter(&"exp_tex", _tex_exp)
 	_overlay_mat.set_shader_parameter(&"map_half", Vector2(CELL * float(_hx), CELL * float(_hz)))
 	_overlay_mat.set_shader_parameter(&"explored_alpha", EXPLORED_ALPHA)
+	_overlay_mat.set_shader_parameter(&"cloud_amount", CLOUD_AMOUNT if q >= GameSettings.GFX_HIGH else 0.0)
 	var box := BoxMesh.new()
 	box.size = Vector3(600.0, 400.0, 600.0)   # the camera is always inside: back faces cover the screen
 	_overlay = MeshInstance3D.new()
@@ -527,17 +530,54 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-## Reads the opaque depth, rebuilds each pixel's world position and darkens it by the fog state
-## there (linear filter = soft edges over about one cell). Sky / off-map pixels stay clear.
+## Reads the opaque depth, rebuilds each pixel's world position and shades it by the fog state there.
+## fog_disabled: the drawn surface is the far inside of a 600 m box, beyond the environment's depth-fog end, so
+## without it the depth fog painted the overlay tan (G-E review item 2). Look (G-E fog pass 2026-10-15):
+## - unexplored = a near-black cool blue-grey veil (not pure black), explored = darkened, cooled, readable;
+## - Low (no FOG_RICH): one alpha-blended pass, one tap per texture (the pre-G1 cost), smoothstep-shaped edges;
+## - Medium+ (`#define FOG_RICH`, set by _build_overlay): reads the screen copy to desaturate explored ground, and
+##   feathers the state edges with a 5-tap blur; High+ also drifts very slow cloud noise over unexplored
+##   (`cloud_amount`, 0 = off). Sky / off-map pixels stay clear. vis_tex / exp_tex / map_half are read by
+##   art/environment/ambient (keep their names).
 const OVERLAY_SHADER := """
 shader_type spatial;
-render_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled;
+render_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled, fog_disabled;
 
 uniform sampler2D vis_tex : filter_linear, repeat_disable;
 uniform sampler2D exp_tex : filter_linear, repeat_disable;
 uniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;
 uniform vec2 map_half = vec2(60.0, 60.0);
 uniform float explored_alpha = 0.55;
+uniform float unexplored_alpha = 0.92;
+uniform vec3 unexplored_color = vec3(0.010, 0.014, 0.026);
+uniform vec3 explored_color = vec3(0.008, 0.011, 0.022);
+uniform float cloud_amount = 0.0;
+#ifdef FOG_RICH
+uniform sampler2D screen_tex : hint_screen_texture, filter_nearest, repeat_disable;
+uniform float explored_dim = 0.55;
+uniform float explored_desat = 0.45;
+uniform vec3 explored_tint = vec3(0.9, 0.95, 1.05);
+#endif
+
+// Integer hash: a sin() hash breaks into hard-edged blocks when neighbouring cells round differently.
+float fog_hash(vec2 p) {
+	uvec2 q = uvec2(ivec2(p) + ivec2(32768));
+	uint h = (q.x * 1597334677u) ^ (q.y * 3812015801u);
+	h = (h ^ (h >> 16u)) * 73244475u;
+	h ^= h >> 16u;
+	return float(h) * (1.0 / 4294967295.0);
+}
+
+float fog_noise(vec2 p) {
+	vec2 i = floor(p);
+	vec2 f = fract(p);
+	vec2 u = f * f * (3.0 - 2.0 * f);
+	float a = fog_hash(i);
+	float b = fog_hash(i + vec2(1.0, 0.0));
+	float c = fog_hash(i + vec2(0.0, 1.0));
+	float d = fog_hash(i + vec2(1.0, 1.0));
+	return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+}
 
 void fragment() {
 	float depth = texture(depth_tex, SCREEN_UV).r;
@@ -551,7 +591,39 @@ void fragment() {
 	} else {
 		float e = texture(exp_tex, uv).r;
 		float v = texture(vis_tex, uv).r;
-		ALPHA = mix(1.0, mix(explored_alpha, 0.0, v), e);
+#ifdef FOG_RICH
+		vec2 px = 0.7 / vec2(textureSize(exp_tex, 0));
+		e = e * 0.4 + 0.15 * (texture(exp_tex, uv + vec2(px.x, 0.0)).r + texture(exp_tex, uv - vec2(px.x, 0.0)).r
+				+ texture(exp_tex, uv + vec2(0.0, px.y)).r + texture(exp_tex, uv - vec2(0.0, px.y)).r);
+		v = v * 0.4 + 0.15 * (texture(vis_tex, uv + vec2(px.x, 0.0)).r + texture(vis_tex, uv - vec2(px.x, 0.0)).r
+				+ texture(vis_tex, uv + vec2(0.0, px.y)).r + texture(vis_tex, uv - vec2(0.0, px.y)).r);
+#endif
+		e = smoothstep(0.0, 1.0, e);
+		v = smoothstep(0.0, 1.0, v);
+		vec3 ucol = unexplored_color;
+		float ua = unexplored_alpha;
+		if (cloud_amount > 0.0) {
+			vec2 q = world.xz * 0.05;
+			float n = fog_noise(q + TIME * vec2(0.010, 0.004)) * 0.65
+					+ fog_noise(q * 2.3 - TIME * vec2(0.006, 0.011)) * 0.35;
+			ucol *= 1.0 + cloud_amount * (n - 0.35) * 2.2;
+			ua = clamp(ua - cloud_amount * (n - 0.5) * 0.12, 0.0, 1.0);
+		}
+#ifdef FOG_RICH
+		if (e * v > 0.995) {
+			ALPHA = 0.0;
+		} else {
+			vec3 scene = texture(screen_tex, SCREEN_UV).rgb;
+			float luma = dot(scene, vec3(0.2126, 0.7152, 0.0722));
+			vec3 dim = mix(scene, vec3(luma), explored_desat) * explored_dim * explored_tint;
+			vec3 under = mix(scene, ucol, ua);
+			ALBEDO = mix(under, mix(dim, scene, v), e);
+			ALPHA = 1.0;
+		}
+#else
+		ALBEDO = mix(ucol, explored_color, e);
+		ALPHA = mix(ua, mix(explored_alpha, 0.0, v), e);
+#endif
 	}
 }
 """

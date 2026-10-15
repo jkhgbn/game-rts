@@ -40,6 +40,16 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
   real ~4 % perf_test regression -> bisect: the G-C Flame Guard blade-fuller glow as its own moving keep_separate node
   (one extra draw instance per unit); fixed 2da2453b (glows merge into the pivot again), now ~5 % faster than
   4a88047e. Ambient life 5fa4c8f7, combat feedback a185008f committed.
+- State 2026-10-15 ~19:30 UTC (weekly 72 %, 5 h 44 %): also committed G-E review f789da1b, building rings 842af511,
+  autumn maps 3ddc4afb (+ main.gd hook), unique class_name test f272e114, G-B leftovers 18e7855a + d25d351b.
+  Perf A/B vs 2da2453b: no new regression (dirty tree 6.24-7.05 vs 6.58-6.83 under load 1.5-1.9).
+  Running: G-C leftovers (in contract review, then commit; docs/art/lab/gc_leftovers 4 key PNGs + contact sheet),
+  G-E fixes A (bloom caps, additive pads fog_disabled + lint rule C + test_ge_additive_fog, Ice keep halo, Fire Hall
+  quad), G-E fixes B (night m00 moonlight, m02 snow / lake / cliff, depth fog per preset), G-E fixes C (m03 Oldroot +
+  forest mood, Ashwind lane dressing, neutral thatch, Nature death leaves), fog of war look (systems-coder), team
+  readability (gameplay-coder: alt palette in mirror + faint relation ring; also cap the ring glow on big buildings).
+  Next: G-E item 3 kingdom value pass (after G-C leftovers commit: Shadow less saturated, Nature off the grass, Ice
+  whites down), Thornback / Bramble riders' saddle panels, Gloom Deacon; then G-F.
 - Committed after that: rings + HP bars 03bed8e3, menu diorama 7e8a5abe, trees d9cf2110 (weekly 70 % at 18:50 UTC).
 - Running: G-B leftovers, G-C leftovers, building rings (systems-coder), G-E art-direction review (read-only:
   docs/art/ge_review.md, top-8 list feeds the next wave), autumn maps wiring (AutumnSwap restore + ensure_for_level;
