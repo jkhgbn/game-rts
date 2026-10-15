@@ -1,7 +1,8 @@
 extends SceneTree
 ## Task A2.8: generates the nature props with ONE shared painted material (nature_mat.tres) + one contact-shadow
 ## material (nature_contact_mat.tres):
-##   trees   tree_pine, tree_fir, tree_broadleaf, tree_birch, tree_gold (3 shape variants each, in one mesh)
+##   trees   tree_pine, tree_fir, tree_broadleaf, tree_birch, tree_gold (3 shape variants each, in one mesh;
+##           G-D trees: leaf-puff crowns, clumped conifer tiers, flared lathe trunks)
 ##           + tree_*_far stand-ins for the border forest (no variants, ~70-110 triangles)
 ##   rocks   rock_boulder, rock_slab, rock_shards, rock_spire (3 variants each)
 ##   ruins   ruin_pillar (3 variants: broken top, snapped with a fallen drum, leaning with its capital)
@@ -12,6 +13,12 @@ extends SceneTree
 ## instance's world position and collapses the other variants' parts, so one MultiMesh shows 3 shapes.
 ## Re-run after changing a shape or colour (then run build_env.gd if the border forest layout changed):
 ##   $GODOT --headless --path . -s res://art/environment/nature_props/build_nature.gd --quit-after 600
+## G-D trees (docs/art/gd_trees.md): puff crowns, scalloped conifer tiers, flared trunks, and the legacy decor bushes
+## (meshes/decor_bush.res, decor_bush_berry.res, now built here on nature_mat.tres). Trees + bushes only (keeps the
+## materials, the tree scenes, the far stand-ins, rocks and pillars as they are):
+##   $GODOT --headless --path . -s res://art/environment/nature_props/build_nature.gd --quit-after 600 -- trees
+## build_env.gd still has its old decor_bush code: a FULL build_env.gd run would put the old bushes back (re-run this
+## script with `-- trees` after it).
 
 const DIR := "res://art/environment/"
 const NDIR := "res://art/environment/nature_props/"
@@ -54,8 +61,13 @@ const RUIN_L := Color(0.60, 0.58, 0.57)
 const RUIN_D := Color(0.35, 0.34, 0.35)
 const IVY := Color(0.15, 0.32, 0.13)
 const IVY_L := Color(0.27, 0.46, 0.17)
+const BUSH_D := Color(0.11, 0.24, 0.09)
+const BUSH := Color(0.19, 0.35, 0.14)
+const BUSH_L := Color(0.33, 0.50, 0.18)
+const BERRY := Color(0.78, 0.14, 0.18)
 
 var mat: ShaderMaterial
+var _trees_only := false
 var contact_mat: ShaderMaterial
 var _conv: float = 1.0
 
@@ -75,18 +87,25 @@ var _report: Array = []
 func _init() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(MESH_DIR))
 	_detect_winding()
-	_make_materials()
+	_trees_only = OS.get_cmdline_user_args().has("trees")
+	if _trees_only:
+		mat = load(NDIR + "nature_mat.tres") as ShaderMaterial
+		contact_mat = load(NDIR + "nature_contact_mat.tres") as ShaderMaterial
+	else:
+		_make_materials()
 	_build_pine()
 	_build_fir()
 	_build_broadleaf()
 	_build_birch()
 	_build_gold()
-	_build_far_trees()
-	_build_boulder()
-	_build_slab()
-	_build_shards()
-	_build_spire()
-	_build_pillar()
+	_build_bushes()
+	if not _trees_only:
+		_build_far_trees()
+		_build_boulder()
+		_build_slab()
+		_build_shards()
+		_build_spire()
+		_build_pillar()
 	for line: String in _report:
 		print(line)
 	print("NATURE BUILD OK")
@@ -218,6 +237,9 @@ func _part(arr: Array, xf: Transform3D, col: Color, o: Dictionary = {}) -> void:
 	if idx.is_empty():
 		for i: int in v.size():
 			idx.append(i)
+	# Optional per-vertex shade (G-D trees: ARRAY_COLOR.r of the source arrays multiplies the colour; puff
+	# undersides, conifer clump notches).
+	var shade: PackedColorArray = arr[Mesh.ARRAY_COLOR] if arr[Mesh.ARRAY_COLOR] != null else PackedColorArray()
 	var kind: int = o.get("kind", Kind.BARK)
 	var mask: int = o.get("mask", 0)
 	var jitter: float = o.get("jitter", 0.0)
@@ -286,6 +308,8 @@ func _part(arr: Array, xf: Transform3D, col: Color, o: Dictionary = {}) -> void:
 			if ao_r > 0.0:
 				var d: Vector3 = (tv[vi] - ao_c) * Vector3(1.0, 1.3, 1.0)
 				k *= lerpf(0.60, 1.04, smoothstep(0.30, 1.0, d.length() / ao_r))
+			if not shade.is_empty():
+				k *= shade[vi].r
 			_v.append(tv[vi])
 			_n.append(nn)
 			_c.append(Color(cc.r * k, cc.g * k, cc.b * k))
@@ -301,54 +325,6 @@ func _limb(a: Vector3, b: Vector3, r0: float, r1: float, segs: int, col: Color, 
 	if not oo.has("normals"):
 		oo["normals"] = "smooth"
 	_part(_cyl(r1, r0, len, segs), Transform3D(_along(a, b), (a + b) * 0.5), col, oo)
-
-
-## Flared roots: n wedges leaning out from the trunk foot, half in the ground.
-func _roots(count: int, r: float, len: float, col: Color, seed: float, mask: int = 0) -> void:
-	for i: int in count:
-		var a: float = i * TAU / count + _h(Vector3(seed, i, 2)) * 0.9
-		var d := Vector3(cos(a), 0, sin(a))
-		_limb(d * r * 0.3 + Vector3(0, 0.42, 0), d * (r + len) + Vector3(0, -0.07, 0), 0.17 * r / 0.25, 0.05, 4,
-			col, {"mask": mask, "seed": seed + i, "jitter": 0.015})
-
-
-## A tree tier: star-skirted cone (points alternate r_out / r_in, the tips droop), a concave mid ring and a raised
-## underside. Smooth normals: the tier shades as one soft cone, the tips catch light, the valleys stay dark.
-func _tier(r_out: float, r_in: float, h: float, points: int, droop: float) -> Array:
-	var v := PackedVector3Array()
-	var n := PackedVector3Array()
-	var idx := PackedInt32Array()
-	var m: int = points * 2
-	v.append(Vector3(0, h, 0))
-	n.append(Vector3.UP)
-	for i: int in m:   # mid ring (1..m)
-		var a: float = (i + 0.5) * PI / points
-		var rm: float = (r_out if i % 2 == 0 else r_in) * 0.5
-		v.append(Vector3(cos(a) * rm, h * 0.5, sin(a) * rm))
-		n.append(Vector3(cos(a) * 0.55, 1.0, sin(a) * 0.55).normalized())
-	for i: int in m:   # outer star (m+1..2m)
-		var a2: float = i * PI / points
-		var tip: bool = i % 2 == 0
-		var r: float = r_out if tip else r_in
-		v.append(Vector3(cos(a2) * r, -droop if tip else -droop * 0.35, sin(a2) * r))
-		n.append(Vector3(cos(a2), 0.42 if tip else 0.62, sin(a2)).normalized())
-	for i: int in m:
-		idx.append_array([0, 1 + i, 1 + (i + 1) % m])
-	for i: int in m:
-		var mi: int = 1 + i
-		var mj: int = 1 + (i + 1) % m
-		var oi: int = 1 + m + i
-		var oj: int = 1 + m + (i + 1) % m
-		idx.append_array([mi, oi, oj, mi, oj, mj])
-	var base: int = v.size()
-	v.append(Vector3(0, h * 0.2, 0))
-	n.append(Vector3.DOWN)
-	for i: int in m:
-		v.append(v[1 + m + i])
-		n.append((Vector3.DOWN * 1.2 + Vector3(v[1 + m + i].x, 0, v[1 + m + i].z).normalized() * 0.4).normalized())
-	for i: int in m:
-		idx.append_array([base, base + 1 + i, base + 1 + (i + 1) % m])
-	return _mk(v, n, idx)
 
 
 ## Simple tier for the far trees: star cone + underside, no mid ring.
@@ -631,6 +607,197 @@ func _single(name: String, mesh: Mesh) -> void:
 
 
 # --- trees (s = 1: collider radius 0.45, height 2 at y 1) ---------------------------------------
+# G-D trees (docs/art/gd_trees.md): crowns are clusters of leaf puffs (each a lumpy ball with its own light and
+# shadow side, smaller puffs scalloping the outline), conifer tiers have rounded drooping needle clumps instead of
+# a star edge, and trunks are one lathe with a root flare that splits into buttress ribs at the ground.
+
+## Area-weighted smooth normals of an indexed mesh, every face turned away from `centre` (or from the y axis at the
+## face's height when `axis` is true: trunks, tiers). Returns the arrays (_mk).
+func _smooth(v: PackedVector3Array, idx: PackedInt32Array, axis: bool = false,
+		centre: Vector3 = Vector3.ZERO) -> Array:
+	var n := PackedVector3Array()
+	n.resize(v.size())
+	for t: int in range(0, idx.size(), 3):
+		var a: Vector3 = v[idx[t]]
+		var b: Vector3 = v[idx[t + 1]]
+		var c: Vector3 = v[idx[t + 2]]
+		var fn: Vector3 = (b - a).cross(c - a)
+		var mid: Vector3 = (a + b + c) / 3.0
+		var ref: Vector3 = Vector3(0.0, mid.y, 0.0) if axis else centre
+		if fn.dot(mid - ref) < 0.0:
+			fn = -fn
+		for k: int in 3:
+			n[idx[t + k]] += fn
+	for i: int in n.size():
+		n[i] = n[i].normalized() if n[i].length_squared() > 1e-12 else Vector3.UP
+	return _mk(v, n, idx)
+
+
+## A leaf puff: a ball made of a top pole, `rings` staggered latitude rings (+58 to -38 degrees) and a flattened bottom
+## pole. Its radius swells in `lumps` soft bumps, so one puff already has an uneven, clumpy outline. Smooth normals
+## from the lumpy surface. Origin = the ball centre. segs * rings + 2 vertices once welded.
+func _puff(r: float, segs: int, rings: int, seed: float, lumps: int = 3, lump_amt: float = 0.16) -> Array:
+	var dirs: Array[Vector3] = []
+	for k: int in lumps:
+		var a: float = _h(Vector3(seed, k, 11.0)) * TAU
+		var el: float = lerpf(-0.15, 0.95, _h(Vector3(seed, k, 12.0)))
+		dirs.append(Vector3(cos(a) * cos(el), sin(el), sin(a) * cos(el)))
+	var v := PackedVector3Array()
+	var sh := PackedColorArray()   # baked shade: each puff darker underneath (its own shadow side), lumps lighter
+	var idx := PackedInt32Array()
+	v.append(Vector3(0.0, r * (1.0 + lump_amt * 0.15), 0.0))
+	sh.append(Color(1.06, 1.0, 1.0))
+	for j: int in rings:
+		var lat: float = deg_to_rad(lerpf(58.0, -38.0, float(j) / float(maxi(rings - 1, 1))))
+		var off: float = 0.5 * float(j % 2) + (_h(Vector3(seed, j, 13.0)) - 0.5) * 0.16
+		for i: int in segs:
+			var a2: float = (float(i) + off) * TAU / float(segs)
+			var d := Vector3(cos(a2) * cos(lat), sin(lat), sin(a2) * cos(lat))
+			var f: float = 0.0
+			for dd: Vector3 in dirs:
+				f = maxf(f, smoothstep(0.60, 1.0, d.dot(dd)))
+			v.append(d * r * (1.0 + lump_amt * (f - 0.35)))
+			sh.append(Color(lerpf(0.70, 1.05, smoothstep(-0.65, 0.55, sin(lat))) * (1.0 + f * 0.05), 1.0, 1.0))
+	v.append(Vector3(0.0, -r * 0.62, 0.0))
+	sh.append(Color(0.62, 1.0, 1.0))
+	var last: int = v.size() - 1
+	for i: int in segs:
+		idx.append_array([0, 1 + i, 1 + (i + 1) % segs])
+	for j: int in rings - 1:
+		var ra: int = 1 + j * segs
+		var rb: int = ra + segs
+		for i: int in segs:
+			var i1: int = (i + 1) % segs
+			if j % 2 == 0:   # ring b sits half a step after ring a
+				idx.append_array([ra + i, rb + i, ra + i1, ra + i1, rb + i, rb + i1])
+			else:            # ring a sits half a step after ring b
+				idx.append_array([ra + i, rb + i1, ra + i1, ra + i, rb + i, rb + i1])
+	var rl: int = 1 + (rings - 1) * segs
+	for i: int in segs:
+		idx.append_array([last, rl + i, rl + (i + 1) % segs])
+	var out: Array = _smooth(v, idx, false, Vector3.ZERO)
+	out[Mesh.ARRAY_COLOR] = sh
+	return out
+
+
+## A trunk from `a` (below the ground) to `b`: one tapered lathe whose foot swells (`flare` x radius) and splits into
+## `ribs` buttress roots where it meets the ground, with a slight bow. Smooth normals, no caps (the top is in the
+## crown). segs x 7 rings.
+func _trunk(a: Vector3, b: Vector3, r0: float, r1: float, segs: int, col: Color, o: Dictionary = {}) -> void:
+	var flare: float = o.get("flare", 0.7)
+	var ribs: int = o.get("ribs", 4)
+	var seed: float = o.get("seed", 0.0)
+	var bow: float = o.get("bow", 0.04)
+	var ground: float = o.get("ground", -a.y)   # local height of the ground line
+	var length: float = a.distance_to(b)
+	var ts: Array[float] = [0.0, 0.06, 0.13, 0.24, 0.45, 0.72, 1.0]
+	var phase: float = _h(Vector3(seed, 3.0, 9.0)) * TAU
+	var v := PackedVector3Array()
+	var idx := PackedInt32Array()
+	for j: int in ts.size():
+		var y: float = ts[j] * length
+		var base_r: float = lerpf(r0, r1, pow(ts[j], 0.85))
+		var foot: float = exp(-maxf(y - ground, 0.0) / 0.32)
+		var bend: float = sin(ts[j] * PI) * bow
+		for i: int in segs:
+			var ang: float = float(i) * TAU / float(segs) + float(j % 2) * 0.12
+			var rib: float = pow(maxf(cos(ang * float(ribs) * 0.5 + phase), 0.0), 3.0) if ribs > 0 else 0.0
+			var rr: float = base_r * (1.0 + foot * flare * (0.35 + 0.65 * rib))
+			v.append(Vector3(cos(ang) * rr + bend, y, sin(ang) * rr))
+	for j: int in ts.size() - 1:
+		for i: int in segs:
+			var i1: int = (i + 1) % segs
+			var p: int = j * segs
+			var q: int = p + segs
+			idx.append_array([p + i, q + i, p + i1, p + i1, q + i, q + i1])
+	var oo: Dictionary = o.duplicate()
+	oo["normals"] = "smooth"
+	oo.erase("flare")
+	oo.erase("ribs")
+	oo.erase("bow")
+	oo.erase("ground")
+	if not oo.has("col2"):
+		oo["col2"] = col.lightened(0.08)
+	_part(_smooth(v, idx, true), Transform3D(_along(a, b), a), col, oo)
+
+
+## A conifer tier: a soft dome (apex + mid ring) over a skirt of `points` rounded needle clumps. Each clump is a
+## convex lobe (a raised ridge running out to a drooping tip between two shoulders) with a dark notch between
+## clumps, so the tier reads as a ring of needle bunches, not a flat star. Tip length / droop vary per clump.
+## Shade baked per vertex (notches and the underside dark, ridges and tips light). 2 + 11 x points vertices.
+func _tier2(r_out: float, h: float, points: int, droop: float, seed: float, notch: float = 0.68) -> Array:
+	var v := PackedVector3Array()
+	var n := PackedVector3Array()
+	var sh := PackedColorArray()
+	var idx := PackedInt32Array()
+	var step: float = TAU / float(points)
+	v.append(Vector3(0.0, h, 0.0))
+	n.append(Vector3.UP)
+	sh.append(Color(1.04, 1, 1))
+	# mid ring: 2 per clump (at the clump, at the notch)
+	for i: int in points:
+		for k: int in 2:
+			var a: float = (float(i) + 0.5 * float(k)) * step
+			var rm: float = r_out * (0.46 if k == 0 else 0.38)
+			v.append(Vector3(cos(a) * rm, h * (0.48 if k == 0 else 0.46), sin(a) * rm))
+			n.append(Vector3(cos(a) * 0.62, 1.0, sin(a) * 0.62).normalized())
+			sh.append(Color(1.0 if k == 0 else 0.84, 1, 1))
+	# skirt: 4 per clump (shoulder L, tip, shoulder R, notch)
+	var skirt: int = v.size()
+	var tips: Array[Vector3] = []
+	for i: int in points:
+		var a0: float = float(i) * step
+		var len_k: float = 0.90 + 0.20 * _h(Vector3(seed, i, 21.0))
+		var dr_k: float = 0.85 + 0.30 * _h(Vector3(seed, i, 22.0))
+		# [angle offset (steps), radius k, droop k, normal y, shade]
+		var pts: Array = [[-0.26, 0.86, 0.62, 0.30, 0.96], [0.0, 1.0, 1.0, 0.30, 1.10], [0.26, 0.86, 0.62, 0.30, 0.96],
+			[0.5, notch, 0.30, 0.75, 0.70]]
+		for p: Array in pts:
+			var a: float = a0 + float(p[0]) * step
+			var r: float = r_out * float(p[1]) * (len_k if float(p[0]) != 0.5 else 1.0)
+			var side: float = float(p[0]) * 2.4   # shoulders: normals turned out to their side (rounded lobe)
+			var na: float = a + side * 0.5 * step
+			v.append(Vector3(cos(a) * r, -droop * float(p[2]) * dr_k, sin(a) * r))
+			n.append(Vector3(cos(na), float(p[3]), sin(na)).normalized())
+			sh.append(Color(float(p[4]), 1, 1))
+		tips.append(v[v.size() - 3])
+	# ridge: 1 per clump, raised between the mid ring and the tip (the clump bulges)
+	var ridge: int = v.size()
+	for i: int in points:
+		var a: float = float(i) * step
+		var mid: Vector3 = v[1 + i * 2]
+		var p2: Vector3 = mid.lerp(tips[i], 0.55) + Vector3(0.0, h * 0.10, 0.0)
+		v.append(p2)
+		n.append(Vector3(cos(a) * 0.55, 1.0, sin(a) * 0.55).normalized())
+		sh.append(Color(1.08, 1, 1))
+	var m: int = points * 2
+	for i: int in m:
+		idx.append_array([0, 1 + i, 1 + (i + 1) % m])
+	for i: int in points:
+		var mc: int = 1 + i * 2              # mid at the clump
+		var mn: int = mc + 1                 # mid at the notch after it
+		var mp: int = 1 + ((i - 1 + points) % points) * 2 + 1   # mid at the notch before it
+		var s: int = skirt + i * 4
+		var sp: int = skirt + ((i - 1 + points) % points) * 4 + 3   # notch before
+		var rg: int = ridge + i
+		idx.append_array([mp, sp, s, mp, s, mc, mc, s, rg, rg, s, s + 1, rg, s + 1, s + 2, mc, rg, s + 2,
+			mc, s + 2, mn, mn, s + 2, s + 3])
+	var under: int = v.size()
+	v.append(Vector3(0.0, h * 0.18, 0.0))
+	n.append(Vector3.DOWN)
+	sh.append(Color(0.55, 1, 1))
+	for i: int in points * 4:
+		var sv: Vector3 = v[skirt + i]
+		v.append(sv)
+		n.append((Vector3.DOWN * 1.2 + Vector3(sv.x, 0.0, sv.z).normalized() * 0.4).normalized())
+		sh.append(Color(0.72, 1, 1))
+	var ms: int = points * 4
+	for i: int in ms:
+		idx.append_array([under, under + 1 + i, under + 1 + (i + 1) % ms])
+	var out: Array = _mk(v, n, idx)
+	out[Mesh.ARRAY_COLOR] = sh
+	return out
+
 
 ## Stacked tiers: [radius, y, height, points, colour t 0-1, sideways offset (Vector2)], dark -> light.
 func _tiers(list: Array, dark: Color, mid: Color, light: Color, mask: int, seed: float, droop: float = 0.42,
@@ -642,28 +809,98 @@ func _tiers(list: Array, dark: Color, mid: Color, light: Color, mask: int, seed:
 		var off: Vector2 = t[5] if t.size() > 5 else Vector2.ZERO
 		var base_col: Color = dark.lerp(mid, ct)
 		var tip_col: Color = mid.lerp(light, ct)
-		_part(_tier(r, r * 0.68, t[2] * 1.2, t[3], droop * r / 1.6), _xf(Vector3(off.x, t[1], off.y),
+		_part(_tier2(r, t[2] * 1.2, t[3], droop * r / 1.6, seed + i * 3.7), _xf(Vector3(off.x, t[1], off.y),
 			Vector3(0, seed + i * 0.83, 0)), base_col, {"kind": kind, "mask": mask, "normals": "smooth",
-			"col2": tip_col, "grad": "r", "jitter": 0.05, "seed": seed + i, "tint": 0.10})
+			"col2": tip_col, "grad": "r", "jitter": 0.04, "seed": seed + i, "tint": 0.10})
 		i += 1
+
+
+## A tree crown made of leaf puffs. `lobes`: [centre, radius, squash (Vector3)] main lobes; each gets `sats`
+## smaller puffs on its outer side (away from the crown centre, a little upward) that scallop the outline.
+## Colour: lower / inner puffs dark, upper / outer ones light; each puff darker underneath (its own shadow side).
+func _crown(lobes: Array, crown: Vector3, crown_r: float, dark: Color, mid: Color, light: Color, mask: int,
+		seed: float, kind: int = Kind.LEAVES, sats: int = 1, sat_k: float = 0.6, res: Vector2i = Vector2i(10, 5)) -> void:
+	var lo: float = INF
+	var hi: float = -INF
+	for l: Array in lobes:
+		lo = minf(lo, (l[0] as Vector3).y - float(l[1]) * 0.5)
+		hi = maxf(hi, (l[0] as Vector3).y + float(l[1]) * 0.5)
+	var puffs: Array = []
+	var i: int = 0
+	for l: Array in lobes:
+		var c: Vector3 = l[0]
+		var r: float = l[1]
+		var sq: Vector3 = l[2] if l.size() > 2 else Vector3.ONE
+		puffs.append([c, r, sq, res.x, res.y, 5, 0.16])
+		var out := Vector3(c.x - crown.x, 0.0, c.z - crown.z)
+		var base_a: float = atan2(out.z, out.x) if out.length() > 0.15 else _h(Vector3(seed, i, 5.0)) * TAU
+		for k: int in sats:
+			var a: float = base_a + (float(k) - (float(sats) - 1.0) * 0.5) * 1.25 + (_h(Vector3(seed, i, k)) - 0.5) * 0.5
+			var up: float = lerpf(-0.05, 0.55, _h(Vector3(seed, k, i + 7.0)))
+			var d := Vector3(cos(a), up, sin(a)).normalized()
+			var rs: float = r * sat_k * (0.85 + 0.3 * _h(Vector3(i, k, seed)))
+			puffs.append([c + d * Vector3(sq.x, sq.y, sq.z) * r * 0.66, rs, Vector3(1.0, 0.85, 1.0), mini(res.x - 3, 7), 3, 3,
+				0.16])
+		i += 1
+	var j: int = 0
+	for p: Array in puffs:
+		var c2: Vector3 = p[0]
+		var r2: float = p[1]
+		var hk: float = clampf((c2.y - lo) / maxf(hi - lo, 0.01), 0.0, 1.0)
+		var ok: float = clampf(Vector2(c2.x - crown.x, c2.z - crown.z).length() / maxf(crown_r, 0.01), 0.0, 1.0)
+		var ct: float = clampf(hk * 0.75 + ok * 0.35 - 0.05, 0.0, 1.0)
+		var c0: Color = dark.lerp(mid, minf(ct * 2.0, 1.0)) if ct < 0.5 else mid.lerp(light, (ct - 0.5) * 2.0)
+		var arr: Array = _puff(r2, p[3], p[4], seed + j * 1.7, p[5], p[6])
+		var xf: Transform3D = _xf(c2, Vector3(0.0, j * 1.3, 0.0), p[2])
+		# Crevices: vertices that run into a neighbour puff get darker (baked occlusion), so every lobe is outlined
+		# by a soft dark seam instead of melting into one blob.
+		var pv: PackedVector3Array = arr[Mesh.ARRAY_VERTEX]
+		var ps: PackedColorArray = arr[Mesh.ARRAY_COLOR]
+		for vi: int in pv.size():
+			var wp: Vector3 = xf * pv[vi]
+			var occ: float = 0.0
+			for k2: int in puffs.size():
+				if k2 == j:
+					continue
+				var q: Array = puffs[k2]
+				var dq: float = ((wp - (q[0] as Vector3)) / (q[2] as Vector3)).length() / float(q[1])
+				occ = maxf(occ, smoothstep(1.30, 0.85, dq))
+			ps[vi] = Color(ps[vi].r * lerpf(1.0, 0.58, occ), 1.0, 1.0)
+		arr[Mesh.ARRAY_COLOR] = ps
+		_part(arr, xf, c0.darkened(0.06),
+			{"kind": kind, "mask": mask, "normals": "crown", "crown": crown, "crown_k": 0.42,
+			"crown_s": Vector3(1.0, 0.8, 1.0), "col2": c0.lightened(0.12), "grad": "y", "jitter": r2 * 0.06,
+			"seed": seed + j, "ao_c": crown, "ao_r": crown_r * 1.1, "tint": 0.10})
+		j += 1
+
+
+## A few surface roots snaking out of the trunk foot (3-segment limbs, half in the ground).
+func _surface_roots(count: int, r: float, len: float, col: Color, seed: float, mask: int = 0) -> void:
+	for i: int in count:
+		var a: float = float(i) * TAU / float(count) + _h(Vector3(seed, i, 2)) * 1.1
+		var d := Vector3(cos(a), 0, sin(a))
+		var l: float = len * (0.75 + 0.5 * _h(Vector3(seed, i, 4)))
+		_limb(d * r * 0.55 + Vector3(0, 0.1, 0), d * (r + l) + Vector3(0, -0.06, 0), r * 0.42, 0.03, 4,
+			col, {"mask": mask, "seed": seed + i, "jitter": 0.012})
 
 
 func _build_pine() -> void:
 	_begin()
-	_limb(Vector3(0, -0.15, 0), Vector3(0, 2.3, 0), 0.25, 0.12, 6, TRUNK, {"seed": 1.0, "jitter": 0.02})
-	_roots(5, 0.24, 0.3, TRUNK_D, 1.0)
+	_trunk(Vector3(0, -0.15, 0), Vector3(0, 2.4, 0), 0.24, 0.11, 6, TRUNK, {"seed": 1.0, "flare": 0.75, "ribs": 5,
+		"jitter": 0.015})
+	_surface_roots(3, 0.24, 0.32, TRUNK_D, 1.0)
 	# V0: classic, 5 tiers.
-	_tiers([[1.75, 1.25, 1.25, 7, 0.0], [1.45, 1.95, 1.2, 7, 0.25], [1.15, 2.65, 1.15, 7, 0.5], [0.85, 3.3, 1.05, 6, 0.75],
+	_tiers([[1.75, 1.25, 1.25, 8, 0.0], [1.45, 1.95, 1.2, 8, 0.25], [1.15, 2.65, 1.15, 7, 0.5], [0.85, 3.3, 1.05, 7, 0.75],
 		[0.55, 3.9, 1.0, 6, 1.0]], PINE_D, PINE, PINE_L, V0, 2.0)
 	_part(_cyl(0.0, 0.2, 0.65, 5), _xf(Vector3(0, 5.05, 0)), PINE_L, {"kind": Kind.NEEDLES, "mask": V0,
 		"normals": "smooth", "no_caps": true})
 	# V1: tall and slim, 6 tiers.
-	_tiers([[1.4, 1.35, 1.15, 7, 0.0], [1.2, 1.97, 1.1, 7, 0.2], [1.0, 2.6, 1.05, 6, 0.4], [0.82, 3.2, 1.0, 6, 0.6],
+	_tiers([[1.4, 1.35, 1.15, 8, 0.0], [1.2, 1.97, 1.1, 7, 0.2], [1.0, 2.6, 1.05, 7, 0.4], [0.82, 3.2, 1.0, 6, 0.6],
 		[0.62, 3.8, 0.95, 6, 0.8], [0.42, 4.4, 0.9, 5, 1.0]], PINE_D, PINE, PINE_L, V1, 3.5)
 	_part(_cyl(0.0, 0.16, 0.7, 5), _xf(Vector3(0, 5.55, 0)), PINE_L, {"kind": Kind.NEEDLES, "mask": V1,
 		"normals": "smooth", "no_caps": true})
 	# V2: old and bushy, 4 wide tiers pushed off-centre, a broken top and a dead snag.
-	_tiers([[1.95, 1.1, 1.3, 8, 0.0, Vector2(0.08, -0.05)], [1.6, 1.85, 1.25, 7, 0.35, Vector2(-0.12, 0.08)],
+	_tiers([[1.95, 1.1, 1.3, 9, 0.0, Vector2(0.08, -0.05)], [1.6, 1.85, 1.25, 8, 0.35, Vector2(-0.12, 0.08)],
 		[1.2, 2.6, 1.15, 7, 0.7, Vector2(0.1, 0.1)], [0.8, 3.3, 0.9, 6, 1.0, Vector2(-0.05, -0.08)]],
 		PINE_D, PINE.lerp(PINE_D, 0.15), PINE_L, V2, 5.0, 0.36)
 	_limb(Vector3(0.0, 3.9, 0.0), Vector3(0.12, 4.55, -0.05), 0.09, 0.03, 4, Color(0.42, 0.38, 0.34),
@@ -671,154 +908,188 @@ func _build_pine() -> void:
 	_limb(Vector3(0.1, 2.0, 0.0), Vector3(1.0, 2.35, 0.55), 0.06, 0.015, 4, Color(0.42, 0.38, 0.34),
 		{"mask": V2, "seed": 5.7})
 	_disc(Vector3(0.1, 0, 0.15), 1.55, 1.5, 12, 1.0)
-	_single("tree_pine", _commit("tree_pine", 5.3))
+	_finish_tree("tree_pine", 5.3)
 
 
 func _build_fir() -> void:
 	_begin()
-	_limb(Vector3(0, -0.15, 0), Vector3(0, 2.0, 0), 0.23, 0.1, 6, TRUNK_D, {"seed": 4.0, "jitter": 0.02})
-	_roots(5, 0.22, 0.28, TRUNK_D, 4.0)
+	_trunk(Vector3(0, -0.15, 0), Vector3(0, 2.1, 0), 0.22, 0.1, 6, TRUNK_D, {"seed": 4.0, "flare": 0.7, "ribs": 4,
+		"jitter": 0.015})
+	_surface_roots(3, 0.22, 0.28, TRUNK_D, 4.0)
 	# V0: tall narrow spire, 6 tiers.
 	var l0: Array = []
 	for i: int in 6:
 		var r: float = 1.32 - i * 0.2
-		l0.append([r, 1.1 + i * 0.66, 1.05, 6, i / 5.0])
-	_tiers(l0, FIR_D, FIR, FIR_L, V0, 20.0, 0.24)
+		l0.append([r, 1.1 + i * 0.66, 1.05, 7 if i < 3 else 6, i / 5.0])
+	_tiers(l0, FIR_D, FIR, FIR_L, V0, 20.0, 0.30)
 	_part(_cyl(0.0, 0.16, 0.8, 5), _xf(Vector3(0, 5.4, 0)), FIR_L, {"kind": Kind.NEEDLES, "mask": V0,
 		"normals": "smooth", "no_caps": true})
 	# V1: twin leaders: 5 tiers, then two small tops side by side.
 	var l1: Array = []
 	for i: int in 5:
-		l1.append([1.4 - i * 0.2, 1.05 + i * 0.64, 1.05, 6, i / 5.0])
-	_tiers(l1, FIR_D, FIR, FIR_L, V1, 24.0, 0.24)
+		l1.append([1.4 - i * 0.2, 1.05 + i * 0.64, 1.05, 7 if i < 3 else 6, i / 5.0])
+	_tiers(l1, FIR_D, FIR, FIR_L, V1, 24.0, 0.30)
 	for k: int in 2:
 		var sx: float = -0.28 if k == 0 else 0.3
 		var hh: float = 1.25 if k == 0 else 0.95
-		_part(_tier(0.45, 0.28, hh, 5, 0.08), _xf(Vector3(sx, 4.25, 0.05 * k), Vector3(0, k * 0.7, sx * 0.25)),
+		_part(_tier2(0.45, hh, 5, 0.10, 26.0 + k), _xf(Vector3(sx, 4.25, 0.05 * k), Vector3(0, k * 0.7, sx * 0.25)),
 			FIR, {"kind": Kind.NEEDLES, "mask": V1, "normals": "smooth", "col2": FIR_L, "grad": "y", "seed": 26.0 + k})
 	# V2: windswept: tiers drift to one side, flattened across the wind.
 	var l2: Array = []
 	for i: int in 6:
-		l2.append([1.3 - i * 0.19, 1.1 + i * 0.64, 1.0, 6, i / 5.0, Vector2(0.07 * i, 0.03 * i)])
-	_tiers(l2, FIR_D, FIR, FIR_L, V2, 28.0, 0.28)
+		l2.append([1.3 - i * 0.19, 1.1 + i * 0.64, 1.0, 7 if i < 3 else 6, i / 5.0, Vector2(0.07 * i, 0.03 * i)])
+	_tiers(l2, FIR_D, FIR, FIR_L, V2, 28.0, 0.34)
 	_part(_cyl(0.0, 0.15, 0.7, 5), _xf(Vector3(0.42, 5.1, 0.18), Vector3(0, 0, -0.18)), FIR_L,
 		{"kind": Kind.NEEDLES, "mask": V2, "normals": "smooth", "no_caps": true})
 	_disc(Vector3(0.1, 0, 0.1), 1.3, 1.25, 12, 4.0)
-	_single("tree_fir", _commit("tree_fir", 5.6))
-
-
-## Leaf blobs: [centre, radius, squash (Vector3), colour t 0 (dark) - 1 (light)] around a crown centre.
-func _blobs(list: Array, crown: Vector3, crown_r: float, dark: Color, mid: Color, light: Color, mask: int,
-		seed: float, kind: int = Kind.LEAVES, segs: int = 7, rings: int = 4) -> void:
-	var i: int = 0
-	for b: Array in list:
-		var ct: float = b[3]
-		var c0: Color = dark.lerp(mid, minf(ct * 2.0, 1.0)) if ct < 0.5 else mid.lerp(light, (ct - 0.5) * 2.0)
-		_part(_sph(b[1], segs, rings), _xf(b[0], Vector3(0.0, i * 1.1, 0.0), b[2]), c0.darkened(0.12),
-			{"kind": kind, "mask": mask, "normals": "crown", "crown": crown, "crown_k": 0.62,
-			"crown_s": Vector3(1.0, 0.8, 1.0), "col2": c0.lightened(0.10), "grad": "y", "jitter": b[1] * 0.16,
-			"seed": seed + i, "ao_c": crown, "ao_r": crown_r, "tint": 0.10})
-		i += 1
+	_finish_tree("tree_fir", 5.6)
 
 
 func _build_broadleaf() -> void:
 	_begin()
-	_roots(5, 0.3, 0.32, TRUNK_D, 3.0)
-	# V0: round oak. Trunk + 3 limbs + 7 blobs.
-	_limb(Vector3(0, -0.15, 0), Vector3(0.05, 2.4, 0), 0.34, 0.2, 7, TRUNK, {"mask": V0, "seed": 3.0, "jitter": 0.03})
+	_surface_roots(3, 0.32, 0.4, TRUNK_D, 3.0)
+	# V0: round oak. A flared trunk, 3 limbs into a crown of 5 lobes.
+	_trunk(Vector3(0, -0.15, 0), Vector3(0.05, 2.45, 0), 0.34, 0.2, 7, TRUNK, {"mask": V0, "seed": 3.0, "jitter": 0.02,
+		"flare": 0.8, "ribs": 5})
 	_limb(Vector3(0.05, 1.9, 0), Vector3(0.95, 2.75, 0.3), 0.14, 0.06, 5, TRUNK_D, {"mask": V0})
 	_limb(Vector3(0.0, 2.0, 0), Vector3(-0.85, 2.8, -0.35), 0.14, 0.06, 5, TRUNK_D, {"mask": V0})
 	_limb(Vector3(0.05, 2.2, 0), Vector3(0.1, 3.0, -0.85), 0.12, 0.05, 5, TRUNK_D, {"mask": V0})
-	var c0 := Vector3(0.0, 3.2, 0.0)
-	_blobs([[Vector3(0, 2.8, 0), 1.25, Vector3(1.1, 0.72, 1.1), 0.0], [Vector3(0.95, 3.0, 0.35), 0.95, Vector3.ONE, 0.35],
-		[Vector3(-0.9, 3.05, -0.35), 1.0, Vector3.ONE, 0.3], [Vector3(0.2, 3.1, -0.95), 0.9, Vector3.ONE, 0.45],
-		[Vector3(-0.3, 3.15, 0.9), 0.92, Vector3.ONE, 0.5], [Vector3(0.15, 3.8, 0.05), 1.05, Vector3(1.0, 0.85, 1.0), 0.8],
-		[Vector3(-0.35, 4.35, -0.2), 0.62, Vector3.ONE, 1.0]], c0, 2.0, OAK_D, OAK, OAK_L, V0, 10.0)
+	var c0 := Vector3(0.0, 3.3, 0.0)
+	_crown([[Vector3(0.9, 3.0, 0.35), 0.95], [Vector3(-0.85, 3.05, -0.35), 0.98], [Vector3(0.15, 3.1, -0.9), 0.9],
+		[Vector3(-0.3, 3.15, 0.85), 0.92], [Vector3(0.05, 3.85, 0.0), 1.1, Vector3(1.0, 0.85, 1.0)]], c0, 2.0,
+		OAK_D, OAK, OAK_L, V0, 10.0)
 	_disc(Vector3(0, 0, 0.1), 1.9, 1.8, 14, 3.0, V0)
-	# V1: tall oval crown on a longer trunk, three storeys of blobs.
-	_limb(Vector3(0, -0.15, 0), Vector3(-0.05, 2.9, 0.05), 0.32, 0.18, 7, TRUNK, {"mask": V1, "seed": 3.3, "jitter": 0.03})
+	# V1: tall oval crown on a longer trunk, two storeys of lobes.
+	_trunk(Vector3(0, -0.15, 0), Vector3(-0.05, 2.95, 0.05), 0.32, 0.17, 7, TRUNK, {"mask": V1, "seed": 3.3,
+		"jitter": 0.02, "flare": 0.75, "ribs": 4})
 	_limb(Vector3(-0.05, 2.3, 0.05), Vector3(0.6, 3.3, 0.2), 0.12, 0.05, 5, TRUNK_D, {"mask": V1})
 	_limb(Vector3(-0.05, 2.5, 0.05), Vector3(-0.55, 3.5, -0.3), 0.12, 0.05, 5, TRUNK_D, {"mask": V1})
-	var c1 := Vector3(0.0, 3.7, 0.0)
-	_blobs([[Vector3(0, 3.0, 0), 1.1, Vector3(1.1, 0.75, 1.05), 0.0], [Vector3(0.6, 3.5, 0.3), 0.85, Vector3.ONE, 0.35],
-		[Vector3(-0.6, 3.6, -0.25), 0.88, Vector3.ONE, 0.35], [Vector3(0.05, 3.7, -0.65), 0.8, Vector3.ONE, 0.5],
-		[Vector3(0.0, 4.4, 0.15), 0.95, Vector3(1.0, 0.9, 1.0), 0.8], [Vector3(0.1, 5.05, -0.05), 0.6, Vector3.ONE, 1.0]],
-		c1, 1.9, OAK_D, OAK, OAK_L, V1, 20.0)
+	var c1 := Vector3(0.0, 3.8, 0.0)
+	_crown([[Vector3(0.55, 3.4, 0.3), 0.85], [Vector3(-0.6, 3.5, -0.2), 0.88], [Vector3(0.05, 3.55, -0.6), 0.8],
+		[Vector3(0.0, 4.35, 0.15), 0.92, Vector3(1.0, 0.95, 1.0)], [Vector3(0.1, 5.0, -0.05), 0.62]], c1, 1.8,
+		OAK_D, OAK, OAK_L, V1, 20.0)
 	_disc(Vector3(0, 0, 0.1), 1.5, 1.45, 14, 3.5, V1)
-	# V2: wide spreading tree: a forked trunk, two low lobes over the limbs, flat top.
-	_limb(Vector3(0, -0.15, 0), Vector3(0.0, 1.5, 0), 0.38, 0.28, 7, TRUNK, {"mask": V2, "seed": 3.6, "jitter": 0.03})
+	# V2: wide spreading tree: a forked trunk, two low lobes over the limbs, a flat broad top.
+	_trunk(Vector3(0, -0.15, 0), Vector3(0.0, 1.55, 0), 0.4, 0.29, 7, TRUNK, {"mask": V2, "seed": 3.6, "jitter": 0.02,
+		"flare": 0.85, "ribs": 5, "bow": 0.0})
 	_limb(Vector3(0.0, 1.35, 0), Vector3(1.05, 2.7, 0.15), 0.22, 0.1, 6, TRUNK, {"mask": V2, "seed": 3.7})
 	_limb(Vector3(0.0, 1.35, 0), Vector3(-0.95, 2.65, -0.2), 0.22, 0.1, 6, TRUNK, {"mask": V2, "seed": 3.8})
-	var c2 := Vector3(0.0, 2.95, 0.0)
-	_blobs([[Vector3(1.1, 2.9, 0.1), 1.05, Vector3(1.15, 0.7, 1.1), 0.1], [Vector3(-1.05, 2.85, -0.15), 1.05,
-		Vector3(1.15, 0.7, 1.1), 0.1], [Vector3(0.0, 3.1, 0.0), 1.0, Vector3(1.2, 0.7, 1.15), 0.3],
-		[Vector3(0.55, 3.45, -0.55), 0.85, Vector3(1.0, 0.8, 1.0), 0.6], [Vector3(-0.55, 3.5, 0.55), 0.85,
-		Vector3(1.0, 0.8, 1.0), 0.7], [Vector3(0.1, 3.75, 0.05), 0.75, Vector3(1.0, 0.75, 1.0), 1.0]], c2, 2.3,
-		OAK_D, OAK, OAK_L, V2, 30.0)
+	var c2 := Vector3(0.0, 3.0, 0.0)
+	_crown([[Vector3(1.15, 2.95, 0.1), 0.98, Vector3(1.15, 0.75, 1.1)], [Vector3(-1.05, 2.9, -0.15), 0.98,
+		Vector3(1.15, 0.75, 1.1)], [Vector3(0.5, 3.4, -0.6), 0.85, Vector3(1.0, 0.8, 1.0)],
+		[Vector3(-0.5, 3.45, 0.6), 0.85, Vector3(1.0, 0.8, 1.0)], [Vector3(0.05, 3.7, 0.0), 0.8,
+		Vector3(1.1, 0.75, 1.1)]], c2, 2.3, OAK_D, OAK, OAK_L, V2, 30.0)
 	_disc(Vector3(0, 0, 0.1), 2.3, 1.9, 14, 3.9, V2)
-	_single("tree_broadleaf", _commit("tree_broadleaf", 5.0))
+	_finish_tree("tree_broadleaf", 5.0)
 
 
 func _build_birch() -> void:
 	_begin()
-	var bark := {"kind": Kind.BIRCH, "seed": 30.0, "jitter": 0.012}
-	# V0: one slender trunk.
-	_limb(Vector3(0, -0.15, 0), Vector3(0.1, 3.4, 0.0), 0.2, 0.1, 6, BIRCH_BARK, bark.merged({"mask": V0}))
+	var bark := {"kind": Kind.BIRCH, "seed": 30.0, "jitter": 0.01, "flare": 0.45, "ribs": 3}
+	# V0: one slender trunk, an airy crown of small clumps.
+	_trunk(Vector3(0, -0.15, 0), Vector3(0.1, 3.5, 0.0), 0.2, 0.09, 6, BIRCH_BARK, bark.merged({"mask": V0}))
 	_limb(Vector3(0.06, 2.3, 0), Vector3(0.55, 3.0, 0.15), 0.06, 0.03, 4, BIRCH_BARK.darkened(0.1),
-		bark.merged({"mask": V0}))
-	_blobs([[Vector3(0.1, 3.2, 0.1), 0.95, Vector3(1.0, 1.1, 1.0), 0.0], [Vector3(0.7, 3.55, -0.2), 0.7, Vector3.ONE, 0.4],
-		[Vector3(-0.55, 3.65, 0.3), 0.72, Vector3.ONE, 0.35], [Vector3(0.05, 4.25, -0.1), 0.78, Vector3.ONE, 0.75],
-		[Vector3(0.3, 4.8, 0.2), 0.46, Vector3.ONE, 1.0]], Vector3(0.1, 3.8, 0.0), 1.5, BIRCH_LEAF_D, BIRCH_LEAF,
-		BIRCH_LEAF_L, V0, 35.0)
+		{"kind": Kind.BIRCH, "mask": V0})
+	_crown([[Vector3(0.6, 3.5, -0.2), 0.66], [Vector3(-0.5, 3.6, 0.3), 0.68], [Vector3(0.1, 3.3, 0.45), 0.6],
+		[Vector3(0.05, 4.2, -0.1), 0.74], [Vector3(0.3, 4.8, 0.2), 0.46]], Vector3(0.1, 3.9, 0.0), 1.4,
+		BIRCH_LEAF_D, BIRCH_LEAF, BIRCH_LEAF_L, V0, 35.0, Kind.LEAVES, 1, 0.6, Vector2i(8, 4))
 	_disc(Vector3(0.1, 0, 0.1), 1.3, 1.25, 12, 30.0, V0)
 	# V1: twin trunks from one foot, two small crowns.
-	_limb(Vector3(0, -0.15, 0), Vector3(-0.45, 3.1, 0.05), 0.19, 0.08, 6, BIRCH_BARK, bark.merged({"mask": V1}))
-	_limb(Vector3(0.05, -0.15, 0), Vector3(0.5, 3.5, -0.1), 0.17, 0.07, 6, BIRCH_BARK.darkened(0.05),
-		bark.merged({"mask": V1}))
-	_blobs([[Vector3(-0.55, 3.2, 0.1), 0.78, Vector3(1.0, 1.1, 1.0), 0.1], [Vector3(-0.7, 3.85, -0.05), 0.55, Vector3.ONE, 0.8],
-		[Vector3(0.6, 3.55, -0.1), 0.82, Vector3(1.0, 1.1, 1.0), 0.2], [Vector3(0.55, 4.25, 0.05), 0.6, Vector3.ONE, 0.9],
-		[Vector3(0.0, 3.55, 0.1), 0.55, Vector3.ONE, 0.45]], Vector3(0.0, 3.7, 0.0), 1.5, BIRCH_LEAF_D, BIRCH_LEAF,
-		BIRCH_LEAF_L, V1, 40.0)
+	_trunk(Vector3(0, -0.15, 0), Vector3(-0.45, 3.1, 0.05), 0.19, 0.08, 6, BIRCH_BARK, bark.merged({"mask": V1}))
+	_trunk(Vector3(0.05, -0.15, 0), Vector3(0.5, 3.5, -0.1), 0.17, 0.07, 6, BIRCH_BARK.darkened(0.05),
+		bark.merged({"mask": V1, "seed": 31.0}))
+	_crown([[Vector3(-0.6, 3.25, 0.1), 0.7, Vector3(1.0, 1.1, 1.0)], [Vector3(-0.7, 3.9, -0.05), 0.5],
+		[Vector3(0.65, 3.6, -0.1), 0.72, Vector3(1.0, 1.1, 1.0)], [Vector3(0.55, 4.3, 0.05), 0.55],
+		[Vector3(0.0, 3.6, 0.1), 0.5]], Vector3(0.0, 3.7, 0.0), 1.4, BIRCH_LEAF_D, BIRCH_LEAF, BIRCH_LEAF_L, V1, 40.0,
+		Kind.LEAVES, 1, 0.6, Vector2i(8, 4))
 	_disc(Vector3(0.0, 0, 0.1), 1.45, 1.2, 12, 31.0, V1)
 	# V2: a leaning birch, crown thrown to one side.
-	_limb(Vector3(0, -0.15, 0), Vector3(0.95, 3.1, 0.25), 0.2, 0.09, 6, BIRCH_BARK, bark.merged({"mask": V2}))
+	_trunk(Vector3(0, -0.15, 0), Vector3(0.95, 3.1, 0.25), 0.2, 0.09, 6, BIRCH_BARK, bark.merged({"mask": V2,
+		"seed": 32.0, "bow": -0.12}))
 	_limb(Vector3(0.6, 2.2, 0.15), Vector3(0.2, 2.9, 0.0), 0.06, 0.03, 4, BIRCH_BARK.darkened(0.1),
-		bark.merged({"mask": V2}))
-	_blobs([[Vector3(1.0, 3.15, 0.25), 0.9, Vector3(1.1, 1.0, 1.0), 0.0], [Vector3(0.35, 3.1, 0.05), 0.62, Vector3.ONE, 0.3],
-		[Vector3(1.45, 3.55, -0.1), 0.62, Vector3.ONE, 0.5], [Vector3(0.95, 3.95, 0.3), 0.68, Vector3.ONE, 0.85]],
-		Vector3(0.95, 3.5, 0.2), 1.3, BIRCH_LEAF_D, BIRCH_LEAF, BIRCH_LEAF_L, V2, 45.0)
+		{"kind": Kind.BIRCH, "mask": V2})
+	_crown([[Vector3(1.0, 3.2, 0.25), 0.78, Vector3(1.1, 1.0, 1.0)], [Vector3(0.35, 3.1, 0.05), 0.55],
+		[Vector3(1.45, 3.55, -0.1), 0.58], [Vector3(0.95, 3.95, 0.3), 0.64]], Vector3(0.95, 3.5, 0.2), 1.3,
+		BIRCH_LEAF_D, BIRCH_LEAF, BIRCH_LEAF_L, V2, 45.0, Kind.LEAVES, 1, 0.6, Vector2i(8, 4))
 	_disc(Vector3(0.6, 0, 0.2), 1.45, 1.15, 12, 32.0, V2)
-	_single("tree_birch", _commit("tree_birch", 4.8))
+	_finish_tree("tree_birch", 4.8)
 
 
 func _build_gold() -> void:
 	_begin()
-	_roots(5, 0.32, 0.34, TRUNK_D, 40.0)
+	_surface_roots(3, 0.34, 0.4, TRUNK_D, 40.0)
 	# V0: wide dome.
-	_limb(Vector3(0, -0.15, 0), Vector3(0, 2.1, 0), 0.38, 0.24, 7, TRUNK_D, {"mask": V0, "seed": 40.0, "jitter": 0.03})
+	_trunk(Vector3(0, -0.15, 0), Vector3(0, 2.15, 0), 0.38, 0.24, 7, TRUNK_D, {"mask": V0, "seed": 40.0, "jitter": 0.02,
+		"flare": 0.8, "ribs": 5})
 	_limb(Vector3(0, 1.7, 0), Vector3(1.1, 2.55, 0.1), 0.16, 0.07, 5, TRUNK_D, {"mask": V0})
 	_limb(Vector3(0, 1.7, 0), Vector3(-1.0, 2.5, -0.1), 0.16, 0.07, 5, TRUNK_D, {"mask": V0})
-	_blobs([[Vector3(0, 2.65, 0), 1.4, Vector3(1.25, 0.55, 1.2), 0.0], [Vector3(1.1, 2.95, 0.2), 0.95,
-		Vector3(1.0, 0.75, 1.0), 0.4], [Vector3(-1.05, 3.0, -0.25), 1.0, Vector3(1.0, 0.75, 1.0), 0.4],
-		[Vector3(0.1, 3.2, 0.9), 0.95, Vector3(1.0, 0.75, 1.0), 0.55], [Vector3(-0.1, 3.3, -0.9), 0.9,
-		Vector3(1.0, 0.75, 1.0), 0.6], [Vector3(0.1, 3.65, 0.0), 1.0, Vector3(1.0, 0.7, 1.0), 1.0]],
-		Vector3(0, 3.0, 0), 2.2, GOLD_D, GOLD, GOLD_L, V0, 45.0, Kind.GOLD)
+	_crown([[Vector3(1.1, 2.95, 0.2), 0.95, Vector3(1.0, 0.78, 1.0)], [Vector3(-1.05, 3.0, -0.25), 1.0,
+		Vector3(1.0, 0.78, 1.0)], [Vector3(0.1, 3.15, 0.9), 0.95, Vector3(1.0, 0.78, 1.0)], [Vector3(-0.1, 3.2, -0.9),
+		0.9, Vector3(1.0, 0.78, 1.0)], [Vector3(0.1, 3.65, 0.0), 1.05, Vector3(1.0, 0.72, 1.0)]], Vector3(0, 3.0, 0), 2.2,
+		GOLD_D, GOLD, GOLD_L, V0, 45.0, Kind.GOLD, 1, 0.6, Vector2i(9, 4))
 	_disc(Vector3(0, 0, 0.1), 2.1, 2.0, 14, 40.0, V0)
 	# V1: two layered tiers of foliage (a flat lower skirt and a smaller top).
-	_limb(Vector3(0, -0.15, 0), Vector3(0.05, 3.2, 0), 0.36, 0.18, 7, TRUNK_D, {"mask": V1, "seed": 41.0, "jitter": 0.03})
-	_blobs([[Vector3(0.6, 2.45, 0.1), 0.95, Vector3(1.2, 0.5, 1.1), 0.3], [Vector3(-0.6, 2.4, -0.1), 0.95,
-		Vector3(1.2, 0.5, 1.1), 0.35], [Vector3(0.0, 2.5, 0.7), 0.85, Vector3(1.2, 0.5, 1.1), 0.45],
-		[Vector3(0.05, 3.6, 0.0), 1.0, Vector3(1.15, 0.62, 1.1), 0.7], [Vector3(0.1, 4.1, 0.1), 0.6, Vector3.ONE, 1.0]],
-		Vector3(0, 3.1, 0), 1.9, GOLD_D, GOLD, GOLD_L, V1, 50.0, Kind.GOLD)
+	_trunk(Vector3(0, -0.15, 0), Vector3(0.05, 3.25, 0), 0.36, 0.17, 7, TRUNK_D, {"mask": V1, "seed": 41.0,
+		"jitter": 0.02, "flare": 0.75, "ribs": 4})
+	_crown([[Vector3(0.65, 2.45, 0.1), 0.9, Vector3(1.2, 0.55, 1.1)], [Vector3(-0.65, 2.4, -0.1), 0.9,
+		Vector3(1.2, 0.55, 1.1)], [Vector3(0.0, 2.5, 0.75), 0.82, Vector3(1.2, 0.55, 1.1)],
+		[Vector3(0.05, 3.6, 0.0), 0.95, Vector3(1.15, 0.66, 1.1)], [Vector3(0.1, 4.15, 0.1), 0.6]], Vector3(0, 3.1, 0),
+		1.9, GOLD_D, GOLD, GOLD_L, V1, 50.0, Kind.GOLD, 1, 0.6, Vector2i(9, 4))
 	_disc(Vector3(0, 0, 0.1), 1.7, 1.6, 14, 41.0, V1)
 	# V2: a smaller, rounder tree with a crooked trunk.
-	_limb(Vector3(0, -0.15, 0), Vector3(0.25, 1.4, 0.05), 0.33, 0.24, 7, TRUNK_D, {"mask": V2, "seed": 42.0})
+	_trunk(Vector3(0, -0.15, 0), Vector3(0.25, 1.4, 0.05), 0.33, 0.25, 7, TRUNK_D, {"mask": V2, "seed": 42.0,
+		"flare": 0.8, "ribs": 4, "bow": 0.0})
 	_limb(Vector3(0.25, 1.35, 0.05), Vector3(0.05, 2.4, -0.05), 0.24, 0.16, 6, TRUNK_D, {"mask": V2, "seed": 42.5})
-	_blobs([[Vector3(0.05, 2.7, 0), 1.15, Vector3(1.1, 0.8, 1.05), 0.0], [Vector3(0.7, 3.1, 0.3), 0.8, Vector3.ONE, 0.4],
-		[Vector3(-0.65, 3.15, -0.25), 0.82, Vector3.ONE, 0.45], [Vector3(0.0, 3.6, 0.0), 0.85, Vector3.ONE, 1.0]],
-		Vector3(0, 3.0, 0), 1.7, GOLD_D, GOLD, GOLD_L, V2, 55.0, Kind.GOLD)
+	_crown([[Vector3(0.7, 3.0, 0.3), 0.8], [Vector3(-0.65, 3.05, -0.25), 0.82], [Vector3(0.0, 2.85, -0.6), 0.75],
+		[Vector3(0.0, 3.55, 0.05), 0.9]], Vector3(0, 3.0, 0), 1.7, GOLD_D, GOLD, GOLD_L, V2, 55.0, Kind.GOLD, 1, 0.6,
+		Vector2i(9, 4))
 	_disc(Vector3(0, 0, 0.1), 1.6, 1.5, 12, 42.0, V2)
-	_single("tree_gold", _commit("tree_gold", 4.4))
+	_finish_tree("tree_gold", 4.4)
+
+
+## Commits a tree mesh; the scene art/environment/<name>.tscn (Node3D + "Mesh") is rewritten only on a full build:
+## it points at meshes/<name>.res, which keeps its path, so a trees-only build leaves the scene as it is.
+func _finish_tree(name: String, tree_h: float) -> void:
+	var mesh := _commit(name, tree_h)
+	if not _trees_only:
+		_single(name, mesh)
+
+
+# --- bushes (decor_bush / decor_bush_berry, map_dressing_art.gd's legacy decor; ~0.9 m) -------------------------
+
+## The legacy decor bushes, rebuilt as small puff clusters on the shared nature material (leaves: painted crown
+## shading, wind, per-instance hue; before G-D trees: 5 / 4 faceted balls on env_painted_mat.tres from build_env.gd).
+## Same names, same size (~0.9 m across, 0.85 m tall), no contact disc, one shape (mask 0). Lower puff resolution
+## (8 x 4, no satellite puffs; map-wide decor that casts shadows: <= 2x the old triangles), sunk 4 cm into the ground.
+func _build_bushes() -> void:
+	_begin()
+	_crown([[Vector3(0.05, 0.42, 0.0), 0.46], [Vector3(0.38, 0.3, 0.15), 0.34], [Vector3(-0.35, 0.32, -0.12), 0.36],
+		[Vector3(0.0, 0.3, 0.38), 0.32]], Vector3(0.0, 0.35, 0.0), 0.6, BUSH_D, BUSH, BUSH_L, 0, 110.0, Kind.IVY, 0,
+		0.55, Vector2i(8, 4))
+	_sink(0.04)
+	_commit("decor_bush", 1.0)
+	_begin()
+	_crown([[Vector3(0.0, 0.36, 0.0), 0.36], [Vector3(0.26, 0.26, 0.1), 0.28], [Vector3(-0.22, 0.27, -0.12), 0.29],
+		[Vector3(-0.02, 0.26, 0.26), 0.27]], Vector3(0.0, 0.3, 0.0), 0.5, BUSH_D.darkened(0.1), BUSH.darkened(0.1),
+		BUSH_L.darkened(0.05), 0, 120.0, Kind.IVY, 0, 0.55, Vector2i(8, 4))
+	for i: int in 14:
+		var a5: float = i * 2.3
+		var y5: float = 0.22 + _h(Vector3(i, 9, 9)) * 0.38
+		var rr: float = 0.34 + 0.08 * _h(Vector3(i, 9, 3)) - maxf(y5 - 0.45, 0.0) * 0.8
+		_part(_sph(0.04, 4, 2), _xf(Vector3(cos(a5) * rr, y5, sin(a5) * rr)), BERRY, {"kind": Kind.BARK,
+			"normals": "smooth", "col2": BERRY.lightened(0.25), "grad": "y", "tint": 0.12})
+	_sink(0.04)
+	_commit("decor_bush_berry", 0.8)
+
+
+## Moves the current mesh down so its lowest vertex sits `depth` m under the ground (map_dressing_art places the
+## bushes at y 0 with no contact disc: they must not float).
+func _sink(depth: float) -> void:
+	var lo: float = INF
+	for p: Vector3 in _v:
+		lo = minf(lo, p.y)
+	for i: int in _v.size():
+		_v[i] = _v[i] - Vector3(0.0, lo + depth, 0.0)
 
 
 ## Marks the current mesh as a "lite" border stand-in (UV2.x = -1: the shader skips its leaf-clump pass).

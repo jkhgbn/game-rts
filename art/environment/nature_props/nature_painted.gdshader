@@ -46,6 +46,7 @@ uniform float leaf_rim = 0.10;
 //   Medium+  warm sunlit leaves / cool crown undersides, sun shining through the crown edges on the shadow side
 //            (translucency), a softer light ramp on stone (no "crumpled paper" facets), rock strata, warm stone tops
 //   High+    leaf dabs (a finer painted value layer on the crowns), lichen spots on stone, bark cracks
+//   G-D trees (docs/art/gd_trees.md): Medium+ adds a crown rustle in vertex() (clumps move out of step).
 uniform float gd_detail = 0.0;
 uniform vec3 leaf_light_tint : source_color = vec3(1.0, 0.96, 0.80);
 uniform vec3 leaf_trans_color : source_color = vec3(1.0, 1.0, 0.42);   // x albedo: yellow-green light through leaves
@@ -134,6 +135,20 @@ void vertex() {
 			if (foliage) {
 				float fl = sin(TIME * flutter_speed + dot(VERTEX, vec3(4.1, 3.3, 5.7)) + phase * 3.0);
 				VERTEX += NORMAL * fl * flutter_strength * w * (0.6 + 0.4 * gust);
+				if (gd_detail > 0.5) {
+					// G-D trees (Medium+): crown rustle. A slow wave across the crown (about one leaf puff per
+					// half wavelength), so neighbouring clumps swell and lean out of step instead of the crown
+					// moving as one block; needle tiers move half as much. Tree crowns only: low leaf geometry
+					// (grass tufts, ferns, reeds, bushes: UV.y = local height below ~1.6 m, the same line as
+					// nature_autumn's low-leaf tones) keeps the old motion; the ramp ends at 2.6 m.
+					float lp = dot(VERTEX, vec3(1.7, 1.1, 1.3)) + phase * 2.0;
+					float rs = sin(TIME * 1.9 + lp) * 0.6 + sin(TIME * 3.1 + lp * 1.6) * 0.4;
+					vec3 wl = transpose(b) * vec3(wd.x, 0.0, wd.y);
+					wl /= max(length(wl), 0.0001);
+					float ra = rs * flutter_strength * w * (0.5 + 0.5 * gust) * (kind < 1.5 ? 0.5 : 1.0)
+							* smoothstep(1.6, 2.6, UV.y);
+					VERTEX += (NORMAL * 0.9 + wl * 1.2) * ra;
+				}
 			}
 		}
 	}

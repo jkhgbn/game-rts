@@ -10,9 +10,11 @@ const MESH_DIR := "res://art/environment/meshes/"
 const MAT_PATH := "res://art/environment/nature_props/nature_mat.tres"
 const CONTACT_MAT_PATH := "res://art/environment/nature_props/nature_contact_mat.tres"
 ## name -> [max triangles in the mesh (all 3 variants), max triangles one instance draws (one variant)]
+## Trees raised by G-D trees (2026-10-15, docs/art/gd_trees.md: puff crowns, clumped tiers; the vertex budget is
+## tests/test_gd_trees.gd, <= 2x the A2.8 vertices).
 const PROPS := {
-	"tree_pine": [1100, 420], "tree_fir": [1100, 420], "tree_broadleaf": [1300, 500], "tree_birch": [1000, 360],
-	"tree_gold": [1100, 450], "rock_boulder": [700, 260], "rock_slab": [700, 280], "rock_shards": [450, 160],
+	"tree_pine": [1750, 700], "tree_fir": [1950, 760], "tree_broadleaf": [2650, 900], "tree_birch": [1800, 680],
+	"tree_gold": [2000, 720], "rock_boulder": [700, 260], "rock_slab": [700, 280], "rock_shards": [450, 160],
 	"rock_spire": [450, 160], "ruin_pillar": [1200, 560],
 }
 const FAR := ["tree_pine_far", "tree_fir_far", "tree_broadleaf_far", "tree_birch_far", "tree_gold_far"]
