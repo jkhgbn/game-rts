@@ -143,7 +143,8 @@ func _check_start() -> void:
 			_err("team %d keep is %s, not %s_keep" % [team, keep.building_type.id if keep and keep.building_type else &"none", k])
 		elif int(keep.team) != team:
 			_err("team %d keep has team %d" % [team, int(keep.team)])
-		elif keep.team_color != keep.building_type.color:
+		elif keep.team_color != (Unit.kingdom_color_for(team, k) if Unit.uses_alt_palette(team, k)
+				else keep.building_type.color):   # G-E: mirror = alt palette for team 1
 			_err("team %d keep colour is not its kingdom's" % team)
 		# Workers: 3, this kingdom's worker, gathering.
 		var workers: Array = main.workers_of(team)

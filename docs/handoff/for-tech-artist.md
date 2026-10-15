@@ -483,3 +483,9 @@ gone, a few transparent ground decals that draw after it (render_priority > -100
 unexplored fog on Crown Hollow: the sand / dirt blotches (left and right of centre in the overview) and some camp / lair
 ground rings. Key shot: `docs/art/lab/ge_fog/ge_fog_key_overview.png`. Ask: make those decals opaque, or draw them before
 the fog (render_priority below -100), or hide them through `VfxFog` like the other effects.
+
+## G-E mirror palette: tower models ignore the team colour (from systems-coder, 2026-10-15)
+Buildings now get `Unit.KINGDOM_ALT_COLORS` in mirror matches (Fire vs Fire: crimson for team 1) through the model hook
+`set_team_color(color)`. `art/buildings/fire_tower.tscn` has no such hook, so both sides' towers look the same
+(`docs/art/lab/ge_team_buildings/after_fire_fire_buildings_z30.png`). Ask: add `set_team_color` to the tower models
+(and any other building model without it) tinting the roof / banner parts.

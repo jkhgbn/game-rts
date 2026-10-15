@@ -121,7 +121,9 @@ static func team_color(t: int) -> Color:
 		kingdom = StringName(str(scene.get(key)))
 	if kingdom == &"" and t != Unit.Team.NEUTRAL:
 		kingdom = &"fire" if t == Unit.Team.PLAYER else &"shadow"
-	return Unit.KINGDOM_COLORS.get(kingdom, Unit.team_color(t))
+	if Unit.KINGDOM_COLORS.has(kingdom):   # G-E: a mirror's later team flies its kingdom's alt palette
+		return Unit.kingdom_color_for(t, kingdom)
+	return Unit.team_color(t)
 
 
 ## Short display name of a unit, champion, wizard or building ("Vessa", "Sable Quint", "Ember Hall").

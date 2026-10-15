@@ -151,6 +151,9 @@ func _ready() -> void:
 			model_scene = building_type.get_model_scene()
 		if team_color.a == 0.0:
 			team_color = building_type.color
+		# G-E mirror match: the later team of a shared kingdom wears its alt palette, as its units do.
+		if Unit.uses_alt_palette(int(team), building_type.faction):
+			team_color = Unit.kingdom_color_for(int(team), building_type.faction)
 	hp = max_hp * (START_HP_RATIO + (1.0 - START_HP_RATIO) * _progress)
 	add_to_group("buildings")
 	collision_layer = 1 | 2
