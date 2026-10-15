@@ -19,6 +19,7 @@ const LIGHTING_RIG_PATH := "res://art/environment/lighting/lighting_rig.gd"
 const CRITTER_SYSTEM_PATH := "res://art/environment/critters/critter_system.gd"
 const GROUND_DETAIL_PATH := "res://art/environment/grass/ground_detail.gd"
 const AMBIENT_LIFE_PATH := "res://art/environment/ambient/ambient_life.gd"
+const AUTUMN_SWAP_PATH := "res://art/environment/autumn/autumn_swap.gd"
 const _SIM := preload("res://scripts/core/sim_mode.gd")   # Bot Lab sim mode: no draw-only art (docs/plan/bot-lab.md)
 ## Replay Lab (docs/plan/replay-lab.md): deterministic runs (BAKE_SYNC) bake the first navmesh on the main thread,
 ## so the match starts on the level's first frame (no wall-clock-dependent wait before it).
@@ -102,6 +103,12 @@ func _ready() -> void:
 			critters.name = "CritterSystem"
 			add_child(critters)
 			critters.call(&"setup", self)
+	# G-D autumn maps: an autumn biome (layout / catalog) swaps the shared materials, the ground and the rig preset;
+	# its AutumnLook child restores the shared materials when the level leaves (no leak into the next map).
+	if ResourceLoader.exists(AUTUMN_SWAP_PATH) and not _SIM.enabled:
+		var autumn_script := load(AUTUMN_SWAP_PATH) as Script
+		if autumn_script and autumn_script.has_method(&"ensure_for_level"):
+			autumn_script.call(&"ensure_for_level", self)
 	# G2a ground relief + 3D grass field (draw-only; Low / headless = nothing; idempotent, MapDressingArt's call reuses it).
 	if ResourceLoader.exists(GROUND_DETAIL_PATH) and not _SIM.enabled:
 		var gd_script := load(GROUND_DETAIL_PATH) as Script

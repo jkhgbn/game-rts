@@ -225,3 +225,28 @@ const AMBIENT_LIFE_PATH := "res://art/environment/ambient/ambient_life.gd"
 ```
 Wave Strike (extends main.gd) gets it too; headless tests / labs never build it. Shots: commit only
 `docs/art/lab/gd_ambient/gd_ambient_sheet.jpg` + the 4 PNGs named in docs/art/gd_ambient.md (the rest stays local).
+
+## From tech-artist G-D autumn maps (2026-10-15)
+Autumn maps (Quartermeet, Fourfold Hollow, Ashwind Reach) now turn golden in game through
+`art/environment/autumn/autumn_swap.gd` `ensure_for_level(level)` (docs/art/gd_autumn_maps.md): reads the layout /
+catalog biome, swaps the shared materials, paints the ground, sets the warm rig to preset_autumn, adds an `AutumnLook`
+child whose `_exit_tree` restores every shared material exactly (last autumn level out restores; never in sim mode;
+idempotent; also headless: `tests/test_gd_autumn_maps.gd` proves no leak into the next map). Hook for
+`scripts/world/main.gd`:
+- constant next to `AMBIENT_LIFE_PATH` (line ~21):
+```gdscript
+const AUTUMN_SWAP_PATH := "res://art/environment/autumn/autumn_swap.gd"
+```
+- in `_ready`, right BEFORE the G2a GroundDetail block (after the CritterSystem block; the map, its ground and the
+  LightingRig exist there, and GroundDetail then bakes the autumn ground colours):
+```gdscript
+	# G-D autumn maps: an autumn biome (layout / catalog) swaps the shared materials, the ground and the rig preset;
+	# its AutumnLook child restores the shared materials when the level leaves (no leak into the next map).
+	if ResourceLoader.exists(AUTUMN_SWAP_PATH) and not _SIM.enabled:
+		var autumn_script := load(AUTUMN_SWAP_PATH) as Script
+		if autumn_script and autumn_script.has_method(&"ensure_for_level"):
+			autumn_script.call(&"ensure_for_level", self)
+```
+Not before `_build_map` (no ground yet). After the AmbientLife block also works (the test calls it on `ready`, after
+the whole `_ready`). Wave Strike (Ashwind Reach) gets it through main.gd too. Shots: commit only the 2 PNGs in
+`docs/art/lab/gd_autumn/` named in docs/art/gd_autumn_maps.md.
