@@ -318,6 +318,8 @@ func _bulwark(at: Variant, target: Variant) -> void:
 	_sched(fx, &"rise_shards", RISE_DELAY, A_POINT, Vector3.UP * 0.1, 1.0, basis)
 	_sched(fx, &"rise_mist", RISE_DELAY + 0.05, A_POINT, Vector3.UP * 0.15, 1.0, basis)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"rime_bulwark", c, {"team": fx.team, "axis": basis.x, "delay": RISE_DELAY})
 
 
 func _end_wall(at: Variant, how: StringName) -> void:
@@ -337,6 +339,8 @@ func _end_wall(at: Variant, how: StringName) -> void:
 		_sched(fx, &"shatter_mist", fx.t + 0.02, A_POINT, Vector3.UP * 0.4, 1.0, up)
 	else:
 		_sched(fx, &"melt_drips", fx.t, A_POINT, Vector3.UP * 1.2, 1.0, up)
+	if fx.shown:
+		_gplay(&"rime_bulwark_shatter" if how == &"shatter" else &"rime_bulwark_melt", fx.point, {"team": fx.team})
 
 
 func _rune(at: Variant, target: Variant) -> void:
@@ -393,6 +397,8 @@ func _rune(at: Variant, target: Variant) -> void:
 	_sched(fx, &"rune_puff", land, A_POINT, Vector3.UP * 0.1)
 	_sched(fx, &"rune_glints", land + 0.05, A_POINT, Vector3.UP * 0.3)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"scrying_rune", c, {"team": fx.team, "delay": land})
 
 
 ## A shatter / melt with no wall drawn there (gameplay's wall was never shown, or a test): the burst alone.
@@ -416,6 +422,8 @@ func _loose_end(at: Variant, how: StringName) -> void:
 		_sched(fx, &"melt_drips", 0.0, A_POINT, Vector3.UP * 1.2)
 		_sched(fx, &"rise_mist", 0.05, A_POINT, Vector3.UP * 0.15)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"rime_bulwark_shatter" if how == &"shatter" else &"rime_bulwark_melt", fx.point, {"team": fx.team})
 
 
 func _end_rune(at: Variant) -> void:
@@ -439,6 +447,13 @@ func _end_rune(at: Variant) -> void:
 	fx.ending = &"fade"
 	fx.end_t = fx.t
 	fx.dur = fx.t + RUNE_FADE
+
+
+## G-B: the Medium+ spell layer (art/vfx/spells_g/spell_fx_g.gd) adds its pieces; nothing at Low (SpellFxG.live = null).
+func _gplay(id: StringName, pos: Vector3, opts: Dictionary = {}) -> void:
+	var g := SpellFxG.live(self)
+	if g:
+		g.play(id, pos, opts)
 
 
 # ---------------------------------------------------------------- runtime

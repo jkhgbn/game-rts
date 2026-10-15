@@ -318,6 +318,8 @@ func _slag_rain(at: Variant, target: Variant) -> void:
 	_sched(fx, &"slag_splash", f, A_POINT, Vector3.UP * 0.2, k)
 	_sched(fx, &"slag_smoke", f + 0.05, A_POINT, Vector3.UP * 0.3, k)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"slag_rain", c, {"from": from, "r": radius, "team": team, "fly": FLIGHT, "arc": ARC})
 
 
 func _slagged_on(at: Variant, target: Variant) -> void:
@@ -425,6 +427,8 @@ func _mana_scald(at: Variant, target: Variant) -> void:
 	_sched(fx, &"steam_burst", 0.12, A_TARGET, Vector3.UP * 0.1)
 	_sched(fx, &"steam_sparks", 0.12, A_TARGET, Vector3.ZERO)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"mana_scald", dest, {"team": fx.team, "delay": 0.12})
 
 
 func _stoke(at: Variant, target: Variant) -> void:
@@ -458,6 +462,15 @@ func _stoke(at: Variant, target: Variant) -> void:
 	_sched(fx, &"stoke_puff", STOKE_TIME, A_TARGET, Vector3.ZERO)
 	_sched(fx, &"stoke_puff", 0.0, A_POINT, Vector3.ZERO)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"stoke", dest, {"team": fx.team, "delay": STOKE_TIME})
+
+
+## G-B: the Medium+ spell layer (art/vfx/spells_g/spell_fx_g.gd) adds its pieces; nothing at Low (SpellFxG.live = null).
+func _gplay(id: StringName, pos: Vector3, opts: Dictionary = {}) -> void:
+	var g := SpellFxG.live(self)
+	if g:
+		g.play(id, pos, opts)
 
 
 # ---------------------------------------------------------------- effect runtime

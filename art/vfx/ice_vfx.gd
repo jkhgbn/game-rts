@@ -124,6 +124,19 @@ func _ready() -> void:
 	if events and events.has_signal(&"support_cast"):
 		events.connect(&"support_cast", _on_support_cast)
 	_rescan()
+	_g.call_deferred()   # G-B: builds the Medium+ spell layer up front (nothing at Low)
+
+
+## The G-B spell layer (art/vfx/spells_g/spell_fx_g.gd), null at Low: Low keeps this file's exact look and cost.
+func _g() -> SpellFxG:
+	return SpellFxG.live(self)
+
+
+## The caster's team for the G layer's fog check (-1 = unknown: the layer checks the point against the local fog).
+func _team(w: Variant) -> int:
+	if is_instance_valid(w) and (w as Object).get(&"team") != null:
+		return int((w as Object).get(&"team"))
+	return -1
 
 
 func _process(delta: float) -> void:
@@ -227,23 +240,39 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 			if p:
 				p.set_meta(SPELL_META, true)
 				_attach_trail(p)
+				var g := _g()
+				if g:
+					g.play(&"rime_bolt_fly", p.global_position, {"node": p, "team": _team(w)})
 		&"rime_bolt_hit":
 			_burst(&"bolt_shatter", pos + Vector3.UP * 1.0)
 			_burst(&"snow_puff", pos + Vector3.UP * 0.8)
 			_ring(pos, 0.2, 1.3, ICE_PALE, 0.3, 0.12)
 			_light_flash(pos + Vector3.UP * 1.3, ICE, LIGHT_HIT, 5.0, 0.25)
+			var g := _g()
+			if g:
+				g.play(&"rime_bolt_hit", pos, {"team": _team(w)})
 		&"flash_freeze":
-			_flash_freeze(pos, _radius_of(w, id, 3.0))
+			var r := _radius_of(w, id, 3.0)
+			_flash_freeze(pos, r)
+			var g := _g()
+			if g:
+				g.play(&"flash_freeze", pos, {"r": r, "team": _team(w)})
 		&"rime_aegis":
 			var r := _radius_of(w, id, 8.0)
 			_ring(pos, 0.5, r, ICE, 0.55, 0.035)
 			_burst(&"aegis_rise", pos)
 			_light_flash(pos + Vector3.UP * 2.0, ICE, LIGHT_AEGIS, r + 3.0, 0.6)
+			var g := _g()
+			if g:
+				g.play(&"rime_aegis", pos, {"r": r, "team": _team(w)})
 		&"rime_aegis_shield":
 			var u := _unit_at(pos)
 			if u:
 				_domes[u] = true
 				_ensure(u, &"dome", true)
+				var g := _g()
+				if g:
+					g.play(&"rime_aegis_shield", u.global_position, {"team": _team(w)})
 
 
 func _flash_freeze(pos: Vector3, r: float) -> void:
@@ -663,6 +692,10 @@ func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: f
 
 
 func _light_flash(pos: Vector3, col: Color, energy: float, reach: float, time: float) -> void:
+	var g := _g()
+	if g:   # Medium+: the G layer's pooled lights (same energy, attack / decay curve)
+		g.light(pos, col, energy, reach, time)
+		return
 	var l := _lights[_light_next]
 	_light_next = (_light_next + 1) % _lights.size()
 	var old: Variant = l.get_meta(&"tw") if l.has_meta(&"tw") else null

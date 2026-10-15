@@ -126,6 +126,19 @@ func _ready() -> void:
 	if events and events.has_signal(&"support_cast"):
 		events.connect(&"support_cast", _on_support_cast)
 	_rescan()
+	_g.call_deferred()   # G-B: builds the Medium+ spell layer up front (nothing at Low)
+
+
+## The G-B spell layer (art/vfx/spells_g/spell_fx_g.gd), null at Low: Low keeps this file's exact look and cost.
+func _g() -> SpellFxG:
+	return SpellFxG.live(self)
+
+
+## The caster's team for the G layer's fog check (-1 = unknown: the layer checks the point against the local fog).
+func _team(w: Variant) -> int:
+	if is_instance_valid(w) and (w as Object).get(&"team") != null:
+		return int((w as Object).get(&"team"))
+	return -1
 
 
 func _process(delta: float) -> void:
@@ -222,14 +235,22 @@ func _on_spell_cast(id: StringName, w: Node3D) -> void:
 func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 	if not is_instance_valid(w):
 		return
+	var r := 3.0
 	match id:
 		&"thornburst":
-			_thornburst(pos, _radius_of(w, id, 3.0))
+			r = _radius_of(w, id, 3.0)
+			_thornburst(pos, r)
 		&"wild_bloom":
-			var r := _radius_of(w, id, 5.0)
+			r = _radius_of(w, id, 5.0)
 			_wild_bloom(pos, r, _duration_of(w, id, 5.0), w)
 		&"call_the_thicket":
-			_thicket(pos, _radius_of(w, id, 1.2))
+			r = _radius_of(w, id, 1.2)
+			_thicket(pos, r)
+		_:
+			return
+	var g := _g()
+	if g:
+		g.play(id, pos, {"r": r, "team": _team(w)})
 
 
 func _thornburst(pos: Vector3, r: float) -> void:
@@ -351,6 +372,9 @@ func _sprout(u: Unit) -> void:
 	_burst(&"dirt_chips", pos + Vector3.UP * 0.1, 0.55 * s)
 	_burst(&"sprout_leaves", pos + Vector3.UP * 0.3, s)
 	_ring(pos, 0.2, 1.1 * s, LEAF, 0.4, 0.14, 0.1)
+	var g := _g()
+	if g:
+		g.play(&"sprout", pos, {"team": _team(u)})
 
 
 func _on_summon_died(u: Unit) -> void:
@@ -542,6 +566,10 @@ func _patch(pos: Vector3, r: float, mat: ShaderMaterial, hold: float, fade_time:
 
 
 func _light_flash(pos: Vector3, col: Color, energy: float, reach: float, time: float) -> void:
+	var g := _g()
+	if g:   # Medium+: the G layer's pooled lights (same energy, attack / decay curve)
+		g.light(pos, col, energy, reach, time)
+		return
 	var l := _lights[_light_next]
 	_light_next = (_light_next + 1) % _lights.size()
 	_kill_tween(l)

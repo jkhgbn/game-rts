@@ -163,6 +163,19 @@ func _ready() -> void:
 	_build_shared()
 	get_tree().node_added.connect(_on_node_added)
 	_rescan()
+	_g.call_deferred()   # G-B: builds the Medium+ spell layer up front (nothing at Low)
+
+
+## The G-B spell layer (art/vfx/spells_g/spell_fx_g.gd), null at Low: Low keeps this file's exact look and cost.
+func _g() -> SpellFxG:
+	return SpellFxG.live(self)
+
+
+## The caster's team for the G layer's fog check (-1 = unknown: the layer checks the point against the local fog).
+func _team(w: Variant) -> int:
+	if is_instance_valid(w) and (w as Object).get(&"team") != null:
+		return int((w as Object).get(&"team"))
+	return -1
 
 
 func _process(delta: float) -> void:
@@ -268,6 +281,9 @@ func _on_spell_cast(id: StringName, w: Node3D) -> void:
 			_ring(feet, 0.3, 1.8, 0.35, Color(1.3, 0.35, 2.4, 1.0), Color(0.05, 0.0, 0.1, 0.35), 0.12)
 		&"umbral_shroud":
 			_flare(staff_pos, 1.4, 0.3, Color(1.2, 0.35, 2.2, 1.0), Color(0.05, 0.0, 0.09, 0.7), 0.5, staff)
+	var g := _g()
+	if g and (id == &"fireball" or id == &"shadow_lance"):
+		g.play(StringName(String(id) + "_cast"), hand_pos, {"team": _team(w)})
 
 
 func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
@@ -283,7 +299,7 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 				var from := w.global_position + Vector3.UP * _height(w)
 				var tw := create_tween()
 				tw.tween_interval(maxf(0.15, from.distance_to(pos) / 16.0))
-				tw.tween_callback(_fireball_impact.bind(pos, r))
+				tw.tween_callback(_fireball_impact.bind(pos, r, _team(w)))
 		&"shadow_lance":
 			var p := _find_projectile(w)
 			if p:
@@ -294,10 +310,13 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 			_burst(&"impact_smoke", pos + Vector3.UP * 0.3, 0.6)
 			_ring(pos, 1.6, 0.3, 0.25, Color(2.0, 0.6, 0.1, 1.0), Color(0, 0, 0, 0), 0.15, true)
 			_dress_ember(pos, w)
+			var g := _g()
+			if g:
+				g.play(&"ember_step_out", pos, {"team": _team(w)})
 		&"ember_step_arrive":
 			_ember_arrive(pos, w)
 		&"kindle":
-			_kindle(pos, _radius_of(w, id, 8.0))
+			_kindle(pos, _radius_of(w, id, 8.0), _team(w))
 			_track_hasted(pos, _radius_of(w, id, 8.0))
 		&"soul_siphon":
 			var r := _radius_of(w, id, 4.0)
@@ -305,11 +324,17 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 			_burst(&"shadow_puff", pos + Vector3.UP * 0.4, r / 3.0)
 			_burst(&"shadow_motes", pos + Vector3.UP * 0.4, r / 3.0)
 			_dress_siphon(pos, w)
+			var g := _g()
+			if g:
+				g.play(&"soul_siphon", pos, {"r": r, "team": _team(w)})
 		&"umbral_shroud":
 			var at := w.global_position
 			_ring(at, 2.6, 0.5, 0.32, Color(1.0, 0.25, 1.9, 1.0), Color(0.03, 0.0, 0.06, 0.42), 0.08, true, 0.08)
 			_burst(&"implode", at + Vector3.UP * 0.2, 1.0)
 			_burst(&"shadow_motes", at + Vector3.UP * 1.0, 0.8)
+			var g := _g()
+			if g:
+				g.play(&"umbral_shroud", at, {"team": _team(w)})
 			_tracked[w] = true
 			_poll_statuses()
 
@@ -356,6 +381,9 @@ func _track_shot(p: Node3D, kind: StringName, w: Node3D, target: Vector3, radius
 	s["tail"] = tail
 	if kind == &"lance" and p.has_signal(&"hit_unit"):
 		p.connect(&"hit_unit", _on_lance_hit_unit.bind(s), CONNECT_ONE_SHOT)
+	var g := _g()
+	if g:
+		g.play(&"fireball_fly" if kind == &"fire" else &"lance_fly", p.global_position, {"node": p, "team": _team(w)})
 
 
 ## The bright head of a tracked shot (a pooled flare): a boiling fireball, or the lance's violet tip.
@@ -426,12 +454,12 @@ func _finish_shot(s: Dictionary) -> void:
 	if s["set"]:
 		_release_trail(s["kind"], s["set"])
 	if s["kind"] == &"fire":
-		_fireball_impact(at, float(s["radius"]))
+		_fireball_impact(at, float(s["radius"]), _team(s["w"]))
 	else:
 		_lance_hit(at, s["dir"], s["w"])
 
 
-func _fireball_impact(pos: Vector3, radius: float) -> void:
+func _fireball_impact(pos: Vector3, radius: float, team: int = -1) -> void:
 	var k := radius / 3.5
 	var ground := Vector3(pos.x, pos.y, pos.z)
 	_flare(ground + Vector3.UP * 0.9, radius * 0.85, 0.22, Color(1.9, 0.6, 0.08, 1.0), Color(0, 0, 0, 0), 0.8)
@@ -442,6 +470,9 @@ func _fireball_impact(pos: Vector3, radius: float) -> void:
 	_burst(&"impact_smoke", ground + Vector3.UP * 0.6, k)
 	_scorch(ground, radius * 0.95, 2.4, 4.2)
 	_light_flash(ground + Vector3.UP * 1.6, FIRE_HOT, 3.5, radius * 1.5, 0.4)   # was 6.0 / radius x 3 (a 21 m lit disc)
+	var g := _g()
+	if g:
+		g.play(&"fireball_impact", ground, {"r": radius, "team": team})
 
 
 func _lance_hit(pos: Vector3, dir: Vector3, w: Variant) -> void:
@@ -456,6 +487,9 @@ func _lance_hit(pos: Vector3, dir: Vector3, w: Variant) -> void:
 	_ring(Vector3(pos.x, pos.y - 1.0, pos.z), 0.2, 1.5, 0.3, Color(1.3, 0.38, 2.5, 1.0), Color(0.04, 0.0, 0.08, 0.4), 0.14)
 	if is_instance_valid(w):
 		_lance_hits[w] = {"pos": pos, "t": _clock}
+	var g := _g()
+	if g:
+		g.play(&"lance_hit", pos, {"dir": dir, "team": _team(w)})
 
 
 # ---------------------------------------------------------------- Ember Step
@@ -480,6 +514,9 @@ func _ember_arrive(dest: Vector3, w: Node3D) -> void:
 	_burst(&"land_sparks", dest + Vector3.UP * 0.2, 1.0)
 	_scorch(dest, 1.7, 1.0, 2.2, 0.55)
 	_light_flash(dest + Vector3.UP * 1.3, FIRE, 3.0, 4.5, 0.35)   # was 4.5 / 8 m
+	var g := _g()
+	if g:
+		g.play(&"ember_step_in", dest, {"team": _team(w)})
 	var tw := create_tween()
 	tw.tween_method(_fade_in_body.bind(w), 0.0, 1.0, 0.15)
 
@@ -541,7 +578,7 @@ func _update_embers(delta: float) -> void:
 
 # ---------------------------------------------------------------- Kindle
 
-func _kindle(pos: Vector3, r: float) -> void:
+func _kindle(pos: Vector3, r: float, team: int = -1) -> void:
 	var root := _kindles[_kindle_next]
 	_kindle_next = (_kindle_next + 1) % _kindles.size()
 	var disc: MeshInstance3D = root.get_child(0)
@@ -571,6 +608,9 @@ func _kindle(pos: Vector3, r: float) -> void:
 	# The flash lights only the heart of the zone: at energy 2.2 / reach r + 2 it painted a 12 m yellow disc over the
 	# keep and every unit (in-game grade 2026-09-30).
 	_light_flash(pos + Vector3.UP * 1.5, FIRE, 0.9, r * 0.5, 0.45)
+	var g := _g()
+	if g:
+		g.play(&"kindle", pos, {"r": r, "team": team})
 
 
 func _kindle_front(v: float, root: Node3D, r: float) -> void:
@@ -1165,6 +1205,10 @@ func _scorch(pos: Vector3, r: float, heat_time: float, life: float, burn: float 
 
 
 func _light_flash(pos: Vector3, col: Color, energy: float, reach: float, time: float) -> void:
+	var g := _g()
+	if g:   # Medium+: the G layer's pooled lights (same energy, attack / decay curve)
+		g.light(pos, col, energy, reach, time)
+		return
 	var l := _lights[_light_next]
 	_light_next = (_light_next + 1) % _lights.size()
 	l.light_color = col

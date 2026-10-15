@@ -318,6 +318,8 @@ func _blood_tithe(at: Variant, target: Variant) -> void:
 	if key != "":
 		_tethers[key] = fx
 	_start(fx)
+	if fx.shown:
+		_gplay(&"blood_tithe", (dest as Vector3) - Vector3.UP * 0.9, {"team": fx.team})
 
 
 func _tithe_end(at: Variant, target: Variant) -> void:
@@ -382,6 +384,10 @@ func _umbral_passage(at: Variant, target: Variant) -> void:
 		_sched(fx, &"rift_smoke", 0.05, at_i, Vector3.UP * 0.2)
 		_sched(fx, &"step_motes", dur - 0.25, at_i, Vector3.UP * 0.1, 1.5)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"umbral_passage", p, {"team": fx.team})
+		if home != null:
+			_gplay(&"umbral_passage", home, {"team": fx.team, "delay": 0.1})
 
 
 func _passage_step(at: Variant) -> void:
@@ -399,6 +405,8 @@ func _passage_step(at: Variant) -> void:
 	_params(ring, {&"fill": Color(0.05, 0.0, 0.08, 0.3)})
 	_sched(fx, &"step_motes", 0.0, A_POINT, Vector3.UP * 0.1)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"passage_step", p, {"team": fx.team})
 
 
 func _vigil(at: Variant, target: Variant) -> void:
@@ -431,6 +439,15 @@ func _vigil(at: Variant, target: Variant) -> void:
 	_flare(fx, A_POINT, Vector3.ZERO, _hdr(PALE, 1.6), 0.5, 1.0, 0.1, 0.0, 0.35, 0.0, 0.25, 0.5, 4.0)
 	_flare(fx, A_TARGET, Vector3.ZERO, _hdr(VIOLET, 2.4), 0.5, 1.4, 0.12, VIGIL_TIME, VIGIL_TIME + 0.4, 0.0, 0.3, 0.8, 6.0)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"vigil", (dest as Vector3) - Vector3.UP * 0.8, {"team": fx.team, "delay": VIGIL_TIME})
+
+
+## G-B: the Medium+ spell layer (art/vfx/spells_g/spell_fx_g.gd) adds its pieces; nothing at Low (SpellFxG.live = null).
+func _gplay(id: StringName, pos: Vector3, opts: Dictionary = {}) -> void:
+	var g := SpellFxG.live(self)
+	if g:
+		g.play(id, pos, opts)
 
 
 # ---------------------------------------------------------------- effect runtime (specific)

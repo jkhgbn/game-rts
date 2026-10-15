@@ -293,6 +293,8 @@ func _snagroot(at: Variant, target: Variant) -> void:
 		_grow(root, Vector3(0.4, 1.0, 0.4), Vector3(0.95, 1.0, 0.95), 0.18)
 	_sched(fx, &"root_leaves", SHOOT + DRAG + 0.02, A_TARGET, Vector3.UP * 0.2)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"snagroot", feet, {"team": fx.team, "delay": SHOOT})
 
 
 ## `follow`: the cloud rides on this node (Seedcloak: the gameplay haze, CasterHaze, follows the fleeing Bramblesage):
@@ -339,6 +341,8 @@ func _haze(at: Variant, target: Variant, id: StringName, follow: Node3D = null) 
 		puffs.amount_ratio = 1.0
 		motes.amount_ratio = 1.0
 	_start(fx)
+	if fx.shown and follow == null:
+		_gplay(&"pollen_haze", c, {"team": fx.team, "r": radius})
 
 
 func _hazed(at: Variant, target: Variant) -> void:
@@ -377,8 +381,17 @@ func _seedcloak(at: Variant) -> void:
 	_sched(fx, &"cloak_dust", 0.0, A_POINT, Vector3.UP * 0.5)
 	_sched(fx, &"cloak_flutter", 0.05, A_POINT, Vector3.UP * 1.3)
 	_start(fx)
+	if fx.shown:
+		_gplay(&"seedcloak", p, {"team": fx.team})
 	# The cloud follows the Bramblesage like the gameplay haze (CasterHaze.spawn(..., unit)), code review L3.
 	_haze(p, {"radius": CLOAK_RADIUS, "time": CLOAK_TIME, "team": fx.team}, &"pollen_haze", n)
+
+
+## G-B: the Medium+ spell layer (art/vfx/spells_g/spell_fx_g.gd) adds its pieces; nothing at Low (SpellFxG.live = null).
+func _gplay(id: StringName, pos: Vector3, opts: Dictionary = {}) -> void:
+	var g := SpellFxG.live(self)
+	if g:
+		g.play(id, pos, opts)
 
 
 # ---------------------------------------------------------------- runtime
