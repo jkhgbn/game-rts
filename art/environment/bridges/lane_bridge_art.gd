@@ -17,6 +17,14 @@ const DECK_TOP_Y := 0.03       ## Highest point of the paving (units stand at y 
 const WATER_STONES: Array[Vector3] = [Vector3(4.75, -0.95, 0.65), Vector3(-4.75, -0.95, 0.65), Vector3(4.9, 0.42, 0.4)]
 
 
+## G2b: the wet-stone waterline overlay (water_quality.gd, load-guarded; off on Low). Water at RiverSystem.WATER_Y.
+func _ready() -> void:
+	const WQ := "res://art/environment/water/water_quality.gd"
+	var mesh := get_node_or_null(^"Mesh") as GeometryInstance3D
+	if mesh and ResourceLoader.exists(WQ):
+		(load(WQ) as Script).call(&"register_overlay", mesh, -0.35)
+
+
 ## World (x, z, radius, 0) of WATER_STONES for a bridge at `center`: feed them to the water material's
 ## `foam_rocks` (12.V1) so the moat foams around the cutwaters.
 static func foam_rocks(center: Vector3, isle_center: Vector3 = Vector3.ZERO) -> PackedVector4Array:

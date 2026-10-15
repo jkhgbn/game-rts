@@ -391,3 +391,14 @@ Please raise it to `road_segs[32]` (and the loop bound / `road_count` clamp that
 `EnvProps.set_roads` now reads the array size from the shader code (`EnvProps.road_slots(shader)`) and, while there are
 more segments than slots, merges the joined segments that bend the least (`EnvProps.fit_roads`), so 16 keeps working
 (curves get coarser) and 32 paints every segment.
+
+## From G2b water (2026-10-15): marsh puddles and the water tier
+The marsh puddles (biomes/marsh, `water_ford_mat.tres`) get the graphics tier only through `WaterQuality.ensure()`,
+which today runs when RiverSystem builds a river (every marsh map has one; `tests/test_g2b_water.gd` checks it).
+To cover a future marsh map without a river, the owner of `art/environment/map_dressing_art.gd` can add, where the
+biome sets are scattered (after the marsh set's meshes are placed):
+```
+	if ResourceLoader.exists("res://art/environment/water/water_quality.gd"):
+		(load("res://art/environment/water/water_quality.gd") as Script).call(&"ensure")
+```
+Without it such puddles stay at the Low (12.V1) look, which is correct, just not upgraded.

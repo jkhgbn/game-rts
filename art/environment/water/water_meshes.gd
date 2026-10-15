@@ -65,6 +65,7 @@ static func channel_surface(path: PackedVector2Array, half_width: float, y: floa
 	st.index()
 	var mesh := st.commit()
 	mesh.surface_set_material(0, load(WATER_MAT))
+	_ensure_quality()
 	return mesh
 
 
@@ -195,6 +196,13 @@ static func distance_to_path(path: PackedVector2Array, p: Vector2) -> float:
 
 
 # ------------------------------------------------------------------------------------------------ internals
+
+## G2b: the shared water materials follow the graphics tier (water_quality.gd, load-guarded).
+static func _ensure_quality() -> void:
+	const WQ := "res://art/environment/water/water_quality.gd"
+	if ResourceLoader.exists(WQ):
+		(load(WQ) as Script).call(&"ensure")
+
 
 static func _foam(cb: Callable, p: Vector2) -> float:
 	return clampf(float(cb.call(p)), 0.0, 1.0) if cb.is_valid() else 1.0

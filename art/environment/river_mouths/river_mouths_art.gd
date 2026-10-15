@@ -45,6 +45,8 @@ func _ready() -> void:
 	if water:
 		var path: String = WATER_MAT if ResourceLoader.exists(WATER_MAT) else FALLBACK_MAT
 		water.material_override = load(path) as Material
+		if path == WATER_MAT and ResourceLoader.exists("res://art/environment/water/water_quality.gd"):
+			(load("res://art/environment/water/water_quality.gd") as Script).call(&"ensure")   # G2b tier
 	if _forced < 0:
 		var dressing: Node = get_parent()
 		var level: Node = dressing.get_parent() if dressing else null

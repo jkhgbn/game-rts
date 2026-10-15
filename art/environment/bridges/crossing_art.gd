@@ -16,6 +16,18 @@ extends Node3D
 @export var kind: StringName = &"bridge_road"
 
 
+const WATER_Y := -0.35          ## RiverSystem.WATER_Y (bridge piers, Crown Steps)
+const FORD_WET_Y := -0.15       ## ford stones: the film is at 0.02, but only their feet should look wet
+
+
+## G2b: the wet-stone waterline overlay on the body (water_quality.gd, load-guarded; off on Low).
+func _ready() -> void:
+	const WQ := "res://art/environment/water/water_quality.gd"
+	var body := get_node_or_null(^"Body") as GeometryInstance3D
+	if body and ResourceLoader.exists(WQ):
+		(load(WQ) as Script).call(&"register_overlay", body, FORD_WET_Y if kind == &"ford" else WATER_Y)
+
+
 ## Basis for a crossing model of `kind` at `center`. `dir`: the road direction (bridge_road), the downstream flow
 ## direction (ford); ignored for steps (turned away from `isle_center`).
 static func basis_for(crossing_kind: StringName, center: Vector3, dir: Vector3,

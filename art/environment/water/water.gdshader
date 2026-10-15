@@ -49,9 +49,26 @@ uniform vec4 fords[4];
 uniform int ford_count = 0;
 // Direction TO the sun on the ground plane (sun yaw 40, pitch -52), for the lit side of submerged stones.
 uniform vec2 sun_dir = vec2(0.57, 0.82);
+// G2b graphics tier (GameSettings.effective_graphics_quality(), set by WaterQuality on the shared materials):
+//   0 Low    = the 12.V1 look and cost (flat surface)
+//   1 Medium + flow-mapped normals (2 layers), painted sky reflection, see-through shallows over a parallax bed
+//   2 High   + caustics and stones on the shallow bed, toon sun highlights, a smooth surface for SSR
+//   3 Ultra  + a third fine normal layer, refraction wobble of the bed, sharper highlights
+uniform int quality = 0;   // WaterQuality.apply sets it; 0 so water it never reached stays at the old cost
+uniform vec3 shallow_tint : source_color = vec3(0.42, 0.86, 0.80);   // light the bed takes through clear water
+uniform vec3 bed_sand : source_color = vec3(0.50, 0.44, 0.31);
+uniform vec3 bed_silt : source_color = vec3(0.24, 0.27, 0.20);
+uniform vec3 sky_zenith : source_color = vec3(0.58, 0.78, 0.84);
+uniform vec3 caustic_color : source_color = vec3(0.92, 1.0, 0.88);
+uniform float bed_depth = 1.3;            // fake metres of water at the channel centre (bed parallax, see-through)
+uniform float clarity = 2.8;              // absorption per metre: higher = the bed fades sooner
+uniform float normal_strength = 1.0;
+uniform float reflect_strength = 1.0;
+uniform float spec_strength = 1.0;
 
 varying vec3 v_wp;
 varying float v_glint;
+varying float v_spec;
 
 void vertex() {
 	v_wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -158,6 +175,54 @@ void fragment() {
 	float side = step(0.5, t) * 7.31;                // decorrelates the two banks
 	float tm = TIME * flow_speed * mix(1.0, 1.7, sh);
 	float fade_near = 1.0 - smoothstep(0.06, 0.15, px);   // fine detail vanishes when zoomed far out
+	int q = clamp(quality, 0, 3);
+
+	// Flow direction in world space = gradient of UV.x (screen derivatives, flat triangles): any mesh with the
+	// UV convention works, no tangents needed. Used by the normals (q >= 1) and the rock wakes.
+	vec2 fd = vec2(1.0, 0.0);
+	if (q >= 1 || foam_rock_count > 0) {
+		vec2 dsx = dFdx(wp);
+		vec2 dsy = dFdy(wp);
+		float ux = dFdx(s);
+		float uy = dFdy(s);
+		float det = dsx.x * dsy.y - dsx.y * dsy.x;
+		fd = abs(det) > 1e-9 ? vec2(ux * dsy.y - dsx.y * uy, dsx.x * uy - ux * dsy.x) / det : vec2(1.0, 0.0);
+		fd = normalize(fd + vec2(1e-6, 0.0));
+	}
+	vec2 fnrm = vec2(-fd.y, fd.x);
+
+	// G2b flow-mapped normals: a height field in flow space (stretched along the flow, scrolling downstream at two
+	// speeds so the surface churns instead of sliding), finite differences -> a world normal. Fades out when zoomed
+	// far (no shimmer) and in the foam.
+	vec3 nw = vec3(0.0, 1.0, 0.0);
+	vec3 vw = vec3(0.0, 1.0, 0.0);   // world direction from the surface to the camera
+	if (q >= 1) {
+		vw = normalize((INV_VIEW_MATRIX * vec4(VIEW, 0.0)).xyz);
+		float tq = TIME * flow_speed * mix(1.0, 1.7, sh);
+		vec2 qa = vec2(s - tq * 1.05, across);
+		vec2 qb = vec2(s - tq * 0.7, across * 1.2 + 2.3);
+		const float FDE = 0.18;
+		vec2 sa = vec2(0.085, 0.21);
+		vec2 sb = vec2(0.23, 0.45);
+		float a0 = nz(qa * sa + vec2(0.13, 0.71));
+		float b0 = nz(qb * sb + vec2(4.7, 1.9));
+		float ga_s = nz((qa + vec2(FDE, 0.0)) * sa + vec2(0.13, 0.71)) - a0;
+		float ga_a = nz((qa + vec2(0.0, FDE)) * sa + vec2(0.13, 0.71)) - a0;
+		float gb_s = nz((qb + vec2(FDE, 0.0)) * sb + vec2(4.7, 1.9)) - b0;
+		float gb_a = nz((qb + vec2(0.0, FDE)) * sb + vec2(4.7, 1.9)) - b0;
+		vec2 g = (vec2(ga_s, ga_a) * 1.6 + vec2(gb_s, gb_a) * 0.9) / FDE;
+		if (q >= 3) {
+			vec2 qc = vec2(s - tq * 1.4, across * 0.9 + 7.1);
+			vec2 sc2 = vec2(0.6, 0.95);
+			float c0 = nz(qc * sc2);
+			g += vec2(nz((qc + vec2(FDE * 0.5, 0.0)) * sc2) - c0, nz((qc + vec2(0.0, FDE * 0.5)) * sc2) - c0)
+					/ (FDE * 0.5) * 0.22 * fade_near;
+		}
+		g *= normal_strength * (1.0 - smoothstep(0.05, 0.2, px) * 0.6) * mix(1.0, 0.55, sh);
+		// Flow space (s, across) -> world xz.
+		vec2 gw = fd * g.x + fnrm * g.y;
+		nw = normalize(vec3(-gw.x * 0.16, 1.0, -gw.y * 0.16));
+	}
 
 	// Flow-space noise (moves with the water).
 	vec2 f1 = vec2(s - tm, across);
@@ -178,9 +243,41 @@ void fragment() {
 	col *= 0.88 + poster(n_str, 4.0) * 0.22;
 	col *= 0.95 + n_fine * 0.10;
 
+	// G2b see-through shallows: a fake bed `wdepth` metres under the surface, seen with parallax (it stays put while
+	// the camera moves) and refracted by the normals; clear turquoise over it at the banks, the painted deep colour
+	// takes over toward the middle. Caustic web (High+) and pebbles (High+) on the bed. Open edges stay deep.
+	float wdepth = bed_depth * mix(1.0, (1.0 - exp(-edge_m * 1.1)), bankw) * (0.8 + n_big * 0.4);
+	if (q >= 1 && sh < 0.999) {
+		float vis = exp(-wdepth * clarity) * bankw;
+		if (vis > 0.01) {
+			vec2 par = -vw.xz / max(vw.y, 0.35) * wdepth;
+			vec2 refr = nw.xz * wdepth * (q >= 3 ? 0.9 : 0.5);
+			vec2 bp = wp + par + refr;
+			float bn = nz(bp * 0.31 + vec2(3.3, 8.1));
+			vec3 bed = mix(bed_silt, bed_sand, smoothstep(0.25, 0.75, bn + (1.0 - smoothstep(0.0, 1.2, edge_m)) * 0.35));
+			bed *= 0.86 + poster(nz(bp * 1.1 + vec2(0.7, 2.2)), 3.0) * 0.26;
+			if (q >= 2) {
+				vec3 st = stones(bp * 1.25, aa * 1.25, true);   // simple cells: the full Voronoi cost 1 ms at Ultra z10
+				vec3 sc = mix(bed_silt, stone_color, 0.75) * (0.75 + st.z * 0.4) * (1.0 + st.y * 0.25);
+				bed = mix(bed * (1.0 - 0.25 * st.x), sc, st.x * 0.8);
+				// Caustics: two drifting noise layers; where they cross a bright painted web of light.
+				float ct = TIME * 0.35;
+				float c1 = nz(bp * 0.42 + vec2(ct * 0.6, ct * 0.25));
+				float c2 = nz(bp * 0.55 + vec2(-ct * 0.4, ct * 0.5) + vec2(5.1, 1.3));
+				float web = 1.0 - abs(c1 - c2) * 6.0;
+				float caust = smoothstep(0.55, 0.75, web) * fade_near;
+				bed = mix(bed, caustic_color, caust * 0.45 * smoothstep(0.0, 0.5, vis));
+			}
+			vec3 seen = bed * shallow_tint * 1.15;
+			// Posterised visibility: painted steps, not a gradient.
+			float pv = poster(clamp(vis, 0.0, 1.0), 4.0) * 0.6 + vis * 0.4;
+			col = mix(col, seen, pv * 0.85 * (1.0 - sh));
+		}
+	}
+
 	// Ford film: light water over painted stones and sand, a caustic web, seen through a small wobble.
 	if (sh > 0.001) {
-		vec2 wob = (vec2(n_fine, n_str) - 0.5) * 0.10;
+		vec2 wob = (vec2(n_fine, n_str) - 0.5) * 0.10 + (q >= 1 ? nw.xz * 0.06 : vec2(0.0));
 		vec3 st = stones(wp + wob, aa, !hi);
 		float sand_n = nz(wp * 0.35 + vec2(2.1, 7.7));
 		vec3 bed = sand_color * (0.82 + sand_n * 0.3);
@@ -202,7 +299,23 @@ void fragment() {
 
 	// Sky reflection at grazing angles (top of the screen at high zoom), a soft light band under the glints.
 	float fres = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
-	col = mix(col, sky_color * 0.85, fres * 0.28);
+	if (q == 0) {
+		col = mix(col, sky_color * 0.85, fres * 0.28);
+	} else {
+		// G2b painted sky reflection: the reflected ray's height picks horizon / zenith colour in 3 painted steps, so
+		// the flow normals become drifting light and dark patches; stronger at grazing angles (Schlick).
+		vec3 rv = reflect(-vw, nw);
+		float up = poster(clamp(rv.y * 1.15 - 0.05, 0.0, 1.0), 3.0);
+		vec3 sky = mix(sky_color * 0.8, sky_zenith, up);
+		sky = mix(sky, sky * col * 2.6, 0.35);   // keeps the water's hue: a tinted sky, not a grey wash
+		float fr = 0.02 + 0.98 * pow(1.0 - clamp(dot(nw, vw), 0.0, 1.0), 5.0);
+		float amt = clamp((0.06 + fr * 1.6) * reflect_strength, 0.0, 0.5) * mix(1.0, 0.35, sh)
+				* (1.0 - smoothstep(0.04, 0.2, px) * 0.45) * mix(1.0, 0.55, smoothstep(0.45, 1.0, mid) * bankw);
+		// Wobbly dark band of reflected bank just inside each bank (the trench wall and the grass above it).
+		float bank_ref = (1.0 - smoothstep(0.15, 0.6 + n_fine * 0.3, edge_m)) * bankw;
+		sky = mix(sky, col * 0.55, bank_ref * 0.7);
+		col = mix(col, sky, amt);
+	}
 	float gb = 1.0 - smoothstep(glint_width * 0.4, glint_width, abs(t - glint_center + (n_big - 0.5) * 0.10));
 	col = mix(col, sky_color, gb * 0.08 * (1.0 - sh) * glint_strength);
 
@@ -247,15 +360,7 @@ void fragment() {
 
 	// Foam collars and V wakes around piers / stones (world space).
 	if (foam_rock_count > 0) {
-		// Flow direction in world space = gradient of UV.x (screen derivatives, flat triangles).
-		vec2 dsx = dFdx(wp);
-		vec2 dsy = dFdy(wp);
-		float ux = dFdx(s);
-		float uy = dFdy(s);
-		float det = dsx.x * dsy.y - dsx.y * dsy.x;
-		vec2 fd = abs(det) > 1e-9 ? vec2(ux * dsy.y - dsx.y * uy, dsx.x * uy - ux * dsy.x) / det : vec2(1.0, 0.0);
-		fd = normalize(fd + vec2(1e-6, 0.0));
-		vec2 fnrm = vec2(-fd.y, fd.x);
+		// fd / fnrm: the flow direction computed at the top of fragment().
 		for (int i = 0; i < 16; i++) {
 			if (i >= foam_rock_count) {
 				break;
@@ -322,9 +427,16 @@ void fragment() {
 	foam = clamp(foam, 0.0, 1.0);
 	col = mix(col, foam_color * (0.9 + fn * 0.12), foam);
 	v_glint = glint * (1.0 - foam);
+	v_spec = q >= 2 ? (1.0 - foam) * spec_strength * (q >= 3 ? 1.0 : 0.8) : 0.0;
 	ALBEDO = col;
-	ROUGHNESS = 1.0;
-	SPECULAR = 0.0;
+	if (q >= 1) {
+		// Foam lies flat; the water keeps its flow normals (light, SSR).
+		NORMAL = normalize((VIEW_MATRIX * vec4(normalize(mix(nw, vec3(0.0, 1.0, 0.0), foam)), 0.0)).xyz);
+	}
+	// High / Ultra: a smooth surface so the screen-space reflections (when the lighting tier turns SSR on) mirror
+	// the bridges, banks and units; the painted reflection above stays the base. Low / Medium: matte as before.
+	ROUGHNESS = q >= 2 ? mix(0.18, 1.0, foam) : 1.0;
+	SPECULAR = q >= 2 ? 0.04 * (1.0 - foam) : 0.0;
 }
 
 void light() {
@@ -333,4 +445,12 @@ void light() {
 	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
 	// Painted sparkles: only in sunlight (the shadow map hides them under bridges and trees).
 	SPECULAR_LIGHT += v_glint * glint_color * ATTENUATION * LIGHT_COLOR * 0.6;
+	// G2b toon sun highlight (High+): the flow normals catch the sun in crisp painted flecks, plus a soft sheen.
+	if (v_spec > 0.0) {
+		vec3 h = normalize(LIGHT + VIEW);
+		float ndh = clamp(dot(NORMAL, h), 0.0, 1.0);
+		float fleck = smoothstep(0.9935, 0.9955, ndh);
+		float sheen = smoothstep(0.95, 0.995, ndh) * 0.05;
+		SPECULAR_LIGHT += (fleck * 1.6 + sheen) * v_spec * mix(glint_color, vec3(1.0), 0.5) * ATTENUATION * LIGHT_COLOR;
+	}
 }
