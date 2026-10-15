@@ -809,29 +809,26 @@ msgstr "Festin de sang"
 msgid "Veil Ride"
 msgstr "Chevauchée voilée"
 
-#. var q := _mesh_node(pm, unlit(Color(1, 1, 1, 0.45), true), "Quad%d" % _quads.size())
-#: scripts/ui/wave_strike/pad_view.gd:1107
-#~ msgid "Quad%d"
+#. _hint.text = Loc.t("Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster")
+#: scripts/ui/wave_strike/muster_panel.gd:270
+#~ msgid "Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster"
+#~ msgstr "Touche / clic = acheter  ·  Ctrl = monter en rang  ·  Alt / clic droit = vendre  ·  %s = effectif ennemi"
+
+#. reason = Loc.t("Requires Stronghold", null, "ws group lock") if tier == 2 else Loc.t("Requires Citadel", null,
+#: scripts/ui/wave_strike/muster_panel.gd:303
+#~ msgid "ws group lock"
 #~ msgstr ""
 
-#. _mesh_node(st.commit(), unlit(Color.WHITE, true, true), "Grid")
-#: scripts/ui/wave_strike/pad_view.gd:334
-#~ msgid "Grid"
+#. return Loc.t("Caster", null, "ws role tag")
+#: scripts/ui/wave_strike/muster_panel.gd:466 scripts/ui/wave_strike/muster_panel.gd:468
+#: scripts/ui/wave_strike/muster_panel.gd:470 scripts/ui/wave_strike/muster_panel.gd:472
+#: scripts/ui/wave_strike/muster_panel.gd:474 scripts/ui/wave_strike/muster_panel.gd:475
+#~ msgid "ws role tag"
 #~ msgstr ""
 
-#. name = "MusterPadView%d" % roster.seat
-#: scripts/ui/wave_strike/pad_view.gd:167
-#~ msgid "MusterPadView%d"
-#~ msgstr ""
-
-#. const TOKEN_SHADER := """
-#: scripts/ui/wave_strike/pad_view.gd:53
-#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_back, depth_draw_always, blend_mix, shadows_disabled;\nuniform vec4 body_color : source_color = vec4(0.2, 0.2, 0.2, 1.0);\nuniform vec4 gold : source_color = vec4(1.0, 0.85, 0.4, 1.0);\nuniform vec4 glow : source_color = vec4(1.0, 0.55, 0.15, 1.0);\nuniform vec4 warn : source_color = vec4(0.95, 0.35, 0.3, 1.0);\nuniform float radius = 0.65;\nuniform float rim_w = 0.12;\nuniform float band_w = 0.1;\nuniform float tick = 0.25;\nuniform float height = 0.15;\nvarying vec3 lp;\nvarying vec4 cdata;\nvarying vec4 rcol;\nvoid vertex() {\n\tlp = VERTEX;\n\tcdata = INSTANCE_CUSTOM;\n\trcol = COLOR;\n}\nbool in_tick(vec2 p, vec2 dir) {\n\tfloat u = radius - dot(p, dir);\n\tfloat v = abs(dir.x * p.y - dir.y * p.x);\n\tfloat len = tick * 0.9;\n\treturn u >= 0.0 && u <= len && v <= tick * 0.5 * (1.0 - u / len);\n}\nvoid fragment() {\n\tvec2 p = lp.xz;\n\tfloat r = length(p);\n\tbool top = lp.y > height - 0.002;\n\tbool rim = !top || r > radius - rim_w;\n\tvec3 role = pow(rcol.rgb, vec3(2.2));\n\tvec3 col = rim ? role : body_color.rgb;\n\tif (!top) col *= 0.7;\n\tfloat up = cdata.y;\n\tbool a_tick = mod(up, 2.0) > 0.5;\n\tbool b_tick = up > 1.5;\n\tif (top) {\n\t\t// rank band: gold arc on the rim, 60 deg per rank from the back (+Z), clockwise seen from above\n\t\tfloat ang = atan(-p.x, p.y);\n\t\tif (ang < 0.0) ang += 6.2831853;\n\t\tif (r > radius - band_w && ang < cdata.x * 1.0471976) col = gold.rgb;\n\t\t// upgrade ticks: A front-right, B front-left (front = -Z)\n\t\tif (a_tick && in_tick(p, normalize(vec2(1.0, -1.0)))) col = gold.rgb;\n\t\tif (b_tick && in_tick(p, normalize(vec2(-1.0, -1.0)))) col = gold.rgb;\n\t}\n\tif (rim) col = mix(col, vec3(1.0), clamp(cdata.z, 0.0, 1.0));\n\tfloat f = cdata.w;\n\tif (f > 0.0) col = mix(col, glow.rgb, rim ? f : f * 0.5);\n\tif (f < 0.0 && rim) col = mix(col, warn.rgb, -f);\n\tALBEDO = col;\n\tALPHA = rcol.a;\n}\n"
-#~ msgstr ""
-
-#. const ICON_SHADER := """
-#: scripts/ui/wave_strike/pad_view.gd:33
-#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_back, depth_draw_always, blend_mix, shadows_disabled;\nuniform sampler2D tex : source_color, filter_linear_mipmap;\ninstance uniform float alpha = 1.0;\ninstance uniform float tint = 1.0;\nvoid fragment() {\n\tvec2 d = UV - vec2(0.5);\n\tfloat r = length(d) * 2.0;\n\tif (r > 1.0) discard;\n\tvec4 c = texture(tex, UV);\n\tfloat edge = smoothstep(0.8, 1.0, r);\n\tALBEDO = mix(c.rgb * tint, vec3(0.0), edge * 0.55);\n\tALPHA = alpha * (1.0 - smoothstep(0.95, 1.0, r));\n}\n"
+#. var combo := ("Shift+%s" if slot == 0 else "Shift+Ctrl+%s") % key
+#: scripts/ui/wave_strike/muster_panel.gd:592
+#~ msgid "Shift+Ctrl+%s"
 #~ msgstr ""
 
 #. var why := "No target"
@@ -840,14 +837,39 @@ msgstr "Chevauchée voilée"
 #~ msgid "No target"
 #~ msgstr ""
 
-#. return ["", "I", "II", "III", "IV"][clampi(level, 0, 4)]
-#: scripts/ui/wave_strike/ws_upgrade_text.gd:100
-#~ msgid "III"
+#. const ICON_SHADER := """
+#: scripts/ui/wave_strike/pad_view.gd:33
+#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_back, depth_draw_always, blend_mix, shadows_disabled;\nuniform sampler2D tex : source_color, filter_linear_mipmap;\ninstance uniform float alpha = 1.0;\ninstance uniform float tint = 1.0;\nvoid fragment() {\n\tvec2 d = UV - vec2(0.5);\n\tfloat r = length(d) * 2.0;\n\tif (r > 1.0) discard;\n\tvec4 c = texture(tex, UV);\n\tfloat edge = smoothstep(0.8, 1.0, r);\n\tALBEDO = mix(c.rgb * tint, vec3(0.0), edge * 0.55);\n\tALPHA = alpha * (1.0 - smoothstep(0.95, 1.0, r));\n}\n"
 #~ msgstr ""
 
-#. reason = Loc.t("Requires Stronghold", null, "ws group lock") if tier == 2 else Loc.t("Requires Citadel", null,
-#: scripts/ui/wave_strike/muster_panel.gd:303
-#~ msgid "ws group lock"
+#. const TOKEN_SHADER := """
+#: scripts/ui/wave_strike/pad_view.gd:53
+#~ msgid "\nshader_type spatial;\nrender_mode unshaded, cull_back, depth_draw_always, blend_mix, shadows_disabled;\nuniform vec4 body_color : source_color = vec4(0.2, 0.2, 0.2, 1.0);\nuniform vec4 gold : source_color = vec4(1.0, 0.85, 0.4, 1.0);\nuniform vec4 glow : source_color = vec4(1.0, 0.55, 0.15, 1.0);\nuniform vec4 warn : source_color = vec4(0.95, 0.35, 0.3, 1.0);\nuniform float radius = 0.65;\nuniform float rim_w = 0.12;\nuniform float band_w = 0.1;\nuniform float tick = 0.25;\nuniform float height = 0.15;\nvarying vec3 lp;\nvarying vec4 cdata;\nvarying vec4 rcol;\nvoid vertex() {\n\tlp = VERTEX;\n\tcdata = INSTANCE_CUSTOM;\n\trcol = COLOR;\n}\nbool in_tick(vec2 p, vec2 dir) {\n\tfloat u = radius - dot(p, dir);\n\tfloat v = abs(dir.x * p.y - dir.y * p.x);\n\tfloat len = tick * 0.9;\n\treturn u >= 0.0 && u <= len && v <= tick * 0.5 * (1.0 - u / len);\n}\nvoid fragment() {\n\tvec2 p = lp.xz;\n\tfloat r = length(p);\n\tbool top = lp.y > height - 0.002;\n\tbool rim = !top || r > radius - rim_w;\n\tvec3 role = pow(rcol.rgb, vec3(2.2));\n\tvec3 col = rim ? role : body_color.rgb;\n\tif (!top) col *= 0.7;\n\tfloat up = cdata.y;\n\tbool a_tick = mod(up, 2.0) > 0.5;\n\tbool b_tick = up > 1.5;\n\tif (top) {\n\t\t// rank band: gold arc on the rim, 60 deg per rank from the back (+Z), clockwise seen from above\n\t\tfloat ang = atan(-p.x, p.y);\n\t\tif (ang < 0.0) ang += 6.2831853;\n\t\tif (r > radius - band_w && ang < cdata.x * 1.0471976) col = gold.rgb;\n\t\t// upgrade ticks: A front-right, B front-left (front = -Z)\n\t\tif (a_tick && in_tick(p, normalize(vec2(1.0, -1.0)))) col = gold.rgb;\n\t\tif (b_tick && in_tick(p, normalize(vec2(-1.0, -1.0)))) col = gold.rgb;\n\t}\n\tif (rim) col = mix(col, vec3(1.0), clamp(cdata.z, 0.0, 1.0));\n\tfloat f = cdata.w;\n\tif (f > 0.0) col = mix(col, glow.rgb, rim ? f : f * 0.5);\n\tif (f < 0.0 && rim) col = mix(col, warn.rgb, -f);\n\tALBEDO = col;\n\tALPHA = rcol.a;\n}\n"
+#~ msgstr ""
+
+#. name = "MusterPadView%d" % roster.seat
+#: scripts/ui/wave_strike/pad_view.gd:167
+#~ msgid "MusterPadView%d"
+#~ msgstr ""
+
+#. _mesh_node(st.commit(), unlit(Color.WHITE, true, true), "Grid")
+#: scripts/ui/wave_strike/pad_view.gd:334
+#~ msgid "Grid"
+#~ msgstr ""
+
+#. var q := _mesh_node(pm, unlit(Color(1, 1, 1, 0.45), true), "Quad%d" % _quads.size())
+#: scripts/ui/wave_strike/pad_view.gd:1107
+#~ msgid "Quad%d"
+#~ msgstr ""
+
+#. var hint := UIStyle.panel_label("Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell", 12)
+#: scripts/ui/wave_strike/wave_strike_hud.gd:130
+#~ msgid "Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell"
+#~ msgstr "Clic / touche = acheter   ·   Ctrl = promouvoir   ·   Alt / clic droit = vendre"
+
+#. clock += "  ·  LAST HORNS"
+#: scripts/ui/wave_strike/wave_strike_hud.gd:203
+#~ msgid "  ·  LAST HORNS"
 #~ msgstr ""
 
 #. b.text = Loc.t("[%s] %s   %d   ·  pop %d   ·  x%d") % [KeyLabels.of(CARD_KEYS[i]) if i < CARD_KEYS.size() else
@@ -859,43 +881,6 @@ msgstr "Chevauchée voilée"
 #: scripts/ui/wave_strike/wave_strike_hud.gd:233
 #~ msgid "[%s] Coffer %d   %s   (+%d / horn)"
 #~ msgstr "[%s] Coffre %d   %s   (+%d / cor)"
-
-#. _hint.text = Loc.t("Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster")
-#: scripts/ui/wave_strike/muster_panel.gd:270
-#~ msgid "Key / click = buy  ·  Ctrl = rank up  ·  Alt / right-click = sell  ·  %s = enemy roster"
-#~ msgstr "Touche / clic = acheter  ·  Ctrl = monter en rang  ·  Alt / clic droit = vendre  ·  %s = effectif ennemi"
-
-#. return Loc.t("Caster", null, "ws role tag")
-#: scripts/ui/wave_strike/muster_panel.gd:466 scripts/ui/wave_strike/muster_panel.gd:468
-#: scripts/ui/wave_strike/muster_panel.gd:470 scripts/ui/wave_strike/muster_panel.gd:472
-#: scripts/ui/wave_strike/muster_panel.gd:474 scripts/ui/wave_strike/muster_panel.gd:475
-#~ msgid "ws role tag"
-#~ msgstr ""
-
-#. clock += "  ·  LAST HORNS"
-#: scripts/ui/wave_strike/wave_strike_hud.gd:203
-#~ msgid "  ·  LAST HORNS"
-#~ msgstr ""
-
-#. var hint := UIStyle.panel_label("Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell", 12)
-#: scripts/ui/wave_strike/wave_strike_hud.gd:130
-#~ msgid "Click / key = buy   ·   Ctrl = rank up   ·   Alt / right-click = sell"
-#~ msgstr "Clic / touche = acheter   ·   Ctrl = promouvoir   ·   Alt / clic droit = vendre"
-
-#. int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Citadel)") if t.requires_tier >= 3 else (Loc.t("
-#: scripts/ui/wave_strike/wave_strike_hud.gd:256
-#~ msgid "  (Stronghold)"
-#~ msgstr "  (Forteresse)"
-
-#. int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Citadel)") if t.requires_tier >= 3 else (Loc.t("
-#: scripts/ui/wave_strike/wave_strike_hud.gd:256
-#~ msgid "  (Citadel)"
-#~ msgstr "  (Citadelle)"
-
-#. return Loc.t("%s: %d HP, %d damage, range %.1f, speed %.1f%s") % [Loc.t(t.display_name), int(t.max_hp),
-#: scripts/ui/wave_strike/wave_strike_hud.gd:255
-#~ msgid "%s: %d HP, %d damage, range %.1f, speed %.1f%s"
-#~ msgstr "%s : %d PV, %d dégâts, portée %.1f, vitesse %.1f%s"
 
 #. else Loc.t("Coffers: all 8 bought")
 #: scripts/ui/wave_strike/wave_strike_hud.gd:235
@@ -912,7 +897,22 @@ msgstr "Chevauchée voilée"
 #~ msgid "Next wave: %d units   (last horn: %d)"
 #~ msgstr "Prochaine vague : %d unités   (dernier cor : %d)"
 
-#. var combo := ("Shift+%s" if slot == 0 else "Shift+Ctrl+%s") % key
-#: scripts/ui/wave_strike/muster_panel.gd:592
-#~ msgid "Shift+Ctrl+%s"
+#. return Loc.t("%s: %d HP, %d damage, range %.1f, speed %.1f%s") % [Loc.t(t.display_name), int(t.max_hp),
+#: scripts/ui/wave_strike/wave_strike_hud.gd:255
+#~ msgid "%s: %d HP, %d damage, range %.1f, speed %.1f%s"
+#~ msgstr "%s : %d PV, %d dégâts, portée %.1f, vitesse %.1f%s"
+
+#. int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Citadel)") if t.requires_tier >= 3 else (Loc.t("
+#: scripts/ui/wave_strike/wave_strike_hud.gd:256
+#~ msgid "  (Citadel)"
+#~ msgstr "  (Citadelle)"
+
+#. int(t.attack_damage), t.attack_range, t.move_speed, Loc.t("  (Citadel)") if t.requires_tier >= 3 else (Loc.t("
+#: scripts/ui/wave_strike/wave_strike_hud.gd:256
+#~ msgid "  (Stronghold)"
+#~ msgstr "  (Forteresse)"
+
+#. return ["", "I", "II", "III", "IV"][clampi(level, 0, 4)]
+#: scripts/ui/wave_strike/ws_upgrade_text.gd:100
+#~ msgid "III"
 #~ msgstr ""

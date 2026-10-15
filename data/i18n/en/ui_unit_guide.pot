@@ -164,7 +164,7 @@ msgstr ""
 #. back_button = _button(row, "Back", 140)
 #: scripts/ui/menus/unit_guide.gd:336 scripts/ui/menus/main_menu.gd:818
 #: scripts/ui/menus/main_menu.gd:909 scripts/ui/menus/pause_menu.gd:278
-#: scripts/ui/menus/settings_panel.gd:113 scripts/ui/wave_strike/wave_strike_lobby.gd:119
+#: scripts/ui/menus/settings_panel.gd:118 scripts/ui/wave_strike/wave_strike_lobby.gd:119
 msgid "Back"
 msgstr ""
 
@@ -345,29 +345,29 @@ msgstr ""
 msgid "%s (Wonders)"
 msgstr ""
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
 #: scripts/ui/menus/unit_guide_data.gd:15
 msgid "Melee"
 msgstr ""
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
 #: scripts/ui/menus/unit_guide_data.gd:15
 msgid "Ranged"
 msgstr ""
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
 #: scripts/ui/menus/unit_guide_data.gd:15 data/ui/unit_guide.json:cinder_hand
 #: data/ui/unit_guide.json:ember_archer data/ui/unit_guide.json:ash_hurler
 #: data/ui/unit_guide.json:scorchbow data/ui/unit_guide.json:pyre_adept
 msgid "Cavalry"
 msgstr ""
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
 #: scripts/ui/menus/unit_guide_data.gd:15
 msgid "Caster"
 msgstr ""
 
-#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege": 
+#. const ROLE_NAMES := {"melee": "Melee", "ranged": "Ranged", "cavalry": "Cavalry", "caster": "Caster", "siege":
 #: scripts/ui/menus/unit_guide_data.gd:15 data/ui/unit_guide.json:blaze_rider
 #: data/ui/unit_guide.json:pyrehoof_lancer data/ui/unit_guide.json:rimehorn_rider
 #: data/ui/unit_guide.json:thornback_charger data/ui/unit_guide.json:glade_outrider
@@ -437,9 +437,9 @@ msgid "Tavern"
 msgstr ""
 
 #. var keep_name := keep.display_name if keep else "Keep"
-#: scripts/ui/menus/unit_guide_data.gd:78 scripts/ui/command_card.gd:1014
-#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:2199
-#: scripts/ui/selection_panel.gd:3298
+#: scripts/ui/menus/unit_guide_data.gd:78 scripts/ui/command_card.gd:1017
+#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:2215
+#: scripts/ui/selection_panel.gd:3314
 msgid "Keep"
 msgstr ""
 
@@ -475,14 +475,14 @@ msgid "{text} ({mana} mana)"
 msgstr ""
 
 #. out.append({"name": str(pd.get("name", p)), "key": "Passive",
-#: scripts/ui/menus/unit_guide_data.gd:317 scripts/ui/selection_panel.gd:265
-#: scripts/ui/selection_panel.gd:273 scripts/units/creature_abilities.gd:63
+#: scripts/ui/menus/unit_guide_data.gd:317 scripts/ui/selection_panel.gd:270
+#: scripts/ui/selection_panel.gd:278 scripts/units/creature_abilities.gd:63
 msgid "Passive"
 msgstr ""
 
 #. out.append({"name": String(ab).capitalize(), "key": "Auto",
 #: scripts/ui/menus/unit_guide_data.gd:323 scripts/ui/menus/unit_guide_data.gd:341
-#: scripts/ui/menus/settings_panel.gd:401
+#: scripts/ui/menus/settings_panel.gd:414
 msgid "Auto"
 msgstr ""
 
@@ -501,7 +501,7 @@ msgstr ""
 msgid "Forge"
 msgstr ""
 
-#. "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / 
+#. "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} /
 #: scripts/ui/menus/unit_guide_data.gd:399
 msgid "Weapons +{dmg} % damage and Armor +{armor} armour per level; {line}: {text} per level. 3 levels each ({p1} / {p2} / {p3} crystals; level 2 needs a Stronghold, level 3 a Citadel)."
 msgstr ""

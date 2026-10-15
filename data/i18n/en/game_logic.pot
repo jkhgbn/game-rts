@@ -378,7 +378,7 @@ msgstr ""
 msgid "+35 % max HP"
 msgstr ""
 
-#. &"ash_hurler_packed_shot": {"name": "Packed Shot", "units": [&"ash_hurler"], "tier": 2, "price": 150, "time": 
+#. &"ash_hurler_packed_shot": {"name": "Packed Shot", "units": [&"ash_hurler"], "tier": 2, "price": 150, "time":
 #: scripts/buildings/unit_research.gd:57
 msgid "Packed Shot"
 msgstr ""
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Scorchbows +3 arrow damage (17)."
 msgstr ""
 
-#. &"scorchbow_pitch_arrows": {"name": "Pitch Arrows", "units": [&"scorchbow"], "tier": 1, "price": 125, "time": 
+#. &"scorchbow_pitch_arrows": {"name": "Pitch Arrows", "units": [&"scorchbow"], "tier": 1, "price": 125, "time":
 #: scripts/buildings/unit_research.gd:63 scripts/units/bowman_upgrades.gd:32
 msgid "Pitch Arrows"
 msgstr ""
@@ -490,7 +490,7 @@ msgstr ""
 msgid "+25 % max mana and mana regeneration"
 msgstr ""
 
-#. &"kilnwarden_molten_slag": {"name": "Molten Slag", "units": [&"kilnwarden"], "tier": 3, "price": 175, "time": 
+#. &"kilnwarden_molten_slag": {"name": "Molten Slag", "units": [&"kilnwarden"], "tier": 3, "price": 175, "time":
 #: scripts/buildings/unit_research.gd:95
 msgid "Molten Slag"
 msgstr ""
@@ -685,7 +685,7 @@ msgstr ""
 msgid "Shield Wall"
 msgstr ""
 
-#. &"shardcaster_deep_chill": {"name": "Deep Chill", "units": [&"shardcaster"], "tier": 1, "price": 100, "time": 
+#. &"shardcaster_deep_chill": {"name": "Deep Chill", "units": [&"shardcaster"], "tier": 1, "price": 100, "time":
 #: scripts/buildings/unit_research.gd:172
 msgid "Deep Chill"
 msgstr ""
@@ -830,7 +830,7 @@ msgstr ""
 msgid "Melee attackers take 2 damage per hit they land on it."
 msgstr ""
 
-#. &"nature_bark": {"name": "Barkskin", "units": [&"thornling"], "tier": 2, "price": 125, "time": 40.0, "needs": 
+#. &"nature_bark": {"name": "Barkskin", "units": [&"thornling"], "tier": 2, "price": 125, "time": 40.0, "needs":
 #: scripts/buildings/unit_research.gd:225
 msgid "Barkskin"
 msgstr ""
@@ -890,7 +890,7 @@ msgstr ""
 msgid "Heals 16 (was 12)."
 msgstr ""
 
-#. &"bloomtender_wide_bloom": {"name": "Wide Bloom", "units": [&"bloomtender"], "tier": 2, "price": 125, "time": 
+#. &"bloomtender_wide_bloom": {"name": "Wide Bloom", "units": [&"bloomtender"], "tier": 2, "price": 125, "time":
 #: scripts/buildings/unit_research.gd:246
 msgid "Wide Bloom"
 msgstr ""
@@ -945,7 +945,7 @@ msgstr ""
 msgid "Grove Oath radius 6.5 m (was 5), brace 5 s (was 4)."
 msgstr ""
 
-#. &"stagrunner_wild_gallop": {"name": "Wild Gallop", "units": [&"stagrunner"], "tier": 1, "price": 100, "time": 
+#. &"stagrunner_wild_gallop": {"name": "Wild Gallop", "units": [&"stagrunner"], "tier": 1, "price": 100, "time":
 #: scripts/buildings/unit_research.gd:264
 msgid "Wild Gallop"
 msgstr ""
@@ -998,11 +998,6 @@ msgstr ""
 #. const REASON_HALL := "Needs a completed Hall that trains it"
 #: scripts/buildings/unit_upgrades.gd:45
 msgid "Needs a completed Hall that trains it"
-msgstr ""
-
-#. _mana_shader.code = """
-#: scripts/units/caster_ability.gd:1228
-msgid "\r\nshader_type spatial;\r\nrender_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;\r\nuniform float fill = 1.0;\r\nuniform vec4 fill_color : source_color = vec4(0.35, 0.55, 1.0, 1.0);\r\nvoid vertex() {\r\n\tMODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);\r\n}\r\nvoid fragment() {\r\n\tbool border = UV.y < 0.2 || UV.y > 0.8 || UV.x < 0.02 || UV.x > 0.98;\r\n\tvec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : vec4(0.08, 0.08, 0.1, 0.85));\r\n\tALBEDO = c.rgb;\r\n\tALPHA = c.a;\r\n}\r\n"
 msgstr ""
 
 #. "text": "Caster: Slag Rain melts armour; Mana Scald burns an enemy caster's mana."},
@@ -1456,7 +1451,7 @@ msgid "Requires a Bazaar or a second Hall"
 msgstr ""
 
 #. var gate := (REASON_T2 if OWN_T2_GATE else "Tier 2: requires Stronghold") if tier_of(type_id) >= 2 else ""
-#: scripts/units/new_units_12.gd:109
+#: scripts/units/new_units_12.gd:146
 msgid "Tier 2: requires Stronghold"
 msgstr ""
 
@@ -1655,7 +1650,7 @@ msgstr ""
 msgid "Tier 3 vampire duelist. Heals 35 % of its damage (halved 4 s by fire); Blood Frenzy under 40 % HP."
 msgstr ""
 
-#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off 
+#. &"shardguard": "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off
 #: scripts/units/t3_kit.gd:26
 msgid "Tier 3 halberdier. Hold the Line: stops a charge and freezes the rider 1 s; taunts divers off your archers."
 msgstr ""
@@ -2343,17 +2338,17 @@ msgid "Well"
 msgstr ""
 
 #. var line := "Ember Crown: unclaimed"
-#: scripts/world/layout_level.gd:420 scripts/world/skirmish.gd:753
+#: scripts/world/layout_level.gd:420 scripts/world/skirmish.gd:755
 msgid "Ember Crown: unclaimed"
 msgstr ""
 
 #. line = "Ember Crown: sealed until 6:00"
-#: scripts/world/layout_level.gd:422 scripts/world/skirmish.gd:755
+#: scripts/world/layout_level.gd:422 scripts/world/skirmish.gd:757
 msgid "Ember Crown: sealed until 6:00"
 msgstr ""
 
 #. line = "Ember Crown: worn by %s" % crown.wearer_name()
-#: scripts/world/layout_level.gd:424 scripts/world/skirmish.gd:757
+#: scripts/world/layout_level.gd:424 scripts/world/skirmish.gd:759
 msgid "Ember Crown: worn by %s"
 msgstr ""
 
@@ -2427,7 +2422,7 @@ msgstr ""
 msgid "Lantern Wharf"
 msgstr ""
 
-#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0), 
+#. {"id": &"saltgate", "name": "Saltgate", "center": Vector3(1.0, 0.0, -53.0), "door": Vector3(1.0, 0.0, -49.0),
 #: scripts/world/skirmish.gd:101
 msgid "Saltgate"
 msgstr ""
@@ -2523,102 +2518,102 @@ msgid "He"
 msgstr ""
 
 #. var text := "Match time %s\nUnits trained %d · Units lost %d · Enemy units killed %d · Buildings destroyed %d\
-#: scripts/world/skirmish.gd:729
+#: scripts/world/skirmish.gd:731
 msgid "Match time %s\nUnits trained %d · Units lost %d · Enemy units killed %d · Buildings destroyed %d\nCrystals gathered %s\n"
 msgstr ""
 
 #. text += "Gold earned %s (trade %s) · Caravans lost %d · Workers lost to Magpies %d · Magpies slain %d\n" % [
-#: scripts/world/skirmish.gd:733
+#: scripts/world/skirmish.gd:735
 msgid "Gold earned %s (trade %s) · Caravans lost %d · Workers lost to Magpies %d · Magpies slain %d\n"
 msgstr ""
 
 #. parts.append("Points held at the end %d / %d" % [s["points_held"], s["points_total"]])
-#: scripts/world/skirmish.gd:738
+#: scripts/world/skirmish.gd:740
 msgid "Points held at the end %d / %d"
 msgstr ""
 
 #. parts.append("Camps cleared %d" % s["camps_cleared"])
-#: scripts/world/skirmish.gd:740
+#: scripts/world/skirmish.gd:742
 msgid "Camps cleared %d"
 msgstr ""
 
 #. parts.append("Blessings %d" % s["blessings"])
-#: scripts/world/skirmish.gd:742
+#: scripts/world/skirmish.gd:744
 msgid "Blessings %d"
 msgstr ""
 
 #. parts.append("Game hunted %d" % s["game_hunted"])
-#: scripts/world/skirmish.gd:744
+#: scripts/world/skirmish.gd:746
 msgid "Game hunted %d"
 msgstr ""
 
 #. return text + "F9: play again"
-#: scripts/world/skirmish.gd:747
+#: scripts/world/skirmish.gd:749
 msgid "F9: play again"
 msgstr ""
 
 #. return "Skirmish: Crown Hollow\nDestroy every %s building. Keep one of yours standing.\n" \
-#: scripts/world/skirmish.gd:758
+#: scripts/world/skirmish.gd:760
 msgid "Skirmish: Crown Hollow\nDestroy every %s building. Keep one of yours standing.\n"
 msgstr ""
 
 #. hud.show_message("%s found %d essence" % [who, int(loot["essence"])], 3.0)
-#: scripts/world/skirmish.gd:1506
+#: scripts/world/skirmish.gd:1508
 msgid "%s found %d essence"
 msgstr ""
 
 #. hud.show_message("The Lost Cache holds %d essence" % int(loot["essence"]), 3.0)
-#: scripts/world/skirmish.gd:1511
+#: scripts/world/skirmish.gd:1513
 msgid "The Lost Cache holds %d essence"
 msgstr ""
 
 #. hud.show_message("The Lost Cache holds %s" % item_name, 3.0)
-#: scripts/world/skirmish.gd:1515
+#: scripts/world/skirmish.gd:1517
 msgid "The Lost Cache holds %s"
 msgstr ""
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1577
+#: scripts/world/skirmish.gd:1579
 msgid "%s on score  %s to %s"
 msgstr ""
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1577
+#: scripts/world/skirmish.gd:1579
 msgid "Won"
 msgstr ""
 
 #. subtitle = "%s on score  %s to %s" % ["Won" if victory else "Lost", _thousands(mine), _thousands(theirs)]
-#: scripts/world/skirmish.gd:1577
+#: scripts/world/skirmish.gd:1579
 msgid "Lost"
 msgstr ""
 
 #. var names := ["You (%s)" % _kingdom_info(Unit.Team.PLAYER, "name"),
-#: scripts/world/skirmish.gd:1579
+#: scripts/world/skirmish.gd:1581
 msgid "You (%s)"
 msgstr ""
 
 #. hud.show_message("%s has fallen! %s returns in %d s" % [EmberCrown.short_name(wiz),
-#: scripts/world/skirmish.gd:1646
+#: scripts/world/skirmish.gd:1648
 msgid "%s has fallen! %s returns in %d s"
 msgstr ""
 
 #. hud.show_message("%s returns!" % EmberCrown.short_name(wiz), 3.0)
-#: scripts/world/skirmish.gd:1668
+#: scripts/world/skirmish.gd:1670
 msgid "%s returns!"
 msgstr ""
 
 #. hud.show_message("The %s lies unclaimed" % dropped.artifact_name, 4.0)
-#: scripts/world/skirmish.gd:1702
+#: scripts/world/skirmish.gd:1704
 msgid "The %s lies unclaimed"
 msgstr ""
 
 #. hud.show_message("Press F10 again to surrender", SURRENDER_WINDOW)
-#: scripts/world/skirmish.gd:1745
+#: scripts/world/skirmish.gd:1747
 msgid "Press F10 again to surrender"
 msgstr ""
 
 #. return "a barracks"
-#: scripts/world/skirmish.gd:1824
+#: scripts/world/skirmish.gd:1826
 msgid "a barracks"
 msgstr ""
 

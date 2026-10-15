@@ -164,7 +164,7 @@ msgstr "Tapez un nom, un rôle, un royaume, un bâtiment ou une étiquette (« 
 #. back_button = _button(row, "Back", 140)
 #: scripts/ui/menus/unit_guide.gd:336 scripts/ui/menus/main_menu.gd:818
 #: scripts/ui/menus/main_menu.gd:909 scripts/ui/menus/pause_menu.gd:278
-#: scripts/ui/menus/settings_panel.gd:113 scripts/ui/wave_strike/wave_strike_lobby.gd:119
+#: scripts/ui/menus/settings_panel.gd:118 scripts/ui/wave_strike/wave_strike_lobby.gd:119
 msgid "Back"
 msgstr "Retour"
 
@@ -437,9 +437,9 @@ msgid "Tavern"
 msgstr "Tavern"
 
 #. var keep_name := keep.display_name if keep else "Keep"
-#: scripts/ui/menus/unit_guide_data.gd:78 scripts/ui/command_card.gd:1014
-#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:2199
-#: scripts/ui/selection_panel.gd:3298
+#: scripts/ui/menus/unit_guide_data.gd:78 scripts/ui/command_card.gd:1017
+#: scripts/ui/next_step_hint.gd:343 scripts/ui/next_step_hint.gd:416 scripts/ui/selection_panel.gd:2215
+#: scripts/ui/selection_panel.gd:3314
 msgid "Keep"
 msgstr "Donjon"
 
@@ -475,14 +475,14 @@ msgid "{text} ({mana} mana)"
 msgstr "{text} ({mana} mana)"
 
 #. out.append({"name": str(pd.get("name", p)), "key": "Passive",
-#: scripts/ui/menus/unit_guide_data.gd:317 scripts/ui/selection_panel.gd:265
-#: scripts/ui/selection_panel.gd:273 scripts/units/creature_abilities.gd:63
+#: scripts/ui/menus/unit_guide_data.gd:317 scripts/ui/selection_panel.gd:270
+#: scripts/ui/selection_panel.gd:278 scripts/units/creature_abilities.gd:63
 msgid "Passive"
 msgstr "Passif"
 
 #. out.append({"name": String(ab).capitalize(), "key": "Auto",
 #: scripts/ui/menus/unit_guide_data.gd:323 scripts/ui/menus/unit_guide_data.gd:341
-#: scripts/ui/menus/settings_panel.gd:401
+#: scripts/ui/menus/settings_panel.gd:414
 msgid "Auto"
 msgstr "Auto"
 
@@ -511,71 +511,36 @@ msgstr "Armes +{dmg} % de dégâts et Armure +{armor} d'armure par niveau; {lin
 msgid "Forge upgrades"
 msgstr "Améliorations de la Forge"
 
-#. var hall := BuildingType.find("%s_barracks" % k)
-#: scripts/ui/menus/unit_guide_data.gd:69 scripts/world/skirmish.gd:1762
-#~ msgid "%s_barracks"
-#~ msgstr ""
-
 #. var keep := BuildingType.find("%s_keep" % k)
 #: scripts/ui/menus/unit_guide_data.gd:68 scripts/units/t3_unit_ability.gd:182
 #: scripts/units/t3_unit_ability.gd:191
 #~ msgid "%s_keep"
 #~ msgstr ""
 
-#. out.append("ability without a name or text")
-#: scripts/ui/menus/unit_guide_data.gd:566
-#~ msgid "ability without a name or text"
+#. var hall := BuildingType.find("%s_barracks" % k)
+#: scripts/ui/menus/unit_guide_data.gd:69 scripts/world/skirmish.gd:1762
+#~ msgid "%s_barracks"
 #~ msgstr ""
 
-#. out.append("unknown role '%s'" % e["role"])
-#: scripts/ui/menus/unit_guide_data.gd:543
-#~ msgid "unknown role '%s'"
+#. var stables := BuildingType.find("%s_stables" % k)
+#: scripts/ui/menus/unit_guide_data.gd:70
+#~ msgid "%s_stables"
 #~ msgstr ""
 
-#. out.append("no entry in %s" % JSON_PATH)
-#: scripts/ui/menus/unit_guide_data.gd:540
-#~ msgid "no entry in %s"
+#. out.append({"name": nm, "key": "Auto, L%d" % lv, "text": tx})
+#: scripts/ui/menus/unit_guide_data.gd:323 scripts/ui/menus/unit_guide_data.gd:325
+#~ msgid "Auto, L%d"
 #~ msgstr ""
-
-#. return ["unknown id"]
-#: scripts/ui/menus/unit_guide_data.gd:538
-#~ msgid "unknown id"
-#~ msgstr ""
-
-#. out.append("Top 3 for %s in %s (rank %d)" % [label, where, r])
-#: scripts/ui/menus/unit_guide_data.gd:529
-#~ msgid "Top 3 for %s in %s (rank %d)"
-#~ msgstr ""
-
-#. out.append("%s in %s" % [phrase.capitalize(), where])
-#: scripts/ui/menus/unit_guide_data.gd:525
-#~ msgid "%s in %s"
-#~ msgstr ""
-
-#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
-#: scripts/ui/menus/unit_guide_data.gd:521
-#~ msgid "any army"
-#~ msgstr ""
-
-#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
-#: scripts/ui/menus/unit_guide_data.gd:521
-#~ msgid "the %s army"
-#~ msgstr ""
-
-#. bad.append("%s: rank %d for %s" % [line, r, stat])
-#: scripts/ui/menus/unit_guide_data.gd:509
-#~ msgid "%s: rank %d for %s"
-#~ msgstr ""
-
-#. rk["name_tmpl"] = "Rank 3: {name}"
-#: scripts/ui/menus/unit_guide_data.gd:345
-#~ msgid "Rank 3: {name}"
-#~ msgstr "Rang 3 : {name}"
 
 #. "Stables research once your keep is a Citadel ({price} crystals, {time} s): +{hp} % HP, +{dmg} % damage, +{arm
 #: scripts/ui/menus/unit_guide_data.gd:341
 #~ msgid "Stables research once your keep is a Citadel ({price} crystals, {time} s): +{hp} % HP, +{dmg} % damage, +{armor} armour."
 #~ msgstr "Recherche aux écuries quand votre donjon est une Citadelle ({price} cristaux, {time} s) : +{hp} % PV, +{dmg} % dégâts, +{armor} armure."
+
+#. rk["name_tmpl"] = "Rank 3: {name}"
+#: scripts/ui/menus/unit_guide_data.gd:345
+#~ msgid "Rank 3: {name}"
+#~ msgstr "Rang 3 : {name}"
 
 #. var keys := "ZXCVB"
 #: scripts/ui/menus/unit_guide_data.gd:354
@@ -586,51 +551,6 @@ msgstr "Améliorations de la Forge"
 #: scripts/ui/menus/unit_guide_data.gd:376
 #~ msgid "Forge research once your keep is a Stronghold ({price} crystals, {time} s): {text}."
 #~ msgstr "Recherche à la Forge quand votre donjon est une Forteresse ({price} cristaux, {time} s) : {text}."
-
-#. out.append("tag longer than %d: %s" % [TAG_MAX, s])
-#: scripts/ui/menus/unit_guide_data.gd:563
-#~ msgid "tag longer than %d: %s"
-#~ msgstr ""
-
-#. out.append("no %s tags" % key)
-#: scripts/ui/menus/unit_guide_data.gd:560
-#~ msgid "no %s tags"
-#~ msgstr ""
-
-#. out.append("%s line longer than %d: %s" % [key, PRO_MAX, s])
-#: scripts/ui/menus/unit_guide_data.gd:557
-#~ msgid "%s line longer than %d: %s"
-#~ msgstr ""
-
-#. out.append("empty line in %s" % key)
-#: scripts/ui/menus/unit_guide_data.gd:555
-#~ msgid "empty line in %s"
-#~ msgstr ""
-
-#. out.append("%d cons (want 2-3)" % (e["cons"] as Array).size())
-#: scripts/ui/menus/unit_guide_data.gd:551
-#~ msgid "%d cons (want 2-3)"
-#~ msgstr ""
-
-#. out.append("%d pros (want 3)" % (e["pros"] as Array).size())
-#: scripts/ui/menus/unit_guide_data.gd:549
-#~ msgid "%d pros (want 3)"
-#~ msgstr ""
-
-#. out.append("summary longer than %d" % SUMMARY_MAX)
-#: scripts/ui/menus/unit_guide_data.gd:547
-#~ msgid "summary longer than %d"
-#~ msgstr ""
-
-#. out.append("empty summary")
-#: scripts/ui/menus/unit_guide_data.gd:545
-#~ msgid "empty summary"
-#~ msgstr ""
-
-#. out.append({"name": nm, "key": "Auto, L%d" % lv, "text": tx})
-#: scripts/ui/menus/unit_guide_data.gd:323 scripts/ui/menus/unit_guide_data.gd:325
-#~ msgid "Auto, L%d"
-#~ msgstr ""
 
 #. return Loc.t("%s (Citadel)") % b.trim_suffix(" (Citadel)")
 #: scripts/ui/menus/unit_guide_data.gd:405
@@ -647,7 +567,87 @@ msgstr "Améliorations de la Forge"
 #~ msgid "%s: rank %d for %s in %s"
 #~ msgstr ""
 
-#. var stables := BuildingType.find("%s_stables" % k)
-#: scripts/ui/menus/unit_guide_data.gd:70
-#~ msgid "%s_stables"
+#. bad.append("%s: rank %d for %s" % [line, r, stat])
+#: scripts/ui/menus/unit_guide_data.gd:509
+#~ msgid "%s: rank %d for %s"
+#~ msgstr ""
+
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:521
+#~ msgid "any army"
+#~ msgstr ""
+
+#. var where := "the %s army" % kingdom_name(k) if scope != &"" else "any army"
+#: scripts/ui/menus/unit_guide_data.gd:521
+#~ msgid "the %s army"
+#~ msgstr ""
+
+#. out.append("%s in %s" % [phrase.capitalize(), where])
+#: scripts/ui/menus/unit_guide_data.gd:525
+#~ msgid "%s in %s"
+#~ msgstr ""
+
+#. out.append("Top 3 for %s in %s (rank %d)" % [label, where, r])
+#: scripts/ui/menus/unit_guide_data.gd:529
+#~ msgid "Top 3 for %s in %s (rank %d)"
+#~ msgstr ""
+
+#. return ["unknown id"]
+#: scripts/ui/menus/unit_guide_data.gd:538
+#~ msgid "unknown id"
+#~ msgstr ""
+
+#. out.append("no entry in %s" % JSON_PATH)
+#: scripts/ui/menus/unit_guide_data.gd:540
+#~ msgid "no entry in %s"
+#~ msgstr ""
+
+#. out.append("unknown role '%s'" % e["role"])
+#: scripts/ui/menus/unit_guide_data.gd:543
+#~ msgid "unknown role '%s'"
+#~ msgstr ""
+
+#. out.append("empty summary")
+#: scripts/ui/menus/unit_guide_data.gd:545
+#~ msgid "empty summary"
+#~ msgstr ""
+
+#. out.append("summary longer than %d" % SUMMARY_MAX)
+#: scripts/ui/menus/unit_guide_data.gd:547
+#~ msgid "summary longer than %d"
+#~ msgstr ""
+
+#. out.append("%d pros (want 3)" % (e["pros"] as Array).size())
+#: scripts/ui/menus/unit_guide_data.gd:549
+#~ msgid "%d pros (want 3)"
+#~ msgstr ""
+
+#. out.append("%d cons (want 2-3)" % (e["cons"] as Array).size())
+#: scripts/ui/menus/unit_guide_data.gd:551
+#~ msgid "%d cons (want 2-3)"
+#~ msgstr ""
+
+#. out.append("empty line in %s" % key)
+#: scripts/ui/menus/unit_guide_data.gd:555
+#~ msgid "empty line in %s"
+#~ msgstr ""
+
+#. out.append("%s line longer than %d: %s" % [key, PRO_MAX, s])
+#: scripts/ui/menus/unit_guide_data.gd:557
+#~ msgid "%s line longer than %d: %s"
+#~ msgstr ""
+
+#. out.append("no %s tags" % key)
+#: scripts/ui/menus/unit_guide_data.gd:560
+#~ msgid "no %s tags"
+#~ msgstr ""
+
+#. out.append("tag longer than %d: %s" % [TAG_MAX, s])
+#: scripts/ui/menus/unit_guide_data.gd:563
+#~ msgid "tag longer than %d: %s"
+#~ msgstr ""
+
+#. out.append("ability without a name or text")
+#: scripts/ui/menus/unit_guide_data.gd:566
+#~ msgid "ability without a name or text"
 #~ msgstr ""

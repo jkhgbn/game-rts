@@ -1587,7 +1587,7 @@ msgid "new units"
 msgstr "de nouvelles unités"
 
 #. hud.show_message("%s wears the %s" % [EmberCrown.short_name(by), claimed.artifact_name], 4.0)
-#: scripts/campaign/mission_01.gd:674 scripts/world/skirmish.gd:1675
+#: scripts/campaign/mission_01.gd:674 scripts/world/skirmish.gd:1677
 msgid "%s wears the %s"
 msgstr "%s porte : %s"
 
@@ -2595,7 +2595,7 @@ msgstr "Le donjon est tombé"
 
 #. @export var victory_banner := "VICTORY"
 #: scripts/campaign/mission_config.gd:25 scripts/campaign/mission_e8_muster.gd:89
-#: scripts/world/skirmish.gd:1727
+#: scripts/world/skirmish.gd:1729
 msgid "VICTORY"
 msgstr "VICTOIRE"
 
@@ -4450,310 +4450,310 @@ msgid "Raise a Cinder Dragon"
 msgstr "Élevez un dragon de cendre"
 
 #. const MISSION_TITLE := "Take the Ford"
-#: scripts/campaign/mission_e3_01.gd:24
+#: scripts/campaign/mission_e3_01.gd:26
 msgid "Take the Ford"
 msgstr "Prendre le gué"
 
 #. const STANDARDS := {&"std_clover": ["Clover Stone", Vector3(-28.0, 0.0, 20.0)],
-#: scripts/campaign/mission_e3_01.gd:78
+#: scripts/campaign/mission_e3_01.gd:80
 msgid "Clover Stone"
 msgstr "Pierre du Trèfle"
 
 #. &"std_ysolde": ["Ysolde's Standard", Vector3(1.5, 0.0, 21.5)], &"std_well": ["Lark Well", Vector3(24.0, 0.0, 1
-#: scripts/campaign/mission_e3_01.gd:79
+#: scripts/campaign/mission_e3_01.gd:81
 msgid "Ysolde's Standard"
 msgstr "Étendard d'Ysolde"
 
 #. &"std_ysolde": ["Ysolde's Standard", Vector3(1.5, 0.0, 21.5)], &"std_well": ["Lark Well", Vector3(24.0, 0.0, 1
-#: scripts/campaign/mission_e3_01.gd:79
+#: scripts/campaign/mission_e3_01.gd:81
 msgid "Lark Well"
 msgstr "Puits de l'Alouette"
 
 #. [&"narrator", "Evenmead. The last green country. By sundown, someone will own the ford."],
-#: scripts/campaign/mission_e3_01.gd:145
+#: scripts/campaign/mission_e3_01.gd:151
 msgid "Evenmead. The last green country. By sundown, someone will own the ford."
 msgstr "Evenmead. Le dernier pays vert. Au coucher du soleil, quelqu'un tiendra le gué."
 
 #. [&"malrik", "Torvald, the east bank is yours. I will take the water. Hush, take whatever moves."],
-#: scripts/campaign/mission_e3_01.gd:146
+#: scripts/campaign/mission_e3_01.gd:152
 msgid "Torvald, the east bank is yours. I will take the water. Hush, take whatever moves."
 msgstr "Torvald, la rive est est à toi. Je prends l'eau. Hush, prends tout ce qui bouge."
 
 #. [&"hush", "Whatever moves, Bishop. And a few things that don't."],
-#: scripts/campaign/mission_e3_01.gd:147
+#: scripts/campaign/mission_e3_01.gd:153
 msgid "Whatever moves, Bishop. And a few things that don't."
 msgstr "Tout ce qui bouge, Évêque. Et quelques choses qui ne bougent pas."
 
 #. [&"torvald", "Quickly, then. Before that stone in your pocket finishes its sentence."],
-#: scripts/campaign/mission_e3_01.gd:148
+#: scripts/campaign/mission_e3_01.gd:154
 msgid "Quickly, then. Before that stone in your pocket finishes its sentence."
 msgstr "Vite, alors. Avant que cette pierre dans ta poche finisse sa phrase."
 
 #. [&"obren", "So much green, Bishop. Let it grow red. I can help."],
-#: scripts/campaign/mission_e3_01.gd:149
+#: scripts/campaign/mission_e3_01.gd:155
 msgid "So much green, Bishop. Let it grow red. I can help."
 msgstr "Tant de vert, Évêque. Laisse-le rougir. Je peux t'aider."
 
 #. [&"malrik", "You can help by being quiet. Stones are usually good at that."],
-#: scripts/campaign/mission_e3_01.gd:150
+#: scripts/campaign/mission_e3_01.gd:156
 msgid "You can help by being quiet. Stones are usually good at that."
 msgstr "Tu peux m'aider en te taisant. D'habitude, les pierres sont douées pour ça."
 
 #. [&"vessa", "Malrik! You brought a whole winter to a picnic."],
-#: scripts/campaign/mission_e3_01.gd:151
+#: scripts/campaign/mission_e3_01.gd:157
 msgid "Malrik! You brought a whole winter to a picnic."
 msgstr "Malrik ! Tu as amené un hiver complet à un pique-nique."
 
 #. [&"malrik", "And you brought fire to a meadow. We all have our gifts, Vessa."],
-#: scripts/campaign/mission_e3_01.gd:152
+#: scripts/campaign/mission_e3_01.gd:158
 msgid "And you brought fire to a meadow. We all have our gifts, Vessa."
 msgstr "Et toi, du feu dans une prairie. Chacun ses talents, Vessa."
 
 #. [&"ysolde", "That water is older than all four of us. Get out of it."],
-#: scripts/campaign/mission_e3_01.gd:153
+#: scripts/campaign/mission_e3_01.gd:159
 msgid "That water is older than all four of us. Get out of it."
 msgstr "Cette eau est plus vieille que nous quatre. Sors de là."
 
 #. [&"malrik", "The ford is mine. Write it down, Ysolde. You like things that last."],
-#: scripts/campaign/mission_e3_01.gd:154
+#: scripts/campaign/mission_e3_01.gd:160
 msgid "The ford is mine. Write it down, Ysolde. You like things that last."
 msgstr "Le gué est à moi. Écris-le, Ysolde. Tu aimes les choses qui durent."
 
 #. [&"narrator", "Across the river, the Lark horns call the whole valley to arms."],
-#: scripts/campaign/mission_e3_01.gd:155
+#: scripts/campaign/mission_e3_01.gd:161
 msgid "Across the river, the Lark horns call the whole valley to arms."
 msgstr "De l'autre côté de la rivière, les cors de l'Alouette appellent toute la vallée aux armes."
 
 #. [&"hush", "One horn fewer. The valley will have to shout."],
-#: scripts/campaign/mission_e3_01.gd:156
+#: scripts/campaign/mission_e3_01.gd:162
 msgid "One horn fewer. The valley will have to shout."
 msgstr "Un cor de moins. La vallée devra crier."
 
 #. [&"vessa", "He's on our hill. I'm not waiting for him to plant a flag."],
-#: scripts/campaign/mission_e3_01.gd:157
+#: scripts/campaign/mission_e3_01.gd:163
 msgid "He's on our hill. I'm not waiting for him to plant a flag."
 msgstr "Il est sur notre colline. Je n'attendrai pas qu'il y plante un drapeau."
 
 #. [&"ysolde", "Vessa, hold the crest. Please. Just once, wait."],
-#: scripts/campaign/mission_e3_01.gd:158
+#: scripts/campaign/mission_e3_01.gd:164
 msgid "Vessa, hold the crest. Please. Just once, wait."
 msgstr "Vessa, tiens la crête. S'il te plaît. Juste une fois, attends."
 
 #. [&"obren", "The flag falls. The tree is right there. Take it. TAKE it."],
-#: scripts/campaign/mission_e3_01.gd:159
+#: scripts/campaign/mission_e3_01.gd:165
 msgid "The flag falls. The tree is right there. Take it. TAKE it."
 msgstr "Le drapeau tombe. L'arbre est juste là. Prends-le. PRENDS-LE."
 
 #. [&"torvald", "Malrik. Your hand is shaking. Is that you, or the stone?"],
-#: scripts/campaign/mission_e3_01.gd:160
+#: scripts/campaign/mission_e3_01.gd:166
 msgid "Malrik. Your hand is shaking. Is that you, or the stone?"
 msgstr "Malrik. Ta main tremble. C'est toi, ou la pierre ?"
 
 #. [&"malrik", "It is me, Torvald. It has always been me."],
-#: scripts/campaign/mission_e3_01.gd:161
+#: scripts/campaign/mission_e3_01.gd:167
 msgid "It is me, Torvald. It has always been me."
 msgstr "C'est moi, Torvald. Ça a toujours été moi."
 
 #. [&"ysolde", "Every root on this hill knows your name now. That is not a kindness."],
-#: scripts/campaign/mission_e3_01.gd:162
+#: scripts/campaign/mission_e3_01.gd:168
 msgid "Every root on this hill knows your name now. That is not a kindness."
 msgstr "Chaque racine de cette colline connaît ton nom, maintenant. Ce n'est pas une faveur."
 
 #. [&"hush", "There is always another night."],
-#: scripts/campaign/mission_e3_01.gd:163
+#: scripts/campaign/mission_e3_01.gd:169
 msgid "There is always another night."
 msgstr "Il y a toujours une autre nuit."
 
 #. [&"vessa", "This isn't over, candle-man!"],
-#: scripts/campaign/mission_e3_01.gd:164
+#: scripts/campaign/mission_e3_01.gd:170
 msgid "This isn't over, candle-man!"
 msgstr "Ce n'est pas fini, l'homme à la chandelle !"
 
 #. [&"malrik", "It never is. That is what I like about you."],
-#: scripts/campaign/mission_e3_01.gd:165
+#: scripts/campaign/mission_e3_01.gd:171
 msgid "It never is. That is what I like about you."
 msgstr "Ça ne l'est jamais. C'est ce que j'aime chez toi."
 
 #. [&"malrik", "The ford is mine. The tree is not. Not today."],
-#: scripts/campaign/mission_e3_01.gd:166
+#: scripts/campaign/mission_e3_01.gd:172
 msgid "The ford is mine. The tree is not. Not today."
 msgstr "Le gué est à moi. L'arbre, non. Pas aujourd'hui."
 
 #. [&"malrik", "Tell me to stop again tomorrow, Ysolde. I will not stop."],
-#: scripts/campaign/mission_e3_01.gd:167
+#: scripts/campaign/mission_e3_01.gd:173
 msgid "Tell me to stop again tomorrow, Ysolde. I will not stop."
 msgstr "Dis-moi encore d'arrêter demain, Ysolde. Je n'arrêterai pas."
 
 #. [&"narrator", "The ford fell at dusk. The golden tree still stood. Both hills called it a victory."],
-#: scripts/campaign/mission_e3_01.gd:168
+#: scripts/campaign/mission_e3_01.gd:174
 msgid "The ford fell at dusk. The golden tree still stood. Both hills called it a victory."
 msgstr "Le gué est tombé au crépuscule. L'arbre doré tenait toujours. Les deux collines ont crié victoire."
 
 #. [&"malrik", "Not like this. Not... stopped."],
-#: scripts/campaign/mission_e3_01.gd:169
+#: scripts/campaign/mission_e3_01.gd:175
 msgid "Not like this. Not... stopped."
 msgstr "Pas comme ça. Pas... arrêté."
 
 #. "This spring the Master's door held, and the war came up out of the deep looking for open ground. It found Eve
-#: scripts/campaign/mission_e3_01.gd:172
+#: scripts/campaign/mission_e3_01.gd:178
 msgid "This spring the Master's door held, and the war came up out of the deep looking for open ground. It found Evenmead: knee-high flowers, one slow river, two hills, and the Master's golden tree on the far one."
 msgstr "Ce printemps, la porte du Maître a tenu, et la guerre est remontée des profondeurs en quête de terrain découvert. Elle a trouvé Evenmead : des fleurs jusqu'aux genoux, une rivière lente, deux collines, et l'arbre doré du Maître sur la plus lointaine."
 
 #. "Malrik holds the north ridge with Torvald's winter at his side. On Lark Hill wait Ysolde, who has nothing lef
-#: scripts/campaign/mission_e3_01.gd:173
+#: scripts/campaign/mission_e3_01.gd:179
 msgid "Malrik holds the north ridge with Torvald's winter at his side. On Lark Hill wait Ysolde, who has nothing left but this valley, and Vessa, who never waits for anything. Between them runs the river, and one stone ford."
 msgstr "Malrik tient la crête nord, l'hiver de Torvald à ses côtés. Sur Lark Hill attendent Ysolde, à qui il ne reste que cette vallée, et Vessa, qui n'attend jamais rien. Entre eux coule la rivière, et un gué de pierre."
 
 #. "Take the ford. Then take the foot of their hill, and let them watch from the top. In Malrik's pocket, Obren's
-#: scripts/campaign/mission_e3_01.gd:174
+#: scripts/campaign/mission_e3_01.gd:180
 msgid "Take the ford. Then take the foot of their hill, and let them watch from the top. In Malrik's pocket, Obren's heart-stone beats, and whispers to him."
 msgstr "Prenez le gué. Puis prenez le pied de leur colline, et laissez-les regarder d'en haut. Dans la poche de Malrik, la pierre-cœur d'Obren bat, et elle lui murmure des choses."
 
 #. const HINT_START := "Take the Stone Ford, due south. Fords slow every unit inside: win the fight on the bank,
-#: scripts/campaign/mission_e3_01.gd:176
+#: scripts/campaign/mission_e3_01.gd:182
 msgid "Take the Stone Ford, due south. Fords slow every unit inside: win the fight on the bank, then cross."
 msgstr "Prenez le Stone Ford, plein sud. Les gués ralentissent toute unité qui s'y trouve : gagnez le combat sur la rive, puis traversez."
 
 #. const HINT_STRONGHOLD := "Your Dusk Keep can become a Stronghold: select it and press X (200 crystals). It ope
-#: scripts/campaign/mission_e3_01.gd:177
+#: scripts/campaign/mission_e3_01.gd:183
 msgid "Your Dusk Keep can become a Stronghold: select it and press X (200 crystals). It opens Hexweaver, Hollow Oathsworn (Gloom Hall) · Gloom Deacon (Keep)."
 msgstr "Votre Dusk Keep peut devenir une Forteresse : sélectionnez-le et appuyez sur X (200 cristaux). Elle ouvre Hexweaver, Hollow Oathsworn (Gloom Hall) · Gloom Deacon (donjon)."
 
 #. const HINT_DEACON := "Gloom Deacon: Z Blood Tithe heals an ally and drains the enemy beside it. V Umbral Passa
-#: scripts/campaign/mission_e3_01.gd:178
+#: scripts/campaign/mission_e3_01.gd:184
 msgid "Gloom Deacon: Z Blood Tithe heals an ally and drains the enemy beside it. V Umbral Passage pulls up to 10 soldiers to the Deacon, even across the river."
 msgstr "Gloom Deacon : Z Blood Tithe soigne un allié et draine l'ennemi à côté. V Umbral Passage attire jusqu'à 10 soldats vers le Deacon, même par-dessus la rivière."
 
 #. const HINT_FORD_TAKEN := "Umbral Passage can bring your army over the water. The standards fall faster with mo
-#: scripts/campaign/mission_e3_01.gd:179
+#: scripts/campaign/mission_e3_01.gd:185
 msgid "Umbral Passage can bring your army over the water. The standards fall faster with more soldiers."
 msgstr "Umbral Passage peut faire traverser l'eau à votre armée. Les étendards tombent plus vite avec plus de soldats."
 
 #. const HINT_PASSAGE := "Umbral Passage: bring the army over the water."
-#: scripts/campaign/mission_e3_01.gd:180
+#: scripts/campaign/mission_e3_01.gd:186
 msgid "Umbral Passage: bring the army over the water."
 msgstr "Umbral Passage : faites traverser l'eau à l'armée."
 
 #. const MSG_TORVALD_FELL := "Torvald falls back to the ridge"
-#: scripts/campaign/mission_e3_01.gd:181 scripts/campaign/mission_e3_04.gd:168
+#: scripts/campaign/mission_e3_01.gd:187 scripts/campaign/mission_e3_04.gd:168
 msgid "Torvald falls back to the ridge"
 msgstr "Torvald se replie sur la crête"
 
 #. const MSG_KEEP_BURNS := "Lark Hill burns, but its people hold the crest"
-#: scripts/campaign/mission_e3_01.gd:182
+#: scripts/campaign/mission_e3_01.gd:188
 msgid "Lark Hill burns, but its people hold the crest"
 msgstr "Lark Hill brûle, mais ses gens tiennent la crête"
 
 #. const MSG_HUSH_BACK := "Mother Hush is back at the Dusk Keep"
-#: scripts/campaign/mission_e3_01.gd:183
+#: scripts/campaign/mission_e3_01.gd:189
 msgid "Mother Hush is back at the Dusk Keep"
 msgstr "Mother Hush est de retour au Dusk Keep"
 
 #. c.keep_lost_message = "The Dusk Keep has fallen"
-#: scripts/campaign/mission_e3_01.gd:248 scripts/campaign/mission_e3_04.gd:253
+#: scripts/campaign/mission_e3_01.gd:254 scripts/campaign/mission_e3_04.gd:253
 msgid "The Dusk Keep has fallen"
 msgstr "Le Dusk Keep est tombé"
 
 #. c.victory_banner = "VICTORY\nThe ford is Malrik's"
-#: scripts/campaign/mission_e3_01.gd:260
+#: scripts/campaign/mission_e3_01.gd:266
 msgid "VICTORY\nThe ford is Malrik's"
 msgstr "VICTOIRE\nLe gué est à Malrik"
 
 #. c.spotlight = {"id": &"gloom_deacon", "trigger": &"unlock", "key_hint": "Dusk Keep: B",
-#: scripts/campaign/mission_e3_01.gd:266
+#: scripts/campaign/mission_e3_01.gd:272
 msgid "Dusk Keep: B"
 msgstr "Dusk Keep : B"
 
 #. "card": "Gloom Deacon. Heals your soldiers with their enemies' blood, and opens a road through the dark."}
-#: scripts/campaign/mission_e3_01.gd:267
+#: scripts/campaign/mission_e3_01.gd:273
 msgid "Gloom Deacon. Heals your soldiers with their enemies' blood, and opens a road through the dark."
 msgstr "Gloom Deacon. Soigne vos soldats avec le sang de leurs ennemis, et ouvre une route dans l'ombre."
 
 #. return "Episode 3, Mission 1: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e3_01.gd:284
+#: scripts/campaign/mission_e3_01.gd:290
 msgid "Episode 3, Mission 1: %s"
 msgstr "Épisode 3, mission 1 : %s"
 
 #. t.display_name = "Horn Spire"
-#: scripts/campaign/mission_e3_01.gd:304 scripts/campaign/mission_e4_01.gd:351
+#: scripts/campaign/mission_e3_01.gd:310 scripts/campaign/mission_e4_01.gd:351
 msgid "Horn Spire"
 msgstr "Horn Spire"
 
 #. {"id": &"ford_stone", "name": "Stone Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_STONE, "width": 9.0}
-#: scripts/campaign/mission_e3_01.gd:454 scripts/campaign/mission_e3_01.gd:659
+#: scripts/campaign/mission_e3_01.gd:460 scripts/campaign/mission_e3_01.gd:666
 #: scripts/campaign/mission_e4_01.gd:822
 msgid "Stone Ford"
 msgstr "Stone Ford"
 
 #. {"id": &"ford_reed", "name": "Reed Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_REED, "width": 6.0},
-#: scripts/campaign/mission_e3_01.gd:455 scripts/world/skirmish.gd:151
+#: scripts/campaign/mission_e3_01.gd:461 scripts/world/skirmish.gd:151
 msgid "Reed Ford"
 msgstr "Reed Ford"
 
 #. {"id": &"ford_birch", "name": "Birch Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_BIRCH, "width": 6.0}
-#: scripts/campaign/mission_e3_01.gd:456
+#: scripts/campaign/mission_e3_01.gd:462
 msgid "Birch Ford"
 msgstr "Birch Ford"
 
 #. p.id = StringName("mission_e3_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
-#: scripts/campaign/mission_e3_01.gd:616
+#: scripts/campaign/mission_e3_01.gd:622
 msgid "mission_e3_01_%s"
 msgstr "mission_e3_01_%s"
 
 #. return "Take the Stone Ford (%d %%)" % int(100.0 * ford_zone.progress)
-#: scripts/campaign/mission_e3_01.gd:709
+#: scripts/campaign/mission_e3_01.gd:716
 msgid "Take the Stone Ford (%d %%)"
 msgstr "Prendre le Stone Ford (%d %%)"
 
 #. return "Take the Stone Ford"
-#: scripts/campaign/mission_e3_01.gd:710
+#: scripts/campaign/mission_e3_01.gd:717
 msgid "Take the Stone Ford"
 msgstr "Prendre le Stone Ford"
 
 #. return "Take the foot of Lark Hill (%d / 3)" % standards_owned()
-#: scripts/campaign/mission_e3_01.gd:713
+#: scripts/campaign/mission_e3_01.gd:720
 msgid "Take the foot of Lark Hill (%d / 3)"
 msgstr "Prendre le pied de Lark Hill (%d / 3)"
 
 #. return "Take the foot of Lark Hill"
-#: scripts/campaign/mission_e3_01.gd:714
+#: scripts/campaign/mission_e3_01.gd:721
 msgid "Take the foot of Lark Hill"
 msgstr "Prendre le pied de Lark Hill"
 
 #. return "Hold the foot of Lark Hill (%d:%02d, paused)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e3_01.gd:719
+#: scripts/campaign/mission_e3_01.gd:726
 msgid "Hold the foot of Lark Hill (%d:%02d, paused)"
 msgstr "Tenir le pied de Lark Hill (%d:%02d, en pause)"
 
 #. return "Hold the foot of Lark Hill (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e3_01.gd:720
+#: scripts/campaign/mission_e3_01.gd:727
 msgid "Hold the foot of Lark Hill (%d:%02d)"
 msgstr "Tenir le pied de Lark Hill (%d:%02d)"
 
 #. return "Hold the foot of Lark Hill"
-#: scripts/campaign/mission_e3_01.gd:721
+#: scripts/campaign/mission_e3_01.gd:728
 msgid "Hold the foot of Lark Hill"
 msgstr "Tenir le pied de Lark Hill"
 
 #. return "Malrik must survive"
-#: scripts/campaign/mission_e3_01.gd:723 scripts/campaign/mission_e3_02.gd:604
+#: scripts/campaign/mission_e3_01.gd:730 scripts/campaign/mission_e3_02.gd:604
 #: scripts/campaign/mission_e3_03.gd:479 scripts/campaign/mission_e3_04.gd:672
 #: scripts/campaign/mission_e8_01_shadow.gd:200
 msgid "Malrik must survive"
 msgstr "Malrik doit survivre"
 
 #. return "Silence the Lark horns (%d / 2)" % horns_down
-#: scripts/campaign/mission_e3_01.gd:726
+#: scripts/campaign/mission_e3_01.gd:733
 msgid "Silence the Lark horns (%d / 2)"
 msgstr "Faire taire les cors de l'Alouette (%d / 2)"
 
 #. return "Silence the Lark horns"
-#: scripts/campaign/mission_e3_01.gd:727
+#: scripts/campaign/mission_e3_01.gd:734
 msgid "Silence the Lark horns"
 msgstr "Faire taire les cors de l'Alouette"
 
 #. return "Drive Vessa off the field"
-#: scripts/campaign/mission_e3_01.gd:729
+#: scripts/campaign/mission_e3_01.gd:736
 msgid "Drive Vessa off the field"
 msgstr "Chasser Vessa du champ de bataille"
 
@@ -10505,7 +10505,7 @@ msgid "Not while the Outwall's people are walking"
 msgstr "Pas pendant que les gens de l'Outwall marchent"
 
 #. rows.append([Loc.t("Pay {name} home ({price})", {"name": PAY_NAMES[id], "price": pay_price(id)}),
-#: scripts/campaign/mission_e7_04.gd:701
+#: scripts/campaign/mission_e7_04.gd:702
 msgid "Pay {name} home ({price})"
 msgstr "Renvoyer {name} chez lui ({price})"
 
@@ -10903,7 +10903,7 @@ msgid "Sink Malrik's silver galleys"
 msgstr "Coule les galères d'argent de Malrik"
 
 #. return "Not during the turn"
-#: scripts/campaign/mission_e7_04.gd:1105
+#: scripts/campaign/mission_e7_04.gd:1108
 msgid "Not during the turn"
 msgstr "Pas pendant le revirement"
 
@@ -11857,29 +11857,150 @@ msgstr "%s%s.tscn"
 msgid "Warden Gate"
 msgstr "Warden Gate"
 
-#. register_actor("watch_%s" % String(id), z)
-#: scripts/campaign/mission_e3_04.gd:536
-#~ msgid "watch_%s"
+#. &"e8m1_ice": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9b", "L9", "L10", "L11", "L12", "L13", "L14",
+#: scripts/campaign/e8_lines.gd:9 scripts/campaign/mission_e8_01_ice.gd:397
+#~ msgid "L9b"
 #~ msgstr ""
 
-#. register_actor("zone_%s" % String(id), z)
-#: scripts/campaign/mission_e3_01.gd:682 scripts/campaign/mission_e4_01.gd:844
-#~ msgid "zone_%s"
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e8_02.gd:546
+#~ msgid "L38b"
 #~ msgstr ""
 
-#. register_actor("sunstone_%s" % String(row[0]), b)
-#: scripts/campaign/mission_e2_04.gd:417
-#~ msgid "sunstone_%s"
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L39_malrik"
 #~ msgstr ""
 
-#. register_actor("heart_%s" % String(id), h)
-#: scripts/campaign/mission_03.gd:451
-#~ msgid "heart_%s"
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L39_torvald"
 #~ msgstr ""
 
-#. register_actor("block_%s" % String(row[0]), b)
-#: scripts/campaign/mission_02.gd:450
-#~ msgid "block_%s"
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L39_vessa"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L39_ysolde"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L9_malrik"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L9_torvald"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L9_vessa"
+#~ msgstr ""
+
+#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
+#: scripts/campaign/e8_lines.gd:11
+#~ msgid "L9_ysolde"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L10_malrik"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L10_torvald"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L10_vessa"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L10_ysolde"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
+#~ msgid "L11_malrik"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
+#~ msgid "L11_torvald"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
+#~ msgid "L11_vessa"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:402
+#~ msgid "L11_vey"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
+#~ msgid "L11_ysolde"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L13_malrik"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L13_torvald"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L13_vessa"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L13_ysolde"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L28_malrik"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L28_torvald"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L28_vessa"
+#~ msgstr ""
+
+#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
+#: scripts/campaign/e8_lines.gd:12
+#~ msgid "L28_ysolde"
+#~ msgstr ""
+
+#. flags["e8_road_%s" % r[0]] = StringName(r[0]) == k
+#: scripts/campaign/e8_story_screen.gd:121 scripts/campaign/mission_e8_01.gd:240
+#~ msgid "e8_road_%s"
+#~ msgstr ""
+
+#. var id := StringName("e8m1_%s" % k)
+#: scripts/campaign/e8_story_screen.gd:123 scripts/campaign/mission_e8_01.gd:102
+#: scripts/campaign/mission_e8_01.gd:109
+#~ msgid "e8m1_%s"
 #~ msgstr ""
 
 #. register_actor("brazier_%s" % String(row[0]), b)
@@ -11887,19 +12008,14 @@ msgstr "Warden Gate"
 #~ msgid "brazier_%s"
 #~ msgstr ""
 
-#. if t >= W0A_AT and not waves_fired.has("W0a"):
-#: scripts/campaign/mission_e6_02.gd:740 scripts/campaign/mission_e6_02.gd:741
-#~ msgid "W0a"
+#. register_actor("block_%s" % String(row[0]), b)
+#: scripts/campaign/mission_02.gd:450
+#~ msgid "block_%s"
 #~ msgstr ""
 
-#. _lake_at.append([LAKE2_AT - TELEGRAPH, LAKE2_AT, [[WARDEN_ID, 3], [BREAKER_ID, 1]], "LAKE2"])
-#: scripts/campaign/mission_e6_02.gd:655
-#~ msgid "LAKE2"
-#~ msgstr ""
-
-#. if t >= W0B_AT and not waves_fired.has("W0b"):
-#: scripts/campaign/mission_e6_02.gd:745 scripts/campaign/mission_e6_02.gd:746
-#~ msgid "W0b"
+#. register_actor("heart_%s" % String(id), h)
+#: scripts/campaign/mission_03.gd:451
+#~ msgid "heart_%s"
 #~ msgstr ""
 
 #. const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"messenger": "Wren", &"ashby": "Captain Ashby",
@@ -11909,75 +12025,44 @@ msgstr "Warden Gate"
 #~ msgid "Wren"
 #~ msgstr "Wren"
 
+#. register_actor("sunstone_%s" % String(row[0]), b)
+#: scripts/campaign/mission_e2_04.gd:417
+#~ msgid "sunstone_%s"
+#~ msgstr ""
+
+#. register_actor("zone_%s" % String(id), z)
+#: scripts/campaign/mission_e3_01.gd:682 scripts/campaign/mission_e4_01.gd:844
+#~ msgid "zone_%s"
+#~ msgstr ""
+
 #. const SPEAKER_NAMES := {&"malrik": "Malrik", &"hush": "Mother Hush", &"obren": "Obren", &"shade": "Shade Capta
 #: scripts/campaign/mission_e3_03.gd:85
 #~ msgid "Shade Captain"
 #~ msgstr "Capitaine Shade"
 
-#. if t >= FINAL_AT and not waves_fired.has("FINAL"):
-#: scripts/campaign/mission_e6_02.gd:783 scripts/campaign/mission_e6_02.gd:784
-#: scripts/campaign/mission_e6_02.gd:794
-#~ msgid "FINAL"
+#. "card": "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."}
+#: scripts/campaign/mission_e3_04.gd:263
+#~ msgid "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."
+#~ msgstr "Nightmare Knight. Le cavalier titan de l'Ombre : une longue charge que même une tempête ne peut arrêter."
+
+#. register_actor("watch_%s" % String(id), z)
+#: scripts/campaign/mission_e3_04.gd:536
+#~ msgid "watch_%s"
 #~ msgstr ""
 
-#. if t >= BREACH_AT and not waves_fired.has("BREACH"):
-#: scripts/campaign/mission_e6_02.gd:773 scripts/campaign/mission_e6_02.gd:774
-#~ msgid "BREACH"
+#. "L15", "L15b", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29
+#: scripts/campaign/mission_e4_01.gd:149 scripts/campaign/mission_e4_01.gd:1520
+#~ msgid "L15b"
 #~ msgstr ""
 
-#. _column(pick, [[WARDEN_ID, 3]], "SIEGE")
-#: scripts/campaign/mission_e6_02.gd:763
-#~ msgid "SIEGE"
+#. p.id = StringName("mission_e4_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
+#: scripts/campaign/mission_e4_01.gd:774
+#~ msgid "mission_e4_01_%s"
 #~ msgstr ""
 
-#. _column(gid, [[WARDEN_ID, 3]], "ROAD")
-#: scripts/campaign/mission_e6_02.gd:755
-#~ msgid "ROAD"
-#~ msgstr ""
-
-#. if t >= A_TIMES[i] - 30.0 and fire_once(StringName("pre_A%d" % i)):
-#: scripts/campaign/mission_e7_01.gd:513
-#~ msgid "pre_A%d"
-#~ msgstr ""
-
-#. set_mission_flag("e7m1_%s_won" % ["kesh", "morrow", "ossavar"][i], true)
-#: scripts/campaign/mission_e7_01.gd:432
-#~ msgid "e7m1_%s_won"
-#~ msgstr ""
-
-#. fire_once(StringName("E9a_%d" % i))
-#: scripts/campaign/mission_e7_01.gd:422
-#~ msgid "E9a_%d"
-#~ msgstr ""
-
-#. waves_fired.append("Final")
-#: scripts/campaign/mission_e7_01.gd:799
-#~ msgid "Final"
-#~ msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
-#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:444
-#~ msgid "L10b"
-#~ msgstr ""
-
-#. const HINT_SHADOW := "Violet ground is shadow: there your units are hidden unless a light touches them. Lamps
-#: scripts/campaign/mission_e5_03.gd:145
-#~ msgid "Violet ground is shadow: there your units are hidden unless a light touches them. Lamps and lanterns show you to the wardens."
-#~ msgstr "Le sol violet est de l'ombre : vos unités y sont cachées, sauf si une lumière les touche. Les lampes et les lanternes vous montrent aux gardiens."
-
-#. [&"narrator", "The wallwardens are rubble. The Winterheart stands alone, and it is cracking."],
-#: scripts/campaign/mission_e4_04.gd:141
-#~ msgid "The wallwardens are rubble. The Winterheart stands alone, and it is cracking."
-#~ msgstr ""
-
-#. "L15", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L22b", "L23", "L24", "L25", "L26", "L27", "L28", "L29
-#: scripts/campaign/mission_e4_04.gd:118 scripts/campaign/mission_e4_04.gd:925
-#~ msgid "L22b"
-#~ msgstr ""
-
-#. if hud and fire_once(StringName("clear_%s" % id)):
-#: scripts/campaign/mission_e4_03.gd:948
-#~ msgid "clear_%s"
+#. if hud and fire_once(StringName("locked_%s" % id)):
+#: scripts/campaign/mission_e4_01.gd:1354
+#~ msgid "locked_%s"
 #~ msgstr ""
 
 #. if has_fired(StringName("woke_%s" % gid)):
@@ -11985,9 +12070,19 @@ msgstr "Warden Gate"
 #~ msgid "woke_%s"
 #~ msgstr ""
 
-#. "L15", "L15b", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29
-#: scripts/campaign/mission_e4_01.gd:149 scripts/campaign/mission_e4_01.gd:1520
-#~ msgid "L15b"
+#. if hud and fire_once(StringName("clear_%s" % id)):
+#: scripts/campaign/mission_e4_03.gd:948
+#~ msgid "clear_%s"
+#~ msgstr ""
+
+#. "L15", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L22b", "L23", "L24", "L25", "L26", "L27", "L28", "L29
+#: scripts/campaign/mission_e4_04.gd:118 scripts/campaign/mission_e4_04.gd:925
+#~ msgid "L22b"
+#~ msgstr ""
+
+#. [&"narrator", "The wallwardens are rubble. The Winterheart stands alone, and it is cracking."],
+#: scripts/campaign/mission_e4_04.gd:141
+#~ msgid "The wallwardens are rubble. The Winterheart stands alone, and it is cracking."
 #~ msgstr ""
 
 #. "Break the Wall's two wallwardens and the Winterheart that feeds it. Then go to Aldra's Glass Spire and end th
@@ -12000,10 +12095,10 @@ msgstr "Warden Gate"
 #~ msgid "mission_e4_04_%s"
 #~ msgstr ""
 
-#. return "Do not lose 30 of the Outwall's 40 people"
-#: scripts/campaign/mission_e7_03.gd:421
-#~ msgid "Do not lose 30 of the Outwall's 40 people"
-#~ msgstr "Ne perds pas 30 des 40 habitants de l'Outwall"
+#. const HINT_SHADOW := "Violet ground is shadow: there your units are hidden unless a light touches them. Lamps
+#: scripts/campaign/mission_e5_03.gd:145
+#~ msgid "Violet ground is shadow: there your units are hidden unless a light touches them. Lamps and lanterns show you to the wardens."
+#~ msgstr "Le sol violet est de l'ombre : vos unités y sont cachées, sauf si une lumière les touche. Les lampes et les lanternes vous montrent aux gardiens."
 
 #. const HINT_SEEN := "Seen! Get back into the dark and stay there: the wardens lose you after 6 seconds."
 #: scripts/campaign/mission_e5_03.gd:163
@@ -12015,14 +12110,50 @@ msgstr "Warden Gate"
 #~ msgid "W3c"
 #~ msgstr ""
 
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
-#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:613
-#~ msgid "L18c"
+#. _lake_at.append([chose_at + 40.0, chose_at + 60.0, [[WARDEN_ID, 4], [BREAKER_ID, 1]], "LAKE1"])
+#: scripts/campaign/mission_e6_02.gd:630 scripts/campaign/mission_e6_02.gd:648
+#~ msgid "LAKE1"
 #~ msgstr ""
 
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
-#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:610
-#~ msgid "L18b"
+#. _lake_at.append([LAKE2_AT - TELEGRAPH, LAKE2_AT, [[WARDEN_ID, 3], [BREAKER_ID, 1]], "LAKE2"])
+#: scripts/campaign/mission_e6_02.gd:655
+#~ msgid "LAKE2"
+#~ msgstr ""
+
+#. if t >= W0A_AT and not waves_fired.has("W0a"):
+#: scripts/campaign/mission_e6_02.gd:740 scripts/campaign/mission_e6_02.gd:741
+#~ msgid "W0a"
+#~ msgstr ""
+
+#. if t >= W0B_AT and not waves_fired.has("W0b"):
+#: scripts/campaign/mission_e6_02.gd:745 scripts/campaign/mission_e6_02.gd:746
+#~ msgid "W0b"
+#~ msgstr ""
+
+#. _column(gid, [[WARDEN_ID, 3]], "ROAD")
+#: scripts/campaign/mission_e6_02.gd:755
+#~ msgid "ROAD"
+#~ msgstr ""
+
+#. _column(pick, [[WARDEN_ID, 3]], "SIEGE")
+#: scripts/campaign/mission_e6_02.gd:763
+#~ msgid "SIEGE"
+#~ msgstr ""
+
+#. if t >= BREACH_AT and not waves_fired.has("BREACH"):
+#: scripts/campaign/mission_e6_02.gd:773 scripts/campaign/mission_e6_02.gd:774
+#~ msgid "BREACH"
+#~ msgstr ""
+
+#. if t >= FINAL_AT and not waves_fired.has("FINAL"):
+#: scripts/campaign/mission_e6_02.gd:783 scripts/campaign/mission_e6_02.gd:784
+#: scripts/campaign/mission_e6_02.gd:794
+#~ msgid "FINAL"
+#~ msgstr ""
+
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
+#: scripts/campaign/mission_e7_01.gd:75 scripts/campaign/mission_e7_01.gd:788
+#~ msgid "L16b"
 #~ msgstr ""
 
 #. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
@@ -12030,9 +12161,44 @@ msgstr "Warden Gate"
 #~ msgid "L23a"
 #~ msgstr ""
 
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L
-#: scripts/campaign/mission_e7_01.gd:75 scripts/campaign/mission_e7_01.gd:788
-#~ msgid "L16b"
+#. fire_once(StringName("E9a_%d" % i))
+#: scripts/campaign/mission_e7_01.gd:422
+#~ msgid "E9a_%d"
+#~ msgstr ""
+
+#. set_mission_flag("e7m1_%s_won" % ["kesh", "morrow", "ossavar"][i], true)
+#: scripts/campaign/mission_e7_01.gd:432
+#~ msgid "e7m1_%s_won"
+#~ msgstr ""
+
+#. if t >= A_TIMES[i] - 30.0 and fire_once(StringName("pre_A%d" % i)):
+#: scripts/campaign/mission_e7_01.gd:513
+#~ msgid "pre_A%d"
+#~ msgstr ""
+
+#. waves_fired.append("Final")
+#: scripts/campaign/mission_e7_01.gd:799
+#~ msgid "Final"
+#~ msgstr ""
+
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
+#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:444
+#~ msgid "L10b"
+#~ msgstr ""
+
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
+#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:606
+#~ msgid "L18a"
+#~ msgstr ""
+
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
+#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:610
+#~ msgid "L18b"
+#~ msgstr ""
+
+#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
+#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:613
+#~ msgid "L18c"
 #~ msgstr ""
 
 #. if has_fired(StringName("box_%d" % i)):
@@ -12080,6 +12246,11 @@ msgstr "Warden Gate"
 #~ msgid "L7b"
 #~ msgstr ""
 
+#. return "Do not lose 30 of the Outwall's 40 people"
+#: scripts/campaign/mission_e7_03.gd:421
+#~ msgid "Do not lose 30 of the Outwall's 40 people"
+#~ msgstr "Ne perds pas 30 des 40 habitants de l'Outwall"
+
 #. if t >= float(p[0]) and fire_once(StringName("PG_%s" % p[1])):
 #: scripts/campaign/mission_e7_03.gd:766
 #~ msgid "PG_%s"
@@ -12115,230 +12286,9 @@ msgstr "Warden Gate"
 #~ msgid "refuse_%d_%d"
 #~ msgstr ""
 
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L9_ysolde"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11 scripts/campaign/mission_e8_02.gd:546
-#~ msgid "L38b"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L39_vessa"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L39_malrik"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L39_torvald"
-#~ msgstr ""
-
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L39_ysolde"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L10_vessa"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L10_malrik"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L10_torvald"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L10_ysolde"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:402
-#~ msgid "L11_vey"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
-#~ msgid "L11_vessa"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
-#~ msgid "L11_malrik"
-#~ msgstr ""
-
-#. var id := StringName("e8m1_%s" % k)
-#: scripts/campaign/e8_story_screen.gd:123 scripts/campaign/mission_e8_01.gd:102
-#: scripts/campaign/mission_e8_01.gd:109
-#~ msgid "e8m1_%s"
-#~ msgstr ""
-
-#. flags["e8_road_%s" % r[0]] = StringName(r[0]) == k
-#: scripts/campaign/e8_story_screen.gd:121 scripts/campaign/mission_e8_01.gd:240
-#~ msgid "e8_road_%s"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L28_ysolde"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L28_torvald"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L28_malrik"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L28_vessa"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
-#~ msgid "L11_torvald"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12 scripts/campaign/mission_e8_03.gd:55
-#~ msgid "L11_ysolde"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L13_vessa"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L13_malrik"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L13_torvald"
-#~ msgstr ""
-
-#. &"e8m3": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L12", "L14", "L15", "L16", "L17", "L18", "L19
-#: scripts/campaign/e8_lines.gd:12
-#~ msgid "L13_ysolde"
-#~ msgstr ""
-
-#. if hud and fire_once(StringName("locked_%s" % id)):
-#: scripts/campaign/mission_e4_01.gd:1354
-#~ msgid "locked_%s"
-#~ msgstr ""
-
-#. "card": "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."}
-#: scripts/campaign/mission_e3_04.gd:263
-#~ msgid "Nightmare Knight. Shadow's titan rider: a long charge that even a storm cannot stand in front of."
-#~ msgstr "Nightmare Knight. Le cavalier titan de l'Ombre : une longue charge que même une tempête ne peut arrêter."
-
-#. p.id = StringName("mission_e4_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
-#: scripts/campaign/mission_e4_01.gd:774
-#~ msgid "mission_e4_01_%s"
-#~ msgstr ""
-
-#. _lake_at.append([chose_at + 40.0, chose_at + 60.0, [[WARDEN_ID, 4], [BREAKER_ID, 1]], "LAKE1"])
-#: scripts/campaign/mission_e6_02.gd:630 scripts/campaign/mission_e6_02.gd:648
-#~ msgid "LAKE1"
-#~ msgstr ""
-
-#. const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L10b", "L11", "
-#: scripts/campaign/mission_e7_02.gd:77 scripts/campaign/mission_e7_02.gd:606
-#~ msgid "L18a"
-#~ msgstr ""
-
-#. var v: Variant = crystal_nodes.get(StringName("e8s%d_%s" % [team, suffix]))
-#: scripts/campaign/mission_e8_muster.gd:135 scripts/campaign/mission_e8_muster.gd:185
-#~ msgid "e8s%d_%s"
-#~ msgstr ""
-
-#. if fire_once(StringName("calls_%d" % int(t / 30.0))):
-#: scripts/campaign/mission_e8_03.gd:605
-#~ msgid "calls_%d"
-#~ msgstr ""
-
-#. waves_fired.append("Remnant")
-#: scripts/campaign/mission_e8_03.gd:433
-#~ msgid "Remnant"
-#~ msgstr ""
-
-#. waves_fired.append("pit%s" % SEAT_NAMES[s])
-#: scripts/campaign/mission_e8_03.gd:366
-#~ msgid "pit%s"
-#~ msgstr ""
-
-#. waves_fired.append("pressure%s" % SEAT_NAMES[s])
-#: scripts/campaign/mission_e8_02.gd:417
-#~ msgid "pressure%s"
-#~ msgstr ""
-
-#. if float(muster[s]) >= 50.0 and fire_once(StringName("push_%d" % s)):
-#: scripts/campaign/mission_e8_02.gd:392
-#~ msgid "push_%d"
-#~ msgstr ""
-
-#. waves_fired.append("Rush")
-#: scripts/campaign/mission_e8_02.gd:321
-#~ msgid "Rush"
-#~ msgstr ""
-
-#. waves_fired.append("Column")
-#: scripts/campaign/mission_e8_02.gd:306
-#~ msgid "Column"
-#~ msgstr ""
-
-#. waves_fired.append("crack%s" % SEAT_NAMES[s])
-#: scripts/campaign/mission_e8_02.gd:284
-#~ msgid "crack%s"
-#~ msgstr ""
-
-#. var hg := add_warden_gate(StringName("gate_%s" % SEAT_NAMES[s]), _gate_pos(s), rally_of(s), 1800.0, 0.0, Calla
-#: scripts/campaign/mission_e8_02.gd:134
-#~ msgid "gate_%s"
-#~ msgstr ""
-
-#. var g := add_warden_gate(StringName("pylon_%s" % SEAT_NAMES[s]), keyhole_of(s), CRACK, float(PYLON_HP[diff]),
-#: scripts/campaign/mission_e8_02.gd:128
-#~ msgid "pylon_%s"
-#~ msgstr ""
-
-#. waves_fired.append("Bridgehead")
-#: scripts/campaign/mission_e8_01_nature.gd:345
-#~ msgid "Bridgehead"
-#~ msgstr ""
-
-#. waves_fired.append("Raid%d" % i)
-#: scripts/campaign/mission_e8_01_nature.gd:285
-#~ msgid "Raid%d"
-#~ msgstr ""
-
-#. if fire_once(StringName("spires_%d" % knots_open)) and hud:
-#: scripts/campaign/mission_e8_01_nature.gd:228
-#~ msgid "spires_%d"
-#~ msgstr ""
-
-#. if fire_once(StringName("tight_%d" % knots_open)) and hud:
-#: scripts/campaign/mission_e8_01_nature.gd:223
-#~ msgid "tight_%d"
+#. set_objective(StringName("obj_%s" % wizard_id()), "failed")
+#: scripts/campaign/mission_e8_01.gd:247
+#~ msgid "obj_%s"
 #~ msgstr ""
 
 #. waves_fired.append("Overrun")
@@ -12346,27 +12296,77 @@ msgstr "Warden Gate"
 #~ msgid "Overrun"
 #~ msgstr ""
 
-#. set_objective(StringName("obj_%s" % wizard_id()), "failed")
-#: scripts/campaign/mission_e8_01.gd:247
-#~ msgid "obj_%s"
+#. if fire_once(StringName("tight_%d" % knots_open)) and hud:
+#: scripts/campaign/mission_e8_01_nature.gd:223
+#~ msgid "tight_%d"
 #~ msgstr ""
 
-#. &"e8m1_ice": ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9b", "L9", "L10", "L11", "L12", "L13", "L14",
-#: scripts/campaign/e8_lines.gd:9 scripts/campaign/mission_e8_01_ice.gd:397
-#~ msgid "L9b"
+#. if fire_once(StringName("spires_%d" % knots_open)) and hud:
+#: scripts/campaign/mission_e8_01_nature.gd:228
+#~ msgid "spires_%d"
 #~ msgstr ""
 
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L9_vessa"
+#. waves_fired.append("Raid%d" % i)
+#: scripts/campaign/mission_e8_01_nature.gd:285
+#~ msgid "Raid%d"
 #~ msgstr ""
 
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L9_malrik"
+#. waves_fired.append("Bridgehead")
+#: scripts/campaign/mission_e8_01_nature.gd:345
+#~ msgid "Bridgehead"
 #~ msgstr ""
 
-#. &"e8m2": ["L1", "L2", "L3", "L4", "L5", "L5b", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14", "L15", "L1
-#: scripts/campaign/e8_lines.gd:11
-#~ msgid "L9_torvald"
+#. var g := add_warden_gate(StringName("pylon_%s" % SEAT_NAMES[s]), keyhole_of(s), CRACK, float(PYLON_HP[diff]),
+#: scripts/campaign/mission_e8_02.gd:128
+#~ msgid "pylon_%s"
+#~ msgstr ""
+
+#. var hg := add_warden_gate(StringName("gate_%s" % SEAT_NAMES[s]), _gate_pos(s), rally_of(s), 1800.0, 0.0, Calla
+#: scripts/campaign/mission_e8_02.gd:134
+#~ msgid "gate_%s"
+#~ msgstr ""
+
+#. waves_fired.append("crack%s" % SEAT_NAMES[s])
+#: scripts/campaign/mission_e8_02.gd:284
+#~ msgid "crack%s"
+#~ msgstr ""
+
+#. waves_fired.append("Column")
+#: scripts/campaign/mission_e8_02.gd:306
+#~ msgid "Column"
+#~ msgstr ""
+
+#. waves_fired.append("Rush")
+#: scripts/campaign/mission_e8_02.gd:321
+#~ msgid "Rush"
+#~ msgstr ""
+
+#. if float(muster[s]) >= 50.0 and fire_once(StringName("push_%d" % s)):
+#: scripts/campaign/mission_e8_02.gd:392
+#~ msgid "push_%d"
+#~ msgstr ""
+
+#. waves_fired.append("pressure%s" % SEAT_NAMES[s])
+#: scripts/campaign/mission_e8_02.gd:417
+#~ msgid "pressure%s"
+#~ msgstr ""
+
+#. waves_fired.append("pit%s" % SEAT_NAMES[s])
+#: scripts/campaign/mission_e8_03.gd:366
+#~ msgid "pit%s"
+#~ msgstr ""
+
+#. waves_fired.append("Remnant")
+#: scripts/campaign/mission_e8_03.gd:433
+#~ msgid "Remnant"
+#~ msgstr ""
+
+#. if fire_once(StringName("calls_%d" % int(t / 30.0))):
+#: scripts/campaign/mission_e8_03.gd:605
+#~ msgid "calls_%d"
+#~ msgstr ""
+
+#. var v: Variant = crystal_nodes.get(StringName("e8s%d_%s" % [team, suffix]))
+#: scripts/campaign/mission_e8_muster.gd:135 scripts/campaign/mission_e8_muster.gd:185
+#~ msgid "e8s%d_%s"
 #~ msgstr ""

@@ -180,7 +180,7 @@ func to_text() -> String:
 	out.append("")
 	for e in entries:
 		for n: String in e["notes"]:
-			out.append("#. " + n)
+			out.append("#. " + n.strip_edges())   # parse() strips: a re-read file stays byte-identical
 		var refs: PackedStringArray = e["refs"]
 		var line := ""
 		for r in refs:

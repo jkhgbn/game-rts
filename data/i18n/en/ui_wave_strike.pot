@@ -83,7 +83,7 @@ msgid_plural "{n} held at home"
 msgstr[0] ""
 msgstr[1] ""
 
-#. tooltip_text = Loc.tn("Lane cap reached: {n} unit of this horn waits at the Bastion and marches with the next 
+#. tooltip_text = Loc.tn("Lane cap reached: {n} unit of this horn waits at the Bastion and marches with the next
 #: scripts/ui/wave_strike/field_counter.gd:58
 msgid "Lane cap reached: {n} unit of this horn waits at the Bastion and marches with the next horn"
 msgid_plural "Lane cap reached: {n} units of this horn wait at the Bastion and march with the next horn"

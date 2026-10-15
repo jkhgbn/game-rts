@@ -30,7 +30,7 @@ msgstr ""
 msgid "Horn {n}: the wave marches"
 msgstr ""
 
-#. var msg := Loc.t("Research complete: {name} ({unit})", {"name": str(row.get("name", id)), "unit": ", ".join(un
+#. var msg := Loc.t("Research complete: {name} ({unit})", {"name": Loc.sink(str(row.get("name", id))), "unit": ",
 #: scripts/ui/alert_stack.gd:297
 msgid "Research complete: {name} ({unit})"
 msgstr ""
@@ -41,11 +41,11 @@ msgid "A bounty is on your head"
 msgstr ""
 
 #. var n := str(type.get("display_name")) if type is Object else "Building"
-#: scripts/ui/alert_stack.gd:230 scripts/ui/control_group_bar.gd:224 scripts/ui/selection_panel.gd:646
+#: scripts/ui/alert_stack.gd:230 scripts/ui/control_group_bar.gd:224 scripts/ui/selection_panel.gd:657
 msgid "Building"
 msgstr ""
 
-#. tooltip_text = "Army  [F2]\nClick / F2: select every soldier (twice: centre on them)\nShift+click / Shift+F2: 
+#. tooltip_text = "Army  [F2]\nClick / F2: select every soldier (twice: centre on them)\nShift+click / Shift+F2:
 #: scripts/ui/army_button.gd:31
 msgid "Army  [F2]\nClick / F2: select every soldier (twice: centre on them)\nShift+click / Shift+F2: add them to the selection"
 msgstr ""
@@ -88,260 +88,260 @@ msgid "Type a command (dance 1 / 2 / 3) - Enter to send, Esc to close"
 msgstr ""
 
 #. + ("\n" + Loc.t("(current)") if helper.stance == st else "")
-#: scripts/ui/command_card.gd:640
+#: scripts/ui/command_card.gd:643
 msgid "(current)"
 msgstr ""
 
 #. var raise_tip := Loc.t("Raise +%d  [Z]\nStake %d -> %d (max %d)\nShift+Z: +%d") % [BountyMode.RAISE_STEP, stak
-#: scripts/ui/command_card.gd:695
+#: scripts/ui/command_card.gd:698
 msgid "Raise +%d  [Z]\nStake %d -> %d (max %d)\nShift+Z: +%d"
 msgstr ""
 
 #. return Loc.t("Remove  [Delete]\nRefund %d (100 %%): nobody pursues it.") % refund
-#: scripts/ui/command_card.gd:708
+#: scripts/ui/command_card.gd:711
 msgid "Remove  [Delete]\nRefund %d (100 %%): nobody pursues it."
 msgstr ""
 
 #. return Loc.tn("Remove  [Delete]\nRefund {refund} (50 %) · {unpaid} to the {n} pursuer",
-#: scripts/ui/command_card.gd:710
+#: scripts/ui/command_card.gd:713
 msgid "Remove  [Delete]\nRefund {refund} (50 %) · {unpaid} to the {n} pursuer"
 msgid_plural "Remove  [Delete]\nRefund {refund} (50 %) · {unpaid} to the {n} pursuers"
 msgstr[0] ""
 msgstr[1] ""
 
 #. out[0] = _slot("move", "MV", "M", Loc.t("Move  [M]\nWalk to the clicked point."),
-#: scripts/ui/command_card.gd:721
+#: scripts/ui/command_card.gd:724
 msgid "Move  [M]\nWalk to the clicked point."
 msgstr ""
 
 #. out[1] = _slot("stop", "ST", "C", Loc.t("Stop  [C]\nStop and stand still."), sel.stop)
-#: scripts/ui/command_card.gd:723
+#: scripts/ui/command_card.gd:726
 msgid "Stop  [C]\nStop and stand still."
 msgstr ""
 
 #. out[2] = _slot("hold", "HD", "H", Loc.t("Hold  [H]\nStay in place; hit only enemies in range."), sel.hold)
-#: scripts/ui/command_card.gd:724
+#: scripts/ui/command_card.gd:727
 msgid "Hold  [H]\nStay in place; hit only enemies in range."
 msgstr ""
 
 #. Loc.t("Trade  [G]\nClick a trading post: trade there from now on.\nClick your Bazaar: go home and deliver."),
-#: scripts/ui/command_card.gd:733
+#: scripts/ui/command_card.gd:736
 msgid "Trade  [G]\nClick a trading post: trade there from now on.\nClick your Bazaar: go home and deliver."
 msgstr ""
 
 #. var am_tip := Loc.t("Attack-move  [%s]\nMove and fight anything met on the way.") % am
-#: scripts/ui/command_card.gd:738
+#: scripts/ui/command_card.gd:741
 msgid "Attack-move  [%s]\nMove and fight anything met on the way."
 msgstr ""
 
 #. am_tip += "\n" + Loc.t("%s works too.") % KeyLabels.of(KEY_X)
-#: scripts/ui/command_card.gd:740
+#: scripts/ui/command_card.gd:743
 msgid "%s works too."
 msgstr ""
 
 #. var tip := Loc.t("Gather  [G]\nMine crystals and carry them to a keep or hall.")
-#: scripts/ui/command_card.gd:753
+#: scripts/ui/command_card.gd:756
 msgid "Gather  [G]\nMine crystals and carry them to a keep or hall."
 msgstr ""
 
 #. tip = Loc.t("Gather / Trade  [G]\nWorkers gather at a crystal node; caravans trade at a post or go home to the
-#: scripts/ui/command_card.gd:755
+#: scripts/ui/command_card.gd:758
 msgid "Gather / Trade  [G]\nWorkers gather at a crystal node; caravans trade at a post or go home to the Bazaar."
 msgstr ""
 
 #. out[BUILD_SLOT] = _slot("build", "BU", "B", Loc.t("Build  [B]\nOpen the build menu; each building shows its ow
-#: scripts/ui/command_card.gd:761
+#: scripts/ui/command_card.gd:764
 msgid "Build  [B]\nOpen the build menu; each building shows its own key."
 msgstr ""
 
 #. var tip := Loc.t("%s  [%s]\nCost %d crystals · %d s · %d HP\n%s") % [
-#: scripts/ui/command_card.gd:784
+#: scripts/ui/command_card.gd:787
 msgid "%s  [%s]\nCost %d crystals · %d s · %d HP\n%s"
 msgstr ""
 
 #. out[BACK_SLOT] = _slot("back", "<", "Esc", Loc.t("Back  [Esc]\nClose the build menu (right click does the same
-#: scripts/ui/command_card.gd:793
+#: scripts/ui/command_card.gd:796
 msgid "Back  [Esc]\nClose the build menu (right click does the same)."
 msgstr ""
 
 #. return Loc.t("Trains %s soldiers. Workers can drop crystals here.") % Loc.t(faction)
-#: scripts/ui/command_card.gd:801
+#: scripts/ui/command_card.gd:804
 msgid "Trains %s soldiers. Workers can drop crystals here."
 msgstr ""
 
 #. return Loc.t("+%d population. Max %d.") % [type.pop_bonus, type.max_count]
-#: scripts/ui/command_card.gd:804
+#: scripts/ui/command_card.gd:807
 msgid "+%d population. Max %d."
 msgstr ""
 
 #. return Loc.t("+%d population.") % type.pop_bonus
-#: scripts/ui/command_card.gd:805
+#: scripts/ui/command_card.gd:808
 msgid "+%d population."
 msgstr ""
 
 #. return Loc.t("Shoots enemies in range (damage %d, range %d).") % [roundi(type.attack_damage), roundi(type.atta
-#: scripts/ui/command_card.gd:807
+#: scripts/ui/command_card.gd:810
 msgid "Shoots enemies in range (damage %d, range %d)."
 msgstr ""
 
 #. return Loc.t("Sends caravans to the trading posts for gold. Within 20 m of your keep. One per kingdom.")
-#: scripts/ui/command_card.gd:809
+#: scripts/ui/command_card.gd:812
 msgid "Sends caravans to the trading posts for gold. Within 20 m of your keep. One per kingdom."
 msgstr ""
 
 #. return Loc.t("Researches Weapons, Armor and kingdom upgrades for all your soldiers, and upgrades for key units
-#: scripts/ui/command_card.gd:811
+#: scripts/ui/command_card.gd:814
 msgid "Researches Weapons, Armor and kingdom upgrades for all your soldiers, and upgrades for key units. One per kingdom."
 msgstr ""
 
 #. return Loc.t("Blocks the way. Max %d.") % type.max_count if type.max_count > 0 else Loc.t("Blocks the way.")
-#: scripts/ui/command_card.gd:813
+#: scripts/ui/command_card.gd:816
 msgid "Blocks the way. Max %d."
 msgstr ""
 
 #. return Loc.t("Blocks the way. Max %d.") % type.max_count if type.max_count > 0 else Loc.t("Blocks the way.")
-#: scripts/ui/command_card.gd:813
+#: scripts/ui/command_card.gd:816
 msgid "Blocks the way."
 msgstr ""
 
 #. reason = Loc.t("Not learned · needs level %s") % learn.get_slice(" ", 2)
-#: scripts/ui/command_card.gd:824
+#: scripts/ui/command_card.gd:827
 msgid "Not learned · needs level %s"
 msgstr ""
 
 #. learn_chips[i].tooltip_text = Loc.t("Learn  [Ctrl+%s]") % s.get("key", "") if is_spell else ""
-#: scripts/ui/command_card.gd:858
+#: scripts/ui/command_card.gd:861
 msgid "Learn  [Ctrl+%s]"
 msgstr ""
 
 #. Loc.t("Cancel  [Delete]\nStop building and get %d crystals back (75 %%).") % refund,
-#: scripts/ui/command_card.gd:921
+#: scripts/ui/command_card.gd:924
 msgid "Cancel  [Delete]\nStop building and get %d crystals back (75 %%)."
 msgstr ""
 
 #. tip = Loc.t("%s  [%s]") % [shown_name, key]
-#: scripts/ui/command_card.gd:961 scripts/ui/command_card.gd:1064 scripts/ui/command_card.gd:1112
+#: scripts/ui/command_card.gd:964 scripts/ui/command_card.gd:1067 scripts/ui/command_card.gd:1115
 #: scripts/ui/wave_strike/muster_panel.gd:495
 msgid "%s  [%s]"
 msgstr ""
 
 #. tip = Loc.t("%s  [%s]\nCost %d crystals · Pop %d · %d s · Tier %d") % [shown_name, key,
-#: scripts/ui/command_card.gd:963
+#: scripts/ui/command_card.gd:966
 msgid "%s  [%s]\nCost %d crystals · Pop %d · %d s · Tier %d"
 msgstr ""
 
 #. tip = Loc.t("%s  [%s]\nCost %d crystals · Pop %d · %d s") % [
-#: scripts/ui/command_card.gd:967
+#: scripts/ui/command_card.gd:970
 msgid "%s  [%s]\nCost %d crystals · Pop %d · %d s"
 msgstr ""
 
 #. tip += "\n" + Loc.t("Research: {done} / {total} done", {"done": rc.x, "total": rc.y})
-#: scripts/ui/command_card.gd:974 scripts/ui/command_card.gd:1065
+#: scripts/ui/command_card.gd:977 scripts/ui/command_card.gd:1068
 msgid "Research: {done} / {total} done"
 msgstr ""
 
 #. Loc.t("Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining."),
-#: scripts/ui/command_card.gd:993
+#: scripts/ui/command_card.gd:996
 msgid "Set Rally  (right click)\nNew units walk here. Click a crystal node to send new workers mining."
 msgstr ""
 
 #. tip += "\n" + Loc.t("Researching: {name} {pct}%", {"name": Loc.sink(str(running["name"])),
-#: scripts/ui/command_card.gd:1001 scripts/ui/command_card.gd:1069
+#: scripts/ui/command_card.gd:1004 scripts/ui/command_card.gd:1072
 msgid "Researching: {name} {pct}%"
 msgstr ""
 
 #. return Loc.t("%s upgrade in progress: %d %%") % [tier_n, roundi(float(st["progress"]) * 100.0)]
-#: scripts/ui/command_card.gd:1020
+#: scripts/ui/command_card.gd:1023
 msgid "%s upgrade in progress: %d %%"
 msgstr ""
 
 #. return Loc.t("Upgrade your {keep} to a {tier}: select it, press {key} (from {from})", args)
-#: scripts/ui/command_card.gd:1025
+#: scripts/ui/command_card.gd:1028
 msgid "Upgrade your {keep} to a {tier}: select it, press {key} (from {from})"
 msgstr ""
 
 #. return Loc.t("Upgrade your {keep} to a {tier}: select it, press {key} ({why})", args)
-#: scripts/ui/command_card.gd:1028
+#: scripts/ui/command_card.gd:1031
 msgid "Upgrade your {keep} to a {tier}: select it, press {key} ({why})"
 msgstr ""
 
 #. return Loc.t("Upgrade your {keep} to a {tier}: select it, press {key}", args)
-#: scripts/ui/command_card.gd:1029
+#: scripts/ui/command_card.gd:1032
 msgid "Upgrade your {keep} to a {tier}: select it, press {key}"
 msgstr ""
 
 #. out[RALLY_KEEP_SLOT] = _header_slot(Loc.t("Unit research"), [])
-#: scripts/ui/command_card.gd:1079
+#: scripts/ui/command_card.gd:1082
 msgid "Unit research"
 msgstr ""
 
 #. out[PLUS_SLOT] = _slot("plus_back", "<", "Esc", Loc.t("Back  [Esc]\nThe building's training buttons (%s does t
-#: scripts/ui/command_card.gd:1080
+#: scripts/ui/command_card.gd:1083
 msgid "Back  [Esc]\nThe building's training buttons (%s does the same)."
 msgstr ""
 
 #. tip = Loc.t("%s\n%d crystals · %d s\n%s for every %s of your kingdom.") % ["%s  [%s]" % [name, key],
-#: scripts/ui/command_card.gd:1105
+#: scripts/ui/command_card.gd:1108
 msgid "%s\n%d crystals · %d s\n%s for every %s of your kingdom."
 msgstr ""
 
 #. tip = Loc.t("%s  [%s]") % [name, key] + "\n" + Loc.t("Cost %d crystals · %d s") % [int(info["crystals"]),
-#: scripts/ui/command_card.gd:1112
+#: scripts/ui/command_card.gd:1115
 msgid "Cost %d crystals · %d s"
 msgstr ""
 
 #. tip += "\n" + Loc.t("For: {units} · At: {where}", {"units": _units_text(id), "where": _research_where(b, id)})
-#: scripts/ui/command_card.gd:1115
+#: scripts/ui/command_card.gd:1118
 msgid "For: {units} · At: {where}"
 msgstr ""
 
 #. tip += "\n" + Loc.t("Researching {pct}% · press again to cancel (full refund)", {"pct": pct})
-#: scripts/ui/command_card.gd:1117
+#: scripts/ui/command_card.gd:1120
 msgid "Researching {pct}% · press again to cancel (full refund)"
 msgstr ""
 
 #. s["tooltip"] += "\n" + Loc.t("Researched")
-#: scripts/ui/command_card.gd:1134
+#: scripts/ui/command_card.gd:1137
 msgid "Researched"
 msgstr ""
 
 #. s["tooltip"] += "\n" + Loc.t("Researching %d %%") % pct
-#: scripts/ui/command_card.gd:1139
+#: scripts/ui/command_card.gd:1142
 msgid "Researching %d %%"
 msgstr ""
 
 #. out[PLUS_SLOT] = _slot("research_back", "<", "Esc", Loc.t("Back  [Esc]\nThe unit research page."),
-#: scripts/ui/command_card.gd:1150
+#: scripts/ui/command_card.gd:1153
 msgid "Back  [Esc]\nThe unit research page."
 msgstr ""
 
 #. Loc.t("Set Route\nClick a trading post: caravans trade there from now on.\nRight-click a post does the same.")
-#: scripts/ui/command_card.gd:1275
+#: scripts/ui/command_card.gd:1301
 msgid "Set Route\nClick a trading post: caravans trade there from now on.\nRight-click a post does the same."
 msgstr ""
 
 #. out[route_i + 1] = _slot("wares", "WR", "U", Loc.t("Wares  [U]\nBuy one-time wares and exchange gold at the Ba
-#: scripts/ui/command_card.gd:1278
+#: scripts/ui/command_card.gd:1304
 msgid "Wares  [U]\nBuy one-time wares and exchange gold at the Bazaar."
 msgstr ""
 
 #. var line3 := Loc.t("Current route") if is_current else Loc.t("Right-click the post does the same.")
-#: scripts/ui/command_card.gd:1290
+#: scripts/ui/command_card.gd:1316
 msgid "Right-click the post does the same."
 msgstr ""
 
 #. var tip := Loc.t("%s · %s\n%d gold per trip · ~%d / min per caravan\n%s") % [pname,
-#: scripts/ui/command_card.gd:1291
+#: scripts/ui/command_card.gd:1317
 msgid "%s · %s\n%d gold per trip · ~%d / min per caravan\n%s"
 msgstr ""
 
 #. Loc.t("far") if far else Loc.t("near"), value, RouteLine.per_minute(market, post), line3]
-#: scripts/ui/command_card.gd:1292 scripts/ui/vfx_text.gd:35
+#: scripts/ui/command_card.gd:1318 scripts/ui/vfx_text.gd:35
 msgid "far"
 msgstr ""
 
 #. Loc.t("far") if far else Loc.t("near"), value, RouteLine.per_minute(market, post), line3]
-#: scripts/ui/command_card.gd:1292 scripts/ui/vfx_text.gd:35
+#: scripts/ui/command_card.gd:1318 scripts/ui/vfx_text.gd:35
 msgid "near"
 msgstr ""
 
@@ -411,62 +411,62 @@ msgid "Trading posts open at 4:00"
 msgstr ""
 
 #. const INSPECT_TEXT := "Champions act on their own."
-#: scripts/ui/command_card.gd:93
+#: scripts/ui/command_card.gd:96
 msgid "Champions act on their own."
 msgstr ""
 
 #. const INSPECT_BOUNTY := "Bounty  "
-#: scripts/ui/command_card.gd:94
+#: scripts/ui/command_card.gd:97
 msgid "Bounty  "
 msgstr ""
 
 #. const INSPECT_BOUNTY_ENEMY := "Hunt it with a bounty  "
-#: scripts/ui/command_card.gd:95
+#: scripts/ui/command_card.gd:98
 msgid "Hunt it with a bounty  "
 msgstr ""
 
 #. const BEAST_TEXT := "Epic beast: attack it with your army."
-#: scripts/ui/command_card.gd:97
+#: scripts/ui/command_card.gd:100
 msgid "Epic beast: attack it with your army."
 msgstr ""
 
 #. const CRITTER_TEXT := "Game: hunt it with soldiers or your wizard."
-#: scripts/ui/command_card.gd:98
+#: scripts/ui/command_card.gd:101
 msgid "Game: hunt it with soldiers or your wizard."
 msgstr ""
 
 #. const PLUS_PAGE_TOOLTIP := "Unit research  [{key}]\nUpgrade the units this building trains."
-#: scripts/ui/command_card.gd:110
+#: scripts/ui/command_card.gd:113
 msgid "Unit research  [{key}]\nUpgrade the units this building trains."
 msgstr ""
 
 #. var names := {&"escort": "Escort", &"vanguard": "Vanguard", &"home": "Hold home"}
-#: scripts/ui/command_card.gd:629
+#: scripts/ui/command_card.gd:632
 msgid "Vanguard"
 msgstr ""
 
 #. var names := {&"escort": "Escort", &"vanguard": "Vanguard", &"home": "Hold home"}
-#: scripts/ui/command_card.gd:629
+#: scripts/ui/command_card.gd:632
 msgid "Hold home"
 msgstr ""
 
 #. &"escort": "Stays 3-7 m from your wizard and fights what threatens it.",
-#: scripts/ui/command_card.gd:631
+#: scripts/ui/command_card.gd:634
 msgid "Stays 3-7 m from your wizard and fights what threatens it."
 msgstr ""
 
 #. &"vanguard": "Follows your largest army group and fights with it.",
-#: scripts/ui/command_card.gd:632
+#: scripts/ui/command_card.gd:635
 msgid "Follows your largest army group and fights with it."
 msgstr ""
 
 #. &"home": "Guards the keep: fights intruders within 20 m.",
-#: scripts/ui/command_card.gd:633
+#: scripts/ui/command_card.gd:636
 msgid "Guards the keep: fights intruders within 20 m."
 msgstr ""
 
 #. "" if sel.has_gatherers() or caravans else "Workers can't gather yet", SelectionManager.ORDER_GATHER)
-#: scripts/ui/command_card.gd:758
+#: scripts/ui/command_card.gd:761
 msgid "Workers can't gather yet"
 msgstr ""
 
@@ -476,122 +476,122 @@ msgid "Group %s: %s\nClick: select  ·  Double-click: centre camera"
 msgstr ""
 
 #. menu_button = _top_button(root, 0, "", Loc.t("Menu  [Esc]"))
-#: scripts/ui/hud.gd:132
+#: scripts/ui/hud.gd:140
 msgid "Menu  [Esc]"
 msgstr ""
 
 #. help_button = _top_button(root, 1, "?", Loc.t("Controls  [%s]") % KeyLabels.of(HELP_KEY))
-#: scripts/ui/hud.gd:142
+#: scripts/ui/hud.gd:150
 msgid "Controls  [%s]"
 msgstr ""
 
 #. return Loc.t("Your wizard")
-#: scripts/ui/hud.gd:602 scripts/ui/hud.gd:604 scripts/ui/selection_panel.gd:2399
+#: scripts/ui/hud.gd:610 scripts/ui/hud.gd:612 scripts/ui/selection_panel.gd:2415
 msgid "Your wizard"
 msgstr ""
 
 #. return Loc.t("Walk %s with %s") % [wizard_name, KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])]
-#: scripts/ui/hud.gd:611
+#: scripts/ui/hud.gd:619
 msgid "Walk %s with %s"
 msgstr ""
 
 #. return Loc.t("Right-click the ground to move %s") % wizard_name
-#: scripts/ui/hud.gd:612
+#: scripts/ui/hud.gd:620
 msgid "Right-click the ground to move %s"
 msgstr ""
 
 #. var pan_keys := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]) if GameSettings.rts_wasd() else Loc.t("Arrows")
-#: scripts/ui/hud.gd:669 scripts/campaign/mission_e3_02.gd:55
+#: scripts/ui/hud.gd:677 scripts/campaign/mission_e3_02.gd:55
 msgid "Arrows"
 msgstr ""
 
 #. middle = (Loc.t("Right click: move / attack / gather / rally    %s: attack-move    %s: stop")
-#: scripts/ui/hud.gd:672
+#: scripts/ui/hud.gd:680
 msgid "Right click: move / attack / gather / rally    %s: attack-move    %s: stop"
 msgstr ""
 
 #. + "\n" + Loc.t("%s: hold    %s: gather    %s: build (workers)    %s: train")
-#: scripts/ui/hud.gd:674
+#: scripts/ui/hud.gd:682
 msgid "%s: hold    %s: gather    %s: build (workers)    %s: train"
 msgstr ""
 
 #. + "\n" + Loc.t("Delete: cancel a site    %s: walk %s    %s: spells")
-#: scripts/ui/hud.gd:676
+#: scripts/ui/hud.gd:684
 msgid "Delete: cancel a site    %s: walk %s    %s: spells"
 msgstr ""
 
 #. middle = (Loc.t("Right click: move (%s too) / attack / gather / rally    %s: stop") % [wizard_name, k.call(KEY
-#: scripts/ui/hud.gd:680 scripts/ui/hud.gd:685
+#: scripts/ui/hud.gd:688 scripts/ui/hud.gd:693
 msgid "Right click: move (%s too) / attack / gather / rally    %s: stop"
 msgstr ""
 
 #. + "\n" + Loc.t("Attack-move: %s + click    %s: hold    %s: gather    %s: build")
-#: scripts/ui/hud.gd:681
+#: scripts/ui/hud.gd:689
 msgid "Attack-move: %s + click    %s: hold    %s: gather    %s: build"
 msgstr ""
 
 #. + "\n" + Loc.t("%s: train    Delete: cancel a site    %s: spells") % [train, spells] + "\n")
-#: scripts/ui/hud.gd:683 scripts/ui/hud.gd:688
+#: scripts/ui/hud.gd:691 scripts/ui/hud.gd:696
 msgid "%s: train    Delete: cancel a site    %s: spells"
 msgstr ""
 
 #. + "\n" + Loc.t("Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build")
-#: scripts/ui/hud.gd:686
+#: scripts/ui/hud.gd:694
 msgid "Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build"
 msgstr ""
 
 #. return (Loc.t("Left click / drag: select    Shift: add    Double-click: all of a type") + "\n"
-#: scripts/ui/hud.gd:689
+#: scripts/ui/hud.gd:697
 msgid "Left click / drag: select    Shift: add    Double-click: all of a type"
 msgstr ""
 
 #. + Loc.t("Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart")
-#: scripts/ui/hud.gd:691
+#: scripts/ui/hud.gd:699
 msgid "Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart"
 msgstr ""
 
 #. + "\n" + Loc.t("Groups 1-0: Ctrl set · Shift add · Alt steal · NN centre    Ctrl+%s: all") % k.call(KEY_A)
-#: scripts/ui/hud.gd:693
+#: scripts/ui/hud.gd:701
 msgid "Groups 1-0: Ctrl set · Shift add · Alt steal · NN centre    Ctrl+%s: all"
 msgstr ""
 
 #. + "\n" + Loc.t("F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender")
-#: scripts/ui/hud.gd:694
+#: scripts/ui/hud.gd:702
 msgid "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender"
 msgstr ""
 
 #. + "\n" + Loc.t("%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop") % [pan_keys, k.call(KEY_T)]
-#: scripts/ui/hud.gd:695
+#: scripts/ui/hud.gd:703
 msgid "%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop"
 msgstr ""
 
 #. lines.append(Loc.t("%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion") % [k.call(KEY_R), k
-#: scripts/ui/hud.gd:703
+#: scripts/ui/hud.gd:711
 msgid "%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion"
 msgstr ""
 
 #. row.append(Loc.t("Flag: %s raise · Delete remove") % k.call(KEY_Z))
-#: scripts/ui/hud.gd:706
+#: scripts/ui/hud.gd:714
 msgid "Flag: %s raise · Delete remove"
 msgstr ""
 
 #. row.append(Loc.t("%s: trade & hunters    %s: trade (caravans)") % [k.call(KEY_U), k.call(KEY_G)])
-#: scripts/ui/hud.gd:708
+#: scripts/ui/hud.gd:716
 msgid "%s: trade & hunters    %s: trade (caravans)"
 msgstr ""
 
 #. row.append(Loc.t("%s, %s: Bazaar    Bazaar: %s caravan") % [k.call(KEY_B), k.call(KEY_B), k.call(KEY_Z)])
-#: scripts/ui/hud.gd:714
+#: scripts/ui/hud.gd:722
 msgid "%s, %s: Bazaar    Bazaar: %s caravan"
 msgstr ""
 
 #. row.append(Loc.t("%s / %s: caster spells (Ctrl: autocast)") % [k.call(KEY_Z), k.call(KEY_V)])
-#: scripts/ui/hud.gd:716
+#: scripts/ui/hud.gd:724
 msgid "%s / %s: caster spells (Ctrl: autocast)"
 msgstr ""
 
 #. show_message(Loc.t("%s reaches level %d") % [short, int(lvl)], 3.0)
-#: scripts/ui/hud.gd:991
+#: scripts/ui/hud.gd:999
 msgid "%s reaches level %d"
 msgstr ""
 
@@ -601,37 +601,37 @@ msgid "your wizard"
 msgstr ""
 
 #. _objective_header = _fold_header("Objective")
-#: scripts/ui/hud.gd:118
+#: scripts/ui/hud.gd:126
 msgid "Objective"
 msgstr ""
 
 #. _objective_header.tooltip_text = "Click: fold / unfold the objective"
-#: scripts/ui/hud.gd:119
+#: scripts/ui/hud.gd:127
 msgid "Click: fold / unfold the objective"
 msgstr ""
 
 #. b.text = "Summary" if tab == END_TAB_SUMMARY else "Score"
-#: scripts/ui/hud.gd:303
+#: scripts/ui/hud.gd:311
 msgid "Summary"
 msgstr ""
 
 #. b.text = "Summary" if tab == END_TAB_SUMMARY else "Score"
-#: scripts/ui/hud.gd:303
+#: scripts/ui/hud.gd:311
 msgid "Score"
 msgstr ""
 
 #. end_restart_button = _end_button(end_buttons, "Restart (F9)")
-#: scripts/ui/hud.gd:328
+#: scripts/ui/hud.gd:336
 msgid "Restart (F9)"
 msgstr ""
 
 #. end_menu_button = _end_button(end_buttons, "Main menu")
-#: scripts/ui/hud.gd:330
+#: scripts/ui/hud.gd:338
 msgid "Main menu"
 msgstr ""
 
 #. const HELP_CAPTURE := "Capture: stand near towers, wells and shrines"
-#: scripts/ui/hud.gd:651
+#: scripts/ui/hud.gd:659
 msgid "Capture: stand near towers, wells and shrines"
 msgstr ""
 
@@ -786,8 +786,8 @@ msgstr ""
 msgid "Pop %d"
 msgstr ""
 
-#. lines.append(Loc.t("{name}: {effect}", {"name": Loc.sink(str(d["name"])), "effect": Loc.sink(str(d["text"]))})
-#: scripts/ui/research_marks.gd:47
+#. lines.append(Loc.t("{name}: {effect}", {"name": nm, "effect": Loc.sink(str(d["text"]))}))
+#: scripts/ui/research_marks.gd:132
 msgid "{name}: {effect}"
 msgstr ""
 
@@ -817,19 +817,19 @@ msgid "Total"
 msgstr ""
 
 #. message.emit(Loc.t("Picked up %s") % ItemTooltip.display_name(type))
-#: scripts/ui/selection_manager.gd:1681 scripts/ui/selection_manager.gd:1723
-#: scripts/ui/selection_manager.gd:1725
+#: scripts/ui/selection_manager.gd:1683 scripts/ui/selection_manager.gd:1725
+#: scripts/ui/selection_manager.gd:1727
 msgid "Picked up %s"
 msgstr ""
 
-#. message.emit(Loc.t("Research cancelled: {name}", {"name": str(UnitResearch.row(row_id)["name"])}))
-#: scripts/ui/selection_manager.gd:2332 scripts/ui/selection_manager.gd:2351
-#: scripts/ui/selection_manager.gd:2394
+#. message.emit(Loc.t("Research cancelled: {name}", {"name": Loc.sink(str(UnitResearch.row(row_id)["name"]))}))
+#: scripts/ui/selection_manager.gd:2351 scripts/ui/selection_manager.gd:2370
+#: scripts/ui/selection_manager.gd:2415
 msgid "Research cancelled: {name}"
 msgstr ""
 
 #. const MSG_ROUTE_HINT := "Right-click a trading post to set the route"
-#: scripts/ui/selection_manager.gd:100 scripts/ui/selection_panel.gd:1534
+#: scripts/ui/selection_manager.gd:100 scripts/ui/selection_panel.gd:1545
 msgid "Right-click a trading post to set the route"
 msgstr ""
 
@@ -840,430 +840,430 @@ msgid "No upgrade for that unit"
 msgstr ""
 
 #. return "No bounty selected"
-#: scripts/ui/selection_manager.gd:777
+#: scripts/ui/selection_manager.gd:779
 msgid "No bounty selected"
 msgstr ""
 
 #. message.emit("A builder died: its queued buildings wait for a worker")
-#: scripts/ui/selection_manager.gd:1122
+#: scripts/ui/selection_manager.gd:1124
 msgid "A builder died: its queued buildings wait for a worker"
 msgstr ""
 
 #. return "Unknown spell"
-#: scripts/ui/selection_manager.gd:1229 scripts/units/wizard.gd:409 scripts/units/wizard.gd:454
+#: scripts/ui/selection_manager.gd:1231 scripts/units/wizard.gd:409 scripts/units/wizard.gd:454
 #: scripts/spells/spell_caster.gd:54
 msgid "Unknown spell"
 msgstr ""
 
 #. return "No spell points"
-#: scripts/ui/selection_manager.gd:1231 scripts/ui/spell_info.gd:184 scripts/units/wizard.gd:418
+#: scripts/ui/selection_manager.gd:1233 scripts/ui/spell_info.gd:184 scripts/units/wizard.gd:418
 msgid "No spell points"
 msgstr ""
 
 #. message.emit(CasterKit.REASON_NO_TARGET if kind == &"point" else "Pick a unit")
-#: scripts/ui/selection_manager.gd:1568 scripts/ui/selection_manager.gd:2784
-#: scripts/ui/selection_manager.gd:2788 scripts/ui/selection_manager.gd:3681
+#: scripts/ui/selection_manager.gd:1570 scripts/ui/selection_manager.gd:2805
+#: scripts/ui/selection_manager.gd:2809 scripts/ui/selection_manager.gd:3702
 msgid "Pick a unit"
 msgstr ""
 
 #. return "No wizard"
-#: scripts/ui/selection_manager.gd:1582
+#: scripts/ui/selection_manager.gd:1584
 msgid "No wizard"
 msgstr ""
 
 #. return "No inventory"
-#: scripts/ui/selection_manager.gd:1585 scripts/ui/selection_manager.gd:1620
+#: scripts/ui/selection_manager.gd:1587 scripts/ui/selection_manager.gd:1622
 msgid "No inventory"
 msgstr ""
 
 #. return "No Bazaar selected"
-#: scripts/ui/selection_manager.gd:1899 scripts/ui/selection_manager.gd:1901
+#: scripts/ui/selection_manager.gd:1901 scripts/ui/selection_manager.gd:1903
 msgid "No Bazaar selected"
 msgstr ""
 
 #. return "No building selected"
-#: scripts/ui/selection_manager.gd:2072
+#: scripts/ui/selection_manager.gd:2074
 msgid "No building selected"
 msgstr ""
 
 #. return "No helper"
-#: scripts/ui/selection_manager.gd:2413
+#: scripts/ui/selection_manager.gd:2434
 msgid "No helper"
 msgstr ""
 
 #. message.emit("No idle workers")
-#: scripts/ui/selection_manager.gd:2592 scripts/ui/selection_manager.gd:2718
+#: scripts/ui/selection_manager.gd:2613 scripts/ui/selection_manager.gd:2739
 msgid "No idle workers"
 msgstr ""
 
 #. message.emit("Click a crystal node")
-#: scripts/ui/selection_manager.gd:2809 scripts/ui/selection_manager.gd:3542
+#: scripts/ui/selection_manager.gd:2830 scripts/ui/selection_manager.gd:3563
 msgid "Click a crystal node"
 msgstr ""
 
 #. hero_name.tooltip_text = Loc.t("Select your wizard  [F1]")
-#: scripts/ui/selection_panel.gd:376 scripts/ui/selection_panel.gd:786
-#: scripts/ui/selection_panel.gd:2400
+#: scripts/ui/selection_panel.gd:383 scripts/ui/selection_panel.gd:797
+#: scripts/ui/selection_panel.gd:2416
 msgid "Select your wizard  [F1]"
 msgstr ""
 
 #. chip.tooltip_text = Loc.t("%s\nClick: show it  ·  Tab / Shift+Tab: next / previous building") \
-#: scripts/ui/selection_panel.gd:651
+#: scripts/ui/selection_panel.gd:662
 msgid "%s\nClick: show it  ·  Tab / Shift+Tab: next / previous building"
 msgstr ""
 
 #. hero_hp_text.text = Loc.t("HP  %d / %d") % [ceili(hero.hp), int(hero.max_hp)]
-#: scripts/ui/selection_panel.gd:759 scripts/ui/selection_panel.gd:944
-#: scripts/ui/selection_panel.gd:1597 scripts/ui/selection_panel.gd:2204
+#: scripts/ui/selection_panel.gd:770 scripts/ui/selection_panel.gd:955
+#: scripts/ui/selection_panel.gd:1608 scripts/ui/selection_panel.gd:2220
 msgid "HP  %d / %d"
 msgstr ""
 
 #. hero_mana_text.text = Loc.t("Mana  %d / %d") % [int(hero.mana), int(hero.max_mana)]
-#: scripts/ui/selection_panel.gd:762 scripts/ui/selection_panel.gd:970
-#: scripts/ui/selection_panel.gd:974
+#: scripts/ui/selection_panel.gd:773 scripts/ui/selection_panel.gd:981
+#: scripts/ui/selection_panel.gd:985
 msgid "Mana  %d / %d"
 msgstr ""
 
 #. hero_hp_text.text = Loc.t("HP  0")
-#: scripts/ui/selection_panel.gd:771
+#: scripts/ui/selection_panel.gd:782
 msgid "HP  0"
 msgstr ""
 
 #. hero_mana_text.text = Loc.t("Mana  0")
-#: scripts/ui/selection_panel.gd:772
+#: scripts/ui/selection_panel.gd:783
 msgid "Mana  0"
 msgstr ""
 
 #. hero_status.text = Loc.t("%s returns in %d s") % [_short_name(), ceili(left)] if left > 0.0 else Loc.t("Fallen
-#: scripts/ui/selection_panel.gd:776 scripts/world/champion_guild.gd:90
+#: scripts/ui/selection_panel.gd:787 scripts/world/champion_guild.gd:90
 msgid "%s returns in %d s"
 msgstr ""
 
 #. var tip := Loc.t("Select your wizard  [F1]") + "\n" + Loc.t("Double-click: centre the camera")
-#: scripts/ui/selection_panel.gd:786
+#: scripts/ui/selection_panel.gd:797
 msgid "Double-click: centre the camera"
 msgstr ""
 
 #. hero_crown.text = Loc.t("%s  +%d HP · +%d mana") % [str(crown.get("artifact_name")),
-#: scripts/ui/selection_panel.gd:792
+#: scripts/ui/selection_panel.gd:803
 msgid "%s  +%d HP · +%d mana"
 msgstr ""
 
 #. xp_part = Loc.t("MAX")
-#: scripts/ui/selection_panel.gd:859
+#: scripts/ui/selection_panel.gd:870
 msgid "MAX"
 msgstr ""
 
 #. hero_badge.tooltip_text = Loc.tn("Level {level} · XP {xp} · {n} spell point", "Level {level} · XP {xp} · {n} s
-#: scripts/ui/selection_panel.gd:867
+#: scripts/ui/selection_panel.gd:878
 msgid "Level {level} · XP {xp} · {n} spell point"
 msgid_plural "Level {level} · XP {xp} · {n} spell points"
 msgstr[0] ""
 msgstr[1] ""
 
 #. hero_badge.tooltip_text = Loc.tn("Level {level} · {n} spell point", "Level {level} · {n} spell points", points
-#: scripts/ui/selection_panel.gd:870
+#: scripts/ui/selection_panel.gd:881
 msgid "Level {level} · {n} spell point"
 msgid_plural "Level {level} · {n} spell points"
 msgstr[0] ""
 msgstr[1] ""
 
 #. var line := Loc.t("Damage {dmg} · Range {range} · Speed {speed} · Armor {armor}", args) if armor > 0.0 \
-#: scripts/ui/selection_panel.gd:951
+#: scripts/ui/selection_panel.gd:962
 msgid "Damage {dmg} · Range {range} · Speed {speed} · Armor {armor}"
 msgstr ""
 
 #. else Loc.t("Damage {dmg} · Range {range} · Speed {speed}", args)
-#: scripts/ui/selection_panel.gd:952
+#: scripts/ui/selection_panel.gd:963
 msgid "Damage {dmg} · Range {range} · Speed {speed}"
 msgstr ""
 
 #. line = Loc.t("Level %d · %s") % [level, line]
-#: scripts/ui/selection_panel.gd:954
+#: scripts/ui/selection_panel.gd:965
 msgid "Level %d · %s"
 msgstr ""
 
 #. line = Loc.t("%s · XP MAX") % line if next <= 0 else Loc.t("%s · XP %d / %d") % [line, xp, next]
-#: scripts/ui/selection_panel.gd:957
+#: scripts/ui/selection_panel.gd:968
 msgid "%s · XP MAX"
 msgstr ""
 
 #. line = Loc.t("%s · XP MAX") % line if next <= 0 else Loc.t("%s · XP %d / %d") % [line, xp, next]
-#: scripts/ui/selection_panel.gd:957
+#: scripts/ui/selection_panel.gd:968
 msgid "%s · XP %d / %d"
 msgstr ""
 
 #. single_lifetime_text.text = Loc.t("Withers in %d s") % ceili(life.x)
-#: scripts/ui/selection_panel.gd:980
+#: scripts/ui/selection_panel.gd:991
 msgid "Withers in %d s"
 msgstr ""
 
 #. var lvl_text := Loc.t("Level %d") % level if wiz != null else Loc.t(
-#: scripts/ui/selection_panel.gd:997
+#: scripts/ui/selection_panel.gd:1008
 msgid "Level %d"
 msgstr ""
 
 #. var hint := Loc.t("Ctrl+%s: learn") % KeyLabels.join([KEY_F, KEY_Q, KEY_E], " / ")
-#: scripts/ui/selection_panel.gd:1015
+#: scripts/ui/selection_panel.gd:1026
 msgid "Ctrl+%s: learn"
 msgstr ""
 
 #. _set_segments(single_extra_rows[0], [[Loc.t("Drops: "), muted], [beast_drop_text(kv[0], int(kv[1])),
-#: scripts/ui/selection_panel.gd:1046
+#: scripts/ui/selection_panel.gd:1057
 msgid "Drops: "
 msgstr ""
 
 #. _set_segments(single_extra_rows[1], [[Loc.t("Roams the %s") % lair, muted]] if lair != "" else [])
-#: scripts/ui/selection_panel.gd:1049
+#: scripts/ui/selection_panel.gd:1060
 msgid "Roams the %s"
 msgstr ""
 
 #. [Loc.t("Tier %d") % tier, tier_color(tier)], [Loc.t(" · %d of %d left") % [alive, total], text_c]]
-#: scripts/ui/selection_panel.gd:1060
+#: scripts/ui/selection_panel.gd:1071
 msgid "Tier %d"
 msgstr ""
 
 #. [Loc.t("Tier %d") % tier, tier_color(tier)], [Loc.t(" · %d of %d left") % [alive, total], text_c]]
-#: scripts/ui/selection_panel.gd:1060
+#: scripts/ui/selection_panel.gd:1071
 msgid " · %d of %d left"
 msgstr ""
 
 #. row0.append([Loc.t(" · Level %d") % level, muted])
-#: scripts/ui/selection_panel.gd:1062
+#: scripts/ui/selection_panel.gd:1073
 msgid " · Level %d"
 msgstr ""
 
 #. [Loc.t("+%d essence") % int(r.get(&"essence", 0)), UIStyle.ESSENCE_TEXT]]
-#: scripts/ui/selection_panel.gd:1065
+#: scripts/ui/selection_panel.gd:1076
 msgid "+%d essence"
 msgstr ""
 
 #. row1.append([Loc.t(" · Underdog bonus"), NEAR_COLOR])
-#: scripts/ui/selection_panel.gd:1072
+#: scripts/ui/selection_panel.gd:1083
 msgid " · Underdog bonus"
 msgstr ""
 
 #. rows.append([[Loc.t("Research: "), UIStyle.token(&"text_muted")], [names, UIStyle.GOLD]])
-#: scripts/ui/selection_panel.gd:1081
+#: scripts/ui/selection_panel.gd:1092
 msgid "Research: "
 msgstr ""
 
 #. parts.append(nm if int(e[2]) <= 1 else Loc.t("{name} {level}/{max}", {"name": nm, "level": e[1], "max": e[2]})
-#: scripts/ui/selection_panel.gd:1127
+#: scripts/ui/selection_panel.gd:1138
 msgid "{name} {level}/{max}"
 msgstr ""
 
 #. return Loc.t("Forge: {lines}", {"lines": " · ".join(parts)})
-#: scripts/ui/selection_panel.gd:1130
+#: scripts/ui/selection_panel.gd:1141
 msgid "Forge: {lines}"
 msgstr ""
 
 #. parts.append(Loc.t("%d %% %s") % [roundi(chance * 100.0), Loc.t(" or ").join(names)])
-#: scripts/ui/selection_panel.gd:1262
+#: scripts/ui/selection_panel.gd:1273
 msgid "%d %% %s"
 msgstr ""
 
 #. parts.append(Loc.t("%d %% %s") % [roundi(chance * 100.0), Loc.t(" or ").join(names)])
-#: scripts/ui/selection_panel.gd:1262
+#: scripts/ui/selection_panel.gd:1273
 msgid " or "
 msgstr ""
 
 #. parts[comp_at] = Loc.t("a component") if comps == 1 else Loc.t("%d components") % comps
-#: scripts/ui/selection_panel.gd:1264
+#: scripts/ui/selection_panel.gd:1275
 msgid "a component"
 msgstr ""
 
 #. parts[comp_at] = Loc.t("a component") if comps == 1 else Loc.t("%d components") % comps
-#: scripts/ui/selection_panel.gd:1264
+#: scripts/ui/selection_panel.gd:1275
 msgid "%d components"
 msgstr ""
 
 #. parts.append(Loc.t("a trophy"))
-#: scripts/ui/selection_panel.gd:1268
+#: scripts/ui/selection_panel.gd:1279
 msgid "a trophy"
 msgstr ""
 
 #. single_stats_extra.text = Loc.t(" · Carrying %d gold") % loot
-#: scripts/ui/selection_panel.gd:1371
+#: scripts/ui/selection_panel.gd:1382
 msgid " · Carrying %d gold"
 msgstr ""
 
 #. cargo_labels[0].text = Loc.t("Cargo %d gold") % cargo if loaded else "Empty"
-#: scripts/ui/selection_panel.gd:1388
+#: scripts/ui/selection_panel.gd:1399
 msgid "Cargo %d gold"
 msgstr ""
 
 #. var name := kind.capitalize() if kind != "" else Loc.t("Hunters")
-#: scripts/ui/selection_panel.gd:1451
+#: scripts/ui/selection_panel.gd:1462
 msgid "Hunters"
 msgstr ""
 
 #. return Loc.t("Contract: %s · %d:%02d left") % [name, secs / 60, secs % 60]
-#: scripts/ui/selection_panel.gd:1454
+#: scripts/ui/selection_panel.gd:1465
 msgid "Contract: %s · %d:%02d left"
 msgstr ""
 
 #. market_value.text = Loc.t("%d gold per trip · ~%d / min each") % [RouteLine.value_of(market, post),
-#: scripts/ui/selection_panel.gd:1527
+#: scripts/ui/selection_panel.gd:1538
 msgid "%d gold per trip · ~%d / min each"
 msgstr ""
 
 #. market_caravans.text = Loc.t("Caravans %d / %d (%d queued)") % [alive, limit, queued] if queued > 0 \
-#: scripts/ui/selection_panel.gd:1539
+#: scripts/ui/selection_panel.gd:1550
 msgid "Caravans %d / %d (%d queued)"
 msgstr ""
 
 #. else Loc.t("Caravans %d / %d") % [alive, limit]
-#: scripts/ui/selection_panel.gd:1540
+#: scripts/ui/selection_panel.gd:1551
 msgid "Caravans %d / %d"
 msgstr ""
 
 #. market_traded.text = Loc.t("Gold traded, last 3 min: %s · total %s") % [thousands(recent), thousands(total)]
-#: scripts/ui/selection_panel.gd:1547
+#: scripts/ui/selection_panel.gd:1558
 msgid "Gold traded, last 3 min: %s · total %s"
 msgstr ""
 
 #. market_wares.text = Loc.t("Wares %d / %d owned · ") % [(owned as Array).size() if owned is Array else 0, WARE_
-#: scripts/ui/selection_panel.gd:1549
+#: scripts/ui/selection_panel.gd:1560
 msgid "Wares %d / %d owned · "
 msgstr ""
 
 #. champion_stats.text = Loc.t("Level %d · Damage %s · Range %s · Speed %s · Armor %s") % [ChampionBar.level_of(c
-#: scripts/ui/selection_panel.gd:1605
+#: scripts/ui/selection_panel.gd:1616
 msgid "Level %d · Damage %s · Range %s · Speed %s · Armor %s"
 msgstr ""
 
 #. name_label.text = Loc.t("Skill %d") % (j + 1)
-#: scripts/ui/selection_panel.gd:1724
+#: scripts/ui/selection_panel.gd:1735
 msgid "Skill %d"
 msgstr ""
 
 #. champion_autocast.text = Loc.t("Autocast · next at level %d") % next if own and next > 0 else "Autocast"
-#: scripts/ui/selection_panel.gd:1765
+#: scripts/ui/selection_panel.gd:1776
 msgid "Autocast · next at level %d"
 msgstr ""
 
 #. chip.tooltip_text = Loc.t("%s: %s · %d s left") % [Loc.t(str(info[1])), Loc.t(str(info[2])), left]
-#: scripts/ui/selection_panel.gd:1829
+#: scripts/ui/selection_panel.gd:1840
 msgid "%s: %s · %d s left"
 msgstr ""
 
 #. chip.tooltip_text = Loc.t("Wayfarer's Blessing %d s\n+12 %% speed, +1.5 HP / s") % secs
-#: scripts/ui/selection_panel.gd:1857
+#: scripts/ui/selection_panel.gd:1868
 msgid "Wayfarer's Blessing %d s\n+12 %% speed, +1.5 HP / s"
 msgstr ""
 
 #. var header := Loc.t("%d selected") % units.size()
-#: scripts/ui/selection_panel.gd:1980
+#: scripts/ui/selection_panel.gd:1991
 msgid "%d selected"
 msgstr ""
 
 #. multi_more.text = Loc.t("+ %d more") % more
-#: scripts/ui/selection_panel.gd:1996
+#: scripts/ui/selection_panel.gd:2010
 msgid "+ %d more"
 msgstr ""
 
 #. b.tooltip_text = Loc.t("%s  HP %d / %d") % [u.unit_name, ceili(u.hp), int(u.max_hp)]
-#: scripts/ui/selection_panel.gd:2027
+#: scripts/ui/selection_panel.gd:2041
 msgid "%s  HP %d / %d"
 msgstr ""
 
 #. b.tooltip_text += "  ·  " + Loc.t("withers in %d s") % ceili(life.x)
-#: scripts/ui/selection_panel.gd:2030
+#: scripts/ui/selection_panel.gd:2044
 msgid "withers in %d s"
 msgstr ""
 
 #. b.tooltip_text += "  ·  " + Loc.t("Mana %d / %d") % [int(cab.mana), int(cab.max_mana())]
-#: scripts/ui/selection_panel.gd:2040
+#: scripts/ui/selection_panel.gd:2054
 msgid "Mana %d / %d"
 msgstr ""
 
 #. b.tooltip_text += " · " + Loc.tn("{n} upgrade", "{n} upgrades", n_research)
-#: scripts/ui/selection_panel.gd:2042
+#: scripts/ui/selection_panel.gd:2056
 msgid "{n} upgrade"
 msgid_plural "{n} upgrades"
 msgstr[0] ""
 msgstr[1] ""
 
 #. t.tooltip_text = Loc.t("%s  ·  %d\nClick: select only these  ·  Tab: next type") % [
-#: scripts/ui/selection_panel.gd:2107
+#: scripts/ui/selection_panel.gd:2121
 msgid "%s  ·  %d\nClick: select only these  ·  Tab: next type"
 msgstr ""
 
 #. b.tooltip_text = Loc.t("%s\nClick to cancel (full refund).") % type_name
-#: scripts/ui/selection_panel.gd:2234
+#: scripts/ui/selection_panel.gd:2250
 msgid "%s\nClick to cancel (full refund)."
 msgstr ""
 
 #. queue_count.text = Loc.t("Training %s  %d %%\n%d in queue") % [str(queue[0].get("display_name")),
-#: scripts/ui/selection_panel.gd:2251
+#: scripts/ui/selection_panel.gd:2267
 msgid "Training %s  %d %%\n%d in queue"
 msgstr ""
 
 #. line = Loc.t("{tier} rising", {"tier": Loc.t(TierSystem.tier_name(k.tier + 1))})
-#: scripts/ui/selection_panel.gd:2271
+#: scripts/ui/selection_panel.gd:2287
 msgid "{tier} rising"
 msgstr ""
 
 #. line = Loc.t("{tier_line} · next {name} {cost}", {"tier_line": keep_tier_text(k),
-#: scripts/ui/selection_panel.gd:2280
+#: scripts/ui/selection_panel.gd:2296
 msgid "{tier_line} · next {name} {cost}"
 msgstr ""
 
 #. var line := Loc.t("Under construction  %d %%  ·  Paused: right-click it with workers") % pct
-#: scripts/ui/selection_panel.gd:2308
+#: scripts/ui/selection_panel.gd:2324
 msgid "Under construction  %d %%  ·  Paused: right-click it with workers"
 msgstr ""
 
 #. line = Loc.tn("Under construction  {pct} %  ·  {n} builder (x{speed})",
-#: scripts/ui/selection_panel.gd:2310
+#: scripts/ui/selection_panel.gd:2326
 msgid "Under construction  {pct} %  ·  {n} builder (x{speed})"
 msgid_plural "Under construction  {pct} %  ·  {n} builders (x{speed})"
 msgstr[0] ""
 msgstr[1] ""
 
-#. return Loc.t("Upgrading to %s %d %%") % [Loc.t(TierSystem.tier_name(k.tier + 1)), roundi(k.upgrade_progress() 
-#: scripts/ui/selection_panel.gd:2324
+#. return Loc.t("Upgrading to %s %d %%") % [Loc.t(TierSystem.tier_name(k.tier + 1)), roundi(k.upgrade_progress()
+#: scripts/ui/selection_panel.gd:2340
 msgid "Upgrading to %s %d %%"
 msgstr ""
 
 #. return Loc.t("Tier %d %s") % [k.tier, Loc.t(k.tier_name())]
-#: scripts/ui/selection_panel.gd:2325 scripts/ui/tier_chip.gd:98
+#: scripts/ui/selection_panel.gd:2341 scripts/ui/tier_chip.gd:98
 msgid "Tier %d %s"
 msgstr ""
 
 #. parts.append(Loc.t("+%d population") % t.pop_bonus)
-#: scripts/ui/selection_panel.gd:2335
+#: scripts/ui/selection_panel.gd:2351
 msgid "+%d population"
 msgstr ""
 
 #. parts.append(Loc.t("Crystal drop-off"))
-#: scripts/ui/selection_panel.gd:2337
+#: scripts/ui/selection_panel.gd:2353
 msgid "Crystal drop-off"
 msgstr ""
 
 #. parts.append(Loc.t("Damage %d · Range %d · Every %s s") % [roundi(t.attack_damage), roundi(t.attack_range),
-#: scripts/ui/selection_panel.gd:2339
+#: scripts/ui/selection_panel.gd:2355
 msgid "Damage %d · Range %d · Every %s s"
 msgstr ""
 
 #. points_chip.tooltip_text = Loc.t("Learn a spell: click + on a spell, or Ctrl+%s / Ctrl+%s / Ctrl+%s") % [
-#: scripts/ui/selection_panel.gd:2475
+#: scripts/ui/selection_panel.gd:2491
 msgid "Learn a spell: click + on a spell, or Ctrl+%s / Ctrl+%s / Ctrl+%s"
 msgstr ""
 
 #. tip = Loc.t("No research · open with {key}", {"key": SelectionManager.UPGRADES_KEY_LABEL})
-#: scripts/ui/selection_panel.gd:3501
+#: scripts/ui/selection_panel.gd:3527
 msgid "No research · open with {key}"
 msgstr ""
 
 #. tip = "%s\n%s\n%s" % [Loc.sink(str(r["name"])), text, Loc.t("Researching {pct}% · click to cancel (full refund
-#: scripts/ui/selection_panel.gd:3515
+#: scripts/ui/selection_panel.gd:3541
 msgid "Researching {pct}% · click to cancel (full refund)"
 msgstr ""
 
 #. var t := Loc.t("{s} s", {"s": ceili(float(r["left"]))})
-#: scripts/ui/selection_panel.gd:3527
+#: scripts/ui/selection_panel.gd:3553
 msgid "{s} s"
 msgstr ""
 
@@ -1404,249 +1404,249 @@ msgid "Armor"
 msgstr ""
 
 #. &"gore_charge": ["Gore Charge", "GC", "Every 12 s · a target 6-14 m away",
-#: scripts/ui/selection_panel.gd:263
+#: scripts/ui/selection_panel.gd:268
 msgid "Every 12 s · a target 6-14 m away"
 msgstr ""
 
 #. "Dashes at it: 45 damage and dazed 0.8 s; 20 damage near its path", 12.0],
-#: scripts/ui/selection_panel.gd:264
+#: scripts/ui/selection_panel.gd:269
 msgid "Dashes at it: 45 damage and dazed 0.8 s; 20 damage near its path"
 msgstr ""
 
 #. &"bristle_hide": ["Bristle Hide", "BH", "Passive", "Melee attackers take 4 damage per hit", 0.0],
-#: scripts/ui/selection_panel.gd:265
+#: scripts/ui/selection_panel.gd:270
 msgid "Melee attackers take 4 damage per hit"
 msgstr ""
 
 #. &"gale_swoop": ["Gale Swoop", "GS", "Every 10 s · leaps up to 12 m",
-#: scripts/ui/selection_panel.gd:266 scripts/ui/selection_panel.gd:268
+#: scripts/ui/selection_panel.gd:271 scripts/ui/selection_panel.gd:273
 msgid "Every 10 s · leaps up to 12 m"
 msgstr ""
 
 #. "Onto the most crowded spot: 40 damage within 2.5 m, dazed 0.5 s", 10.0],
-#: scripts/ui/selection_panel.gd:267
+#: scripts/ui/selection_panel.gd:272
 msgid "Onto the most crowded spot: 40 damage within 2.5 m, dazed 0.5 s"
 msgstr ""
 
 #. "Onto the most crowded spot: 40 damage within 2.5 m, marked 5 s", 10.0],
-#: scripts/ui/selection_panel.gd:269
+#: scripts/ui/selection_panel.gd:274
 msgid "Onto the most crowded spot: 40 damage within 2.5 m, marked 5 s"
 msgstr ""
 
-#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it", 
-#: scripts/ui/selection_panel.gd:270
+#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it",
+#: scripts/ui/selection_panel.gd:275
 msgid "Once, at 40 % HP"
 msgstr ""
 
-#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it", 
-#: scripts/ui/selection_panel.gd:270
+#. &"updraft": ["Updraft", "UD", "Once, at 40 % HP", "Shrouded 4 s, flies to its nest and heals 15 %: chase it",
+#: scripts/ui/selection_panel.gd:275
 msgid "Shrouded 4 s, flies to its nest and heals 15 %: chase it"
 msgstr ""
 
 #. &"pounce": ["Pounce", "PO", "Every 9 s (Moonpelt: 6 s) · a target 5-10 m away",
-#: scripts/ui/selection_panel.gd:271
+#: scripts/ui/selection_panel.gd:276
 msgid "Every 9 s (Moonpelt: 6 s) · a target 5-10 m away"
 msgstr ""
 
 #. "Leaps on it: 35 damage and rooted 0.8 s", 9.0],
-#: scripts/ui/selection_panel.gd:272
+#: scripts/ui/selection_panel.gd:277
 msgid "Leaps on it: 35 damage and rooted 0.8 s"
 msgstr ""
 
 #. &"hamstring": ["Hamstring", "HS", "Passive", "Its hits slow by 25 % for 3 s", 0.0],
-#: scripts/ui/selection_panel.gd:273
+#: scripts/ui/selection_panel.gd:278
 msgid "Its hits slow by 25 % for 3 s"
 msgstr ""
 
 #. &"maul": ["Maul", "MA", "Every 9 s", "70 damage to its target and marked 5 s", 9.0],
-#: scripts/ui/selection_panel.gd:274
+#: scripts/ui/selection_panel.gd:279
 msgid "Every 9 s"
 msgstr ""
 
 #. &"maul": ["Maul", "MA", "Every 9 s", "70 damage to its target and marked 5 s", 9.0],
-#: scripts/ui/selection_panel.gd:274
+#: scripts/ui/selection_panel.gd:279
 msgid "70 damage to its target and marked 5 s"
 msgstr ""
 
 #. &"rending_roar": ["Rending Roar", "RR", "At 50 % HP, then every 30 s",
-#: scripts/ui/selection_panel.gd:275
+#: scripts/ui/selection_panel.gd:280
 msgid "At 50 % HP, then every 30 s"
 msgstr ""
 
 #. "Dazes enemies within 6 m for 1 s (half on heroes)", 30.0],
-#: scripts/ui/selection_panel.gd:276
+#: scripts/ui/selection_panel.gd:281
 msgid "Dazes enemies within 6 m for 1 s (half on heroes)"
 msgstr ""
 
 #. &"enrage": ["Enrage", "EN", "Below 30 % HP", "Attacks 30 % faster", 0.0],
-#: scripts/ui/selection_panel.gd:277
+#: scripts/ui/selection_panel.gd:282
 msgid "Below 30 % HP"
 msgstr ""
 
 #. &"enrage": ["Enrage", "EN", "Below 30 % HP", "Attacks 30 % faster", 0.0],
-#: scripts/ui/selection_panel.gd:277
+#: scripts/ui/selection_panel.gd:282
 msgid "Attacks 30 % faster"
 msgstr ""
 
 #. &"old_scarback": {&"gore_charge": "45 damage and dazed 1.2 s to everyone on its path"},
-#: scripts/ui/selection_panel.gd:280
+#: scripts/ui/selection_panel.gd:285
 msgid "45 damage and dazed 1.2 s to everyone on its path"
 msgstr ""
 
-#. &"elder_grizzlemaw": {&"rending_roar": "Dazes enemies within 6 m for 1 s (half on heroes) + taunts soldiers 3 
-#: scripts/ui/selection_panel.gd:281
+#. &"elder_grizzlemaw": {&"rending_roar": "Dazes enemies within 6 m for 1 s (half on heroes) + taunts soldiers 3
+#: scripts/ui/selection_panel.gd:286
 msgid "Dazes enemies within 6 m for 1 s (half on heroes) + taunts soldiers 3 s"
 msgstr ""
 
 #. var row1: Array = [["~%d XP" % int(r.get(&"xp", 0)), UIStyle.GOLD], [" · ", muted],
-#: scripts/ui/selection_panel.gd:1064
+#: scripts/ui/selection_panel.gd:1075
 msgid "~%d XP"
 msgstr ""
 
 #. single_state.text = "Enemy hunters"
-#: scripts/ui/selection_panel.gd:1380
+#: scripts/ui/selection_panel.gd:1391
 msgid "Enemy hunters"
 msgstr ""
 
 #. cargo_labels[0].text = Loc.t("Cargo %d gold") % cargo if loaded else "Empty"
-#: scripts/ui/selection_panel.gd:1388
+#: scripts/ui/selection_panel.gd:1399
 msgid "Empty"
 msgstr ""
 
 #. cargo_labels[1].text = " · Route: "
-#: scripts/ui/selection_panel.gd:1408
+#: scripts/ui/selection_panel.gd:1419
 msgid " · Route: "
 msgstr ""
 
 #. cargo_labels[3].text = " (far)" if far else " (near)"
-#: scripts/ui/selection_panel.gd:1410 scripts/ui/selection_panel.gd:1517
+#: scripts/ui/selection_panel.gd:1421 scripts/ui/selection_panel.gd:1528
 msgid " (far)"
 msgstr ""
 
 #. cargo_labels[3].text = " (far)" if far else " (near)"
-#: scripts/ui/selection_panel.gd:1410 scripts/ui/selection_panel.gd:1517
+#: scripts/ui/selection_panel.gd:1421 scripts/ui/selection_panel.gd:1528
 msgid " (near)"
 msgstr ""
 
 #. cargo_labels[1].text = " · No route: right-click a post"
-#: scripts/ui/selection_panel.gd:1412
+#: scripts/ui/selection_panel.gd:1423
 msgid " · No route: right-click a post"
 msgstr ""
 
 #. return "Contract ended"
-#: scripts/ui/selection_panel.gd:1449
+#: scripts/ui/selection_panel.gd:1460
 msgid "Contract ended"
 msgstr ""
 
 #. market_route_labels[0].text = "Route: "
-#: scripts/ui/selection_panel.gd:1511
+#: scripts/ui/selection_panel.gd:1522
 msgid "Route: "
 msgstr ""
 
 #. market_value.text = "Posts open at 4:00 · caravans wait"
-#: scripts/ui/selection_panel.gd:1521
+#: scripts/ui/selection_panel.gd:1532
 msgid "Posts open at 4:00 · caravans wait"
 msgstr ""
 
 #. market_value.text = "Held by the enemy · caravans wait"
-#: scripts/ui/selection_panel.gd:1524
+#: scripts/ui/selection_panel.gd:1535
 msgid "Held by the enemy · caravans wait"
 msgstr ""
 
 #. champion_class_label.text = " · no class yet"
-#: scripts/ui/selection_panel.gd:1590
+#: scripts/ui/selection_panel.gd:1601
 msgid " · no class yet"
 msgstr ""
 
 #. champion_intent.text = "Enemy champion"
-#: scripts/ui/selection_panel.gd:1618
+#: scripts/ui/selection_panel.gd:1629
 msgid "Enemy champion"
 msgstr ""
 
 #. champion_row2_caption.text = "Class at level 2"
-#: scripts/ui/selection_panel.gd:1755
+#: scripts/ui/selection_panel.gd:1766
 msgid "Class at level 2"
 msgstr ""
 
 #. champion_autocast.text = Loc.t("Autocast · next at level %d") % next if own and next > 0 else "Autocast"
-#: scripts/ui/selection_panel.gd:1765 scripts/ui/selection_panel.gd:2942
+#: scripts/ui/selection_panel.gd:1776 scripts/ui/selection_panel.gd:2958
 msgid "Autocast"
 msgstr ""
 
 #. wade.tooltip_text = "Wading: -35 % speed"
-#: scripts/ui/selection_panel.gd:1909
+#: scripts/ui/selection_panel.gd:1920
 msgid "Wading: -35 % speed"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1945 scripts/ui/wave_strike/muster_panel.gd:547
+#: scripts/ui/selection_panel.gd:1956 scripts/ui/wave_strike/muster_panel.gd:547
 #: scripts/ui/wave_strike/pad_input.gd:638 scripts/units/unit.gd:39
 msgid "Recruit"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1945 scripts/units/unit.gd:39
+#: scripts/ui/selection_panel.gd:1956 scripts/units/unit.gd:39
 msgid "Veteran"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1945 scripts/ui/wave_strike/muster_panel.gd:547
+#: scripts/ui/selection_panel.gd:1956 scripts/ui/wave_strike/muster_panel.gd:547
 #: scripts/ui/wave_strike/pad_input.gd:638 scripts/units/unit.gd:39
 msgid "Elite"
 msgstr ""
 
 #. return ["Recruit", "Veteran", "Elite", "Paragon"][clampi(level - 1, 0, 3)]   # English (logic); shown via Loc.
-#: scripts/ui/selection_panel.gd:1945 scripts/units/unit.gd:39
+#: scripts/ui/selection_panel.gd:1956 scripts/units/unit.gd:39
 msgid "Paragon"
 msgstr ""
 
 #. queue_count.text = "Nothing in training"
-#: scripts/ui/selection_panel.gd:2249 scripts/ui/selection_panel.gd:3412
+#: scripts/ui/selection_panel.gd:2265 scripts/ui/selection_panel.gd:3428
 msgid "Nothing in training"
 msgstr ""
 
 #. rally_label.text = "Rally: gather node" if on_node else "Rally: set"
-#: scripts/ui/selection_panel.gd:2254
+#: scripts/ui/selection_panel.gd:2270
 msgid "Rally: gather node"
 msgstr ""
 
 #. rally_label.text = "Rally: gather node" if on_node else "Rally: set"
-#: scripts/ui/selection_panel.gd:2254 scripts/ui/selection_panel.gd:3405
+#: scripts/ui/selection_panel.gd:2270 scripts/ui/selection_panel.gd:3421
 msgid "Rally: set"
 msgstr ""
 
 #. hero_crown.tooltip_text = "Dropped when your wizard dies."
-#: scripts/ui/selection_panel.gd:2499
+#: scripts/ui/selection_panel.gd:2515
 msgid "Dropped when your wizard dies."
 msgstr ""
 
 #. single_lifetime.tooltip_text = "Summoned: withers when the time runs out."
-#: scripts/ui/selection_panel.gd:2615
+#: scripts/ui/selection_panel.gd:2631
 msgid "Summoned: withers when the time runs out."
 msgstr ""
 
 #. champion_purse_box.tooltip_text = "Its own essence: bounties and loot. It buys its own items."
-#: scripts/ui/selection_panel.gd:2898
+#: scripts/ui/selection_panel.gd:2914
 msgid "Its own essence: bounties and loot. It buys its own items."
 msgstr ""
 
 #. var purse_word := UIStyle.panel_label("  ·  Purse ", 14)
-#: scripts/ui/selection_panel.gd:2900
+#: scripts/ui/selection_panel.gd:2916
 msgid "  ·  Purse "
 msgstr ""
 
 #. site_cancel.text = "Cancel  [Delete]"
-#: scripts/ui/selection_panel.gd:3334
+#: scripts/ui/selection_panel.gd:3350
 msgid "Cancel  [Delete]"
 msgstr ""
 
 #. site_cancel.tooltip_text = "Stop building. Refunds 75 % of the cost."
-#: scripts/ui/selection_panel.gd:3335
+#: scripts/ui/selection_panel.gd:3351
 msgid "Stop building. Refunds 75 % of the cost."
 msgstr ""
 
 #. var head := UIStyle.panel_label("Research", 10)
-#: scripts/ui/selection_panel.gd:3439
+#: scripts/ui/selection_panel.gd:3455
 msgid "Research"
 msgstr ""
 
@@ -1848,7 +1848,7 @@ msgstr ""
 msgid "Crystals: mined by workers"
 msgstr ""
 
-#. _essence_item = _item(flame, essence_label, "Essence: +1 per second and from kills; buys items, champions and 
+#. _essence_item = _item(flame, essence_label, "Essence: +1 per second and from kills; buys items, champions and
 #: scripts/ui/top_bar.gd:104
 msgid "Essence: +1 per second and from kills; buys items, champions and spells"
 msgstr ""

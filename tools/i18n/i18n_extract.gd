@@ -176,7 +176,9 @@ func _list(dir: String, ext: Array, rec: bool, out: PackedStringArray) -> void:
 		if ext.has(f.get_extension()):
 			out.append(dir.path_join(f))
 	if rec:
-		for d in DirAccess.get_directories_at(dir):
+		var dirs: Array = Array(DirAccess.get_directories_at(dir))
+		dirs.sort()
+		for d: String in dirs:
 			_list(dir.path_join(d), ext, rec, out)
 
 
@@ -499,13 +501,56 @@ func merge_french() -> void:
 		fr.save(_fr_path(area))
 
 
+## Live keys in template (source) order, then every other entry (obsolete) sorted by its first source reference
+## (path, then line number), msgid and msgctxt. A total order: sort_custom is not stable, so ties made the obsolete
+## block come out in a different order on each run (thousands of lines of churn per merge, fixed 2026-10-15).
 func _sort_like(fr: I18nPo, tpl: I18nPo) -> void:
+	sort_entries(fr.entries, tpl)
+
+
+static func sort_entries(entries: Array[Dictionary], tpl: I18nPo) -> void:
 	var order: Dictionary = {}
 	for i in tpl.entries.size():
 		order[I18nPo.key_of(tpl.entries[i]["ctx"], tpl.entries[i]["id"])] = i
-	var big := tpl.entries.size() + 100000
-	fr.entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
-		return int(order.get(I18nPo.key_of(a["ctx"], a["id"]), big)) < int(order.get(I18nPo.key_of(b["ctx"], b["id"]), big)))
+	entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return entry_before(a, b, order))
+
+
+## Strict "a goes before b" for _sort_like (order = key -> template index; keys missing from it go last).
+static func entry_before(a: Dictionary, b: Dictionary, order: Dictionary) -> bool:
+	var ka := I18nPo.key_of(a["ctx"], a["id"])
+	var kb := I18nPo.key_of(b["ctx"], b["id"])
+	var ia: int = order.get(ka, -1)
+	var ib: int = order.get(kb, -1)
+	if ia >= 0 or ib >= 0:
+		if ia < 0:
+			return false
+		if ib < 0:
+			return true
+		return ia < ib
+	var ra := _first_ref(a)
+	var rb := _first_ref(b)
+	if ra[0] != rb[0]:
+		return String(ra[0]) < String(rb[0])
+	if ra[1] != rb[1]:
+		return int(ra[1]) < int(rb[1])
+	if String(a["id"]) != String(b["id"]):
+		return String(a["id"]) < String(b["id"])
+	if String(a["ctx"]) != String(b["ctx"]):
+		return String(a["ctx"]) < String(b["ctx"])
+	return String(a["plural"]) < String(b["plural"])
+
+
+## [path, line] of an entry's first "#:" reference (["", 0] when it has none).
+static func _first_ref(e: Dictionary) -> Array:
+	var refs: PackedStringArray = e["refs"]
+	if refs.is_empty():
+		return ["", 0]
+	var r := refs[0]
+	var at := r.rfind(":")
+	if at < 0 or not r.substr(at + 1).is_valid_int():
+		return [r, 0]
+	return [r.substr(0, at), int(r.substr(at + 1))]
 
 
 ## JSON {"English": "Français"} (or {"English": ["sing", "plur"]}; "ctx\u0004English" for a context) -> fills the

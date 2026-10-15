@@ -866,34 +866,9 @@ msgid "The Storm-Sword"
 msgstr "L'Épée-Tempête"
 
 #. name (glossary: stays English)
-#: data/units/magpie.tres:9 scripts/world/hunters_guild.gd:581
-#~ msgid "Magpie"
-#~ msgstr "Magpie"
-
-#. name (glossary: stays English)
-#: data/units/shade.tres:9
-#~ msgid "Shade"
-#~ msgstr "Shade"
-
-#. name (glossary: stays English)
-#: data/buildings/ice_keep.tres:9
-#~ msgid "Rime Keep"
-#~ msgstr "Rime Keep"
-
-#. name (glossary: stays English)
-#: data/units/ruin_warden.tres:9
-#~ msgid "Ruin Warden"
-#~ msgstr "Ruin Warden"
-
-#. name (glossary: stays English)
-#: data/buildings/shadow_barracks.tres:15
-#~ msgid "Gloom Hall"
-#~ msgstr "Gloom Hall"
-
-#. name (glossary: stays English)
-#: data/buildings/nature_barracks.tres:9
-#~ msgid "Grove Hall"
-#~ msgstr "Grove Hall"
+#: data/buildings/fire_barracks.tres:15
+#~ msgid "Ember Hall"
+#~ msgstr "Ember Hall"
 
 #. name (glossary: stays English)
 #: data/buildings/ice_barracks.tres:10
@@ -901,6 +876,31 @@ msgstr "L'Épée-Tempête"
 #~ msgstr "Frost Hall"
 
 #. name (glossary: stays English)
-#: data/buildings/fire_barracks.tres:15
-#~ msgid "Ember Hall"
-#~ msgstr "Ember Hall"
+#: data/buildings/ice_keep.tres:9
+#~ msgid "Rime Keep"
+#~ msgstr "Rime Keep"
+
+#. name (glossary: stays English)
+#: data/buildings/nature_barracks.tres:9
+#~ msgid "Grove Hall"
+#~ msgstr "Grove Hall"
+
+#. name (glossary: stays English)
+#: data/buildings/shadow_barracks.tres:15
+#~ msgid "Gloom Hall"
+#~ msgstr "Gloom Hall"
+
+#. name (glossary: stays English)
+#: data/units/magpie.tres:9 scripts/world/hunters_guild.gd:581
+#~ msgid "Magpie"
+#~ msgstr "Magpie"
+
+#. name (glossary: stays English)
+#: data/units/ruin_warden.tres:9
+#~ msgid "Ruin Warden"
+#~ msgstr "Ruin Warden"
+
+#. name (glossary: stays English)
+#: data/units/shade.tres:9
+#~ msgid "Shade"
+#~ msgstr "Shade"

@@ -1510,7 +1510,7 @@ msgstr ""
 msgid "Tell the others... I was winning."
 msgstr ""
 
-#. "The God Wizard vanished between one breath and the next. He left four apprentices, four kingdoms and not one 
+#. "The God Wizard vanished between one breath and the next. He left four apprentices, four kingdoms and not one
 #: scripts/campaign/mission_01.gd:116
 msgid "The God Wizard vanished between one breath and the next. He left four apprentices, four kingdoms and not one word of instruction. His regalia fell across the world like sparks from a kicked fire."
 msgstr ""
@@ -1587,7 +1587,7 @@ msgid "new units"
 msgstr ""
 
 #. hud.show_message("%s wears the %s" % [EmberCrown.short_name(by), claimed.artifact_name], 4.0)
-#: scripts/campaign/mission_01.gd:674 scripts/world/skirmish.gd:1675
+#: scripts/campaign/mission_01.gd:674 scripts/world/skirmish.gd:1677
 msgid "%s wears the %s"
 msgstr ""
 
@@ -2063,7 +2063,7 @@ msgstr ""
 msgid "Fire is at war with Shadow, while Ice and Nature watch. Under the world, something is counting."
 msgstr ""
 
-#. "Two relics answer to fire now, and both hum toward the same place: the Sighing Wood, Ysolde's border forest, 
+#. "Two relics answer to fire now, and both hum toward the same place: the Sighing Wood, Ysolde's border forest,
 #: scripts/campaign/mission_03.gd:202
 msgid "Two relics answer to fire now, and both hum toward the same place: the Sighing Wood, Ysolde's border forest, which has kept out of every quarrel for a hundred years."
 msgstr ""
@@ -2595,7 +2595,7 @@ msgstr ""
 
 #. @export var victory_banner := "VICTORY"
 #: scripts/campaign/mission_config.gd:25 scripts/campaign/mission_e8_muster.gd:89
-#: scripts/world/skirmish.gd:1727
+#: scripts/world/skirmish.gd:1729
 msgid "VICTORY"
 msgstr ""
 
@@ -2769,7 +2769,7 @@ msgstr ""
 msgid "No. It's gone cold."
 msgstr ""
 
-#. "The feast ended at midnight. By first light the Emberguard was on the road north, and by noon it reached the 
+#. "The feast ended at midnight. By first light the Emberguard was on the road north, and by noon it reached the
 #: scripts/campaign/mission_e2_01.gd:187
 msgid "The feast ended at midnight. By first light the Emberguard was on the road north, and by noon it reached the Sighing Wood, or what is left of it: black trunks under white frost, ash that crunches like snow."
 msgstr ""
@@ -2987,7 +2987,7 @@ msgstr ""
 msgid "Bristleback Wallow"
 msgstr ""
 
-#. {"id": &"nest_s", "name": "Willow Ford Nest", "kind": &"mirefang", "tier": 2, "pos": Vector3(0.0, 0.0, 18.0), 
+#. {"id": &"nest_s", "name": "Willow Ford Nest", "kind": &"mirefang", "tier": 2, "pos": Vector3(0.0, 0.0, 18.0),
 #: scripts/campaign/mission_e2_02.gd:103 scripts/world/skirmish.gd:183
 msgid "Willow Ford Nest"
 msgstr ""
@@ -3174,17 +3174,17 @@ msgstr ""
 msgid "First time you've called me in twelve years, girl. I came running."
 msgstr ""
 
-#. "Ysolde walked out of her last Heartwood with a pouch of seed, one warden and a girl who never stops running. 
+#. "Ysolde walked out of her last Heartwood with a pouch of seed, one warden and a girl who never stops running.
 #: scripts/campaign/mission_e2_02.gd:213
 msgid "Ysolde walked out of her last Heartwood with a pouch of seed, one warden and a girl who never stops running. Her army is ash. Her kingdom is whatever she can plant before winter notices."
 msgstr ""
 
-#. "Fire's border runs along the Hollowmere now, and Torvald has already crossed it: a frost fort on Vessa's own 
+#. "Fire's border runs along the Hollowmere now, and Torvald has already crossed it: a frost fort on Vessa's own
 #: scripts/campaign/mission_e2_02.gd:214
 msgid "Fire's border runs along the Hollowmere now, and Torvald has already crossed it: a frost fort on Vessa's own bank, squatting on the richest crystal seam she owns, and Malrik's knives in the reeds behind it."
 msgstr ""
 
-#. "Plant three groves along Fire's line and Nature grows back beside it. Then break the frost fort. Two against 
+#. "Plant three groves along Fire's line and Nature grows back beside it. Then break the frost fort. Two against
 #: scripts/campaign/mission_e2_02.gd:215
 msgid "Plant three groves along Fire's line and Nature grows back beside it. Then break the frost fort. Two against two, at last. Ysolde says it will be slow. Vessa says that is what the fire is for."
 msgstr ""
@@ -3544,7 +3544,7 @@ msgstr ""
 msgid "Arrows, mostly. And never having to go down there again."
 msgstr ""
 
-#. "The three relics point down, under Emberfall, along roads nobody living has walked. Nobody but the Greywater 
+#. "The three relics point down, under Emberfall, along roads nobody living has walked. Nobody but the Greywater
 #: scripts/campaign/mission_e2_03.gd:136
 msgid "The three relics point down, under Emberfall, along roads nobody living has walked. Nobody but the Greywater hunters, who mapped the deep for a hundred years and have never sold the map."
 msgstr ""
@@ -3564,7 +3564,7 @@ msgstr ""
 msgid "Build a Bazaar, send caravans to the trading posts, then send tribute to the Greywater Lodge."
 msgstr ""
 
-#. const HINT_BUILD_BAZAAR := "Build an Ember Bazaar: select a Cinder Hand, press B then B. It must stand within 
+#. const HINT_BUILD_BAZAAR := "Build an Ember Bazaar: select a Cinder Hand, press B then B. It must stand within
 #: scripts/campaign/mission_e2_03.gd:141
 msgid "Build an Ember Bazaar: select a Cinder Hand, press B then B. It must stand within 20 m of the keep."
 msgstr ""
@@ -3889,7 +3889,7 @@ msgstr ""
 msgid "Mother Hush. Last time you ran. Want to try running a second time?"
 msgstr ""
 
-#. "Under the Emberfall observatory a stair goes down, and down, past the last root and the last bat, into halls 
+#. "Under the Emberfall observatory a stair goes down, and down, past the last root and the last bat, into halls
 #: scripts/campaign/mission_e2_04.gd:189
 msgid "Under the Emberfall observatory a stair goes down, and down, past the last root and the last bat, into halls the Master cut before there were kingdoms. The Greywater guides call it the Sunrise Road. They do not say why."
 msgstr ""
@@ -4450,310 +4450,310 @@ msgid "Raise a Cinder Dragon"
 msgstr ""
 
 #. const MISSION_TITLE := "Take the Ford"
-#: scripts/campaign/mission_e3_01.gd:24
+#: scripts/campaign/mission_e3_01.gd:26
 msgid "Take the Ford"
 msgstr ""
 
 #. const STANDARDS := {&"std_clover": ["Clover Stone", Vector3(-28.0, 0.0, 20.0)],
-#: scripts/campaign/mission_e3_01.gd:78
+#: scripts/campaign/mission_e3_01.gd:80
 msgid "Clover Stone"
 msgstr ""
 
 #. &"std_ysolde": ["Ysolde's Standard", Vector3(1.5, 0.0, 21.5)], &"std_well": ["Lark Well", Vector3(24.0, 0.0, 1
-#: scripts/campaign/mission_e3_01.gd:79
+#: scripts/campaign/mission_e3_01.gd:81
 msgid "Ysolde's Standard"
 msgstr ""
 
 #. &"std_ysolde": ["Ysolde's Standard", Vector3(1.5, 0.0, 21.5)], &"std_well": ["Lark Well", Vector3(24.0, 0.0, 1
-#: scripts/campaign/mission_e3_01.gd:79
+#: scripts/campaign/mission_e3_01.gd:81
 msgid "Lark Well"
 msgstr ""
 
 #. [&"narrator", "Evenmead. The last green country. By sundown, someone will own the ford."],
-#: scripts/campaign/mission_e3_01.gd:145
+#: scripts/campaign/mission_e3_01.gd:151
 msgid "Evenmead. The last green country. By sundown, someone will own the ford."
 msgstr ""
 
 #. [&"malrik", "Torvald, the east bank is yours. I will take the water. Hush, take whatever moves."],
-#: scripts/campaign/mission_e3_01.gd:146
+#: scripts/campaign/mission_e3_01.gd:152
 msgid "Torvald, the east bank is yours. I will take the water. Hush, take whatever moves."
 msgstr ""
 
 #. [&"hush", "Whatever moves, Bishop. And a few things that don't."],
-#: scripts/campaign/mission_e3_01.gd:147
+#: scripts/campaign/mission_e3_01.gd:153
 msgid "Whatever moves, Bishop. And a few things that don't."
 msgstr ""
 
 #. [&"torvald", "Quickly, then. Before that stone in your pocket finishes its sentence."],
-#: scripts/campaign/mission_e3_01.gd:148
+#: scripts/campaign/mission_e3_01.gd:154
 msgid "Quickly, then. Before that stone in your pocket finishes its sentence."
 msgstr ""
 
 #. [&"obren", "So much green, Bishop. Let it grow red. I can help."],
-#: scripts/campaign/mission_e3_01.gd:149
+#: scripts/campaign/mission_e3_01.gd:155
 msgid "So much green, Bishop. Let it grow red. I can help."
 msgstr ""
 
 #. [&"malrik", "You can help by being quiet. Stones are usually good at that."],
-#: scripts/campaign/mission_e3_01.gd:150
+#: scripts/campaign/mission_e3_01.gd:156
 msgid "You can help by being quiet. Stones are usually good at that."
 msgstr ""
 
 #. [&"vessa", "Malrik! You brought a whole winter to a picnic."],
-#: scripts/campaign/mission_e3_01.gd:151
+#: scripts/campaign/mission_e3_01.gd:157
 msgid "Malrik! You brought a whole winter to a picnic."
 msgstr ""
 
 #. [&"malrik", "And you brought fire to a meadow. We all have our gifts, Vessa."],
-#: scripts/campaign/mission_e3_01.gd:152
+#: scripts/campaign/mission_e3_01.gd:158
 msgid "And you brought fire to a meadow. We all have our gifts, Vessa."
 msgstr ""
 
 #. [&"ysolde", "That water is older than all four of us. Get out of it."],
-#: scripts/campaign/mission_e3_01.gd:153
+#: scripts/campaign/mission_e3_01.gd:159
 msgid "That water is older than all four of us. Get out of it."
 msgstr ""
 
 #. [&"malrik", "The ford is mine. Write it down, Ysolde. You like things that last."],
-#: scripts/campaign/mission_e3_01.gd:154
+#: scripts/campaign/mission_e3_01.gd:160
 msgid "The ford is mine. Write it down, Ysolde. You like things that last."
 msgstr ""
 
 #. [&"narrator", "Across the river, the Lark horns call the whole valley to arms."],
-#: scripts/campaign/mission_e3_01.gd:155
+#: scripts/campaign/mission_e3_01.gd:161
 msgid "Across the river, the Lark horns call the whole valley to arms."
 msgstr ""
 
 #. [&"hush", "One horn fewer. The valley will have to shout."],
-#: scripts/campaign/mission_e3_01.gd:156
+#: scripts/campaign/mission_e3_01.gd:162
 msgid "One horn fewer. The valley will have to shout."
 msgstr ""
 
 #. [&"vessa", "He's on our hill. I'm not waiting for him to plant a flag."],
-#: scripts/campaign/mission_e3_01.gd:157
+#: scripts/campaign/mission_e3_01.gd:163
 msgid "He's on our hill. I'm not waiting for him to plant a flag."
 msgstr ""
 
 #. [&"ysolde", "Vessa, hold the crest. Please. Just once, wait."],
-#: scripts/campaign/mission_e3_01.gd:158
+#: scripts/campaign/mission_e3_01.gd:164
 msgid "Vessa, hold the crest. Please. Just once, wait."
 msgstr ""
 
 #. [&"obren", "The flag falls. The tree is right there. Take it. TAKE it."],
-#: scripts/campaign/mission_e3_01.gd:159
+#: scripts/campaign/mission_e3_01.gd:165
 msgid "The flag falls. The tree is right there. Take it. TAKE it."
 msgstr ""
 
 #. [&"torvald", "Malrik. Your hand is shaking. Is that you, or the stone?"],
-#: scripts/campaign/mission_e3_01.gd:160
+#: scripts/campaign/mission_e3_01.gd:166
 msgid "Malrik. Your hand is shaking. Is that you, or the stone?"
 msgstr ""
 
 #. [&"malrik", "It is me, Torvald. It has always been me."],
-#: scripts/campaign/mission_e3_01.gd:161
+#: scripts/campaign/mission_e3_01.gd:167
 msgid "It is me, Torvald. It has always been me."
 msgstr ""
 
 #. [&"ysolde", "Every root on this hill knows your name now. That is not a kindness."],
-#: scripts/campaign/mission_e3_01.gd:162
+#: scripts/campaign/mission_e3_01.gd:168
 msgid "Every root on this hill knows your name now. That is not a kindness."
 msgstr ""
 
 #. [&"hush", "There is always another night."],
-#: scripts/campaign/mission_e3_01.gd:163
+#: scripts/campaign/mission_e3_01.gd:169
 msgid "There is always another night."
 msgstr ""
 
 #. [&"vessa", "This isn't over, candle-man!"],
-#: scripts/campaign/mission_e3_01.gd:164
+#: scripts/campaign/mission_e3_01.gd:170
 msgid "This isn't over, candle-man!"
 msgstr ""
 
 #. [&"malrik", "It never is. That is what I like about you."],
-#: scripts/campaign/mission_e3_01.gd:165
+#: scripts/campaign/mission_e3_01.gd:171
 msgid "It never is. That is what I like about you."
 msgstr ""
 
 #. [&"malrik", "The ford is mine. The tree is not. Not today."],
-#: scripts/campaign/mission_e3_01.gd:166
+#: scripts/campaign/mission_e3_01.gd:172
 msgid "The ford is mine. The tree is not. Not today."
 msgstr ""
 
 #. [&"malrik", "Tell me to stop again tomorrow, Ysolde. I will not stop."],
-#: scripts/campaign/mission_e3_01.gd:167
+#: scripts/campaign/mission_e3_01.gd:173
 msgid "Tell me to stop again tomorrow, Ysolde. I will not stop."
 msgstr ""
 
 #. [&"narrator", "The ford fell at dusk. The golden tree still stood. Both hills called it a victory."],
-#: scripts/campaign/mission_e3_01.gd:168
+#: scripts/campaign/mission_e3_01.gd:174
 msgid "The ford fell at dusk. The golden tree still stood. Both hills called it a victory."
 msgstr ""
 
 #. [&"malrik", "Not like this. Not... stopped."],
-#: scripts/campaign/mission_e3_01.gd:169
+#: scripts/campaign/mission_e3_01.gd:175
 msgid "Not like this. Not... stopped."
 msgstr ""
 
 #. "This spring the Master's door held, and the war came up out of the deep looking for open ground. It found Eve
-#: scripts/campaign/mission_e3_01.gd:172
+#: scripts/campaign/mission_e3_01.gd:178
 msgid "This spring the Master's door held, and the war came up out of the deep looking for open ground. It found Evenmead: knee-high flowers, one slow river, two hills, and the Master's golden tree on the far one."
 msgstr ""
 
 #. "Malrik holds the north ridge with Torvald's winter at his side. On Lark Hill wait Ysolde, who has nothing lef
-#: scripts/campaign/mission_e3_01.gd:173
+#: scripts/campaign/mission_e3_01.gd:179
 msgid "Malrik holds the north ridge with Torvald's winter at his side. On Lark Hill wait Ysolde, who has nothing left but this valley, and Vessa, who never waits for anything. Between them runs the river, and one stone ford."
 msgstr ""
 
 #. "Take the ford. Then take the foot of their hill, and let them watch from the top. In Malrik's pocket, Obren's
-#: scripts/campaign/mission_e3_01.gd:174
+#: scripts/campaign/mission_e3_01.gd:180
 msgid "Take the ford. Then take the foot of their hill, and let them watch from the top. In Malrik's pocket, Obren's heart-stone beats, and whispers to him."
 msgstr ""
 
-#. const HINT_START := "Take the Stone Ford, due south. Fords slow every unit inside: win the fight on the bank, 
-#: scripts/campaign/mission_e3_01.gd:176
+#. const HINT_START := "Take the Stone Ford, due south. Fords slow every unit inside: win the fight on the bank,
+#: scripts/campaign/mission_e3_01.gd:182
 msgid "Take the Stone Ford, due south. Fords slow every unit inside: win the fight on the bank, then cross."
 msgstr ""
 
 #. const HINT_STRONGHOLD := "Your Dusk Keep can become a Stronghold: select it and press X (200 crystals). It ope
-#: scripts/campaign/mission_e3_01.gd:177
+#: scripts/campaign/mission_e3_01.gd:183
 msgid "Your Dusk Keep can become a Stronghold: select it and press X (200 crystals). It opens Hexweaver, Hollow Oathsworn (Gloom Hall) · Gloom Deacon (Keep)."
 msgstr ""
 
 #. const HINT_DEACON := "Gloom Deacon: Z Blood Tithe heals an ally and drains the enemy beside it. V Umbral Passa
-#: scripts/campaign/mission_e3_01.gd:178
+#: scripts/campaign/mission_e3_01.gd:184
 msgid "Gloom Deacon: Z Blood Tithe heals an ally and drains the enemy beside it. V Umbral Passage pulls up to 10 soldiers to the Deacon, even across the river."
 msgstr ""
 
 #. const HINT_FORD_TAKEN := "Umbral Passage can bring your army over the water. The standards fall faster with mo
-#: scripts/campaign/mission_e3_01.gd:179
+#: scripts/campaign/mission_e3_01.gd:185
 msgid "Umbral Passage can bring your army over the water. The standards fall faster with more soldiers."
 msgstr ""
 
 #. const HINT_PASSAGE := "Umbral Passage: bring the army over the water."
-#: scripts/campaign/mission_e3_01.gd:180
+#: scripts/campaign/mission_e3_01.gd:186
 msgid "Umbral Passage: bring the army over the water."
 msgstr ""
 
 #. const MSG_TORVALD_FELL := "Torvald falls back to the ridge"
-#: scripts/campaign/mission_e3_01.gd:181 scripts/campaign/mission_e3_04.gd:168
+#: scripts/campaign/mission_e3_01.gd:187 scripts/campaign/mission_e3_04.gd:168
 msgid "Torvald falls back to the ridge"
 msgstr ""
 
 #. const MSG_KEEP_BURNS := "Lark Hill burns, but its people hold the crest"
-#: scripts/campaign/mission_e3_01.gd:182
+#: scripts/campaign/mission_e3_01.gd:188
 msgid "Lark Hill burns, but its people hold the crest"
 msgstr ""
 
 #. const MSG_HUSH_BACK := "Mother Hush is back at the Dusk Keep"
-#: scripts/campaign/mission_e3_01.gd:183
+#: scripts/campaign/mission_e3_01.gd:189
 msgid "Mother Hush is back at the Dusk Keep"
 msgstr ""
 
 #. c.keep_lost_message = "The Dusk Keep has fallen"
-#: scripts/campaign/mission_e3_01.gd:248 scripts/campaign/mission_e3_04.gd:253
+#: scripts/campaign/mission_e3_01.gd:254 scripts/campaign/mission_e3_04.gd:253
 msgid "The Dusk Keep has fallen"
 msgstr ""
 
 #. c.victory_banner = "VICTORY\nThe ford is Malrik's"
-#: scripts/campaign/mission_e3_01.gd:260
+#: scripts/campaign/mission_e3_01.gd:266
 msgid "VICTORY\nThe ford is Malrik's"
 msgstr ""
 
 #. c.spotlight = {"id": &"gloom_deacon", "trigger": &"unlock", "key_hint": "Dusk Keep: B",
-#: scripts/campaign/mission_e3_01.gd:266
+#: scripts/campaign/mission_e3_01.gd:272
 msgid "Dusk Keep: B"
 msgstr ""
 
 #. "card": "Gloom Deacon. Heals your soldiers with their enemies' blood, and opens a road through the dark."}
-#: scripts/campaign/mission_e3_01.gd:267
+#: scripts/campaign/mission_e3_01.gd:273
 msgid "Gloom Deacon. Heals your soldiers with their enemies' blood, and opens a road through the dark."
 msgstr ""
 
 #. return "Episode 3, Mission 1: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e3_01.gd:284
+#: scripts/campaign/mission_e3_01.gd:290
 msgid "Episode 3, Mission 1: %s"
 msgstr ""
 
 #. t.display_name = "Horn Spire"
-#: scripts/campaign/mission_e3_01.gd:304 scripts/campaign/mission_e4_01.gd:351
+#: scripts/campaign/mission_e3_01.gd:310 scripts/campaign/mission_e4_01.gd:351
 msgid "Horn Spire"
 msgstr ""
 
 #. {"id": &"ford_stone", "name": "Stone Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_STONE, "width": 9.0}
-#: scripts/campaign/mission_e3_01.gd:454 scripts/campaign/mission_e3_01.gd:659
+#: scripts/campaign/mission_e3_01.gd:460 scripts/campaign/mission_e3_01.gd:666
 #: scripts/campaign/mission_e4_01.gd:822
 msgid "Stone Ford"
 msgstr ""
 
 #. {"id": &"ford_reed", "name": "Reed Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_REED, "width": 6.0},
-#: scripts/campaign/mission_e3_01.gd:455 scripts/world/skirmish.gd:151
+#: scripts/campaign/mission_e3_01.gd:461 scripts/world/skirmish.gd:151
 msgid "Reed Ford"
 msgstr ""
 
 #. {"id": &"ford_birch", "name": "Birch Ford", "kind": RiverSystem.KIND_FORD, "center": FORD_BIRCH, "width": 6.0}
-#: scripts/campaign/mission_e3_01.gd:456
+#: scripts/campaign/mission_e3_01.gd:462
 msgid "Birch Ford"
 msgstr ""
 
 #. p.id = StringName("mission_e3_01_%s" % ("ally" if seat == ALLY_SEAT else "enemy"))
-#: scripts/campaign/mission_e3_01.gd:616
+#: scripts/campaign/mission_e3_01.gd:622
 msgid "mission_e3_01_%s"
 msgstr ""
 
 #. return "Take the Stone Ford (%d %%)" % int(100.0 * ford_zone.progress)
-#: scripts/campaign/mission_e3_01.gd:709
+#: scripts/campaign/mission_e3_01.gd:716
 msgid "Take the Stone Ford (%d %%)"
 msgstr ""
 
 #. return "Take the Stone Ford"
-#: scripts/campaign/mission_e3_01.gd:710
+#: scripts/campaign/mission_e3_01.gd:717
 msgid "Take the Stone Ford"
 msgstr ""
 
 #. return "Take the foot of Lark Hill (%d / 3)" % standards_owned()
-#: scripts/campaign/mission_e3_01.gd:713
+#: scripts/campaign/mission_e3_01.gd:720
 msgid "Take the foot of Lark Hill (%d / 3)"
 msgstr ""
 
 #. return "Take the foot of Lark Hill"
-#: scripts/campaign/mission_e3_01.gd:714
+#: scripts/campaign/mission_e3_01.gd:721
 msgid "Take the foot of Lark Hill"
 msgstr ""
 
 #. return "Hold the foot of Lark Hill (%d:%02d, paused)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e3_01.gd:719
+#: scripts/campaign/mission_e3_01.gd:726
 msgid "Hold the foot of Lark Hill (%d:%02d, paused)"
 msgstr ""
 
 #. return "Hold the foot of Lark Hill (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e3_01.gd:720
+#: scripts/campaign/mission_e3_01.gd:727
 msgid "Hold the foot of Lark Hill (%d:%02d)"
 msgstr ""
 
 #. return "Hold the foot of Lark Hill"
-#: scripts/campaign/mission_e3_01.gd:721
+#: scripts/campaign/mission_e3_01.gd:728
 msgid "Hold the foot of Lark Hill"
 msgstr ""
 
 #. return "Malrik must survive"
-#: scripts/campaign/mission_e3_01.gd:723 scripts/campaign/mission_e3_02.gd:604
+#: scripts/campaign/mission_e3_01.gd:730 scripts/campaign/mission_e3_02.gd:604
 #: scripts/campaign/mission_e3_03.gd:479 scripts/campaign/mission_e3_04.gd:672
 #: scripts/campaign/mission_e8_01_shadow.gd:200
 msgid "Malrik must survive"
 msgstr ""
 
 #. return "Silence the Lark horns (%d / 2)" % horns_down
-#: scripts/campaign/mission_e3_01.gd:726
+#: scripts/campaign/mission_e3_01.gd:733
 msgid "Silence the Lark horns (%d / 2)"
 msgstr ""
 
 #. return "Silence the Lark horns"
-#: scripts/campaign/mission_e3_01.gd:727
+#: scripts/campaign/mission_e3_01.gd:734
 msgid "Silence the Lark horns"
 msgstr ""
 
 #. return "Drive Vessa off the field"
-#: scripts/campaign/mission_e3_01.gd:729
+#: scripts/campaign/mission_e3_01.gd:736
 msgid "Drive Vessa off the field"
 msgstr ""
 
@@ -4762,7 +4762,7 @@ msgstr ""
 msgid "Another Night"
 msgstr ""
 
-#. const WAGONS := {&"WG1": ["Grain", Vector3(-52.0, 0.0, 46.0), NATURE_SEAT], &"WG2": ["Arrows", Vector3(-12.0, 
+#. const WAGONS := {&"WG1": ["Grain", Vector3(-52.0, 0.0, 46.0), NATURE_SEAT], &"WG2": ["Arrows", Vector3(-12.0,
 #: scripts/campaign/mission_e3_02.gd:55
 msgid "Grain"
 msgstr ""
@@ -5260,12 +5260,12 @@ msgstr ""
 msgid "Duskbarrow keeps its dead the old way: a candle at every barrow door, lit at dusk by the gravediggers. Two nights ago the candles went out, all four at once, and the dead stood up."
 msgstr ""
 
-#. "The living of the city have shut themselves inside the Great Crypt. The Bishop's Seat still stands above the 
+#. "The living of the city have shut themselves inside the Great Crypt. The Bishop's Seat still stands above the
 #: scripts/campaign/mission_e3_03.gd:119
 msgid "The living of the city have shut themselves inside the Great Crypt. The Bishop's Seat still stands above the Lantern Road. Malrik rode home through two nights to find his own dead walking toward his own people."
 msgstr ""
 
-#. "Light the vigils again and the dead will lie down. The stone in his pocket says there is a faster way. It is 
+#. "Light the vigils again and the dead will lie down. The stone in his pocket says there is a faster way. It is
 #: scripts/campaign/mission_e3_03.gd:120
 msgid "Light the vigils again and the dead will lie down. The stone in his pocket says there is a faster way. It is very eager to show him."
 msgstr ""
@@ -5275,7 +5275,7 @@ msgstr ""
 msgid "Only Malrik can relight a vigil candle. Clear the barrow first."
 msgstr ""
 
-#. const HINT_START := "The barrows will open. Keep the dead away from the Great Crypt, then walk Malrik to each 
+#. const HINT_START := "The barrows will open. Keep the dead away from the Great Crypt, then walk Malrik to each
 #: scripts/campaign/mission_e3_03.gd:123
 msgid "The barrows will open. Keep the dead away from the Great Crypt, then walk Malrik to each vigil candle."
 msgstr ""
@@ -5610,12 +5610,12 @@ msgstr ""
 msgid "Three days Malrik spent laying his dead back down in Duskbarrow. Three evenings an old man with a burning sword walked down to the river and looked at Torvald's winter on the ridge, and walked away again."
 msgstr ""
 
-#. "Ysolde has taken her people south, out of the war. Vessa has stayed, with every soldier she has left and the 
+#. "Ysolde has taken her people south, out of the war. Vessa has stayed, with every soldier she has left and the
 #: scripts/campaign/mission_e3_04.gd:158
 msgid "Ysolde has taken her people south, out of the war. Vessa has stayed, with every soldier she has left and the one ally who has never lost a duel: Old Vey, the Master's storm-sword. Today they cross."
 msgstr ""
 
-#. "Hold the ridge. You cannot kill a storm, but you can wear one out. And Torvald is watching the stone in your 
+#. "Hold the ridge. You cannot kill a storm, but you can wear one out. And Torvald is watching the stone in your
 #: scripts/campaign/mission_e3_04.gd:159
 msgid "Hold the ridge. You cannot kill a storm, but you can wear one out. And Torvald is watching the stone in your pocket more closely than he watches the river."
 msgstr ""
@@ -5625,7 +5625,7 @@ msgstr ""
 msgid "Old Vey cannot die. Break his storm three times and he will leave the field."
 msgstr ""
 
-#. const HINT_START := "Hold the three watch points. Old Vey cannot die: break his storm three times and he will 
+#. const HINT_START := "Hold the three watch points. Old Vey cannot die: break his storm three times and he will
 #: scripts/campaign/mission_e3_04.gd:162
 msgid "Hold the three watch points. Old Vey cannot die: break his storm three times and he will leave."
 msgstr ""
@@ -5635,7 +5635,7 @@ msgstr ""
 msgid "A Dread Paddock can now be raised (the \"Raise the Dread Paddock\" button): it trains the Nightmare Knight, a titan whose charge can break a storm."
 msgstr ""
 
-#. const HINT_KNIGHT := "Nightmare Knight: it charges after a 6 m run. Lunge as he likes, the old man can't stop 
+#. const HINT_KNIGHT := "Nightmare Knight: it charges after a 6 m run. Lunge as he likes, the old man can't stop
 #: scripts/campaign/mission_e3_04.gd:164
 msgid "Nightmare Knight: it charges after a 6 m run. Lunge as he likes, the old man can't stop a horse."
 msgstr ""
@@ -6000,7 +6000,7 @@ msgstr ""
 msgid "Your Heartwood can become a Stronghold: select it and press X (200 crystals). It opens Vinelasher, Greenheart Oathkeeper (Grove Hall) · Bramblesage (Keep)."
 msgstr ""
 
-#. const HINT_SAGE := "Bramblesage: Z Snagroot drags an enemy to the Sage. V Pollen Haze makes archers inside it 
+#. const HINT_SAGE := "Bramblesage: Z Snagroot drags an enemy to the Sage. V Pollen Haze makes archers inside it
 #: scripts/campaign/mission_e4_01.gd:200
 msgid "Bramblesage: Z Snagroot drags an enemy to the Sage. V Pollen Haze makes archers inside it fire only at point-blank range."
 msgstr ""
@@ -6292,7 +6292,7 @@ msgstr ""
 msgid "Lark Hill held. The ford did not. By morning the people under the golden tree have nothing left in the valley but their names, and the supply wagons burned in the night."
 msgstr ""
 
-#. "West of Evenmead the old woods run all the way to the Fire border. Vessa's fort, Cinderwatch, has opened its 
+#. "West of Evenmead the old woods run all the way to the Fire border. Vessa's fort, Cinderwatch, has opened its
 #: scripts/campaign/mission_e4_02.gd:151
 msgid "West of Evenmead the old woods run all the way to the Fire border. Vessa's fort, Cinderwatch, has opened its gate. Between here and there is one road, and Malrik's hunters know it as well as Ysolde does."
 msgstr ""
@@ -6322,7 +6322,7 @@ msgstr ""
 msgid "Your Stronghold can become a Citadel: select the Heartwood and press X (300 crystals, 90 s). It opens the Briar Roc (C) and lets you call Maelis (V)."
 msgstr ""
 
-#. const HINT_CALL := "Call Maelis: select the Heartwood and press V. She fights on her own; her card sets where 
+#. const HINT_CALL := "Call Maelis: select the Heartwood and press V. She fights on her own; her card sets where
 #: scripts/campaign/mission_e4_02.gd:158
 msgid "Call Maelis: select the Heartwood and press V. She fights on her own; her card sets where (Escort / Vanguard / Hold home)."
 msgstr ""
@@ -6567,7 +6567,7 @@ msgstr ""
 msgid "The Sighing Wood is still ash under rime. Torvald holds its west; Aldra Stillwater, his Glass Warden, holds its east, and her totems keep five old glades frozen so that nothing grows there again."
 msgstr ""
 
-#. "Break the frost. Plant. Keep the young groves alive until all five are green at once. A wood that grows back 
+#. "Break the frost. Plant. Keep the young groves alive until all five are green at once. A wood that grows back
 #: scripts/campaign/mission_e4_03.gd:159
 msgid "Break the frost. Plant. Keep the young groves alive until all five are green at once. A wood that grows back cannot be held by anyone who wants it dead."
 msgstr ""
@@ -6597,7 +6597,7 @@ msgstr ""
 msgid "Your Stronghold can become a Citadel: select the Heartwood and press X (300 crystals, 90 s). It opens the Briar Roc (C): its Seed Storm roots from the air, out of the totems' reach."
 msgstr ""
 
-#. const HINT_ROOTING := "A grove that has grown out must take root: keep soldiers or Ysolde in it for 30 s with 
+#. const HINT_ROOTING := "A grove that has grown out must take root: keep soldiers or Ysolde in it for 30 s with
 #: scripts/campaign/mission_e4_03.gd:166
 msgid "A grove that has grown out must take root: keep soldiers or Ysolde in it for 30 s with no enemy inside."
 msgstr ""
@@ -6877,7 +6877,7 @@ msgstr ""
 msgid "On Torvald's frontier stands a wall older than any of the four: the Wall of a Hundred Winters. When the snows come it closes the passes, and behind it the north can feed Malrik's war all winter long."
 msgstr ""
 
-#. "The first blizzard is a week away. Vessa has brought fire and siege. Ysolde has brought something slower and 
+#. "The first blizzard is a week away. Vessa has brought fire and siege. Ysolde has brought something slower and
 #: scripts/campaign/mission_e4_04.gd:167
 msgid "The first blizzard is a week away. Vessa has brought fire and siege. Ysolde has brought something slower and much heavier: the elders of the wood, if she can wake them."
 msgstr ""
@@ -7178,7 +7178,7 @@ msgstr ""
 msgid "Twenty years before the crown, the Master's citadel rose above the clouds and the world was at peace, nearly. In the Vale of Bells below it, the old signal beacons had gone cold, and reivers from the southern fens had noticed."
 msgstr ""
 
-#. "Torren Vey, the Master's sword, set his youngest apprentice her first trial: light all five beacons and call 
+#. "Torren Vey, the Master's sword, set his youngest apprentice her first trial: light all five beacons and call
 #: scripts/campaign/mission_e5_01.gd:148
 msgid "Torren Vey, the Master's sword, set his youngest apprentice her first trial: light all five beacons and call the south watch home. Vessa was twelve. She had never waited for anything in her life."
 msgstr ""
@@ -7208,12 +7208,12 @@ msgstr ""
 msgid "Select your soldiers, press X (or A) and click: they attack everything on the way. F then click: Fireball."
 msgstr ""
 
-#. const HINT_LEVEL := "Level up! Ctrl+Q learns Ember Step, then Q and click to jump. Ctrl+1 puts your selection 
+#. const HINT_LEVEL := "Level up! Ctrl+Q learns Ember Step, then Q and click to jump. Ctrl+1 puts your selection
 #: scripts/campaign/mission_e5_01.gd:155
 msgid "Level up! Ctrl+Q learns Ember Step, then Q and click to jump. Ctrl+1 puts your selection in group 1."
 msgstr ""
 
-#. const HINT_KNOLL := "Neutral beasts guard their ground but never chase far. Draw them off the beacon, or pass 
+#. const HINT_KNOLL := "Neutral beasts guard their ground but never chase far. Draw them off the beacon, or pass
 #: scripts/campaign/mission_e5_01.gd:156
 msgid "Neutral beasts guard their ground but never chase far. Draw them off the beacon, or pass by."
 msgstr ""
@@ -7373,7 +7373,7 @@ msgstr ""
 msgid "Gatereeds"
 msgstr ""
 
-#. const SPEAKER_NAMES := {&"vessa": "Vessa", &"ashby": "Sergeant Ashby", &"gannet": "Gannet Rook", &"narrator": 
+#. const SPEAKER_NAMES := {&"vessa": "Vessa", &"ashby": "Sergeant Ashby", &"gannet": "Gannet Rook", &"narrator":
 #: scripts/campaign/mission_e5_02.gd:119 scripts/campaign/mission_e5_02.gd:259
 msgid "Sergeant Ashby"
 msgstr ""
@@ -7503,7 +7503,7 @@ msgstr ""
 msgid "I should have... waited..."
 msgstr ""
 
-#. "Winter, the truce. Vessa laughs at something nobody else heard. Ashby, grey now, knows exactly which day she 
+#. "Winter, the truce. Vessa laughs at something nobody else heard. Ashby, grey now, knows exactly which day she
 #: scripts/campaign/mission_e5_02.gd:151
 msgid "Winter, the truce. Vessa laughs at something nobody else heard. Ashby, grey now, knows exactly which day she means."
 msgstr ""
@@ -7513,7 +7513,7 @@ msgstr ""
 msgid "Three summers after the Vale of Bells, Gannet Rook was back: a fort of black timber in the southern fens, Rookhold, and in it the grain of half the south border. The Master sent his youngest apprentice to fetch it back."
 msgstr ""
 
-#. "Vessa was fifteen. She had an army, a sergeant called Ashby, and one piece of advice from Vey: wait for your 
+#. "Vessa was fifteen. She had an army, a sergeant called Ashby, and one piece of advice from Vey: wait for your
 #: scripts/campaign/mission_e5_02.gd:153
 msgid "Vessa was fifteen. She had an army, a sergeant called Ashby, and one piece of advice from Vey: wait for your soldiers. She was sure she would remember it."
 msgstr ""
@@ -7848,7 +7848,7 @@ msgstr ""
 msgid "The gravedigger's son was thirteen. He knew every grave in Wickmoor by heart, and every dark corner between them. He took a candle and his father's two dogs, and went to ask the dead who was lying."
 msgstr ""
 
-#. const HINT_CANDLE := "Malrik's candle: J (or the button on his card). Lit, he sees far and can read. Pinched, 
+#. const HINT_CANDLE := "Malrik's candle: J (or the button on his card). Lit, he sees far and can read. Pinched,
 #: scripts/campaign/mission_e5_03.gd:159
 msgid "Malrik's candle: J (or the button on his card). Lit, he sees far and can read. Pinched, he hides in the dark."
 msgstr ""
@@ -8188,7 +8188,7 @@ msgstr ""
 msgid "The citadel's shadow is yours: in the violet shade your units are hidden unless an enemy comes within 2.5 m."
 msgstr ""
 
-#. const HINT_STEAL := "Your side takes Vessa's banners twice as fast, and each one pays 100 crystals. She takes 
+#. const HINT_STEAL := "Your side takes Vessa's banners twice as fast, and each one pays 100 crystals. She takes
 #: scripts/campaign/mission_e5_04.gd:130
 msgid "Your side takes Vessa's banners twice as fast, and each one pays 100 crystals. She takes empty banners faster."
 msgstr ""
@@ -8454,7 +8454,7 @@ msgstr ""
 msgid "A hundred winters ago. The Master has just sealed something under Crown Hollow, and the four kingdoms are new. The north belongs to his eldest apprentice, Torvald, who has a keep, a lake, and no great love of visitors."
 msgstr ""
 
-#. "Tonight the Master walks out onto the lake with a block of blue ice in his arms. Something inside it shines. 
+#. "Tonight the Master walks out onto the lake with a block of blue ice in his arms. Something inside it shines.
 #: scripts/campaign/mission_e6_01.gd:128
 msgid "Tonight the Master walks out onto the lake with a block of blue ice in his arms. Something inside it shines. He asks Torvald to keep it cold until he comes back for it, and warns him that something will come for it every winter."
 msgstr ""
@@ -8469,7 +8469,7 @@ msgstr ""
 msgid "Keep the Heartfrost alive through three winters. Wardens come from the cracks in the north-east. Ice Walls (V) can close a gap."
 msgstr ""
 
-#. const HINT_FLOE := "The ice is cracking under the Wardens. Rime Bolt and Flash Freeze crack it further: stone 
+#. const HINT_FLOE := "The ice is cracking under the Wardens. Rime Bolt and Flash Freeze crack it further: stone
 #: scripts/campaign/mission_e6_01.gd:132
 msgid "The ice is cracking under the Wardens. Rime Bolt and Flash Freeze crack it further: stone does not swim."
 msgstr ""
@@ -8760,7 +8760,7 @@ msgstr ""
 msgid "Some nights I still see the smoke."
 msgstr ""
 
-#. "Forty winters ago. For sixty years Torvald's ice gate has stood across the south road, and in sixty years it 
+#. "Forty winters ago. For sixty years Torvald's ice gate has stood across the south road, and in sixty years it
 #: scripts/campaign/mission_e6_02.gd:123
 msgid "Forty winters ago. For sixty years Torvald's ice gate has stood across the south road, and in sixty years it has never once opened. Behind it lie his keep, his lake, and the Heartfrost he promised to keep cold."
 msgstr ""
@@ -8780,7 +8780,7 @@ msgstr ""
 msgid "The Frostgate is sealed for winter. Build up: the Wardens are somewhere south."
 msgstr ""
 
-#. const HINT_CHOICE := "The rider begs you to open the gate. Open the gate, or keep it shut (the buttons on the 
+#. const HINT_CHOICE := "The rider begs you to open the gate. Open the gate, or keep it shut (the buttons on the
 #: scripts/campaign/mission_e6_02.gd:128
 msgid "The rider begs you to open the gate. Open the gate, or keep it shut (the buttons on the right). His fire burns for %s."
 msgstr ""
@@ -9316,7 +9316,7 @@ msgstr ""
 msgid "Twelve years ago. For eighty-eight years nothing under Crown Hollow had stirred. Then, on the first warm night of spring, the isle cracked, and amber light came up through the stones like water through ice."
 msgstr ""
 
-#. "The Master sent for two of his four apprentices, and only two: Ysolde from the west, Torvald from the north. 
+#. "The Master sent for two of his four apprentices, and only two: Ysolde from the west, Torvald from the north.
 #: scripts/campaign/mission_e6_04.gd:107
 msgid "The Master sent for two of his four apprentices, and only two: Ysolde from the west, Torvald from the north. When they arrived he was already on his knees at the old throne-stone, both hands pressed to the crack."
 msgstr ""
@@ -9668,7 +9668,7 @@ msgstr ""
 msgid "Ossavar the Twice-Sold has named the old price: gold for fire. Three auctions, three skies for sale. Adamarch, the Diamond City, has opened its harbour to Malrik and to Torvald. Across the water, Aurivane flies Vessa's red sails and Ysolde's green ones."
 msgstr ""
 
-#. "Torvald came to keep a peace. Malrik came to buy a war. Hold the Diamond Harbour, win the sky, and count the 
+#. "Torvald came to keep a peace. Malrik came to buy a war. Hold the Diamond Harbour, win the sky, and count the
 #: scripts/campaign/mission_e7_01.gd:122
 msgid "Torvald came to keep a peace. Malrik came to buy a war. Hold the Diamond Harbour, win the sky, and count the coin carefully. Somebody else is counting too."
 msgstr ""
@@ -9698,7 +9698,7 @@ msgstr ""
 msgid "Hold the Tollrock when the hammer falls: its master wins a bid within 10 %."
 msgstr ""
 
-#. const HINT_CARVER := "Rimecarver: Z Rime Bulwark raises a wall for 8 s (two close a causeway). V Scrying Rune 
+#. const HINT_CARVER := "Rimecarver: Z Rime Bulwark raises a wall for 8 s (two close a causeway). V Scrying Rune
 #: scripts/campaign/mission_e7_01.gd:129
 msgid "Rimecarver: Z Rime Bulwark raises a wall for 8 s (two close a causeway). V Scrying Rune sees through fog."
 msgstr ""
@@ -10505,7 +10505,7 @@ msgid "Not while the Outwall's people are walking"
 msgstr ""
 
 #. rows.append([Loc.t("Pay {name} home ({price})", {"name": PAY_NAMES[id], "price": pay_price(id)}),
-#: scripts/campaign/mission_e7_04.gd:701
+#: scripts/campaign/mission_e7_04.gd:702
 msgid "Pay {name} home ({price})"
 msgstr ""
 
@@ -10762,7 +10762,7 @@ msgstr ""
 msgid "The Bishop sends his regrets. I will deliver them in person, later."
 msgstr ""
 
-#. "Nearly four hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and 
+#. "Nearly four hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and
 #: scripts/campaign/mission_e7_04.gd:132
 msgid "Nearly four hundred years ago, in the Year of Two Skies, Adamarch emptied its diamond pits in one night, and every dragon on the Coinwater changed sides by morning. Tonight the Diamond Archon signs the same order, with Malrik's hand on her pen."
 msgstr ""
@@ -10782,7 +10782,7 @@ msgstr ""
 msgid "Crimson galleys shell the shore: sink them or stay off the shore road."
 msgstr ""
 
-#. const HINT_START := "Crimson galleys shell the shore. Shardcasters on the bank, Frost Mortars and Rime Spires 
+#. const HINT_START := "Crimson galleys shell the shore. Shardcasters on the bank, Frost Mortars and Rime Spires
 #: scripts/campaign/mission_e7_04.gd:137
 msgid "Crimson galleys shell the shore. Shardcasters on the bank, Frost Mortars and Rime Spires reach them."
 msgstr ""
@@ -10903,7 +10903,7 @@ msgid "Sink Malrik's silver galleys"
 msgstr ""
 
 #. return "Not during the turn"
-#: scripts/campaign/mission_e7_04.gd:1105
+#: scripts/campaign/mission_e7_04.gd:1108
 msgid "Not during the turn"
 msgstr ""
 
@@ -11127,7 +11127,7 @@ msgstr ""
 msgid "Bring Ashby's scouts home"
 msgstr ""
 
-#. return Loc.t("Bring the column south ({saved} / {needed}, lost {lost})", {"saved": saved, "needed": needed(), 
+#. return Loc.t("Bring the column south ({saved} / {needed}, lost {lost})", {"saved": saved, "needed": needed(),
 #: scripts/campaign/mission_e8_01_ice.gd:189
 msgid "Bring the column south ({saved} / {needed}, lost {lost})"
 msgstr ""
@@ -11487,7 +11487,7 @@ msgstr ""
 msgid "They came by four roads, and for one evening they stood on the same hill: fire, shadow, ice and green. Nobody drew a blade. Old Vey said it was the first miracle he had seen in thirty years."
 msgstr ""
 
-#. "Below them, Crown Hollow is splitting open. Four keyholes have pushed up out of the earth, one on each bank, 
+#. "Below them, Crown Hollow is splitting open. Four keyholes have pushed up out of the earth, one on each bank,
 #: scripts/campaign/mission_e8_02.gd:51
 msgid "Below them, Crown Hollow is splitting open. Four keyholes have pushed up out of the earth, one on each bank, and the Hollow's pylons stand on every one of them. The Host is climbing out of the isle by the thousand."
 msgstr ""
@@ -11672,7 +11672,7 @@ msgstr ""
 msgid "The King climbs for 4:30. Hold your keyhole. When the chains pull together, strike."
 msgstr ""
 
-#. const HINT_TOGETHER := "All four stand at your keyholes. Keep your helper beside you: the Hollow Pulse breaks 
+#. const HINT_TOGETHER := "All four stand at your keyholes. Keep your helper beside you: the Hollow Pulse breaks
 #: scripts/campaign/mission_e8_03.gd:63
 msgid "All four stand at your keyholes. Keep your helper beside you: the Hollow Pulse breaks the turn unless every helper grounds it."
 msgstr ""
