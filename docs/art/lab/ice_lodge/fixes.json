@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "ice",
-	"quality": 90.2,
+	"quality": 90.3,
 	"result": "PASS",
 	"scene": "res://art/buildings/ice_lodge.tscn",
 	"tier": "hall",

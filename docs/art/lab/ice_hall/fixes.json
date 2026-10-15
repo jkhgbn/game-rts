@@ -5,17 +5,17 @@
 		{
 			"changes": [
 				{
-					"factor": 0.234,
+					"factor": 0.232,
 					"from": 1.0,
-					"material": "ShaderMaterial#-99987",
+					"material": "ShaderMaterial#-98653",
 					"material_path": "",
-					"node": "Body/IceStore/StoreParts, Body/Roof",
+					"node": "Body/RidgeCrystal/FloatTip, Body/IceStore/StoreParts, Body/Roof, Body/RidgeCrystal/CrystalBase, Body/WeaponRack/RackParts",
 					"param": "shader_parameter/crack_strength",
-					"peak_x_bloom": 3.2,
-					"to": 0.234,
+					"peak_x_bloom": 3.23,
+					"to": 0.232,
 					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 2 point(s), peak 3.2 x the level",
-					"words": "crack_strength 1.0 -> 0.23 on StoreParts, Roof (dim under the bloom level: 2 point(s), peak 3.2 x the level)"
+					"why": "dim under the bloom level: 3 point(s), peak 3.23 x the level",
+					"words": "crack_strength 1.0 -> 0.23 on FloatTip, StoreParts, Roof, CrystalBase (dim under the bloom level: 3 point(s), peak 3.23 x the level)"
 				}
 			],
 			"check": "R5",
@@ -26,15 +26,9 @@
 				"spots": [
 					{
 						"above": true,
-						"part": "Body/IceStore/StoreParts",
-						"peak_x_bloom": 3.2,
-						"px": 317
-					},
-					{
-						"above": true,
 						"part": "Body/BannerR",
-						"peak_x_bloom": 3.39,
-						"px": 203
+						"peak_x_bloom": 3.11,
+						"px": 198
 					},
 					{
 						"above": true,
@@ -44,44 +38,92 @@
 					},
 					{
 						"above": true,
-						"part": "Body/RidgeCrystal/Halo/HaloShards",
+						"part": "Body/RidgeCrystal/FloatTip",
 						"peak_x_bloom": 3.11,
-						"px": 110
+						"px": 97
+					},
+					{
+						"above": true,
+						"part": "Body/IceStore/StoreParts",
+						"peak_x_bloom": 3.23,
+						"px": 95
 					},
 					{
 						"above": true,
 						"part": "Body/Roof",
-						"peak_x_bloom": 3.2,
-						"px": 83
-					},
-					{
-						"above": false,
-						"part": "Body/Roof",
-						"peak_x_bloom": 0.89,
-						"px": 523
+						"peak_x_bloom": 3.23,
+						"px": 40
 					},
 					{
 						"above": false,
 						"part": "Body/Roof",
 						"peak_x_bloom": 0.33,
-						"px": 78
+						"px": 60
 					},
 					{
 						"above": false,
 						"part": "Body/Roof",
 						"peak_x_bloom": 0.33,
-						"px": 19
+						"px": 24
+					},
+					{
+						"above": false,
+						"part": "Body/Roof",
+						"peak_x_bloom": 0.38,
+						"px": 20
+					},
+					{
+						"above": false,
+						"part": "Body/Roof",
+						"peak_x_bloom": 0.24,
+						"px": 18
+					},
+					{
+						"above": false,
+						"part": "Body/RidgeCrystal/CrystalBase",
+						"peak_x_bloom": 0.44,
+						"px": 16
+					},
+					{
+						"above": false,
+						"part": "Body/WeaponRack/RackParts",
+						"peak_x_bloom": 0.2,
+						"px": 6
+					},
+					{
+						"above": false,
+						"part": "Body/WeaponRack/RackParts",
+						"peak_x_bloom": 0.25,
+						"px": 6
+					},
+					{
+						"above": false,
+						"part": "Body/RidgeCrystal/CrystalBase",
+						"peak_x_bloom": 0.2,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "Body/Roof",
+						"peak_x_bloom": 0.3,
+						"px": 3
+					},
+					{
+						"above": false,
+						"part": "Body/WeaponRack/RackParts",
+						"peak_x_bloom": 0.22,
+						"px": 2
 					}
 				],
-				"value": "6 point(s) above the bloom level 1.2 (median of 5/6/8): StoreParts, BannerR x2, HaloShards x2, Roof; soft glows under the bloom (v1 count, luma > 0.4): 22"
+				"value": "6 point(s) above the bloom level 1.2 (median of 5/6/6): BannerR x2, HaloShards x2, StoreParts, Roof; soft glows under the bloom (v1 count, luma > 0.4): 20"
 			},
 			"predicted": {
-				"points": 4
+				"points": 3
 			},
-			"proposal": "Glow points 6 -> 4 (want 2-4): ShaderMaterial#-99987 crack_strength 1.0 -> 0.23 on StoreParts, Roof (dim under the bloom level: 2 point(s), peak 3.2 x the level)",
+			"proposal": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-98653 crack_strength 1.0 -> 0.23 on FloatTip, StoreParts, Roof, CrystalBase (dim under the bloom level: 3 point(s), peak 3.23 x the level)",
 			"rank": 1,
 			"status": "WARN",
-			"text": "Glow points 6 -> 4 (want 2-4): ShaderMaterial#-99987 crack_strength 1.0 -> 0.23 on StoreParts, Roof (dim under the bloom level: 2 point(s), peak 3.2 x the level)",
+			"text": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-98653 crack_strength 1.0 -> 0.23 on FloatTip, StoreParts, Roof, CrystalBase (dim under the bloom level: 3 point(s), peak 3.23 x the level)",
 			"title": "Glow points at the bloom level",
 			"wanted": {
 				"points": "2-4 above the bloom level 1.2"
@@ -91,7 +133,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "ice",
-	"quality": 89.8,
+	"quality": 90.3,
 	"result": "WARN",
 	"scene": "res://art/buildings/ice_hall.tscn",
 	"tier": "hall",

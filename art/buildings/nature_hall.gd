@@ -726,13 +726,16 @@ func _mesh_wreck(mb: NatureKit.MB) -> void:
 func _build_ambient() -> void:
 	var glow_ramp: GradientTexture1D = NatureKit.ramp([0.0, 0.15, 0.7, 1.0], [Color(glow_color, 0.0),
 		Color(glow_color, 1.0), Color(glow_color, 0.8), Color(glow_color, 0.0)], _glow_ramps)
-	var po := _pm(Vector3.UP, 60.0, 0.1, 0.35, Vector3(0, 0.08, 0), 0.09, 0.04, glow_ramp)
+	# G-F r2 item 7: smaller (0.09 -> 0.05), slower, the MIX atlas dot (was additive) with the near-camera fade
+	# (MoteCap.apply_own; none at Low, half at Medium).
+	var po := _pm(Vector3.UP, 60.0, 0.05, 0.2, Vector3(0, 0.03, 0), 0.05, 0.025, glow_ramp)
 	po.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	po.emission_sphere_radius = 1.3
 	po.color = NatureKit.MOTE_DIM
 	po.turbulence_enabled = true
 	po.turbulence_noise_strength = 0.3
-	_ambient.append(_particles("Pollen", _tree, BLOOM_POS + Vector3(0, 0.2, 0), 14, 3.5, po, NatureKit.soft_quad(true), false))
+	_ambient.append(MoteCap.apply_own(_particles("Pollen", _tree, BLOOM_POS + Vector3(0, 0.2, 0), 10, 3.5, po,
+		NatureKit.soft_quad(false), false), null, 0.05))
 	var t := kingdom_color
 	var leaf_ramp: GradientTexture1D = NatureKit.ramp([0.0, 0.08, 0.8, 1.0], [Color(t, 0.0), Color(t, 1.0),
 		Color(t.darkened(0.2), 1.0), Color(t.darkened(0.3), 0.0)], _leaf_ramps)

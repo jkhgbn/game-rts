@@ -97,7 +97,7 @@ void fragment() {
 	float hs = hash2(sc + 31.0 + seed);
 	float spore = step(0.955, hs) * (1.0 - smoothstep(0.03, 0.08, length(fract(p * 2.2) - 0.5)))
 		* (0.55 + 0.45 * sin(TIME * (1.4 + damage * 5.0) + hs * 40.0)) * moss * (1.0 - contact);
-	col = mix(col, glow_color * 1.5, spore * (1.0 - scorch));
+	col = mix(col, glow_color * 0.9, spore * (1.0 - scorch));   // G-F r2 item 7: was x1.5 (over the bloom)
 	alpha = max(alpha, spore);
 
 	// Fairy ring of small glowing caps over a band of darker lush moss.
@@ -116,7 +116,8 @@ void fragment() {
 	float cap = (1.0 - smoothstep(cap_r * 0.7, cap_r, cd)) * build * gap;
 	float breathe = 0.6 + 0.4 * sin(TIME * 1.1 + cid * 0.9);
 	vec3 cap_col = mix(glow_color * glow_color, glow_color, 0.5);
-	col = mix(col, cap_col * (0.8 + ring_energy * breathe * (1.0 - scorch * 0.8)), cap);
+	// G-F r2 item 7: the caps reached x1.6 the glow (unshaded) and bloomed into pale ovals; now under the bloom.
+	col = mix(col, cap_col * min(0.5 + 0.35 * breathe * clamp(ring_energy / 0.8, 0.0, 1.0), 0.85) * (1.0 - scorch * 0.8), cap);
 	alpha = max(alpha, cap);
 
 	// Contact shadow last (darkest under the plinth).

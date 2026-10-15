@@ -63,7 +63,7 @@ static func is_vc(m: ShaderMaterial) -> bool:
 
 
 ## High / Ultra ambience: slow snowflakes drifting down over a `radius` m square (emitter at the top, local coords),
-## a shared process material per radius. Use with a MIX quad, ~10-16 flakes, lifetime ~4.5 s.
+## a shared process material per radius. Draw it with MoteCap.apply (G-F r2), ~8 flakes, lifetime ~3.4 s.
 static func snowfall_pm(radius: float) -> ParticleProcessMaterial:
 	var key: String = "snowfall_%.2f" % radius
 	if _cache.has(key):
@@ -78,16 +78,11 @@ static func snowfall_pm(radius: float) -> ParticleProcessMaterial:
 	pm.gravity = Vector3(0.12, -0.25, 0.05)
 	pm.angular_velocity_min = -90.0
 	pm.angular_velocity_max = 90.0
-	pm.scale_min = 0.035
-	pm.scale_max = 0.06
-	var g := Gradient.new()
-	g.set_color(0, Color(0.92, 0.96, 1.0, 0.0))
-	g.set_color(1, Color(0.85, 0.92, 1.0, 0.0))
-	g.add_point(0.15, Color(0.95, 0.98, 1.0, 0.85))
-	g.add_point(0.85, Color(0.88, 0.94, 1.0, 0.7))
-	var tex := GradientTexture1D.new()
-	tex.gradient = g
-	pm.color_ramp = tex
+	pm.scale_min = 0.03
+	pm.scale_max = 0.045
+	# G-F round 2 item 7: was near-white at alpha 0.85 (soft white discs near the camera). Capped under the Ice whites
+	# (MoteCap.VALUE_CAP) and fainter; the emitters draw with MoteCap.quad (near-camera fade).
+	pm.color_ramp = MoteCap.ramp(Color(0.7, 0.78, 0.9), 0.6)
 	_cache[key] = pm
 	return pm
 

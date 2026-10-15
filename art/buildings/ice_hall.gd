@@ -27,9 +27,23 @@ const TUR_X := 2.05    ## turrets at HX +- TUR_X
 const TUR_Z := -2.2
 const CRYSTAL_POS := Vector3(HX, 5.55, 1.35)
 const FROST_GROUND: Shader = preload("res://art/buildings/ice/ice_frost_ground.gdshader")
+## G-F round 2 item 6: roof tile shades (team colour x these; the old single shade was x 0.65), the tile courses a
+## slope, the tiles a course and the tiles' crack streak strength (was 0.35).
+const ROOF_MULTS: Array[float] = [0.52, 0.45, 0.6]
+const ROOF_COURSES := 6
+const ROOF_TILES := 8
+const ROOF_CRACK := 0.15
+## Tile gloss (was 0.45; >= 0.3 keeps the glazed-ice kind): with the per-tile tilt jitter the sun glints off a few
+## tiles instead of glaring off the whole sun-side slope as one cream sheet.
+const ROOF_SPEC := 0.32
 
 var mat_snow: ShaderMaterial
-var mat_roof: ShaderMaterial   ## glazed roof tiles: the team colour, deeper
+var mat_roof: ShaderMaterial   ## glazed roof tiles: the team colour, deeper (the first of _roof_mats)
+var mat_snow_ground: ShaderMaterial   ## G-F r2: packed grey-blue snow (ground drifts, never paper white)
+var mat_ice_trim: ShaderMaterial   ## G-F r2: frosted ice (icicles)
+var mat_roof_trim: ShaderMaterial   ## G-F r2: dark silver bargeboards / drip edge
+var mat_brazier: ShaderMaterial   ## G-F r2: the frost brazier's glow (dimmer than mat_glow)
+var _roof_mats: Array[ShaderMaterial] = []   ## G-F r2: the tile shades, team colour x ROOF_MULTS
 var mat_window: ShaderMaterial   ## G-B Ice: warm arrow slits
 var _crystal: Node3D
 var _tip: MeshInstance3D
@@ -86,9 +100,19 @@ func _build_structure() -> void:
 	var box1: BoxMesh = _boxm(Vector3.ONE)
 	var sq: Mesh = IceShapes.prism(1.0, 1.0, 1.0, 4)
 	mat_snow = _painted_mat(Color(0.86, 0.92, 1.0), 0.15, 0.0)
-	mat_roof = _painted_mat(_roof_of(kingdom_color), 0.45, 0.35)
-	mat_roof.set_shader_parameter(&"crack_scale", 1.2)
-	mat_roof.set_shader_parameter(&"crack_speed", 0.9)
+	# G-F round 2 item 6: three tile shades (a value step per course), the streak cracks at half strength (0.35 ->
+	# 0.15), packed grey-blue snow for the ground drifts, frosted ice (not paper-white snow) for the icicles.
+	_roof_mats.clear()
+	for k: float in ROOF_MULTS:
+		var rm: ShaderMaterial = _painted_mat(_roof_of(kingdom_color, k), ROOF_SPEC, ROOF_CRACK)
+		rm.set_shader_parameter(&"crack_scale", 1.2)
+		rm.set_shader_parameter(&"crack_speed", 0.9)
+		_roof_mats.append(rm)
+	mat_roof = _roof_mats[0]
+	mat_snow_ground = _painted_mat(Color(0.58, 0.64, 0.74), 0.0, 0.0)
+	mat_ice_trim = _painted_mat(Color(0.6, 0.72, 0.85), 0.28, 0.0)
+	mat_roof_trim = _painted_mat(Color(0.4, 0.46, 0.56), 0.35, 0.0)   # dark silver (the bargeboards were a white frame)
+	mat_brazier = _glow_mat(1.2, 1.2, 0)   # the frost brazier (on mat_glow, 3.0, it was a white hex by the gate)
 	mat_team.set_shader_parameter(&"spec_strength", 0.5)   # team = glazed crystal ice
 	mat_team.set_shader_parameter(&"crack_strength", 0.9)
 	mat_team.set_shader_parameter(&"crack_scale", 1.2)
@@ -119,7 +143,10 @@ func _build_structure() -> void:
 	for d: Array in [[Vector3(3.22, 0.0, 1.3), Vector3(0.42, 0.26, 1.2)], [Vector3(-3.24, 0.0, -1.7), Vector3(0.45, 0.24, 0.95)],
 			[Vector3(1.4, 0.0, 3.24), Vector3(1.3, 0.24, 0.42)], [Vector3(2.65, 1.14, 2.65), Vector3(0.4, 0.16, 0.4)],
 			[Vector3(-2.65, 1.14, 2.65), Vector3(0.4, 0.16, 0.4)], [Vector3(-2.2, 0.8, 2.75), Vector3(0.7, 0.2, 0.3)]]:
-		it.append(BMG.item(mound, d[0], mat_snow, Vector3(0, rng.randf_range(-20, 20), 0), d[1]))
+		# G-F r2 item 6: packed grey-blue snow, flatter (no white "snowballs" at the plinth).
+		var ds: Vector3 = d[1]
+		it.append(BMG.item(mound, d[0], mat_snow_ground, Vector3(0, rng.randf_range(-20, 20), 0),
+			Vector3(ds.x * 0.75, ds.y * 0.45, ds.z * 0.75)))
 	for cl: Vector2 in [Vector2(125.0, 3.75), Vector2(212.0, 3.55), Vector2(330.0, 3.75), Vector2(55.0, 3.8)]:
 		var a0: float = deg_to_rad(cl.x)
 		for j: int in 3:
@@ -186,30 +213,15 @@ func _build_structure() -> void:
 	_turret_cap(it, Vector3(HX + TUR_X, 5.5, TUR_Z), 1.0)
 	var cap_r := _merged("TurretCapR", "turret_cap_r", it)
 	_hide_below_50.append(cap_r)
-	# --- Roof tier: stone gables, 4 courses a side of glazed ice tiles, silver bargeboards, a snow ridge, snow drifts,
-	# icicle fringes under both eaves, a crystal emblem on the front gable and a round frost window at the back.
+	# --- Roof tier (G-F round 2 item 6: was 4 pale slabs a side under a snow blanket and a row of drift "pillows"):
+	# stone gables, staggered courses of glazed ice tiles in three deeper team shades, a dark eave board with a silver
+	# drip edge (the eave reads thick), dark ridge cap with an ice-crystal crest, snow only in a thin broken line under
+	# the ridge, icicle fringes under both eaves, a crystal emblem on the front gable and a round frost window at the back.
 	it = []
-	_gable_roof(it, HX, R_Z, R_HALF, R_EAVE, R_RISE, R_DEPTH, R_DEPTH - 0.6, 4, mat_stone, mat_roof, mat_metal, 0.0, 9.0)
-	var ridge_y: float = R_EAVE + R_RISE
-	it.append(BMG.item(_prism(Vector3(1.05, 0.44, R_DEPTH + 0.25), 0.5), Vector3(HX, ridge_y + 0.21, R_Z), mat_snow))
-	# Snow blanket over the upper third of both slopes, its lower edge jagged by tongues of different lengths.
-	var slope: float = atan2(R_RISE, R_HALF)
-	var slope_l: float = sqrt(R_HALF * R_HALF + R_RISE * R_RISE)
+	_ice_roof(it, rng)
 	for s: float in [-1.0, 1.0]:
-		var sb := Basis(Vector3.BACK, -s * slope)
-		var p: Vector3 = _gable_point(HX, R_HALF, R_EAVE, R_RISE, s, 0.82, 0.37, R_Z)
-		it.append(BMG.item_xf(box1, Transform3D(sb.scaled_local(Vector3(slope_l * 0.36 + 0.1, 0.13, R_DEPTH + 0.1)), p),
-			mat_snow))
-		# Soft drifts along the blanket's lower edge (flattened mounds lying on the slope).
-		for dz: Vector3 in [Vector3(-1.75, 0.55, 0.7), Vector3(-0.55, 0.42, 0.55), Vector3(0.65, 0.6, 0.8),
-				Vector3(1.8, 0.4, 0.5)]:
-			var z: float = R_Z + dz.x * s
-			var q: Vector3 = _gable_point(HX, R_HALF, R_EAVE, R_RISE, s, 0.64 - dz.y * 0.12, 0.28, z)
-			it.append(BMG.item_xf(mound, Transform3D(sb * Basis(Vector3.UP, 0.0).scaled_local(
-				Vector3(dz.y, 0.16, dz.z)), q), mat_snow))
-	for s: float in [-1.0, 1.0]:
-		it.append(BMG.item(IceShapes.icicle_strip(R_DEPTH - 0.3, 10, 0.8, 0.12, 71 if s < 0.0 else 72),
-			Vector3(HX + s * (R_HALF - 0.05), R_EAVE - 0.02, R_Z), mat_snow, Vector3(0, 90, 0)))
+		it.append(BMG.item(IceShapes.icicle_strip(R_DEPTH - 0.3, 10, 0.62, 0.1, 71 if s < 0.0 else 72),
+			Vector3(HX + s * (R_HALF + 0.06), R_EAVE - 0.2, R_Z), mat_ice_trim, Vector3(0, 90, 0)))
 	it.append(BMG.item(_cyl(0.52, 0.52, 0.12, 6), Vector3(HX, 5.2, R_Z - 2.13), mat_metal, Vector3(90, 30, 0)))
 	it.append(BMG.item(IceShapes.crystal(0.34, 0.0, 0.42, 0.42, 4), Vector3(HX, 5.2, R_Z - 2.22), mat_team,
 		Vector3(90, 0, 0)))
@@ -270,15 +282,14 @@ func _build_structure() -> void:
 	_body.add_child(store)
 	it = []
 	it.append(BMG.item(_cyl(0.5, 0.3, 0.9, 6), Vector3(2.72, 1.25, -0.55), mat_dark))
-	it.append(BMG.item(_cyl(0.57, 0.57, 0.14, 6), Vector3(2.72, 1.72, -0.55), mat_metal))
-	it.append(BMG.item(_cyl(0.36, 0.36, 0.06, 6), Vector3(2.72, 1.8, -0.55), mat_glow))
+	it.append(BMG.item(_cyl(0.57, 0.57, 0.14, 6), Vector3(2.72, 1.72, -0.55), mat_roof_trim))   # G-F r2: dark silver
+	it.append(BMG.item(_cyl(0.22, 0.22, 0.05, 6), Vector3(2.72, 1.8, -0.55), mat_brazier))   # G-F r2: was r 0.36 (a white hex)
 	for b: Array in [[Vector3(2.72, 1.1, 1.0), 10.0], [Vector3(2.76, 1.1, 1.85), -8.0], [Vector3(2.7, 1.72, 1.4), 28.0],
 			[Vector3(2.2, 1.05, 2.45), 40.0]]:
 		it.append(BMG.item(box1, b[0], mat_team, Vector3(0, b[1], 0), Vector3(0.66, 0.6, 0.66)))
-	it.append(BMG.item(mound, Vector3(2.75, 0.8, 0.25), mat_snow, Vector3.ZERO, Vector3(0.4, 0.2, 0.45)))
 	_merged("StoreParts", "store", it, store, false)
 	_hide_on_collapse.append(store)
-	_brazier_orb = _octa("BrazierShard", 0.26, 0.4, Vector3(2.72, _orb_y, -0.55), mat_glow, null)
+	_brazier_orb = _octa("BrazierShard", 0.17, 0.28, Vector3(2.72, _orb_y, -0.55), mat_brazier, null)   # G-F r2: was 0.26 x 0.4
 	_hide_on_collapse.append(_brazier_orb)
 	# --- Weapon rack (left, -X): two posts, a bar, three ice glaives, two round ice shields with silver bosses.
 	var rack := Node3D.new()
@@ -305,16 +316,29 @@ func _build_structure() -> void:
 	# Idle particles (~36): cold flame at the brazier, snow motes falling around the crystal, frost mist at the feet.
 	# G-E 4: the 12 additive cold-flame quads stack ~8 deep in a 0.22 m sphere: with the near-white danger ramp they
 	# summed to a white disc by the gate. Their own deep-blue ramp: the stack reads as a cyan flame.
-	var flame := _pm(Vector3.UP, 16.0, 0.7, 1.1, Vector3.ZERO, 0.4, 0.1,
-		_ramp(Color(0.16, 0.38, 0.62), Color(0.06, 0.2, 0.5), false))
+	# G-F round 2 item 6: even the deep-blue additive stack still summed to the white hex at the door (shot 11): the
+	# flame is alpha-blended now (a stack can never pass its own colour), smaller and fewer.
+	var flame := _pm(Vector3.UP, 16.0, 0.55, 0.9, Vector3.ZERO, 0.3, 0.08,
+		_ramp(Color(0.32, 0.56, 0.86, 0.8), Color(0.12, 0.3, 0.62), false))
 	flame.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
-	flame.emission_sphere_radius = 0.22
-	_idle_fx.append(_particles("ColdFlame", _body, Vector3(2.72, 1.9, -0.55), 12, 0.9, flame, _add_quad, false))
-	var motes := _pm(Vector3.DOWN, 40.0, 0.3, 0.6, Vector3(0, -0.3, 0), 0.12, 0.06,
-		_ramp(Color(0.62, 0.78, 0.95), Color(0.4, 0.62, 0.9), false))   # G-B leftovers: under the bloom (no white puffs)
-	motes.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
-	motes.emission_sphere_radius = 1.6
-	_idle_fx.append(_particles("SnowMotes", crystal, Vector3(0, 4.0, 0), 16, 3.0, motes, _add_quad, false))
+	flame.emission_sphere_radius = 0.16
+	# Sized quad (MoteCap.sized: same shared material): a billboard particle drops the process scale, so on the 1 m
+	# hall quad the flame drew 1 m wide.
+	var cf := _particles("ColdFlame", _body, Vector3(2.72, 1.9, -0.55), 9, 0.9, flame, MoteCap.sized(_mix_quad, 0.3), false)
+	MoteCap.normalize_scale(cf.process_material as ParticleProcessMaterial)
+	_idle_fx.append(cf)
+	# G-F round 2 item 7: the motes fell from 4 m above the ridge crystal (between the camera and the roof) on the
+	# additive quad and read as soft white discs near the camera. Now small dim MIX motes (MoteCap: near-camera fade,
+	# value cap, none at Low / half at Medium) drifting down from under the eaves around the walls.
+	var motes := _pm(Vector3.DOWN, 30.0, 0.25, 0.45, Vector3(0.08, -0.25, 0), 0.06, 0.035,
+		MoteCap.ramp(Color(0.66, 0.76, 0.88), 0.7))
+	motes.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_RING
+	motes.emission_ring_axis = Vector3.UP
+	motes.emission_ring_radius = 3.4
+	motes.emission_ring_inner_radius = 2.6
+	motes.emission_ring_height = 0.4
+	_idle_fx.append(MoteCap.apply(_particles("SnowMotes", _body, Vector3(HX, 3.3, HZ), 12, 3.0, motes, _add_quad,
+		false), 0.06))
 	var mist := _pm(Vector3(1, 0, 0), 180.0, 0.1, 0.25, Vector3.ZERO, 1.2, 2.4,
 		_ramp(Color(0.85, 0.92, 1.0, 0.16), Color(0.85, 0.92, 1.0), false))
 	mist.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_RING
@@ -356,20 +380,94 @@ func _vc_wanted() -> bool:
 	return IceShapes.is_vc(mat_team) or (mat_team != null and mat_team.shader == PAINTED)
 
 
-## Team colour: the base class recolours crystals, banners and sparks; the roof tiles take a deeper shade of it.
+## Team colour: the base class recolours crystals, banners and sparks; the roof tiles take deeper shades of it.
 func set_team_color(c: Color) -> void:
 	super(c)
-	if mat_roof:
-		mat_roof.set_shader_parameter(&"base_color", _roof_of(c))
+	for i: int in _roof_mats.size():
+		_roof_mats[i].set_shader_parameter(&"base_color", _roof_of(c, ROOF_MULTS[i]))
 
 
-func _roof_of(c: Color) -> Color:
-	return c.darkened(0.35)
+func _roof_of(c: Color, k: float) -> Color:
+	return Color(c.r * k, c.g * k, c.b * k)
 
 
-## B8 merge: the roof is the team colour darkened 35 %.
+## B8 merge: the roof tiles are the team colour x ROOF_MULTS.
 func _vc_team() -> Array:
-	return [mat_team, [mat_roof, 0.65]]
+	var out: Array = [mat_team]
+	for i: int in _roof_mats.size():
+		out.append([_roof_mats[i], ROOF_MULTS[i]])
+	return out
+
+
+## G-F round 2 item 6: the Frost Hall roof (appended to `items`). Stone gable core; ROOF_COURSES staggered courses of
+## glazed ice tiles a slope (each tile tilted flatter than the roof so its lower edge lifts and casts a line, a shade
+## per course from _roof_mats, a little jitter); silver bargeboards; a dark eave board with a silver drip edge; a dark
+## ridge cap with a crest of small team crystals (left clear around the ridge crystal); a thin broken snow line under
+## the ridge only (snow does not stay on a 38 deg glazed slope).
+func _ice_roof(items: Array, rng: RandomNumberGenerator) -> void:
+	var box1: BoxMesh = _boxm(Vector3.ONE)
+	var a: float = atan2(R_RISE, R_HALF)
+	var slope_l: float = sqrt(R_HALF * R_HALF + R_RISE * R_RISE)
+	var hc: float = R_HALF - 0.35
+	var ch: float = hc * tan(a) - 0.05
+	items.append(BMG.item(_prism(Vector3(hc * 2.0, ch, R_DEPTH - 0.6), 0.5), Vector3(HX, R_EAVE + 0.08 + ch * 0.5, R_Z),
+		mat_stone))
+	var course: float = slope_l / float(ROOF_COURSES)
+	var pitch: float = R_DEPTH / float(ROOF_TILES)
+	var z0: float = R_Z - R_DEPTH * 0.5
+	for s: float in [-1.0, 1.0]:
+		var e := Vector3(HX + s * R_HALF, R_EAVE, R_Z)
+		var u := Vector3(-s * cos(a), sin(a), 0.0)   # up the slope
+		var n := Vector3(s * sin(a), cos(a), 0.0)    # out of the slope
+		for k: int in ROOF_COURSES:
+			var shade: int = k % 2
+			var off: float = 0.5 * pitch if k % 2 == 1 else 0.0
+			var tb := Basis(Vector3.BACK, -s * (a - deg_to_rad(7.0)))
+			var base: Vector3 = e + u * ((float(k) + 0.5) * course) + n * 0.12
+			var count: int = ROOF_TILES + (1 if off > 0.0 else 0)
+			for i: int in count:
+				var za: float = maxf(z0 + float(i) * pitch - off, z0)
+				var zb: float = minf(z0 + float(i + 1) * pitch - off, z0 + R_DEPTH)
+				if zb - za < 0.12:
+					continue
+				var m: ShaderMaterial = _roof_mats[2] if rng.randf() < 0.18 else _roof_mats[shade]
+				# Hand-laid jitter: a small yaw on the slope and a tilt either way (breaks the specular sheet).
+				var jit := Basis(n, deg_to_rad(rng.randf_range(-2.5, 2.5)))
+				jit = jit * Basis(Vector3.BACK, deg_to_rad(rng.randf_range(-4.0, 4.0)))
+				jit = jit * Basis(u, deg_to_rad(rng.randf_range(-3.0, 3.0)))
+				var p: Vector3 = base + n * rng.randf_range(-0.015, 0.02) + Vector3(0, 0, (za + zb) * 0.5)
+				items.append(BMG.item_xf(box1, Transform3D((jit * tb).scaled_local(Vector3(course + 0.16, 0.11,
+					zb - za - 0.05)), p), m))
+		# Bargeboards (silver) on both gable ends, the eave board (dark) with its silver drip edge.
+		for z: float in [R_Z - R_DEPTH * 0.5 - 0.1, R_Z + R_DEPTH * 0.5 + 0.1]:
+			var bp: Vector3 = e + u * (slope_l * 0.5) + n * 0.26
+			items.append(BMG.item_xf(box1, Transform3D(Basis(Vector3.BACK, -s * a).scaled_local(
+				Vector3(slope_l + 0.2, 0.28, 0.22)), Vector3(bp.x, bp.y, z)), mat_roof_trim))
+		var eb := Vector3(HX + s * (R_HALF + 0.02), R_EAVE - 0.06, R_Z)
+		items.append(BMG.item(box1, eb, mat_dark, Vector3.ZERO, Vector3(0.22, 0.34, R_DEPTH + 0.3)))
+		items.append(BMG.item(box1, eb + Vector3(s * 0.1, 0.17, 0), mat_roof_trim, Vector3.ZERO,
+			Vector3(0.08, 0.06, R_DEPTH + 0.34)))
+		# Snow under the ridge only: three broken strips of different widths and lengths.
+		var zs: float = z0 + 0.1
+		for seg: Vector2 in [Vector2(1.5, 0.42), Vector2(1.7, 0.3), Vector2(1.4, 0.48)]:
+			var t: float = 1.0 - (seg.y * 0.5 + 0.06) / slope_l
+			var q: Vector3 = _gable_point(HX, R_HALF, R_EAVE, R_RISE, s, t, 0.21, zs + seg.x * 0.5)
+			items.append(BMG.item_xf(box1, Transform3D(Basis(Vector3.BACK, -s * a).scaled_local(
+				Vector3(seg.y, 0.07, seg.x - 0.12)), q), mat_snow))
+			zs += seg.x
+	# Ridge: a dark cap and a crest of small team crystals, clear of the ridge crystal's collar.
+	var ridge_y: float = R_EAVE + R_RISE
+	items.append(BMG.item(_prism(Vector3(0.62, 0.34, R_DEPTH + 0.12), 0.5), Vector3(HX, ridge_y + 0.1, R_Z), mat_dark))
+	var z: float = z0 + 0.25
+	var j: int = 0
+	while z < z0 + R_DEPTH - 0.15:
+		if absf(z - CRYSTAL_POS.z) > 0.8:
+			var h: float = 0.3 if j % 2 == 0 else 0.48
+			var lean: Basis = IceShapes.lean(Vector3(1.0 if j % 2 == 0 else -1.0, 0, 0), rng.randf_range(4.0, 12.0))
+			items.append(BMG.item_xf(IceShapes.crystal(0.1, h * 0.4, h * 0.6, 0.0, 4), Transform3D(lean
+				* Basis(Vector3.UP, deg_to_rad(45.0)), Vector3(HX, ridge_y + 0.22, z)), mat_team))
+		z += 0.42
+		j += 1
 
 
 ## The keep's cold idle rim instead of the base one (selection still turns it to the team colour).

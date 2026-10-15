@@ -220,6 +220,7 @@ func _build_structure() -> void:
 	_idle_fx.append(_particles("TroughVapour", _body, tr + Vector3(0, 0.5, 0), 6, 2.4, vap, _mix_quad, false))
 	if IceShapes.high_fx():
 		var sf := _particles("Snowfall", _body, Vector3(0, 3.6, 0), 8, 3.4, IceShapes.snowfall_pm(2.8), _mix_quad, false)
+		MoteCap.apply(sf, 0.05)   # G-F r2 item 7: small (sized quad), dim, faded near the camera
 		sf.set_meta(&"no_ghost", true)   # dressing: never copied into the fog-of-war ghost
 		_idle_fx.append(sf)
 	# Construction scaffolding, the collapse wreck (the chimney stump), the frost patch on the ground.

@@ -1,6 +1,6 @@
 {
 	"asset": "nature_hollow",
-	"count": 1,
+	"count": 2,
 	"fixes": [
 		{
 			"changes": [],
@@ -14,48 +14,139 @@
 			],
 			"measured": {
 				"body_lab": [
-					51.7,
-					-20.3,
-					36.3
+					51.5,
+					-20.8,
+					36.9
 				],
 				"dE": {
-					"R3 meadow": 13.6,
-					"R3t fire": 54.2,
-					"R3t ice": 40.0,
+					"R3 meadow": 13.2,
+					"R3t fire": 54.5,
+					"R3t ice": 40.1,
 					"R3t nature": 13.6,
 					"R3t shadow": 68.4,
-					"R4 ash": 50.0,
-					"R4 heath": 18.9,
-					"R4 marsh": 49.5,
-					"R4 riverbank": 18.2,
-					"R4 sand": 35.4,
-					"R4 snow": 52.4,
-					"R4k old_wood": 29.7
+					"R4 ash": 50.8,
+					"R4 heath": 19.7,
+					"R4 marsh": 50.2,
+					"R4 riverbank": 18.5,
+					"R4 sand": 36.1,
+					"R4 snow": 53.3,
+					"R4k old_wood": 30.2
 				},
 				"ground_lab": [
 					62.1,
 					-26.0,
 					42.9
 				],
-				"melt_share": 0.05
+				"melt_share": 0.06
 			},
 			"predicted": {},
-			"proposal": "Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: the body sits in the ground's hue (gap 2 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 73% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"proposal": "Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: the body sits in the ground's hue (gap 1 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 73% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
 			"rank": 1,
 			"status": "WARN",
-			"text": "Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: the body sits in the ground's hue (gap 2 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 73% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"text": "Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: the body sits in the ground's hue (gap 1 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 73% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
 			"title": "Body colour vs the grounds",
 			"wanted": {
 				"dE_R3_R3t_R4k": ">= 18 (rule 14 + margin 4)",
 				"dE_R4": ">= 12 (soft)",
 				"melt_share": "<= 35%"
 			}
+		},
+		{
+			"changes": [
+				{
+					"factor": 0.23,
+					"from": 2.5,
+					"material": "Heart",
+					"material_path": "",
+					"node": "Body/LanternPivot/Lantern",
+					"param": "shader_parameter/energy",
+					"peak_x_bloom": 3.26,
+					"to": 0.575,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 2 point(s), peak 3.26 x the level",
+					"words": "energy 2.5 -> 0.57 on Lantern (dim under the bloom level: 2 point(s), peak 3.26 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 5,
+				"points_this_phase": 3,
+				"spots": [
+					{
+						"above": true,
+						"part": "Body/LanternPivot/Lantern",
+						"peak_x_bloom": 3.26,
+						"px": 214
+					},
+					{
+						"above": true,
+						"part": "Body/LanternPivot/Lantern",
+						"peak_x_bloom": 3.17,
+						"px": 19
+					},
+					{
+						"above": true,
+						"part": "Body/Banner",
+						"peak_x_bloom": 3.14,
+						"px": 3
+					},
+					{
+						"above": false,
+						"part": "Body/Plinth",
+						"peak_x_bloom": 0.79,
+						"px": 80
+					},
+					{
+						"above": false,
+						"part": "Body/Plinth",
+						"peak_x_bloom": 0.79,
+						"px": 62
+					},
+					{
+						"above": false,
+						"part": "Body/Plinth",
+						"peak_x_bloom": 0.32,
+						"px": 21
+					},
+					{
+						"above": false,
+						"part": "Body/Plinth",
+						"peak_x_bloom": 0.35,
+						"px": 18
+					},
+					{
+						"above": false,
+						"part": "Body/Plinth",
+						"peak_x_bloom": 0.21,
+						"px": 10
+					},
+					{
+						"above": false,
+						"part": "Body/Plinth",
+						"peak_x_bloom": 0.25,
+						"px": 7
+					}
+				],
+				"value": "5 point(s) above the bloom level 1.2 (median of 3/5/5): Lantern x2, Banner, Plinth x2; soft glows under the bloom (v1 count, luma > 0.4): 13"
+			},
+			"predicted": {
+				"points": 3
+			},
+			"proposal": "Glow points 5 -> 3 (want 2-4): Heart energy 2.5 -> 0.57 on Lantern (dim under the bloom level: 2 point(s), peak 3.26 x the level)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Glow points 5 -> 3 (want 2-4): Heart energy 2.5 -> 0.57 on Lantern (dim under the bloom level: 2 point(s), peak 3.26 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "2-4 above the bloom level 1.2"
+			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "nature",
-	"quality": 93.2,
+	"quality": 90.7,
 	"result": "WARN",
 	"scene": "res://art/buildings/nature_hollow.tscn",
 	"tier": "hall",

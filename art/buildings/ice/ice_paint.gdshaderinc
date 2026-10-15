@@ -270,7 +270,10 @@ void ip_light(int kind, float spec, float glint, vec3 nrm, vec3 l, vec3 v, vec3 
 		// Light through the ice: the shadow side keeps a tinted glow, and a crystal between the eye and the sun lights up.
 		float back = pow(clamp(dot(v, -l), 0.0, 1.0), 4.0);
 		diffuse += lc * hue * ((1.0 - ramp) * 0.16 + back * 0.45);
-		float s = pow(ndh, 140.0) * 1.2 + pow(ndh, 18.0) * 0.12;   // sharp, but under the bloom (Art Lab R5)
+		// G-F r2: "satin" glaze for spec 0.30-0.41 (the Frost Hall roof tiles, spec 0.32): a big flat tiled slope
+		// mirrored the sun as one cream sheet; the sharp lobe drops to 30 %. Crystals (0.45-0.5) and spec 0 are unchanged.
+		float glaze = 1.0 - 0.7 * step(0.295, spec) * (1.0 - step(0.42, spec));
+		float s = pow(ndh, 140.0) * 1.2 * glaze + pow(ndh, 18.0) * 0.12;   // sharp, but under the bloom (Art Lab R5)
 		specular += lc * s * max(spec, 0.3) * 1.6 * lit;
 	} else if (kind == IK_METAL) {
 		vec3 tint = mix(vec3(1.0), hue, 0.45);

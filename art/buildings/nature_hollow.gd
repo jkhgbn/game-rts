@@ -361,11 +361,14 @@ func _mesh_wreck(mb: NatureKit.MB) -> void:
 func _build_ambient() -> void:
 	var glow_ramp: GradientTexture1D = NatureKit.ramp([0.0, 0.15, 0.7, 1.0], [Color(glow_color, 0.0),
 		Color(glow_color, 1.0), Color(glow_color, 0.8), Color(glow_color, 0.0)], _glow_ramps)
-	var po := NatureKit.process(Vector3.UP, 70.0, 0.1, 0.3, Vector3(0, 0.08, 0), 0.08, 0.035, glow_ramp)
+	# G-F r2 item 7: smaller (0.08 -> 0.045), the MIX dot (was additive) with the near-camera fade (MoteCap.apply_own;
+	# none at Low, half at Medium).
+	var po := NatureKit.process(Vector3.UP, 70.0, 0.08, 0.22, Vector3(0, 0.05, 0), 0.045, 0.025, glow_ramp)
 	po.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	po.emission_sphere_radius = 0.5
 	po.color = NatureKit.MOTE_DIM
-	var p1 := _particles("Pollen", _body, LANTERN_PIVOT + Vector3(0, -0.6, 0), 8, 2.6, po, true, false)
+	var p1 := MoteCap.apply_own(_particles("Pollen", _body, LANTERN_PIVOT + Vector3(0, -0.6, 0), 8, 2.6, po, false,
+		false), null, 0.045)
 	var t := kingdom_color
 	var leaf_ramp: GradientTexture1D = NatureKit.ramp([0.0, 0.08, 0.8, 1.0], [Color(t, 0.0), Color(t, 1.0),
 		Color(t.darkened(0.2), 1.0), Color(t.darkened(0.3), 0.0)], _leaf_ramps)

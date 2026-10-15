@@ -450,11 +450,14 @@ func _build_structure() -> void:
 	_light = _omni(Vector3(HX, 2.2, -1.5), 6.0)
 	_light.visible = false
 	# Idle particles (~22): snow motes falling around the gem, frost mist at the feet.
-	var motes := _pm(Vector3.DOWN, 40.0, 0.3, 0.6, Vector3(0, -0.3, 0), 0.12, 0.06,
-		_ramp(Color(0.9, 0.97, 1.0), Color(0.6, 0.85, 1.0), false))
+	# G-F r2 item 7: was additive near-white (soft white discs near the camera); now MoteCap motes (MIX, value cap,
+	# near-camera fade, none at Low / half at Medium).
+	var motes := _pm(Vector3.DOWN, 40.0, 0.3, 0.6, Vector3(0, -0.3, 0), 0.06, 0.035,
+		MoteCap.ramp(Color(0.66, 0.76, 0.88), 0.7))
 	motes.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	motes.emission_sphere_radius = 1.2
-	_idle_fx.append(_particles("SnowMotes", _mast, Vector3(0, GEM_Y - 0.3, 0), 14, 3.0, motes, _add_quad, false))
+	_idle_fx.append(MoteCap.apply(_particles("SnowMotes", _mast, Vector3(0, GEM_Y - 0.3, 0), 10, 3.0, motes, _add_quad,
+		false), 0.06))
 	var mist := _pm(Vector3(1, 0, 0), 180.0, 0.1, 0.25, Vector3.ZERO, 1.2, 2.4,
 		_ramp(Color(0.85, 0.92, 1.0, 0.16), Color(0.85, 0.92, 1.0), false))
 	mist.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_RING

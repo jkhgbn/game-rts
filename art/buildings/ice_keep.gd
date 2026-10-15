@@ -110,6 +110,7 @@ func _ready() -> void:
 	_reshape_halo()
 	_burst.process_material = _burst.process_material.duplicate() as ParticleProcessMaterial
 	_build_ring.process_material = _build_ring.process_material.duplicate() as ParticleProcessMaterial
+	_cap_motes()
 	for c: Node in _model.get_children():
 		var n := c as Node3D
 		if n == null:
@@ -127,6 +128,25 @@ func _ready() -> void:
 	set_health_ratio(_health_ratio)
 	_set_sel(1.0 if _selected else 0.0)
 	_apply_tier()
+
+
+## G-F round 2 item 7 (docs/art/gf_r2_buildings_in.md): the snow motes fell from 12 m (between the RTS camera and the
+## keep) as 0.14-0.18 m pale discs and read as soft white blobs near the camera. Now they fall from 7.5 m, smaller
+## and dimmer, on the keep's own MIX soft dot given MoteCap's near-camera fade (value-capped ramp; none at Low, half
+## at Medium). The frost swirl keeps its blue ramp, same fade and tier. The .tscn resources are shared: the values are set, never scaled.
+func _cap_motes() -> void:
+	_snow.position = Vector3(0, 7.5, 0)
+	_snow.visibility_aabb = AABB(Vector3(-5.5, -8.5, -5.5), Vector3(11, 9.5, 11))
+	var sp := _snow.process_material as ParticleProcessMaterial
+	if sp:
+		sp.emission_box_extents = Vector3(4.2, 0.3, 4.2)
+		sp.initial_velocity_min = 0.55
+		sp.initial_velocity_max = 0.75
+		sp.scale_min = 0.55
+		sp.scale_max = 0.85
+		sp.color_ramp = MoteCap.ramp(Color(0.66, 0.74, 0.86), 0.6)
+	MoteCap.apply_own(_snow, null, 0.1)    # the keep's ParticleMix soft dot at 0.1 m (no new material: Art Lab B8)
+	MoteCap.apply_own(_swirl)
 
 
 func _span_of(n: Node3D) -> Vector2:

@@ -1,22 +1,22 @@
 {
 	"asset": "nature_keep",
-	"count": 4,
+	"count": 3,
 	"fixes": [
 		{
 			"changes": [
 				{
 					"albedo_dE": 0.0,
 					"material": "nature_keep",
-					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_5bgma",
+					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_0wbuy",
 					"to": "nature_keep",
-					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_0wbuy"
+					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_yhbjq"
 				},
 				{
 					"albedo_dE": 0.0,
 					"material": "nature_keep",
-					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_0wbuy",
+					"material_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_yhbjq",
 					"to": "nature_keep",
-					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_yhbjq"
+					"to_path": "res://art/buildings/nature_keep.tscn::StandardMaterial3D_5bgma"
 				},
 				{
 					"albedo_dE": 10.6,
@@ -62,63 +62,81 @@
 					"peak_x_bloom": 4.05,
 					"to": 0.259,
 					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 7 point(s), peak 4.05 x the level",
-					"words": "energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 7 point(s), peak 4.05 x the level)"
+					"why": "dim under the bloom level: 6 point(s), peak 4.05 x the level",
+					"words": "energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 6 point(s), peak 4.05 x the level)"
 				}
 			],
 			"check": "R5",
 			"computed": true,
 			"measured": {
 				"points": 13,
-				"points_this_phase": 13,
+				"points_this_phase": 16,
 				"spots": [
 					{
 						"above": true,
 						"part": "Model/Bloom",
 						"peak_x_bloom": 4.05,
-						"px": 810
+						"px": 1095
 					},
 					{
 						"above": true,
 						"part": "Model/Lanterns/Lantern1/Pod",
-						"peak_x_bloom": 3.17,
-						"px": 218
+						"peak_x_bloom": 3.23,
+						"px": 351
 					},
 					{
 						"above": true,
-						"part": "Model/Bloom",
-						"peak_x_bloom": 3.42,
-						"px": 48
+						"part": "Model/Rampart",
+						"peak_x_bloom": 3.04,
+						"px": 108
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.04,
+						"px": 72
+					},
+					{
+						"above": true,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 3.04,
+						"px": 33
 					},
 					{
 						"above": true,
 						"part": "Model/Bloom",
 						"peak_x_bloom": 3.14,
-						"px": 24
-					},
-					{
-						"above": true,
-						"part": "Model/Bloom",
-						"peak_x_bloom": 3.14,
-						"px": 14
+						"px": 23
 					},
 					{
 						"above": true,
 						"part": "Model/BannersGate",
 						"peak_x_bloom": 3.14,
+						"px": 15
+					},
+					{
+						"above": true,
+						"part": "Model/Bloom",
+						"peak_x_bloom": 3.14,
 						"px": 14
 					},
 					{
 						"above": true,
 						"part": "Model/Bloom",
 						"peak_x_bloom": 3.14,
-						"px": 11
+						"px": 12
+					},
+					{
+						"above": true,
+						"part": "Model/Lanterns/Lantern0/Pod",
+						"peak_x_bloom": 3.11,
+						"px": 9
 					},
 					{
 						"above": true,
 						"part": "Model/Bloom",
 						"peak_x_bloom": 3.14,
-						"px": 8
+						"px": 7
 					},
 					{
 						"above": true,
@@ -130,13 +148,7 @@
 						"above": true,
 						"part": "Model/Lanterns/Lantern0/Pod",
 						"peak_x_bloom": 3.14,
-						"px": 5
-					},
-					{
-						"above": true,
-						"part": "Model/Rampart",
-						"peak_x_bloom": 3.14,
-						"px": 5
+						"px": 6
 					},
 					{
 						"above": true,
@@ -147,32 +159,38 @@
 					{
 						"above": true,
 						"part": "Model/Rampart",
+						"peak_x_bloom": 3.14,
+						"px": 4
+					},
+					{
+						"above": true,
+						"part": "Model/Rampart",
 						"peak_x_bloom": 3.29,
-						"px": 2
+						"px": 3
 					},
 					{
 						"above": false,
 						"part": "Model/CanopyLost",
-						"peak_x_bloom": 0.76,
-						"px": 171
+						"peak_x_bloom": 0.86,
+						"px": 172
 					},
 					{
 						"above": false,
 						"part": "Model/BannersSide",
 						"peak_x_bloom": 0.81,
-						"px": 114
-					},
-					{
-						"above": false,
-						"part": "Model/BannersGate",
-						"peak_x_bloom": 0.58,
-						"px": 66
+						"px": 107
 					},
 					{
 						"above": false,
 						"part": "Model/Plinth",
 						"peak_x_bloom": 0.35,
 						"px": 43
+					},
+					{
+						"above": false,
+						"part": "Model/BannersGate",
+						"peak_x_bloom": 0.34,
+						"px": 33
 					},
 					{
 						"above": false,
@@ -190,7 +208,7 @@
 						"above": false,
 						"part": "Model/BannersSide",
 						"peak_x_bloom": 0.33,
-						"px": 14
+						"px": 15
 					},
 					{
 						"above": false,
@@ -201,19 +219,31 @@
 					{
 						"above": false,
 						"part": "Model/BannersSide",
+						"peak_x_bloom": 0.53,
+						"px": 5
+					},
+					{
+						"above": false,
+						"part": "Model/BannersSide",
+						"peak_x_bloom": 0.21,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Model/CanopyLost",
 						"peak_x_bloom": 0.21,
 						"px": 2
 					}
 				],
-				"value": "13 point(s) above the bloom level 1.2 (median of 13/16/13): Petals, Pod x3, Bloom x5, BannersGate, CanopyLost, Rampart x2; soft glows under the bloom (v1 count, luma > 0.4): 54"
+				"value": "13 point(s) above the bloom level 1.2 (median of 16/13/13): Bloom x5, Pod x4, BannersGate, CanopyLost, Rampart x2; soft glows under the bloom (v1 count, luma > 0.4): 50"
 			},
 			"predicted": {
-				"points": 6
+				"points": 7
 			},
-			"proposal": "Glow points 13 -> 6 (want 4-12): Heart energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 7 point(s), peak 4.05 x the level)",
+			"proposal": "Glow points 13 -> 7 (want 4-12): Heart energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 6 point(s), peak 4.05 x the level)",
 			"rank": 2,
 			"status": "WARN",
-			"text": "Glow points 13 -> 6 (want 4-12): Heart energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 7 point(s), peak 4.05 x the level)",
+			"text": "Glow points 13 -> 7 (want 4-12): Heart energy 1.4 -> 0.26 on Bloom (dim under the bloom level: 6 point(s), peak 4.05 x the level)",
 			"title": "Glow points at the bloom level",
 			"wanted": {
 				"points": "4-12 above the bloom level 1.2"
@@ -235,29 +265,12 @@
 			"wanted": {
 				"rule": "0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6)"
 			}
-		},
-		{
-			"changes": [],
-			"check": "R6cb",
-			"computed": false,
-			"measured": {
-				"value": "worst pair fire / nature (deutan): dE 11.5 on the team-colour area (normal vision 53.8; 19228 px); deutan: fire / nature dE 11.5; protan: fire / nature dE 21.7; worst vs ground: fire colour (deutan) dE 7.4"
-			},
-			"predicted": {},
-			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.5): add a value step inside the team-colour area",
-			"rank": 4,
-			"status": "WARN",
-			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.5): add a value step inside the team-colour area",
-			"title": "Team colours for colour-blind players",
-			"wanted": {
-				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)"
-			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "nature",
-	"quality": 88.2,
+	"quality": 88.5,
 	"result": "FAIL",
 	"scene": "res://art/buildings/nature_keep.tscn",
 	"tier": "keep",

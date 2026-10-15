@@ -1,6 +1,6 @@
 {
 	"asset": "nature_hall",
-	"count": 2,
+	"count": 3,
 	"fixes": [
 		{
 			"changes": [
@@ -29,6 +29,55 @@
 			}
 		},
 		{
+			"changes": [],
+			"check": "R3",
+			"computed": false,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"measured": {
+				"body_lab": [
+					52.2,
+					-16.6,
+					32.1
+				],
+				"dE": {
+					"R3 meadow": 14.0,
+					"R3t fire": 51.2,
+					"R3t ice": 40.5,
+					"R3t nature": 14.3,
+					"R3t shadow": 64.4,
+					"R4 ash": 46.9,
+					"R4 heath": 11.4,
+					"R4 marsh": 46.9,
+					"R4 riverbank": 22.8,
+					"R4 sand": 33.2,
+					"R4 snow": 50.0,
+					"R4k old_wood": 28.8
+				},
+				"ground_lab": [
+					57.6,
+					-26.6,
+					40.3
+				],
+				"melt_share": 0.04
+			},
+			"predicted": {},
+			"proposal": "Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: value is close to the ground (dL -5): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 6 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 82% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 2,
+			"status": "WARN",
+			"text": "Body colour: no single recolourable body material found (all team / emissive / tiny): Melts into the meadow: value is close to the ground (dL -5): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 6 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `NaturePainted` 82% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 18 (rule 14 + margin 4)",
+				"dE_R4": ">= 12 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
 			"changes": [
 				{
 					"factor": 0.165,
@@ -40,75 +89,62 @@
 					"peak_x_bloom": 4.55,
 					"to": 0.148,
 					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 10 point(s), peak 4.55 x the level",
-					"words": "glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 10 point(s), peak 4.55 x the level)"
-				},
-				{
-					"factor": 0.171,
-					"from": 2.5,
-					"material": "Heart",
-					"material_path": "",
-					"node": "Body/Tree/Bloom, Body/Tree/LanternPivot/Lantern, Body/Hedge",
-					"param": "shader_parameter/energy",
-					"peak_x_bloom": 4.39,
-					"to": 0.427,
-					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 4 point(s), peak 4.39 x the level",
-					"words": "energy 2.5 -> 0.43 on Bloom, Lantern, Hedge (dim under the bloom level: 4 point(s), peak 4.39 x the level)"
+					"why": "dim under the bloom level: 13 point(s), peak 4.55 x the level",
+					"words": "glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 13 point(s), peak 4.55 x the level)"
 				}
 			],
 			"check": "R5",
 			"computed": true,
 			"measured": {
-				"points": 16,
-				"points_this_phase": 15,
+				"points": 17,
+				"points_this_phase": 19,
 				"spots": [
 					{
 						"above": true,
 						"part": "Body/Tree/Bloom",
-						"peak_x_bloom": 4.39,
-						"px": 575
+						"peak_x_bloom": 4.27,
+						"px": 484
 					},
 					{
 						"above": true,
 						"part": "Body/BannersGate",
 						"peak_x_bloom": 4.55,
-						"px": 170
+						"px": 131
 					},
 					{
 						"above": true,
 						"part": "Body/Tree/LanternPivot/Lantern",
 						"peak_x_bloom": 4.39,
-						"px": 123
+						"px": 107
 					},
 					{
 						"above": true,
 						"part": "Body/HedgeLost",
-						"peak_x_bloom": 4.24,
-						"px": 81
+						"peak_x_bloom": 3.26,
+						"px": 62
 					},
 					{
 						"above": true,
 						"part": "Body/BannersSide",
-						"peak_x_bloom": 3.33,
+						"peak_x_bloom": 3.17,
 						"px": 55
 					},
 					{
 						"above": true,
 						"part": "Body/BannersGate",
-						"peak_x_bloom": 3.33,
+						"peak_x_bloom": 3.17,
 						"px": 24
 					},
 					{
 						"above": true,
 						"part": "Body/BannersGate",
-						"peak_x_bloom": 3.33,
+						"peak_x_bloom": 3.17,
 						"px": 24
 					},
 					{
 						"above": true,
 						"part": "Body/Hedge",
-						"peak_x_bloom": 3.33,
+						"peak_x_bloom": 3.17,
 						"px": 19
 					},
 					{
@@ -120,19 +156,19 @@
 					{
 						"above": true,
 						"part": "Body/BannersSide",
-						"peak_x_bloom": 3.23,
-						"px": 13
-					},
-					{
-						"above": true,
-						"part": "Body/BannersSide",
 						"peak_x_bloom": 4.39,
-						"px": 11
+						"px": 8
 					},
 					{
 						"above": true,
-						"part": "Body/BannersSide",
-						"peak_x_bloom": 3.2,
+						"part": "Body/Walls",
+						"peak_x_bloom": 3.26,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Body/BannersGate",
+						"peak_x_bloom": 4.39,
 						"px": 6
 					},
 					{
@@ -143,21 +179,51 @@
 					},
 					{
 						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.07,
+						"px": 4
+					},
+					{
+						"above": true,
 						"part": "Body/BannersGate",
-						"peak_x_bloom": 4.39,
-						"px": 3
+						"peak_x_bloom": 3.89,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.23,
+						"px": 2
 					},
 					{
 						"above": true,
 						"part": "Body/BannersSide",
 						"peak_x_bloom": 3.2,
-						"px": 3
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.01,
+						"px": 2
+					},
+					{
+						"above": true,
+						"part": "Body/BannersSide",
+						"peak_x_bloom": 3.04,
+						"px": 2
 					},
 					{
 						"above": false,
 						"part": "Body/PlinthBase",
 						"peak_x_bloom": 0.31,
 						"px": 34
+					},
+					{
+						"above": false,
+						"part": "Body/Tree/TreeCrown",
+						"peak_x_bloom": 0.2,
+						"px": 24
 					},
 					{
 						"above": false,
@@ -176,23 +242,17 @@
 						"part": "Body/Hedge",
 						"peak_x_bloom": 0.4,
 						"px": 9
-					},
-					{
-						"above": false,
-						"part": "Body/Tree/TreeCrown",
-						"peak_x_bloom": 0.2,
-						"px": 7
 					}
 				],
-				"value": "16 point(s) above the bloom level 1.2 (median of 16/18/16): Petals, BannersGate x5, Lantern, HedgeLost, BannersSide x5, Hedge x2, Walls, 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 35"
+				"value": "17 point(s) above the bloom level 1.2 (median of 17/11/17): Bloom, BannersGate x6, Lantern, HedgeLost, BannersSide x5, Hedge x2, Walls; soft glows under the bloom (v1 count, luma > 0.4): 35"
 			},
 			"predicted": {
-				"points": 2
+				"points": 4
 			},
-			"proposal": "Glow points 16 -> 2 (want 2-4): Banner glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 10 point(s), peak 4.55 x the level); Heart energy 2.5 -> 0.43 on Bloom, Lantern, Hedge (dim under the bloom level: 4 point(s), peak 4.39 x the level)",
-			"rank": 2,
+			"proposal": "Glow points 17 -> 4 (want 2-4): Banner glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 13 point(s), peak 4.55 x the level)",
+			"rank": 3,
 			"status": "WARN",
-			"text": "Glow points 16 -> 2 (want 2-4): Banner glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 10 point(s), peak 4.55 x the level); Heart energy 2.5 -> 0.43 on Bloom, Lantern, Hedge (dim under the bloom level: 4 point(s), peak 4.39 x the level)",
+			"text": "Glow points 17 -> 4 (want 2-4): Banner glyph_energy 0.9 -> 0.15 on BannersGate, BannersSide (dim under the bloom level: 13 point(s), peak 4.55 x the level)",
 			"title": "Glow points at the bloom level",
 			"wanted": {
 				"points": "2-4 above the bloom level 1.2"
@@ -202,7 +262,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "nature",
-	"quality": 91.2,
+	"quality": 88.5,
 	"result": "FAIL",
 	"scene": "res://art/buildings/nature_hall.tscn",
 	"tier": "hall",

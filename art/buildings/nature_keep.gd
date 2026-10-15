@@ -150,6 +150,7 @@ func _ready() -> void:
 	_bloom_xf = _bloom.transform
 	_collect_parts()
 	_own_particle_ramps()
+	_cap_motes()
 	_apply_gfx()
 	_build_tier_nodes()
 	set_team_color(_team_color)
@@ -435,7 +436,8 @@ func _apply_gfx() -> void:
 		var s: Variant = bark_material.get_shader_parameter(&"sap_speed")
 		_sap_base = Vector2(float(e) if e != null else 1.8, float(s) if s != null else 0.3)
 	if _rich:
-		var ff := NatureFireflies.make(Vector3(0.0, 6.5, 0.0), Vector3(5.2, 4.5, 5.2), 20)
+		var ff := NatureFireflies.make(Vector3(0.0, 6.5, 0.0), Vector3(5.2, 4.5, 5.2), 20,
+			($CollapseDust as GPUParticles3D).draw_pass_1)   # G-F r2: the keep's MIX soft dot (no new material)
 		add_child(ff)
 		_ambient.append(ff)
 
@@ -552,6 +554,22 @@ func _collect_parts() -> void:
 		_height = maxf(_height, box.end.y)
 		if not (nm in NO_COLLAPSE):
 			_collapse_idx.append(_parts.size() - 1)
+
+
+## G-F round 2 item 7 (docs/art/gf_r2_buildings_in.md): the pollen motes were additive HDR dots (albedo x1.5) rising
+## to ~7 m, so one passing near the RTS camera read as a big soft white ball in front of the keep. Now they are small
+## (0.05 m), dim (the ramp x 0.62: the team glow ramp is recoloured in place, so the cap rides on the process colour),
+## stay under ~4 m and draw on the keep's MIX soft dot with MoteCap's near-camera fade (none at Low, half at Medium).
+func _cap_motes() -> void:
+	var po := ($Pollen as GPUParticles3D).process_material as ParticleProcessMaterial   # own copy (_own_particle_ramps)
+	if po:
+		po.scale_min = 0.05
+		po.scale_max = 0.05
+		po.initial_velocity_min = 0.15
+		po.initial_velocity_max = 0.35
+		po.color = Color(0.62, 0.62, 0.62, 0.8)
+	# The keep's own MIX soft dot (CollapseDust's quad): no new material (Art Lab B8); it gets the near-camera fade.
+	MoteCap.apply_own($Pollen as GPUParticles3D, ($CollapseDust as GPUParticles3D).draw_pass_1, 0.06)
 
 
 ## The particle materials in the .tscn are shared by every instance: give this keep its own copies of the

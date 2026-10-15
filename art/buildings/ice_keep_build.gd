@@ -301,6 +301,8 @@ func _initialize() -> void:
 	gl.shadow_enabled = false
 	_add(gl, keep, "GateLight")
 	# Idle particles: falling snow motes (40) + frost mist at the plinth (24) = 64.
+	# G-F round 2 item 7: IceKeep._cap_motes() (ice_keep.gd) re-sets SnowMotes / FrostSwirl at run time (lower, smaller,
+	# dimmer, MoteCap quad and tier), so a rebuilt .tscn keeps the capped look.
 	var soft := _radial([Color(1, 1, 1, 1), Color(1, 1, 1, 0.5), Color(1, 1, 1, 0)], [0.0, 0.35, 1.0])
 	var mix_mat := _particle_mat(soft, BaseMaterial3D.BLEND_MODE_MIX, "ParticleMix")
 	var add_mat := mix_mat   # one alpha-blended material (the additive one at albedo x3 glittered white)

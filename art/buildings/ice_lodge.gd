@@ -171,9 +171,14 @@ func _build_parts() -> void:
 		_ramp(Color(0.62, 0.78, 0.95), Color(0.38, 0.6, 0.9), false))   # G-B leftovers: under the bloom (no white puffs)
 	sp.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	sp.emission_sphere_radius = 0.5
-	_idle_particles("CrystalSparkles", CHIM + Vector3(0, _crystal_y + 0.3, 0), 8, 1.4, sp, true)
+	var cs := _idle_particles("CrystalSparkles", CHIM + Vector3(0, _crystal_y + 0.3, 0), 8, 1.4, sp, true)
+	# G-F r2 item 7: a billboard particle drops the process scale, so the 0.09 m sparkles drew as the whole 1 m
+	# additive quad (a white puff on the crystal): the size goes in the quad (same material, MoteCap.sized).
+	cs.draw_pass_1 = MoteCap.sized(cs.draw_pass_1, 0.09)
+	MoteCap.normalize_scale(cs.process_material as ParticleProcessMaterial)
 	if IceShapes.high_fx():
 		var sf := _idle_particles("Snowfall", Vector3(0, 3.4, 0), 8, 3.4, IceShapes.snowfall_pm(2.4), false)   # High+
+		MoteCap.apply(sf, 0.05)   # G-F r2 item 7: small (sized quad), dim, faded near the camera
 		sf.set_meta(&"no_ghost", true)   # dressing: never copied into the fog-of-war ghost
 
 

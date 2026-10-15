@@ -1,0 +1,13 @@
+{
+	"asset": "ice_forge",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "ice",
+	"quality": 89.7,
+	"result": "PASS",
+	"scene": "res://art/buildings/forge/ice/ice_forge.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}
