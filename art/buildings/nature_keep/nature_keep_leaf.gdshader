@@ -32,12 +32,17 @@ uniform float ao_span = 7.0;
 
 varying vec3 v_world_pos;
 
+#include "res://art/buildings/nature/nature_paint.gdshaderinc"
+
 void vertex() {
 	float w = UV.y;
 	float ph = UV2.y * 6.2831853;
 	vec3 wv = vec3(sin(TIME * sway_speed + ph), 0.35 * sin(TIME * sway_speed * 1.37 + ph * 1.7),
 		cos(TIME * sway_speed * 0.83 + ph * 0.6));
 	VERTEX += wv * sway * w * w;
+	if (gfx_detail >= 1) {
+		VERTEX += nv_wind_local(MODEL_MATRIX, VERTEX, TIME);   // G-B: move with the clump they fringe
+	}
 	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
@@ -112,9 +117,6 @@ void fragment() {
 }
 
 void light() {
-	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
-	// Thin cards: a little light passes through (never fully dark).
-	float ramp = smoothstep(0.32, 0.42, d) * 0.55 + smoothstep(0.58, 0.68, d) * 0.45;
-	ramp = max(ramp, 0.28);
-	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
+	// Thin cards: a little light passes through (never fully dark); G-B Medium+ adds translucency (nature_paint).
+	nv_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, ALBEDO, 0.0, 4, 0.0, DIFFUSE_LIGHT, SPECULAR_LIGHT);
 }

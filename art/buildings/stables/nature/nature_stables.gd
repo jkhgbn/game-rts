@@ -106,6 +106,25 @@ func _k_roof_extra(it: Array, cz: float, hd: float, x0: float, x1: float) -> voi
 		if absf(x - 1.05) < 0.55:
 			continue
 		it.append(_i(_sp(8, 4), Vector3(x, EAVE + roof_rise + 0.35, cz), T(0.9), Vector3(0, 30 * k, 0), Vector3(0.55, 0.32, 0.45)))
+	# G-B: the thatch is alive: pale moss cushions and wild blossoms seeded over both slopes (lower courses, below
+	# the team runner), a fern frond at each gable foot. Merged with the rest (no new draw call).
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_base + 77
+	for s: float in [-1.0, 1.0]:
+		var e := Vector3(0.0, EAVE, cz + s * hd)
+		var u := Vector3(0.0, sin(a), -s * cos(a))
+		var nrm := Vector3(0.0, cos(a), s * sin(a))
+		for k: int in 4:   # low-poly pads: the Stables sit near the 12k vertex budget (Art Lab B4)
+			var t: float = rng.randf_range(0.08, 0.52)
+			var x: float = lerpf(x0 + 0.4, x1 - 0.4, (float(k) + rng.randf_range(0.1, 0.9)) / 4.0)
+			var p: Vector3 = e + u * (slope_l * t) + nrm * 0.24 + Vector3(x, 0.0, 0.0)
+			var bs := Basis(Vector3.RIGHT, s * a)
+			var sz := Vector3(rng.randf_range(0.35, 0.65), 0.1, rng.randf_range(0.25, 0.42))
+			it.append(_ix(_sp(5, 2), Transform3D(bs.scaled_local(sz), p), MOSS.lerp(OLIVE, rng.randf() * 0.5).darkened(0.3)))
+			if k % 2 == 0:
+				var q: Vector3 = p + nrm * 0.09 + Vector3(rng.randf_range(-0.15, 0.15), 0.0, 0.0)
+				it.append(_ix(_sp(4, 2), Transform3D(bs.scaled_local(Vector3(0.16, 0.07, 0.16)), q),
+					BLOSSOM if rng.randf() < 0.6 else ANTLER))
 	# Two living arches across the barn (bark), rooting into the foundation.
 	for x: float in [BX0 + 0.35, BX1 - 0.35]:
 		var pts: Array[Vector3] = []

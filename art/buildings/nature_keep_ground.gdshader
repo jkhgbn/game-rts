@@ -20,6 +20,8 @@ uniform float ring_energy = 1.6;
 uniform float scorch = 0.0;
 uniform float damage = 0.0;
 uniform float build = 1.0;
+uniform float tier = 1.0;      // G-B: keep tier 1..3 (rune circles)
+uniform float upgrade = 0.0;   // G-B: upgrade progress 0..1 (0 = not upgrading)
 
 float hash2(vec2 p) {
 	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -101,6 +103,36 @@ void fragment() {
 	vec3 cap_col = mix(glow_color * glow_color, glow_color, 0.5);
 	col = mix(col, cap_col * (0.8 + ring_energy * breathe * (1.0 - scorch * 0.8)), cap);
 	alpha = max(alpha, cap);
+
+	// G-B tiers: Stronghold (tier 2) draws a glowing rune circle (r 4.45) with 8 leaf glyphs; Citadel (tier 3) a
+	// second circle and glowing veins out to the fairy ring. While upgrading, a light sweeps the circle (progress).
+	if (tier > 1.5 || upgrade > 0.0) {
+		float lw = 0.045;
+		float ring1 = 1.0 - smoothstep(lw, lw + 0.04, abs(r - 4.45));
+		float g8 = (a / 6.2831853 + 0.5) * 8.0;
+		vec2 gc = vec2(cos((floor(g8) + 0.5) / 8.0 * 6.2831853 - 3.14159265),
+			sin((floor(g8) + 0.5) / 8.0 * 6.2831853 - 3.14159265)) * 4.45;
+		vec2 gd = p - gc;
+		float glyph = 1.0 - smoothstep(0.16, 0.2, length(gd * vec2(1.0, 1.0)));
+		glyph = max(glyph * (1.0 - smoothstep(0.05, 0.09, abs(length(gd) - 0.13))), (1.0 - smoothstep(0.035, 0.06, length(gd))));
+		float rune = max(ring1, glyph);
+		if (tier > 2.5) {
+			float ring2 = 1.0 - smoothstep(0.03, 0.07, abs(r - 4.75));
+			float veins = 1.0 - smoothstep(0.03, 0.07, abs(fract(g8 + 0.5) - 0.5) * r * 6.2831853 / 8.0);
+			veins *= step(4.75, r) * (1.0 - smoothstep(5.0, 5.15, r));
+			rune = max(rune, max(ring2, veins));
+		}
+		float on = tier > 1.5 ? 1.0 : 0.0;
+		float sweep = 0.0;
+		if (upgrade > 0.0) {
+			float u = a / 6.2831853 + 0.5;   // 0..1 around
+			sweep = step(u, upgrade) * (0.55 + 0.45 * sin(TIME * 4.0 - u * 18.0));
+		}
+		float k = max(on, sweep) * rune * build * (1.0 - scorch);
+		float br = 0.75 + 0.25 * sin(TIME * 0.9 + r);
+		col = mix(col, glow_color * (1.1 + ring_energy * 0.6 * br), k);
+		alpha = max(alpha, k);
+	}
 
 	// Contact shadow last (darkest under the plinth).
 	col = mix(col, stain_color, contact * 0.92);

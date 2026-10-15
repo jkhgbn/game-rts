@@ -759,6 +759,11 @@ func _build_ambient() -> void:
 	pe.turbulence_enabled = true
 	pe.turbulence_noise_strength = 0.5
 	_ambient.append(_particles("Petals", _tree, BLOOM_POS + Vector3(0, 0.4, 0), 6, 5.5, pe, NatureKit.shape_quad(1), false))
+	# G-B High / Ultra: fireflies drifting around the hall and its tree (ambient: near the camera only).
+	if NatureKit.gfx_rich():
+		var ff := NatureFireflies.make(Vector3(HX + 0.6, 3.6, HZ), Vector3(3.6, 2.4, 3.4), 12)
+		_body.add_child(ff)
+		_ambient.append(ff)
 
 
 ## Base state nodes, then the Nature looks: the "blaze" plumes become withering leaves pouring down (like the

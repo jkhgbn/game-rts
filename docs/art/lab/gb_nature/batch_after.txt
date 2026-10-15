@@ -1,0 +1,6 @@
+res://art/buildings/nature_keep.tscn kind=building kingdom=nature out=docs/art/lab/gb_nature/after/nature_keep
+res://art/buildings/nature_hall.tscn kind=building kingdom=nature out=docs/art/lab/gb_nature/after/nature_hall
+res://art/buildings/nature_hollow.tscn kind=building kingdom=nature out=docs/art/lab/gb_nature/after/nature_hollow
+res://art/buildings/nature_spire.tscn kind=building kingdom=nature out=docs/art/lab/gb_nature/after/nature_spire
+res://art/buildings/stables/nature/nature_stables.tscn kind=building kingdom=nature out=docs/art/lab/gb_nature/after/nature_stables
+res://art/buildings/market/nature/market_nature.tscn kind=building kingdom=nature out=docs/art/lab/gb_nature/after/market_nature

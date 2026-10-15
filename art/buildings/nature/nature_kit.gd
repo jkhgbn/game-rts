@@ -908,7 +908,20 @@ static func make_materials() -> Dictionary:
 	black.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	black.albedo_color = Color(0.03, 0.05, 0.02)
 	m["Black"] = black
+	var gd: int = gfx_detail()
+	for k: String in PAINTED_KEYS + CARD_KEYS + ["Heart"]:
+		(m[k] as ShaderMaterial).set_shader_parameter(&"gfx_detail", gd)
 	return m
+
+
+## G-B Nature: the painted layer's tier (nature_paint.gdshaderinc `gfx_detail`): Low 0, Medium 1, High / Ultra 2.
+static func gfx_detail() -> int:
+	return clampi(GameSettings.effective_graphics_quality(), 0, 2)
+
+
+## G-B Nature: High / Ultra (fireflies, tier-up flourishes and other extra particles; Low keeps today's cost).
+static func gfx_rich() -> bool:
+	return GameSettings.effective_graphics_quality() >= 2
 
 
 ## The painted and card materials of a set (damage, rim, soot).

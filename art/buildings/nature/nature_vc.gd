@@ -80,7 +80,8 @@ static func sync(m: Dictionary) -> void:
 	var stone: ShaderMaterial = m["Stone"]
 	var bark: ShaderMaterial = m["Bark"]
 	var leaves: ShaderMaterial = m["Leaves"]
-	for p: StringName in [&"noise_tex", &"noise_scale_b", &"rim_color", &"rim_strength", &"damage", &"ao_floor"]:
+	for p: StringName in [&"noise_tex", &"noise_scale_b", &"rim_color", &"rim_strength", &"damage", &"ao_floor",
+			&"gfx_detail"]:
 		_copy(stone, body, p)
 	for p: StringName in [&"sap", &"sap_color", &"sap_energy", &"sap_speed", &"bark_scale"]:
 		_copy(bark, body, p)
@@ -207,6 +208,8 @@ static func sync_cards(m: Dictionary) -> void:
 	if not m.has(KEY_CARDS):
 		return
 	var c: ShaderMaterial = m[KEY_CARDS]
+	if m.has("LeafCard"):
+		_copy(m["LeafCard"], c, &"gfx_detail")   # G-B tier (one value for the three channels)
 	for u: Array in CARD_UNIFORMS:
 		var nm: StringName = u[0]
 		var typ: String = u[1]

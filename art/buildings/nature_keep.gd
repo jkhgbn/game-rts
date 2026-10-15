@@ -18,7 +18,7 @@ const STRIPE_DEFAULT := Color(0.15, 0.40, 0.15)
 ## In-game grade pass (2026-09-30): the canopy body is pale sage / autumn olive in every team (it was team green, then a
 ## neon mint, on green meadow). The team colour is on the leaf cards (top-facing, all over the canopy), the moss carpet
 ## of the walkway and the banners. LEAF_TEAM_DEFAULT = the kingdom's leaf-card green (a touch lighter than the cloth).
-const CANOPY_COLOR := Color(0.8, 0.78, 0.56)
+const CANOPY_COLOR := Color(0.64, 0.78, 0.66)   # G-B: silver sage, blue-green off the yellow meadow (was khaki 0.8, 0.78, 0.56)
 const LEAF_TEAM_DEFAULT := Color(0.40, 0.76, 0.28)
 const RIM_IDLE := Color(0.72, 0.88, 0.55)
 const RIM_IDLE_STRENGTH := 0.25
@@ -108,6 +108,16 @@ var _bloom_xf: Transform3D
 var _team_glow_ramps: Array[Gradient] = []
 var _team_leaf_ramps: Array[Gradient] = []
 
+# G-B tiers (NatureKeepTiers): tier 1..3, upgrade growth, tier-up flourish.
+var _tier: int = 1
+var _upgrading: bool = false
+var _up_k: float = 0.0
+var _tier_pop: float = 1.0
+var _tier_nodes: Dictionary = {}   # name -> MeshInstance3D
+var _keep_cache: Node = null
+var _rich: bool = false
+var _sap_base: Vector2 = Vector2(1.8, 0.3)   # bark sap_energy / sap_speed at rest
+
 var _t: float = 0.0
 var _ready_done: bool = false
 var _team_color: Color = KINGDOM_COLOR
@@ -140,10 +150,13 @@ func _ready() -> void:
 	_bloom_xf = _bloom.transform
 	_collect_parts()
 	_own_particle_ramps()
+	_apply_gfx()
+	_build_tier_nodes()
 	set_team_color(_team_color)
 	set_construction_progress(_progress)
 	_sel_k = 1.0 if _selected else 0.0
 	_apply_rim_and_glow()
+	_apply_tier()
 	if _destroyed:
 		_destroyed = false
 		play_destroyed()
@@ -204,6 +217,7 @@ func _process(delta: float) -> void:
 		(_outline as GeometryInstance3D).set_instance_shader_parameter(&"energy", 2.0 * _outline_fade)
 		if _outline_fade <= 0.0:
 			_outline.visible = false
+	_process_tier(delta)
 
 
 # --- Hooks (art-keep.md 8.8) ---
@@ -254,6 +268,7 @@ func set_construction_progress(p: float) -> void:
 		_cam_check = 0.0
 	_apply_health()
 	_apply_rim_and_glow()
+	_apply_tier()
 
 
 ## A unit sprouted out of the gate (8.3): 0.6 s gate flash, gate light x2, burst, lanterns and bloom x3.
@@ -309,11 +324,52 @@ func play_destroyed() -> void:
 		var n: Node3D = _model.get_node(NodePath(nm))
 		n.reparent(_fall, true)
 	_lanterns.reparent(_fall, true)
+	# G-B tiers: the crown blossoms and the halo fall with the crown; the growth vines wither at once.
+	for key: String in ["Tier2Crown", "Tier3Crown", "Tier3Halo"]:
+		var tn: Node3D = _tier_nodes.get(key)
+		if tn and tn.visible:
+			tn.scale = Vector3.ONE
+			tn.reparent(_fall, true)
+	var vines: Node3D = _tier_nodes.get("GrowthVines")
+	if vines:
+		vines.visible = false
+	if ground_material:
+		ground_material.set_shader_parameter(&"upgrade", 0.0)
 
 
 ## Selection (8.6): team rim on every painted surface, glow boost 1.4 on glow parts.
 func set_selected(on: bool) -> void:
 	_selected = on
+
+
+## Keep tier 1..3 (Keep._show_tier; G-B): Stronghold = rune menhirs, five crown blossoms, the ground rune circle;
+## Citadel = + four great blossoms, seed lights on the menhirs, the turning petal halo, a double rune circle.
+func set_tier(t: int) -> void:
+	_tier = clampi(t, 1, 3)
+	if _ready_done:
+		_apply_tier()
+
+
+## The keep is upgrading (Keep.upgrade / cancel_upgrade): glowing vines climb the trunk with the progress, the sap
+## runs bright, the ground rune circle fills with light.
+func set_upgrading(on: bool) -> void:
+	_upgrading = on
+	if not on:
+		_up_k = 0.0
+	if _ready_done:
+		_apply_tier()
+
+
+## The new tier arrived (Keep.set_tier_now, not on a quiet start tier): the new parts bloom open, petals burst from
+## the crown, a flash and a pulse like a training pulse.
+func play_tier_up() -> void:
+	if _destroyed or not _ready_done:
+		return
+	_tier_pop = 0.0
+	_pulse_left = PULSE_TIME
+	_fire(_build_flash)
+	_bloom_burst.position = _bloom_xf.origin + Vector3(0.0, 0.9, 0.0)
+	_fire(_bloom_burst)
 
 
 ## Team colour (8.7): leaves, banners, every glow (sap, heart, bloom, lanterns, runes), particle ramps, lights.
@@ -359,6 +415,125 @@ func set_team_color(c: Color) -> void:
 
 
 # --- Internals ---
+
+## G-B: the painted layer's tier on every surface material (nature_paint.gdshaderinc), fireflies at High / Ultra.
+func _apply_gfx() -> void:
+	var gd: int = NatureKit.gfx_detail()
+	_rich = NatureKit.gfx_rich()
+	var mats: Array[ShaderMaterial] = []
+	mats.append_array(painted_materials)
+	mats.append_array(card_materials)
+	for m: ShaderMaterial in [bark_material, leaves_material, leafcard_material, moss_material, blossom_material,
+			petal_material, heart_material]:
+		if m:
+			mats.append(m)
+	for m: ShaderMaterial in mats:
+		if m and m.shader and m.shader.get_shader_uniform_list().any(func(u: Dictionary) -> bool: return u.name == "gfx_detail"):
+			m.set_shader_parameter(&"gfx_detail", gd)
+	if bark_material:
+		var e: Variant = bark_material.get_shader_parameter(&"sap_energy")
+		var s: Variant = bark_material.get_shader_parameter(&"sap_speed")
+		_sap_base = Vector2(float(e) if e != null else 1.8, float(s) if s != null else 0.3)
+	if _rich:
+		var ff := NatureFireflies.make(Vector3(0.0, 6.5, 0.0), Vector3(5.2, 4.5, 5.2), 20)
+		add_child(ff)
+		_ambient.append(ff)
+
+
+func _build_tier_nodes() -> void:
+	var canopy := _canopy as MeshInstance3D
+	var mats: Dictionary = {"Stone": _painted_named("Stone"), "Gate": gate_material, "Heart": heart_material,
+		"Petal": petal_material, "LeafCard": leafcard_material, "Blossom": blossom_material, "Bark": bark_material}
+	var specs: Array = [["Tier2Stones", "stones2", Vector3.ZERO], ["Tier2Crown", "crown2", NatureKeepTiers.CROWN_PIVOT],
+		["Tier3Crown", "crown3", NatureKeepTiers.CROWN_PIVOT], ["Tier3Halo", "halo3", Vector3(0.0, NatureKeepTiers.HALO_Y, 0.0)],
+		["GrowthVines", "vines", Vector3.ZERO]]
+	for sp: Array in specs:
+		var res: Array = NatureKeepTiers.mesh(sp[1], canopy)
+		var mi := MeshInstance3D.new()
+		mi.name = sp[0]
+		mi.mesh = res[0]
+		var keys: Array[String] = res[1]
+		for i: int in keys.size():
+			mi.set_surface_override_material(i, mats.get(keys[i]))
+		mi.position = sp[2]
+		mi.visible = false
+		if sp[0] == "Tier3Halo" or sp[0] == "GrowthVines":
+			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		if sp[0] == "GrowthVines":
+			mi.set_meta(&"no_ghost", true)   # upgrade dressing: not part of the fog-of-war ghost
+		if sp[0] == "Tier2Stones":
+			mi.set_instance_shader_parameter(&"ao_bottom", 0.0)
+			mi.set_instance_shader_parameter(&"ao_height", 4.0)
+		_model.add_child(mi)
+		_tier_nodes[sp[0]] = mi
+
+
+func _painted_named(nm: String) -> ShaderMaterial:
+	for m: ShaderMaterial in painted_materials:
+		if m and m.resource_name == nm:
+			return m
+	return painted_materials[0] if not painted_materials.is_empty() else null
+
+
+## Shows the tier parts for the current tier / upgrade (hidden on a site and once destroyed).
+func _apply_tier() -> void:
+	if not _ready_done or _tier_nodes.is_empty() or _destroyed:
+		return
+	var built: bool = _progress >= 1.0
+	(_tier_nodes["Tier2Stones"] as Node3D).visible = built and _tier >= 2
+	(_tier_nodes["Tier2Crown"] as Node3D).visible = built and _tier >= 2
+	(_tier_nodes["Tier3Crown"] as Node3D).visible = built and _tier >= 3
+	(_tier_nodes["Tier3Halo"] as Node3D).visible = built and _tier >= 3
+	(_tier_nodes["GrowthVines"] as Node3D).visible = built and _upgrading
+	if ground_material:
+		ground_material.set_shader_parameter(&"tier", float(_tier) if built else 1.0)
+		ground_material.set_shader_parameter(&"ring_energy", [1.6, 2.1, 2.7][_tier - 1])
+		if not _upgrading:
+			ground_material.set_shader_parameter(&"upgrade", 0.0)
+	if bark_material and not _upgrading:
+		bark_material.set_shader_parameter(&"sap_energy", _sap_base.x * (1.0 + 0.15 * float(_tier - 1)))
+		bark_material.set_shader_parameter(&"sap_speed", _sap_base.y)
+	_build_ring.emitting = (not built) or (_upgrading and _rich)
+
+
+func _process_tier(delta: float) -> void:
+	if _tier_nodes.is_empty():
+		return
+	var halo: Node3D = _tier_nodes["Tier3Halo"]
+	if halo.visible:
+		halo.rotation.y = _t * 0.12
+		halo.position.y = NatureKeepTiers.HALO_Y + 0.12 * sin(_t * 0.8)
+	if _tier_pop < 1.0:
+		_tier_pop = minf(_tier_pop + delta / 1.1, 1.0)
+		var k: float = ease(_tier_pop, -2.2)   # in-out: buds swell, then open
+		var s: float = maxf(k, 0.01)
+		for key: String in ["Tier2Crown", "Tier3Crown", "Tier3Halo"]:
+			(_tier_nodes[key] as Node3D).scale = Vector3.ONE * s
+		(_tier_nodes["Tier2Stones"] as Node3D).scale = Vector3(1.0, s, 1.0) if _tier == 2 else Vector3.ONE
+	if _upgrading and _progress >= 1.0:
+		var keep: Node = _keep_node()
+		var real: bool = keep != null and bool(keep.call(&"is_upgrading"))
+		var p: float = float(keep.call(&"upgrade_progress")) if real else 0.35 + 0.3 * sin(_t * 0.2)   # preview / labs
+		_up_k = move_toward(_up_k, p, delta * 0.5)
+		var vines: Node3D = _tier_nodes["GrowthVines"]
+		vines.scale = Vector3(1.0 + 0.04 * sin(_t * 2.0), maxf(_up_k, 0.03), 1.0 + 0.04 * sin(_t * 2.0))
+		if ground_material:
+			ground_material.set_shader_parameter(&"upgrade", maxf(_up_k, 0.02))
+		if bark_material:
+			var surge: float = 0.5 + 0.5 * sin(_t * 3.2)
+			bark_material.set_shader_parameter(&"sap_energy", _sap_base.x * (1.4 + 0.6 * surge))
+			bark_material.set_shader_parameter(&"sap_speed", _sap_base.y * 2.5)
+
+
+## The Keep (building) above this model: its upgrade_progress() drives the growth.
+func _keep_node() -> Node:
+	if _keep_cache and is_instance_valid(_keep_cache):
+		return _keep_cache
+	var n: Node = get_parent()
+	while n != null and not n.has_method(&"upgrade_progress"):
+		n = n.get_parent()
+	_keep_cache = n
+	return n
 
 func _collect_parts() -> void:
 	for child: Node in _model.get_children():

@@ -14,8 +14,13 @@ uniform float boost = 1.0;
 
 varying vec3 v_local;
 
+#include "res://art/buildings/nature/nature_paint.gdshaderinc"
+
 void vertex() {
 	v_local = VERTEX;
+	if (gfx_detail >= 1) {
+		VERTEX += nv_wind_local(MODEL_MATRIX, VERTEX, TIME);   // G-B: rides the canopy's wind (crown seeds)
+	}
 }
 
 void fragment() {

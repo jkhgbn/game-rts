@@ -56,11 +56,18 @@ varying vec3 v_world_normal;
 varying flat int v_mat;
 varying float v_spec;
 varying float v_gold;
+varying float v_kind;
+varying float v_moss;
+
+#include "res://art/buildings/nature/nature_paint.gdshaderinc"
 
 void vertex() {
+	v_mat = int(floor(CUSTOM0.x + 0.5));
+	if (gfx_detail >= 1 && v_mat >= 0 && patterns[clamp(v_mat, 0, 7)] == 3) {
+		VERTEX += nv_wind_local(MODEL_MATRIX, VERTEX, TIME);   // G-B: foliage breathes in the wind
+	}
 	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	v_world_normal = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
-	v_mat = int(floor(CUSTOM0.x + 0.5));
 }
 
 float triplanar(vec3 p, vec3 n, float scale) {
@@ -127,6 +134,8 @@ float moss_mask(vec3 n, float na, float nb, float joint) {
 void fragment() {
 	v_spec = 0.0;
 	v_gold = 0.0;
+	v_kind = 0.0;
+	v_moss = 0.0;
 	if (v_mat == -2) {
 		vec3 gn = normalize(v_world_normal);
 		float gna = triplanar(v_world_pos, gn, 1.1);
@@ -169,6 +178,7 @@ void fragment() {
 	float dist = length(VERTEX);
 	float far = smoothstep(28.0, 55.0, dist);
 	float joint = 0.0;
+	float relief = 0.0;   // G-B High: a height for the close-up bump
 
 	if (pattern == 1) {
 		vec4 b = blocks(UV, block_size, joint_width);
@@ -181,6 +191,7 @@ void fragment() {
 		float ridged = 1.0 - abs(rn * 2.0 - 1.0);
 		float c = smoothstep(0.965 - damage * 0.05, 0.99, ridged) * smoothstep(0.35, 0.5, damage + nb * 0.4);
 		albedo = mix(albedo, albedo * 0.25, c);
+		relief = (1.0 - b.x) * 0.018 + b.y * 0.006 - c * 0.01;
 	} else if (pattern == 2) {
 		vec2 buv = UV * bark_scale;
 		float f = texture(noise_tex, buv).r;
@@ -189,6 +200,7 @@ void fragment() {
 		albedo *= 1.0 + (f - 0.5) * 0.45;
 		albedo *= 1.0 - 0.55 * furrow;
 		joint = furrow;
+		relief = f * 0.035 - furrow * 0.006;
 		if (sap > 0.0) {
 			float mask = smoothstep(0.56 - damage * 0.2, 0.68 - damage * 0.15,
 				texture(noise_tex, buv * vec2(0.5, 0.45) + vec2(0.31, 0.57)).r);
@@ -213,7 +225,8 @@ void fragment() {
 		float lit = smoothstep(-0.1, -0.85, s.y) * (1.0 - smoothstep(0.82, 1.0, s.z));
 		float shadowed = smoothstep(-0.35, 0.25, s.y);
 		float rim_line = smoothstep(0.84, 0.98, s.z) * smoothstep(0.2, -0.6, s.y);
-		albedo *= 1.0 + (lit * 0.26 - shadowed * 0.2 - rim_line * 0.22) * fade;
+		float pop = gfx_detail >= 1 ? 1.4 : 1.0;   // G-B Medium+: crisper leaf scales
+		albedo *= 1.0 + (lit * 0.26 - shadowed * 0.2 - rim_line * 0.22) * fade * pop;
 		albedo *= 1.0 + (s.w - 0.5) * 0.18 * fade;
 		albedo *= mix(0.7, 1.0, s.x);
 		// Leaf clusters: broad darker patches (painted depth inside the clump).
@@ -223,8 +236,14 @@ void fragment() {
 		float up = n.y;
 		albedo *= mix(shade_tint * 0.55, vec3(1.0), smoothstep(-0.8, 0.45, up));
 		albedo = mix(albedo, albedo * top_tint, smoothstep(0.35, 0.95, up) * (0.45 + 0.55 * na));
-		float wm = smoothstep(1.0 - wither - 0.08, 1.0 - wither + 0.08, nb * 0.7 + s.w * 0.3 + 0.15);
-		albedo = mix(albedo, wither_color * (0.75 + 0.5 * na) * mix(0.8, 1.1, lit), wm * step(0.001, wither));
+		// Withering (damage): leaf by leaf (each scale its own turn), in a spread of autumn tones, not flat blotches.
+		float wm = smoothstep(1.0 - wither - 0.05, 1.0 - wither + 0.05, nb * 0.3 + s.w * 0.7 + 0.12);
+		float hue_id = fract(s.w * 7.13);
+		vec3 autumn = mix(vec3(0.5, 0.46, 0.22), wither_color, smoothstep(0.2, 0.5, hue_id));   // dry olive .. ochre
+		autumn = mix(autumn, vec3(0.55, 0.27, 0.11), smoothstep(0.62, 0.85, hue_id));            // .. rust
+		autumn = mix(autumn, vec3(0.36, 0.27, 0.16), smoothstep(0.88, 0.98, hue_id));            // .. dead brown
+		albedo = mix(albedo, autumn * (0.62 + 0.4 * na) * mix(0.75, 1.1, lit), wm * step(0.001, wither) * s.x);
+		relief = s.x * (1.0 - s.z * s.z) * 0.09;
 	} else if (pattern == 4) {
 		vec4 b = blocks(UV, block_size, joint_width);
 		joint = b.x;
@@ -233,6 +252,7 @@ void fragment() {
 		albedo *= 0.88 + grain * 0.24;
 		albedo *= 1.0 + smoothstep(0.8, 1.0, b.z) * 0.25;
 		albedo = mix(albedo, albedo * 0.45, b.x);
+		relief = (1.0 - b.x) * 0.012 + grain * 0.004;
 	}
 
 	// Baked occlusion (vertex colour r; white on meshes that bake none): dark crevices between canopy clumps.
@@ -242,13 +262,23 @@ void fragment() {
 	if (moss > 0.0) {
 		float m = moss_mask(n, na, nb, joint * (pattern == 2 ? 0.0 : 1.0)) * moss;
 		albedo = mix(albedo, moss_color * (0.8 + 0.4 * na), m);
+		v_moss = m;
+		relief += m * na * 0.02;
 	}
+	int kind = pattern == 2 ? 1 : (pattern == 3 ? 2 : (pattern == 0 && moss > 0.0 ? 3 : 0));
+	albedo = nv_albedo(albedo, n, kind, na);
 
 	// Height gradient (fake sky light + AO) and dark contact band.
 	float h = v_world_pos.y - ao_bottom;
 	albedo *= mix(0.72, 1.08, smoothstep(0.0, 1.0, h / max(ao_height, 0.01)));
 	albedo *= mix(0.55, 1.0, smoothstep(0.0, 0.35, h));
 	albedo *= 1.0 - damage * 0.3;
+
+	// G-B High: close-up relief, faded out by ~16 m. Branch on the uniform only: the derivatives in nv_bump must run
+	// in uniform control flow (a per-pixel `dist` test would break them at the fade edge).
+	if (gfx_detail >= 2) {
+		NORMAL = normalize(mix(NORMAL, nv_bump(NORMAL, VERTEX, relief), 1.0 - smoothstep(10.0, 16.0, dist)));
+	}
 
 	float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
 	emission += rim * rim_color * rim_strength;
@@ -257,6 +287,7 @@ void fragment() {
 	EMISSION = emission;
 	ROUGHNESS = 1.0;
 	v_spec = spec_strengths[mi];
+	v_kind = float(kind);
 	}
 }
 
@@ -268,11 +299,7 @@ void light() {
 		float gsp = pow(max(dot(reflect(-LIGHT, NORMAL), VIEW), 0.0), 14.0);
 		SPECULAR_LIGHT += smoothstep(0.25, 0.6, gsp) * gold_spec * LIGHT_COLOR * ATTENUATION * ALBEDO;
 	} else {
-		float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
-		float ramp = smoothstep(0.32, 0.42, d) * 0.55 + smoothstep(0.58, 0.68, d) * 0.45;
-		DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
-		if (v_spec > 0.0) {
-			SPECULAR_LIGHT += pow(max(dot(reflect(-LIGHT, NORMAL), VIEW), 0.0), 24.0) * v_spec * LIGHT_COLOR * ATTENUATION / PI;
-		}
+		nv_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, ALBEDO, v_spec, int(v_kind + 0.5), v_moss,
+			DIFFUSE_LIGHT, SPECULAR_LIGHT);
 	}
 }

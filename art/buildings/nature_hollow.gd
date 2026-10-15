@@ -381,6 +381,11 @@ func _build_ambient() -> void:
 	var p2 := _particles("Leaves", _body, Vector3(0, 3.6, 0), 5, 5.0, lv, false, false)
 	p2.draw_pass_1 = NatureKit.shape_quad(0)
 	_ambient = [p1, p2] as Array[GPUParticles3D]
+	# G-B High / Ultra: a few fireflies around the pod (ambient: near the camera only).
+	if NatureKit.gfx_rich():
+		var ff := NatureFireflies.make(Vector3(0.0, 2.4, 0.0), Vector3(2.3, 1.5, 2.3), 6)
+		_body.add_child(ff)
+		_ambient.append(ff)
 
 
 ## Base state nodes, then the "blaze" plume becomes withering leaves pouring off the roof.
