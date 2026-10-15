@@ -3,6 +3,11 @@ extends Node
 ## without knowing about each other. Only the lead adds or changes signals here.
 ## No class_name: it would clash with the autoload name.
 
+
+func _ready() -> void:
+	if BootCheck.wanted():
+		BootCheck.run.call_deferred(get_tree())
+
 @warning_ignore("unused_signal")
 signal unit_died(unit: Unit)
 @warning_ignore("unused_signal")
