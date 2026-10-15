@@ -312,14 +312,16 @@ func unit_death(u: Node3D, k: int, hero: bool, team: int) -> void:
 			for i in int(5 * n):
 				_spark(mid, _cone(Vector3.UP, 1.2, 2.0, 4.5), 0.025 * s, 4.0, 2.5, 0.05, _rng.randf_range(0.4, 0.7),
 						ICE_GLINT, 0.0, 0.7, ground)
-		3:   # Nature: leaves fall and settle round the body; spores drift up.
+		3:   # Nature: a burst of small leaves falls and settles round the body; spores drift up.
+			# G-E 13 (docs/art/ge_fixes_c.md): leaves were 0.16-0.24 m plates lying 3.5-4.8 s over the melee and its HP
+			# bars; now half the size, twice the count, a shorter life (a leaf burst, not plates).
 			var greens: Array[Color] = [Color(0.42, 0.72, 0.2, 0.1), Color(0.3, 0.56, 0.15, 0.1), Color(0.7, 0.72, 0.22, 0.1),
 					Color(0.55, 0.42, 0.16, 0.1)]
-			for i in int(10 * n):
+			for i in int(20 * n):
 				var p := pos + Vector3(_rng.randf_range(-r, r), h * _rng.randf_range(0.4, 1.0), _rng.randf_range(-r, r))
-				_chip(Sys.RUBBLE, p, Vector3(_rng.randf_range(-1.5, 1.5), _rng.randf_range(0.5, 2.0), _rng.randf_range(-1.5, 1.5)),
-						_rng.randf_range(0.16, 0.24) * s, 2.6, 2.4, _rng.randf_range(3.5, 4.8), _rng.randf_range(3.0, 7.0), 0.14,
-						greens[i % greens.size()], 0.0, _rng.randf_range(0.0, 0.4), ground)
+				_chip(Sys.RUBBLE, p, Vector3(_rng.randf_range(-1.7, 1.7), _rng.randf_range(0.6, 2.2), _rng.randf_range(-1.7, 1.7)),
+						_rng.randf_range(0.08, 0.12) * s, 2.6, 2.4, _rng.randf_range(1.8, 2.6), _rng.randf_range(4.0, 9.0), 0.14,
+						greens[i % greens.size()], 0.0, _rng.randf_range(0.0, 0.3), ground)
 			for i in int(7 * n):
 				_puff(Sys.GLOW, pos + Vector3(_rng.randf_range(-r, r), _rng.randf_range(0.2, h), _rng.randf_range(-r, r)),
 						Vector3(0, _rng.randf_range(0.3, 0.8), 0), 0.11 * s, -0.4, 1.0, 1.6, 0.5,

@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://art/environment/ge_props/meshes/oldroot.res" id="1_utn88"]
+[ext_resource type="Material" path="res://art/environment/ge_props/oldroot_glow_mat.tres" id="2_0tl4f"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_cj4hq"]
+radial_segments = 12
+rings = 6
+
+[node name="OldrootArt" type="Node3D" unique_id=319587865]
+
+[node name="Model" type="MeshInstance3D" parent="." unique_id=963710612]
+gi_mode = 0
+mesh = ExtResource("1_utn88")
+
+[node name="HollowGlow" type="MeshInstance3D" parent="." unique_id=2092345727]
+transform = Transform3D(0.3, 0, 0, 0, 1.2, 0, 0, 0, 0.24, 0, 2.05, 0.64)
+material_override = ExtResource("2_0tl4f")
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("SphereMesh_cj4hq")

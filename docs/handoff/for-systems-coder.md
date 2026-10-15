@@ -872,3 +872,37 @@ Optional, same call: `mission_e6_01.gd` (also the ice preset) if it is a snow ma
 Optional readability (GlasswaterLake `_update_cracks`): on the new darker ice the dark crack lines (0.12, 0.2, 0.3) still
 read, but pale ones (e.g. `Color(0.85, 0.93, 1.0, 0.95)`) would match the fracture style; your call.
 Tests: tests/test_ge_fixes_b.gd covers dress_level on a stand-in of these nodes.
+
+## G-E fixes C: Sighing Wood (m03) Oldroot + Warden Gate art (from tech-artist, 2026-10-15)
+Review item 9 (docs/art/ge_review.md, docs/art/ge_fixes_c.md). The forest mood itself needs nothing from you: ForestMood
+(`art/environment/sighing_wood/forest_mood.gd`) runs from GroundDetail's art hook on any level whose `MISSION_ID` is
+`&"m03"` (forest ground + decor, green-gold preset, canopy shade / sun shafts at High+). Until the two calls below are in,
+it also hides your placeholder meshes at runtime and adds the art scenes (it skips a body that already has the art), so
+the look is live today; please move the art into your code so the interim swap becomes a no-op.
+1. `scripts/campaign/mission_03.gd` `_add_oldroot()`: keep the collider body, the group and `_oldroot`; replace the
+   placeholder trunk halves, the 7 root cylinders and the 5 crown spheres (everything between `var bark :=` and
+   `# The Signet:`) with:
+```gdscript
+	# G-E fixes C: the Oldroot art (draw-only, no collider; the trunk collider above stays the only one).
+	const OLDROOT_ART := "res://art/environment/ge_props/oldroot.tscn"
+	if ResourceLoader.exists(OLDROOT_ART):
+		body.add_child((load(OLDROOT_ART) as PackedScene).instantiate())   # root node "OldrootArt"
+```
+   The art's front gap is at +Z, shaped round your `SIGNET_POS + SIGNET_LOOK_OFFSET` (0, 2.1, 1.15): keep the body
+   unrotated. Signet mesh / light unchanged.
+2. `scripts/campaign/warden_gate.gd` `_build_look()` (shared with m04 / E2): replace the two `foot` boxes and the
+   `lintel` (keep `_crack_mat` / the crack quad and the HP bar) with:
+```gdscript
+	const GATE_ART := "res://art/environment/ge_props/warden_gate_art.tscn"
+	if ResourceLoader.exists(GATE_ART):
+		_look.add_child((load(GATE_ART) as PackedScene).instantiate())   # root node "WardenGateArt"
+```
+   The model sits inside your feet colliders (piers at x +-1.5, 1 m wide, z +-0.81; arch top 5.8 m, the HP bar at
+   SIZE.y + 1.4 stays clear); `_crumble`'s tween on `_look` flattens it as before. Draw-only.
+3. Optional: `_lighting_preset()` can stay `&"warm"` (ForestMood applies `art/environment/sighing_wood/preset_forest.tres`
+   on the rig); drop the "M3.V1: forest preset" comment, or add `func forest_mood() -> bool: return true` to opt in
+   explicitly (ForestMood.wants reads it first).
+4. Optional, gameplay-visible (your call + test_m3_* / navmesh tests): a denser wood would read even more as a forest:
+   `_build_map` 16 broadleaf clusters of 6-10 -> ~22 clusters of 7-12, same clearings.
+Not done here (placeholders still): the thorn ring hedge boxes, the Root Hearts' cylinder cradles.
+Tests: tests/test_ge_fixes_c.gd (art scenes have no collider, the gap keeps the Signet spot free, the gate fits its feet).
