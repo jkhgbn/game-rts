@@ -19,6 +19,8 @@ extends MissionBase
 ##   (WIZARD_MANA_REGEN_PCT): their Thornburst / Fireball every few seconds took most of the scripted army's losses
 ##   at the ford and on the standards; each AoE also takes extra mana (AOE_SURCHARGE: Fireball +30, Thornburst +25), so a
 ##   full pool pays two or three, then one every ~25 s.
+## - Enemy bot defence radius 16 m (2026-10-15, ENEMY_DEFEND_RADIUS): the default 28 m reached the ford from the crest
+##   spires, so both rally armies joined W3 there (scripted runs lost 25-30 soldiers in 10 s at ford 70 %).
 
 const MISSION_ID := &"e3m1"
 const MISSION_TITLE := "Take the Ford"
@@ -114,6 +116,10 @@ const VESSA_SPELLS := [&"fireball", &"fireball", &"ember_step", &"kindle"]
 const WIZARD_MANA_REGEN_PCT := -0.5   ## mission-only wizard AoE tuning (header): Ysolde's and Vessa's cast rate
 const AOE_SURCHARGE := {&"fireball": 30.0, &"thornburst": 25.0}   ## mission-only: extra mana per AoE cast (header)
 const ESSENCE_CAP := 1500
+## The enemy bots defend their buildings only this close (default 28-32): at 28 m the crest spires (z 30-34) pulled
+## both rally armies (10 + 10) down onto the Stone Ford (z ~2-9) at the W3 fight; the spec's ford is G1 + W3 and "the
+## bots' own armies stand at their rallies". 16 m still covers the Clover Stone and Ysolde's Standard (the crest edge).
+const ENEMY_DEFEND_RADIUS := 16.0
 
 const GUARDS := {
 	&"G1": [[NATURE_SEAT, [["thornling", 4], ["burr_slinger", 2]]], [FIRE_SEAT, [["flame_guard", 2]]]],
@@ -633,6 +639,7 @@ func seat_profile(seat: int) -> AIProfile:
 	p.trade = false
 	p.map_fill = false
 	if seat != ALLY_SEAT:
+		p.defend_radius = ENEMY_DEFEND_RADIUS
 		p.item_build = PackedStringArray()   # the spec's wizards: levels and spells only (no bot items)
 	return p
 

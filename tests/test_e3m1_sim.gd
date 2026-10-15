@@ -10,6 +10,14 @@ extends SceneTree
 ## 2026-10-13 (CI: the ford at ~20:38, then a timeout): the Halls save for the mix (a Knight / Oathsworn / Hexweaver it
 ## cannot afford yet is waited for, not swapped for a Shade); a beaten ford push falls back to the rally and rebuilds;
 ## push / regroup sizes count soldier pop; the third standard (the Final) is only taken with a full army.
+## 2026-10-14 (seeds 1-6: 4 wins, a loss and a timeout; half the losses after the ford were at z 22-39, chasing up the
+## crest): the crest pull-back sticks (4 s out of the line orders, which turned it back into an attack-move up the hill);
+## no focus on a wizard standing on her crest anchor; the bank answer to W3 starts when Ysolde walks down (the chasers
+## south of the ford disengage); hysteresis at the last-standard gate (it walked out at 30 pop and back at 29 for minutes);
+## a beaten hold rebuilds north of the river; a ford re-push goes with what it has once the nodes are dry; during the
+## hold Malrik stays behind his line (north of the river when it is thin). Mission side: the enemy bots defend 16 m around
+## their buildings (their rally armies no longer join W3 at the ford). After: seeds 1-6 all won (mission 19:32-25:05).
+## `-- --trace`: the fight every 5 s and each loss with its place and killer.
 ## `-- --seed N`, `-- --verbose`. Slow. Run: godot --headless --path . -s tests/test_e3m1_sim.gd --fixed-fps 60 --quit-after 130000
 
 const TASK_ID := "e3m1_sim"
@@ -36,12 +44,15 @@ const LATE_GO := 1560.0    ## from 26:00 the last standard is taken with whateve
 const FORD_FALLBACK := 14   ## before the ford is ours: under this soldier pop the push falls back to the rally...
 const FORD_REPUSH := 36     ## ...and goes again at this much (or at the pop cap)
 const SHOP_LIST: Array[StringName] = [&"vital_root", &"ironbark_plate", &"vital_root", &"warden_scale"]   ## +HP / armour
-const CREST_Z := 23.0       ## after the ford: soldiers past this z are called back (the crest spires' reach)
+const CREST_Z := 22.0      ## after the ford: soldiers past this z are called back (the crest spires' reach)
+const PULL_SECONDS := 4.0  ## a soldier called back walks this long before it takes line orders again
 const BANK_EDGE := Vector3(4.0, 0.0, -6.0)   ## the north bank's edge by the Stone Ford (the water starts at ~z -4.5)
 const BANK_TIME := 45.0     ## each push fights from the bank this long before it crosses
 const REGROUP_SPOT := Vector3(4.0, 0.0, -12.0)   ## north of the Stone Ford
 
 var verbose := false
+var trace := false   ## `-- --trace`: the fight every 5 s (the ford, the standards, the hold)
+var _last_trace := -1
 var h := MissionHarness.new()
 var main: MissionE3_01
 var phase := &"build"
@@ -58,6 +69,8 @@ var _pushing := false
 var _w3_hero_hp := 1.0
 var _wounded := {}
 var _regrouping := false
+var _pulled := {}        ## instance id -> mission time: walking back from the crest, left out of the line orders
+var _final_go := false   ## the army left for the last standard (hysteresis on the hold gate)
 var _ford_rebuild := false
 var _bank_until := 0.0
 var _shop_i := 0
@@ -68,6 +81,7 @@ var killers := {}
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
 	verbose = args.has("--verbose")
+	trace = args.has("--trace")
 	var i := args.find("--seed")
 	if i >= 0 and i + 1 < args.size():
 		seed(int(args[i + 1]))
@@ -94,6 +108,10 @@ func _on_died(u: Node) -> void:
 			who = "wizard:%s" % (k as Wizard).unit_name
 	var key := "%s:%s" % [phase, who]
 	killers[key] = int(killers.get(key, 0)) + 1
+	if trace:
+		var kp: String = str((k as Node3D).global_position.round()) if k != null and is_instance_valid(k) and k is Node3D else "-"
+		print("        [died %s] %s at %s by %s from %s" % [_mmss(main.mission_time()), String(unit.unit_type.id) if unit.unit_type else "?",
+				str(unit.global_position.round()), who, kp])
 
 
 func _process(_delta: float) -> bool:
@@ -174,6 +192,16 @@ func _play() -> bool:
 					var wu := wz as Unit
 					print("      %s hp %d/%d at %s alive %s dormant %s" % [wu.name, int(wu.hp), int(wu.max_hp), str(wu.global_position.round()),
 							str(wu.is_alive()), str(m.is_dormant(wu))])
+	if trace and int(m.mission_time() / 5.0) != _last_trace and (phase == &"ford" or phase == &"hold" or phase.begins_with("take")):
+		_last_trace = int(m.mission_time() / 5.0)
+		var foes := {}
+		for u in _enemies_near(MissionE3_01.FORD_ZONE if phase == &"ford" else m.hero.global_position, 22.0):
+			var key: String = String(u.unit_type.id) if u.unit_type else "wiz"
+			foes[key] = int(foes.get(key, 0)) + 1
+		var c := SimTactics.centroid(_fighting)
+		var wet := _fighting.filter(func(u: Unit) -> bool: return absf(u.global_position.z - 1.0) < 4.5).size()
+		print("      [trace %s] army %d (wet %d) centre %s hero %d at %s | foes %s" % [_mmss(m.mission_time()), _fighting.size(), wet,
+				str(c.round()), int(m.hero.hp), str(m.hero.global_position.round()), str(foes)])
 	_economy()
 	_lance()
 	_guard_home()
@@ -248,6 +276,15 @@ func _strength(units: Array) -> int:
 		var u := v as Unit
 		n += u.unit_type.pop if u.unit_type else 1
 	return n
+
+
+## No crystals left to train with and every Shadow node dry (seed 6, 2026-10-14: an 11-soldier army waited at the
+## rally from 23:30 to the timeout for a 36-pop re-push that could never come).
+func _no_income() -> bool:
+	return Economy.for_team(0).crystals < 110 and not [&"e3_dusk_a", &"e3_dusk_b", &"e3_ridge_w", &"e3_reedfield"].any(
+			func(id: StringName) -> bool:
+				var v: Variant = main.crystal_nodes.get(id)
+				return v != null and is_instance_valid(v) and not (v as CrystalNode).is_depleted())
 
 
 func _pop_capped() -> bool:
@@ -431,7 +468,10 @@ func _focus_wizard() -> bool:
 	if army.is_empty():
 		return false
 	var ranged: Array = army.filter(func(u: Unit) -> bool: return SimTactics.is_ranged(u) or u.unit_type.id == &"grave_hound")
-	var awake := func(w: Unit) -> bool: return not main.is_dormant(w)
+	# Never a wizard on her crest anchor (z ~34, between the crest spires): 2026-10-14 seed 1 sent the ranged after Vessa
+	# there every tick and the CREST_Z pull-back walked them out again; most post-ford losses were at z 22-39 to the
+	# spires and her Fireballs.
+	var awake := func(w: Unit) -> bool: return not main.is_dormant(w) and w.global_position.z < CREST_Z - 2.0
 	var w := SimTactics.focus_wizards(ranged, [main.ysolde, main.vessa], 15.0, awake)
 	if w == null:
 		return false
@@ -493,7 +533,8 @@ func _plan() -> void:
 		var ford_strength := _strength(army)
 		if ford_strength < FORD_FALLBACK:
 			_ford_rebuild = true
-		elif ford_strength >= FORD_REPUSH or (ford_strength >= FORD_FALLBACK + 8 and _pop_capped()):
+		elif ford_strength >= FORD_REPUSH or (ford_strength >= FORD_FALLBACK + 8 and _pop_capped()) \
+				or (ford_strength >= FORD_FALLBACK and _no_income()):   # (the nodes ran dry: waiting cannot grow it)
 			_ford_rebuild = false
 		if _ford_rebuild:
 			_set_phase(&"ford_regroup")
@@ -514,9 +555,17 @@ func _plan() -> void:
 			if u.global_position.z > 14.0:
 				u.command_move(MissionE3_01.FORD_LANDING)   # never chase up the hill into the crest spires
 		var zone := _enemies_near(MissionE3_01.FORD_ZONE, 12.0)
-		var w3 := m.waves_fired.has(&"W3") and zone.size() >= 3
+		# W3 is coming as soon as Ysolde walks down from the crest (not only once 3 of it stand in the ford): 2026-10-14 seed 5
+		# met it head-on at z 15-19 chasing the pickets and lost 14 soldiers in 4 s (one Thornburst took 7 of them).
+		var ys: Unit = m.ysolde
+		var ys_near := ys != null and is_instance_valid(ys) and ys.is_alive() and not m.is_dormant(ys) \
+				and MissionBase._flat(ys.global_position, MissionE3_01.FORD_ZONE) < 26.0
+		var w3 := m.waves_fired.has(&"W3") and (zone.size() >= 3 or ys_near)
 		if w3:
 			# W3 comes to the ford: fight it from the north bank, out of the water (the ford slows everyone inside).
+			for u in army:   # the chasers south of the ford disengage: back over the water to the line
+				if u.global_position.z > MissionE3_01.FORD_ZONE.z + MissionE3_01.FORD_ZONE_R and not u.has_move_order():
+					u.command_move(BANK_HOLD + Vector3(randf_range(-4.0, 4.0), 0.0, randf_range(-2.0, 1.0)))
 			var bank := _enemies_near(BANK_HOLD, 10.0)
 			if not bank.is_empty():
 				_army_to(bank[0].global_position, 3.0)
@@ -543,24 +592,39 @@ func _plan() -> void:
 			_hero_to(MissionE3_01.FORD_ZONE + Vector3(-1.0, 0.0, -3.0) if zone.size() <= 2 else BANK_HOLD + Vector3(0.0, 0.0, -4.0), 2.5)
 		return
 	_focus_wizard()
-	for u: Unit in army:
-		if u.global_position.z > CREST_Z:   # a chase up the hill walks into the crest towers (range 10-11 from z 30-34)
-			u.command_move(Vector3(u.global_position.x, 0.0, 16.0))
-	var strength := _strength(army)
 	var now := m.mission_time()
+	for u: Unit in army:
+		var tgt: Variant = u.attack_target
+		var up_hill := tgt != null and is_instance_valid(tgt) and (tgt as Node3D).global_position.z > CREST_Z + 2.0
+		if u.global_position.z > CREST_Z or up_hill:   # a chase up the hill walks into the crest towers (range 10-11 from z 30-34)
+			u.command_move(Vector3(u.global_position.x, 0.0, 15.0))
+			_pulled[u.get_instance_id()] = now + PULL_SECONDS
+	# The pulled walk back for a few seconds before the line orders them again: the same tick's spread_to used to turn
+	# the pull-back into an attack-move up the hill again (2026-10-14: 50 of ~115 losses per run at z 22-39).
+	var strength := _strength(army)
+	_fighting = _fighting.filter(func(u: Unit) -> bool: return float(_pulled.get(u.get_instance_id(), -1.0)) < now)
+	army = _fighting
 	# Waiting cannot grow the army at the pop cap, with no crystals left (campaign notes 2026-10-11), or past LATE_GO.
-	var no_income := Economy.for_team(0).crystals < 110 and not [&"e3_dusk_a", &"e3_dusk_b", &"e3_ridge_w", &"e3_reedfield"].any(
-			func(id: StringName) -> bool:
-				var v: Variant = m.crystal_nodes.get(id)
-				return v != null and is_instance_valid(v) and not (v as CrystalNode).is_depleted())
+	var no_income := _no_income()
 	var cannot_grow := _pop_capped() or no_income or now >= LATE_GO
-	if strength < REGROUP_ARMY:
+	# (with no way to grow, the floor drops with the leave mark: seed 6 left at 18 and fell back at 23 for three minutes)
+	if strength < (REGROUP_ARMY - 6 if cannot_grow else REGROUP_ARMY):
 		_regrouping = true
 	if _regrouping and (strength >= REGROUP_LEAVE or (cannot_grow and (strength >= REGROUP_ARMY - 6 or now >= LATE_GO))):
 		_regrouping = false
 	# The last standard starts the hold and the Final (both wizards at L5 + 24 soldiers): only with a full army.
-	var hold_gate := m.standards_owned(0) == 2 and strength < REGROUP_LEAVE and not cannot_grow
-	if m.objective_state("obj_hold") != "active" and (_regrouping or hold_gate) and m.standards_owned(0) < 3:
+	# Once it leaves for it, it goes (until the regroup floor): 2026-10-14 seed 4 walked out at 30 pop and back at 29
+	# for seven minutes (16:00-23:00, take / regroup every few seconds) and finished at 26:26.
+	# (latched only at the gate itself: seed 5 latched with 41 after the ford and started the hold at 13:00 with ~27)
+	var owned := m.standards_owned(0)
+	if owned == 2 and strength >= REGROUP_LEAVE:
+		_final_go = true
+	elif strength < REGROUP_ARMY or owned < 2:
+		_final_go = false
+	var hold_gate := owned == 2 and not _final_go and strength < REGROUP_LEAVE and not cannot_grow
+	# A beaten hold rebuilds too (seed 5: after the Final broke it, each new soldier walked into it alone for 20 min).
+	var hold_on := m.objective_state("obj_hold") == "active"
+	if owned < 3 and (_regrouping or (hold_gate and not hold_on)):
 		# Rebuild behind the river before the next standard (the ford is ours for good): whatever comes has to wade the
 		# ford's slow water into the line (on the south landing W4 and the crest caught a half-built army in the open).
 		_set_phase(&"regroup")
@@ -588,11 +652,24 @@ func _plan() -> void:
 		var at: Vector3 = (m.standards[target] as MissionZone).global_position
 		var foes := _enemies_near(at, 12.0)
 		_army_to(foes[0].global_position if not foes.is_empty() else at, 3.0)
-		if not _retreat:
-			_hero_to(at + Vector3(0.0, 0.0, -3.0) if foes.size() <= 3 and m.objective_state("obj_hold") != "active" else at + Vector3(0.0, 0.0, -9.0), 2.5)
+		if m.objective_state("obj_hold") == "active":
+			_hold_hero(strength)
+		elif not _retreat:
+			_hero_to(at + Vector3(0.0, 0.0, -3.0) if foes.size() <= 3 else at + Vector3(0.0, 0.0, -9.0), 2.5)
 		return
 	_set_phase(&"hold")
 	var foes2 := _enemies_near(HOLD_SPOT, 16.0)
 	_army_to(foes2[0].global_position if not foes2.is_empty() else HOLD_SPOT, 4.0)
-	if not _retreat:
-		_hero_to(HOLD_SPOT + Vector3(0.0, 0.0, -9.0), 3.0)
+	_hold_hero(strength)
+
+
+## The hold: Malrik fights behind his line (6 m north of the army's centre), never in front of it; with a thin army
+## (or hurt) he waits north of the Stone Ford, out of the Final's reach. 2026-10-14: seed 2 (8 soldiers left) lost him at
+## the hold spot at 26:40, seed 5 at 19:44 when he walked to the threatened Clover Stone into the Final's Nature half;
+## kept north of the river for the whole hold, the army lost the Final without him (seed 3).
+func _hold_hero(strength: int) -> void:
+	var c := SimTactics.centroid(_fighting)
+	if _retreat or strength < REGROUP_ARMY - 6 or c == Vector3.INF:
+		_hero_to(REGROUP_SPOT, 3.0)
+	else:
+		_hero_to(c + Vector3(0.0, 0.0, -6.0), 3.0)

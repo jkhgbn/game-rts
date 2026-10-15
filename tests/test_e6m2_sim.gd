@@ -6,6 +6,10 @@ extends SceneTree
 ## states); the spec lengths of e6m2_rider 0:15 and the dawn film 0:30 are added to the reported play time.
 ## Once both Warden Gates are down every wave (Breach, Lake 2, the Final) comes up through the mere crack: the whole
 ## army then waits at the lake (2026-10-13; holding the gap fed the detachment to the Breach and Torvald died ~12:35).
+## Hard (`-- --difficulty 2`, 2026-10-14): the gate push lost (columns of 4 Wardens spawn on the army at the gates; the
+## rest died to the Breach / Final at the mere) and so did holding the open gap (the nodes run dry ~12:00, the columns
+## never stop). The hard player saves the folk, walks the army back inside and closes the Frostgate (the panel's toggle),
+## then holds the wall to dawn (20:00, the spec's hard open 19-22 min). A hurt Torvald chased home gets the army back.
 ## tests/test_e6m2_shut_sim.gd runs the shut branch (the window runs out, a wall defence to 20:00).
 ## `-- --seed N`, `-- --difficulty N` (0-2, default 1), `-- --verbose`. Slow. Run: godot --headless --path . -s tests/test_e6m2_sim.gd --fixed-fps 60
 ## --quit-after 90000
@@ -27,7 +31,11 @@ const WORKERS := 12
 const DETACH := 5
 
 var verbose := false
+var trace := false          ## `-- --trace`: every player loss with its place and killer
+var killers := {}
 var shut := false           ## test_e6m2_shut_sim: never open, hold the wall
+var gate_push := true       ## break the Warden Gates (normal / easy); hard holds the gap to dawn (header)
+var difficulty := 1
 var h := MissionHarness.new()
 var main: MissionE6_02
 var _tick := 0.0
@@ -44,18 +52,39 @@ var _healing := false
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
 	verbose = args.has("--verbose")
+	trace = args.has("--trace")
 	var i := args.find("--seed")
 	if i >= 0 and i + 1 < args.size():
 		seed(int(args[i + 1]))
-	var difficulty := 1
 	var di := args.find("--difficulty")
 	if di >= 0 and di + 1 < args.size():
 		difficulty = clampi(int(args[di + 1]), 0, 2)
+	gate_push = difficulty < 2
 	h.task_id = TASK_ID + ("_shut" if shut else "")
 	h.protect_hero = false
 	h.timeout_frames = 88000
 	main = h.open(self, MISSION, {"difficulty": difficulty, "set": {"campaign_save_path": "user://test_e6m2_sim_none.json"}}) as MissionE6_02
 	h.steps.add("play", _play, 87000)
+	var ev := root.get_node_or_null("Events")
+	if ev:
+		ev.unit_died.connect(_on_died)
+
+
+## Player losses by killer type (printed at the end; `-- --trace` prints each death with its place).
+func _on_died(u: Node) -> void:
+	var unit := u as Unit
+	if unit == null or int(unit.team) != Unit.Team.PLAYER or main == null:
+		return
+	var k: Variant = unit.killer
+	var who := "?"
+	if k != null and is_instance_valid(k):
+		var kt: Variant = k.get(&"unit_type")
+		who = String((kt as UnitType).id) if kt != null else String((k as Node).name)
+	var key := "%s:%s" % [_phase.split(" ")[0], who]
+	killers[key] = int(killers.get(key, 0)) + 1
+	if trace:
+		print("        [died %s] %s at %s by %s (%s)" % [MissionE5Base.mmss(main.mission_time()), String(unit.unit_type.id) if unit.unit_type else "?",
+				str(unit.global_position.round()), who, _phase])
 
 
 func _process(_delta: float) -> bool:
@@ -74,11 +103,13 @@ func _play() -> bool:
 				"shattered" if m.gate.is_shattered else ("closed" if m.gate.is_closed else "open")])
 		print("  waves %s; spotlight %s" % [",".join(m.waves_fired), h.spotlight_log])
 		print("  objectives %s" % str(h.objective_log))
+		print("  losses by phase:killer %s" % str(killers))
 		h.check(h.ended == 1, "defeat at %s (%s)" % [MissionE5Base.mmss(t), _phase])
 		if shut:
 			h.check(t >= 1199.0, "the shut branch ended before dawn (%s)" % MissionE5Base.mmss(t))
 		else:
-			h.check(t >= 960.0 and t <= 1200.0, "mission time %s outside 16:00-20:00" % MissionE5Base.mmss(t))
+			# Hard holds the gap to dawn (spec: hard open 19-22 min with the cutscenes): 20:00 is its end.
+			h.check(t >= 960.0 and t <= (1200.0 if gate_push else 1202.0), "mission time %s outside 16:00-20:00" % MissionE5Base.mmss(t))
 			h.check(m.saved >= 12, "only %d saved" % m.saved)
 		return true
 	_tick -= 1.0 / 60.0
@@ -276,6 +307,13 @@ func _plan() -> void:
 	else:
 		_hold(_detach, LAKE_HOLD, 14.0)
 	if _healing:
+		var chasers := _foes_near(m.hero.global_position, 14.0)
+		if not chasers.is_empty():
+			# A Breaker followed him home from the mere (2026-10-14 hard seed 1: he died at the keep at 7:21 while the
+			# army stood at the gap): the main army comes back for him.
+			_phase = "rescue"
+			_hold(main_army, chasers[0].global_position, 14.0)
+			return
 		if m.gates_broken >= 2:
 			_hold(main_army + _detach, LAKE_ARMY, 22.0)
 		else:
@@ -300,6 +338,28 @@ func _plan() -> void:
 		if not lake:
 			_hero_to(ROAD_HOLD + Vector3(0.0, 0.0, -6.0), 3.0)
 		return
+	if not gate_push:
+		# Hard: the folk are in; the army walks back inside and the Frostgate closes (the panel's one toggle), then the
+		# wall defence of the shut branch to dawn. Holding the open gap fed ~1 soldier per 25 s to the 4-Warden road
+		# columns (one per gate every 50 s) and lost the army once the nodes ran dry (~12:00); breaking both gates
+		# cost 28 of 37 soldiers and left the Breach, Lake 2 and the Final at the mere to the rest (2026-10-14).
+		if not m.gate.is_closed and not m.gate.is_shattered:   # (shattered: the wall phase fights in the breach)
+			_phase = "inside"
+			var out := main_army.filter(func(u: Unit) -> bool: return u.global_position.z > MissionE6_02.WALL_Z - 2.0)
+			for v: Variant in out:
+				var u := v as Unit
+				if not u.has_move_order():
+					u.command_move(WALL_HOLD + Vector3(randf_range(-4.0, 4.0), 0.0, randf_range(-3.0, 1.0)))
+			if not lake:
+				_hero_to(WALL_HOLD + Vector3(0.0, 0.0, -5.0), 3.0)
+			if out.is_empty() and m.hero.global_position.z < MissionE6_02.WALL_Z - 2.0:
+				m.set_gate_open(false)
+			return
+		_phase = "wall"
+		_hold(main_army, WALL_HOLD, 14.0)
+		if not lake:
+			_hero_to(WALL_HOLD + Vector3(0.0, 0.0, -5.0), 3.0)
+		return
 	var target: WardenGate = null
 	for id: StringName in [&"wgate_sw", &"wgate_se"]:
 		var g := m.wgates[id] as WardenGate
@@ -315,7 +375,7 @@ func _plan() -> void:
 		if not _healing:
 			_hero_to(LAKE_HERO, 3.0)
 		return
-	if target == null or main_army.size() < 14 or t < 600.0:
+	if target == null or main_army.size() < 14 or t < 600.0 or not gate_push:
 		# the folk are in: hold the open gate's gap (the Wardens no longer stall on an open gate), Torvald behind the wall
 		_phase = "road"
 		_hold(main_army, GAP_HOLD, 16.0)

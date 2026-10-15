@@ -482,7 +482,9 @@ var seat_starts: Dictionary = {}
 func keep_of(team: int) -> Keep:
 	var k: Keep = null
 	if seat_keeps.has(team):
-		k = seat_keeps[team] as Keep
+		var v: Variant = seat_keeps[team]
+		# (a fallen seat keep is freed: casting it spammed "Trying to cast a freed object" every physics frame, e3m1 2026-10-14)
+		k = v as Keep if v != null and is_instance_valid(v) else null
 	else:
 		k = keep if team == Unit.Team.PLAYER else (null if team > Unit.Team.NEUTRAL else shadow_keep)
 	return k if k != null and is_instance_valid(k) and k.is_alive() else null
