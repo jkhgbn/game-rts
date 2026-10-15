@@ -1,38 +1,38 @@
 # Art Lab scorecard: rimeshield
 
-Scene `res://art/units/ice/rimeshield.tscn` · kind **unit** / tier **soldier** · kingdom ice · ground meadow · 2026-09-30 09:27:53 · lab v3.1
+Scene `res://art/units/ice/rimeshield.tscn` · kind **unit** / tier **soldier** · kingdom ice · ground meadow · 2026-10-15 16:27:22 · lab v3.1
 
-## Result: **WARN** · quality **93 / 100** (92.9) (previous run 90, +3)
+## Result: **WARN** · quality **93 / 100** (93.2) (previous run 94, -1)
 
-0 FAIL · 3 WARN · 30 PASS · 17 info · 0 skipped · 37 s
+0 FAIL · 2 WARN · 31 PASS · 17 info · 0 skipped · 28 s
 
-## Before / after (vs the run of 2026-09-26 23:11:17 in `docs/art/lab/rimeshield`: quality 90 -> 93, +3)
-### What got worse (2)
-1. **R6 Team-colour visibility at 40 m: PASS 100 -> PASS 94 (-6)**. Now: 20% of body pixels change between kingdom colours (min pair 14%). Was: 26% of body pixels change between kingdom colours (min pair 17%)
-2. **P1 Silhouette hook: INFO 85 -> INFO 81 (-4)**. Now: outline complexity 2.36. Was: outline complexity 2.41
+## Before / after (vs the run of 2026-10-15 16:26:37 in `docs/art/lab/rimeshield`: quality 94 -> 93, -1)
+### What got worse (3)
+1. **C3 Palette depth (close-up): INFO 100 -> INFO 78 (-23)**. Now: 12 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %). Was: 14 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)
+2. **R4k Contrast on the home ground (snow): PASS 99 -> PASS 93 (-6)**. Now: dE 25.9, 21% melts (snow is where ice units stand most). Was: dE 31.1, 17% melts (snow is where ice units stand most)
+3. **R4 Contrast on the other grounds: PASS 100 -> PASS 95 (-5)**. Now: worst snow: dE 25.9 (heath dE 36.3, old_wood dE 52.2, riverbank dE 51.3, snow dE 25.9, ash dE 49.5, sand dE 46.4, marsh dE 59.6). Was: worst snow: dE 31.1 (heath dE 35.8, old_wood dE 49.6, riverbank dE 50.0, snow dE 31.1, ash dE 45.1, sand dE 49.7, marsh 
 
-### What got better (4)
-B1 Meshes after the kit merge: FAIL 0 -> PASS 100 (+100); P3 Tops light, bottoms dark: INFO 0 -> INFO 100 (+100); R2 Distinct from references (black masks): PASS 87 -> PASS 94 (+7); B4 Vertices: PASS 94 -> PASS 100 (+5)
+### What got better (1)
+P3 Tops light, bottoms dark: INFO 35 -> INFO 53 (+18)
 
-new B1a Authored build parts (before the merge) (INFO); new B11 Surfaces per instance (INFO); new B12 Downward-facing triangles (INFO); new C1 Shape richness (secondary shapes) (INFO); new C2 Vertex use vs budget (INFO); new C3 Palette depth (close-up) (INFO); new C4 Inner detail (close-up / 25 m) (INFO); new R4k Contrast on the home ground (snow) (PASS); new R3t Contrast in every team colour (meadow) (PASS); new R6cb Team colours for colour-blind players (WARN); new A3r Weapon reach at the strike (INFO); new R5c Glow points stand out (1 m surround) (PASS); new P5 Glow placement (INFO); new R12 Contrast under every light preset (meadow) (PASS); new S1 Style bible: golden autumn (style-autumn.md 3) (INFO); new R11 Reads while walking (40 m) (PASS); new R5w Glow points while walking (flicker) (PASS); new A4 Cast pose reads (play_cast) (INFO)
-
-### Score delta per check (8 changed, 26 unchanged)
+### Score delta per check (5 changed, 46 unchanged)
 | # | Check | Before | After | Delta |
 |---|---|---|---|---|
-| B1 | Meshes after the kit merge | FAIL 0 | PASS 100 | +100.0 |
-| B4 | Vertices | PASS 94 | PASS 100 | +5.4 |
-| R8 | Head height vs body_height | WARN 50 | WARN 49 | -1.0 |
-| R6 | Team-colour visibility at 40 m | PASS 100 | PASS 94 | -6.0 |
-| R7 | HP bar over the body at 40 m | PASS 96 | PASS 97 | +0.7 |
-| P1 | Silhouette hook | INFO 85 | INFO 81 | -4.1 |
-| P3 | Tops light, bottoms dark | INFO 0 | INFO 100 | +100.0 |
-| R2 | Distinct from references (black masks) | PASS 87 | PASS 94 | +6.8 |
+| C3 | Palette depth (close-up) | INFO 100 | INFO 78 | -22.5 |
+| R4k | Contrast on the home ground (snow) | PASS 99 | PASS 93 | -6.0 |
+| R4 | Contrast on the other grounds | PASS 100 | PASS 95 | -5.1 |
+| P1 | Silhouette hook | INFO 98 | INFO 100 | +1.5 |
+| P3 | Tops light, bottoms dark | INFO 35 | INFO 53 | +18.2 |
+
+Changed pixels per shot: z40 0.9 %, z55 0.6 %, z25 1.0 %, close 3.9 %, strike_side 3.7 %, turns 5.1 %, cast 3.0 %, anim 2.1 %, silhouette 0.0 %, lineup 0.8 % · [diff sheet](diff_sheet.png) (before / after / changed mask)
 
 ## Improve next
-1. **Head height vs body_height** (WARN): R8: body_height 1.7 -> 2.2 in res://art/units/ice/rimeshield.tscn (root) and res://data/units/rimeshield.tres (the head top; x1.29 now), or lower the head / crest 0.08 m [fixes.json #1] _(from R8 Head height vs body_height)_
-2. **Footprint vs selection radius** (WARN): R10: raise UnitType.radius 0.5 -> 0.51, or pull the widest parts in to x <= 0.88 / z <= 0.88 m [fixes.json #2] _(from R10 Footprint vs selection radius)_
-3. **Team colours for colour-blind players** (WARN): R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 5.6): add a value step inside the team-colour area [fixes.json #3] _(from R6cb Team colours for colour-blind players, shot teams)_
-4. **Shape richness (secondary shapes)** (INFO): Plain / blocky shapes: 58% of the surface is plain boxes / low-sided prisms: taper, bevel or bend the big limbs and the torso (tapered paths, more sides, a lathe profile); few surface directions (normal variety 0.84): tilt, curve and rotate parts so the light breaks on them _(from C1 Shape richness (secondary shapes), shot close)_
+1. **Footprint vs selection radius** (WARN): R10: raise UnitType.radius 0.5 -> 0.51, or pull the widest parts in to x <= 0.88 / z <= 0.88 m [fixes.json #1] _(from R10 Footprint vs selection radius)_
+2. **Team colours for colour-blind players** (WARN): R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 3.7): add a value step inside the team-colour area [fixes.json #2] _(from R6cb Team colours for colour-blind players, shot teams)_
+3. **Tops light, bottoms dark** (INFO): Lighten the top masses / darken the legs and base (top - bottom now +4 L*, aim >= +10) _(from P3 Tops light, bottoms dark, shot z40)_
+4. **Palette depth (close-up)** (INFO): Flat palette (12 colour / 8 value steps): add a darker and a lighter step of the main colours (trim, recesses, highlights on the top masses) _(from C3 Palette depth (close-up), shot close)_
+5. **Distinct from references (black masks)** (PASS): Make it read apart from tracker (IoU 0.65): change one big shape of the silhouette _(from R2 Distinct from references (black masks), shot silhouette)_
+6. **Team-colour visibility at 40 m** (PASS): Give the team colour more top-facing area (now 14% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top _(from R6 Team-colour visibility at 40 m, shot teams)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -48,65 +48,65 @@ new B1a Authored build parts (before the merge) (INFO); new B11 Surfaces per ins
 | B1 | Meshes after the kit merge | PASS 100 | 9 drawn (9 mesh + 0 multimesh); per pivot: Head 2, (root) 1, ArmL 1, ArmR 1, Chest 1, Hips 1 | <= 26 (art-units.md 8, tier3-extras.md 12) |  |
 | B2 | Draw instances at rest | PASS 100 | 9 | <= 14 (art-units.md 8, tier3-extras.md 12) |  |
 | B3 | keep_separate parts | PASS 100 | 1 | <= 6 soft (art-units.md 8, tier3-extras.md 12) |  |
-| B4 | Vertices | PASS 100 | 1766 (body + face above its allowance: face 652 v, allowance 600, total 2366; biggest: Face 652, Merged 480, Merged 417, Merged 270) | <= 2500 (art-units.md 8, tier3-extras.md 12) |  |
+| B4 | Vertices | PASS 93 | 2096 (body + face above its allowance: face 652 v, allowance 800, total 2748; biggest: Face 652, Merged 647, Merged 397, Merged 364) | <= 2500 (art-units.md 8, tier3-extras.md 12) |  |
 | B5 | Real lights | PASS 100 | 0 | <= 0 (art-units.md 8, tier3-extras.md 12) |  |
 | B6 | Particle systems | INFO | 4 | no budget for unit/soldier |  |
 | B6l | Looping particle systems | PASS 100 | 0 | <= 1 soft (art-units.md 8, tier3-extras.md 12) |  |
 | B6p | Looping particles alive | PASS 100 | 0 | <= 10 soft (art-units.md 8, tier3-extras.md 12) |  |
 | B7 | Shadow casters | PASS 98 | 3 (Merged, Merged, Merged) | <= 4 soft (art-units.md 8, tier3-extras.md 12) |  |
-| B8 | Unique materials | INFO | 16 | no budget for unit/soldier |  |
-| B1a | Authored build parts (before the merge) | INFO | 44 | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes), v1 limit 26 |  |
-| B11 | Surfaces per instance | INFO | 25 surfaces over 9 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
-| B12 | Downward-facing triangles | INFO | 326 of 2854 triangles (11%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
-| B13 | Frame cost | PASS 100 | 0.0021 ms process per instance (100 animated at 40 m: +0.21 ms process, render CPU +1.11 ms, GPU +0.18 ms) | <= 0.005 ms per instance (art-units.md 8, tier3-extras.md 12) |  |
+| B8 | Unique materials | INFO | 18 | no budget for unit/soldier |  |
+| B1a | Authored build parts (before the merge) | INFO | 58 | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes), v1 limit 26 |  |
+| B11 | Surfaces per instance | INFO | 32 surfaces over 9 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
+| B12 | Downward-facing triangles | INFO | 266 of 3328 triangles (7%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
+| B13 | Frame cost | PASS 100 | 0.0009 ms process per instance (100 animated at 40 m: +0.09 ms process, render CPU +0.65 ms, GPU +0.33 ms) | <= 0.005 ms per instance (art-units.md 8, tier3-extras.md 12) |  |
 
 ## Readability at 40 m
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| R9 | Feet on the ground | PASS 100 | lowest point 0.019 m | -0.08 .. +0.05 m (art-units 1.6) |  |
-| R8 | Head height vs body_height | **WARN** 49 | head top 2.2 m / body_height 1.7 (x1.29) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) | Set body_height (UnitType + scene) to the head top, or rescale the body |
+| R9 | Feet on the ground | PASS 100 | lowest point 0.02 m | -0.08 .. +0.05 m (art-units 1.6) |  |
+| R8 | Head height vs body_height | PASS 85 | head top 2.12 m / body_height 1.7 (x1.25) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) |  |
 | R10 | Footprint vs selection radius | **WARN** 52 | x 0.9 / z 0.69 m (radius 0.5, from rimeshield.tres) | x <= radius x 1.4, z <= x 1.4 (art-units 1.1; parts thinner than 8 cm ignored) | Pull wide parts in, or raise UnitType.radius |
-| R1 | Silhouette area at 40 m | PASS 100 | 811 px (34 x 39 bbox; 55 m: 414 px) | >= 120 px (FAIL < 45) at 1600 x 900 |  |
-| R3 | Contrast vs ground (meadow) | PASS 100 | mean-colour dE 60.6, 0% of the body melts (within dE 15 of the ground); body L* 65.1 C 16.6 vs ground L* 62.9 C 48.0, hue gap n/a (body C* <= 25); top third (world height) dE 63.2, L* 66.6; per-pixel dE 64.0, outline 50.2 | mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass |  |
-| R4k | Contrast on the home ground (snow) | PASS 100 | dE 32.2, 12% melts (snow is where ice units stand most) | dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
-| R4 | Contrast on the other grounds | PASS 100 | worst snow: dE 32.2 (heath dE 37.6, old_wood dE 50.5, riverbank dE 50.4, snow dE 32.2, ash dE 45.9, sand dE 51.3, marsh dE 56.6) | dE >= 10 on every skirmish ground (WARN only) |  |
-| R6 | Team-colour visibility at 40 m | PASS 94 | 20% of body pixels change between kingdom colours (min pair 14%) | >= 8% (FAIL = set_team_color changes nothing) |  |
-| R3t | Contrast in every team colour (meadow) | PASS 100 | worst nature colour: dE 53.9 (fire 57.1, shadow 65.3, ice 60.4, nature 53.9) | dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
-| R6cb | Team colours for colour-blind players | **WARN** 38 | worst pair fire / nature (deutan): dE 5.6 on the team-colour area (normal vision 43.2; 200 px); deutan: fire / nature dE 5.6; protan: fire / nature dE 12.2; worst vs ground: fire colour (deutan) dE 51.0 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only) | Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS) |
+| R1 | Silhouette area at 40 m | PASS 100 | 767 px (34 x 38 bbox; 55 m: 383 px) | >= 120 px (FAIL < 45) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | PASS 100 | mean-colour dE 57.5, 0% of the body melts (within dE 15 of the ground); body L* 70.3 C 13.2 vs ground L* 62.9 C 47.9, hue gap n/a (body C* <= 25); top third (world height) dE 60.6, L* 70.2; per-pixel dE 60.3, outline 49.5 | mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass |  |
+| R4k | Contrast on the home ground (snow) | PASS 93 | dE 25.9, 21% melts (snow is where ice units stand most) | dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
+| R4 | Contrast on the other grounds | PASS 95 | worst snow: dE 25.9 (heath dE 36.3, old_wood dE 52.2, riverbank dE 51.3, snow dE 25.9, ash dE 49.5, sand dE 46.4, marsh dE 59.6) | dE >= 10 on every skirmish ground (WARN only) |  |
+| R6 | Team-colour visibility at 40 m | PASS 87 | 14% of body pixels change between kingdom colours (min pair 7%) | >= 8% (FAIL = set_team_color changes nothing) |  |
+| R3t | Contrast in every team colour (meadow) | PASS 100 | worst nature colour: dE 54.0 (fire 56.1, shadow 59.9, ice 57.4, nature 54.0) | dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
+| R6cb | Team colours for colour-blind players | **WARN** 36 | worst pair fire / nature (deutan): dE 3.7 on the team-colour area (normal vision 37.2; 140 px); deutan: fire / nature dE 3.7; protan: fire / nature dE 10.4; worst vs ground: fire colour (deutan) dE 50.9 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only) | Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS) |
 | R7 | HP bar over the body at 40 m | PASS 97 | bar hides 2% of the silhouette (gap -4 px) | <= 8% (FAIL > 25%); bar at body_height + 0.5 = 2.2 m, 1.3 m wide |  |
-| R5c | Glow points stand out (1 m surround) | PASS 91 | worst dL +28 (point 1 dL +28; ring 24 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
-| R5 | Glow points at 40 m | PASS 100 | 1 point(s) above the bloom level 1.2 (median of 1/1/1): Face; soft glows under the bloom (v1 count, luma > 0.4): 1 | 1-3 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
-| R12 | Contrast under every light preset (meadow) | PASS 100 | worst night: dE 55.0, dL +18 (warm dE 60.6, ice dE 56.4, night dE 55.0, autumn dE 56.1); night = lab stand-in (warm preset, dim moon sun) | mean-colour dE >= 10 on the main ground under warm / ice / night / autumn light (WARN only: units appear on every map) |  |
-| R11 | Reads while walking (40 m) | PASS 100 | walk frames vs rest: mean IoU 0.87 (min 0.8), area kept 96-97% (min 779 px), frame-to-frame IoU min 0.83; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only) |  |
+| R5c | Glow points stand out (1 m surround) | PASS 90 | worst dL +27 (point 1 dL +27; ring 24 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
+| R5 | Glow points at 40 m | PASS 100 | 1 point(s) above the bloom level 1.2 (median of 1/1/1): Face; soft glows under the bloom (v1 count, luma > 0.4): 2 | 1-3 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
+| R12 | Contrast under every light preset (meadow) | PASS 100 | worst autumn: dE 53.3, dL +8 (warm dE 57.7, ice dE 54.5, night dE 56.2, autumn dE 53.3); night = lab stand-in (warm preset, dim moon sun) | mean-colour dE >= 10 on the main ground under warm / ice / night / autumn light (WARN only: units appear on every map) |  |
+| R11 | Reads while walking (40 m) | PASS 100 | walk frames vs rest: mean IoU 0.88 (min 0.83), area kept 96-99% (min 728 px), frame-to-frame IoU min 0.86; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only) |  |
 | R5w | Glow points while walking (flicker) | PASS 100 | points per frame 1/1/1/1/1/1/1/1 (median 1, range 0, 0 frame(s) at 0; at rest 1) | the glow-point count stays within +-2 over the walk cycle and never drops to 0 (WARN only) |  |
-| R2 | Distinct from references (black masks) | PASS 94 | max IoU 0.55 (gloomcap_elder 0.55, rime_seer 0.49, snowdrift_rider_placeholder 0.47, ruin_warden 0.46, frostbow 0.44, frostcrown_bear 0.41) | IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15) |  |
+| R2 | Distinct from references (black masks) | PASS 87 | max IoU 0.65 (tracker 0.65, frost_mortar_placeholder 0.57, rimecarver 0.54, rime_seer 0.53, frostbow 0.49, gloomcap_elder 0.49) | IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A3r | Weapon reach at the strike | INFO | tip reaches 1.3 m from the body centre at t 0.08 s (1.29 m forward; geometry clipped at the ground); declared 1.6 m (UnitType attack_range (rimeshield.tres)) - not a reach weapon (< 2.5 m): not judged | judged for reach weapons (declared reach >= 2.5 m, or reach= / attack_reach) |  |
-| A3 | Attack reads at 40 m | PASS 100 | strike pose changes 42% of the silhouette (t 0.08 s) | >= 12% (1 - IoU rest vs strike) |  |
-| A4 | Cast pose reads (play_cast) | INFO | cast pose changes 28% of the silhouette at its peak (t 0.4 s; 0.12 s 26%, 0.25 s 27%, 0.4 s 28%, 0.6 s 20%) | shown in the strip + cast.jpg (rest / peak); INFO until calibrated (a cast should change >= 6% of the outline) |  |
+| A3r | Weapon reach at the strike | INFO | tip reaches 1.3 m from the body centre at t 0.08 s (1.3 m forward; geometry clipped at the ground); declared 1.6 m (UnitType attack_range (rimeshield.tres)) - not a reach weapon (< 2.5 m): not judged | judged for reach weapons (declared reach >= 2.5 m, or reach= / attack_reach) |  |
+| A3 | Attack reads at 40 m | PASS 100 | strike pose changes 45% of the silhouette (t 0.08 s) | >= 12% (1 - IoU rest vs strike) |  |
+| A4 | Cast pose reads (play_cast) | INFO | cast pose changes 29% of the silhouette at its peak (t 0.4 s; 0.12 s 28%, 0.25 s 29%, 0.4 s 29%, 0.6 s 21%) | shown in the strip + cast.jpg (rest / peak); INFO until calibrated (a cast should change >= 6% of the outline) |  |
 | A2 | death_finished | PASS 100 | after 1.01 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | Shape richness (secondary shapes) | INFO 43 | 55 shapes over 7 body parts (7.9 per part: LegL 2, LegR 2, Hips 2, Head 27, ArmL 8, ArmR 5, Chest 9); 58% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.844 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
-| C2 | Vertex use vs budget | INFO 100 | 94% of the 2500 verts budget used (2362) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
-| C3 | Palette depth (close-up) | INFO 100 | 13 colour steps (L*a*b* bins >= 2 % of the body), 10 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up |  |
-| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 3.64 at the close-up (86238 px), 2.07 at 25 m; close-up outline complexity 3.54 | craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) |  |
+| C1 | Shape richness (secondary shapes) | INFO 82 | 69 shapes over 7 body parts (9.9 per part: LegL 4, LegR 4, Hips 4, Head 29, ArmL 9, ArmR 6, Chest 13); 31% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.878 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C2 | Vertex use vs budget | INFO 100 | 109% of the 2500 verts budget used (2744) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
+| C3 | Palette depth (close-up) | INFO 78 | 12 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up |  |
+| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 3.36 at the close-up (86067 px), 1.96 at 25 m; close-up outline complexity 4.0 | craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) |  |
 
 ## Polish (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P1 | Silhouette hook | INFO 81 | outline complexity 2.36 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
-| P3 | Tops light, bottoms dark | INFO 100 | top third L* 66.6, bottom third L* 49.5 (+17, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
-| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 7.0 at 25 m, 10.3 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
+| P1 | Silhouette hook | INFO 100 | outline complexity 2.62 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
+| P3 | Tops light, bottoms dark | INFO 53 | top third L* 70.2, bottom third L* 66.2 (+4, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 7.8 at 25 m, 10.9 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
 | P5 | Glow placement | INFO 100 | 1 of 1 glow(s) in the upper half of the model's height (world) | one glow high (head / weapon / crest) reads over crowds |  |
-| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 100 | on the autumn floor: dE 55.4, 0% melts; body L* 62.3 C 11.4 vs floor L* 51.9 C 43.1; ice team colour vs the floor swatches: min dE 60.7 (road_color) | units sit outside the autumn floor band (L* 25-55, C* <= 35): body vs floor dE >= 20, <= 35 % melting; team colour dE >= 20 to every floor swatch (INFO until the style-autumn.md 6 runs) |  |
-| P2 | Asymmetric secondary shape | INFO 100 | front-view asymmetry 0.44 | one asymmetric secondary element (art-keep 0.1): >= ~0.15 |  |
+| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 100 | on the autumn floor: dE 53.1, 0% melts; body L* 67.1 C 8.1 vs floor L* 52.0 C 43.1; ice team colour vs the floor swatches: min dE 60.7 (road_color) | units sit outside the autumn floor band (L* 25-55, C* <= 35): body vs floor dE >= 20, <= 35 % melting; team colour dE >= 20 to every floor swatch (INFO until the style-autumn.md 6 runs) |  |
+| P2 | Asymmetric secondary shape | INFO 100 | front-view asymmetry 0.35 | one asymmetric secondary element (art-keep 0.1): >= ~0.15 |  |
 
 ## Shots
 - z40: [z40.jpg](z40.jpg)
@@ -119,14 +119,15 @@ new B1a Authored build parts (before the merge) (INFO); new B11 Surfaces per ins
 - anim: [anim.jpg](anim.jpg)
 - silhouette: [silhouette.png](silhouette.png)
 - lineup: [lineup.jpg](lineup.jpg)
+- diff_sheet: [diff_sheet.png](diff_sheet.png)
 - contact_sheet: [contact_sheet.png](contact_sheet.png)
 
 ## Budget used (`tools/art_lab/lab_budgets.gd`, art-units.md 8, tier3-extras.md 12)
-`{"draw":14,"face_verts":600,"frame_ms":0.005,"lights":0,"meshes":26,"n":100,"runtime_mats":0,"soft":{"casters":4,"looping":1,"particles":10,"separate":6},"src":"art-units.md 8, tier3-extras.md 12","verts":2500}`
+`{"draw":14,"face_verts":800,"frame_ms":0.005,"lights":0,"meshes":26,"n":100,"runtime_mats":0,"soft":{"casters":4,"looping":1,"particles":10,"separate":6},"src":"art-units.md 8, tier3-extras.md 12","verts":2500}`
 
 ## Notes
-- Per-mesh vertices (biggest first): Root/Chest/Head/Face 652 v / 1 s; Root/Chest/Merged 480 v / 3 s; Root/Chest/ArmL/Merged 417 v / 6 s; Root/Chest/Head/Merged 270 v / 4 s; Root/Chest/ArmR/Merged 239 v / 4 s; Root/Hips/LegL/Merged 105 v / 2 s; Root/Hips/LegR/Merged 105 v / 2 s; Root/Hips/Merged 94 v / 2 s
+- Per-mesh vertices (biggest first): Root/Chest/Head/Face 652 v / 1 s; Root/Chest/Merged 647 v / 6 s; Root/Chest/Head/Merged 397 v / 4 s; Root/Chest/ArmL/Merged 364 v / 6 s; Root/Chest/ArmR/Merged 186 v / 4 s; Root/Hips/Merged 176 v / 4 s; Root/Hips/LegL/Merged 161 v / 3 s; Root/Hips/LegR/Merged 161 v / 3 s
 - 1 hidden parts at rest (toggled states, not counted as draws)
 - 4 materials are built in code (fine when cached per type: see B9)
 - terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist
-- Fix recipes: 3 in fixes.json (top: R8: body_height 1.7 -> 2.2 in res://art/units/ice/rimeshield.tscn (root) and res://data/units/rimeshield.tres (the head top; x1.29 now), or lower the head / cre)
+- Fix recipes: 2 in fixes.json (top: R10: raise UnitType.radius 0.5 -> 0.51, or pull the widest parts in to x <= 0.88 / z <= 0.88 m)

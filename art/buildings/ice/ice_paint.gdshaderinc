@@ -20,7 +20,11 @@
 uniform float gb_detail = 0.0;   // IceShapes.ice_vc / ice_part, IceStables write the tier (shader lint A)
 uniform vec3 ip_shade_tint : source_color = vec3(0.46, 0.60, 0.95);
 uniform vec3 ip_sky : source_color = vec3(0.80, 0.90, 1.00);
-uniform vec3 ip_snow_color : source_color = vec3(0.74, 0.80, 0.89);
+uniform vec3 ip_snow_color : source_color = vec3(0.66, 0.72, 0.84);   // G-E value pass: was 0.74 0.80 0.89
+// G-E value pass (docs/art/ge_value_pass.md): white snow / frost parts are scaled and cooled so their lit value sits
+// near 0.78 (the glows stay the brightest thing on an Ice base).
+uniform float ip_white = 0.74;
+uniform float ip_white_knee = 0.40;   // linear albedo above which the pale parts (not the team ice) are compressed x0.35
 uniform float ip_snow = 1.0;          // snow caught on upward stone / metal faces (0 = none)
 uniform float ip_masonry = 1.0;       // ashlar courses on vertical stone faces (0 = the parts are already blocks)
 uniform float ip_ice_glow = 1.0;      // strength of the ice interior's glow
@@ -141,7 +145,7 @@ float ip_surface(int kind, vec3 col, vec3 wp, vec3 n, vec3 v, vec3 dpx, vec3 dpy
 		bool team = kind == IK_ICE;
 		vec3 hue = ip_hue(col);
 		// Deep body: the ice is darker inside, the sky shows on its grazing faces (a glossy, wet read at any zoom).
-		albedo *= team ? 0.80 : 0.90;
+		albedo *= team ? 0.80 : 0.90 * mix(1.0, ip_white, 0.6);
 		albedo = mix(albedo, ip_sky * (team ? 0.62 : 0.72), fres * (team ? 0.12 : 0.2));
 		emission += col * (team ? 0.035 : 0.02) * ip_ice_glow;   // light trapped in the ice (Low too: one MAD)
 		if (detail >= 0.5) {
@@ -184,7 +188,7 @@ float ip_surface(int kind, vec3 col, vec3 wp, vec3 n, vec3 v, vec3 dpx, vec3 dpy
 			glint = step(0.93, h) * dot_k * (1.0 - smoothstep(0.03, 0.06, px));
 		}
 		// Wind-packed pockets: a cold blue in the hollows of the broad noise, the crests stay white.
-		albedo *= mix(0.93, 1.0, na);
+		albedo *= mix(0.93, 1.0, na) * ip_white * vec3(0.92, 0.96, 1.0);
 		albedo = mix(albedo, albedo * vec3(0.74, 0.84, 1.0), smoothstep(0.35, 0.7, nb) * 0.45);
 	} else {
 		bool metal = kind == IK_METAL;
@@ -229,6 +233,15 @@ float ip_surface(int kind, vec3 col, vec3 wp, vec3 n, vec3 v, vec3 dpx, vec3 dpy
 			}
 		}
 		albedo = mix(albedo, snow_lin, snow);
+	}
+	if (kind != IK_ICE) {
+		// G-E value pass: a soft knee on the pale parts (snow, frost, snowy stone tops, white trims) so the lit white sits
+		// near 0.78 on screen; the hue (cool blue) is kept, the glows / team crystals stay the brightest.
+		float mx = max(albedo.r, max(albedo.g, albedo.b));
+		if (mx > ip_white_knee) {
+			albedo *= (ip_white_knee + (mx - ip_white_knee) * 0.35) / mx;
+			albedo *= mix(vec3(1.0), vec3(0.88, 0.94, 1.0), smoothstep(ip_white_knee, ip_white_knee + 0.3, mx));
+		}
 	}
 	return glint;
 }

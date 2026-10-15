@@ -1,42 +1,46 @@
 # Art Lab scorecard: shadow_hall
 
-Scene `res://art/buildings/shadow_hall.tscn` · kind **building** / tier **hall** · kingdom shadow · ground meadow · 2026-10-15 11:20:44 · lab v3.1
+Scene `res://art/buildings/shadow_hall.tscn` · kind **building** / tier **hall** · kingdom shadow · ground meadow · 2026-10-15 16:23:42 · lab v3.1
 
-## Result: **PASS** · quality **91 / 100** (90.8) (previous run 89, +2)
+## Result: **PASS** · quality **90 / 100** (90.0) (previous run 91, -1)
 
-0 FAIL · 0 WARN · 21 PASS · 18 info · 0 skipped · 58 s
+0 FAIL · 0 WARN · 21 PASS · 18 info · 0 skipped · 42 s
 
-## Before / after (vs the run of 2026-10-15 11:04:37 in `docs/art/lab/shadow_hall`: quality 89 -> 91, +2)
-### What got worse (2)
-1. **C3 Palette depth (close-up): INFO 90 -> INFO 80 (-10)**. Now: 10 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %). Was: 11 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %)
-2. **R6cb Team colours for colour-blind players: PASS 83 -> PASS 80 (-2)**. Now: worst pair fire / nature (deutan): dE 12.3 on the team-colour area (normal vision 92.9; 14124 px); deutan: fire / nature dE 12.3; protan: fire / nature dE 27.0; worst vs ground: fi. Was: worst pair fire / nature (deutan): dE 14.3 on the team-colour area (normal vision 93.0; 14226 px); deutan: fire / nature
+## Before / after (vs the run of 2026-10-15 11:20:44 in `docs/art/lab/shadow_hall`: quality 91 -> 90, -1)
+### What got worse (4)
+1. **R4 Contrast on the other grounds: PASS 100 -> PASS 93 (-7)**. Now: worst ash: dE 17.2 (heath dE 52.4, old_wood dE 40.3, riverbank dE 48.1, snow dE 69.0, ash dE 17.2, sand dE 74.0, marsh dE 27.3). Was: worst ash: dE 32.6 (heath dE 64.0, old_wood dE 55.0, riverbank dE 62.5, snow dE 72.3, ash dE 32.6, sand dE 81.4, marsh d
+2. **C3 Palette depth (close-up): INFO 80 -> INFO 73 (-7)**. Now: 11 colour steps (L*a*b* bins >= 2 % of the body), 7 value steps (L* bins of 8 >= 3 %). Was: 10 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %)
+3. **P1 Silhouette hook: INFO 9 -> INFO 0 (-9)**. Now: outline complexity 1.26. Was: outline complexity 1.41
+4. **R5c Glow points stand out (1 m surround): PASS 100 -> PASS 93 (-7) (noisy check: re-run before acting)**. Now: worst dL +31 (point 1 dL +31, point 2 dL +31, point 3 dL +33, point 4 dL +32; ring 27 px = 1.0 m at 40 m). Was: worst dL +57 (point 1 dL +57, point 2 dL +58, point 3 dL +60, point 4 dL +59; ring 27 px = 1.0 m at 40 m)
 
-### What got better (3)
-R5 Glow points at 40 m: WARN 49 -> PASS 100 (+51) (noisy check: re-run before acting); C2 Vertex use vs budget: INFO 70 -> INFO 80 (+10); P1 Silhouette hook: INFO 7 -> INFO 9 (+2)
+### What got better (2)
+S1 Style bible: golden autumn (style-autumn.md 3): INFO 85 -> INFO 100 (+15); R6cb Team colours for colour-blind players: PASS 80 -> PASS 83 (+3)
 
-### Score delta per check (6 changed, 34 unchanged)
+### Score delta per check (7 changed, 33 unchanged)
 | # | Check | Before | After | Delta |
 |---|---|---|---|---|
-| C2 | Vertex use vs budget | INFO 70 | INFO 80 | +10.2 |
-| C3 | Palette depth (close-up) | INFO 90 | INFO 80 | -10.0 |
-| R6cb | Team colours for colour-blind players | PASS 83 | PASS 80 | -2.2 |
-| P1 | Silhouette hook | INFO 7 | INFO 9 | +2.0 |
-| P4 | Detail density 25 m / 40 m | INFO 94 | INFO 95 | +1.6 (noisy) |
-| R5 | Glow points at 40 m | WARN 49 | PASS 100 | +51.4 (noisy) |
+| C3 | Palette depth (close-up) | INFO 80 | INFO 73 | -6.7 |
+| R4 | Contrast on the other grounds | PASS 100 | PASS 93 | -7.1 |
+| R6cb | Team colours for colour-blind players | PASS 80 | PASS 83 | +3.1 |
+| P1 | Silhouette hook | INFO 9 | INFO 0 | -8.7 |
+| P4 | Detail density 25 m / 40 m | INFO 95 | INFO 93 | -2.1 (noisy) |
+| R5c | Glow points stand out (1 m surround) | PASS 100 | PASS 93 | -7.0 (noisy) |
+| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 85 | INFO 100 | +15.0 |
 
-Changed pixels per shot: z40 13.8 %, z55 11.8 %, z25 15.2 %, close 2.5 %, turns 3.4 %, anim 1.7 %, silhouette 0.0 %, lineup 0.9 % · [diff sheet](diff_sheet.png) (before / after / changed mask)
+Changed pixels per shot: z40 13.5 %, z55 13.5 %, z25 14.9 %, close 31.6 %, turns 36.1 %, anim 29.6 %, silhouette 0.1 %, lineup 47.3 % · [diff sheet](diff_sheet.png) (before / after / changed mask)
 
 ## Improve next
 1. **Shape richness (secondary shapes)** (INFO): Plain / blocky shapes: few surface directions (normal variety 0.54): tilt, curve and rotate parts so the light breaks on them _(from C1 Shape richness (secondary shapes), shot close)_
-2. **Silhouette hook** (INFO): Give the 40 m silhouette a hook (now 1.41): a shape that breaks the outline, e.g. horns, a raised weapon, a crest, a tail flick, a gap between limbs (at 40 m 1 px = ~4 cm: hooks thinner than ~0.25 m barely register) _(from P1 Silhouette hook, shot silhouette)_
-3. **Vertex use vs budget** (INFO): Only 34% of the vertex budget is used: spend it on the close / 25 m read (bevels, tapers, more sides on the big curved masses, secondary shapes) _(from C2 Vertex use vs budget, shot close)_
-4. **Distinct from references (black masks)** (PASS): Make it read apart from market_shadow (IoU 0.69): change one big shape of the silhouette _(from R2 Distinct from references (black masks), shot silhouette)_
-5. **Detail density 25 m / 40 m** (INFO): Detail density is low at 25 m (2.8): add 1-2 mid-size value blocks (trim band, belt, plate edge) that read at 25 m and merge at 40 m _(from P4 Detail density 25 m / 40 m, shot z25)_
+2. **Silhouette hook** (INFO): Give the 40 m silhouette a hook (now 1.26): a shape that breaks the outline, e.g. horns, a raised weapon, a crest, a tail flick, a gap between limbs (at 40 m 1 px = ~4 cm: hooks thinner than ~0.25 m barely register) _(from P1 Silhouette hook, shot silhouette)_
+3. **Palette depth (close-up)** (INFO): Flat palette (11 colour / 7 value steps): add a darker and a lighter step of the main colours (trim, recesses, highlights on the top masses) _(from C3 Palette depth (close-up), shot close)_
+4. **Vertex use vs budget** (INFO): Only 34% of the vertex budget is used: spend it on the close / 25 m read (bevels, tapers, more sides on the big curved masses, secondary shapes) _(from C2 Vertex use vs budget, shot close)_
+5. **Distinct from references (black masks)** (PASS): Make it read apart from market_shadow (IoU 0.7): change one big shape of the silhouette _(from R2 Distinct from references (black masks), shot silhouette)_
+6. **Contrast on the other grounds** (PASS): On ash the body drops to dE 17.2: add a value accent that separates it there too _(from R4 Contrast on the other grounds, shot z40)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| H0 | Scene instantiates | PASS 100 | root Node3D, 38 nodes | instantiates without errors |  |
+| H0 | Scene instantiates | PASS 100 | root Node3D, 39 nodes | instantiates without errors |  |
 | B9 | Materials built per instance | INFO 100 | 7 material(s), 8 mesh(es) not shared by a 2nd instance (per-building copies, accepted by art-keep 8.6) | 0: materials / meshes are shared per type (art-units 2.2: zero runtime materials); buildings may copy theirs per instance (art-keep 8.6) |  |
 | B10 | Allocations after _ready (actions) | PASS 100 | 0 node(s) created, net +0, 2nd action cycle: 0 node(s), 0 new material(s) | 0: pre-built emitters restarted, instance uniforms for flashes (art-units 6.10); materials swapped from a cache are not new |  |
 | H1 | Errors from the asset while running | PASS 100 | 0 error(s), 0 warning(s) | 0 (its folder + the kit) |  |
@@ -44,34 +48,34 @@ Changed pixels per shot: z40 13.8 %, z55 11.8 %, z25 15.2 %, close 2.5 %, turns 
 ## Budgets
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| B1 | Meshes after the kit merge | INFO | 14 | no budget for building/hall |  |
-| B2 | Draw instances at rest | PASS 100 | 17 | <= 32 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
-| B4 | Vertices | PASS 100 | 4425 (biggest: Walls 1315, Roof 1035, PlinthBase 789, TowerStack 504) | <= 12000 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B1 | Meshes after the kit merge | INFO | 13 | no budget for building/hall |  |
+| B2 | Draw instances at rest | PASS 100 | 16 | <= 32 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B4 | Vertices | PASS 100 | 4209 (biggest: Walls 1315, Roof 1035, PlinthBase 789, TowerStack 504) | <= 12000 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
 | B5 | Real lights | PASS 100 | 0 | <= 0 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
-| B6 | Particle systems | INFO | 11 | no budget for building/hall |  |
+| B6 | Particle systems | INFO | 12 | no budget for building/hall |  |
 | B6l | Looping particle systems | INFO | 3 | no budget for building/hall |  |
 | B6p | Looping particles alive | PASS 100 | 44 | <= 90 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
-| B7 | Shadow casters | INFO | 7 | no budget for building/hall |  |
+| B7 | Shadow casters | INFO | 6 | no budget for building/hall |  |
 | B8 | Unique materials | PASS 98 | 6 | <= 8 (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
 | B1a | Authored build parts (before the merge) | INFO | 21 | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes) |  |
-| B11 | Surfaces per instance | INFO | 17 surfaces over 14 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
-| B12 | Downward-facing triangles | INFO | 508 of 2992 triangles (16%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
-| B13 | Frame cost | PASS 100 | 0.0023 ms process per instance (8 animated at 40 m: +0.02 ms process, render CPU +0.28 ms, GPU +0.19 ms) | <= 0.05 ms per instance (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
+| B11 | Surfaces per instance | INFO | 16 surfaces over 13 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
+| B12 | Downward-facing triangles | INFO | 508 of 2884 triangles (17%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
+| B13 | Frame cost | PASS 100 | 0.0 ms process per instance (8 animated at 40 m: +-0.25 ms process, render CPU +0.15 ms, GPU +0.05 ms) | <= 0.05 ms per instance (art-keep.md 9 numbers, step-12/13 rules: 0 lights) |  |
 
 ## Readability at 40 m
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| R9 | Ground contact | PASS 100 | lowest point -0.28 m | touches the ground (<= 0.05 m) and sinks < 1 m (art-keep 0.1 / 0.5) |  |
-| R1 | Silhouette area at 40 m | PASS 100 | 41352 px (242 x 297 bbox; 55 m: 21037 px) | >= 5000 px (FAIL < 2000) at 1600 x 900 |  |
-| R3 | Contrast vs ground (meadow) | PASS 100 | mean-colour dE 91.2, 0% of the body melts (within dE 15 of the ground); body L* 28.0 C 35.0 vs ground L* 60.7 C 50.4, hue gap 171 deg; top third (world height) dE 115.7, L* 39.6; per-pixel dE 94.6, outline 56.5 | mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 8 or > 60 % melting): the body must not melt into the grass |  |
-| R4k | Contrast on the home ground (marsh) | PASS 100 | dE 40.9, 0% melts (marsh is where shadow units stand most) | dE >= 14 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
-| R4 | Contrast on the other grounds | PASS 100 | worst ash: dE 32.6 (heath dE 64.0, old_wood dE 55.0, riverbank dE 62.5, snow dE 72.3, ash dE 32.6, sand dE 81.4, marsh dE 40.9) | dE >= 8 on every skirmish ground (WARN only) |  |
-| R6 | Team-colour visibility at 40 m | PASS 100 | 33% of body pixels change between kingdom colours (min pair 33%) | >= 8% (FAIL = set_team_color changes nothing) |  |
-| R3t | Contrast in every team colour (meadow) | PASS 100 | worst nature colour: dE 50.4 (fire 70.9, shadow 91.5, ice 70.2, nature 50.4) | dE >= 14 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
-| R6cb | Team colours for colour-blind players | PASS 80 | worst pair fire / nature (deutan): dE 12.3 on the team-colour area (normal vision 92.9; 14124 px); deutan: fire / nature dE 12.3; protan: fire / nature dE 27.0; worst vs ground: fire colour (deutan) dE 42.9 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 8 from the ground (WARN only) |  |
-| R5c | Glow points stand out (1 m surround) | PASS 100 | worst dL +57 (point 1 dL +57, point 2 dL +58, point 3 dL +60, point 4 dL +59; ring 27 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
-| R5 | Glow points at 40 m | PASS 100 | 4 point(s) above the bloom level 1.2 (median of 4/4/4): TowerStack, TowerBanner, ScorchDecal x2; soft glows under the bloom (v1 count, luma > 0.4): 5 | 2-4 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
-| R2 | Distinct from references (black masks) | PASS 84 | max IoU 0.69 (market_shadow 0.69, shadow_stables 0.64, dread_paddock 0.63, magpie_den 0.59, watchtower 0.35, dusk_keep 0.32) | IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15) |  |
+| R9 | Ground contact | PASS 100 | lowest point -0.01 m | touches the ground (<= 0.05 m) and sinks < 1 m (art-keep 0.1 / 0.5) |  |
+| R1 | Silhouette area at 40 m | PASS 100 | 40931 px (242 x 297 bbox; 55 m: 20822 px) | >= 5000 px (FAIL < 2000) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | PASS 100 | mean-colour dE 78.7, 0% of the body melts (within dE 15 of the ground); body L* 24.9 C 19.8 vs ground L* 60.6 C 50.4, hue gap n/a (body C* <= 25); top third (world height) dE 85.3, L* 31.2; per-pixel dE 81.4, outline 50.1 | mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 8 or > 60 % melting): the body must not melt into the grass |  |
+| R4k | Contrast on the home ground (marsh) | PASS 100 | dE 27.3, 0% melts (marsh is where shadow units stand most) | dE >= 14 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
+| R4 | Contrast on the other grounds | PASS 93 | worst ash: dE 17.2 (heath dE 52.4, old_wood dE 40.3, riverbank dE 48.1, snow dE 69.0, ash dE 17.2, sand dE 74.0, marsh dE 27.3) | dE >= 8 on every skirmish ground (WARN only) |  |
+| R6 | Team-colour visibility at 40 m | PASS 100 | 34% of body pixels change between kingdom colours (min pair 33%) | >= 8% (FAIL = set_team_color changes nothing) |  |
+| R3t | Contrast in every team colour (meadow) | PASS 100 | worst nature colour: dE 58.0 (fire 68.9, shadow 78.7, ice 65.9, nature 58.0) | dE >= 14 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
+| R6cb | Team colours for colour-blind players | PASS 83 | worst pair fire / nature (deutan): dE 15.1 on the team-colour area (normal vision 46.2; 14091 px); deutan: fire / nature dE 15.1; protan: fire / nature dE 22.9; worst vs ground: nature colour (deutan) dE 49.2 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 8 from the ground (WARN only) |  |
+| R5c | Glow points stand out (1 m surround) | PASS 93 | worst dL +31 (point 1 dL +31, point 2 dL +31, point 3 dL +33, point 4 dL +32; ring 27 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
+| R5 | Glow points at 40 m | PASS 100 | 4 point(s) above the bloom level 1.2 (median of 4/4/4): TowerStack, TowerBanner, ScorchDecal x2; soft glows under the bloom (v1 count, luma > 0.4): 1 | 2-4 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
+| R2 | Distinct from references (black masks) | PASS 84 | max IoU 0.7 (market_shadow 0.7, shadow_stables 0.64, dread_paddock 0.63, magpie_den 0.59, watchtower 0.35, dusk_keep 0.32) | IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -83,17 +87,17 @@ Changed pixels per shot: z40 13.8 %, z55 11.8 %, z25 15.2 %, close 2.5 %, turns 
 |---|---|---|---|---|---|
 | C1 | Shape richness (secondary shapes) | INFO 0 | 160 shapes over 3 body parts (53.3 per part: Body 124, BellTower 29, PikeRack 7); 98% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.543 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.83 |  |
 | C2 | Vertex use vs budget | INFO 80 | 34% of the 12000 verts budget used (4197) | craft (lab v3.1): a finished model uses >= 40% of its tier budget (under-use = detail left on the table; over is B4) |  |
-| C3 | Palette depth (close-up) | INFO 80 | 10 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 12 colour steps and >= 8 value steps at the close-up |  |
-| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 4.44 at the close-up (84039 px), 8.17 at 25 m; close-up outline complexity 3.41 | craft (lab v3.1): >= 2.5 inner edge px per outline px at the close-up, >= 2.5 at 25 m (shape and value breaks inside the silhouette) |  |
+| C3 | Palette depth (close-up) | INFO 73 | 11 colour steps (L*a*b* bins >= 2 % of the body), 7 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 12 colour steps and >= 8 value steps at the close-up |  |
+| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 4.46 at the close-up (89846 px), 8.63 at 25 m; close-up outline complexity 3.22 | craft (lab v3.1): >= 2.5 inner edge px per outline px at the close-up, >= 2.5 at 25 m (shape and value breaks inside the silhouette) |  |
 
 ## Polish (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P1 | Silhouette hook | INFO 9 | outline complexity 1.41 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
-| P3 | Tops light, bottoms dark | INFO 100 | top third L* 39.6, bottom third L* 12.9 (+26, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
-| P4 | Detail density 25 m / 40 m | INFO 95 | inner detail 2.8 at 25 m, 4.2 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
+| P1 | Silhouette hook | INFO 0 | outline complexity 1.26 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
+| P3 | Tops light, bottoms dark | INFO 100 | top third L* 31.2, bottom third L* 12.4 (+18, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 93 | inner detail 2.7 at 25 m, 4.0 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
 | P5 | Glow placement | INFO 100 | 2 of 4 glow(s) in the upper half of the model's height (world) | one glow high (head / weapon / crest) reads over crowds |  |
-| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 85 | on the autumn floor: dE 63.8, 0% melts; body L* 26.3 C 30.1 vs floor L* 48.1 C 41.1 (inside the floor band); shadow team colour vs the floor swatches: min dE 62.8 (heather_color) | units sit outside the autumn floor band (L* 25-55, C* <= 35): body vs floor dE >= 20, <= 35 % melting; team colour dE >= 20 to every floor swatch (INFO until the style-autumn.md 6 runs) |  |
+| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 100 | on the autumn floor: dE 55.7, 0% melts; body L* 23.2 C 17.0 vs floor L* 48.1 C 41.1; shadow team colour vs the floor swatches: min dE 62.8 (heather_color) | units sit outside the autumn floor band (L* 25-55, C* <= 35): body vs floor dE >= 20, <= 35 % melting; team colour dE >= 20 to every floor swatch (INFO until the style-autumn.md 6 runs) |  |
 | P2 | Asymmetric secondary shape | INFO 100 | front-view asymmetry 0.29 | one asymmetric secondary element (art-keep 0.1): >= ~0.15 |  |
 
 ## Shots
@@ -112,7 +116,7 @@ Changed pixels per shot: z40 13.8 %, z55 11.8 %, z25 15.2 %, close 2.5 %, turns 
 `{"draw":32,"frame_ms":0.05,"lights":0,"materials":8,"n":8,"particles":90,"soft":{"runtime_mats":0},"src":"art-keep.md 9 numbers, step-12/13 rules: 0 lights","verts":12000}`
 
 ## Notes
-- Per-mesh vertices (biggest first): Body/Walls 1315 v / 2 s; Body/Roof 1035 v / 2 s; Body/PlinthBase 789 v / 1 s; Body/BellTower/TowerStack 504 v / 2 s; Rubble 216 v / 1 s x9; Body/PikeRack/RackParts 156 v / 1 s; Body/BellTower/TowerTop 150 v / 1 s; Body/SoulOrb 104 v / 1 s
-- 7 hidden parts at rest (toggled states, not counted as draws)
+- Per-mesh vertices (biggest first): Body/Walls 1315 v / 2 s; Body/Roof 1035 v / 2 s; Body/PlinthBase 789 v / 1 s; Body/BellTower/TowerStack 504 v / 2 s; Body/PikeRack/RackParts 156 v / 1 s; Body/BellTower/TowerTop 150 v / 1 s; Body/SoulOrb 104 v / 1 s; Body/BellTower/TowerBanner 48 v / 1 s
+- 8 hidden parts at rest (toggled states, not counted as draws)
 - 6 materials are built in code (fine when cached per type: see B9)
 - terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist

@@ -35,6 +35,8 @@ uniform float crack_scale = 0.8;
 uniform float damage : hint_range(0.0, 1.0) = 0.0;
 uniform vec3 top_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform float top_lift : hint_range(0.0, 1.0) = 0.0;
+uniform float dye_sat : hint_range(0.0, 1.5) = 1.0;   // G-E value pass: base_color grade, as in unit_painted
+uniform float dye_val : hint_range(0.0, 1.5) = 1.0;
 
 // Nature layers (0 = off: an untouched copy of a unit_painted material looks the same as before).
 uniform float bark : hint_range(0.0, 1.0) = 0.0;
@@ -44,10 +46,10 @@ uniform float sap : hint_range(0.0, 1.0) = 0.0;
 uniform vec3 sap_color : source_color = vec3(0.75, 1.00, 0.40);
 uniform float sap_energy = 1.4;
 uniform float lichen : hint_range(0.0, 1.0) = 0.0;
-uniform vec3 lichen_color : source_color = vec3(0.72, 0.76, 0.62);
+uniform vec3 lichen_color : source_color = vec3(0.88, 0.82, 0.66);   // G-E value pass: pale warm bone (was silver-green)
 uniform float leaf_detail : hint_range(0.0, 1.0) = 1.0;     // veins / rim on UV-tagged leaves
 uniform vec3 leaf_under : source_color = vec3(0.78, 0.84, 0.74);   // silver-sage underside (mixed with the colour)
-uniform vec3 leaf_rim : source_color = vec3(0.96, 0.92, 0.62);     // pale rim / tip tint
+uniform vec3 leaf_rim : source_color = vec3(0.98, 0.84, 0.50);     // pale rim / tip tint (G-E value pass: warmer gold)
 uniform float leaf_glow : hint_range(0.0, 1.0) = 0.45;      // light through the leaf (Medium+)
 uniform vec3 thorn_tip : source_color = vec3(0.93, 0.88, 0.74);    // pale bone point of UV-tagged thorns
 uniform float thorn_tip_mix : hint_range(0.0, 1.0) = 0.85;
@@ -96,7 +98,13 @@ void fragment() {
 	vec2 bark_gy = vec2(dot(dang, dpy.xz) * bark_density, dpy.y * bark_stretch);
 	float na = triplanar(v_world_pos, n, noise_scale_a);
 	float nb = triplanar(v_world_pos + vec3(17.3, 5.1, 9.7), n, noise_scale_b);
-	vec3 albedo = base_color * (1.0 + (na - 0.5) * 0.20) * (1.0 + (nb - 0.5) * 0.12);
+	vec3 bc = base_color;
+	if (dye_sat != 1.0 || dye_val != 1.0) {
+		vec3 dg = sqrt(max(bc, vec3(0.0)));   // graded in a perceptual (gamma 2) space: hue kept
+		dg = mix(vec3(dot(dg, vec3(0.2126, 0.7152, 0.0722))), dg, dye_sat) * dye_val;
+		bc = dg * dg;
+	}
+	vec3 albedo = bc * (1.0 + (na - 0.5) * 0.20) * (1.0 + (nb - 0.5) * 0.12);
 	if (top_lift > 0.0) {
 		albedo = mix(albedo, top_color * (1.0 + (na - 0.5) * 0.20), top_lift * smoothstep(0.35, 0.9, n.y));
 	}

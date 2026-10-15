@@ -16,3 +16,5 @@ shader_parameter/speed = 2.2
 shader_parameter/rim_color = null
 shader_parameter/rim_strength = null
 shader_parameter/unit_cloth = 1.0
+shader_parameter/dye_sat = 0.62
+shader_parameter/dye_val = 0.86

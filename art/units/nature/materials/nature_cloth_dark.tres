@@ -13,3 +13,7 @@ shader_parameter/spec_strength = 0.0
 shader_parameter/rim_color = Color(0.98, 0.88, 0.6, 1)
 shader_parameter/rim_strength = 0.5
 shader_parameter/surface_kind = 1
+shader_parameter/top_color = Color(0.62, 0.5, 0.26, 1)
+shader_parameter/top_lift = 0.15
+shader_parameter/dye_sat = 0.9
+shader_parameter/dye_val = 0.9

@@ -20,3 +20,5 @@ shader_parameter/crack_speed = null
 shader_parameter/crack_scale = null
 shader_parameter/damage = null
 shader_parameter/surface_kind = 1
+shader_parameter/dye_sat = 0.62
+shader_parameter/dye_val = 0.86

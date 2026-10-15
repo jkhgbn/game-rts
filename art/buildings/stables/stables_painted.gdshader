@@ -24,6 +24,9 @@ uniform float crack_speed = 1.2;
 uniform float crack_scale = 0.8;
 uniform float hot_energy = 0.9;
 uniform float damage : hint_range(0.0, 1.0) = 0.0;
+uniform float team_sat : hint_range(0.0, 1.5) = 1.0;   // G-E value pass: team / plain grade (ShadowDress.grade), 1 = unchanged
+uniform float team_val : hint_range(0.0, 1.5) = 1.0;
+uniform float body_sat : hint_range(0.0, 1.5) = 1.0;
 
 instance uniform float ao_bottom = 0.0;
 instance uniform float ao_height = 10.0;
@@ -59,7 +62,17 @@ void fragment() {
 	int kind = int(v_kind + 0.5);
 	// Vertex colours are authored in sRGB (like the palette): convert to linear.
 	vec3 vc = mix(COLOR.rgb / 12.92, pow((COLOR.rgb + 0.055) / 1.055, vec3(2.4)), step(0.04045, COLOR.rgb));
-	vec3 col = mix(vc * base_color, vc, step(0.5, COLOR.a));
+	vec3 tcol = base_color;
+	vec3 body = vc;
+	if (team_sat != 1.0 || team_val != 1.0 || body_sat != 1.0) {
+		vec3 tg = sqrt(max(tcol, vec3(0.0)));   // perceptual (gamma 2) space, hue kept
+		tcol = mix(vec3(dot(tg, vec3(0.2126, 0.7152, 0.0722))), tg, team_sat) * team_val;
+		tcol *= tcol;
+		vec3 bg = sqrt(max(body, vec3(0.0)));
+		body = mix(vec3(dot(bg, vec3(0.2126, 0.7152, 0.0722))), bg, body_sat);
+		body *= body;
+	}
+	vec3 col = mix(vc * tcol, body, step(0.5, COLOR.a));
 	v_spec = 0.0;
 	v_np = vec3(0.0, -1.0, 0.0);
 	// Derivatives outside the per-kind branches: the pixel size here, the bump after the if / else (0 on holes).

@@ -489,3 +489,8 @@ Buildings now get `Unit.KINGDOM_ALT_COLORS` in mirror matches (Fire vs Fire: cri
 `set_team_color(color)`. `art/buildings/fire_tower.tscn` has no such hook, so both sides' towers look the same
 (`docs/art/lab/ge_team_buildings/after_fire_fire_buildings_z30.png`). Ask: add `set_team_color` to the tower models
 (and any other building model without it) tinting the roof / banner parts.
+**DONE (2026-10-15, tech-artist, G-E value pass):** the tower already had the hook (`SmallBuildingModel.set_team_color`
+writes the merged material's team colour: checked, crimson arrives) but its only team parts were the cup under the claws
+and a small war-cloth, hidden from the RTS camera. `art/buildings/fire_tower.gd`: the cup's wide top rim ring is now a
+team part (a thin bronze lip under it) and the war-cloth is larger, so a Fire mirror's towers read orange / crimson
+(`docs/art/lab/ge_value/tower_check/` local shots). The Night Spire (Shadow) has its own team collar.

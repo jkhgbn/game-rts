@@ -27,10 +27,10 @@ func _initialize() -> void:
 	var shader: Shader = load("res://art/shaders/painted.gdshader")
 	# 3.V2b: a touch more presence (visual only, the 6 x 6 collider is Building's).
 	model.scale = Vector3.ONE * VISUAL_SCALE
-	var S := _painted(shader, "Stone", Color(0.23, 0.195, 0.30), 0.0, 0.45)
-	var O := _painted(shader, "Obsidian", Color(0.12, 0.09, 0.17), 0.35, 0.7)
-	var D := _painted(shader, "DarkStone", Color(0.13, 0.11, 0.17), 0.0, 0.0)
-	var M := _painted(shader, "Silver", Color(0.34, 0.31, 0.45), 0.55, 0.0)
+	var S := _painted(shader, "Stone", Color(0.22, 0.205, 0.255), 0.0, 0.45)
+	var O := _painted(shader, "Obsidian", Color(0.11, 0.1, 0.14), 0.35, 0.7)
+	var D := _painted(shader, "DarkStone", Color(0.13, 0.12, 0.15), 0.0, 0.0)
+	var M := _painted(shader, "Silver", Color(0.37, 0.36, 0.42), 0.55, 0.0)
 	var G := ShaderMaterial.new()
 	G.resource_name = "Glow"
 	G.shader = load("res://art/buildings/dusk_keep_glow.gdshader")

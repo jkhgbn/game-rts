@@ -7,7 +7,7 @@
 resource_name = "ice_leather"
 render_priority = 0
 shader = ExtResource("1_ice")
-shader_parameter/base_color = Color(0.32, 0.3, 0.34, 1)
+shader_parameter/base_color = Color(0.26, 0.24, 0.28, 1)
 shader_parameter/noise_tex = ExtResource("2_ice")
 shader_parameter/spec_strength = 0.0
 shader_parameter/rim_strength = 0.25

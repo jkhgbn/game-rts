@@ -43,6 +43,10 @@ uniform float crack_scale = 0.8;
 uniform float damage : hint_range(0.0, 1.0) = 0.0;
 uniform vec3 top_color : source_color = vec3(1.0, 1.0, 1.0);
 uniform float top_lift : hint_range(0.0, 1.0) = 0.0;
+// G-E value pass (docs/art/ge_value_pass.md): grade of base_color (saturation / value, hue kept). 1 = unchanged. Set on
+// a palette .tres (the team-cloth duplicates keep it, so the team colour is graded the same way, never replaced).
+uniform float dye_sat : hint_range(0.0, 1.5) = 1.0;
+uniform float dye_val : hint_range(0.0, 1.5) = 1.0;
 
 instance uniform float ao_bottom : instance_index(1) = 0.0;
 instance uniform float ao_height : instance_index(2) = 10.0;
@@ -78,7 +82,13 @@ void fragment() {
 	vec3 n = normalize(v_world_normal);
 	float na = triplanar(v_world_pos, n, noise_scale_a);
 	float nb = triplanar(v_world_pos + vec3(17.3, 5.1, 9.7), n, noise_scale_b);
-	vec3 albedo = base_color * (1.0 + (na - 0.5) * 0.20) * (1.0 + (nb - 0.5) * 0.12);
+	vec3 bc = base_color;
+	if (dye_sat != 1.0 || dye_val != 1.0) {
+		vec3 dg = sqrt(max(bc, vec3(0.0)));   // graded in a perceptual (gamma 2) space: hue kept
+		dg = mix(vec3(dot(dg, vec3(0.2126, 0.7152, 0.0722))), dg, dye_sat) * dye_val;
+		bc = dg * dg;
+	}
+	vec3 albedo = bc * (1.0 + (na - 0.5) * 0.20) * (1.0 + (nb - 0.5) * 0.12);
 	if (top_lift > 0.0) {
 		albedo = mix(albedo, top_color * (1.0 + (na - 0.5) * 0.20), top_lift * smoothstep(0.35, 0.9, n.y));
 	}

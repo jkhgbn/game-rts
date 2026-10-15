@@ -18,6 +18,8 @@ uniform float speed = 2.6;
 uniform vec3 rim_color : source_color = vec3(0.55, 0.65, 0.85);
 uniform float rim_strength = 0.0;
 uniform float unit_cloth : hint_range(0.0, 1.0) = 0.0;
+uniform float dye_sat : hint_range(0.0, 1.5) = 1.0;   // G-E value pass: cloth / stripe grade (hue kept), 1 = unchanged
+uniform float dye_val : hint_range(0.0, 1.5) = 1.0;
 instance uniform float phase = 0.0;
 
 void vertex() {
@@ -49,6 +51,11 @@ void fragment() {
 		glyph = (UV.y > 0.18 && UV.y < 0.46 && abs(UV.x - 0.5) < (UV.y - 0.18) * 0.9) ? 1.0 : 0.0;
 	} else {
 		glyph = (abs(UV.x - 0.5) + abs(UV.y - 0.32) * 0.5 < 0.14) ? 1.0 : 0.0;
+	}
+	if (dye_sat != 1.0 || dye_val != 1.0) {
+		vec3 dg = sqrt(max(col, vec3(0.0)));   // graded in a perceptual (gamma 2) space: hue kept
+		dg = mix(vec3(dot(dg, vec3(0.2126, 0.7152, 0.0722))), dg, dye_sat) * dye_val;
+		col = dg * dg;
 	}
 	col = mix(col, glyph_color, glyph);
 	// Darker near the fixed top edge (fold shadow), lighter lower down.

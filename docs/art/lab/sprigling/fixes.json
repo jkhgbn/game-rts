@@ -8,23 +8,23 @@
 					"from": 1.2,
 					"node": "res://art/units/nature/sprigling.tscn (root), res://data/units/sprigling.tres",
 					"param": "body_height",
-					"to": 1.97
+					"to": 1.95
 				}
 			],
 			"check": "R8",
 			"computed": true,
 			"measured": {
 				"body_height": 1.2,
-				"head_top_m": 1.97,
-				"ratio": 1.64
+				"head_top_m": 1.95,
+				"ratio": 1.63
 			},
 			"predicted": {
 				"ratio": 1.0
 			},
-			"proposal": "body_height 1.2 -> 1.97 in res://art/units/nature/sprigling.tscn (root) and res://data/units/sprigling.tres (the head top; x1.64 now), or lower the head / crest 0.47 m",
+			"proposal": "body_height 1.2 -> 1.95 in res://art/units/nature/sprigling.tscn (root) and res://data/units/sprigling.tres (the head top; x1.63 now), or lower the head / crest 0.45 m",
 			"rank": 1,
 			"status": "WARN",
-			"text": "R8: body_height 1.2 -> 1.97 in res://art/units/nature/sprigling.tscn (root) and res://data/units/sprigling.tres (the head top; x1.64 now), or lower the head / crest 0.47 m",
+			"text": "R8: body_height 1.2 -> 1.95 in res://art/units/nature/sprigling.tscn (root) and res://data/units/sprigling.tres (the head top; x1.63 now), or lower the head / crest 0.45 m",
 			"title": "Head height vs body_height",
 			"wanted": {
 				"ratio": "0.75-1.25"
@@ -35,13 +35,13 @@
 			"check": "R8w",
 			"computed": false,
 			"measured": {
-				"value": "SproutMesh 0.55 m"
+				"value": "SproutMesh 0.56 m"
 			},
 			"predicted": {},
-			"proposal": "Parts above body_height + 0.4: Narrow SproutMesh 0.55 m so the HP bar reads over the head",
+			"proposal": "Parts above body_height + 0.4: Narrow SproutMesh 0.56 m so the HP bar reads over the head",
 			"rank": 2,
 			"status": "WARN",
-			"text": "R8w Parts above body_height + 0.4: Narrow SproutMesh 0.55 m so the HP bar reads over the head",
+			"text": "R8w Parts above body_height + 0.4: Narrow SproutMesh 0.56 m so the HP bar reads over the head",
 			"title": "Parts above body_height + 0.4",
 			"wanted": {
 				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
@@ -68,7 +68,7 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "nature",
-	"quality": 89.6,
+	"quality": 90.1,
 	"result": "WARN",
 	"scene": "res://art/units/nature/sprigling.tscn",
 	"tier": "worker",

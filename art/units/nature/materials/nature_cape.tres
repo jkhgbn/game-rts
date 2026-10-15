@@ -14,3 +14,5 @@ shader_parameter/glyph_shape = 0
 shader_parameter/amplitude = 0.1
 shader_parameter/speed = 2.2
 shader_parameter/unit_cloth = 1.0
+shader_parameter/dye_sat = 0.88
+shader_parameter/dye_val = 0.9

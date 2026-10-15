@@ -50,6 +50,7 @@ static func attach(model: Node3D, opts: Dictionary) -> ShadowDress:
 
 ## `attach` at a given tier (tests and tools; the models call `attach`).
 static func attach_at(model: Node3D, opts: Dictionary, q: int) -> ShadowDress:
+	grade(model)   # G-E value pass: every tier (two uniforms, no cost)
 	if q <= 0:
 		return null
 	var d := ShadowDress.new()
@@ -64,6 +65,43 @@ static func attach_at(model: Node3D, opts: Dictionary, q: int) -> ShadowDress:
 	# part (the ragged fbm fringe still lets grass in). Runtime meta (leading _): never saved.
 	model.set_meta(&"_grass_clear_radius", float(opts.get("radius", 5.0)) * GRASS_CLEAR_K)
 	return d
+
+
+## G-E value pass (docs/art/ge_value_pass.md): Shadow's violet goes to the accents. The merged body material
+## (painted_vc) of `model` grades its team parts (roof courses, cloth: saturation x TEAM_SAT, value x TEAM_VAL, hue
+## kept, so a mirror's alt colour reads the same way) and pulls its plain parts toward slate (BODY_SAT); team banners
+## (banner.gdshader) take the dye grade. Glows, runes and the dead ground keep their colour. Idempotent.
+const TEAM_SAT := 0.4
+const TEAM_VAL := 0.88
+const BODY_SAT := 0.4
+const PAINTED_VC_PATH := "res://art/shaders/painted_vc.gdshader"
+const STABLES_PATH := "res://art/buildings/stables/stables_painted.gdshader"
+const BANNER_PATH := "res://art/shaders/banner.gdshader"
+
+
+static func grade(model: Node) -> void:
+	for n: Node in model.find_children("*", "GeometryInstance3D", true, false):
+		var gi := n as GeometryInstance3D
+		_grade_mat(gi.material_override)
+		if gi is MeshInstance3D and (gi as MeshInstance3D).mesh:
+			var mi := gi as MeshInstance3D
+			for s: int in mi.mesh.get_surface_count():
+				_grade_mat(mi.get_surface_override_material(s))
+				_grade_mat(mi.mesh.surface_get_material(s))
+
+
+static func _grade_mat(m: Material) -> void:
+	if not m is ShaderMaterial or (m as ShaderMaterial).shader == null:
+		return
+	var sm := m as ShaderMaterial
+	var path := sm.shader.resource_path
+	if path == PAINTED_VC_PATH or path == STABLES_PATH:
+		sm.set_shader_parameter(&"team_sat", TEAM_SAT)
+		sm.set_shader_parameter(&"team_val", TEAM_VAL)
+		sm.set_shader_parameter(&"body_sat", BODY_SAT)
+	elif path == BANNER_PATH:
+		sm.set_shader_parameter(&"dye_sat", TEAM_SAT)
+		sm.set_shader_parameter(&"dye_val", TEAM_VAL)
 
 
 ## Forwards the building's state: construction 0..1, HP ratio 0..1, destroyed (the wreck).

@@ -25,6 +25,11 @@ uniform float crack_speed = 1.2;
 uniform float crack_scale = 0.8;
 uniform float crack_energy = 1.0;   // emission of the cracks (1 = painted.gdshader's; < 1 keeps them under the bloom)
 uniform float damage : hint_range(0.0, 1.0) = 0.0;
+// G-E value pass (docs/art/ge_value_pass.md): a per-kingdom grade of the team parts (saturation / value of the team
+// colour, hue kept) and of the plain parts (saturation). 1 = unchanged (every kingdom but Shadow; ShadowDress.grade).
+uniform float team_sat : hint_range(0.0, 1.5) = 1.0;
+uniform float team_val : hint_range(0.0, 1.5) = 1.0;
+uniform float body_sat : hint_range(0.0, 1.5) = 1.0;
 
 instance uniform float ao_bottom = 0.0;
 instance uniform float ao_height = 10.0;
@@ -56,7 +61,18 @@ float triplanar(vec3 p, vec3 n, float scale) {
 void fragment() {
 	// Vertex colours are authored in sRGB (like the palette and base_color): to linear.
 	vec3 vc = mix(COLOR.rgb / 12.92, pow((COLOR.rgb + 0.055) / 1.055, vec3(2.4)), step(0.04045, COLOR.rgb));
-	vec3 col = mix(base_color * vc, vc, step(0.5, COLOR.a));
+	vec3 tcol = base_color;
+	vec3 body = vc;
+	if (team_sat != 1.0 || team_val != 1.0 || body_sat != 1.0) {
+		// graded in a perceptual (gamma 2) space: hue kept
+		vec3 tg = sqrt(max(tcol, vec3(0.0)));
+		tcol = mix(vec3(dot(tg, vec3(0.2126, 0.7152, 0.0722))), tg, team_sat) * team_val;
+		tcol *= tcol;
+		vec3 bg = sqrt(max(body, vec3(0.0)));
+		body = mix(vec3(dot(bg, vec3(0.2126, 0.7152, 0.0722))), bg, body_sat);
+		body *= body;
+	}
+	vec3 col = mix(tcol * vc, body, step(0.5, COLOR.a));
 	v_spec = 0.0;
 	if (v_crack < -0.5) {
 		// Hole (roof breach, doorway dark): unlit, like the unshaded hole material it replaces.

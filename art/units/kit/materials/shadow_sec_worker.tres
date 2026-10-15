@@ -7,7 +7,7 @@
 resource_name = "shadow_sec_worker"
 render_priority = 0
 shader = ExtResource("1_25imb")
-shader_parameter/base_color = Color(0.5, 0.45, 0.55, 1)
+shader_parameter/base_color = Color(0.5, 0.48, 0.5, 1)
 shader_parameter/noise_tex = ExtResource("2_wi2nw")
 shader_parameter/noise_scale_a = null
 shader_parameter/noise_scale_b = null

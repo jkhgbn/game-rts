@@ -40,6 +40,12 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
   real ~4 % perf_test regression -> bisect: the G-C Flame Guard blade-fuller glow as its own moving keep_separate node
   (one extra draw instance per unit); fixed 2da2453b (glows merge into the pivot again), now ~5 % faster than
   4a88047e. Ambient life 5fa4c8f7, combat feedback a185008f committed.
+- ~21:10 UTC (weekly 73 %): committed m02 / E6M1 FrozenLook hook 57452202, G-E fixes C e2141625, m03 art hooks
+  1b4df1a2. Running: G-E value pass (agent a65ebf6ce0ad0a871, + Fire tower set_team_color hook), balance fs7-r5.
+  Next = G-F: commit the value pass after review; CI worktree checkout HEAD + tools\ci\ci.ps1; quiet perf_test;
+  root-cause test "every GPUParticles3D under a CharacterModel stops when _offscreen"; Art Lab mount+rider tier;
+  lead-status.md rewrite; playtest build (playtest-release skill) + French notes for JS. JS asked: delete local lab
+  PNGs (3.4 GB)? (no answer yet).
 - ~20:40 UTC: committed G-E fixes B 9b7bf8f4 (night moonlight, FrozenLook snow art, depth fog), team UI 06a3a985,
   team buildings 7294f83a. Pending: m02 FrozenLook hook (systems-coder a14178a38ae7350ff resumed with it), Fire tower
   set_team_color hook (for-tech-artist.md), G-E C, G-E value pass, balance fs7-r5. Then G-F.

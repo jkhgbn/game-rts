@@ -103,10 +103,13 @@ func _build_parts() -> void:
 			it.append(_itx(box1, Transform3D(Basis(Vector3.UP, a2) * Basis(Vector3.RIGHT, deg_to_rad(drng.randf_range(-4, 4)))
 				.scaled_local(Vector3(rad * 0.62, 0.24, 0.16)), d2 * (rad * 0.99) + Vector3(0, y, 0)), st_a if (k + ring) % 2 == 0 else st_c))
 	_merged("Shaft", "shaft", it)
-	# Cup tier: the flared team cup and its bronze rim.
+	# Cup tier: the flared team cup and its rim. G-E team read (handoff 2026-10-15): the rim's top ring (the widest
+	# flat face the RTS camera sees, round the orb) is team-coloured too, edged by a thin bronze lip, so the two sides
+	# of a mirror match read apart through set_team_color (the alt palette).
 	it = []
 	it.append(_itx(_cyl(1.0, 0.6, 0.55, 12), Transform3D(oct, Vector3(0, 3.67, 0)), _m_team))
-	it.append(_itx(_cyl(1.06, 1.06, 0.16, 12), Transform3D(oct, Vector3(0, 4.0, 0)), _m_trim))
+	it.append(_itx(_cyl(1.06, 1.06, 0.16, 12), Transform3D(oct, Vector3(0, 4.0, 0)), _m_team))
+	it.append(_itx(_cyl(1.1, 1.1, 0.06, 12), Transform3D(oct, Vector3(0, 3.92, 0)), _m_trim))
 	# Detail pass: bronze thorns on the rim between the claws, a darker band under the cup.
 	for k: int in 8:
 		var a3: float = TAU * float(k) / 8.0
@@ -120,7 +123,7 @@ func _build_parts() -> void:
 	var cy: Basis = Basis(Vector3.UP, deg_to_rad(45.0))
 	var cl: Basis = cy * Basis(Vector3.RIGHT, deg_to_rad(8.0))
 	var cp := Vector3(-0.78, 3.5, -0.78)
-	it.append(_itx(box1, Transform3D(cl.scaled_local(Vector3(0.62, 0.95, 0.06)), cp), _m_team))
+	it.append(_itx(box1, Transform3D(cl.scaled_local(Vector3(0.72, 1.05, 0.06)), cp), _m_team))
 	for hs: float in [-1.0, 1.0]:
 		it.append(_itx(_prism(Vector3(0.31, 0.3, 0.06), 0.5), Transform3D(cl * Basis(Vector3.BACK, PI),
 			cp + cl * Vector3(hs * 0.155, -0.6, 0.0)), _m_team))

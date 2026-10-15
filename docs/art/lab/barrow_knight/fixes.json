@@ -38,10 +38,10 @@
 		{
 			"changes": [
 				{
-					"from": 3423,
+					"from": 3615,
 					"node": "Steed/Root/Mount/Merged",
-					"to": 1712,
-					"words": "`Merged` 3423 -> 1712 verts"
+					"to": 1808,
+					"words": "`Merged` 3615 -> 1808 verts"
 				},
 				{
 					"from": 3246,
@@ -50,52 +50,46 @@
 					"words": "`Merged` 3246 -> 1623 verts"
 				},
 				{
-					"from": 592,
+					"from": 1524,
 					"node": "Rider/Root/Chest/Merged",
-					"to": 296,
-					"words": "`Merged` 592 -> 296 verts"
+					"to": 762,
+					"words": "`Merged` 1524 -> 762 verts"
 				},
 				{
-					"from": 530,
-					"node": "Rider/Root/Chest/Head/Merged",
-					"to": 265,
-					"words": "`Merged` 530 -> 265 verts"
-				},
-				{
-					"from": 528,
+					"from": 1176,
 					"node": "Rider/Root/Hips/Merged",
-					"to": 264,
-					"words": "`Merged` 528 -> 264 verts"
+					"to": 588,
+					"words": "`Merged` 1176 -> 588 verts"
 				},
 				{
-					"from": 460,
+					"from": 588,
 					"node": "Rider/Root/Chest/ArmL/Merged",
-					"to": 230,
-					"words": "`Merged` 460 -> 230 verts"
+					"to": 294,
+					"words": "`Merged` 588 -> 294 verts"
 				},
 				{
-					"from": 402,
+					"from": 550,
+					"node": "Rider/Root/Chest/Head/Merged",
+					"to": 275,
+					"words": "`Merged` 550 -> 275 verts"
+				},
+				{
+					"from": 495,
+					"node": "Rider/Root/Chest/ArmR/Merged",
+					"to": 248,
+					"words": "`Merged` 495 -> 248 verts"
+				},
+				{
+					"from": 329,
 					"node": "Steed/Root/Mount/LegBL/Merged",
-					"to": 201,
-					"words": "`Merged` 402 -> 201 verts"
+					"to": 165,
+					"words": "`Merged` 329 -> 165 verts"
 				},
 				{
-					"from": 402,
+					"from": 329,
 					"node": "Steed/Root/Mount/LegBR/Merged",
-					"to": 201,
-					"words": "`Merged` 402 -> 201 verts"
-				},
-				{
-					"from": 339,
-					"node": "Steed/Root/Mount/LegFL/Merged",
-					"to": 170,
-					"words": "`Merged` 339 -> 170 verts"
-				},
-				{
-					"from": 339,
-					"node": "Steed/Root/Mount/LegFR/Merged",
-					"to": 170,
-					"words": "`Merged` 339 -> 170 verts"
+					"to": 165,
+					"words": "`Merged` 329 -> 165 verts"
 				},
 				{
 					"from": 307,
@@ -104,10 +98,16 @@
 					"words": "`Merged` 307 -> 154 verts"
 				},
 				{
-					"from": 275,
-					"node": "Rider/Root/Chest/ArmR/Merged",
-					"to": 138,
-					"words": "`Merged` 275 -> 138 verts"
+					"from": 253,
+					"node": "Steed/Root/Mount/LegFL/Merged",
+					"to": 127,
+					"words": "`Merged` 253 -> 127 verts"
+				},
+				{
+					"from": 253,
+					"node": "Steed/Root/Mount/LegFR/Merged",
+					"to": 127,
+					"words": "`Merged` 253 -> 127 verts"
 				},
 				{
 					"from": 234,
@@ -119,18 +119,18 @@
 			"check": "B4",
 			"computed": true,
 			"measured": {
-				"verts": 10665
+				"verts": 12493
 			},
 			"predicted": {
-				"verts": 5129
+				"verts": 6047
 			},
-			"proposal": "10665 -> 5129 (want <= 5000): `Merged` 3423 -> 1712 verts; `Merged` 3246 -> 1623 verts; `Merged` 592 -> 296 verts; `Merged` 530 -> 265 verts; `Merged` 528 -> 264 verts; `Merged` 460 -> 230 verts; `Merged` 402 -> 201 verts; `Merged` 402 -> 201 verts; `Merged` 339 -> 170 verts; `Merged` 339 -> 170 verts; `Merged` 307 -> 154 verts; `Merged` 275 -> 138 verts; `FlailHead` 234 -> 117 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"proposal": "12493 -> 6047 (want <= 6000): `Merged` 3615 -> 1808 verts; `Merged` 3246 -> 1623 verts; `Merged` 1524 -> 762 verts; `Merged` 1176 -> 588 verts; `Merged` 588 -> 294 verts; `Merged` 550 -> 275 verts; `Merged` 495 -> 248 verts; `Merged` 329 -> 165 verts; `Merged` 329 -> 165 verts; `Merged` 307 -> 154 verts; `Merged` 253 -> 127 verts; `Merged` 253 -> 127 verts; `FlailHead` 234 -> 117 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"rank": 2,
 			"status": "WARN",
-			"text": "B4 10665 -> 5129 (want <= 5000): `Merged` 3423 -> 1712 verts; `Merged` 3246 -> 1623 verts; `Merged` 592 -> 296 verts; `Merged` 530 -> 265 verts; `Merged` 528 -> 264 verts; `Merged` 460 -> 230 verts; `Merged` 402 -> 201 verts; `Merged` 402 -> 201 verts; `Merged` 339 -> 170 verts; `Merged` 339 -> 170 verts; `Merged` 307 -> 154 verts; `Merged` 275 -> 138 verts; `FlailHead` 234 -> 117 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"text": "B4 12493 -> 6047 (want <= 6000): `Merged` 3615 -> 1808 verts; `Merged` 3246 -> 1623 verts; `Merged` 1524 -> 762 verts; `Merged` 1176 -> 588 verts; `Merged` 588 -> 294 verts; `Merged` 550 -> 275 verts; `Merged` 495 -> 248 verts; `Merged` 329 -> 165 verts; `Merged` 329 -> 165 verts; `Merged` 307 -> 154 verts; `Merged` 253 -> 127 verts; `Merged` 253 -> 127 verts; `FlailHead` 234 -> 117 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"title": "Vertices",
 			"wanted": {
-				"verts": "<= 5000"
+				"verts": "<= 6000"
 			}
 		}
 	],
@@ -140,6 +140,6 @@
 	"quality": 92.9,
 	"result": "WARN",
 	"scene": "res://art/units/shadow/barrow_knight/barrow_knight.tscn",
-	"tier": "rider",
+	"tier": "heavy",
 	"version": "1.0"
 }
