@@ -108,6 +108,20 @@ func _build_parts() -> void:
 				"mouth": NatureFaces.beast_mouth(Vector2(0, -0.16)),
 				"x": NatureFaces.lean_x(1.2, {&"neutral": {"cut_in": 0.4}})},
 				Vector2.ZERO, Vector2.ZERO, 0.0)
+	# G-C (docs/art/gc_shadow_units.md): shaped parts replace the generated primitives, after the face canvases are read.
+	ShadowUnitDress.apply(self)
+
+
+## G-C soul wisps (knight blade, thrall lantern): built only at this graphics quality or better, emitting only while
+## the camera is within the kit's tier-0 range (30 m) and the unit is alive. Tests force a tier with the override.
+const WISP_QUALITY := 2
+static var wisp_quality_override: int = -1
+var _wisps: GPUParticles3D
+
+
+## True once this scene type's merged pivot meshes are cached (later instances skip building static parts).
+func is_type_merged() -> bool:
+	return _merged.has(_type_key + "|Root")
 
 
 ## A FaceKit face on an authored head part (`face_node` under `head_path`: its mesh + model transform are the canvas),
@@ -194,6 +208,9 @@ func _after_ready() -> void:
 	var root := get_node_or_null(^"Root")
 	if root:
 		_collect_body(root)
+	var q: int = wisp_quality_override if wisp_quality_override >= 0 else GameSettings.effective_graphics_quality()
+	if q >= WISP_QUALITY:
+		_wisps = ShadowUnitDress.add_wisps(self)
 	if _shadow:
 		var bc: Variant = _shadow.get_instance_shader_parameter(&"blob_color")
 		if bc is Color:
@@ -275,10 +292,17 @@ func _on_revive() -> void:
 
 # ================================================================ per frame (after the kit's pose)
 
+
 func _extra_process(_dt: float) -> void:
 	if _face:
 		_face.auto(self)
 		_write_eye_glow()
+	if _wisps:
+		# Kit tier 0 = the camera within 30 m. A model frozen far away / off-screen keeps its last state (its few
+		# particles are culled by their visibility box; no _process override, so 200 units pay nothing extra).
+		var on: bool = _tier == 0 and not _dead and not _glows_off
+		if on != _wisps.emitting:
+			_wisps.emitting = on
 	if _dead:
 		if unit_kind == &"warden":
 			_crumble_extra(_death_t)

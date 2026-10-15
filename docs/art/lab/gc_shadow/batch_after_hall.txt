@@ -1,0 +1,5 @@
+res://art/units/shadow/gloom_thrall.tscn kind=unit kingdom=shadow out=docs/art/lab/gc_shadow/after/gloom_thrall
+res://art/units/shadow/shade.tscn kind=unit kingdom=shadow out=docs/art/lab/gc_shadow/after/shade
+res://art/units/shadow/nightbolt.tscn kind=unit kingdom=shadow out=docs/art/lab/gc_shadow/after/nightbolt
+res://art/units/shadow/grave_hound.tscn kind=unit kingdom=shadow out=docs/art/lab/gc_shadow/after/grave_hound
+res://art/units/shadow/shadow_knight.tscn kind=unit kingdom=shadow out=docs/art/lab/gc_shadow/after/shadow_knight

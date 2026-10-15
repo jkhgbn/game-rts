@@ -215,10 +215,9 @@ static func _path_into(st: SurfaceTool, pts: PackedVector3Array, radii: PackedFl
 static func _path(key: String, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int) -> Mesh:
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
-	var st := SurfaceTool.new()
-	_path_into(st, pts, radii, seg)
-	st.index()
-	return _cached(key, st.commit())
+	# G-C (docs/art/gc_shadow_units.md): one continuous smooth tube (shared rings, 2 more sides) instead of a stack of
+	# separate cylinders: rounder limbs for fewer vertices.
+	return _cached(key, ShadowGeo.tube(pts, radii, {"seg": seg + 2}))
 
 
 ## Three ragged coat tails behind the legs (flattened tapering strips, the middle one longest).

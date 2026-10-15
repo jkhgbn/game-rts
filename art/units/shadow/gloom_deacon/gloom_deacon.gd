@@ -355,10 +355,11 @@ static func _panel(key: String, y0: float, y1: float, r0: float, r1: float, a0: 
 static func _path(key: String, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int = 6) -> Mesh:
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
-	var st := SurfaceTool.new()
-	_append_path(st, pts, radii, seg, Transform3D.IDENTITY)
-	st.index()
-	return _cached(key, st.commit())
+	# G-C (docs/art/gc_shadow_units.md): one continuous smooth tube (shared rings, 2 more sides) instead of a stack of
+	# separate cylinders: rounder limbs for fewer vertices.
+	var last := radii.size() - 1
+	return _cached(key, ShadowGeo.tube(pts, radii, {"seg": seg + 2, "cap_start": radii[0] > 0.0,
+		"cap_end": radii[last] > 0.0}))
 
 
 static func _append_path(st: SurfaceTool, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int,

@@ -143,16 +143,11 @@ static func _tube(key: String, pts: PackedVector3Array, radii: PackedFloat32Arra
 		caps: bool = true) -> Mesh:
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
-	var st := SurfaceTool.new()
-	for i: int in pts.size() - 1:
-		var a := pts[i]
-		var d := pts[i + 1] - a
-		var extra: float = 0.02 if radii[i + 1] > 0.0 else 0.0
-		var len_total := d.length() + extra
-		var c := cyl(radii[i + 1], radii[i], len_total, seg, caps and (i == 0 or i == pts.size() - 2))
-		st.append_from(c, 0, Transform3D(Basis(Quaternion(Vector3.UP, d.normalized())), a + d.normalized() * len_total * 0.5))
-	st.index()
-	return _cached(key, st.commit())
+	# G-C (docs/art/gc_shadow_units.md): one continuous smooth tube (shared rings, 2 more sides) instead of a stack of
+	# 6-sided cylinders: rounder limbs for fewer vertices.
+	var last := radii.size() - 1
+	return _cached(key, ShadowGeo.tube(pts, radii, {"seg": seg + 2, "cap_start": caps and radii[0] > 0.0,
+		"cap_end": caps and radii[last] > 0.0}))
 
 
 # ================================================================ motion

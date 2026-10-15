@@ -150,9 +150,11 @@ static func _hw_path(key: String, pts: PackedVector3Array, radii: PackedFloat32A
 		caps: bool = true) -> Mesh:
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
-	var st := SurfaceTool.new()
-	_append_path(st, pts, radii, seg, caps)
-	return _cached(key, _indexed_hw(st))
+	# G-C (docs/art/gc_shadow_units.md): one continuous smooth tube (shared rings, 2 more sides) instead of a stack of
+	# separate cylinders: rounder limbs for fewer vertices.
+	var last := radii.size() - 1
+	return _cached(key, ShadowGeo.tube(pts, radii, {"seg": seg + 2, "cap_start": caps and radii[0] > 0.0,
+		"cap_end": caps and radii[last] > 0.0}))
 
 
 static func _append_path(st: SurfaceTool, pts: PackedVector3Array, radii: PackedFloat32Array, seg: int, caps: bool,

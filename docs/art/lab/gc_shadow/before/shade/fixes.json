@@ -1,0 +1,13 @@
+{
+	"asset": "shade",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 97.0,
+	"result": "PASS",
+	"scene": "res://art/units/shadow/shade.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}
