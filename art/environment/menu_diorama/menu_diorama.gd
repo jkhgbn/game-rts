@@ -24,6 +24,9 @@ extends Node3D
 ##                                   kingdom glow swells; &"" (or an unknown id) = back to the wide shot.
 ##   get_focus() -> StringName
 ##   get_camera() -> Camera3D
+##   set_quality(q: int)             G-D graphics tier 0 Low .. 3 Ultra (GameSettings tiers; called in _ready and by
+##                                   GameSettings.apply_graphics through the "lighting_rigs" group). See TIER_*.
+##   get_quality() -> int            the tier applied now.
 ## Performance: in its own SubViewport (the recommended menu integration) it renders the 3D at ~2 MP and upscales
 ## with FSR 1 (auto_render_scale); it never touches the root viewport.
 
@@ -55,6 +58,73 @@ const FAR_TREES: Array[String] = [
 	"res://art/environment/meshes/tree_gold_far.res",
 	"res://art/environment/meshes/tree_birch_far.res",
 ]
+## G-D menu: the four kingdoms' keeps (tier 3, Citadel) stand on low hills beyond the plaza, one per kingdom, each
+## facing the crown: the race for the crown in one picture. Built at every tier (models, no new pass); their weather
+## (snow, embers + smoke, leaves, wisps), lights and ground glow come with the tier (see TIER_*).
+## pos = the hill's centre on the ground; the keep stands on the hill's flat top (`hill` m high), `scale` times.
+const LANDMARKS: Array[Dictionary] = [
+	{"kingdom": &"ice", "scene": "res://art/buildings/ice_keep.tscn", "pos": Vector3(-45.5, 0.0, -29.8),
+			"scale": 0.8, "hill": 3.0, "radius": 11.0},
+	{"kingdom": &"shadow", "scene": "res://art/buildings/dusk_keep.tscn", "pos": Vector3(-34.8, 0.0, -50.4),
+			"scale": 0.8, "hill": 3.4, "radius": 11.0},
+	{"kingdom": &"nature", "scene": "res://art/buildings/nature_keep.tscn", "pos": Vector3(-5.1, 0.0, -77.1),
+			"scale": 1.0, "hill": 5.0, "radius": 13.0},
+	{"kingdom": &"fire", "scene": "res://art/buildings/fire_keep.tscn", "pos": Vector3(5.7, 0.0, -85.2),
+			"scale": 0.85, "hill": 5.0, "radius": 13.0},
+]
+const LANDMARK_NAMES := {&"fire": "Fire", &"shadow": "Shadow", &"ice": "Ice", &"nature": "Nature"}
+const LANDMARK_CLEAR := 0.85     ## Far trees keep out of this share of a landmark hill's radius.
+const BIRD_SHADER: Shader = preload("res://art/environment/menu_diorama/menu_birds.gdshader")
+const POND_SHADER: Shader = preload("res://art/environment/menu_diorama/menu_pond.gdshader")
+const NOISE_TEX := "res://art/shaders/paint_noise.tres"
+## Graphics tiers (GameSettings.effective_graphics_quality(): Low in headless / -s runs unless --gfx). Low = the
+## diorama as it was before G-D (same lighting, same particles; only the landmark models are new). Medium: SSAO,
+## the viewport's tier AA, birds, the pond, the landmarks' ground glow and a light share of their weather. High: +
+## SSIL, soft sun shadows (PCSS), volumetric light (sun shafts through the trees, halos round the crown and the
+## keeps), the keeps' lights, full weather, each wizard's own kingdom weather. Ultra: denser volumetric light,
+## a second flock, more weather.
+const TIER_LOW := 0
+const TIER_MEDIUM := 1
+const TIER_HIGH := 2
+const TIER_ULTRA := 3
+const ENV_TIERS: Array[Dictionary] = [
+	{},
+	{
+		"ssao_enabled": true, "ssao_radius": 1.2, "ssao_intensity": 1.8, "ssao_power": 1.4, "ssao_detail": 0.6,
+		"ssao_horizon": 0.06, "ssao_sharpness": 0.98, "ssao_light_affect": 0.0, "ssao_ao_channel_affect": 0.0,
+	},
+	{
+		"ssao_enabled": true, "ssao_radius": 1.4, "ssao_intensity": 2.2, "ssao_power": 1.5, "ssao_detail": 0.7,
+		"ssao_horizon": 0.06, "ssao_sharpness": 0.98, "ssao_light_affect": 0.05, "ssao_ao_channel_affect": 0.0,
+		"ssil_enabled": true, "ssil_radius": 4.0, "ssil_intensity": 1.0, "ssil_sharpness": 0.98,
+		"ssil_normal_rejection": 1.0,
+		"volumetric_fog_enabled": true, "volumetric_fog_density": 0.0018,
+		"volumetric_fog_albedo": Color(1.0, 0.82, 0.68), "volumetric_fog_emission": Color(0.0, 0.0, 0.0),
+		"volumetric_fog_emission_energy": 0.0, "volumetric_fog_anisotropy": 0.45, "volumetric_fog_length": 70.0,
+		"volumetric_fog_detail_spread": 2.0, "volumetric_fog_ambient_inject": 0.05, "volumetric_fog_gi_inject": 0.0,
+		"volumetric_fog_sky_affect": 0.0, "volumetric_fog_temporal_reprojection_enabled": true,
+	},
+	{
+		"ssao_enabled": true, "ssao_radius": 1.5, "ssao_intensity": 2.4, "ssao_power": 1.55, "ssao_detail": 0.8,
+		"ssao_horizon": 0.06, "ssao_sharpness": 0.98, "ssao_light_affect": 0.05, "ssao_ao_channel_affect": 0.0,
+		"ssil_enabled": true, "ssil_radius": 5.0, "ssil_intensity": 1.1, "ssil_sharpness": 0.98,
+		"ssil_normal_rejection": 1.0,
+		"volumetric_fog_enabled": true, "volumetric_fog_density": 0.0024,
+		"volumetric_fog_albedo": Color(1.0, 0.82, 0.68), "volumetric_fog_emission": Color(0.0, 0.0, 0.0),
+		"volumetric_fog_emission_energy": 0.0, "volumetric_fog_anisotropy": 0.5, "volumetric_fog_length": 80.0,
+		"volumetric_fog_detail_spread": 1.6, "volumetric_fog_ambient_inject": 0.05, "volumetric_fog_gi_inject": 0.0,
+		"volumetric_fog_sky_affect": 0.0, "volumetric_fog_temporal_reprojection_enabled": true,
+	},
+]
+## Sun per tier: PCSS softness (0 = off) and how bright it is in the volumetric light; the crown light's halo.
+const SUN_TIERS: Array[Dictionary] = [
+	{"angular": 0.0, "vol": 1.0, "crown_vol": 1.0},
+	{"angular": 0.0, "vol": 1.0, "crown_vol": 1.0},
+	{"angular": 1.0, "vol": 1.3, "crown_vol": 2.4},
+	{"angular": 1.2, "vol": 1.4, "crown_vol": 2.6},
+]
+## RenderingServer directional soft-shadow filter per tier (-1 = the project's value, untouched).
+const SHADOW_FILTER_TIERS: Array[int] = [-1, -1, 4, 5]
 const TREE_SECTORS := 8          ## Far treeline MultiMeshes per species (frustum culling by sector).
 const FOCUS_TIME := 2.4          ## Seconds of a camera glide between two shots.
 const REF_ASPECT := 16.0 / 9.0
@@ -94,6 +164,11 @@ const WIDE_ASPECT := 21.0 / 9.0
 @export var far_radius_min: float = 38.0
 @export var far_radius_max: float = 85.0
 
+@export_group("Pond (Medium+)")
+@export var pond_center: Vector3 = Vector3(12.0, 0.03, 6.0)
+@export var pond_size: Vector2 = Vector2(11.0, 6.0)
+@export var pond_yaw_deg: float = 45.0
+
 @export_group("Kingdom focus shot")
 @export var focus_distance: float = 10.0
 @export var focus_pitch_deg: float = 15.0
@@ -131,6 +206,22 @@ var _glow_level: Dictionary = {}     # kingdom -> smoothed 0-2
 var _particles: Array[GPUParticles3D] = []
 var _particle_speed: Array[float] = []
 var _soft_tex: Texture2D
+# G-D menu: graphics tier.
+var _quality := -1                   # tier applied now (-1 = none yet)
+var _env: Environment                # this diorama's copy of menu_diorama_env.tres (tiers never touch the .tres)
+var _base_env: Environment
+var _sun: DirectionalLight3D
+var _landmarks: Dictionary = {}      # kingdom -> Node3D (the keep's holder on its hill)
+var _landmark_fx: Array[GPUParticles3D] = []   # the landmark keeps' own looping emitters (High+)
+var _landmark_lights: Array[Light3D] = []       # the landmark keeps' own lights (High+)
+var _dressing: Node3D                # "TierDressing": built the first time a tier above Low asks for it
+var _tier_nodes: Array[Node3D] = []  # dressing parts, shown from _tier_min[i] up
+var _tier_min: Array[int] = []
+var _tier_ratio: Array[PackedFloat32Array] = []   # particle amount_ratio per tier (empty = not particles)
+var _bird_mats: Array[ShaderMaterial] = []
+var _vp_saved: Dictionary = {}       # the SubViewport's own AA / LOD before a tier changed them
+var _shadow_filter_set := false
+var _prop_mats: Array[ShaderMaterial] = []
 
 
 func _ready() -> void:
@@ -144,7 +235,15 @@ func _ready() -> void:
 	_camera.current = true
 	_crown = get_node_or_null(^"Crown") as Node3D
 	_crown_light = get_node_or_null(^"CrownLight") as OmniLight3D
+	_sun = get_node_or_null(^"Sun") as DirectionalLight3D
+	var we := get_node_or_null(^"WorldEnvironment") as WorldEnvironment
+	if we and we.environment:
+		_base_env = we.environment
+		_env = _base_env.duplicate() as Environment
+		we.environment = _env
+	add_to_group(&"lighting_rigs")   # GameSettings.apply_graphics -> set_quality on a Settings change
 	_dress_models()
+	_build_landmarks()
 	_build_kingdom_glows()
 	_build_far_treeline()
 	_build_fireflies()
@@ -157,6 +256,21 @@ func _ready() -> void:
 	if auto_render_scale and vp is SubViewport:
 		vp.size_changed.connect(_apply_render_scale)
 		_apply_render_scale()
+	set_quality(LightingRig.settings_quality())
+
+
+func _exit_tree() -> void:
+	# The soft-shadow filter is global: put the project's value back unless a level's LightingRig owns it now.
+	if _shadow_filter_set:
+		_shadow_filter_set = false
+		var rig_alive := false
+		for n: Node in get_tree().get_nodes_in_group(&"lighting_rigs"):
+			if n is LightingRig:
+				rig_alive = true
+		if not rig_alive:
+			RenderingServer.directional_soft_shadow_filter_set_quality(int(ProjectSettings.get_setting(
+					"rendering/lights_and_shadows/directional_shadow/soft_shadow_filter_quality", 2))
+					as RenderingServer.ShadowQuality)
 
 
 ## 3D resolution scale of the own SubViewport (see auto_render_scale). Returns the scale set (1.0 = native).
@@ -215,6 +329,45 @@ func get_camera() -> Camera3D:
 	return _camera
 
 
+## G-D menu: the graphics tier (0 Low .. 3 Ultra). Any time, both ways; GameSettings.apply_graphics calls it on a
+## Settings change (group "lighting_rigs"), _ready with GameSettings.effective_graphics_quality().
+func set_quality(q: int) -> void:
+	q = clampi(q, TIER_LOW, TIER_ULTRA)
+	_quality = q
+	_apply_env_tier(q)
+	var s: Dictionary = SUN_TIERS[q]
+	if _sun:
+		_sun.light_angular_distance = float(s["angular"])
+		_sun.light_volumetric_fog_energy = float(s["vol"])
+	if _crown_light:
+		_crown_light.light_volumetric_fog_energy = float(s["crown_vol"])
+	var f := SHADOW_FILTER_TIERS[q]
+	if f >= 0:
+		RenderingServer.directional_soft_shadow_filter_set_quality(f as RenderingServer.ShadowQuality)
+		_shadow_filter_set = true
+	elif _shadow_filter_set:
+		_shadow_filter_set = false
+		RenderingServer.directional_soft_shadow_filter_set_quality(int(ProjectSettings.get_setting(
+				"rendering/lights_and_shadows/directional_shadow/soft_shadow_filter_quality", 2))
+				as RenderingServer.ShadowQuality)
+	_apply_viewport_tier(q)
+	if q > TIER_LOW and _dressing == null:
+		_build_dressing()
+	_apply_dressing_tier(q)
+	for p: GPUParticles3D in _landmark_fx:
+		if is_instance_valid(p):
+			p.emitting = q >= TIER_HIGH
+			p.visible = q >= TIER_HIGH
+	for l: Light3D in _landmark_lights:
+		if is_instance_valid(l):
+			l.visible = q >= TIER_HIGH
+	_prop_mats = PropsLook.apply(q)
+
+
+func get_quality() -> int:
+	return _quality
+
+
 # ---------------------------------------------------------------- frame
 
 func _process(delta: float) -> void:
@@ -227,6 +380,8 @@ func _process(delta: float) -> void:
 	_update_camera(delta)
 	_animate_crown()
 	_animate_glows(delta)
+	for m: ShaderMaterial in _bird_mats:
+		m.set_shader_parameter(&"anim_time", _time)
 
 
 func _animate_crown() -> void:
@@ -542,6 +697,8 @@ func _scatter_ring(rng: RandomNumberGenerator, per: Array[Array], count: int, r_
 				break
 		var b := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(s, s * rng.randf_range(0.9, 1.15), s))
 		var sector := int(floor(a / TAU * float(TREE_SECTORS))) % TREE_SECTORS
+		if _near_landmark(pos):   # after every rng draw: the rest of the treeline stays where it was
+			continue
 		per[k * TREE_SECTORS + sector].append(Transform3D(b, pos))
 
 
@@ -583,3 +740,584 @@ func _collect_particles(n: Node) -> void:
 			_particles.append(c as GPUParticles3D)
 			_particle_speed.append((c as GPUParticles3D).speed_scale)
 		_collect_particles(c)
+
+
+# ---------------------------------------------------------------- G-D menu: landmarks
+
+func _near_landmark(p: Vector3) -> bool:
+	for lm: Dictionary in LANDMARKS:
+		var c: Vector3 = lm["pos"]
+		if Vector2(p.x - c.x, p.z - c.z).length() < float(lm["radius"]) * LANDMARK_CLEAR:
+			return true
+	return false
+
+
+## The four kingdoms' keeps (Citadel tier, own kingdom colour) on low hills beyond the plaza, gates toward the crown.
+func _build_landmarks() -> void:
+	var holder := Node3D.new()
+	holder.name = "Landmarks"
+	add_child(holder)
+	var ground := get_node_or_null(^"Ground") as MeshInstance3D
+	var ground_mat: Material = null
+	if ground and ground.mesh is PlaneMesh:
+		ground_mat = (ground.mesh as PlaneMesh).material
+	var i := 0
+	for lm: Dictionary in LANDMARKS:
+		var kd: StringName = lm["kingdom"]
+		var pos: Vector3 = lm["pos"]
+		var top := float(lm["hill"])
+		var hill := MeshInstance3D.new()
+		hill.name = "Hill_%s" % LANDMARK_NAMES[kd]
+		hill.mesh = _hill_mesh(float(lm["radius"]), top, 9100 + i * 17)
+		if ground_mat:
+			hill.material_override = ground_mat
+		hill.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		hill.position = Vector3(pos.x, 0.0, pos.z)
+		holder.add_child(hill)
+		var site := Node3D.new()
+		site.name = LANDMARK_NAMES[kd]
+		holder.add_child(site)
+		site.position = Vector3(pos.x, top, pos.z)
+		# Gate (local -Z) toward the crown.
+		var to_crown := Vector3(-pos.x, 0.0, -pos.z).normalized()
+		site.basis = Basis.looking_at(to_crown, Vector3.UP).scaled(Vector3.ONE * float(lm["scale"]))
+		_landmarks[kd] = site
+		var path: String = lm["scene"]
+		if ResourceLoader.exists(path):
+			var keep := (load(path) as PackedScene).instantiate() as Node3D
+			if keep:
+				keep.name = "Keep"
+				if keep.has_method(&"set_team_color"):
+					keep.call(&"set_team_color", TEAM[kd])
+				if keep.has_method(&"set_tier"):
+					keep.call(&"set_tier", 3)
+				site.add_child(keep)
+				# The keep's own looping emitters (braziers, motes, mist: ~250 particles, sub-pixel at this range)
+				# only run from High up (set_quality); Low keeps the menu's particle budget of before.
+				# Only the ones the healthy, finished keep runs: damage smoke, fire, build rings stay off.
+				for p: Node in keep.find_children("*", "GPUParticles3D", true, false):
+					var g := p as GPUParticles3D
+					if g.emitting and not g.one_shot:
+						_landmark_fx.append(g)
+				# Its lights too (they would cost a light each at Low / Medium for a few far pixels): High+ only.
+				# The keep script still animates their energy; a hidden light is never rendered.
+				for l: Node in keep.find_children("*", "Light3D", true, false):
+					if (l as Light3D).visible:
+						_landmark_lights.append(l as Light3D)
+		i += 1
+
+
+## A low round hill (flat top for the keep, soft noisy flanks sinking just under the ground plane at `radius`).
+func _hill_mesh(radius: float, height: float, seed_value: int) -> ArrayMesh:
+	var noise := FastNoiseLite.new()
+	noise.seed = seed_value
+	noise.frequency = 0.09
+	var rings := 12
+	var segs := 48
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var pts: Array[PackedVector3Array] = []
+	for ri: int in rings + 1:
+		var u := float(ri) / float(rings)
+		var row := PackedVector3Array()
+		for si: int in segs:
+			var a := TAU * float(si) / float(segs)
+			var dir := Vector2(cos(a), sin(a))
+			# The outline wobbles a little so the hill is not a perfect disc.
+			var rr := radius * u * (1.0 + 0.12 * noise.get_noise_2d(dir.x * 30.0, dir.y * 30.0))
+			var p := Vector2(dir.x * rr, dir.y * rr)
+			var h := height * (1.0 - smoothstep(0.32, 1.0, u))
+			h += height * 0.12 * noise.get_noise_2d(p.x, p.y) * smoothstep(0.3, 0.6, u) * (1.0 - u)
+			if ri == rings:
+				h = -0.15
+			row.append(Vector3(p.x, h, p.y))
+		pts.append(row)
+	for ri: int in rings:
+		for si: int in segs:
+			var s2 := (si + 1) % segs
+			var a0 := pts[ri][si]
+			var a1 := pts[ri][s2]
+			var b0 := pts[ri + 1][si]
+			var b1 := pts[ri + 1][s2]
+			if ri == 0:
+				st.add_vertex(a0)
+				st.add_vertex(b1)
+				st.add_vertex(b0)
+				continue
+			st.add_vertex(a0)
+			st.add_vertex(a1)
+			st.add_vertex(b1)
+			st.add_vertex(a0)
+			st.add_vertex(b1)
+			st.add_vertex(b0)
+	st.generate_normals()
+	return st.commit()
+
+
+# ---------------------------------------------------------------- G-D menu: tiers
+
+## Tier `q`'s environment values on this diorama's copy; every key a tier sets goes back to the authored value
+## below that tier.
+func _apply_env_tier(q: int) -> void:
+	if _env == null or _base_env == null:
+		return
+	var wanted: Dictionary = ENV_TIERS[q]
+	var keys: Array[String] = []
+	for t: Dictionary in ENV_TIERS:
+		for k: String in t:
+			if not keys.has(k):
+				keys.append(k)
+	for k: String in keys:
+		_env.set(k, wanted[k] if wanted.has(k) else _base_env.get(k))
+
+
+## The own SubViewport's AA / LOD / anisotropy follow the tier like the game's root viewport (GameSettings); Low
+## gives back what the menu set up (the root viewport is never touched).
+func _apply_viewport_tier(q: int) -> void:
+	var vp := get_viewport() as SubViewport
+	if vp == null:
+		return
+	if _vp_saved.is_empty():
+		_vp_saved = {"msaa": vp.msaa_3d, "ssaa": vp.screen_space_aa, "lod": vp.mesh_lod_threshold,
+				"deband": vp.use_debanding}
+		if &"anisotropic_filtering_level" in vp:
+			_vp_saved["aniso"] = vp.get(&"anisotropic_filtering_level")
+	if q > TIER_LOW:
+		GameSettings.apply_viewport_quality(vp, q)
+	else:
+		vp.msaa_3d = _vp_saved["msaa"]
+		vp.screen_space_aa = _vp_saved["ssaa"]
+		vp.mesh_lod_threshold = _vp_saved["lod"]
+		vp.use_debanding = _vp_saved["deband"]
+		if _vp_saved.has("aniso"):
+			vp.set(&"anisotropic_filtering_level", _vp_saved["aniso"])
+
+
+## Shows the dressing parts of tier `q` and below; particles get their tier's share.
+func _apply_dressing_tier(q: int) -> void:
+	for i: int in _tier_nodes.size():
+		var n := _tier_nodes[i]
+		if not is_instance_valid(n):
+			continue
+		var on := q >= _tier_min[i]
+		n.visible = on
+		if n is GPUParticles3D:
+			var p := n as GPUParticles3D
+			p.emitting = on
+			if on and not _tier_ratio[i].is_empty():
+				p.amount_ratio = _tier_ratio[i][q]
+
+
+func _add_part(parent: Node, n: Node3D, min_tier: int, ratios: PackedFloat32Array = PackedFloat32Array()) -> void:
+	parent.add_child(n)
+	_tier_nodes.append(n)
+	_tier_min.append(min_tier)
+	_tier_ratio.append(ratios)
+	if n is GPUParticles3D:
+		var p := n as GPUParticles3D
+		_particles.append(p)
+		_particle_speed.append(p.speed_scale)
+		if _paused:
+			p.speed_scale = 0.0
+
+
+## Everything a tier above Low adds, built once (hidden again when the tier goes back down).
+func _build_dressing() -> void:
+	_dressing = Node3D.new()
+	_dressing.name = "TierDressing"
+	add_child(_dressing)
+	if _paused:
+		_dressing.process_mode = Node.PROCESS_MODE_DISABLED
+	# Landmarks: a wide pool of the kingdom's glow on the hill (Medium+), its light (High+), its weather.
+	for lm: Dictionary in LANDMARKS:
+		var kd: StringName = lm["kingdom"]
+		var site := _landmarks.get(kd) as Node3D
+		if site == null:
+			continue
+		var c: Color = GLOW[kd]
+		var top := site.position
+		var pool := MeshInstance3D.new()
+		pool.name = "LandmarkPool_%s" % LANDMARK_NAMES[kd]
+		var pm := PlaneMesh.new()
+		pm.size = Vector2(1, 1) * float(lm["radius"]) * 1.5
+		var mat := ShaderMaterial.new()
+		mat.shader = POOL_SHADER
+		mat.set_shader_parameter(&"color", c)
+		mat.set_shader_parameter(&"strength", 0.55)
+		mat.set_shader_parameter(&"inner", 0.0)
+		mat.set_shader_parameter(&"falloff", 1.8)
+		pm.material = mat
+		pool.mesh = pm
+		pool.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		pool.position = top + Vector3(0, 0.08, 0)
+		_add_part(_dressing, pool, TIER_MEDIUM)
+		var light := OmniLight3D.new()
+		light.name = "LandmarkLight_%s" % LANDMARK_NAMES[kd]
+		light.light_color = c
+		light.light_energy = 2.6
+		light.light_volumetric_fog_energy = 4.0
+		light.omni_range = 16.0
+		light.omni_attenuation = 1.2
+		light.shadow_enabled = false
+		light.position = top + Vector3(0, 7.0, 0) + Vector3(-top.x, 0, -top.z).normalized() * 5.0
+		_add_part(_dressing, light, TIER_HIGH)
+		_build_landmark_weather(kd, top, float(lm["radius"]))
+	# Each wizard's own kingdom weather in the plaza (High+).
+	for kd: StringName in KINGDOMS:
+		var w := get_node_or_null(WIZARD_PATHS[kd]) as Node3D
+		if w:
+			_build_wizard_weather(kd, w.global_position)
+	_build_birds()
+	_build_pond()
+
+
+func _particles_node(node_name: String, amount: int, lifetime: float, at: Vector3, aabb: AABB) -> GPUParticles3D:
+	var p := GPUParticles3D.new()
+	p.name = node_name
+	p.amount = amount
+	p.lifetime = lifetime
+	p.preprocess = lifetime
+	p.randomness = 0.6
+	p.position = at
+	p.visibility_aabb = aabb
+	p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	return p
+
+
+## A soft alpha-blended (not additive) particle quad: smoke.
+func _particle_mix_mesh(size: float) -> QuadMesh:
+	var q := _particle_draw_mesh(size)
+	var m := (q.material as StandardMaterial3D).duplicate() as StandardMaterial3D
+	m.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
+	q.material = m
+	return q
+
+
+## The kingdom's weather round its keep: Ice snow, Fire embers and a smoke plume, Nature drifting leaves and
+## pollen, Shadow rising wisps. Amount share per tier: Medium about a third, High most, Ultra all.
+func _build_landmark_weather(kd: StringName, top: Vector3, radius: float) -> void:
+	var ratios := PackedFloat32Array([0.0, 0.35, 0.8, 1.0])
+	var c: Color = GLOW[kd]
+	var hot := Color(c.r * 2.4, c.g * 2.4, c.b * 2.4, 1.0)
+	var pr := ParticleProcessMaterial.new()
+	var p: GPUParticles3D
+	match kd:
+		&"ice":
+			p = _particles_node("Weather_Ice", 100, 10.0, top + Vector3(0, 13, 0),
+					AABB(Vector3(-16, -18, -16), Vector3(32, 22, 32)))
+			pr.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+			pr.emission_box_extents = Vector3(radius, 1.0, radius)
+			pr.direction = Vector3(0.25, -1, 0.1)
+			pr.spread = 15.0
+			pr.initial_velocity_min = 1.2
+			pr.initial_velocity_max = 1.9
+			pr.gravity = Vector3(0, -0.05, 0)
+			pr.turbulence_enabled = true
+			pr.turbulence_noise_strength = 1.2
+			pr.turbulence_noise_scale = 6.0
+			pr.turbulence_influence_min = 0.05
+			pr.turbulence_influence_max = 0.15
+			pr.scale_min = 0.7
+			pr.scale_max = 1.3
+			pr.color_ramp = _fade_ramp(Color(1.5, 1.7, 2.0, 1.0))
+			p.draw_pass_1 = _particle_draw_mesh(0.42)
+		&"fire":
+			p = _particles_node("Weather_Fire", 90, 6.0, top + Vector3(0, 6, 0),
+					AABB(Vector3(-14, -4, -14), Vector3(28, 34, 28)))
+			pr.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
+			pr.emission_sphere_radius = 6.0
+			pr.direction = Vector3(0.2, 1, -0.1)
+			pr.spread = 25.0
+			pr.initial_velocity_min = 1.5
+			pr.initial_velocity_max = 3.6
+			pr.gravity = Vector3(0.25, 0.2, -0.1)
+			pr.turbulence_enabled = true
+			pr.turbulence_noise_strength = 1.5
+			pr.turbulence_noise_scale = 4.0
+			pr.turbulence_influence_min = 0.05
+			pr.turbulence_influence_max = 0.2
+			pr.scale_min = 0.5
+			pr.scale_max = 1.2
+			pr.color_ramp = _fade_ramp(Color(3.2, 1.3, 0.35, 1.0))
+			p.draw_pass_1 = _particle_draw_mesh(0.38)
+			_build_smoke(top)
+		&"nature":
+			p = _particles_node("Weather_Nature", 110, 9.0, top + Vector3(0, 9, 0),
+					AABB(Vector3(-18, -12, -18), Vector3(36, 26, 36)))
+			pr.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+			pr.emission_box_extents = Vector3(radius * 0.7, 6.0, radius * 0.7)
+			pr.direction = Vector3(0.4, -0.3, 0.2)
+			pr.spread = 60.0
+			pr.initial_velocity_min = 0.3
+			pr.initial_velocity_max = 0.9
+			pr.gravity = Vector3(0.1, -0.12, 0.05)
+			pr.turbulence_enabled = true
+			pr.turbulence_noise_strength = 1.4
+			pr.turbulence_noise_scale = 5.0
+			pr.turbulence_influence_min = 0.08
+			pr.turbulence_influence_max = 0.2
+			pr.scale_min = 0.6
+			pr.scale_max = 1.2
+			pr.color_ramp = _fade_ramp(Color(1.9, 2.2, 0.7, 1.0))
+			p.draw_pass_1 = _particle_draw_mesh(0.36)
+		_:
+			p = _particles_node("Weather_Shadow", 70, 7.5, top + Vector3(0, 1.0, 0),
+					AABB(Vector3(-14, -2, -14), Vector3(28, 26, 28)))
+			pr.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_RING
+			pr.emission_ring_axis = Vector3.UP
+			pr.emission_ring_radius = radius * 0.55
+			pr.emission_ring_inner_radius = radius * 0.25
+			pr.emission_ring_height = 0.5
+			pr.direction = Vector3.UP
+			pr.spread = 10.0
+			pr.initial_velocity_min = 0.8
+			pr.initial_velocity_max = 1.6
+			pr.gravity = Vector3(0, 0.15, 0)
+			pr.tangential_accel_min = 0.2
+			pr.tangential_accel_max = 0.6
+			pr.scale_min = 0.6
+			pr.scale_max = 1.4
+			pr.color_ramp = _fade_ramp(hot)
+			p.draw_pass_1 = _particle_draw_mesh(0.9)
+	p.process_material = pr
+	_add_part(_dressing, p, TIER_MEDIUM, ratios)
+
+
+## The Fire keep's forge smoke: a slow plume of big soft quads leaning with the wind, lit warm from below.
+func _build_smoke(top: Vector3) -> void:
+	var p := _particles_node("Smoke_Fire", 22, 16.0, top + Vector3(0, 12, 0),
+			AABB(Vector3(-10, -2, -16), Vector3(36, 40, 26)))
+	var pr := ParticleProcessMaterial.new()
+	pr.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
+	pr.emission_sphere_radius = 1.5
+	pr.direction = Vector3(0, 1, 0)
+	pr.spread = 12.0
+	pr.initial_velocity_min = 1.2
+	pr.initial_velocity_max = 1.8
+	pr.gravity = Vector3(0.35, 0.05, -0.25)
+	pr.damping_min = 0.02
+	pr.damping_max = 0.05
+	pr.scale_min = 0.8
+	pr.scale_max = 1.2
+	var sc := Curve.new()
+	sc.add_point(Vector2(0.0, 0.35))
+	sc.add_point(Vector2(1.0, 1.0))
+	var sct := CurveTexture.new()
+	sct.curve = sc
+	pr.scale_curve = sct
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 0.15, 0.6, 1.0])
+	g.colors = PackedColorArray([Color(0.55, 0.28, 0.2, 0.0), Color(0.42, 0.26, 0.26, 0.42),
+			Color(0.3, 0.22, 0.28, 0.28), Color(0.28, 0.22, 0.3, 0.0)])
+	var gt := GradientTexture1D.new()
+	gt.gradient = g
+	pr.color_ramp = gt
+	p.process_material = pr
+	p.draw_pass_1 = _particle_mix_mesh(7.0)
+	_add_part(_dressing, p, TIER_MEDIUM, PackedFloat32Array([0.0, 0.6, 1.0, 1.0]))
+
+
+## Round each wizard in the plaza, a little of its kingdom's weather (High+): Vessa embers, Torvald snow, Ysolde
+## leaves, Malrik wisps. Small, close, cheap (24 particles each).
+func _build_wizard_weather(kd: StringName, at: Vector3) -> void:
+	var c: Color = GLOW[kd]
+	var p := _particles_node("WizardWeather_%s" % LANDMARK_NAMES[kd], 24, 5.0, Vector3(at.x, 0.0, at.z),
+			AABB(Vector3(-3, -5, -3), Vector3(6, 10, 6)))
+	var pr := ParticleProcessMaterial.new()
+	pr.turbulence_enabled = true
+	pr.turbulence_noise_strength = 0.8
+	pr.turbulence_noise_scale = 2.5
+	pr.turbulence_influence_min = 0.05
+	pr.turbulence_influence_max = 0.15
+	pr.scale_min = 0.6
+	pr.scale_max = 1.2
+	var size := 0.1
+	match kd:
+		&"ice":
+			pr.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+			pr.emission_box_extents = Vector3(2.2, 0.2, 2.2)
+			p.position.y = 4.2
+			pr.direction = Vector3(0.2, -1, 0)
+			pr.spread = 20.0
+			pr.initial_velocity_min = 0.6
+			pr.initial_velocity_max = 1.0
+			pr.color_ramp = _fade_ramp(Color(1.6, 1.8, 2.1, 1.0))
+			size = 0.08
+		&"nature":
+			pr.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+			pr.emission_box_extents = Vector3(2.0, 0.6, 2.0)
+			p.position.y = 2.8
+			pr.direction = Vector3(0.3, -0.5, 0.2)
+			pr.spread = 70.0
+			pr.initial_velocity_min = 0.15
+			pr.initial_velocity_max = 0.45
+			pr.gravity = Vector3(0, -0.15, 0)
+			pr.color_ramp = _fade_ramp(Color(1.7, 2.1, 0.6, 1.0))
+			size = 0.09
+		_:
+			pr.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_RING
+			pr.emission_ring_axis = Vector3.UP
+			pr.emission_ring_radius = 1.6
+			pr.emission_ring_inner_radius = 0.8
+			pr.emission_ring_height = 0.1
+			p.position.y = 0.2
+			pr.direction = Vector3.UP
+			pr.spread = 15.0
+			pr.initial_velocity_min = 0.4
+			pr.initial_velocity_max = 0.9
+			pr.tangential_accel_min = 0.2
+			pr.tangential_accel_max = 0.5
+			pr.color_ramp = _fade_ramp(Color(c.r * 2.8, c.g * 2.8, c.b * 2.8, 1.0))
+			size = 0.11 if kd == &"fire" else 0.2
+	p.process_material = pr
+	p.draw_pass_1 = _particle_draw_mesh(size)
+	_add_part(_dressing, p, TIER_HIGH, PackedFloat32Array([0.0, 0.0, 1.0, 1.0]))
+
+
+## A flat "M" glider: a narrow body on Z, the wings along X with a raised elbow (unshaded, so no normals needed).
+func _bird_mesh(span: float) -> ArrayMesh:
+	var h := span * 0.5
+	var v := PackedVector3Array()
+	for sgn: float in [-1.0, 1.0]:
+		var root_f := Vector3(0.0, 0.0, 0.16 * h)
+		var root_b := Vector3(0.0, 0.0, -0.22 * h)
+		var elbow := Vector3(sgn * 0.45 * h, 0.07 * h, 0.06 * h)
+		var elbow_b := Vector3(sgn * 0.42 * h, 0.06 * h, -0.12 * h)
+		var tip := Vector3(sgn * h, -0.02 * h, -0.2 * h)
+		v.append_array(PackedVector3Array([root_f, elbow, root_b, elbow, elbow_b, root_b, elbow, tip, elbow_b]))
+	v.append_array(PackedVector3Array([Vector3(0, 0, -0.22 * h), Vector3(-0.1 * h, 0, -0.42 * h),
+			Vector3(0.1 * h, 0, -0.42 * h)]))
+	var arr := []
+	arr.resize(Mesh.ARRAY_MAX)
+	arr[Mesh.ARRAY_VERTEX] = v
+	var m := ArrayMesh.new()
+	m.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+	return m
+
+
+## Dusk birds wheeling over the far forest (Medium+), a second, higher flock at Ultra.
+func _build_birds() -> void:
+	var flocks: Array[Dictionary] = [
+		{"centre": Vector3(-24.0, 17.0, -38.0), "count": 7, "r": Vector2(7.0, 15.0), "tier": TIER_MEDIUM, "seed": 5},
+		{"centre": Vector3(4.0, 24.0, -46.0), "count": 5, "r": Vector2(10.0, 18.0), "tier": TIER_ULTRA, "seed": 9},
+	]
+	var mesh := _bird_mesh(1.7)
+	for f: Dictionary in flocks:
+		var rng := RandomNumberGenerator.new()
+		rng.seed = int(f["seed"])
+		var mm := MultiMesh.new()
+		mm.transform_format = MultiMesh.TRANSFORM_3D
+		mm.use_custom_data = true
+		mm.mesh = mesh
+		mm.instance_count = int(f["count"])
+		var rr: Vector2 = f["r"]
+		var dir := 1.0 if rng.randf() < 0.5 else -1.0
+		for i: int in mm.instance_count:
+			var radius := rng.randf_range(rr.x, rr.y)
+			mm.set_instance_transform(i, Transform3D(Basis.IDENTITY,
+					Vector3(rng.randf_range(-3, 3), rng.randf_range(-2.5, 2.5), rng.randf_range(-3, 3))))
+			# One direction per flock, ~2-3 m/s along the circle.
+			mm.set_instance_custom_data(i, Color(radius, dir * rng.randf_range(2.0, 3.0) / radius,
+					rng.randf() * TAU, rng.randf_range(0.6, 1.6)))
+		var mmi := MultiMeshInstance3D.new()
+		mmi.name = "Birds_%d" % int(f["seed"])
+		mmi.multimesh = mm
+		mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mmi.custom_aabb = AABB(Vector3(-24, -6, -24), Vector3(48, 12, 48))
+		var mat := ShaderMaterial.new()
+		mat.shader = BIRD_SHADER
+		mat.set_shader_parameter(&"anim_time", _time)
+		mmi.material_override = mat
+		_bird_mats.append(mat)
+		mmi.position = f["centre"]
+		_add_part(_dressing, mmi, int(f["tier"]))
+
+
+## A still pond in the right foreground mirroring the sunset (Medium+), with clumps of reeds on its shore.
+func _build_pond() -> void:
+	var pond := MeshInstance3D.new()
+	pond.name = "Pond"
+	var pm := PlaneMesh.new()
+	pm.size = pond_size
+	var mat := ShaderMaterial.new()
+	mat.shader = POND_SHADER
+	if ResourceLoader.exists(NOISE_TEX):
+		mat.set_shader_parameter(&"noise_tex", load(NOISE_TEX))
+	if _sun:
+		mat.set_shader_parameter(&"sun_dir", _sun.global_transform.basis.z)   # toward the sun
+	mat.set_shader_parameter(&"pond_radius", minf(pond_size.x, pond_size.y) * 0.5 * 0.85)
+	if _crown:
+		mat.set_shader_parameter(&"crown_pos", _crown.global_position)
+	pm.material = mat
+	pond.mesh = pm
+	pond.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	pond.position = pond_center
+	pond.rotation.y = deg_to_rad(pond_yaw_deg)
+	_add_part(_dressing, pond, TIER_MEDIUM)
+	# Reeds: thin blades in clumps round the shore (one MultiMesh).
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7731
+	var xf: Array[Transform3D] = []
+	for clump: int in 7:
+		# Clumps at the two ends of the pond (its long local X axis) and one on the far shore: the middle of the
+		# mirror stays open to the camera.
+		var a := rng.randf_range(-0.6, 0.6) + (PI if clump % 2 == 1 else 0.0)
+		if clump == 6:
+			a = -PI * 0.5 + rng.randf_range(-0.3, 0.3)
+		var e := Vector2(cos(a) * pond_size.x * 0.4, sin(a) * pond_size.y * 0.4)
+		for b: int in rng.randi_range(5, 9):
+			var o := e + Vector2(rng.randf_range(-0.5, 0.5), rng.randf_range(-0.5, 0.5))
+			var s := rng.randf_range(0.45, 0.85)
+			var bs := Basis(Vector3.UP, rng.randf() * TAU) * Basis(Vector3.RIGHT, rng.randf_range(-0.2, 0.2))
+			xf.append(Transform3D(bs.scaled(Vector3(s, s * rng.randf_range(0.8, 1.4), s)), Vector3(o.x, 0, o.y)))
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.mesh = _reed_mesh()
+	mm.instance_count = xf.size()
+	for i: int in xf.size():
+		mm.set_instance_transform(i, xf[i])
+	var reeds := MultiMeshInstance3D.new()
+	reeds.name = "Reeds"
+	reeds.multimesh = mm
+	reeds.position = pond_center
+	reeds.rotation.y = deg_to_rad(pond_yaw_deg)
+	_add_part(_dressing, reeds, TIER_MEDIUM)
+
+
+## One reed: three tapered blades and a dark seed head (vertex colours, lit).
+func _reed_mesh() -> ArrayMesh:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var base := Color(0.16, 0.2, 0.08)
+	var tip := Color(0.55, 0.5, 0.22)
+	for k: int in 3:
+		var a := TAU * float(k) / 3.0 + 0.3
+		var d := Vector3(cos(a), 0, sin(a))
+		var side := Vector3(-d.z, 0, d.x) * 0.035
+		var lean := d * 0.25
+		var h := 1.0 + 0.25 * float(k)
+		st.set_color(base)
+		st.add_vertex(-side)
+		st.set_color(base)
+		st.add_vertex(side)
+		st.set_color(tip)
+		st.add_vertex(lean + Vector3(0, h, 0))
+	var head := Color(0.22, 0.12, 0.07)
+	var hp := Vector3(0, 1.25, 0)
+	for k: int in 3:
+		var a0 := TAU * float(k) / 3.0
+		var a1 := TAU * float(k + 1) / 3.0
+		st.set_color(head)
+		st.add_vertex(hp + Vector3(cos(a0) * 0.04, 0, sin(a0) * 0.04))
+		st.set_color(head)
+		st.add_vertex(hp + Vector3(cos(a1) * 0.04, 0, sin(a1) * 0.04))
+		st.set_color(head)
+		st.add_vertex(hp + Vector3(0, 0.22, 0))
+	st.generate_normals()
+	var m := StandardMaterial3D.new()
+	m.vertex_color_use_as_albedo = true
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	m.roughness = 0.9
+	var mesh := st.commit()
+	mesh.surface_set_material(0, m)
+	return mesh

@@ -20,6 +20,7 @@ var _tag := "shot"
 var _shots: Array[String] = []
 var _gpu := true
 var _size := Vector2i(1600, 900)
+var _out := "res://docs/art/screens"
 var _vp: SubViewport
 var _dio: Node3D
 var _menu: Control
@@ -39,6 +40,12 @@ func _initialize() -> void:
 		elif arg.begins_with("size="):
 			var wh := arg.substr(5).split("x")
 			_size = Vector2i(int(wh[0]), int(wh[1]))
+		elif arg.begins_with("out="):
+			_out = arg.substr(4).trim_suffix("/")
+	# G-D menu: the tier the diorama reads (--gfx=, else Low in this -s run) goes in the file names.
+	var q := GameSettings.effective_graphics_quality()
+	_tag += "_" + GameSettings.GFX_IDS[q]
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	_vp = SubViewport.new()
 	_vp.size = _size
 	_vp.msaa_3d = Viewport.MSAA_2X   # project setting of the root viewport
@@ -70,7 +77,9 @@ func _hide_backdrop() -> void:
 	if _menu == null:
 		return
 	for c: Node in _menu.get_children():
-		if c is MenuBackdrop:
+		# The menu's own diorama (its SubViewportContainer) too: the shots drive this script's diorama, and two
+		# dioramas would double the measured GPU time.
+		if c is MenuBackdrop or c is SubViewportContainer:
 			(c as Control).visible = false
 
 
@@ -120,7 +129,7 @@ func _run() -> void:
 			await process_frame
 		await RenderingServer.frame_post_draw
 		var img: Image = _vp.get_texture().get_image()
-		var path := "res://docs/art/screens/menu_diorama_%s_%dx%d_%s.png" % [_tag, _size.x, _size.y, s]
+		var path := "%s/menu_diorama_%s_%dx%d_%s.png" % [_out, _tag, _size.x, _size.y, s]
 		img.save_png(ProjectSettings.globalize_path(path))
 		print("saved %s (%dx%d)" % [path, img.get_width(), img.get_height()])
 	quit()
@@ -208,11 +217,13 @@ func _probe(shot: String) -> void:
 	var cpu := 0.0
 	var worst := 0.0
 	var n := 240
+	var t0 := Time.get_ticks_usec()
 	for i in n:
 		await process_frame
 		var g := RenderingServer.viewport_get_measured_render_time_gpu(rid)
 		gpu += g
 		worst = maxf(worst, g)
 		cpu += RenderingServer.viewport_get_measured_render_time_cpu(rid)
-	print("GPU %s %dx%d: avg %.2f ms, worst %.2f ms (render cpu %.2f ms)" % [shot, _size.x, _size.y, gpu / n,
-			worst, cpu / n])
+	var fps := float(n) / maxf(float(Time.get_ticks_usec() - t0) / 1000000.0, 0.001)
+	print("GPU %s %dx%d: avg %.2f ms, worst %.2f ms (render cpu %.2f ms), %.0f fps (vsync off, whole window)" % [
+			shot, _size.x, _size.y, gpu / n, worst, cpu / n, fps])
