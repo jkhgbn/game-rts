@@ -1,38 +1,38 @@
-# Notes de playtest — 13 octobre 2026 (version `playtest-2026-10-13-3`)
+# Four Wizards — build du 14 octobre 2026 au soir (tag playtest-2026-10-14-5)
 
-## Comment jouer
-- `FourWizards-2026-10-13.zip` sur le Bureau et dans OneDrive : décompresse, puis double-clic sur **`Jouer.bat`**
-  (lance `FourWizards.exe` avec `FourWizards.pck`). RTX 3070 en « Performances élevées », chargeur branché.
-- Pourquoi un `.pck` et pas un seul `.exe` : les modèles d'export de Godot 4.7.2 manquent sur ce PC. Le jeu tourne
-  avec le moteur Godot officiel renommé `FourWizards.exe` + le paquet du jeu. Aucun téléchargement n'a été fait ;
-  les modèles peuvent être réinstallés plus tard avec ton OK (un vrai `.exe` unique, plus léger).
-- Les réglages et les sauvegardes sont les mêmes que le jeu de développement (même dossier utilisateur).
+Double-clic sur **FourWizards.exe** (un vrai .exe maintenant ; garde le fichier .dll à côté).
 
-## Nouveau depuis le dernier playtest
-### Revue complète du code (scripts/) et ses corrections
-- Bots : les bugs trouvés par la revue des bots sont corrigés (constructions bloquées, routes de commerce, lanceurs de sorts, champions,
-  sauvegarde des bots). Vessa (bot) refait son Pas de braise pour fuir à 25 % de PV.
-- Jeu : unités poussées hors des bâtiments sans perdre leurs ordres, modificateurs de stats qui ne soignent plus
-  par erreur, Mère Hush n'annule plus les ordres de ceux qui l'attaquent (elle leur fait seulement lâcher la cible).
-- Interface, cinématiques, objets, bâtiments : corrections de la revue (liste dans
-  `docs/handoff/code-review-2026-10-12.md`).
-### Sauvegardes dans les missions
-- **F12 / Ctrl+F12** marchent maintenant dans toutes les missions des épisodes 1 à 8 : phases, minuteries, alliés,
-  dragons, cloches, etc. sont restaurés. Pendant une cinématique, la sauvegarde est refusée (message).
-### Traduction
-- Les nouveaux textes des missions et des améliorations sont traduits (100 % en jeu).
+**Important :** les zips du 13 et du 14 au matin avaient un bug invisible dans nos tests : les objets, l'inventaire,
+les champions et les assistants ne se chargeaient pas dans le jeu exporté. C'est corrigé ici, et chaque build est
+maintenant vérifié (tous les scripts chargés dans le .exe avant le zip).
 
-## Problèmes connus
-- **Équilibrage, rythme Normal** : Feu gagne trop souvent contre Ombre (≈ 72-75 %, surtout à Crown Hollow).
-  En Blitz c'est correct (Feu 58, Nature 60, Ombre 52), sauf **Glace faible en Blitz** (29 %).
-  Cause : voir docs/balance/b13_2026-10-13/diagnosis.md (le test A/B sur Mère Hush était invalide). À rééquilibrer.
-- **e6m2 (épisode 6, mission 2)** : très dur en difficile, et notre joueur simulé perd parfois aussi en normal (route), même avant les corrections.
-- **e8m3 (mission finale)** : la Frappe de clé de voûte du roi punit les groupes serrés ; Vessa ne régénère pas
-  ses PV, les potions comptent.
-- e3m1, e4m4, e5m4 : nos joueurs simulés échouent encore (déjà avant les corrections) ; les missions elles-mêmes
-  semblent correctes, dis-moi si tu bloques.
+## Nouveau depuis le zip du 14 octobre (matin)
+### Améliorations propres à chaque unité (escarmouche)
+- Les 56 unités de combat des 4 royaumes ont au moins une amélioration (55 nouvelles), achetée dans le bâtiment qui
+  les forme (Hall, Écuries ou donjon). Prix en cristaux, de 75 à 200 selon le tier, une recherche à la fois par bâtiment.
+  Une recherche ne bloque jamais la formation d'unités.
+- Touches : sélectionne le bâtiment, **+** = page de recherche, puis la touche de l'unité = sa page :
+  **Z** = son « + » (rang 3), **X C V B** = ses améliorations. Rappuyer sur une recherche en cours = l'annuler
+  (remboursée). Échap = page précédente.
+- Effets variés : épines, dégâts en zone, poison, bouclier de combat, aura de meute, sorts plus forts pour les lanceurs,
+  capacités des T3 renforcées…
+- Les 3 améliorations d'unité de la Forge y ont déménagé ; la Forge garde Armes, Armure et l'amélioration du royaume.
+- Les améliorations des archers sont enfin achetables.
+- Le bot achète aussi ses améliorations selon son armée.
+
+### Musique
+- 13 nouveaux morceaux d'orchestre (vrais instruments, sans chant) : un thème par royaume, une marche neutre, Wave
+  Strike, boss, carte de campagne, taverne, chant de fin, victoire et défaite.
+- En partie : ton thème d'abord, puis au hasard entre les 4 thèmes et la marche (le tien plus souvent, jamais deux
+  fois de suite). Des tambours montent quand l'ennemi attaque ta base ou ton sorcier.
+- Musique au menu et sur la carte de campagne, musique de boss en mission ; elle se coupe pendant les cinématiques.
+- Les missions ont enfin leurs bruitages (il n'y en avait pas).
 
 ## Dis-moi
-- Les sauvegardes en mission : sauvegarde / recharge au milieu d'une mission, tout revient comme avant ?
-- Les bots te paraissent-ils plus solides (moins de bases figées, d'armées qui tournent en rond) ?
-- Feu contre Ombre en Normal : tu sens l'écart ?
+- Les améliorations : trop chères, trop faibles, trop fortes ? Les touches + / unité / Z X C V B sont-elles claires ?
+- La musique dans le jeu : le volume, la rotation, les tambours de combat.
+
+## Problèmes connus
+- Feu bat encore Ombre en Normal (~70 %) ; Blitz équilibré. Les nouvelles améliorations ne sont pas encore équilibrées
+  (mesure bot contre bot en cours).
+- e6m2 très dur en difficile ; e3m1, e4m4, e5m4 : nos joueurs simulés échouent encore.
