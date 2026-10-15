@@ -802,3 +802,21 @@ Ask: in `ForgeBuilding` do what market.gd does before the visual is built (`if m
 model_scene = building_type.get_model_scene()`), or set `model_scene` in `ice_forge.tres`. The other kingdoms keep the
 placeholder until their own forge scene exists (get_model_scene returns null for a missing file). Test: `tests/test_gb_ice.gd`
 already checks the model's hooks and that `ice_forge.tres` finds it.
+
+# Graphics week G-D (2026-10-15, from gameplay-coder): buildings' ring + HP bar = the units' new look
+Units now use shared shaders in `scripts/units/fx/` (`selection_ring.gdshader`, `hp_bar.gdshader`) through the static
+`UnitFx` (`scripts/units/fx/unit_fx.gd`). One material per colour / style / tier, per-unit values as instance uniforms.
+Ask: in `scripts/buildings/building.gd` replace the torus + StandardMaterial3D and the inline `_hp_shader` with:
+- Ring (`_build_ring`): `_ring.mesh = UnitFx.ring_mesh(rr)`, `_ring.material_override = UnitFx.ring_material(
+  relation_color(int(team), false), false, GameSettings.effective_graphics_quality())`,
+  `_ring.set_instance_shader_parameter(&"ring_radius", rr)`, `_ring.position.y = 0.06`, no scale. The band is drawn
+  from rr + 0.20 to rr + 0.32, so `rr = r - 0.26` keeps today's band centre (r = size.length() / 2 + 0.3).
+- Bar (`_build_hp_bar`): `var size := Vector2(maxf(1.6, s.x * 0.8), 0.22)`, `_hp_mat = UnitFx.bar_material(
+  relation_color(int(team), true), false, {"color": Color.BLACK, "frame": 0.0}, GameSettings.effective_graphics_quality())`,
+  `_hp_bar.mesh = UnitFx.bar_mesh(size)`, `_hp_bar.set_instance_shader_parameter(&"bar_size", size)`.
+  `_hp_shader` can become `UnitFx.bar_shader()` (note: the unit bar is `depth_test_disabled`, the building one is not today).
+- `_update_hp_bar`: never `_hp_mat.set_shader_parameter` (the material is shared). Instead, only when it changes:
+  `_hp_bar.set_instance_shader_parameter(&"fill", f)`, `&"shield_end"` = `f` (no shield), `&"tick_step"` =
+  `UnitFx.tick_step(max_hp, max_hp)` (100 HP ticks at High+, buildings all qualify). Recent-damage trail: when `f`
+  drops, `trail_from = maxf(UnitFx.trail_value(trail_from, old_f, trail_t0, now), old_f)`, `trail_t0 = UnitFx.now()`,
+  set both instance params, then `UnitFx.start_trail(self)`. Reference: `Unit._update_hp_bar` in scripts/units/unit.gd.

@@ -275,7 +275,14 @@ var _visual: Node3D
 var _body_mat: StandardMaterial3D
 var _ring: MeshInstance3D
 var _hp_bar: MeshInstance3D
-var _hp_mat: ShaderMaterial
+var _hp_mat: ShaderMaterial      # the SHARED bar material (UnitFx.bar_material): never set per-unit values on it
+var _gfx_tier := 0               # GameSettings.effective_graphics_quality() read once in _ready (ring / bar look)
+var _bar_fill := -1.0            # last values sent to the bar's instance uniforms (-1 = none yet)
+var _bar_shield := -1.0
+var _bar_ticks := -1.0
+var _trail_from := 0.0           # recent-damage trail (hp_bar.gdshader): fill before the hit, UnitFx.now() at the hit
+var _trail_t0 := -100.0
+var _bar_hp := -1.0              # hp at the last bar update: a trail starts only when hp itself dropped
 
 var _has_move_order := false
 var _attack_move := false        # walking to _attack_move_target, fighting enemies met on the way
@@ -2596,8 +2603,30 @@ func _update_hp_bar() -> void:
 		return
 	# A shield is a white segment after the HP (the bar rescales when HP + shield > max HP).
 	var total := maxf(max_hp, hp + shield)
-	_hp_mat.set_shader_parameter(&"fill", clamp(hp / total, 0.0, 1.0))
-	_hp_mat.set_shader_parameter(&"shield_end", clamp((hp + shield) / total, 0.0, 1.0))
+	var f := clampf(hp / total, 0.0, 1.0)
+	var se := clampf((hp + shield) / total, 0.0, 1.0)
+	var ticks := UnitFx.tick_step(max_hp, total)
+	# Instance uniforms on the shared material, sent only when they change (regen calls this every frame).
+	# A hit: the white trail starts at what the bar showed. Only when hp itself dropped (a max_hp gain without heal
+	# lowers the fill too, and is no damage).
+	var hit := hp < _bar_hp - 0.01
+	_bar_hp = hp
+	if hit and f < _bar_fill - 0.002 and not _dead:
+		var now := UnitFx.now()
+		_trail_from = maxf(UnitFx.trail_value(_trail_from, _bar_fill, _trail_t0, now), _bar_fill)
+		_trail_t0 = now
+		_hp_bar.set_instance_shader_parameter(&"trail_from", _trail_from)
+		_hp_bar.set_instance_shader_parameter(&"trail_t0", _trail_t0)
+		UnitFx.start_trail(self)
+	if f != _bar_fill:
+		_bar_fill = f
+		_hp_bar.set_instance_shader_parameter(&"fill", f)
+	if se != _bar_shield:
+		_bar_shield = se
+		_hp_bar.set_instance_shader_parameter(&"shield_end", se)
+	if ticks != _bar_ticks:
+		_bar_ticks = ticks
+		_hp_bar.set_instance_shader_parameter(&"tick_step", ticks)
 	_hp_bar.visible = not _dead and (selected or hp < max_hp or shield > 0.0 or _hp_bar_always_visible())
 
 
@@ -2694,68 +2723,33 @@ func _build_model() -> void:
 
 
 func _build_selection_ring() -> void:
+	# A flat ground quad with a shared material per team colour (scripts/units/fx/selection_ring.gdshader); the band
+	# runs from radius + 0.20 to radius + 0.32 like the old torus. Low = a plain anti-aliased band.
+	_gfx_tier = GameSettings.effective_graphics_quality()
 	_ring = MeshInstance3D.new()
-	var torus := TorusMesh.new()
-	torus.inner_radius = radius + 0.2
-	torus.outer_radius = radius + 0.32
-	torus.rings = 32
-	_ring.mesh = torus
-	_ring.scale = Vector3(1.0, 0.15, 1.0)
-	_ring.position.y = 0.05
-	var mat := StandardMaterial3D.new()
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.albedo_color = team_color(team)
-	_ring.material_override = mat
+	_ring.name = "SelectionRing"
+	_ring.mesh = UnitFx.ring_mesh(radius)
+	_ring.material_override = UnitFx.ring_material(team_color(team), team == Team.PLAYER, _gfx_tier)
+	_ring.set_instance_shader_parameter(&"ring_radius", radius)
+	_ring.position.y = 0.06
 	_ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_ring.visible = false
 	add_child(_ring)
 
 
 func _build_hp_bar() -> void:
+	# Billboard bar with a shared material per fill colour / frame style (scripts/units/fx/hp_bar.gdshader): rounded
+	# bevelled frame, gradient fill, shield segment, recent-damage trail, 100 HP ticks on big units at High+.
 	if _hp_shader == null:
-		_hp_shader = Shader.new()
-		_hp_shader.code = """
-shader_type spatial;
-render_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;
-uniform float fill = 1.0;
-uniform float shield_end = 0.0;
-uniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);
-uniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);
-// Frame (UV fractions): soldiers a thin black one; champions a gold one with a black inner line (9.C10).
-uniform vec4 frame_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-uniform vec2 frame_size = vec2(0.02, 0.12);
-uniform vec2 inner_size = vec2(0.0, 0.0);
-void vertex() {
-	// Always face the camera (billboard).
-	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
-}
-void fragment() {
-	bool border = UV.x < frame_size.x || UV.x > 1.0 - frame_size.x || UV.y < frame_size.y || UV.y > 1.0 - frame_size.y;
-	vec2 ie = frame_size + inner_size;
-	bool inner = UV.x < ie.x || UV.x > 1.0 - ie.x || UV.y < ie.y || UV.y > 1.0 - ie.y;
-	vec4 c = border ? frame_color : (inner ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color
-			: (UV.x < shield_end ? vec4(1.0, 1.0, 1.0, 1.0) : back_color)));
-	ALBEDO = c.rgb;
-	ALPHA = c.a;
-}
-"""
-	_hp_mat = ShaderMaterial.new()
-	_hp_mat.shader = _hp_shader
-	_hp_mat.set_shader_parameter("fill_color", team_hp_color(team))
+		_hp_shader = UnitFx.bar_shader()
 	var style := _hp_bar_frame_style()
 	var bar_size := Vector2(max(1.0, radius * 2.6), float(style.get("height", HP_BAR_HEIGHT)))
-	var frame_m := float(style.get("frame", 0.0))
-	if frame_m > 0.0:   # metres -> UV fractions (default: the old 0.02 / 0.12 black frame)
-		var inner_m := float(style.get("inner", 0.0))
-		_hp_mat.set_shader_parameter("frame_color", style.get("color", Color.BLACK))
-		_hp_mat.set_shader_parameter("frame_size", Vector2(frame_m / bar_size.x, frame_m / bar_size.y))
-		_hp_mat.set_shader_parameter("inner_size", Vector2(inner_m / bar_size.x, inner_m / bar_size.y))
+	_hp_mat = UnitFx.bar_material(team_hp_color(team), team == Team.PLAYER, style, _gfx_tier)
 	_hp_bar = MeshInstance3D.new()
 	_hp_bar.name = "HPBar"
-	var quad := QuadMesh.new()
-	quad.size = bar_size
-	_hp_bar.mesh = quad
+	_hp_bar.mesh = UnitFx.bar_mesh(bar_size)
 	_hp_bar.material_override = _hp_mat
+	_hp_bar.set_instance_shader_parameter(&"bar_size", bar_size)
 	_hp_bar.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_hp_bar.position.y = body_height + 0.5
 	add_child(_hp_bar)
