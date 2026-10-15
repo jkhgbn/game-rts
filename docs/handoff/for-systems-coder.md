@@ -789,3 +789,16 @@ does nothing headless or at Low, and MapDressingArt's own call then finds the sa
 
 It must run after `_build_map()` (the ground material holds the river / road / biome uniforms by then); it bakes the
 ground top-down 3 frames later. Thornwater check: `art/environment/grass/g2a_shots.gd '--' --map=thornwater --gfx=high`.
+
+## G-B Ice (tech-artist, 2026-10-15): Frost Forge model is ready, the Forge never loads it
+**DONE (systems-coder, 2026-10-15):** `Building._ready` now takes `building_type.get_model_scene()` (model_scene, else
+model_path once the file exists) for every building; market.gd's own copy removed. `tests/test_forge_model.gd`.
+`art/buildings/forge/ice/ice_forge.tscn` (FrostForgeModel, FireHallModel hooks: set_team_color, set_construction_progress,
+set_health_ratio, play_training_pulse, play_destroyed -> destroyed_finished, set_selected) is the path that
+`data/buildings/ice_forge.tres` already names in `model_path`. But `Building._ready` only reads
+`building_type.model_scene`; `Market` (market.gd 55) falls back to `building_type.get_model_scene()` (model_scene, else
+model_path when the file exists), `ForgeBuilding` does not, so every Forge still shows the placeholder boxes.
+Ask: in `ForgeBuilding` do what market.gd does before the visual is built (`if model_scene == null and building_type:
+model_scene = building_type.get_model_scene()`), or set `model_scene` in `ice_forge.tres`. The other kingdoms keep the
+placeholder until their own forge scene exists (get_model_scene returns null for a missing file). Test: `tests/test_gb_ice.gd`
+already checks the model's hooks and that `ice_forge.tres` finds it.

@@ -138,8 +138,8 @@ func _ready() -> void:
 		_hp_mult = _team_hp_mult()
 		if _hp_mult != 1.0:
 			max_hp = roundf(max_hp * _hp_mult)
-		if model_scene == null:
-			model_scene = building_type.model_scene
+		if model_scene == null:   # model_scene, else model_path once the file exists (null = placeholder shapes)
+			model_scene = building_type.get_model_scene()
 		if team_color.a == 0.0:
 			team_color = building_type.color
 	hp = max_hp * (START_HP_RATIO + (1.0 - START_HP_RATIO) * _progress)

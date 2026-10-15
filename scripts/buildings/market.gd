@@ -51,9 +51,7 @@ var _link_left := 0.0
 
 
 func _ready() -> void:
-	# BuildingType.model_scene names the kingdom's Bazaar model; model_path is the fallback (get_model_scene).
-	if model_scene == null and building_type:
-		model_scene = building_type.get_model_scene()
+	# Building._ready picks the kingdom's Bazaar model (BuildingType.get_model_scene: model_scene, else model_path).
 	super()
 	add_to_group(GROUP)
 	_link_trade_signals()
