@@ -84,7 +84,8 @@ static func is_team(mat: Material) -> bool:
 	if mat == null:
 		return false
 	var nm := mat.resource_path.get_file().get_basename()
-	return nm.ends_with("_cloth") or nm.ends_with("_cloth_dark") or nm.ends_with("_cape") 		or nm.ends_with("_cape_plain") or nm.ends_with("_pennon")
+	return nm.ends_with("_cloth") or nm.ends_with("_cloth_dark") or nm.ends_with("_cape") \
+		or nm.ends_with("_cape_plain") or nm.ends_with("_pennon")
 
 
 ## Palette index of a painted material (added on first use; -1 when the palette is full).

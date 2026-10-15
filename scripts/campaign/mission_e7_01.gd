@@ -648,7 +648,8 @@ func _on_enemy_wizard_died(_u: Unit, w: Wizard) -> void:
 ## The enemy wizards come back 60 s after their fall (a named timer: saving stays allowed, review 2026-10-10 #8).
 func _enemy_wizards_back() -> void:
 	for w: Wizard in [vessa, ysolde]:
-		if w and is_instance_valid(w) and not w.is_alive() and not is_ending() 				and mission_time() >= float(w.get_meta(&"e7_back_at", 0.0)) - 0.05:
+		if w and is_instance_valid(w) and not w.is_alive() and not is_ending() \
+				and mission_time() >= float(w.get_meta(&"e7_back_at", 0.0)) - 0.05:
 			w.respawn(VESSA_KEEP if w == vessa else YSOLDE_KEEP)
 			w.command_move(VESSA_RALLY if w == vessa else YSOLDE_RALLY)
 			_retreating[w] = true

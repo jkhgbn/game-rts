@@ -190,12 +190,14 @@ func _check_after_restore() -> String:
 
 
 func _check_pending_applied(c: Commander) -> String:
-	if c.attacks_launched != 5 or not is_equal_approx(c.first_attack_time, 222.0) or c.worker_losses != 3 			or c.items.build_index != 1:
+	if c.attacks_launched != 5 or not is_equal_approx(c.first_attack_time, 222.0) or c.worker_losses != 3 \
+			or c.items.build_index != 1:
 		return "pending state not applied: attacks %d first %.0f losses %d items %d" % [c.attacks_launched,
 				c.first_attack_time, c.worker_losses, c.items.build_index]
 	var map: Dictionary = c.get(&"_slot_building")
 	var b: Variant = map.get(StringName(_row_id))
-	if not (b is Building) or not is_instance_valid(b) or not (b as Building).is_inside_tree() 			or (b as Building).global_position.distance_to(_slot_pos) > 2.5:
+	if not (b is Building) or not is_instance_valid(b) or not (b as Building).is_inside_tree() \
+			or (b as Building).global_position.distance_to(_slot_pos) > 2.5:
 		return "row %s not mapped to the rebuilt building (%s)" % [_row_id, str(b)]
 	return ""
 

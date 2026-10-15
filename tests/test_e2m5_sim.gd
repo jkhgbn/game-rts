@@ -337,10 +337,12 @@ func _economy() -> void:
 	if eco.pop_cap - eco.pop_used < 6 and eco.pop_cap < 100 and _hearth_i < HEARTHS.size() and eco.crystals >= 100:
 		_build("fire_hearth", HEARTHS[_hearth_i], workers[0])
 		_hearth_i += 1
-	var halls := Building.for_team(0).filter(func(b: Building) -> bool: return b.is_alive() and b.building_type 			and b.building_type.id == &"fire_barracks").size()
+	var halls := Building.for_team(0).filter(func(b: Building) -> bool: return b.is_alive() and b.building_type \
+			and b.building_type.id == &"fire_barracks").size()
 	if halls < 2 and eco.crystals >= 400 and m.mission_time() > 60.0:
 		_build("fire_barracks", EXTRA_HALLS[0], workers[0])
-	var towers := Building.for_team(0).filter(func(b: Building) -> bool: return b.is_alive() and b.building_type 			and b.building_type.id == &"fire_tower").size()
+	var towers := Building.for_team(0).filter(func(b: Building) -> bool: return b.is_alive() and b.building_type \
+			and b.building_type.id == &"fire_tower").size()
 	if towers < 1 + TOWERS.size() and _tower_i < TOWERS.size() and eco.crystals >= 160 and m.mission_time() > 120.0:
 		_build("fire_tower", TOWERS[_tower_i], workers[0])   # home defence against the raids (W1, Hush, W3)
 		_tower_i += 1
@@ -487,7 +489,8 @@ func _plan() -> void:
 		# A moving target: the Stonehurl lands where she stood 1.6 s earlier (r 2.5), so she steps 4 m side to side.
 		var side := -2.0 if int(m.mission_time() / 1.5) % 2 == 0 else 2.0
 		_hero_to(MissionE2_05.SOUTH_RIM + Vector3(side, 0.0, 1.5), 0.6)
-		if m.vey and is_instance_valid(m.vey) and m.vey.is_alive() and m.vey.attack_target == null 				and MissionBase._flat(m.vey.global_position, hero.global_position) > 6.0:
+		if m.vey and is_instance_valid(m.vey) and m.vey.is_alive() and m.vey.attack_target == null \
+				and MissionBase._flat(m.vey.global_position, hero.global_position) > 6.0:
 			m.vey.command_move(hero.global_position + Vector3(2.0, 0.0, 1.0))
 	elif m.mission_time() - m.wake_time < 35.0:
 		_hero_to(REGROUP + Vector3(0.0, 0.0, 4.0), 3.0)
@@ -533,7 +536,8 @@ func _shoot_boss(ranged: Array, boss: Unit) -> void:
 func _plan_seals() -> void:
 	var m := main
 	_set_phase(&"seals")
-	var near_wake := m.wake >= 94.0 and m.mission_time() >= MissionE2_05.WAKE_FLOOR - 20.0 			or m.mission_time() >= float(m.by_difficulty(MissionE2_05.WAKE_CAP)) - 15.0
+	var near_wake := m.wake >= 94.0 and m.mission_time() >= MissionE2_05.WAKE_FLOOR - 20.0 \
+			or m.mission_time() >= float(m.by_difficulty(MissionE2_05.WAKE_CAP)) - 15.0
 	if near_wake:
 		_army_to(REGROUP, 4.0)
 		if not _retreat:
@@ -549,7 +553,8 @@ func _plan_seals() -> void:
 	var goal: Vector3 = SAFE if id == &"" else MissionE2_05.SEALS[id]
 	var foes := _enemies_near(goal, 14.0).filter(func(u: Unit) -> bool: return u.global_position.z > 2.0)
 	for u in _army():
-		if u.global_position.z < 0.0 and (u.attack_target == null or not is_instance_valid(u.attack_target) 				or (u.attack_target as Node3D).global_position.z < 0.0):
+		if u.global_position.z < 0.0 and (u.attack_target == null or not is_instance_valid(u.attack_target) \
+				or (u.attack_target as Node3D).global_position.z < 0.0):
 			u.command_move(goal + Vector3(randf_range(-3.0, 3.0), 0.0, randf_range(0.0, 4.0)))   # never chase north
 	if not foes.is_empty():
 		_army_to(foes[0].global_position, 3.0)

@@ -630,7 +630,8 @@ func _king_sustain() -> bool:
 			break
 		held += 1
 	var bank := EssenceBank.for_team(Unit.Team.PLAYER)
-	if held == 0 and w.hp < w.max_hp * 0.45 and int(main.get(&"phase")) != 3 and bank != null 			and bank.essence >= dr.total_cost() and not _hurl_pending_near(w.global_position):
+	if held == 0 and w.hp < w.max_hp * 0.45 and int(main.get(&"phase")) != 3 and bank != null \
+			and bank.essence >= dr.total_cost() and not _hurl_pending_near(w.global_position):
 		_phase = "shop"
 		if MissionBase._flat(w.global_position, main.keep.global_position) > 8.0:
 			w.command_move(main.keep.global_position + (MissionE8Muster.keyhole_of(0) - main.keep.global_position).normalized() * 6.0)

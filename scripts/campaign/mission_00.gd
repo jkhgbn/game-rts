@@ -1178,7 +1178,8 @@ func cine_move(tag: StringName, to: Vector3, seconds: float, backwards := false)
 	u.reset_physics_interpolation()
 	var tw := u.create_tween()
 	tw.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tw.tween_method(_cine_place.bind(u), u.global_position, to, seconds).set_trans(Tween.TRANS_SINE) 			.set_ease(Tween.EASE_OUT)
+	tw.tween_method(_cine_place.bind(u), u.global_position, to, seconds).set_trans(Tween.TRANS_SINE) \
+			.set_ease(Tween.EASE_OUT)
 
 
 func cine_face(tag: StringName, at: Vector3) -> void:

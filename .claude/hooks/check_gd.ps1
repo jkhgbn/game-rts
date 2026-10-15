@@ -48,7 +48,7 @@ foreach ($raw in $lines) {
 	}
 	# R6 (2026-10-14, seen twice in one day: game_audio.gd, test_unit_upgrades.gd): a `\` + newline line continuation
 	# lost in an edit leaves a run of tabs in the middle of a line. It still parses, so nothing else catches it.
-	if ($code -match '\S\t{2,}\S') {
+	if ($code -match '\S[ \t]*\t{2,}\S') {
 		$problems.Add("R6 tabs in the middle of a line (a lost '\' line continuation?): put the '\' and the newline back: $($raw.Trim())")
 	}
 }

@@ -1277,4 +1277,5 @@ func _collect(n: Node, holder: Node3D, paint_b: RefCounted, glow_b: RefCounted, 
 
 ## The face kit's material (art/units/kit/face/unit_face.gdshader, face rework 2026-09-28): colour per vertex.
 static func _is_face(mat: Material) -> bool:
-	return mat is ShaderMaterial and (mat as ShaderMaterial).shader != null 		and (mat as ShaderMaterial).shader.resource_path.get_file() == "unit_face.gdshader"
+	return mat is ShaderMaterial and (mat as ShaderMaterial).shader != null \
+		and (mat as ShaderMaterial).shader.resource_path.get_file() == "unit_face.gdshader"

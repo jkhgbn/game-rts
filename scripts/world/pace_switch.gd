@@ -219,7 +219,8 @@ static func apply_resources(blitz_on := false) -> void:
 	for id in WALLS:
 		_edit(BUILDING_DIR, id, &"max_hp", f.call("wall_hp_x", WALL_HP_X))
 	for id in TURRETS:
-		var dmg_x: float = f.call("keep_damage_x", TURRET_DAMAGE_X) if KEEPS.has(id) 				else f.call("turret_damage_x", TURRET_DAMAGE_X)
+		var dmg_x: float = f.call("keep_damage_x", TURRET_DAMAGE_X) if KEEPS.has(id) \
+				else f.call("turret_damage_x", TURRET_DAMAGE_X)
 		_edit(BUILDING_DIR, id, &"attack_damage", dmg_x)
 	if blitz_on:
 		var spells: Dictionary = blitz_value("spell_type_x")

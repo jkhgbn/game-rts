@@ -333,7 +333,8 @@ func _economy() -> void:
 	var busy := _tend_sites(workers)
 	var ridge_v: Variant = m.crystal_nodes.get(&"e3_ridge_w")
 	var ridge := ridge_v as CrystalNode if ridge_v != null and is_instance_valid(ridge_v) and not (ridge_v as CrystalNode).is_depleted() else null
-	var ridge_hall := Building.for_team(0).any(func(b: Building) -> bool: return b.is_alive() and b.is_constructed() 			and b.building_type.id == &"shadow_barracks" and MissionBase._flat(b.global_position, EXPANSION_HALL) < 8.0)
+	var ridge_hall := Building.for_team(0).any(func(b: Building) -> bool: return b.is_alive() and b.is_constructed() \
+			and b.building_type.id == &"shadow_barracks" and MissionBase._flat(b.global_position, EXPANSION_HALL) < 8.0)
 	for i in workers.size():
 		var w := workers[i]
 		if busy.has(w):

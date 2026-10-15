@@ -42,6 +42,7 @@ $cases = @(
 	@{ hook = "check_gd"; want = 2; name = "Events in test"; j = @{ tool_input = @{ file_path = "$root\tests\test_x.gd"; new_string = "`tEvents.unit_died.connect(_on)" } } },
 	@{ hook = "check_gd"; want = 0; name = "Events comment in test"; j = @{ tool_input = @{ file_path = "$root\tests\test_x.gd"; new_string = "# listens to Events.unit_died`nvar ev: Node = get_node_or_null(^`"/root/Events`")" } } },
 	@{ hook = "check_gd"; want = 2; name = "lost line continuation"; j = @{ tool_input = @{ file_path = "$root\scripts\ui\x.gd"; new_string = "`tif a and`t`t`tb:" } } },
+	@{ hook = "check_gd"; want = 2; name = "lost continuation after a space"; j = @{ tool_input = @{ file_path = "$root\scripts\ui\x.gd"; new_string = "`tif a and `t`t`tb:" } } },
 	@{ hook = "check_gd"; want = 0; name = "indent tabs only"; j = @{ tool_input = @{ file_path = "$root\scripts\ui\x.gd"; new_string = "`t`t`tif a and \`n`t`t`t`t`tb:" } } },
 	@{ hook = "check_gd"; want = 0; name = "not gd"; j = @{ tool_input = @{ file_path = "$root\docs\x.md"; new_string = "var target = null" } } }
 )

@@ -154,7 +154,8 @@ func _reload_from(d: Dictionary) -> void:
 
 ## Review 2026-10-10 #5: a hearth site entering the tree during the load must already be a site.
 func _on_node_added(n: Node) -> void:
-	if watch_sites and n is Building and (n as Building).building_type 			and (n as Building).building_type.id == &"fire_hearth" and (n as Building).is_constructed():
+	if watch_sites and n is Building and (n as Building).building_type \
+			and (n as Building).building_type.id == &"fire_hearth" and (n as Building).is_constructed():
 		sites_born_complete += 1
 
 

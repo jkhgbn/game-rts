@@ -510,7 +510,8 @@ func _home_zone_tick(s: int) -> void:
 # Attack-move sides: an idle unit (no target, no order) attack-moves to the nearest enemy (a player's "A-click on the
 # rest of them"), so a fight never stalls on two clumps out of aggro range.
 func _hunt_tick(s: int) -> void:
-	if String((sides[s] as Dictionary).get("order", "")) != "attack_move" 			or not bool((sides[s] as Dictionary).get("hunt", true)):
+	if String((sides[s] as Dictionary).get("order", "")) != "attack_move" \
+			or not bool((sides[s] as Dictionary).get("hunt", true)):
 		return
 	var enemies := living_units(1 - s)
 	if enemies.is_empty():

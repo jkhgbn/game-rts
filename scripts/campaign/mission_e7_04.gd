@@ -531,7 +531,8 @@ func _on_enemy_wizard_died(_u: Unit, w: Wizard) -> void:
 ## The enemy wizards come back 60 s after their fall (a named timer: saving stays allowed, review 2026-10-10 #8).
 func _enemy_wizards_back() -> void:
 	for w: Wizard in [vessa, ysolde]:
-		if w and is_instance_valid(w) and not w.is_alive() and not is_ending() 				and mission_time() >= float(w.get_meta(&"e7_back_at", 0.0)) - 0.05:
+		if w and is_instance_valid(w) and not w.is_alive() and not is_ending() \
+				and mission_time() >= float(w.get_meta(&"e7_back_at", 0.0)) - 0.05:
 			w.respawn(VESSA_KEEP if w == vessa else YSOLDE_KEEP)
 			_guards.append(w)
 			if phase > 1:
@@ -876,7 +877,8 @@ func _on_rock_holder_down(x: Unit) -> void:
 
 func _rock_holders_up() -> void:
 	for x: Unit in [dacian, seraphine]:
-		if x and is_instance_valid(x) and x.is_alive() and is_dormant(x) 				and mission_time() >= float(x.get_meta(&"e7_up_at", 0.0)) - 0.05:
+		if x and is_instance_valid(x) and x.is_alive() and is_dormant(x) \
+				and mission_time() >= float(x.get_meta(&"e7_up_at", 0.0)) - 0.05:
 			x.hp = x.max_hp * 0.5
 			set_dormant(x, false)
 
@@ -1079,7 +1081,8 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 			if u and is_instance_valid(u):
 				guard_life(u, _on_rock_holder_down)
 		for g: Variant in silver.values():
-			if is_instance_valid(g) and g is Building and (g as Building).is_alive() 					and not (g as Building).destroyed.is_connected(_on_silver_sunk):
+			if is_instance_valid(g) and g is Building and (g as Building).is_alive() \
+					and not (g as Building).destroyed.is_connected(_on_silver_sunk):
 				(g as Building).destroyed.connect(_on_silver_sunk)
 
 

@@ -275,9 +275,11 @@ func _economy() -> void:
 	var node := _mine_node()
 	for w in workers:   # idle or on a dry node: back to work
 		var t: Variant = w.get(&"gather_node")
-		if node and not w.call(&"is_building") and (t == null or not is_instance_valid(t) or (t as CrystalNode).is_depleted()) 				and not w.has_move_order():
+		if node and not w.call(&"is_building") and (t == null or not is_instance_valid(t) or (t as CrystalNode).is_depleted()) \
+				and not w.has_move_order():
 			w.call(&"command_gather", node)
-	if eco.pop_cap - eco.pop_used < 4 and eco.pop_cap < 70 and _hearth_i < HEARTHS.size() and eco.crystals >= 100 			and not workers.is_empty():
+	if eco.pop_cap - eco.pop_used < 4 and eco.pop_cap < 70 and _hearth_i < HEARTHS.size() and eco.crystals >= 100 \
+			and not workers.is_empty():
 		_build("fire_hearth", HEARTHS[_hearth_i], workers[0])
 		_hearth_i += 1
 		return
@@ -296,7 +298,8 @@ func _economy() -> void:
 			k.set_rally_node(node)
 	for b in Building.for_team(Unit.Team.PLAYER):
 		var hall := b as TrainingBuilding
-		if hall == null or not hall.is_alive() or not hall.is_constructed() or hall.building_type.id != &"fire_barracks" 				or hall.queue.size() >= 2:
+		if hall == null or not hall.is_alive() or not hall.is_constructed() or hall.building_type.id != &"fire_barracks" \
+				or hall.queue.size() >= 2:
 			continue
 		var want: String = ["flame_guard", "ember_archer", "flame_guard", "ember_archer", "ash_hurler"][_train_i % 5]
 		if hall.queue_unit(UnitType.find(want)) == "":

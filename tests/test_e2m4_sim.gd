@@ -266,7 +266,8 @@ var _sites: Array = []   ## [site, builder]: the builder is never sent back to t
 ## Keeps every site's builder on it (a new builder when it died), so a gather order never steals it.
 func _tend_sites(workers: Array[Unit]) -> Array:
 	var busy: Array = []
-	_sites = _sites.filter(func(r: Array) -> bool: return is_instance_valid(r[0]) and (r[0] as Building).is_alive() 			and not (r[0] as Building).is_constructed())
+	_sites = _sites.filter(func(r: Array) -> bool: return is_instance_valid(r[0]) and (r[0] as Building).is_alive() \
+			and not (r[0] as Building).is_constructed())
 	for r: Array in _sites:
 		var w: Variant = r[1]
 		if w == null or not is_instance_valid(w) or not (w as Unit).is_alive():

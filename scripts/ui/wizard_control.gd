@@ -52,7 +52,8 @@ func _notification(what: int) -> void:
 	# A key released while the window is not focused never arrives: forget every held key.
 	# Same while the tree is paused (pause menu, briefing): this node gets no _input then, so a key
 	# released during the pause would stay "held" after Resume (review 2026-10-08 M1).
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT 			or what == NOTIFICATION_PAUSED or what == NOTIFICATION_UNPAUSED:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT \
+			or what == NOTIFICATION_PAUSED or what == NOTIFICATION_UNPAUSED:
 		_held.clear()
 
 

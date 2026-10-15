@@ -191,7 +191,8 @@ func _m6_sink_cache() -> void:
 # M7: the Wave Strike HUD lines go through Loc and their French exists. WS2.U1 (2026-10-13) moved the buy panel into
 # MusterPanel (the M1 lines "[%s] %s ... pop" / "[%s] Coffer ..." are gone): the top strip stays in wave_strike_hud.gd.
 func _m7_wave_strike() -> void:
-	var src := FileAccess.get_file_as_string("res://scripts/ui/wave_strike/wave_strike_hud.gd") 			+ FileAccess.get_file_as_string("res://scripts/ui/wave_strike/muster_panel.gd")
+	var src := FileAccess.get_file_as_string("res://scripts/ui/wave_strike/wave_strike_hud.gd") \
+			+ FileAccess.get_file_as_string("res://scripts/ui/wave_strike/muster_panel.gd")
 	for msg in ["Crystals %d   ·   +%d / horn", "Supply  %d / %d", "Coffer %d / %d", "Coffers: all %d bought",
 			"%s rising: %d s", "Horn %d in %s", "Ctrl+%s: %s for %d"]:
 		if not src.contains("Loc.t(\"" + msg):

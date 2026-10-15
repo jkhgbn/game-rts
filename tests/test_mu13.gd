@@ -174,7 +174,8 @@ func _process(_delta: float) -> bool:
 				print("  film: silent, track held at %.1f s" % _time_before)
 				_film.call(&"stop")
 			elif t == 200:
-				if bool(md.call(&"is_film_hold")) or md.call(&"current_track") != _track_before 						or float(md.call(&"track_time")) <= _time_before:
+				if bool(md.call(&"is_film_hold")) or md.call(&"current_track") != _track_before \
+						or float(md.call(&"track_time")) <= _time_before:
 					return _fail("after the film: hold %s, track %s t %.2f" % [md.call(&"is_film_hold"),
 							md.call(&"current_track"), md.call(&"track_time")])
 				print("  film over: %s resumed" % _track_before)

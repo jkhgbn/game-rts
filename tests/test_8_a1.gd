@@ -332,7 +332,9 @@ func _nature_tick() -> void:
 func _nature_decided() -> bool:
 	if _n.get("checked") == null:
 		return false
-	return float(_n["hall_at"]) >= 0.0 and float(_n["queued3_at"]) >= 0.0 and _keep_queue_max >= 3 			and bool(_n["gathered"]) and bool(_n["soldier"]) and float(_n["scout_at"]) >= 0.0 and bool(_n["v3_row"]) 			and float(_n["x1_at"]) >= 0.0
+	return float(_n["hall_at"]) >= 0.0 and float(_n["queued3_at"]) >= 0.0 and _keep_queue_max >= 3 \
+			and bool(_n["gathered"]) and bool(_n["soldier"]) and float(_n["scout_at"]) >= 0.0 and bool(_n["v3_row"]) \
+			and float(_n["x1_at"]) >= 0.0
 
 
 # ---------------------------------------------------------------- part 2: retreat + regrow

@@ -332,6 +332,7 @@ var _champions: Array[Unit] = []          # own living champions (never ordered,
 var _caravans: Array[Unit] = []           # own living caravans (never army, never ordered here, 10.A3)
 var _casters: Array[Unit] = []            # own living caster units (caster-units.md 8: AICasters places them, never the army)
 var casters_ai: AICasters                 ## Read only (caster-units.md 8, CU.A1): training, positioning, casting of the casters.
+var research_ai: AIResearch               ## Read only (unit-upgrades.md 12, UR.A1): unit research buys (rule 5).
 var _champion_home := 0.0                 # their power within 20 m of the rally (in own_strength)
 var _wizard: Wizard
 var _keep: Keep
@@ -2110,8 +2111,19 @@ func _rule_train() -> void:
 	if not hire_first and UnitUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # tiers.md 5: "+" upgrades
 		_log("PLUS UPGRADE (crystals left %d)" % _eco.crystals)
 		return
-	if not hire_first and BowmanKit.BOWMEN_ENABLED and BowmanUpgrades.bot_try_buy(team, _barracks, _eco, _now):   # bowmen.md 6
-		_log("BOWMAN UPGRADE (crystals left %d)" % _eco.crystals)
+	# unit-upgrades.md 12 (UR.A1): unit research at the training buildings (bowman rows included), after the "+".
+	if research_ai == null:
+		research_ai = AIResearch.new(int(team))
+	# A due first caster (caster-units.md 8.1) short of crystals keeps them: research never pushes it out. Checked
+	# fresh here (AICasters.train_block is only refreshed when try_train runs); with no soldiers its cap is 0.
+	var caster_kept := 0
+	if casters_ai != null and not _soldiers.is_empty() and casters_ai.first_caster_due():
+		var caster_type := UnitType.find(String(CasterKit.caster_for(_faction)))
+		if caster_type and _eco.crystals < caster_type.cost:
+			caster_kept = caster_type.cost
+	var research_id := research_ai.try_buy(int(difficulty), _eco, _now, _faction, hire_first, caster_kept)
+	if research_id != &"":
+		_log("research %s (crystals left %d)" % [research_id, _eco.crystals])
 		return
 	# docs/design/stables.md 6: build the Stables, keep 2 riders queued there, rank-3 at the Citadel (switch Stables16).
 	if Stables16.ENABLED and Stables16.bot_step(int(team), _faction, _eco, _now, _level.build_grid,

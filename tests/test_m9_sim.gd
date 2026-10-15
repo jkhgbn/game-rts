@@ -335,7 +335,8 @@ func _play_phase() -> void:
 				return
 			if not foes.is_empty() or Mission02._flat(_army_center(), Vector3.ZERO) > 14.0:
 				var gap := NW_GAP if _army_center().z < 0.0 else SW_GAP
-				var goal := gap if Mission02._flat(_army_center(), gap) > 6.0 						and Mission02._flat(_army_center(), Vector3.ZERO) > 20.0 else gap * 0.2
+				var goal := gap if Mission02._flat(_army_center(), gap) > 6.0 \
+						and Mission02._flat(_army_center(), Vector3.ZERO) > 20.0 else gap * 0.2
 				_army_to(goal, 3.0)
 				_hero_behind(goal)
 				return
