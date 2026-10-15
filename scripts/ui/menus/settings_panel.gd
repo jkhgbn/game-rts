@@ -23,6 +23,8 @@ var map_detail_hint: Label
 ## Upscaler: item i = GameSettings.UPSCALER_* (Off / FSR 1 / FSR 2), then the Render scale slider (50-100 %).
 var upscaler_option: OptionButton
 var render_scale_slider: HSlider
+## Graphics quality (G1): item i = GameSettings.GFX_* (Low / Medium / High / Ultra); applies at once.
+var graphics_option: OptionButton
 ## Playtest data (docs/design/health-and-playtests.md): OFF by default; records each match to a local file.
 var playtest_check: CheckButton
 
@@ -36,6 +38,8 @@ const MAP_DETAIL_HINT := "Applies from the next match. Deer and rabbits stay on 
 const UPSCALER_TOOLTIP := ("Draws the 3D at a lower resolution, then upscales it: higher frame rate.\n"
 		+ "FSR 1: fast, a bit soft. FSR 2: sharper, with its own anti-aliasing (best on a good GPU).\n"
 		+ "Render scale: 67 % = Quality, 77 % = Ultra Quality. FSR 2 at 100 % = native with better anti-aliasing.")
+const GRAPHICS_TOOLTIP := ("Lighting, shadows, anti-aliasing and model detail. Applies at once.\n"
+		+ "Low: fastest. Medium: balanced. High: best look on a good GPU. Ultra: maximum, for a strong GPU.")
 const MAP_DETAIL_TOOLTIP := ("High: full plants and flowers, birds, butterflies and frogs, animated water.\n"
 		+ "Low: half the plants, no small animals, simpler water.")
 
@@ -96,6 +100,7 @@ func _ready() -> void:
 	_controls_row(box)
 	_place_row(box)
 	_priority_row(box)
+	_graphics_row(box)
 	_map_detail_row(box)
 	_upscaler_row(box)
 	render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
@@ -139,6 +144,7 @@ func _ready() -> void:
 	place_option.item_selected.connect(func(i: int) -> void: _changed(&"ws_place_manual", i == 1))
 	map_detail_option.item_selected.connect(func(i: int) -> void: _changed(&"map_detail", i))
 	upscaler_option.item_selected.connect(func(i: int) -> void: _changed(&"upscaler", i))
+	graphics_option.item_selected.connect(func(i: int) -> void: _changed(&"graphics_quality", i))
 	render_scale_slider.value_changed.connect(func(v: float) -> void: _changed(&"render_scale", v / 100.0))
 	playtest_check.toggled.connect(func(on: bool) -> void: _changed(&"playtest_data", on))
 	refresh()
@@ -160,6 +166,7 @@ func refresh() -> void:
 	language_option.select(maxi(Loc.LANGS.find(Loc.language), 0))
 	map_detail_option.select(1 if GameSettings.map_detail == GameSettings.MAP_DETAIL_LOW else 0)
 	upscaler_option.select(GameSettings.upscaler)
+	graphics_option.select(clampi(GameSettings.graphics_quality, GameSettings.GFX_LOW, GameSettings.GFX_ULTRA))
 	render_scale_slider.value = GameSettings.render_scale * 100.0
 	render_scale_slider.editable = GameSettings.upscaler != GameSettings.UPSCALER_OFF
 	playtest_check.button_pressed = GameSettings.playtest_data
@@ -301,6 +308,8 @@ func _changed(key: StringName, value: Variant) -> void:
 		&"upscaler":
 			GameSettings.upscaler = clampi(int(value), GameSettings.UPSCALER_OFF, GameSettings.UPSCALER_FSR2)
 			render_scale_slider.editable = GameSettings.upscaler != GameSettings.UPSCALER_OFF
+		&"graphics_quality":
+			GameSettings.graphics_quality = clampi(int(value), GameSettings.GFX_LOW, GameSettings.GFX_ULTRA)
 		&"render_scale":
 			GameSettings.render_scale = clampf(value, GameSettings.RENDER_SCALE_MIN, GameSettings.RENDER_SCALE_MAX)
 		&"playtest_data":
@@ -330,6 +339,10 @@ func apply_changed(key: StringName) -> String:
 				GameSettings.apply_render(tree.root, int(o.get("upscaler", GameSettings.upscaler)),
 						float(o.get("render_scale", GameSettings.render_scale)))
 			return "render"
+		&"graphics_quality":
+			# The player's pick applies as chosen (a --gfx override or a quiet run only sets the start tier).
+			GameSettings.apply_graphics(tree, GameSettings.graphics_quality)
+			return "graphics"
 	return ""
 
 
@@ -542,6 +555,24 @@ func _map_detail_row(parent: Control) -> void:
 	map_detail_hint.add_theme_color_override("font_color", UIStyle.token(&"text_muted"))
 	map_detail_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	parent.add_child(map_detail_hint)
+
+
+## "Graphics quality" + Low / Medium / High / Ultra, one tooltip line per tier (applies at once).
+func _graphics_row(parent: Control) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	parent.add_child(row)
+	var name_label := UIStyle.label("Graphics quality", 18)
+	name_label.custom_minimum_size = Vector2(190, 0)
+	row.add_child(name_label)
+	graphics_option = OptionButton.new()
+	graphics_option.add_theme_font_size_override("font_size", 18)
+	graphics_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for i in GameSettings.GFX_NAMES.size():
+		graphics_option.add_item(GameSettings.GFX_NAMES[i], i)
+		graphics_option.set_item_tooltip(i, GameSettings.GFX_TOOLTIPS[i])
+	graphics_option.tooltip_text = GRAPHICS_TOOLTIP
+	row.add_child(graphics_option)
 
 
 ## "Upscaler" + Off / FSR 1 / FSR 2 (applies at once, in the menu and mid-match).

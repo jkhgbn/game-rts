@@ -80,6 +80,25 @@ const RENDER_SCALE_DEFAULT := 0.77   ## FSR "Quality" preset is 0.67, "Ultra Qua
 static var upscaler := UPSCALER_OFF
 static var render_scale := RENDER_SCALE_DEFAULT
 static var _loaded := false
+## Graphics quality (task G1): one tier for the lighting rigs (group "lighting_rigs", `set_quality(q)`, tech-artist)
+## and the root viewport's anti-aliasing, mesh LOD and anisotropic filtering (`apply_graphics`). Applies at once
+## (settings panel) and at every match start (GameHUD). Default: High on a discrete GPU, else Medium, Low on a
+## renderer other than Forward+. Command-line override (not saved): -- --gfx=low|medium|high|ultra. Scripted or
+## headless runs (tests, labs) use Low unless --gfx is given, so nothing changes for them.
+const GFX_LOW := 0
+const GFX_MEDIUM := 1
+const GFX_HIGH := 2
+const GFX_ULTRA := 3
+const GFX_IDS: Array[String] = ["low", "medium", "high", "ultra"]
+const GFX_NAMES: Array[String] = ["Low", "Medium", "High", "Ultra"]
+const GFX_TOOLTIPS: Array[String] = [
+	"Low: fastest, simple lighting and shadows.",
+	"Medium: richer lighting and sharper ground textures at a small cost.",
+	"High: full lighting, smoother edges on plants and shine, more model detail.",
+	"Ultra: everything at maximum (8x MSAA, full model detail) for a strong GPU.",
+]
+const GROUP_LIGHTING_RIGS := &"lighting_rigs"
+static var graphics_quality := GFX_MEDIUM
 
 const CONTROLS_CLASSIC := 0
 const CONTROLS_HERO_WASD := 1
@@ -124,6 +143,7 @@ static func reset_defaults() -> void:
 	set_playtest_data(false, false)
 	upscaler = UPSCALER_OFF
 	render_scale = RENDER_SCALE_DEFAULT
+	graphics_quality = default_graphics_quality()
 	language = ""
 	ws_place_manual = false
 
@@ -316,6 +336,8 @@ static func load_settings() -> void:
 	upscaler = upscaler_from_id(str(cfg.get_value(SECTION, "upscaler", UPSCALER_IDS[UPSCALER_OFF])))
 	render_scale = clampf(float(cfg.get_value(SECTION, "render_scale", render_scale)), RENDER_SCALE_MIN,
 			RENDER_SCALE_MAX)
+	if cfg.has_section_key(SECTION, "graphics_quality"):
+		graphics_quality = gfx_from_id(str(cfg.get_value(SECTION, "graphics_quality", "")), graphics_quality)
 	var lang := str(cfg.get_value(SECTION, "language", "")).strip_edges().to_lower()
 	language = lang if Loc.LANGS.has(lang) else ""
 	unit_priority_order.clear()
@@ -385,6 +407,7 @@ static func save_settings() -> Error:
 	cfg.set_value(SECTION, "ws_place_on_buy", "manual" if ws_place_manual else "auto")
 	cfg.set_value(SECTION, "upscaler", UPSCALER_IDS[clampi(upscaler, UPSCALER_OFF, UPSCALER_FSR2)])
 	cfg.set_value(SECTION, "render_scale", render_scale)
+	cfg.set_value(SECTION, "graphics_quality", GFX_IDS[clampi(graphics_quality, GFX_LOW, GFX_ULTRA)])
 	cfg.set_value(SECTION, "language", language)
 	var order: Array[String] = []
 	for k in unit_priority_order:
@@ -401,6 +424,7 @@ static func apply(tree: SceneTree) -> void:
 	if tree and tree.root:
 		var o := render_overrides()
 		apply_render(tree.root, int(o.get("upscaler", upscaler)), float(o.get("render_scale", render_scale)))
+		apply_graphics(tree)
 
 
 ## Sets the game language ("en" / "fr"; it switches live: auto-translated text redraws, screens refresh on
@@ -454,14 +478,13 @@ static func effective_render_scale(mode: int, scale: float) -> float:
 
 
 ## Sets the upscaler, render scale and MSAA of one viewport. FSR 2 does its own anti-aliasing, so MSAA is turned
-## off with it (MSAA + FSR 2 is not supported); Off and FSR 1 keep the project's MSAA.
+## off with it (MSAA + FSR 2 is not supported); Off and FSR 1 take the graphics tier's MSAA (`apply_viewport_quality`).
 static func apply_render(vp: Viewport, mode: int, scale: float) -> void:
 	if vp == null:
 		return
 	mode = clampi(mode, UPSCALER_OFF, UPSCALER_FSR2)
 	var s := effective_render_scale(mode, scale)
 	var forward_plus := RenderingServer.get_current_rendering_method() == "forward_plus"
-	var project_msaa := int(ProjectSettings.get_setting("rendering/anti_aliasing/quality/msaa_3d", 0))
 	if mode == UPSCALER_OFF or not forward_plus:
 		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
 	elif mode == UPSCALER_FSR1:
@@ -469,10 +492,107 @@ static func apply_render(vp: Viewport, mode: int, scale: float) -> void:
 	else:
 		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2
 	vp.scaling_3d_scale = s
-	if mode == UPSCALER_FSR2 and forward_plus:
-		vp.msaa_3d = Viewport.MSAA_DISABLED
-	else:
-		vp.msaa_3d = project_msaa as Viewport.MSAA
+	apply_viewport_quality(vp, effective_graphics_quality())   # MSAA / screen-space AA follow the tier and FSR 2
+
+
+## "low" / "medium" / "high" / "ultra" (saved or command-line text) -> the tier; unknown = `fallback`.
+static func gfx_from_id(id: String, fallback := GFX_MEDIUM) -> int:
+	var i := GFX_IDS.find(id.strip_edges().to_lower())
+	return i if i >= 0 else fallback
+
+
+## The tier a fresh install starts on: High on a discrete GPU, Medium on another, Low on a non-Forward+ renderer or
+## in a scripted / headless run.
+static func default_graphics_quality() -> int:
+	if is_quiet_run():
+		return GFX_LOW
+	if RenderingServer.get_current_rendering_method() != "forward_plus":
+		return GFX_LOW
+	if RenderingServer.get_video_adapter_type() == RenderingDevice.DEVICE_TYPE_DISCRETE_GPU:
+		return GFX_HIGH
+	return GFX_MEDIUM
+
+
+## True for tests, labs and headless runs (a `-s` script or the headless display): they stay on Low unless --gfx.
+static func is_quiet_run() -> bool:
+	return DisplayServer.get_name() == "headless" or Loc.is_scripted_run()
+
+
+## The --gfx= command-line tier, or -1 when none is given.
+static func gfx_override() -> int:
+	return gfx_from_args(OS.get_cmdline_user_args())
+
+
+## The --gfx= tier in a list of user args (after `--`), or -1.
+static func gfx_from_args(args: PackedStringArray) -> int:
+	for a: String in args:
+		if a.begins_with("--gfx="):
+			return gfx_from_id(a.get_slice("=", 1), -1)
+	return -1
+
+
+## The tier the game runs on now: --gfx, else Low in a quiet run, else the saved setting.
+static func effective_graphics_quality() -> int:
+	var o := gfx_override()
+	if o >= 0:
+		return o
+	if is_quiet_run():
+		return GFX_LOW
+	return clampi(graphics_quality, GFX_LOW, GFX_ULTRA)
+
+
+## Sets the tier, applies it at once (viewport + lighting rigs) and saves the file when `save`.
+static func set_graphics_quality(q: int, tree: SceneTree = null, save := true) -> void:
+	ensure_read()
+	graphics_quality = clampi(q, GFX_LOW, GFX_ULTRA)
+	if tree:
+		apply_graphics(tree, graphics_quality)
+	if save:
+		save_settings()
+
+
+## Applies a tier (-1 = `effective_graphics_quality()`): the root viewport's AA / LOD / anisotropy, then
+## `set_quality(q)` on every node of the "lighting_rigs" group. Returns the tier applied.
+static func apply_graphics(tree: SceneTree, q := -1) -> int:
+	if q < 0:
+		if not is_quiet_run():
+			ensure_read()   # a match started straight from the command line (no menu) still reads the file
+		q = effective_graphics_quality()
+	q = clampi(q, GFX_LOW, GFX_ULTRA)
+	if tree == null:
+		return q
+	if tree.root:
+		apply_viewport_quality(tree.root, q)
+	tree.call_group(GROUP_LIGHTING_RIGS, &"set_quality", q)
+	return q
+
+
+## The viewport side of a tier. Low = the project's values (today's look). FSR 2 (when on) keeps its own temporal AA,
+## so MSAA and screen-space AA stay off with it. Medium: 4x MSAA, 8x anisotropy. High: 4x MSAA + SMAA (shader and
+## foliage edges), 16x anisotropy, finer mesh LOD, debanding. Ultra: 8x MSAA + SMAA, 16x anisotropy, no LOD reduction.
+static func apply_viewport_quality(vp: Viewport, q: int) -> void:
+	if vp == null:
+		return
+	q = clampi(q, GFX_LOW, GFX_ULTRA)
+	var fsr2 := vp.scaling_3d_mode == Viewport.SCALING_3D_MODE_FSR2
+	var project_msaa := int(ProjectSettings.get_setting("rendering/anti_aliasing/quality/msaa_3d", 0))
+	var project_aniso := int(ProjectSettings.get_setting(
+			"rendering/textures/default_filters/anisotropic_filtering_level", 2))
+	var msaa: int = [project_msaa, Viewport.MSAA_4X, Viewport.MSAA_4X, Viewport.MSAA_8X][q]
+	var ssaa: int = Viewport.SCREEN_SPACE_AA_SMAA if q >= GFX_HIGH else int(ProjectSettings.get_setting(
+			"rendering/anti_aliasing/quality/screen_space_aa", 0))
+	if fsr2:
+		msaa = Viewport.MSAA_DISABLED
+		ssaa = Viewport.SCREEN_SPACE_AA_DISABLED
+	vp.msaa_3d = msaa as Viewport.MSAA
+	vp.screen_space_aa = ssaa as Viewport.ScreenSpaceAA
+	vp.mesh_lod_threshold = [1.0, 1.0, 0.5, 0.0][q]
+	var aniso: int = [project_aniso, Viewport.ANISOTROPY_8X, Viewport.ANISOTROPY_16X, Viewport.ANISOTROPY_16X][q]
+	if &"anisotropic_filtering_level" in vp:
+		vp.set(&"anisotropic_filtering_level", aniso)
+	if &"use_debanding" in vp:
+		vp.set(&"use_debanding", q >= GFX_HIGH or bool(ProjectSettings.get_setting(
+				"rendering/anti_aliasing/quality/use_debanding", false)))
 
 
 ## Creates the Music / SFX buses (sent to Master) if the project has none.

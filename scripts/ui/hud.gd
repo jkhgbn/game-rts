@@ -92,7 +92,15 @@ const CLOCK_RIGHT := 244.0
 const CLOCK_Y := 658.0
 
 
+## G1: applies GameSettings.effective_graphics_quality() to the root viewport and the "lighting_rigs" group.
+func _apply_graphics_quality() -> void:
+	if is_inside_tree():
+		GameSettings.apply_graphics(get_tree())
+
+
 func _ready() -> void:
+	# G1: a new match gets the graphics tier (root viewport + lighting rigs, once the level has built them).
+	_apply_graphics_quality.call_deferred()
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE

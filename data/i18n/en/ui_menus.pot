@@ -20,18 +20,58 @@ msgstr ""
 msgid "FSR 2 (best quality)"
 msgstr ""
 
+#. const GFX_NAMES: Array[String] = ["Low", "Medium", "High", "Ultra"]
+#: scripts/ui/menus/game_settings.gd:93
+msgid "Low"
+msgstr ""
+
+#. const GFX_NAMES: Array[String] = ["Low", "Medium", "High", "Ultra"]
+#: scripts/ui/menus/game_settings.gd:93
+msgid "Medium"
+msgstr ""
+
+#. const GFX_NAMES: Array[String] = ["Low", "Medium", "High", "Ultra"]
+#: scripts/ui/menus/game_settings.gd:93 scripts/ui/menus/settings_panel.gd:550
+msgid "High"
+msgstr ""
+
+#. const GFX_NAMES: Array[String] = ["Low", "Medium", "High", "Ultra"]
+#: scripts/ui/menus/game_settings.gd:93
+msgid "Ultra"
+msgstr ""
+
+#. "Low: fastest, simple lighting and shadows.",
+#: scripts/ui/menus/game_settings.gd:95
+msgid "Low: fastest, simple lighting and shadows."
+msgstr ""
+
+#. "Medium: richer lighting and sharper ground textures at a small cost.",
+#: scripts/ui/menus/game_settings.gd:96
+msgid "Medium: richer lighting and sharper ground textures at a small cost."
+msgstr ""
+
+#. "High: full lighting, smoother edges on plants and shine, more model detail.",
+#: scripts/ui/menus/game_settings.gd:97
+msgid "High: full lighting, smoother edges on plants and shine, more model detail."
+msgstr ""
+
+#. "Ultra: everything at maximum (8x MSAA, full model detail) for a strong GPU.",
+#: scripts/ui/menus/game_settings.gd:98
+msgid "Ultra: everything at maximum (8x MSAA, full model detail) for a strong GPU."
+msgstr ""
+
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:89
+#: scripts/ui/menus/game_settings.gd:108
 msgid "Classic"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:89
+#: scripts/ui/menus/game_settings.gd:108
 msgid "Hero WASD"
 msgstr ""
 
 #. const CONTROL_SCHEME_NAMES: Array[String] = ["Classic", "Hero WASD", "RTS camera (WASD)"]
-#: scripts/ui/menus/game_settings.gd:89 scripts/ui/menus/settings_panel.gd:380
+#: scripts/ui/menus/game_settings.gd:108 scripts/ui/menus/settings_panel.gd:393
 msgid "RTS camera (WASD)"
 msgstr ""
 
@@ -405,7 +445,7 @@ msgid "Skirmish 1v1"
 msgstr ""
 
 #. wave_strike_button = _menu_button(box, "Wave Strike")
-#: scripts/ui/menus/main_menu.gd:691 scripts/ui/menus/settings_panel.gd:396
+#: scripts/ui/menus/main_menu.gd:691 scripts/ui/menus/settings_panel.gd:409
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:51
 msgid "Wave Strike"
 msgstr ""
@@ -427,7 +467,7 @@ msgstr ""
 
 #. settings_button = _menu_button(box, "Settings")
 #: scripts/ui/menus/main_menu.gd:699 scripts/ui/menus/pause_menu.gd:57
-#: scripts/ui/menus/settings_panel.gd:69
+#: scripts/ui/menus/settings_panel.gd:73
 msgid "Settings"
 msgstr ""
 
@@ -678,197 +718,202 @@ msgid "Mission 1"
 msgstr ""
 
 #. return Loc.t("%s: walk your wizard (camera follows)  ·  %s + click: attack-move") % [
-#: scripts/ui/menus/settings_panel.gd:176
+#: scripts/ui/menus/settings_panel.gd:183
 msgid "%s: walk your wizard (camera follows)  ·  %s + click: attack-move"
 msgstr ""
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster
-#: scripts/ui/menus/settings_panel.gd:179
+#: scripts/ui/menus/settings_panel.gd:186
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  %s / arrows: camera (Shift: faster)"
 msgstr ""
 
 #. return Loc.t("Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera") % KeyLabels.of(KE
-#: scripts/ui/menus/settings_panel.gd:181
+#: scripts/ui/menus/settings_panel.gd:188
 msgid "Right click moves your wizard  ·  %s + click: attack-move  ·  Arrows: camera"
 msgstr ""
 
 #. return Loc.t("Classic: like most strategy games, right click moves your wizard and %s + click "
-#: scripts/ui/menus/settings_panel.gd:187
+#: scripts/ui/menus/settings_panel.gd:194
 msgid "Classic: like most strategy games, right click moves your wizard and %s + click attack-moves.\nHero WASD: %s walk your wizard, %s + click attack-moves.\nRTS camera (WASD): right click moves your wizard, %s move the camera (Shift = faster), %s + click attack-moves."
 msgstr ""
 
 #. var label := UIStyle.label("%d. %s" % [i + 1, Loc.t("Wizard") if key == &"wizard" else (t.display_name if t el
-#: scripts/ui/menus/settings_panel.gd:515 scripts/ui/champion_bar.gd:62
+#: scripts/ui/menus/settings_panel.gd:528 scripts/ui/champion_bar.gd:62
 #: data/champion_classes/wizard.tres:8
 msgid "Wizard"
 msgstr ""
 
 #. const PLAYTEST_TEXT := "Help improve the game: record my playtest to a local file"
-#: scripts/ui/menus/settings_panel.gd:29
+#: scripts/ui/menus/settings_panel.gd:31
 msgid "Help improve the game: record my playtest to a local file"
 msgstr ""
 
 #. const PLAYTEST_HINT := ("Off by default. When on, each match saves a small timeline (times, resources, orders,
-#: scripts/ui/menus/settings_panel.gd:30
+#: scripts/ui/menus/settings_panel.gd:32
 msgid "Off by default. When on, each match saves a small timeline (times, resources, orders, frame rate) to a file on this computer only. No names or personal data, nothing is sent anywhere."
 msgstr ""
 
 #. const MAP_DETAIL_HINT := "Applies from the next match. Deer and rabbits stay on every setting."
-#: scripts/ui/menus/settings_panel.gd:35
+#: scripts/ui/menus/settings_panel.gd:37
 msgid "Applies from the next match. Deer and rabbits stay on every setting."
 msgstr ""
 
 #. const UPSCALER_TOOLTIP := ("Draws the 3D at a lower resolution, then upscales it: higher frame rate.\n"
-#: scripts/ui/menus/settings_panel.gd:36
+#: scripts/ui/menus/settings_panel.gd:38
 msgid "Draws the 3D at a lower resolution, then upscales it: higher frame rate.\nFSR 1: fast, a bit soft. FSR 2: sharper, with its own anti-aliasing (best on a good GPU).\nRender scale: 67 % = Quality, 77 % = Ultra Quality. FSR 2 at 100 % = native with better anti-aliasing."
 msgstr ""
 
+#. const GRAPHICS_TOOLTIP := ("Lighting, shadows, anti-aliasing and model detail. Applies at once.\n"
+#: scripts/ui/menus/settings_panel.gd:41
+msgid "Lighting, shadows, anti-aliasing and model detail. Applies at once.\nLow: fastest. Medium: balanced. High: best look on a good GPU. Ultra: maximum, for a strong GPU."
+msgstr ""
+
 #. const MAP_DETAIL_TOOLTIP := ("High: full plants and flowers, birds, butterflies and frogs, animated water.\n"
-#: scripts/ui/menus/settings_panel.gd:39
+#: scripts/ui/menus/settings_panel.gd:43
 msgid "High: full plants and flowers, birds, butterflies and frogs, animated water.\nLow: half the plants, no small animals, simpler water."
 msgstr ""
 
 #. master_slider = _slider_row(box, "Master volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:89
+#: scripts/ui/menus/settings_panel.gd:93
 msgid "Master volume"
 msgstr ""
 
 #. music_slider = _slider_row(box, "Music volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:90
+#: scripts/ui/menus/settings_panel.gd:94
 msgid "Music volume"
 msgstr ""
 
 #. sfx_slider = _slider_row(box, "Effects volume", 0.0, 100.0, 1.0, "%d %%")
-#: scripts/ui/menus/settings_panel.gd:91
+#: scripts/ui/menus/settings_panel.gd:95
 msgid "Effects volume"
 msgstr ""
 
 #. scale_slider = _slider_row(box, "UI scale", GameSettings.UI_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:92
+#: scripts/ui/menus/settings_panel.gd:96
 msgid "UI scale"
 msgstr ""
 
 #. fullscreen_check = _check_row(box, "Fullscreen")
-#: scripts/ui/menus/settings_panel.gd:94
+#: scripts/ui/menus/settings_panel.gd:98
 msgid "Fullscreen"
 msgstr ""
 
 #. edge_pan_check = _check_row(box, "Scroll at screen edge")
-#: scripts/ui/menus/settings_panel.gd:95
+#: scripts/ui/menus/settings_panel.gd:99
 msgid "Scroll at screen edge"
 msgstr ""
 
 #. render_scale_slider = _slider_row(box, "Render scale", GameSettings.RENDER_SCALE_MIN * 100.0,
-#: scripts/ui/menus/settings_panel.gd:101
+#: scripts/ui/menus/settings_panel.gd:106
 msgid "Render scale"
 msgstr ""
 
 #. var name_label := UIStyle.label("Language", 18)
-#: scripts/ui/menus/settings_panel.gd:208
+#: scripts/ui/menus/settings_panel.gd:215
 msgid "Language"
 msgstr ""
 
 #. language_option.tooltip_text = "Game language (voices stay in English; subtitles follow the language)."
-#: scripts/ui/menus/settings_panel.gd:218
+#: scripts/ui/menus/settings_panel.gd:225
 msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr ""
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:372 scripts/ui/hud.gd:166
+#: scripts/ui/menus/settings_panel.gd:385 scripts/ui/hud.gd:174
 msgid "Controls"
 msgstr ""
 
 #. controls_option.add_item("Classic (right click moves)", GameSettings.CONTROLS_CLASSIC)
-#: scripts/ui/menus/settings_panel.gd:378
+#: scripts/ui/menus/settings_panel.gd:391
 msgid "Classic (right click moves)"
 msgstr ""
 
 #. controls_option.add_item("Hero WASD (keys walk the wizard)", GameSettings.CONTROLS_HERO_WASD)
-#: scripts/ui/menus/settings_panel.gd:379
+#: scripts/ui/menus/settings_panel.gd:392
 msgid "Hero WASD (keys walk the wizard)"
 msgstr ""
 
 #. var name_label := UIStyle.label("Place on buy", 18)
-#: scripts/ui/menus/settings_panel.gd:394
+#: scripts/ui/menus/settings_panel.gd:407
 msgid "Place on buy"
 msgstr ""
 
 #. place_option.add_item("Manual", 1)
-#: scripts/ui/menus/settings_panel.gd:402
+#: scripts/ui/menus/settings_panel.gd:415
 msgid "Manual"
 msgstr ""
 
 #. place_option.tooltip_text = "Auto: new copies fill the Line formation, drag to fix · Manual: every buy shows a
-#: scripts/ui/menus/settings_panel.gd:403 scripts/ui/wave_strike/muster_panel.gd:672
+#: scripts/ui/menus/settings_panel.gd:416 scripts/ui/wave_strike/muster_panel.gd:672
 msgid "Auto: new copies fill the Line formation, drag to fix · Manual: every buy shows a ghost on the pad"
 msgstr ""
 
 #. var name_label := UIStyle.label("Unit priority", 18)
-#: scripts/ui/menus/settings_panel.gd:420
+#: scripts/ui/menus/settings_panel.gd:433
 msgid "Unit priority"
 msgstr ""
 
 #. name_label.tooltip_text = "Tab order of unit types in a selection; the first one is active first."
-#: scripts/ui/menus/settings_panel.gd:422
+#: scripts/ui/menus/settings_panel.gd:435
 msgid "Tab order of unit types in a selection; the first one is active first."
 msgstr ""
 
 #. priority_kingdom.tooltip_text = "The kingdom whose unit order is shown."
-#: scripts/ui/menus/settings_panel.gd:427
+#: scripts/ui/menus/settings_panel.gd:440
 msgid "The kingdom whose unit order is shown."
 msgstr ""
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:433 scripts/ui/menus/settings_panel.gd:436
+#: scripts/ui/menus/settings_panel.gd:446 scripts/ui/menus/settings_panel.gd:449
 msgid "Show"
 msgstr ""
 
 #. priority_toggle = _small_button(row, "Show", "Show / hide the list (Tab cycles unit types in this order)")
-#: scripts/ui/menus/settings_panel.gd:433
+#: scripts/ui/menus/settings_panel.gd:446
 msgid "Show / hide the list (Tab cycles unit types in this order)"
 msgstr ""
 
 #. priority_toggle.text = "Hide" if priority_list.visible else "Show")
-#: scripts/ui/menus/settings_panel.gd:436
+#: scripts/ui/menus/settings_panel.gd:449
 msgid "Hide"
 msgstr ""
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:437
+#: scripts/ui/menus/settings_panel.gd:450
 msgid "Reset"
 msgstr ""
 
 #. var reset := _small_button(row, "Reset", "Default order: wizard, dearest soldiers first, workers last")
-#: scripts/ui/menus/settings_panel.gd:437
+#: scripts/ui/menus/settings_panel.gd:450
 msgid "Default order: wizard, dearest soldiers first, workers last"
 msgstr ""
 
 #. var up := _small_button(row, "+", "Higher priority")
-#: scripts/ui/menus/settings_panel.gd:518
+#: scripts/ui/menus/settings_panel.gd:531
 msgid "Higher priority"
 msgstr ""
 
 #. var down := _small_button(row, "−", "Lower priority")
-#: scripts/ui/menus/settings_panel.gd:521
+#: scripts/ui/menus/settings_panel.gd:534
 msgid "Lower priority"
 msgstr ""
 
 #. var name_label := UIStyle.label("Map detail", 18)
-#: scripts/ui/menus/settings_panel.gd:531
+#: scripts/ui/menus/settings_panel.gd:544
 msgid "Map detail"
 msgstr ""
 
-#. map_detail_option.add_item("High", 0)
-#: scripts/ui/menus/settings_panel.gd:537
-msgid "High"
-msgstr ""
-
 #. map_detail_option.add_item("Low (faster)", 1)
-#: scripts/ui/menus/settings_panel.gd:538
+#: scripts/ui/menus/settings_panel.gd:551
 msgid "Low (faster)"
 msgstr ""
 
+#. var name_label := UIStyle.label("Graphics quality", 18)
+#: scripts/ui/menus/settings_panel.gd:565
+msgid "Graphics quality"
+msgstr ""
+
 #. var name_label := UIStyle.label("Upscaler", 18)
-#: scripts/ui/menus/settings_panel.gd:552
+#: scripts/ui/menus/settings_panel.gd:583
 msgid "Upscaler"
 msgstr ""
