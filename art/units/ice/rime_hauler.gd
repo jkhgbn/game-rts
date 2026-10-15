@@ -1,10 +1,14 @@
 extends IceModel
 ## Rime Hauler, Ice worker (kingdom-ice.md 8.2; polish A.6). Height 1.4, radius 0.4. A stocky ice-cutter: team
 ## coat with a dark fur hem, a pale fur hood ruff around the face, a sledge-pick with an ICE pick-spike over the right
-## shoulder and a wooden back-frame carrying a big block of faceted ice with a small lantern (ice_glow_unit, the
-## single glow point). Read at 40 m: round dark-hemmed body + bright ice cube on the back + tool over the shoulder.
+## shoulder and a wooden back-frame carrying a big block of faceted ice; a miner's lamp on the hood brow
+## (ice_glow_unit, the single glow point). Read at 40 m: round dark-hemmed body + bright ice cube on the back + tool
+## over the shoulder.
 ## Frost breath every 3 s. Carry: 3 resource crystals on top of the ice block. Mine: blue sparks at the pick tip.
 ## Idle fidget: hefts the pick. Death: freezes over, shatters. Draw instances after the merge: 8 + 4 particle systems.
+## G-C 2026-10-15 (docs/art/gc_ice_units.md): lathed parka, jagged fur hem / ruff / cuffs, tapered limbs, round boots,
+## a belt pouch, leather straps lashing the ice block (2 small crystals frozen on it), shoulder straps; the lantern
+## became a miner's lamp on the hood brow (the back-frame lantern was hidden by the head: Art Lab R5 0 glow points).
 
 var _sparks: GPUParticles3D
 
@@ -25,25 +29,38 @@ func _build_parts() -> void:
 	var metal := ice(&"ice_metal")
 	var steel := ice(&"ice_steel")
 	var frost := ice(&"ice_frost_crystal")
-	# Chest: team coat (bell) with a dark fur hem, leather belt, pale fur ruff at the neck.
-	add_part(chest, cyl(0.26, 0.39, 0.56, 8), cloth, Vector3(0, 0.74, 0))
-	add_part(chest, cyl(0.39, 0.42, 0.13, 8), fur, Vector3(0, 0.50, 0))
-	add_part(chest, cyl(0.29, 0.31, 0.08, 8), leather, Vector3(0, 0.78, 0))
-	add_part(chest, cyl(0.20, 0.33, 0.14, 8), pale, Vector3(0, 1.00, 0))
-	# Back-frame: two dark posts, a tray, and a big clear ice block on it (the "worker" read), lantern hook.
-	add_part(chest, box(Vector3(0.08, 0.74, 0.08)), wood, Vector3(-0.25, 0.96, -0.34))
-	add_part(chest, box(Vector3(0.08, 0.74, 0.08)), wood, Vector3(0.25, 0.96, -0.34))
-	add_part(chest, box(Vector3(0.54, 0.09, 0.36)), wood, Vector3(0, 0.84, -0.42))
-	add_part(chest, box(Vector3(0.48, 0.44, 0.36)), frost, Vector3(0, 1.11, -0.46), Vector3(4, 10, -3))
-	add_part(chest, box(Vector3(0.58, 0.08, 0.10)), wood, Vector3(0, 1.28, -0.30))
-	add_part(chest, cyl(0.05, 0.10, 0.07, 6), metal, Vector3(0.33, 1.16, -0.26))
-	add_part(chest, sphere(0.09), ice(&"ice_glow_unit"), Vector3(0.33, 1.06, -0.26))
+	# Chest (G-C 2026-10-15: lathed, was a cone): a padded team parka that bells out over the hips, quilted by a
+	# leather belt with a pouch, a jagged dark fur hem and a shaggy pale fur ruff at the neck.
+	add_part(chest, lathe(PackedVector2Array([Vector2(0.40, 0.47), Vector2(0.395, 0.56), Vector2(0.36, 0.72),
+		Vector2(0.33, 0.86), Vector2(0.30, 0.98), Vector2(0.20, 1.04), Vector2(0.0, 1.05)]), 10, 1.0, 0.9), cloth, Vector3.ZERO)
+	add_part(chest, fur_ring(0.395, 0.43, 0.13, 8, 0.045, 1.0, 0.9), fur, Vector3(0, 0.44, 0))
+	add_part(chest, cyl(0.335, 0.35, 0.08, 10), leather, Vector3(0, 0.78, 0))
+	add_part(chest, soft_box(Vector3(0.14, 0.13, 0.08)), leather, Vector3(-0.22, 0.72, 0.27), Vector3(0, -30, 0))
+	add_part(chest, fur_ring(0.17, 0.33, 0.17, 7, 0.045, 1.0, 0.95), pale, Vector3(0, 0.93, 0))
+	# Back-frame: two posts, a tray, cross straps over the shoulders, a big block of clear ice lashed on with two
+	# leather straps (the "worker" read) and two small crystals frozen to it (the glow point is the hood-brow lamp,
+	# built with the head below).
+	add_part(chest, soft_box(Vector3(0.08, 0.80, 0.08)), wood, Vector3(-0.25, 0.97, -0.34))
+	add_part(chest, soft_box(Vector3(0.08, 0.80, 0.08)), wood, Vector3(0.25, 0.97, -0.34))
+	add_part(chest, soft_box(Vector3(0.56, 0.08, 0.38)), wood, Vector3(0, 0.84, -0.43))
+	add_part(chest, box(Vector3(0.46, 0.42, 0.34)), frost, Vector3(0, 1.10, -0.47), Vector3(4, 10, -3))
+	for sy: float in [0.98, 1.20]:
+		add_part(chest, box(Vector3(0.48, 0.045, 0.36)), leather, Vector3(0, sy, -0.47), Vector3(4, 10, -3))
+	add_crystal(chest, Vector3(-0.12, 1.28, -0.52), Vector3(-0.3, 1.0, -0.2), 0.05, 0.22, frost, 0.5)
+	add_crystal(chest, Vector3(0.10, 1.29, -0.42), Vector3(0.25, 1.0, 0.1), 0.04, 0.16, frost, 0.5)
+	add_part(chest, soft_box(Vector3(0.60, 0.07, 0.09)), wood, Vector3(0, 1.30, -0.30))
+	for sx: float in [-1.0, 1.0]:
+		add_part(chest, box(Vector3(0.07, 0.03, 0.36)), leather, Vector3(0.20 * sx, 1.02, -0.13), Vector3(-25, 0, 0))
 	# Head: face, team hood with a short pointed back, pale fur ring around the face. The painted face (faces pass
 	# 2026-09-28): a ruddy hauler with a straw-blond fringe and moustache, grey-blue eyes (FaceKit, replaces the eye bar).
 	add_part(head, sphere(0.21), ice(&"ice_skin"), Vector3(0, 1.12, 0.04))
 	add_part(head, sphere(0.27), cloth, Vector3(0, 1.17, -0.07), Vector3.ZERO, Vector3(1.0, 1.05, 1.0))
 	add_part(head, cyl(0.0, 0.16, 0.30, 6), cloth, Vector3(0, 1.30, -0.26), Vector3(-62, 0, 0))
 	add_part(head, torus(0.15, 0.25), pale, Vector3(0, 1.13, 0.13), Vector3(90, 0, 0))
+	# Miner's lamp (G-C: the glow point, moved from the back-frame where the head hid it): a glowing ice crystal in a
+	# silver cup strapped to the hood brow, seen from the front and from the RTS camera above.
+	add_part(head, cyl(0.075, 0.05, 0.06, 8), metal, Vector3(0, 1.36, 0.155), Vector3(70, 0, 0))
+	add_part(head, sphere(0.07, 8, 4), ice(&"ice_glow_unit"), Vector3(0, 1.37, 0.195), Vector3.ZERO, Vector3(1.0, 1.0, 0.8))
 	var hair := Color(0.86, 0.74, 0.46)
 	_face = UnitFaces.attach_lean(self, head, "rime_hauler", {"center": Vector3(0, 1.12, 0.04), "radius": 0.21,
 		"head_mesh": sphere(0.21), "preset": &"plain", "detail": &"low", "skin": ICE_SKIN, "hair": hair,
@@ -51,21 +68,28 @@ func _build_parts() -> void:
 		"palette": {"brow": hair.darkened(0.35)}, "brow": {"w": Vector3(0.0085, 0.0080, 0.0034)},
 		"hair_fn": func(acc: Dictionary) -> void: UnitFaces.hood_fringe(acc, Vector3(0, 1.12, 0.04), 0.21, hair,
 			Color(0.98, 0.92, 0.72), 1.0)})
-	# Legs: dark fur trousers + big boots.
-	add_part(leg_l, capsule(0.12, 0.34), fur, Vector3(-0.15, 0.28, 0))
-	add_part(leg_r, capsule(0.12, 0.34), fur, Vector3(0.15, 0.28, 0))
-	add_part(leg_l, box(Vector3(0.25, 0.14, 0.33)), leather, Vector3(-0.15, 0.07, 0.05))
-	add_part(leg_r, box(Vector3(0.25, 0.14, 0.33)), leather, Vector3(0.15, 0.07, 0.05))
-	# Arms: team sleeves + leather mittens.
-	add_limb(arm_l, Vector3(-0.38, 0.95, 0), Vector3(-0.42, 0.62, 0.04), 0.10, cloth, 0.115, leather)
-	add_limb(arm_r, Vector3(0.38, 0.95, 0), Vector3(0.40, 0.62, 0.04), 0.10, cloth, 0.115, leather)
-	# Sledge-pick: shaft up and back over the shoulder (30 deg), iron hammer head + a long ICE pick spike.
+	# Legs: tapered dark fur trousers, round fur-cuffed boots (G-C: were capsules + boxes).
+	for leg: Node3D in [leg_l, leg_r]:
+		var sx: float = -1.0 if leg == leg_l else 1.0
+		add_taper(leg, Vector3(0.15 * sx, 0.12, 0), Vector3(0.15 * sx, 0.46, 0), 0.10, 0.125, fur)
+		add_part(leg, boot(0.13, 0.15), leather, Vector3(0.15 * sx, 0.0, 0.05), Vector3.ZERO, Vector3(1.0, 1.0, 1.35))
+		add_part(leg, fur_ring(0.11, 0.14, 0.07, 5, 0.025), pale, Vector3(0.15 * sx, 0.13, 0.02))
+	# Arms: tapered team sleeves with pale fur cuffs + leather mittens.
+	add_taper(arm_l, Vector3(-0.38, 0.95, 0), Vector3(-0.42, 0.66, 0.04), 0.105, 0.085, cloth)
+	add_taper(arm_r, Vector3(0.38, 0.95, 0), Vector3(0.40, 0.66, 0.04), 0.105, 0.085, cloth)
+	add_part(arm_l, fur_ring(0.085, 0.105, 0.06, 5, 0.02), pale, Vector3(-0.42, 0.66, 0.04))
+	add_part(arm_r, fur_ring(0.085, 0.105, 0.06, 5, 0.02), pale, Vector3(0.40, 0.66, 0.04))
+	add_part(arm_l, sphere(0.11, 8, 4), leather, Vector3(-0.42, 0.62, 0.04), Vector3.ZERO, Vector3(0.9, 1.0, 1.1))
+	add_part(arm_r, sphere(0.11, 8, 4), leather, Vector3(0.40, 0.62, 0.04), Vector3.ZERO, Vector3(0.9, 1.0, 1.1))
+	# Sledge-pick: shaft up and back over the shoulder (30 deg), iron hammer head + a long ICE pick spike (shaft 10 cm
+	# shorter in G-C: the spike stayed under the HP bar).
 	var fist := Vector3(0.40, 0.62, 0.04)
 	var d := Vector3(0, cos(30.0 * DEG), -sin(30.0 * DEG))
-	add_part(arm_r, cyl(0.045, 0.045, 1.12, 6), wood, fist + d * 0.40, Vector3(-30, 0, 0))
-	var top: Vector3 = fist + d * 0.94
+	add_part(arm_r, cyl(0.045, 0.04, 1.0, 6), wood, fist + d * 0.34, Vector3(-30, 0, 0))
+	add_part(arm_r, cyl(0.055, 0.055, 0.14, 6), leather, fist + d * 0.10, Vector3(-30, 0, 0))
+	var top: Vector3 = fist + d * 0.82
 	var head_axis := Vector3(0, cos(60.0 * DEG), sin(60.0 * DEG))
-	add_part(arm_r, box(Vector3(0.17, 0.30, 0.17)), steel, top - head_axis * 0.07, Vector3(60, 0, 0))
+	add_part(arm_r, soft_box(Vector3(0.16, 0.28, 0.16)), steel, top - head_axis * 0.07, Vector3(60, 0, 0))
 	add_crystal(arm_r, top + head_axis * 0.07, head_axis, 0.075, 0.40, frost, 0.6)
 	# Carry: 3 resource crystals on the ice block (kit crystal colour), shown by set_carrying.
 	var cr := MultiMeshInstance3D.new()

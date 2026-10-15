@@ -261,7 +261,7 @@ func _hips_sculpt(s: Dictionary) -> void:
 		_put(s, sphere(0.075, 5, 2), steel, knee + Vector3(0.0, 0.0, 0.02))
 		_seg(s, steel, knee, ankle, 0.068, 0.056)
 		_put(s, cyl(0.07, 0.078, 0.07, 6, false), fur, ankle + Vector3(0, 0.03, 0))
-		_put(s, box(Vector3(0.11, 0.10, 0.25)), leather, ankle + Vector3(0.0, -0.04, 0.06))
+		_put(s, soft_box(Vector3(0.11, 0.10, 0.25)), leather, ankle + Vector3(0.0, -0.04, 0.06))
 
 
 func _chest_sculpt(s: Dictionary) -> void:
@@ -281,12 +281,12 @@ func _chest_sculpt(s: Dictionary) -> void:
 	_put(s, sphere(0.16, 6, 3), dark, Vector3(0, 1.43, -0.18), Vector3.ZERO, Vector3(1.15, 0.8, 0.85))
 	_put(s, cyl(0.30, 0.315, 0.035, 8, false), cloth, Vector3(0, 1.30, -0.01))
 	# the team scarf streaming back over the ram (two panels, a light tip)
-	_put(s, box(Vector3(0.16, 0.44, 0.025)), dark, Vector3(-0.07, 1.20, -0.34), Vector3(52, 0, 8))
-	_put(s, box(Vector3(0.15, 0.36, 0.025)), dark, Vector3(-0.10, 1.00, -0.62), Vector3(74, 0, 12))
-	_put(s, box(Vector3(0.155, 0.08, 0.03)), cloth, Vector3(-0.11, 0.95, -0.79), Vector3(74, 0, 12))
+	_put(s, soft_box(Vector3(0.16, 0.44, 0.025)), dark, Vector3(-0.07, 1.20, -0.34), Vector3(52, 0, 8))
+	_put(s, soft_box(Vector3(0.15, 0.36, 0.025)), dark, Vector3(-0.10, 1.00, -0.62), Vector3(74, 0, 12))
+	_put(s, soft_box(Vector3(0.155, 0.08, 0.03)), cloth, Vector3(-0.11, 0.95, -0.79), Vector3(74, 0, 12))
 	# steel pauldron on the left shoulder (the asymmetric shape), a leather strap across the chest
 	_put(s, sphere(0.14, 6, 3), steel, Vector3(-0.30, 1.37, 0.0), Vector3(0, 0, 18), Vector3(1.2, 0.75, 1.15))
-	_put(s, box(Vector3(0.05, 0.62, 0.03)), leather, Vector3(0.02, 1.16, 0.19), Vector3(0, 0, -38))
+	_put(s, soft_box(Vector3(0.05, 0.62, 0.03)), leather, Vector3(0.02, 1.16, 0.19), Vector3(0, 0, -38))
 	# back quiver: a leather tube with three frost javelins, their cyan crystal heads over the right shoulder
 	var qd := (QUIVER_HI - QUIVER_LO).normalized()
 	MountModel.sculpt_add(s, cyl(0.075, 0.065, QUIVER_LO.distance_to(QUIVER_HI), 6, false), Transform3D(_to_dir(qd),

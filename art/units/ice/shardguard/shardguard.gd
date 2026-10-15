@@ -83,10 +83,10 @@ func _build_parts() -> void:
 	# ---- Legs: dark trousers, steel greaves with pale knee cops, heavy sabatons.
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
-		add_part(leg, capsule(0.12, 0.66), dark, Vector3(0.17 * sx, 0.48, 0))
+		add_taper(leg, Vector3(0.17 * sx, 0.20, 0), Vector3(0.17 * sx, 0.80, 0), 0.10, 0.13, dark)
 		add_part(leg, cyl(0.13, 0.11, 0.36, 8), steel, Vector3(0.17 * sx, 0.30, 0.02))
 		add_part(leg, sphere(0.095, 8, 4), plate, Vector3(0.17 * sx, 0.52, 0.09), Vector3.ZERO, Vector3(1.0, 1.0, 0.8))
-		add_part(leg, box(Vector3(0.24, 0.12, 0.36)), steel, Vector3(0.17 * sx, 0.06, 0.05))
+		add_part(leg, boot(0.125, 0.14), steel, Vector3(0.17 * sx, 0.0, 0.05), Vector3.ZERO, Vector3(1.0, 1.0, 1.45))
 		add_part(leg, cyl(0.0, 0.09, 0.16, 6), plate, Vector3(0.17 * sx, 0.07, 0.27), Vector3(90, 0, 0), Vector3(1.2, 1.0, 0.6))
 	# ---- Hips: dark fur under a flared LAMELLAR skirt (3 rows of pale plates, offset), steel belt + buckle.
 	add_part(hips, cyl(0.27, 0.32, 0.30, 10), fur, Vector3(0, 0.76, 0))
@@ -101,21 +101,26 @@ func _build_parts() -> void:
 	add_part(chest, box(Vector3(0.46, 0.08, 0.10)), steel, Vector3(0, 1.00, 0.29))
 	add_part(chest, cyl(0.20, 0.26, 0.14, 10), steel, Vector3(0, 1.56, 0))
 	add_part(chest, cyl(0.15, 0.15, 0.08, 6), frost, Vector3(0, 1.30, 0.36), Vector3(82, 0, 0))
-	add_part(chest, sphere(0.23, 10, 5), plate, Vector3(-0.46, 1.54, 0), Vector3.ZERO, Vector3(1.15, 0.72, 1.15))
+	add_part(chest, lathe(PackedVector2Array([Vector2(0.22, -0.07), Vector2(0.235, 0.0), Vector2(0.21, 0.09),
+		Vector2(0.13, 0.15), Vector2(0.0, 0.17)]), 10), plate, Vector3(-0.46, 1.53, 0), Vector3(0, 0, 14), Vector3(1.12, 0.95, 1.1))
 	add_crystal(chest, Vector3(-0.52, 1.58, 0.04), Vector3(-0.55, 1.0, 0.12), 0.11, 0.56, frost)
 	add_crystal(chest, Vector3(-0.46, 1.60, -0.12), Vector3(-0.3, 1.0, -0.5), 0.075, 0.38, frost)
 	add_crystal(chest, Vector3(-0.58, 1.50, 0.14), Vector3(-1.0, 0.4, 0.3), 0.06, 0.28, frost)
-	add_part(chest, sphere(0.19, 10, 5), steel, Vector3(0.46, 1.55, 0), Vector3.ZERO, Vector3(1.1, 0.75, 1.1))
+	add_part(chest, lathe(PackedVector2Array([Vector2(0.18, -0.06), Vector2(0.195, 0.0), Vector2(0.175, 0.08),
+		Vector2(0.11, 0.13), Vector2(0.0, 0.15)]), 10), steel, Vector3(0.46, 1.54, 0), Vector3(0, 0, -14), Vector3(1.08, 0.95, 1.08))
 	add_part(chest, _lamellar("sg_lames_r", 1.48, 0.20, 0.20, 0.24, 2, 6, 0.6, 2.6), plate, Vector3(0.46, 0, 0))
 	add_part(chest, cape(0.66, 1.22), ice(&"ice_cape"), Vector3(0, 0.97, -0.34), Vector3(-7, 180, 0))
-	add_part(chest, box(Vector3(0.70, 0.08, 0.10)), rime, Vector3(0, 1.54, -0.30))
+	add_part(chest, fur_ring(0.24, 0.40, 0.14, 8, 0.045, 1.0, 0.85), rime, Vector3(0, 1.47, -0.02))
 	add_part(chest, box(Vector3(0.70, 0.07, 0.07)), rime, Vector3(0, 0.38, -0.42), Vector3(-7, 0, 0))
 	for k: int in 5:
 		var x: float = -0.28 + 0.14 * k
 		add_crystal(chest, Vector3(x, 0.37, -0.43), Vector3(0.05 * (k - 2), -1.0, -0.12), 0.03, 0.16 + 0.05 * float(k % 2), frost, 0.6)
 	# ---- Head: tall open-faced steel helm, pale brow plate with a glowing slit, cheek guards, a crest of 3 glass fins.
-	add_part(head, cyl(0.19, 0.22, 0.38, 10), steel, Vector3(0, 1.94, 0.02))
-	add_part(head, cyl(0.02, 0.19, 0.16, 10), steel, Vector3(0, 2.20, 0.02))
+	# (G-C 2026-10-15: a lathed tall close helm wrapping cheeks and nape, open at the front; was a cylinder + cone + cheek boxes)
+	add_part(head, lathe(PackedVector2Array([Vector2(0.205, 2.005), Vector2(0.235, 2.025), Vector2(0.225, 2.055),
+		Vector2(0.215, 2.13), Vector2(0.18, 2.21), Vector2(0.10, 2.27), Vector2(0.0, 2.29)]), 12), steel, Vector3(0, 0, 0.02))
+	add_part(head, lathe(PackedVector2Array([Vector2(0.17, 1.72), Vector2(0.195, 1.78), Vector2(0.21, 1.90),
+		Vector2(0.215, 2.03)]), 8, 1.0, 1.0, 250.0), steel, Vector3(0, 0, 0.0), Vector3(0, 180, 0))
 	add_part(head, box(Vector3(0.40, 0.08, 0.10)), plate, Vector3(0, 2.02, 0.19), Vector3(-10, 0, 0))
 	# The visor slit is now a glowing line on the brow plate: the face (faces pass 2026-09-28) looks out of the open
 	# helm front: a grim halberdier, steel-grey moustache, grey-blue eyes. The face sphere is part of the FaceKit mesh.
@@ -128,8 +133,6 @@ func _build_parts() -> void:
 		"eye": {"hw": 0.030, "top": 0.019, "ir": 0.014}, "mouth": {"c": Vector2(0.0, -0.060), "hw": 0.030},
 		"hair_fn": func(acc: Dictionary) -> void: FaceKit.put_mesh(acc, sphere(0.13, 10, 6), Transform3D(Basis.IDENTITY, fc), ICE_SKIN)},
 		false)
-	for sx: float in [-1.0, 1.0]:
-		add_part(head, box(Vector3(0.06, 0.20, 0.14)), plate, Vector3(0.17 * sx, 1.84, 0.12), Vector3(0, 12 * sx, 0))
 	add_part(head, box(Vector3(0.05, 0.14, 0.40)), cloth, Vector3(0, 2.18, -0.02))
 	add_crystal(head, Vector3(0, 2.22, 0.10), Vector3(0, 1.0, 0.35), 0.06, 0.34, frost)
 	add_crystal(head, Vector3(0, 2.24, -0.04), Vector3(0, 1.0, -0.25), 0.055, 0.30, frost)
@@ -140,11 +143,11 @@ func _build_parts() -> void:
 		trim.set_meta(&"vet_trim", true)
 		trim.visible = false
 	# ---- Left arm: dark sleeve, pale lamellar rerebrace, steel gauntlet (free hand, guard forward).
-	add_limb(arm_l, Vector3(-0.47, 1.50, 0), Vector3(-0.50, 1.18, 0.04), 0.10, dark)
+	add_taper(arm_l, Vector3(-0.47, 1.50, 0), Vector3(-0.50, 1.18, 0.04), 0.105, 0.09, dark)
 	add_part(arm_l, cyl(0.12, 0.13, 0.22, 8), plate, Vector3(-0.48, 1.36, 0.01))
 	add_limb(arm_l, Vector3(-0.50, 1.18, 0.04), Vector3(-0.46, 0.96, 0.18), 0.09, steel, 0.10, steel)
 	# ---- Right arm: sleeve, rerebrace, gauntlet round the shaft.
-	add_limb(arm_r, Vector3(0.47, 1.50, 0), Vector3(0.50, 1.24, 0.03), 0.10, dark)
+	add_taper(arm_r, Vector3(0.47, 1.50, 0), Vector3(0.50, 1.24, 0.03), 0.105, 0.09, dark)
 	add_part(arm_r, cyl(0.12, 0.13, 0.22, 8), plate, Vector3(0.48, 1.38, 0.01))
 	add_limb(arm_r, Vector3(0.50, 1.24, 0.03), FIST_R, 0.09, steel, 0.105, steel)
 	# ---- The glaive: tower-high dark shaft with steel bands and a butt spike, a steel socket, the glowing rune,

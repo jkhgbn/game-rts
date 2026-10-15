@@ -268,8 +268,8 @@ func _hips_sculpt(s: Dictionary) -> void:
 	var fur := m("ice_fur")
 	_put(s, cyl(0.215, 0.27, 0.22, 8, false), steel, Vector3(0, 0.83, 0))
 	_put(s, cyl(0.225, 0.225, 0.06, 8, false), leather, Vector3(0, 0.93, 0))
-	_put(s, box(Vector3(0.26, 0.36, 0.03)), dark, Vector3(0, 0.80, 0.29), Vector3(-60, 0, 0))
-	_put(s, box(Vector3(0.07, 0.36, 0.034)), cloth, Vector3(0, 0.802, 0.292), Vector3(-60, 0, 0))
+	_put(s, soft_box(Vector3(0.26, 0.36, 0.03)), dark, Vector3(0, 0.80, 0.29), Vector3(-60, 0, 0))
+	_put(s, soft_box(Vector3(0.07, 0.36, 0.034)), cloth, Vector3(0, 0.802, 0.292), Vector3(-60, 0, 0))
 	for sx: float in [-1.0, 1.0]:
 		var hip := Vector3(0.12 * sx, HIP_Y - 0.03, 0.0)
 		var knee := Vector3(0.36 * sx, HIP_Y - 0.25, 0.17)
@@ -278,7 +278,7 @@ func _hips_sculpt(s: Dictionary) -> void:
 		_put(s, sphere(0.08, 5, 2), steel, knee + Vector3(0.0, 0.0, 0.02))
 		_seg(s, steel, knee, ankle, 0.072, 0.06)
 		_put(s, cyl(0.075, 0.085, 0.07, 6, false), fur, ankle + Vector3(0, 0.03, 0))
-		_put(s, box(Vector3(0.115, 0.10, 0.26)), leather, ankle + Vector3(0.0, -0.04, 0.06))
+		_put(s, soft_box(Vector3(0.115, 0.10, 0.26)), leather, ankle + Vector3(0.0, -0.04, 0.06))
 
 
 func _chest_sculpt(s: Dictionary) -> void:
@@ -298,10 +298,10 @@ func _chest_sculpt(s: Dictionary) -> void:
 		MountModel.sculpt_add(s, cyl(0.262, 0.262, 0.025, 8, false), Transform3D(Basis.from_scale(Vector3(1.0, 1.0, 0.84)),
 			Vector3(0, y, 0)), metal)
 	# team tabard front / back, light stripe; a short team cape over the cat's back (a light hem)
-	_put(s, box(Vector3(0.28, 0.42, 0.03)), dark, Vector3(0, 1.14, 0.235), Vector3(-6, 0, 0))
-	_put(s, box(Vector3(0.07, 0.42, 0.034)), cloth, Vector3(0, 1.14, 0.247), Vector3(-6, 0, 0))
-	_put(s, box(Vector3(0.52, 0.56, 0.03)), dark, Vector3(0, 1.16, -0.36), Vector3(40, 0, 0))
-	_put(s, box(Vector3(0.53, 0.06, 0.035)), cloth, Vector3(0, 0.95, -0.54), Vector3(40, 0, 0))
+	_put(s, soft_box(Vector3(0.28, 0.42, 0.03)), dark, Vector3(0, 1.14, 0.235), Vector3(-6, 0, 0))
+	_put(s, soft_box(Vector3(0.07, 0.42, 0.034)), cloth, Vector3(0, 1.14, 0.247), Vector3(-6, 0, 0))
+	_put(s, soft_box(Vector3(0.52, 0.56, 0.03)), dark, Vector3(0, 1.16, -0.36), Vector3(40, 0, 0))
+	_put(s, soft_box(Vector3(0.53, 0.06, 0.035)), cloth, Vector3(0, 0.95, -0.54), Vector3(40, 0, 0))
 	# a shaggy dark fur collar, small steel pauldrons
 	MountModel.sculpt_fringe(s, fur, MountModel.fringe_mesh("sdr_collar_v1", 0.14, 0.13, 0.30, 0.26, 0.14, 0.0, 360.0, 7,
 		0.07, 0.025, 0.6), Vector3(0, 1.49, -0.01))
@@ -315,11 +315,11 @@ func _chest_sculpt(s: Dictionary) -> void:
 		Vector2(0.04, 1.925), Vector2(0.0, 1.93)])
 	MountModel.sculpt_add(s, MountModel.lathe_mesh("sdr_helm_v1", dome, 8, false), Transform3D(Basis.IDENTITY,
 		Vector3(0, 0, 0.02)), steel)
-	_put(s, box(Vector3(0.035, 0.12, 0.03)), metal, Vector3(0, 1.69, 0.19), Vector3(-8, 0, 0))
+	_put(s, soft_box(Vector3(0.035, 0.12, 0.03)), metal, Vector3(0, 1.69, 0.19), Vector3(-8, 0, 0))
 	# a glowing frost gem on the helm brow (the high glow point)
 	MountModel.sculpt_crystal(s, m("ice_glow_unit"), Vector3(0, 1.765, 0.17), Vector3(0, 0.55, 1.0), 0.032, 0.08, 0.55)
 	for sx: float in [-1.0, 1.0]:
-		_put(s, box(Vector3(0.03, 0.13, 0.11)), steel, Vector3(0.155 * sx, 1.64, 0.05), Vector3(0, 14.0 * sx, 0))
+		_put(s, soft_box(Vector3(0.03, 0.13, 0.11)), steel, Vector3(0.155 * sx, 1.64, 0.05), Vector3(0, 14.0 * sx, 0))
 		# a swept-back feathered wing: three feather points trailing behind the helm
 		var wing := PackedVector2Array([Vector2(0.07, -0.02), Vector2(0.02, 0.07), Vector2(-0.10, 0.15), Vector2(-0.30, 0.19),
 			Vector2(-0.22, 0.12), Vector2(-0.33, 0.10), Vector2(-0.22, 0.05), Vector2(-0.30, 0.00), Vector2(-0.12, -0.02)])
@@ -371,7 +371,7 @@ func _arm_r_sculpt(s: Dictionary) -> void:
 		rad.append(0.019 if i < 3 else 0.0)
 	MountModel.sculpt_add(s, MountModel.tube_mesh("sdr_edge_v1", pts, rad, 4), Transform3D.IDENTITY, m("ice_glow_unit"))
 	# guard, grip, pommel
-	MountModel.sculpt_add(s, box(Vector3(0.20, 0.035, 0.045)), Transform3D(_to_dir(d), HAND_R + d * 0.02), metal)
+	MountModel.sculpt_add(s, soft_box(Vector3(0.20, 0.035, 0.045)), Transform3D(_to_dir(d), HAND_R + d * 0.02), metal)
 	_seg(s, leather, HAND_R - d * 0.02, HAND_R - d * 0.13, 0.024, 0.022, 5)
 	MountModel.sculpt_add(s, sphere(0.032, 5, 2), Transform3D(Basis.IDENTITY, HAND_R - d * 0.15), metal)
 

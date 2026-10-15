@@ -1,0 +1,82 @@
+{
+	"asset": "frost_mortar",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 3062,
+					"node": "Root/Mount/Merged",
+					"to": 1531,
+					"words": "`Merged` 3062 -> 1531 verts"
+				},
+				{
+					"from": 289,
+					"node": "Root/Chest/Merged",
+					"to": 145,
+					"words": "`Merged` 289 -> 145 verts"
+				},
+				{
+					"from": 285,
+					"node": "Root/Chest/Head/Merged",
+					"to": 143,
+					"words": "`Merged` 285 -> 143 verts"
+				},
+				{
+					"from": 239,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 120,
+					"words": "`Merged` 239 -> 120 verts"
+				},
+				{
+					"from": 239,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 120,
+					"words": "`Merged` 239 -> 120 verts"
+				},
+				{
+					"from": 233,
+					"node": "Root/Hips/LegL/Merged",
+					"to": 117,
+					"words": "`Merged` 233 -> 117 verts"
+				},
+				{
+					"from": 233,
+					"node": "Root/Hips/LegR/Merged",
+					"to": 117,
+					"words": "`Merged` 233 -> 117 verts"
+				},
+				{
+					"from": 67,
+					"node": "Root/Mount/Muzzle",
+					"to": 34,
+					"words": "`Muzzle` 67 -> 34 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 5039
+			},
+			"predicted": {
+				"verts": 2719
+			},
+			"proposal": "5039 -> 2719 (want <= 2500): `Merged` 3062 -> 1531 verts; `Merged` 289 -> 145 verts; `Merged` 285 -> 143 verts; `Merged` 239 -> 120 verts; `Merged` 239 -> 120 verts; `Merged` 233 -> 117 verts; `Merged` 233 -> 117 verts; `Muzzle` 67 -> 34 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B4 5039 -> 2719 (want <= 2500): `Merged` 3062 -> 1531 verts; `Merged` 289 -> 145 verts; `Merged` 285 -> 143 verts; `Merged` 239 -> 120 verts; `Merged` 239 -> 120 verts; `Merged` 233 -> 117 verts; `Merged` 233 -> 117 verts; `Muzzle` 67 -> 34 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 2500"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 95.0,
+	"result": "FAIL",
+	"scene": "res://art/units/ice/frost_mortar/frost_mortar.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

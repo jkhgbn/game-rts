@@ -50,27 +50,44 @@ func _build_parts() -> void:
 	var metal := ice(&"ice_metal")
 	var frost := ice(&"ice_frost_crystal")
 	var glow := ice(&"ice_glow_unit")
-	# Legs (dark fur trousers + boots).
+	# Legs (tapered dark fur trousers + rounded boots; G-C 2026-10-15, were capsules + boxes).
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
-		add_part(leg, capsule(0.10, 0.52), fur, Vector3(0.13 * sx, 0.38, 0))
-		add_part(leg, box(Vector3(0.21, 0.11, 0.31)), leather, Vector3(0.13 * sx, 0.055, 0.04))
-	# Chest: long team-dark coat skirt (dark mass), team torso, leather belt, pale fur collar, crystal shoulder guard
-	# on the left, quiver with 3 ice shards over the left shoulder.
-	add_part(chest, cyl(0.24, 0.37, 0.66, 8), dark, Vector3(0, 0.62, 0))
-	add_part(chest, cyl(0.27, 0.24, 0.40, 8), cloth, Vector3(0, 1.08, 0))
-	add_part(chest, cyl(0.25, 0.26, 0.07, 8), leather, Vector3(0, 0.90, 0))
-	add_part(chest, cyl(0.16, 0.35, 0.15, 8), pale, Vector3(0, 1.26, 0))
+		add_taper(leg, Vector3(0.13 * sx, 0.11, 0), Vector3(0.13 * sx, 0.62, 0), 0.075, 0.105, fur)
+		add_part(leg, boot(0.105, 0.13), leather, Vector3(0.13 * sx, 0.0, 0.04), Vector3.ZERO, Vector3(1.0, 1.0, 1.4))
+	# Chest (G-C: lathed, was cones; same authored part count: the Frostrune Rifleman builds on it and counts them):
+	# a long team-dark greatcoat flaring to a jagged fur-rimmed hem, a fitted team torso, leather belt, pale fur collar,
+	# a crystal shoulder guard on the left, a quiver with 3 ice shards over the left shoulder (one grouped part).
+	add_part(chest, lathe(PackedVector2Array([Vector2(0.39, 0.28), Vector2(0.37, 0.40), Vector2(0.31, 0.64),
+		Vector2(0.255, 0.86), Vector2(0.25, 0.93)]), 10, 1.0, 0.9), dark, Vector3.ZERO)
+	add_part(chest, fur_ring(0.375, 0.40, 0.10, 8, 0.04, 1.0, 0.9), fur, Vector3(0, 0.26, 0))
+	add_part(chest, lathe(PackedVector2Array([Vector2(0.245, 0.88), Vector2(0.27, 1.00), Vector2(0.285, 1.12),
+		Vector2(0.25, 1.24), Vector2(0.16, 1.30), Vector2(0.0, 1.31)]), 10, 1.0, 0.85), cloth, Vector3.ZERO)
+	add_part(chest, cyl(0.26, 0.27, 0.07, 10), leather, Vector3(0, 0.90, 0))
+	add_part(chest, fur_ring(0.16, 0.32, 0.15, 7, 0.04, 1.0, 0.9), pale, Vector3(0, 1.19, 0))
 	add_part(chest, sphere(0.14, 6, 3), frost, Vector3(-0.30, 1.25, 0.0), Vector3.ZERO, Vector3(1.0, 0.75, 1.1))
-	add_part(chest, cyl(0.09, 0.08, 0.55, 6), leather, Vector3(-0.02, 1.05, -0.29), Vector3(0, 0, 22))
-	add_crystal(chest, Vector3(-0.13, 1.30, -0.29), Vector3(-0.38, 1.0, 0.0), 0.06, 0.34, frost, 0.5)
-	add_crystal(chest, Vector3(-0.07, 1.30, -0.34), Vector3(-0.25, 1.0, -0.2), 0.05, 0.28, frost, 0.5)
-	add_crystal(chest, Vector3(-0.19, 1.26, -0.24), Vector3(-0.5, 1.0, 0.15), 0.045, 0.24, frost, 0.5)
+	add_part(chest, cyl(0.09, 0.08, 0.55, 8), leather, Vector3(-0.02, 1.05, -0.29), Vector3(0, 0, 22))
+	var shard := cyl(0.0, 1.0, 1.0, 6)
+	var prism6 := cyl(1.0, 0.85, 1.0, 6)
+	var quiver: Array = []
+	for q: Array in [[Vector3(-0.13, 1.30, -0.29), Vector3(-0.38, 1.0, 0.0), 0.06, 0.34],
+			[Vector3(-0.07, 1.30, -0.34), Vector3(-0.25, 1.0, -0.2), 0.05, 0.28],
+			[Vector3(-0.19, 1.26, -0.24), Vector3(-0.5, 1.0, 0.15), 0.045, 0.24]]:
+		var qd: Vector3 = (q[1] as Vector3).normalized()
+		var qe := Basis(Quaternion(Vector3.UP, qd)).get_euler() * (180.0 / PI)
+		var qr: float = q[2]
+		var qh: float = q[3]
+		quiver.append([prism6, q[0] + qd * qh * 0.25, qe, Vector3(qr, qh * 0.5, qr)])
+		quiver.append([shard, q[0] + qd * qh * 0.75, qe, Vector3(qr, qh * 0.5, qr)])
+	add_group(chest, "shardcaster_quiver", frost, quiver)
 	# Head: face, team hood cowl + tall pointed hood tip leaning back. The painted face (faces pass 2026-09-28) replaces
 	# the glowing eye slit: its irises glow instead (the head keeps its glow point).
 	add_part(head, sphere(0.16), skin, Vector3(0, 1.40, 0.03))
 	add_part(head, sphere(0.215), cloth, Vector3(0, 1.44, -0.05))
-	add_part(head, cyl(0.0, 0.17, 0.42, 6), cloth, Vector3(0, 1.69, -0.14), Vector3(-30, 0, 0))
+	# (G-C: a lathed cowl whose tip droops back, was a straight cone that read as a pointed cap)
+	add_part(head, lathe(PackedVector2Array([Vector2(0.175, 0.0), Vector2(0.16, 0.10), Vector2(0.11, 0.21),
+		Vector2(0.055, 0.29), Vector2(0.0, 0.32)]), 8), cloth, Vector3(0, 1.49, -0.04), Vector3(-42, 0, 0))
+	add_part(head, cyl(0.0, 0.055, 0.20, 6), cloth, Vector3(0, 1.66, -0.32), Vector3(-118, 0, 0))
 	_face = FaceKit.attach(self, head, _face_key(), _face_spec())
 	var trim := add_part(head, torus(0.18, 0.23), palette(&"unit_gold_trim"), Vector3(0, 1.56, -0.06),
 		Vector3(-12, 0, 0), Vector3.ONE, true, "VetTrim")
@@ -78,14 +95,26 @@ func _build_parts() -> void:
 		trim.set_meta(&"vet_trim", true)
 		trim.visible = false
 	# Arms: the left rests on the rod, the right holds it at the hip.
-	add_limb(arm_l, Vector3(-0.33, 1.20, 0), GRIP_L, 0.085, dark, 0.095, skin)
-	add_limb(arm_r, Vector3(0.33, 1.20, 0), GRIP, 0.085, dark, 0.095, skin)
-	# Crystal rod: 1.4 m faceted ice, silver bands at the grip and the tip socket, glowing tip crystal.
+	# (G-C: tapered sleeves with pale fur cuffs and leather gloves, were capsules)
+	for arm: Node3D in [arm_l, arm_r]:
+		var sh := Vector3(-0.33 if arm == arm_l else 0.33, 1.20, 0)
+		var hand: Vector3 = GRIP_L if arm == arm_l else GRIP
+		var cuff := sh.lerp(hand, 0.78)
+		add_taper(arm, sh, cuff, 0.09, 0.075, dark)
+		add_part(arm, fur_ring(0.07, 0.09, 0.05, 5, 0.02), pale, cuff, Basis(Quaternion(Vector3.UP,
+			(hand - sh).normalized())).get_euler() * (180.0 / PI))
+		add_part(arm, sphere(0.085, 8, 4), leather, hand)
+	# Crystal rod: 1.4 m faceted ice, silver bands at the grip, mid-shaft and the tip socket, glowing tip crystal.
 	var d := ROD_DIR.normalized()
 	var e := Basis(Quaternion(Vector3.UP, d)).get_euler() * (180.0 / PI)
 	add_part(arm_r, cyl(0.05, 0.045, 1.36, 6), frost, GRIP + d * 0.33, e)
-	add_part(arm_r, cyl(0.07, 0.07, 0.16, 6), metal, GRIP, e)
-	add_part(arm_r, cyl(0.075, 0.06, 0.10, 6), metal, GRIP + d * 0.98, e)
+	add_part(arm_r, cyl(0.07, 0.07, 0.16, 8), metal, GRIP, e)
+	add_part(arm_r, cyl(0.062, 0.062, 0.05, 8), metal, GRIP + d * 0.55, e)
+	add_part(arm_r, cyl(0.085, 0.06, 0.12, 8), metal, GRIP + d * 0.98, e)
+	for k: int in 3:
+		var a := TAU * float(k) / 3.0
+		var side := Basis(Quaternion(Vector3.UP, d)) * Vector3(cos(a), 0, sin(a))
+		add_crystal(arm_r, GRIP + d * 1.0 + side * 0.06, d + side * 0.55, 0.025, 0.16, frost, 0.6)
 	var back_e := Basis(Quaternion(Vector3.UP, -d)).get_euler() * (180.0 / PI)
 	add_part(arm_r, cyl(0.0, 0.06, 0.18, 6), frost, GRIP - d * 0.44, back_e)
 	var tip_pos := GRIP + d * 1.14

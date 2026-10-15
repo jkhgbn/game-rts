@@ -45,20 +45,30 @@ func _build_parts() -> void:
 	var glow := ice(&"ice_glow")
 	# Legs: short dark stone pillars, ice knee chunks, big DARK stone feet (Art Lab P3: pale feet made the bottom as
 	# light as the top; dark feet ground the giant and leave the light to the back crystals).
+	# (G-C 2026-10-15: tapered stone legs, rounded stone feet with ice toe crystals, a soft-edged pelvis, a bigger team
+	# loincloth front and back, a jagged team hide mantle over the shoulders: the team colour now reads from above.)
 	for leg: Node3D in [leg_l, leg_r]:
 		var sx: float = -1.0 if leg == leg_l else 1.0
-		add_part(leg, cyl(0.21, 0.26, 0.80, 7), sdark, Vector3(0.32 * sx, 0.48, 0))
+		add_taper(leg, Vector3(0.33 * sx, 0.18, 0.02), Vector3(0.32 * sx, 0.86, 0), 0.22, 0.25, sdark, 9)
 		add_part(leg, sphere(0.19, 6, 3), deep, Vector3(0.34 * sx, 0.64, 0.13), Vector3(0, 30, 0))
-		add_part(leg, box(Vector3(0.44, 0.24, 0.58)), sdark, Vector3(0.34 * sx, 0.12, 0.08))
-	# Hips: pelvis block + team loincloth.
-	add_part(hips, box(Vector3(0.95, 0.42, 0.62)), sdark, Vector3(0, 0.98, 0))
-	add_part(hips, box(Vector3(0.52, 0.58, 0.07)), ice(&"ice_cloth"), Vector3(0, 0.80, 0.33), Vector3(-6, 0, 0))
+		add_part(leg, boot(0.25, 0.26), sdark, Vector3(0.34 * sx, 0.0, 0.08), Vector3.ZERO, Vector3(0.95, 1.0, 1.25))
+		add_spikes(leg, Vector3(0.34 * sx, 0.06, 0.34), 3, 0.10, 0.05, 0.16, 75.0, frost, -60.0)
+	# Hips: pelvis block + team loincloth (front and back).
+	add_part(hips, soft_box(Vector3(0.95, 0.42, 0.62), 0.55), sdark, Vector3(0, 0.98, 0))
+	add_part(hips, soft_box(Vector3(0.58, 0.64, 0.06)), ice(&"ice_cloth"), Vector3(0, 0.78, 0.34), Vector3(-6, 0, 0))
+	add_part(hips, soft_box(Vector3(0.62, 0.56, 0.06)), ice(&"ice_cloth"), Vector3(0, 0.80, -0.33), Vector3(6, 0, 0))
 	# Chest: faceted deep-ice barrel torso, dark stone hump and belly plates, team hide mantle, core socket.
 	add_part(chest, sphere(0.62, 7, 4), deep, Vector3(0, 1.62, 0.08), Vector3(0, 12, 0), Vector3(1.25, 1.05, 0.95))
 	add_part(chest, sphere(0.50, 7, 4), sdark, Vector3(0, 2.08, -0.14), Vector3.ZERO, Vector3(1.35, 0.85, 1.05))
 	add_part(chest, sphere(0.30, 6, 3), sdark, Vector3(-0.42, 1.30, 0.34), Vector3(0, 20, 0), Vector3(1.0, 0.8, 0.7))
 	add_part(chest, sphere(0.28, 6, 3), sdark, Vector3(0.44, 1.34, 0.32), Vector3(0, -15, 0), Vector3(1.0, 0.8, 0.7))
-	add_part(chest, cyl(0.45, 0.80, 0.26, 10), ice(&"ice_sec_colossus"), Vector3(0, 2.00, 0.02), Vector3(15, 0, 0))
+	# Team hide thrown over the hump (a shell just outside it, the crystals grow through it) with a jagged hide hem
+	# round the shoulders: the big top-facing team-colour mass of the giant (Art Lab R6 3 % before).
+	# (the hide covers the back of the hump only; its rim is cut into tufts, so from the RTS camera it reads as a
+	# shaggy team pelt, not a smooth dome; the stone brow of the hump stays bare over the head)
+	add_part(chest, fur_cap(0.53, -18.0, 7, 22.0, 230.0), ice(&"ice_cloth_dark"), Vector3(0, 2.08, -0.16),
+		Vector3(0, 180, 0), Vector3(1.38, 0.88, 1.08))
+	add_part(chest, fur_ring(0.64, 0.86, 0.22, 10, 0.07, 1.0, 0.9), ice(&"ice_cloth_dark"), Vector3(0, 1.82, -0.05))
 	add_part(chest, torus(0.15, 0.25), metal, Vector3(0, 1.70, 0.64), Vector3(90, 0, 0))
 	# Glacier crystals: 5 jagged hexagonal crystals growing out of the back hump, leaning back and out.
 	add_crystal(chest, Vector3(0.02, 2.18, -0.30), Vector3(0.0, 1.0, -0.45), 0.21, 1.15, frost, 0.45)
@@ -95,12 +105,14 @@ func _build_parts() -> void:
 	chest.add_child(_cracks)
 	# Head: low and forward, heavy brow, glowing eye bar, two short ice horns.
 	add_part(head, sphere(0.26, 7, 4), stone, Vector3(0, 2.02, 0.52), Vector3.ZERO, Vector3(1.1, 0.9, 1.0))
-	add_part(head, box(Vector3(0.46, 0.11, 0.20)), sdark, Vector3(0, 2.12, 0.64))
+	add_part(head, soft_box(Vector3(0.48, 0.12, 0.22), 0.55), sdark, Vector3(0, 2.12, 0.64), Vector3(-8, 0, 0))
 	add_part(head, box(Vector3(0.32, 0.06, 0.05)), ice(&"ice_glow_unit"), Vector3(0, 2.03, 0.76))
 	add_crystal(head, Vector3(-0.18, 2.16, 0.48), Vector3(-0.6, 1.0, -0.3), 0.06, 0.26, frost, 0.6)
 	add_crystal(head, Vector3(0.18, 2.16, 0.48), Vector3(0.6, 1.0, -0.3), 0.06, 0.26, frost, 0.6)
 	# Left arm: short stone arm + fist, crystal shoulder spike.
-	add_limb(arm_l, Vector3(-0.68, 1.95, 0.05), Vector3(-0.80, 1.25, 0.18), 0.16, sdark, 0.21, stone)
+	add_taper(arm_l, Vector3(-0.68, 1.95, 0.05), Vector3(-0.80, 1.30, 0.17), 0.19, 0.15, sdark, 9)
+	add_part(arm_l, sphere(0.22, 7, 4), stone, Vector3(-0.80, 1.22, 0.18), Vector3.ZERO, Vector3(1.0, 0.9, 1.1))
+	add_spikes(arm_l, Vector3(-0.80, 1.26, 0.18), 3, 0.17, 0.045, 0.14, 80.0, frost, 30.0)
 	add_crystal(arm_l, Vector3(-0.74, 2.10, 0.0), Vector3(-0.45, 1.0, 0.0), 0.12, 0.48, frost, 0.55)
 	# Right arm = the club: dark shoulder boulder, stone upper arm, a massive faceted ice club down to the ground
 	# with two stone bands and 3 crystal spikes at the head.
@@ -194,6 +206,11 @@ func _on_action_event(ev: StringName) -> void:
 			_ring_t = 0.0
 			if _ring:
 				_ring.visible = true
+
+
+## G-C: more snow round the giant (High / Ultra, close camera only).
+func _snow_amount() -> int:
+	return 10
 
 
 func _on_ice_hit() -> void:

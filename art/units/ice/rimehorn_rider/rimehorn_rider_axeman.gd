@@ -267,8 +267,8 @@ func _hips_sculpt(s: Dictionary) -> void:
 	# fur skirt round the sides and back (the front stays clear of the Rimehorn's hump), a team flap behind
 	MountModel.sculpt_fringe(s, fur, MountModel.fringe_mesh("rrr_skirt_v1", 0.25, 0.22, 0.32, 0.29, 0.14, 62.0, 298.0, 8,
 		0.10, 0.03, 0.6), Vector3(0, 0.93, 0))
-	_put(s, box(Vector3(0.30, 0.30, 0.035)), cloth, Vector3(0, 0.79, -0.27), Vector3(-14, 0, 0))
-	_put(s, box(Vector3(0.30, 0.04, 0.04)), dark, Vector3(0, 0.645, -0.305), Vector3(-14, 0, 0))
+	_put(s, soft_box(Vector3(0.30, 0.30, 0.035)), cloth, Vector3(0, 0.79, -0.27), Vector3(-14, 0, 0))
+	_put(s, soft_box(Vector3(0.30, 0.04, 0.04)), dark, Vector3(0, 0.645, -0.305), Vector3(-14, 0, 0))
 
 
 ## A leg rooted at the hip (sx -1 left, +1 right): team-dark trousers, a steel knee cop, the shin authored bent back by
@@ -307,9 +307,9 @@ func _chest_sculpt(s: Dictionary) -> void:
 	var torso := MountModel.lathe_mesh("rrr_torso_v1", prof, 12)
 	MountModel.sculpt_add(s, torso, Transform3D(Basis.from_scale(Vector3(1.0, 1.0, 0.82)), Vector3.ZERO), cloth)
 	# dark steel plates front and back, a silver-blue medallion with an ice gem
-	_put(s, box(Vector3(0.46, 0.34, 0.10)), steel, Vector3(0, 1.27, 0.20), Vector3(-9, 0, 0))
-	_put(s, box(Vector3(0.40, 0.13, 0.09)), steel, Vector3(0, 1.06, 0.18), Vector3(-4, 0, 0))
-	_put(s, box(Vector3(0.48, 0.40, 0.08)), steel, Vector3(0, 1.25, -0.20), Vector3(8, 0, 0))
+	_put(s, soft_box(Vector3(0.46, 0.34, 0.10)), steel, Vector3(0, 1.27, 0.20), Vector3(-9, 0, 0))
+	_put(s, soft_box(Vector3(0.40, 0.13, 0.09)), steel, Vector3(0, 1.06, 0.18), Vector3(-4, 0, 0))
+	_put(s, soft_box(Vector3(0.48, 0.40, 0.08)), steel, Vector3(0, 1.25, -0.20), Vector3(8, 0, 0))
 	_put(s, cyl(0.08, 0.08, 0.04, 10), metal, Vector3(0, 1.30, 0.265), Vector3(81, 0, 0))
 	_put(s, cyl(0.045, 0.045, 0.04, 6), frost, Vector3(0, 1.303, 0.29), Vector3(81, 0, 0))
 	# silver-blue pauldrons, frost crystals growing out of them
@@ -336,7 +336,7 @@ func _head_sculpt(s: Dictionary) -> void:
 	_put(s, cyl(0.085, 0.10, 0.14, 8), skin, Vector3(0, 1.585, 0.02))
 	_put(s, sphere(0.145, 10, 6), skin, Vector3(0, 1.72, 0.05), Vector3.ZERO, Vector3(0.95, 1.05, 0.95))
 	for sx: float in [-1.0, 1.0]:
-		_put(s, box(Vector3(0.05, 0.17, 0.15)), steel, Vector3(0.145 * sx, 1.71, 0.07), Vector3(0, 12.0 * sx, 0))
+		_put(s, soft_box(Vector3(0.05, 0.17, 0.15)), steel, Vector3(0.145 * sx, 1.71, 0.07), Vector3(0, 12.0 * sx, 0))
 	# the pale beard: a full chin, a long braid with a silver ring, a moustache
 	_put(s, sphere(0.125, 9, 5), hair, Vector3(0, 1.59, 0.12), Vector3.ZERO, Vector3(1.0, 0.9, 0.8))
 	_seg(s, hair, Vector3(0, 1.55, 0.16), Vector3(0, 1.34, 0.22), 0.09, 0.02, 7)
@@ -347,9 +347,9 @@ func _head_sculpt(s: Dictionary) -> void:
 	_put(s, sphere(0.17, 12, 6), steel, Vector3(0, 1.83, 0.03), Vector3.ZERO, Vector3(1.05, 0.88, 1.08))
 	_put(s, torus(0.155, 0.195, 14), metal, Vector3(0, 1.805, 0.03))
 	_put(s, torus(0.15, 0.225, 14), fur, Vector3(0, 1.79, 0.02), Vector3.ZERO, Vector3(1.0, 1.5, 1.0))
-	_put(s, box(Vector3(0.04, 0.15, 0.035)), metal, Vector3(0, 1.745, 0.195), Vector3(-6, 0, 0))
+	_put(s, soft_box(Vector3(0.04, 0.15, 0.035)), metal, Vector3(0, 1.745, 0.195), Vector3(-6, 0, 0))
 	# the swept-back ice fin crest (echoes the Rimehorn's horn), a steel ridge under it
-	_put(s, box(Vector3(0.05, 0.05, 0.30)), metal, Vector3(0, 1.975, 0.0), Vector3(-10, 0, 0))
+	_put(s, soft_box(Vector3(0.05, 0.05, 0.30)), metal, Vector3(0, 1.975, 0.0), Vector3(-10, 0, 0))
 	MountModel.sculpt_add(s, MountModel.tube_mesh("rrr_crest_v1", PackedVector3Array([Vector3(0, 1.96, 0.13),
 		Vector3(0, 2.07, 0.02), Vector3(0, 2.16, -0.13), Vector3(0, 2.22, -0.32)]),
 		PackedFloat32Array([0.075, 0.07, 0.045, 0.0]), 6, true, 0.38), Transform3D.IDENTITY, frost)
@@ -372,13 +372,13 @@ func _arm_l_sculpt(s: Dictionary) -> void:
 	_seg(s, steel, elbow, HAND_L + Vector3(0, 0.05, 0), 0.082, 0.07, 8)
 	_put(s, sphere(0.078, 8, 4), leather, HAND_L, Vector3.ZERO, Vector3(1.0, 1.05, 1.1))
 	# strap from the forearm to the shield
-	_put(s, box(Vector3(0.14, 0.06, 0.06)), leather, Vector3(-0.47, 1.06, 0.01))
+	_put(s, soft_box(Vector3(0.14, 0.06, 0.06)), leather, Vector3(-0.47, 1.06, 0.01))
 	# the round shield of clear ice (face -X), silver rim, the team snowflake inside the ice, a crystal boss
 	var sc := SHIELD_C
 	_put(s, cyl(SHIELD_R, SHIELD_R, 0.07, 14), m("ice_frost_clear"), sc, Vector3(0, 0, 90))
 	_put(s, torus(SHIELD_R - 0.03, SHIELD_R + 0.05, 14), metal, sc, Vector3(0, 0, 90))
 	for k: int in 3:
-		_put(s, box(Vector3(0.022, 0.085, 0.62)), cloth, sc + Vector3(-0.005, 0, 0), Vector3(60.0 * k, 0, 0))
+		_put(s, soft_box(Vector3(0.022, 0.085, 0.62)), cloth, sc + Vector3(-0.005, 0, 0), Vector3(60.0 * k, 0, 0))
 	_put(s, cyl(0.0, 0.11, 0.17, 6), frost, sc + Vector3(-0.115, 0, 0), Vector3(0, 0, 90))
 	_put(s, cyl(0.12, 0.12, 0.03, 10), metal, sc + Vector3(-0.035, 0, 0), Vector3(0, 0, 90))
 	# three frost crystals grown on the rim (top-front), pointing outward
@@ -416,7 +416,7 @@ func _axe_sculpt(s: Dictionary) -> void:
 		_put(s, cyl(0.045, 0.045, 0.05, 7, false), leather, d * o)
 	_put(s, cyl(0.052, 0.052, 0.06, 7), metal, d * 0.66)
 	var h := d * AXE_HEAD
-	_put(s, box(Vector3(0.10, 0.25, 0.13)), steel, h + Vector3(0, 0, 0.02))
+	_put(s, soft_box(Vector3(0.10, 0.25, 0.13)), steel, h + Vector3(0, 0, 0.02))
 	var poly := PackedVector2Array()
 	for p: Vector2 in BLADE:
 		poly.append(p * BLADE_SCALE)

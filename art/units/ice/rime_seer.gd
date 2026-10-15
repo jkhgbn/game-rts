@@ -8,7 +8,7 @@ extends IceModel
 ## (0.6 s); the beam starts at get_beam_origin(). Idle fidget: peers into the lantern. Death: freezes over,
 ## shatters. Level 4: gold circlet trim.
 
-const HOOK := Vector3(0.38, 2.16, 0.46)   # model-space point the lantern hangs from
+const HOOK := Vector3(0.38, 2.16, 0.45)   # model-space point the lantern hangs from
 
 var _lantern: Node3D
 var _core: GeometryInstance3D
@@ -30,16 +30,25 @@ func _build_parts() -> void:
 	var frost := ice(&"ice_frost_crystal")
 	var glow := ice(&"ice_glow_unit")
 	# Hips: pale bell robe, team hem band, team stole down the front (no leg pivots: the robe hides the legs).
-	add_part(hips, cyl(0.22, 0.47, 0.92, 10), robe, Vector3(0, 0.46, 0))
-	add_part(hips, cyl(0.47, 0.49, 0.12, 10), cloth, Vector3(0, 0.06, 0))
-	add_part(hips, box(Vector3(0.20, 0.74, 0.04)), cloth, Vector3(0, 0.50, 0.35), Vector3(-15, 0, 0))
-	# Chest: pale torso, team shoulder cape, dark collar.
-	add_part(chest, cyl(0.22, 0.24, 0.42, 8), robe, Vector3(0, 1.10, 0))
-	add_part(chest, cyl(0.25, 0.33, 0.22, 8), cloth, Vector3(0, 1.17, 0))
-	add_part(chest, cyl(0.16, 0.25, 0.10, 8), dark, Vector3(0, 1.31, 0))
+	# (G-C 2026-10-15: lathed robe / capelet / sleeves / beard, were cylinders and cones)
+	add_part(hips, lathe(PackedVector2Array([Vector2(0.47, 0.0), Vector2(0.475, 0.06), Vector2(0.43, 0.22),
+		Vector2(0.35, 0.46), Vector2(0.27, 0.70), Vector2(0.225, 0.92)]), 12, 1.0, 0.92), robe, Vector3.ZERO)
+	add_part(hips, lathe(PackedVector2Array([Vector2(0.485, -0.005), Vector2(0.49, 0.05), Vector2(0.47, 0.13),
+		Vector2(0.445, 0.15)]), 12, 1.0, 0.92), cloth, Vector3.ZERO)
+	add_part(hips, soft_box(Vector3(0.20, 0.78, 0.035)), cloth, Vector3(0, 0.48, 0.33), Vector3(-16, 0, 0))
+	add_part(hips, cyl(0.065, 0.065, 0.04, 6), frost, Vector3(0, 0.10, 0.45), Vector3(74, 0, 0))
+	# Chest: pale torso, team capelet over the shoulders, dark collar, a crystal clasp.
+	add_part(chest, lathe(PackedVector2Array([Vector2(0.23, 0.88), Vector2(0.24, 1.02), Vector2(0.24, 1.18),
+		Vector2(0.20, 1.29)]), 10, 1.0, 0.9), robe, Vector3.ZERO)
+	add_part(chest, lathe(PackedVector2Array([Vector2(0.34, 1.05), Vector2(0.345, 1.09), Vector2(0.30, 1.19),
+		Vector2(0.21, 1.27), Vector2(0.12, 1.30)]), 12, 1.0, 0.9), cloth, Vector3.ZERO)
+	add_part(chest, cyl(0.16, 0.25, 0.10, 10), dark, Vector3(0, 1.31, 0))
+	add_part(chest, cyl(0.055, 0.055, 0.04, 6), frost, Vector3(0, 1.24, 0.24), Vector3(70, 0, 0))
 	# Head: face, white beard, pale hood + peak, crystal circlet (3 points) and glowing brow gem.
 	add_part(head, sphere(0.15), skin, Vector3(0, 1.40, 0.03))
-	add_part(head, cyl(0.13, 0.0, 0.34, 6), ice(&"ice_hair"), Vector3(0, 1.18, 0.12), Vector3(-12, 0, 0))
+	add_part(head, lathe(PackedVector2Array([Vector2(0.0, -0.36), Vector2(0.035, -0.31), Vector2(0.08, -0.20),
+		Vector2(0.11, -0.10), Vector2(0.13, -0.02), Vector2(0.12, 0.02)]), 8, 1.0, 0.75), ice(&"ice_hair"),
+		Vector3(0, 1.35, 0.12), Vector3(-12, 0, 0))
 	add_part(head, sphere(0.20), robe, Vector3(0, 1.44, -0.04))
 	add_part(head, cyl(0.0, 0.14, 0.28, 6), robe, Vector3(0, 1.65, -0.10), Vector3(-24, 0, 0))
 	add_part(head, torus(0.17, 0.215), metal, Vector3(0, 1.52, -0.01), Vector3(-10, 0, 0))
@@ -62,14 +71,22 @@ func _build_parts() -> void:
 		trim.set_meta(&"vet_trim", true)
 		trim.visible = false
 	# Arms: bell sleeves; the right hand holds the staff forward.
-	add_part(arm_l, cyl(0.07, 0.15, 0.44, 8), robe, Vector3(-0.32, 1.00, 0.02))
-	add_part(arm_l, sphere(0.085), skin, Vector3(-0.33, 0.76, 0.05))
-	add_limb(arm_r, Vector3(0.31, 1.20, 0), Vector3(0.37, 0.95, 0.15), 0.09, robe, 0.085, skin)
-	# Staff: silver-blue shaft, ice crystal foot, hook ring curling forward over the head.
-	add_part(arm_r, cyl(0.05, 0.05, 1.96, 6), metal, Vector3(0.38, 1.16, 0.16))
+	# (G-C: flared lathed bell sleeves with a team cuff band)
+	var sleeve := lathe(PackedVector2Array([Vector2(0.155, -0.02), Vector2(0.16, 0.0), Vector2(0.13, 0.10),
+		Vector2(0.09, 0.30), Vector2(0.075, 0.44)]), 10)
+	add_part(arm_l, sleeve, robe, Vector3(-0.32, 0.78, 0.02))
+	add_part(arm_l, sphere(0.085, 8, 4), skin, Vector3(-0.33, 0.76, 0.05))
+	add_part(arm_r, sleeve, robe, Vector3(0.36, 0.97, 0.13), Vector3(-22, 0, 8), Vector3(0.9, 0.62, 0.9))
+	add_part(arm_r, sphere(0.085, 8, 4), skin, Vector3(0.37, 0.95, 0.15))
+	# Staff: silver-blue shaft with silver bands, ice crystal foot, a crystal collar under the hook ring that curls
+	# forward over the head (ring narrowed in G-C: the head stays under 0.35 m above the HP bar line).
+	add_part(arm_r, cyl(0.045, 0.05, 1.96, 8), metal, Vector3(0.38, 1.16, 0.16))
+	for by: float in [0.62, 1.30, 1.88]:
+		add_part(arm_r, cyl(0.065, 0.065, 0.05, 8), ice(&"ice_steel"), Vector3(0.38, by, 0.16))
 	add_part(arm_r, cyl(0.0, 0.07, 0.20, 6), frost, Vector3(0.38, 0.10, 0.16), Vector3(180, 0, 0))
-	add_part(arm_r, sphere(0.075, 6, 3), frost, Vector3(0.38, 2.12, 0.16))
-	add_part(arm_r, torus(0.13, 0.20, 12), metal, Vector3(0.38, 2.16, 0.31), Vector3(0, 0, 90))
+	add_spikes(arm_r, Vector3(0.38, 1.98, 0.16), 4, 0.04, 0.035, 0.14, 25.0, frost, 45.0)
+	add_part(arm_r, sphere(0.06, 6, 3), frost, Vector3(0.38, 2.10, 0.17))
+	add_part(arm_r, torus(0.08, 0.125, 12), metal, Vector3(0.38, 2.16, 0.325), Vector3(0, 0, 90))
 	# Lantern: hangs from the hook, swings on its own pivot (keep_separate: chain, cap, glass, core, drip).
 	_lantern = Node3D.new()
 	_lantern.name = "Lantern"

@@ -1,0 +1,13 @@
+{
+	"asset": "shardguard",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 95.9,
+	"result": "PASS",
+	"scene": "res://art/units/ice/shardguard/shardguard.tscn",
+	"tier": "heavy",
+	"version": "1.0"
+}

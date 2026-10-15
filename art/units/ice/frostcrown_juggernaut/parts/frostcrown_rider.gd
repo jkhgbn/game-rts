@@ -266,8 +266,8 @@ func _hips_sculpt(s: Dictionary) -> void:
 	var leather := m("ice_leather")
 	_put(s, cyl(0.26, 0.26, 0.07, 8, false), leather, Vector3(0, 0.955, 0))
 	# tabard: front flap forward over the pommel, back flap down over the bear's back (team, a light stripe)
-	_put(s, box(Vector3(0.30, 0.40, 0.03)), dark, Vector3(0, 0.78, 0.30), Vector3(-62, 0, 0))
-	_put(s, box(Vector3(0.08, 0.40, 0.034)), cloth, Vector3(0, 0.782, 0.302), Vector3(-62, 0, 0))
+	_put(s, soft_box(Vector3(0.30, 0.40, 0.03)), dark, Vector3(0, 0.78, 0.30), Vector3(-62, 0, 0))
+	_put(s, soft_box(Vector3(0.08, 0.40, 0.034)), cloth, Vector3(0, 0.782, 0.302), Vector3(-62, 0, 0))
 	for sx: float in [-1.0, 1.0]:
 		var hip := Vector3(0.14 * sx, HIP_Y - 0.02, 0.0)
 		var knee := Vector3(0.52 * sx, HIP_Y - 0.26, 0.14)
@@ -275,7 +275,7 @@ func _hips_sculpt(s: Dictionary) -> void:
 		_seg(s, steel, hip, knee, 0.115, 0.095, 6, false)
 		_put(s, sphere(0.10, 5, 2), metal, knee + Vector3(0.01 * sx, 0.0, 0.02))
 		_seg(s, steel, knee, ankle, 0.085, 0.072, 6, false)
-		_put(s, box(Vector3(0.13, 0.11, 0.28)), leather, ankle + Vector3(0.0, -0.05, 0.07))
+		_put(s, soft_box(Vector3(0.13, 0.11, 0.28)), leather, ankle + Vector3(0.0, -0.05, 0.07))
 
 
 func _chest_sculpt(s: Dictionary) -> void:
@@ -291,12 +291,12 @@ func _chest_sculpt(s: Dictionary) -> void:
 	MountModel.sculpt_add(s, MountModel.lathe_mesh("fjr_torso_v2", prof, 8), Transform3D(Basis.from_scale(Vector3(1.0, 1.0,
 		0.84)), Vector3.ZERO), steel)
 	# team tabard over the chest, front and back, light stripe
-	_put(s, box(Vector3(0.34, 0.44, 0.03)), dark, Vector3(0, 1.17, 0.255), Vector3(-7, 0, 0))
+	_put(s, soft_box(Vector3(0.34, 0.44, 0.03)), dark, Vector3(0, 1.17, 0.255), Vector3(-7, 0, 0))
 	# the long team cape from the shoulders, falling back over the bear (a light hem)
 	# (two panels: from the shoulders down the back, then lying back over the bear's rump)
-	_put(s, box(Vector3(0.62, 0.42, 0.035)), dark, Vector3(0, 1.32, -0.31), Vector3(30, 0, 0))
-	_put(s, box(Vector3(0.70, 0.58, 0.035)), dark, Vector3(0, 1.05, -0.68), Vector3(68, 0, 0))
-	_put(s, box(Vector3(0.72, 0.07, 0.045)), cloth, Vector3(0, 0.95, -0.95), Vector3(68, 0, 0))
+	_put(s, soft_box(Vector3(0.62, 0.42, 0.035)), dark, Vector3(0, 1.32, -0.31), Vector3(30, 0, 0))
+	_put(s, soft_box(Vector3(0.70, 0.58, 0.035)), dark, Vector3(0, 1.05, -0.68), Vector3(68, 0, 0))
+	_put(s, soft_box(Vector3(0.72, 0.07, 0.045)), cloth, Vector3(0, 0.95, -0.95), Vector3(68, 0, 0))
 	# gorget
 	_put(s, cyl(0.13, 0.19, 0.10, 8, false), steel, Vector3(0, 1.555, 0.0))
 	# domed pauldrons, light rims, a cyan crystal each
@@ -311,7 +311,7 @@ func _chest_sculpt(s: Dictionary) -> void:
 	MountModel.sculpt_add(s, MountModel.lathe_mesh("fjr_helm_v2", dome, 8, false), Transform3D(Basis.IDENTITY,
 		Vector3(0, 0, 0.025)), steel)
 	for sx: float in [-1.0, 1.0]:
-		_put(s, box(Vector3(0.035, 0.15, 0.12)), steel, Vector3(0.158 * sx, 1.69, 0.06), Vector3(0, 12.0 * sx, 0))
+		_put(s, soft_box(Vector3(0.035, 0.15, 0.12)), steel, Vector3(0.158 * sx, 1.69, 0.06), Vector3(0, 12.0 * sx, 0))
 	# THE FROSTCROWN: a light circlet with five cyan ice spikes (tallest at the front)
 	_put(s, cyl(0.172, 0.182, 0.07, 9, false), metal, Vector3(0, 1.84, 0.025))
 	var spikes: Array = [[0.0, 0.25], [55.0, 0.16], [-55.0, 0.16], [130.0, 0.12], [-130.0, 0.12]]
@@ -344,8 +344,8 @@ func _arm_l_sculpt(s: Dictionary) -> void:
 	MountModel.sculpt_add(s, _slab_mesh("fjr_shield_v1", poly, 0.05), Transform3D(Basis.IDENTITY, SHIELD_C), steel)
 	MountModel.sculpt_add(s, _slab_mesh("fjr_shield_face_v1", face, 0.02), Transform3D(Basis.IDENTITY,
 		SHIELD_C + Vector3(-0.03, 0, 0)), dark)
-	_put(s, box(Vector3(0.022, 0.70, 0.08)), cloth, SHIELD_C + Vector3(-0.045, -0.06, 0))
-	_put(s, box(Vector3(0.022, 0.08, 0.44)), cloth, SHIELD_C + Vector3(-0.045, 0.16, 0))
+	_put(s, soft_box(Vector3(0.022, 0.70, 0.08)), cloth, SHIELD_C + Vector3(-0.045, -0.06, 0))
+	_put(s, soft_box(Vector3(0.022, 0.08, 0.44)), cloth, SHIELD_C + Vector3(-0.045, 0.16, 0))
 	MountModel.sculpt_crystal(s, frost, SHIELD_C + Vector3(-0.05, 0.16, 0), Vector3(-1, 0, 0), 0.08, 0.17, 0.55)
 
 
@@ -366,11 +366,11 @@ func _hammer_sculpt(s: Dictionary) -> void:
 	var h := Vector3(0, HAMMER_HEAD, 0.02)
 	_seg(s, m("ice_wood"), Vector3(0, -0.20, 0), Vector3(0, HAMMER_LEN, 0), 0.036, 0.034, 6, false)
 	MountModel.sculpt_add(s, cyl(0.0, 0.055, 0.10, 4), Transform3D(Basis(Vector3.RIGHT, PI), Vector3(0, -0.25, 0)), metal)
-	_put(s, box(Vector3(0.25, 0.29, 0.44)), steel, h)
+	_put(s, soft_box(Vector3(0.25, 0.29, 0.44)), steel, h)
 	# the ice block on the striking face, the back spike, the glowing frost band, the top spike
-	_put(s, box(Vector3(0.21, 0.24, 0.08)), frost, h + Vector3(0, 0, 0.25))
+	_put(s, soft_box(Vector3(0.21, 0.24, 0.08)), frost, h + Vector3(0, 0, 0.25))
 	MountModel.sculpt_add(s, cyl(0.0, 0.08, 0.28, 4), Transform3D(_to_dir(Vector3(0, 0, -1)), h + Vector3(0, 0, -0.35)), steel)
-	_put(s, box(Vector3(0.255, 0.05, 0.36)), m("ice_glow_unit"), h + Vector3(0, 0.125, -0.02))
+	_put(s, soft_box(Vector3(0.255, 0.05, 0.36)), m("ice_glow_unit"), h + Vector3(0, 0.125, -0.02))
 	MountModel.sculpt_crystal(s, frost, h + Vector3(0, 0.14, 0.0), Vector3.UP, 0.055, 0.20, 0.55)
 
 

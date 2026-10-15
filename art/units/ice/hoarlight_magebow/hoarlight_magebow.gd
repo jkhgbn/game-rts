@@ -78,7 +78,7 @@ func _build_parts() -> void:
 		add_part(leg, _path("hmb_boot", PackedVector3Array([Vector3(0, 0.40, -0.01), Vector3(0, 0.20, 0.0),
 			Vector3(0, 0.06, -0.01), Vector3(0, 0.045, 0.11), Vector3(0, 0.035, 0.18)]),
 			PackedFloat32Array([0.078, 0.07, 0.068, 0.055, 0.03]), 7), leather, Vector3(x, 0, 0))
-		add_part(leg, cyl(0.095, 0.088, 0.06, 7), pale, Vector3(x, 0.40, 0.0))
+		add_part(leg, fur_ring(0.09, 0.11, 0.07, 5, 0.022), pale, Vector3(x, 0.37, 0.0))   # G-C: jagged fur cuff
 	# ---- Chest: team coat (lathe), long dark coat tails, silver belt, rune gorget, short dark cape + fur collar,
 	# rune-tome at the right hip.
 	add_part(chest, _path("hmb_torso", PackedVector3Array([Vector3(0, 0.84, 0), Vector3(0, 0.98, 0.0),
@@ -95,7 +95,7 @@ func _build_parts() -> void:
 	add_part(chest, _path("hmb_cape", PackedVector3Array([Vector3(0, 0.26, 0), Vector3(0, 0.0, -0.03),
 		Vector3(0, -0.26, -0.07)]), PackedFloat32Array([0.22, 0.25, 0.28]), 8), cdark, Vector3(0, 1.08, -0.21),
 		Vector3(8, 0, 0), Vector3(1.0, 1.0, 0.16))
-	add_part(chest, torus(0.12, 0.21, 8), pale, Vector3(0, 1.37, -0.03), Vector3(-8, 0, 0), Vector3(1.0, 1.4, 1.0))
+	add_part(chest, fur_ring(0.13, 0.25, 0.13, 7, 0.035, 1.0, 0.95), pale, Vector3(0, 1.30, -0.03), Vector3(-8, 0, 0))   # G-C: shaggy fur collar
 	add_part(chest, box(Vector3(0.07, 0.20, 0.17)), leather, Vector3(0.23, 0.82, 0.03), Vector3(0, 0, 8))
 	add_part(chest, box(Vector3(0.075, 0.05, 0.12)), steel, Vector3(0.25, 0.82, 0.03), Vector3(0, 0, 8))
 	add_crystal(chest, Vector3(0.26, 0.93, 0.05), Vector3(0.2, -1.0, 0.1), 0.02, 0.10, frost, 0.6)

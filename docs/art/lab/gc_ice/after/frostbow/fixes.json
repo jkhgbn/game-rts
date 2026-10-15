@@ -1,0 +1,13 @@
+{
+	"asset": "frostbow",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 95.9,
+	"result": "PASS",
+	"scene": "res://art/units/ice/frostbow/frostbow.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

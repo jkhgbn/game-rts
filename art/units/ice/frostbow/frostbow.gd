@@ -85,7 +85,7 @@ func _build_parts() -> void:
 		add_part(leg, _path("fb_boot", PackedVector3Array([Vector3(0, 0.40, -0.01), Vector3(0, 0.22, 0.0),
 			Vector3(0, 0.06, -0.01), Vector3(0, 0.05, 0.10), Vector3(0, 0.035, 0.17)]),
 			PackedFloat32Array([0.095, 0.085, 0.075, 0.06, 0.03]), 8), leather, Vector3(x, 0, 0))
-		add_part(leg, cyl(0.115, 0.105, 0.08, 9), pale, Vector3(x, 0.39, 0.0), Vector3(-6, 0, 0))
+		add_part(leg, fur_ring(0.10, 0.125, 0.08, 5, 0.025), pale, Vector3(x, 0.355, 0.0), Vector3(-6, 0, 0))   # G-C: jagged fur cuff
 	# ---- Chest: leather jerkin (lathe), short team-dark skirt, team tabard strip, silver belt, team capelet, short
 	# rounded dark back cape, leather quiver across the back with 3 crystal arrow heads over the right shoulder.
 	add_part(chest, _path("fb_torso", PackedVector3Array([Vector3(0, 0.86, 0), Vector3(0, 1.00, 0.0),
