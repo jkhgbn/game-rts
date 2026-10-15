@@ -41,6 +41,7 @@ func _mat(c: Color, e: float, add: bool = true, alpha: float = 1.0) -> StandardM
 	m.albedo_color = Color(c.r * e, c.g * e, c.b * e, alpha)
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD if add else BaseMaterial3D.BLEND_MODE_MIX
+	m.disable_fog = add  # G-E 5: an additive quad must not fog
 	m.cull_mode = BaseMaterial3D.CULL_DISABLED
 	m.no_depth_test = false
 	m.disable_receive_shadows = true

@@ -3,7 +3,7 @@
 // Drift: slow sums of sines around the anchor (0.45-1.75 m up). Blink: a short bright pulse every 1.6-3.2 s over a
 // faint ember, emission up to ~3.6 (crosses the bloom threshold: art-keep.md 0.4 "glowing points").
 shader_type spatial;
-render_mode blend_add, unshaded, depth_draw_never, cull_disabled, shadows_disabled, skip_vertex_transform;
+render_mode blend_add, unshaded, depth_draw_never, cull_disabled, shadows_disabled, skip_vertex_transform, fog_disabled;
 
 #include "res://art/environment/critters/critter_common.gdshaderinc"
 

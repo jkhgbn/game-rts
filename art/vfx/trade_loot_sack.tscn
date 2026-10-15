@@ -133,6 +133,7 @@ image = SubResource("Image_58lvt")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k6r3k"]
 transparency = 1
 blend_mode = 1
+disable_fog = true
 depth_draw_mode = 2
 shading_mode = 0
 vertex_color_use_as_albedo = true
@@ -244,6 +245,7 @@ color_ramp = SubResource("GradientTexture1D_n74lg")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2pcf3"]
 transparency = 1
 blend_mode = 1
+disable_fog = true
 depth_draw_mode = 2
 shading_mode = 0
 vertex_color_use_as_albedo = true

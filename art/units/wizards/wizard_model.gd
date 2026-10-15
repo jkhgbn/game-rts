@@ -408,6 +408,7 @@ static func _aura_draw(kind: StringName, size: float) -> QuadMesh:
 	sm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	sm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	sm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	sm.disable_fog = true  # G-E 5: an additive quad must not fog
 	sm.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	sm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	sm.billboard_keep_scale = true

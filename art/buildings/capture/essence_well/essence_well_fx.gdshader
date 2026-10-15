@@ -9,7 +9,7 @@
 // Baked by build_essence_well.gd: UV2.x = mode; mist: UV = (0-1 across, 0 bottom -> 1 top), UV2.y = card seed;
 // ground glow / ring: UV = local xz in metres.
 shader_type spatial;
-render_mode blend_add, unshaded, depth_draw_never, cull_disabled, shadows_disabled;
+render_mode blend_add, unshaded, depth_draw_never, cull_disabled, shadows_disabled, fog_disabled;
 
 uniform sampler2D noise_tex : hint_default_white, filter_linear_mipmap, repeat_enable;
 uniform vec3 mist_color : source_color = vec3(0.62, 0.34, 1.0);

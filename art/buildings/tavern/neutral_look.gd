@@ -87,6 +87,7 @@ static func add_sparks(parent: Node3D, nm: String, pos: Vector3, amount: int = 8
 		m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+		m.disable_fog = true  # G-E 5: an additive quad must not fog
 		m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 		m.vertex_color_use_as_albedo = true
 		m.albedo_color = Color(1.0, 1.0, 1.0)

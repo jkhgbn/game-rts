@@ -223,6 +223,7 @@ func _build_aura_ring() -> void:
 	_ring_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_ring_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	_ring_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	_ring_mat.disable_fog = true  # G-E 5: an additive quad must not fog
 	_ring_mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	_ring_mat.albedo_texture = NatureKit.ring_texture()
 	_ring_mat.albedo_color = Color(_ring_col, 0.0)

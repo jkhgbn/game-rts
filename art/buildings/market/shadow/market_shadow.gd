@@ -727,6 +727,7 @@ func _soft_mat(c: Color, billboard: bool) -> StandardMaterial3D:
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	m.disable_fog = true  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	if billboard:
 		m.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED

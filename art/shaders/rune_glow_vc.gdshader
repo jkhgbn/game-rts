@@ -12,6 +12,7 @@ uniform float pulse_speeds[8];
 uniform int bands[8];
 uniform float boosts[8];
 uniform float phases[8];
+#include "res://art/shaders/glow_cap.gdshaderinc"  // G-E 4: hue-keeping soft cap, no white discs
 
 varying flat int v_ch;
 
@@ -24,5 +25,5 @@ void fragment() {
 	vec3 glow_color = glow_colors[c];
 	float pulse = 0.75 + 0.25 * sin(TIME * pulse_speeds[c] + phases[c]);
 	float band = bands[c] > 0 ? step(0.45, fract(UV.x * float(bands[c]))) : 1.0;
-	ALBEDO = glow_color * 0.4 + glow_color * energies[c] * pulse * band * boosts[c];
+	ALBEDO = glow_cap(glow_color * 0.4 + glow_color * energies[c] * pulse * band * boosts[c], glow_cap_max);
 }

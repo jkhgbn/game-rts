@@ -3,7 +3,7 @@
 // Per instance: `intensity` and `tint` (the crown changes colour with its state, crystal nodes dim as they
 // deplete). A slow wobble keeps it alive.
 shader_type spatial;
-render_mode blend_add, depth_draw_never, cull_back, unshaded, shadows_disabled;
+render_mode blend_add, depth_draw_never, cull_back, unshaded, shadows_disabled, fog_disabled;
 
 uniform vec3 color : source_color = vec3(0.35, 0.8, 1.0);
 uniform float strength = 0.5;

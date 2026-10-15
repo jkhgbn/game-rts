@@ -1640,6 +1640,7 @@ func _quad(blend: int, tex: Texture2D, hdr: bool) -> QuadMesh:
 	var m := StandardMaterial3D.new()
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = blend
+	m.disable_fog = blend == BaseMaterial3D.BLEND_MODE_ADD  # G-E 5: an additive quad must not fog
 	m.cull_mode = BaseMaterial3D.CULL_DISABLED
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.vertex_color_use_as_albedo = true

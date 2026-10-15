@@ -968,6 +968,7 @@ func _build_crystal_node() -> void:
 	pool_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	pool_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	pool_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	pool_mat.disable_fog = true  # G-E 5: an additive quad must not fog
 	pool_mat.albedo_texture = gt
 	pool_mat.albedo_color = Color(0.8, 1.0, 1.0)
 	pool_mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
@@ -982,6 +983,7 @@ func _build_crystal_node() -> void:
 	star_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	star_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	star_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	star_mat.disable_fog = true  # G-E 5: an additive quad must not fog
 	star_mat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	star_mat.vertex_color_use_as_albedo = true
 	star_mat.albedo_texture = _sparkle_texture()

@@ -1936,6 +1936,7 @@ static func make_motes(color: Color, amount: int, lifetime: float, emit_radius: 
 		sm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		sm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		sm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+		sm.disable_fog = true  # G-E 5: an additive quad must not fog
 		sm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 		# A.17: the scale curve only applies with keep_scale (Godot 4.7), and the round mask keeps the additive quad
 		# from drawing as a hard white square.

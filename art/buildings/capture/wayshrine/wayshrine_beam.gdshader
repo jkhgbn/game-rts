@@ -10,7 +10,7 @@
 //   kind 3  Burst    the blessing: a ring of light racing out to burst_radius (the capture radius) while `burst` goes 0 -> 1.
 // Instance uniforms: fx_color, fx_energy, cap_color, cap_ratio, grow, burst.
 shader_type spatial;
-render_mode blend_add, depth_draw_never, cull_disabled, unshaded, shadows_disabled;
+render_mode blend_add, depth_draw_never, cull_disabled, unshaded, shadows_disabled, fog_disabled;
 
 uniform int kind = 0;
 uniform float band_speed = 0.32;

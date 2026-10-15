@@ -53,7 +53,9 @@ const C_DARK := Color(0.25, 0.24, 0.22)
 const C_TIMBER := Color(0.31, 0.21, 0.13)
 const C_WOOD := Color(0.52, 0.37, 0.22)
 const C_PLASTER := Color(0.78, 0.70, 0.56)
-const C_THATCH := Color(0.63, 0.47, 0.25)
+## G-E 12 (docs/art/ge_fixes_c.md): a greyer straw (value -15 %, saturation -25 %, was 0.63 / 0.47 / 0.25) so the
+## crown altar stays the centre's focus.
+const C_THATCH := Color(0.54, 0.44, 0.30)
 const C_IRON := Color(0.21, 0.21, 0.23)
 const C_GOLD := Color(0.92, 0.70, 0.27)
 const C_MOSS := Color(0.31, 0.41, 0.17)
@@ -746,6 +748,7 @@ func _soft_mat(key: String, c: Color, add: bool, billboard: bool) -> StandardMat
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD if add else BaseMaterial3D.BLEND_MODE_MIX
+	m.disable_fog = add  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	if billboard:
 		m.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED

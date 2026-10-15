@@ -702,6 +702,7 @@ func _particle_mat(tex: Texture2D, blend: int, nm: String) -> StandardMaterial3D
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = blend
+	m.disable_fog = blend == BaseMaterial3D.BLEND_MODE_ADD  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	m.vertex_color_use_as_albedo = true
 	m.albedo_texture = tex

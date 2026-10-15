@@ -176,9 +176,10 @@ static func _halo_mat(c: Color) -> StandardMaterial3D:
 	if _halo_cache.has(c):
 		return _halo_cache[c]
 	var g := Gradient.new()
-	g.set_color(0, Color(1, 1, 1, 1))
+	# G-E 4: flat centre (was 1.0 there): the halo no longer stacks a hot white core on the orb, only a tinted spill.
+	g.set_color(0, Color(1, 1, 1, 0.5))
 	g.set_color(1, Color(1, 1, 1, 0))
-	g.add_point(0.35, Color(1, 1, 1, 0.45))
+	g.add_point(0.35, Color(1, 1, 1, 0.4))
 	var tex := GradientTexture2D.new()
 	tex.gradient = g
 	tex.fill = GradientTexture2D.FILL_RADIAL
@@ -190,6 +191,7 @@ static func _halo_mat(c: Color) -> StandardMaterial3D:
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	m.disable_fog = true  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
 	m.albedo_texture = tex

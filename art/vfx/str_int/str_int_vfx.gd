@@ -183,6 +183,7 @@ func _add_particles(color: Color, gravity: Vector3, radius: float, amount: int, 
 	qm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	qm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	qm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	qm.disable_fog = true  # G-E 5: an additive quad must not fog
 	qm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	qm.albedo_color = color * 2.0
 	quad.material = qm

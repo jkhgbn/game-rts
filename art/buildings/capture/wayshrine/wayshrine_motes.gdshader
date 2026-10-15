@@ -3,7 +3,7 @@
 // stores the same COLOR = (seed, spiral radius, speed, size); UV = the quad corner. Additive, unshaded.
 // Instance uniforms: fx_color, fx_energy (0 = invisible; wayshrine.gd hides the node then).
 shader_type spatial;
-render_mode blend_add, depth_draw_never, cull_disabled, unshaded, shadows_disabled;
+render_mode blend_add, depth_draw_never, cull_disabled, unshaded, shadows_disabled, fog_disabled;
 
 uniform float height = 7.0;
 uniform float base_y = 0.25;

@@ -2,7 +2,7 @@
 // Additive, two-sided: a faint band with two border lines and one glowing glyph per cell (UV.x runs
 // around the band, UV.y across it). Glyphs are built from 3-5 strokes picked by a per-cell hash.
 shader_type spatial;
-render_mode unshaded, blend_add, cull_disabled, depth_draw_never, shadows_disabled;
+render_mode unshaded, blend_add, cull_disabled, depth_draw_never, shadows_disabled, fog_disabled;
 
 uniform vec3 glow_color : source_color = vec3(1.0, 0.55, 0.15);
 uniform float energy = 3.0;

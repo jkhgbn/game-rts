@@ -220,6 +220,7 @@ func _pack_scene(rock: ArrayMesh, cluster: ArrayMesh) -> void:
 	star_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	star_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	star_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	star_mat.disable_fog = true  # G-E 5: an additive quad must not fog
 	star_mat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	star_mat.vertex_color_use_as_albedo = true
 	star_mat.albedo_texture = _sparkle_texture()

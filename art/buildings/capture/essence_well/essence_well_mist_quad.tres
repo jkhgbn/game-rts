@@ -13,6 +13,7 @@ fill_to = Vector2(1, 0.5)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_267u4"]
 transparency = 1
 blend_mode = 1
+disable_fog = true
 depth_draw_mode = 2
 shading_mode = 0
 vertex_color_use_as_albedo = true

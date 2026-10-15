@@ -10,9 +10,10 @@ uniform float pulse_speed = 2.0;
 uniform int rune_bands = 0;
 uniform float boost = 1.0;
 uniform float phase = 0.0;
+#include "res://art/shaders/glow_cap.gdshaderinc"  // G-E 4: hue-keeping soft cap, no white discs
 
 void fragment() {
 	float pulse = 0.75 + 0.25 * sin(TIME * pulse_speed + phase);
 	float band = rune_bands > 0 ? step(0.45, fract(UV.x * float(rune_bands))) : 1.0;
-	ALBEDO = glow_color * 0.4 + glow_color * energy * pulse * band * boost;
+	ALBEDO = glow_cap(glow_color * 0.4 + glow_color * energy * pulse * band * boost, glow_cap_max);
 }

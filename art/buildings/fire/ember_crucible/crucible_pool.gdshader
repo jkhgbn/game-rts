@@ -4,7 +4,7 @@
 // glow_boost sits on slot 5 like the kit's unit_glow.gdshader (kit/README.md "Instance uniform slots"), so the annex
 // drives every glow of its own with one parameter name.
 shader_type spatial;
-render_mode unshaded, blend_add, depth_draw_never, cull_back, shadows_disabled;
+render_mode unshaded, blend_add, depth_draw_never, cull_back, shadows_disabled, fog_disabled;
 
 uniform vec3 pool_color : source_color = vec3(1.0, 0.48, 0.16);
 uniform float strength = 0.34;

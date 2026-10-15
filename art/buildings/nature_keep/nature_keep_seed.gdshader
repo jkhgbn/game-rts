@@ -11,6 +11,7 @@ uniform sampler2D noise_tex : hint_default_white, filter_linear_mipmap, repeat_e
 uniform float energy = 3.2;
 uniform float beat_period = 2.5;
 uniform float boost = 1.0;
+#include "res://art/shaders/glow_cap.gdshaderinc"  // G-E 4: hue-keeping soft cap, no white discs
 
 varying vec3 v_local;
 
@@ -35,5 +36,5 @@ void fragment() {
 	vec3 deep = mix(glow_color * glow_color, glow_color, 0.45);
 	vec3 col = mix(deep, core_color, smoothstep(0.55, 1.0, facing));
 	col = mix(col, glow_color * 0.55, veins * 0.6);
-	ALBEDO = col * (0.35 + energy * pulse * boost * (0.85 + 0.3 * swirl));
+	ALBEDO = glow_cap(col * (0.35 + energy * pulse * boost * (0.85 + 0.3 * swirl)), glow_cap_max);
 }

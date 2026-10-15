@@ -12,10 +12,11 @@ instance uniform float boost = 1.0;
 instance uniform float phase = 0.0;
 // G-B Ice: a part with its own colour without a 9th material (the warm windows): alpha 1 = use tint_color.
 instance uniform vec4 tint_color : source_color = vec4(0.0);
+#include "res://art/shaders/glow_cap.gdshaderinc"  // G-E 4: hue-keeping soft cap, no white discs
 
 void fragment() {
 	float pulse = 0.75 + 0.25 * sin(TIME * pulse_speed + phase);
 	float band = rune_bands > 0 ? step(0.45, fract(UV.x * float(rune_bands))) : 1.0;
 	vec3 col = mix(glow_color, tint_color.rgb, step(0.5, tint_color.a));
-	ALBEDO = col * (0.4 + energy * pulse * band * boost * boost_mult);
+	ALBEDO = glow_cap(col * (0.4 + energy * pulse * band * boost * boost_mult), glow_cap_max);
 }

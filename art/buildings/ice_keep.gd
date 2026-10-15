@@ -54,6 +54,7 @@ var _agitated: bool = false
 var _rumble: bool = false
 var _sel: float = 0.0
 var _halo_broken: bool = false
+var _halo_crystal: bool = false  ## G-E 7: the halo shards are lit crystals (no glow instance uniforms)
 var _floating_shown: bool = true
 var _painted_mats: Array[ShaderMaterial] = []
 var _crystal_mat: ShaderMaterial
@@ -106,6 +107,7 @@ func _ready() -> void:
 	_make_unique_materials()
 	# Per-keep copies of what the states edit (the .tscn resources are shared by every instance).
 	_halo_mm.multimesh = _halo_mm.multimesh.duplicate() as MultiMesh
+	_reshape_halo()
 	_burst.process_material = _burst.process_material.duplicate() as ParticleProcessMaterial
 	_build_ring.process_material = _build_ring.process_material.duplicate() as ParticleProcessMaterial
 	for c: Node in _model.get_children():
@@ -238,7 +240,8 @@ func set_health_ratio(r: float) -> void:
 		s.emitting = below25 and built
 	_rubble2.visible = below50 and _progress > 0.0
 	_halo_mult = 3.0 / 8.0 if below50 else 1.0
-	_halo_mm.set_instance_shader_parameter(&"energy", 1.5 if below50 else 2.5)
+	if not _halo_crystal:
+		_halo_mm.set_instance_shader_parameter(&"energy", 1.5 if below50 else 2.5)
 	_halo_broken = below25
 	_update_halo()
 	_tip_bob = 0.3 if below25 else 0.12
@@ -412,6 +415,19 @@ func _crush(k: float) -> void:
 		_squash(n, sy, CRUSH_PIVOT)
 
 
+## G-E 7 (docs/art/ge_review.md item 7): the six halo shards were squat hexagonal prisms in the unshaded glow material:
+## seen face-on from the RTS camera they read as floating sheets of white paper round the spire. They become thin,
+## tall, faceted crystals in the lit crystal material (team tint, darker than the glow core, so their value stays
+## under the spire), tilted out by _update_halo.
+func _reshape_halo() -> void:
+	if IceShapes.legacy or _crystal_mat == null:
+		return
+	_halo_mm.multimesh.mesh = IceShapes.crystal(0.12, 0.85, 0.55, 0.4)
+	_halo_mm.material_override = _crystal_mat
+	_halo_mm.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_halo_crystal = true
+
+
 ## Halo shard transforms; under 25 % HP two shards are gone (scaled to nothing).
 func _update_halo() -> void:
 	var mm: MultiMesh = _halo_mm.multimesh
@@ -419,6 +435,10 @@ func _update_halo() -> void:
 		return
 	for i: int in 6:
 		var xf: Transform3D = halo_xf(i)
+		if _halo_crystal:
+			# Lean the tall shard's tip out from the spire (+15 deg on top of the shared -15 deg tilt).
+			var r := xf.origin.normalized()
+			xf.basis = Basis(r.cross(Vector3.UP).normalized(), deg_to_rad(-15.0)) * xf.basis
 		if _halo_broken and (i == 1 or i == 4):
 			xf.basis = Basis.from_scale(Vector3.ZERO)
 		mm.set_instance_transform(i, xf)

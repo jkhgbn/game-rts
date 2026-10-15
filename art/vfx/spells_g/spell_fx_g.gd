@@ -1051,6 +1051,7 @@ func _build_passes(q: int) -> void:
 	sm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	sm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	sm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	sm.disable_fog = true  # G-E 5: an additive quad must not fog
 	sm.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	sm.vertex_color_use_as_albedo = true
 	sm.albedo_texture = soft
@@ -1092,6 +1093,7 @@ func _billboard(tex: Texture2D, blend: BaseMaterial3D.BlendMode, size: Vector2, 
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = blend
+	m.disable_fog = blend == BaseMaterial3D.BLEND_MODE_ADD  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	m.vertex_color_use_as_albedo = true
 	m.albedo_texture = tex

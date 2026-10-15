@@ -4,7 +4,7 @@
 // and near the crown, fading out upward, with faint bands climbing it. `intensity` / `tint` are per instance
 // (crown_pedestal_art.gd drives them: off while sealed / worn, gold when claimable).
 shader_type spatial;
-render_mode blend_add, depth_draw_never, cull_disabled, unshaded, shadows_disabled;
+render_mode blend_add, depth_draw_never, cull_disabled, unshaded, shadows_disabled, fog_disabled;
 
 uniform float band_speed = 0.3;
 uniform float fade_power = 2.2;

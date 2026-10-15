@@ -8,6 +8,10 @@ extends SceneTree
 ##      a #define, a uniform built-in like TIME, a `flat` varying (constant over a pixel quad, which never spans two
 ##      triangles; lead 2026-10-15), or a local / parameter only ever fed from those): undefined
 ##      derivatives, speckles at seams. `// lint: deriv-ok` on the call line silences one hit.
+##   C  (G-E 2026-10-15, docs/art/ge_fixes_a.md) a spatial shader whose render_mode has blend_add but no fog_disabled:
+##      depth fog paints the fog colour over the whole additive quad, transparent corners included, so the glow shows
+##      as a pale square at range. `// lint: fog-ok` on the render_mode line silences it (an additive sheet that must fade
+##      with distance). The .gd side (BLEND_MODE_ADD StandardMaterial3D) is tests/test_ge_additive_fog.gd.
 ## Heuristic notes (B): locals and function parameters are tracked (a parameter is per-fragment when any call site in
 ## the shader + its includes passes a per-fragment value; a local when any assignment is per-fragment or happens inside
 ## a per-fragment branch). Loops, early returns / discard and implicit texture() derivatives are not checked.
@@ -19,6 +23,7 @@ const ROOTS: Array[String] = ["res://art", "res://scripts"]
 const TIER_NAMES: Array[String] = ["quality", "gfx_detail", "gb_detail", "kit_detail", "detail_tier", "gfx_tier", "tier"]
 const OK_TIER := "lint: tier-default-ok"
 const OK_DERIV := "lint: deriv-ok"
+const OK_FOG := "lint: fog-ok"
 const DERIV_BUILTINS: Array[String] = ["dFdx", "dFdy", "fwidth", "dFdxCoarse", "dFdyCoarse", "fwidthCoarse",
 	"dFdxFine", "dFdyFine", "fwidthFine"]
 ## Built-ins that are the same for every pixel of a draw call.
@@ -95,6 +100,7 @@ func _initialize() -> void:
 				included[t.substr(5)] = true
 	for p: String in paths:
 		_rule_a(p)
+		_rule_c(p)
 	if _verbose:
 		print("included: ", included.keys())
 	var units := 0
@@ -106,23 +112,26 @@ func _initialize() -> void:
 	keys.sort()
 	var na := 0
 	var nb := 0
+	var nc := 0
 	for k: String in keys:
 		if _only != "" and not k.contains(_only):
 			continue
 		print("%s  %s" % [k, _hits[k]])
 		if k.ends_with("[A]"):
 			na += 1
+		elif k.ends_with("[C]"):
+			nc += 1
 		else:
 			nb += 1
-	print("shader_lint: %d files, %d units, rule A %d hit(s), rule B %d hit(s), %d ms" % [
-		paths.size(), units, na, nb, Time.get_ticks_msec() - t0])
+	print("shader_lint: %d files, %d units, rule A %d hit(s), rule B %d hit(s), rule C %d hit(s), %d ms" % [
+		paths.size(), units, na, nb, nc, Time.get_ticks_msec() - t0])
 	if not self_ok:
 		print("FAIL %s: the lint's own self-test failed (see above)" % TASK_ID)
-	elif na + nb > 0:
-		print("FAIL %s: %d hit(s)" % [TASK_ID, na + nb])
+	elif na + nb + nc > 0:
+		print("FAIL %s: %d hit(s)" % [TASK_ID, na + nb + nc])
 	else:
 		print("PASS %s" % TASK_ID)
-	quit(0 if self_ok and na + nb == 0 else 1)
+	quit(0 if self_ok and na + nb + nc == 0 else 1)
 
 
 # ---------------------------------------------------------------------------------------------------- self-test
@@ -163,6 +172,21 @@ void fragment() {
 }
 """
 
+const _SELF_C_BAD := """shader_type spatial;
+// an additive ground pool
+render_mode blend_add,
+	unshaded, depth_draw_never;
+void fragment() { ALBEDO = vec3(1.0); ALPHA = 0.5; }
+"""
+const _SELF_C_GOOD := """shader_type spatial;
+render_mode blend_add, unshaded, fog_disabled;
+void fragment() { ALBEDO = vec3(1.0); }
+"""
+const _SELF_C_OK := """shader_type spatial;
+render_mode blend_add, unshaded; // lint: fog-ok (a far sheet that must fade)
+void fragment() { ALBEDO = vec3(1.0); }
+"""
+
 
 func _self_test() -> bool:
 	var bad := "res://__lint_self_bad.gdshader"
@@ -171,10 +195,14 @@ func _self_test() -> bool:
 	_files[good] = _tokenize(good, _SELF_GOOD)
 	_rule_a_text(bad, _SELF_BAD)
 	_rule_a_text(good, _SELF_GOOD)
+	_rule_c_text("res://__lint_self_c_bad.gdshader", _SELF_C_BAD)
+	_rule_c_text("res://__lint_self_c_good.gdshader", _SELF_C_GOOD)
+	_rule_c_text("res://__lint_self_c_ok.gdshader", _SELF_C_OK)
 	_analyze_unit(bad)
 	_analyze_unit(good)
 	var want := {"res://__lint_self_bad.gdshader:2 [A]": true, "res://__lint_self_bad.gdshader:5 [B]": true,
-		"res://__lint_self_bad.gdshader:11 [B]": true, "res://__lint_self_bad.gdshader:14 [B]": true}
+		"res://__lint_self_bad.gdshader:11 [B]": true, "res://__lint_self_bad.gdshader:14 [B]": true,
+		"res://__lint_self_c_bad.gdshader:3 [C]": true}
 	var ok := true
 	for k: String in _hits.keys():
 		if not want.has(k):
@@ -233,6 +261,38 @@ func _rule_a_text(path: String, text: String) -> void:
 		if m.get_string(2).to_float() > 0.0 and not lines[i].contains(OK_TIER):
 			_hits["%s:%d [A]" % [path, i + 1]] = "tier uniform `%s` defaults to %s (> 0): an unset material runs the High path at Low" % [
 				m.get_string(1), m.get_string(2)]
+
+
+# ---------------------------------------------------------------------------------------------------- rule C
+
+func _rule_c(path: String) -> void:
+	if path.ends_with(".gdshader"):
+		_rule_c_text(path, FileAccess.get_file_as_string(path))
+
+
+## A spatial shader drawn additively must skip depth fog (else the fog colour fills the whole quad: a pale square).
+func _rule_c_text(path: String, text: String) -> void:
+	var lines := text.split("\n")
+	var spatial := false
+	for i in lines.size():
+		var code := lines[i].split("//")[0].strip_edges()
+		if code.begins_with("shader_type"):
+			spatial = code.contains("spatial")
+		if not code.begins_with("render_mode"):
+			continue
+		var j := i
+		var rm := code
+		while not rm.contains(";") and j + 1 < lines.size():
+			j += 1
+			rm += " " + lines[j].split("//")[0].strip_edges()
+		var modes := rm.trim_prefix("render_mode").replace(";", "").replace(" ", "").split(",")
+		if not spatial or not modes.has("blend_add") or modes.has("fog_disabled"):
+			return
+		for k in range(i, j + 1):
+			if lines[k].contains(OK_FOG):
+				return
+		_hits["%s:%d [C]" % [path, i + 1]] = "blend_add without fog_disabled: depth fog fills the additive quad (pale square at range)"
+		return
 
 
 # ---------------------------------------------------------------------------------------------------- tokenizer

@@ -303,7 +303,10 @@ func _build_structure() -> void:
 	_light = _omni(Vector3(HX, 2.2, -3.6), 6.0)
 	_light.visible = false
 	# Idle particles (~36): cold flame at the brazier, snow motes falling around the crystal, frost mist at the feet.
-	var flame := _pm(Vector3.UP, 16.0, 0.7, 1.1, Vector3.ZERO, 0.4, 0.1, _fire_ramp)
+	# G-E 4: the 12 additive cold-flame quads stack ~8 deep in a 0.22 m sphere: with the near-white danger ramp they
+	# summed to a white disc by the gate. Their own deep-blue ramp: the stack reads as a cyan flame.
+	var flame := _pm(Vector3.UP, 16.0, 0.7, 1.1, Vector3.ZERO, 0.4, 0.1,
+		_ramp(Color(0.16, 0.38, 0.62), Color(0.06, 0.2, 0.5), false))
 	flame.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	flame.emission_sphere_radius = 0.22
 	_idle_fx.append(_particles("ColdFlame", _body, Vector3(2.72, 1.9, -0.55), 12, 0.9, flame, _add_quad, false))

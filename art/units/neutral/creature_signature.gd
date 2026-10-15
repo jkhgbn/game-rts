@@ -144,6 +144,7 @@ static func _quad(kind: StringName, s: float) -> QuadMesh:
 	sm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	sm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	sm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD if additive else BaseMaterial3D.BLEND_MODE_MIX
+	sm.disable_fog = additive  # G-E 5: an additive quad must not fog
 	sm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	sm.billboard_keep_scale = true
 	sm.vertex_color_use_as_albedo = true

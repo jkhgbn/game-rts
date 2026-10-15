@@ -716,6 +716,7 @@ static func _draw(glow: bool) -> QuadMesh:
 	sm.cull_mode = BaseMaterial3D.CULL_DISABLED
 	if glow:
 		sm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+		sm.disable_fog = true  # G-E 5: an additive quad must not fog
 		sm.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 		sm.albedo_color = Color(2.2, 2.2, 2.0, 1.0)
 	var g := Gradient.new()

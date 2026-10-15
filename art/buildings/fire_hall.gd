@@ -407,10 +407,14 @@ func _build_structure() -> void:
 	it.append(BMG.item(box1, Vector3(-0.6, 0.14, -3.45), mat_dark, Vector3.ZERO, Vector3(2.9, 0.28, 0.55)))
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 4401
+	# G-E 7: the three path stones in front of the gate are gone. Flat slabs at ground level outside the plinth, they
+	# took the building's height AO (black at y 0) and the grass grew through them: from the RTS camera they read as
+	# a black quad by the door. The rng draws stay so every later random part keeps its layout.
 	for i: int in 3:
-		var p := Vector3(-0.6 + rng.randf_range(-0.35, 0.35), 0.04, -4.0 - 0.7 * i)
-		it.append(BMG.item(box1, p, mat_dark, Vector3(0, rng.randf_range(-20, 20), 0),
-			Vector3(rng.randf_range(0.8, 1.05), 0.1, rng.randf_range(0.55, 0.65))))
+		rng.randf_range(-0.35, 0.35)
+		rng.randf_range(-20, 20)
+		rng.randf_range(0.8, 1.05)
+		rng.randf_range(0.55, 0.65)
 	# 2026-09-30 detail pass (Art Lab C2 / C3: the hall used a fifth of its vertex budget): a rim of worn flagstones
 	# on the upper plinth tier, in two stone shades (extra painted shades cost nothing: one merged material).
 	var drng := RandomNumberGenerator.new()   # its own seed: the older parts keep their layout
@@ -1022,6 +1026,9 @@ func _build_ground() -> void:
 		var r: float = rng.randf_range(3.35, 3.9)
 		pts.append(Vector3(cos(a) * r, 0.05, sin(a) * r))
 	_rubble = _cubes("Rubble", pts, 0.5, rng, self)
+	# G-E 7: these near-black cubes lay on the grass round every healthy hall (stray black cubes from the RTS
+	# camera). They are collapse debris: hidden until the collapse shows the wreck (play_destroyed, step 2).
+	_rubble.visible = false
 
 
 ## Every direct MeshInstance3D child of Body is a part; a plain Node3D child (chimney, rack) is one grouped
@@ -1146,6 +1153,7 @@ func _process_destroyed(delta: float) -> void:
 		_dust.position = Vector3(0.0, 1.2, 0.0)
 		_fire(_dust)
 		_debris.visible = true
+		_rubble.visible = true
 		if _wreck:
 			_wreck.visible = true
 			mat_glow.set_shader_parameter(&"boost", 0.8)  # embers in the rubble, after the overload

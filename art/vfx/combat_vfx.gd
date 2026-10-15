@@ -746,6 +746,7 @@ func _pillar(pos: Vector3, height: float) -> void:
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+		mat.disable_fog = true  # G-E 5: an additive quad must not fog
 		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 		mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 		mat.albedo_texture = _pillar_tex()
@@ -953,6 +954,7 @@ func _billboard_quad(tex: Texture2D, blend: BaseMaterial3D.BlendMode) -> QuadMes
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	mat.blend_mode = blend
+	mat.disable_fog = blend == BaseMaterial3D.BLEND_MODE_ADD  # G-E 5: an additive quad must not fog
 	mat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	mat.billboard_keep_scale = true   # without it Godot draws every billboard particle at the quad size
 	mat.vertex_color_use_as_albedo = true

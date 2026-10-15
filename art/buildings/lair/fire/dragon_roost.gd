@@ -658,6 +658,7 @@ func _build_pool() -> void:
 	_pool_mat = StandardMaterial3D.new()
 	_pool_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	_pool_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	_pool_mat.disable_fog = true  # G-E 5: an additive quad must not fog
 	_pool_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_pool_mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	_pool_mat.albedo_texture = tex

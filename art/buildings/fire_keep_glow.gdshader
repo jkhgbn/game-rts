@@ -42,6 +42,7 @@ uniform vec3 void_color : source_color = vec3(0.035, 0.015, 0.01);
 uniform float outline_energy = 2.0;
 
 instance uniform int kind_override = -1;
+#include "res://art/shaders/glow_cap.gdshaderinc"  // G-E 4: hue-keeping soft cap, no white discs
 
 varying vec3 v_local;
 varying vec3 v_world;
@@ -119,5 +120,5 @@ void fragment() {
 	} else {
 		col = rune_glow(team_glow, outline_energy, 6.2831853, 1.0);
 	}
-	ALBEDO = col;
+	ALBEDO = glow_cap(col, glow_cap_max);
 }
