@@ -12,6 +12,8 @@ extends RefCounted
 ## keep_separate parts that are reshaped (thrall lantern cage, hound jaw and tail) swap their mesh on every instance
 ## from a static cache (shared, B9-clean).
 
+const WISP_GATE := preload("res://art/units/shadow/shadow_wisps.gd")
+
 static var _sep_cache: Dictionary = {}   # key -> Mesh (keep_separate swaps, shared by every instance)
 ## Off = the pre-G-C look (shot / lab before-after in one process; set it before the first Shadow unit spawns).
 static var enabled: bool = true
@@ -71,6 +73,9 @@ static func add_wisps(m: ShadowModel) -> GPUParticles3D:
 		return null
 	p.name = "SoulWisps"
 	p.position = at - m.model_origin(parent)
+	p.emitting = false   # the gate script turns it on at its first check (tier 0, on-screen, alive)
+	p.set_script(WISP_GATE)
+	p.set(&"model", m)
 	parent.add_child(p)
 	return p
 

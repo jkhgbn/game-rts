@@ -113,10 +113,19 @@ func _build_parts() -> void:
 
 
 ## G-C soul wisps (knight blade, thrall lantern): built only at this graphics quality or better, emitting only while
-## the camera is within the kit's tier-0 range (30 m) and the unit is alive. Tests force a tier with the override.
+## the camera is within the kit's tier-0 range (30 m), the model is on-screen, not frozen and alive (wisps_should_emit).
+## The gate runs on the particle node itself (shadow_wisps.gd): this model's _extra_process stops while it is frozen
+## off-screen, and the wisps stay out of the kit's _loop_fx so a tier change never turns them on. Tests force the
+## quality with the override.
 const WISP_QUALITY := 2
 static var wisp_quality_override: int = -1
 var _wisps: GPUParticles3D
+
+
+## True while the soul wisps may emit: camera within 30 m (kit tier 0), on-screen, animating (not frozen), alive and
+## glows on. Polled by the SoulWisps node (shadow_wisps.gd).
+func wisps_should_emit() -> bool:
+	return _tier == 0 and not _offscreen and not _frozen and not _dead and not _glows_off
 
 
 ## True once this scene type's merged pivot meshes are cached (later instances skip building static parts).
@@ -297,12 +306,6 @@ func _extra_process(_dt: float) -> void:
 	if _face:
 		_face.auto(self)
 		_write_eye_glow()
-	if _wisps:
-		# Kit tier 0 = the camera within 30 m. A model frozen far away / off-screen keeps its last state (its few
-		# particles are culled by their visibility box; no _process override, so 200 units pay nothing extra).
-		var on: bool = _tier == 0 and not _dead and not _glows_off
-		if on != _wisps.emitting:
-			_wisps.emitting = on
 	if _dead:
 		if unit_kind == &"warden":
 			_crumble_extra(_death_t)

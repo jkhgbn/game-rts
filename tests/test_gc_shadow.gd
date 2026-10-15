@@ -13,7 +13,8 @@ extends SceneTree
 ##    jaw / tail, capes), the old box feet are gone (no BoxMesh drawn), team colour reaches the merged cloth;
 ##  C hooks: walk, attack, hit, level-up, death (death_finished once, body faded), revive (body back);
 ##  D wisps: none at the real (Low) tier; forced High: a SoulWisps emitter on the knight and the thrall only, emitting
-##    with a camera 6 m away (kit tier 0), off when the camera is 80 m away, off while dead;
+##    with a camera 6 m away (kit tier 0), off when the camera is 80 m away, off when the camera stays 6 m away but
+##    looks away (off-screen, model frozen; kit offscreen_freeze on), on again when it looks back, off while dead;
 ##  E the Barrow Ghoul / Hollow Oathsworn instantiate and stay inside their budgets.
 ## Prints "PASS gc_shadow" or "FAIL gc_shadow: <reasons>".
 
@@ -280,6 +281,7 @@ func _wisp_setup() -> void:
 	for i: int in SCENES.size():
 		var m := _spawn(SCENES[i], Vector3(i * 4.0, 0, -40.0))
 		if m:
+			m.set(&"offscreen_freeze", true)   # as Unit sets it
 			_wisp_models.append(m)
 	_cam = Camera3D.new()
 	_world.add_child(_cam)
@@ -335,11 +337,26 @@ func _process(_delta: float) -> bool:
 				var w := _wisp(m)
 				if w:
 					_check(not w.emitting, "%s: wisps still emitting with the camera 80 m away" % _name(m))
+			# Back within 30 m (kit tier 0) but looking away (+Z): the units are behind the camera, off-screen.
 			_cam.global_position = Vector3(8.0, 4.0, -34.0)
-		370:
+			_cam.rotation = Vector3(0.0, PI, 0.0)
+		350:
+			for m: Node3D in _wisp_models:
+				var w := _wisp(m)
+				if w:
+					_check(int(m.get(&"_tier")) == 0, "%s: not kit tier 0 for the off-screen check" % _name(m))
+					_check(not w.emitting, "%s: wisps still emitting off-screen within 30 m" % _name(m))
+					_check(not bool(m.call(&"wisps_should_emit")), "%s: wisps gate open off-screen" % _name(m))
+			_cam.rotation = Vector3.ZERO
+		380:
+			for m: Node3D in _wisp_models:
+				var w := _wisp(m)
+				if w:
+					_check(w.emitting, "%s: wisps not back on when on-screen again" % _name(m))
+		385:
 			for m: Node3D in _wisp_models:
 				m.call(&"play_death")
-		400:
+		415:
 			for m: Node3D in _wisp_models:
 				var w := _wisp(m)
 				if w:

@@ -41,8 +41,10 @@ Shapes apply at every tier (lead ruling 2026-10-15: better model shapes at every
 **soul wisps** are gated: at High / Ultra (`GameSettings.effective_graphics_quality() >= 2`, read in `_after_ready`;
 test hook `ShadowModel.wisp_quality_override`) the Shadow Knight gets 10 violet motes trailing off the greatsword and
 the Gloom Thrall 6 motes rising from the lantern (`CharacterModel.make_motes`, shared resources). They emit only while
-the camera is within the kit's tier-0 range (30 m) and the unit is alive (checked in `_extra_process`, no `_process`
-override: 200 units pay nothing extra). Children of the model, so FogOfWar hides them with the unit. Low / Medium /
+the camera is within the kit's tier-0 range (30 m), the model is on-screen, not frozen and alive
+(`ShadowModel.wisps_should_emit()`, polled 5x / s by the SoulWisps node's own script `shadow_wisps.gd`: the model's
+`_extra_process` stops while it is frozen off-screen, and the wisps stay out of the kit's `_loop_fx` so a tier change
+never turns them on; only knights / thralls at High+ carry it, so 200 units pay nothing extra). Children of the model, so FogOfWar hides them with the unit. Low / Medium /
 headless: never built.
 
 ## Measurements
@@ -77,7 +79,8 @@ horns, shade swept hood, hound ribs and spines, nightbolt brim) more than as det
 - `tests/test_gc_shadow.gd` (new, headless): ShadowGeo winding / outward normals / cape UVs; per Hall scene on 2
   instances: pivots, keep_separate nodes and emitters, face rig, no BoxMesh drawn, same draws / vertices on the cached
   instance, budgets, shared reshaped meshes, team colour on the merged cloth; hooks (walk, attack, hit, level-up,
-  death once + fade, revive); wisps none at Low, at forced High only on knight / thrall, on near, off far, off dead;
+  death once + fade, revive); wisps none at Low, at forced High only on knight / thrall, on near, off far, off when
+  off-screen within 30 m and back on when on-screen, off dead;
   ghoul / oathsworn budgets. PASS.
 - PASS: test_a5, test_a17, test_kit_team_color, test_new_units_12, test_bowmen, test_unit_dances, test_12_v29,
   test_13_v7, test_13_v15, test_11_v4, smoke (victory=true), test_ws_perf (PASS at load x2.41), perf_test
