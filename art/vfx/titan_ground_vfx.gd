@@ -11,7 +11,8 @@ extends Node3D
 ## Ids:
 ##   War Mammoth (WarMammothModel: trample_stomped(at), get_howdah(), get_howdah_muzzle(); howdah shot_released(at))
 ##   frost_aura      target = the mammoth (or any node): the frost aura ring r 5 on the ground, following it while it
-##                   lives (rime line, crystal teeth turning, frost fringe, glints, a chill ripple every 2 s; rime mist at
+##                   lives (a faint rime rim, 12 crystal ticks turning, glints, the rim pulses once every 7 s with a short
+##                   chill ripple; never a filled disc, G-F r2 item 5; rime mist at
 ##                   the rim within 45 m of the camera). Automatic for every mammoth model: the call only matters for a
 ##                   unit without the model. Fades out 1 s after death.
 ##   trample         at = the stomp point, target = the mammoth: a stomp crack with a snowy lip and glowing ice cracks at
@@ -151,6 +152,9 @@ const LEAF_GLOW := Color(0.75, 1.0, 0.4)
 const SAP := Color(0.62, 1.0, 0.38)
 const LEAF := Color(0.35, 0.7, 0.25)
 const LEAF_DARK := Color(0.15, 0.4, 0.15)
+## G-F r2 item 5 (docs/art/gf_r2_ground.md): the grove pulse band in a moss-lime at the value-pass level (LEAF_GLOW
+## read as a pale lime ring on the meadow).
+const GROVE_RIM := Color(0.62, 0.82, 0.36)
 const BARK := Color(0.4, 0.28, 0.16)
 const SOIL := Color(0.24, 0.18, 0.12)
 const PETAL := Color(1.0, 0.72, 0.84)
@@ -1273,7 +1277,7 @@ func _start_pulse(p: Vector3, owner_node: Node3D, model: Node3D) -> void:
 		mark.transform = Transform3D(Basis(Vector3.UP, randf() * TAU)
 				* Basis.from_scale(Vector3(GROVE_RADIUS, 1.0, GROVE_RADIUS)), p + Vector3.UP * _ground_y())
 		_params(mark, {&"pattern": float(M_GROVE), &"seed": seed, &"radius": GROVE_RADIUS, &"heat": 1.0,
-				&"front": 0.0, &"fade": 1.0, &"glow": _hdr(LEAF_GLOW, 1.15), &"cover": _lin(LEAF_DARK, 0.5)})
+				&"front": 0.0, &"fade": 1.0, &"glow": _hdr(GROVE_RIM, 1.0), &"cover": _lin(LEAF_DARK, 0.4)})
 	var bloom := _take(fx, &"bloom", &"flare")
 	_params(bloom, {&"tint": _hdr(LEAF_GLOW, 1.0), &"rays": 0.0, &"spikes": 6.0, &"pulse": 0.0, &"seed": seed,
 			&"halo": Color(0, 0, 0, 0), &"fade": 0.0})
@@ -2046,10 +2050,11 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.damping_max = 0.4
 			m.gravity = Vector3(0, -0.02, 0)
 			_spin(m, 20.0)
-			_size(m, 0.9, 1.5, &"grow")
-			m.color_initial_ramp = _ramp([_hdr(RIME, 1.15), _hdr(SNOW, 1.2), _hdr(FROST, 1.15)])
-			m.color_ramp = _ramp_at([0.0, 0.25, 0.7, 1.0], [Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.26),
-					Color(1, 1, 1, 0.16), Color(1, 1, 1, 0.0)])
+			# G-F r2 item 5: smaller, fainter, not HDR (the old 0.9-1.5 m puffs at 0.26 made a wide pale glass band).
+			_size(m, 0.5, 0.85, &"grow")
+			m.color_initial_ramp = _ramp([_hdr(RIME, 0.9), _hdr(SNOW, 0.9), _hdr(FROST, 0.9)])
+			m.color_ramp = _ramp_at([0.0, 0.25, 0.7, 1.0], [Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.12),
+					Color(1, 1, 1, 0.07), Color(1, 1, 1, 0.0)])
 		&"bolt_trail":
 			_shape_sphere(m, 0.06)
 			m.direction = Vector3(0, 0, 1)

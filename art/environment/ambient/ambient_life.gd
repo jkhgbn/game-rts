@@ -606,8 +606,9 @@ func _make_emitter(id: StringName, cap: int) -> void:
 			pm.particle_flag_rotate_y = true
 			pm.angle_min = 0.0
 			pm.angle_max = 360.0
-			pm.scale_min = 1.3
-			pm.scale_max = 1.7
+			# G-F r2 item 14: about 60 % of the old 1.3-1.7 (they were as big as a unit's head at RTS zoom).
+			pm.scale_min = 0.8
+			pm.scale_max = 1.0
 			pm.scale_curve = _in_out_curve(0.08, 0.1)
 			p.draw_pass_1 = _butterfly_mesh()
 			p.material_override = _wing_mat

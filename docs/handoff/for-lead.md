@@ -250,3 +250,20 @@ const AUTUMN_SWAP_PATH := "res://art/environment/autumn/autumn_swap.gd"
 Not before `_build_map` (no ground yet). After the AmbientLife block also works (the test calls it on `ready`, after
 the whole `_ready`). Wave Strike (Ashwind Reach) gets it through main.gd too. Shots: commit only the 2 PNGs in
 `docs/art/lab/gd_autumn/` named in docs/art/gd_autumn_maps.md.
+
+## G-F r2 item 15 (tech-artist, 2026-10-15): the m00 grey disc is MissionBase.flash_ring
+
+Found (node log at the m00 start, `docs/art/lab/gf_r2_ground/tools/gfr2_ground_shots.gd --mode=m00`): at t ~6.8 s a
+`CylinderMesh` child of the mission node (`/root/Mission00/@MeshInstance3D@...`, StandardMaterial3D). It is
+`MissionBase.flash_ring(pos, SPOTLIGHT_RING_RADIUS = 2.5)` called by `_on_spotlight_unit` when the first Flame Guard
+appears (m00's spotlight, trigger `start`): a flat white disc r 2.5 (5 m wide), alpha 0.7 fading over 1 s, **fog not
+disabled**, so the night fog turns it into a translucent mid-grey disc. Owner: `scripts/campaign/mission_base.gd` (lead /
+systems-coder). Request:
+- In `flash_ring(pos, radius)` replace the body with the art helper (new file, `art/vfx/mission_flash_ring.gd`, static,
+  draw only: a thin warm-gold rim that grows 0.7 -> 1.0 r and fades in 1 s, additive, `disable_fog`, a soft warm light):
+```gdscript
+func flash_ring(pos: Vector3, radius: float) -> void:
+	MissionFlashRing.play(self, pos, radius)
+```
+- In `_gold_ring` add `mat.disable_fog = true` (the gold torus under the spotlit unit greys the same way at night).
+Every other flash_ring caller (missions) gets the same rim; nothing reads the old disc node.

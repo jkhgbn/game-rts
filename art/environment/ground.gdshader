@@ -504,6 +504,15 @@ vec4 road_nearest(vec2 p, float cutoff, out float sid) {
 	return best;
 }
 
+// G-F r2 item 14 (docs/art/gf_r2_ground.md): grass that survives on a road / lane crown is worn: darker, greyer and
+// half dirt, never the flat bright meadow green (it read as paint blobs on the dirt).
+vec3 worn_grass(vec3 grass, vec3 dirt_c, float micro) {
+	vec3 g = grass * vec3(0.80, 0.82, 0.70);
+	float l = dot(g, vec3(0.299, 0.587, 0.114));
+	g = mix(vec3(l), g, 0.68);
+	return mix(g, dirt_c, 0.26 + 0.22 * micro);
+}
+
 // Painted trade road: trodden dust lighter in the middle, streaks along the way, two wheel ruts with a lit lip,
 // a broken grassy crown, pebbles and stretches of old half-buried cobbles. `grass` = the plain grass colour here.
 // The road's dust streaks along the segment (road space).
@@ -561,10 +570,10 @@ vec3 road_paint(vec2 p, vec4 r, float sid, vec3 grass, float px, float mid, floa
 	float lip = disc(abs(rd - 0.23), 0.05, aa + 0.02) * on * (1.0 - rut);
 	c *= 1.0 - rut * 0.26;
 	c *= 1.0 + lip * 0.10 * detail;
-	// Grassy crown between the ruts, broken into tufts.
-	float crown = disc(alat, 0.26, aa + 0.08) * on * smoothstep(0.44, 0.62, fine + (micro - 0.5) * 0.4)
-			* (1.0 - stretch * 0.7);
-	c = mix(c, mix(c, grass * 0.95, 0.8), crown);
+	// Grassy crown between the ruts, broken into tufts: worn grass with soft, ragged edges (G-F r2 item 14).
+	float crown = disc(alat + (micro - 0.5) * 0.14, 0.23, aa + 0.15) * on
+			* smoothstep(0.47, 0.72, fine + (micro - 0.5) * 0.6) * (1.0 - stretch * 0.7);
+	c = mix(c, worn_grass(grass, c, micro), crown * 0.8);
 	return pebbles(p + vec2(sid * 3.1, 0.0), c, px, 0.8);
 }
 
@@ -928,7 +937,8 @@ void fragment() {
 		}
 	}
 	// Trodden spots keep a few grass islands.
-	dirt = max(dirt, trod * (0.92 - smoothstep(0.64, 0.68, mid + (fine - 0.5) * 0.25) * 0.45));
+	// G-F r2 item 14: softer, raggeder island edges (micro noise, wider ramp) and thinner grass (a worn patch).
+	dirt = max(dirt, trod * (0.92 - smoothstep(0.62, 0.72, mid + (fine - 0.5) * 0.3 + (micro - 0.5) * 0.14) * 0.36));
 
 	// Trade roads (10.V10): skipped entirely when road_count is 0.
 	float road = 0.0;
@@ -955,8 +965,9 @@ void fragment() {
 	float on_lane = step(d, lane_half_width + 0.3) * step(0.001, lane_half_width) * step(0.0, t) * step(t, L);
 	float rut = disc(abs(abs(lat) - 0.95), 0.22, aa + 0.05) * on_lane;
 	dcol *= 1.0 - rut * 0.22;
-	float crown = disc(abs(lat), 0.28, aa + 0.08) * on_lane * smoothstep(0.45, 0.62, fine + (micro - 0.5) * 0.4);
-	dcol = mix(dcol, mix(dcol, grass * 0.95, 0.75), crown * (1.0 - trod));
+	float crown = disc(abs(lat) + (micro - 0.5) * 0.14, 0.25, aa + 0.15) * on_lane
+			* smoothstep(0.48, 0.72, fine + (micro - 0.5) * 0.6);
+	dcol = mix(dcol, worn_grass(grass, dcol, micro), crown * (1.0 - trod) * 0.8);
 	dcol = pebbles(p, dcol, px, 1.0);
 	if (road > 0.0) {
 		dcol = mix(dcol, road_paint(p, rn, road_id, grass, px, mid, fine, micro, road_t, road_s), road);

@@ -7,7 +7,8 @@ extends SmallBuildingModel
 ## glowing petals holding the glowing bud (the orb: a living seed-heart that beats, and flares on each shot while the
 ## cup flexes open), two curled bramble tendrils rising above it (dominant vertical). Asymmetric secondary: a
 ## leaning rune stone at the back-left, a thorny vine hooking out of the foot at the front-left, a side twig with a
-## leaf tuft and a team pennant at the right. A slow green ring pulses out on the ground to r 8 every 4 s (the aura).
+## leaf tuft and a team pennant at the right. A thin rim pulses out on the ground to r 8 every 7 s (the aura; G-F r2
+## item 5: rim only, no fill, half the old alpha, fading as it grows, the team glow capped to the value pass).
 ## Hooks: SmallBuildingModel's plus play_shot() (the Tower script calls it on each shot). No active light (emissive
 ## + bloom only); the ambient pollen only runs near the camera. States: < 50 % HP part of the cup is torn off and
 ## smoke rises, < 25 % the bud dims and races, withered leaves pour down; the aura ring shows only while built.
@@ -17,8 +18,13 @@ const SHOT_FADE := 0.18
 const ORB_Y := 5.22
 const CROWN_Y := 4.72
 const AURA_RADIUS := 8.0
-const AURA_PERIOD := 4.0
-const AURA_GROW := 2.6
+## G-F r2 item 5 (docs/art/gf_r2_ground.md): one calm pulse every 7 s (was 4), rim only, peak alpha 0.3 (was 0.6).
+const AURA_PERIOD := 7.0
+const AURA_GROW := 2.8
+const AURA_ALPHA := 0.3
+## Value pass: the ring colour never exceeds this saturation / value (a pale lime or team colour on grass read loud).
+const AURA_MAX_SAT := 0.55
+const AURA_MAX_VAL := 0.78
 const KEY := "nature_spire/"
 const ORB_ENERGY := 2.7
 const NEAR_ON := 42.0
@@ -31,7 +37,7 @@ var _crown: MeshInstance3D
 var _crown_lost: MeshInstance3D
 var _ring: MeshInstance3D
 var _ring_mat: StandardMaterial3D
-var _ring_col: Color = NatureKit.GLOW
+var _ring_col: Color = aura_color(NatureKit.GLOW)
 var _shot_left: float = 0.0
 var _flex: float = 0.0
 var _ambient: Array[GPUParticles3D] = []
@@ -217,6 +223,39 @@ func _mesh_bud(mb: NatureKit.MB) -> void:
 
 # ============================================================ aura, ground, scaffold, wreck
 
+## The aura rim colour: the kingdom / team glow with saturation and value capped (G-F r2 item 5).
+static func aura_color(g: Color) -> Color:
+	return Color.from_hsv(g.h, minf(g.s, AURA_MAX_SAT), minf(g.v, AURA_MAX_VAL))
+
+
+## Rim-only ring texture (G-F r2 item 5): a thin band at 94 % radius, nothing inside (NatureKit.ring_texture() had a
+## faint fill that read as a pale disc on grass).
+static var _rim_tex: Texture2D = null
+
+
+static func rim_texture() -> Texture2D:
+	if _rim_tex:
+		return _rim_tex
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 0.905, 0.94, 0.97, 1.0])
+	g.colors = PackedColorArray([Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.0), Color(1, 1, 1, 1.0), Color(1, 1, 1, 0.0),
+		Color(1, 1, 1, 0.0)])
+	var tex := GradientTexture2D.new()
+	tex.gradient = g
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1.0, 0.5)
+	tex.width = 512
+	tex.height = 512
+	_rim_tex = tex
+	return tex
+
+
+## NatureVfx draws its own pulse for Nature aura buildings unless the model draws one (this one does).
+func draws_aura_pulse() -> bool:
+	return true
+
+
 ## The aura pulse (not part of Body: never rises, squashes or counts in the height).
 func _build_aura_ring() -> void:
 	_ring_mat = StandardMaterial3D.new()
@@ -225,7 +264,7 @@ func _build_aura_ring() -> void:
 	_ring_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	_ring_mat.disable_fog = true  # G-E 5: an additive quad must not fog
 	_ring_mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
-	_ring_mat.albedo_texture = NatureKit.ring_texture()
+	_ring_mat.albedo_texture = rim_texture()
 	_ring_mat.albedo_color = Color(_ring_col, 0.0)
 	var pm := PlaneMesh.new()
 	pm.size = Vector2.ONE * AURA_RADIUS * 2.0 / 0.94   # the bright band of the texture sits at 94 % radius
@@ -374,7 +413,8 @@ func _idle(delta: float) -> void:
 	var s: float = lerpf(0.12, 1.0, 1.0 - pow(1.0 - kk, 2.0))
 	_ring.scale = Vector3(s, 1.0, s)
 	var a: float = smoothstep(0.0, 0.12, kk) * (1.0 - smoothstep(0.72, 1.0, kk))
-	_ring_mat.albedo_color = Color(_ring_col, a * 0.6)
+	# The rim thins out as it grows: brightest early, gone by the time it reaches r 8.
+	_ring_mat.albedo_color = Color(_ring_col, a * AURA_ALPHA * (1.0 - 0.55 * kk))
 	_cam_check -= delta
 	if _cam_check <= 0.0:
 		_cam_check = 0.5
@@ -415,7 +455,7 @@ func _on_health(smoke_on: bool, fire_on: bool) -> void:
 
 func _on_team_color(g: Color) -> void:
 	NatureKit.apply_team(_mats, _team_color)
-	_ring_col = g
+	_ring_col = aura_color(g)
 	if _ground_mat:
 		_ground_mat.set_shader_parameter(&"glow_color", g)
 	for gr: Gradient in _glow_ramps:

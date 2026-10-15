@@ -472,7 +472,8 @@ func _build_butterflies(out: Array) -> void:
 				var o := Vector3(c.x * _k.x * side + cos(a) * 1.5, 0, c.y * _k.y * side + sin(a) * 1.5)
 				# Mostly one colour per patch, now and then another.
 				var p := pal if _rng.randf() < 0.65 else _rng.randi_range(0, 3)
-				out.append({"origin": o, "yaw": 0.0, "scale": _rng.randf_range(1.2, 1.45),
+				# G-F r2 item 14: about 60 % of the old 1.2-1.45 (believable at RTS zoom).
+				out.append({"origin": o, "yaw": 0.0, "scale": _rng.randf_range(0.72, 0.88),
 					"custom": Color(_rng.randf(), float(p), _rng.randf_range(1.4, 2.6), _rng.randf_range(0.8, 1.5))})
 
 

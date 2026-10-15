@@ -1149,6 +1149,7 @@ static func scene_knob(knob: StringName, default: Variant = null) -> Variant:
 const SPOTLIGHT_FLAG_PREFIX := "spotlight_seen_"
 const SPOTLIGHT_RING_RADIUS := 2.5
 const SPOTLIGHT_GOLD := Color(1.0, 0.82, 0.3)
+const FLASH_RING_ART := "res://art/vfx/mission_flash_ring.gd"   # flash_ring's look (tech-artist), load-guarded
 
 
 ## The spotlit id of config.spotlight (a {kingdom: id} Dictionary is resolved from the player's kingdom); &"" = none.
@@ -1254,6 +1255,7 @@ func _gold_ring(u: Unit, seconds: float) -> void:
 	mat.emission_energy_multiplier = 2.0
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.disable_fog = true   # G-F review 2: night fog greyed it
 	var mi := MeshInstance3D.new()
 	mi.name = "SpotlightRing"
 	mi.mesh = ring
@@ -1792,6 +1794,12 @@ func raise_wizard(w: Wizard, to_level: int, learn: Array) -> void:
 
 ## A white ring flash (radius `radius`, 1 s) with a light at `pos` (mission 1's seal flash).
 func flash_ring(pos: Vector3, radius: float) -> void:
+	# G-F review 2 item 15: the art ring (thin gold rim, fog disabled) when it exists; the white disc greyed under night fog.
+	if ResourceLoader.exists(FLASH_RING_ART):
+		var art := load(FLASH_RING_ART) as Script
+		if art and art.has_method(&"play"):
+			art.call(&"play", self, pos, radius)
+			return
 	var disc := CylinderMesh.new()
 	disc.top_radius = radius
 	disc.bottom_radius = radius

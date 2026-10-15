@@ -19,7 +19,9 @@ extends Node3D
 ##   Verdant regen: units with get_idle_regen_pct() > 0, hurt, alive, >= 4 s since damage, in the camera frustum and
 ##     < 45 m from the camera get 2 tiny leaf sparkles per second. ONE MultiMesh draws all of them (polled 4 / s).
 ##   Bramble Spire aura: every completed Nature building with aura_radius > 0 sends a slow green pulse ring out to
-##     its aura radius every 4 s (skipped if its model has draws_aura_pulse() returning true).
+##     its aura radius every 7 s (skipped if its model has draws_aura_pulse() returning true: the Bramble Spire model
+##     draws its own, so the spire no longer gets two rings). G-F r2 item 5: rim only (no fill), half alpha, a
+##     moss-lime at the value-pass level (SPIRE_RIM).
 ## NOT here: `rooted` (thorns + roots at the feet) is drawn by IceVfx (kingdom-ice.md 2.1), so keep an IceVfx in every
 ## level where Nature can play. Budget: every burst, ring, beam, light, patch and spell set is pooled (no allocations
 ## per event after warm-up).
@@ -44,7 +46,10 @@ const REGEN_LOD_FAR := 45.0       # art-units.md 8: looping particles only < 45 
 const MAX_REGEN_UNITS := 160
 const BLOOM_TICK := 0.5
 const BLOOM_MAX_UNITS := 24
-const SPIRE_PULSE := 4.0
+const SPIRE_PULSE := 7.0
+## The fallback spire pulse rim (G-F r2 item 5): a muted moss-lime, alpha 0.5, no fill.
+const SPIRE_RIM := Color(0.62, 0.78, 0.38)
+const SPIRE_RIM_A := 0.5
 const SPIRE_VIEW_DIST := 75.0
 const THORNS := 12
 const BEAM_TIME := 0.25
@@ -539,7 +544,7 @@ func _tick_spires(delta: float) -> void:
 		if model is Node and is_instance_valid(model) and (model as Node).has_method(&"draws_aura_pulse") \
 				and bool((model as Node).call(&"draws_aura_pulse")):
 			continue
-		_ring(pos, 1.2, bld.building_type.aura_radius, LEAF, 1.8, 0.035, 0.04)
+		_ring(pos, 1.2, bld.building_type.aura_radius, SPIRE_RIM, 1.8, 0.03, 0.0, SPIRE_RIM_A)
 
 
 # ---------------------------------------------------------------- pooled building blocks
@@ -557,7 +562,8 @@ func _burst(look: StringName, pos: Vector3, size: float = 1.0) -> void:
 
 
 ## Expanding glowing ring on the ground (vfx_ground.gdshader), pooled.
-func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: float, fill_a: float) -> void:
+func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: float, fill_a: float,
+		ring_a: float = 1.0) -> void:
 	if not VfxFog.ok(_fx_team, pos):
 		return
 	var ring := _rings[_ring_next]
@@ -565,7 +571,7 @@ func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: f
 	_kill_tween(ring)
 	var mat := ring.material_override as ShaderMaterial
 	mat.set_shader_parameter(&"fill_color", Color(col, fill_a))
-	mat.set_shader_parameter(&"ring_color", Color(col, 1.0))
+	mat.set_shader_parameter(&"ring_color", Color(col, ring_a))
 	mat.set_shader_parameter(&"ring_width", width)
 	mat.set_shader_parameter(&"fade", 1.0)
 	ring.visible = true

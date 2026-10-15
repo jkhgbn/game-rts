@@ -4,11 +4,13 @@ shader_type spatial;
 // material for every mark: the look is picked per instance (`pattern`), so no effect ever creates a material.
 // Procedural noise, no textures. Premultiplied alpha: `cover` paints rime / soil / scorch, `glow` adds light.
 // Line widths are in metres (same look on a 1 m and an 8 m mark).
-//   0 frost aura    (War Mammoth, r 5, follows it): a thin icy line at the rim, crystal teeth pointing in (they turn
-//                   slowly), a rime fringe with frost ferns and glints, a chill ripple running inward every 2 s.
+//   0 frost aura    (War Mammoth, r 5, follows it): a thin faint rime line at the rim with 12 small crystal ticks
+//                   pointing in (turning slowly) and a few glints; once every 7 s the rim brightens and a chill ripple
+//                   runs a little way inward. Never a filled disc (G-F r2 item 5: no wash, no wide fringe).
 //                   LOCAL noise (the ring moves with the mammoth: world noise would crawl through it).
-//   1 grove pulse   (Elder Treant, r 8, every 4 s): a band of leaves and green light racing out to `front`, root veins
-//                   lighting up behind it, a soft wash; the r 8 line lingers when it arrives.
+//   1 grove pulse   (Elder Treant, r 8, every 4 s): a thin band of leaves and green light racing out to `front`, a
+//                   faint root-vein trail just behind it; the r 8 line lingers when it arrives (G-F r2 item 5: no
+//                   wash behind the band, thinner band).
 //   2 trample stomp (War Mammoth foot, r 1.5): packed dirt, a snowy frost lip, radial ice cracks glowing, glints.
 //   3 root bed      (Elder Treant, r 3.4): torn churned soil, radial root furrows with a green sap line, moss specks,
 //                   a raised dirt lip. `front` = how far the roots have spread, `heat` = the sap glow.
@@ -105,41 +107,41 @@ void fragment() {
 		vec2 pm = p * R;
 		float d = (1.0 - r) * R;                                 // metres in from the rim
 		float n = fbm(pm * 1.2 + seed * 4.0);
-		float n2 = fbm(pm * 3.1 - seed * 2.0);
-		// Everything lives in the outer ~1.3 m (small linear values still show on dark grass: cut them hard).
-		float outer = 1.0 - smoothstep(0.5, 1.3, d);
-		float band = exp(-pow((d - 0.1) / 0.06, 2.0));
-		float halo = exp(-pow((d - 0.1) / 0.3, 2.0));
-		float fringe = exp(-d / 0.3) * (0.5 + 0.8 * n) * outer;
-		float ferns = ridge_lines(pm * 1.7 + seed * 3.0, 0.9, 0.985) * exp(-d / 0.35) * outer;
-		// Crystal teeth: slim triangles from the rim inward, turning slowly around the ring.
-		float nt = floor(TAU * R / 0.62);
+		// G-F r2 item 5: everything lives in the outer ~0.5 m; no wash over the inside (it read as a pale glass disc).
+		float outer = 1.0 - smoothstep(0.2, 0.5, d);
+		// One calm pulse every 7 s: the rim brightens, then settles back to a faint line.
+		float pph = fract(TIME / 7.0 + seed);
+		float beat = exp(-pph * 5.0) * smoothstep(0.0, 0.03, pph);
+		float band = exp(-pow((d - 0.06) / 0.035, 2.0));
+		float halo = exp(-pow((d - 0.06) / 0.16, 2.0));
+		float fringe = exp(-d / 0.12) * (0.4 + 0.8 * n) * outer;
+		float ferns = ridge_lines(pm * 1.7 + seed * 3.0, 0.92, 0.99) * exp(-d / 0.18) * outer;
+		// A few crystal ticks: 12 slim triangles from the rim inward, turning slowly around the ring.
+		float nt = 12.0;
 		float af = (ang + TIME * 0.06) / TAU * nt;
 		float id = floor(af);
-		float xm = (fract(af) - 0.5) * TAU * R / nt;               // metres along the rim from the tooth axis
-		float len = 0.24 + 0.34 * hash(vec2(id, seed));
-		float k = clamp((d - 0.05) / len, 0.0, 1.0);
-		float half_w = 0.11 * (1.0 - k);
-		float tooth = (1.0 - smoothstep(half_w * 0.55, half_w + 0.004, abs(xm))) * step(d, len + 0.05) * step(0.02, d);
+		float xm = (fract(af) - 0.5) * TAU * R / nt;               // metres along the rim from the tick axis
+		float len = 0.2 + 0.22 * hash(vec2(id, seed));
+		float k = clamp((d - 0.04) / len, 0.0, 1.0);
+		float half_w = 0.08 * (1.0 - k);
+		float tooth = (1.0 - smoothstep(half_w * 0.55, half_w + 0.004, abs(xm))) * step(d, len + 0.04) * step(0.02, d);
 		float facet = xm > 0.0 ? 1.0 : 0.6;
 		float tw = 0.55 + 0.45 * sin(TIME * 1.6 + id * 2.3);
-		// The chill ripple (the 0.5 s re-chill, shown as a slow breath inward every 2 s).
-		float ph = fract(TIME * 0.5 + seed);
-		float rip = exp(-pow((d - ph * 1.8) / 0.22, 2.0)) * (1.0 - ph) * (1.0 - smoothstep(1.2, 1.8, d));
-		float wash = 0.012 + 0.03 * smoothstep(0.6, 1.0, r);
-		a = (fringe * 0.4 + tooth * 0.75 + band * 0.35 + wash) * cover.a;
-		col = mix(cover.rgb, vec3(0.85, 0.93, 1.0), tooth * facet * 0.8 + band * 0.4);
-		emit = glow.rgb * (band * 1.35 + halo * 0.2 + tooth * facet * 0.55 * tw + ferns * 0.35 + rip * 0.12
-				+ glints(pm * 2.3, 0.22, t) * exp(-d / 0.35) * 2.2 * outer);
+		// The chill ripple: once per pulse, a short run inward that fades out within 1.2 m.
+		float rip = exp(-pow((d - pph * 6.0) / 0.18, 2.0)) * (1.0 - smoothstep(0.0, 0.2, pph)) * (1.0 - smoothstep(0.6, 1.2, d));
+		a = (fringe * 0.12 + tooth * 0.45 + band * (0.16 + 0.25 * beat)) * cover.a;
+		col = mix(cover.rgb, vec3(0.80, 0.88, 0.96), tooth * facet * 0.7 + band * 0.4);
+		emit = glow.rgb * (band * (0.42 + 0.8 * beat) + halo * 0.08 * beat + tooth * facet * 0.35 * tw + ferns * 0.12
+				+ rip * 0.25 + glints(pm * 2.3, 0.12, t) * exp(-d / 0.2) * 1.2 * outer);
 		a *= heat;
 		emit *= heat;
 	} else if (pat == 1) {
 		// ---- grove pulse
 		float fr = max(front, 0.001);
 		float dm = (r - fr) * R;                                   // metres from the band (negative = inside)
-		float band = exp(-pow(dm / 0.3, 2.0));
-		// Behind the band only (hard cut: small linear values still show on dark grass).
-		float behind = r < fr ? 1.0 - smoothstep(0.0, 1.6, -dm) : 0.0;
+		float band = exp(-pow(dm / 0.18, 2.0));
+		// Behind the band only (hard cut: small linear values still show on dark grass). G-F r2: 0.9 m, was 1.6.
+		float behind = r < fr ? 1.0 - smoothstep(0.0, 0.9, -dm) : 0.0;
 		float trail = r < fr ? exp(dm / 0.7) * behind : 0.0;
 		float nl = max(8.0, floor(TAU * fr * R / 0.85));
 		float cell = fract(ang / TAU * nl + seed + fr * 0.6) - 0.5;
@@ -150,10 +152,10 @@ void fragment() {
 		float rimk = smoothstep(0.82, 1.0, fr);
 		float rimline = exp(-pow((1.0 - r) * R / 0.09, 2.0)) * rimk;
 		float mott = fbm(w * 0.9 + 3.0);
-		a = (band * 0.22 + leaf * 0.55 + trail * 0.08 * (0.6 + 0.8 * mott)) * cover.a;
-		col = mix(cover.rgb, cover.rgb * 2.6, leaf * (1.0 - vein));
-		emit = glow.rgb * (band * 1.15 + leaf * (0.8 - vein * 0.5) + trail * 0.12 * (0.5 + mott) + veins * 0.6
-				+ rimline * 0.9);
+		a = (band * 0.12 + leaf * 0.4 + trail * 0.03 * (0.6 + 0.8 * mott)) * cover.a;
+		col = mix(cover.rgb, cover.rgb * 2.2, leaf * (1.0 - vein));
+		emit = glow.rgb * (band * 0.6 + leaf * (0.5 - vein * 0.3) + trail * 0.05 * (0.5 + mott) + veins * 0.25
+				+ rimline * 0.45);
 		a *= heat;
 		emit *= heat;
 	} else if (pat == 2) {
