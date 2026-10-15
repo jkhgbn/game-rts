@@ -20,6 +20,7 @@ const DOOR_X := -0.35
 var _m_snow: ShaderMaterial
 var _m_roof: ShaderMaterial   ## dome ice blocks: the team colour, deeper
 var _window_mat: ShaderMaterial
+var _key_mat: ShaderMaterial   ## the door keystone (cold glow)
 var _banner_mat: ShaderMaterial
 var _frost_mat: ShaderMaterial
 var _crystal: MeshInstance3D
@@ -60,7 +61,9 @@ func _build_parts() -> void:
 	_m_team.set_shader_parameter(&"crack_speed", 0.9)
 	_m_stone.set_shader_parameter(&"crack_scale", 1.8)
 	_m_hole.albedo_color = Color(0.02, 0.03, 0.06)
-	_window_mat = _glow_mat(glow_color, 2.4, 1.2, false)
+	# G-B Ice: warm interior light in the windows and the lantern (the keystone keeps the cold glow).
+	_window_mat = _glow_mat(IceShapes.window_color(glow_color), 2.1, 1.2, false)
+	_key_mat = _glow_mat(glow_color, 2.4, 1.2, false)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 4402
 	# --- Plinth (never collapses): two octagonal dark tiers, a door step and flagstone, snow drifts, ice spikes.
@@ -103,7 +106,7 @@ func _build_parts() -> void:
 	it.append(_it(IceShapes.arch(0.72, 0.42, 1.3), Vector3(DOOR_X, 0.5, -1.75), _m_stone))
 	it.append(_it(IceShapes.arch(0.6, 0.4, 0.14), Vector3(DOOR_X, 0.5, -2.43), _m_trim))
 	it.append(_it(IceShapes.arch(0.46, 0.36, 0.1), Vector3(DOOR_X, 0.5, -2.47), _m_hole))
-	it.append(_it(box1, Vector3(DOOR_X, 1.56, -2.45), _window_mat, Vector3(0, 0, 45), Vector3(0.26, 0.26, 0.08)))
+	it.append(_it(box1, Vector3(DOOR_X, 1.56, -2.45), _key_mat, Vector3(0, 0, 45), Vector3(0.26, 0.26, 0.08)))
 	it.append(_it(mound, Vector3(DOOR_X, 1.42, -1.72), _m_snow, Vector3.ZERO, Vector3(0.66, 0.3, 0.72)))
 	it.append(_it(IceShapes.icicle_strip(0.95, 5, 0.34, 0.08, 31), Vector3(DOOR_X, 1.66, -2.43), _m_snow))
 	# Banner pole (left of the door) with a crystal finial and a crossbar; lantern post (front-right) with its arm.
@@ -169,6 +172,14 @@ func _build_parts() -> void:
 	sp.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	sp.emission_sphere_radius = 0.5
 	_idle_particles("CrystalSparkles", CHIM + Vector3(0, _crystal_y + 0.3, 0), 8, 1.4, sp, true)
+	if IceShapes.high_fx():
+		var sf := _idle_particles("Snowfall", Vector3(0, 3.4, 0), 8, 3.4, IceShapes.snowfall_pm(2.4), false)   # High+
+		sf.set_meta(&"no_ghost", true)   # dressing: never copied into the fog-of-war ghost
+
+
+## G-B Ice: after the B8 merge the body draws with the Ice paint layer.
+func _post_build() -> void:
+	IceShapes.ice_vc(_m_team)
 
 
 ## Transform on the dome surface at azimuth `az` / elevation `el` (degrees; azimuth 0 = +X, 90 = +Z): +Y out of the
@@ -208,7 +219,7 @@ func _on_health(smoke_on: bool, fire_on: bool) -> void:
 	# Below 50 % the lantern is knocked off its post; below 25 % the windows go dark.
 	if _progress >= 1.0:
 		_lantern.visible = not smoke_on
-	_window_mat.set_shader_parameter(&"energy", 0.5 if fire_on else 2.4)
+	_window_mat.set_shader_parameter(&"energy", 0.5 if fire_on else 2.1)
 	if _frost_mat:
 		_frost_mat.set_shader_parameter(&"damage", 1.0 if fire_on else (0.5 if smoke_on else 0.0))
 

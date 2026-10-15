@@ -289,8 +289,11 @@ func _swap(mi: MeshInstance3D, key: String, items: Array) -> void:
 	var mats: Array[Material] = BMG.materials_of(items)
 	for i: int in mats.size():
 		mi.set_surface_override_material(i, mats[i])
-	if vc_merge and _ready_done and _m_team.shader == PVC.PAINTED_VC:
+	if vc_merge and _ready_done and IceShapes.is_vc(_m_team):
+		# PaintedVC.convert takes painted_vc bodies only: switch back for the bake, then to the Ice layer again.
+		_m_team.shader = IceShapes.PAINTED_VC
 		PVC.convert(mi, _m_team, _vc_team(), [_m_hole] if _m_hole else [], _vc_skip())
+		IceShapes.ice_vc(_m_team, 0.0)
 
 
 ## A joinable wall (group GROUP) or Rime Spire (ANCHOR_GROUP) of this team standing at `pos`, else null.
@@ -304,6 +307,11 @@ func _find(group: StringName, pos: Vector3) -> Node3D:
 		if w.call(&"is_joinable") and (w.call(&"joint_color") as Color).is_equal_approx(_team_color):
 			return w
 	return null
+
+
+## G-B Ice: after the B8 merge the body draws with the Ice paint layer (no masonry: the courses are modelled).
+func _post_build() -> void:
+	IceShapes.ice_vc(_m_team, 0.0)
 
 
 ## The keep's cold idle rim instead of the base one (selection still turns it to the team colour).

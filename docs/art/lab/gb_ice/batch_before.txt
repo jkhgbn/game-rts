@@ -1,0 +1,7 @@
+res://art/buildings/ice_keep.tscn kind=building kingdom=ice out=docs/art/lab/gb_ice/before/ice_keep
+res://art/buildings/ice_hall.tscn kind=building kingdom=ice out=docs/art/lab/gb_ice/before/ice_hall
+res://art/buildings/ice_lodge.tscn kind=building kingdom=ice out=docs/art/lab/gb_ice/before/ice_lodge
+res://art/buildings/ice_spire.tscn kind=building kingdom=ice out=docs/art/lab/gb_ice/before/ice_spire
+res://art/buildings/ice_wall.tscn kind=building kingdom=ice out=docs/art/lab/gb_ice/before/ice_wall
+res://art/buildings/stables/ice/ice_stables.tscn kind=building kingdom=ice out=docs/art/lab/gb_ice/before/ice_stables
+res://art/buildings/market/ice/market_ice.tscn kind=building kingdom=ice out=docs/art/lab/gb_ice/before/market_ice

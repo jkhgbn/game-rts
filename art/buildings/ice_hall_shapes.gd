@@ -6,7 +6,100 @@ extends RefCounted
 ## Winding follows ice_keep_build.gd (clockwise seen from outside = Godot front face); flat facets
 ## (smooth group -1) for the chunky hand-painted read.
 
+## G-B Ice (docs/art/gb_ice_buildings.md): the Ice paint layer (art/buildings/ice/ice_paint.gdshaderinc).
+const ICE_VC: Shader = preload("res://art/buildings/ice/ice_painted_vc.gdshader")
+const ICE_PAINTED: Shader = preload("res://art/buildings/ice/ice_painted.gdshader")
+const PAINTED_VC: Shader = preload("res://art/shaders/painted_vc.gdshader")
+const PAINTED: Shader = preload("res://art/shaders/painted.gdshader")
+## Surface kinds of ice_painted.gdshader (IK_* in the include).
+const K_STONE := 0
+const K_DARK := 1
+const K_METAL := 2
+const K_ICE := 3
+const K_SNOW := 4
+const K_FROST := 5
+## Warm interior light in windows / lanterns (against the cold blues; the team colour stays on crystals and banners).
+const WARM_WINDOW := Color(1.0, 0.71, 0.38)
+
 static var _cache: Dictionary = {}
+## Shots / labs only: true = the pre-G-B look (no Ice layer, cold windows, no new particles, no tier look) for
+## before / after pairs.
+static var legacy := false
+
+
+## The graphics tier (GameSettings.effective_graphics_quality(): 0 Low .. 3 Ultra; Low in headless / -s runs).
+static func gfx_tier() -> int:
+	return clampi(GameSettings.effective_graphics_quality(), 0, 3)
+
+
+## The window / lantern glow: warm (G-B), or `cold` in the legacy look.
+static func window_color(cold: Color) -> Color:
+	return cold if legacy else WARM_WINDOW
+
+
+## High / Ultra ambience on (never in the legacy look).
+static func high_fx() -> bool:
+	return not legacy and gfx_tier() >= 2
+
+
+## The paint layer's `gb_detail`: 0 Low, 1 Medium, 2 High / Ultra.
+static func detail_tier() -> int:
+	return mini(gfx_tier(), 2)
+
+
+## Switches a PaintedVC body material (painted_vc.gdshader, after PaintedVC.convert) to the Ice one-material shader
+## (same vertex data and uniforms). `masonry` 0 = the parts are already modelled blocks (Ice Wall). No-op otherwise.
+static func ice_vc(body: ShaderMaterial, masonry: float = 1.0) -> void:
+	if legacy or body == null or not (body.shader == PAINTED_VC or body.shader == ICE_VC):
+		return
+	body.shader = ICE_VC
+	body.set_shader_parameter(&"gb_detail", float(detail_tier()))
+	body.set_shader_parameter(&"ip_masonry", masonry)
+
+
+## True for the merged body shaders (painted_vc or its Ice version): the B8 code paths compare against these.
+static func is_vc(m: ShaderMaterial) -> bool:
+	return m != null and (m.shader == PAINTED_VC or m.shader == ICE_VC)
+
+
+## High / Ultra ambience: slow snowflakes drifting down over a `radius` m square (emitter at the top, local coords),
+## a shared process material per radius. Use with a MIX quad, ~10-16 flakes, lifetime ~4.5 s.
+static func snowfall_pm(radius: float) -> ParticleProcessMaterial:
+	var key: String = "snowfall_%.2f" % radius
+	if _cache.has(key):
+		return _cache[key]
+	var pm := ParticleProcessMaterial.new()
+	pm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+	pm.emission_box_extents = Vector3(radius, 0.4, radius)
+	pm.direction = Vector3(0.3, -1.0, 0.15).normalized()
+	pm.spread = 25.0
+	pm.initial_velocity_min = 0.45
+	pm.initial_velocity_max = 0.8
+	pm.gravity = Vector3(0.12, -0.25, 0.05)
+	pm.angular_velocity_min = -90.0
+	pm.angular_velocity_max = 90.0
+	pm.scale_min = 0.035
+	pm.scale_max = 0.06
+	var g := Gradient.new()
+	g.set_color(0, Color(0.92, 0.96, 1.0, 0.0))
+	g.set_color(1, Color(0.85, 0.92, 1.0, 0.0))
+	g.add_point(0.15, Color(0.95, 0.98, 1.0, 0.85))
+	g.add_point(0.85, Color(0.88, 0.94, 1.0, 0.7))
+	var tex := GradientTexture1D.new()
+	tex.gradient = g
+	pm.color_ramp = tex
+	_cache[key] = pm
+	return pm
+
+
+## Switches a per-part painted.gdshader material to ice_painted.gdshader with surface kind `kind` (K_*).
+static func ice_part(m: ShaderMaterial, kind: int, masonry: float = 1.0) -> void:
+	if legacy or m == null or not (m.shader == PAINTED or m.shader == ICE_PAINTED):
+		return
+	m.shader = ICE_PAINTED
+	m.set_shader_parameter(&"ip_kind", kind)
+	m.set_shader_parameter(&"gb_detail", float(detail_tier()))
+	m.set_shader_parameter(&"ip_masonry", masonry)
 
 
 ## A row of `count` downward icicles (4-sided pyramids) along local X, centred, hanging from y 0.

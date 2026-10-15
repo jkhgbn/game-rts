@@ -27,6 +27,8 @@ const POLE_X := 1.72 # banner poles, between the gatehouse and the front towers
 const TERRACES: Array = [[2.85, 2.65, 0.8, 2.4], [2.2, 2.0, 2.4, 3.9], [1.6, 1.45, 3.9, 5.2]]
 const SWIRL_SPEED := deg_to_rad(-24.0)
 const CRUSH_PIVOT := 0.8 # plinth top: everything above it sinks on collapse
+## G-B Ice: the Ice paint layer's surface kind per painted material of ice_keep.tscn (by resource name).
+const PART_KINDS := {"DarkStone": 1, "Stone": 0, "Snow": 4, "Crystal": 3}
 const FLOATING: Array[StringName] = [&"Tip", &"Halo"]
 const CROWN: Array[StringName] = [&"CrystalMain", &"CrystalL", &"CrystalR", &"Core", &"CrownShards"]
 const NO_CRUSH: Array[StringName] = [&"PlinthLower", &"Rubble", &"Rubble2", &"GroundSpikes"]
@@ -115,12 +117,14 @@ func _ready() -> void:
 			continue
 		_parts.append(n)
 		_spans.append(_span_of(n))
+	_build_tier_parts()
 	_ready_done = true
 	_update_halo()
 	set_team_color(_team_color)
 	set_construction_progress(_progress)
 	set_health_ratio(_health_ratio)
 	_set_sel(1.0 if _selected else 0.0)
+	_apply_tier()
 
 
 func _span_of(n: Node3D) -> Vector2:
@@ -157,6 +161,14 @@ func _make_unique_materials() -> void:
 				if d.resource_name == "Crystal":
 					_crystal_mat = d
 		gi.material_override = dups[mat]
+	# G-B Ice: the painted parts take the Ice paint layer (crystal ice, snow, frost-rimmed ice-stone).
+	for m: ShaderMaterial in _painted_mats:
+		IceShapes.ice_part(m, int(PART_KINDS.get(m.resource_name, IceShapes.K_STONE)))
+	# Warm interior light in the windows: the shared glow material's per-instance tint (no 9th material, Art Lab B8);
+	# the team colour stays on the crown, halo and gate.
+	var win := get_node_or_null(^"Model/Windows") as GeometryInstance3D
+	if win and not IceShapes.legacy:
+		win.set_instance_shader_parameter(&"tint_color", Color(IceShapes.WARM_WINDOW, 1.0))
 
 
 func _process(delta: float) -> void:
@@ -183,7 +195,8 @@ func _process(delta: float) -> void:
 	if _agitated:
 		shimmer = 0.7 + 0.15 * sin(_t * 23.0) + 0.15 * sin(_t * 37.0)
 	var p: float = _progress
-	_crown_light.light_energy = 1.5 * shimmer * p
+	_tier_process(delta)
+	_crown_light.light_energy = 1.5 * shimmer * p * (1.3 if _tier >= 3 else 1.0)
 	_gate_light.light_energy = 1.0 * (0.9 + 0.1 * sin(_t * 1.7)) * p * (2.0 if _pulse_t < 0.3 else 1.0)
 
 
@@ -288,6 +301,7 @@ func set_construction_progress(p: float) -> void:
 	else:
 		_outline.visible = false
 	_apply_rim()
+	_apply_tier()
 	if done and was < 1.0:
 		set_health_ratio(_health_ratio)
 
@@ -356,6 +370,8 @@ func play_destroyed() -> void:
 	tw.tween_property(pivot, "position:y", CROWN_BASE - 2.5, 0.7).set_delay(0.6).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	tw.tween_callback(func() -> void:
 		pivot.hide()
+		if _tier_root:
+			_tier_root.hide()   # the tier crystals shatter with the crown
 		_shatter.restart()
 		_fire_dust(5.0)).set_delay(1.3)
 	# 1.0-2.2 terraces sink to 35 % with a rumble; banners, icicles hidden at 1.6.
@@ -448,3 +464,193 @@ func _apply_rim() -> void:
 	_banner_mat.set_shader_parameter(&"rim_color", rim)
 	_banner_mat.set_shader_parameter(&"rim_strength", lerpf(0.0, 0.9, _sel))
 	_glow_mat.set_shader_parameter(&"boost_mult", lerpf(GLOW_BOOST, GLOW_BOOST * 1.4, _sel))
+
+
+# --- Keep tiers (G-B Ice, docs/art/gb_ice_buildings.md) --------------------------------------
+# Keep.set_tier_now calls set_tier(t) (no placeholder gold rings once the model has it), play_tier_up() unless quiet,
+# set_upgrading(on) while the upgrade runs (the next tier's crystals grow with Keep.upgrade_progress()).
+#   Stronghold (2): four bastion crystals lean out of the plinth corners (+ eight satellites), an outer halo of eight
+#                   crystal shards turning the other way around the crown.
+#   Citadel (3):    + a ring of six tall crystals around the crown on the top terrace, four sentinel crystals orbiting
+#                   at mid height, the outer halo full (twelve shards), the crown light 30 % brighter.
+
+const BASTION_CORNER := 3.05
+const OUTER_HALO_R := 4.4
+const OUTER_HALO_Y := 9.2
+const SENTINEL_R := 5.3
+const SENTINEL_Y := 7.4
+
+var _tier: int = 1
+var _upgrading: bool = false
+var _tier_root: Node3D
+var _t2_static: MultiMeshInstance3D
+var _t3_static: MultiMeshInstance3D
+var _outer_halo: Node3D
+var _outer_mm: MultiMeshInstance3D
+var _sentinels: Node3D
+var _sentinel_mm: MultiMeshInstance3D
+var _base_xf: Dictionary = {}   # MultiMeshInstance3D -> Array of Transform3D (full-size instances)
+var _grow: Dictionary = {}      # MultiMeshInstance3D -> current size 0..1
+var _pop_t: float = 10.0        # tier-up pop animation clock
+
+
+## The keep's tier look (1 Keep, 2 Stronghold, 3 Citadel). Safe before _ready.
+func set_tier(t: int) -> void:
+	_tier = clampi(t, 1, 3)
+	_apply_tier()
+
+
+## While the keep upgrades, the next tier's crystals grow (with the building's upgrade_progress()).
+func set_upgrading(on: bool) -> void:
+	_upgrading = on
+	if _ready_done and not _destroyed:
+		_build_ring.emitting = on or _progress < 1.0
+	_apply_tier()
+
+
+## The upgrade finished: a burst from the crown, a light flash, the new crystals pop in.
+func play_tier_up() -> void:
+	if not _ready_done or _destroyed or IceShapes.legacy:
+		return
+	_pop_t = 0.0
+	_fire_burst(Vector3(0, 14.5, 0), Vector3.UP, 180.0, 3.0, 7.0, 1.0)
+	var tw := create_tween()
+	tw.tween_property(_crown_light, "light_energy", 6.0, 0.12)
+	tw.tween_property(_crown_light, "light_energy", 1.5, 0.6)
+
+
+func _build_tier_parts() -> void:
+	if IceShapes.legacy or _crystal_mat == null:
+		return
+	_tier_root = Node3D.new()
+	_tier_root.name = "TierParts"
+	_model.add_child(_tier_root)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 9113
+	# Stronghold: bastion crystals at the plinth corners, each with two satellites along the edges.
+	var xs: Array = []
+	for c: Vector2 in [Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)]:
+		var corner := Vector3(c.x * BASTION_CORNER, 0.55, c.y * BASTION_CORNER)
+		var out := Vector3(c.x, 0.0, c.y).normalized()
+		xs.append(Transform3D(IceShapes.lean(out, 20.0) * Basis(Vector3.UP, rng.randf() * TAU), corner))
+		for s: float in [-1.0, 1.0]:
+			var along := Vector3(c.x, 0, 0) if s < 0.0 else Vector3(0, 0, c.y)
+			var p := corner - along * 1.0 + Vector3(0, -0.15, 0)
+			xs.append(Transform3D(IceShapes.lean(out + along * 0.6, 34.0) * Basis(Vector3.UP, rng.randf() * TAU)
+				* Basis.from_scale(Vector3.ONE * rng.randf_range(0.42, 0.55)), p))
+	_t2_static = _tier_mm("StrongholdBastions", IceShapes.crystal(0.5, 2.0, 1.2, 0.0), _crystal_mat, xs, _tier_root)
+	# Outer halo (glow shards), turning against the inner one.
+	_outer_halo = Node3D.new()
+	_outer_halo.name = "OuterHalo"
+	_outer_halo.position = Vector3(0, OUTER_HALO_Y, 0)
+	_tier_root.add_child(_outer_halo)
+	var hx: Array = []
+	for i: int in 12:
+		var th: float = TAU * float(i) / 12.0
+		var r := Vector3(cos(th), 0.0, sin(th))
+		var y: float = 0.0 if i % 3 != 2 else 1.1
+		hx.append(Transform3D(Basis(r.cross(Vector3.UP).normalized(), deg_to_rad(12.0)) * Basis(Vector3.UP, float(i) * 1.3),
+			r * OUTER_HALO_R + Vector3(0, y, 0)))
+	# Team crystal, not glow: the crown core / halo stay the keep's few bright points (Art Lab R5).
+	_outer_mm = _tier_mm("OuterHaloShards", IceShapes.crystal(0.2, 0.3, 0.5, 0.5), _crystal_mat, hx, _outer_halo)
+	# Citadel: a ring of tall crystals on the top terrace around the crown cluster.
+	var cx: Array = []
+	for i: int in 6:
+		var th: float = TAU * float(i) / 6.0 + PI / 6.0
+		var out := Vector3(cos(th), 0.0, sin(th))
+		var tall: float = 1.0 if i % 2 == 0 else 0.72
+		cx.append(Transform3D(IceShapes.lean(out, 16.0) * Basis(Vector3.UP, rng.randf() * TAU)
+			* Basis.from_scale(Vector3(1.0, tall, 1.0)), out * 1.32 + Vector3(0, 5.1, 0)))
+	_t3_static = _tier_mm("CitadelCrown", IceShapes.crystal(0.3, 1.7, 0.9, 0.0), _crystal_mat, cx, _tier_root)
+	# Citadel: four sentinel crystals (bipyramids) orbiting at mid height.
+	_sentinels = Node3D.new()
+	_sentinels.name = "Sentinels"
+	_sentinels.position = Vector3(0, SENTINEL_Y, 0)
+	_tier_root.add_child(_sentinels)
+	var sx: Array = []
+	for i: int in 4:
+		var th: float = TAU * float(i) / 4.0 + PI / 4.0
+		sx.append(Transform3D(Basis(Vector3.UP, th), Vector3(cos(th), 0.0, sin(th)) * SENTINEL_R))
+	_sentinel_mm = _tier_mm("SentinelCrystals", IceShapes.crystal(0.32, 0.45, 0.75, 0.75), _crystal_mat, sx, _sentinels)
+
+
+func _tier_mm(nm: String, mesh: Mesh, mat: Material, xfs: Array, parent: Node3D) -> MultiMeshInstance3D:
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.mesh = mesh
+	mm.instance_count = xfs.size()
+	for i: int in xfs.size():
+		mm.set_instance_transform(i, xfs[i])
+	var mmi := MultiMeshInstance3D.new()
+	mmi.name = nm
+	mmi.multimesh = mm
+	mmi.material_override = mat
+	if mat == _crystal_mat:
+		mmi.set_instance_shader_parameter(&"ao_bottom", 0.0)
+		mmi.set_instance_shader_parameter(&"ao_height", HEIGHT)
+	else:
+		mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	parent.add_child(mmi)
+	_base_xf[mmi] = xfs
+	_grow[mmi] = 1.0
+	return mmi
+
+
+## Which tier groups show, and how grown (an upgrade grows the next tier's groups).
+func _apply_tier() -> void:
+	if not _ready_done or _tier_root == null:
+		return
+	_tier_root.visible = _progress >= 1.0 and not _destroyed
+	var next: int = _tier + 1 if _upgrading else _tier
+	_t2_static.visible = next >= 2
+	_outer_halo.visible = next >= 2
+	_t3_static.visible = next >= 3
+	_sentinels.visible = next >= 3
+	_outer_mm.multimesh.visible_instance_count = -1 if next >= 3 else 8
+	var k: float = _upgrade_k() if _upgrading else 1.0
+	for mmi: MultiMeshInstance3D in [_t2_static, _outer_mm]:
+		_set_grow(mmi, k if (_upgrading and _tier + 1 == 2) else 1.0)
+	for mmi: MultiMeshInstance3D in [_t3_static, _sentinel_mm]:
+		_set_grow(mmi, k if (_upgrading and _tier + 1 == 3) else 1.0)
+
+
+## 0.15 .. 1 from the building's upgrade_progress() (a few nodes up: Building > visual > model).
+func _upgrade_k() -> float:
+	var n: Node = get_parent()
+	for i: int in 3:
+		if n == null:
+			break
+		if n.has_method(&"upgrade_progress"):
+			return lerpf(0.15, 1.0, clampf(float(n.call(&"upgrade_progress")), 0.0, 1.0))
+		n = n.get_parent()
+	return 0.5
+
+
+func _set_grow(mmi: MultiMeshInstance3D, k: float) -> void:
+	if is_equal_approx(float(_grow[mmi]), k):
+		return
+	_grow[mmi] = k
+	var xfs: Array = _base_xf[mmi]
+	for i: int in xfs.size():
+		var xf: Transform3D = xfs[i]
+		mmi.multimesh.set_instance_transform(i, Transform3D(xf.basis.scaled_local(Vector3.ONE * maxf(k, 0.01)), xf.origin))
+
+
+func _tier_process(delta: float) -> void:
+	if _tier_root == null or not _tier_root.visible:
+		return
+	_outer_halo.rotation.y -= HALO_SPEED * 0.6 * _halo_mult * delta
+	_outer_halo.position.y = OUTER_HALO_Y + 0.2 * sin(_t * 0.9 + 1.0)
+	if _sentinels.visible:
+		_sentinels.rotation.y += deg_to_rad(6.0) * delta
+		_sentinels.position.y = SENTINEL_Y + 0.25 * sin(_t * 1.1)
+	if _upgrading:
+		_apply_tier()   # the next tier grows with the upgrade
+		_halo.rotation.y += HALO_SPEED * 1.5 * delta   # the crown spins up while it gathers frost
+	if _pop_t < 0.6:
+		_pop_t += delta
+		var u: float = clampf(_pop_t / 0.6, 0.0, 1.0)
+		var s: float = 1.0 + 0.25 * sin(u * PI) * (1.0 - u)
+		_tier_root.scale = Vector3(1.0, s, 1.0)
+		if _pop_t >= 0.6:
+			_tier_root.scale = Vector3.ONE

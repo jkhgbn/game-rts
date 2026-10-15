@@ -102,6 +102,17 @@ func play_delivery() -> void:
 	_fire(_glint_coin)
 
 
+## G-B Ice: after the B8 merge the body draws with the Ice paint layer (FireHallModel._post_build not called: the
+## Fire look must never reach the Frost Bazaar). Awnings (matte team) and goods (warm) keep a plain painted read.
+func _post_build() -> void:
+	IceShapes.ice_vc(mat_team)
+
+
+## The B8 paths stay on once the body is the Ice version of painted_vc.
+func _vc_wanted() -> bool:
+	return IceShapes.is_vc(mat_team) or (mat_team != null and mat_team.shader == PAINTED)
+
+
 ## Team colour: the base class recolours crystals, banners and sparks; roof tiles take a deeper shade, the awning
 ## stripes and pennants the plain colour.
 ## B8 merge: roof = team darkened 35 %, cloth = team; the gold flashes on its own (left out).

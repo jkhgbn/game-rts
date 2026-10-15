@@ -30,6 +30,7 @@ const FROST_GROUND: Shader = preload("res://art/buildings/ice/ice_frost_ground.g
 
 var mat_snow: ShaderMaterial
 var mat_roof: ShaderMaterial   ## glazed roof tiles: the team colour, deeper
+var mat_window: ShaderMaterial   ## G-B Ice: warm arrow slits
 var _crystal: Node3D
 var _tip: MeshInstance3D
 var _tip_y: float = 4.05
@@ -95,6 +96,9 @@ func _build_structure() -> void:
 	mat_stone.set_shader_parameter(&"crack_scale", 1.8)
 	mat_stone.set_shader_parameter(&"crack_speed", 0.9)
 	mat_gate.set_shader_parameter(&"rune_bands", 0)
+	# G-B Ice: warm interior light in the arrow slits (the gate slit and keystone stay the cold team glow).
+	mat_window = _glow_mat(2.0, 0.8, 0)
+	mat_window.set_shader_parameter(&"glow_color", IceShapes.window_color(glow_color))
 	var hole: StandardMaterial3D = _hole_mat()
 	hole.albedo_color = Color(0.02, 0.03, 0.06)
 	var rng := RandomNumberGenerator.new()
@@ -142,12 +146,12 @@ func _build_structure() -> void:
 		for z: float in [-0.35, 1.35]:
 			var p := Vector3(HX + sx * fx, 2.75, z)
 			it.append(BMG.item(box1, p, mat_dark, Vector3.ZERO, Vector3(0.16, 1.25, 0.56)))
-			it.append(BMG.item(box1, p + Vector3(sx * 0.07, -0.05, 0), mat_gate, Vector3.ZERO, Vector3(0.08, 0.95, 0.24)))
+			it.append(BMG.item(box1, p + Vector3(sx * 0.07, -0.05, 0), mat_window, Vector3.ZERO, Vector3(0.08, 0.95, 0.24)))
 			it.append(BMG.item(box1, p + Vector3(sx * 0.05, 0.68, 0), mat_snow, Vector3.ZERO, Vector3(0.22, 0.1, 0.66)))
 	for x: float in [HX - 1.0, HX + 1.0]:
 		var p := Vector3(x, 2.75, HZ + WZ * 0.968)
 		it.append(BMG.item(box1, p, mat_dark, Vector3.ZERO, Vector3(0.56, 1.25, 0.16)))
-		it.append(BMG.item(box1, p + Vector3(0, -0.05, 0.07), mat_gate, Vector3.ZERO, Vector3(0.24, 0.95, 0.08)))
+		it.append(BMG.item(box1, p + Vector3(0, -0.05, 0.07), mat_window, Vector3.ZERO, Vector3(0.24, 0.95, 0.08)))
 	# Gatehouse: battered block, base course, snow lip, four snow-capped merlons on the front edge.
 	it.append(BMG.item(sq, Vector3(HX, 0.8, GATE_Z), mat_dark, Vector3.ZERO, Vector3(1.84, 0.45, 0.8)))
 	it.append(BMG.item(IceShapes.prism(1.0, 0.96, 1.0, 4), Vector3(HX, 0.8, GATE_Z), mat_stone, Vector3.ZERO,
@@ -174,7 +178,7 @@ func _build_structure() -> void:
 		it.append(BMG.item(IceShapes.prism(0.68, 0.58, 0.24, 4), tp + Vector3(0, 4.5, 0), mat_snow))
 		var slit := tp + Vector3(s * 0.6, 2.3, 0.0)
 		it.append(BMG.item(box1, slit, mat_dark, Vector3.ZERO, Vector3(0.14, 0.9, 0.42)))
-		it.append(BMG.item(box1, slit + Vector3(s * 0.06, 0, 0), mat_gate, Vector3.ZERO, Vector3(0.08, 0.65, 0.18)))
+		it.append(BMG.item(box1, slit + Vector3(s * 0.06, 0, 0), mat_window, Vector3.ZERO, Vector3(0.08, 0.65, 0.18)))
 		if s < 0.0:
 			_turret_cap(it, tp + Vector3(0, 4.7, 0), s)
 	_merged("Walls", "walls", it)
@@ -336,6 +340,17 @@ func _build_structure() -> void:
 	_rubble2_points = [rt + Vector3(0.75, 0.95, -0.55), rt + Vector3(0.15, 0.95, -0.95), rt + Vector3(0.95, 0.5, -1.2),
 		rt + Vector3(-0.55, 1.0, -1.05)]
 	_gate_pos = Vector3(HX, 1.6, -3.3)
+
+
+## G-B Ice: after the B8 merge the body draws with the Ice paint layer (crystal ice, snow, frost-rimmed stone).
+## FireHallModel._post_build is not called on purpose: the Fire look must never reach the Frost Hall.
+func _post_build() -> void:
+	IceShapes.ice_vc(mat_team)
+
+
+## The B8 paths stay on once the body is the Ice version of painted_vc.
+func _vc_wanted() -> bool:
+	return IceShapes.is_vc(mat_team) or (mat_team != null and mat_team.shader == PAINTED)
 
 
 ## Team colour: the base class recolours crystals, banners and sparks; the roof tiles take a deeper shade of it.

@@ -18,6 +18,17 @@ const WOOL_DK := Color(0.23, 0.25, 0.31)
 const HORN := Color(0.70, 0.84, 0.95)
 
 
+const ICE_STABLES_PAINT: Shader = preload("res://art/buildings/stables/ice/ice_stables_painted.gdshader")
+
+
+## G-B Ice: the one body material takes the Ice paint layer (same vertex data; docs/art/gb_ice_buildings.md).
+func _post_build() -> void:
+	if IceShapes.legacy or mat_body == null or mat_body.shader != PAINT:
+		return
+	mat_body.shader = ICE_STABLES_PAINT
+	mat_body.set_shader_parameter(&"gb_detail", float(IceShapes.detail_tier()))
+
+
 func _setup_palette() -> void:
 	kingdom_color = Color(0.45, 0.75, 0.95)
 	glow_color = Color(0.62, 0.88, 1.00)

@@ -59,7 +59,7 @@ func _build_parts() -> void:
 	_m_team.set_shader_parameter(&"crack_scale", 1.2)
 	_m_team.set_shader_parameter(&"crack_speed", 0.9)
 	_m_stone.set_shader_parameter(&"crack_scale", 1.8)
-	_slit_mat = _glow_mat(glow_color, 2.3, 1.3, false)
+	_slit_mat = _glow_mat(IceShapes.window_color(glow_color), 2.0, 1.3, false)   # G-B Ice: warm light inside the shaft
 	# --- Plinth (never collapses): two hex dark tiers, snow drifts, the ice cluster erupting at the front-left.
 	var it: Array = []
 	it.append(_it(IceShapes.prism(1.08, 1.02, 0.3, 6), Vector3.ZERO, _m_dark))
@@ -222,6 +222,15 @@ func _on_team_color(g: Color) -> void:
 func _on_destroy_start() -> void:
 	_shot_left = 0.0
 	IceWallModel.refresh_around(self)
+
+
+## G-B Ice: every painted part draws with the Ice paint layer (per part: the spire is not vertex-merged).
+func _post_build() -> void:
+	IceShapes.ice_part(_m_stone, IceShapes.K_STONE)
+	IceShapes.ice_part(_m_dark, IceShapes.K_DARK)
+	IceShapes.ice_part(_m_trim, IceShapes.K_METAL)
+	IceShapes.ice_part(_m_team, IceShapes.K_ICE)
+	IceShapes.ice_part(_m_snow, IceShapes.K_SNOW)
 
 
 ## The keep's cold idle rim instead of the base one (selection still turns it to the team colour).
