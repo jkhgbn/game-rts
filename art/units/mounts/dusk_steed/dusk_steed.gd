@@ -117,6 +117,10 @@ func _body_sculpt(s: Dictionary) -> void:
 		sculpt_put(s, sphere(0.08, 8, 4), hd, Vector3(0.2 * sx, 1.54, -0.45), Vector3(0, 0, 0), Vector3(0.8, 0.6, 1.4))
 		sculpt_put(s, sphere(0.2, 8, 4), hd, Vector3(0.175 * sx, 1.38, 0.42), Vector3(-28, 0, -6.0 * sx),
 			Vector3(0.36, 1.0, 0.42))
+		# G-C anatomy: the shoulder mass sloping from the withers to the point of the shoulder, and the haunch (hip to
+		# stifle and buttock) that the hind leg grows out of
+		MountShapes.muscle(s, hd, Vector3(0.18 * sx, 1.29, 0.48), Vector3(0.075, 0.26, 0.13), Vector3(0, 1, -0.55), 7, 4)
+		MountShapes.muscle(s, hd, Vector3(0.205 * sx, 1.24, -0.56), Vector3(0.10, 0.30, 0.23), Vector3(0, 1, 0.22), 7, 4)
 	# ---- tattered caparison: the back cloth, dark hems front and back, ragged layered skirts on both flanks
 	var at := Transform3D(Basis.IDENTITY, BC + Vector3(0, CAPA_UP, 0))
 	sculpt_add(s, shell_mesh("dusk_capa_v2", CAPA_RX, CAPA_RY, -104.0, 104.0, -0.50, 0.18, 0.025, 12, 2, 1.0, 0.03),
@@ -278,25 +282,19 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	var o := Vector3(x, 0, z)
 	var fet: Vector3
 	var hoof_p: Vector3
+	# G-C: one continuous jointed leg (MountShapes horse template: forearm, bony knee, flat cannon, fetlock knob,
+	# sloping pastern; hind: stifle, gaskin, the hock point behind, vertical cannon), gaunt (thinner radii).
 	if front:
-		sculpt_add(s, tube_mesh("dusk_fore_v1", PackedVector3Array([Vector3(0, 1.16, 0.0), Vector3(0, 0.88, 0.03),
-			Vector3(0, 0.58, 0.02)]), PackedFloat32Array([0.13, 0.09, 0.058]), 8, false), Transform3D(Basis.IDENTITY, o), hd)
-		sculpt_put(s, sphere(0.058, 8, 4), hd, o + Vector3(0, 0.56, 0.026), Vector3.ZERO, Vector3(0.95, 1.3, 1.0))
-		sculpt_add(s, tube_mesh("dusk_fcannon_v1", PackedVector3Array([Vector3(0, 0.56, 0.02), Vector3(0, 0.2, 0.0)]),
-			PackedFloat32Array([0.05, 0.043]), 6, false), Transform3D(Basis.IDENTITY, o), hd)
+		MountShapes.leg(s, "dusk_fore_v2", o, MountShapes.HORSE_FORE, hd, 0.92, 0.74, 6)
 		fet = o + Vector3(0, 0.18, -0.005)
 		hoof_p = o + Vector3(0, 0.052, 0.05)
 	else:
-		sculpt_put(s, sphere(0.2, 8, 5), hd, o + Vector3(-0.02 * signf(x), 1.0, 0.03), Vector3(10, 0, 0), Vector3(0.55, 1.2, 0.85))
-		sculpt_add(s, tube_mesh("dusk_gaskin_v1", PackedVector3Array([Vector3(0, 1.0, 0.0), Vector3(0, 0.78, -0.07),
-			Vector3(0, 0.56, -0.12)]), PackedFloat32Array([0.11, 0.075, 0.056]), 8, false), Transform3D(Basis.IDENTITY, o), hd)
-		sculpt_put(s, sphere(0.05, 8, 4), hd, o + Vector3(0, 0.575, -0.14), Vector3.ZERO, Vector3(0.9, 1.1, 1.4))
-		sculpt_add(s, tube_mesh("dusk_hcannon_v1", PackedVector3Array([Vector3(0, 0.56, -0.12), Vector3(0, 0.2, -0.09)]),
-			PackedFloat32Array([0.05, 0.043]), 6, false), Transform3D(Basis.IDENTITY, o), hd)
+		MountShapes.leg(s, "dusk_hind_v2", o, MountShapes.HORSE_HIND, hd, 0.92, 0.74, 6)
+		# the gaskin muscle (back of the second thigh) and the point of the hock (calcaneus) behind the joint
+		MountShapes.muscle(s, hd, o + Vector3(0, 0.80, -0.08), Vector3(0.07, 0.12, 0.075), Vector3(0, 1, 0.45), 6, 3)
+		MountShapes.muscle(s, hd, o + Vector3(0, 0.585, -0.2), Vector3(0.03, 0.06, 0.035), Vector3(0, 1, 0.3), 6, 3)
 		fet = o + Vector3(0, 0.18, -0.095)
 		hoof_p = o + Vector3(0, 0.052, -0.045)
-	sculpt_put(s, sphere(0.05, 8, 4), hd, fet, Vector3.ZERO, Vector3(1.0, 1.1, 1.15))
-	_rod(s, hd, "dusk_pastern_%s" % front, fet, hoof_p + Vector3(0, 0.04, 0.0), 0.044, 0.05, 6)
 	sculpt_put(s, cyl(0.056, 0.074, 0.09, 8), hoof, hoof_p, Vector3(4, 0, 0))
 	sculpt_put(s, cyl(0.077, 0.077, 0.018, 8), silver, hoof_p + Vector3(0, -0.036, 0.004))
 	# smoky fetlock feathers trailing behind the joint

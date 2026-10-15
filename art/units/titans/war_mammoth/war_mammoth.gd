@@ -231,8 +231,19 @@ func _body_sculpt(s: Dictionary) -> void:
 		0.55), Vector3(0, 1.92, -0.15))
 	sculpt_fringe(s, fur, fringe_mesh("mammoth_mane_v1", 0.56, 0.62, 0.95, 1.00, 0.55, -128.0, 128.0, 20, 0.26, 0.04,
 		0.5), HUMP_C + Vector3(0, 0.38, 0.02))
-	sculpt_fringe(s, pale, fringe_mesh("mammoth_frostcap_v1", 0.18, 0.22, 0.60, 0.66, 0.24, -142.0, 142.0, 13, 0.13,
-		0.03, 0.5), HUMP_C + Vector3(0, 0.62, 0.04))
+	# G-C: the rimed hump crest as shaggy locks lying back and down over the hump (was a flat 13-tooth ring that read
+	# as a cog from the RTS camera), pale frost tips on the crest, darker locks below them
+	for i: int in 11:
+		var th: float = -150.0 + 30.0 * float(i)
+		var e := _ell_pt(HUMP_C, HUMP_R, th, 58.0)
+		var nn: Vector3 = e[1]
+		var dn := (nn * 0.45 + Vector3(0, -0.55, -0.55)).normalized()
+		sculpt_lock(s, pale if i % 2 == 0 else fur, (e[0] as Vector3) - nn * 0.04, dn, nn, 0.34, 0.62 - 0.08 * float(i % 3), 0.10)
+	for i: int in 4:
+		var th2: float = -45.0 + 30.0 * float(i)
+		var e2 := _ell_pt(HUMP_C, HUMP_R, th2, 82.0)
+		sculpt_lock(s, pale, (e2[0] as Vector3) - Vector3(0, 0.04, 0), Vector3(0.2 * sin(deg_to_rad(th2)), -0.35, -1.0).normalized(),
+			Vector3.UP, 0.30, 0.48, 0.09)
 	sculpt_fringe(s, fur, fringe_mesh("mammoth_rumpfur_v1", 0.52, 0.42, 0.90, 0.74, 0.50, 112.0, 248.0, 12, 0.24,
 		0.04, 0.5), RUMP_C + Vector3(0, 0.44, -0.04))
 	# throat beard: long locks from the chest front, hanging between the front legs
@@ -338,8 +349,15 @@ func _head_sculpt(s: Dictionary) -> void:
 			Vector3(sx, 0, 0), 0.30, 0.40, 0.08)
 	# ---- hair: a rimed pale crown on the dome, a ruff over the back of the skull (hides the neck seam), cheek locks,
 	# a beard under the jaw
-	sculpt_fringe(s, pale, fringe_mesh("mammoth_crown_v1", 0.12, 0.12, 0.44, 0.46, 0.28, 0.0, 360.0, 12, 0.14, 0.03,
-		0.6), DOME_C + Vector3(0, DOME_R.y + 0.02, 0))
+	# G-C: a shaggy frosted topknot (locks falling from the crown of the dome all round, longest at the back) instead
+	# of the flat 12-tooth ring that read as a cog from above
+	for i: int in 10:
+		var a: float = TAU * float(i) / 10.0 + 0.3
+		var out := Vector3(sin(a), 0.0, cos(a))
+		var base := DOME_C + Vector3(0, DOME_R.y - 0.03, 0) + out * 0.13
+		var back: float = 0.5 - 0.5 * cos(a)   # 0 at the front, 1 at the back
+		sculpt_lock(s, pale if i % 2 == 0 else fur, base, (out * 0.75 + Vector3(0, -0.6, 0)).normalized(), (out + Vector3.UP * 0.3).normalized(),
+			0.30, 0.40 + 0.22 * back, 0.09)
 	sculpt_fringe(s, fur, fringe_mesh("mammoth_ruff_v1", 0.52, 0.42, 0.80, 0.62, 0.50, 100.0, 260.0, 11, 0.24, 0.04,
 		0.5), Vector3(0, 3.02, 1.62))
 	for sx: float in [-1.0, 1.0]:

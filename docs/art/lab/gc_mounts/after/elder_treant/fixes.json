@@ -1,0 +1,74 @@
+{
+	"asset": "elder_treant",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 5409,
+					"node": "Root/Chest/Head/HeadMesh",
+					"to": 4593,
+					"words": "`HeadMesh` 5409 -> 4593 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 12777
+			},
+			"predicted": {
+				"verts": 11961
+			},
+			"proposal": "12777 -> 11961 (want <= 12000): `HeadMesh` 5409 -> 4593 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 12777 -> 11961 (want <= 12000): `HeadMesh` 5409 -> 4593 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 12000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R4k",
+			"computed": false,
+			"measured": {
+				"value": "dE 19.4, 7% melts (old_wood is where nature units stand most)"
+			},
+			"predicted": {},
+			"proposal": "Contrast on the home ground (old_wood): On its home ground (old_wood) the body is only dE 19.4: add a value step for that ground",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R4k Contrast on the home ground (old_wood): On its home ground (old_wood) the body is only dE 19.4: add a value step for that ground",
+			"title": "Contrast on the home ground (old_wood)",
+			"wanted": {
+				"rule": "dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R12",
+			"computed": false,
+			"measured": {
+				"value": "worst night: dE 9.3, dL +0 (warm dE 27.7, ice dE 25.0, night dE 9.3, autumn dE 24.9); night = lab stand-in (warm preset, dim moon sun)"
+			},
+			"predicted": {},
+			"proposal": "Contrast under every light preset (meadow): Under the night light the body drops to dE 9.3: add a value step (light top / pale crest) that survives a dim light",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R12 Contrast under every light preset (meadow): Under the night light the body drops to dE 9.3: add a value step (light top / pale crest) that survives a dim light",
+			"title": "Contrast under every light preset (meadow)",
+			"wanted": {
+				"rule": "mean-colour dE >= 10 on the main ground under warm / ice / night / autumn light (WARN only: units appear on every map)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "titan",
+	"kingdom": "nature",
+	"quality": 91.6,
+	"result": "WARN",
+	"scene": "res://art/units/titans/elder_treant/elder_treant.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

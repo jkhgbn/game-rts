@@ -1,0 +1,13 @@
+{
+	"asset": "ember_boar",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "fire",
+	"quality": 95.4,
+	"result": "PASS",
+	"scene": "res://art/units/mounts/ember_boar/ember_boar.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

@@ -149,7 +149,7 @@ static func _blossom(s: Dictionary, c: Vector3, n: Vector3, sz: float, spin: flo
 		var pd := (d * cos(0.49) + nn * sin(0.49)).normalized()
 		var side := nn.cross(pd).normalized()
 		var pu := pd.cross(side).normalized()
-		_ellipsoid(s, glow, c + pd * 0.085 * sz + nn * 0.01 * sz, side, pu, pd, Vector3(0.068, 0.026, 0.11) * sz, 6, 3)
+		_ellipsoid(s, glow, c + pd * 0.085 * sz + nn * 0.01 * sz, side, pu, pd, Vector3(0.068, 0.026, 0.11) * sz, 5, 2)
 		# leaves between the petals, flatter, reaching further, slightly down
 		var a2 := a + TAU / 10.0
 		var ld := ((bx * cos(a2) + bz * sin(a2)) * cos(0.12) - nn * sin(0.12)).normalized()
@@ -176,13 +176,13 @@ func _body_sculpt(s: Dictionary) -> void:
 		prof.append(Vector2(BARREL_R[i], BARREL_Z[i]))
 	var barrel := lathe_mesh("grove_stag_barrel_v1", prof, 12)
 	sculpt_add(s, barrel, Transform3D(Basis(Vector3.RIGHT, PI * 0.5) * Basis.from_scale(Vector3(1, 1, SY)), BC), hide)
-	sculpt_put(s, sphere(0.40, 12, 6), hide, CHEST_C, Vector3.ZERO, CHEST_R / 0.40)
+	sculpt_put(s, sphere(0.40, 10, 5), hide, CHEST_C, Vector3.ZERO, CHEST_R / 0.40)
 	sculpt_put(s, sphere(0.40, 10, 5), hide, WITHERS_C, Vector3.ZERO, WITHERS_R / 0.40)
 	sculpt_put(s, sphere(0.40, 10, 5), hide, RUMP_C, Vector3.ZERO, RUMP_R / 0.40)
 	# ---- moss shawl: a ragged green collar round the neck root draping over the shoulders (open behind, where the
 	# rider sits), bright moss tufts on its crest
 	var tilt := Basis(Vector3.RIGHT, deg_to_rad(30.0))
-	sculpt_fringe(s, moss, fringe_mesh("grove_stag_shawl_v1", 0.25, 0.28, 0.46, 0.50, 0.24, -125.0, 125.0, 13, 0.13, 0.03,
+	sculpt_fringe(s, moss, fringe_mesh("grove_stag_shawl_v2", 0.25, 0.28, 0.46, 0.50, 0.22, -125.0, 125.0, 21, 0.075, 0.03,
 		0.6), Vector3(0, 1.60, 0.56), tilt)
 	sculpt_fringe(s, leaf_d, fringe_mesh("grove_stag_shawl_in_v1", 0.22, 0.25, 0.34, 0.38, 0.14, -110.0, 110.0, 9, 0.09,
 		0.03, 0.6), Vector3(0, 1.68, 0.60), tilt)
@@ -254,7 +254,7 @@ func _body_sculpt(s: Dictionary) -> void:
 func _neck_sculpt(s: Dictionary) -> void:
 	var hide := m("grove_stag_hide")
 	var moss := m("nature_moss")
-	var leaf := m("nature_leaf")
+	var leaf_d := m("nature_leaf_dark")
 	var pts := PackedVector3Array(NECK_P)
 	sculpt_add(s, tube_mesh("grove_stag_neck_v1", pts, PackedFloat32Array(NECK_R), 9, false, 0.8), Transform3D.IDENTITY,
 		hide)
@@ -265,7 +265,7 @@ func _neck_sculpt(s: Dictionary) -> void:
 		var root := Vector3(0.07 * sx, lerpf(1.32, 1.86, t), lerpf(0.86, 1.10, t))
 		var out := Vector3(0.35 * sx, -0.2, 1.0).normalized()
 		var ln: float = 0.30 + 0.16 * sin(PI * clampf(t * 1.1, 0.0, 1.0))
-		sculpt_lock(s, leaf if i == 3 else moss, root, Vector3(0.1 * sx, -1.0, 0.25).normalized(), out, 0.19, ln, 0.06)
+		sculpt_lock(s, leaf_d if i % 3 == 1 else moss, root, Vector3(0.1 * sx, -1.0, 0.25).normalized(), out, 0.17, ln, 0.06)
 	# a short moss crest down the back of the neck
 	for i: int in 5:
 		var t: float = float(i) / 4.0
@@ -384,20 +384,18 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	var front: bool = p.z > 0.0
 	var x := p.x
 	var z := p.z
-	var o := Transform3D(Basis.IDENTITY, Vector3(x, 0, z))
+	# G-C: one continuous jointed leg (MountShapes horse template stretched into a deer's: long forearm, a bony knee,
+	# long slim cannon; hind: stifle forward, the gaskin sloping back to a sharp hock), muscled at the top.
+	var p3 := Vector3(x, 0, z)
 	if front:
-		sculpt_add(s, tube_mesh("grove_stag_fore_v1", PackedVector3Array([Vector3(0, 1.10, 0), Vector3(0, 0.80, 0.02),
-			Vector3(0, 0.54, 0.03)]), PackedFloat32Array([0.16, 0.125, 0.085]), 7, false), o, hide)
-		sculpt_put(s, sphere(0.078, 6, 3), hide, Vector3(x, 0.54, z + 0.035))
-		sculpt_add(s, tube_mesh("grove_stag_cannon_f_v1", PackedVector3Array([Vector3(0, 0.54, 0.03), Vector3(0, 0.32, 0.035),
-			Vector3(0, 0.15, 0.05)]), PackedFloat32Array([0.07, 0.06, 0.068]), 7, false), o, hide)
+		MountShapes.leg(s, "grove_stag_fore_v2", p3, MountShapes.scaled(MountShapes.HORSE_FORE, 0.2, 0.93, 1.1, 1.0), hide,
+			1.12, 0.74, 6)
+		MountShapes.muscle(s, hide, Vector3(x, 0.94, z - 0.05), Vector3(0.10, 0.15, 0.11), Vector3(0, 1, 0.25), 6, 3)
 	else:
 		sculpt_put(s, sphere(0.20, 8, 4), hide, Vector3(x, 0.98, z - 0.02), Vector3.ZERO, Vector3(0.85, 1.35, 1.15))
-		sculpt_add(s, tube_mesh("grove_stag_thigh_v1", PackedVector3Array([Vector3(0, 1.02, 0), Vector3(0, 0.74, 0.10),
-			Vector3(0, 0.50, -0.10)]), PackedFloat32Array([0.17, 0.125, 0.08]), 7, false), o, hide)
-		sculpt_put(s, sphere(0.072, 6, 3), hide, Vector3(x, 0.50, z - 0.10))
-		sculpt_add(s, tube_mesh("grove_stag_cannon_b_v1", PackedVector3Array([Vector3(0, 0.50, -0.10), Vector3(0, 0.30, -0.05),
-			Vector3(0, 0.15, -0.02)]), PackedFloat32Array([0.068, 0.06, 0.068]), 7, false), o, hide)
+		MountShapes.leg(s, "grove_stag_hind_v2", p3, MountShapes.scaled(MountShapes.HORSE_HIND, 0.2, 0.9, 0.8, 1.0), hide,
+			1.12, 0.74, 6)
+		MountShapes.muscle(s, hide, Vector3(x, 0.74, z - 0.07), Vector3(0.08, 0.13, 0.085), Vector3(0, 1, 0.45), 6, 3)
 	var hz: float = z + (0.05 if front else -0.01)
 	# bark collar (ragged strips) over the fetlock, a moss wisp at its back
 	sculpt_fringe(s, bark, fringe_mesh("grove_stag_collar_v2", 0.078, 0.078, 0.112, 0.112, 0.08, 0.0, 360.0, 6, 0.06, 0.02, 0.7),
@@ -407,8 +405,8 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	# kit idle breathing (root bob +-1.4 cm + body pitch) sank the front tips 1.5 cm at the trough (test 13.V5 allows 1).
 	for side: float in [-1.0, 1.0]:
 		var tx := x + 0.036 * side
-		sculpt_put(s, cyl(0.042, 0.058, 0.14, 6), bark, Vector3(tx, 0.107, hz + 0.02), Vector3(-14, 0, 0), Vector3(1.0, 1.0, 1.35))
-		sculpt_put(s, cyl(0.03, 0.052, 0.05, 6), bark_d, Vector3(tx, 0.040, hz + 0.05), Vector3.ZERO, Vector3(1.0, 1.0, 1.45))
+		sculpt_put(s, cyl(0.042, 0.058, 0.14, 5), bark, Vector3(tx, 0.107, hz + 0.02), Vector3(-14, 0, 0), Vector3(1.0, 1.0, 1.35))
+		sculpt_put(s, cyl(0.03, 0.052, 0.05, 5), bark_d, Vector3(tx, 0.040, hz + 0.05), Vector3.ZERO, Vector3(1.0, 1.0, 1.45))
 
 
 # ================================================================ barding (woven bark plates)

@@ -48,6 +48,13 @@ const DRAPE_Z0 := -0.40
 const DRAPE_Z1 := 0.06
 const DRAPE_COLS := 10
 const DRAPE_A: Array[float] = [0.0, 32.0, 64.0, 94.0]
+## G-C legs (MountShapes.leg rows: y, z offset, radius), top to the coronet; the sock (fire_hair) starts at row 4.
+const FORE_ROWS: Array[Vector3] = [Vector3(0.80, 0.0, 0.16), Vector3(0.66, -0.02, 0.152), Vector3(0.54, 0.0, 0.122),
+	Vector3(0.45, 0.018, 0.098), Vector3(0.385, 0.03, 0.086), Vector3(0.335, 0.036, 0.09), Vector3(0.285, 0.036, 0.078),
+	Vector3(0.19, 0.04, 0.07), Vector3(0.12, 0.045, 0.074), Vector3(0.075, 0.05, 0.07)]
+const HIND_ROWS: Array[Vector3] = [Vector3(0.78, 0.0, 0.15), Vector3(0.64, 0.03, 0.138), Vector3(0.52, -0.02, 0.11),
+	Vector3(0.44, -0.058, 0.09), Vector3(0.38, -0.075, 0.08), Vector3(0.345, -0.08, 0.083), Vector3(0.30, -0.062, 0.074),
+	Vector3(0.20, -0.02, 0.07), Vector3(0.12, 0.012, 0.072), Vector3(0.075, 0.028, 0.07)]
 
 var _smoulder_v: float = 0.0
 ## Eyes + expression (CreatureFaceRig, faces pass 2026-09-28).
@@ -325,20 +332,15 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	var hair := m("fire_hair")
 	var hoof := m("unit_eye_dark")
 	var front: bool = p.z > 0.0
-	var at := Transform3D(Basis.IDENTITY, Vector3(p.x, 0, p.z))
+	# G-C: one continuous jointed leg in two bands (hide, then the dark bristled sock): a heavy forearm into a knobbly
+	# knee; hind: the ham, a gaskin sloping back to the hock point, a short cannon leaning forward to the hoof.
+	var bands: Array[Material] = [hide, hair]
 	if front:
-		sculpt_add(s, tube_mesh("ember_boar_fleg_up_v1", PackedVector3Array([Vector3(0, 0.78, 0), Vector3(0, 0.55, 0.01),
-			Vector3(0, 0.36, 0.03)]), PackedFloat32Array([0.16, 0.14, 0.105]), 8, false), at, hide)
-		sculpt_put(s, sphere(0.11, 8, 4), hide, Vector3(p.x, 0.37, p.z + 0.035))
-		sculpt_add(s, tube_mesh("ember_boar_fleg_lo_v1", PackedVector3Array([Vector3(0, 0.38, 0.035), Vector3(0, 0.20, 0.04),
-			Vector3(0, 0.08, 0.05)]), PackedFloat32Array([0.095, 0.08, 0.078]), 8, false), at, hair)
+		MountShapes.leg_bands(s, "ember_boar_fleg_v2", p, FORE_ROWS, [4], bands, 1.0, 0.86, 7)
+		MountShapes.muscle(s, hide, Vector3(p.x, 0.66, p.z - 0.04), Vector3(0.14, 0.15, 0.15), Vector3(0, 1, 0.2), 6, 3)
 	else:
 		sculpt_put(s, sphere(0.20, 10, 5), hide, Vector3(p.x, 0.74, p.z - 0.02), Vector3.ZERO, Vector3(0.75, 1.05, 1.05))
-		sculpt_add(s, tube_mesh("ember_boar_bleg_up_v1", PackedVector3Array([Vector3(0, 0.76, 0), Vector3(0, 0.50, -0.07),
-			Vector3(0, 0.34, -0.035)]), PackedFloat32Array([0.15, 0.12, 0.095]), 8, false), at, hide)
-		sculpt_put(s, sphere(0.092, 8, 4), hide, Vector3(p.x, 0.34, p.z - 0.04))
-		sculpt_add(s, tube_mesh("ember_boar_bleg_lo_v1", PackedVector3Array([Vector3(0, 0.35, -0.035), Vector3(0, 0.19, 0.0),
-			Vector3(0, 0.08, 0.03)]), PackedFloat32Array([0.085, 0.075, 0.075]), 8, false), at, hair)
+		MountShapes.leg_bands(s, "ember_boar_bleg_v2", p, HIND_ROWS, [4], bands, 1.0, 0.86, 7)
 	# bristle cuff over the sock, then the split hoof (two dark toes)
 	var cz: float = 0.035 if front else -0.03
 	sculpt_fringe(s, hair, fringe_mesh("ember_boar_cuff_v1", 0.10, 0.10, 0.125, 0.125, 0.08, 0.0, 360.0, 6, 0.06, 0.02),

@@ -1,0 +1,95 @@
+{
+	"asset": "grove_stag",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"factor": 0.213,
+					"from": 1.0,
+					"material": "grove_stag_hide",
+					"material_path": "res://art/units/mounts/grove_stag/materials/grove_stag_hide.tres",
+					"node": "Root/Mount/LegBL/Merged, Root/Mount/LegFR/Merged",
+					"param": "shader_parameter/crack_strength",
+					"peak_x_bloom": 3.51,
+					"to": 0.213,
+					"want_x_bloom": 0.75,
+					"why": "dim under the bloom level: 2 point(s), peak 3.51 x the level",
+					"words": "crack_strength 1.0 -> 0.21 on Merged, Merged (dim under the bloom level: 2 point(s), peak 3.51 x the level)"
+				}
+			],
+			"check": "R5",
+			"computed": true,
+			"measured": {
+				"points": 3,
+				"points_this_phase": 3,
+				"spots": [
+					{
+						"above": true,
+						"part": "Root/Mount/LegBL/Merged",
+						"peak_x_bloom": 3.51,
+						"px": 44
+					},
+					{
+						"above": true,
+						"part": "Root/Mount/Head/Merged",
+						"peak_x_bloom": 3.51,
+						"px": 39
+					},
+					{
+						"above": true,
+						"part": "Root/Mount/LegFR/Merged",
+						"peak_x_bloom": 3.51,
+						"px": 29
+					}
+				],
+				"value": "3 point(s) above the bloom level 1.2 (median of 3/3/3): Merged x3; soft glows under the bloom (v1 count, luma > 0.4): 3"
+			},
+			"predicted": {
+				"points": 1
+			},
+			"proposal": "Glow points 3 -> 1 (want 0-2): grove_stag_hide crack_strength 1.0 -> 0.21 on Merged, Merged (dim under the bloom level: 2 point(s), peak 3.51 x the level)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "Glow points 3 -> 1 (want 0-2): grove_stag_hide crack_strength 1.0 -> 0.21 on Merged, Merged (dim under the bloom level: 2 point(s), peak 3.51 x the level)",
+			"title": "Glow points at the bloom level",
+			"wanted": {
+				"points": "0-2 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2791,
+					"node": "Root/Mount/Head/Merged",
+					"to": 2214,
+					"words": "`Merged` 2791 -> 2214 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 6549
+			},
+			"predicted": {
+				"verts": 5972
+			},
+			"proposal": "6549 -> 5972 (want <= 6000): `Merged` 2791 -> 2214 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 6549 -> 5972 (want <= 6000): `Merged` 2791 -> 2214 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 6000"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "nature",
+	"quality": 92.2,
+	"result": "WARN",
+	"scene": "res://art/units/mounts/grove_stag/grove_stag.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

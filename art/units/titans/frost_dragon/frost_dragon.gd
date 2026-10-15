@@ -93,22 +93,6 @@ func _build_parts() -> void:
 	ensure_shadow_blob(Vector2(3.4, 3.7), Color(0.03, 0.05, 0.08, 0.42))
 
 
-static var _blob_mesh: Mesh
-
-
-## FlyerModel.ensure_shadow_blob builds a new PlaneMesh per dragon (Art Lab B9m): same blob, but every Frost Dragon
-## shares the first one's mesh (size / tint stay per instance through scale and the instance uniform).
-func ensure_shadow_blob(size: Vector2, tint: Color) -> void:
-	super(size, tint)
-	var mi := _shadow as MeshInstance3D
-	if mi == null:
-		return
-	if _blob_mesh == null:
-		_blob_mesh = mi.mesh
-	elif mi.mesh != _blob_mesh:
-		mi.mesh = _blob_mesh
-
-
 func _after_ready() -> void:
 	_tip_fx.emitting = _tier == 0
 

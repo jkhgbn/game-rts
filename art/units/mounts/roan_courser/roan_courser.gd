@@ -285,32 +285,22 @@ func _leg_sculpt(s: Dictionary, p: Vector3) -> void:
 	var pts := m("roan_courser_chestnut")
 	var mane := m("fire_fur")
 	var white := m("shadow_bone")
-	var at := Transform3D(Basis.IDENTITY, Vector3(p.x, 0, p.z))
 	var feather := fringe_mesh("roan_feather_v1", 0.068, 0.072, 0.105, 0.115, 0.10, 0.0, 360.0, 7, 0.05, 0.02, 0.5)
 	var hoof := lathe_mesh("roan_hoof_v1", PackedVector2Array([Vector2(0.10, 0.0), Vector2(0.094, 0.05),
 		Vector2(0.072, 0.115)]), 8)
+	# G-C: one continuous jointed leg in colour bands (MountShapes horse template, shortened and thickened for a cob):
+	# roan forearm / gaskin, chestnut from the knee / hock down, white hind socks.
+	var cob_f := MountShapes.scaled(MountShapes.HORSE_FORE, 0.2, 0.845, 1.0, 1.0)
+	var cob_h := MountShapes.scaled(MountShapes.HORSE_HIND, 0.2, 0.845, 0.85, 1.0)
+	var fore_m: Array[Material] = [coat, pts]
+	var hind_m: Array[Material] = [coat, pts, white]
 	if p.z > 0.0:
-		sculpt_add(s, tube_mesh("roan_fore_upper_v1", PackedVector3Array([Vector3(0, 1.00, 0.0), Vector3(0, 0.80, 0.02),
-			Vector3(0, 0.56, 0.02)]), PackedFloat32Array([0.14, 0.115, 0.08]), 8, false), at, coat)
-		sculpt_put(s, sphere(0.085, 6, 3), pts, Vector3(p.x, 0.53, p.z + 0.03), Vector3.ZERO, Vector3(1.0, 1.15, 0.95))
-		sculpt_add(s, tube_mesh("roan_fore_cannon_v1", PackedVector3Array([Vector3(0, 0.54, 0.02), Vector3(0, 0.36, 0.02),
-			Vector3(0, 0.21, 0.02)]), PackedFloat32Array([0.068, 0.06, 0.066]), 8, false), at, pts)
-		sculpt_put(s, sphere(0.072, 6, 3), pts, Vector3(p.x, 0.18, p.z))
-		sculpt_add(s, tube_mesh("roan_fore_pastern_v1", PackedVector3Array([Vector3(0, 0.19, 0.0), Vector3(0, 0.10, 0.035)]),
-			PackedFloat32Array([0.058, 0.066]), 8, false), at, pts)
+		MountShapes.leg_bands(s, "roan_fore_v2", p, cob_f, [4], fore_m, 1.22, 0.8, 7)
 		sculpt_fringe(s, mane, feather, Vector3(p.x, 0.27, p.z + 0.02))
 		sculpt_add(s, hoof, Transform3D(Basis.IDENTITY, Vector3(p.x, 0.0, p.z + 0.045)), m("fire_leather"))
 	else:
-		sculpt_add(s, tube_mesh("roan_hind_upper_v1", PackedVector3Array([Vector3(0, 1.02, 0.0), Vector3(0, 0.84, -0.05),
-			Vector3(0, 0.64, -0.10)]), PackedFloat32Array([0.17, 0.135, 0.085]), 8, false), at, coat)
-		sculpt_put(s, sphere(0.08, 6, 3), pts, Vector3(p.x, 0.60, p.z - 0.115), Vector3.ZERO, Vector3(0.9, 1.2, 1.1))
-		sculpt_add(s, tube_mesh("roan_hind_cannon_v1", PackedVector3Array([Vector3(0, 0.60, -0.10), Vector3(0, 0.40, -0.075),
-			Vector3(0, 0.22, -0.055)]), PackedFloat32Array([0.07, 0.062, 0.066]), 8, false), at, pts)
-		sculpt_add(s, tube_mesh("roan_sock_v1", PackedVector3Array([Vector3(0, 0.40, -0.075), Vector3(0, 0.30, -0.064),
-			Vector3(0, 0.21, -0.055)]), PackedFloat32Array([0.067, 0.067, 0.072]), 8, false), at, white)
-		sculpt_put(s, sphere(0.074, 6, 3), white, Vector3(p.x, 0.18, p.z - 0.055))
-		sculpt_add(s, tube_mesh("roan_hind_pastern_v1", PackedVector3Array([Vector3(0, 0.19, -0.055), Vector3(0, 0.10, -0.02)]),
-			PackedFloat32Array([0.058, 0.066]), 8, false), at, white)
+		MountShapes.leg_bands(s, "roan_hind_v2", p, cob_h, [4, 8], hind_m, 1.22, 0.8, 7)
+		MountShapes.muscle(s, pts, Vector3(p.x, 0.535, p.z - 0.165), Vector3(0.035, 0.055, 0.035), Vector3(0, 1, 0.3), 6, 3)
 		sculpt_fringe(s, white, feather, Vector3(p.x, 0.27, p.z - 0.035))
 		sculpt_add(s, hoof, Transform3D(Basis.IDENTITY, Vector3(p.x, 0.0, p.z - 0.01)), m("weapon_ash"))
 

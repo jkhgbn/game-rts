@@ -457,14 +457,14 @@ static func _head() -> ArrayMesh:
 		var p2 := base + dir * ln + Vector3(0, 0.12, 0)
 		_branch(bk, [base, p1, p2], 0.12, 0.035, _bk(0.35, 0.0, 0.1), 7, 7, 0.06)
 		var c := p2 + dir * 0.06 + Vector3(0, 0.04, 0)
-		_leaf_mass(lf, c, Vector3(rr, rr * 0.74, rr * 0.92), leaf_cols[k], 10.0 + float(k))
+		_leaf_mass(lf, c, Vector3(rr, rr * 0.74, rr * 0.92), leaf_cols[k], 10.0 + float(k), true)
 		var up := (dir + Vector3.UP * 1.4).normalized()
 		_blossom(lf, c + up * rr * 0.72 + o * 0.06, up, 0.27, PINK if k % 2 == 0 else PINK_PALE, float(k))
 		if k < 6:
 			_blossom(lf, c + (o * 0.8 + Vector3.UP * 0.5).normalized() * rr * 0.85, (o + Vector3.UP).normalized(), 0.23,
 				PINK_PALE if k % 2 == 0 else PINK, float(k) + 0.5)
 		k += 1
-	_leaf_mass(lf, Vector3(0, 3.80, 0.10), Vector3(0.44, 0.28, 0.40), LEAF_A, 21.0)
+	_leaf_mass(lf, Vector3(0, 3.80, 0.10), Vector3(0.44, 0.28, 0.40), LEAF_A, 21.0, true)
 	_blossom(lf, Vector3(0.10, 4.08, 0.16), Vector3(0.1, 1.0, 0.2), 0.28, PINK, 0.3)
 	_blossom(lf, Vector3(-0.16, 4.04, -0.06), Vector3(-0.2, 1.0, -0.1), 0.25, PINK_PALE, 1.3)
 	var marks := [[bk.v.size(), bk.i.size()], [lf.v.size(), lf.i.size()], [gl.v.size(), gl.i.size()]]
@@ -544,7 +544,7 @@ static func _upper_arm(sx: float) -> ArrayMesh:
 	var t0 := Vector3(1.00 * sx, 2.55, -0.05)
 	var t1 := Vector3(1.12 * sx, 2.84, -0.18)
 	_branch(bk, [t0, t0.lerp(t1, 0.5) + Vector3(0.02 * sx, 0, 0), t1], 0.06, 0.02, _bk(0.2, 0.0, 0.0), 6, 5)
-	_leaf_mass(lf, t1 + Vector3(0.02 * sx, 0.06, -0.02), Vector3(0.18, 0.13, 0.17), LEAF_A, 5.0 + sx)
+	_leaf_mass(lf, t1 + Vector3(0.02 * sx, 0.06, -0.02), Vector3(0.18, 0.13, 0.17), LEAF_A, 5.0 + sx, true)
 	return _bake([[bk, "bark"], [lf, "leaf"]])
 
 
@@ -568,7 +568,7 @@ static func _forearm(sx: float) -> ArrayMesh:
 	var u0 := Vector3(1.30 * sx, 1.66, 0.28)
 	var u1 := Vector3(1.46 * sx, 1.84, 0.12)
 	_branch(bk, [u0, u0.lerp(u1, 0.5), u1], 0.06, 0.02, _bk(0.2, 0.0, 0.0), 6, 4)
-	_leaf_mass(lf, u1 + Vector3(0.02 * sx, 0.04, -0.02), Vector3(0.20, 0.14, 0.18), LEAF_C, 7.0 + sx)
+	_leaf_mass(lf, u1 + Vector3(0.02 * sx, 0.04, -0.02), Vector3(0.20, 0.14, 0.18), LEAF_C, 7.0 + sx, true)
 	var marks := [[bk.v.size(), bk.i.size()], [lf.v.size(), lf.i.size()], [gl.v.size(), gl.i.size()]]
 	_canopy(bk, lf, gl, sx)
 	_bake_growth(P_FORE_L if sx < 0.0 else P_FORE_R, [bk, lf, gl], marks, ["bark", "leaf", "glow"])
@@ -866,15 +866,22 @@ static func _blob(s: Surf, c: Vector3, r: Vector3, col: Color, b: Basis = Basis.
 	_grid(s, fn, ctr, colf, uvf, cols, rows)
 
 
-## A cloud-like leaf mass: a lumpy core and three puffs on its upper half.
-static func _leaf_mass(s: Surf, c: Vector3, r: Vector3, col: Color, seed: float) -> void:
+## A cloud-like leaf mass: a lumpy core and three puffs on its upper half. `team_top` (G-C): the first (highest,
+## lightest) puff is a team leaf (COLOR.a 0.9: albedo = team_tint like the waist garland, but it sways with its leaf
+## core; the garland's a 1 stays still), so the crown carries the
+## kingdom colour where the RTS camera sees it: Nature's fresh green, other kingdoms' leaves turned like autumn.
+static func _leaf_mass(s: Surf, c: Vector3, r: Vector3, col: Color, seed: float, team_top: bool = false) -> void:
 	_blob(s, c, r, col, Basis.IDENTITY, 0.13, 12, 7, seed)
 	for j: int in 3:
 		var ang := seed * 2.3 + TAU * float(j) / 3.0
 		var off := Vector3(cos(ang) * r.x * 0.6, r.y * (0.30 + 0.18 * float(j % 2)), sin(ang) * r.z * 0.6)
 		var pc := col.lightened(0.06) if j == 0 else (col.darkened(0.05) if j == 1 else col)
 		pc.a = col.a
-		_blob(s, c + off, r * (0.48 + 0.05 * float(j)), pc, Basis.IDENTITY, 0.1, 8, 5, seed + float(j))
+		if team_top and j == 0:
+			pc = Color(0.9, 0.9, 0.9, 0.9)
+			off.y = r.y * 0.52
+		var pr := r * (0.48 + 0.05 * float(j)) * (1.25 if team_top and j == 0 else 1.0)
+		_blob(s, c + off, pr, pc, Basis.IDENTITY, 0.1, 8, 5, seed + float(j))
 
 
 ## A five-petal blossom facing `dir`: a cupped star (tips raised) with a back face and a small golden heart.

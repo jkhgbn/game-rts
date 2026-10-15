@@ -1,0 +1,13 @@
+{
+	"asset": "rimehorn",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "ice",
+	"quality": 95.5,
+	"result": "PASS",
+	"scene": "res://art/units/mounts/rimehorn/rimehorn.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

@@ -1,0 +1,13 @@
+{
+	"asset": "roan_courser",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "mount",
+	"kingdom": "neutral",
+	"quality": 95.0,
+	"result": "PASS",
+	"scene": "res://art/units/mounts/roan_courser/roan_courser.tscn",
+	"tier": "mount",
+	"version": "1.0"
+}

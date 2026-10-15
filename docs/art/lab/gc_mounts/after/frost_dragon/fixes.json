@@ -1,0 +1,48 @@
+{
+	"asset": "frost_dragon",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R6",
+			"computed": false,
+			"measured": {
+				"value": "4% of body pixels change between kingdom colours (min pair 4%)"
+			},
+			"predicted": {},
+			"proposal": "Team-colour visibility at 40 m: Give the team colour more top-facing area (now 4% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 4% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"title": "Team-colour visibility at 40 m",
+			"wanted": {
+				"rule": ">= 8% (FAIL = set_team_color changes nothing)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B13",
+			"computed": false,
+			"measured": {
+				"value": "1.7478 ms process per instance (12 animated at 40 m: +20.97 ms process, render CPU +0.2 ms, GPU +6.21 ms)"
+			},
+			"predicted": {},
+			"proposal": "Frame cost: Cut the per-frame script cost (1.7478 ms per instance): write pivots only when they change, skip work at the far tiers",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B13 Frame cost: Cut the per-frame script cost (1.7478 ms per instance): write pivots only when they change, skip work at the far tiers",
+			"title": "Frame cost",
+			"wanted": {
+				"rule": "<= 0.02 ms per instance soft (cavalry-mounts.md 10, titans-2.md 11)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "titan",
+	"kingdom": "ice",
+	"quality": 91.6,
+	"result": "WARN",
+	"scene": "res://art/units/titans/frost_dragon/frost_dragon.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

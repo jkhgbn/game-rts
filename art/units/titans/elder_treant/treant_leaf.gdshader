@@ -2,7 +2,7 @@
 // style of unit_painted.gdshader; the colour block comes from the vertex COLOR (one material for every soft part):
 //   rgb  albedo (leaf greens, moss greys, blossom pinks)
 //   a    0 = leaf / moss, 0.5 = blossom (pale glancing edges + a faint glow of its own colour),
-//        1 = team leaf (albedo = team_tint x COLOR.r)
+//        0.9 = team crown leaf (albedo = team_tint x COLOR.r, sways), 1 = team garland (same albedo, still)
 // Leaf masses get painted lobes (noise cells), lighter tops / darker undersides, a yellow-green backlit rim and a
 // small breeze (vertex), all in MODEL rest space. Instance uniforms: treant.gdshaderinc.
 shader_type spatial;
@@ -28,7 +28,7 @@ void vertex() {
 	vec3 p = treant_morph(VERTEX, CUSTOM0);
 	vec3 o = v_obj;
 	p += vec3(sin(TIME * 1.4 + o.x * 2.1 + o.z * 1.3), 0.5 * sin(TIME * 1.9 + o.y * 2.7),
-		cos(TIME * 1.2 + o.y * 1.7 + o.x * 0.9)) * sway * step(COLOR.a, 0.75);
+		cos(TIME * 1.2 + o.y * 1.7 + o.x * 0.9)) * sway * step(COLOR.a, 0.95);
 	VERTEX = p;
 	v_world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }

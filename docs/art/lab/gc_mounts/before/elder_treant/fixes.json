@@ -1,0 +1,91 @@
+{
+	"asset": "elder_treant",
+	"count": 4,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R6",
+			"computed": false,
+			"measured": {
+				"value": "3% of body pixels change between kingdom colours (min pair 2%)"
+			},
+			"predicted": {},
+			"proposal": "Team-colour visibility at 40 m: Give the team colour more top-facing area (now 3% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R6 Team-colour visibility at 40 m: Give the team colour more top-facing area (now 3% of the 40 m body; aim ~20%): shoulder cloth, a banner, the cape top",
+			"title": "Team-colour visibility at 40 m",
+			"wanted": {
+				"rule": ">= 8% (FAIL = set_team_color changes nothing)"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 5409,
+					"node": "Root/Chest/Head/HeadMesh",
+					"to": 4593,
+					"words": "`HeadMesh` 5409 -> 4593 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 12777
+			},
+			"predicted": {
+				"verts": 11961
+			},
+			"proposal": "12777 -> 11961 (want <= 12000): `HeadMesh` 5409 -> 4593 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 12777 -> 11961 (want <= 12000): `HeadMesh` 5409 -> 4593 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 12000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R4k",
+			"computed": false,
+			"measured": {
+				"value": "dE 19.0, 7% melts (old_wood is where nature units stand most)"
+			},
+			"predicted": {},
+			"proposal": "Contrast on the home ground (old_wood): On its home ground (old_wood) the body is only dE 19.0: add a value step for that ground",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R4k Contrast on the home ground (old_wood): On its home ground (old_wood) the body is only dE 19.0: add a value step for that ground",
+			"title": "Contrast on the home ground (old_wood)",
+			"wanted": {
+				"rule": "dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B9m",
+			"computed": false,
+			"measured": {
+				"value": "1 mesh(es) per instance"
+			},
+			"predicted": {},
+			"proposal": "Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"rank": 4,
+			"status": "WARN",
+			"text": "B9m Meshes built per instance: Cache the 1 per-instance mesh(es) in a static dictionary",
+			"title": "Meshes built per instance",
+			"wanted": {
+				"rule": "meshes shared per type"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "titan",
+	"kingdom": "nature",
+	"quality": 89.8,
+	"result": "WARN",
+	"scene": "res://art/units/titans/elder_treant/elder_treant.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}

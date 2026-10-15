@@ -380,13 +380,19 @@ func model_origin(n: Node3D) -> Vector3:
 	return p
 
 
+static var _blob_plane: PlaneMesh
+
+
 func ensure_shadow_blob(size: Vector2, tint: Color) -> void:
 	if _shadow == null:
 		var mi := MeshInstance3D.new()
 		mi.name = "Shadow"
-		var pm := PlaneMesh.new()
-		pm.size = Vector2.ONE
-		mi.mesh = pm
+		# G-C: one shared unit plane for every flyer (Art Lab B9m: no mesh built per instance)
+		if _blob_plane == null:
+			var pm := PlaneMesh.new()
+			pm.size = Vector2.ONE
+			_blob_plane = pm
+		mi.mesh = _blob_plane
 		mi.material_override = CharacterModel.palette(&"unit_shadow_blob")
 		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		mi.position = Vector3(0, 0.02, 0)

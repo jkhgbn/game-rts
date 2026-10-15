@@ -20,7 +20,7 @@ uniform float tint_gamma = 2.8;
 uniform float tint_bright = 0.56;
 uniform float tint_dark = 0.22;
 uniform vec3 frost_color : source_color = vec3(0.86, 0.94, 1.0);
-uniform float frost_amount = 0.75;
+uniform float frost_amount = 0.62;
 uniform float frost_patches = 0.12;
 uniform vec3 shimmer_color : source_color = vec3(0.60, 0.90, 1.0);
 uniform float shimmer_energy = 0.5;
@@ -48,7 +48,14 @@ void fragment() {
 	float nz2 = texture(noise_tex, v_obj.xz * noise_scale * 2.3 + vec2(5.1, 2.7)).r;
 	float mid = clamp(COLOR.r, 0.0, 1.0);
 	float edge = clamp(COLOR.g, 0.0, 1.0);
-	vec3 tint = pow(max(membrane_tint, vec3(0.0)), vec3(tint_gamma));
+	// G-C: deepen the hue (pow) but give it back the kingdom colour's own brightness (its max channel), so a pale Ice
+	// blue still reads BLUE while red / violet / green teams stay vivid instead of sinking to near black (Art Lab R6:
+	// the team colour barely showed on the wings).
+	vec3 mt = max(membrane_tint, vec3(0.0));
+	vec3 deep = pow(mt, vec3(tint_gamma));
+	float mt_max = max(mt.r, max(mt.g, mt.b));
+	float deep_max = max(deep.r, max(deep.g, deep.b));
+	vec3 tint = deep / max(deep_max, 0.001) * mt_max * 0.82;
 	// bright, thin-looking mid-panels, darker folds at the bones and toward the root
 	vec3 albedo = tint * mix(tint_dark, tint_bright, smoothstep(0.0, 0.8, mid) * (0.75 + 0.25 * edge));
 	albedo = mix(bone_shade * (0.6 + 0.8 * tint), albedo, smoothstep(0.02, 0.22, mid));
