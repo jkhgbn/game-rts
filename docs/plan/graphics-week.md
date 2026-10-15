@@ -40,6 +40,13 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
   real ~4 % perf_test regression -> bisect: the G-C Flame Guard blade-fuller glow as its own moving keep_separate node
   (one extra draw instance per unit); fixed 2da2453b (glows merge into the pivot again), now ~5 % faster than
   4a88047e. Ambient life 5fa4c8f7, combat feedback a185008f committed.
+- ~20:40 UTC: committed G-E fixes B 9b7bf8f4 (night moonlight, FrozenLook snow art, depth fog), team UI 06a3a985,
+  team buildings 7294f83a. Pending: m02 FrozenLook hook (systems-coder a14178a38ae7350ff resumed with it), Fire tower
+  set_team_color hook (for-tech-artist.md), G-E C, G-E value pass, balance fs7-r5. Then G-F.
+- ~20:00 UTC: committed fog look f1bd9aee, G-C leftovers 477c18a0, G-E fixes A a2afbf64, team readability 6bbd7512.
+  Running: G-E B (night / snow / depth fog), G-E C (m03 wood, Ashwind lane, thatch, death leaves), G-E value pass,
+  buildings alt palette (systems-coder), UI team_display_color (ui-coder), balance fs7-r5. Disk: C: hit 0 MB once,
+  6.7 GB free; local lab PNGs = 3.4 GB in docs/art/lab (deleting needs JS's OK: asked).
 - State 2026-10-15 ~19:30 UTC (weekly 72 %, 5 h 44 %): also committed G-E review f789da1b, building rings 842af511,
   autumn maps 3ddc4afb (+ main.gd hook), unique class_name test f272e114, G-B leftovers 18e7855a + d25d351b.
   Perf A/B vs 2da2453b: no new regression (dirty tree 6.24-7.05 vs 6.58-6.83 under load 1.5-1.9).

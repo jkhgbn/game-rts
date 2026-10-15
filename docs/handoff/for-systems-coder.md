@@ -825,6 +825,10 @@ Ask: in `scripts/buildings/building.gd` replace the torus + StandardMaterial3D a
   set both instance params, then `UnitFx.start_trail(self)`. Reference: `Unit._update_hp_bar` in scripts/units/unit.gd.
 
 ## G-E team read: mirror-match alternate palette for buildings (from gameplay-coder, 2026-10-15)
+**DONE (systems-coder, 2026-10-15):** `Building._ready` switches `team_color` to `Unit.kingdom_color_for` when
+`Unit.uses_alt_palette(team, faction)` (also overrides an explicit colour, so Wave Strike bastions follow); non-mirror
+unchanged. Bounty pennants (`BountyBoard.team_color`) use it too. `tests/test_8_s2.gd` keep row updated. Shot:
+`docs/art/lab/ge_team_buildings/`. Fire tower model has no `set_team_color` hook (asked in for-tech-artist.md).
 Units now wear an alternate palette of their kingdom when an earlier team plays the same kingdom (Fire vs Fire: the
 enemy wears `Unit.KINGDOM_ALT_COLORS[&"fire"]`, crimson; 2v2 seats sharing a kingdom too). Static helpers in
 `scripts/units/unit.gd`: `Unit.team_display_color(team) -> Color` (the team's kingdom colour, main or alt; NEUTRAL =
@@ -841,6 +845,10 @@ Done for you: `selection_ring.gdshader` big-radius caps (pull uses `min(ring_rad
 `max(ring_radius * 0.55, r0 - 0.9)`), units up to radius ~1.55 unchanged. Square mode not done.
 
 ## G-E fixes B: Ice mission (m02) snow look hook (from tech-artist, 2026-10-15)
+**DONE (systems-coder, 2026-10-15):** the load-guarded `dress_level(self)` call is at the end of `_build_map()` in
+`mission_02.gd` and `mission_e6_01.gd` (ice preset, M2's snowbanks + lake). Old sphere banks / caps kept: dress_level
+finds the caps by their sphere + BANK_COLOR, so removing them is a later cleanup. Crack colours unchanged. Shots:
+`docs/art/lab/ge_fixes_b/systems_hook/` (High, no `--dress`).
 The look is built in `art/environment/snow/frozen_look.gd` (`FrozenLook`, docs/art/ge_fixes_b.md): readable snow
 (~0.78 lit value instead of 0.95 glare, sastrugi, blue drift shade, glints from Medium), snow-laden firs on the painted
 border canopy (no pale "fish scales"), varied wind drifts instead of the capsule snowbanks, real lake ice (depth, plates,

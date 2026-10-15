@@ -476,6 +476,11 @@ func _build_map() -> void:
 		peddlers.append(pell)
 	else:
 		_add_frozen_cart()
+	# G-E fixes B: the frozen look (snow ground, drifts, lake ice) from the tech-artist; draw-only.
+	if not _SIM.enabled and ResourceLoader.exists("res://art/environment/snow/frozen_look.gd"):
+		var fl := load("res://art/environment/snow/frozen_look.gd") as Script
+		if fl and fl.has_method(&"dress_level"):
+			fl.call(&"dress_level", self)
 
 
 ## The campaign flags this run uses (flag_override first; no m01 victory in the save = both false).

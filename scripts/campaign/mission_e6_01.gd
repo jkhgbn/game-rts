@@ -370,6 +370,11 @@ func _build_map() -> void:
 			box_prop(LONGHOUSE_POS + Vector3(cos(a) * 6.5, 0.0, sin(a) * 6.5), Vector3(2.0, 1.8, 2.0), Color(0.45, 0.36, 0.28), a)
 		ground_disc(CRACKS[&"stair_ne"], 3.0, Color(1.0, 0.62, 0.18, 0.55))
 		ground_disc(CRACKS[&"shore_e"], 2.0, Color(1.0, 0.62, 0.18, 0.35))
+	# G-E fixes B: the frozen look (snow ground, drifts, lake ice) from the tech-artist; draw-only.
+	if not _SIM.enabled and ResourceLoader.exists("res://art/environment/snow/frozen_look.gd"):
+		var fl := load("res://art/environment/snow/frozen_look.gd") as Script
+		if fl and fl.has_method(&"dress_level"):
+			fl.call(&"dress_level", self)
 
 
 static func _near_gap(deg: float) -> bool:
