@@ -16,6 +16,10 @@ const G_RISE := 3.45
 
 var _orb: Node3D
 var _orb_y: float = 0.0
+const TEAM_DARK := 0.74   ## G-B: the darker slate courses = team colour x this (unmerged material and merged multiplier)
+
+var mat_team_dark: ShaderMaterial   ## G-B: the darker slate courses (team colour x TEAM_DARK)
+var _dress: ShadowDress
 
 
 func _setup_palette() -> void:
@@ -23,7 +27,7 @@ func _setup_palette() -> void:
 	glow_color = Color(0.70, 0.30, 1.00)
 	stone_color = Color(0.20, 0.17, 0.26)
 	dark_color = Color(0.09, 0.07, 0.13)
-	metal_color = Color(0.55, 0.52, 0.66)
+	metal_color = Color(0.47, 0.45, 0.57)   # G-B: darker iron-silver (was 0.55 0.52 0.66)
 	stripe_color = Color(0.55, 0.52, 0.66)
 	glyph_color = Color(0.70, 0.30, 1.00)
 	glyph_shape = 1
@@ -36,6 +40,52 @@ func _setup_palette() -> void:
 	danger_ramp_hot = Color(0.95, 0.75, 1.0)
 	danger_ramp_mid = Color(0.8, 0.4, 1.0)
 	danger_ramp_end = Color(0.3, 0.1, 0.5)
+
+
+## G-B: the darker slate courses follow the team colour (x TEAM_DARK). Subclasses with their own list keep theirs.
+func _vc_team() -> Array:
+	return [mat_team, [mat_team_dark, TEAM_DARK]] if mat_team_dark else [mat_team]
+
+
+## G-B: tier-scaled dressing (dead ground, mist, wisps, embers from the damage points, a soft light at Ultra;
+## nothing at Low). The Gloom Bazaar and the Dread Paddock inherit it (same 6 x 6 m footprint).
+func _post_build() -> void:
+	super()
+	var pts: Array = []
+	pts.append_array(_smoke_points)
+	pts.append_array(_blaze_points)
+	var lp: Vector3 = _light.position if _light else Vector3(1.4, 2.6, -3.5)
+	_dress = ShadowDress.attach(self, {"radius": 6.3, "inner": 3.3, "top": _top_y, "mist": 3.7, "seed": 4.1,
+		"wisp_r": 3.3, "wisp_y": Vector2(1.0, 6.0), "glow": _dress_glow(), "embers": pts.slice(0, 3), "light": lp,
+		"light_energy": 1.0, "light_range": 7.0})
+
+
+func set_construction_progress(p: float) -> void:
+	super(p)
+	if _dress and not _destroyed:
+		_dress.sync(_progress, _health_ratio, false)
+
+
+func set_health_ratio(r: float) -> void:
+	super(r)
+	if _dress and not _destroyed:
+		_dress.sync(_progress, _health_ratio, false)
+
+
+func play_destroyed() -> void:
+	super()
+	if _dress:
+		_dress.sync(1.0, 0.0, true)
+
+
+func set_team_color(c: Color) -> void:
+	super(c)
+	if _dress:
+		_dress.set_glow(_dress_glow())
+
+
+func _dress_glow() -> Color:
+	return glow_color if _team_color.is_equal_approx(kingdom_color) else _team_color.lightened(0.35)
 
 
 func _cloth_of(c: Color) -> Color:
@@ -144,7 +194,23 @@ func _build_structure() -> void:
 	_merged("Walls", "walls", it)
 	# --- Roof tier: stone gables, 4 slate courses a side, silver ridge + crest of spikes, finials, rose window.
 	it = []
-	_gable_roof(it, GX, GZ, G_HALF, G_EAVE, G_RISE, 5.8, 5.0, 4, mat_stone, mat_team, mat_metal, 0.0, 9.0)
+	# G-B: six slate courses a side, alternating the team colour and a darker team shade (stepped shingle lines).
+	mat_team_dark = _painted_mat(kingdom_color.darkened(1.0 - TEAM_DARK), 0.1, 0.0)
+	var first: int = it.size()
+	_gable_roof(it, GX, GZ, G_HALF, G_EAVE, G_RISE, 5.8, 5.0, 6, mat_stone, mat_team, mat_metal, 0.0, 9.0)
+	var tile_n: int = 0
+	for i: int in range(first, it.size()):
+		if it[i][2] == mat_team:
+			if tile_n % 2 == 1:
+				it[i][2] = mat_team_dark
+			tile_n += 1
+	# G-B: iron spikes jutting from both eaves.
+	for sx: float in [-1.0, 1.0]:
+		for k: int in 5:
+			var ep := Vector3(GX + sx * (G_HALF + 0.05), G_EAVE - 0.05, GZ - 2.4 + 1.2 * k)
+			var eb: Basis = Basis(Quaternion(Vector3.UP, Vector3(sx, -0.35, 0).normalized()))
+			it.append(BMG.item_xf(_cyl(0.0, 0.08, 0.5, 4), Transform3D(eb, ep + eb * Vector3(0, 0.22, 0)), mat_metal))
+
 	var ridge_y: float = G_EAVE + G_RISE
 	for i: int in 8:
 		it.append(BMG.item(_cyl(0.0, 0.18, 0.7, 4), Vector3(GX, ridge_y + 0.55, GZ - 2.45 + 0.7 * i), mat_metal,

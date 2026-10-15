@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "shadow",
-	"quality": 90.7,
+	"quality": 90.8,
 	"result": "PASS",
 	"scene": "res://art/buildings/shadow_hall.tscn",
 	"tier": "hall",

@@ -1,0 +1,41 @@
+{
+	"asset": "market_shadow",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"albedo_dE": 0.0,
+					"material": "StandardMaterial3D#-35197",
+					"material_path": "",
+					"to": "StandardMaterial3D#-58559",
+					"to_path": ""
+				}
+			],
+			"check": "B8",
+			"computed": true,
+			"measured": {
+				"materials": 9
+			},
+			"predicted": {
+				"materials": 8
+			},
+			"proposal": "9 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-35197` -> `StandardMaterial3D#-58559` (dE 0.0)",
+			"rank": 1,
+			"status": "FAIL",
+			"text": "B8 9 -> 8 materials: use one material for look-alike pairs (albedo dE <= 15): `StandardMaterial3D#-35197` -> `StandardMaterial3D#-58559` (dE 0.0)",
+			"title": "Unique materials",
+			"wanted": {
+				"materials": "<= 8"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "shadow",
+	"quality": 90.9,
+	"result": "FAIL",
+	"scene": "res://art/buildings/market/shadow/market_shadow.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

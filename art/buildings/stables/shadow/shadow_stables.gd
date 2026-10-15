@@ -16,6 +16,8 @@ const STEED := Color(0.17, 0.12, 0.23)
 const STEED_DK := Color(0.08, 0.06, 0.11)
 const MANE := Color(0.36, 0.22, 0.52)
 
+var _dress: ShadowDress
+
 
 func _setup_palette() -> void:
 	kingdom_color = Color(0.42, 0.22, 0.60)
@@ -52,6 +54,46 @@ func _setup_palette() -> void:
 	tower_rise = 2.6
 	tile_courses = 5
 	seed_base = 7301
+
+
+## G-B: tier-scaled dressing (dead ground, mist, wisps, embers, a soft light at Ultra; nothing at Low).
+func _post_build() -> void:
+	super()
+	var pts: Array = []
+	pts.append_array(_smoke_points)
+	pts.append_array(_blaze_points)
+	var lp: Vector3 = _light.position if _light else Vector3(0.0, 2.4, -3.2)
+	_dress = ShadowDress.attach(self, {"radius": 6.2, "inner": 3.3, "top": _top_y, "mist": 3.7, "seed": 5.3,
+		"wisp_r": 3.2, "wisp_y": Vector2(1.0, 5.0), "glow": _dress_glow(), "embers": pts.slice(0, 3), "light": lp,
+		"light_energy": 0.9, "light_range": 7.0})
+
+
+func set_construction_progress(p: float) -> void:
+	super(p)
+	if _dress and not _destroyed:
+		_dress.sync(_progress, _health_ratio, false)
+
+
+func set_health_ratio(r: float) -> void:
+	super(r)
+	if _dress and not _destroyed:
+		_dress.sync(_progress, _health_ratio, false)
+
+
+func play_destroyed() -> void:
+	super()
+	if _dress:
+		_dress.sync(1.0, 0.0, true)
+
+
+func set_team_color(c: Color) -> void:
+	super(c)
+	if _dress:
+		_dress.set_glow(_dress_glow())
+
+
+func _dress_glow() -> Color:
+	return glow_color if _team_color.is_equal_approx(kingdom_color) else _team_color.lightened(0.35)
 
 
 ## A horse skull over the barn door (+X gable), silver studs on the stall lintels.

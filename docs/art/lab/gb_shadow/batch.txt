@@ -1,0 +1,7 @@
+res://art/buildings/dusk_keep.tscn kind=building kingdom=shadow
+res://art/buildings/shadow_hall.tscn kind=building kingdom=shadow
+res://art/buildings/hovel.tscn kind=building kingdom=shadow
+res://art/buildings/shadow_tower.tscn kind=building kingdom=shadow
+res://art/buildings/stables/shadow/shadow_stables.tscn kind=building kingdom=shadow
+res://art/buildings/market/shadow/market_shadow.tscn kind=building kingdom=shadow
+res://art/buildings/lair/shadow/dread_paddock.tscn kind=building kingdom=shadow

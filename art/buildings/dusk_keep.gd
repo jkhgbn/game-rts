@@ -25,6 +25,12 @@ const NEEDLE_FACE := 180.0 # the watch-needle's face (degrees from -Z)
 const FLOATING: Array[StringName] = [&"RuneRing", &"Shard", &"LanternOrb1", &"LanternOrb2", &"LanternOrb3"]
 const TOPPLE: Array[StringName] = [&"Prism2", &"Prism3", &"Tip", &"SpireBands", &"Thorns"]
 const NO_CRUSH: Array[StringName] = [&"Plinth", &"Rubble", &"Rubble2", &"WatchNeedle"]
+## G-B: tier looks (DuskKeepTiers), shown by set_tier, never part of the construction rise.
+const TIER_NODES: Array[StringName] = [&"Tier2", &"Tier3", &"UpgradeRig"]
+const TIERS := preload("res://art/buildings/dusk_keep_tiers.gd")
+const RING2_SPEED := deg_to_rad(14.0)
+const HALO_SPEED := deg_to_rad(-26.0)
+const TIER_UP_TIME := 1.4
 ## Bottom / top (model space) of parts whose AABB is unreliable (MultiMeshes are empty headless).
 const SPANS := {
 	&"Fins": Vector2(5.8, 10.2), &"FinTips": Vector2(9.8, 10.6), &"Rubble": Vector2(0.0, 1.0),
@@ -60,6 +66,11 @@ var _ready_done: bool = false
 var _parts: Array[Node3D] = [] # rising parts (construction) in model space
 var _spans: Array[Vector2] = []
 var _orig: Dictionary = {} # Node3D -> Transform3D
+var _tier: int = 1
+var _upgrading: bool = false
+var _tier_t: float = 10.0 # time since play_tier_up
+var _tn: Dictionary = {} # DuskKeepTiers.build() nodes (empty before _ready)
+var _dress: ShadowDress
 
 @onready var _model: Node3D = $Model
 @onready var _ring: GeometryInstance3D = $Model/RuneRing
@@ -131,16 +142,21 @@ func _ready() -> void:
 		if n == null:
 			continue
 		_orig[n] = n.transform
-		if n.name in FLOATING or n == _rubble2:
+		if n.name in FLOATING or n == _rubble2 or n.name in TIER_NODES:
 			continue
 		_parts.append(n)
 		_spans.append(_span_of(n))
+	# G-B: tier-scaled dressing (dead ground, mist, wisps, embers; nothing at Low). World metres (root space).
+	_dress = ShadowDress.attach(self, {"radius": 8.6, "inner": 3.5, "top": 18.0, "mist": 4.4, "seed": 3.3,
+		"wisp_r": 3.0, "wisp_y": Vector2(1.6, 9.0), "glow": _glow_color(),
+		"embers": [Vector3(1.4, 5.2, 1.2), Vector3(-1.1, 9.4, 0.6), Vector3(0.6, 2.6, -2.4)]})
 	_ready_done = true
 	_update_fins()
 	set_team_color(_team_color)
 	set_construction_progress(_progress)
 	set_health_ratio(_health_ratio)
 	_set_sel(1.0 if _selected else 0.0)
+	_apply_tier()
 
 
 func _span_of(n: Node3D) -> Vector2:
@@ -192,6 +208,7 @@ func _merge_painted() -> void:
 		if sm.shading_mode == BaseMaterial3D.SHADING_MODE_UNSHADED and sm.transparency == BaseMaterial3D.TRANSPARENCY_DISABLED:
 			holes.append(sm)
 	_add_carving()
+	_add_tiers()
 	var body: ShaderMaterial = _painted_mats[0]
 	PVC.convert(self, body, [], holes)
 	# B2 (keep: <= 32 draws): now that they share one material, fold four static painted parts into their neighbour
@@ -273,6 +290,21 @@ func _add_carving() -> void:
 	_model.add_child(mi)
 
 
+## G-B: the Stronghold / Citadel looks and the upgrade rig (DuskKeepTiers), built hidden before the painted merge so
+## their stone folds into the body material like the carving.
+func _add_tiers() -> void:
+	var m := {}
+	for pm: ShaderMaterial in _painted_mats:
+		match pm.resource_name:
+			"DarkStone": m["dark"] = pm
+			"Stone": m["stone"] = pm
+			"Silver": m["silver"] = pm
+			"Obsidian": m["obsidian"] = pm
+	if m.size() < 4 or _glow_mat == null or _banner_mat == null:
+		return
+	_tn = TIERS.build(_model, m, _glow_mat, _banner_mat)
+
+
 ## Appends part `from_path`'s painted geometry (every instance of a MultiMesh) to the painted surface of
 ## `into_path` (both under Model, both already drawn by `body` only) and removes `from_path`.
 func _fold(into_path: String, from_path: String, body: ShaderMaterial) -> void:
@@ -349,6 +381,37 @@ func _process(delta: float) -> void:
 	var p: float = _progress
 	_spire_light.light_energy = 2.0 * breath * p
 	_gate_light.light_energy = 1.2 * (0.85 + 0.15 * sin(_t * 2.1)) * p * (2.0 if _pulse_t < 0.3 else 1.0)
+	_process_tiers(delta)
+
+
+## G-B tier looks: the second rune ring and the halo turn, the upgrade beams breathe, the tier-up flash fades.
+func _process_tiers(delta: float) -> void:
+	if _tn.is_empty():
+		return
+	if _tier >= 2:
+		(_tn["ring2"] as Node3D).rotation.y += RING2_SPEED * _ring_mult * delta
+	if _tier >= 3:
+		(_tn["halo"] as Node3D).rotation.y += HALO_SPEED * delta
+	if _upgrading:
+		_ring.rotation.y += RING_SPEED * 3.0 * delta   # the rune ring races while the keep grows
+		var beams: Array[MeshInstance3D] = _tn["beams"]
+		for i: int in beams.size():
+			var k: float = fmod(_t * 0.45 + float(i) / 6.0, 1.0)
+			beams[i].scale = Vector3(1.0, 1.0 + 9.0 * k, 1.0)
+			beams[i].position.y = 0.7 + 4.5 * k
+			beams[i].transparency = k * k
+	if _tier_t < TIER_UP_TIME:
+		_tier_t += delta
+		var f: float = 1.0 - clampf(_tier_t / TIER_UP_TIME, 0.0, 1.0)
+		_glow_mat.set_shader_parameter(&"boost_mult", lerpf(1.0, 1.4, _sel) * (1.0 + 2.5 * f * f))
+		_spire_light.light_energy += 6.0 * f * f
+		# The new tier's parts grow up out of the plinth in 0.6 s with a small overshoot.
+		var pop: float = minf(_tier_t / 0.6, 1.0)
+		var newest: Node3D = _tn["t3"] if _tier >= 3 else _tn["t2"]
+		newest.scale = Vector3(1.0, maxf(0.01, ease(pop, 0.4) * (1.0 + 0.12 * sin(pop * PI))), 1.0)
+		if _tier_t >= TIER_UP_TIME:
+			newest.scale = Vector3.ONE
+			_apply_rim()
 
 
 # --- Hooks (art-keep.md 8.8) ---------------------------------------------------------------
@@ -368,6 +431,8 @@ func set_team_color(c: Color) -> void:
 	(_build_ring.process_material as ParticleProcessMaterial).color = glow
 	_spire_light.light_color = Color(0.60, 0.30, 1.00) if is_default else glow
 	_gate_light.light_color = glow
+	if _dress:
+		_dress.set_glow(glow)
 	_apply_rim()
 
 
@@ -400,6 +465,8 @@ func set_health_ratio(r: float) -> void:
 		_needle.transform = _needle_xf(_needle_lean)
 	if built:
 		_banners[0].visible = not below25
+	if _dress:
+		_dress.sync(_progress, _health_ratio, false)
 
 
 func set_construction_progress(p: float) -> void:
@@ -454,6 +521,9 @@ func set_construction_progress(p: float) -> void:
 	else:
 		_outline.visible = false
 	_apply_rim()
+	_apply_tier()
+	if _dress:
+		_dress.sync(_progress, _health_ratio, false)
 	if done and was < 1.0:
 		set_health_ratio(_health_ratio)
 
@@ -463,6 +533,38 @@ func play_training_pulse() -> void:
 		return
 	_pulse_t = 0.0
 	_fire_burst(Vector3(0, 2.0, -2.8) * VIS, Vector3(0, 0, -1), 60.0, 2.0, 4.0, 1.0 / 3.0)
+
+
+## Keep tier 1 Keep / 2 Stronghold / 3 Citadel (Keep._show_tier): the tier parts show at once (loads, campaign
+## start tiers); play_tier_up adds the flourish after a finished upgrade. Safe before _ready.
+func set_tier(t: int) -> void:
+	_tier = clampi(t, 1, 3)
+	_apply_tier()
+
+
+## While the keep upgrades: soul-fire beams rise round the plinth, the rune ring races, the build ring glows.
+func set_upgrading(on: bool) -> void:
+	_upgrading = on
+	_apply_tier()
+
+
+## The upgrade finished: the new tier's parts grow out of the plinth, a burst from the eye, the glows flare.
+func play_tier_up() -> void:
+	if _destroyed or not _ready_done or _tn.is_empty():
+		return
+	_tier_t = 0.0
+	_fire_burst(Vector3(0, SHARD_Y * VIS, 0), Vector3.UP, 180.0, 3.0, 6.5, 1.0)
+
+
+func _apply_tier() -> void:
+	if not _ready_done or _tn.is_empty():
+		return
+	var built: bool = _progress >= 1.0 and not _destroyed
+	(_tn["t2"] as Node3D).visible = built and _tier >= 2
+	(_tn["t3"] as Node3D).visible = built and _tier >= 3
+	(_tn["rig"] as Node3D).visible = built and _upgrading
+	if built:
+		_build_ring.emitting = _upgrading
 
 
 func set_selected(on: bool) -> void:
@@ -514,6 +616,14 @@ func play_destroyed() -> void:
 		_shard.visible = false
 		_ring.visible = false
 		_fire_burst(_model.transform * _shard.position, Vector3.UP, 180.0, 3.0, 6.0, 1.0)).set_delay(0.6)
+	# G-B: the tier parts shatter with the eye (dust from the plinth fangs).
+	if not _tn.is_empty():
+		(_tn["rig"] as Node3D).visible = false
+		tw.tween_callback(func() -> void:
+			(_tn["t2"] as Node3D).visible = false
+			(_tn["t3"] as Node3D).visible = false).set_delay(0.6)
+	if _dress:
+		_dress.sync(1.0, 0.0, true)
 	# 0.6-1.4 the top tilts 30 deg toward +Z and drops 8 m.
 	tw.tween_property(pivot, "rotation:x", deg_to_rad(30.0), 0.8).set_delay(0.6).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	tw.tween_property(pivot, "position:y", 8.7 - 8.0, 0.8).set_delay(0.6).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)

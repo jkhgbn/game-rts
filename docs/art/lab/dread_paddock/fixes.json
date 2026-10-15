@@ -5,17 +5,17 @@
 		{
 			"changes": [
 				{
-					"factor": 0.177,
+					"factor": 0.159,
 					"from": 1.0,
-					"material": "ShaderMaterial#-33153",
+					"material": "ShaderMaterial#-28596",
 					"material_path": "",
 					"node": "Body/Gatehouse/PortcullisPivot/Portcullis, Body/StallRoofFrame/StallRoof, Body/SpireL/SpireLCrown, Body/Stalls, Body/SpireL/SpireLRoof, Body/SpireR",
 					"param": "shader_parameter/crack_strength",
-					"peak_x_bloom": 4.24,
-					"to": 0.177,
+					"peak_x_bloom": 4.71,
+					"to": 0.159,
 					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 3 point(s), peak 4.24 x the level",
-					"words": "crack_strength 1.0 -> 0.18 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.24 x the level)"
+					"why": "dim under the bloom level: 3 point(s), peak 4.71 x the level",
+					"words": "crack_strength 1.0 -> 0.16 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.71 x the level)"
 				}
 			],
 			"check": "R5",
@@ -27,43 +27,43 @@
 					{
 						"above": true,
 						"part": "Body/Gatehouse/PortcullisPivot/Portcullis",
-						"peak_x_bloom": 3.48,
+						"peak_x_bloom": 3.89,
 						"px": 545
 					},
 					{
 						"above": true,
 						"part": "Body/StallRoofFrame/StallRoof",
-						"peak_x_bloom": 3.48,
+						"peak_x_bloom": 3.89,
 						"px": 164
 					},
 					{
 						"above": true,
 						"part": "Halo2",
-						"peak_x_bloom": 4.99,
-						"px": 72
+						"peak_x_bloom": 4.17,
+						"px": 69
 					},
 					{
 						"above": true,
 						"part": "Body/SpireL/SpireLCrown",
-						"peak_x_bloom": 4.24,
+						"peak_x_bloom": 4.71,
 						"px": 33
 					},
 					{
 						"above": true,
 						"part": "Body/TowerBanner",
-						"peak_x_bloom": 3.48,
-						"px": 11
+						"peak_x_bloom": 3.89,
+						"px": 15
 					},
 					{
 						"above": true,
 						"part": "ScorchDecal",
-						"peak_x_bloom": 3.48,
+						"peak_x_bloom": 3.89,
 						"px": 2
 					},
 					{
 						"above": false,
 						"part": "Body/Stalls",
-						"peak_x_bloom": 0.82,
+						"peak_x_bloom": 0.92,
 						"px": 22
 					},
 					{
@@ -103,15 +103,15 @@
 						"px": 6
 					}
 				],
-				"value": "6 point(s) above the bloom level 1.2 (median of 6/8/6): Portcullis, StallRoof, Halo2, SpireLCrown, TowerBanner, ScorchDecal; soft glows under the bloom (v1 count, luma > 0.4): 8"
+				"value": "6 point(s) above the bloom level 1.2 (median of 6/6/8): Portcullis, StallRoof, Halo2, SpireLCrown, TowerBanner, ScorchDecal; soft glows under the bloom (v1 count, luma > 0.4): 9"
 			},
 			"predicted": {
 				"points": 3
 			},
-			"proposal": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-33153 crack_strength 1.0 -> 0.18 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.24 x the level)",
+			"proposal": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-28596 crack_strength 1.0 -> 0.16 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.71 x the level)",
 			"rank": 1,
 			"status": "WARN",
-			"text": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-33153 crack_strength 1.0 -> 0.18 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.24 x the level)",
+			"text": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-28596 crack_strength 1.0 -> 0.16 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.71 x the level)",
 			"title": "Glow points at the bloom level",
 			"wanted": {
 				"points": "2-4 above the bloom level 1.2"
@@ -122,7 +122,7 @@
 			"check": "R5c",
 			"computed": false,
 			"measured": {
-				"value": "worst dL +0 (point 1 dL +39, point 2 dL +39, point 3 dL +20, point 4 dL +15, point 5 dL +41, point 6 dL +0; ring 27 px = 1.0 m at 40 m)"
+				"value": "worst dL +0 (point 1 dL +34, point 2 dL +34, point 3 dL +28, point 4 dL +16, point 5 dL +37, point 6 dL +0; ring 27 px = 1.0 m at 40 m)"
 			},
 			"predicted": {},
 			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",

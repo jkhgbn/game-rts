@@ -291,7 +291,7 @@
 			"score": 0.8,
 			"shot": "close",
 			"status": "INFO",
-			"value": "10 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %)",
+			"value": "10 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 			"weight": 1.0
 		},
 		{
@@ -305,7 +305,7 @@
 			"score": 1.0,
 			"shot": "close",
 			"status": "INFO",
-			"value": "inner edges per outline px: 3.69 at the close-up (75806 px), 4.98 at 25 m; close-up outline complexity 5.93",
+			"value": "inner edges per outline px: 3.82 at the close-up (75806 px), 4.99 at 25 m; close-up outline complexity 5.93",
 			"weight": 1.0
 		},
 		{
@@ -327,13 +327,13 @@
 			"group": "read",
 			"hint": "",
 			"id": "R3",
-			"improve": "Raise the contrast of the key read on meadow (dE 84.6): raise the value step between the big masses and the ground (dL -30 now)",
+			"improve": "Raise the contrast of the key read on meadow (dE 85.1): raise the value step between the big masses and the ground (dL -32 now)",
 			"name": "Contrast vs ground (meadow)",
 			"rule": "mean-colour dE >= 14 and <= 35 % melting (FAIL: dE < 8 or > 60 % melting): the body must not melt into the grass",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "mean-colour dE 84.6, 0% of the body melts (within dE 15 of the ground); body L* 30.9 C 28.9 vs ground L* 61.5 C 50.4, hue gap 168 deg; top third (world height) dE 100.5, L* 42.4; per-pixel dE 88.5, outline 58.4",
+			"value": "mean-colour dE 85.1, 0% of the body melts (within dE 15 of the ground); body L* 29.2 C 28.8 vs ground L* 61.5 C 50.4, hue gap 168 deg; top third (world height) dE 101.1, L* 40.7; per-pixel dE 88.6, outline 59.0",
 			"weight": 1.5
 		},
 		{
@@ -347,7 +347,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "dE 35.9, 0% melts (marsh is where shadow units stand most)",
+			"value": "dE 36.0, 0% melts (marsh is where shadow units stand most)",
 			"weight": 1.0
 		},
 		{
@@ -355,24 +355,24 @@
 			"group": "read",
 			"hint": "A value accent that works on dark and light grounds (a pale crest / dark saddle)",
 			"id": "R4",
-			"improve": "On ash the body drops to dE 26.0: add a value accent that separates it there too",
+			"improve": "On ash the body drops to dE 26.7: add a value accent that separates it there too",
 			"name": "Contrast on the other grounds",
 			"rule": "dE >= 8 on every skirmish ground (WARN only)",
 			"score": 1.0,
 			"shot": "z40",
 			"status": "PASS",
-			"value": "worst ash: dE 26.0 (heath dE 57.7, old_wood dE 49.0, riverbank dE 59.4, snow dE 66.8, ash dE 26.0, sand dE 74.9, marsh dE 35.9)",
+			"value": "worst ash: dE 26.7 (heath dE 58.4, old_wood dE 49.5, riverbank dE 60.3, snow dE 68.1, ash dE 26.7, sand dE 76.2, marsh dE 36.0)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.967968743046841,
+			"graded": 0.964052723858347,
 			"group": "read",
 			"hint": "Put the team colour on a big, top-facing mass (cloth, plates, cape, caparison); ~25-45 %% of the surface (art-keep 0.2 / art-units 1.3)",
 			"id": "R6",
 			"improve": "",
 			"name": "Team-colour visibility at 40 m",
 			"rule": ">= 8% (FAIL = set_team_color changes nothing)",
-			"score": 0.990390622914052,
+			"score": 0.989215817157504,
 			"shot": "teams",
 			"status": "PASS",
 			"value": "24% of body pixels change between kingdom colours (min pair 23%)",
@@ -389,21 +389,21 @@
 			"score": 1.0,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst nature colour: dE 57.0 (fire 70.2, shadow 84.3, ice 70.0, nature 57.0)",
+			"value": "worst nature colour: dE 57.9 (fire 71.0, shadow 85.2, ice 70.7, nature 57.9)",
 			"weight": 1.0
 		},
 		{
-			"graded": 0.334758180485786,
+			"graded": 0.334675115960705,
 			"group": "read",
 			"hint": "Red-green colour blindness merges hues, not values: give the team-colour area a value step or a pattern (trim, banner shape) and keep it large; a team-palette change is for the lead (KINGDOM_COLORS)",
 			"id": "R6cb",
 			"improve": "",
 			"name": "Team colours for colour-blind players",
 			"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 8 from the ground (WARN only)",
-			"score": 0.800427454145736,
+			"score": 0.800402534788212,
 			"shot": "teams",
 			"status": "PASS",
-			"value": "worst pair fire / nature (deutan): dE 12.0 on the team-colour area (normal vision 87.1; 9231 px); deutan: fire / nature dE 12.0; protan: fire / nature dE 25.2; worst vs ground: fire colour (deutan) dE 47.5",
+			"value": "worst pair fire / nature (deutan): dE 12.0 on the team-colour area (normal vision 87.7; 9184 px); deutan: fire / nature dE 12.0; protan: fire / nature dE 25.4; worst vs ground: fire colour (deutan) dE 48.5",
 			"weight": 0.5
 		},
 		{
@@ -431,7 +431,7 @@
 			"score": 1.0,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "top third L* 42.4, bottom third L* 26.4 (+15, world height)",
+			"value": "top third L* 40.7, bottom third L* 25.2 (+15, world height)",
 			"weight": 1.0
 		},
 		{
@@ -445,27 +445,27 @@
 			"score": 1.0,
 			"shot": "z25",
 			"status": "INFO",
-			"value": "inner detail 3.7 at 25 m, 5.9 at 40 m (mean |grad L*| per px)",
+			"value": "inner detail 3.5 at 25 m, 5.5 at 40 m (mean |grad L*| per px)",
 			"weight": 1.0
 		},
 		{
 			"fix": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy [fixes.json #2]",
 			"fix_rank": 2,
-			"graded": 0.652968476035378,
+			"graded": 0.633622186834162,
 			"group": "read",
 			"hint": "A point that does not stand out reads as a pale smudge: raise its emission or darken what is around it (socket, hood, dark trim)",
 			"id": "R5c",
 			"improve": "1 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
 			"name": "Glow points stand out (1 m surround)",
 			"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)",
-			"score": 0.572009281852028,
+			"score": 0.565431543523615,
 			"shot": "glow",
 			"status": "WARN",
-			"value": "worst dL +0 (point 1 dL +39, point 2 dL +39, point 3 dL +20, point 4 dL +15, point 5 dL +41, point 6 dL +0; ring 27 px = 1.0 m at 40 m)",
+			"value": "worst dL +0 (point 1 dL +34, point 2 dL +34, point 3 dL +28, point 4 dL +16, point 5 dL +37, point 6 dL +0; ring 27 px = 1.0 m at 40 m)",
 			"weight": 0.5
 		},
 		{
-			"fix": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-33153 crack_strength 1.0 -> 0.18 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.24 x the level) [fixes.json #1]",
+			"fix": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-28596 crack_strength 1.0 -> 0.16 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.71 x the level) [fixes.json #1]",
 			"fix_rank": 1,
 			"graded": 0.4,
 			"group": "read",
@@ -477,7 +477,7 @@
 			"score": 0.486,
 			"shot": "glow",
 			"status": "WARN",
-			"value": "6 point(s) above the bloom level 1.2 (median of 6/8/6): Portcullis, StallRoof, Halo2, SpireLCrown, TowerBanner, ScorchDecal; soft glows under the bloom (v1 count, luma > 0.4): 8",
+			"value": "6 point(s) above the bloom level 1.2 (median of 6/6/8): Portcullis, StallRoof, Halo2, SpireLCrown, TowerBanner, ScorchDecal; soft glows under the bloom (v1 count, luma > 0.4): 9",
 			"weight": 1.0
 		},
 		{
@@ -505,7 +505,7 @@
 			"score": 0.85,
 			"shot": "z40",
 			"status": "INFO",
-			"value": "on the autumn floor: dE 58.1, 0% melts; body L* 29.1 C 24.9 vs floor L* 48.6 C 41.4 (inside the floor band); shadow team colour vs the floor swatches: min dE 62.8 (heather_color)",
+			"value": "on the autumn floor: dE 59.0, 0% melts; body L* 28.0 C 25.4 vs floor L* 48.6 C 41.4 (inside the floor band); shadow team colour vs the floor swatches: min dE 62.8 (heather_color)",
 			"weight": 0.5
 		},
 		{
@@ -523,14 +523,14 @@
 			"weight": 1.0
 		},
 		{
-			"graded": 0.417760433883014,
+			"graded": 0.417749321887693,
 			"group": "read",
 			"hint": "",
 			"id": "R2",
 			"improve": "Make it read apart from market_shadow (IoU 0.71): change one big shape of the silhouette",
 			"name": "Distinct from references (black masks)",
 			"rule": "IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15)",
-			"score": 0.825328130164904,
+			"score": 0.825324796566308,
 			"shot": "silhouette",
 			"status": "PASS",
 			"value": "max IoU 0.71 (market_shadow 0.71, shadow_stables 0.62, magpie_den 0.59, shadow_hall 0.53, watchtower 0.36, dusk_keep 0.32)",
@@ -547,7 +547,7 @@
 			"score": 1.0,
 			"shot": "",
 			"status": "PASS",
-			"value": "0.0052 ms process per instance (8 animated at 40 m: +0.04 ms process, render CPU +0.24 ms, GPU +0.13 ms)",
+			"value": "0.0052 ms process per instance (8 animated at 40 m: +0.04 ms process, render CPU +0.44 ms, GPU +0.46 ms)",
 			"weight": 1.0
 		},
 		{
@@ -567,13 +567,29 @@
 	],
 	"compare": {
 		"against": "docs/art/lab/dread_paddock",
-		"better": [],
+		"better": [
+			{
+				"change": "better",
+				"delta": 26.6666666666667,
+				"group": "craft",
+				"id": "C3",
+				"loss": -53.3333333333334,
+				"name": "Palette depth (close-up)",
+				"new_score": 80.0,
+				"new_status": "INFO",
+				"new_value": "10 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
+				"noisy": false,
+				"old_score": 53.3333333333333,
+				"old_status": "INFO",
+				"old_value": "9 colour steps (L*a*b* bins >= 2 % of the body), 7 value steps (L* bins of 8 >= 3 %)"
+			}
+		],
 		"gone": [],
 		"new": [],
-		"prev_quality": 88.4,
+		"prev_quality": 87.3,
 		"prev_result": "WARN",
-		"prev_started": "2026-09-30 14:59:52",
-		"quality": 88.4132063543124,
+		"prev_started": "2026-10-15 11:08:15",
+		"quality": 88.3943454355835,
 		"rows": [
 			{
 				"change": "same",
@@ -861,19 +877,19 @@
 				"old_value": "lowest point -0.28 m"
 			},
 			{
-				"change": "same",
-				"delta": 0.0,
+				"change": "better",
+				"delta": 26.6666666666667,
 				"group": "craft",
 				"id": "C3",
-				"loss": 0.0,
+				"loss": -53.3333333333334,
 				"name": "Palette depth (close-up)",
 				"new_score": 80.0,
 				"new_status": "INFO",
-				"new_value": "10 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %)",
+				"new_value": "10 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)",
 				"noisy": false,
-				"old_score": 80.0,
+				"old_score": 53.3333333333333,
 				"old_status": "INFO",
-				"old_value": "10 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %)"
+				"old_value": "9 colour steps (L*a*b* bins >= 2 % of the body), 7 value steps (L* bins of 8 >= 3 %)"
 			},
 			{
 				"change": "same",
@@ -884,11 +900,11 @@
 				"name": "Inner detail (close-up / 25 m)",
 				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "inner edges per outline px: 3.69 at the close-up (75806 px), 4.98 at 25 m; close-up outline complexity 5.93",
+				"new_value": "inner edges per outline px: 3.82 at the close-up (75806 px), 4.99 at 25 m; close-up outline complexity 5.93",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "inner edges per outline px: 3.82 at the close-up (75806 px), 5.1 at 25 m; close-up outline complexity 5.93"
+				"old_value": "inner edges per outline px: 3.81 at the close-up (75870 px), 5.05 at 25 m; close-up outline complexity 5.99"
 			},
 			{
 				"change": "same",
@@ -903,7 +919,7 @@
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "37453 px (238 x 318 bbox; 55 m: 18916 px)"
+				"old_value": "37485 px (238 x 318 bbox; 55 m: 18930 px)"
 			},
 			{
 				"change": "same",
@@ -914,11 +930,11 @@
 				"name": "Contrast vs ground (meadow)",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "mean-colour dE 84.6, 0% of the body melts (within dE 15 of the ground); body L* 30.9 C 28.9 vs ground L* 61.5 C 50.4, hue gap 168 deg; top third (world height) dE 100.5, L* 42.4; per-pixel dE 88.5, outline 58.4",
+				"new_value": "mean-colour dE 85.1, 0% of the body melts (within dE 15 of the ground); body L* 29.2 C 28.8 vs ground L* 61.5 C 50.4, hue gap 168 deg; top third (world height) dE 101.1, L* 40.7; per-pixel dE 88.6, outline 59.0",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "mean-colour dE 84.7, 0% of the body melts (within dE 15 of the ground); body L* 30.9 C 29.0 vs ground L* 61.5 C 50.4, hue gap 168 deg; top third (world height) dE 100.5, L* 42.4; per-pixel dE 88.6, outline 58.5"
+				"old_value": "mean-colour dE 84.7, 0% of the body melts (within dE 15 of the ground); body L* 31.1 C 29.1 vs ground L* 61.5 C 50.4, hue gap 168 deg; top third (world height) dE 100.2, L* 42.5; per-pixel dE 88.6, outline 58.1"
 			},
 			{
 				"change": "same",
@@ -929,11 +945,11 @@
 				"name": "Contrast on the home ground (marsh)",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "dE 35.9, 0% melts (marsh is where shadow units stand most)",
+				"new_value": "dE 36.0, 0% melts (marsh is where shadow units stand most)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "dE 36.0, 0% melts (marsh is where shadow units stand most)"
+				"old_value": "dE 36.1, 0% melts (marsh is where shadow units stand most)"
 			},
 			{
 				"change": "same",
@@ -944,26 +960,26 @@
 				"name": "Contrast on the other grounds",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "worst ash: dE 26.0 (heath dE 57.7, old_wood dE 49.0, riverbank dE 59.4, snow dE 66.8, ash dE 26.0, sand dE 74.9, marsh dE 35.9)",
+				"new_value": "worst ash: dE 26.7 (heath dE 58.4, old_wood dE 49.5, riverbank dE 60.3, snow dE 68.1, ash dE 26.7, sand dE 76.2, marsh dE 36.0)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "worst ash: dE 26.1 (heath dE 57.7, old_wood dE 49.1, riverbank dE 59.5, snow dE 66.8, ash dE 26.1, sand dE 75.0, marsh dE 36.0)"
+				"old_value": "worst ash: dE 26.3 (heath dE 58.1, old_wood dE 49.8, riverbank dE 59.9, snow dE 66.7, ash dE 26.3, sand dE 74.8, marsh dE 36.1)"
 			},
 			{
 				"change": "same",
-				"delta": 0.0672843296932086,
+				"delta": -0.151914349342292,
 				"group": "read",
 				"id": "R6",
-				"loss": -0.134568659386417,
+				"loss": 0.303828698684583,
 				"name": "Team-colour visibility at 40 m",
-				"new_score": 99.0390622914052,
+				"new_score": 98.9215817157504,
 				"new_status": "PASS",
 				"new_value": "24% of body pixels change between kingdom colours (min pair 23%)",
 				"noisy": false,
-				"old_score": 98.971777961712,
+				"old_score": 99.0734960650927,
 				"old_status": "PASS",
-				"old_value": "24% of body pixels change between kingdom colours (min pair 23%)"
+				"old_value": "24% of body pixels change between kingdom colours (min pair 24%)"
 			},
 			{
 				"change": "same",
@@ -974,26 +990,26 @@
 				"name": "Contrast in every team colour (meadow)",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "worst nature colour: dE 57.0 (fire 70.2, shadow 84.3, ice 70.0, nature 57.0)",
+				"new_value": "worst nature colour: dE 57.9 (fire 71.0, shadow 85.2, ice 70.7, nature 57.9)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "worst nature colour: dE 57.1 (fire 70.3, shadow 84.4, ice 70.0, nature 57.1)"
+				"old_value": "worst nature colour: dE 57.2 (fire 70.4, shadow 84.4, ice 70.1, nature 57.2)"
 			},
 			{
 				"change": "same",
-				"delta": -0.00891253752081411,
+				"delta": 0.0528716118027575,
 				"group": "read",
 				"id": "R6cb",
-				"loss": 0.00891253752081411,
+				"loss": -0.0528716118027575,
 				"name": "Team colours for colour-blind players",
-				"new_score": 80.0427454145736,
+				"new_score": 80.0402534788212,
 				"new_status": "PASS",
-				"new_value": "worst pair fire / nature (deutan): dE 12.0 on the team-colour area (normal vision 87.1; 9231 px); deutan: fire / nature dE 12.0; protan: fire / nature dE 25.2; worst vs ground: fire colour (deutan) dE 47.5",
+				"new_value": "worst pair fire / nature (deutan): dE 12.0 on the team-colour area (normal vision 87.7; 9184 px); deutan: fire / nature dE 12.0; protan: fire / nature dE 25.4; worst vs ground: fire colour (deutan) dE 48.5",
 				"noisy": false,
-				"old_score": 80.0516579520944,
+				"old_score": 79.9873818670184,
 				"old_status": "PASS",
-				"old_value": "worst pair fire / nature (deutan): dE 12.0 on the team-colour area (normal vision 87.6; 9175 px); deutan: fire / nature dE 12.0; protan: fire / nature dE 25.3; worst vs ground: fire colour (deutan) dE 47.5"
+				"old_value": "worst pair fire / nature (deutan): dE 12.0 on the team-colour area (normal vision 86.5; 9295 px); deutan: fire / nature dE 12.0; protan: fire / nature dE 25.1; worst vs ground: fire colour (deutan) dE 47.5"
 			},
 			{
 				"change": "same",
@@ -1008,7 +1024,7 @@
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "outline complexity 4.39"
+				"old_value": "outline complexity 4.44"
 			},
 			{
 				"change": "same",
@@ -1019,11 +1035,11 @@
 				"name": "Tops light, bottoms dark",
 				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "top third L* 42.4, bottom third L* 26.4 (+15, world height)",
+				"new_value": "top third L* 40.7, bottom third L* 25.2 (+15, world height)",
 				"noisy": false,
 				"old_score": 100.0,
 				"old_status": "INFO",
-				"old_value": "top third L* 42.4, bottom third L* 26.4 (+15, world height)"
+				"old_value": "top third L* 42.5, bottom third L* 26.5 (+15, world height)"
 			},
 			{
 				"change": "same",
@@ -1034,7 +1050,7 @@
 				"name": "Detail density 25 m / 40 m",
 				"new_score": 100.0,
 				"new_status": "INFO",
-				"new_value": "inner detail 3.7 at 25 m, 5.9 at 40 m (mean |grad L*| per px)",
+				"new_value": "inner detail 3.5 at 25 m, 5.5 at 40 m (mean |grad L*| per px)",
 				"noisy": true,
 				"old_score": 100.0,
 				"old_status": "INFO",
@@ -1042,18 +1058,18 @@
 			},
 			{
 				"change": "same",
-				"delta": 0.37560465263595,
+				"delta": -2.4681750095252,
 				"group": "read",
 				"id": "R5c",
-				"loss": -0.37560465263595,
+				"loss": 2.4681750095252,
 				"name": "Glow points stand out (1 m surround)",
-				"new_score": 57.2009281852028,
+				"new_score": 56.5431543523615,
 				"new_status": "WARN",
-				"new_value": "worst dL +0 (point 1 dL +39, point 2 dL +39, point 3 dL +20, point 4 dL +15, point 5 dL +41, point 6 dL +0; ring 27 px = 1.0 m at 40 m)",
+				"new_value": "worst dL +0 (point 1 dL +34, point 2 dL +34, point 3 dL +28, point 4 dL +16, point 5 dL +37, point 6 dL +0; ring 27 px = 1.0 m at 40 m)",
 				"noisy": true,
-				"old_score": 56.8253235325669,
+				"old_score": 59.0113293618867,
 				"old_status": "WARN",
-				"old_value": "worst dL +0 (point 1 dL +39, point 2 dL +39, point 3 dL +17, point 4 dL +15, point 5 dL +41, point 6 dL +0; ring 27 px = 1.0 m at 40 m)"
+				"old_value": "worst dL +0 (point 1 dL +39, point 2 dL +39, point 3 dL +25, point 4 dL +26, point 5 dL +42, point 6 dL +0; ring 27 px = 1.0 m at 40 m)"
 			},
 			{
 				"change": "same",
@@ -1064,11 +1080,11 @@
 				"name": "Glow points at 40 m",
 				"new_score": 48.6,
 				"new_status": "WARN",
-				"new_value": "6 point(s) above the bloom level 1.2 (median of 6/8/6): Portcullis, StallRoof, Halo2, SpireLCrown, TowerBanner, ScorchDecal; soft glows under the bloom (v1 count, luma > 0.4): 8",
+				"new_value": "6 point(s) above the bloom level 1.2 (median of 6/6/8): Portcullis, StallRoof, Halo2, SpireLCrown, TowerBanner, ScorchDecal; soft glows under the bloom (v1 count, luma > 0.4): 9",
 				"noisy": true,
 				"old_score": 48.6,
 				"old_status": "WARN",
-				"old_value": "6 point(s) above the bloom level 1.2 (median of 6/8/6): Portcullis, StallRoof, Halo2, SpireLCrown, TowerBanner, ScorchDecal; soft glows under the bloom (v1 count, luma > 0.4): 8"
+				"old_value": "7 point(s) above the bloom level 1.2 (median of 6/8/7): Portcullis, StallRoof, Halo2, SpireLCrown, TowerBanner, ScorchDecal, StallBannerE; soft glows under the bloom (v1 count, luma > 0.4): 8"
 			},
 			{
 				"change": "same",
@@ -1094,11 +1110,11 @@
 				"name": "Style bible: golden autumn (style-autumn.md 3)",
 				"new_score": 85.0,
 				"new_status": "INFO",
-				"new_value": "on the autumn floor: dE 58.1, 0% melts; body L* 29.1 C 24.9 vs floor L* 48.6 C 41.4 (inside the floor band); shadow team colour vs the floor swatches: min dE 62.8 (heather_color)",
+				"new_value": "on the autumn floor: dE 59.0, 0% melts; body L* 28.0 C 25.4 vs floor L* 48.6 C 41.4 (inside the floor band); shadow team colour vs the floor swatches: min dE 62.8 (heather_color)",
 				"noisy": false,
 				"old_score": 85.0,
 				"old_status": "INFO",
-				"old_value": "on the autumn floor: dE 58.1, 0% melts; body L* 29.1 C 25.0 vs floor L* 48.6 C 41.4 (inside the floor band); shadow team colour vs the floor swatches: min dE 62.8 (heather_color)"
+				"old_value": "on the autumn floor: dE 58.1, 0% melts; body L* 29.2 C 25.0 vs floor L* 48.6 C 41.4 (inside the floor band); shadow team colour vs the floor swatches: min dE 62.8 (heather_color)"
 			},
 			{
 				"change": "same",
@@ -1117,16 +1133,16 @@
 			},
 			{
 				"change": "same",
-				"delta": -0.00099983738887488,
+				"delta": -0.000834130154103718,
 				"group": "read",
 				"id": "R2",
-				"loss": 0.00199967477774976,
+				"loss": 0.00166826030820744,
 				"name": "Distinct from references (black masks)",
-				"new_score": 82.5328130164904,
+				"new_score": 82.5324796566308,
 				"new_status": "PASS",
 				"new_value": "max IoU 0.71 (market_shadow 0.71, shadow_stables 0.62, magpie_den 0.59, shadow_hall 0.53, watchtower 0.36, dusk_keep 0.32)",
 				"noisy": false,
-				"old_score": 82.5338128538793,
+				"old_score": 82.5333137867849,
 				"old_status": "PASS",
 				"old_value": "max IoU 0.71 (market_shadow 0.71, shadow_stables 0.62, magpie_den 0.59, shadow_hall 0.53, watchtower 0.36, dusk_keep 0.32)"
 			},
@@ -1139,11 +1155,11 @@
 				"name": "Frame cost",
 				"new_score": 100.0,
 				"new_status": "PASS",
-				"new_value": "0.0052 ms process per instance (8 animated at 40 m: +0.04 ms process, render CPU +0.24 ms, GPU +0.13 ms)",
+				"new_value": "0.0052 ms process per instance (8 animated at 40 m: +0.04 ms process, render CPU +0.44 ms, GPU +0.46 ms)",
 				"noisy": true,
 				"old_score": 100.0,
 				"old_status": "PASS",
-				"old_value": "0.0059 ms process per instance (8 animated at 40 m: +0.05 ms process, render CPU +0.3 ms, GPU +0.13 ms)"
+				"old_value": "0.0093 ms process per instance (8 animated at 40 m: +0.07 ms process, render CPU +0.61 ms, GPU +0.15 ms)"
 			},
 			{
 				"change": "same",
@@ -1164,32 +1180,32 @@
 		"sheet": "diff_sheet.png",
 		"shots": [
 			{
-				"changed": 0.0084,
+				"changed": 0.0994,
 				"resized": false,
 				"shot": "z40"
 			},
 			{
-				"changed": 0.006,
+				"changed": 0.0741,
 				"resized": false,
 				"shot": "z55"
 			},
 			{
-				"changed": 0.0089,
+				"changed": 0.1268,
 				"resized": false,
 				"shot": "z25"
 			},
 			{
-				"changed": 0.0013,
+				"changed": 0.016,
 				"resized": false,
 				"shot": "close"
 			},
 			{
-				"changed": 0.0068,
+				"changed": 0.0131,
 				"resized": false,
 				"shot": "turns"
 			},
 			{
-				"changed": 0.007,
+				"changed": 0.0123,
 				"resized": false,
 				"shot": "anim"
 			},
@@ -1199,12 +1215,12 @@
 				"shot": "silhouette"
 			},
 			{
-				"changed": 0.0022,
+				"changed": 0.0122,
 				"resized": false,
 				"shot": "lineup"
 			}
 		],
-		"unchanged": 39,
+		"unchanged": 38,
 		"worse": []
 	},
 	"counts": {
@@ -1221,11 +1237,11 @@
 			"rank": 1011.028,
 			"source": "R5 Glow points at 40 m, shot glow",
 			"status": "WARN",
-			"text": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-33153 crack_strength 1.0 -> 0.18 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.24 x the level) [fixes.json #1]",
+			"text": "Glow points 6 -> 3 (want 2-4): ShaderMaterial#-28596 crack_strength 1.0 -> 0.16 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 point(s), peak 4.71 x the level) [fixes.json #1]",
 			"title": "Glow points at 40 m"
 		},
 		{
-			"rank": 10.427990718148,
+			"rank": 10.4345684564764,
 			"source": "R5c Glow points stand out (1 m surround), shot glow",
 			"status": "WARN",
 			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy [fixes.json #2]",
@@ -1239,7 +1255,7 @@
 			"title": "Shape richness (secondary shapes)"
 		},
 		{
-			"rank": 0.349343739670192,
+			"rank": 0.349350406867384,
 			"source": "R2 Distinct from references (black masks), shot silhouette",
 			"status": "PASS",
 			"text": "Make it read apart from market_shadow (IoU 0.71): change one big shape of the silhouette",
@@ -1254,13 +1270,13 @@
 		"8 hidden parts at rest (toggled states, not counted as draws)",
 		"8 materials are built in code (fine when cached per type: see B9)",
 		"terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist",
-		"Fix recipes: 2 in fixes.json (top: Glow points 6 -> 3 (want 2-4): ShaderMaterial#-33153 crack_strength 1.0 -> 0.18 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 poin)"
+		"Fix recipes: 2 in fixes.json (top: Glow points 6 -> 3 (want 2-4): ShaderMaterial#-28596 crack_strength 1.0 -> 0.16 on Portcullis, StallRoof, SpireLCrown, Stalls (dim under the bloom level: 3 poin)"
 	],
-	"previous_quality": 88.4,
+	"previous_quality": 87.3,
 	"quality": 88.4,
 	"result": "WARN",
 	"scene": "res://art/buildings/lair/shadow/dread_paddock.tscn",
-	"seconds": 41.9,
+	"seconds": 53.4,
 	"shots": {
 		"anim": "anim.jpg",
 		"close": "close.jpg",
@@ -1273,6 +1289,6 @@
 		"z40": "z40.jpg",
 		"z55": "z55.jpg"
 	},
-	"started": "2026-09-30 15:01:15",
+	"started": "2026-10-15 11:24:22",
 	"tier": "hall"
 }

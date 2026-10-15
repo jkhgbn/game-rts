@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "shadow",
-	"quality": 92.4,
+	"quality": 91.5,
 	"result": "PASS",
 	"scene": "res://art/buildings/stables/shadow/shadow_stables.tscn",
 	"tier": "hall",

@@ -1,101 +1,12 @@
 {
 	"asset": "shadow_tower",
-	"count": 2,
-	"fixes": [
-		{
-			"changes": [
-				{
-					"from": 1.0,
-					"node": "(model root) or its key masses",
-					"param": "scale",
-					"to": 1.08
-				}
-			],
-			"check": "R1",
-			"computed": true,
-			"measured": {
-				"area_px": 4920
-			},
-			"predicted": {
-				"area_px": 5750
-			},
-			"proposal": "4920 -> ~5750 px: grow the 40 m read x1.08 (area goes with the square: scale the key masses / body 8 %)",
-			"rank": 1,
-			"status": "WARN",
-			"text": "R1 4920 -> ~5750 px: grow the 40 m read x1.08 (area goes with the square: scale the key masses / body 8 %)",
-			"title": "Silhouette area at 40 m",
-			"wanted": {
-				"area_px": ">= 5000"
-			}
-		},
-		{
-			"changes": [
-				{
-					"albedo_dE": 0.0,
-					"material": "StandardMaterial3D#-7486",
-					"material_path": "",
-					"to": "StandardMaterial3D#-13877",
-					"to_path": ""
-				},
-				{
-					"albedo_dE": 0.0,
-					"material": "StandardMaterial3D#-78415",
-					"material_path": "",
-					"to": "StandardMaterial3D#-13877",
-					"to_path": ""
-				},
-				{
-					"albedo_dE": 12.5,
-					"material": "ShaderMaterial#-35531",
-					"material_path": "",
-					"to": "ShaderMaterial#-63368",
-					"to_path": ""
-				},
-				{
-					"albedo_dE": 46.7,
-					"material": "ShaderMaterial#-8934",
-					"material_path": "",
-					"to": "ShaderMaterial#-86151",
-					"to_path": ""
-				},
-				{
-					"albedo_dE": 50.3,
-					"material": "ShaderMaterial#-86151",
-					"material_path": "",
-					"to": "ShaderMaterial#-63368",
-					"to_path": ""
-				},
-				{
-					"albedo_dE": 110.3,
-					"material": "StandardMaterial3D#-75937",
-					"material_path": "",
-					"to": "StandardMaterial3D#-13877",
-					"to_path": ""
-				}
-			],
-			"check": "B8",
-			"computed": true,
-			"measured": {
-				"materials": 13
-			},
-			"predicted": {
-				"materials": 7
-			},
-			"proposal": "13 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-7486` -> `StandardMaterial3D#-13877` (dE 0.0), `StandardMaterial3D#-78415` -> `StandardMaterial3D#-13877` (dE 0.0), `ShaderMaterial#-35531` -> `ShaderMaterial#-63368` (dE 12.5), `ShaderMaterial#-8934` -> `ShaderMaterial#-86151` (dE 46.7), `ShaderMaterial#-86151` -> `ShaderMaterial#-63368` (dE 50.3), `StandardMaterial3D#-75937` -> `StandardMaterial3D#-13877` (dE 110.3)",
-			"rank": 2,
-			"status": "WARN",
-			"text": "B8 13 -> 7 materials: use one material for look-alike pairs: `StandardMaterial3D#-7486` -> `StandardMaterial3D#-13877` (dE 0.0), `StandardMaterial3D#-78415` -> `StandardMaterial3D#-13877` (dE 0.0), `ShaderMaterial#-35531` -> `ShaderMaterial#-63368` (dE 12.5), `ShaderMaterial#-8934` -> `ShaderMaterial#-86151` (dE 46.7), `ShaderMaterial#-86151` -> `ShaderMaterial#-63368` (dE 50.3), `StandardMaterial3D#-75937` -> `StandardMaterial3D#-13877` (dE 110.3)",
-			"title": "Unique materials",
-			"wanted": {
-				"materials": "<= 6"
-			}
-		}
-	],
+	"count": 0,
+	"fixes": [],
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "shadow",
-	"quality": 89.7,
-	"result": "WARN",
+	"quality": 88.2,
+	"result": "PASS",
 	"scene": "res://art/buildings/shadow_tower.tscn",
 	"tier": "small",
 	"version": "1.0"

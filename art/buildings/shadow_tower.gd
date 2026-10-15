@@ -9,6 +9,7 @@ const HEX := PI / 6.0
 
 var _ring: MeshInstance3D
 var _stones: MeshInstance3D
+var _dress: ShadowDress
 
 
 func _setup() -> void:
@@ -23,6 +24,7 @@ func _setup() -> void:
 	stain_color = Color(0.15, 0.06, 0.25, 0.35)
 	footprint = 2.0
 	crack_strength = 0.7
+	vc_merge = true   # G-B (Art Lab B8 / B9 WARN, 13 materials): one vertex-coloured painted material, like the Ember Spire
 	plinth_top = 0.4
 	wreck_top = 1.2
 	_orb_y = 4.55
@@ -59,6 +61,32 @@ func _build_parts() -> void:
 		var b: Basis = _lean(d, 24.0)
 		it.append(_itx(_cyl(0.0, 0.26, h, 4), Transform3D(b, d * 0.9 + Vector3(0, 0.45, 0) + b * Vector3(0, h * 0.5, 0)),
 			_m_dark))
+	# G-B: an obsidian claw of shards round the foot, three bone ribs gripping the shaft, a spiked iron crown on the
+	# band: the needle reads bigger and meaner at 40 m.
+	var obs: ShaderMaterial = _painted_mat(Color(0.085, 0.065, 0.12), 0.45, 0.0)
+	var bone: ShaderMaterial = _painted_mat(Color(0.68, 0.64, 0.57), 0.12, 0.0)
+	for k: int in 6:
+		var a: float = TAU * (float(k) + 0.5) / 6.0 + 0.2
+		var d := Vector3(sin(a), 0.0, cos(a))
+		var h: float = 1.15 if k % 2 == 0 else 0.8
+		var b: Basis = _lean(d, 30.0 + 6.0 * float(k % 3))
+		it.append(_itx(_cyl(0.0, 0.2, h, 4), Transform3D(b, d * 1.12 + Vector3(0, 0.4, 0) + b * Vector3(0, h * 0.5, 0)), obs))
+	for k: int in 3:
+		var a: float = TAU * float(k) / 3.0 + 0.5
+		var d := Vector3(sin(a), 0.0, cos(a))
+		var lo: Vector3 = d * 0.95 + Vector3(0, 0.55, 0)
+		var mid: Vector3 = d * 0.86 + Vector3(0, 1.5, 0)
+		var hi: Vector3 = d * 0.62 + Vector3(0, 2.35, 0)
+		for seg: Array in [[lo, mid], [mid, hi]]:
+			var e: Vector3 = (seg[1] as Vector3) - (seg[0] as Vector3)
+			it.append(_itx(_cyl(0.06, 0.09, e.length(), 5), Transform3D(Basis(Quaternion(Vector3.UP, e.normalized())),
+				((seg[0] as Vector3) + (seg[1] as Vector3)) * 0.5), bone))
+		it.append(_itx(_cyl(0.0, 0.07, 0.4, 4), Transform3D(_lean(d, -60.0), hi + d * 0.08 + Vector3(0, 0.12, 0)), bone))
+	for k: int in 6:
+		var a: float = TAU * float(k) / 6.0 + HEX
+		var d := Vector3(sin(a), 0.0, cos(a))
+		var b: Basis = _lean(d, 55.0)
+		it.append(_itx(_cyl(0.0, 0.07, 0.42, 4), Transform3D(b, d * 0.76 + Vector3(0, 2.2, 0) + b * Vector3(0, 0.2, 0)), _m_trim))
 	_merged("Shaft", "shaft", it)
 	var collar := _part("Collar", _cyl(0.95, 0.55, 0.5, 6), _m_team, Vector3(0, 3.98, 0),
 		Basis(Vector3.UP, HEX + deg_to_rad(40.0)))
@@ -99,6 +127,38 @@ func _build_parts() -> void:
 	mo.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	mo.emission_sphere_radius = 0.4
 	_idle_particles("OrbMotes", Vector3(0, _orb_y, 0), 10, 1.4, mo, true)
+
+
+## G-B: tier-scaled dressing round the needle (nothing at Low; the orb lights the ground at Ultra).
+func _post_build() -> void:
+	super()
+	_dress = ShadowDress.attach(self, {"radius": 2.7, "inner": 1.2, "top": 5.5, "mist": 1.5, "seed": 2.9,
+		"wisp_r": 1.15, "wisp_y": Vector2(0.5, 3.4), "glow": team_glow(), "embers": [smoke_points[0]],
+		"light": Vector3(0, _orb_y, 0), "light_energy": 0.9, "light_range": 5.0})
+
+
+func _on_progress(building: bool) -> void:
+	super(building)
+	if _dress:
+		_dress.sync(_progress, _health_ratio, false)
+
+
+func _on_health(smoke_on: bool, fire_on: bool) -> void:
+	super(smoke_on, fire_on)
+	if _dress:
+		_dress.sync(_progress, _health_ratio, false)
+
+
+func _on_destroy_start() -> void:
+	super()
+	if _dress:
+		_dress.sync(1.0, 0.0, true)
+
+
+func _on_team_color(g: Color) -> void:
+	super(g)
+	if _dress:
+		_dress.set_glow(g)
 
 
 func _crown_idle(delta: float) -> void:
