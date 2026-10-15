@@ -16,6 +16,8 @@ extends NatureModel
 ## Warm spring green poured into the body on death (the life leaving it). Emission colour of the kit's flash.
 const LIFE_GREEN := Vector3(0.50, 1.0, 0.22)
 const LIFE_PEAK := 0.55
+## Death leaf quad size (m; G-E fixes D: was 0.15).
+const DEATH_LEAF_SIZE := 0.09
 
 var _hit_fx: GPUParticles3D
 var _fidget_wait: float = 0.0
@@ -84,13 +86,15 @@ func add_hit_burst(model_pos: Vector3, color: Color = Color(0.46, 0.66, 0.20), a
 
 ## Pre-built death bloom (restarted by the kit when the glows die): verdant motes rise, leaves scatter.
 func add_death_bloom(model_pos: Vector3, radius: float, motes: int = 10, leaves: int = 12,
-		leaf_color: Color = Color(0.50, 0.72, 0.20)) -> void:
+		leaf_color: Color = Color(0.40, 0.58, 0.17)) -> void:
 	var up := make_motes(NATURE_GLOW, motes, 1.1, radius, 1.4, 0.12, true, true)
 	up.name = "DeathMotes"
 	up.set_meta(&"death_fx", true)
 	up.position = model_pos + Vector3(0, -0.3, 0)
 	$Fx.add_child(up)
-	var lv := make_petals(leaf_color, leaves, 1.0, radius, 1.5, 0.15, true)
+	# G-E fixes D: 0.15 -> 0.09 m and a deeper green by default: at z14-30 the 0.15 m quads (x the model scale, kept
+	# by billboard_keep_scale) still read as a pale confetti cloud over the melee; now small dark leaves.
+	var lv := make_petals(leaf_color, leaves, 1.0, radius, 1.5, DEATH_LEAF_SIZE, true)
 	lv.name = "DeathLeaves"
 	lv.set_meta(&"death_fx", true)
 	lv.position = model_pos

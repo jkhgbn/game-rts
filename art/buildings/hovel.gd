@@ -145,6 +145,9 @@ func _build_parts() -> void:
 	# G-B: two darker shingle bands up the bent tip, iron spikes on the six eave corners, a hooked iron finial.
 	it.append(_itx(_cyl(0.72, 0.92, 0.32, 6), Transform3D(bend, base + up * 0.42), _m_team_dark))
 	it.append(_itx(_cyl(0.36, 0.52, 0.26, 6), Transform3D(bend, base + up * 1.18), _m_team_dark))
+	# G-E fixes D (Art Lab R5c): a dark iron hood over the last metre of the tip, so the glowing tip shard sits on a
+	# dark socket (after the slate grade the pale team roof had the shard's own lightness: dL 0 at 40 m).
+	it.append(_itx(_cyl(0.0, 0.5, 0.97, 6), Transform3D(bend, base + up * 1.635), _m_dark))
 	for k: int in 6:
 		var a: float = HEX + PI / 3.0 * k
 		var d := Vector3(sin(a), 0.0, cos(a))
@@ -167,8 +170,10 @@ func _build_parts() -> void:
 			_m_team_dark))
 		it.append(_itx(box1, Transform3D(db.scaled_local(Vector3(0.26, 0.34, 0.05)), p + d * 0.31 + Vector3(0, 0.2, 0)), win_mat))
 	var roof := _merged("Roof", "roof", it)
-	_tip_glow = _part("TipShard", _cyl(0.0, 0.2, 0.55, 4), _glow_mat(glow_color, 3.0, 2.0, true),
-		base + up * 2.05, bend)
+	# G-E fixes D (R5c): the tip shard is the hut's top glow point, seen against the meadow at 40 m: a violet core
+	# (L* ~50, the cap keeps the hue) had the grass's lightness. A pale lilac core (violet kept, not team-tinted) reads.
+	_tip_glow = _part("TipShard", _cyl(0.0, 0.24, 0.7, 4), _glow_mat(glow_color.lerp(Color.WHITE, 0.6), 3.0, 2.0, false),
+		base + up * 2.2, bend)
 	_orb = _part("LanternOrb", _sphere(0.26), _glow_mat(glow_color, 3.2, 2.0, true), Vector3(1.45, _orb_y, -1.5))
 	_floaters.append(_orb)
 	_hide_on_collapse.append_array([roof, _tip_glow])

@@ -1,30 +1,12 @@
 {
 	"asset": "hovel",
-	"count": 1,
-	"fixes": [
-		{
-			"changes": [],
-			"check": "R5c",
-			"computed": false,
-			"measured": {
-				"value": "worst dL +0 (point 1 dL +0, point 2 dL +25, point 3 dL +43, point 4 dL +43, point 5 dL +24, point 6 dL +50; ring 25 px = 1.0 m at 40 m)"
-			},
-			"predicted": {},
-			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
-			"rank": 1,
-			"status": "WARN",
-			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL +0): darken around them or raise the energy",
-			"title": "Glow points stand out (1 m surround)",
-			"wanted": {
-				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)"
-			}
-		}
-	],
+	"count": 0,
+	"fixes": [],
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "neutral",
 	"quality": 84.6,
-	"result": "WARN",
+	"result": "PASS",
 	"scene": "res://art/buildings/hovel.tscn",
 	"tier": "hall",
 	"version": "1.0"

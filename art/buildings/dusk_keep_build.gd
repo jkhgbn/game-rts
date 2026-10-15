@@ -27,8 +27,9 @@ func _initialize() -> void:
 	var shader: Shader = load("res://art/shaders/painted.gdshader")
 	# 3.V2b: a touch more presence (visual only, the 6 x 6 collider is Building's).
 	model.scale = Vector3.ONE * VISUAL_SCALE
-	var S := _painted(shader, "Stone", Color(0.22, 0.205, 0.255), 0.0, 0.45)
-	var O := _painted(shader, "Obsidian", Color(0.11, 0.1, 0.14), 0.35, 0.7)
+	# G-E fixes D: wall / obsidian crack glow 0.45 / 0.7 -> 0.3 / 0.45 (violet as accents, not glowing panels)
+	var S := _painted(shader, "Stone", Color(0.22, 0.205, 0.255), 0.0, 0.3)
+	var O := _painted(shader, "Obsidian", Color(0.11, 0.1, 0.14), 0.35, 0.45)
 	var D := _painted(shader, "DarkStone", Color(0.13, 0.12, 0.15), 0.0, 0.0)
 	var M := _painted(shader, "Silver", Color(0.37, 0.36, 0.42), 0.55, 0.0)
 	var G := ShaderMaterial.new()
@@ -92,7 +93,7 @@ func _initialize() -> void:
 		win_xf.append(Transform3D(tilt * Basis(Vector3.UP, atan2(-r.x, -r.z)), r * 1.62 + Vector3(0, 7.35, 0)))
 	var wins := _multi("Windows", win, win_xf, G, 0, 1)
 	wins.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	wins.set_instance_shader_parameter("energy", 2.2)
+	wins.set_instance_shader_parameter("energy", 1.0)   # G-E fixes D: accents (was 2.2; under the glow cap knee)
 	wins.set_instance_shader_parameter("pulse_speed", 1.1)
 	# Thorn crown around the tip: three curved blades cradling the floating eye.
 	var thorn := _blade(0.26, 0.5, 2.3, 0.45)
@@ -114,7 +115,7 @@ func _initialize() -> void:
 		fm.set_instance_transform(i, KeepScript.fin_xf(i, KeepScript.FIN_TILT))
 		tip_mm.multimesh.set_instance_transform(i, KeepScript.fin_tip_xf(i, KeepScript.FIN_TILT))
 	tip_mm.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	tip_mm.set_instance_shader_parameter("energy", 3.0)
+	tip_mm.set_instance_shader_parameter("energy", 1.2)   # G-E fixes D (was 3.0)
 	tip_mm.set_instance_shader_parameter("pulse_speed", 2.0)
 
 	# --- Watch-needle: the asymmetric secondary element on face 180 (opposite the gate: always side-on) --
@@ -147,7 +148,7 @@ func _initialize() -> void:
 	core.material_override = G
 	core.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_add(core, shard, "ShardCore")
-	core.set_instance_shader_parameter("energy", 4.0)
+	core.set_instance_shader_parameter("energy", 3.2)   # G-E fixes D (was 4.0)
 	core.set_instance_shader_parameter("pulse_speed", 3.1)
 	var orbit: Node3D = _add(Node3D.new(), shard, "EyeOrbit")
 	var spl_xf: Array[Transform3D] = []
@@ -158,8 +159,8 @@ func _initialize() -> void:
 	spl.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	# Rune ring
 	var torus := TorusMesh.new()
-	torus.inner_radius = 2.95
-	torus.outer_radius = 3.25
+	torus.inner_radius = 3.03   # G-E fixes D: a thinner band (was 2.95 / 3.25)
+	torus.outer_radius = 3.19
 	torus.rings = 48
 	torus.ring_segments = 6
 	var ring := MeshInstance3D.new()
@@ -168,7 +169,7 @@ func _initialize() -> void:
 	ring.position = Vector3(0, 6.95, 0)
 	ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_add(ring, model, "RuneRing")
-	ring.set_instance_shader_parameter("energy", 3.0)
+	ring.set_instance_shader_parameter("energy", 1.0)   # G-E fixes D (was 3.0; DuskKeep.RING_ENERGY)
 	ring.set_instance_shader_parameter("pulse_speed", 1.3)
 	ring.set_instance_shader_parameter("rune_bands", 12)
 
@@ -185,7 +186,7 @@ func _initialize() -> void:
 	var slits := _multi("GateSlits", slit, [Transform3D(Basis(), Vector3(-0.55, 2.6, -2.31)), Transform3D(Basis(), Vector3(0.55, 2.6, -2.31)),
 		Transform3D(Basis(Vector3.FORWARD, PI / 4.0) * Basis.from_scale(Vector3(3.6, 0.14, 1.0)), Vector3(0, 4.95, -2.33))], G, 0, 1)
 	slits.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	slits.set_instance_shader_parameter("energy", 2.5)
+	slits.set_instance_shader_parameter("energy", 1.2)   # G-E fixes D (was 2.5)
 	slits.set_instance_shader_parameter("pulse_speed", 1.0)
 	# Frame pillars + two slanted ribs meeting in a point above the arch (one mesh, silver).
 	var pillar := BoxMesh.new()
@@ -236,7 +237,7 @@ func _initialize() -> void:
 		o.position = KeepScript.orb_pos(i)
 		o.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		_add(o, model, "LanternOrb%d" % (i + 1))
-		o.set_instance_shader_parameter("energy", 3.0)
+		o.set_instance_shader_parameter("energy", 1.6)   # G-E fixes D (was 3.0)
 		o.set_instance_shader_parameter("pulse_speed", 2.0)
 		o.set_instance_shader_parameter("phase", float(i) * 1.7)
 	# Rubble: "broken teeth" (4-sided obsidian-dark shards) around the base.

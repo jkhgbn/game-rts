@@ -36,6 +36,12 @@ signal spear_struck(tip: Vector3, dir: Vector3, charge: bool)
 ## The Unit writes its move speed here at spawn (walk-rate tuning of plain CharacterModels). Not forwarded: the stag
 ## keeps its own walk tuning and gallops from its gallop_speed.
 var stride_speed: float = 7.8
+## G-F: Unit._build_model sets this on the root; both kit models get it (they pause their animation and looping
+## emitters off-camera).
+var offscreen_freeze: bool = false:
+	set(v):
+		offscreen_freeze = v
+		OffscreenEmitters.forward_freeze(self, v)
 
 var _stag: Node3D
 var _rider: Node3D

@@ -12,6 +12,8 @@ const IDLE_RIM := Color(0.62, 0.42, 1.00) # 3.V2b: purple rim so the dark needle
 const IDLE_RIM_STRENGTH := 0.55
 const RING_SPEED := deg_to_rad(-8.0)
 const SHARD_SPIN := deg_to_rad(-20.0)
+## Rune ring emission (G-E fixes D: 3.0 -> 1.0, under the glow cap's knee; the violet glows are accents, not panels); halved under 50 % HP.
+const RING_ENERGY := 1.0
 const MOTE_SPIN := 0.12 * TAU
 const HEIGHT := 17.5 # model-space height used by the construction rise (8.2)
 const VIS := 1.12 # Model's visual scale (dusk_keep_build.gd VISUAL_SCALE)
@@ -455,7 +457,7 @@ func set_health_ratio(r: float) -> void:
 	_update_fins()
 	_rubble2.visible = below50 and _progress > 0.0
 	_ring_mult = 3.0 / 8.0 if below50 else 1.0
-	_ring.set_instance_shader_parameter(&"energy", 1.5 if below50 else 3.0)
+	_ring.set_instance_shader_parameter(&"energy", RING_ENERGY * 0.5 if below50 else RING_ENERGY)
 	_shard_bob = 0.6 if below25 else 0.3
 	_shard_spin = deg_to_rad(-60.0) if below25 else SHARD_SPIN
 	_agitated = below25

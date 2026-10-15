@@ -131,7 +131,7 @@ func _body_sculpt(s: Dictionary) -> void:
 	var coat := m("bh_coat")
 	var pale := m("bh_pale")
 	var cloth := m("nature_cloth")
-	var straw := m("nature_bell_cloth")
+	var straw := m("nature_straw")
 	var bark := m("nature_bark")
 	var prof := PackedVector2Array()
 	for i: int in BARREL_Z.size():

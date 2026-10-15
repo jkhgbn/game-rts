@@ -1,36 +1,47 @@
 # Art Lab scorecard: sapling
 
-Scene `res://art/units/nature/sapling.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-10-15 16:20:13 · lab v3.1
+Scene `res://art/units/nature/sapling.tscn` · kind **unit** / tier **soldier** · kingdom nature · ground meadow · 2026-10-15 17:10:21 · lab v3.1
 
-## Result: **WARN** · quality **95 / 100** (94.7) (previous run 92, +3)
+## Result: **WARN** · quality **93 / 100** (93.4) (previous run 95, -2)
 
-0 FAIL · 1 WARN · 31 PASS · 16 info · 0 skipped · 24 s
+0 FAIL · 1 WARN · 31 PASS · 16 info · 0 skipped · 29 s
 
-## Before / after (vs the run of 2026-10-15 16:18:54 in `docs/art/lab/sapling`: quality 92 -> 95, +3)
-### What got worse (0)
-Nothing got worse.
+## Before / after (vs the run of 2026-10-15 16:20:13 in `docs/art/lab/sapling`: quality 95 -> 93, -2)
+### What got worse (5)
+1. **C3 Palette depth (close-up): INFO 100 -> INFO 68 (-33)**. Now: 11 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %). Was: 13 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %)
+2. **P4 Detail density 25 m / 40 m: INFO 100 -> INFO 77 (-23) (noisy check: re-run before acting)**. Now: inner detail 11.9 at 25 m, 15.3 at 40 m (mean /grad L*/ per px). Was: inner detail 10.8 at 25 m, 13.8 at 40 m (mean /grad L*/ per px)
+3. **R4 Contrast on the other grounds: PASS 90 -> PASS 84 (-6)**. Now: worst heath: dE 17.1 (heath dE 17.1, old_wood dE 27.9, riverbank dE 29.8, snow dE 38.3, ash dE 40.6, sand dE 27.3, marsh dE 43.8). Was: worst heath: dE 21.7 (heath dE 21.7, old_wood dE 30.9, riverbank dE 31.0, snow dE 39.0, ash dE 45.3, sand dE 24.9, marsh
+4. **R4k Contrast on the home ground (old_wood): PASS 99 -> PASS 95 (-3)**. Now: dE 27.9, 11% melts (old_wood is where nature units stand most). Was: dE 30.9, 8% melts (old_wood is where nature units stand most)
+5. **S1 Style bible: golden autumn (style-autumn.md 3): INFO 41 -> INFO 38 (-3)**. Now: on the autumn floor: dE 22.4, 2% melts; body L* 54.7 C 24.1 vs floor L* 52.6 C 43.3 (inside the floor band); nature team colour vs the floor swatches: min dE 55.3 (grass_dry). Was: on the autumn floor: dE 21.2, 0% melts; body L* 57.2 C 27.9 vs floor L* 52.7 C 43.4; nature team colour vs the floor swa
 
-### What got better (2)
-R5c Glow points stand out (1 m surround): WARN 42 -> PASS 84 (+42) (noisy check: re-run before acting); C3 Palette depth (close-up): INFO 90 -> INFO 100 (+10)
+### What got better (3)
+R3 Contrast vs ground (meadow): PASS 85 -> PASS 89 (+4); R3t Contrast in every team colour (meadow): PASS 91 -> PASS 95 (+5); P1 Silhouette hook: INFO 96 -> INFO 100 (+4)
 
-gone P5 Glow placement (was INFO)
-
-### Score delta per check (3 changed, 46 unchanged)
+### Score delta per check (12 changed, 40 unchanged)
 | # | Check | Before | After | Delta |
 |---|---|---|---|---|
-| C3 | Palette depth (close-up) | INFO 90 | INFO 100 | +10.0 |
-| R5c | Glow points stand out (1 m surround) | WARN 42 | PASS 84 | +41.9 (noisy) |
-| R2 | Distinct from references (black masks) | PASS 87 | PASS 88 | +0.7 |
+| R8 | Head height vs body_height | WARN 48 | WARN 49 | +0.5 |
+| C3 | Palette depth (close-up) | INFO 100 | INFO 68 | -32.5 |
+| R3 | Contrast vs ground (meadow) | PASS 85 | PASS 89 | +3.8 |
+| R4k | Contrast on the home ground (old_wood) | PASS 99 | PASS 95 | -3.4 |
+| R4 | Contrast on the other grounds | PASS 90 | PASS 84 | -5.8 |
+| R3t | Contrast in every team colour (meadow) | PASS 91 | PASS 95 | +4.9 |
+| P1 | Silhouette hook | INFO 96 | INFO 100 | +4.1 |
+| P4 | Detail density 25 m / 40 m | INFO 100 | INFO 77 | -22.9 (noisy) |
+| R5c | Glow points stand out (1 m surround) | PASS 84 | PASS 84 | +0.8 (noisy) |
+| R12 | Contrast under every light preset (meadow) | PASS 84 | PASS 86 | +1.7 |
+| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 41 | INFO 38 | -2.9 |
+| R2 | Distinct from references (black masks) | PASS 88 | PASS 87 | -0.9 |
 
-Changed pixels per shot: z40 0.1 %, z55 0.0 %, z25 0.1 %, close 1.0 %, strike_side 4.0 %, turns 0.8 %, cast 0.4 %, anim 0.9 %, silhouette 0.5 %, lineup 0.1 % · [diff sheet](diff_sheet.png) (before / after / changed mask)
+Changed pixels per shot: z40 0.5 %, z55 0.4 %, z25 0.7 %, close 4.8 %, strike_side 11.1 %, turns 4.3 %, cast 3.9 %, anim 2.7 %, silhouette 0.4 %, lineup 4.3 % · [diff sheet](diff_sheet.png) (before / after / changed mask)
 
 ## Improve next
-1. **Head height vs body_height** (WARN): R8: body_height 1.2 -> 1.57 in res://art/units/nature/sapling.tscn (root) and res://data/units/sapling.tres (the head top; x1.31 now), or lower the head / crest 0.07 m [fixes.json #1] _(from R8 Head height vs body_height)_
-2. **Contrast vs ground (meadow)** (PASS): Raise the contrast of the key read on meadow (dE 23.3): value is close to the ground (dL -4): lighten the top / back 15-20 % or add a dark saddle / pale belly band; the body sits in the ground's hue (gap 7 deg): push the main mass away from the grass hue (bronze, brown, blue-grey) or desaturate it _(from R3 Contrast vs ground (meadow), shot z40)_
-3. **Style bible: golden autumn (style-autumn.md 3)** (INFO): On the autumn map the body melts into the ochre floor (dE 21.2): push its main mass out of the L* 25-55 / C* <= 35 band _(from S1 Style bible: golden autumn (style-autumn.md 3), shot z40)_
-4. **Distinct from references (black masks)** (PASS): Make it read apart from magpie (IoU 0.63): change one big shape of the silhouette _(from R2 Distinct from references (black masks), shot silhouette)_
-5. **Contrast on the other grounds** (PASS): On heath the body drops to dE 21.7: add a value accent that separates it there too _(from R4 Contrast on the other grounds, shot z40)_
-6. **Contrast in every team colour (meadow)** (PASS): In the nature team colour the body drops to dE 23.8 on meadow: add a value step around the team-colour area _(from R3t Contrast in every team colour (meadow), shot teams)_
+1. **Head height vs body_height** (WARN): R8: body_height 1.2 -> 1.56 in res://art/units/nature/sapling.tscn (root) and res://data/units/sapling.tres (the head top; x1.3 now), or lower the head / crest 0.06 m [fixes.json #1] _(from R8 Head height vs body_height)_
+2. **Palette depth (close-up)** (INFO): Flat palette (11 colour / 8 value steps): add a darker and a lighter step of the main colours (trim, recesses, highlights on the top masses) _(from C3 Palette depth (close-up), shot close)_
+3. **Contrast vs ground (meadow)** (PASS): Raise the contrast of the key read on meadow (dE 27.6): value is close to the ground (dL -6): lighten the top / back 15-20 % or add a dark saddle / pale belly band _(from R3 Contrast vs ground (meadow), shot z40)_
+4. **Contrast on the other grounds** (PASS): On heath the body drops to dE 17.1: add a value accent that separates it there too _(from R4 Contrast on the other grounds, shot z40)_
+5. **Style bible: golden autumn (style-autumn.md 3)** (INFO): On the autumn map the body melts into the ochre floor (dE 22.4): push its main mass out of the L* 25-55 / C* <= 35 band _(from S1 Style bible: golden autumn (style-autumn.md 3), shot z40)_
+6. **Distinct from references (black masks)** (PASS): Make it read apart from magpie (IoU 0.65): change one big shape of the silhouette _(from R2 Distinct from references (black masks), shot silhouette)_
 
 ## Health (errors, allocations, hooks)
 | # | Check | Result | Measured | Rule | Fix hint |
@@ -53,56 +64,56 @@ Changed pixels per shot: z40 0.1 %, z55 0.0 %, z25 0.1 %, close 1.0 %, strike_si
 | B6p | Looping particles alive | PASS 100 | 0 | <= 10 soft (art-units.md 8, tier3-extras.md 12) |  |
 | B7 | Shadow casters | PASS 100 | 2 (Merged, Merged) | <= 4 soft (art-units.md 8, tier3-extras.md 12) |  |
 | B8 | Unique materials | INFO | 12 | no budget for unit/soldier |  |
-| B1a | Authored build parts (before the merge) | INFO | 3 | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes), v1 limit 26 |  |
+| B1a | Authored build parts (before the merge) | INFO | 16 | info only: authoring detail is cheap when the kit merges it (B1 counts the drawn meshes), v1 limit 26 |  |
 | B11 | Surfaces per instance | INFO | 16 surfaces over 8 meshes (each surface = 1 draw call) | about 1 surface per mesh after the merge; extra surfaces cost draw calls like extra meshes |  |
-| B12 | Downward-facing triangles | INFO | 680 of 3942 triangles (17%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
-| B13 | Frame cost | PASS 100 | 0.0006 ms process per instance (100 animated at 40 m: +0.06 ms process, render CPU +0.48 ms, GPU +0.31 ms) | <= 0.005 ms per instance (art-units.md 8, tier3-extras.md 12) |  |
+| B12 | Downward-facing triangles | INFO | 681 of 3942 triangles (17%) face steeply down (normal y < -0.7) | hint when > 25 %: the camera looks from above (pitch 55); a sphere has ~15 %, bottom caps add the rest |  |
+| B13 | Frame cost | PASS 100 | 0.0008 ms process per instance (100 animated at 40 m: +0.08 ms process, render CPU +0.49 ms, GPU +0.29 ms) | <= 0.005 ms per instance (art-units.md 8, tier3-extras.md 12) |  |
 
 ## Readability at 40 m
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| R9 | Feet on the ground | PASS 100 | lowest point -0.038 m | -0.08 .. +0.05 m (art-units 1.6) |  |
-| R8 | Head height vs body_height | **WARN** 48 | head top 1.57 m / body_height 1.2 (x1.31) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) | Set body_height (UnitType + scene) to the head top, or rescale the body |
+| R9 | Feet on the ground | PASS 100 | lowest point -0.039 m | -0.08 .. +0.05 m (art-units 1.6) |  |
+| R8 | Head height vs body_height | **WARN** 49 | head top 1.56 m / body_height 1.2 (x1.3) | x0.75-1.25 (art-units 1.1: the HP bar hangs at body_height + 0.5) | Set body_height (UnitType + scene) to the head top, or rescale the body |
 | R10 | Footprint vs selection radius | PASS 100 | x 0.57 / z 0.47 m (radius 0.4, from sapling.tres) | x <= radius x 1.4, z <= x 1.4 (art-units 1.1; parts thinner than 8 cm ignored) |  |
-| R1 | Silhouette area at 40 m | PASS 100 | 435 px (25 x 32 bbox; 55 m: 225 px) | >= 120 px (FAIL < 45) at 1600 x 900 |  |
-| R3 | Contrast vs ground (meadow) | PASS 85 | mean-colour dE 23.3, 8% of the body melts (within dE 15 of the ground); body L* 59.4 C 26.0 vs ground L* 63.5 C 48.4, hue gap 7 deg; top third (world height) dE 27.8, L* 82.5; per-pixel dE 39.5, outline 35.4 | mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass |  |
-| R4k | Contrast on the home ground (old_wood) | PASS 99 | dE 30.9, 8% melts (old_wood is where nature units stand most) | dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
-| R4 | Contrast on the other grounds | PASS 90 | worst heath: dE 21.7 (heath dE 21.7, old_wood dE 30.9, riverbank dE 31.0, snow dE 39.0, ash dE 45.3, sand dE 24.9, marsh dE 47.9) | dE >= 10 on every skirmish ground (WARN only) |  |
-| R6 | Team-colour visibility at 40 m | PASS 100 | 45% of body pixels change between kingdom colours (min pair 44%) | >= 8% (FAIL = set_team_color changes nothing) |  |
-| R3t | Contrast in every team colour (meadow) | PASS 91 | worst nature colour: dE 23.8 (fire 41.4, shadow 54.4, ice 42.9, nature 23.8) | dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
-| R6cb | Team colours for colour-blind players | PASS 78 | worst pair fire / nature (deutan): dE 10.6 on the team-colour area (normal vision 50.1; 207 px); deutan: fire / nature dE 10.6; protan: fire / nature dE 16.5; worst vs ground: fire colour (deutan) dE 16.6 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only) |  |
+| R1 | Silhouette area at 40 m | PASS 100 | 441 px (25 x 33 bbox; 55 m: 226 px) | >= 120 px (FAIL < 45) at 1600 x 900 |  |
+| R3 | Contrast vs ground (meadow) | PASS 89 | mean-colour dE 27.6, 2% of the body melts (within dE 15 of the ground); body L* 57.0 C 22.0 vs ground L* 63.5 C 48.3, hue gap n/a (body C* <= 25); top third (world height) dE 32.6, L* 84.3; per-pixel dE 43.0, outline 37.4 | mean-colour dE >= 20 and <= 35 % melting (FAIL: dE < 10 or > 60 % melting): the body must not melt into the grass |  |
+| R4k | Contrast on the home ground (old_wood) | PASS 95 | dE 27.9, 11% melts (old_wood is where nature units stand most) | dE >= 20 on the kingdom's own ground (WARN only; stand-in patch for snow / ash / marsh) |  |
+| R4 | Contrast on the other grounds | PASS 84 | worst heath: dE 17.1 (heath dE 17.1, old_wood dE 27.9, riverbank dE 29.8, snow dE 38.3, ash dE 40.6, sand dE 27.3, marsh dE 43.8) | dE >= 10 on every skirmish ground (WARN only) |  |
+| R6 | Team-colour visibility at 40 m | PASS 100 | 43% of body pixels change between kingdom colours (min pair 41%) | >= 8% (FAIL = set_team_color changes nothing) |  |
+| R3t | Contrast in every team colour (meadow) | PASS 95 | worst nature colour: dE 28.1 (fire 41.9, shadow 54.8, ice 43.0, nature 28.1) | dE >= 20 in every kingdom colour (WARN only: mirror matches / enemy colours) |  |
+| R6cb | Team colours for colour-blind players | PASS 78 | worst pair fire / nature (deutan): dE 10.6 on the team-colour area (normal vision 43.6; 203 px); deutan: fire / nature dE 10.6; protan: fire / nature dE 15.0; worst vs ground: fire colour (deutan) dE 21.0 | deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only) |  |
 | R7 | HP bar over the body at 40 m | PASS 99 | bar hides 0% of the silhouette (gap -2 px) | <= 8% (FAIL > 25%); bar at body_height + 0.5 = 1.7 m, 1.04 m wide |  |
-| R5c | Glow points stand out (1 m surround) | PASS 84 | worst dL +15 (soft 1 dL +15 (counts); ring 24 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
-| R5 | Glow points at 40 m | PASS 100 | 0 point(s) above the bloom level 1.2 (median of 0/0/0), 1 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 1; + 1 Nature soft glow(s) that stand out from their 1 m surround count as points (R5c) | 1-3 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
-| R12 | Contrast under every light preset (meadow) | PASS 84 | worst night: dE 17.4, dL +10 (warm dE 23.8, ice dE 22.6, night dE 17.4, autumn dE 20.5); night = lab stand-in (warm preset, dim moon sun) | mean-colour dE >= 10 on the main ground under warm / ice / night / autumn light (WARN only: units appear on every map) |  |
-| R11 | Reads while walking (40 m) | PASS 95 | walk frames vs rest: mean IoU 0.76 (min 0.66), area kept 96-99% (min 416 px), frame-to-frame IoU min 0.69; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only) |  |
-| R2 | Distinct from references (black masks) | PASS 88 | max IoU 0.63 (magpie 0.63, thistle_darter_placeholder 0.56, thornling 0.56, burr_slinger 0.54, tracker 0.51, thistle_darter 0.39) | IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15) |  |
+| R5c | Glow points stand out (1 m surround) | PASS 84 | worst dL +16 (soft 1 dL +16 (counts); ring 24 px = 1.0 m at 40 m) | each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only) |  |
+| R5 | Glow points at 40 m | PASS 100 | 0 point(s) above the bloom level 1.2 (median of 0/0/0), 3 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 1; + 1 Nature soft glow(s) that stand out from their 1 m surround count as points (R5c) | 1-3 above the bloom level (art-units 1.4 / art-keep 0.4) |  |
+| R12 | Contrast under every light preset (meadow) | PASS 86 | worst night: dE 18.7, dL +9 (warm dE 28.5, ice dE 27.0, night dE 18.7, autumn dE 24.6); night = lab stand-in (warm preset, dim moon sun) | mean-colour dE >= 10 on the main ground under warm / ice / night / autumn light (WARN only: units appear on every map) |  |
+| R11 | Reads while walking (40 m) | PASS 94 | walk frames vs rest: mean IoU 0.75 (min 0.66), area kept 96-98% (min 414 px), frame-to-frame IoU min 0.68; 8 frames 0.09 s apart | mean IoU walk vs rest >= 0.55, >= 70% of the rest area in every frame and >= R1's 120 px (WARN only) |  |
+| R2 | Distinct from references (black masks) | PASS 87 | max IoU 0.65 (magpie 0.65, thistle_darter_placeholder 0.57, thornling 0.57, burr_slinger 0.54, tracker 0.51, thistle_darter 0.39) | IoU <= 0.8 vs every reference (4 turns, 40 m), else colour must differ (dE >= 15) |  |
 
 ## Animation
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
 | A1 | Standard hooks | PASS 100 | all 6 present | set_team_color, set_moving, play_attack, play_hit, play_death, signal:death_finished |  |
-| A3r | Weapon reach at the strike | INFO | tip reaches 0.82 m from the body centre at t 0.14 s (0.73 m forward; geometry clipped at the ground); declared 1.5 m (UnitType attack_range (sapling.tres)) - not a reach weapon (< 2.5 m): not judged | judged for reach weapons (declared reach >= 2.5 m, or reach= / attack_reach) |  |
-| A3 | Attack reads at 40 m | PASS 100 | strike pose changes 44% of the silhouette (t 0.14 s) | >= 12% (1 - IoU rest vs strike) |  |
-| A4 | Cast pose reads (play_cast) | INFO | cast pose changes 35% of the silhouette at its peak (t 0.4 s; 0.12 s 29%, 0.25 s 34%, 0.4 s 35%, 0.6 s 23%) | shown in the strip + cast.jpg (rest / peak); INFO until calibrated (a cast should change >= 6% of the outline) |  |
-| A2 | death_finished | PASS 100 | after 1.01 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
+| A3r | Weapon reach at the strike | INFO | tip reaches 0.87 m from the body centre at t 0.08 s (0.8 m forward; geometry clipped at the ground); declared 1.5 m (UnitType attack_range (sapling.tres)) - not a reach weapon (< 2.5 m): not judged | judged for reach weapons (declared reach >= 2.5 m, or reach= / attack_reach) |  |
+| A3 | Attack reads at 40 m | PASS 100 | strike pose changes 47% of the silhouette (t 0.08 s) | >= 12% (1 - IoU rest vs strike) |  |
+| A4 | Cast pose reads (play_cast) | INFO | cast pose changes 33% of the silhouette at its peak (t 0.4 s; 0.12 s 28%, 0.25 s 32%, 0.4 s 33%, 0.6 s 22%) | shown in the strip + cast.jpg (rest / peak); INFO until calibrated (a cast should change >= 6% of the outline) |  |
+| A2 | death_finished | PASS 100 | after 1.02 s | emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7) |  |
 
 ## Craft: shape and detail at the close-up / 25 m (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| C1 | Shape richness (secondary shapes) | INFO 100 | 59 shapes over 6 body parts (9.8 per part: LegL 4, LegR 4, Canopy 39, ArmL 4, ArmR 3, Chest 5); 26% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.952 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
+| C1 | Shape richness (secondary shapes) | INFO 100 | 59 shapes over 6 body parts (9.8 per part: LegL 4, LegR 4, Canopy 39, ArmL 4, ArmR 3, Chest 5); 26% of the surface on plain boxes / prisms (<= 10 face directions); normal variety 0.943 | craft (lab v3.1): >= 7 separate shapes per body part, <= 35% plain boxes / prisms, normal variety >= 0.92 |  |
 | C2 | Vertex use vs budget | INFO 100 | 97% of the 2500 verts budget used (2438) | craft (lab v3.1): a finished model uses >= 65% of its tier budget (under-use = detail left on the table; over is B4) |  |
-| C3 | Palette depth (close-up) | INFO 100 | 13 colour steps (L*a*b* bins >= 2 % of the body), 9 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up |  |
-| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 2.29 at the close-up (72008 px), 1.49 at 25 m; close-up outline complexity 7.52 | craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) |  |
+| C3 | Palette depth (close-up) | INFO 68 | 11 colour steps (L*a*b* bins >= 2 % of the body), 8 value steps (L* bins of 8 >= 3 %) | craft (lab v3.1): >= 13 colour steps and >= 9 value steps at the close-up |  |
+| C4 | Inner detail (close-up / 25 m) | INFO 100 | inner edges per outline px: 2.39 at the close-up (72441 px), 1.55 at 25 m; close-up outline complexity 7.52 | craft (lab v3.1): >= 1.8 inner edge px per outline px at the close-up, >= 1.4 at 25 m (shape and value breaks inside the silhouette) |  |
 
 ## Polish (scored, never fails)
 | # | Check | Result | Measured | Rule | Fix hint |
 |---|---|---|---|---|---|
-| P1 | Silhouette hook | INFO 96 | outline complexity 2.55 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
-| P3 | Tops light, bottoms dark | INFO 100 | top third L* 82.5, bottom third L* 19.1 (+63, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
-| P4 | Detail density 25 m / 40 m | INFO 100 | inner detail 10.8 at 25 m, 13.8 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
-| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 41 | on the autumn floor: dE 21.2, 0% melts; body L* 57.2 C 27.9 vs floor L* 52.7 C 43.4; nature team colour vs the floor swatches: min dE 55.3 (grass_dry) | units sit outside the autumn floor band (L* 25-55, C* <= 35): body vs floor dE >= 20, <= 35 % melting; team colour dE >= 20 to every floor swatch (INFO until the style-autumn.md 6 runs) |  |
-| P2 | Asymmetric secondary shape | INFO 100 | front-view asymmetry 0.33 | one asymmetric secondary element (art-keep 0.1): >= ~0.15 |  |
+| P1 | Silhouette hook | INFO 100 | outline complexity 2.64 | a blob is ~1.3-1.8; a strong hook >= 2.2 |  |
+| P3 | Tops light, bottoms dark | INFO 100 | top third L* 84.3, bottom third L* 21.5 (+62, world height) | top lighter than bottom (art-keep 0.1: 0.72 x at the ground, 1.08 x at the top) |  |
+| P4 | Detail density 25 m / 40 m | INFO 77 | inner detail 11.9 at 25 m, 15.3 at 40 m (mean /grad L*/ per px) | about 3-11 at 25 m: readable blocks, no noise |  |
+| S1 | Style bible: golden autumn (style-autumn.md 3) | INFO 38 | on the autumn floor: dE 22.4, 2% melts; body L* 54.7 C 24.1 vs floor L* 52.6 C 43.3 (inside the floor band); nature team colour vs the floor swatches: min dE 55.3 (grass_dry) | units sit outside the autumn floor band (L* 25-55, C* <= 35): body vs floor dE >= 20, <= 35 % melting; team colour dE >= 20 to every floor swatch (INFO until the style-autumn.md 6 runs) |  |
+| P2 | Asymmetric secondary shape | INFO 100 | front-view asymmetry 0.26 | one asymmetric secondary element (art-keep 0.1): >= ~0.15 |  |
 
 ## Shots
 - z40: [z40.jpg](z40.jpg)
@@ -125,4 +136,4 @@ Changed pixels per shot: z40 0.1 %, z55 0.0 %, z25 0.1 %, close 1.0 %, strike_si
 - Per-mesh vertices (biggest first): Root/Chest/Head/Canopy/CanopyMesh 968 v / 5 s; Root/Chest/Head/Canopy/Face 485 v / 1 s; Root/Chest/ArmL/Merged 318 v / 3 s; Root/Chest/Merged 263 v / 2 s; Root/Chest/ArmR/Merged 236 v / 2 s; Root/Hips/LegL/Merged 84 v / 1 s; Root/Hips/LegR/Merged 84 v / 1 s; Shadow 4 v / 1 s
 - 3 materials are built in code (fine when cached per type: see B9)
 - terrain: snow / ash / sand / marsh are flat stand-in patches (biome GROUND_TINT): ground.gdshader has no step-12b terrain layers yet (terrain.md 7.1 `terrain_mask`); the lab switches to them by itself once they exist
-- Fix recipes: 1 in fixes.json (top: R8: body_height 1.2 -> 1.57 in res://art/units/nature/sapling.tscn (root) and res://data/units/sapling.tres (the head top; x1.31 now), or lower the head / crest)
+- Fix recipes: 1 in fixes.json (top: R8: body_height 1.2 -> 1.56 in res://art/units/nature/sapling.tscn (root) and res://data/units/sapling.tres (the head top; x1.3 now), or lower the head / crest )

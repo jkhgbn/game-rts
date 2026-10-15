@@ -124,7 +124,7 @@ static func build(model: Node3D, m: Dictionary, glow: ShaderMaterial, banner: Sh
 		it.append(BMG.item_xf(box, Transform3D(lean * Basis(Vector3.UP, -deg_to_rad(deg)).scaled_local(Vector3(0.07, 0.9, 0.05)), p), glow))
 	var slits := _mesh_node("Tier2Runes", "tier2_runes", it, t2)
 	slits.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	slits.set_instance_shader_parameter(&"energy", 2.4)
+	slits.set_instance_shader_parameter(&"energy", 1.1)   # G-E fixes D (was 2.4)
 	slits.set_instance_shader_parameter(&"pulse_speed", 1.3)
 	# Team banners on the two obelisks flanking the gate.
 	for deg: float in [60.0, 300.0]:
@@ -150,7 +150,7 @@ static func build(model: Node3D, m: Dictionary, glow: ShaderMaterial, banner: Sh
 	ring2.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	ring2.position = Vector3(0, RING2_Y, 0)
 	ring2.rotation = Vector3(deg_to_rad(7.0), 0, deg_to_rad(-5.0))
-	ring2.set_instance_shader_parameter(&"energy", 2.2)
+	ring2.set_instance_shader_parameter(&"energy", 1.0)   # G-E fixes D (was 2.2)
 	ring2.set_instance_shader_parameter(&"pulse_speed", 1.6)
 	ring2.set_instance_shader_parameter(&"rune_bands", 12)
 	t2.add_child(ring2)
@@ -195,7 +195,7 @@ static func build(model: Node3D, m: Dictionary, glow: ShaderMaterial, banner: Sh
 	crown.material_override = glow
 	crown.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	crown.position = Vector3(0, -0.55, 0)
-	crown.set_instance_shader_parameter(&"energy", 2.6)
+	crown.set_instance_shader_parameter(&"energy", 1.2)   # G-E fixes D (was 2.6)
 	crown.set_instance_shader_parameter(&"pulse_speed", 2.2)
 	crown.set_instance_shader_parameter(&"rune_bands", 7)
 	halo.add_child(crown)

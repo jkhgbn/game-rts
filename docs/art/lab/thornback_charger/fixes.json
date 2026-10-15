@@ -28,7 +28,7 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "nature",
-	"quality": 94.4,
+	"quality": 93.8,
 	"result": "WARN",
 	"scene": "res://art/units/nature/thornback_charger/thornback_charger.tscn",
 	"tier": "cavalry_mounted",

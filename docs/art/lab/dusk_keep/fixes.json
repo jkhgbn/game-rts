@@ -5,319 +5,216 @@
 		{
 			"changes": [
 				{
-					"factor": 0.123,
+					"factor": 0.116,
 					"from": 1.0,
 					"material": "DarkStone",
 					"material_path": "",
-					"node": "Model/LanternStems, Model/GateFrame, Model/Body, Model/Prism1, Model/WatchNeedle, Model/Shard/EyeOrbit/EyeShards",
+					"node": "Model/LanternStems, Model/GateFrame, Model/Prism1, Model/WatchNeedle, Model/Shard/ShardMesh, Model/Shard/EyeOrbit/EyeShards",
 					"param": "shader_parameter/crack_strength",
-					"peak_x_bloom": 6.12,
-					"to": 0.123,
+					"peak_x_bloom": 6.46,
+					"to": 0.116,
 					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 18 point(s), peak 6.12 x the level",
-					"words": "crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Body, Prism1 (dim under the bloom level: 18 point(s), peak 6.12 x the level)"
-				},
-				{
-					"factor": 0.094,
-					"from": 1.0,
-					"material": "Glow",
-					"material_path": "",
-					"node": "Model/Shard/ShardCore, Model/LanternOrb2, Model/LanternOrb1, Model/Windows, Model/LanternOrb3, Model/FinTips",
-					"param": "shader_parameter/boost_mult",
-					"peak_x_bloom": 8.0,
-					"to": 0.094,
-					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 17 point(s), peak 8.0 x the level (>= 8, clipped)",
-					"words": "boost_mult 1.0 -> 0.09 on ShardCore, LanternOrb2, LanternOrb1, Windows (dim under the bloom level: 17 point(s), peak 8.0 x the level (>= 8, clipped))"
+					"why": "dim under the bloom level: 15 point(s), peak 6.46 x the level",
+					"words": "crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Prism1, WatchNeedle (dim under the bloom level: 15 point(s), peak 6.46 x the level)"
 				}
 			],
 			"check": "R5",
 			"computed": true,
 			"measured": {
-				"points": 46,
-				"points_this_phase": 46,
+				"points": 27,
+				"points_this_phase": 30,
 				"spots": [
 					{
 						"above": true,
 						"part": "Model/Shard/ShardCore",
 						"peak_x_bloom": 8.0,
-						"px": 1044
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 4.11,
-						"px": 386
+						"px": 893
 					},
 					{
 						"above": true,
 						"part": "Model/LanternOrb2",
-						"peak_x_bloom": 4.11,
-						"px": 326
+						"peak_x_bloom": 3.2,
+						"px": 305
 					},
 					{
 						"above": true,
-						"part": "Model/GateFrame",
-						"peak_x_bloom": 3.86,
-						"px": 292
-					},
-					{
-						"above": true,
-						"part": "Model/LanternOrb1",
-						"peak_x_bloom": 4.96,
-						"px": 270
-					},
-					{
-						"above": true,
-						"part": "Model/Windows",
-						"peak_x_bloom": 3.86,
-						"px": 256
-					},
-					{
-						"above": true,
-						"part": "Model/Banner2",
-						"peak_x_bloom": 3.86,
-						"px": 228
-					},
-					{
-						"above": true,
-						"part": "Model/Body",
-						"peak_x_bloom": 4.96,
-						"px": 214
-					},
-					{
-						"above": true,
-						"part": "Model/Body",
-						"peak_x_bloom": 4.96,
-						"px": 204
-					},
-					{
-						"above": true,
-						"part": "Model/Thorns",
-						"peak_x_bloom": 4.96,
-						"px": 191
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 3.55,
+						"px": 199
 					},
 					{
 						"above": true,
 						"part": "Model/LanternOrb3",
-						"peak_x_bloom": 5.65,
-						"px": 191
-					},
-					{
-						"above": true,
-						"part": "Model/FinTips",
-						"peak_x_bloom": 4.96,
-						"px": 189
-					},
-					{
-						"above": true,
-						"part": "Model/RuneRing",
-						"peak_x_bloom": 3.86,
-						"px": 188
-					},
-					{
-						"above": true,
-						"part": "Model/Windows",
-						"peak_x_bloom": 3.86,
-						"px": 186
-					},
-					{
-						"above": true,
-						"part": "Model/Prism1",
-						"peak_x_bloom": 3.86,
-						"px": 180
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 5.24,
-						"px": 163
-					},
-					{
-						"above": true,
-						"part": "Model/GateSlits",
-						"peak_x_bloom": 4.11,
-						"px": 129
-					},
-					{
-						"above": true,
-						"part": "Model/Banner1",
-						"peak_x_bloom": 4.96,
-						"px": 125
-					},
-					{
-						"above": true,
-						"part": "Model/Windows",
-						"peak_x_bloom": 3.86,
-						"px": 124
-					},
-					{
-						"above": true,
-						"part": "Model/Prism3",
-						"peak_x_bloom": 3.55,
-						"px": 95
-					},
-					{
-						"above": true,
-						"part": "Model/WatchNeedle",
-						"peak_x_bloom": 3.55,
-						"px": 65
-					},
-					{
-						"above": true,
-						"part": "Model/SpireBands",
-						"peak_x_bloom": 4.42,
-						"px": 59
-					},
-					{
-						"above": true,
-						"part": "Model/Tip",
-						"peak_x_bloom": 3.23,
-						"px": 50
-					},
-					{
-						"above": true,
-						"part": "Model/Prism3",
-						"peak_x_bloom": 3.98,
-						"px": 48
-					},
-					{
-						"above": true,
-						"part": "Model/RuneRing",
-						"peak_x_bloom": 3.86,
-						"px": 41
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 5.65,
-						"px": 37
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 3.33,
-						"px": 33
+						"peak_x_bloom": 3.17,
+						"px": 169
 					},
 					{
 						"above": true,
 						"part": "Model/GateFrame",
-						"peak_x_bloom": 3.55,
-						"px": 24
-					},
-					{
-						"above": true,
-						"part": "Model/WatchNeedle",
-						"peak_x_bloom": 4.49,
-						"px": 22
-					},
-					{
-						"above": true,
-						"part": "Model/Banner1",
-						"peak_x_bloom": 3.67,
-						"px": 20
-					},
-					{
-						"above": true,
-						"part": "Model/RuneRing",
-						"peak_x_bloom": 4.3,
-						"px": 17
-					},
-					{
-						"above": true,
-						"part": "Model/GateSlits",
-						"peak_x_bloom": 3.48,
-						"px": 17
-					},
-					{
-						"above": true,
-						"part": "Model/WatchNeedle",
-						"peak_x_bloom": 6.12,
-						"px": 16
-					},
-					{
-						"above": true,
-						"part": "Model/Windows",
-						"peak_x_bloom": 3.33,
-						"px": 13
-					},
-					{
-						"above": true,
-						"part": "Model/Tip",
-						"peak_x_bloom": 3.92,
-						"px": 13
-					},
-					{
-						"above": true,
-						"part": "Model/Windows",
-						"peak_x_bloom": 3.14,
-						"px": 11
-					},
-					{
-						"above": true,
-						"part": "Model/Windows",
-						"peak_x_bloom": 3.67,
-						"px": 8
-					},
-					{
-						"above": true,
-						"part": "Model/Shard/EyeOrbit/EyeShards",
-						"peak_x_bloom": 5.18,
-						"px": 7
-					},
-					{
-						"above": true,
-						"part": "Model/GateFrame",
-						"peak_x_bloom": 4.08,
-						"px": 7
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 4.8,
-						"px": 7
-					},
-					{
-						"above": true,
-						"part": "Model/Prism3",
-						"peak_x_bloom": 3.98,
-						"px": 5
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 3.14,
-						"px": 3
+						"peak_x_bloom": 3.07,
+						"px": 137
 					},
 					{
 						"above": true,
 						"part": "Model/Windows",
 						"peak_x_bloom": 3.07,
-						"px": 3
+						"px": 125
+					},
+					{
+						"above": true,
+						"part": "Model/Banner2",
+						"peak_x_bloom": 3.07,
+						"px": 109
+					},
+					{
+						"above": true,
+						"part": "Model/RuneRing",
+						"peak_x_bloom": 3.07,
+						"px": 97
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 3.07,
+						"px": 88
+					},
+					{
+						"above": true,
+						"part": "Model/Prism1",
+						"peak_x_bloom": 3.07,
+						"px": 88
+					},
+					{
+						"above": true,
+						"part": "Model/Tip",
+						"peak_x_bloom": 3.17,
+						"px": 63
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 3.07,
+						"px": 60
+					},
+					{
+						"above": true,
+						"part": "Model/Prism3",
+						"peak_x_bloom": 3.76,
+						"px": 45
+					},
+					{
+						"above": true,
+						"part": "Model/WatchNeedle",
+						"peak_x_bloom": 3.55,
+						"px": 44
+					},
+					{
+						"above": true,
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 3.73,
+						"px": 38
+					},
+					{
+						"above": true,
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 6.46,
+						"px": 34
+					},
+					{
+						"above": true,
+						"part": "Model/LanternOrb1",
+						"peak_x_bloom": 3.29,
+						"px": 30
+					},
+					{
+						"above": true,
+						"part": "Model/WatchNeedle",
+						"peak_x_bloom": 3.86,
+						"px": 18
+					},
+					{
+						"above": true,
+						"part": "Model/Prism1",
+						"peak_x_bloom": 3.83,
+						"px": 17
+					},
+					{
+						"above": true,
+						"part": "Model/Windows",
+						"peak_x_bloom": 3.39,
+						"px": 14
+					},
+					{
+						"above": true,
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 3.51,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Model/Tip",
+						"peak_x_bloom": 4.67,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Model/RuneRing",
+						"peak_x_bloom": 3.39,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 5.71,
+						"px": 8
+					},
+					{
+						"above": true,
+						"part": "Model/Shard/ShardMesh",
+						"peak_x_bloom": 4.77,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Model/GateFrame",
+						"peak_x_bloom": 3.67,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 3.39,
+						"px": 7
+					},
+					{
+						"above": true,
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 3.17,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/GateFrame",
+						"peak_x_bloom": 3.39,
+						"px": 4
 					},
 					{
 						"above": true,
 						"part": "Model/Prism2",
-						"peak_x_bloom": 3.48,
+						"peak_x_bloom": 3.45,
 						"px": 3
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 3.29,
-						"px": 2
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 4.96,
-						"px": 2
 					},
 					{
 						"above": false,
 						"part": "Model/Shard/EyeOrbit/EyeShards",
 						"peak_x_bloom": 0.71,
-						"px": 206
+						"px": 208
+					},
+					{
+						"above": false,
+						"part": "Model/Plinth",
+						"peak_x_bloom": 0.71,
+						"px": 198
 					},
 					{
 						"above": false,
@@ -327,38 +224,20 @@
 					},
 					{
 						"above": false,
-						"part": "Model/Shard/EyeOrbit/EyeShards",
-						"peak_x_bloom": 0.71,
-						"px": 127
-					},
-					{
-						"above": false,
 						"part": "Model/Plinth",
 						"peak_x_bloom": 0.71,
 						"px": 100
-					},
-					{
-						"above": false,
-						"part": "Model/Shard/ShardMesh",
-						"peak_x_bloom": 0.78,
-						"px": 14
-					},
-					{
-						"above": false,
-						"part": "Model/Shard/ShardMesh",
-						"peak_x_bloom": 0.57,
-						"px": 11
 					}
 				],
-				"value": "46 point(s) above the bloom level 1.2 (median of 46/46/49): ShardCore, LanternStems x7, LanternOrb2, GateFrame x4, Windows x6, Banner2, LanternOrb1, RuneRing x5, Thorns, LanternOrb3, FinTips x2, Prism1, Prism3 x3, GateSlits x2, Banner1 x2, WatchNeedle x3, Plinth, Tip, ShardMesh, EyeShards, Prism2, 2 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 48"
+				"value": "27 point(s) above the bloom level 1.2 (median of 31/24/27): ShardCore, LanternOrb2, LanternOrb3, LanternOrb1, RuneRing x3, Body, Thorns, FinTips, LanternStems x5, Prism3, GateFrame x2, WatchNeedle x2, EyeShards, GateSlits, ShardMesh, Windows, Banner3, Plinth, Prism2, 6 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 34"
 			},
 			"predicted": {
-				"points": 11
+				"points": 12
 			},
-			"proposal": "Glow points 46 -> 11 (want 4-12): DarkStone crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Body, Prism1 (dim under the bloom level: 18 point(s), peak 6.12 x the level); Glow boost_mult 1.0 -> 0.09 on ShardCore, LanternOrb2, LanternOrb1, Windows (dim under the bloom level: 17 point(s), peak 8.0 x the level (>= 8, clipped))",
+			"proposal": "Glow points 27 -> 12 (want 4-12): DarkStone crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Prism1, WatchNeedle (dim under the bloom level: 15 point(s), peak 6.46 x the level)",
 			"rank": 1,
 			"status": "WARN",
-			"text": "Glow points 46 -> 11 (want 4-12): DarkStone crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Body, Prism1 (dim under the bloom level: 18 point(s), peak 6.12 x the level); Glow boost_mult 1.0 -> 0.09 on ShardCore, LanternOrb2, LanternOrb1, Windows (dim under the bloom level: 17 point(s), peak 8.0 x the level (>= 8, clipped))",
+			"text": "Glow points 27 -> 12 (want 4-12): DarkStone crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Prism1, WatchNeedle (dim under the bloom level: 15 point(s), peak 6.46 x the level)",
 			"title": "Glow points at the bloom level",
 			"wanted": {
 				"points": "4-12 above the bloom level 1.2"
@@ -368,7 +247,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "shadow",
-	"quality": 89.1,
+	"quality": 87.2,
 	"result": "WARN",
 	"scene": "res://art/buildings/dusk_keep.tscn",
 	"tier": "keep",

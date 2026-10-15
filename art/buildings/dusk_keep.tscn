@@ -46,7 +46,7 @@ shader_parameter/noise_scale_b = 0.12
 shader_parameter/spec_strength = 0.0
 shader_parameter/rim_color = Color(0.55, 0.65, 0.85, 1)
 shader_parameter/rim_strength = 0.25
-shader_parameter/crack_strength = 0.45
+shader_parameter/crack_strength = 0.3
 shader_parameter/crack_color = Color(0.7, 0.3, 1, 1)
 shader_parameter/crack_speed = 0.7
 shader_parameter/crack_scale = 1.8
@@ -112,7 +112,7 @@ shader_parameter/noise_scale_b = 0.12
 shader_parameter/spec_strength = 0.35
 shader_parameter/rim_color = Color(0.55, 0.65, 0.85, 1)
 shader_parameter/rim_strength = 0.25
-shader_parameter/crack_strength = 0.7
+shader_parameter/crack_strength = 0.45
 shader_parameter/crack_color = Color(0.7, 0.3, 1, 1)
 shader_parameter/crack_speed = 0.7
 shader_parameter/crack_scale = 1.8
@@ -362,8 +362,8 @@ material = SubResource("StandardMaterial3D_5lund")
 size = Vector2(0.12, 0.12)
 
 [sub_resource type="TorusMesh" id="TorusMesh_jlx2d"]
-inner_radius = 2.95
-outer_radius = 3.25
+inner_radius = 3.03
+outer_radius = 3.19
 rings = 48
 ring_segments = 6
 
@@ -485,7 +485,7 @@ shader_parameter/size = 11.0
 shader_parameter/stain_color = Color(0.04, 0.02, 0.06, 1)
 shader_parameter/edge_color = Color(0.15, 0.06, 0.25, 1)
 shader_parameter/glow_color = Color(0.7, 0.3, 1, 1)
-shader_parameter/glow_energy = 2.2
+shader_parameter/glow_energy = 1.1
 shader_parameter/scorch = 0.0
 shader_parameter/damage = 0.0
 shader_parameter/build = 1.0
@@ -897,7 +897,7 @@ mesh = SubResource("ArrayMesh_ukd8l")
 [node name="Windows" type="MultiMeshInstance3D" parent="Model" unique_id=1595839557]
 material_override = SubResource("ShaderMaterial_mpebe")
 cast_shadow = 0
-instance_shader_parameters/energy = 2.2
+instance_shader_parameters/energy = 1.0
 instance_shader_parameters/pulse_speed = 1.1
 multimesh = SubResource("MultiMesh_o5isp")
 
@@ -917,7 +917,7 @@ multimesh = SubResource("MultiMesh_fag6u")
 [node name="FinTips" type="MultiMeshInstance3D" parent="Model" unique_id=1156958699]
 material_override = SubResource("ShaderMaterial_mpebe")
 cast_shadow = 0
-instance_shader_parameters/energy = 3.0
+instance_shader_parameters/energy = 1.2
 instance_shader_parameters/pulse_speed = 2.0
 multimesh = SubResource("MultiMesh_pyygf")
 
@@ -947,7 +947,7 @@ mesh = SubResource("ArrayMesh_p1p70")
 [node name="ShardCore" type="MeshInstance3D" parent="Model/Shard" unique_id=1612683370]
 material_override = SubResource("ShaderMaterial_mpebe")
 cast_shadow = 0
-instance_shader_parameters/energy = 4.0
+instance_shader_parameters/energy = 3.2
 instance_shader_parameters/pulse_speed = 3.1
 mesh = SubResource("SphereMesh_bwv5h")
 
@@ -974,7 +974,7 @@ draw_pass_1 = SubResource("QuadMesh_k1aw1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.95, 0)
 material_override = SubResource("ShaderMaterial_mpebe")
 cast_shadow = 0
-instance_shader_parameters/energy = 3.0
+instance_shader_parameters/energy = 1.0
 instance_shader_parameters/pulse_speed = 1.3
 instance_shader_parameters/rune_bands = 12
 mesh = SubResource("TorusMesh_jlx2d")
@@ -988,7 +988,7 @@ mesh = SubResource("ArrayMesh_tvn1s")
 [node name="GateSlits" type="MultiMeshInstance3D" parent="Model" unique_id=96009090]
 material_override = SubResource("ShaderMaterial_mpebe")
 cast_shadow = 0
-instance_shader_parameters/energy = 2.5
+instance_shader_parameters/energy = 1.2
 instance_shader_parameters/pulse_speed = 1.0
 multimesh = SubResource("MultiMesh_727gi")
 
@@ -1031,7 +1031,7 @@ multimesh = SubResource("MultiMesh_0jeaj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55, 2.7, -2.35)
 material_override = SubResource("ShaderMaterial_mpebe")
 cast_shadow = 0
-instance_shader_parameters/energy = 3.0
+instance_shader_parameters/energy = 1.6
 instance_shader_parameters/phase = 0.0
 instance_shader_parameters/pulse_speed = 2.0
 mesh = SubResource("SphereMesh_w7u0h")
@@ -1040,7 +1040,7 @@ mesh = SubResource("SphereMesh_w7u0h")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9635475e-16, 11.95, 2.42)
 material_override = SubResource("ShaderMaterial_mpebe")
 cast_shadow = 0
-instance_shader_parameters/energy = 3.0
+instance_shader_parameters/energy = 1.6
 instance_shader_parameters/phase = 1.7
 instance_shader_parameters/pulse_speed = 2.0
 mesh = SubResource("SphereMesh_w7u0h")
@@ -1049,7 +1049,7 @@ mesh = SubResource("SphereMesh_w7u0h")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.078461, 2.7, 1.2)
 material_override = SubResource("ShaderMaterial_mpebe")
 cast_shadow = 0
-instance_shader_parameters/energy = 3.0
+instance_shader_parameters/energy = 1.6
 instance_shader_parameters/phase = 3.4
 instance_shader_parameters/pulse_speed = 2.0
 mesh = SubResource("SphereMesh_w7u0h")

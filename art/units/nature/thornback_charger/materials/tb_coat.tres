@@ -7,7 +7,7 @@
 resource_name = "tb_coat"
 render_priority = 0
 shader = ExtResource("1_tb")
-shader_parameter/base_color = Color(0.35, 0.245, 0.15, 1)
+shader_parameter/base_color = Color(0.28, 0.19, 0.115, 1)
 shader_parameter/noise_tex = ExtResource("2_tb")
 shader_parameter/spec_strength = 0.0
 shader_parameter/rim_color = Color(0.85, 0.75, 0.5, 1)

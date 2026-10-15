@@ -22,6 +22,7 @@ extends NatureWarModel
 signal dart_released(from: Vector3, dir: Vector3)
 
 const HARE := preload("res://art/units/nature/bramble_harrier/parts/bramble_hare.gd")
+const DRAPE := preload("res://art/units/nature/nature_drape.gd")   # G-E fixes D: draped cloth panels
 
 # Rest landmarks (model space, standing, feet origin, face +Z, right hand +X). Arms authored hanging straight down.
 const HIP_Y := 0.82
@@ -233,7 +234,7 @@ func _hips_sculpt(s: Dictionary) -> void:
 	var straw := m("nature_sec_slinger_c")
 	var bark := m("nature_bark")
 	var dark := m("nature_bark_dark")
-	var fletch := m("nature_bell_cloth")
+	var fletch := m("nature_straw")
 	var thorn := m("nature_thorn")
 	_put(s, cyl(0.19, 0.24, 0.22, 8, false), straw, Vector3(0, 0.80, 0))
 	_put(s, cyl(0.205, 0.205, 0.06, 8, false), dark, Vector3(0, 0.89, 0))
@@ -265,7 +266,7 @@ func _chest_sculpt(s: Dictionary) -> void:
 	var bark := m("nature_bark")
 	var dark := m("nature_bark_dark")
 	var cloth := m("nature_cloth")
-	var straw := m("nature_bell_cloth")
+	var straw := m("nature_straw")
 	var thorn := m("nature_thorn")
 	var skin := m("nature_skin")
 	var berry := m("nature_leaf_dark")
@@ -275,11 +276,20 @@ func _chest_sculpt(s: Dictionary) -> void:
 	MountModel.sculpt_add(s, MountModel.lathe_mesh("bhr_torso_v1", prof, 7), Transform3D(Basis.from_scale(Vector3(1.0, 1.0,
 		0.8)), Vector3.ZERO), bark)
 	# the team sash across the chest (left shoulder to right hip) and the team mantle falling back over the hare
-	_put(s, box(Vector3(0.09, 0.56, 0.035)), cloth, Vector3(0.0, 1.12, 0.185), Vector3(0, 0, 32))
+	# G-E fixes D: draped panels instead of boxes: the sash bows round the jerkin, the mantle flares over the hare with
+	# three folds and a scalloped hem; its dark stripe and straw hem band follow the cloth
+	_put(s, DRAPE.panel("bhr_sash_v1", 0.09, 0.09, 0.56, 0.0, 0.035, 0.0, 0.0, 0.0, 0.0, 0.025), cloth,
+		Vector3(0.0, 1.12, 0.17), Vector3(0, 0, 32))
 	_put(s, cyl(0.14, 0.27, 0.15, 8, false), cloth, Vector3(0, 1.36, -0.01))
-	_put(s, box(Vector3(0.40, 0.38, 0.03)), cloth, Vector3(0, 1.21, -0.28), Vector3(38, 0, 0))
-	_put(s, box(Vector3(0.12, 0.36, 0.035)), m("nature_cloth_dark"), Vector3(0, 1.215, -0.282), Vector3(38, 0, 0))
-	_put(s, box(Vector3(0.41, 0.06, 0.035)), straw, Vector3(0, 1.06, -0.40), Vector3(38, 0, 0))
+	var mantle := PackedFloat32Array([0.32, 0.48, 0.38, -0.08, -0.02, 3.0, 0.045, 0.04, 0.035, 0.02])
+	_put(s, DRAPE.panel("bhr_mantle_v1", mantle[0], mantle[1], mantle[2], mantle[3], mantle[4], mantle[5],
+		mantle[6], mantle[7], mantle[8], mantle[9]), cloth, Vector3(0, 1.21, -0.27), Vector3(38, 0, 0))
+	_put(s, DRAPE.panel("bhr_mantle_stripe_v1", mantle[0], mantle[1], mantle[2], mantle[3], mantle[4], mantle[5],
+		mantle[6], mantle[7], mantle[8], mantle[9], Rect2(-0.28, 0.0, 0.56, 0.86), -0.026, -1), m("nature_cloth_dark"),
+		Vector3(0, 1.21, -0.27), Vector3(38, 0, 0))
+	_put(s, DRAPE.panel("bhr_mantle_hem_v1", mantle[0], mantle[1], mantle[2], mantle[3], mantle[4], mantle[5],
+		mantle[6], mantle[7], mantle[8], mantle[9], Rect2(-1.0, 0.84, 2.0, 0.16), -0.027, -1), straw,
+		Vector3(0, 1.21, -0.27), Vector3(38, 0, 0))
 	# a big pale-moss leaf pauldron on the left shoulder (the asymmetric shape)
 	_leaf(s, m("nature_leaf"), Vector3(-0.22, 1.40, 0.02), Vector3(-0.8, -0.35, -0.1), Vector3(-0.3, 1.0, 0.1),
 		Vector3(0.26, 0.05, 0.34))
@@ -331,7 +341,7 @@ func _arm_r_sculpt(s: Dictionary) -> void:
 func _dart_sculpt(s: Dictionary) -> void:
 	var bark := m("nature_bark")
 	var dark := m("nature_bark_dark")
-	var fletch := m("nature_bell_cloth")
+	var fletch := m("nature_straw")
 	var thorn := m("nature_thorn")
 	# the atlatl: from behind the fist up along the dart, a hook at its end
 	_seg(s, bark, Vector3(0.0, -0.06, -0.035), Vector3(0.0, -0.46, -0.035), 0.022, 0.018, 4)

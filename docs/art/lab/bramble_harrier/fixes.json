@@ -1,18 +1,18 @@
 {
 	"asset": "bramble_harrier",
-	"count": 2,
+	"count": 1,
 	"fixes": [
 		{
 			"changes": [
 				{
-					"from": "#b89e70",
-					"material": "bh_pale",
-					"material_path": "res://art/units/nature/bramble_harrier/materials/bh_pale.tres",
+					"from": "#4d301c",
+					"material": "bh_coat",
+					"material_path": "res://art/units/nature/bramble_harrier/materials/bh_coat.tres",
 					"node": "Hare/Root/Mount/Head/Merged, Hare/Root/Mount/LegFL/Merged, Hare/Root/Mount/LegFR/Merged, Hare/Root/Mount/LegBL/Merged",
 					"param": "shader_parameter/base_color",
 					"shared": "",
-					"to": "#ba9f70",
-					"weight": 0.11
+					"to": "#4a301b",
+					"weight": 0.5
 				}
 			],
 			"check": "R4",
@@ -26,27 +26,27 @@
 			"gain": [
 				1.8,
 				1.4,
-				1.8
+				2.0
 			],
 			"measured": {
 				"body_lab": [
-					57.8,
-					5.3,
-					29.7
+					55.0,
+					5.7,
+					25.9
 				],
 				"dE": {
-					"R3 meadow": 31.8,
-					"R3t fire": 47.4,
-					"R3t ice": 40.5,
-					"R3t nature": 31.7,
-					"R3t shadow": 59.8,
-					"R4 ash": 45.1,
-					"R4 heath": 9.7,
-					"R4 marsh": 46.0,
-					"R4 riverbank": 40.1,
-					"R4 sand": 23.0,
+					"R3 meadow": 34.3,
+					"R3t fire": 40.9,
+					"R3t ice": 39.3,
+					"R3t nature": 34.3,
+					"R3t shadow": 44.9,
+					"R4 ash": 40.5,
+					"R4 heath": 6.9,
+					"R4 marsh": 41.8,
+					"R4 riverbank": 38.3,
+					"R4 sand": 26.5,
 					"R4 snow": 42.6,
-					"R4k old_wood": 34.7
+					"R4k old_wood": 31.5
 				},
 				"ground_lab": [
 					61.6,
@@ -56,48 +56,31 @@
 				"melt_share": 0.02
 			},
 			"predicted": {
-				"R3 meadow": 31.8,
-				"R3t fire": 47.4,
-				"R3t ice": 40.4,
-				"R3t nature": 31.7,
-				"R3t shadow": 59.6,
-				"R4 ash": 45.2,
-				"R4 heath": 9.9,
-				"R4 marsh": 46.1,
-				"R4 riverbank": 40.2,
-				"R4 sand": 23.0,
+				"R3 meadow": 34.2,
+				"R3t fire": 40.8,
+				"R3t ice": 39.1,
+				"R3t nature": 34.2,
+				"R3t shadow": 44.7,
+				"R4 ash": 40.4,
+				"R4 heath": 6.8,
+				"R4 marsh": 41.8,
+				"R4 riverbank": 38.1,
+				"R4 sand": 26.5,
 				"R4 snow": 42.7,
-				"R4k old_wood": 34.8
+				"R4k old_wood": 31.4
 			},
-			"proposal": "shader_parameter/base_color of `bh_pale` #b89e70 -> #ba9f70 (10% of the visible body): predicted dE R3 meadow 31.8 -> 31.8, R3t fire 47.4 -> 47.4, R3t shadow 59.8 -> 59.6, R3t ice 40.5 -> 40.4, R3t nature 31.7 -> 31.7, R4k old_wood 34.7 -> 34.8 (want >= 24); other grounds heath 9.9, riverbank 40.2, snow 42.7, ash 45.2, sand 23.0, marsh 46.1; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 11% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"proposal": "shader_parameter/base_color of `bh_coat` #4d301c -> #4a301b (50% of the visible body): predicted dE R3 meadow 34.3 -> 34.2, R3t fire 40.9 -> 40.8, R3t shadow 44.9 -> 44.7, R3t ice 39.3 -> 39.1, R3t nature 34.3 -> 34.2, R4k old_wood 31.5 -> 31.4 (want >= 24); other grounds heath 6.8, riverbank 38.1, snow 42.7, ash 40.4, sand 26.5, marsh 41.8; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 11% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
 			"rank": 1,
 			"status": "WARN",
 			"team_coloured": [
 				"`nature_cloth` 11%"
 			],
-			"text": "shader_parameter/base_color of `bh_pale` #b89e70 -> #ba9f70 (10% of the visible body): predicted dE R3 meadow 31.8 -> 31.8, R3t fire 47.4 -> 47.4, R3t shadow 59.8 -> 59.6, R3t ice 40.5 -> 40.4, R3t nature 31.7 -> 31.7, R4k old_wood 34.7 -> 34.8 (want >= 24); other grounds heath 9.9, riverbank 40.2, snow 42.7, ash 45.2, sand 23.0, marsh 46.1; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 11% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"text": "shader_parameter/base_color of `bh_coat` #4d301c -> #4a301b (50% of the visible body): predicted dE R3 meadow 34.3 -> 34.2, R3t fire 40.9 -> 40.8, R3t shadow 44.9 -> 44.7, R3t ice 39.3 -> 39.1, R3t nature 34.3 -> 34.2, R4k old_wood 31.5 -> 31.4 (want >= 24); other grounds heath 6.8, riverbank 38.1, snow 42.7, ash 40.4, sand 26.5, marsh 41.8; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 11% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
 			"title": "Body colour vs the grounds",
 			"wanted": {
 				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
 				"dE_R4": ">= 14 (soft)",
 				"melt_share": "<= 35%"
-			}
-		},
-		{
-			"changes": [],
-			"check": "R6cb",
-			"computed": false,
-			"measured": {
-				"value": "worst pair fire / nature (deutan): dE 25.2 on the team-colour area (normal vision 63.7; 341 px); deutan: fire / nature dE 25.2; protan: fire / nature dE 28.3; worst vs ground: fire colour (deutan) dE 7.6"
-			},
-			"predicted": {},
-			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 25.2): add a value step inside the team-colour area",
-			"rank": 2,
-			"status": "WARN",
-			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 25.2): add a value step inside the team-colour area",
-			"title": "Team colours for colour-blind players",
-			"wanted": {
-				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
 			}
 		}
 	],

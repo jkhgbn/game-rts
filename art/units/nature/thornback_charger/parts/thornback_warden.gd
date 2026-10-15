@@ -26,6 +26,7 @@ extends NatureWarModel
 signal lance_struck(at: Vector3)
 
 const ELK := preload("res://art/units/nature/thornback_charger/parts/thornback_elk.gd")
+const DRAPE := preload("res://art/units/nature/nature_drape.gd")   # G-E fixes D: draped cloth panels
 const ANTLER := "res://art/units/mounts/grove_stag/materials/grove_stag_antler.tres"
 
 # Rest landmarks (model space, standing, feet origin, face +Z, right hand +X). Arms authored hanging straight down.
@@ -276,8 +277,11 @@ func _hips_sculpt(s: Dictionary) -> void:
 	var leg := m("nature_leaf_dark")
 	_put(s, cyl(0.24, 0.29, 0.22, 8, false), bark, Vector3(0, 0.87, 0))
 	_put(s, cyl(0.25, 0.25, 0.07, 8, false), dark, Vector3(0, 0.96, 0))
-	_put(s, box(Vector3(0.30, 0.40, 0.03)), cloth, Vector3(0, 0.80, 0.31), Vector3(-60, 0, 0))
-	_put(s, box(Vector3(0.09, 0.40, 0.034)), cdark, Vector3(0, 0.802, 0.312), Vector3(-60, 0, 0))
+	# G-E fixes D: the tabard flap is a draped panel (wrap, two folds, a leaf-point hem), the stripe follows it
+	_put(s, DRAPE.panel("tbr_flap_v1", 0.30, 0.25, 0.36, 0.035, 0.0, 2.0, 0.018, 0.07, 0.015, 0.02),
+		cloth, Vector3(0, 0.80, 0.31), Vector3(-60, 0, 0))
+	_put(s, DRAPE.panel("tbr_flap_stripe_v1", 0.30, 0.25, 0.36, 0.035, 0.0, 2.0, 0.018, 0.07, 0.015, 0.02,
+		Rect2(-0.3, 0.0, 0.6, 1.0), 0.006, 1), cdark, Vector3(0, 0.80, 0.31), Vector3(-60, 0, 0))
 	for sx: float in [-1.0, 1.0]:
 		var hip := Vector3(0.13 * sx, HIP_Y - 0.03, 0.0)
 		var knee := Vector3(0.50 * sx, HIP_Y - 0.25, 0.16)
@@ -306,10 +310,16 @@ func _chest_sculpt(s: Dictionary) -> void:
 		MountModel.sculpt_add(s, cyl(0.31, 0.31, 0.03, 8, false), Transform3D(Basis.from_scale(Vector3(1.0, 1.0, 0.84)),
 			Vector3(0, y, 0)), dark)
 	# team tabard front (a dark team stripe: the value step), a short team cape over the elk's back
-	_put(s, box(Vector3(0.34, 0.44, 0.03)), cloth, Vector3(0, 1.17, 0.27), Vector3(-6, 0, 0))
-	_put(s, box(Vector3(0.10, 0.44, 0.034)), cdark, Vector3(0, 1.17, 0.283), Vector3(-6, 0, 0))
-	_put(s, box(Vector3(0.56, 0.56, 0.03)), cloth, Vector3(0, 1.20, -0.36), Vector3(38, 0, 0))
-	_put(s, box(Vector3(0.14, 0.54, 0.034)), cdark, Vector3(0, 1.205, -0.362), Vector3(38, 0, 0))
+	# G-E fixes D: draped panels instead of boxes (the tabard wraps the chest, the cape flares over the elk's back with
+	# three folds and a scalloped hem; each stripe follows its panel)
+	_put(s, DRAPE.panel("tbr_tabard_v1", 0.32, 0.30, 0.40, 0.05, 0.0, 2.0, 0.015, 0.06, 0.0, 0.02),
+		cloth, Vector3(0, 1.17, 0.255), Vector3(-6, 0, 0))
+	_put(s, DRAPE.panel("tbr_tabard_stripe_v1", 0.32, 0.30, 0.40, 0.05, 0.0, 2.0, 0.015, 0.06, 0.0, 0.02,
+		Rect2(-0.3, 0.0, 0.6, 1.0), 0.006, 1), cdark, Vector3(0, 1.17, 0.255), Vector3(-6, 0, 0))
+	_put(s, DRAPE.panel("tbr_cape_v3", 0.44, 0.64, 0.50, -0.12, -0.03, 3.0, 0.06, 0.05, 0.05, 0.02),
+		cloth, Vector3(0, 1.20, -0.35), Vector3(38, 0, 0))
+	_put(s, DRAPE.panel("tbr_cape_stripe_v3", 0.44, 0.64, 0.50, -0.12, -0.03, 3.0, 0.06, 0.05, 0.05, 0.02,
+		Rect2(-0.24, 0.0, 0.48, 1.0), -0.028, -1), cdark, Vector3(0, 1.20, -0.35), Vector3(38, 0, 0))
 	# the pale moss mantle over the shoulders (the pale shoulder read), bark pauldrons with two thorns each
 	MountModel.sculpt_fringe(s, moss, MountModel.fringe_mesh("tbr_mantle_v1", 0.20, 0.18, 0.40, 0.34, 0.16, 0.0, 360.0, 9,
 		0.08, 0.025, 0.6), Vector3(0, 1.53, -0.01))
@@ -338,7 +348,7 @@ func _arm_l_sculpt(s: Dictionary) -> void:
 	var bark := m("nature_bark")
 	var dark := m("nature_bark_dark")
 	var skin := m("nature_skin")
-	var straw := m("nature_bell_cloth")
+	var straw := m("nature_straw")
 	var cloth := m("nature_cloth")
 	var thorn := m("nature_thorn")
 	var elbow := SH_L + Vector3(-0.01, -0.27, 0)
@@ -393,7 +403,7 @@ func _lance_sculpt(s: Dictionary) -> void:
 ## banner with a straw hem, a glowing blossom finial.
 func _crest_sculpt(s: Dictionary) -> void:
 	var cloth := m("nature_cloth")
-	var straw := m("nature_bell_cloth")
+	var straw := m("nature_straw")
 	var base := Vector3(0.18, 1.08, -0.26)
 	var top := Vector3(0.20, 2.46, -0.36)
 	_seg(s, m("nature_bark"), base, top, 0.024, 0.02, 5)

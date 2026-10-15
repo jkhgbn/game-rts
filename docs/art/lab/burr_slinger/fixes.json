@@ -1,6 +1,6 @@
 {
 	"asset": "burr_slinger",
-	"count": 2,
+	"count": 1,
 	"fixes": [
 		{
 			"changes": [
@@ -34,29 +34,12 @@
 				"x_m": "<= 0.7",
 				"z_m": "<= 0.7"
 			}
-		},
-		{
-			"changes": [],
-			"check": "R6cb",
-			"computed": false,
-			"measured": {
-				"value": "worst pair fire / nature (deutan): dE 11.3 on the team-colour area (normal vision 61.1; 168 px); deutan: fire / nature dE 11.3; protan: fire / nature dE 18.7; worst vs ground: nature colour (deutan) dE 3.9"
-			},
-			"predicted": {},
-			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.3): add a value step inside the team-colour area",
-			"rank": 2,
-			"status": "WARN",
-			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.3): add a value step inside the team-colour area",
-			"title": "Team colours for colour-blind players",
-			"wanted": {
-				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
-			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "nature",
-	"quality": 92.2,
+	"quality": 92.5,
 	"result": "WARN",
 	"scene": "res://art/units/nature/burr_slinger.tscn",
 	"tier": "soldier",
