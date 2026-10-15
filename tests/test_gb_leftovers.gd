@@ -8,7 +8,10 @@ extends SceneTree
 ##   FireBuildingLook.legacy keeps the old one;
 ## - the completion settle (BuildSettle): hall and small models carry the dust + glint emitters (no_ghost), the dust
 ##   tone is never bright, the flavour follows the kingdom, `play` fires both;
-## - ShadowDress marks its model's grass-free radius and GroundDetail reads it from the building's model().
+## - fog: an enemy building the local team does not see (VfxFog stand-in in group "fog") completes -> no settle; an own
+##   building under the same fog still settles;
+## - ShadowDress marks its model's grass-free radius and GroundDetail reads it from the building's model(), and
+##   GroundDetail.refresh_clears (public path) clears one circle of the bigger (dead-ground) radius round it.
 ## Run:  tools\godot_run.ps1 --headless --path . -s tests/test_gb_leftovers.gd --fixed-fps 60 --quit-after 1500
 
 const TASK_ID := "gb_leftovers"
@@ -41,6 +44,9 @@ var _hovel: Node3D
 var _legacy_stables: Node3D
 var _dead := {}
 var _frame := 0
+var _fog: Node
+var _fog_enemy: Node3D
+var _fog_own: Node3D
 var _errors: Array[String] = []
 
 
@@ -88,11 +94,14 @@ func _process(_delta: float) -> bool:
 		_check_stables()
 		_check_settle()
 		_check_grass_clear()
+		_setup_fog_settle()
 		for k: String in _forges:
 			var f := _forges[k] as Node
 			f.call(&"set_selected", true)
 			f.call(&"set_team_color", Color(0.25, 0.45, 0.85))
 			f.call(&"set_construction_progress", 0.5)
+	if _frame == 4:
+		_check_fog_settle()
 	if _frame == 5:
 		for k: String in _forges:
 			var f := _forges[k] as Node
@@ -197,6 +206,58 @@ func _check_settle() -> void:
 		"a pale dust colour is capped")
 
 
+## A stand-in building: `team`, `is_constructed()`, `model()` (= `m`), `target_radius()` (BuildSettle.building_of and
+## GroundDetail.refresh_clears only use these).
+func _stub_building(team: int, model: Node3D, at: Vector3) -> Node3D:
+	var gs := GDScript.new()
+	gs.source_code = "extends Node3D\nvar team: int = 0\nvar m: Node3D\nfunc is_constructed() -> bool:\n\treturn true\n" \
+		+ "func model() -> Node3D:\n\treturn m\nfunc target_radius() -> float:\n\treturn 3.0\n"
+	gs.reload()
+	var b := Node3D.new()
+	b.set_script(gs)
+	b.set(&"team", team)
+	b.position = at
+	root.add_child(b)
+	if model:
+		b.set(&"m", model)
+		if model.get_parent() == null:
+			b.add_child(model)
+	return b
+
+
+## Frame 3: a fog stand-in that sees nothing for the local team 0, an enemy (team 1) and an own Gloom Hall under it.
+## (VfxFog caches "no fog" for the frame, so the check runs on the next frame.)
+func _setup_fog_settle() -> void:
+	var fs := GDScript.new()
+	fs.source_code = "extends Node\nvar enabled: bool = true\nvar local_team: int = 0\n" \
+		+ "func is_visible(_team: int, _pos: Vector3) -> bool:\n\treturn false\n"
+	fs.reload()
+	_fog = Node.new()
+	_fog.set_script(fs)
+	root.add_child(_fog)
+	_fog.add_to_group(&"fog")
+	_fog_enemy = _stub_building(1, (load(HALLS["shadow"]) as PackedScene).instantiate() as Node3D, Vector3(0, 0, 80))
+	_fog_own = _stub_building(0, (load(HALLS["shadow"]) as PackedScene).instantiate() as Node3D, Vector3(20, 0, 80))
+
+
+## Frame 4: completing a site (0.5 -> 1) fires the settle only where the local team may see it.
+func _check_fog_settle() -> void:
+	for pair: Array in [[_fog_enemy, false, "an enemy building under fog"], [_fog_own, true, "an own building under fog"]]:
+		var model := (pair[0] as Node).get(&"m") as Node
+		var dust := model.get(&"_build_dust") as GPUParticles3D
+		var glint := model.get(&"_build_flash") as GPUParticles3D
+		_expect(BuildSettle.building_of(model) == pair[0], "BuildSettle finds the building of %s" % pair[2])
+		model.call(&"set_construction_progress", 0.5)
+		dust.emitting = false
+		glint.emitting = false
+		model.call(&"set_construction_progress", 1.0)
+		_expect(dust.emitting == pair[1] and glint.emitting == pair[1],
+			"%s: settle %s (dust %s, glint %s)" % [pair[2], "fires" if pair[1] else "stays hidden", dust.emitting, glint.emitting])
+	_fog.free()   # later frames (the forges' own completion) run without fog
+	_fog_enemy.queue_free()
+	_fog_own.queue_free()
+
+
 func _check_grass_clear() -> void:
 	var hall := _halls["shadow"] as Node3D
 	ShadowDress.attach_at(hall, {"radius": 6.3, "inner": 3.3, "top": 10.0}, 2)
@@ -214,6 +275,25 @@ func _check_grass_clear() -> void:
 	_expect(absf(r - 6.3 * ShadowDress.GRASS_CLEAR_K) < 0.01, "GroundDetail reads the model's clear radius (%.2f)" % r)
 	stub.set(&"m", _halls["fire"])
 	_expect(GroundDetail.model_clear_radius(stub) == 0.0, "no clear radius without dead ground")
+	stub.queue_free()
+	# Public path: refresh_clears round a building whose model has dead ground -> one circle, the dead-ground radius
+	# (bigger than target_radius() + 0.3). Headless GroundDetail builds nothing (no ground, no rings): refresh only.
+	var lone := (load(HALLS["shadow"]) as PackedScene).instantiate() as Node3D
+	var b := _stub_building(1, lone, Vector3(300, 0, 300))
+	ShadowDress.attach_at(lone, {"radius": 6.3, "inner": 3.3, "top": 10.0}, 2)
+	b.add_to_group(&"buildings")
+	var gd := GroundDetail.new()
+	root.add_child(gd)
+	gd.refresh_clears(Vector3(300, 0, 300), 30.0)
+	var cl: Array[Vector4] = gd.clear_list()
+	_expect(cl.size() == 1, "refresh_clears: one circle round the Shadow building (got %d)" % cl.size())
+	if cl.size() == 1:
+		_expect(absf(cl[0].z - 6.3 * ShadowDress.GRASS_CLEAR_K) < 0.01 and cl[0].z > 3.3,
+			"refresh_clears: the dead-ground radius %.2f wins over target_radius + 0.3 (got %.2f)" % [6.3 * ShadowDress.GRASS_CLEAR_K, cl[0].z])
+		_expect(absf(cl[0].x - 300.0) < 0.01 and absf(cl[0].y - 300.0) < 0.01, "refresh_clears: circle at the building")
+	b.remove_from_group(&"buildings")
+	gd.queue_free()
+	b.queue_free()
 
 
 func _vertex_count(n: Node) -> int:
