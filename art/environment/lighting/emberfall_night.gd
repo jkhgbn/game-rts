@@ -111,6 +111,7 @@ static func fade_to(level: Node, preset: LightingPreset, seconds: float, while_p
 	var from := rig.preset
 	var env_from := from.environment
 	var env := env_from.duplicate(true) as Environment   # blended in place, then replaced by the preset's own
+	rig.apply_quality_to(env, env_from)   # keep the graphics tier (SSAO, mist...) during the blend
 	rig.world_environment.environment = env
 	var sky_from := _sky_values(env_from)
 	var sky_to := _sky_values(preset.environment)

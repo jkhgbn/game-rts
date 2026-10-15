@@ -197,3 +197,9 @@ powershell -NoProfile -File tools\ci\test_select_tests.ps1   # must print PASS (
 tools\ci\measure_selection.ps1 -Commits 10        # per-commit old / reach / near numbers (agents cannot run git)
 ```
 All files are LF like the originals. Numbers and usage: the agent's report and the updated ci-suite skill.
+
+## From tech-artist G1 (graphics tiers on the lighting rig, 2026-10-15)
+- `docs/art/lab/g1_lighting/` got 16 `*.png.import` files from an editor import before I added its `.gdignore`; they are junk (delete them, do not commit them).
+- Ultra's GPU margin is thin (~15 ms, ~65 fps on the 3070 Laptop); most of Ultra's extra cost over High is the viewport's 8x MSAA (ui-coder, `GameSettings.apply_viewport_quality`). 4x MSAA + SMAA on Ultra would buy ~3-4 ms if a playtest shows dips.
+- `LightingRig.apply` now shows a per-rig copy of the preset Environment: missions that tint `rig.world_environment.environment` (mission_04 storm dusk, e5 `tint_light`) no longer leak the tint into the shared `world_env.tres` for the next mission in the same session.
+
