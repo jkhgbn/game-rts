@@ -18,10 +18,15 @@ extends Node3D
 ## Billboard materials use billboard_keep_scale, so ParticleProcessMaterial scale_min / scale_max are metres.
 ## Fog (2026-10-15, VfxFog): every burst / flash / ring / pillar / light is gated with the team of its source
 ## (`_fx_team`: attacker, dying unit, shooter); projectile trails re-check at VfxFog.RECHECK and collapse while hidden.
+## G-D combat feedback (2026-10-15, docs/art/gd_combat_feedback.md): at Medium / High / Ultra the child CombatFxG
+## (art/vfx/combat_g/) adds per-material hits (steel / flesh / bone / wood / ice / stone), kingdom death dissolves +
+## ground marks, building damage stages (66 / 33 %) and collapses with rubble; it replaces the melee / impact spark
+## and building debris bursts with its MultiMesh pieces. Low = exactly the look above (CombatFxG builds nothing).
 
 const META := &"combat_vfx"
 const SPELL_META := &"spell_vfx"
 const SUMMON_META := &"nature_vfx_summon"   # NatureVfx gives its summons their own wither death
+const HIT_META := &"_combat_vfx_hit"        # what a projectile hit (runtime, `_` = never saved)
 const RESCAN_INTERVAL := 1.0
 const SPAWNS_PER_FRAME := 10          # new particle bursts per frame, all looks together (deaths may exceed it)
 const BUILDING_HIT_GAP := 0.15        # seconds between two debris bursts on one building
@@ -133,6 +138,7 @@ var _n_lod := 0
 var _n_culled := 0
 var _n_flashes := 0
 
+var _g: CombatFxG                     # G-D layer (inactive at Low)
 var _soft_tex: GradientTexture2D
 var _leaf_tex: ImageTexture
 var _draw: Dictionary = {}            # draw key -> Mesh
@@ -143,11 +149,19 @@ func _ready() -> void:
 	global_transform = Transform3D.IDENTITY
 	_build_shared()
 	_build_looks()
+	_g = CombatFxG.new()
+	_g.name = "CombatFxG"
+	add_child(_g)
 	get_tree().node_added.connect(_on_node_added)
 	var events := get_node_or_null(^"/root/Events")
 	if events and events.has_signal(&"unit_died"):
 		events.connect(&"unit_died", _on_unit_died)
 	_rescan()
+
+
+## The G-D layer (CombatFxG) when it draws at the current tier, else null.
+func g_layer() -> CombatFxG:
+	return _g if _g != null and _g.active() else null
 
 
 ## Starts watching a node that has the Building / Unit / ItemPickup signals but no class (previews, tests).
@@ -223,6 +237,8 @@ func _hook(node: Variant) -> void:
 	if n.has_signal(&"damaged") and not n.has_signal(&"attack_landed"):
 		n.connect(&"damaged", _on_building_damaged.bind(n))
 		n.tree_exiting.connect(func() -> void: _building_last.erase(n), CONNECT_ONE_SHOT)
+		if n.has_signal(&"destroyed"):
+			n.connect(&"destroyed", _on_building_destroyed)
 	if n is ItemPickup or n.is_in_group(&"item_pickups"):
 		if n.has_signal(&"picked_up"):
 			n.connect(&"picked_up", _on_picked_up)
@@ -253,6 +269,8 @@ func _hook_projectile(node: Variant) -> void:
 		_tr_dirty[i] = 1
 		_tr_team[i] = team
 		_tr_shown[i] = 1 if VfxFog.ok(team, p.global_position) else 0
+	if p.has_signal(&"hit_unit"):
+		p.connect(&"hit_unit", _on_projectile_hit.bind(p), CONNECT_ONE_SHOT)
 	p.tree_exiting.connect(_on_projectile_gone.bind(p, kind, team), CONNECT_ONE_SHOT)
 
 
@@ -282,7 +300,10 @@ func _on_attack_landed(target: Variant, _amount: float, attacker: Node3D) -> voi
 	_flash(pos, ICE_FLASH if ice_k else GLOW[k].lerp(HOT[k], 0.4),
 			(1.4 if heavy else 1.05) * (ICE_HIT_SCALE if ice_k else 1.0),
 			0.16 * (ICE_HIT_LIFE if ice_k else 1.0), ICE_COOL + 0.6 if ice_k else 1.0)
-	if _live.size() < LOD_SPARKS and _near(pos):
+	var g := g_layer()
+	if g:
+		g.melee_hit(pos, dir, t, heavy, GLOW[k], _fx_team)
+	elif _live.size() < LOD_SPARKS and _near(pos):
 		_burst(StringName("spark_" + KIND_NAMES[k]), pos, dir, (1.25 if heavy else 1.0) * (0.6 if ice_k else 1.0))
 	else:
 		_n_lod += 1
@@ -304,10 +325,34 @@ func _on_projectile_gone(p: Projectile, kind: int, team: int = -1) -> void:
 	var ice_k := kind == Kind.ICE
 	_flash(pos, ICE_FLASH if ice_k else GLOW[kind].lerp(HOT[kind], 0.4), 0.75 * (ICE_HIT_SCALE if ice_k else 1.0),
 			0.14 * (ICE_HIT_LIFE if ice_k else 1.0), ICE_COOL + 0.5 if ice_k else 0.8)
-	if _live.size() < LOD_SPARKS and _near(pos):
+	var g := g_layer()
+	if g:
+		var hit: Variant = p.get_meta(HIT_META) if p.has_meta(HIT_META) else null
+		var target: Node3D = hit as Node3D if is_instance_valid(hit) else null
+		g.projectile_impact(pos, dir, target, _is_physical(p.source), GLOW[kind], team)
+	elif _live.size() < LOD_SPARKS and _near(pos):
 		_burst(StringName("impact_" + KIND_NAMES[kind]), pos, -dir, 0.6 if ice_k else 1.0)   # splash back toward the shooter
 	else:
 		_n_lod += 1
+
+
+## Remembers what a projectile hit (CombatFxG answers with that target's material when the projectile ends).
+func _on_projectile_hit(target: Node3D, _dealt: float, p: Projectile) -> void:
+	if is_instance_valid(p) and is_instance_valid(target):
+		p.set_meta(HIT_META, target)
+
+
+## Arrows, bolts, stones (a physical shooter) vs magic bolts.
+static func _is_physical(src: Variant) -> bool:
+	if not is_instance_valid(src):
+		return false
+	var id := ""
+	for f: StringName in [&"unit_type", &"building_type"]:
+		var t: Variant = (src as Object).get(f)
+		if t != null and is_instance_valid(t):
+			id = String((t as Object).get(&"id"))
+	return CombatFxG.is_physical_id(id)
+
 
 
 func _on_unit_died(unit: Variant) -> void:
@@ -353,6 +398,9 @@ func _on_unit_died(unit: Variant) -> void:
 		_:
 			_burst(&"dust", pos + Vector3.UP * 0.4, Vector3.FORWARD, s, true)
 			_burst(&"chunks_neutral", mid, Vector3.FORWARD, s * 0.8, true)
+	var g := g_layer()
+	if g:
+		g.unit_death(u, k, hero, _fx_team)
 	if hero:
 		_flash(mid + Vector3.UP * 0.3, LIGHT[k], 2.4, 0.4, 0.5)
 		_ring(pos, 0.4, 3.2, LIGHT[k], 0.55)
@@ -362,6 +410,9 @@ func _on_unit_died(unit: Variant) -> void:
 func _on_building_damaged(_amount: float, attacker: Variant, b: Node3D) -> void:
 	if not is_instance_valid(b) or not b.is_inside_tree():
 		return
+	var g := g_layer()
+	if g:
+		g.building_health(b, _kind_of(b, Kind.NEUTRAL))
 	var now := Time.get_ticks_msec()
 	if now - int(_building_last.get(b, -100000)) < int(BUILDING_HIT_GAP * 1000.0):
 		return
@@ -383,9 +434,25 @@ func _on_building_damaged(_amount: float, attacker: Variant, b: Node3D) -> void:
 		return
 	var k := _kind_of(b, Kind.NEUTRAL)
 	_flash(pos, Color(1.4, 1.2, 0.9), 0.9, 0.12, 0.6)
+	if g:
+		g.building_hit(b, pos, dir, k, _fx_team)
+		return
 	_burst(StringName("debris_" + KIND_NAMES[k]), pos, -dir)
 	if _live.size() < LOD_SECONDARY:
 		_burst(&"dust", pos + Vector3(0.0, -0.5, 0.0) - dir * 0.3, -dir, 1.1)
+
+
+## A building is destroyed (a cancelled site is not): the G layer's collapse (+ a warm light flash at High+).
+func _on_building_destroyed(b: Variant) -> void:
+	var g := g_layer()
+	if g == null or not is_instance_valid(b) or bool((b as Object).get(&"cancelled")):
+		return
+	var n := b as Node3D
+	var k := _kind_of(n, Kind.NEUTRAL)
+	g.building_collapse(n, k)
+	_fx_team = VfxFog.team_of(n)
+	if CombatFxG.tier_now() >= 2 and _in_view(n.global_position, 6.0):
+		_light_flash(n.global_position + Vector3.UP * 2.5, Color(1.0, 0.7, 0.4), 1.6, 12.0, 0.9)
 
 
 func _on_level_changed(unit: Variant, _level: int) -> void:
