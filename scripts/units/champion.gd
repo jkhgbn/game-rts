@@ -794,7 +794,8 @@ func _spawn_shot(target: Node3D) -> void:
 
 ## The world HP bar: gold frame, a black line inside it, a little taller than a soldier's (champions.md 9.C10).
 func _hp_bar_frame_style() -> Dictionary:
-	return {"color": HP_FRAME_GOLD, "height": HP_BAR_HEIGHT_CHAMPION, "frame": 0.03, "inner": 0.012}
+	return {"color": HP_FRAME_GOLD, "height": HP_BAR_HEIGHT_CHAMPION, "frame": 0.03, "inner": 0.012,
+			"fade_min": HP_BAR_FADE_MIN_HERO, "min_width": HP_BAR_MIN_WIDTH_HERO}
 
 
 ## Champions keep their bar on screen while alive (the gold frame tells them apart from soldiers).

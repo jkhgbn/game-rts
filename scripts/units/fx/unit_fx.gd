@@ -9,7 +9,11 @@ const RING_SHADER := "res://scripts/units/fx/selection_ring.gdshader"
 const BAR_SHADER := "res://scripts/units/fx/hp_bar.gdshader"
 const RING_PAD := 0.45        # the ring quad reaches radius + RING_PAD (band radius + 0.20 .. + 0.32, dashes to + 0.41)
 const RING_DASHES := 4.0      # own selection, High+
-const SOLDIER_FRAME := 0.022  # m, the thin black frame of a soldier's bar
+const SOLDIER_FRAME := 0.012  # m, the light dark edge of a unit's bar (G-F review 2: was a 0.022 m black frame)
+const SOLDIER_EDGE_ALPHA := 0.5   # opacity of that edge
+const SOLDIER_BACK_ALPHA := 0.6   # opacity of the empty part of a unit's bar (buildings keep 0.85)
+const FADE_HOLD := 2.0        # s after the last hit before a unit's bar fades (style "fade_min" < 1)
+const FADE_TIME := 0.5        # s to fade to fade_min
 const TRAIL_HOLD := 0.3       # s the recent-damage trail holds before draining
 const TRAIL_DRAIN := 0.5      # s to drain to the fill
 const TICK_HP := 100.0        # HP per segment tick
@@ -86,16 +90,23 @@ static func ring_mesh(radius: float) -> PlaneMesh:
 
 
 ## The shared HP bar material. `style` = Unit._hp_bar_frame_style() ({"color", "height", "frame", "inner"}; frame 0 =
-## the thin black soldier frame). `ramp` = green -> yellow -> red by fill (the player's own units).
+## the light soldier edge: SOLDIER_FRAME wide, SOLDIER_EDGE_ALPHA, lighter back). `ramp` = green -> yellow -> red by fill
+## (the player's own units). Optional "fade_min" (default 1 = never fades, buildings): the bar's opacity FADE_HOLD s
+## after the last hit (instance uniform `focus` 1 keeps it full).
 static func bar_material(fill_color: Color, ramp: bool, style: Dictionary, tier: int) -> ShaderMaterial:
 	var t := 2 if tier >= 2 else 0
 	var frame_m := float(style.get("frame", 0.0))
 	var inner_m := float(style.get("inner", 0.0))
 	var frame_color: Color = style.get("color", Color.BLACK)
+	var fade_min := clampf(float(style.get("fade_min", 1.0)), 0.0, 1.0)
+	var back_a := 0.85
 	if frame_m <= 0.0:
 		frame_m = SOLDIER_FRAME
 		inner_m = 0.0
-	var key := "%s|%d|%d|%s|%.3f|%.3f" % [fill_color.to_html(), int(ramp), t, frame_color.to_html(), frame_m, inner_m]
+		frame_color.a = SOLDIER_EDGE_ALPHA
+		back_a = SOLDIER_BACK_ALPHA
+	var key := "%s|%d|%d|%s|%.3f|%.3f|%.2f" % [fill_color.to_html(), int(ramp), t, frame_color.to_html(), frame_m,
+			inner_m, fade_min]
 	var mat: ShaderMaterial = _bar_mats.get(key)
 	if mat == null:
 		mat = ShaderMaterial.new()
@@ -108,6 +119,10 @@ static func bar_material(fill_color: Color, ramp: bool, style: Dictionary, tier:
 		mat.set_shader_parameter(&"inner_size", Vector2(inner_m, inner_m))
 		mat.set_shader_parameter(&"trail_hold", TRAIL_HOLD)
 		mat.set_shader_parameter(&"trail_drain", TRAIL_DRAIN)
+		mat.set_shader_parameter(&"back_color", Color(0.05, 0.05, 0.06, back_a))
+		mat.set_shader_parameter(&"fade_min", fade_min)
+		mat.set_shader_parameter(&"fade_hold", FADE_HOLD)
+		mat.set_shader_parameter(&"fade_time", FADE_TIME)
 		mat.set_shader_parameter(&"fx_now", now())
 		_bar_mats[key] = mat
 	return mat
@@ -146,10 +161,21 @@ static func trail_value(from: float, fill: float, t0: float, at: float) -> float
 	return lerpf(maxf(from, fill), fill, k)
 
 
-## A trail started: keeps the shared bar materials' fx_now ticking until every trail has drained (one tiny node at
-## the root, a handful of set_shader_parameter calls per frame, nothing per unit).
+## The bar opacity the shader shows at `at` for a last hit at `t0` (same curve as hp_bar.gdshader; focus = selected /
+## hovered keeps it full; fade_min 1 = never fades).
+static func bar_fade(t0: float, at: float, focus: bool, fade_min: float) -> float:
+	if focus:
+		return 1.0
+	var age := at - t0
+	age = 99.0 if age < -1.0 else maxf(age, 0.0)
+	return lerpf(1.0, fade_min, smoothstep(FADE_HOLD, FADE_HOLD + FADE_TIME, age))
+
+
+## A trail started: keeps the shared bar materials' fx_now ticking until every trail has drained and every hit bar has
+## faded (one tiny node at the root, a handful of set_shader_parameter calls per frame, nothing per unit).
 static func start_trail(from: Node) -> void:
-	_trail_until_ms = Time.get_ticks_msec() + int((TRAIL_HOLD + TRAIL_DRAIN) * 1000.0) + 100
+	var run_s := maxf(TRAIL_HOLD + TRAIL_DRAIN, FADE_HOLD + FADE_TIME)
+	_trail_until_ms = Time.get_ticks_msec() + int(run_s * 1000.0) + 100
 	if _clock != null and is_instance_valid(_clock):
 		if not _clock.is_processing():   # asleep: fx_now is stale, push once; a running clock pushes every frame
 			_push_now()

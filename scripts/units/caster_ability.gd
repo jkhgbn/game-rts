@@ -1249,7 +1249,7 @@ void fragment() {
 	_mana_bar = MeshInstance3D.new()
 	_mana_bar.name = "ManaBar"
 	var quad := QuadMesh.new()
-	quad.size = Vector2(maxf(1.0, unit.radius * 2.6), MANA_BAR_HEIGHT)
+	quad.size = Vector2(unit.hp_bar_width(), MANA_BAR_HEIGHT)
 	_mana_bar.mesh = quad
 	_mana_bar.material_override = _mana_mat
 	_mana_bar.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

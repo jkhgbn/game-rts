@@ -80,7 +80,15 @@ const MAX_ATTACK_WINDUP := 0.15      # D2: a ranged shot leaves at most this lon
 const MOVING_THRESHOLD := 0.3        # set_moving: below this the model idles
 const MOVING_HYSTERESIS := 0.3       # set_moving is only called when the speed changes this much
 const DEATH_FALLBACK_TIME := 2.0     # the corpse goes even if the model never emits death_finished
-const HP_BAR_HEIGHT := 0.16          # world HP bar (m), billboard at body_height + 0.5
+const HP_BAR_HEIGHT := 0.1           # world HP bar (m), billboard at body_height + 0.5 (G-F review 2: was 0.16)
+const HP_BAR_WIDTH_BASE := 0.25      # bar width = base + radius x per-radius, clamped (sized by the unit, G-F review 2)
+const HP_BAR_WIDTH_PER_RADIUS := 1.2
+const HP_BAR_WIDTH_MIN := 0.6
+const HP_BAR_WIDTH_MAX := 2.6
+const HP_BAR_FADE_MIN := 0.35        # bar opacity UnitFx.FADE_HOLD s after the last hit (full on hit / hover / selection)
+const HP_BAR_FADE_MIN_HERO := 0.6    # wizards / champions keep a stronger bar
+const HP_BAR_MIN_WIDTH_HERO := 1.0
+const HP_BAR_HEIGHT_HERO := 0.12
 
 # ---- Timed statuses (spells.md "Statuses", kingdom-ice.md 2.1): a stat modifier "status_<id>" +
 # damage taken multiplier. Optional keys: "cooldown_mult" (multiplies the final attack cooldown, so it
@@ -300,6 +308,8 @@ var _bar_ticks := -1.0
 var _trail_from := 0.0           # recent-damage trail (hp_bar.gdshader): fill before the hit, UnitFx.now() at the hit
 var _trail_t0 := -100.0
 var _bar_hp := -1.0              # hp at the last bar update: a trail starts only when hp itself dropped
+var _bar_focus := -1             # last `focus` sent (1 = selected / hovered: full opacity)
+var _bar_hover := false          # set_hp_bar_hover (the unit under the cursor)
 
 var _has_move_order := false
 var _attack_move := false        # walking to _attack_move_target, fighting enemies met on the way
@@ -2682,7 +2692,34 @@ func _update_hp_bar() -> void:
 	if ticks != _bar_ticks:
 		_bar_ticks = ticks
 		_hp_bar.set_instance_shader_parameter(&"tick_step", ticks)
+	var focus := 1 if (selected or _bar_hover) else 0
+	if focus != _bar_focus:
+		_bar_focus = focus
+		_hp_bar.set_instance_shader_parameter(&"focus", float(focus))
 	_hp_bar.visible = not _dead and (selected or hp < max_hp or shield > 0.0 or _hp_bar_always_visible())
+
+
+## The unit is under the cursor (the UI calls it): its HP bar stays at full opacity (no fade) while true.
+func set_hp_bar_hover(on: bool) -> void:
+	if on == _bar_hover:
+		return
+	_bar_hover = on
+	_update_hp_bar()
+
+
+## The world HP bar's width (m): sized by the unit (soldiers short, heavies / titans wide), at least the style's
+## "min_width" (heroes, champions).
+func hp_bar_width() -> float:
+	var w := clampf(HP_BAR_WIDTH_BASE + radius * HP_BAR_WIDTH_PER_RADIUS, HP_BAR_WIDTH_MIN, HP_BAR_WIDTH_MAX)
+	return maxf(w, float(_hp_bar_frame_style().get("min_width", 0.0)))
+
+
+## The world HP bar's opacity now (0-1, same curve as the shader; read only, tests / UI).
+func hp_bar_opacity() -> float:
+	if _hp_bar == null or not _hp_bar.visible:
+		return 0.0
+	var fade_min := float(_hp_bar_frame_style().get("fade_min", HP_BAR_FADE_MIN))
+	return UnitFx.bar_fade(_trail_t0, UnitFx.now(), selected or _bar_hover, fade_min)
 
 
 ## Subclasses return true to show the world HP bar even at full HP and unselected (champions).
@@ -2690,10 +2727,11 @@ func _hp_bar_always_visible() -> bool:
 	return false
 
 
-## The look of the world HP bar frame: {"color": Color, "height": m, "frame": m, "inner": m} ("inner" =
-## a black line inside the frame). Soldiers: a thin black frame. Champion overrides it (gold, task 9.C10).
+## The look of the world HP bar frame: {"color": Color, "height": m, "frame": m, "inner": m, "fade_min": opacity after
+## the last hit, "min_width": m} ("inner" = a black line inside the frame). Soldiers: a light dark edge (frame 0).
+## Champion (gold, task 9.C10) and Wizard override it.
 func _hp_bar_frame_style() -> Dictionary:
-	return {"color": Color.BLACK, "height": HP_BAR_HEIGHT, "frame": 0.0, "inner": 0.0}
+	return {"color": Color.BLACK, "height": HP_BAR_HEIGHT, "frame": 0.0, "inner": 0.0, "fade_min": HP_BAR_FADE_MIN}
 
 
 ## Colour of the world HP bar frame (black; gold on champions). Read only (UI / tests).
@@ -2840,7 +2878,7 @@ func _build_hp_bar() -> void:
 	if _hp_shader == null:
 		_hp_shader = UnitFx.bar_shader()
 	var style := _hp_bar_frame_style()
-	var bar_size := Vector2(max(1.0, radius * 2.6), float(style.get("height", HP_BAR_HEIGHT)))
+	var bar_size := Vector2(hp_bar_width(), float(style.get("height", HP_BAR_HEIGHT)))
 	_hp_mat = UnitFx.bar_material(team_hp_color(team), team == Team.PLAYER, style, _gfx_tier)
 	_hp_bar = MeshInstance3D.new()
 	_hp_bar.name = "HPBar"

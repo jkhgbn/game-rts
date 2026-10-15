@@ -103,6 +103,12 @@ func _init() -> void:
 	projectile_color = Color(1.0, 0.55, 0.15)
 
 
+## The world HP bar: a little stronger than a soldier's (G-F review 2 item 1): taller, at least 1 m wide, fades less.
+func _hp_bar_frame_style() -> Dictionary:
+	return {"color": Color.BLACK, "height": HP_BAR_HEIGHT_HERO, "frame": 0.0, "inner": 0.0,
+			"fade_min": HP_BAR_FADE_MIN_HERO, "min_width": HP_BAR_MIN_WIDTH_HERO}
+
+
 func _ready() -> void:
 	super._ready()
 	if has_method(&"set_base_stat"):   # Stats pipeline: mana stats get a base like the others

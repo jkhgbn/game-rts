@@ -9,8 +9,11 @@
 //   3 trail_t0    UnitFx.now() at that hit; the trail holds TRAIL_HOLD s then drains to the fill in TRAIL_DRAIN s
 //   4 tick_step   100 HP as a fraction of the bar (0 = no ticks; only max_hp >= 400, drawn at gfx_tier 2+)
 //   5 bar_size    the quad's size in metres (rounded ends, frame widths)
+//   6 focus       1 = the unit is selected / under the cursor: the bar stays at full opacity (G-F review 2 item 1)
 // Material uniforms: frame_color / frame_size (m) / inner_size (m) keep the champion gold frame (Unit._hp_bar_frame_style),
-// ramp_k 1 = own units go green -> yellow -> red with the fill, fx_now = UnitFx clock (UnitFx.Clock, only while a trail runs).
+// ramp_k 1 = own units go green -> yellow -> red with the fill, fx_now = UnitFx clock (UnitFx.Clock, only while a trail
+// or a fade runs). fade_min < 1 (units): the bar fades to fade_min opacity fade_hold s after the last hit (trail_t0),
+// over fade_time s; a new hit or focus brings it back to full. Buildings keep fade_min 1 (never fade).
 shader_type spatial;
 render_mode unshaded, cull_disabled, depth_draw_never, depth_test_disabled, shadows_disabled;
 
@@ -24,6 +27,9 @@ uniform int gfx_tier = 0;
 uniform float fx_now = 0.0;
 uniform float trail_hold = 0.3;
 uniform float trail_drain = 0.5;
+uniform float fade_min = 1.0;
+uniform float fade_hold = 2.0;
+uniform float fade_time = 0.5;
 
 instance uniform float fill : instance_index(0) = 1.0;
 instance uniform float shield_end : instance_index(1) = 0.0;
@@ -31,6 +37,7 @@ instance uniform float trail_from : instance_index(2) = 0.0;
 instance uniform float trail_t0 : instance_index(3) = -100.0;
 instance uniform float tick_step : instance_index(4) = 0.0;
 instance uniform vec2 bar_size : instance_index(5) = vec2(1.0, 0.16);
+instance uniform float focus : instance_index(6) = 0.0;
 
 void vertex() {
 	// Always face the camera (billboard).
@@ -64,6 +71,9 @@ void fragment() {
 	float dk = clamp((age - trail_hold) / trail_drain, 0.0, 1.0);
 	dk = dk * dk * (3.0 - 2.0 * dk);
 	float trail = mix(max(trail_from, fill), fill, dk);
+	// Fade after the last hit (same age as the trail; no hit yet = faded), full while focused.
+	float fade = mix(1.0, fade_min, smoothstep(fade_hold, fade_hold + fade_time, age));
+	fade = max(fade, step(0.5, focus));
 
 	// Fill colour: own units ramp green -> yellow -> red with the fill; other teams keep their colour.
 	vec3 red = vec3(0.92, 0.18, 0.12);
@@ -101,5 +111,5 @@ void fragment() {
 	c = mix(c, fr, k_frame);
 	a = mix(a, frame_color.a, k_frame);
 	ALBEDO = c;
-	ALPHA = a * shape;
+	ALPHA = a * shape * fade;
 }
