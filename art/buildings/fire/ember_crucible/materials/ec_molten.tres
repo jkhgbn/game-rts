@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3]
 
-[ext_resource type="Shader" path="res://art/units/kit/unit_glow.gdshader" id="1_ec"]
+[ext_resource type="Shader" path="res://art/buildings/fire/ember_crucible/crucible_glow.gdshader" id="1_ec"]
 
 [resource]
 resource_name = "ec_molten"

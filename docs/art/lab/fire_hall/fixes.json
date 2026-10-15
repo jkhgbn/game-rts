@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "fire",
-	"quality": 91.5,
+	"quality": 91.2,
 	"result": "PASS",
 	"scene": "res://art/buildings/fire_hall.tscn",
 	"tier": "hall",

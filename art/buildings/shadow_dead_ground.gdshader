@@ -81,7 +81,11 @@ void fragment() {
 	// Soul-fire veins: the big cracks near the walls, breathing outward.
 	float near = 1.0 - smoothstep(inner, inner + 2.4 + 1.6 * damage, r);
 	float breath = 0.55 + 0.45 * sin(TIME * 1.4 - r * 0.9 + seed);
-	float vein = crack * near * breath * (1.0 - scorch * 0.75) * build;
+	// G-F round 2 (gf_review2 item 8): a site reads as worked slate earth (value ~0.2), not a black hole; the lift
+	// fades out as the building rises (build 1 = the G-B look). Faint veins from the first frame.
+	float site = 1.0 - smoothstep(0.0, 0.85, build);
+	col = mix(col, col * 1.7 + vec3(0.05, 0.045, 0.055), site);
+	float vein = crack * near * breath * (1.0 - scorch * 0.75) * max(build, 0.3 * (1.0 - scorch));
 	ALBEDO = col;
 	ROUGHNESS = 1.0;
 	EMISSION = glow_color.rgb * vein * vein_energy * (1.0 + damage);

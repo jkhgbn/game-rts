@@ -8,8 +8,16 @@ signal destroyed_finished
 const PVC := preload("res://art/buildings/painted_vc.gd")
 const DEFAULT_TEAM := Color(0.42, 0.22, 0.60)
 const GLOW_DEFAULT := Color(0.70, 0.30, 1.00)
-const IDLE_RIM := Color(0.62, 0.42, 1.00) # 3.V2b: purple rim so the dark needle reads at 40 m
-const IDLE_RIM_STRENGTH := 0.55
+const IDLE_RIM := Color(0.55, 0.5, 0.7) # 3.V2b rim so the dark needle reads at 40 m (G-F r2: slate lilac, was 0.62 0.42 1.0)
+const IDLE_RIM_STRENGTH := 0.45
+## G-F round 2 (docs/art/gf_r2_buildings_fs.md, gf_review2 item 3): the keep's two lights tinted the whole body violet
+## (the default team kept a full-saturation spire light, other teams a lightened one, so the player's keep was the
+## loudest object in a mirror). Both lights now take the team glow graded to LIGHT_SAT for every team, and the spire
+## light is dimmer: the sides differ by hue, not by saturation. The glow parts (seams, slits, eye) keep the full glow.
+const LIGHT_SAT := 0.4
+const SPIRE_ENERGY := 1.3
+const GATE_ENERGY := 1.0
+const CRACK_ENERGY := 0.7   ## emission of the merged body's violet veins (painted_vc crack_energy; 1 = before)
 const RING_SPEED := deg_to_rad(-8.0)
 const SHARD_SPIN := deg_to_rad(-20.0)
 ## Rune ring emission (G-E fixes D: 3.0 -> 1.0, under the glow cap's knee; the violet glows are accents, not panels); halved under 50 % HP.
@@ -213,6 +221,7 @@ func _merge_painted() -> void:
 	_add_tiers()
 	var body: ShaderMaterial = _painted_mats[0]
 	PVC.convert(self, body, [], holes)
+	body.set_shader_parameter(&"crack_energy", CRACK_ENERGY)   # G-F round 2: the needle veins are seams, not panels
 	# B2 (keep: <= 32 draws): now that they share one material, fold four static painted parts into their neighbour
 	# (same material, same place): the cap into the body, the buttresses into the body, the arch into the gate
 	# frame, the collars into the watch-needle (they tilt with it). One mesh each, baked once for every keep.
@@ -381,8 +390,8 @@ func _process(delta: float) -> void:
 	if _agitated:
 		breath = 0.75 + 0.25 * sin(_t * TAU * 4.0)
 	var p: float = _progress
-	_spire_light.light_energy = 2.0 * breath * p
-	_gate_light.light_energy = 1.2 * (0.85 + 0.15 * sin(_t * 2.1)) * p * (2.0 if _pulse_t < 0.3 else 1.0)
+	_spire_light.light_energy = SPIRE_ENERGY * breath * p
+	_gate_light.light_energy = GATE_ENERGY * (0.85 + 0.15 * sin(_t * 2.1)) * p * (2.0 if _pulse_t < 0.3 else 1.0)
 	_process_tiers(delta)
 
 
@@ -431,8 +440,8 @@ func set_team_color(c: Color) -> void:
 	_ground_mat.set_shader_parameter(&"glow_color", glow)
 	(_burst.process_material as ParticleProcessMaterial).color = glow
 	(_build_ring.process_material as ParticleProcessMaterial).color = glow
-	_spire_light.light_color = Color(0.60, 0.30, 1.00) if is_default else glow
-	_gate_light.light_color = glow
+	_spire_light.light_color = light_tint(glow)
+	_gate_light.light_color = light_tint(glow)
 	if _dress:
 		_dress.set_glow(glow)
 	_apply_rim()
@@ -610,7 +619,7 @@ func play_destroyed() -> void:
 	_spire_light.light_energy = 6.0
 	var tw := create_tween().set_parallel(true)
 	# 0.0-0.15 flash, 0.0-0.6 shard rises 2 m and spins 180 deg/s.
-	tw.tween_property(_spire_light, "light_energy", 2.0, 0.15).set_delay(0.0)
+	tw.tween_property(_spire_light, "light_energy", SPIRE_ENERGY, 0.15).set_delay(0.0)
 	tw.tween_property(_shard, "position:y", _shard.position.y + 2.0, 0.6).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tw.tween_property(_shard, "rotation:y", _shard.rotation.y + PI * 0.6, 0.6)
 	# 0.6 shard bursts, rune ring off.
@@ -656,8 +665,8 @@ func play_destroyed() -> void:
 		_mist2.emitting = true
 		_rubble2.visible = true).set_delay(2.2)
 	# 2.2-3.0 lights fade to 30 %, the ground turns purple-black, debris grows.
-	tw.tween_property(_spire_light, "light_energy", 2.0 * 0.3, 0.8).set_delay(2.2)
-	tw.tween_property(_gate_light, "light_energy", 1.2 * 0.3, 0.8).set_delay(2.2)
+	tw.tween_property(_spire_light, "light_energy", SPIRE_ENERGY * 0.3, 0.8).set_delay(2.2)
+	tw.tween_property(_gate_light, "light_energy", GATE_ENERGY * 0.3, 0.8).set_delay(2.2)
 	tw.tween_method(func(v: float) -> void: _ground_mat.set_shader_parameter(&"scorch", v), 0.0, 1.0, 0.8).set_delay(2.2)
 	tw.tween_property(_rubble, "scale", Vector3(1.1, 1.6, 1.1), 0.8).set_delay(2.2)
 	for m: ShaderMaterial in _painted_mats:
@@ -721,6 +730,11 @@ func _fire_burst(pos: Vector3, dir: Vector3, spread: float, v_min: float, v_max:
 func _fire_dust(model_y: float) -> void:
 	_dust.position = Vector3(0.0, model_y * VIS, 0.0)
 	_dust.restart()
+
+
+## G-F round 2: a team glow graded for the keep's lights (hue kept, saturation <= LIGHT_SAT).
+static func light_tint(glow: Color) -> Color:
+	return Color.from_hsv(glow.h, minf(glow.s, LIGHT_SAT), glow.v)
 
 
 func _glow_color() -> Color:

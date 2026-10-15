@@ -1,0 +1,13 @@
+{
+	"asset": "shadow_forge",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "shadow",
+	"quality": 90.2,
+	"result": "PASS",
+	"scene": "res://art/buildings/forge/shadow/shadow_forge.tscn",
+	"tier": "hall",
+	"version": "1.0"
+}

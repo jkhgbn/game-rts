@@ -1,0 +1,13 @@
+{
+	"asset": "fire_keep",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "building",
+	"kingdom": "fire",
+	"quality": 92.2,
+	"result": "PASS",
+	"scene": "res://art/buildings/fire_keep.tscn",
+	"tier": "keep",
+	"version": "1.0"
+}

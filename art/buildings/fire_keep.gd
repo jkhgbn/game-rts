@@ -12,8 +12,14 @@ extends Node3D
 
 signal destroyed_finished
 
-const RING_Y := 14.0
-const HEART_Y := 16.2
+## G-F round 2 (docs/art/gf_r2_buildings_fs.md, gf_review2 item 4): the crown (spire claws, Ember Heart, rune band,
+## crystal ring) is 25 % lower and slimmer than the baked .tscn, so the keep stays the landmark without filling the
+## start view. Applied at run time (_crown_fit): the .tscn keeps the builder's output (HEART_Y 16.2, RING_Y 14.0).
+const CROWN_BASE := 12.0      ## the spire's foot (donjon parapet top)
+const CROWN_SQUASH := 0.75    ## crown height x this
+const CROWN_SLIM := 0.82      ## crown width (claws, heart, rune band, crystal ring radius) x this
+const RING_Y := CROWN_BASE + (14.0 - CROWN_BASE) * CROWN_SQUASH
+const HEART_Y := CROWN_BASE + (16.2 - CROWN_BASE) * CROWN_SQUASH
 const RING_SPEED_DEG := 12.0
 const RING_LIMP_DEG := 6.0
 const RUNE_SPEED_DEG := -24.0
@@ -155,6 +161,7 @@ func _ready() -> void:
 		_slot_cracks = PackedFloat32Array(painted_materials[0].get_shader_parameter(&"crack_strengths"))
 		if _slot_cracks.size() > STONE_SLOT:
 			_stone_crack = _slot_cracks[STONE_SLOT]
+	_crown_fit()
 	_collect_parts()
 	_build_state_nodes()
 	_gb_setup()
@@ -180,9 +187,9 @@ func _process(delta: float) -> void:
 	if _ring_appear < 1.0:
 		_ring_appear = minf(_ring_appear + delta / 0.5, 1.0)
 		var s: float = maxf(ease(_ring_appear, 0.4), 0.01)
-		_ring.scale = Vector3.ONE * s
-		_heart.scale = Vector3.ONE * s
-		_rune_tilt.scale = Vector3.ONE * s
+		_ring.scale = Vector3.ONE * s * CROWN_SLIM
+		_heart.scale = Vector3.ONE * s * CROWN_SLIM
+		_rune_tilt.scale = Vector3.ONE * s * CROWN_SLIM
 	var spin: float = deg_to_rad(CRYSTAL_SPIN_DEG) * delta
 	for c: Node3D in _crystals:
 		c.rotation.y += spin
@@ -246,9 +253,9 @@ func set_construction_progress(p: float) -> void:
 	if floating and not _ring.visible:
 		_ring_appear = 0.0 if building or _was_building else 1.0
 		var s: float = 0.01 if _ring_appear < 1.0 else 1.0
-		_ring.scale = Vector3.ONE * s
-		_heart.scale = Vector3.ONE * s
-		_rune_tilt.scale = Vector3.ONE * s
+		_ring.scale = Vector3.ONE * s * CROWN_SLIM
+		_heart.scale = Vector3.ONE * s * CROWN_SLIM
+		_rune_tilt.scale = Vector3.ONE * s * CROWN_SLIM
 	_ring.visible = floating
 	_heart.visible = floating
 	_rune_tilt.visible = floating
@@ -319,11 +326,11 @@ func play_destroyed() -> void:
 	if lava_material:
 		lava_material.set_shader_parameter(&"lava_agitation", 1.0)
 	_ring.visible = true
-	_ring.scale = Vector3.ONE
+	_ring.scale = Vector3.ONE * CROWN_SLIM
 	_heart.visible = true
-	_heart.scale = Vector3.ONE
+	_heart.scale = Vector3.ONE * CROWN_SLIM
 	_rune_tilt.visible = true
-	_rune_tilt.scale = Vector3.ONE
+	_rune_tilt.scale = Vector3.ONE * CROWN_SLIM
 
 
 ## Selection (8.6): team rim on every painted material, glow boost 1.4 on glow parts.
@@ -453,6 +460,22 @@ func _collect_parts() -> void:
 	_spire_xf = _spire.transform
 
 
+## G-F round 2: the lower, slimmer crown (see CROWN_SQUASH). The spire claws squash about their foot, the floating
+## parts sit at the new RING_Y / HEART_Y (the per-frame bob uses them) and scale by CROWN_SLIM; the heart's light and
+## sparks follow. Runs once in _ready, before _collect_parts (the construction rise reads the new top).
+func _crown_fit() -> void:
+	_spire.scale = Vector3(CROWN_SLIM, CROWN_SQUASH, CROWN_SLIM)
+	_spire.position.y = CROWN_BASE
+	for n: Node3D in [_ring, _heart, _rune_tilt]:
+		n.scale = Vector3.ONE * CROWN_SLIM
+	_ring.position.y = RING_Y
+	_heart.position.y = HEART_Y
+	_rune_tilt.position.y = HEART_Y
+	_heart_light.position.y = CROWN_BASE + (_heart_light.position.y - CROWN_BASE) * CROWN_SQUASH
+	var sparks: Node3D = _idle_fx[3]
+	sparks.position.y = HEART_Y
+
+
 ## Squash part i vertically about height `b` (Body space), with an optional offset (rumble).
 func _squash(i: int, s: float, b: float, offset: Vector3) -> void:
 	var sq := Transform3D(Basis.from_scale(Vector3(1.0, s, 1.0)), Vector3(0.0, b * (1.0 - s), 0.0) + offset)
@@ -526,7 +549,7 @@ func _process_destroyed(delta: float) -> void:
 		_heart.position = shake * 0.6 + Vector3(0.0, HEART_Y + 0.8 * k, 0.0)
 		_rune_tilt.position = _heart.position
 		_runes.rotation.y += deg_to_rad(RUNE_SPEED_DEG * 6.0) * delta
-		_rune_tilt.scale = Vector3.ONE * (1.0 + 0.5 * k)
+		_rune_tilt.scale = Vector3.ONE * (CROWN_SLIM * (1.0 + 0.5 * k))
 		crystal_material.set_shader_parameter(&"core_boost", 1.0 + 2.0 * k)  # crystals + heart
 		heart_material.set_shader_parameter(&"core_boost", 1.0 + 2.0 * k)
 		if rune_material:
@@ -544,7 +567,7 @@ func _process_destroyed(delta: float) -> void:
 	if t >= 0.6 and not _spire_down:
 		var k2: float = clampf((t - 0.6) / 0.9, 0.0, 1.0)
 		var kk: float = k2 * k2
-		_spire.transform = Transform3D(Basis(Vector3.RIGHT, deg_to_rad(-78.0) * kk),
+		_spire.transform = Transform3D(Basis(Vector3.RIGHT, deg_to_rad(-78.0) * kk) * _spire_xf.basis,
 			_spire_xf.origin + Vector3(0.0, -9.3 * kk, -1.2 * kk))
 		if k2 >= 1.0:
 			_spire_down = true

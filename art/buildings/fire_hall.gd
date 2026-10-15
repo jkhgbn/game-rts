@@ -533,7 +533,16 @@ func _build_structure() -> void:
 	_merged("ChimneyStack", "chimney_stack", it, chimney)
 	it = []
 	it.append(BMG.item(_cyl(1.55, 1.05, 0.8, 4), Vector3(0, 7.6, 0), mat_dark, Vector3(0, 45, 0)))
-	it.append(BMG.item(box1, Vector3(0, 7.93, 0), mat_glow, Vector3.ZERO, Vector3(1.35, 0.3, 1.35)))
+	# G-F round 2 (docs/art/gf_r2_buildings_fs.md, gf_review2 item 4): the coal bed burned to a white square under its
+	# additive flames from the start view. It sits a little deeper in the crown, glows under the cap's knee (its own
+	# dimmer glow channel) and the flames over it are fewer and smaller (below).
+	var coals: ShaderMaterial = _glow_mat(1.1, 1.4, 0)
+	it.append(BMG.item(box1, Vector3(0, 7.8, 0), coals, Vector3.ZERO, Vector3(1.2, 0.3, 1.2)))
+	for lump: Vector3 in [Vector3(-0.32, 0, -0.2), Vector3(0.28, 0, -0.34), Vector3(0.05, 0, 0.3), Vector3(-0.38, 0, 0.36),
+			Vector3(0.4, 0, 0.22)]:
+		# dark clinker lumps break the glowing square into a coal bed
+		it.append(BMG.item(box1, lump + Vector3(0, 7.97, 0), mat_dark, Vector3(lump.z * 40.0, lump.x * 90.0, 12.0),
+			Vector3(0.34, 0.12, 0.28)))
 	for c: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1)]:
 		var d := Vector3(c.x, 0.0, c.y).normalized()
 		var b: Basis = Basis(Vector3.UP.cross(d).normalized(), deg_to_rad(24.0))
@@ -568,10 +577,10 @@ func _build_structure() -> void:
 	# Light: one flickering forge light at the furnace / gate.
 	_light = _omni(Vector3(0.9, 2.3, -3.4), 7.0)
 	# Idle particles: chimney flames + smoke, forge sparks, pipe smoke (~50).
-	var up_fire := _pm(Vector3.UP, 12.0, 1.2, 1.8, Vector3.ZERO, 0.6, 0.15, _fire_ramp)
+	var up_fire := _pm(Vector3.UP, 12.0, 1.0, 1.5, Vector3.ZERO, 0.42, 0.12, _fire_ramp)
 	up_fire.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
-	up_fire.emission_box_extents = Vector3(0.5, 0.05, 0.5)
-	_idle_fx.append(_particles("ChimneyFire", chimney, Vector3(0, 8.05, 0), 20, 0.7, up_fire, _add_quad, false))
+	up_fire.emission_box_extents = Vector3(0.45, 0.05, 0.45)
+	_idle_fx.append(_particles("ChimneyFire", chimney, Vector3(0, 8.05, 0), 12, 0.65, up_fire, _add_quad, false))
 	var sm := _pm(Vector3.UP, 10.0, 0.8, 1.1, Vector3(0.25, 0.0, 0.0), 0.6, 1.9,
 		_ramp(Color(smoke_color, 0.45), Color(smoke_color, 0.0), false))
 	_idle_fx.append(_particles("ChimneySmoke", chimney, Vector3(0, 8.6, 0), 12, 3.5, sm, _mix_quad, false))

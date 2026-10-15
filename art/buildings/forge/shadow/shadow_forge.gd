@@ -95,18 +95,11 @@ func _build_structure() -> void:
 	_merged("Walls", "walls", it)
 	# --- Roof: steep slate gable (alternating team / dark-team courses), spike crest, eave spikes.
 	it = []
-	mat_team_dark = _painted_mat(kingdom_color.darkened(1.0 - TEAM_DARK), 0.1, 0.0)
 	var eave: float = pt + S_WALL
 	var rise: float = 2.55
 	var half: float = SWX + 0.32
-	var first: int = it.size()
-	_gable_roof(it, SX, SZ, half, eave, rise, SWZ * 2.0 + 0.5, SWZ * 2.0 - 0.1, 5, mat_stone, mat_team, mat_metal, 0.0, 9.0)
-	var tile_n: int = 0
-	for i: int in range(first, it.size()):
-		if it[i][2] == mat_team:
-			if tile_n % 2 == 1:
-				it[i][2] = mat_team_dark
-			tile_n += 1
+	# G-F round 2 (gf_review2 item 3): the Gloom Hall's slate roof (ShadowHallModel._slate_roof), not flat planks.
+	_slate_roof(it, SX, SZ, half, eave, rise, SWZ * 2.0 + 0.5, SWZ * 2.0 - 0.1, 5, 0.6, 7740)
 	for i: int in 5:
 		it.append(BMG.item(_cyl(0.0, 0.16, 0.6, 4), Vector3(SX, eave + rise + 0.5, SZ - 1.4 + 0.7 * i), mat_metal,
 			Vector3(0, 45, 0)))

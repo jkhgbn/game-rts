@@ -1,171 +1,165 @@
 {
 	"asset": "dusk_keep",
-	"count": 1,
+	"count": 2,
 	"fixes": [
 		{
 			"changes": [
 				{
-					"factor": 0.116,
+					"factor": 0.097,
 					"from": 1.0,
 					"material": "DarkStone",
 					"material_path": "",
-					"node": "Model/LanternStems, Model/GateFrame, Model/Prism1, Model/WatchNeedle, Model/Shard/ShardMesh, Model/Shard/EyeOrbit/EyeShards",
+					"node": "Model/Body, Model/GateFrame, Model/LanternStems, Model/Prism1, Model/Plinth, Model/Shard/ShardMesh",
 					"param": "shader_parameter/crack_strength",
-					"peak_x_bloom": 6.46,
-					"to": 0.116,
+					"peak_x_bloom": 7.72,
+					"to": 0.097,
 					"want_x_bloom": 0.75,
-					"why": "dim under the bloom level: 15 point(s), peak 6.46 x the level",
-					"words": "crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Prism1, WatchNeedle (dim under the bloom level: 15 point(s), peak 6.46 x the level)"
+					"why": "dim under the bloom level: 15 point(s), peak 7.72 x the level",
+					"words": "crack_strength 1.0 -> 0.1 on Body, GateFrame, LanternStems, Prism1 (dim under the bloom level: 15 point(s), peak 7.72 x the level)"
 				}
 			],
 			"check": "R5",
 			"computed": true,
 			"measured": {
-				"points": 27,
+				"points": 20,
 				"points_this_phase": 30,
 				"spots": [
 					{
 						"above": true,
 						"part": "Model/Shard/ShardCore",
-						"peak_x_bloom": 8.0,
-						"px": 893
+						"peak_x_bloom": 7.72,
+						"px": 898
 					},
 					{
 						"above": true,
 						"part": "Model/LanternOrb2",
-						"peak_x_bloom": 3.2,
+						"peak_x_bloom": 3.11,
 						"px": 305
 					},
 					{
 						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 3.55,
-						"px": 199
+						"part": "Model/LanternOrb1",
+						"peak_x_bloom": 3.14,
+						"px": 196
 					},
 					{
 						"above": true,
-						"part": "Model/LanternOrb3",
-						"peak_x_bloom": 3.17,
-						"px": 169
+						"part": "Model/Body",
+						"peak_x_bloom": 3.14,
+						"px": 188
+					},
+					{
+						"above": true,
+						"part": "Model/Body",
+						"peak_x_bloom": 3.14,
+						"px": 180
+					},
+					{
+						"above": true,
+						"part": "Model/Thorns",
+						"peak_x_bloom": 3.14,
+						"px": 170
+					},
+					{
+						"above": true,
+						"part": "Model/FinTips",
+						"peak_x_bloom": 3.14,
+						"px": 166
 					},
 					{
 						"above": true,
 						"part": "Model/GateFrame",
-						"peak_x_bloom": 3.07,
+						"peak_x_bloom": 3.01,
+						"px": 143
+					},
+					{
+						"above": true,
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 3.01,
 						"px": 137
 					},
 					{
 						"above": true,
 						"part": "Model/Windows",
-						"peak_x_bloom": 3.07,
-						"px": 125
+						"peak_x_bloom": 3.01,
+						"px": 124
 					},
 					{
 						"above": true,
 						"part": "Model/Banner2",
-						"peak_x_bloom": 3.07,
-						"px": 109
+						"peak_x_bloom": 3.01,
+						"px": 110
 					},
 					{
 						"above": true,
 						"part": "Model/RuneRing",
-						"peak_x_bloom": 3.07,
-						"px": 97
+						"peak_x_bloom": 3.01,
+						"px": 99
 					},
 					{
 						"above": true,
 						"part": "Model/Windows",
-						"peak_x_bloom": 3.07,
-						"px": 88
+						"peak_x_bloom": 3.01,
+						"px": 89
 					},
 					{
 						"above": true,
 						"part": "Model/Prism1",
-						"peak_x_bloom": 3.07,
-						"px": 88
-					},
-					{
-						"above": true,
-						"part": "Model/Tip",
-						"peak_x_bloom": 3.17,
-						"px": 63
+						"peak_x_bloom": 3.01,
+						"px": 89
 					},
 					{
 						"above": true,
 						"part": "Model/Windows",
-						"peak_x_bloom": 3.07,
+						"peak_x_bloom": 3.01,
 						"px": 60
 					},
 					{
 						"above": true,
-						"part": "Model/Prism3",
-						"peak_x_bloom": 3.76,
+						"part": "Model/LanternOrb3",
+						"peak_x_bloom": 7.4,
 						"px": 45
 					},
 					{
 						"above": true,
-						"part": "Model/WatchNeedle",
-						"peak_x_bloom": 3.55,
-						"px": 44
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 3.73,
-						"px": 38
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 6.46,
-						"px": 34
-					},
-					{
-						"above": true,
-						"part": "Model/LanternOrb1",
-						"peak_x_bloom": 3.29,
-						"px": 30
-					},
-					{
-						"above": true,
-						"part": "Model/WatchNeedle",
-						"peak_x_bloom": 3.86,
+						"part": "Model/Plinth",
+						"peak_x_bloom": 6.78,
 						"px": 18
 					},
 					{
 						"above": true,
-						"part": "Model/Prism1",
-						"peak_x_bloom": 3.83,
-						"px": 17
-					},
-					{
-						"above": true,
-						"part": "Model/Windows",
-						"peak_x_bloom": 3.39,
-						"px": 14
-					},
-					{
-						"above": true,
 						"part": "Model/LanternStems",
-						"peak_x_bloom": 3.51,
+						"peak_x_bloom": 6.9,
+						"px": 11
+					},
+					{
+						"above": true,
+						"part": "Model/Shard/ShardMesh",
+						"peak_x_bloom": 7.72,
 						"px": 11
 					},
 					{
 						"above": true,
 						"part": "Model/Tip",
-						"peak_x_bloom": 4.67,
+						"peak_x_bloom": 4.96,
 						"px": 11
 					},
 					{
 						"above": true,
-						"part": "Model/RuneRing",
-						"peak_x_bloom": 3.39,
+						"part": "Model/GateSlits",
+						"peak_x_bloom": 3.04,
+						"px": 9
+					},
+					{
+						"above": true,
+						"part": "Model/WatchNeedle",
+						"peak_x_bloom": 7.56,
 						"px": 9
 					},
 					{
 						"above": true,
 						"part": "Model/LanternStems",
-						"peak_x_bloom": 5.71,
+						"peak_x_bloom": 6.31,
 						"px": 8
 					},
 					{
@@ -176,78 +170,113 @@
 					},
 					{
 						"above": true,
-						"part": "Model/GateFrame",
-						"peak_x_bloom": 3.67,
-						"px": 7
-					},
-					{
-						"above": true,
 						"part": "Model/LanternStems",
-						"peak_x_bloom": 3.39,
-						"px": 7
-					},
-					{
-						"above": true,
-						"part": "Model/LanternStems",
-						"peak_x_bloom": 3.17,
+						"peak_x_bloom": 5.8,
 						"px": 6
 					},
 					{
 						"above": true,
-						"part": "Model/GateFrame",
-						"peak_x_bloom": 3.39,
-						"px": 4
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 5.11,
+						"px": 6
 					},
 					{
 						"above": true,
-						"part": "Model/Prism2",
-						"peak_x_bloom": 3.45,
-						"px": 3
+						"part": "Model/Shard/ShardCore",
+						"peak_x_bloom": 5.4,
+						"px": 6
+					},
+					{
+						"above": true,
+						"part": "Model/WatchNeedle",
+						"peak_x_bloom": 3.04,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/RuneRing",
+						"peak_x_bloom": 3.01,
+						"px": 5
+					},
+					{
+						"above": true,
+						"part": "Model/LanternStems",
+						"peak_x_bloom": 3.86,
+						"px": 2
+					},
+					{
+						"above": false,
+						"part": "Model/WatchNeedle",
+						"peak_x_bloom": 0.45,
+						"px": 581
+					},
+					{
+						"above": false,
+						"part": "Model/Plinth",
+						"peak_x_bloom": 0.45,
+						"px": 199
+					},
+					{
+						"above": false,
+						"part": "Model/Plinth",
+						"peak_x_bloom": 0.45,
+						"px": 184
+					},
+					{
+						"above": false,
+						"part": "Model/Plinth",
+						"peak_x_bloom": 0.45,
+						"px": 177
 					},
 					{
 						"above": false,
 						"part": "Model/Shard/EyeOrbit/EyeShards",
-						"peak_x_bloom": 0.71,
-						"px": 208
+						"peak_x_bloom": 0.45,
+						"px": 158
 					},
 					{
 						"above": false,
-						"part": "Model/Plinth",
-						"peak_x_bloom": 0.71,
-						"px": 198
-					},
-					{
-						"above": false,
-						"part": "Model/Plinth",
-						"peak_x_bloom": 0.71,
-						"px": 178
-					},
-					{
-						"above": false,
-						"part": "Model/Plinth",
-						"peak_x_bloom": 0.71,
-						"px": 100
+						"part": "Model/WatchNeedle",
+						"peak_x_bloom": 0.29,
+						"px": 13
 					}
 				],
-				"value": "27 point(s) above the bloom level 1.2 (median of 31/24/27): ShardCore, LanternOrb2, LanternOrb3, LanternOrb1, RuneRing x3, Body, Thorns, FinTips, LanternStems x5, Prism3, GateFrame x2, WatchNeedle x2, EyeShards, GateSlits, ShardMesh, Windows, Banner3, Plinth, Prism2, 6 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 34"
+				"value": "20 point(s) above the bloom level 1.2 (median of 23/20/18): ShardCore x3, LanternOrb2, LanternOrb1, RuneRing x2, Thorns, FinTips, Banner1, GateSlits, LanternOrb3, WatchNeedle x3, ShardMesh, LanternStems x4, 3 rim-light speck(s) ignored; soft glows under the bloom (v1 count, luma > 0.4): 39"
 			},
 			"predicted": {
-				"points": 12
+				"points": 5
 			},
-			"proposal": "Glow points 27 -> 12 (want 4-12): DarkStone crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Prism1, WatchNeedle (dim under the bloom level: 15 point(s), peak 6.46 x the level)",
+			"proposal": "Glow points 20 -> 5 (want 4-12): DarkStone crack_strength 1.0 -> 0.1 on Body, GateFrame, LanternStems, Prism1 (dim under the bloom level: 15 point(s), peak 7.72 x the level)",
 			"rank": 1,
 			"status": "WARN",
-			"text": "Glow points 27 -> 12 (want 4-12): DarkStone crack_strength 1.0 -> 0.12 on LanternStems, GateFrame, Prism1, WatchNeedle (dim under the bloom level: 15 point(s), peak 6.46 x the level)",
+			"text": "Glow points 20 -> 5 (want 4-12): DarkStone crack_strength 1.0 -> 0.1 on Body, GateFrame, LanternStems, Prism1 (dim under the bloom level: 15 point(s), peak 7.72 x the level)",
 			"title": "Glow points at the bloom level",
 			"wanted": {
 				"points": "4-12 above the bloom level 1.2"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R5c",
+			"computed": false,
+			"measured": {
+				"value": "worst dL -3 (point 1 dL +37, point 2 dL +6, point 3 dL +34, point 4 dL +2, point 5 dL +25, point 6 dL -3, point 7 dL +0, point 8 dL +22, point 9 dL +40, point 10 dL +80, point 11 dL +84, point 12 dL +32, point 13 dL +37, point 14 dL +66, point 15 dL +15, point 16 dL +56, point 17 dL +76, point 18 dL +19, point 19 dL +35, point 20 dL +60, point 21 dL +60, point 22 dL +34, point 23 dL +58; ring 30 px = 1.0 m at 40 m)"
+			},
+			"predicted": {},
+			"proposal": "Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL -3): darken around them or raise the energy",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R5c Glow points stand out (1 m surround): 1 glow point(s) barely stand out from their 1 m surround (worst dL -3): darken around them or raise the energy",
+			"title": "Glow points stand out (1 m surround)",
+			"wanted": {
+				"rule": "each glow point's core L* >= the median L* of its 1 m surround + 0 in the lit 40 m frame (WARN only)"
 			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "shadow",
-	"quality": 87.2,
+	"quality": 85.7,
 	"result": "WARN",
 	"scene": "res://art/buildings/dusk_keep.tscn",
 	"tier": "keep",

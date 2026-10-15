@@ -19,6 +19,11 @@ var _orb_y: float = 0.0
 const TEAM_DARK := 0.74   ## G-B: the darker slate courses = team colour x this (unmerged material and merged multiplier)
 
 var mat_team_dark: ShaderMaterial   ## G-B: the darker slate courses (team colour x TEAM_DARK)
+const TEAM_MID := 0.87   ## G-F round 2: the middle slate shade (team colour x this)
+var mat_team_mid: ShaderMaterial    ## G-F round 2: the middle slate shade
+const SITE_HALF := 3.0       ## G-F round 2: site pad half size (6 x 6 m footprint)
+const SITE_PLINTH_AT := 0.07 ## G-F round 2: below this progress (the walls start) the squashed plinth stays hidden
+var _site_pad: Node3D
 var _dress: ShadowDress
 
 
@@ -42,9 +47,85 @@ func _setup_palette() -> void:
 	danger_ramp_end = Color(0.3, 0.1, 0.5)
 
 
-## G-B: the darker slate courses follow the team colour (x TEAM_DARK). Subclasses with their own list keep theirs.
+## G-B: the darker slate courses follow the team colour (x TEAM_DARK; G-F round 2: x TEAM_MID too). Subclasses with
+## their own list keep theirs.
 func _vc_team() -> Array:
-	return [mat_team, [mat_team_dark, TEAM_DARK]] if mat_team_dark else [mat_team]
+	var out: Array = [mat_team]
+	if mat_team_dark:
+		out.append([mat_team_dark, TEAM_DARK])
+	if mat_team_mid:
+		out.append([mat_team_mid, TEAM_MID])
+	return out
+
+
+## G-F round 2 (docs/art/gf_r2_buildings_fs.md, gf_review2 item 3): a slate gable along Z (ridge at x = cx), the same
+## outline as FireHallModel._gable_roof (so _gable_point / the roof holes still fit). A stone core (the gables), then
+## per slope `courses` rows of single slates about `slate_w` wide, every other row offset half a slate, each slate
+## tilted flatter than the roof so its lower edge stands proud (a shadow line per row), in three team shades (dark,
+## mid, team) picked per slate with a lighter row every other course; a thick dark eave board; the eave row's slates
+## alternate long / short (sawtooth); a dark ridge cap; iron bargeboards on the gable ends. Appended to `items`
+## (one painted surface after the merge: no new draw call). Sets mat_team_dark / mat_team_mid.
+func _slate_roof(items: Array, cx: float, cz: float, half: float, eave_y: float, rise: float, depth: float,
+		core_depth: float, courses: int, slate_w: float, rng_seed: int) -> void:
+	if mat_team_dark == null:
+		mat_team_dark = _painted_mat(kingdom_color.darkened(1.0 - TEAM_DARK), 0.1, 0.0)
+	if mat_team_mid == null:
+		mat_team_mid = _painted_mat(kingdom_color.darkened(1.0 - TEAM_MID), 0.1, 0.0)
+	var box1: BoxMesh = _boxm(Vector3.ONE)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = rng_seed
+	var slope_l: float = sqrt(half * half + rise * rise)
+	var a: float = atan2(rise, half)
+	var hc: float = half - 0.35
+	var ch: float = hc * tan(a) - 0.05
+	items.append(BMG.item(_prism(Vector3(hc * 2.0, ch, core_depth), 0.5), Vector3(cx, eave_y + 0.08 + ch * 0.5, cz),
+		mat_stone))
+	var course_l: float = slope_l / float(courses)
+	var n_across: int = maxi(int(round(depth / slate_w)), 2)
+	var sw: float = depth / float(n_across)
+	var z0: float = cz - depth * 0.5
+	var z1: float = cz + depth * 0.5
+	var shades: Array[ShaderMaterial] = [mat_team_dark, mat_team_mid, mat_team]
+	for s: float in [-1.0, 1.0]:
+		var e := Vector3(cx + s * half, eave_y, cz)
+		var u := Vector3(-s * cos(a), sin(a), 0.0)   # up the slope
+		var n := Vector3(s * sin(a), cos(a), 0.0)    # out of the slope
+		var tilt: Basis = Basis(Vector3.BACK, -s * (a - deg_to_rad(7.0)))
+		# Eave board: a thick dark fascia under the first row (the roof's edge has a thickness from above).
+		items.append(BMG.item_xf(box1, Transform3D(Basis(Vector3.BACK, -s * a).scaled_local(Vector3(0.5, 0.24, depth + 0.16)),
+			e + u * 0.12 + n * 0.02), mat_dark))
+		for k: int in courses:
+			var off: float = 0.5 * sw if k % 2 == 1 else 0.0
+			var row_base: int = 1 if k % 2 == 0 else 2   # value step per course: mid / light rows
+			for j: int in range(-1, n_across + 1):
+				var za: float = maxf(z0 + sw * float(j) + off, z0)
+				var zb: float = minf(z0 + sw * float(j + 1) + off, z1)
+				if zb - za < 0.18:
+					continue
+				var shade: int = row_base
+				var r: float = rng.randf()
+				if r < 0.22:
+					shade = 0
+				elif r < 0.36:
+					shade = 2 if row_base == 1 else 1
+				var long_l: float = course_l + 0.16
+				var dl: float = rng.randf_range(-0.04, 0.04)
+				if k == 0 and j % 2 == 0:
+					long_l += 0.2   # sawtooth eave
+					dl -= 0.1
+				var p: Vector3 = e + u * ((float(k) + 0.5) * course_l + dl) + n * (0.13 + 0.015 * float(k % 2))
+				p.z = (za + zb) * 0.5
+				var yaw := Basis(n, deg_to_rad(rng.randf_range(-2.5, 2.5)))
+				items.append(BMG.item_xf(box1, Transform3D((yaw * tilt).scaled_local(Vector3(long_l, 0.09, zb - za - 0.05)), p),
+					shades[shade]))
+		# Iron bargeboards on the gable ends.
+		for z: float in [z0 - 0.1, z1 + 0.1]:
+			var bp: Vector3 = e + u * (slope_l * 0.5) + n * 0.24
+			items.append(BMG.item_xf(box1, Transform3D(Basis(Vector3.BACK, -s * a).scaled_local(
+				Vector3(slope_l + 0.2, 0.3, 0.22)), Vector3(bp.x, bp.y, z)), mat_metal))
+	# Dark ridge cap (a saddle of dark slate) with a thin iron ridge line on top.
+	items.append(BMG.item(_prism(Vector3(1.0, 0.46, depth + 0.14), 0.5), Vector3(cx, eave_y + rise + 0.1, cz), mat_dark))
+	items.append(BMG.item(box1, Vector3(cx, eave_y + rise + 0.36, cz), mat_metal, Vector3.ZERO, Vector3(0.1, 0.08, depth + 0.1)))
 
 
 ## G-B: tier-scaled dressing (dead ground, mist, wisps, embers from the damage points, a soft light at Ultra;
@@ -62,6 +143,7 @@ func _post_build() -> void:
 
 func set_construction_progress(p: float) -> void:
 	super(p)
+	_site_look()
 	if _dress and not _destroyed:
 		_dress.sync(_progress, _health_ratio, false)
 
@@ -74,8 +156,39 @@ func set_health_ratio(r: float) -> void:
 
 func play_destroyed() -> void:
 	super()
+	if _site_pad:
+		_site_pad.visible = false
 	if _dress:
 		_dress.sync(1.0, 0.0, true)
+
+
+## G-F round 2 (gf_review2 item 8): the site pad (ShadowDress.site_pad_items) under every Shadow hall-type site, built
+## before the painted merge so it draws with the merged material. The Bazaar / Paddock / Forge inherit it.
+func _build_state_nodes() -> void:
+	super()
+	var flag_a: ShaderMaterial = _painted_mat(stone_color.lightened(0.26), 0.0, 0.0)
+	var flag_b: ShaderMaterial = _painted_mat(stone_color.lightened(0.12), 0.0, 0.0)
+	_site_pad = Node3D.new()
+	_site_pad.name = "SitePad"
+	add_child(_site_pad)
+	_merged("SitePadParts", "site_pad", ShadowDress.site_pad_items(SITE_HALF, 6650, flag_a, flag_b, _scaffold_mat(),
+		mat_dark), _site_pad, false)
+	_site_pad.visible = false
+
+
+## A site: the pad and the scaffold from the first frame; below SITE_PLINTH_AT the plinth (a flat black slab when
+## squashed) stays hidden, so a fresh site is worked ground, not a hole.
+func _site_look() -> void:
+	if not _ready_done or _destroyed:
+		return
+	var building: bool = _progress < 1.0
+	if _site_pad:
+		_site_pad.visible = building
+	if _scaffold:
+		_scaffold.visible = building
+	var plinth := _body.get_node_or_null(^"PlinthBase") as Node3D
+	if plinth and building and _progress < SITE_PLINTH_AT:
+		plinth.visible = false
 
 
 func set_team_color(c: Color) -> void:
@@ -194,16 +307,9 @@ func _build_structure() -> void:
 	_merged("Walls", "walls", it)
 	# --- Roof tier: stone gables, 4 slate courses a side, silver ridge + crest of spikes, finials, rose window.
 	it = []
-	# G-B: six slate courses a side, alternating the team colour and a darker team shade (stepped shingle lines).
-	mat_team_dark = _painted_mat(kingdom_color.darkened(1.0 - TEAM_DARK), 0.1, 0.0)
-	var first: int = it.size()
-	_gable_roof(it, GX, GZ, G_HALF, G_EAVE, G_RISE, 5.8, 5.0, 6, mat_stone, mat_team, mat_metal, 0.0, 9.0)
-	var tile_n: int = 0
-	for i: int in range(first, it.size()):
-		if it[i][2] == mat_team:
-			if tile_n % 2 == 1:
-				it[i][2] = mat_team_dark
-			tile_n += 1
+	# G-F round 2 (gf_review2 item 3): real slates (staggered rows of single slates in three team shades, a dark ridge
+	# cap, a thick eave board and a sawtooth eave course) instead of six flat team planks a side.
+	_slate_roof(it, GX, GZ, G_HALF, G_EAVE, G_RISE, 5.8, 5.0, 6, 0.62, 6630)
 	# G-B: iron spikes jutting from both eaves.
 	for sx: float in [-1.0, 1.0]:
 		for k: int in 5:

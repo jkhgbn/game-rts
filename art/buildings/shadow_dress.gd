@@ -104,6 +104,52 @@ static func _grade_mat(m: Material) -> void:
 		sm.set_shader_parameter(&"dye_val", TEAM_VAL)
 
 
+## G-F round 2 (docs/art/gf_r2_buildings_fs.md, gf_review2 item 8): a Shadow construction site's ground, every tier
+## (merged by the model, no extra draw call): loose slate flagstones with gaps over the footprint (the edge cells
+## mostly missing so the pad melts into the ground, never a square), two shades, slight yaw; four leaning layout
+## stakes with cords between them; two timber beams and a stack of cut slate by one corner. `half` = footprint half
+## size (metres). Returns BuildingMerge items ([mesh, Transform3D, material]) in model space.
+const SITE_BMG := preload("res://art/buildings/fire_hall_merge.gd")
+
+
+static func site_pad_items(half: float, rng_seed: int, flag_a: Material, flag_b: Material, post: Material,
+		beam: Material) -> Array:
+	var box := BoxMesh.new()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = rng_seed
+	var it: Array = []
+	var cells: int = maxi(int(round(half * 2.0 / clampf(half * 2.0 / 4.5, 0.75, 1.15))), 3)
+	var step: float = half * 2.0 / float(cells)
+	for i: int in cells:
+		for j: int in cells:
+			var edge: bool = i == 0 or j == 0 or i == cells - 1 or j == cells - 1
+			if rng.randf() < (0.45 if edge else 0.15):
+				continue
+			var c := Vector3(-half + step * (float(i) + 0.5) + rng.randf_range(-0.12, 0.12), 0.035,
+				-half + step * (float(j) + 0.5) + rng.randf_range(-0.12, 0.12))
+			var sz := Vector3(step * rng.randf_range(0.7, 0.92), 0.07, step * rng.randf_range(0.66, 0.9))
+			it.append(SITE_BMG.item(box, c, flag_a if rng.randf() < 0.6 else flag_b,
+				Vector3(rng.randf_range(-2.0, 2.0), rng.randf_range(-14.0, 14.0), rng.randf_range(-2.0, 2.0)), sz))
+	var r: float = half + 0.35
+	var corners: Array[Vector3] = [Vector3(-r, 0, -r), Vector3(r, 0, -r), Vector3(r, 0, r), Vector3(-r, 0, r)]
+	for k: int in 4:
+		var p: Vector3 = corners[k]
+		it.append(SITE_BMG.item(box, p + Vector3(0, 0.45, 0), post, Vector3(rng.randf_range(-6, 6), 0, rng.randf_range(-6, 6)),
+			Vector3(0.12, 0.9, 0.12)))
+		var q: Vector3 = corners[(k + 1) % 4]
+		var mid: Vector3 = (p + q) * 0.5 + Vector3(0, 0.78, 0)
+		var along: Vector3 = q - p
+		it.append(SITE_BMG.item_xf(box, Transform3D(Basis(Vector3.UP, atan2(-along.z, along.x)).scaled_local(
+			Vector3(along.length(), 0.03, 0.03)), mid), post))
+	for b: int in 2:
+		it.append(SITE_BMG.item(box, Vector3(-half + 0.6 + 0.35 * float(b), 0.1 + 0.2 * float(b), half + 0.9), beam,
+			Vector3(0, 6.0 - 10.0 * float(b), 0), Vector3(2.6, 0.2, 0.24)))
+	for s: int in 3:
+		it.append(SITE_BMG.item(box, Vector3(half + 0.75, 0.16 + 0.3 * float(s / 2), -half + 0.6 + 0.5 * float(s % 2)),
+			flag_b, Vector3(0, 12.0 * float(s), 0), Vector3(0.6, 0.3, 0.45)))
+	return it
+
+
 ## Forwards the building's state: construction 0..1, HP ratio 0..1, destroyed (the wreck).
 func sync(progress: float, health: float, destroyed: bool) -> void:
 	var built: bool = progress >= 1.0 and not destroyed

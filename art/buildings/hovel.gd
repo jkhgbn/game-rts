@@ -20,6 +20,10 @@ const TEAM_DARK := 0.74   ## G-B: the darker shingle courses = team colour x thi
 
 var _m_team_dark: ShaderMaterial   ## G-B: the darker shingle courses (team colour x TEAM_DARK)
 var _m_bone: ShaderMaterial
+const TEAM_MID := 0.87   ## G-F round 2: the middle slate shade (team colour x this)
+var _m_team_mid: ShaderMaterial
+const SITE_PLINTH_AT := 0.08   ## G-F round 2: below this progress (the walls start) the squashed plinth stays hidden
+var _site_pad: Node3D
 var _dress: ShadowDress
 
 
@@ -120,14 +124,9 @@ func _build_parts() -> void:
 	# dark core, so the roof reads as slate from the RTS camera instead of one flat purple cone.
 	it.append(_itx(_cyl(ROOF.y - 0.05, ROOF.x - 0.12, ROOF.w, 6), Transform3D(hexb, Vector3(0, ROOF.z + ROOF.w * 0.5, 0)),
 		_m_team_dark))
-	for k: int in 4:
-		var t0: float = float(k) / 4.0
-		var t1: float = minf(float(k + 1) / 4.0 + 0.07, 1.0)
-		var r0: float = lerpf(ROOF.x, ROOF.y, t0) + 0.13
-		var r1: float = lerpf(ROOF.x, ROOF.y, t1)
-		var hk: float = ROOF.w * (t1 - t0)
-		it.append(_itx(_cyl(r1, r0, hk, 6), Transform3D(hexb, Vector3(0, ROOF.z + ROOF.w * t0 + hk * 0.5, 0)),
-			_m_team if k % 2 == 0 else _m_team_dark))
+	# G-F round 2 (gf_review2 item 3): single overlapping slates on the six faces (staggered rows, three team shades,
+	# a sawtooth eave row) instead of four smooth stepped bands.
+	_slates(it, box1)
 	it.append(_itx(_cyl(1.86, 1.94, 0.14, 6), Transform3D(hexb, Vector3(0, ROOF.z + ROOF.w * 0.45, 0)), _m_trim))
 	for k: int in 6:
 		var a: float = HEX + PI / 3.0 * k
@@ -154,7 +153,7 @@ func _build_parts() -> void:
 		var sb: Basis = Basis(Quaternion(Vector3.UP, (d + Vector3(0, 0.55, 0)).normalized()))
 		it.append(_itx(_cyl(0.0, 0.085, 0.55, 4), Transform3D(sb, d * 2.72 + Vector3(0, 2.86, 0) + sb * Vector3(0, 0.25, 0)),
 			_m_trim))
-	it.append(_itx(_cyl(2.66, 2.7, 0.09, 6), Transform3D(hexb, Vector3(0, 2.8, 0)), _m_dark))
+	it.append(_itx(_cyl(2.66, 2.72, 0.2, 6), Transform3D(hexb, Vector3(0, 2.76, 0)), _m_dark))   # G-F r2: a thick eave
 	# Crooked stovepipe through the back-left of the roof, with a cap.
 	var pb: Basis = _lean(Vector3(-0.6, 0, 1), 10.0)
 	it.append(_itx(_cyl(0.16, 0.16, 1.6, 6), Transform3D(pb, Vector3(-1.05, 3.6, 0.95)), _m_trim))
@@ -180,6 +179,13 @@ func _build_parts() -> void:
 	_show_below_50.append(_roof_patch("RoofHoleF", roof, _face_xf(PI * 4.0 / 3.0, 0.0), 0.75))
 	_show_below_25.append(_roof_patch("RoofHoleR", roof, _face_xf(PI / 3.0, 0.1), 0.7, _brew_mat))
 	_build_scaffold(4.2, 3.6, [1.5, 2.9] as Array[float])
+	# G-F round 2 (gf_review2 item 8): the site pad (loose slate flags, layout stakes, timber) while it is a site.
+	_site_pad = Node3D.new()
+	_site_pad.name = "SitePad"
+	add_child(_site_pad)
+	_merged("SitePadParts", "site_pad", ShadowDress.site_pad_items(2.0, 4470, _painted_mat(stone_color.lightened(0.26), 0.0,
+		0.0), _painted_mat(stone_color.lightened(0.12), 0.0, 0.0), _m_trim, _m_dark), _site_pad)
+	_site_pad.visible = false
 	_build_wreck(1.5, 1.1, _brew_mat, 4041, 6)
 	# Idle: purple motes spiral up around the hut, a thin wisp from the stovepipe.
 	var mo := _pm(Vector3.UP, 20.0, 0.3, 0.6, Vector3.ZERO, 0.09, 0.04,
@@ -200,6 +206,55 @@ func _build_parts() -> void:
 	brew.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	brew.emission_sphere_radius = 0.25
 	_idle_particles("BrewBubbles", Vector3(-1.25, 1.05, -1.75), 6, 1.2, brew, true)
+
+
+## G-F round 2: the witch hat's slates. Per face (6, yaw PI/3 k: a flat face looks at -Z) and per course (4 up the
+## slope), slates about 0.46 m wide across the face's width at that height, every other row offset half a slate, each
+## a thin box laid on the face and tilted 8 deg flatter so its lower edge stands proud; shade per slate (dark / mid /
+## team, a lighter row every other course); the eave row alternates long / short (sawtooth). The core frustum
+## (darker team) shows in the gaps at the hips, which the trim ridges cover.
+func _slates(it: Array, box1: Mesh) -> void:
+	_m_team_mid = _painted_mat(kingdom_color.darkened(1.0 - TEAM_MID), 0.1, 0.0)
+	var shades: Array[ShaderMaterial] = [_m_team_dark, _m_team_mid, _m_team]
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 4471
+	var apo: float = cos(PI / 6.0)
+	var dr: float = (ROOF.x - ROOF.y) * apo
+	var slope_l: float = sqrt(dr * dr + ROOF.w * ROOF.w)
+	var courses: int = 4
+	for f: int in 6:
+		var a: float = PI / 3.0 * float(f)
+		var d := Vector3(sin(a), 0.0, cos(a))
+		var side: Vector3 = Vector3.UP.cross(d).normalized()
+		var nrm: Vector3 = (d * ROOF.w + Vector3.UP * dr).normalized()
+		var b := Basis(side, nrm, side.cross(nrm)) * Basis(Vector3.RIGHT, deg_to_rad(-8.0))
+		for k: int in courses:
+			var t: float = (float(k) + 0.5) / float(courses)
+			var r: float = lerpf(ROOF.x, ROOF.y, t)   # face width = the hexagon's side = its circumradius
+			var n_s: int = maxi(int(round(r / 0.46)), 2)
+			var sw: float = r / float(n_s)
+			var off: float = 0.5 * sw if k % 2 == 1 else 0.0
+			var row_base: int = 1 if k % 2 == 0 else 2
+			var c: Vector3 = d * (r * apo) + Vector3(0, ROOF.z + ROOF.w * t, 0) + nrm * 0.07
+			for j: int in range(-1, n_s + 1):
+				var xa: float = maxf(-r * 0.5 + sw * float(j) + off, -r * 0.5)
+				var xb: float = minf(-r * 0.5 + sw * float(j + 1) + off, r * 0.5)
+				if xb - xa < 0.14:
+					continue
+				var shade: int = row_base
+				var roll: float = rng.randf()
+				if roll < 0.22:
+					shade = 0
+				elif roll < 0.36:
+					shade = 2 if row_base == 1 else 1
+				var ln: float = slope_l / float(courses) + 0.14
+				var down: float = rng.randf_range(-0.03, 0.03)
+				if k == 0 and j % 2 == 0:
+					ln += 0.16   # sawtooth eave
+					down += 0.08
+				var p: Vector3 = c + side * ((xa + xb) * 0.5) + b.z * down
+				var yb: Basis = Basis(nrm, deg_to_rad(rng.randf_range(-3.0, 3.0))) * b
+				it.append(_itx(box1, Transform3D(yb.scaled_local(Vector3(xb - xa - 0.04, 0.07, ln)), p), shades[shade]))
 
 
 ## Transform on the witch-hat frustum face looking along yaw `a` (0 = +Z), `along` metres sideways.
@@ -230,7 +285,7 @@ func _on_health(smoke_on: bool, fire_on: bool) -> void:
 
 ## G-B: the darker shingle courses follow the team colour (x TEAM_DARK).
 func _vc_team() -> Array:
-	return [_m_team, [_m_team_dark, TEAM_DARK]]
+	return [_m_team, [_m_team_dark, TEAM_DARK], [_m_team_mid, TEAM_MID]]
 
 
 ## G-B: tier-scaled dressing (dead ground, mist, wisps, embers, the lantern's light at Ultra; nothing at Low).
@@ -241,12 +296,22 @@ func _post_build() -> void:
 		"light_range": 5.0})
 
 
-func _on_progress(_building: bool) -> void:
+func _on_progress(building: bool) -> void:
+	# G-F round 2: the pad and the scaffold from the first frame; the squashed hex plinth (a black slab) waits.
+	if _site_pad:
+		_site_pad.visible = building
+	if _scaffold:
+		_scaffold.visible = building
+	var plinth := _body.get_node_or_null(^"Plinth") as Node3D
+	if plinth and building and _progress < SITE_PLINTH_AT:
+		plinth.visible = false
 	if _dress:
 		_dress.sync(_progress, _health_ratio, false)
 
 
 func _on_destroy_start() -> void:
+	if _site_pad:
+		_site_pad.visible = false
 	if _dress:
 		_dress.sync(1.0, 0.0, true)
 

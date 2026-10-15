@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "neutral",
-	"quality": 84.6,
+	"quality": 88.8,
 	"result": "PASS",
 	"scene": "res://art/buildings/hovel.tscn",
 	"tier": "hall",
