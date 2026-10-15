@@ -52,94 +52,34 @@
 				{
 					"from": 1524,
 					"node": "Rider/Root/Chest/Merged",
-					"to": 762,
-					"words": "`Merged` 1524 -> 762 verts"
-				},
-				{
-					"from": 1176,
-					"node": "Rider/Root/Hips/Merged",
-					"to": 588,
-					"words": "`Merged` 1176 -> 588 verts"
-				},
-				{
-					"from": 588,
-					"node": "Rider/Root/Chest/ArmL/Merged",
-					"to": 294,
-					"words": "`Merged` 588 -> 294 verts"
-				},
-				{
-					"from": 550,
-					"node": "Rider/Root/Chest/Head/Merged",
-					"to": 275,
-					"words": "`Merged` 550 -> 275 verts"
-				},
-				{
-					"from": 495,
-					"node": "Rider/Root/Chest/ArmR/Merged",
-					"to": 248,
-					"words": "`Merged` 495 -> 248 verts"
-				},
-				{
-					"from": 329,
-					"node": "Steed/Root/Mount/LegBL/Merged",
-					"to": 165,
-					"words": "`Merged` 329 -> 165 verts"
-				},
-				{
-					"from": 329,
-					"node": "Steed/Root/Mount/LegBR/Merged",
-					"to": 165,
-					"words": "`Merged` 329 -> 165 verts"
-				},
-				{
-					"from": 307,
-					"node": "Steed/Root/Mount/Tail/Merged",
-					"to": 154,
-					"words": "`Merged` 307 -> 154 verts"
-				},
-				{
-					"from": 253,
-					"node": "Steed/Root/Mount/LegFL/Merged",
-					"to": 127,
-					"words": "`Merged` 253 -> 127 verts"
-				},
-				{
-					"from": 253,
-					"node": "Steed/Root/Mount/LegFR/Merged",
-					"to": 127,
-					"words": "`Merged` 253 -> 127 verts"
-				},
-				{
-					"from": 234,
-					"node": "Rider/Root/Chest/ArmR/FlailHead",
-					"to": 117,
-					"words": "`FlailHead` 234 -> 117 verts"
+					"to": 767,
+					"words": "`Merged` 1524 -> 767 verts"
 				}
 			],
 			"check": "B4",
 			"computed": true,
 			"measured": {
-				"verts": 12493
+				"verts": 12487
 			},
 			"predicted": {
-				"verts": 6047
+				"verts": 8300
 			},
-			"proposal": "12493 -> 6047 (want <= 6000): `Merged` 3615 -> 1808 verts; `Merged` 3246 -> 1623 verts; `Merged` 1524 -> 762 verts; `Merged` 1176 -> 588 verts; `Merged` 588 -> 294 verts; `Merged` 550 -> 275 verts; `Merged` 495 -> 248 verts; `Merged` 329 -> 165 verts; `Merged` 329 -> 165 verts; `Merged` 307 -> 154 verts; `Merged` 253 -> 127 verts; `Merged` 253 -> 127 verts; `FlailHead` 234 -> 117 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"proposal": "12487 -> 8300 (want <= 8500): `Merged` 3615 -> 1808 verts; `Merged` 3246 -> 1623 verts; `Merged` 1524 -> 767 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"rank": 2,
 			"status": "WARN",
-			"text": "B4 12493 -> 6047 (want <= 6000): `Merged` 3615 -> 1808 verts; `Merged` 3246 -> 1623 verts; `Merged` 1524 -> 762 verts; `Merged` 1176 -> 588 verts; `Merged` 588 -> 294 verts; `Merged` 550 -> 275 verts; `Merged` 495 -> 248 verts; `Merged` 329 -> 165 verts; `Merged` 329 -> 165 verts; `Merged` 307 -> 154 verts; `Merged` 253 -> 127 verts; `Merged` 253 -> 127 verts; `FlailHead` 234 -> 117 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"text": "B4 12487 -> 8300 (want <= 8500): `Merged` 3615 -> 1808 verts; `Merged` 3246 -> 1623 verts; `Merged` 1524 -> 767 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"title": "Vertices",
 			"wanted": {
-				"verts": "<= 6000"
+				"verts": "<= 8500"
 			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "shadow",
-	"quality": 92.9,
+	"quality": 93.3,
 	"result": "WARN",
 	"scene": "res://art/units/shadow/barrow_knight/barrow_knight.tscn",
-	"tier": "heavy",
+	"tier": "cavalry_mounted",
 	"version": "1.0"
 }

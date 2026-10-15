@@ -40,70 +40,34 @@
 				{
 					"from": 3231,
 					"node": "Boar/Root/Mount/Merged",
-					"to": 1616,
-					"words": "`Merged` 3231 -> 1616 verts"
-				},
-				{
-					"from": 1584,
-					"node": "Boar/Root/Mount/Head/Merged",
-					"to": 792,
-					"words": "`Merged` 1584 -> 792 verts"
-				},
-				{
-					"from": 527,
-					"node": "Rider/Root/Chest/Merged",
-					"to": 264,
-					"words": "`Merged` 527 -> 264 verts"
-				},
-				{
-					"from": 478,
-					"node": "Rider/Root/Chest/Head/Merged",
-					"to": 239,
-					"words": "`Merged` 478 -> 239 verts"
-				},
-				{
-					"from": 443,
-					"node": "Rider/Root/Chest/ArmL/Merged",
-					"to": 222,
-					"words": "`Merged` 443 -> 222 verts"
-				},
-				{
-					"from": 414,
-					"node": "Rider/Root/Hips/Merged",
-					"to": 207,
-					"words": "`Merged` 414 -> 207 verts"
-				},
-				{
-					"from": 399,
-					"node": "Boar/Root/Mount/LegBL/Merged",
-					"to": 256,
-					"words": "`Merged` 399 -> 256 verts"
+					"to": 1873,
+					"words": "`Merged` 3231 -> 1873 verts"
 				}
 			],
 			"check": "B4",
 			"computed": true,
 			"measured": {
-				"verts": 8314
+				"verts": 9793
 			},
 			"predicted": {
-				"verts": 4834
+				"verts": 8435
 			},
-			"proposal": "8314 -> 4834 (want <= 5000): `Merged` 3231 -> 1616 verts; `Merged` 1584 -> 792 verts; `Merged` 527 -> 264 verts; `Merged` 478 -> 239 verts; `Merged` 443 -> 222 verts; `Merged` 414 -> 207 verts; `Merged` 399 -> 256 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"proposal": "9793 -> 8435 (want <= 8500): `Merged` 3231 -> 1873 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"rank": 2,
 			"status": "WARN",
-			"text": "B4 8314 -> 4834 (want <= 5000): `Merged` 3231 -> 1616 verts; `Merged` 1584 -> 792 verts; `Merged` 527 -> 264 verts; `Merged` 478 -> 239 verts; `Merged` 443 -> 222 verts; `Merged` 414 -> 207 verts; `Merged` 399 -> 256 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"text": "B4 9793 -> 8435 (want <= 8500): `Merged` 3231 -> 1873 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"title": "Vertices",
 			"wanted": {
-				"verts": "<= 5000"
+				"verts": "<= 8500"
 			}
 		}
 	],
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "fire",
-	"quality": 94.2,
+	"quality": 93.3,
 	"result": "WARN",
 	"scene": "res://art/units/fire/pyrehoof_lancer/pyrehoof_lancer.tscn",
-	"tier": "rider",
+	"tier": "cavalry_mounted",
 	"version": "1.0"
 }

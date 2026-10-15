@@ -1,0 +1,96 @@
+{
+	"asset": "blaze_rider",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 0.6,
+					"node": "res://data/units/blaze_rider.tres",
+					"param": "radius",
+					"to": 1.01
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 2.0,
+					"z_m": 2.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.6,
+				"x_m": 0.75,
+				"z_m": 1.76
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.6 -> 1.01, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.6 -> 1.01, or pull the widest parts in to x <= 1.05 / z <= 1.05 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 1.05",
+				"z_m": "<= 1.05"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 2481,
+					"node": "Boar/Root/Mount/Merged",
+					"to": 1241,
+					"words": "`Merged` 2481 -> 1241 verts"
+				},
+				{
+					"from": 1491,
+					"node": "Boar/Root/Mount/Head/Merged",
+					"to": 1166,
+					"words": "`Merged` 1491 -> 1166 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 9990
+			},
+			"predicted": {
+				"verts": 8425
+			},
+			"proposal": "9990 -> 8425 (want <= 8500): `Merged` 2481 -> 1241 verts; `Merged` 1491 -> 1166 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 9990 -> 8425 (want <= 8500): `Merged` 2481 -> 1241 verts; `Merged` 1491 -> 1166 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 8500"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Lance 0.71 m, Pennon 0.37 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Lance 0.71 m, Pennon 0.37 m so the HP bar reads over the head",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Lance 0.71 m, Pennon 0.37 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.35 m (art-units 1.1: the HP bar stays readable)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 93.4,
+	"result": "WARN",
+	"scene": "res://art/units/fire/blaze_rider.tscn",
+	"tier": "cavalry_mounted",
+	"version": "1.0"
+}

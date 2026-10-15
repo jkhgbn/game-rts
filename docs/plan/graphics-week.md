@@ -30,6 +30,10 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
 "never touch" list, tiers via `GameSettings.effective_graphics_quality()`, procedural / original only, no downloads.
 
 ## Progress (lead, 2026-10-15 ~16:20 local; weekly 62 %)
+- ~20:40 UTC (weekly 73 %, 5 h reset): committed G-E value pass 87c622a6. G-E review top 8 all done. Running G-F wave:
+  offscreen emitters root-cause test + generic stop in the model base, Art Lab mounted-cavalry tier, G-E fixes D
+  (Nature off the meadow hue, Thornback / Bramble saddle cloth, Dusk Keep violet panels, hovel R5c), minimap at night
+  (ui-coder). Then: CI worktree HEAD + full CI, quiet perf_test, playtest build + French notes.
 - Committed: G1 setting 97e10f6f + Ultra AA a787667b, G1 lighting e694aa3e, G3a+G3b 1f61a0ea, G2b water 09c78776, G2a grass
   3dfd52e5 + hook b91f5ed1, G-B Shadow 868fcc1a, fog ghost no_ghost cc860e32, G-B Fire 371f5844, spell VFX e6112f6f,
   neutral fd4f6dac, Nature 6683e181, forge model fallback bc47e251, i18n stable 3ee5a6aa.

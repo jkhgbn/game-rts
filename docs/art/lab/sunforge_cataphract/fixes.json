@@ -21,8 +21,8 @@
 			"computed": true,
 			"measured": {
 				"radius": 0.8,
-				"x_m": 1.01,
-				"z_m": 1.67
+				"x_m": 1.02,
+				"z_m": 1.66
 			},
 			"predicted": {},
 			"proposal": "raise UnitType.radius 0.8 -> 0.95, or pull the widest parts in to x <= 1.4 / z <= 1.4 m",
@@ -46,49 +46,25 @@
 				{
 					"from": 1905,
 					"node": "Boar/Root/Mount/Head/Merged",
-					"to": 953,
-					"words": "`Merged` 1905 -> 953 verts"
-				},
-				{
-					"from": 795,
-					"node": "Rider/Root/Chest/Merged",
-					"to": 398,
-					"words": "`Merged` 795 -> 398 verts"
-				},
-				{
-					"from": 521,
-					"node": "Rider/Root/Chest/Head/Merged",
-					"to": 261,
-					"words": "`Merged` 521 -> 261 verts"
-				},
-				{
-					"from": 483,
-					"node": "Rider/Root/Chest/ArmR/Merged",
-					"to": 242,
-					"words": "`Merged` 483 -> 242 verts"
-				},
-				{
-					"from": 414,
-					"node": "Rider/Root/Hips/Merged",
-					"to": 298,
-					"words": "`Merged` 414 -> 298 verts"
+					"to": 1438,
+					"words": "`Merged` 1905 -> 1438 verts"
 				}
 			],
 			"check": "B4",
 			"computed": true,
 			"measured": {
-				"verts": 8473
+				"verts": 10545
 			},
 			"predicted": {
-				"verts": 4826
+				"verts": 8397
 			},
-			"proposal": "8473 -> 4826 (want <= 5000): `Merged` 3363 -> 1682 verts; `Merged` 1905 -> 953 verts; `Merged` 795 -> 398 verts; `Merged` 521 -> 261 verts; `Merged` 483 -> 242 verts; `Merged` 414 -> 298 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"proposal": "10545 -> 8397 (want <= 8500): `Merged` 3363 -> 1682 verts; `Merged` 1905 -> 1438 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"rank": 2,
 			"status": "WARN",
-			"text": "B4 8473 -> 4826 (want <= 5000): `Merged` 3363 -> 1682 verts; `Merged` 1905 -> 953 verts; `Merged` 795 -> 398 verts; `Merged` 521 -> 261 verts; `Merged` 483 -> 242 verts; `Merged` 414 -> 298 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"text": "B4 10545 -> 8397 (want <= 8500): `Merged` 3363 -> 1682 verts; `Merged` 1905 -> 1438 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
 			"title": "Vertices",
 			"wanted": {
-				"verts": "<= 5000"
+				"verts": "<= 8500"
 			}
 		},
 		{
@@ -96,13 +72,13 @@
 			"check": "R6cb",
 			"computed": false,
 			"measured": {
-				"value": "worst pair fire / nature (deutan): dE 13.5 on the team-colour area (normal vision 73.7; 286 px); deutan: fire / nature dE 13.5; protan: fire / nature dE 17.9; worst vs ground: fire colour (deutan) dE 4.7"
+				"value": "worst pair fire / nature (deutan): dE 13.9 on the team-colour area (normal vision 73.1; 287 px); deutan: fire / nature dE 13.9; protan: fire / nature dE 18.0; worst vs ground: fire colour (deutan) dE 2.3"
 			},
 			"predicted": {},
-			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 13.5): add a value step inside the team-colour area",
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 13.9): add a value step inside the team-colour area",
 			"rank": 3,
 			"status": "WARN",
-			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 13.5): add a value step inside the team-colour area",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 13.9): add a value step inside the team-colour area",
 			"title": "Team colours for colour-blind players",
 			"wanted": {
 				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
@@ -112,9 +88,9 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "fire",
-	"quality": 93.7,
+	"quality": 93.6,
 	"result": "WARN",
 	"scene": "res://art/units/fire/sunforge_cataphract/sunforge_cataphract.tscn",
-	"tier": "rider",
+	"tier": "cavalry_mounted",
 	"version": "1.0"
 }

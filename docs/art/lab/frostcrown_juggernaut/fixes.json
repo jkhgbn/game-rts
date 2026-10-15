@@ -5,9 +5,9 @@
 	"ground": "meadow",
 	"kind": "unit",
 	"kingdom": "ice",
-	"quality": 97.2,
+	"quality": 97.8,
 	"result": "PASS",
 	"scene": "res://art/units/ice/frostcrown_juggernaut/frostcrown_juggernaut.tscn",
-	"tier": "cavalry",
+	"tier": "cavalry_mounted",
 	"version": "1.0"
 }

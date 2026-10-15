@@ -53,7 +53,7 @@ cd C:\Users\elzzo\Documents\four-wizards-rts
 | `kingdom=` | `fire` `shadow` `ice` `nature` `neutral` (default: from the UnitType faction or the path) |
 | `out=` | output folder, default `docs/art/lab/<name>/` |
 | `ref=` | comma list of comparison scenes: short names (`ref=ember_archer,flame_guard`), `fire/ember_archer` or `res://` paths (default: auto-picked, see 2). A ref that does not resolve prints `ART LAB WARNING: ref not found` and adds a **WARN R2r** |
-| `tier=` | budget row inside the kind (default guessed: e.g. `unit/creature` for `art/units/neutral/`, `unit/wizard`, `unit/champion`, `unit/cavalry` for `*_rider.tscn`, `unit/heavy` when body_height >= 2.2, `beast/titan` for the Frost Wyrm, `building/keep`, `landmark/objective` for the Crown altar / capture shrines) |
+| `tier=` | budget row inside the kind (default guessed: e.g. `unit/creature` for `art/units/neutral/`, `unit/wizard`, `unit/champion`, `unit/cavalry_mounted` for a scene with a `Rider` instance + its mount (G-F), `unit/cavalry` for other `*_rider.tscn`, `unit/heavy` when body_height >= 2.2, `beast/titan` for the Frost Wyrm, `building/keep`, `landmark/objective` for the Crown altar / capture shrines) |
 | `ground=` | main ground: `meadow` (default) `heath` `old_wood` `riverbank` `dirt`, and (v2) `snow` `ash` `sand` `marsh` (flat stand-in patches tinted with the biome set's `GROUND_TINT`, off the Crown Hollow map); `light=warm` (default) or `ice` (**default when `ground=snow`**) |
 | (PowerShell) | quote the `--` and every comma list: `'--'`, `'ref=ember_archer,flame_guard'`, `'only=a,b'` (an unquoted `a,b` becomes two arguments) |
 | `sweep=<kingdom>` | **army sweep** (v2): every model in `res://art/units/<kingdom>/` (or `dir=`), each run with `quick=1` (`full=1` keeps the per-asset refs / frame cost), then every silhouette rendered **once** and all pairs compared (IoU over 4 turns + colour dE). `only=a,b` filters by file name; `kind= ground= light= log= tier=` pass through. Writes `docs/art/lab/_sweep_<kingdom>/sweep.md` + `army_silhouettes.png` (plus each asset's own scorecard). Exit 1 if any asset FAILs |
@@ -179,6 +179,7 @@ except the new `landmark/objective` row; glow ranges per tier live in `GLOW_TIER
 | unit/heavy | 30 | 16 | 6 (soft) | 6000 (soft) |  | 0 |  | 1 | 16 (soft) | 6 (soft) |  | 0 | 0.005 | 100 | art-units.md 8 (knight), tier3-extras.md 12 (heavy); verts / casters: lab default |
 | unit/rider | 36 | 16 | 6 (soft) | 5000 (soft) |  | 0 |  | 1 | 10 | 5 (soft) |  | 0 | 0.005 | 100 | art-units.md 8 (rider = mount + rider) |
 | unit/cavalry | 20 | 12 | 6 (soft) | 2500 (soft) |  | 0 | 1 |  | 10 | 4 (soft) |  | 0 | 0.005 | 100 | cavalry-mounts.md 10 (cavalry rider, mount separate) |
+| unit/cavalry_mounted | 32 | 20 | 12 (soft) | 8500 (soft) |  | 0 | 1 |  | 10 | 6 (soft) |  | 0 | 0.01 | 100 | cavalry-mounts.md 10 (cavalry rider 12 + mount 8 draws, one scene) |
 | unit/wizard | 26 | 16 | 6 (soft) | 3000 (soft) |  | 1 |  | 1 (soft) | 8 (soft) | 4 (soft) |  | 0 | 0.005 | 100 | art-units.md 8 (wizard) |
 | unit/champion | 26 | 16 | 6 (soft) | 3000 (soft) |  | 0 |  | 1 (soft) | 8 (soft) | 4 (soft) | 5 | 0 | 0.005 | 100 | champions.md 4 / 13, tier3-extras.md 12 |
 | unit/creature | 18 | 10 | 6 (soft) | 2500 (soft) |  | 0 |  | 1 (soft) |  | 4 (soft) |  | 0 | 0.005 | 100 | map-fill.md 10 (camp creature = soldier: 18 / 10) |

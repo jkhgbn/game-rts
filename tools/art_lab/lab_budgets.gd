@@ -52,6 +52,14 @@ const BUDGETS := {
 	"unit/cavalry": {"src": "cavalry-mounts.md 10 (cavalry rider, mount separate)", "face_verts": 1200, "meshes": 20, "draw": 12, "lights": 0,
 		"systems": 1, "particles": 10, "runtime_mats": 0, "frame_ms": 0.005, "n": 100,
 		"soft": {"verts": 2500, "separate": 6, "casters": 4}},
+	## G-F (2026-10-15, docs/art/gf_cavalry_tier.md): a cavalry scene that instances its mount AND its rider (Blaze Rider =
+	## Boar + Rider) is judged on cavalry + mount summed: meshes 20 + 12, draws 12 + 8 (cavalry-mounts.md 10), frame 2 x
+	## 0.005; soft verts 2500 + 6000, casters 4 + 2, separate 6 + 6 (the mount's animated legs / head / tail). Particle
+	## systems stay at the cavalry's 1 (the spec gives mounts none), faces at 1200 (the census already measured rider +
+	## mount faces under it).
+	"unit/cavalry_mounted": {"src": "cavalry-mounts.md 10 (cavalry rider 12 + mount 8 draws, one scene)", "face_verts": 1200,
+		"meshes": 32, "draw": 20, "lights": 0, "systems": 1, "particles": 10, "runtime_mats": 0, "frame_ms": 0.01, "n": 100,
+		"soft": {"verts": 8500, "separate": 12, "casters": 6}},
 	"unit/wizard": {"src": "art-units.md 8 (wizard)", "face_verts": 2200, "meshes": 26, "draw": 16, "lights": 1, "runtime_mats": 0,
 		"frame_ms": 0.005, "n": 100, "soft": {"verts": 3000, "separate": 6, "looping": 1, "particles": 8, "casters": 4}},
 	"unit/champion": {"src": "champions.md 4 / 13, tier3-extras.md 12", "face_verts": 900, "meshes": 26, "draw": 16, "lights": 0,
@@ -279,6 +287,10 @@ static func guess_tier(kind: StringName, scene_path: String, unit_data: Dictiona
 				return &"creature"
 			if bool(unit_data.get("is_worker", false)):
 				return &"worker"
+			# G-F: mount + rider in one scene (blaze_rider.tscn also ends with "_rider.tscn") = the summed budget
+			var mounted: bool = bool(unit_data["mounted"]) if unit_data.has("mounted") else is_mounted_scene(scene_path)
+			if mounted:
+				return &"cavalry_mounted"
 			if p.ends_with("_rider.tscn"):
 				return &"cavalry"
 			var h: float = float(unit_data.get("body_height", 0.0))
@@ -306,6 +318,41 @@ static func guess_tier(kind: StringName, scene_path: String, unit_data: Dictiona
 				return &"cosmetic"
 			return &"deer"
 	return DEFAULT_TIER.get(kind, &"")
+
+
+## True when the saved scene's root has an instanced child named "Rider" next to another instanced child (the mount):
+## the cavalry layout of every `art/units/<kingdom>/<cavalry>.tscn` (G-F 2026-10-15). A .tscn is read as text (no
+## script is compiled, so it works before the class cache is ready); other formats read the PackedScene state.
+static func is_mounted_scene(scene_path: String) -> bool:
+	if scene_path == "" or not ResourceLoader.exists(scene_path):
+		return false
+	if scene_path.get_extension() == "tscn":
+		var text := FileAccess.get_file_as_string(scene_path)
+		var re := RegEx.create_from_string("(?m)^\\[node name=\"([^\"]+)\" parent=\"\\.\" [^\\]]*instance=")
+		var has_rider := false
+		var has_mount := false
+		for m: RegExMatch in re.search_all(text):
+			if m.get_string(1) == "Rider":
+				has_rider = true
+			else:
+				has_mount = true
+		return has_rider and has_mount
+	var ps := load(scene_path) as PackedScene
+	if ps == null:
+		return false
+	var st := ps.get_state()
+	var rider := false
+	var mount := false
+	for i: int in range(1, st.get_node_count()):   # node 0 = the root (an inherited root is not a mount)
+		if String(st.get_node_path(i, true)) != ".":
+			continue
+		if st.get_node_instance(i) == null:
+			continue
+		if String(st.get_node_name(i)) == "Rider":
+			rider = true
+		else:
+			mount = true
+	return rider and mount
 
 
 ## The budget table as Markdown (art-lab.md keeps a copy; `-- table` prints it).
