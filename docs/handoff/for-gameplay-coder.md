@@ -357,3 +357,10 @@ team + unit type): `UnitResearch.has(unit, id) -> bool`, `param(unit, key: Strin
   re-applies them in SaveWorld phase 2 (saved_state), after `load_snapshot_late` restored HP against the max HP without
   the row; a unit restored at full HP is healed to the new max (tested), a damaged one keeps its HP. Adding `research:`
   to the kept prefixes would make the HP exact; harmless with apply_to (same id replaces).
+
+## From the fog-leak root-cause pass (2026-10-15, tests/test_fog_leak.gd) -- DONE 2026-10-15 (projectile.gd hides non-allied shots outside the player's sight via VfxFog, 5 Hz re-check; SpellZone same rule; tests/test_projectile_fog.gd)
+`scripts/units/projectile.gd`: an enemy projectile flying in never-explored fog keeps its MeshInstance3D and its
+OmniLight3D visible (seen from enemy towers / archers / the Fire wizard's fireball in the test). The light lights the
+ground round it and its spill reaches explored ground; the mesh is drawn under the fog overlay only by luck of depth.
+Suggested fix: when the shooter's team is not `FogOfWar.local_team`, show the projectile only while
+`FogOfWar.find().is_visible(local_team, global_position)` (check every few frames; fog off = always shown).

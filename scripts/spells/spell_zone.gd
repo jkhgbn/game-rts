@@ -6,6 +6,8 @@ extends Node3D
 ## `heal_ratio` x the damage really dealt on each tick (even if he walked away; not when dead).
 ## Ticks at 0.5, 1.0 ... duration: a 4 s zone ticks 8 times.
 ## Placeholder look: a flat disc (tech-artist replaces it, 3.U2).
+## Fog: a zone of a team not allied to the local player is drawn only while its centre is in the player's sight
+## (VfxFog rule, re-checked at VfxFog.RECHECK); ticks are not affected.
 
 signal ticked(total_dealt: float)
 ## One target hurt by a tick, with the HP it really lost (Wizard.spell_hit).
@@ -26,6 +28,7 @@ var total_dealt := 0.0
 var _elapsed := 0.0
 var _next_tick := 0.0
 var _mat: StandardMaterial3D
+var _fog_check_left := 0.0
 
 
 func setup(p_caster: Node3D, p_team: int, p_radius: float, p_duration: float, p_tick_damage: float,
@@ -56,10 +59,14 @@ func _ready() -> void:
 	disc.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	disc.position.y = 0.06
 	add_child(disc)
+	_update_fog_visibility()
 
 
 func _physics_process(delta: float) -> void:
 	_elapsed += delta
+	_fog_check_left -= delta
+	if _fog_check_left <= 0.0:
+		_update_fog_visibility()
 	while _elapsed + 0.0001 >= _next_tick and _next_tick <= duration + 0.0001:
 		_tick()
 		_next_tick += tick_interval
@@ -69,6 +76,16 @@ func _physics_process(delta: float) -> void:
 		set_physics_process(false)
 		finished.emit()
 		queue_free()
+
+
+## Visuals only (the whole zone node): see the class comment.
+func _update_fog_visibility() -> void:
+	_fog_check_left = VfxFog.RECHECK
+	var fog := VfxFog.fog()
+	if fog == null or not fog.enabled or Teams.is_allied_fast(int(team), int(fog.local_team)):
+		visible = true
+	else:
+		visible = VfxFog.ok(team, global_position)
 
 
 func _tick() -> void:

@@ -22,6 +22,9 @@ extends Node3D
 ## just hasted. Budget: every burst, trail, ring, flare, beam, tendril, decal, light, zone dressing and aura is
 ## pooled (no allocations per cast after warm-up, except one Tween per animated piece); lights: 3 pooled,
 ## big impacts only; shadows off everywhere. Materials: one per shader, looks set with instance uniforms.
+## Fog (2026-10-15, VfxFog): every piece is gated with the caster's team (`_fx_team`, set by each entry point): another
+## team's effect plays only where the local player sees it; shots, burning / siphon ground re-check at VfxFog.RECHECK;
+## followers and auras hide with their (fog-hidden) unit.
 
 const META := &"spell_vfx"
 const FIRE := Color(1.0, 0.55, 0.15)
@@ -134,6 +137,8 @@ var _kindle_next := 0
 var _poll_left := 0.0
 var _rescan_left := 0.0
 var _clock := 0.0                  # game time (seconds), for pooled timers
+var _fx_team := -1                 # team of the effect being spawned (VfxFog gate; -1 = unknown)
+var _fog_left := 0.0               # countdown to the next fog re-check of long-lived pieces
 
 # Shared resources (built once).
 var _pmats: Dictionary = {}
@@ -190,12 +195,16 @@ func _process(delta: float) -> void:
 		_poll_statuses()
 	_clock += delta
 	var now := _clock
-	_update_shots()
+	_fog_left -= delta
+	var fog_check := _fog_left <= 0.0
+	if fog_check:
+		_fog_left = VfxFog.RECHECK
+	_update_shots(fog_check)
 	_update_cooling(delta)
 	_update_follows(now)
 	_update_auras()
-	_update_embers(delta)
-	_update_siphons(delta, poll)
+	_update_embers(delta, fog_check)
+	_update_siphons(delta, poll, fog_check)
 	for i in range(_live_bursts.size() - 1, -1, -1):
 		var p := _live_bursts[i]
 		if now > float(p.get_meta(&"until", 0.0)):
@@ -255,6 +264,7 @@ func _on_respawned(w: Variant) -> void:
 func _on_spell_cast(id: StringName, w: Node3D) -> void:
 	if not is_instance_valid(w) or not (FIRE_SPELLS.has(id) or SHADOW_SPELLS.has(id)):
 		return
+	_fx_team = _team(w)
 	var fire := FIRE_SPELLS.has(id)
 	var staff := _anchor(w, &"_bob")
 	var palm := _anchor(w, &"_palm") if fire else null
@@ -289,6 +299,7 @@ func _on_spell_cast(id: StringName, w: Node3D) -> void:
 func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 	if not is_instance_valid(w):
 		return
+	_fx_team = _team(w)
 	match id:
 		&"fireball":
 			var r := _radius_of(w, id, 3.5)
@@ -348,6 +359,7 @@ func _on_healed(amount: float, w: Node3D) -> void:
 func _heal_fx(w: Node3D) -> void:
 	if not is_instance_valid(w) or not w.is_inside_tree():
 		return
+	_fx_team = _team(w)
 	var chest := w.global_position + Vector3.UP * _height(w) * 0.6
 	var hit: Dictionary = _lance_hits.get(w, {})
 	if not hit.is_empty() and _clock - float(hit["t"]) < 0.4:
@@ -368,10 +380,14 @@ func _track_shot(p: Node3D, kind: StringName, w: Node3D, target: Vector3, radius
 		if c is MeshInstance3D:
 			(c as MeshInstance3D).visible = false   # the placeholder sphere: we draw our own head
 	var set_root := _take_trail(kind, p.global_position)
+	var team := _team(w)
 	var s := {"p": p, "kind": kind, "w": w, "set": set_root, "head": null, "tail": null, "start": p.global_position,
-			"last": p.global_position, "dir": Vector3.ZERO, "target": target, "radius": radius}
+			"last": p.global_position, "dir": Vector3.ZERO, "target": target, "radius": radius, "team": team,
+			"shown": VfxFog.ok(team, p.global_position)}
 	_shots.append(s)
 	_give_head(s)
+	if set_root:
+		set_root.visible = bool(s["shown"])
 	var tail := _take_beam()
 	if kind == &"fire":   # comet tail
 		_beam_params(tail, Color(1.8, 0.45, 0.05, 1.0), Color(0.4, 0.04, 0.0, 0.45), 0.9, 1.0, 0.55)
@@ -395,11 +411,11 @@ func _give_head(s: Dictionary) -> void:
 		_flare_params(f, Color(1.4, 0.4, 2.6, 1.0), Color(0.06, 0.0, 0.1, 0.5), 0.6, 0.0)
 	f.global_position = s["last"]
 	f.scale = Vector3.ONE * (1.5 if s["kind"] == &"fire" else 0.9)
-	f.visible = true
+	f.visible = bool(s.get("shown", true))
 	s["head"] = f
 
 
-func _update_shots() -> void:
+func _update_shots(fog_check: bool) -> void:
 	for i in range(_shots.size() - 1, -1, -1):
 		var s: Dictionary = _shots[i]
 		var p: Variant = s["p"]
@@ -411,12 +427,18 @@ func _update_shots() -> void:
 			if pos.distance_squared_to(last) > 0.0001:
 				s["dir"] = (pos - last).normalized()
 			s["last"] = pos
+			var shown: bool = s["shown"]
+			if fog_check:   # an enemy shot flying through fog the local player does not see draws nothing
+				shown = VfxFog.ok(int(s["team"]), pos)
+				s["shown"] = shown
 			if s["set"]:
 				(s["set"] as Node3D).global_position = pos
+				(s["set"] as Node3D).visible = shown
 			if s["head"] == null:
 				_give_head(s)   # its flare was taken by the ring buffer
 			var head: MeshInstance3D = s["head"]
 			head.global_position = pos
+			head.visible = shown
 			if fire:
 				head.scale = Vector3.ONE * (1.5 + 0.12 * sin(_clock * 30.0))
 			var tail: Variant = s["tail"]
@@ -425,7 +447,7 @@ func _update_shots() -> void:
 				var start: Vector3 = s["start"]
 				var back := minf(COMET_LEN if fire else LANCE_LEN, start.distance_to(pos))
 				_place_beam(tail as MeshInstance3D, pos - dir * back, pos + dir * (0.25 if fire else 0.45))
-				(tail as MeshInstance3D).visible = back > 0.3
+				(tail as MeshInstance3D).visible = back > 0.3 and shown
 			continue
 		# Landed (or freed).
 		_shots.remove_at(i)
@@ -460,6 +482,7 @@ func _finish_shot(s: Dictionary) -> void:
 
 
 func _fireball_impact(pos: Vector3, radius: float, team: int = -1) -> void:
+	_fx_team = team
 	var k := radius / 3.5
 	var ground := Vector3(pos.x, pos.y, pos.z)
 	_flare(ground + Vector3.UP * 0.9, radius * 0.85, 0.22, Color(1.9, 0.6, 0.08, 1.0), Color(0, 0, 0, 0), 0.8)
@@ -476,6 +499,7 @@ func _fireball_impact(pos: Vector3, radius: float, team: int = -1) -> void:
 
 
 func _lance_hit(pos: Vector3, dir: Vector3, w: Variant) -> void:
+	_fx_team = _team(w)
 	if dir == Vector3.ZERO:
 		dir = Vector3.FORWARD
 	# The lance pierces: a flash beam through the target and shards bursting out the far side.
@@ -495,6 +519,7 @@ func _lance_hit(pos: Vector3, dir: Vector3, w: Variant) -> void:
 # ---------------------------------------------------------------- Ember Step
 
 func _ember_arrive(dest: Vector3, w: Node3D) -> void:
+	_fx_team = _team(w)
 	var from: Variant = _ember_origin.get(w)
 	_ember_origin.erase(w)
 	if from is Vector3:
@@ -526,7 +551,7 @@ func _fire_column(pos: Vector3, size: float) -> void:
 
 
 ## Burning ground on Ember Step's SpellZone: hides the zone's placeholder disc, burns for its duration.
-func _dress_ember(pos: Vector3, _w: Node3D) -> void:
+func _dress_ember(pos: Vector3, w: Node3D) -> void:
 	var zone := _find_zone(&"ember_step", pos)
 	if zone == null or _ember_free.is_empty():
 		return
@@ -548,10 +573,12 @@ func _dress_ember(pos: Vector3, _w: Node3D) -> void:
 		e.visible = true
 		e.emitting = true
 		e.restart()
-	_embers.append({"root": root, "zone": zone, "dur": dur, "t": 0.0})
+	var team := _team(w)
+	root.visible = VfxFog.ok(team, root.global_position)
+	_embers.append({"root": root, "zone": zone, "dur": dur, "t": 0.0, "team": team})
 
 
-func _update_embers(delta: float) -> void:
+func _update_embers(delta: float, fog_check: bool) -> void:
 	for i in range(_embers.size() - 1, -1, -1):
 		var s: Dictionary = _embers[i]
 		s["t"] = float(s["t"]) + delta
@@ -562,6 +589,8 @@ func _update_embers(delta: float) -> void:
 		var zone: Variant = s["zone"]
 		if is_instance_valid(zone):
 			root.global_position = (zone as Node3D).global_position
+		if fog_check and t <= dur + 0.9:
+			root.visible = VfxFog.ok(int(s["team"]), root.global_position)
 		var f := clampf(t / 0.2, 0.0, 1.0) * clampf((dur - t) / 0.9, 0.0, 1.0)
 		disc.set_instance_shader_parameter(&"fade", f)
 		disc.set_instance_shader_parameter(&"heat", 0.9 * clampf((dur - t) / 1.5, 0.3, 1.0))
@@ -579,6 +608,12 @@ func _update_embers(delta: float) -> void:
 # ---------------------------------------------------------------- Kindle
 
 func _kindle(pos: Vector3, r: float, team: int = -1) -> void:
+	_fx_team = team
+	if not VfxFog.ok(team, pos):   # the G layer checks its own pieces
+		var g0 := _g()
+		if g0:
+			g0.play(&"kindle", pos, {"r": r, "team": team})
+		return
 	var root := _kindles[_kindle_next]
 	_kindle_next = (_kindle_next + 1) % _kindles.size()
 	var disc: MeshInstance3D = root.get_child(0)
@@ -645,11 +680,14 @@ func _dress_siphon(pos: Vector3, w: Node3D) -> void:
 		e.visible = true
 		e.emitting = true
 		e.restart()
+	var fx_team := _team(w)
+	var shown := VfxFog.ok(fx_team, root.global_position)
+	root.visible = shown
 	_siphons.append({"root": root, "zone": zone, "w": w, "r": r, "dur": dur, "t": 0.0, "team": zone.get(&"team"),
-			"victims": {}, "stream": null, "pulse": 0.0})
+			"victims": {}, "stream": null, "pulse": 0.0, "fx_team": fx_team, "shown": shown})
 
 
-func _update_siphons(delta: float, poll: bool) -> void:
+func _update_siphons(delta: float, poll: bool, fog_check: bool) -> void:
 	for i in range(_siphons.size() - 1, -1, -1):
 		var s: Dictionary = _siphons[i]
 		s["t"] = float(s["t"]) + delta
@@ -658,6 +696,11 @@ func _update_siphons(delta: float, poll: bool) -> void:
 		var root: Node3D = s["root"]
 		var disc: MeshInstance3D = root.get_child(0)
 		var center := root.global_position
+		var shown: bool = s["shown"]
+		if fog_check and t <= dur + 0.9:
+			shown = VfxFog.ok(int(s["fx_team"]), center)
+			s["shown"] = shown
+			root.visible = shown
 		var f := clampf(t / 0.3, 0.0, 1.0) * clampf((dur - t) / 0.8, 0.0, 1.0)
 		s["pulse"] = maxf(0.0, float(s["pulse"]) - delta * 2.5)
 		disc.set_instance_shader_parameter(&"fade", f * SIPHON_FADE)
@@ -676,6 +719,7 @@ func _update_siphons(delta: float, poll: bool) -> void:
 				continue
 			var chest := (u as Node3D).global_position + Vector3.UP * _height(u as Node3D) * 0.6
 			_place_tendril(td, chest, (chest + eye) * 0.5 + Vector3.UP * 1.1, eye)
+			td.visible = shown
 		# The stream: the eye -> Malrik, while he is alive and not too far.
 		var w: Variant = s["w"]
 		var want := not ending and is_instance_valid(w) and (w as Node3D).is_visible_in_tree() \
@@ -699,6 +743,7 @@ func _update_siphons(delta: float, poll: bool) -> void:
 			var mid := (eye + chest) * 0.5 + Vector3.UP * (1.6 + eye.distance_to(chest) * 0.12)
 			_place_tendril(stream as MeshInstance3D, eye, mid, chest)
 			(stream as MeshInstance3D).set_instance_shader_parameter(&"pulse", s["pulse"])
+			(stream as MeshInstance3D).visible = shown
 		if ending:
 			for c in [1, 2]:
 				(root.get_child(c) as GPUParticles3D).emitting = false
@@ -743,6 +788,8 @@ func _siphon_victims(s: Dictionary) -> void:
 
 
 func _drain_tendril(from: Vector3, to: Vector3) -> void:
+	if not (VfxFog.ok(_fx_team, from) and VfxFog.ok(_fx_team, to)):
+		return
 	var td := _take_tendril()
 	if td == null:
 		return
@@ -775,7 +822,7 @@ func _poll_statuses() -> void:
 			_tracked.erase(u)
 			continue
 		var unit := u as Node3D
-		var shown := unit.is_inside_tree() and unit.is_visible_in_tree()
+		var shown := VfxFog.node_ok(unit)   # in the tree, not hidden by the fog, its point seen
 		var auras: Dictionary = _active.get(unit, {})
 		for status: StringName in [&"haste", &"shroud"]:
 			var on := shown and unit.has_method(&"has_status") and bool(unit.call(&"has_status", status))
@@ -808,6 +855,7 @@ func _ensure(u: Node3D, kind: StringName, on: bool) -> void:
 			_active.erase(u)
 		if kind == &"shroud":
 			_set_body_alpha(u, 1.0)
+			_fx_team = _team(u)
 			_burst(&"shadow_puff", u.global_position + Vector3.UP * 1.0, 0.8)
 		_dying[root] = u
 		_fade_aura(root, kind, false)
@@ -821,12 +869,22 @@ func _update_auras() -> void:
 				_release_aura(k, auras[k])
 			_active.erase(u)
 			continue
+		if not (u as Node3D).is_visible_in_tree():   # the fog hid the unit: its auras go at once (the poll re-adds)
+			for k: StringName in auras.keys():
+				_release_aura(k, auras[k])
+			_active.erase(u)
+			if auras.has(&"shroud"):
+				_set_body_alpha(u as Node3D, 1.0)
+			continue
 		var at := (u as Node3D).global_position
 		for k: StringName in auras:
 			(auras[k] as Node3D).position = at
 	for root: Variant in _dying.keys():
 		var u: Variant = _dying[root]
 		if is_instance_valid(u) and (u as Node).is_inside_tree():
+			if not (u as Node3D).is_visible_in_tree():
+				_release_aura(StringName((root as Node).get_meta(&"kind", &"haste")), root as Node3D)
+				continue
 			(root as Node3D).position = (u as Node3D).global_position
 
 
@@ -907,6 +965,7 @@ func _fit_aura(root: Node3D, kind: StringName, u: Node3D) -> void:
 func _build_aura(kind: StringName) -> Node3D:
 	var root := Node3D.new()
 	root.name = "Aura_" + String(kind)
+	root.set_meta(&"kind", kind)
 	add_child(root)
 	var fx: Array[GeometryInstance3D] = []
 	var parts: Array[GPUParticles3D] = []
@@ -972,6 +1031,8 @@ func _set_transparency(n: Node, t: float) -> void:
 # ---------------------------------------------------------------- pooled building blocks
 
 func _burst(look: StringName, pos: Vector3, size: float = 1.0, dir: Vector3 = Vector3.ZERO) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var pool: Array = _bursts[look]
 	var i: int = _burst_next[look]
 	_burst_next[look] = (i + 1) % pool.size()
@@ -1065,6 +1126,8 @@ func _flare_params(f: MeshInstance3D, tint: Color, halo: Color, rays: float, tur
 ## A camera-facing flash: pops to `size` metres, fades out over `time`; follows `follow` if given.
 func _flare(pos: Vector3, size: float, time: float, tint: Color, halo: Color = Color(0, 0, 0, 0), rays: float = 0.0,
 		follow: Node3D = null) -> void:
+	if not VfxFog.ok(_fx_team, pos) or (follow != null and is_instance_valid(follow) and not follow.is_visible_in_tree()):
+		return
 	var f := _take_flare()
 	_flare_params(f, tint, halo, rays, 0.0)
 	f.global_position = pos
@@ -1086,12 +1149,18 @@ func _update_follows(now: float) -> void:
 		if now > float(d["until"]) or not is_instance_valid(t) or not (t as Node).is_inside_tree():
 			_follows.remove_at(i)
 			continue
+		if not (t as Node3D).is_visible_in_tree():   # the fog hid the unit it rides on
+			(d["n"] as Node3D).visible = false
+			_follows.remove_at(i)
+			continue
 		(d["n"] as Node3D).global_position = (t as Node3D).global_position
 
 
 ## Ground ring: scales r0 -> r1 in `time` (ease out; ease in for an implosion) while fading.
 func _ring(pos: Vector3, r0: float, r1: float, time: float, tint: Color, fill: Color, width: float,
 		implode: bool = false, glow: float = 0.35) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var ring := _rings[_ring_next]
 	_ring_next = (_ring_next + 1) % _rings.size()
 	_sp(ring, {&"tint": tint, &"fill": fill, &"width": width, &"glow": glow, &"fade": 1.0, &"seed": randf() * 10.0})
@@ -1139,6 +1208,8 @@ func _place_beam(b: MeshInstance3D, a: Vector3, c: Vector3) -> void:
 
 ## A beam from a to b that flashes and thins out (w0 -> w1 metres) over `time`.
 func _beam_flash(a: Vector3, b: Vector3, w0: float, w1: float, time: float, core: Color, edge: Color, tail: float) -> void:
+	if not (VfxFog.ok(_fx_team, a) and VfxFog.ok(_fx_team, b)):
+		return
 	var beam := _take_beam()
 	_beam_params(beam, core, edge, w0, tail, 0.35)
 	_place_beam(beam, a, b)
@@ -1190,6 +1261,8 @@ func _place_tendril(td: MeshInstance3D, a: Vector3, ctrl: Vector3, b: Vector3) -
 
 
 func _scorch(pos: Vector3, r: float, heat_time: float, life: float, burn: float = 0.85) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var s := _scorches[_scorch_next]
 	_scorch_next = (_scorch_next + 1) % _scorches.size()
 	s.visible = true
@@ -1205,6 +1278,8 @@ func _scorch(pos: Vector3, r: float, heat_time: float, life: float, burn: float 
 
 
 func _light_flash(pos: Vector3, col: Color, energy: float, reach: float, time: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var g := _g()
 	if g:   # Medium+: the G layer's pooled lights (same energy, attack / decay curve)
 		g.light(pos, col, energy, reach, time)

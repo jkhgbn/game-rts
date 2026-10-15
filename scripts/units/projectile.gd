@@ -13,6 +13,8 @@ signal hit_unit(target: Node3D, damage_dealt: float)
 signal hit_area(target: Node3D, damage_dealt: float)
 
 const BUILDING_AIM_HEIGHT := 1.5
+## How often (s) a projectile shot by another team re-checks the local player's sight (fog of war).
+const FOG_CHECK_INTERVAL := VfxFog.RECHECK
 
 var source: Node3D
 var source_team: int
@@ -31,6 +33,7 @@ var _duration := 0.5
 var _t := 0.0
 var _arc := 0.5
 var _mesh: MeshInstance3D
+var _fog_check_left := 0.0
 
 
 ## Fires at a Unit or a building and follows it. `from_unit` is the shooter (Unit or tower).
@@ -91,6 +94,7 @@ func _setup(from_unit: Node3D, from: Vector3, to: Vector3, dmg: float, radius: f
 		light.omni_range = 6.0
 		light.light_energy = 2.0
 		add_child(light)
+	_update_fog_visibility()
 
 
 func _process(delta: float) -> void:
@@ -101,12 +105,16 @@ func _process(delta: float) -> void:
 			_target = null
 	_t = min(1.0, _t + delta / _duration)
 	global_position = _start.lerp(_target_pos, _t) + Vector3.UP * sin(_t * PI) * _arc
+	_fog_check_left -= delta
+	if _fog_check_left <= 0.0:
+		_update_fog_visibility()
 	if _t >= 1.0:
 		_impact()
 
 
 func _impact() -> void:
 	set_process(false)
+	_update_fog_visibility()
 	var attacker: Node3D = source if is_instance_valid(source) else null
 	# Mission truces (Unit.in_truce) spare a truced node like single-target attacks do (needs the living shooter).
 	var truces := attacker != null and Unit.truce_count > 0
@@ -154,6 +162,20 @@ func _hit_amount(target: Node3D, attacker: Node3D) -> float:
 
 func _flat_distance_to_impact(node: Node3D) -> float:
 	return Vector2(node.global_position.x - _target_pos.x, node.global_position.z - _target_pos.z).length()
+
+
+## Visuals only: a projectile shot by a team that is not allied to the local player is drawn (mesh, light,
+## blast: all children) only while its position is in the local player's sight. No fog = always drawn.
+func _update_fog_visibility() -> void:
+	_fog_check_left = FOG_CHECK_INTERVAL
+	visible = _fog_ok()
+
+
+func _fog_ok() -> bool:
+	var fog := VfxFog.fog()
+	if fog == null or not fog.enabled or Teams.is_allied_fast(int(source_team), int(fog.local_team)):
+		return true
+	return VfxFog.ok(source_team, global_position if is_inside_tree() else _start)
 
 
 static func _alive(node: Variant) -> bool:

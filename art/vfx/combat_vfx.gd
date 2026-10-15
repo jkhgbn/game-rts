@@ -16,6 +16,8 @@ extends Node3D
 ## effects outside the camera frustum are skipped, sparks farther than SPARK_CULL_DISTANCE are skipped, and when
 ## many emitters are live the secondary layers (smoke, spores) then the hit sparks are dropped (flash stays).
 ## Billboard materials use billboard_keep_scale, so ParticleProcessMaterial scale_min / scale_max are metres.
+## Fog (2026-10-15, VfxFog): every burst / flash / ring / pillar / light is gated with the team of its source
+## (`_fx_team`: attacker, dying unit, shooter); projectile trails re-check at VfxFog.RECHECK and collapse while hidden.
 
 const META := &"combat_vfx"
 const SPELL_META := &"spell_vfx"
@@ -32,6 +34,7 @@ const TRAIL_FADE := 0.1
 const LOD_SECONDARY := 24             # live emitters above which smoke / spores / dust are skipped
 const LOD_SPARKS := 36                # live emitters above which hit and impact sparks are skipped
 const SPARK_CULL_DISTANCE := 70.0     # metres from the camera
+const ZERO_BASIS := Basis(Vector3.ZERO, Vector3.ZERO, Vector3.ZERO)   # a hidden trail instance (zero size)
 
 enum Kind { FIRE, SHADOW, ICE, NATURE, NEUTRAL }
 const KIND_NAMES: Array[StringName] = [&"fire", &"shadow", &"ice", &"nature", &"neutral"]
@@ -119,6 +122,10 @@ var _tr_vel := PackedVector3Array()
 var _tr_kind := PackedInt32Array()
 var _tr_fade := PackedFloat32Array()
 var _tr_dirty := PackedByteArray()
+var _tr_team := PackedInt32Array()     # shooter's team (VfxFog)
+var _tr_shown := PackedByteArray()     # 1 = drawn (last fog check)
+var _fx_team := -1                     # team of the effect being spawned (VfxFog gate; -1 = unknown)
+var _fog_left := 0.0
 
 # Counters for the stress preview (stats()).
 var _n_bursts := 0
@@ -231,8 +238,10 @@ func _hook_projectile(node: Variant) -> void:
 		return   # fireballs and spell projectiles are SpellVfx's / IceVfx's
 	p.set_meta(META, true)
 	var kind := _kind_of_color(p.color)
+	var team := -1
 	if is_instance_valid(p.source):
 		kind = _kind_of(p.source, kind)
+		team = VfxFog.team_of(p.source)
 	if _tr_n < MAX_TRAILS:
 		var i := _tr_n
 		_tr_n += 1
@@ -242,7 +251,9 @@ func _hook_projectile(node: Variant) -> void:
 		_tr_kind[i] = kind
 		_tr_fade[i] = 1.0
 		_tr_dirty[i] = 1
-	p.tree_exiting.connect(_on_projectile_gone.bind(p, kind), CONNECT_ONE_SHOT)
+		_tr_team[i] = team
+		_tr_shown[i] = 1 if VfxFog.ok(team, p.global_position) else 0
+	p.tree_exiting.connect(_on_projectile_gone.bind(p, kind, team), CONNECT_ONE_SHOT)
 
 
 # ---------------------------------------------------------------- events
@@ -255,6 +266,7 @@ func _on_attack_landed(target: Variant, _amount: float, attacker: Node3D) -> voi
 		return   # ranged: the projectile makes its own impact
 	var t := target as Node3D
 	var pos := t.global_position
+	_fx_team = VfxFog.team_of(attacker)
 	if not _in_view(pos, 1.5):
 		_n_culled += 1
 		return
@@ -276,9 +288,10 @@ func _on_attack_landed(target: Variant, _amount: float, attacker: Node3D) -> voi
 		_n_lod += 1
 
 
-func _on_projectile_gone(p: Projectile, kind: int) -> void:
+func _on_projectile_gone(p: Projectile, kind: int, team: int = -1) -> void:
 	if not is_inside_tree() or is_queued_for_deletion():
 		return
+	_fx_team = team
 	var pos := p.global_position
 	if not _in_view(pos, 1.0):
 		_n_culled += 1
@@ -302,6 +315,7 @@ func _on_unit_died(unit: Variant) -> void:
 		return
 	var u := unit as Node3D
 	var pos := u.global_position
+	_fx_team = VfxFog.team_of(u)
 	var hero := u is Wizard or u.is_in_group(&"heroes") or u.is_in_group(&"enemy_heroes")
 	if not hero and not _in_view(pos, 3.0):
 		_n_culled += 1
@@ -363,6 +377,7 @@ func _on_building_damaged(_amount: float, attacker: Variant, b: Node3D) -> void:
 			hit_h = Projectile.BUILDING_AIM_HEIGHT
 	var r := Unit.radius_of(b) * 0.8
 	var pos := b.global_position - dir * r + Vector3.UP * hit_h
+	_fx_team = VfxFog.team_of(attacker)
 	if not _in_view(pos, 2.0):
 		_n_culled += 1
 		return
@@ -379,6 +394,7 @@ func _on_level_changed(unit: Variant, _level: int) -> void:
 	var u := unit as Node3D
 	if not u.is_inside_tree() or not _in_view(u.global_position, 3.0):
 		return
+	_fx_team = VfxFog.team_of(u)
 	var pos := u.global_position
 	var h := _height(u)
 	_burst(&"levelup_glints", pos + Vector3.UP * 0.2, Vector3.FORWARD, 1.0, true)
@@ -399,6 +415,7 @@ func _on_pickup_gone(p: Node3D) -> void:
 
 
 func _pickup_fx(pos: Vector3) -> void:
+	_fx_team = -1   # a ground item: shown where the local player sees it
 	_burst(&"pickup_sparkle", pos + Vector3.UP * 0.6, Vector3.FORWARD, 1.0, true)
 	_flash(pos + Vector3.UP * 0.6, Color(1.5, 1.2, 0.6), 0.9, 0.18, 1.0)
 	_ring(pos, 0.2, 1.1, GOLD, 0.35)
@@ -428,6 +445,8 @@ func _near(pos: Vector3) -> bool:
 ## (spread, speed and particle size). `force` ignores the per-frame budget (deaths, level-ups).
 func _burst(look: StringName, pos: Vector3, dir: Vector3, size: float = 1.0, force: bool = false) -> void:
 	if not is_inside_tree() or is_queued_for_deletion() or not _looks.has(look):
+		return
+	if not VfxFog.ok(_fx_team, pos):
 		return
 	if _spawn_budget <= 0 and not force:
 		_n_lod += 1
@@ -491,7 +510,7 @@ func _take(pool: StringName) -> GPUParticles3D:
 # ---------------------------------------------------------------- flashes (MultiMesh)
 
 func _flash(pos: Vector3, col: Color, size: float, dur: float, rays: float) -> void:
-	if _fl_n >= MAX_FLASHES:
+	if _fl_n >= MAX_FLASHES or not VfxFog.ok(_fx_team, pos):
 		return
 	var i := _fl_n
 	_fl_n += 1
@@ -544,6 +563,10 @@ func _update_flashes() -> void:
 # ---------------------------------------------------------------- trails (MultiMesh)
 
 func _update_trails(delta: float) -> void:
+	_fog_left -= delta
+	var fog_check := _fog_left <= 0.0
+	if fog_check:
+		_fog_left = VfxFog.RECHECK
 	var i := 0
 	while i < _tr_n:
 		var p: Variant = _tr_p[i]
@@ -552,6 +575,8 @@ func _update_trails(delta: float) -> void:
 			var v := (pos - _tr_head[i]) / maxf(delta, 0.001)
 			_tr_vel[i] = v if _tr_vel[i] == Vector3.ZERO else _tr_vel[i].lerp(v, 0.5)
 			_tr_head[i] = pos
+			if fog_check:   # an enemy shot in fog the local player does not see: collapsed (drawn as nothing)
+				_tr_shown[i] = 1 if VfxFog.ok(_tr_team[i], pos) else 0
 		else:
 			_tr_p[i] = null
 			_tr_fade[i] -= delta / TRAIL_FADE
@@ -564,8 +589,17 @@ func _update_trails(delta: float) -> void:
 				_tr_vel[i] = _tr_vel[j]
 				_tr_kind[i] = _tr_kind[j]
 				_tr_fade[i] = _tr_fade[j]
+				_tr_team[i] = _tr_team[j]
+				_tr_shown[i] = _tr_shown[j]
 				_tr_dirty[i] = 1
 				continue
+		if _tr_shown[i] == 0:
+			var hid := Transform3D(ZERO_BASIS, _tr_head[i])
+			_trail_mm.set_instance_transform(i * 2, hid)
+			_trail_mm.set_instance_transform(i * 2 + 1, hid)
+			_tr_dirty[i] = 1
+			i += 1
+			continue
 		var fade := _tr_fade[i]
 		var along := _tr_vel[i] * TRAIL_TIME
 		var l := along.length()
@@ -603,6 +637,8 @@ static func _streak_xform(mid: Vector3, along: Vector3, width: float) -> Transfo
 # ---------------------------------------------------------------- lights, pillar, ring (rare, tweened)
 
 func _light_flash(pos: Vector3, col: Color, energy: float, reach: float, time: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var l: OmniLight3D
 	if _lights.size() < MAX_LIGHTS:
 		l = OmniLight3D.new()
@@ -625,6 +661,8 @@ func _light_flash(pos: Vector3, col: Color, energy: float, reach: float, time: f
 
 ## Gold level-up pillar: a slim additive cylinder that shoots up, spins its gradient and fades (0.7 s).
 func _pillar(pos: Vector3, height: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var m: MeshInstance3D
 	if _pillars.size() < 4:
 		m = MeshInstance3D.new()
@@ -669,6 +707,8 @@ func _pillar(pos: Vector3, height: float) -> void:
 
 ## Expanding glowing ground ring (pooled, vfx_ground.gdshader like SpellVfx).
 func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var ring: MeshInstance3D
 	if _rings.size() < 6:
 		ring = MeshInstance3D.new()
@@ -821,6 +861,8 @@ func _build_shared() -> void:
 	_tr_kind.resize(MAX_TRAILS)
 	_tr_fade.resize(MAX_TRAILS)
 	_tr_dirty.resize(MAX_TRAILS)
+	_tr_team.resize(MAX_TRAILS)
+	_tr_shown.resize(MAX_TRAILS)
 
 
 func _make_mm(mesh: Mesh, count: int, custom: bool) -> MultiMesh:

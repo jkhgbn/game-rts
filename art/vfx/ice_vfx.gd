@@ -17,6 +17,8 @@ extends Node3D
 ## The Unit's own placeholder status marks / ice block are hidden while this node shows the status.
 ## Budget: every aura, burst, trail, beam, ring, light and Flash Freeze set is pooled (no allocations per
 ## hit after warm-up); auras are capped per kind and follow their unit from one _process loop.
+## Fog (2026-10-15, VfxFog): spell / support pieces are gated with the caster's team (`_fx_team`); bolt trails re-check
+## at VfxFog.RECHECK; auras never start on a unit the fog hides and go at once when the fog hides it.
 
 const META := &"ice_vfx"
 const SPELL_META := &"spell_vfx"     # CombatVfx skips projectiles carrying this (no double trail)
@@ -91,6 +93,8 @@ var _freezes: Array[Node3D] = []
 var _freeze_next := 0
 var _poll_left := 0.0
 var _rescan_left := 0.0
+var _fx_team := -1                  # team of the effect being spawned (VfxFog gate; -1 = unknown)
+var _fog_left := 0.0
 
 # Shared resources (built once).
 var _soft_tex: GradientTexture2D
@@ -148,10 +152,16 @@ func _process(delta: float) -> void:
 	if _poll_left <= 0.0:
 		_poll_left = POLL_INTERVAL
 		_poll()
+	_fog_left -= delta
+	var fog_check := _fog_left <= 0.0
+	if fog_check:
+		_fog_left = VfxFog.RECHECK
 	# Auras follow their unit.
 	for u: Variant in _active.keys():
 		var auras: Dictionary = _active[u]
-		if not is_instance_valid(u) or not (u as Node).is_inside_tree():
+		if not is_instance_valid(u) or not (u as Node).is_inside_tree() or not (u as Node3D).is_visible_in_tree() \
+				or (fog_check and not VfxFog.node_ok(u)):
+			# Gone, or hidden by the fog: its auras go at once (the poll adds them back when it shows again).
 			for k: StringName in auras.keys():
 				_release(k, auras[k])
 			_active.erase(u)
@@ -163,6 +173,9 @@ func _process(delta: float) -> void:
 	for root: Variant in _dying.keys():
 		var u: Variant = _dying[root]
 		if is_instance_valid(u) and (u as Node).is_inside_tree():
+			if not (u as Node3D).is_visible_in_tree():
+				_release(StringName((root as Node).get_meta(&"kind", &"chill")), root as Node3D)
+				continue
 			(root as Node3D).position = (u as Node3D).global_position
 	# Rime Bolt trails follow their bolt.
 	for i in range(_bolts.size() - 1, -1, -1):
@@ -171,6 +184,8 @@ func _process(delta: float) -> void:
 		var e: GPUParticles3D = b["e"]
 		if is_instance_valid(p) and (p as Node).is_inside_tree():
 			e.global_position = (p as Node3D).global_position
+			if fog_check:
+				e.visible = VfxFog.ok(int(b["team"]), e.global_position)
 		else:
 			_bolts.remove_at(i)
 			e.emitting = false
@@ -224,6 +239,7 @@ func _hook(node: Variant) -> void:
 func _on_spell_cast(id: StringName, w: Node3D) -> void:
 	if not ICE_SPELLS.has(id) or not is_instance_valid(w):
 		return
+	_fx_team = _team(w)
 	var pos := w.global_position
 	_burst(&"frost_cast", pos + Vector3.UP * 0.1)
 	_ring(pos, 0.3, 1.5, ICE, 0.35, 0.1)
@@ -234,12 +250,13 @@ func _on_spell_cast(id: StringName, w: Node3D) -> void:
 func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 	if not is_instance_valid(w):
 		return
+	_fx_team = _team(w)
 	match id:
 		&"rime_bolt":
 			var p := _find_projectile(w)
 			if p:
 				p.set_meta(SPELL_META, true)
-				_attach_trail(p)
+				_attach_trail(p, _fx_team)
 				var g := _g()
 				if g:
 					g.play(&"rime_bolt_fly", p.global_position, {"node": p, "team": _team(w)})
@@ -276,6 +293,8 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 
 
 func _flash_freeze(pos: Vector3, r: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var set_root := _freezes[_freeze_next]
 	_freeze_next = (_freeze_next + 1) % _freezes.size()
 	var old: Variant = set_root.get_meta(&"tw") if set_root.has_meta(&"tw") else null
@@ -300,7 +319,7 @@ func _flash_freeze(pos: Vector3, r: float) -> void:
 	set_root.set_meta(&"tw", tw)
 	tw.tween_property(shards, "scale", Vector3.ONE, 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_interval(FREEZE_HOLD)
-	tw.tween_callback(_burst.bind(&"freeze_chips", pos + Vector3.UP * 0.4, r / 3.0))
+	tw.tween_callback(_burst_as.bind(_fx_team, &"freeze_chips", pos + Vector3.UP * 0.4, r / 3.0))
 	tw.tween_property(shards, "position", Vector3.DOWN * 1.7, 0.35).set_ease(Tween.EASE_IN)   # sink into the ground
 	tw.tween_callback(func() -> void: shards.visible = false)
 	tw.tween_method(func(v: float) -> void: disc.set_instance_shader_parameter(&"fade", v), 1.0, 0.0, 1.0)
@@ -333,6 +352,7 @@ func _on_support_cast(caster: Variant, target: Variant, kind: Variant) -> void:
 	if now - int(_support_last.get(caster, -1000)) < 60:
 		return
 	_support_last[caster] = now
+	_fx_team = VfxFog.team_of(caster)
 	var c := caster as Node3D
 	var t := target as Node3D
 	var heal := StringName(str(kind)) == &"heal"
@@ -358,7 +378,7 @@ func _hand_of(c: Node3D, toward: Vector3) -> Vector3:
 
 func _beam(a: Vector3, b: Vector3, col: Color) -> void:
 	var len := a.distance_to(b)
-	if len < 0.1:
+	if len < 0.1 or not (VfxFog.ok(_fx_team, a) and VfxFog.ok(_fx_team, b)):
 		return
 	var beam := _beams[_beam_next]
 	_beam_next = (_beam_next + 1) % _beams.size()
@@ -410,6 +430,8 @@ func _ensure(u: Unit, kind: StringName, on: bool) -> void:
 	if on == auras.has(kind):
 		return
 	if on:
+		if not VfxFog.node_ok(u):   # hidden by the fog: nothing to draw (the poll adds it when it shows)
+			return
 		var root := _acquire(kind)
 		if root == null:
 			return
@@ -525,6 +547,7 @@ func _fit(root: Node3D, kind: StringName, u: Unit) -> void:
 func _build_aura(kind: StringName) -> Node3D:
 	var root := Node3D.new()
 	root.name = "Aura_" + String(kind)
+	root.set_meta(&"kind", kind)
 	add_child(root)
 	var fx: Array[GeometryInstance3D] = []
 	var parts: Array[GPUParticles3D] = []
@@ -644,6 +667,8 @@ func _hide_placeholder(u: Unit, status: StringName) -> void:
 # ---------------------------------------------------------------- pooled building blocks
 
 func _burst(look: StringName, pos: Vector3, size: float = 1.0) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var pool: Array = _pools[look]
 	var i: int = _pool_next[look]
 	_pool_next[look] = (i + 1) % pool.size()
@@ -653,7 +678,13 @@ func _burst(look: StringName, pos: Vector3, size: float = 1.0) -> void:
 	p.restart()
 
 
-func _attach_trail(p: Node3D) -> void:
+## A burst of team `team` (tween callbacks: the context team may have changed since).
+func _burst_as(team: int, look: StringName, pos: Vector3, size: float) -> void:
+	_fx_team = team
+	_burst(look, pos, size)
+
+
+func _attach_trail(p: Node3D, team: int) -> void:
 	var e: GPUParticles3D
 	if not _trail_free.is_empty():
 		e = _trail_free.pop_back()
@@ -663,14 +694,16 @@ func _attach_trail(p: Node3D) -> void:
 	else:
 		return
 	e.global_position = p.global_position
-	e.visible = true
+	e.visible = VfxFog.ok(team, p.global_position)
 	e.emitting = true
 	e.restart()
-	_bolts.append({"p": p, "e": e})
+	_bolts.append({"p": p, "e": e, "team": team})
 
 
 ## Expanding glowing ring on the ground (vfx_ground.gdshader), pooled.
 func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var ring := _rings[_ring_next]
 	_ring_next = (_ring_next + 1) % _rings.size()
 	var old: Variant = ring.get_meta(&"tw") if ring.has_meta(&"tw") else null
@@ -692,6 +725,8 @@ func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: f
 
 
 func _light_flash(pos: Vector3, col: Color, energy: float, reach: float, time: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var g := _g()
 	if g:   # Medium+: the G layer's pooled lights (same energy, attack / decay curve)
 		g.light(pos, col, energy, reach, time)

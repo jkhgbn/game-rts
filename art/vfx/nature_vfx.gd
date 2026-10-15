@@ -23,6 +23,8 @@ extends Node3D
 ## NOT here: `rooted` (thorns + roots at the feet) is drawn by IceVfx (kingdom-ice.md 2.1), so keep an IceVfx in every
 ## level where Nature can play. Budget: every burst, ring, beam, light, patch and spell set is pooled (no allocations
 ## per event after warm-up).
+## Fog (2026-10-15, VfxFog): every piece is gated with its team (`_fx_team`: the caster, the summon, the healer);
+## Wild Bloom discs re-check at VfxFog.RECHECK; regen motes and spire pulses skip units / buildings the fog hides.
 
 enum HealBeam { AUTO, ALWAYS, NEVER }
 
@@ -104,6 +106,9 @@ var _regen_scan: Array[Unit] = []          # reused by _poll (no allocation per 
 var _motes: MultiMeshInstance3D
 var _poll_left := 0.0
 var _rescan_left := 0.0
+var _fx_team := -1                         # team of the effect being spawned (VfxFog gate; -1 = unknown)
+var _fog_left := 0.0
+var _bloom_live: Array[Dictionary] = []    # {disc, pos, team, left}: Wild Bloom discs re-checked against the fog
 
 # Shared resources (built once).
 var _plane: PlaneMesh
@@ -152,6 +157,18 @@ func _process(delta: float) -> void:
 		_poll()
 	_follow_regen()
 	_tick_blooms(delta)
+	if not _bloom_live.is_empty():
+		_fog_left -= delta
+		var fog_check := _fog_left <= 0.0
+		if fog_check:
+			_fog_left = VfxFog.RECHECK
+		for i in range(_bloom_live.size() - 1, -1, -1):
+			var bl: Dictionary = _bloom_live[i]
+			bl["left"] = float(bl["left"]) - delta
+			if float(bl["left"]) <= 0.0:
+				_bloom_live.remove_at(i)
+			elif fog_check:
+				(bl["disc"] as Node3D).visible = VfxFog.ok(int(bl["team"]), bl["pos"])
 	if spire_pulse and not _spires.is_empty():
 		_tick_spires(delta)
 
@@ -195,6 +212,7 @@ func _hook(node: Variant, fresh: bool) -> void:
 		u.set_meta(SUMMON_META, true)
 		u.died.connect(_on_summon_died, CONNECT_ONE_SHOT)
 		if fresh and u.is_alive():
+			_fx_team = VfxFog.team_of(u)
 			_sprout(u)
 	if u.has_meta(META):
 		return
@@ -225,6 +243,7 @@ func _is_summon(u: Unit) -> bool:
 func _on_spell_cast(id: StringName, w: Node3D) -> void:
 	if not NATURE_SPELLS.has(id) or not is_instance_valid(w):
 		return
+	_fx_team = _team(w)
 	var pos := w.global_position
 	_burst(&"leaf_cast", pos + Vector3.UP * 0.1)
 	_ring(pos, 0.3, 1.6, LEAF, 0.4, 0.1, 0.1)
@@ -235,6 +254,7 @@ func _on_spell_cast(id: StringName, w: Node3D) -> void:
 func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 	if not is_instance_valid(w):
 		return
+	_fx_team = _team(w)
 	var r := 3.0
 	match id:
 		&"thornburst":
@@ -254,6 +274,8 @@ func _on_spell_effect(id: StringName, pos: Vector3, w: Node3D) -> void:
 
 
 func _thornburst(pos: Vector3, r: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var set_root := _thorn_sets[_thorn_next]
 	_thorn_next = (_thorn_next + 1) % _thorn_sets.size()
 	_kill_tween(set_root)
@@ -305,7 +327,11 @@ func _wild_bloom(pos: Vector3, r: float, dur: float, w: Node3D) -> void:
 	var disc := _bloom_discs[_bloom_next]
 	_bloom_next = (_bloom_next + 1) % _bloom_discs.size()
 	_kill_tween(disc)
-	disc.visible = true
+	for i in range(_bloom_live.size() - 1, -1, -1):   # this pooled disc is re-used: drop its old fog entry
+		if _bloom_live[i]["disc"] == disc:
+			_bloom_live.remove_at(i)
+	disc.visible = VfxFog.ok(_fx_team, pos)
+	_bloom_live.append({"disc": disc, "pos": pos, "team": _fx_team, "left": maxf(0.2, dur - 1.0) + 0.4 + 0.55})
 	disc.position = pos + Vector3.UP * 0.06
 	disc.scale = Vector3(r, 1.0, r)
 	disc.set_instance_shader_parameter(&"seed", randf() * TAU)
@@ -350,6 +376,7 @@ func _tick_blooms(delta: float) -> void:
 			for u: Variant in b["units"]:
 				if is_instance_valid(u) and (u as Unit).is_alive() and (u as Unit).is_visible_in_tree():
 					var n := u as Unit
+					_fx_team = n.team
 					_burst(&"plus", n.global_position + Vector3.UP * (_height(n) + 0.25))
 		if float(b["left"]) <= 0.01:
 			_blooms.remove_at(i)
@@ -380,6 +407,7 @@ func _sprout(u: Unit) -> void:
 func _on_summon_died(u: Unit) -> void:
 	if not is_instance_valid(u) or not u.is_inside_tree():
 		return
+	_fx_team = u.team
 	var pos := u.global_position
 	var s := clampf(_radius(u) / 0.4, 0.8, 2.0)
 	_burst(&"wither_leaves", pos + Vector3.UP * _height(u) * 0.8, s)
@@ -396,6 +424,7 @@ func _on_support_cast(caster: Variant, target: Variant, kind: Variant) -> void:
 	if now - int(_support_last.get(caster, -1000)) < 60:
 		return
 	_support_last[caster] = now
+	_fx_team = VfxFog.team_of(caster)
 	var c := caster as Node3D
 	var t := target as Node3D
 	var to := t.global_position + Vector3.UP * _height(t) * 0.6
@@ -418,7 +447,7 @@ func _hand_of(c: Node3D, toward: Vector3) -> Vector3:
 
 func _beam(a: Vector3, b: Vector3) -> void:
 	var len := a.distance_to(b)
-	if len < 0.1:
+	if len < 0.1 or not (VfxFog.ok(_fx_team, a) and VfxFog.ok(_fx_team, b)):
 		return
 	var beam := _beams[_beam_next]
 	_beam_next = (_beam_next + 1) % _beams.size()
@@ -451,7 +480,7 @@ func _poll() -> void:
 		var p := u.global_position
 		if cam and (cam_pos.distance_squared_to(p) > far2 or not cam.is_position_in_frustum(p + Vector3.UP)):
 			continue
-		if not u.is_visible_in_tree():
+		if not VfxFog.node_ok(u, u.team):   # hidden by the fog (or its point not seen)
 			continue
 		_regen_scan.append(u)
 		if _regen_scan.size() >= MAX_REGEN_UNITS:
@@ -500,8 +529,9 @@ func _tick_spires(delta: float) -> void:
 			continue
 		_spires[b] = left + SPIRE_PULSE
 		var bld := b as Building
-		if not bld.is_constructed() or not bld.is_visible_in_tree():
+		if not bld.is_constructed() or not VfxFog.node_ok(bld, bld.team):
 			continue
+		_fx_team = bld.team
 		var pos := bld.global_position
 		if cam and cam.global_position.distance_to(pos) > SPIRE_VIEW_DIST:
 			continue
@@ -515,6 +545,8 @@ func _tick_spires(delta: float) -> void:
 # ---------------------------------------------------------------- pooled building blocks
 
 func _burst(look: StringName, pos: Vector3, size: float = 1.0) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var pool: Array = _pools[look]
 	var i: int = _pool_next[look]
 	_pool_next[look] = (i + 1) % pool.size()
@@ -526,6 +558,8 @@ func _burst(look: StringName, pos: Vector3, size: float = 1.0) -> void:
 
 ## Expanding glowing ring on the ground (vfx_ground.gdshader), pooled.
 func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: float, fill_a: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var ring := _rings[_ring_next]
 	_ring_next = (_ring_next + 1) % _rings.size()
 	_kill_tween(ring)
@@ -546,6 +580,8 @@ func _ring(pos: Vector3, r0: float, r1: float, col: Color, time: float, width: f
 
 ## Ground patch (nature_ground.gdshader): pops in, holds, fades.
 func _patch(pos: Vector3, r: float, mat: ShaderMaterial, hold: float, fade_time: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var patch := _patches[_patch_next]
 	_patch_next = (_patch_next + 1) % _patches.size()
 	_kill_tween(patch)
@@ -566,6 +602,8 @@ func _patch(pos: Vector3, r: float, mat: ShaderMaterial, hold: float, fade_time:
 
 
 func _light_flash(pos: Vector3, col: Color, energy: float, reach: float, time: float) -> void:
+	if not VfxFog.ok(_fx_team, pos):
+		return
 	var g := _g()
 	if g:   # Medium+: the G layer's pooled lights (same energy, attack / decay curve)
 		g.light(pos, col, energy, reach, time)

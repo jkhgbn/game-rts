@@ -406,3 +406,17 @@ crystals, time, state &"ready"/&"working"/&"done"/&"locked", progress, reason}; 
 - ForgeKit (UR.S2): the Forge card is Z X C only. `ForgeKit.UNIT_PRICE / UNIT_TIME / unit_line_of / line_name /
   line_text` still answer for the 12 moved ids (through UnitResearch) so `UnitGuideData.forge_abilities` keeps working
   until U2 replaces it with the table.
+
+## From the fog-leak root-cause pass (2026-10-15): a test hook for the graphics tier
+`GameSettings.effective_graphics_quality()` is Low in every headless / `-s` run unless `-- --gfx=` is on the command
+line, and the CI / Error Lab runs tests without user args, so a test cannot build the High / Ultra building art
+(ShadowDress, Fire / Ice / Nature / neutral paint, wizard model detail) in CI. Please add, read first:
+```
+## Tests: >= 0 replaces the tier (like SpellFxG.test_tier). Never saved.
+static var gfx_test_override := -1
+...
+static func effective_graphics_quality() -> int:
+	if gfx_test_override >= 0:
+		return clampi(gfx_test_override, GFX_LOW, GFX_ULTRA)
+```
+`tests/test_fog_leak.gd` already sets `gfx_test_override` when the static exists (load-guarded) and resets it to -1.

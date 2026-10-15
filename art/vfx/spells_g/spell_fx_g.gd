@@ -157,8 +157,7 @@ var _clock := 0.0
 var _cur_team := -1                  # team of the recipe being played (fog of its followers)
 var _follow_fog_left := 0.0
 var _cam: Camera3D
-var _fog: Node
-var _fog_left := 0.0
+var _fog_left := 0.0                 # countdown to the next camera refresh (the fog itself is VfxFog's)
 var _rng := RandomNumberGenerator.new()
 
 # Shared resources (built once).
@@ -482,7 +481,6 @@ func _process(delta: float) -> void:
 	_fog_left -= delta
 	if _fog_left <= 0.0:
 		_fog_left = 1.0
-		_fog = get_tree().get_first_node_in_group(&"fog")
 		_cam = get_viewport().get_camera_3d() if get_viewport() else null
 	if not _queue.is_empty():
 		for i in range(_queue.size() - 1, -1, -1):
@@ -937,18 +935,9 @@ func _throttle(id: StringName, pos: Vector3, ms: int) -> bool:
 
 
 ## Fog rule: the local team's own effects always show; any other team's (or an unknown team's, -1) only where the
-## local team sees the point (FogOfWar.is_visible). No fog in the level = everything shows.
+## local team sees the point (FogOfWar.is_visible). No fog in the level = everything shows. Shared rule: VfxFog.
 func _fog_ok(team: int, pos: Vector3) -> bool:
-	if not is_instance_valid(_fog) and is_inside_tree():
-		_fog = get_tree().get_first_node_in_group(&"fog")
-	if not is_instance_valid(_fog):
-		return true
-	if not bool(_fog.get(&"enabled")):
-		return true
-	var local: Variant = _fog.get(&"local_team")
-	if local == null or (team >= 0 and int(local) == team) or not _fog.has_method(&"is_visible"):
-		return true
-	return bool(_fog.call(&"is_visible", int(local), pos))
+	return VfxFog.ok(team, pos)
 
 
 # ---------------------------------------------------------------- shared resources (built once)
