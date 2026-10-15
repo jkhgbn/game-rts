@@ -112,6 +112,7 @@ func _make_materials() -> void:
 	mat_body.set_shader_parameter(&"crack_color", glow_color)
 	mat_body.set_shader_parameter(&"crack_scale", 0.5)
 	mat_body.set_shader_parameter(&"hot_energy", hot_energy)
+	NeutralBuildingLook.set_detail(mat_body)   # G-B neutral paint layer tier (stables_painted.gdshader)
 	mat_stone = mat_body
 	mat_dark = mat_body
 	mat_metal = mat_body

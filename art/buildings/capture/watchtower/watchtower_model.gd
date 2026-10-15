@@ -96,6 +96,8 @@ var _flare: float = 0.0
 var _burst: float = 0.0
 var _burst_color: Color = RIM_BURST_COLOR
 var _phase: float = 0.0
+## G-B neutral (Ultra only): the lit cresset's real light in the owner's glow colour (null at Low / neutral art).
+var _beacon_light: NeutralFlickerLight
 
 
 func _ready() -> void:
@@ -116,6 +118,9 @@ func _ready() -> void:
 	_cap_banner = _mesh_node("CaptureBanner", MESH.banner(CAPTURE_SIZE), BANNER_MAT, false)
 	_cap_banner.position = MESH.POLE + Vector3(BANNER_X, CAPTURE_LOW, 0.0)
 	_flames = _mesh_node("Flames", MESH.flames(), FLAME_MAT, false)
+	NeutralBuildingLook.set_detail(MAT)
+	_beacon_light = NeutralBuildingLook.add_light(_body, "BeaconLight", MESH.FLAME_BASE + Vector3(0, 0.55, 0),
+		_glow_target, 2.4, 9.0, 0.28, 1.3)
 	_banner.set_instance_shader_parameter(&"phase", _phase)
 	_banner.set_instance_shader_parameter(&"rod", 0.0)
 	_cap_banner.set_instance_shader_parameter(&"phase", _phase + 2.1)
@@ -341,6 +346,9 @@ func _apply() -> void:
 	var pop: float = sin(_flare * PI) * _flare * 0.14
 	_banner.scale = Vector3(1.0 + pop * 0.5, 1.0 + pop, 1.0)
 	_flames.visible = ign > 0.01
+	if _beacon_light:
+		_beacon_light.set_tint(_glow_shown)
+		_beacon_light.set_level(ign * (1.0 + 1.2 * _flare), true)
 	_flames.set_instance_shader_parameter(&"flame_color", _glow_shown)
 	_flames.set_instance_shader_parameter(&"energy", energy)
 	_flames.set_instance_shader_parameter(&"height_k", lerpf(0.25, 1.0, ign) * (1.0 + 0.6 * _flare))

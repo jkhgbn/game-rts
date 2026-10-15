@@ -53,6 +53,8 @@ varying vec3 v_ln;
 
 varying float v_spec;
 
+#include "res://art/buildings/tavern/neutral_paint.gdshaderinc"
+
 void vertex() {
 	v_wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	v_wn = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
@@ -164,9 +166,21 @@ void fragment() {
 	albedo *= mix(0.72, 1.08, smoothstep(0.0, 1.0, h / max(ao_height, 0.01)));
 	albedo *= mix(0.55, 1.0, smoothstep(0.0, 0.35, h));
 
+	// G-B neutral paint layer (neutral_paint.gdshaderinc): kind by pattern, the rest by colour.
+	int nk = p_pat == 1 ? NK_STONE : (p_pat == 2 ? NK_TILE : ((p_pat == 3 || p_pat == 5) ? NK_WOOD : (p_pat == 4 ? NK_FUR
+		: np_kind_of(np_srgb(p_base), p_spec))));
+	float bump_h;
+	vec3 np_emit;
+	albedo = np_albedo(albedo, nk, gb_detail, v_lp, ln, n, h, length(fwidth(v_wp)), v_wp, CAMERA_POSITION_WORLD,
+		noise_tex, bump_h, np_emit);
+	if (gb_detail > 1.5) {
+		NORMAL = np_bump(NORMAL, VERTEX, bump_h);
+	}
+	v_np = vec3(p_spec, float(nk), gb_detail);
+
 	float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
 	ALBEDO = albedo;
-	EMISSION = rim * rim_color * rim_strength;
+	EMISSION = rim * rim_color * rim_strength + np_emit;
 	ROUGHNESS = 1.0;
 	if (palette && pal_e[p_i].x > 0.0) {
 		vec4 ge = pal_e[p_i];
@@ -174,15 +188,10 @@ void fragment() {
 		ALBEDO = vec3(0.0);
 		EMISSION = pal_a[p_i].rgb * (0.4 + ge.x * gpulse);
 		v_spec = 0.0;
+		v_np = vec3(0.0, -1.0, 0.0);
 	}
 }
 
 void light() {
-	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
-	float ramp = smoothstep(0.32, 0.42, d) * 0.55 + smoothstep(0.58, 0.68, d) * 0.45;
-	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
-	if (v_spec > 0.0) {
-		SPECULAR_LIGHT += pow(max(dot(reflect(-LIGHT, NORMAL), VIEW), 0.0), 24.0) * v_spec * LIGHT_COLOR
-			* ATTENUATION / PI;
-	}
+	np_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, ALBEDO, v_np, DIFFUSE_LIGHT, SPECULAR_LIGHT);
 }

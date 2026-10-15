@@ -45,6 +45,8 @@ varying float v_moss;
 varying vec2 v_uv;
 varying flat float v_kind;
 
+#include "res://art/buildings/tavern/neutral_paint.gdshaderinc"
+
 void vertex() {
 	v_wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	v_wn = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
@@ -166,6 +168,22 @@ void fragment() {
 		emit += albedo * glow_color * glow_energy * beacon_light * fall * fall * lam;
 	}
 
+	// G-B neutral paint layer (neutral_paint.gdshaderinc). Embers / openings keep their own look.
+	int nk = kind == 1 ? NK_STONE : (kind == 2 ? NK_WOOD : (kind == 3 ? NK_TILE : (kind == 4 ? NK_METAL
+		: (kind == 5 ? NK_CLOTH : (kind == 0 ? np_kind_of(np_srgb(v_col), 0.0) : NK_PLAIN)))));
+	float bump_h = 0.0;
+	float np_px = length(fwidth(v_wp));   // derivatives outside the per-kind branch
+	if (kind < 6) {
+		vec3 np_emit;
+		albedo = np_albedo(albedo, nk, gb_detail, v_lp, normalize(v_ln), n, v_lp.y, np_px, v_wp,
+			CAMERA_POSITION_WORLD, noise_tex, bump_h, np_emit);
+		emit += np_emit;
+	}
+	if (gb_detail > 1.5) {
+		NORMAL = np_bump(NORMAL, VERTEX, bump_h);
+	}
+	v_np = vec3(kind == 4 ? 0.4 : 0.0, float(nk), gb_detail);
+
 	float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
 	emit += rim * mix(rim_color * rim_strength, select_color * 0.85, select_k);
 	emit += owner_color * flash * (0.18 + rim * 0.9);
@@ -178,10 +196,5 @@ void fragment() {
 }
 
 void light() {
-	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
-	float ramp = smoothstep(0.32, 0.42, d) * 0.55 + smoothstep(0.58, 0.68, d) * 0.45;
-	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
-	if (ROUGHNESS < 0.9) {
-		SPECULAR_LIGHT += pow(max(dot(reflect(-LIGHT, NORMAL), VIEW), 0.0), 24.0) * 0.4 * LIGHT_COLOR * ATTENUATION / PI;
-	}
+	np_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, ALBEDO, v_np, DIFFUSE_LIGHT, SPECULAR_LIGHT);
 }

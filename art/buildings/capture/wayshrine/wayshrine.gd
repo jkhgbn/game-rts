@@ -48,6 +48,7 @@ const BLESSING_TIME := 1.8      ## s: play_blessing
 const E_DORMANT := Vector2(0.1, 3.0)
 const E_OWNED := Vector2(1.5, 2.4)
 const E_AWAKE := Vector2(2.8, 3.4)
+const STONE_MAT: Material = preload("res://art/buildings/capture/wayshrine/wayshrine_stone_mat.tres")
 
 var _state: StringName = STATE_ASLEEP
 var _owner_on: bool = false
@@ -80,6 +81,8 @@ var _ring: GeometryInstance3D
 var _column: GeometryInstance3D
 var _motes: GeometryInstance3D
 var _burst: GeometryInstance3D
+## G-B neutral (Ultra only): the rune stone's real light (state colour: pale blue asleep, owner, gold awake, blessing).
+var _rune_light: NeutralFlickerLight
 
 
 func _ready() -> void:
@@ -93,6 +96,9 @@ func _ready() -> void:
 	_column = get_node_or_null(^"Column") as GeometryInstance3D
 	_motes = get_node_or_null(^"Motes") as GeometryInstance3D
 	_burst = get_node_or_null(^"Burst") as GeometryInstance3D
+	NeutralBuildingLook.set_detail(STONE_MAT)
+	_rune_light = NeutralBuildingLook.add_light(_float if _float else self, "RuneLight",
+		Vector3(0, 0.0 if _float else FLOAT_Y, 0), DORMANT, 1.8, 7.5, 0.08, 0.5)
 	_ready_done = true
 	_t = randf() * 20.0
 	_spin = randf() * TAU
@@ -257,6 +263,9 @@ func _apply(delta: float) -> void:
 			g = maxf(g, smoothstep(0.0, 0.18, b))
 		_column.set_instance_shader_parameter(&"grow", g)
 	_fx(_motes, col_color, 1.0 * _awake_k * _grow + 1.4 * flash, _awake_k > 0.005 or flash > 0.005)
+	if _rune_light:
+		_rune_light.set_tint(col)
+		_rune_light.set_level(0.3 + 0.45 * _owner_k * (1.0 - _awake_k) + 0.8 * _awake_k + 2.0 * flash + 0.4 * cap, true)
 	# Blessing burst.
 	_fx(_burst, _bless_color, 1.0, _bless_t >= 0.0)
 	if _burst:

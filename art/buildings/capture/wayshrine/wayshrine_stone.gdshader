@@ -41,6 +41,10 @@ varying float v_grad;
 varying float v_y;
 varying float v_moss;
 varying float v_rune;
+varying vec3 v_lp;
+varying vec3 v_ln;
+
+#include "res://art/buildings/tavern/neutral_paint.gdshaderinc"
 
 void vertex() {
 	v_wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -50,6 +54,8 @@ void vertex() {
 	v_y = UV.y;
 	v_moss = UV.x;
 	v_rune = UV2.x;
+	v_lp = VERTEX;
+	v_ln = NORMAL;
 }
 
 float triplanar(vec3 p, vec3 n, float scale) {
@@ -87,16 +93,26 @@ void fragment() {
 	vec3 glow = mix(state_glow, cap_glow, filled) * (1.0 + flare * 1.6);
 	albedo = mix(albedo, groove_color, v_rune);
 
+	// G-B neutral paint layer (neutral_paint.gdshaderinc): weathered stone; the rune light spills a little onto the
+	// stone around the grooves (Medium+), so a lit / owned shrine glows in its colour from the RTS camera.
+	float bump_h;
+	vec3 np_emit;
+	albedo = np_albedo(albedo, NK_STONE, gb_detail * (1.0 - v_rune), v_lp, normalize(v_ln), n, v_y,
+		length(fwidth(v_wp)), v_wp, CAMERA_POSITION_WORLD, noise_tex, bump_h, np_emit);
+	if (gb_detail > 1.5) {
+		NORMAL = np_bump(NORMAL, VERTEX, bump_h);
+	}
+	v_np = vec3(0.0, float(NK_STONE), gb_detail);
+	vec3 spill = gb_detail > 0.5 ? albedo * glow * 0.05 * (1.0 - v_rune) : vec3(0.0);
+
 	float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
 	vec3 rim_c = mix(rim_color * rim_strength * albedo * 2.0, select_rim * 0.85, select_k);
 	ALBEDO = albedo;
-	EMISSION = glow * v_rune + rim * rim_c;
+	EMISSION = glow * v_rune + rim * rim_c + spill;
 	ROUGHNESS = 1.0;
 	SPECULAR = 0.0;
 }
 
 void light() {
-	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
-	float ramp = smoothstep(0.32, 0.44, d) * 0.55 + smoothstep(0.58, 0.70, d) * 0.45;
-	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
+	np_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, ALBEDO, v_np, DIFFUSE_LIGHT, SPECULAR_LIGHT);
 }

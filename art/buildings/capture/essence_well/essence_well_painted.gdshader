@@ -42,6 +42,10 @@ varying float v_y;
 varying float v_moss;
 varying flat float v_kind;
 varying float v_aux;
+varying vec3 v_lp;
+varying vec3 v_ln;
+
+#include "res://art/buildings/tavern/neutral_paint.gdshaderinc"
 
 void vertex() {
 	v_wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -52,6 +56,8 @@ void vertex() {
 	v_moss = UV.x;
 	v_kind = UV2.x;
 	v_aux = UV2.y;
+	v_lp = VERTEX;
+	v_ln = NORMAL;
 }
 
 float triplanar(vec3 p, vec3 n, float scale) {
@@ -114,23 +120,33 @@ void fragment() {
 	albedo *= mix(0.72, 1.08, smoothstep(0.0, 1.0, v_grad));
 	albedo *= mix(0.55, 1.0, smoothstep(0.0, 0.35, v_y));
 
+	// G-B neutral paint layer (neutral_paint.gdshaderinc). The rune inlay keeps its own look.
+	int ki = int(kind + 0.5);
+	int nk = ki == 0 ? NK_STONE : (ki == 1 ? NK_WOOD : (ki == 2 ? NK_METAL : (ki == 3 ? NK_STRAW
+		: (ki == 5 ? NK_TILE : NK_PLAIN))));
+	float bump_h = 0.0;
+	float np_px = length(fwidth(v_wp));   // derivatives outside the per-kind branch
+	vec3 np_emit = vec3(0.0);
+	if (ki != 4) {
+		albedo = np_albedo(albedo, nk, gb_detail, v_lp, normalize(v_ln), n, v_y, np_px, v_wp,
+			CAMERA_POSITION_WORLD, noise_tex, bump_h, np_emit);
+	}
+	if (gb_detail > 1.5) {
+		NORMAL = np_bump(NORMAL, VERTEX, bump_h);
+	}
+	v_np = vec3(spec, float(nk), gb_detail);
+
 	float ndv = 1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0);
 	float rim = pow(ndv, 3.0);
 	// Selected: a warmer, wider rim (pow 2) so it reads from the RTS camera.
 	vec3 rim_c = mix(rim * rim_color * rim_strength * albedo * 2.0, pow(ndv, 2.0) * select_rim * 0.75, select_k);
 	ALBEDO = albedo;
-	EMISSION = glow + rim_c;
+	EMISSION = glow + rim_c + np_emit;
 	// No environment reflections (SPECULAR 0); the iron sheen is done in light(), its strength passed through ROUGHNESS.
 	ROUGHNESS = 1.0 - spec;
 	SPECULAR = 0.0;
 }
 
 void light() {
-	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
-	float ramp = smoothstep(0.32, 0.44, d) * 0.55 + smoothstep(0.58, 0.70, d) * 0.45;
-	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
-	float s = 1.0 - ROUGHNESS;
-	if (s > 0.01) {
-		SPECULAR_LIGHT += pow(max(dot(reflect(-LIGHT, NORMAL), VIEW), 0.0), 24.0) * s * LIGHT_COLOR * ATTENUATION / PI;
-	}
+	np_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, ALBEDO, v_np, DIFFUSE_LIGHT, SPECULAR_LIGHT);
 }

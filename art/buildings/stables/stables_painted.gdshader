@@ -32,11 +32,17 @@ varying vec3 v_world_pos;
 varying vec3 v_world_normal;
 varying flat float v_kind;
 varying float v_spec;
+varying vec3 v_lp;
+varying vec3 v_ln;
+
+#include "res://art/buildings/tavern/neutral_paint.gdshaderinc"
 
 void vertex() {
 	v_world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	v_world_normal = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
 	v_kind = UV2.x;
+	v_lp = VERTEX;
+	v_ln = NORMAL;
 }
 
 float triplanar(vec3 p, vec3 n, float scale) {
@@ -55,6 +61,10 @@ void fragment() {
 	vec3 vc = mix(COLOR.rgb / 12.92, pow((COLOR.rgb + 0.055) / 1.055, vec3(2.4)), step(0.04045, COLOR.rgb));
 	vec3 col = mix(vc * base_color, vc, step(0.5, COLOR.a));
 	v_spec = 0.0;
+	v_np = vec3(0.0, -1.0, 0.0);
+	// Derivatives outside the per-kind branches: the pixel size here, the bump after the if / else (0 on holes).
+	float np_px = length(fwidth(v_world_pos));
+	float bump_h = 0.0;
 	if (kind == 4) {
 		ALBEDO = vec3(0.0);
 		EMISSION = col * 0.25;
@@ -78,6 +88,17 @@ void fragment() {
 		if (kind == 3) {
 			emission += col * hot_energy * (0.85 + 0.15 * sin(TIME * 3.1 + v_world_pos.x * 2.0 + v_world_pos.z));
 		}
+		// G-B neutral paint layer (neutral_paint.gdshaderinc, shared Stables): team parts = dyed cloth / paint, stone,
+		// iron, the rest by colour (timber, straw, plaster, stone). Hot parts keep their own look.
+		int nk = kind == 1 ? NK_STONE : (kind == 2 ? NK_METAL : (COLOR.a < 0.5 ? NK_CLOTH
+			: np_kind_of(COLOR.rgb, 0.0)));
+		if (kind != 3) {
+			vec3 np_emit;
+			albedo = np_albedo(albedo, nk, gb_detail, v_lp, normalize(v_ln), n, h, np_px,
+				v_world_pos, CAMERA_POSITION_WORLD, noise_tex, bump_h, np_emit);
+			emission += np_emit;
+		}
+		v_np = vec3(kind == 2 ? spec_strength : 0.0, float(nk), gb_detail);
 		albedo *= 1.0 - damage * 0.35;
 		float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
 		emission += rim * rim_color * rim_strength;
@@ -86,13 +107,11 @@ void fragment() {
 		ROUGHNESS = 1.0;
 		v_spec = kind == 2 ? 1.0 : 0.0;
 	}
+	if (gb_detail > 1.5) {
+		NORMAL = np_bump(NORMAL, VERTEX, bump_h);
+	}
 }
 
 void light() {
-	float d = dot(NORMAL, LIGHT) * 0.5 + 0.5;
-	float ramp = smoothstep(0.32, 0.42, d) * 0.55 + smoothstep(0.58, 0.68, d) * 0.45;
-	DIFFUSE_LIGHT += ramp * ATTENUATION * LIGHT_COLOR / PI;
-	if (v_spec > 0.5) {
-		SPECULAR_LIGHT += pow(max(dot(reflect(-LIGHT, NORMAL), VIEW), 0.0), 24.0) * spec_strength * LIGHT_COLOR * ATTENUATION / PI;
-	}
+	np_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, ALBEDO, v_np, DIFFUSE_LIGHT, SPECULAR_LIGHT);
 }

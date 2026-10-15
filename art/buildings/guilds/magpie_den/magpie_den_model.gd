@@ -116,6 +116,8 @@ var _vane: Node3D
 var _sack: Node3D
 var _pools: Array[MeshInstance3D] = []
 var _dust: GPUParticles3D
+## G-B neutral (Ultra only): the blue-green door lantern's real light (null at Low).
+var _lamp_light: NeutralFlickerLight
 var _lantern_basis: Basis
 var _vane_basis: Basis
 
@@ -152,6 +154,10 @@ func _ready() -> void:
 	_build_dust()
 	_pal = BuildingPalette.create(PAINTED, _m["stone"])
 	BuildingPalette.fold_tree(_pal, _body)
+	NeutralBuildingLook.set_detail(_pal)
+	NeutralBuildingLook.set_detail_all(_painted)
+	_lamp_light = NeutralBuildingLook.add_light(_lantern, "LanternLight", Vector3(0, -0.43, 0), GLOW_COLOR, 1.4, 5.5,
+		0.25, 0.8)
 	_open_k = 1.0 if _open else 0.0
 	_sel_k = 1.0 if _selected else 0.0
 	set_notify_transform(true)
@@ -1233,6 +1239,8 @@ func _apply_open() -> void:
 	_g_window.set_shader_parameter(&"energy", lerpf(0.25, 0.7, k))   # 1.2 -> 0.7: soft slits under the bloom (R5, 2026-09-30)
 	_g_lantern.set_shader_parameter(&"energy", lerpf(0.9, 3.4, k))
 	_halo.transparency = lerpf(0.7, 0.0, k)
+	if _lamp_light:
+		_lamp_light.set_level(lerpf(0.3, 1.0, k))
 	for p: MeshInstance3D in _pools:
 		p.visible = k > 0.05
 		p.transparency = 1.0 - k

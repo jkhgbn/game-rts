@@ -116,6 +116,9 @@ var _horn_mat: ShaderMaterial
 var _door: Node3D
 var _door_glow: MeshInstance3D
 var _lantern: Node3D
+## G-B neutral (Ultra only): the lantern's and the roof fire's warm lights (null at Low).
+var _lamp_light: NeutralFlickerLight
+var _fire_light: NeutralFlickerLight
 var _lantern_halo: MeshInstance3D
 var _wind: Node3D
 var _horn_flag: Node3D
@@ -151,6 +154,12 @@ func _ready() -> void:
 	_build_smoke()
 	_pal = BuildingPalette.create(PAINTED, _painted[0])
 	BuildingPalette.fold_tree(_pal, self)
+	NeutralBuildingLook.set_detail(_pal)
+	NeutralBuildingLook.set_detail_all(_painted)
+	_lamp_light = NeutralBuildingLook.add_light(_lantern, "LanternLight", Vector3(0, -0.5, 0), GLOW_AMBER, 1.3, 5.0,
+		0.15, 1.0)
+	_fire_light = NeutralBuildingLook.add_light(self, "FireLight", FIRE_POS + Vector3(0, 0.5, 0), GLOW_FIRE, 1.8, 6.0,
+		0.35, 1.5)
 	_open_k = 1.0 if _open else 0.0
 	_sel_k = 1.0 if _selected else 0.0
 	_apply_open()
@@ -1287,6 +1296,10 @@ func _apply_open() -> void:
 	_fire_halo.visible = k > 0.05
 	_fire_halo.transparency = 1.0 - k
 	_smoke.emitting = k > 0.5
+	if _lamp_light:
+		_lamp_light.set_level(lerpf(0.6, 1.0, k))
+	if _fire_light:
+		_fire_light.set_level(k)
 	if _pal:
 		BuildingPalette.refresh(_pal)
 

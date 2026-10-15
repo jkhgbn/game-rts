@@ -1,0 +1,3 @@
+res://art/buildings/guilds/magpie_den/magpie_den.tscn kind=building kingdom=neutral out=docs/art/lab/gb_neutral/before/magpie_den
+res://art/buildings/guilds/greywater_lodge/greywater_lodge.tscn kind=building kingdom=neutral out=docs/art/lab/gb_neutral/before/greywater_lodge
+res://art/buildings/stables/fire/fire_stables.tscn kind=building kingdom=fire out=docs/art/lab/gb_neutral/before/fire_stables

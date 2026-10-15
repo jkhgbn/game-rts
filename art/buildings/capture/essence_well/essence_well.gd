@@ -31,6 +31,7 @@ extends Node3D
 ## shared .tres materials, per-well state in instance uniforms, no processing while idle.
 
 const NEUTRAL_RUNE := Color(0.52, 0.36, 0.80)
+const PAINTED_MAT: Material = preload("res://art/buildings/capture/essence_well/essence_well_painted_mat.tres")
 const E_NEUTRAL := 0.45
 const E_OWNED := 2.3
 const PULSE_TIME := 1.1          ## s: play_pulse
@@ -66,6 +67,8 @@ var _essence: GeometryInstance3D
 var _fx: GeometryInstance3D
 var _fx_ground: GeometryInstance3D
 var _mist: GPUParticles3D
+## G-B neutral (Ultra only): the essence's real light over the shaft, in the runes' colour (owner glow or violet).
+var _well_light: NeutralFlickerLight
 ## The Fx mesh split in two (in-game grade 2026-09-30): the standing mist cards stay on Fx, the flat ground glow and
 ## pulse ring go to their own flat node "FxGround" (a ground decal, 0.01 m thick: it is not part of the well's
 ## silhouette / body read). Same material and instance uniforms; built once from essence_well_fx.res and cached.
@@ -79,6 +82,9 @@ func _ready() -> void:
 	_split_body()
 	_split_fx()
 	_mist = get_node_or_null(^"Mist") as GPUParticles3D
+	NeutralBuildingLook.set_detail(PAINTED_MAT)
+	_well_light = NeutralBuildingLook.add_light(self, "EssenceLight", Vector3(0, 1.35, 0), NEUTRAL_RUNE, 1.3, 7.0,
+		0.1, 0.6)
 	_ready_done = true
 	_snap()
 	_apply(0.0)
@@ -331,5 +337,8 @@ func _apply(delta: float) -> void:
 			fx.set_instance_shader_parameter(&"flare", flare)
 	if _mist:
 		_mist.speed_scale = 1.0 + flare * 1.5
+	if _well_light:
+		_well_light.set_tint(_col)
+		_well_light.set_level((0.55 + 0.45 * clampf(_energy / E_OWNED, 0.0, 1.0)) * (1.0 + flare * 1.2), true)
 	if not busy:
 		set_process(false)

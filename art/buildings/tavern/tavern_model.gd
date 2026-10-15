@@ -79,6 +79,10 @@ var _door_glow: MeshInstance3D
 var _pools: Array[MeshInstance3D] = []
 var _smoke: GPUParticles3D
 var _sign_basis: Basis
+## G-B neutral (Ultra only): the lantern's and the doorway's warm lights (null at Low).
+var _lamp_light: NeutralFlickerLight
+var _door_light: NeutralFlickerLight
+var _sparks: GPUParticles3D   # High+ only
 var _lantern_basis: Basis
 
 var _t: float = 0.0
@@ -106,6 +110,9 @@ func _ready() -> void:
 	_build_smoke()
 	_pal = BuildingPalette.create(PAINTED, _painted[0])
 	BuildingPalette.fold_tree(_pal, _body)
+	NeutralBuildingLook.set_detail(_pal)
+	NeutralBuildingLook.set_detail_all(_painted)
+	_build_lights()
 	_open_k = 1.0 if _open else 0.0
 	_sel_k = 1.0 if _selected else 0.0
 	_apply_open()
@@ -218,6 +225,9 @@ func _make_materials() -> void:
 	thatch.set_shader_parameter(&"moss_cut", 0.7)
 	thatch.set_shader_parameter(&"moss_color", C_MOSS.darkened(0.15))
 	_paint("iron", C_IRON, 0, 0.0, 0.0, 0.4)
+	_paint("bloom_red", Color(0.78, 0.16, 0.14))
+	_paint("bloom_gold", Color(0.95, 0.74, 0.22))
+	_paint("leaf", Color(0.26, 0.42, 0.16))
 	_paint("gold", C_GOLD, 0, 0.0, 0.0, 0.5)
 	_g_window = _glow(1.9, 1.3)
 	_g_door = _glow(1.5, 2.2)
@@ -532,6 +542,30 @@ func _add_windows(it: Array) -> void:
 	_window(it, bx, Vector3(2.55, yu, -1.0), 0.56, 0.46, false)
 	for s: float in [-1.0, 1.0]:
 		_window(it, bz if s > 0.0 else bnz, Vector3(0, Y_PLATE_TOP + 0.78, s * 2.62), 0.46, 0.4, false)
+	# G-B neutral: flower boxes under the shuttered upper windows and two ground-floor ones (lived-in, colour at RTS
+	# zoom; the ground-floor boxes stick out 0.26 m, inside the 0.3 m footprint rule).
+	_flower_box(it, bz, Vector3(0, yu - 0.25 - 0.14, 2.55), 0.82, 1)
+	_flower_box(it, bnz, Vector3(0, yu - 0.25 - 0.14, -2.55), 0.82, 2)
+	_flower_box(it, bz, Vector3(-1.25, 1.35 - 0.35 - 0.14, 2.45), 0.9, 3)
+	_flower_box(it, bx, Vector3(2.45, 1.35 - 0.35 - 0.14, -1.45), 0.9, 4)
+
+
+## A window box (planks + earth) packed with red / gold blooms over leaves, under a sill. `b` local +Z = outward.
+func _flower_box(it: Array, b: Basis, sill: Vector3, w: float, seed_i: int) -> void:
+	var o: Vector3 = sill + b * Vector3(0, -0.12, 0.17)
+	it.append(_itx(_box(Vector3(w, 0.2, 0.22)), Transform3D(b, o), "wood"))
+	it.append(_itx(_box(Vector3(w + 0.04, 0.04, 0.24)), Transform3D(b, o + b * Vector3(0, -0.1, 0)), "timber"))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7919 * seed_i
+	var n: int = int(w / 0.11)
+	for i: int in n:
+		var x: float = -w * 0.5 + 0.06 + (w - 0.12) * (float(i) + rng.randf_range(-0.3, 0.3)) / maxf(n - 1, 1)
+		var z: float = rng.randf_range(-0.06, 0.06)
+		it.append(_itx(_sphere(0.075, 6, 3), Transform3D(b.scaled(Vector3(1.0, 0.8, 1.0)),
+			o + b * Vector3(x, 0.1 + rng.randf_range(0.0, 0.03), z)), "leaf"))
+		if rng.randf() < 0.75:
+			it.append(_itx(_sphere(0.05, 6, 3), Transform3D(b, o + b * Vector3(x + rng.randf_range(-0.03, 0.03),
+				0.17 + rng.randf_range(0.0, 0.05), z + 0.03)), "bloom_red" if rng.randf() < 0.55 else "bloom_gold"))
 
 
 func _add_porch(it: Array) -> void:
@@ -672,6 +706,16 @@ func _build_lantern() -> void:
 	halo.position = Vector3(0, -0.5, 0)
 	halo.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_lantern.add_child(halo)
+
+
+## G-B neutral (Ultra only, NeutralBuildingLook): a real warm light in the swinging lantern (it sways with it, so the
+## light pool on the porch and the sign moves) and a softer one in the doorway (follows the door, flashes on a hire).
+func _build_lights() -> void:
+	_lamp_light = NeutralBuildingLook.add_light(_lantern, "LanternLight", Vector3(0, -0.5, 0), Color(1.0, 0.70, 0.36),
+		1.7, 6.5, 0.22, 1.1)
+	_door_light = NeutralBuildingLook.add_light(_body, "DoorLight", Vector3(1.5, Y_PLINTH, 1.5) + DOOR_DIR_LOCAL * 0.55
+		+ Vector3(0, 1.1, 0), Color(1.0, 0.64, 0.30), 1.2, 4.2, 0.12, 0.7)
+	_sparks = NeutralBuildingLook.add_sparks(_body, "ChimneySparks", Vector3(-2.71, 7.9, CHIMNEY_Z), 6)
 
 
 # --- Ground contact, fake light pools, smoke ---
@@ -823,6 +867,12 @@ func _apply_open() -> void:
 		p.visible = k > 0.05
 		p.transparency = 1.0 - k
 	_smoke.emitting = k > 0.5
+	if _sparks:
+		_sparks.emitting = k > 0.5
+	if _lamp_light:
+		_lamp_light.set_level(lerpf(0.35, 1.0, k))
+	if _door_light:
+		_door_light.set_level(k)
 	if _pal:
 		BuildingPalette.refresh(_pal)
 
@@ -839,5 +889,7 @@ func _apply_rim_and_glow() -> void:
 	for m: ShaderMaterial in _glows:
 		m.set_shader_parameter(&"boost", boost)
 	_g_door.set_shader_parameter(&"boost", boost + 2.5 * sin(_pulse * PI) * _pulse)
+	if _door_light and _pulse > 0.0:
+		_door_light.flash(1.5 * sin(_pulse * PI))
 	if _pal:
 		BuildingPalette.refresh(_pal)

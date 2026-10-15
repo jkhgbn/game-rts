@@ -114,6 +114,9 @@ var _pools: Array[MeshInstance3D] = []
 var _lantern_basis: Basis
 var _head_basis_src: Basis = Basis(Vector3.ZERO, Vector3.ZERO, Vector3.ZERO)
 var _head_flip: float = 1.0
+## G-B neutral (Ultra only): the brazier's and the lantern's warm lights (null at Low).
+var _fire_light: NeutralFlickerLight
+var _lamp_light: NeutralFlickerLight
 
 var _t: float = 0.0
 var _ready_done: bool = false
@@ -141,6 +144,11 @@ func _ready() -> void:
 	_build_lantern()
 	_build_brazier_fire()
 	_build_ground()
+	NeutralBuildingLook.set_detail_all(_painted)
+	_fire_light = NeutralBuildingLook.add_light(_body, "BrazierLight", BRAZIER + Vector3(0, Y_PLINTH + 1.45, 0),
+		Color(1.0, 0.58, 0.24), 1.6, 5.5, 0.32, 1.4)
+	_lamp_light = NeutralBuildingLook.add_light(_lantern, "LanternLight", Vector3(0, -0.45, 0), Color(1.0, 0.74, 0.40),
+		0.9, 4.0, 0.15, 1.0)
 	_open_k = 1.0 if _open else 0.0
 	_sel_k = 1.0 if _selected else 0.0
 	_held_k = 1.0 if _held else 0.0
@@ -1284,6 +1292,10 @@ func _apply_open() -> void:
 	_g_coals.set_shader_parameter(&"glow_color", COAL_COLOR.lerp(Color(0.35, 0.12, 0.06), 1.0 - k))
 	_flames.emitting = k > 0.5
 	_halo.visible = k > 0.05
+	if _fire_light:
+		_fire_light.set_level(k)
+	if _lamp_light:
+		_lamp_light.set_level(lerpf(0.15, 1.0, k))
 	for p: MeshInstance3D in _pools:
 		p.visible = k > 0.05
 		p.transparency = 1.0 - k
@@ -1309,5 +1321,7 @@ func _apply_rim_and_glow() -> void:
 	var boost: float = lerpf(1.0, 1.35, _sel_k)
 	_g_coals.set_shader_parameter(&"boost", boost)
 	var flare: float = sin(_pulse * PI) * _pulse * 1.6
+	if _lamp_light and _pulse > 0.0:
+		_lamp_light.flash(flare)
 	_g_lantern.set_shader_parameter(&"boost", boost + flare)
 	_g_lantern.set_shader_parameter(&"energy", lerpf(0.35, 3.4, _open_k))
