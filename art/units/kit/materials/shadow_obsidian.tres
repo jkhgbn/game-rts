@@ -21,3 +21,4 @@ shader_parameter/crack_scale = null
 shader_parameter/damage = null
 shader_parameter/top_color = Color(0.4, 0.32, 0.58, 1)
 shader_parameter/top_lift = 0.45
+shader_parameter/surface_kind = 2

@@ -11,3 +11,4 @@ shader_parameter/base_color = Color(0.21, 0.17, 0.2, 1)
 shader_parameter/noise_tex = ExtResource("2_bger")
 shader_parameter/spec_strength = 0.0
 shader_parameter/rim_strength = 0.2
+shader_parameter/surface_kind = 0

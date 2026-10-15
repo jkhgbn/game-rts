@@ -1,0 +1,13 @@
+{
+	"asset": "oathwall",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "neutral",
+	"quality": 95.0,
+	"result": "PASS",
+	"scene": "res://art/units/champions/oathwall/oathwall.tscn",
+	"tier": "champion",
+	"version": "1.0"
+}

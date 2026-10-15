@@ -1,0 +1,75 @@
+{
+	"asset": "rimeshield",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 1.7,
+					"node": "res://art/units/ice/rimeshield.tscn (root), res://data/units/rimeshield.tres",
+					"param": "body_height",
+					"to": 2.19
+				}
+			],
+			"check": "R8",
+			"computed": true,
+			"measured": {
+				"body_height": 1.7,
+				"head_top_m": 2.19,
+				"ratio": 1.29
+			},
+			"predicted": {
+				"ratio": 1.0
+			},
+			"proposal": "body_height 1.7 -> 2.19 in res://art/units/ice/rimeshield.tscn (root) and res://data/units/rimeshield.tres (the head top; x1.29 now), or lower the head / crest 0.06 m",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R8: body_height 1.7 -> 2.19 in res://art/units/ice/rimeshield.tscn (root) and res://data/units/rimeshield.tres (the head top; x1.29 now), or lower the head / crest 0.06 m",
+			"title": "Head height vs body_height",
+			"wanted": {
+				"ratio": "0.75-1.25"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 0.5,
+					"node": "res://data/units/rimeshield.tres",
+					"param": "radius",
+					"to": 0.51
+				},
+				{
+					"node": "widest parts",
+					"param": "pull in",
+					"x_m": 0.0,
+					"z_m": 0.0
+				}
+			],
+			"check": "R10",
+			"computed": true,
+			"measured": {
+				"radius": 0.5,
+				"x_m": 0.9,
+				"z_m": 0.69
+			},
+			"predicted": {},
+			"proposal": "raise UnitType.radius 0.5 -> 0.51, or pull the widest parts in to x <= 0.88 / z <= 0.88 m",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R10: raise UnitType.radius 0.5 -> 0.51, or pull the widest parts in to x <= 0.88 / z <= 0.88 m",
+			"title": "Footprint vs selection radius",
+			"wanted": {
+				"x_m": "<= 0.88",
+				"z_m": "<= 0.88"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 93.3,
+	"result": "WARN",
+	"scene": "res://art/units/ice/rimeshield.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

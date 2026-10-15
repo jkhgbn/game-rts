@@ -16,3 +16,4 @@ shader_parameter/crack_strength = 0.4
 shader_parameter/crack_color = Color(0.72, 0.32, 1, 1)
 shader_parameter/crack_speed = 1.2
 shader_parameter/crack_scale = 0.26
+shader_parameter/surface_kind = 0

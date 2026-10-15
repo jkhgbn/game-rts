@@ -1,0 +1,80 @@
+{
+	"asset": "malrik",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 997,
+					"node": "Root/Chest/Head/Merged",
+					"to": 499,
+					"words": "`Merged` 997 -> 499 verts"
+				},
+				{
+					"from": 805,
+					"node": "Root/Chest/Merged",
+					"to": 746,
+					"words": "`Merged` 805 -> 746 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3530
+			},
+			"predicted": {
+				"verts": 2973
+			},
+			"proposal": "3530 -> 2973 (want <= 3000): `Merged` 997 -> 499 verts; `Merged` 805 -> 746 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 3530 -> 2973 (want <= 3000): `Merged` 997 -> 499 verts; `Merged` 805 -> 746 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 1.18 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 1.18 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 1.18 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.7 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B6l",
+			"computed": false,
+			"measured": {
+				"value": "2 (VoidMotes, ShadowMist)"
+			},
+			"predicted": {},
+			"proposal": "Looping particle systems: Looping systems only where the spec lists them; stop them beyond 45 m (kit does it for GPUParticles3D)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B6l Looping particle systems: Looping systems only where the spec lists them; stop them beyond 45 m (kit does it for GPUParticles3D)",
+			"title": "Looping particle systems",
+			"wanted": {
+				"rule": "<= 1 soft (art-units.md 8 (wizard))"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 92.5,
+	"result": "WARN",
+	"scene": "res://art/units/wizards/malrik.tscn",
+	"tier": "wizard",
+	"version": "1.0"
+}

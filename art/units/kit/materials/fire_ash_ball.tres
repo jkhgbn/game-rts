@@ -19,3 +19,4 @@ shader_parameter/crack_color = Color(1, 0.55, 0.15, 1)
 shader_parameter/crack_speed = null
 shader_parameter/crack_scale = null
 shader_parameter/damage = null
+shader_parameter/surface_kind = 0

@@ -14,3 +14,4 @@ shader_parameter/noise_scale_b = 0.8
 shader_parameter/spec_strength = 0.28
 shader_parameter/rim_color = Color(0.95, 0.55, 0.3, 1)
 shader_parameter/rim_strength = 0.3
+shader_parameter/surface_kind = 2

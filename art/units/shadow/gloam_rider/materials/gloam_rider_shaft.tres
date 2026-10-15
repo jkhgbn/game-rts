@@ -12,3 +12,4 @@ shader_parameter/noise_tex = ExtResource("2_grs")
 shader_parameter/spec_strength = 0.12
 shader_parameter/rim_color = Color(0.7, 0.35, 1, 1)
 shader_parameter/rim_strength = 0.6
+shader_parameter/surface_kind = 5

@@ -1,0 +1,31 @@
+{
+	"asset": "torvald",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Merged 0.81 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Merged 0.81 m so the HP bar reads over the head",
+			"rank": 1,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Merged 0.81 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.7 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "ice",
+	"quality": 95.0,
+	"result": "WARN",
+	"scene": "res://art/units/wizards/torvald.tscn",
+	"tier": "wizard",
+	"version": "1.0"
+}

@@ -42,7 +42,12 @@ const WHITE := Vector3(1.0, 1.0, 1.0)
 ## declares these names with `: instance_index(N)`. Slot 0 stays free for banner.gdshader's implicit `phase` (capes).
 const INSTANCE_SLOTS: Dictionary = {
 	"ao_bottom": 1, "ao_height": 2, "hit_flash": 3, "flash_color": 4, "glow_boost": 5, "blob_color": 6,
+	"kit_detail": 12, "flare": 13,
 }
+## G3b (docs/art/g3b_materials.md): kit_detail (slot 12) per graphics tier Low / Medium / High / Ultra: the cost tier of
+## the painted-PBR layer (art/units/kit/unit_paint.gdshaderinc): 0 = light ramp only, 1 = + folds / crease tint /
+## metal reflection, 2 = + fine procedural detail and bump.
+const DETAIL_BY_QUALITY: Array[float] = [0.0, 1.0, 2.0, 2.0]
 ## Champion class weapons (11.V1). The weapon kit is a plain static script (no nodes, no class_name use here).
 const WEAPON_KIT := preload("res://art/units/champions/weapons/champion_weapon_kit.gd")
 ## The weapon's scale-in when a class is taken (skills-rework.md 5).
@@ -138,6 +143,10 @@ var _phase_off: float = 0.0
 ## Per-match spawn counter that spreads the idle phases (golden-ratio steps: neighbours never sync). Deterministic
 ## (was the instance id hash: flaky tests, no replay determinism); restarts when the current scene changes.
 static var _spawn_seq: int = 0
+static var _dq_value: float = -1.0
+static var _dq_frame: int = -100000
+var _detail_written: float = -1.0
+var _detail_count: int = -1
 static var _spawn_scene: int = 0
 var _speed: float = 0.0
 var _walk_w: float = 0.0
@@ -275,6 +284,7 @@ func _ready() -> void:
 	_collect(self)
 	for gi: GeometryInstance3D in _flash_all_targets:
 		gi.set_instance_shader_parameter(&"ao_height", body_height)
+	_refresh_detail(true)
 	for i: int in [P_CHEST, P_HEAD, P_ARM_R]:
 		var m: MeshInstance3D = _merged_nodes.get(i)
 		if m:
@@ -1360,7 +1370,29 @@ func _outside_view() -> bool:
 	return false
 
 
+## The kit_detail tier of the current graphics setting (re-read at most every 30 frames, shared by every model).
+static func detail_tier() -> float:
+	var f := Engine.get_process_frames()
+	if _dq_value < 0.0 or f - _dq_frame > 30:
+		_dq_frame = f
+		_dq_value = DETAIL_BY_QUALITY[clampi(GameSettings.effective_graphics_quality(), 0, 3)]
+	return _dq_value
+
+
+## Writes kit_detail on every painted draw instance when the tier (or the instance list) changed.
+func _refresh_detail(force: bool) -> void:
+	var dq := detail_tier()
+	if not force and dq == _detail_written and _flash_all_targets.size() == _detail_count:
+		return
+	_detail_written = dq
+	_detail_count = _flash_all_targets.size()
+	for gi: GeometryInstance3D in _flash_all_targets:
+		if is_instance_valid(gi):
+			gi.set_instance_shader_parameter(&"kit_detail", dq)
+
+
 func _update_tier() -> void:
+	_refresh_detail(false)
 	var cam := get_viewport().get_camera_3d() if is_inside_tree() else null
 	var nt: int = 1
 	if cam:
@@ -2190,6 +2222,7 @@ func _wk_set_pivot_mesh(i: int, pkey: String, mesh: Mesh) -> void:
 		node.set_instance_shader_parameter(&"ao_height", body_height)
 		node.set_instance_shader_parameter(&"hit_flash", _flash_v if _flash_gold else _flash_v * hit_flash_scale)
 		node.set_instance_shader_parameter(&"flash_color", GOLD if _flash_gold else hit_flash_color)
+		node.set_instance_shader_parameter(&"kit_detail", detail_tier())
 	# The crystal: a pivot whose archetype merge had no glow is driven here (own_glow: WEAPON_GLOW_BASE x the kit
 	# level + the pose flares, in _wk_process); a pivot that already glowed stays with whoever drove it (kit or model).
 	var base_glow: bool = entry.get("glow", false)

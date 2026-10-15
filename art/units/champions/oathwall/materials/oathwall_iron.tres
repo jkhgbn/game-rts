@@ -11,3 +11,4 @@ shader_parameter/base_color = Color(0.45, 0.46, 0.5, 1)
 shader_parameter/noise_tex = ExtResource("2_oath")
 shader_parameter/spec_strength = 0.35
 shader_parameter/rim_strength = 0.3
+shader_parameter/surface_kind = 2

@@ -9,6 +9,16 @@ const GLOW := "res://art/units/kit/unit_glow.gdshader"
 const BANNER := "res://art/shaders/banner.gdshader"
 const BLOB := "res://art/units/kit/unit_blob.gdshader"
 const NOISE := "res://art/shaders/paint_noise.tres"
+## G3b surface kinds (unit_paint.gdshaderinc: 0 plain, 1 cloth, 2 metal, 3 leather, 4 skin, 5 wood, 6 fur, 7 bone / stone);
+## the same values tools/assign_surface_kinds.ps1 writes. Not listed = auto (spec -> metal, else plain).
+const SURFACE_KINDS: Dictionary = {
+	"fire_cloth": 1, "fire_cloth_dark": 1, "fire_skin": 4, "fire_bronze": 2, "fire_leather": 3, "fire_wood": 5,
+	"fire_fur": 6, "fire_hair": 6, "fire_ash_ball": 0, "fire_sec_worker": 1, "fire_sec_archer": 1, "fire_sec_rider": 1,
+	"fire_sec_hurler": 1, "shadow_cloth": 1, "shadow_cloth_dark": 1, "shadow_skin": 4, "shadow_silver": 2,
+	"shadow_leather": 3, "shadow_iron": 2, "shadow_obsidian": 2, "shadow_bone": 7, "shadow_sec_worker": 1,
+	"shadow_sec_bolt": 1, "warden_stone": 7, "warden_stone_dark": 7, "warden_moss": 0, "warden_metal": 2,
+	"unit_eye_dark": 0, "unit_gold_trim": 2,
+}
 
 
 func _init() -> void:
@@ -73,6 +83,8 @@ func _init() -> void:
 		if e[4] > 0.0:
 			m.set_shader_parameter(&"crack_strength", e[4])
 			m.set_shader_parameter(&"crack_color", e[5])
+		if SURFACE_KINDS.has(e[0]):
+			m.set_shader_parameter(&"surface_kind", SURFACE_KINDS[e[0]])
 		n += _save(m, e[0])
 	# name, colour, energy, pulse_speed
 	var g: Array = [
@@ -110,6 +122,7 @@ func _init() -> void:
 		m.set_shader_parameter(&"glyph_shape", e[5])
 		m.set_shader_parameter(&"amplitude", 0.10)
 		m.set_shader_parameter(&"speed", 2.2)
+		m.set_shader_parameter(&"unit_cloth", 1.0)   # G3b: unit cape look (gusts, folds, weave, sheen)
 		n += _save(m, e[0])
 	var blob := ShaderMaterial.new()
 	blob.shader = load(BLOB)

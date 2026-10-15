@@ -116,7 +116,10 @@ static func index_of(key: String, mat: Material) -> int:
 	else:
 		var sp: Variant = sm.get_shader_parameter(&"spec_strength")
 		var rs: Variant = sm.get_shader_parameter(&"rim_strength")
-		ev = Vector4(float(sp) if sp != null else 0.0, float(rs) if rs != null else 0.25, 0.0, 0.0)
+		# G3b: w = the folded material's surface_kind + 1 (0 = auto, unit_paint.gdshaderinc).
+		var sk: Variant = sm.get_shader_parameter(&"surface_kind")
+		ev = Vector4(float(sp) if sp != null else 0.0, float(rs) if rs != null else 0.25, 0.0,
+			float(int(sk) + 1) if sk != null else 0.0)
 	var c: PackedVector4Array = _colors[key]
 	var e: PackedVector4Array = _extras[key]
 	for other: int in idx:

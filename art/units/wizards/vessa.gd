@@ -87,6 +87,35 @@ func _build_parts() -> void:
 		add_part(hips, prism(Vector3(0.22 if tall else 0.18, h, 0.04)), cloth if tall else gold_cloth,
 			Vector3(sin(a) * r, yc, cos(a) * r), b.get_euler() / DEG)
 
+	# G3a: a gold flame-tongue peplum over the hips (a second layer over the gown), two belt pouches with bronze flaps
+	# and a hanging bronze chain with an ember-glass drop on her off side; the rune band rides the gown above the tongues.
+	var gown_r := func(y: float) -> float: return 0.52 - 0.22 * (y - 0.005) / 0.85
+	for i: int in range(1, 12):   # 11 tongues 30 deg apart: the missing front one (i = 0) leaves the buckle free
+		var a := TAU * float(i) / 12.0
+		var out := Vector3(sin(a), 0, cos(a))
+		var pb := Basis(Vector3.UP, a) * Basis(Vector3.RIGHT, -0.42) * Basis(Vector3.BACK, PI)
+		add_part(hips, prism(Vector3(0.15, 0.18, 0.03)), gold_cloth if i % 2 == 0 else cloth,
+			out * 0.355 + Vector3(0, 0.78, 0), pb.get_euler() / DEG)
+	for sx: float in [-1.0, 1.0]:
+		var pa := 75.0 * DEG * sx
+		var po := Vector3(sin(pa), 0, cos(pa))
+		var pp := po * (float(gown_r.call(0.74)) + 0.04) + Vector3(0, 0.74, 0)
+		add_part(hips, box(Vector3(0.13, 0.15, 0.08)), palette(&"fire_leather"), pp, Vector3(0, pa / DEG, 0))
+		add_part(hips, box(Vector3(0.14, 0.06, 0.09)), bronze, pp + Vector3(0, 0.06, 0) + po * 0.005, Vector3(0, pa / DEG, 0))
+		add_part(hips, sphere(0.018, 6, 3), bronze, pp + Vector3(0, 0.03, 0) + po * 0.05)
+	# chain of 5 bronze beads down the front-left of the gown, ending in an ember-glass drop
+	var ca := -32.0 * DEG
+	var co := Vector3(sin(ca), 0, cos(ca))
+	for k: int in 5:
+		var y := 0.82 - 0.065 * float(k)
+		add_part(hips, sphere(0.024, 6, 3), bronze, co * (float(gown_r.call(y)) + 0.025) + Vector3(0, y, 0))
+	add_part(hips, cyl(0.0, 0.04, 0.09, 6), palette(&"fire_sec_archer"), co * (float(gown_r.call(0.47)) + 0.03) + Vector3(0, 0.47, 0),
+		Vector3(180, 0, 0))
+	# rune band on the gown, just above the tall flame tongues (same 16 facets as the gown, 1.2 cm off it; cell ~0.115 m
+	# wide x 0.085 m glyph height)
+	add_runes(hips, "vessa", [[rune_ring(0.585, 0.70, float(gown_r.call(0.585)) + 0.012, float(gown_r.call(0.70)) + 0.012, 16),
+		rune_material("vessa", Color(0.30, 0.055, 0.04), Color(1.0, 0.58, 0.16), 20.0, 1.35, 2.6, 1.0)]])
+
 	# ---- Chest: torso, orange mantle + bronze rim, flame pauldrons, standing collar, brooch, curved cape.
 	add_part(chest, cyl(0.34, 0.28, 0.55, 10), dark, Vector3(0, 1.12, 0))
 	add_part(chest, cyl(0.28, 0.54, 0.30, 14), cloth, Vector3(0, 1.42, 0))
@@ -165,6 +194,15 @@ func _build_parts() -> void:
 	add_part(arm_r, torus(0.045, 0.09, 8), bronze, sp + Vector3(0, 1.13, 0))
 	add_part(arm_r, torus(0.045, 0.09, 8), bronze, sp + Vector3(0, 0.85, 0))
 	add_part(arm_r, cyl(0.12, 0.06, 0.18, 8), bronze, sp + Vector3(0, 2.40, 0))
+	# G3a: a leather grip wrap between the bronze grips, thin bronze bands up the shaft, two crimson ribbons with ember
+	# tips hanging from the head collar.
+	add_part(arm_r, cyl(0.066, 0.066, 0.24, 8), palette(&"fire_leather"), sp + Vector3(0, 0.99, 0))
+	for yb: float in [1.55, 1.85, 2.12]:
+		add_part(arm_r, cyl(0.064, 0.064, 0.035, 8), bronze, sp + Vector3(0, yb, 0))
+	for sx: float in [-1.0, 1.0]:
+		var rb := Basis(Vector3.BACK, 8.0 * DEG * sx) * Basis(Vector3.BACK, PI)
+		add_part(arm_r, prism(Vector3(0.07, 0.42, 0.02)), dark, sp + Vector3(0.075 * sx, 2.12, 0.02), rb.get_euler() / DEG)
+		add_part(arm_r, sphere(0.03, 6, 3), palette(&"fire_sec_archer"), sp + Vector3(0.105 * sx, 1.90, 0.02))
 	for k: int in 4:
 		var a := (45.0 + 90.0 * float(k)) * DEG
 		var o := Vector3(sin(a), 0, cos(a))
@@ -196,6 +234,7 @@ func _build_parts() -> void:
 	burst.set_meta(&"death_fx", true)
 	burst.position = Vector3(0, 0.9, 0.3)
 	$Fx.add_child(burst)
+	add_aura(&"embers", $Fx, Vector3(0, 0.10, 0))
 	ensure_shadow_blob(0.55)
 
 

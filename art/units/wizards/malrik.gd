@@ -75,6 +75,36 @@ func _build_parts() -> void:
 	add_part(hips, box(Vector3(0.14, 0.14, 0.07)), silver, Vector3(0, H + 0.20, 0.45), Vector3(-13.5, 0, 45))
 	add_part(hips, torus(0.20, 0.28, 10), silver, Vector3(0, H + 1.00, 0))
 	add_part(hips, box(Vector3(0.14, 0.14, 0.07)), silver, Vector3(0, H + 1.00, 0.26), Vector3(0, 0, 45))
+	# G3a: a chained grimoire on his off hip (dark leather, silver clasp and corners), a bone charm on a silver chain
+	# on his staff side, a rune band round the robe (behind the stole) and a rune strip down the stole.
+	var robe_r := func(y: float) -> float: return 0.46 - 0.23 * (y - 0.04) / 0.96   # y above the hover height
+	var ga := -58.0 * DEG
+	var gout := Vector3(sin(ga), 0, cos(ga))
+	var gp := gout * (float(robe_r.call(0.78)) + 0.045) + Vector3(0, H + 0.78, 0)
+	add_part(hips, box(Vector3(0.17, 0.21, 0.065)), palette(&"shadow_leather"), gp, Vector3(-8, ga / DEG, 0))
+	add_part(hips, box(Vector3(0.15, 0.19, 0.07)), palette(&"shadow_bone"), gp - gout * 0.004, Vector3(-8, ga / DEG, 0))
+	add_part(hips, box(Vector3(0.05, 0.06, 0.075)), silver, gp + gout * 0.004, Vector3(-8, ga / DEG, 45))
+	for k: int in 3:
+		var y := 0.97 - 0.06 * float(k)
+		add_part(hips, sphere(0.02, 6, 3), silver, gout * (float(robe_r.call(y)) + 0.02) + Vector3(0, H + y, 0))
+	var ba := 38.0 * DEG
+	var bout := Vector3(sin(ba), 0, cos(ba))
+	for k: int in 4:
+		var y := 0.96 - 0.065 * float(k)
+		add_part(hips, sphere(0.021, 6, 3), silver if k % 2 == 0 else bone, bout * (float(robe_r.call(y)) + 0.022) + Vector3(0, H + y, 0))
+	var bp := bout * (float(robe_r.call(0.66)) + 0.05) + Vector3(0, H + 0.66, 0)
+	add_part(hips, sphere(0.055, 8, 4), bone, bp, Vector3.ZERO, Vector3(1.0, 1.1, 0.9))
+	add_part(hips, box(Vector3(0.06, 0.035, 0.05)), bone, bp + Vector3(0, -0.055, 0.005))
+	add_part(hips, sphere(0.014, 6, 3), palette(&"unit_eye_dark"), bp + bout * 0.045 + Vector3(0.018, 0.01, 0))
+	add_part(hips, sphere(0.014, 6, 3), palette(&"unit_eye_dark"), bp + bout * 0.045 + Vector3(-0.018, 0.01, 0))
+	var sb := Basis(Vector3.RIGHT, -13.5 * DEG)
+	var sc := Vector3(0, H + 0.53, 0.35)
+	var sn := sb * Vector3.BACK
+	var rune_mat := rune_material("malrik", Color(0.05, 0.03, 0.08), Color(0.72, 0.36, 1.0), 7.0, 1.13, 1.9, 2.0)
+	add_runes(hips, "malrik", [
+		[rune_ring(0.28 + H, 0.40 + H, float(robe_r.call(0.28)) + 0.012, float(robe_r.call(0.40)) + 0.012, 8, 22.5), rune_material(
+			"malrik_ring", Color(0.05, 0.03, 0.08), Color(0.72, 0.36, 1.0), 18.0, 1.5, 1.7, 3.0)],
+		[rune_strip(sc + sb * Vector3(0, 0.40, 0) + sn * 0.034, sc + sb * Vector3(0, -0.36, 0) + sn * 0.034, 0.13, sn), rune_mat]])
 
 	# --- Chest: dark torso, purple mantle with a silver rim, iron pauldrons with bone spikes, fan collar, cape.
 	add_part(chest, cyl(0.30, 0.22, 0.58), dark, Vector3(0, H + 1.27, 0))
@@ -188,6 +218,7 @@ func _build_parts() -> void:
 	death.set_meta(&"death_fx", true)
 	death.position = Vector3(0, 0.3, 0)
 	$Fx.add_child(death)
+	add_aura(&"wisps", $Fx, Vector3(0, 0.08, 0))
 	ensure_shadow_blob(0.62, Color(0.10, 0.03, 0.18, 0.62))
 
 
@@ -266,6 +297,14 @@ func _staff_mesh() -> Mesh:
 		_tmp(cyl(0.075, 0.06, 0.12), silver, Vector3(0, 1.22, 0)),
 		_tmp(cyl(0.06, 0.06, 0.10), silver, Vector3(0, -0.45, 0)),
 		_tmp(cyl(0.05, 0.0, 0.16), silver, Vector3(0, -1.10, 0)),
+		# G3a: silver bands up the shaft and a short chain with a silver crescent under the claw collar
+		_tmp(cyl(0.058, 0.058, 0.035, 6), silver, Vector3(0, 0.55, 0)),
+		_tmp(cyl(0.058, 0.058, 0.035, 6), silver, Vector3(0, 0.85, 0)),
+		_tmp(cyl(0.056, 0.056, 0.03, 6), silver, Vector3(0, -0.20, 0)),
+		_tmp(sphere(0.018, 6, 3), silver, Vector3(0.075, 1.12, 0.0)),
+		_tmp(sphere(0.018, 6, 3), silver, Vector3(0.082, 1.06, 0.0)),
+		_tmp(sphere(0.018, 6, 3), silver, Vector3(0.086, 1.00, 0.0)),
+		_tmp(torus(0.035, 0.06, 8), silver, Vector3(0.088, 0.94, 0.0), Vector3(90, 0, 0)),
 	]
 	for i: int in 3:
 		var a := TAU * float(i) / 3.0

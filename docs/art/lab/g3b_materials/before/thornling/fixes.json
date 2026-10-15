@@ -1,0 +1,112 @@
+{
+	"asset": "thornling",
+	"count": 2,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#8c6b3d",
+					"material": "nature_thorn",
+					"material_path": "res://art/units/nature/materials/nature_thorn.tres",
+					"node": "Root/Chest/Head/Merged, Root/Chest/ArmL/Merged, Root/Chest/ArmR/Merged, Root/Chest/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "",
+					"to": "#ca8a65",
+					"weight": 0.27
+				}
+			],
+			"check": "R3",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				3.0,
+				2.0,
+				3.0
+			],
+			"measured": {
+				"body_lab": [
+					65.1,
+					-6.0,
+					39.0
+				],
+				"dE": {
+					"R3 meadow": 15.5,
+					"R3t fire": 42.6,
+					"R3t ice": 34.8,
+					"R3t nature": 15.3,
+					"R3t shadow": 53.1,
+					"R4 ash": 58.1,
+					"R4 heath": 32.2,
+					"R4 marsh": 58.6,
+					"R4 riverbank": 40.9,
+					"R4 sand": 19.0,
+					"R4 snow": 45.0,
+					"R4k old_wood": 41.6
+				},
+				"ground_lab": [
+					63.4,
+					-20.7,
+					43.8
+				],
+				"melt_share": 0.07
+			},
+			"predicted": {
+				"R3 meadow": 24.2,
+				"R3t fire": 47.7,
+				"R3t ice": 39.7,
+				"R3t nature": 24.1,
+				"R3t shadow": 56.2,
+				"R4 ash": 58.9,
+				"R4 heath": 30.8,
+				"R4 marsh": 59.8,
+				"R4 riverbank": 47.5,
+				"R4 sand": 12.5,
+				"R4 snow": 40.8,
+				"R4k old_wood": 45.4
+			},
+			"proposal": "shader_parameter/base_color of `nature_thorn` #8c6b3d -> #ca8a65 (27% of the visible body): predicted dE R3 meadow 15.5 -> 24.2, R3t fire 42.6 -> 47.7, R3t shadow 53.1 -> 56.2, R3t ice 34.8 -> 39.7, R3t nature 15.3 -> 24.1, R4k old_wood 41.6 -> 45.4 (want >= 24); other grounds heath 30.8, riverbank 47.5, snow 40.8, ash 58.9, sand 12.5, marsh 59.8; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 23% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"team_coloured": [
+				"`nature_cloth` 23%"
+			],
+			"text": "shader_parameter/base_color of `nature_thorn` #8c6b3d -> #ca8a65 (27% of the visible body): predicted dE R3 meadow 15.5 -> 24.2, R3t fire 42.6 -> 47.7, R3t shadow 53.1 -> 56.2, R3t ice 34.8 -> 39.7, R3t nature 15.3 -> 24.1, R4k old_wood 41.6 -> 45.4 (want >= 24); other grounds heath 30.8, riverbank 47.5, snow 40.8, ash 58.9, sand 12.5, marsh 59.8; team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `nature_cloth` 23% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (deutan): dE 11.7 on the team-colour area (normal vision 65.3; 186 px); deutan: fire / nature dE 11.7; protan: fire / nature dE 19.4; worst vs ground: fire colour (deutan) dE 0.7"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.7): add a value step inside the team-colour area",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (deutan) look alike on this model (dE 11.7): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 90.2,
+	"result": "WARN",
+	"scene": "res://art/units/nature/thornling.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

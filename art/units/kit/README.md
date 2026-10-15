@@ -8,6 +8,9 @@ Spec: `docs/design/art-units.md`. Owner: 4.V1 tech-artist. **Fire / Shadow build
 |---|---|
 | `character_model.gd` | `class_name CharacterModel`: pivots, all hooks, merge, idle / walk / attacks / hit / death / level-up / mine, distance tiers |
 | `unit_painted.gdshader` | copy of `art/shaders/painted.gdshader` + instance uniforms `hit_flash`, `flash_color` (the keeps' shader stays untouched); slots 1-4 (see "Instance uniform slots") |
+| `unit_paint.gdshaderinc` | G3b painted-PBR layer included by `unit_painted` and `champions/champion_palette`: soft wrap light, per-surface sheen / spec (`surface_kind`: 0 plain, 1 cloth, 2 metal, 3 leather, 4 skin, 5 wood, 6 fur / hide, 7 bone / stone; -1 auto), procedural detail, metal fake reflection. `docs/art/g3b_materials.md` |
+| `tools/assign_surface_kinds.ps1` | writes `surface_kind` into every unit material from its name (re-run after adding materials) |
+| `tools/g3b_shots.gd` | windowed before / after army shots + GPU timing (`-- --gfx=high [--legacy] [--perf]`) |
 | `unit_glow.gdshader` | copy of `rune_glow.gdshader` + instance uniform `glow_boost` (slot 5) |
 | `unit_blob.gdshader` | ground blob, instance uniform `blob_color` (slot 6) |
 | `tools/kitfix_glow_check.*` | A.16 slot audit (headless) + glow / flash screenshot rig and GPU probe (windowed) for every unit |
@@ -129,7 +132,10 @@ with `glow_boost` = 0 (dark). Fix: every unit shader declares the kit names with
 | 4 | `flash_color` | vec3 | same |
 | 5 | `glow_boost` | float | `unit_glow` |
 | 6 | `blob_color` | vec4 | `unit_blob` |
-| 7-15 | free | | a new per-unit instance uniform takes the next free slot: add it here AND to `CharacterModel.INSTANCE_SLOTS` |
+| 7-11 | *(model-own)* | | titans / critters: `membrane_tint` 7 (dragons, briar roc), treant `root_morph` 7 / `heal_glow` 8 / `team_tint` 9, critters `gait` 8 .. `dissolve` 11 (never merged with a slot-12 surface of another meaning) |
+| 12 | `kit_detail` | float | `unit_painted`, `champions/champion_palette` (G3b cost tier: 0 Low, 1 Medium, 2 High / Ultra; the kit writes it from `GameSettings.effective_graphics_quality()`) |
+| 13 | `flare` | float | `wizards/wizard_runes` (G3a hero rune bands: cast / attack / level-up flare, written by `WizardModel`) |
+| 14-15 | free | | a new per-unit instance uniform takes the next free slot: add it here AND to `CharacterModel.INSTANCE_SLOTS` |
 
 Syntax: `instance uniform float glow_boost : instance_index(5) = 1.0;`. A new unit / hero shader copies the lines of
 `unit_painted` (flash + height) or `unit_glow` verbatim. The kit finds its targets by instance uniform NAME

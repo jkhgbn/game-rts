@@ -1,0 +1,6 @@
+res://art/units/fire/flame_guard.tscn kind=unit kingdom=fire out=docs/art/lab/g3b_materials/before/flame_guard
+res://art/units/ice/rimeshield.tscn kind=unit kingdom=ice out=docs/art/lab/g3b_materials/before/rimeshield
+res://art/units/nature/thornling.tscn kind=unit kingdom=nature out=docs/art/lab/g3b_materials/before/thornling
+res://art/units/shadow/shade.tscn kind=unit kingdom=shadow out=docs/art/lab/g3b_materials/before/shade
+res://art/units/champions/oathwall/oathwall.tscn kind=unit out=docs/art/lab/g3b_materials/before/oathwall
+res://art/units/mounts/dusk_steed/dusk_steed.tscn kind=unit kingdom=shadow out=docs/art/lab/g3b_materials/before/dusk_steed

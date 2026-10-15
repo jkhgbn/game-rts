@@ -111,6 +111,19 @@ func _build_parts() -> void:
 	add_part(chest, NatureModel.leaf_ring_mesh(9, 0.13, Vector3(0.25, 0.05, 0.44), -26.0), cloth, Vector3(0, 1.56, 0))
 	add_part(chest, NatureModel.leaf_ring_mesh(9, 0.12, Vector3(0.20, 0.05, 0.30), -10.0, 20.0), dark, Vector3(0, 1.60, 0))
 	_cape = add_part(chest, _cape_mesh(), null, CAPE_AT, Vector3(CAPE_TILT, 0, 0), Vector3.ONE, true, "Cape")
+	# G3a: a band of glowing sap glyphs round the bodice above the bark belt (12 facets like the bodice, 1.2 cm off it).
+	var bod_r := func(y: float) -> float: return 0.215 + 0.035 * (y - 1.01) / 0.54
+	add_runes(chest, "ysolde", [[rune_ring(1.095, 1.185, float(bod_r.call(1.095)) + 0.012, float(bod_r.call(1.185)) + 0.012, 12),
+		rune_material("ysolde", Color(0.10, 0.16, 0.05), Color(0.80, 1.0, 0.38), 14.0, 1.5, 2.2, 6.0)]])
+	# a seed satchel (bark pouch, leaf flap, blossom button) hanging on her off hip over the gown
+	var sa := -72.0 * DEG
+	var sp := _gown_point(sa, 0.26)
+	var so := Vector3(sin(sa), 0, cos(sa))
+	var satchel: Array = [[sphere(0.085, 8, 4), Transform3D(Basis(Vector3.UP, sa).scaled(Vector3(1.0, 1.15, 0.7)), sp + so * 0.06)]]
+	satchel.append(_seg(sp + so * 0.03 + Vector3(0, 0.10, 0), Vector3(sin(sa) * 0.24, 1.03, cos(sa) * 0.24), 0.012, 0.012, 4))
+	add_part(hips, _bake("g3a_satchel", satchel), NatureModel.nature(&"nature_bark"), Vector3.ZERO)
+	add_part(hips, _bake("g3a_satchel_flap", [[NatureModel.leaf_mesh(), NatureModel.leaf_xform(sp + so * 0.12 + Vector3(0, 0.07, 0),
+		so, Vector3(0.14, 0.03, 0.15), -70.0)]]), leaf_dark, Vector3.ZERO)
 
 	# ---- Head: neck, pale face, antler crown. Hair (auburn swept locks, blossom tie) + the painted face: the FaceKit
 	# Face node below (face rework 2026-09-28).
@@ -137,6 +150,26 @@ func _build_parts() -> void:
 	# ---- Arms: team-dark leaf sleeves, leaf cuffs, hands; the right fist holds the staff.
 	_arm(arm_l, SHOULDER_L, HAND_L, "l")
 	_arm(arm_r, SHOULDER_R, GRIP, "r")
+	# G3a: a living vine wound round her off sleeve (8 bark segments on a helix, 3 small leaves).
+	var vd := HAND_L - SHOULDER_L
+	var vax := vd.normalized()
+	var vs1 := vax.cross(Vector3.BACK).normalized()
+	var vs2 := vax.cross(vs1).normalized()
+	var vine: Array = []
+	var vleaves: Array = []
+	var prev := Vector3.ZERO
+	for k: int in 10:
+		var u := 0.12 + 0.62 * float(k) / 9.0
+		var ang := u * TAU * 2.2
+		var p := SHOULDER_L + vd * u + (vs1 * cos(ang) + vs2 * sin(ang)) * 0.098
+		if k > 0:
+			vine.append(_seg(prev, p, 0.014, 0.012, 4))
+		if k % 3 == 1:
+			var lo := (vs1 * cos(ang) + vs2 * sin(ang)).normalized()
+			vleaves.append([NatureModel.leaf_mesh(), NatureModel.leaf_xform(p + lo * 0.01, lo, Vector3(0.07, 0.02, 0.10), -40.0)])
+		prev = p
+	add_part(arm_l, _bake("g3a_vine", vine), NatureModel.nature(&"nature_bark"), Vector3.ZERO)
+	add_part(arm_l, _bake("g3a_vine_leaves", vleaves), leaf, Vector3.ZERO)
 
 	# ---- Staff (keep_separate so poses can tilt / spin it at the fist): one mesh + the seed in its tulip.
 	_staff = Node3D.new()
@@ -215,6 +248,7 @@ func _build_parts() -> void:
 		_pm(k)
 	_draw(true)
 	$Fx.add_child(_fx)
+	add_aura(&"fireflies", $Fx, Vector3(0, 1.05, 0))
 	ensure_shadow_blob(0.62)
 
 

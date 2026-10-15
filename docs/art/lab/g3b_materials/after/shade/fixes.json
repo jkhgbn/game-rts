@@ -1,0 +1,31 @@
+{
+	"asset": "shade",
+	"count": 1,
+	"fixes": [
+		{
+			"changes": [],
+			"check": "A2",
+			"computed": false,
+			"measured": {
+				"value": "after 2.59 s"
+			},
+			"predicted": {},
+			"proposal": "death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "A2 death_finished: Emit death_finished at the end of the death timeline (it must fire even at the far distance tier)",
+			"title": "death_finished",
+			"wanted": {
+				"rule": "emitted <= 2.0 s after play_death (gameplay fallback 2.0 s, art-units 6.7)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "shadow",
+	"quality": 96.3,
+	"result": "WARN",
+	"scene": "res://art/units/shadow/shade.tscn",
+	"tier": "soldier",
+	"version": "1.0"
+}

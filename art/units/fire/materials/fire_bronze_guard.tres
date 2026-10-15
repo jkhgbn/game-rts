@@ -19,3 +19,4 @@ shader_parameter/crack_color = null
 shader_parameter/crack_speed = null
 shader_parameter/crack_scale = null
 shader_parameter/damage = null
+shader_parameter/surface_kind = 2

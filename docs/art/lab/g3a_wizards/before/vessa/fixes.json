@@ -1,0 +1,152 @@
+{
+	"asset": "vessa",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": "#9e6629",
+					"material": "fire_bronze",
+					"material_path": "res://art/units/kit/materials/fire_bronze.tres",
+					"node": "Root/Hips/Merged, Root/Chest/Head/Merged, Root/Chest/ArmR/Merged, Root/Chest/Merged",
+					"param": "shader_parameter/base_color",
+					"shared": "shared material (res://art/units/kit/materials/fire_bronze.tres): give vessa its own copy first, other assets use it too",
+					"snap": {
+						"close": false,
+						"color": "#f28c33",
+						"de_to_wanted": 21.1,
+						"from_folder": "res://art/units/kit/materials",
+						"material_path": "res://art/units/kit/materials/fire_sec_archer.tres"
+					},
+					"to": "#ef855a",
+					"weight": 0.13
+				}
+			],
+			"check": "R3t",
+			"computed": true,
+			"covers": [
+				"R3",
+				"R4k",
+				"R4",
+				"R3t"
+			],
+			"gain": [
+				2.1,
+				2.3,
+				2.2
+			],
+			"measured": {
+				"body_lab": [
+					56.7,
+					41.7,
+					46.7
+				],
+				"dE": {
+					"R3 meadow": 66.4,
+					"R3t fire": 66.6,
+					"R3t ice": 41.1,
+					"R3t nature": 19.2,
+					"R3t shadow": 66.3,
+					"R4 heath": 47.4,
+					"R4 marsh": 63.8,
+					"R4 old_wood": 64.7,
+					"R4 riverbank": 75.7,
+					"R4 sand": 46.3,
+					"R4 snow": 67.2,
+					"R4k ash": 66.5
+				},
+				"ground_lab": [
+					61.4,
+					-24.4,
+					42.5
+				],
+				"melt_share": 0.0
+			},
+			"predicted": {
+				"R3 meadow": 67.6,
+				"R3t fire": 67.8,
+				"R3t ice": 43.1,
+				"R3t nature": 24.0,
+				"R3t shadow": 66.0,
+				"R4 heath": 48.6,
+				"R4 marsh": 65.8,
+				"R4 old_wood": 66.7,
+				"R4 riverbank": 77.5,
+				"R4 sand": 46.2,
+				"R4 snow": 66.4,
+				"R4k ash": 68.2
+			},
+			"proposal": "shader_parameter/base_color of `fire_bronze` #9e6629 -> #ef855a (13% of the visible body): predicted dE R3 meadow 66.4 -> 67.6, R3t fire 66.6 -> 67.8, R3t shadow 66.3 -> 66.0, R3t ice 41.1 -> 43.1, R3t nature 19.2 -> 24.0, R4k ash 66.5 -> 68.2 (want >= 24); other grounds heath 48.6, old_wood 66.7, riverbank 77.5, snow 66.4, sand 46.2, marsh 65.8; `fire_bronze` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `fire_sec_archer.tres` (#f28c33, dE 21.1 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `fire_cloth_dark` 41%, `fire_cloth` 17% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"rank": 1,
+			"status": "WARN",
+			"team_coloured": [
+				"`fire_cloth_dark` 41%",
+				"`fire_cloth` 17%"
+			],
+			"text": "shader_parameter/base_color of `fire_bronze` #9e6629 -> #ef855a (13% of the visible body): predicted dE R3 meadow 66.4 -> 67.6, R3t fire 66.6 -> 67.8, R3t shadow 66.3 -> 66.0, R3t ice 41.1 -> 43.1, R3t nature 19.2 -> 24.0, R4k ash 66.5 -> 68.2 (want >= 24); other grounds heath 48.6, old_wood 66.7, riverbank 77.5, snow 66.4, sand 46.2, marsh 65.8; `fire_bronze` is a shared palette material (other assets use it): do not edit it, **snap** these surfaces to `fire_sec_archer.tres` (#f28c33, dE 21.1 from the wanted colour; no palette entry is close: a new palette entry is needed, or give the asset its own copy); team-coloured (set_team_color overwrites their albedo, so editing the material does nothing): `fire_cloth_dark` 41%, `fire_cloth` 17% - to move those, change the team-colour path instead (the colour the kit mixes into them: a darker / lighter team shade or the scene's default kingdom colour constant), or put a value-step trim around them",
+			"title": "Body colour vs the grounds",
+			"wanted": {
+				"dE_R3_R3t_R4k": ">= 24 (rule 20 + margin 4)",
+				"dE_R4": ">= 14 (soft)",
+				"melt_share": "<= 35%"
+			}
+		},
+		{
+			"changes": [
+				{
+					"from": 786,
+					"node": "Root/Chest/Merged",
+					"to": 393,
+					"words": "`Merged` 786 -> 393 verts"
+				},
+				{
+					"from": 768,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 562,
+					"words": "`Merged` 768 -> 562 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 3570
+			},
+			"predicted": {
+				"verts": 2971
+			},
+			"proposal": "3570 -> 2971 (want <= 3000): `Merged` 786 -> 393 verts; `Merged` 768 -> 562 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 2,
+			"status": "WARN",
+			"text": "B4 3570 -> 2971 (want <= 3000): `Merged` 786 -> 393 verts; `Merged` 768 -> 562 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R6cb",
+			"computed": false,
+			"measured": {
+				"value": "worst pair fire / nature (protan): dE 9.9 on the team-colour area (normal vision 83.4; 1065 px); deutan: fire / nature dE 22.2; protan: fire / nature dE 9.9; worst vs ground: nature colour (deutan) dE 5.9"
+			},
+			"predicted": {},
+			"proposal": "Team colours for colour-blind players: For red-green colour-blind players fire / nature (protan) look alike on this model (dE 9.9): add a value step inside the team-colour area",
+			"rank": 3,
+			"status": "WARN",
+			"text": "R6cb Team colours for colour-blind players: For red-green colour-blind players fire / nature (protan) look alike on this model (dE 9.9): add a value step inside the team-colour area",
+			"title": "Team colours for colour-blind players",
+			"wanted": {
+				"rule": "deutan / protan simulation: the worst kingdom pair differs by mean dE >= 6 on the team-colour area and the body stays >= dE 10 from the ground (WARN only)"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "fire",
+	"quality": 94.0,
+	"result": "WARN",
+	"scene": "res://art/units/wizards/vessa.tscn",
+	"tier": "wizard",
+	"version": "1.0"
+}

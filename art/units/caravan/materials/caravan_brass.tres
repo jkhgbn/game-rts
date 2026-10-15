@@ -11,3 +11,4 @@ shader_parameter/base_color = Color(0.8, 0.6, 0.32, 1)
 shader_parameter/noise_tex = ExtResource("2_cvp")
 shader_parameter/spec_strength = 0.3
 shader_parameter/rim_strength = 0.25
+shader_parameter/surface_kind = 2

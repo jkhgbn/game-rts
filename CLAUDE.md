@@ -359,7 +359,8 @@ The player's wizard is a hero unit; if it dies, the mission is lost.
   (`-- --gfx=low|medium|high|ultra` first, then **Low in every headless or `-s` run**, so tests / labs are unchanged; windowed
   shot / fps scripts pass `--gfx`). `GameSettings.apply_graphics(tree)` (settings change + match start) sets the viewport and calls
   `set_quality(q: int)` on group `"lighting_rigs"`. Art that scales with the tier reads `effective_graphics_quality()` in
-  `_ready`; **Low = the look before G1**.
+  `_ready`; **Low = the lighting / effect cost before G1** (no new post-process, particles or extra shader passes);
+  better model shapes and materials apply at every tier when perf_test / test_ws_perf still pass.
 - **Events** autoload (`scripts/core/events.gd`): `unit_died(unit)`, `building_completed(building)`,
   `artifact_claimed(artifact, wizard)`, `objective_changed(id, state)`, `mission_ended(victory)`.
 - **SelectionManager**: `select_units(units)`, `formation_move(center)` are public (the smoke test uses them).

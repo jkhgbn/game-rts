@@ -98,6 +98,34 @@ func _build_parts() -> void:
 	add_part(hips, torus(0.36, 0.49, TR), leather, Vector3(0, 0.94, 0))
 	add_part(hips, box(Vector3(0.20, 0.15, 0.07)), metal, Vector3(0, 0.94, 0.475))
 	add_part(hips, torus(0.57, 0.75, TR), pale, Vector3(0, 0.095, 0))
+	# G3a: belt pouches (leather, frosted-iron flaps), two hanging rune tablets on a silver chain, a cyan rune band
+	# round the robe above the frosted hem and a rune strip down the front panel under the medallion.
+	var robe_r := func(y: float) -> float: return 0.66 - 0.24 * y / 0.94
+	for sx: float in [-1.0, 1.0]:
+		var pa := 68.0 * DEG * sx
+		var po := Vector3(sin(pa), 0, cos(pa))
+		var pp := po * (float(robe_r.call(0.80)) + 0.05) + Vector3(0, 0.80, 0)
+		add_part(hips, box(Vector3(0.16, 0.17, 0.09)), leather, pp, Vector3(0, pa / DEG, 0))
+		add_part(hips, box(Vector3(0.17, 0.07, 0.10)), iron, pp + Vector3(0, 0.065, 0) + po * 0.004, Vector3(0, pa / DEG, 0))
+		add_part(hips, sphere(0.02, 6, 3), metal, pp + Vector3(0, 0.035, 0) + po * 0.055)
+	var ta := -30.0 * DEG
+	var tout := Vector3(sin(ta), 0, cos(ta))
+	for k: int in 3:
+		var y := 0.86 - 0.05 * float(k)
+		add_part(hips, sphere(0.018, 6, 3), metal, tout * (float(robe_r.call(y)) + 0.02) + Vector3(0, y, 0))
+	for k: int in 2:
+		var y := 0.66 - 0.13 * float(k)
+		add_part(hips, box(Vector3(0.075, 0.10, 0.018)), iron, tout * (float(robe_r.call(y)) + 0.025) + Vector3(0, y, 0),
+			Vector3(-14, ta / DEG, 6.0 - 12.0 * float(k)))
+	var pb := Basis(Vector3.RIGHT, -14.3 * DEG)
+	var pc := Vector3(0, 0.48, 0.555)
+	var pn := pb * Vector3.BACK
+	var cyan := Color(0.30, 0.85, 1.0)
+	add_runes(hips, "torvald", [
+		[rune_ring(0.25, 0.37, float(robe_r.call(0.25)) + 0.012, float(robe_r.call(0.37)) + 0.012, 10), rune_material(
+			"torvald_ring", Color(0.03, 0.07, 0.17), cyan, 24.0, 1.5, 2.2, 4.0)],
+		[rune_strip(pc + pb * Vector3(0, 0.10, 0) + pn * 0.031, pc + pb * Vector3(0, -0.38, 0) + pn * 0.031, 0.13, pn),
+			rune_material("torvald_strip", Color(0.20, 0.32, 0.50), cyan, 5.0, 1.0, 2.0, 5.0)]])
 	# --- Legs: boots hidden under the robe at rest, their toes poke out on each stride.
 	add_part(leg_l, box(Vector3(0.22, 0.16, 0.34)), leather, Vector3(-0.2, 0.08, 0.30))
 	add_part(leg_r, box(Vector3(0.22, 0.16, 0.34)), leather, Vector3(0.2, 0.08, 0.30))
@@ -212,6 +240,7 @@ func _build_parts() -> void:
 	shards.set_meta(&"death_fx", true)
 	shards.position = Vector3(0, 1.0, 0.3)
 	$Fx.add_child(shards)
+	add_aura(&"snow", $Fx, Vector3(0, 2.75, 0))
 	_breath = make_motes(Color(0.80, 0.88, 0.95), 5, 1.1, 0.04, 0.0, 0.11, false, true)
 	_breath.process_material = _pm(&"breath")
 	_breath.explosiveness = 0.5

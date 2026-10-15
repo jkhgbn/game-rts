@@ -1,0 +1,122 @@
+{
+	"asset": "ysolde",
+	"count": 3,
+	"fixes": [
+		{
+			"changes": [
+				{
+					"from": 2409,
+					"node": "Root/Chest/Head/Merged",
+					"to": 1205,
+					"words": "`Merged` 2409 -> 1205 verts"
+				},
+				{
+					"from": 1401,
+					"node": "Root/Chest/ArmR/Staff/StaffMesh",
+					"to": 701,
+					"words": "`StaffMesh` 1401 -> 701 verts"
+				},
+				{
+					"from": 759,
+					"node": "Root/Chest/ArmL/Merged",
+					"to": 380,
+					"words": "`Merged` 759 -> 380 verts"
+				},
+				{
+					"from": 747,
+					"node": "Root/Chest/Merged",
+					"to": 374,
+					"words": "`Merged` 747 -> 374 verts"
+				},
+				{
+					"from": 738,
+					"node": "Root/Hips/Merged",
+					"to": 369,
+					"words": "`Merged` 738 -> 369 verts"
+				},
+				{
+					"from": 682,
+					"node": "Root/Chest/Cape",
+					"to": 341,
+					"words": "`Cape` 682 -> 341 verts"
+				},
+				{
+					"from": 441,
+					"node": "Root/Chest/ArmR/Merged",
+					"to": 221,
+					"words": "`Merged` 441 -> 221 verts"
+				},
+				{
+					"from": 150,
+					"node": "Root/Chest/ArmR/Staff/Bloom/Petals",
+					"to": 75,
+					"words": "`Petals` 150 -> 75 verts"
+				},
+				{
+					"from": 77,
+					"node": "Root/Chest/ArmR/Staff/Bloom/Seed",
+					"to": 39,
+					"words": "`Seed` 77 -> 39 verts"
+				}
+			],
+			"check": "B4",
+			"computed": true,
+			"measured": {
+				"verts": 7434
+			},
+			"predicted": {
+				"verts": 3735
+			},
+			"proposal": "7434 -> 3735 (want <= 3000): `Merged` 2409 -> 1205 verts; `StaffMesh` 1401 -> 701 verts; `Merged` 759 -> 380 verts; `Merged` 747 -> 374 verts; `Merged` 738 -> 369 verts; `Cape` 682 -> 341 verts; `Merged` 441 -> 221 verts; `Petals` 150 -> 75 verts; `Seed` 77 -> 39 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"rank": 1,
+			"status": "WARN",
+			"text": "B4 7434 -> 3735 (want <= 3000): `Merged` 2409 -> 1205 verts; `StaffMesh` 1401 -> 701 verts; `Merged` 759 -> 380 verts; `Merged` 747 -> 374 verts; `Merged` 738 -> 369 verts; `Cape` 682 -> 341 verts; `Merged` 441 -> 221 verts; `Petals` 150 -> 75 verts; `Seed` 77 -> 39 verts (fewer segments: cylinders 6-8, spheres 10 x 5; drop hidden / bottom faces)",
+			"title": "Vertices",
+			"wanted": {
+				"verts": "<= 3000"
+			}
+		},
+		{
+			"changes": [],
+			"check": "R8w",
+			"computed": false,
+			"measured": {
+				"value": "Face 1.65 m, Merged 1.64 m"
+			},
+			"predicted": {},
+			"proposal": "Parts above body_height + 0.4: Narrow Face 1.65 m, Merged 1.64 m so the HP bar reads over the head",
+			"rank": 2,
+			"status": "WARN",
+			"text": "R8w Parts above body_height + 0.4: Narrow Face 1.65 m, Merged 1.64 m so the HP bar reads over the head",
+			"title": "Parts above body_height + 0.4",
+			"wanted": {
+				"rule": "narrower than 0.7 m (art-units 1.1: the HP bar stays readable; crest tolerance)"
+			}
+		},
+		{
+			"changes": [],
+			"check": "B6l",
+			"computed": false,
+			"measured": {
+				"value": "2 (CrownPetals, SeedMotes)"
+			},
+			"predicted": {},
+			"proposal": "Looping particle systems: Looping systems only where the spec lists them; stop them beyond 45 m (kit does it for GPUParticles3D)",
+			"rank": 3,
+			"status": "WARN",
+			"text": "B6l Looping particle systems: Looping systems only where the spec lists them; stop them beyond 45 m (kit does it for GPUParticles3D)",
+			"title": "Looping particle systems",
+			"wanted": {
+				"rule": "<= 1 soft (art-units.md 8 (wizard))"
+			}
+		}
+	],
+	"ground": "meadow",
+	"kind": "unit",
+	"kingdom": "nature",
+	"quality": 90.9,
+	"result": "WARN",
+	"scene": "res://art/units/wizards/ysolde.tscn",
+	"tier": "wizard",
+	"version": "1.0"
+}
