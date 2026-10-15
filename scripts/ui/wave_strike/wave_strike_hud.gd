@@ -97,12 +97,12 @@ func _build() -> void:
 		var col := VBoxContainer.new()
 		col.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		col.custom_minimum_size = Vector2(250, 0)
-		var name_l := UIStyle.panel_label(_side_name(team), 15, UIStyle.kingdom_color(_kingdom(team)).lightened(0.25))
+		var name_l := UIStyle.panel_label(_side_name(team), 15, UIStyle.team_kingdom_color(team, _kingdom(team)).lightened(0.25))
 		name_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT if side == 0 else HORIZONTAL_ALIGNMENT_RIGHT
 		name_l.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		_name_labels.append([name_l, team])
 		col.add_child(name_l)
-		var b: Array = UIStyle.bar(UIStyle.kingdom_color(_kingdom(team)), 22.0)
+		var b: Array = UIStyle.bar(UIStyle.team_kingdom_color(team, _kingdom(team)), 22.0)
 		(b[0] as ProgressBar).max_value = 1.0
 		(b[0] as ProgressBar).fill_mode = ProgressBar.FILL_BEGIN_TO_END if side == 0 else ProgressBar.FILL_END_TO_BEGIN
 		col.add_child(b[0])

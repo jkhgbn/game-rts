@@ -607,6 +607,14 @@ static func kingdom_color(k: StringName) -> Color:
 	return KINGDOM_COLORS.get(k, KINGDOM_COLORS[&"fire"])
 
 
+## G-E team read: the colour of `kingdom` as team `team` wears it in the HUD. The signature colour, except for the
+## later side of a mirror (Unit.uses_alt_palette): then the units' alternate palette (Unit.kingdom_color_for).
+static func team_kingdom_color(team: int, k: StringName) -> Color:
+	if Unit.uses_alt_palette(team, k):
+		return Unit.kingdom_color_for(team, k)
+	return kingdom_color(k)
+
+
 ## Draws a kingdom emblem centred on `c` (fits a circle of `radius`; the ring is drawn at `radius`).
 ## Fire: three flames in a ring; Shadow: crescent over a spire; Ice: snowflake in a ring; Nature: a leaf
 ## with two sprouts in a ring. `col` fills the shapes; veins use `detail` (default: col darkened).

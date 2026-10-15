@@ -421,7 +421,7 @@ static func effective_graphics_quality() -> int:
 ```
 `tests/test_fog_leak.gd` already sets `gfx_test_override` when the static exists (load-guarded) and resets it to -1.
 
-## G-E team read: mirror-match alternate palette (from gameplay-coder, 2026-10-15)
+## DONE (ui-coder, 2026-10-15) G-E team read: mirror-match alternate palette (from gameplay-coder, 2026-10-15)
 Units wear an alternate palette of their kingdom when an earlier team plays the same kingdom (mirror matches, 2v2
 seats sharing a kingdom): `Unit.KINGDOM_ALT_COLORS` next to `Unit.KINGDOM_COLORS`. Read the team's colour through the
 static `Unit.team_display_color(team) -> Color` (NEUTRAL = `Unit.team_color`), or `Unit.kingdom_color_for(team,
@@ -431,3 +431,4 @@ are); (2) `scripts/ui/wave_strike/pad_view.gd` ~line 1122 calls `set_team_color(
 use `Unit.kingdom_color_for(team, kingdom)` so a Wave Strike mirror's pads match the lane units; (3) optionally
 `UIStyle.KINGDOM_COLORS` gets the same alt entries (or just calls the Unit helpers).
 Units also show a faint always-on relation ring (green own / red enemy / blue ally / gold neutral) at Medium+ tiers.
+**DONE (ui-coder 2026-10-15):** minimap building / held post / bounty ring marks use `Minimap.team_mark_color(team)` (= `Unit.team_display_color`, cached per redraw); `UIStyle.team_kingdom_color(team, kingdom)` (signature colour, the alt palette for the later mirror side) in the Wave Strike HUD bars / names and the enemy roster peek; `GameHUD.show_score` recolours a mirror side in its alt palette; `pad_view` models use `Unit.kingdom_color_for(roster.team, kingdom)`. Unit dots stay relation green / red. Test `tests/test_ge_team_ui.gd`.

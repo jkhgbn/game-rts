@@ -45,7 +45,7 @@ func _ready() -> void:
 	var bg := get_theme_stylebox("panel") as StyleBoxFlat
 	if bg:
 		bg.bg_color.a = 0.9
-	title = UIStyle.use_title_font(UIStyle.panel_label("", 15, UIStyle.kingdom_color(_kingdom)))
+	title = UIStyle.use_title_font(UIStyle.panel_label("", 15, _kingdom_color()))
 	title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	title.position = Vector2(10, 6)
 	title.size = Vector2(SIZE.x - 40, 20)
@@ -194,9 +194,14 @@ static func mini_rect(i: int) -> Rect2:
 	return Rect2(Vector2(x, 90), MINI)
 
 
+# The enemy kingdom's colour as its side wears it (G-E: a mirror's later side in its alt palette).
+func _kingdom_color() -> Color:
+	return UIStyle.team_kingdom_color(roster.team, _kingdom) if roster else UIStyle.kingdom_color(_kingdom)
+
+
 func _draw_cards() -> void:
 	var font := get_theme_default_font()
-	var kc := UIStyle.kingdom_color(_kingdom)
+	var kc := _kingdom_color()
 	for i in _rows.size():
 		var d: Dictionary = _rows[i]
 		var r := mini_rect(i)

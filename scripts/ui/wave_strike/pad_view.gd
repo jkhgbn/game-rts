@@ -1120,7 +1120,7 @@ func ghost_model(id: StringName) -> Node3D:
 		mi.material_override = mat
 		m = mi
 	if m.has_method(&"set_team_color"):
-		m.call(&"set_team_color", UIStyle.kingdom_color(kingdom))
+		m.call(&"set_team_color", Unit.kingdom_color_for(roster.team, kingdom) if roster else UIStyle.kingdom_color(kingdom))
 	root.add_child(m)
 	m.process_mode = Node.PROCESS_MODE_DISABLED
 	add_child(root)

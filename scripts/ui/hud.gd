@@ -844,6 +844,12 @@ func show_score(keeper: Object, teams: Array, names: Array, colors: Array, subti
 	end_subtitle.text = Loc.sink(subtitle)
 	end_subtitle.visible = subtitle != ""
 	if keeper != null:
+		colors = colors.duplicate()
+		for i in mini(teams.size(), colors.size()):   # G-E: a mirror's later side in its alt palette, like its units
+			var t := int(teams[i])
+			var k := Unit.team_kingdom_of(t)
+			if t != Unit.Team.NEUTRAL and Unit.uses_alt_palette(t, k):
+				colors[i] = Unit.team_display_color(t)
 		score_panel.call(&"show_score", keeper, teams, names, colors)
 	end_tabs.visible = keeper != null
 	select_end_tab(END_TAB_SCORE if keeper != null else END_TAB_SUMMARY)

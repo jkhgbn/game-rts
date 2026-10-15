@@ -59,6 +59,8 @@ const ENEMY_COLOR := Color(1.0, 0.3, 0.3)
 const ENEMY_HERO_COLOR := Color(0.8, 0.4, 1.0)
 const PLAYER_TEAM_COLOR := Color(0.85, 0.3, 0.12)
 const ENEMY_TEAM_COLOR := Color(0.42, 0.22, 0.6)
+## G-E team read: per-redraw cache of team_mark_color (team -> Color).
+var _team_marks: Dictionary = {}
 const CAMERA_COLOR := Color(1, 1, 1, 0.8)
 const GHOST_COLOR := Color(0.55, 0.55, 0.6)   ## Last-seen enemy buildings (fog-of-war.md).
 ## Fog alpha per grid_image value (0 unexplored = black, 140 explored = ground x0.45, 255 visible = clear).
@@ -882,6 +884,7 @@ func _focus_camera(point: Vector2) -> void:
 
 func _draw() -> void:
 	redraw_count += 1
+	_team_marks.clear()
 	drawn_enemy_icons = 0
 	drawn_ghosts = 0
 	drawn_braziers = 0
@@ -951,11 +954,7 @@ func _draw() -> void:
 	for node in tree.get_nodes_in_group("buildings"):
 		if node is Node3D and (node as Node3D).is_visible_in_tree() and not node.is_in_group(&"taverns"):
 			var team: int = int(node.get("team")) if node.get("team") != null else int(Unit.Team.PLAYER)
-			var color := PLAYER_TEAM_COLOR
-			if team == Unit.Team.ENEMY:
-				color = ENEMY_TEAM_COLOR
-			elif team == Unit.Team.NEUTRAL:
-				color = Unit.team_color(team)
+			var color := Unit.team_color(team) if team == Unit.Team.NEUTRAL else team_mark_color(team)
 			var size := 6.0
 			var type: Variant = node.get("building_type")
 			if type is BuildingType:
@@ -1096,10 +1095,8 @@ func _draw_trade_buildings(tree: SceneTree) -> void:
 			continue
 		var holder := int(p.call(&"holder_team")) if p.has_method(&"holder_team") else -1
 		var border := _groove
-		if holder == Unit.Team.PLAYER:
-			border = PLAYER_TEAM_COLOR
-		elif holder == Unit.Team.ENEMY:
-			border = ENEMY_TEAM_COLOR
+		if holder == Unit.Team.PLAYER or holder == Unit.Team.ENEMY:
+			border = team_mark_color(holder)
 		var r := _rect_at(p.global_position, POST_SIZE)
 		draw_rect(r, POST_COLOR, true)
 		draw_rect(r, border, false, 1.0)
@@ -1114,6 +1111,15 @@ func _draw_trade_buildings(tree: SceneTree) -> void:
 		draw_rect(r, LODGE_COLOR if StringName(str(g.get(&"kind"))) == &"lodge" else DEN_COLOR, true)
 		draw_rect(r, _groove, false, 1.0)
 		drawn_guilds += 1
+
+
+## The kingdom colour of a team's marks (buildings, held posts, bounty rings): Unit.team_display_color, so a mirror
+## match's later side shows its alt palette like its units. Cached for one redraw.
+func team_mark_color(team: int) -> Color:
+	if not _team_marks.has(team):
+		var c := Unit.team_display_color(team)
+		_team_marks[team] = c if c.a > 0.0 else (PLAYER_TEAM_COLOR if team == Unit.Team.PLAYER else ENEMY_TEAM_COLOR)
+	return _team_marks[team]
 
 
 ## A caravan: a 4 x 3 px rect (5 x 4 selected) in the own / enemy colour, a 1 px gold dot while loaded.
@@ -1163,7 +1169,7 @@ func _draw_flags(tree: SceneTree) -> void:
 			continue
 		var p := world_to_map(f.global_position)
 		var own := BountyMode.flag_team(f) == Unit.Team.PLAYER
-		var ring := PLAYER_TEAM_COLOR if own else ENEMY_TEAM_COLOR
+		var ring := team_mark_color(Unit.Team.PLAYER if own else Unit.Team.ENEMY)
 		if f == chosen:
 			draw_circle(p, FLAG_SELECTED_RADIUS, FLAG_COIN_COLOR)
 			draw_arc(p, FLAG_SELECTED_RADIUS + 0.5, 0.0, TAU, 16, ring, 1.0, true)
