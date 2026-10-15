@@ -1,0 +1,4 @@
+#!/bin/sh
+# Pre-commit guard: line endings / BOM / lost line continuations in staged code files.
+# Installed with: git config core.hooksPath tools/git_hooks
+exec powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/git_hooks/pre_commit_guard.ps1
