@@ -62,6 +62,20 @@ const GOLD_FLASH_TIME := 0.2
 ## Kingdom colour handed to the model's set_team_color (not the green / red ring colour).
 const KINGDOM_COLORS := {&"fire": Color(0.85, 0.30, 0.12), &"shadow": Color(0.42, 0.22, 0.6),
 		&"ice": Color(0.45, 0.75, 1.0), &"nature": Color(0.45, 0.8, 0.35)}
+## G-E team read: the alternate palette of a kingdom, worn by the second side of the same kingdom (mirror matches, 2v2
+## seats sharing a kingdom). Read through kingdom_color_for / team_display_color, never directly.
+const KINGDOM_ALT_COLORS := {&"fire": Color(0.66, 0.06, 0.2), &"shadow": Color(0.08, 0.44, 0.42),
+		&"ice": Color(0.5, 0.36, 0.86), &"nature": Color(0.92, 0.6, 0.12)}
+## Palette order: a team takes the alt palette when an earlier team here plays the same kingdom (the player always
+## keeps the main one; ENEMY_2 only meets ALLY in 2v2).
+const ALT_PALETTE_ENABLED := true   # G-E switch (before / after shots); false = every side wears the main palette
+const PALETTE_ORDER: Array[int] = [Team.PLAYER, Team.ENEMY, Team.ALLY, Team.ENEMY_2]
+## Always-on team ring (G-E): alpha of the faint idle band under every unit (the selection ring replaces it).
+const TEAM_RING_ALPHA := 0.38
+const TEAM_RING_ENABLED := true   # G-E switch (perf A/B); false = the ring shows only while selected
+## Lowest graphics tier that draws the always-on team ring (1 = Medium). Low skips it: every visible ground quad is one
+## more moving instance for the renderer's culling tree, and the headless A/B (Low) hinted at a clash p95 cost.
+const TEAM_RING_MIN_TIER := 1
 const MAX_ATTACK_WINDUP := 0.15      # D2: a ranged shot leaves at most this long after play_attack()
 const MOVING_THRESHOLD := 0.3        # set_moving: below this the model idles
 const MOVING_HYSTERESIS := 0.3       # set_moving is only called when the speed changes this much
@@ -157,6 +171,8 @@ const DEFAULT_TARGET_RADIUS := 2.5   # for attack targets (buildings) without ta
 	set(value):
 		team = value
 		UnitGrid.mark_dirty()   # the grid caches teams (a switched side re-bins at the next query)
+		if _ring:
+			refresh_team_ring()
 @export var unit_name := "Soldier"
 ## The four stats below read as the current EFFECTIVE value (base + modifiers). Writing one sets the
 ## base so that the effective value becomes what was written (legacy callers); new code uses
@@ -274,6 +290,7 @@ var _agent: NavigationAgent3D
 var _visual: Node3D
 var _body_mat: StandardMaterial3D
 var _ring: MeshInstance3D
+var _ring_state := -1             # G-E: what _ring shows (0 hidden, 1 team ring, 2 selection; -1 = not set)
 var _hp_bar: MeshInstance3D
 var _hp_mat: ShaderMaterial      # the SHARED bar material (UnitFx.bar_material): never set per-unit values on it
 var _gfx_tier := 0               # GameSettings.effective_graphics_quality() read once in _ready (ring / bar look)
@@ -1676,6 +1693,7 @@ func _enter_dead_state() -> void:
 	set_physics_process(false)
 	if _hp_bar:
 		_hp_bar.visible = false
+	_update_team_ring()
 	_update_chevrons()   # hides them
 	for status_id: StringName in _statuses.keys():
 		_end_status(status_id)
@@ -1743,6 +1761,7 @@ func leave_map() -> void:
 		_agent.velocity = Vector3.ZERO
 	if _hp_bar:
 		_hp_bar.visible = false
+	_update_team_ring()
 	_update_chevrons()   # hides them
 	for status_id: StringName in _statuses.keys():
 		_end_status(status_id)
@@ -1848,6 +1867,7 @@ func _revive(at: Vector3) -> void:
 	if _body_mat:
 		_body_mat.emission_energy_multiplier = 0.0
 	visible = true
+	_update_team_ring()
 	if not is_in_group("units"):
 		add_to_group("units")
 	UnitGrid.mark_dirty()
@@ -1864,8 +1884,7 @@ func _revive(at: Vector3) -> void:
 
 func set_selected(value: bool) -> void:
 	selected = value
-	if _ring:
-		_ring.visible = value
+	_update_team_ring()
 	_update_hp_bar()
 
 
@@ -2335,36 +2354,72 @@ func _play_trade_vfx(id: StringName, target: Node3D) -> void:
 func _kingdom_color() -> Color:
 	if unit_type:
 		if KINGDOM_COLORS.has(unit_type.faction):
-			return KINGDOM_COLORS[unit_type.faction]
+			return kingdom_color_for(team, unit_type.faction)
 		if unit_type.faction == &"" and team != Team.NEUTRAL:
-			return KINGDOM_COLORS[_team_kingdom()]
+			return kingdom_color_for(team, _team_kingdom())
 	return Color(0, 0, 0, 0)
 
 
-# The kingdom of this unit's team (for faction-less types: caravans, hired trackers): the team's Economy
-# kingdom (set by its keep), else its wizard's kingdom, else the level's player_kingdom / enemy_kingdom, else
-# fire for the player and shadow for the enemy (as Champion.owner_kingdom).
+# The kingdom of this unit's team (for faction-less types: caravans, hired trackers): see team_kingdom_of.
 func _team_kingdom() -> StringName:
-	var eco := Economy.for_team(team)
+	return team_kingdom_of(team, self)
+
+
+## The kingdom a team plays: its Economy kingdom (set by its keep), else its wizard's kingdom, else the level's
+## seat_kingdom (2v2) / player_kingdom / enemy_kingdom, else fire for the player and shadow for the others
+## (as Champion.owner_kingdom). `skip` = a hero to ignore (the asking unit itself).
+static func team_kingdom_of(t: int, skip: Node = null) -> StringName:
+	var eco := Economy.for_team(t)
 	if eco and KINGDOM_COLORS.has(eco.kingdom):
 		return eco.kingdom
-	if is_inside_tree():
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree and tree.root:
 		for group: StringName in [&"heroes", &"enemy_heroes"]:
-			for w in get_tree().get_nodes_in_group(group):
-				if w != self and w.get(&"team") != null and int(w.get(&"team")) == int(team):
+			for w in tree.get_nodes_in_group(group):
+				if w != skip and w.get(&"team") != null and int(w.get(&"team")) == t:
 					var k: Variant = w.get(&"kingdom")
 					if k != null and KINGDOM_COLORS.has(StringName(str(k))):
 						return StringName(str(k))
-		var scene := get_tree().current_scene
+		var scene := tree.current_scene
 		if scene and scene.has_method(&"seat_kingdom"):   # 2v2 levels name every seat's kingdom
-			var seat_k: Variant = scene.call(&"seat_kingdom", int(team))
+			var seat_k: Variant = scene.call(&"seat_kingdom", t)
 			if seat_k is StringName and KINGDOM_COLORS.has(seat_k):
 				return seat_k
 		if scene:
-			var sk: Variant = scene.get(&"player_kingdom" if int(team) == Team.PLAYER else &"enemy_kingdom")
+			var sk: Variant = scene.get(&"player_kingdom" if t == Team.PLAYER else &"enemy_kingdom")
 			if sk != null and KINGDOM_COLORS.has(StringName(str(sk))):
 				return StringName(str(sk))
-	return &"fire" if int(team) == Team.PLAYER else &"shadow"
+	return &"fire" if t == Team.PLAYER else &"shadow"
+
+
+## True when team `t` wears the alternate palette of `kingdom` (an earlier team in PALETTE_ORDER plays it too).
+static func uses_alt_palette(t: int, kingdom: StringName) -> bool:
+	var at := PALETTE_ORDER.find(t)
+	if not ALT_PALETTE_ENABLED or at <= 0 or not KINGDOM_ALT_COLORS.has(kingdom):
+		return false
+	var same := 0
+	for i in at:
+		if team_kingdom_of(PALETTE_ORDER[i]) == kingdom:
+			same += 1
+	return same % 2 == 1
+
+
+## The model colour of `kingdom` worn by team `t`: KINGDOM_COLORS, or KINGDOM_ALT_COLORS for the second side of the
+## same kingdom (mirror). Alpha 0 = an unknown kingdom.
+static func kingdom_color_for(t: int, kingdom: StringName) -> Color:
+	if not KINGDOM_COLORS.has(kingdom):
+		return Color(0, 0, 0, 0)
+	if uses_alt_palette(t, kingdom):
+		return KINGDOM_ALT_COLORS[kingdom]
+	return KINGDOM_COLORS[kingdom]
+
+
+## The team's display colour (its kingdom's main or alt palette). Buildings, minimap and HUD use it so a mirror
+## match shows two different colours. NEUTRAL: team_color (grey-gold).
+static func team_display_color(t: int) -> Color:
+	if t == Team.NEUTRAL:
+		return team_color(t)
+	return kingdom_color_for(t, team_kingdom_of(t))
 
 
 # ---------------------------------------------------------------- helpers
@@ -2735,6 +2790,48 @@ func _build_selection_ring() -> void:
 	_ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_ring.visible = false
 	add_child(_ring)
+	_update_team_ring()
+
+
+# G-E team read: the same ground quad doubles as a faint always-on team ring. Unselected and alive (TEAM_RING_ENABLED),
+# it shows a thin band in the relation colour (team_color) with the shared "idle team" material
+# (UnitFx.team_ring_material, style 1) and the instance uniform ring_alpha = TEAM_RING_ALPHA; selected, it takes the
+# selection material at alpha 1. No extra node per unit; a child of the unit, so the fog (which hides the unit) hides it.
+func _update_team_ring() -> void:
+	if _ring == null:
+		return
+	var state := 0   # 0 hidden, 1 team ring, 2 selection ring
+	if not _dead:
+		if selected:
+			state = 2
+		elif team_ring_shown_at(_gfx_tier):
+			state = 1
+	if state == _ring_state:
+		return
+	_ring_state = state
+	if state == 2:
+		_ring.material_override = UnitFx.ring_material(team_color(team), team == Team.PLAYER, _gfx_tier)
+		_ring.set_instance_shader_parameter(&"ring_alpha", 1.0)
+	elif state == 1:
+		_ring.material_override = UnitFx.team_ring_material(team_color(team), _gfx_tier)
+		_ring.set_instance_shader_parameter(&"ring_alpha", TEAM_RING_ALPHA)
+	_ring.visible = state != 0
+
+
+## The graphics tier this unit's ring / HP bar were built for (read only).
+func fx_tier() -> int:
+	return _gfx_tier
+
+
+## True when the always-on team ring is drawn at graphics tier `tier` (TEAM_RING_ENABLED and tier >= TEAM_RING_MIN_TIER).
+static func team_ring_shown_at(tier: int) -> bool:
+	return TEAM_RING_ENABLED and tier >= TEAM_RING_MIN_TIER
+
+
+## Re-colours the ring (team or selection look) after a team switch (seat swaps, conversions).
+func refresh_team_ring() -> void:
+	_ring_state = -1
+	_update_team_ring()
 
 
 func _build_hp_bar() -> void:

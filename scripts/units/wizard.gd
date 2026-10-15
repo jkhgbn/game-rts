@@ -172,7 +172,7 @@ func _on_spell_cast_model(spell_id: StringName) -> void:
 
 
 func _kingdom_color() -> Color:
-	return KINGDOM_COLORS.get(kingdom, Color(0, 0, 0, 0))
+	return kingdom_color_for(team, kingdom)   # G-E: the alt palette in a mirror match
 
 
 ## SpellCaster calls this for every spell hit (`amount` = HP really lost). Heals by the stat

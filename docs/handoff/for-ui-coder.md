@@ -420,3 +420,14 @@ static func effective_graphics_quality() -> int:
 		return clampi(gfx_test_override, GFX_LOW, GFX_ULTRA)
 ```
 `tests/test_fog_leak.gd` already sets `gfx_test_override` when the static exists (load-guarded) and resets it to -1.
+
+## G-E team read: mirror-match alternate palette (from gameplay-coder, 2026-10-15)
+Units wear an alternate palette of their kingdom when an earlier team plays the same kingdom (mirror matches, 2v2
+seats sharing a kingdom): `Unit.KINGDOM_ALT_COLORS` next to `Unit.KINGDOM_COLORS`. Read the team's colour through the
+static `Unit.team_display_color(team) -> Color` (NEUTRAL = `Unit.team_color`), or `Unit.kingdom_color_for(team,
+kingdom)` for a given kingdom. Requests: (1) minimap dots / building marks and any HUD kingdom swatch of a team (score
+tab, seat chips) use `team_display_color` when they show a *kingdom* colour (relation colours green / red stay as they
+are); (2) `scripts/ui/wave_strike/pad_view.gd` ~line 1122 calls `set_team_color(UIStyle.kingdom_color(kingdom))`:
+use `Unit.kingdom_color_for(team, kingdom)` so a Wave Strike mirror's pads match the lane units; (3) optionally
+`UIStyle.KINGDOM_COLORS` gets the same alt entries (or just calls the Unit helpers).
+Units also show a faint always-on relation ring (green own / red enemy / blue ally / gold neutral) at Medium+ tiers.

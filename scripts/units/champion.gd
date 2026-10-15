@@ -743,7 +743,7 @@ func owner_kingdom() -> StringName:
 
 # The owner's kingdom colour for the sash / the model's set_team_color (Unit._build_model sends it).
 func _kingdom_color() -> Color:
-	return KINGDOM_COLORS[owner_kingdom()]
+	return kingdom_color_for(team, owner_kingdom())   # G-E: the alt palette in a mirror match
 
 
 ## Re-sends the owner's kingdom colour to the model (e.g. after the owner's wizard appeared).

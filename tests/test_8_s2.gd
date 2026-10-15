@@ -153,7 +153,7 @@ func _check_start() -> void:
 			if w.unit_type == null or w.unit_type.faction != k or not w.unit_type.is_worker:
 				_err("team %d worker %s is not a %s worker" % [team, w.unit_type.id if w.unit_type else &"?", k])
 				break
-			if w.call(&"_kingdom_color") != Unit.KINGDOM_COLORS.get(k):
+			if w.call(&"_kingdom_color") != Unit.kingdom_color_for(team, k):   # G-E: mirror = alt palette for team 1
 				_err("team %d worker colour is not %s's" % [team, k])
 				break
 		# Wizard
@@ -165,8 +165,11 @@ func _check_start() -> void:
 			_err("team %d wizard %s is kingdom %s, not %s" % [team, wiz.unit_name, wiz.get(&"kingdom"), k])
 		if int(wiz.team) != team:
 			_err("team %d wizard is on team %d" % [team, int(wiz.team)])
-		if wiz.call(&"_kingdom_color") != Unit.KINGDOM_COLORS.get(k):
+		if wiz.call(&"_kingdom_color") != Unit.kingdom_color_for(team, k):
 			_err("team %d wizard colour is not %s's" % [team, k])
+		var mirror_alt: bool = team == 1 and main.player_kingdom == main.enemy_kingdom
+		if wiz.call(&"_kingdom_color") != (Unit.KINGDOM_ALT_COLORS.get(k) if mirror_alt else Unit.KINGDOM_COLORS.get(k)):
+			_err("team %d wizard colour: a mirror's second side should wear the %s alt palette" % [team, k])
 		var in_heroes: bool = wiz.is_in_group(&"heroes")
 		var in_enemy: bool = wiz.is_in_group(&"enemy_heroes")
 		if team == 0 and (not in_heroes or in_enemy):

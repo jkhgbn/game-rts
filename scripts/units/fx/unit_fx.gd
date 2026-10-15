@@ -54,6 +54,25 @@ static func ring_material(color: Color, own: bool, tier: int) -> ShaderMaterial:
 	return mat
 
 
+## The shared material of the always-on team ring (G-E "idle team" style: a thin faint band, no dashes / breathing).
+## One per relation colour and tier (Low / Medium share the plain band); the per-unit alpha is the instance uniform
+## `ring_alpha`.
+static func team_ring_material(color: Color, tier: int) -> ShaderMaterial:
+	var t := 2 if tier >= 2 else 0
+	var key := "team|%s|%d" % [color.to_html(), t]
+	var mat: ShaderMaterial = _ring_mats.get(key)
+	if mat == null:
+		mat = ShaderMaterial.new()
+		mat.shader = ring_shader()
+		mat.set_shader_parameter(&"ring_color", color)
+		mat.set_shader_parameter(&"gfx_tier", t)
+		mat.set_shader_parameter(&"dash_count", 0.0)
+		mat.set_shader_parameter(&"ring_style", 1)
+		mat.render_priority = -1   # under the selection ring / other transparent ground marks
+		_ring_mats[key] = mat
+	return mat
+
+
 ## The shared ground quad of a ring around a unit of `radius` (instance uniform `ring_radius` = radius).
 static func ring_mesh(radius: float) -> PlaneMesh:
 	var half_cm := int(ceil((radius + RING_PAD) * 100.0))

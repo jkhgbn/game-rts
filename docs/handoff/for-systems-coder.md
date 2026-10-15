@@ -823,3 +823,19 @@ Ask: in `scripts/buildings/building.gd` replace the torus + StandardMaterial3D a
   `UnitFx.tick_step(max_hp, max_hp)` (100 HP ticks at High+, buildings all qualify). Recent-damage trail: when `f`
   drops, `trail_from = maxf(UnitFx.trail_value(trail_from, old_f, trail_t0, now), old_f)`, `trail_t0 = UnitFx.now()`,
   set both instance params, then `UnitFx.start_trail(self)`. Reference: `Unit._update_hp_bar` in scripts/units/unit.gd.
+
+## G-E team read: mirror-match alternate palette for buildings (from gameplay-coder, 2026-10-15)
+Units now wear an alternate palette of their kingdom when an earlier team plays the same kingdom (Fire vs Fire: the
+enemy wears `Unit.KINGDOM_ALT_COLORS[&"fire"]`, crimson; 2v2 seats sharing a kingdom too). Static helpers in
+`scripts/units/unit.gd`: `Unit.team_display_color(team) -> Color` (the team's kingdom colour, main or alt; NEUTRAL =
+`team_color`), `Unit.kingdom_color_for(team, kingdom) -> Color`, `Unit.uses_alt_palette(team, kingdom) -> bool`,
+`Unit.team_kingdom_of(team) -> StringName`.
+Request (`scripts/buildings/building.gd` ~line 152): where `team_color` defaults to `building_type.color`, use
+`Unit.kingdom_color_for(int(team), building_type.faction)` when `Unit.uses_alt_palette(int(team), building_type.faction)`
+is true (keep `building_type.color` otherwise, so non-mirror looks are unchanged), then the existing
+`set_team_color(team_color)` path recolours the model. Mind the timing: the check reads the other team's kingdom
+(Economy / scene `player_kingdom` / `enemy_kingdom`), so do it in `_ready` (or re-send on `Economy` kingdom set).
+Test to update with it: `tests/test_8_s2.gd` line ~146 checks `keep.team_color != keep.building_type.color` for team 1
+in mirror combos (it will need `Unit.kingdom_color_for(team, k)` there; I already changed its unit / wizard rows).
+Done for you: `selection_ring.gdshader` big-radius caps (pull uses `min(ring_radius, 1.5)`, inner glow from
+`max(ring_radius * 0.55, r0 - 0.9)`), units up to radius ~1.55 unchanged. Square mode not done.

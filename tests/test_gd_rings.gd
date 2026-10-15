@@ -180,7 +180,11 @@ func _setup_test() -> void:
 	_a.set_selected(true)
 	_check(_ring_of(_a).visible and _bar_of(_a).visible, "selected: ring + bar shown")
 	_a.set_selected(false)
-	_check(not _ring_of(_a).visible, "deselected: ring hidden")
+	if Unit.team_ring_shown_at(_a.fx_tier()):   # G-E: deselected = back to the faint always-on team ring (style 1)
+		var tm := _ring_of(_a).material_override as ShaderMaterial
+		_check(_ring_of(_a).visible and int(tm.get_shader_parameter(&"ring_style")) == 1, "deselected: team ring style")
+	else:
+		_check(not _ring_of(_a).visible, "deselected: ring hidden")
 	# A hit: the trail starts at the old fill.
 	_near(float(_iparam(_bar_of(_b), &"fill")), 1.0, "fill 1 at full HP")
 	_b.take_damage(40.0, null)
