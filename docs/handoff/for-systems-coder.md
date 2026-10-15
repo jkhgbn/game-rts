@@ -839,3 +839,28 @@ Test to update with it: `tests/test_8_s2.gd` line ~146 checks `keep.team_color !
 in mirror combos (it will need `Unit.kingdom_color_for(team, k)` there; I already changed its unit / wizard rows).
 Done for you: `selection_ring.gdshader` big-radius caps (pull uses `min(ring_radius, 1.5)`, inner glow from
 `max(ring_radius * 0.55, r0 - 0.9)`), units up to radius ~1.55 unchanged. Square mode not done.
+
+## G-E fixes B: Ice mission (m02) snow look hook (from tech-artist, 2026-10-15)
+The look is built in `art/environment/snow/frozen_look.gd` (`FrozenLook`, docs/art/ge_fixes_b.md): readable snow
+(~0.78 lit value instead of 0.95 glare, sastrugi, blue drift shade, glints from Medium), snow-laden firs on the painted
+border canopy (no pale "fish scales"), varied wind drifts instead of the capsule snowbanks, real lake ice (depth, plates,
+fractures, bubbles, snow dust, frosted rim + a snow shore lip), flatter snow caps, and no 3D grass blades on snow.
+Draw-only: no collider, navmesh, group, save or gameplay change. Shots: docs/art/lab/ge_fixes_b/.
+Request (`scripts/campaign/mission_02.gd`, end of `_build_map()`, after `add_child(lake)` / the Pell branch), one
+load-guarded call:
+```gdscript
+	# G-E fixes B: the frozen look (snow ground, drifts, lake ice) from the tech-artist; draw-only.
+	if not _SIM.enabled and ResourceLoader.exists("res://art/environment/snow/frozen_look.gd"):
+		var fl := load("res://art/environment/snow/frozen_look.gd") as Script
+		if fl and fl.has_method(&"dress_level"):
+			fl.call(&"dress_level", self)
+```
+It must run after `_build_ground()` (the snow colours it overrides) and after the snowbanks / caps / lake exist; it is
+idempotent (meta `_frozen_look`). GroundDetail (created later in main.gd) then sees `snow_mode` and builds no grass.
+Optional, same call: `mission_e6_01.gd` (also the ice preset) if it is a snow map. Optional cleanup later: the
+`_build_ground` snow dictionary and `BANK_COLOR` sphere meshes can go once the call is in (FrozenLook replaces both;
+`FrozenLook.drift_mesh(seed, length, depth, height)` / `FrozenLook.snow_material()` /
+`FrozenLook.lake_material(radius, old_ice)` are public if you prefer building them directly).
+Optional readability (GlasswaterLake `_update_cracks`): on the new darker ice the dark crack lines (0.12, 0.2, 0.3) still
+read, but pale ones (e.g. `Color(0.85, 0.93, 1.0, 0.95)`) would match the fracture style; your call.
+Tests: tests/test_ge_fixes_b.gd covers dress_level on a stand-in of these nodes.

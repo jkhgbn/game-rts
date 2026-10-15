@@ -16,6 +16,7 @@ extends Node3D
 const GROUND_SHADER := "res://art/environment/ground.gdshader"
 const BLADE_SHADER := preload("res://art/environment/grass/grass_blades.gdshader")
 const GAME_SETTINGS_PATH := "res://scripts/ui/menus/game_settings.gd"
+const LEVEL_LOOKS := "res://art/environment/level_looks.gd"
 const GROUP := &"ground_detail"
 const RIG_GROUP := &"lighting_rigs"
 const RELIEF: Array[float] = [0.0, 0.0, 0.22, 0.28]
@@ -99,6 +100,12 @@ func _ready() -> void:
 	add_to_group(RIG_GROUP)
 	process_mode = Node.PROCESS_MODE_ALWAYS   # the camera can move while the game is paused (path pick, menus)
 	_level = get_parent()
+	# G-E fixes C: the per-level art moods (Sighing Wood forest, Wave Strike lane dressing), before the ground bake
+	# and the map dressing's deferred populate read the ground (art/environment/level_looks.gd, load-guarded).
+	if ResourceLoader.exists(LEVEL_LOOKS):
+		var looks := load(LEVEL_LOOKS) as Script
+		if looks and looks.has_method(&"apply"):
+			looks.call(&"apply", _level)
 	set_quality.call_deferred(settings_quality())
 
 
@@ -113,7 +120,7 @@ func set_quality(q: int) -> void:
 	if _ground:
 		_ground.set_shader_parameter(&"relief", RELIEF[q])
 	_free_rings()
-	if q <= 0 or _ground == null or DisplayServer.get_name() == "headless":
+	if q <= 0 or _ground == null or DisplayServer.get_name() == "headless" or not grass_wanted():
 		set_process(false)
 		return
 	if not _baked:
@@ -121,6 +128,34 @@ func set_quality(q: int) -> void:
 			_bake_and_build()
 		return
 	_build_rings()
+
+
+## False on a frozen map (ground.gdshader `snow_mode` set by FrozenLook, G-E fixes B): snow grows no grass blades,
+## so no bake and no rings (the relief stays).
+func grass_wanted() -> bool:
+	if _ground == null:
+		return true
+	var sm: Variant = _ground.get_shader_parameter(&"snow_mode")
+	return not ((sm is float or sm is int) and float(sm) > 0.5)
+
+
+## Re-applies the current tier after the ground changed look (FrozenLook.dress_level after the bake): drops the grass
+## rings when the ground is now snow. Safe any time.
+func refresh() -> void:
+	var q := quality
+	quality = -1
+	if q >= 0:
+		set_quality(q)
+
+
+## Copies the ground's flower colours onto the blades again (EmberfallNight dims them at night, G-E fixes B).
+func refresh_flowers() -> void:
+	if _mat == null or _ground == null:
+		return
+	for key: StringName in [&"flower_a", &"flower_b", &"flower_c"]:
+		var c: Variant = _ground.get_shader_parameter(key)
+		if c is Color or c is Vector3:
+			_mat.set_shader_parameter(key, c)
 
 
 ## Milliseconds the top-down bake took (0 before / without it).
@@ -246,7 +281,7 @@ func _bake_and_build() -> void:
 	_bake_stats["total_ms"] = _bake_ms
 	_bake_stats["res"] = res
 	_bake_stats["vram_mb"] = float(res.x * res.y * 4 * 2) / 1048576.0
-	if quality > 0:
+	if quality > 0 and grass_wanted():
 		_build_rings()
 
 

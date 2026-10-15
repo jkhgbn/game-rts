@@ -154,6 +154,14 @@ uniform int bake_mode = 0;
 // proud of their joints; the light ramp is then shaded by that relief (lit lips facing the sun, cool ones away).
 // 0 = off (flat normal, the old light exactly). Fades out when a pixel is wider than ~0.12 m.
 uniform float relief = 0.0;
+// G-E fixes B (docs/art/ge_fixes_b.md): frozen maps, set by FrozenLook (art/environment/snow/frozen_look.gd).
+// snow_mode 0 = off (every other map: one uniform test). 1 = wind-carved sastrugi and blue-grey drift shading on the
+// ground, snow-laden firs on the painted border canopy, no grass in the G2a mask (no 3D blades on snow).
+// snow_sparkle: glints that twinkle with time and the camera (FrozenLook: 0 at Low).
+uniform float snow_mode = 0.0;
+uniform float snow_sparkle = 0.0;
+uniform vec2 snow_wind = vec2(0.82, 0.57);
+uniform vec3 snow_shade : source_color = vec3(0.62, 0.70, 0.86);
 
 varying vec3 v_wp;
 // 12.V2 biome tint factors (per-draw constants, computed once per vertex instead of once per pixel).
@@ -606,6 +614,12 @@ vec3 canopy_paint(vec3 k, float vp, float stand) {
 	c = mix(c, c * vec3(1.18, 1.08, 0.72), step(0.86, k.z) * 0.55);   // a few yellowing crowns
 	c = mix(c, c * vec3(0.8, 0.95, 1.12), step(k.z, 0.12) * 0.5);    // and a few blue-green firs
 	c *= 0.8 + stand * 0.4;                                           // large light / dark stands
+	if (snow_mode > 0.5) {
+		// G-E fixes B: a dark evergreen frame. Needle crowns shaded by the sun side, a soft snow dusting on the lit
+		// tops only (no crisp pale crescents: the old pale crowns read as fish scales round the snow map).
+		float sn = smoothstep(0.55, 0.95, vp + (k.z - 0.5) * 0.3);
+		c = mix(canopy_dark * (0.7 + vp * 0.9), canopy_light, sn * 0.4);
+	}
 	return mix(canopy_dark * 0.45, c, k.y);
 }
 
@@ -986,6 +1000,33 @@ void fragment() {
 		col = mix(col, col * vec3(0.62, 0.68, 0.80), min(ao * ao * cliff_ao * 2.0, 1.0));
 	}
 
+	// G-E fixes B: snow (uniform branch; texture reads only, no derivative calls). Big blue-grey drift shading, then
+	// sastrugi: wind ridges across `snow_wind` in patches, a cool lee shadow and a lit crest, faded out when a pixel
+	// gets wider than the ridges (no shimmer at max zoom). Sparkle: rare glints on a 0.2 m grid that twinkle with time
+	// and the camera position (unlit EMISSION, a touch only).
+	if (snow_mode > 0.5) {
+		float drift = smoothstep(0.30, 0.78, mid + (fine - 0.5) * 0.35);
+		col *= mix(vec3(1.0), snow_shade * 1.12, drift * 0.42 * in_map);
+		vec2 wd = normalize(snow_wind);
+		vec2 wq = vec2(dot(p, wd), dot(p, vec2(-wd.y, wd.x)));
+		float wpatch = smoothstep(0.42, 0.66, nz(vec2(wq.x * 0.025, wq.y * 0.012) + vec2(5.1, 2.4)));
+		float wob = nz(vec2(wq.x * 0.05, wq.y * 0.11) + vec2(1.3, 7.7));
+		float sf = fract(wq.x * 0.42 + (wob - 0.5) * 2.6);
+		float sfade = (1.0 - smoothstep(0.06, 0.16, px)) * wpatch * in_map;
+		float brk = smoothstep(0.4, 0.6, nz(vec2(wq.x * 0.08, wq.y * 0.5) + vec2(9.2, 3.1)));   // short ridges, not contours
+		float lee = (1.0 - smoothstep(0.0, 0.16, sf)) * sfade * brk;
+		float crest = smoothstep(0.80, 0.97, sf) * sfade * brk;
+		col = mix(col, col * snow_shade, lee * 0.4);
+		col += vec3(0.035, 0.04, 0.045) * crest;
+		vec2 sg = p * 5.0;
+		vec2 sid = floor(sg);
+		float sh = hash(sid);
+		float phase = sh * 40.0 + TIME * 1.6 + dot(CAMERA_POSITION_WORLD.xz, vec2(0.9, 0.6)) * 0.6;
+		float spark = step(0.965, hash(sid + 3.7)) * pow(max(sin(phase), 0.0), 10.0);
+		spark *= disc(length(fract(sg) - 0.5), 0.16, 0.12) * (1.0 - smoothstep(0.05, 0.12, px));
+		emit += vec3(0.85, 0.92, 1.0) * spark * snow_sparkle * in_map * (1.0 - dirt);
+	}
+
 	// Border outside the map square.
 	vec2 outv = max(abs(p) - halves(), vec2(0.0));
 	float od = length(outv);
@@ -1053,6 +1094,7 @@ void fragment() {
 		float bank_free = river_on ? smoothstep(bank_width * 0.7, bank_width + 1.2, wsd) : 1.0;
 		float g_amt = (1.0 - dirt) * (1.0 - smoothstep(0.0, 0.3, pave)) * bank_free * in_map;
 		g_amt *= mix(1.0, tuft_amt, 0.55);
+		g_amt *= 1.0 - step(0.5, snow_mode);   // G-E fixes B: no grass blades on snow
 		float hmul = 1.0;
 		if (biome_amount > 0.0) {
 			// Taller on the heath and the riverbank, short in the Old Wood shade (tuft_amt already thins it).

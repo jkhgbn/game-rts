@@ -48,6 +48,9 @@ uniform float leaf_rim = 0.10;
 //   High+    leaf dabs (a finer painted value layer on the crowns), lichen spots on stone, bark cracks
 //   G-D trees (docs/art/gd_trees.md): Medium+ adds a crown rustle in vertex() (clumps move out of step).
 uniform float gd_detail = 0.0;
+// G-E fixes B (docs/art/ge_fixes_b.md): per instance (MultiMeshInstance3D) night mute of flower decor, set by
+// EmberfallNight on the level's flower kinds only: 0 = the painted colours, 1 = grey-blue and darker (moonlight).
+instance uniform float night_mute = 0.0;
 uniform vec3 leaf_light_tint : source_color = vec3(1.0, 0.96, 0.80);
 uniform vec3 leaf_trans_color : source_color = vec3(1.0, 1.0, 0.42);   // x albedo: yellow-green light through leaves
 uniform float leaf_trans = 0.55;
@@ -268,6 +271,8 @@ void fragment() {
 	// Contact band: dark where the prop meets the ground.
 	albedo *= mix(0.50, 1.0, smoothstep(0.0, 0.40, v_y + 0.05));
 	float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
+	float nl = dot(albedo, vec3(0.3, 0.59, 0.11));
+	albedo = mix(albedo, vec3(nl * 0.55, nl * 0.62, nl * 0.8), night_mute);
 	ALBEDO = albedo;
 	// A faint cool rim on stone / bark, a warm leafy one on crowns (never a glassy halo).
 	EMISSION = foliage ? albedo * rim * rim_k : rim * rim_color * rim_strength * albedo * 2.0;

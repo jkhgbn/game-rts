@@ -947,6 +947,7 @@ func _commit() -> void:
 			mmi.visibility_range_end = float(info.get("vis_end", 90.0)) + CHUNK * 0.7072
 			mmi.visibility_range_end_margin = 10.0
 			mmi.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED
+		EmberfallNight.mute_decor(mmi, get_parent())   # G-E fixes B: flower decor built after a level turned to night
 		decor.add_child(mmi)
 		_chunks[key3] = {"mm": mm, "pos": pos, "path": path3, "xf": list}
 		_count += list.size()

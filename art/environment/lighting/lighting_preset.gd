@@ -31,3 +31,9 @@ extends Resource
 @export var haze_color: Color = Color(0.95, 0.85, 0.70)
 @export var haze_strength: float = 0.0
 @export var haze_height: float = 0.25
+
+@export_group("Ground")
+## G-E fixes B: 0 = the ground's own flowers; 1 = night (EmberfallNight dims and greys the painted flowers and the
+## grass blades' flower tips, so they stop reading as coloured noise in the dark). Applied by EmberfallNight.apply_to /
+## fade_to (the rig itself does not know the ground).
+@export_range(0.0, 1.0) var ground_night: float = 0.0
