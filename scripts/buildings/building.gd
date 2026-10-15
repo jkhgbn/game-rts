@@ -28,6 +28,9 @@ const FREE_DELAY := 5.0              ## Seconds between destruction and queue_fr
 const IDLE_REGEN_DELAY := 10.0
 const IDLE_REGEN_TICK := 0.5
 const AURA_TICK := 0.25              ## BuildingType.aura_radius: refresh rate (Unit.AURA_LINGER keeps it 1 s).
+const RING_BAND_MID := 0.26          ## UnitFx ring band centre past ring_radius (0.20 .. 0.32).
+const BAR_FRAME := 0.03              ## m, the HP bar frame (a soldier bar has 0.022).
+const BAR_TICK_HP := 250.0           ## HP per HP-bar tick (drawn at High+).
 
 @export var building_type: BuildingType
 @export var team: Unit.Team = Unit.Team.PLAYER
@@ -57,7 +60,13 @@ var _look_is_site := false
 var _outline: Node3D
 var _ring: MeshInstance3D
 var _hp_bar: MeshInstance3D
-var _hp_mat: ShaderMaterial
+var _hp_mat: ShaderMaterial          # shared (UnitFx.bar_material): never set_shader_parameter on it
+var _site_hp_mat: ShaderMaterial     # shared, while under construction (no damage ramp)
+var _bar_fill := -1.0                # last values sent to the bar's instance uniforms
+var _bar_ticks := -1.0
+var _bar_hp := INF
+var _trail_from := 0.0               # recent-damage trail: fill before the hit, UnitFx.now() at the hit
+var _trail_t0 := -100.0
 var _since_damage := 1000.0          # seconds since the last take_damage (idle regen)
 var _regen_left := IDLE_REGEN_TICK
 var _aura_left := 0.0
@@ -731,56 +740,44 @@ static func relation_color(t: int, hp: bool) -> Color:
 	return Unit.team_hp_color(shade) if hp else Unit.team_color(shade)
 
 
-## Same yellow-green ring as units; radius = half the footprint diagonal + 0.3.
+## Same ring as units (UnitFx, scripts/units/fx/selection_ring.gdshader; graphics week G-D): a ground quad with a shared
+## material per relation colour / tier, the band centred at half the footprint diagonal + 0.3 like the old torus.
+## The ring and the HP bar are children of the building, not of _visual: make_ghost never copies them (and the fog
+## hides them with the building). No `no_ghost` meta: test_save_metas forbids new saved meta names.
 func _build_ring() -> void:
 	var s := building_type.size_m() if building_type else Vector2(2.0, 2.0)
-	var r := s.length() * 0.5 + 0.3
+	var rr := s.length() * 0.5 + 0.3 - RING_BAND_MID   # the shader's band runs from rr + 0.20 to rr + 0.32
+	var own := Teams.relation(Teams.human_seat(), int(team)) == &"self"
 	_ring = MeshInstance3D.new()
-	var torus := TorusMesh.new()
-	torus.inner_radius = r - 0.1
-	torus.outer_radius = r + 0.1
-	torus.rings = 48
-	_ring.mesh = torus
-	_ring.scale = Vector3(1.0, 0.15, 1.0)
-	_ring.position.y = 0.05
-	var mat := StandardMaterial3D.new()
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.albedo_color = relation_color(int(team), false)
-	_ring.material_override = mat
+	_ring.name = "SelectionRing"
+	_ring.mesh = UnitFx.ring_mesh(rr)
+	_ring.material_override = UnitFx.ring_material(relation_color(int(team), false), own,
+			GameSettings.effective_graphics_quality())
+	_ring.set_instance_shader_parameter(&"ring_radius", rr)
+	_ring.position.y = 0.06
 	_ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_ring.visible = false
 	add_child(_ring)
 
 
-## A camera-facing HP bar, shown when selected, damaged or under construction.
+## A camera-facing HP bar (UnitFx shared material: bevelled frame, gradient fill, recent-damage trail, a tick every
+## BAR_TICK_HP at High+), shown when selected, damaged or under construction (the fill then shows the site's HP).
 func _build_hp_bar() -> void:
 	if _hp_shader == null:
-		_hp_shader = Shader.new()
-		_hp_shader.code = """
-shader_type spatial;
-render_mode unshaded, cull_disabled, depth_draw_never, shadows_disabled;
-uniform float fill = 1.0;
-uniform vec4 fill_color : source_color = vec4(0.2, 0.9, 0.25, 1.0);
-uniform vec4 back_color : source_color = vec4(0.08, 0.08, 0.08, 0.85);
-void vertex() {
-	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
-}
-void fragment() {
-	bool border = UV.x < 0.01 || UV.x > 0.99 || UV.y < 0.12 || UV.y > 0.88;
-	vec4 c = border ? vec4(0.0, 0.0, 0.0, 1.0) : (UV.x < fill ? fill_color : back_color);
-	ALBEDO = c.rgb;
-	ALPHA = c.a;
-}
-"""
-	_hp_mat = ShaderMaterial.new()
-	_hp_mat.shader = _hp_shader
-	_hp_mat.set_shader_parameter("fill_color", relation_color(int(team), true))
-	_hp_bar = MeshInstance3D.new()
-	var quad := QuadMesh.new()
+		_hp_shader = UnitFx.bar_shader()
+	var own := Teams.relation(Teams.human_seat(), int(team)) == &"self"
 	var s := building_type.size_m() if building_type else Vector2(2.0, 2.0)
-	quad.size = Vector2(maxf(1.6, s.x * 0.8), 0.22)
-	_hp_bar.mesh = quad
-	_hp_bar.material_override = _hp_mat
+	var bar_size := Vector2(maxf(2.0, s.x * 0.9), 0.26)
+	var style := {"color": Color.BLACK, "frame": BAR_FRAME}
+	var tier := GameSettings.effective_graphics_quality()
+	_hp_mat = UnitFx.bar_material(relation_color(int(team), true), own, style, tier)
+	# A site's bar is its build progress: the plain team colour, never the own green -> red damage ramp.
+	_site_hp_mat = UnitFx.bar_material(relation_color(int(team), true), false, style, tier)
+	_hp_bar = MeshInstance3D.new()
+	_hp_bar.name = "HPBar"
+	_hp_bar.mesh = UnitFx.bar_mesh(bar_size)
+	_hp_bar.material_override = _hp_mat if is_constructed() else _site_hp_mat
+	_hp_bar.set_instance_shader_parameter(&"bar_size", bar_size)
 	_hp_bar.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_hp_bar.position.y = _top_height() + 0.7
 	add_child(_hp_bar)
@@ -789,7 +786,29 @@ void fragment() {
 func _update_hp_bar() -> void:
 	if _hp_bar == null:
 		return
-	_hp_mat.set_shader_parameter("fill", clampf(hp / maxf(max_hp, 1.0), 0.0, 1.0))
+	# Instance uniforms on the shared material, sent only when they change. A hit (hp dropped, not a max_hp change)
+	# starts the white trail at what the bar showed.
+	var f := clampf(hp / maxf(max_hp, 1.0), 0.0, 1.0)
+	var ticks := BAR_TICK_HP / max_hp if max_hp >= BAR_TICK_HP * 2.0 else 0.0
+	var hit := hp < _bar_hp - 0.01
+	_bar_hp = hp
+	if hit and f < _bar_fill - 0.002 and not _dead:
+		var now := UnitFx.now()
+		_trail_from = maxf(UnitFx.trail_value(_trail_from, _bar_fill, _trail_t0, now), _bar_fill)
+		_trail_t0 = now
+		_hp_bar.set_instance_shader_parameter(&"trail_from", _trail_from)
+		_hp_bar.set_instance_shader_parameter(&"trail_t0", _trail_t0)
+		UnitFx.start_trail(self)
+	if f != _bar_fill:
+		_bar_fill = f
+		_hp_bar.set_instance_shader_parameter(&"fill", f)
+		_hp_bar.set_instance_shader_parameter(&"shield_end", f)
+	if ticks != _bar_ticks:
+		_bar_ticks = ticks
+		_hp_bar.set_instance_shader_parameter(&"tick_step", ticks)
+	var mat: ShaderMaterial = _hp_mat if is_constructed() else _site_hp_mat
+	if _hp_bar.material_override != mat:
+		_hp_bar.material_override = mat
 	_hp_bar.visible = not _dead and (selected or hp < max_hp or not is_constructed())
 
 

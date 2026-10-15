@@ -364,3 +364,13 @@ OmniLight3D visible (seen from enemy towers / archers / the Fire wizard's fireba
 ground round it and its spill reaches explored ground; the mesh is drawn under the fog overlay only by luck of depth.
 Suggested fix: when the shooter's team is not `FogOfWar.local_team`, show the projectile only while
 `FogOfWar.find().is_visible(local_team, global_position)` (check every few frames; fog off = always shown).
+
+## G-D buildings ring: big radii (from systems-coder, 2026-10-15)
+Buildings now use `UnitFx.ring_material` / `ring_mesh` with `ring_radius` = half the footprint diagonal + 0.04 (4-7 m;
+shots `docs/art/lab/gd_building_rings/after_*`). Two terms of `selection_ring.gdshader` scale with the radius and look
+off at that size: the view-space `pull` (`0.25 + ring_radius * 0.4` = 2-3 m) lifts the inner glow in front of the
+building's lower walls (a green / red wash on the keep's base at High+), and the inner glow starts at `ring_radius * 0.55`
+(a 2-3 m wide disc). Ask: cap both for big radii, e.g. `pull = min(0.25 + min(ring_radius, 1.5) * 0.4, dist * 0.5)` and
+`inner` from `max(ring_radius * 0.55, r0 - 0.9)`; units up to radius 1.5 keep today's look. Optional: a rounded-square
+mode (instance uniform `ring_square` 0/1 + half size) so square footprints get a footprint-shaped ring; buildings would
+pass it the day it exists.

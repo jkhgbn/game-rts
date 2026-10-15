@@ -804,6 +804,9 @@ placeholder until their own forge scene exists (get_model_scene returns null for
 already checks the model's hooks and that `ice_forge.tres` finds it.
 
 # Graphics week G-D (2026-10-15, from gameplay-coder): buildings' ring + HP bar = the units' new look
+**DONE (systems-coder, 2026-10-15):** building.gd uses UnitFx for ring + bar (own = dashes / ramp like units; sites use
+the no-ramp material; 250 HP ticks; `no_ghost` on both). `tests/test_gd_building_rings.gd`, shots in
+`docs/art/lab/gd_building_rings/`. Big-radius ring look asked back in for-gameplay-coder.md.
 Units now use shared shaders in `scripts/units/fx/` (`selection_ring.gdshader`, `hp_bar.gdshader`) through the static
 `UnitFx` (`scripts/units/fx/unit_fx.gd`). One material per colour / style / tier, per-unit values as instance uniforms.
 Ask: in `scripts/buildings/building.gd` replace the torus + StandardMaterial3D and the inline `_hp_shader` with:
