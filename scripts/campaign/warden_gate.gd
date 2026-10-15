@@ -6,7 +6,7 @@ extends StaticBody3D
 ## (Unit.armor_multiplier). Open: it spawns its Warden tide from `front_point()` (2 m in front, facing `face_toward`)
 ## through the `spawner` Callable (the mission's: (gate) -> void) every `tide_interval` s. Signal `gate_down(gate)`.
 ## Footprint 4 x 2 (the arch's feet), layer 1: add it under the NavigationRegion3D before the bake.
-## Placeholder art (M3.V1 / 19.V2 replace it): two stone feet, a lintel, an amber crack glow when open.
+## Look: the warden_gate_art.tscn scene (G-E fixes C) + an amber crack glow when open. STONE is kept for callers.
 
 signal gate_down(gate: WardenGate)
 signal damaged(amount: float, attacker: Node3D)
@@ -172,25 +172,10 @@ func _build_look() -> void:
 	_look = Node3D.new()
 	_look.name = "Look"
 	add_child(_look)
-	var stone := StandardMaterial3D.new()
-	stone.albedo_color = STONE
-	stone.roughness = 0.95
-	for side in [-1.0, 1.0]:
-		var foot := BoxMesh.new()
-		foot.size = Vector3(1.0, SIZE.y, SIZE.z * 0.9)
-		var mi := MeshInstance3D.new()
-		mi.mesh = foot
-		mi.material_override = stone
-		mi.position = Vector3(side * (SIZE.x * 0.5 - 0.5), SIZE.y * 0.5, 0.0)
-		_look.add_child(mi)
-	var lintel := BoxMesh.new()
-	lintel.size = Vector3(SIZE.x + 0.4, 0.8, SIZE.z)
-	var top := MeshInstance3D.new()
-	top.mesh = lintel
-	top.material_override = stone
-	top.position = Vector3(0.0, SIZE.y + 0.2, 0.0)
-	top.rotation.z = 0.06   # ruined: a little askew
-	_look.add_child(top)
+	# G-E fixes C: the gate art (draw-only; piers inside the feet colliders, arch top 5.8 m, clear of the HP bar).
+	const GATE_ART := "res://art/environment/ge_props/warden_gate_art.tscn"
+	if ResourceLoader.exists(GATE_ART):
+		_look.add_child((load(GATE_ART) as PackedScene).instantiate())   # root node "WardenGateArt"
 	_crack_mat = StandardMaterial3D.new()
 	_crack_mat.albedo_color = Color(0.2, 0.12, 0.05)
 	_crack_mat.emission_enabled = true

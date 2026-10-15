@@ -342,7 +342,12 @@ func _exit_tree() -> void:
 
 
 func _lighting_preset() -> StringName:
-	return &"warm"   # M3.V1: the forest preset (green-gold sun) when the lighting rig has it
+	return &"warm"   # ForestMood applies the forest preset (green-gold) on the rig
+
+
+## ForestMood opt-in (art/environment/sighing_wood/forest_mood.gd reads it first).
+func forest_mood() -> bool:
+	return true
 
 
 func _lane_end() -> Vector3:
@@ -529,7 +534,7 @@ func _add_wood_tree(p: Vector3, s: float) -> void:
 	env_props.add_tree_kind("tree_broadleaf", p, s)
 
 
-## The Oldroot: trunk collider r 1.6 (the only collider), a split trunk, roots and a wide canopy (placeholder).
+## The Oldroot: trunk collider r 1.6 (the only collider) + the art scene (split trunk, roots, canopy).
 func _add_oldroot() -> void:
 	var shape := CylinderShape3D.new()
 	shape.radius = TRUNK_RADIUS
@@ -540,37 +545,11 @@ func _add_oldroot() -> void:
 	_oldroot = body
 	if _SIM.enabled:
 		return
-	var bark := Color(0.30, 0.22, 0.15)
-	for side in [-1.0, 1.0]:   # the split trunk: two halves leaning apart
-		var half := CylinderMesh.new()
-		half.top_radius = 0.9
-		half.bottom_radius = 1.25
-		half.height = 9.0
-		half.radial_segments = 9
-		var mi := _mesh(body, half, bark, 4.5)
-		mi.position.x = side * 0.75
-		mi.rotation.z = -side * 0.08
-	for i in 7:   # great roots
-		var root := CylinderMesh.new()
-		root.top_radius = 0.15
-		root.bottom_radius = 0.55
-		root.height = 4.0
-		root.radial_segments = 6
-		var a := float(i) * TAU / 7.0 + 0.3
-		var mi := _mesh(body, root, bark.darkened(0.1), 0.6)
-		mi.position = Vector3(cos(a) * 2.4, 0.5, sin(a) * 2.4)
-		mi.rotation = Vector3(0.0, -a, 0.0)
-		mi.rotate_object_local(Vector3.FORWARD, 1.2)
-	# A high, broken canopy (small crowns) so the RTS camera still sees the clearing, the thorns and the Signet.
-	var leaf := Color(0.26, 0.42, 0.18)
-	for c: Vector3 in [Vector3(0.0, 11.5, -1.5), Vector3(3.2, 10.6, -0.5), Vector3(-3.0, 10.8, -1.8),
-			Vector3(1.0, 10.2, -4.2), Vector3(-2.6, 9.8, 1.2)]:
-		var crown := SphereMesh.new()
-		crown.radius = 2.4
-		crown.height = 2.8
-		var mi := _mesh(body, crown, leaf, 0.0)
-		mi.position = c
-		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	# G-E fixes C: the Oldroot art (draw-only, no collider; the trunk collider above stays the only one).
+	# Its front gap faces +Z round SIGNET_POS + SIGNET_LOOK_OFFSET: keep the body unrotated.
+	const OLDROOT_ART := "res://art/environment/ge_props/oldroot.tscn"
+	if ResourceLoader.exists(OLDROOT_ART):
+		body.add_child((load(OLDROOT_ART) as PackedScene).instantiate())   # root node "OldrootArt"
 	# The Signet: a white-gold glow inside the split, shown at E10.
 	var sig := SphereMesh.new()
 	sig.radius = 0.35

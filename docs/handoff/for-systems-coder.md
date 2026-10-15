@@ -873,7 +873,7 @@ Optional readability (GlasswaterLake `_update_cracks`): on the new darker ice th
 read, but pale ones (e.g. `Color(0.85, 0.93, 1.0, 0.95)`) would match the fracture style; your call.
 Tests: tests/test_ge_fixes_b.gd covers dress_level on a stand-in of these nodes.
 
-## G-E fixes C: Sighing Wood (m03) Oldroot + Warden Gate art (from tech-artist, 2026-10-15)
+## G-E fixes C: Sighing Wood (m03) Oldroot + Warden Gate art (from tech-artist, 2026-10-15) — DONE 2026-10-15 (systems-coder: items 1-3 done, `forest_mood()` opt-in added; item 4 skipped, gameplay-visible)
 Review item 9 (docs/art/ge_review.md, docs/art/ge_fixes_c.md). The forest mood itself needs nothing from you: ForestMood
 (`art/environment/sighing_wood/forest_mood.gd`) runs from GroundDetail's art hook on any level whose `MISSION_ID` is
 `&"m03"` (forest ground + decor, green-gold preset, canopy shade / sun shafts at High+). Until the two calls below are in,
