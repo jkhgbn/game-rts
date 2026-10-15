@@ -123,6 +123,11 @@ var _heal_written: float = -1.0
 var _ao_written: float = -999.0
 var _glow_written: Dictionary = {}
 var _fx_state: int = -1
+## G-F (tests/test_gf_offscreen_emitters.gd): set by Unit._build_model like the kit's. While the treant is off-camera
+## (OffscreenEmitters.outside_view, re-checked every 0.1 s) the petals and heal motes stop (the animation goes on).
+var offscreen_freeze: bool = false
+var _offscreen: bool = false
+var _off_timer: float = 0.0
 
 
 # ================================================================ lifecycle
@@ -597,6 +602,17 @@ func _process(delta: float) -> void:
 	if _tier_timer <= 0.0:
 		_tier_timer = 0.5
 		_update_tier()
+	var off := false
+	if offscreen_freeze:
+		_off_timer -= delta
+		if _off_timer <= 0.0 or _offscreen:
+			_off_timer = 0.1
+			off = OffscreenEmitters.outside_view(self)
+		else:
+			off = _offscreen
+	if off != _offscreen:
+		_offscreen = off
+		_update_fx()
 	var busy: bool = _dead or _action != &"" or _hit_t < HIT_LEN or _level_t < LEVEL_LEN or is_morphing() \
 		or _speed >= 0.3 or _walk_w > 0.0
 	_acc += delta
@@ -629,7 +645,7 @@ func _update_tier() -> void:
 func _update_fx() -> void:
 	if _petals == null:
 		return
-	var near := _tier < 2 and not _dead
+	var near := _tier < 2 and not _dead and not _offscreen
 	var st := (1 if near else 0) + (2 if near and _heal_level() > 0.3 else 0)
 	if st == _fx_state:
 		return

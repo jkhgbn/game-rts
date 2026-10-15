@@ -130,8 +130,8 @@ func _update_aura() -> void:
 		var cam := get_viewport().get_camera_3d() if is_inside_tree() else null
 		_aura_near = cam != null and cam.global_position.distance_to(global_position) < AURA_RANGE
 	var on := _aura_near and not _dead and not _frozen and is_visible_in_tree() and aura_allowed()
-	if _aura.emitting != on:
-		_aura.emitting = on
+	if _aura.emitting != on or _off_fx.paused:
+		set_fx_emitting(_aura, on)
 
 
 ## Orb boost while dying (default: flash 5 for 0.15 s then out).

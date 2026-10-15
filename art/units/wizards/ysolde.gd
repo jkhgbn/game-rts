@@ -772,7 +772,7 @@ func _on_action_event(ev: StringName) -> void:
 			_fire(&"bloom", _bloom.global_position)
 		&"death_glow_off":
 			_fire(&"death", global_transform * Vector3(0, 0.8, 0.3))
-			_drift.emitting = false
+			set_fx_emitting(_drift, false)
 
 
 func _pose_cast(spell: StringName, t: float) -> float:
@@ -989,4 +989,4 @@ func _on_revive() -> void:
 	if _face:
 		_face.reset()
 	if _drift:
-		_drift.emitting = _tier < 2
+		set_fx_emitting(_drift, _tier < 2)

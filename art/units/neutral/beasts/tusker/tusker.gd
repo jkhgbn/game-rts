@@ -316,8 +316,8 @@ func _emit(p: GPUParticles3D, at: Vector3, ratio: float = 1.0) -> void:
 
 
 func _set_trail(on: bool) -> void:
-	if _trail and _trail.emitting != on:
-		_trail.emitting = on
+	if _trail and (_trail.emitting != on or _off_fx.paused):
+		set_fx_emitting(_trail, on)
 
 
 # ================================================================ idle / walk

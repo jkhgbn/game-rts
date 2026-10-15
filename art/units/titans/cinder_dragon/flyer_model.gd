@@ -137,6 +137,12 @@ var _team_pending: Variant = null
 var _tint: Color = Color(0.85, 0.30, 0.12)
 var _glow_written: Dictionary = {}     # node -> last glow_boost
 var _spiral_dir: float = 1.0
+## G-F (tests/test_gf_offscreen_emitters.gd): set by Unit._build_model like the kit's. While the flyer is off-camera
+## (OffscreenEmitters.outside_view, re-checked every 0.1 s) its looping emitters pause (the animation goes on).
+var offscreen_freeze: bool = false
+var _offscreen: bool = false
+var _off_timer: float = 0.0
+var _off_fx: OffscreenEmitters = OffscreenEmitters.new()
 
 
 # ================================================================ lifecycle
@@ -168,6 +174,13 @@ func _ready() -> void:
 	if _team_pending != null:
 		set_team_color(_team_pending)
 	_animate(0.0)
+	_off_fx.cache(self)
+
+
+## Subclasses switch their looping emitters with this, never `emitting =` (death, revive...): while the flyer is
+## paused off-screen it only edits what comes back on screen (OffscreenEmitters.set_emitting).
+func set_fx_emitting(p: Node, on: bool) -> void:
+	_off_fx.set_emitting(p, on)
 
 
 ## Subclass: build the meshes (add_pivot_mesh), particles, the Mouth marker, set wing_axis / hand_axis.
@@ -238,6 +251,7 @@ func play_death() -> void:
 	_action = &""
 	_hit_t = 99.0
 	_speed = 0.0
+	_off_fx.clear_restore()   # G-F: a flyer that dies off-screen restarts no looping emitter when seen again
 	set_process(true)
 
 
@@ -461,6 +475,15 @@ func _process(delta: float) -> void:
 	if _tier_timer <= 0.0:
 		_tier_timer = 0.5
 		_update_tier()
+	if offscreen_freeze:
+		_off_timer -= delta
+		if _off_timer <= 0.0 or _offscreen:
+			_off_timer = 0.1
+			_offscreen = OffscreenEmitters.outside_view(self)
+	elif _offscreen:
+		_offscreen = false
+	if _offscreen != _off_fx.paused:
+		_off_fx.pause(_offscreen)
 	_acc += delta
 	if _tier >= 1 and ((Engine.get_process_frames() + get_instance_id()) & 1) == 1:
 		return
@@ -476,8 +499,7 @@ func _update_tier() -> void:
 		nt = 0 if cam.global_position.distance_to(global_position) < 45.0 else 1
 	if nt != _tier:
 		_tier = nt
-		for p: GPUParticles3D in _loop_fx:
-			p.emitting = nt == 0 and not _dead
+		_off_fx.tier_set(_loop_fx, nt == 0 and not _dead)
 
 
 func _animate(dt: float) -> void:

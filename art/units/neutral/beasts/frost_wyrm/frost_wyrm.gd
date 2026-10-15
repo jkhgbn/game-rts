@@ -422,7 +422,7 @@ func _scale() -> float:
 func _update_motes() -> void:
 	if _motes:
 		_motes.visible = variant == 1
-		_motes.emitting = variant == 1 and _tier == 0 and not _dead
+		set_fx_emitting(_motes, variant == 1 and _tier == 0 and not _dead)
 
 
 func _update_tier() -> void:

@@ -629,7 +629,7 @@ func _on_action_event(ev: StringName) -> void:
 			_flare = 0.0
 			_heat = 0.0
 			if _smoke:
-				_smoke.emitting = false
+				set_fx_emitting(_smoke, false)
 			if _chips and _tier < 2:
 				_chips.restart()
 
@@ -684,7 +684,7 @@ func _on_revive() -> void:
 	if _scald_flash:
 		_scald_flash.visible = false
 	if _smoke:
-		_smoke.emitting = true
+		set_fx_emitting(_smoke, true)
 	_write_glows(true)
 
 

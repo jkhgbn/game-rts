@@ -314,7 +314,7 @@ func _on_action_event(ev: StringName) -> void:
 		&"death_glow_off":
 			_flare = 0.0
 			if _embers:
-				_embers.emitting = false
+				set_fx_emitting(_embers, false)
 
 
 ## Glide: the robe hides the legs, a gentle sway, the staff arm steady (the brazier barely moves).
@@ -356,7 +356,7 @@ func _on_revive() -> void:
 	if _fire:
 		_fire.scale = Vector3.ONE
 	if _embers:
-		_embers.emitting = true
+		set_fx_emitting(_embers, true)
 	_write_fire(1.0)
 
 

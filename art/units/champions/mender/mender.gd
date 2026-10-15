@@ -429,7 +429,7 @@ func _on_weapon_class(class_id: StringName) -> void:
 	_hook_init = false
 	_flare = 0.0
 	if _steam:
-		_steam.emitting = class_id == &"" and _tier < 2
+		set_fx_emitting(_steam, class_id == &"" and _tier < 2)
 		# Out of the kit's distance-tier toggle while hidden: _update_tier() would switch it back on, and at tier 1
 		# _extra_process (which also clears it) runs every other frame only, so the steam leaked on for a frame.
 		if class_id == &"":
@@ -780,8 +780,8 @@ func _extra_process(dt: float) -> void:
 	if weapon_class() != &"":
 		# the censer staff is hidden: nothing of it to drive (its steam stays off, the kit's tier toggle included)
 		_staff_rot = Vector3.ZERO
-		if _steam and _steam.emitting:
-			_steam.emitting = false
+		if _steam and (_steam.emitting or _off_fx.paused):
+			set_fx_emitting(_steam, false)
 		_flare = 0.0
 		return
 	if _staff and _staff_rot != _staff_written:

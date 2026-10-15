@@ -229,13 +229,13 @@ func _on_action_event(ev: StringName) -> void:
 			_planted = false
 		&"death_glow_off":
 			if _sparks_fuse:
-				_sparks_fuse.emitting = false
+				set_fx_emitting(_sparks_fuse, false)
 
 
 func _on_revive() -> void:
 	super()
 	if _sparks_fuse:
-		_sparks_fuse.emitting = _tier < 2   # as CharacterModel._update_tier does for loop fx
+		set_fx_emitting(_sparks_fuse, _tier < 2)   # as CharacterModel._update_tier does for loop fx
 
 
 ## Sneaking walk: low and leaning in, head down, the bomb hand tucked, quick short steps.

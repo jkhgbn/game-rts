@@ -850,8 +850,8 @@ func _smoke_tick() -> void:
 	else:
 		want = is_gallop_smoke()
 	want = want and _tier < 2
-	if _trail.emitting != want:
-		_trail.emitting = want
+	if _trail.emitting != want or _off_fx.paused:
+		set_fx_emitting(_trail, want)
 
 
 ## Death (1.7 s, < Unit.DEATH_FALLBACK_TIME 2.0): the horse stumbles and rolls onto its side (MountModel's tracks
@@ -888,8 +888,8 @@ func _pose_death(dt: float) -> void:
 		_glows_dead()
 	if prev < 0.64 and t >= 0.64:
 		_on_mount_event(&"death_down")
-	if t >= 0.9 and _mane_fx.emitting:
-		_mane_fx.emitting = false
+	if t >= 0.9 and (_mane_fx.emitting or _off_fx.paused):
+		set_fx_emitting(_mane_fx, false)
 	# violet flare then dissolve
 	var fl: float = snappedf(0.55 * smoothstep(0.75, 1.15, t) * (1.0 - 0.5 * smoothstep(1.3, 1.7, t)), 0.02)
 	if fl != _dflash_written:
@@ -921,5 +921,5 @@ func _mount_revive() -> void:
 	_ov_w = 0.0
 	_lance_pitch = 999.0
 	_set_lance(LANCE_CARRY)
-	_trail.emitting = false
-	_mane_fx.emitting = _tier < 2
+	set_fx_emitting(_trail, false)
+	set_fx_emitting(_mane_fx, _tier < 2)

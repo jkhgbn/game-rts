@@ -591,7 +591,7 @@ func _mount_ready() -> void:
 		if mi:
 			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	if _mist:
-		_mist.emitting = _tier < 2 and not _dead
+		set_fx_emitting(_mist, _tier < 2 and not _dead)
 
 
 # ================================================================ hooks
@@ -616,7 +616,7 @@ func play_death() -> void:
 	super()
 	_tr_t = 99.0
 	if _mist:
-		_mist.emitting = false
+		set_fx_emitting(_mist, false)
 	var h := _howdah_node()
 	if h and h.has_method(&"play_death"):
 		h.call(&"play_death")
@@ -737,8 +737,8 @@ func _mount_process(dt: float) -> void:
 		# the head in line with the body (the down-side tusk rests on the ground).
 		rot(P_MOUNT_HEAD, Vector3(0, 0, _mkf(_death_t, D_HEAD_Z) * DEG * _fall_side * 0.85))
 		_death_frost()
-		if _mist and _mist.emitting:
-			_mist.emitting = false
+		if _mist and (_mist.emitting or _off_fx.paused):
+			set_fx_emitting(_mist, false)
 
 
 func _pose_trample(t: float) -> void:
@@ -824,4 +824,4 @@ func _mount_revive() -> void:
 	for j: int in 2:
 		_trunk_last[j] = Vector3(INF, 0, 0)
 	if _mist:
-		_mist.emitting = _tier < 2
+		set_fx_emitting(_mist, _tier < 2)

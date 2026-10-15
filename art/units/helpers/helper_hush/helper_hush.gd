@@ -531,7 +531,7 @@ func _helper_process(_dt: float) -> void:
 	var sm := 0.0 if _dead else (0.35 if _veiled else 1.0)
 	if absf(sm - _smoke_w) > 0.01:
 		_smoke_w = sm
-		_smoke.emitting = sm > 0.0
+		set_fx_emitting(_smoke, sm > 0.0)
 		_smoke.amount_ratio = maxf(sm, 0.01)
 	var ck := 5.0 + (10.0 + 4.0 * absf(sin(TAU * _walk_p))) * _walk_w + _cape_kick
 	if _dead:

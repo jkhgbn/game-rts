@@ -346,7 +346,7 @@ func _on_action_event(ev: StringName) -> void:
 				_bolt.visible = false
 			_set_flare(0.0)
 			if ev == &"death_glow_off" and _lip_sparks:
-				_lip_sparks.emitting = false
+				set_fx_emitting(_lip_sparks, false)
 
 
 func _extra_process(_dt: float) -> void:
@@ -361,7 +361,7 @@ func _on_revive() -> void:
 	if _bolt:
 		_bolt.visible = false
 	if _lip_sparks:
-		_lip_sparks.emitting = _tier < 2   # as CharacterModel._update_tier does for loop fx
+		set_fx_emitting(_lip_sparks, _tier < 2)   # as CharacterModel._update_tier does for loop fx
 	_apply_glow(true)
 
 

@@ -365,7 +365,7 @@ func _on_revive() -> void:
 	_flare = 0.0
 	_fade = 1.0
 	if _leaves:
-		_leaves.emitting = _tier < 2
+		set_fx_emitting(_leaves, _tier < 2)
 	_write_parts(true)
 	_write_glow(true)
 
@@ -503,7 +503,7 @@ func _pose_death(dt: float) -> void:
 	_death_t += dt
 	var t: float = _death_t
 	if prev <= 0.0 and _leaves:
-		_leaves.emitting = false
+		set_fx_emitting(_leaves, false)
 	var jolt: float = _trk(t, D_JOLT)
 	var kneel: float = smoothstep(0.08, 0.40, t)
 	var top: float = _ease_in(clampf((t - 0.32) / 0.38, 0.0, 1.0))

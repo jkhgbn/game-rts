@@ -641,7 +641,7 @@ func _on_action_event(ev: StringName) -> void:
 			_flare = 0.0
 			_rglow = 0.0
 			if _motes:
-				_motes.emitting = false
+				set_fx_emitting(_motes, false)
 
 
 ## A slow processional glide: the robe hides the legs, a small sway, the staff hand steady, the heart hand still.
@@ -743,7 +743,7 @@ func _on_revive() -> void:
 		_reliq.rotation = Vector3(deg_to_rad(-8.0), deg_to_rad(18.0), deg_to_rad(6.0))
 	_write_lid(0.0)
 	if _motes:
-		_motes.emitting = true
+		set_fx_emitting(_motes, true)
 	_write_flame(FLAME_GLOW, true)
 	_write_reliq(RELIQ_GLOW, true)
 

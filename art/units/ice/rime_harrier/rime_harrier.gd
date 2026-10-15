@@ -29,6 +29,12 @@ signal javelin_released(from: Vector3, dir: Vector3)
 @export var is_quadruped: bool = true
 ## The Unit writes its move speed here at spawn. Not forwarded: the ram gallops from its own gallop_speed.
 var stride_speed: float = 6.8
+## G-F: Unit._build_model sets this on the root; both kit models get it (they pause their animation and looping
+## emitters off-camera).
+var offscreen_freeze: bool = false:
+	set(v):
+		offscreen_freeze = v
+		OffscreenEmitters.forward_freeze(self, v)
 
 var _mount: Node3D
 var _rider: Node3D

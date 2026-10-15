@@ -161,14 +161,17 @@ var _force_write: bool = true
 ## OFFSCREEN_CHECK s, frozen ones every frame (no frozen pose when the camera jumps). Only in the root viewport (the
 ## game); portraits, the menu diorama and labs in SubViewports never use it. Fix 2026-10-09: opt-in, only a model a Unit
 ## built (Unit._build_model sets offscreen_freeze); bare models in tests / labs / scenes animate as before.
-const OFFSCREEN_MARGIN := 6.0
+const OFFSCREEN_MARGIN := OffscreenEmitters.OFFSCREEN_MARGIN
 const OFFSCREEN_CHECK := 0.1
-static var _fr_frame: int = -1
-static var _fr_planes: Array[Plane] = []
 ## Set by Unit._build_model: this model may pause while off-camera (see OFFSCREEN_MARGIN). Default off.
 var offscreen_freeze: bool = false
 var _offscreen: bool = false
 var _off_timer: float = 0.0
+## G-F root-cause pass (looping emitters kept emitting off-screen: Shadow wisps, Ice snow): every looping emitter
+## under this model is cached once at the end of _ready (refresh_emitter_cache() after adding one later); while
+## _offscreen holds, the ones emitting stop, back on screen only those restart (OffscreenEmitters; the kit's _loop_fx
+## follow the distance tier changes made meanwhile).
+var _off_fx: OffscreenEmitters = OffscreenEmitters.new()
 
 var _action: StringName = &""   # &"attack", &"cast", &"mine"
 var _action_t: float = 0.0
@@ -304,6 +307,7 @@ func _ready() -> void:
 		var c := _dn_pending
 		_dn_pending = &""
 		play_clip(c)
+	refresh_emitter_cache()
 
 
 ## Subclass hook: build parts in code with add_part() (called every instance before the merge; add_part skips
@@ -392,6 +396,7 @@ func play_death() -> void:
 	_wk_end_pop()
 	if _rd_on:
 		_rd_on_death()
+	_off_fx.clear_restore()   # G-F: a unit that dies off-screen restarts no looping emitter when seen again
 	set_process(true)
 
 
@@ -487,6 +492,7 @@ func revive() -> void:
 	if _rd_on:
 		_rd_clear(false)   # respawns on foot (cavalry-mounts.md 6.2)
 	_apply_glow(true)
+	_set_loop_fx(_tier < 2)   # G-F: back on (or queued for the return on screen while paused off-screen)
 	_on_revive()
 	set_process(true)
 	_animate(0.0)
@@ -925,6 +931,8 @@ func _process(delta: float) -> void:
 			_offscreen = _outside_view()
 	elif _offscreen:
 		_offscreen = false
+	if _offscreen != _off_fx.paused:
+		_off_fx.pause(_offscreen)
 	var busy: bool = _dead or _action != &"" or _hit_t < HIT_LEN or _level_t < LEVEL_LEN or _wk_pop_t < WEAPON_POP_LEN \
 		or _rd_busy
 	# A dance (victory / surrender emote) plays on even off-screen; only the far tier pauses it.
@@ -1345,29 +1353,10 @@ func _apply_glow(force: bool) -> void:
 
 
 ## True when this model is outside the root viewport camera's frustum by more than OFFSCREEN_MARGIN m (planes cached
-## once per frame for every model). False in SubViewports or without a camera.
+## once per frame for every model, OffscreenEmitters.outside_view; the margin grows with the model's scale). False in
+## SubViewports or without a camera.
 func _outside_view() -> bool:
-	if not is_inside_tree():
-		return false
-	var vp := get_viewport()
-	if vp == null or vp != get_tree().root:
-		return false
-	var f := Engine.get_process_frames()
-	if f != _fr_frame:
-		_fr_frame = f
-		var cam := vp.get_camera_3d()
-		if cam != null:
-			_fr_planes.assign(cam.get_frustum())
-		else:
-			_fr_planes.clear()
-	var p := global_position
-	# Review 2026-10-10 #9: a big model (Hollow King x 2.2, colossi) casts a long shadow into the view: the margin grows
-	# with its scale.
-	var margin := OFFSCREEN_MARGIN * maxf(1.0, absf(global_basis.get_scale().y))
-	for pl: Plane in _fr_planes:
-		if pl.distance_to(p) > margin:
-			return true
-	return false
+	return OffscreenEmitters.outside_view(self)
 
 
 ## The kit_detail tier of the current graphics setting (re-read at most every 30 frames, shared by every model).
@@ -1400,8 +1389,24 @@ func _update_tier() -> void:
 		nt = 0 if d < 30.0 else (1 if d < 45.0 else 2)
 	if nt != _tier:
 		_tier = nt
-		for p: GPUParticles3D in _loop_fx:
-			p.emitting = nt < 2
+		_set_loop_fx(nt < 2 and not _dead)
+
+
+## The distance tier turns the kit's looping emitters on / off. While the off-screen pause holds them, it only edits
+## the set restored on screen (a tier change never turns one on off-screen).
+func _set_loop_fx(on: bool) -> void:
+	_off_fx.tier_set(_loop_fx, on)
+
+
+## Subclasses switch their looping emitters with this, never `emitting =` (death, revive, gait, class...): while the
+## model is paused off-screen it only edits what comes back on screen (OffscreenEmitters.set_emitting).
+func set_fx_emitting(p: Node, on: bool) -> void:
+	_off_fx.set_emitting(p, on)
+
+
+## Re-caches the looping emitters the off-screen pause drives (end of _ready; call it after adding an emitter later).
+func refresh_emitter_cache() -> void:
+	_off_fx.cache(self)
 
 
 # ================================================================ building parts + merge (2.3)
@@ -2722,8 +2727,7 @@ func _rd_sync() -> void:
 		return
 	if cm._tier != _tier:
 		_tier = cm._tier
-		for p: GPUParticles3D in _loop_fx:
-			p.emitting = _tier < 2
+		_set_loop_fx(_tier < 2 and not _dead)
 	_rd_busy = _rd_act != &"" or not cm._frozen
 
 

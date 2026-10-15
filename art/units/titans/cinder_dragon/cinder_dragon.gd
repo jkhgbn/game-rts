@@ -97,12 +97,12 @@ func _after_ready() -> void:
 
 func _on_revive() -> void:
 	if _spade_fx:
-		_spade_fx.emitting = _tier == 0
+		set_fx_emitting(_spade_fx, _tier == 0)
 
 
 func _on_action_event(ev: StringName) -> void:
 	if ev == &"crash" and _spade_fx:
-		_spade_fx.emitting = false
+		set_fx_emitting(_spade_fx, false)
 
 
 # ================================================================ builders (static, cached per game)
