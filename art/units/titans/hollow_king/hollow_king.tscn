@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://art/units/ice/rime_colossus.tscn" id="1_colossus"]
+[ext_resource type="Script" path="res://art/units/titans/hollow_king/hollow_king_model.gd" id="2_hk"]
+
+[node name="HollowKing" instance=ExtResource("1_colossus")]
+script = ExtResource("2_hk")

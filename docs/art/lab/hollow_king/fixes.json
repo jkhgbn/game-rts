@@ -1,0 +1,13 @@
+{
+	"asset": "hollow_king",
+	"count": 0,
+	"fixes": [],
+	"ground": "meadow",
+	"kind": "titan",
+	"kingdom": "neutral",
+	"quality": 91.4,
+	"result": "PASS",
+	"scene": "res://art/units/titans/hollow_king/hollow_king.tscn",
+	"tier": "titan",
+	"version": "1.0"
+}
