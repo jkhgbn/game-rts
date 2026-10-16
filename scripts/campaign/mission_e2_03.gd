@@ -13,6 +13,11 @@ extends MissionBase
 ##   150 s (posts 1:30, guild houses 2:30), the Hunters' guild + 180 s (contracts 2:00), the Thieves' guild + 120 s
 ##   (first band 3:00; bands of 3 from 10:00, 4 from 13:00; worker raids from 6:00). No tribute weighting in ThiefBand.
 ## - The map is Crown Hollow's own (tree seed 7, the crown's pillars stand as the Salt Tor ruin; no crown, no wardens).
+## Campaign review fixes (2026-10-16, docs/playtests/campaign_review_2026-10-16/part1.md "mission_e2_03"):
+## - The 6th tribute is the Grand Tribute (the moving finale): a sturdier wagon (+150 % HP) and, once it is past the
+##   west road (TRIBUTE_ROUTE[0]), Malrik's ambush (hounds, Shades, Nightbolts and Malrik himself) comes out of the Salt
+##   Tor side and hunts the wagon, not the army. Lost = its gold in sacks on the road (take it back, send it again).
+## - Every raid prefers the tribute on the road; the guides' hold after the 6th is short (0:40 / 1:00 / 1:15).
 
 const MISSION_ID := &"e2m3"
 const MISSION_TITLE := "The Salt Road"
@@ -67,7 +72,10 @@ const START_CRYSTALS: Array[int] = [550, 450, 350]
 ## Spec 200 / 250 / 300; pacing 2026-10-06 (19.C5-style scripted run): 4 near caravans earned ~190 gold / min (the
 ## spec's budget assumed ~135) and the runs ended at 13:10 then (x 1.4) 16:52 against 18-24 min, so x 1.52.
 const TRIBUTE_GOLD: Array[int] = [300, 380, 460]
-const GUIDES_SECONDS: Array[float] = [60.0, 90.0, 120.0]
+const GUIDES_SECONDS: Array[float] = [40.0, 60.0, 75.0]
+const GRAND_HP_PCT := 1.5                                ## the Grand Tribute wagon: +150 % max HP
+const GRAND_AMBUSH_AT := Vector3(-30.0, 0.0, -34.0)      ## the Salt Tor side of the Lodge road
+const TRIBUTE_BIAS := 120.0                              ## raids prefer the tribute on the road by this many metres
 const WIZARD_LEVEL: Array[int] = [4, 5, 6]
 const WIZARD_LATE_LEVEL: Array[int] = [5, 6, 7]
 const MALRIK_SPELLS := [&"shadow_lance", &"shadow_lance", &"soul_siphon", &"soul_siphon", &"umbral_shroud"]
@@ -84,6 +92,7 @@ const WAVES := {
 	&"REBUILD": [["shade", 3], ["nightbolt", 2]],
 	&"W4": [["shade", 6], ["nightbolt", 3], ["shadow_knight", 2]],
 	&"W4B": [["grave_hound", 4], ["nightbolt", 2]],
+	&"GRAND": [["grave_hound", 3], ["shade", 3], ["nightbolt", 2]],
 }
 
 const SPEAKER_COLORS := {
@@ -93,7 +102,7 @@ const SPEAKER_COLORS := {
 }
 const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"pell": "Pell", &"bettany": "Bettany",
 		&"ashby": "Captain Ashby", &"malrik": "Malrik", &"narrator": "Narrator"}
-## L1-L32 (index n - 1), then L4b = 33, L5b = 34, L8b = 35, L14b = 36.
+## L1-L32 (index n - 1), then L4b = 33, L5b = 34, L8b = 35, L14b = 36; review fix 2026-10-16: the Grand Tribute 37-38.
 const DIALOGUE := [
 	[&"narrator", "The Salt Road runs from Emberfall to the sea. Everything on it has a price, even the road."],
 	[&"vessa", "Six wagons of gold. I don't own one wagon of gold. I own a lot of rocks. Shiny ones."],
@@ -131,6 +140,8 @@ const DIALOGUE := [
 	[&"pell", "You again! You left me in that cage, you know. I escaped. On my own. Thank you for asking."],
 	[&"bettany", "It did. The Lodge pays better, and nobody here throws fire at the furniture."],
 	[&"bettany", "Arrows, mostly. And never having to go down there again."],
+	[&"malrik", "The last wagon is always the heaviest, Vessa. My knives can smell it from here."],
+	[&"vessa", "Everyone on the wagon! If it stops, we stop. If it burns, I burn something bigger."],
 ]
 const BRIEFING_PARAGRAPHS: Array[String] = [
 	"The three relics point down, under Emberfall, along roads nobody living has walked. Nobody but the Greywater hunters, who mapped the deep for a hundred years and have never sold the map.",
@@ -150,6 +161,9 @@ const MSG_PAID := "The Greywater Lodge takes the tribute ({n} / 6)"
 const MSG_QUEUED := "Tribute: next caravan home"
 const MSG_SHORT := "The Greywater Lodge refuses a short tribute ({have} / {need} gold): send another"
 const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
+const MSG_GRAND := "The Grand Tribute sets out. Malrik's knives wait on the Lodge road: escort the wagon!"
+const MSG_GRAND_AMBUSH := "Ambush on the Lodge road! They are going for the Grand Tribute"
+const MSG_GRAND_LOST := "The Grand Tribute is lost! Take the gold back before the thieves do"
 const BUTTON_TRIBUTE := "Send tribute ({gold} gold)"
 const REFUSE_NO_BAZAAR := "No Bazaar"
 const REFUSE_GOLD := "Not enough gold"
@@ -166,6 +180,7 @@ var tributes_paid := 0
 var tribute_caravan: Unit = null       ## The tribute on the road (null = none).
 var tribute_pending := false           ## Ordered and paid, waiting for a caravan to come home.
 var tribute_lost := 0
+var grand_ambushed := false              ## the Grand Tribute's ambush came out
 var magpies_killed := 0
 var raid_gold := 0
 var tollgate: Building = null
@@ -516,6 +531,8 @@ func objective_text(id: StringName, with_counter := true) -> String:
 				if tribute_caravan != null and is_instance_valid(tribute_caravan) and tribute_caravan.is_alive():
 					var head := "Pay the Greywater Lodge: deliver tribute (%d / 6)" % tributes_paid
 					var road := "Tribute on the road: %d m to the Lodge" % int(_flat(tribute_caravan.global_position, LODGE_DOOR))
+					if is_grand(tribute_caravan):
+						road = "Escort the Grand Tribute: %d m to the Lodge" % int(_flat(tribute_caravan.global_position, LODGE_DOOR))
 					return "%s\n%s" % [head, road]   # two lines, each translated on its own (Loc.sink)
 				return "Pay the Greywater Lodge: deliver tribute (%d / 6)" % tributes_paid
 			return "Pay the Greywater Lodge: deliver tribute"
@@ -690,6 +707,40 @@ func _load_tribute(c: Unit) -> void:
 	c.set(&"cargo", _tribute_amount)
 	_wp = 0
 	_pay_left = -1.0
+	if tributes_paid == TRIBUTES - 1:
+		_make_grand(c)
+
+
+## The 6th tribute (review fix): the Grand Tribute wagon, sturdier, hunted by Malrik's ambush past the west road.
+func _make_grand(c: Unit) -> void:
+	c.add_modifier(&"mission:grand_tribute", {"max_hp_pct": GRAND_HP_PCT})
+	if fire_once(&"grand_out"):
+		say_l(37)
+		say_l(38)
+		if hud:
+			hud.show_message(MSG_GRAND, 6.0)
+
+
+func is_grand(c: Unit) -> bool:
+	return c != null and is_instance_valid(c) and c.has_modifier(&"mission:grand_tribute")   # saved with the unit
+
+
+## The Grand Tribute's ambush (once): GRAND rows + Malrik out of the Salt Tor side, all hunting the wagon.
+func grand_ambush() -> Array:
+	if is_ending() or guides_done or not fire_once(&"grand_ambush"):
+		return []
+	grand_ambushed = true
+	var units := spawn_wave_at(_rows(&"GRAND"), GRAND_AMBUSH_AT)
+	if shadow_hero and shadow_hero.is_alive() and not is_dormant(shadow_hero):
+		_malrik_home = false
+		units.append(shadow_hero)
+	wave_units[&"GRAND"] = units
+	for u in units:
+		order_wave(u as Unit, &"tribute_hunt", GRAND_AMBUSH_AT)
+	flash_ring(GRAND_AMBUSH_AT, 5.0)
+	if hud:
+		hud.show_message(MSG_GRAND_AMBUSH, 5.0)
+	return units
 
 
 func _tick_tribute(delta: float) -> void:
@@ -717,6 +768,8 @@ func _tick_tribute(delta: float) -> void:
 			return
 		_wp += 1
 		c.command_move(TRIBUTE_ROUTE[_wp])
+		if _wp == 1 and is_grand(c):
+			grand_ambush()
 	elif not c.has_move_order():
 		c.command_move(goal)
 
@@ -729,6 +782,8 @@ func _pay_tribute() -> void:
 		return
 	var have := int(c.get(&"cargo"))
 	c.remove_meta(&"e2m3_tribute")
+	if is_grand(c):
+		c.remove_modifier(&"mission:grand_tribute")
 	var m := Market.of_team(Unit.Team.PLAYER)
 	if have < _tribute_amount:   # robbed on the road (Magpies): the Lodge counts only a full tribute
 		if m:
@@ -767,6 +822,8 @@ func _on_caravan_died(c: Unit) -> void:
 		LootSack.spawn(self, c.global_position, rest)
 	tribute_caravan = null
 	tribute_lost += 1
+	if is_grand(c) and hud:
+		hud.show_message(MSG_GRAND_LOST, 5.0)
 	if fire_once(&"E11"):
 		say_l(15)
 
@@ -864,7 +921,8 @@ func _raid_target(from: Vector3) -> Vector3:
 		var cu := c as Unit
 		if cu == null or not cu.is_alive() or int(cu.team) != Unit.Team.PLAYER:
 			continue
-		var d := _flat(cu.global_position, from) - (60.0 if int(cu.get(&"cargo")) > 0 else 0.0)
+		var d := _flat(cu.global_position, from) - (60.0 if int(cu.get(&"cargo")) > 0 else 0.0) \
+				- (TRIBUTE_BIAS if cu == tribute_caravan else 0.0)
 		if d < best_score:
 			best_score = d
 			best = cu.global_position
@@ -1001,6 +1059,18 @@ func _refresh_wave_unit(u: Unit, mode: StringName, _hero_at: Vector3) -> bool:
 		&"hold_post":
 			if u.attack_target == null and _flat(u.global_position, MILLSTONE_DOOR) > 4.0 and not u.is_attack_moving():
 				u.command_attack_move(MILLSTONE_DOOR)
+			return true
+		&"tribute_hunt":
+			var c := tribute_caravan
+			if c == null or not is_instance_valid(c) or not c.is_alive():
+				u.set_meta(META_MODE, &"bazaar")
+				return true
+			if u.attack_target != c:
+				if _flat(u.global_position, c.global_position) <= 12.0:
+					u.command_attack(c)
+				elif not u.is_attack_moving() or _flat(u.get_meta(META_TARGET, c.global_position), c.global_position) > 6.0:
+					u.set_meta(META_TARGET, c.global_position)
+					u.command_attack_move(c.global_position)
 			return true
 		&"withdraw":
 			return true

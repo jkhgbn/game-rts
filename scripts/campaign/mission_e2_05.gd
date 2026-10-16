@@ -24,6 +24,11 @@ extends MissionBase
 ##   a minute; now his pool runs dry after a few casts. Malrik's Soul Siphon costs 30 more mana and his Shadow Lance 25
 ##   more (AOE_SURCHARGE), and B2's Stonehurl comes every 14 s instead of 10 (STONEHURL_EVERY_B2_TUNED): in the scripted
 ##   runs B2 alone (the boss + Malrik on the tether) still took 20-30 of ~40 soldiers.
+## Campaign review fix (2026-10-16, docs/playtests/campaign_review_2026-10-16/part1.md "mission_e2_05"): B3's own verb.
+## Vessa takes a sunshard from a lit Sunstone (walk onto it; unlit ones light like beacons), carries it to the Door
+## (-20 % speed, the jailer's Stonehurl aims at the carrier) and the Door strikes: 600 + Exposed 10 s; the stone
+## recharges in 20 s. Old Vey beside Vessa at the Door still calls the old, weaker strike (300 + Exposed 8 s, a little
+## slower: 15 / 18 / 21 s), so a player who stands still is not stuck, but the shards win the fight.
 
 const MISSION_ID := &"e2m5"
 const MISSION_TITLE := "The Light Below"
@@ -127,7 +132,13 @@ const TETHER_HEAL: Array[float] = [5.0, 10.0, 15.0]   ## Spec 10 / 20 / 30: with
 const AMBER_FACTOR := 0.85
 const EXPOSED_FACTOR := 1.5
 const EXPOSED_S := 8.0
-const LANCE_EVERY: Array[float] = [12.0, 15.0, 18.0]
+const LANCE_EVERY: Array[float] = [15.0, 18.0, 21.0]
+const SHARD_PICK_R := 3.0          ## Vessa this close to a lit Sunstone takes a sunshard
+const SHARD_RECHARGE := 20.0       ## a Sunstone gives its next shard after this
+const SHARD_DAMAGE := 600.0        ## the Door's strike for a delivered shard
+const SHARD_EXPOSED := 10.0
+const SHARD_SLOW := -0.2           ## the carrier's move speed
+const SHARD_HURL_WEIGHT := 3       ## the Stonehurl counts the carrier as this many extra units
 const LANCE_DAMAGE := 300.0
 const LANCE_DOOR := 6.0
 const VEY_RANGE := 8.0
@@ -166,7 +177,7 @@ const SPEAKER_COLORS := {
 const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"ysolde": "Ysolde", &"maelis": "Maelis",
 		&"malrik": "Malrik", &"torvald": "Torvald", &"aldra": "Aldra", &"hush": "Mother Hush", &"obren": "Obren",
 		&"master": "The Master", &"messenger": "Wren", &"narrator": "Narrator"}
-## L1-L35 (index n - 1), then L12b = 36, L13b = 37, L17b = 38.
+## L1-L35 (index n - 1), then L12b = 36, L13b = 37, L17b = 38; review fix 2026-10-16: the sunshards 39.
 const DIALOGUE := [
 	[&"narrator", "Under the roots of the world, a door. And on the other side of it, the one who made it."],
 	[&"vessa", "That's it. That's the door. Vey, he's right there. Under my feet."],
@@ -206,6 +217,7 @@ const DIALOGUE := [
 	[&"vey", "No knives at our backs tonight. Hush is still licking her wounds. Good."],
 	[&"vey", "So you do. Point it at the big statue, and try not to name it."],
 	[&"vessa", "Master?! Master, I'm here! I'm right here!"],
+	[&"vey", "The stones up the slope still remember the sun! Carry it down to him, girl, a shard at a time!"],
 ]
 const BRIEFING_PARAGRAPHS: Array[String] = [
 	"At the bottom of the Sunrise Road the world opens into a cavern so big it has its own weather: warm wind rising from a chasm, and in the middle, set in the floor, a round white door that glows like a sunrise.",
@@ -216,6 +228,8 @@ const BRIEFING_LINE := "Kindle the seals around the Door with Vessa. Each seal M
 const HINT_SEALS := "Kindle a seal: Vessa beside it for 4 s. Malrik can crack them back. Ping Ysolde to help hold them."
 const HINT_ROOST := "The Dragon Roost can be built: Ember Stables first, then the \"Raise the Dragon Roost\" button. A Cinder Dragon burns the jailer's Wardens."
 const HINT_NO_STORM := "The Door answers only the storm"
+const HINT_SHARDS := "Walk Vessa onto a lit Sunstone to take a sunshard, then carry it to the Door: the Door strikes the jailer. Unlit Sunstones light like beacons."
+const MSG_SHARD := "Sunshard taken: carry it to the Door"
 const MSG_HALF := "The statue's eyes are warm."
 const MSG_MALRIK_FELL := "Malrik has fallen back into the shadows"
 const MSG_TORVALD_FELL := "Torvald has fallen, the frost will bring him back"
@@ -245,6 +259,9 @@ var door_held := false
 var tether_on := false
 var exposed_left := 0.0
 var lances := 0
+var shard_carried := false             ## Vessa carries a sunshard (B3)
+var shards_delivered := 0
+var sunstone_ready := {}               ## Sunstone id -> mission time its next shard is ready
 var cover_active := false             ## Torvald's 90 s cover of the north ramp is on.
 var vey: Unit = null
 var ysolde: Wizard = null
@@ -985,7 +1002,9 @@ func objective_text(id: StringName, with_counter := true) -> String:
 		&"obj_tether":
 			return "Break Malrik's tether: kill him or drive him off"
 		&"obj_lance":
-			return "Stand Vessa by the Door with Old Vey: the Door will strike"
+			if with_counter and shard_carried:
+				return "Carry the sunshard to the Door"
+			return "Carry sunshards from the lit Sunstones to the Door: each one makes it strike"
 		&"obj_vessa":
 			return "Vessa must survive"
 		&"obj_keep":
@@ -1289,6 +1308,7 @@ func _tick_boss(delta: float) -> void:
 		_tick_tether(delta)
 	if boss_phase == 3:
 		_tick_lance(delta)
+		_tick_shards()
 
 
 func _door_slam() -> void:
@@ -1313,7 +1333,8 @@ func _stonehurl() -> void:
 			continue
 		if _flat(u.global_position, boss.global_position) > 25.0:
 			continue
-		var n := _side_units_near(u.global_position, STONEHURL_R, 0) + (1 if u == hero else 0)
+		var n := _side_units_near(u.global_position, STONEHURL_R, 0) + (1 if u == hero else 0) \
+				+ (SHARD_HURL_WEIGHT if u == hero and shard_carried else 0)
 		if n > best_n:
 			best_n = n
 			best = u.global_position
@@ -1414,7 +1435,10 @@ func _start_b3() -> void:
 		say_l(27)
 		# Lines 28-29 belong after the film (they queued during it when they sat outside the end state).
 		say_l(28)
-		say_l(29))
+		say_l(29)
+		say_l(39)
+		if hud:
+			hud.show_message(HINT_SHARDS, 10.0))
 	_torvald_withdraw()
 
 
@@ -1448,9 +1472,91 @@ func sunlance() -> void:
 		say_l(30)
 
 
+# ---------------------------------------------------------------- B3: the sunshards (review fix 2026-10-16)
+
+## Vessa onto a lit, charged Sunstone = a sunshard; the shard within the Door's lance reach = the Door strikes.
+func _tick_shards() -> void:
+	if not hero_alive():
+		return
+	if not shard_carried:
+		for b in sunstones:
+			if not b.lit or _flat(hero.global_position, b.global_position) > SHARD_PICK_R:
+				continue
+			if mission_time() < float(sunstone_ready.get(String(b.brazier_id), 0.0)):
+				continue
+			take_shard(b)
+			break
+	elif _flat(hero.global_position, DOOR_POS) <= LANCE_DOOR + DOOR_R:
+		deliver_shard()
+	_shard_look()
+
+
+## Vessa takes the shard of Sunstone `b` (tests call it).
+func take_shard(b: MissionBrazier) -> void:
+	if shard_carried or not hero_alive():
+		return
+	shard_carried = true
+	sunstone_ready[String(b.brazier_id)] = mission_time() + SHARD_RECHARGE
+	hero.add_modifier(&"mission:sunshard", {"move_speed_pct": SHARD_SLOW})
+	flash_ring(b.global_position, 2.0)
+	if hud:
+		hud.show_message(MSG_SHARD, 3.0)
+
+
+## The shard reaches the Door: 600 to the Doorwarden + Exposed 10 s.
+func deliver_shard() -> void:
+	if not shard_carried:
+		return
+	_drop_shard()
+	shards_delivered += 1
+	if boss == null or not is_instance_valid(boss) or not boss.is_alive():
+		return
+	lances += 1
+	flash_ring(DOOR_POS, DOOR_R + 1.0)
+	flash_ring(boss.global_position, 4.0)
+	exposed_left = 0.0
+	boss.take_damage(SHARD_DAMAGE, hero)
+	exposed_left = SHARD_EXPOSED
+	if fire_once(&"E19"):
+		say_l(30)
+
+
+func _drop_shard() -> void:
+	shard_carried = false
+	if hero and is_instance_valid(hero):
+		hero.remove_modifier(&"mission:sunshard")
+	_shard_look()
+
+
+## The glowing shard over Vessa's head while she carries one (rebuilt from `shard_carried`, so a load shows it).
+func _shard_look() -> void:
+	if hero == null or not is_instance_valid(hero):
+		return
+	var glow := hero.get_node_or_null(^"Sunshard") as MeshInstance3D
+	if shard_carried and glow == null:
+		glow = MeshInstance3D.new()
+		glow.name = "Sunshard"
+		var m := PrismMesh.new()
+		m.size = Vector3(0.35, 0.6, 0.35)
+		var mat := StandardMaterial3D.new()
+		mat.albedo_color = Color(1.0, 0.85, 0.4)
+		mat.emission_enabled = true
+		mat.emission = Color(1.0, 0.8, 0.35)
+		mat.emission_energy_multiplier = 3.0
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		m.material = mat
+		glow.mesh = m
+		glow.position = Vector3(0.0, 2.6, 0.0)
+		hero.add_child(glow)
+	elif not shard_carried and glow != null:
+		glow.queue_free()
+
+
 func _on_boss_fell(_u: Unit) -> void:
 	if is_ending():
 		return
+	if shard_carried:
+		_drop_shard()
 	boss_phase = 4
 	fire_once(&"E21")
 	set_objective(&"obj_doorwarden", "done")

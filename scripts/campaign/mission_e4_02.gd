@@ -17,6 +17,12 @@ extends MissionBase
 ## - Hush is the mother_hush unit: she flees at 25 % HP (smoke) and is back 90 s later with the next wave that carries
 ##   her; Maelis's 0:00 scene is a story Helper that walks off the map (E2), the call is the real helper roster.
 ## - No Citadel delay to 5:45 (its hint comes at 5:45), no Briar Roc cap.
+## Campaign review fixes (2026-10-16, docs/playtests/campaign_review_2026-10-16/part2.md "e4m2"):
+## - Hush's knives: when convoy 2 or 3 reaches the frozen brook crossing (its lead past ROAD[4]), a small fast squad
+##   comes down the brook from the north and goes for that convoy's tail walkers (not the army): the crossing is the
+##   chokepoint the player must hold. A burned Gloom Hall cuts the squad like the other Shadow waves.
+## - Convoy auto times one row shorter (normal 3:00 / 7:00 / 11:00 / 15:00), the Lantern re-rings after 2:30.
+## - Determinism: a walker's road jitter comes from its place in its convoy's list, never its instance id.
 
 const MISSION_ID := &"e4m2"
 const MISSION_TITLE := "The Green Road"
@@ -64,13 +70,16 @@ const A3_AT := Vector3(-38.0, 0.0, 20.0)
 const AMBUSH_R := 16.0
 const LANTERN_R := 3.0
 const RING_TIME := 3.0
-const RING_GAP := 180.0
+const RING_GAP := 150.0
 const WALK_SPEED := 3.6
 const COWER_RESUME := 2.0
 const CONVOYS := 4
 const COWER_R: Array[float] = [12.0, 10.0, 8.0]
 const NEEDED_PCT: Array[float] = [0.6, 0.75, 0.85]
-const AUTO_TIMES := [[180.0, 480.0, 780.0, 1080.0], [180.0, 450.0, 720.0, 990.0], [180.0, 420.0, 660.0, 900.0]]
+const AUTO_TIMES := [[180.0, 450.0, 720.0, 990.0], [180.0, 420.0, 660.0, 900.0], [180.0, 390.0, 600.0, 810.0]]
+const KNIFE_CONVOYS: Array[int] = [1, 2]          ## convoys 2 and 3 meet Hush's knives at the brook crossing
+const KNIFE_WP := 5                                ## the lead walker heading for ROAD[5] (past ROAD[4]) springs them
+const KNIFE_FROM := Vector3(-6.0, 0.0, 30.0)       ## down the brook from the north thicket
 const H1_AT := 240.0
 const RELIEF_FROM := 300.0
 const RELIEF_EVERY := 180.0
@@ -103,6 +112,7 @@ const WAVES := {
 	&"H3": [["shade", 4], ["grave_hound", 2], ["hollow_oathsworn", 1]],
 	&"H4_S": [["shade", 5], ["nightbolt", 3], ["shadow_knight", 1], ["gloom_deacon", 1]],
 	&"H4_I": [["rimeshield", 3], ["shardcaster", 2], ["frost_mortar", 1]],
+	&"KNIVES": [["grave_hound", 2], ["shade", 1]],
 }
 
 const SPEAKER_COLORS := {&"ysolde": Color(0.55, 0.90, 0.35), &"maelis": Color(0.60, 0.85, 0.50),
@@ -112,7 +122,7 @@ const SPEAKER_NAMES := {&"ysolde": "Ysolde", &"maelis": "Maelis", &"messenger": 
 		&"ashby": "Captain Ashby", &"narrator": "Narrator"}
 const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L10", "L11", "L12", "L13", "L14",
 		"L15", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30",
-		"L31", "L32"]
+		"L31", "L32", "L33"]
 const DIALOGUE := [
 	[&"narrator", "The morning after Lark Hill. The wagons burned in the night. The people will have to walk."],
 	[&"ysolde", "One road, the Fire border at the end of it, and everyone we kept alive. We walk them there."],
@@ -145,6 +155,7 @@ const DIALOGUE := [
 	[&"ysolde", "Keep... walking..."],
 	[&"messenger", "We... we lost too many on the road. My lady, we can't... we can't go on."],
 	[&"maelis", "Larkrest is burning. There's nothing left to walk away from."],
+	[&"hush", "The slow ones at the back, my knives. Always the slow ones."],
 ]
 const BRIEFING_PARAGRAPHS: Array[String] = [
 	"Lark Hill held. The ford did not. By morning the people under the golden tree have nothing left in the valley but their names, and the supply wagons burned in the night.",
@@ -158,6 +169,7 @@ const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Heartwoo
 const HINT_CALL := "Call Maelis: select the Heartwood and press V. She fights on her own; her card sets where (Escort / Vanguard / Hold home)."
 const MSG_RING_REFUSED := "The road isn't clear of the last convoy yet"
 const MSG_CONVOY := "Convoy {n} sets out"
+const MSG_KNIVES := "Hush's knives at the brook crossing! They are going for the stragglers of convoy {n}"
 
 ## Read only.
 var flag_override: Dictionary = {}       ## tests: stands in for the save's flags
@@ -183,6 +195,7 @@ var waves_fired: Array[StringName] = []
 var said: Array[String] = []
 var victory_time := -1.0
 var maelis_called := false
+var knives_sent := 0                     ## knife squads sent (convoys 2 and 3 at the brook crossing)
 
 var _said := {}
 var _tick := 0.0
@@ -947,6 +960,13 @@ func _refresh_wave_unit(u: Unit, mode: StringName, _hero_at: Vector3) -> bool:
 		&"crossing":
 			_push(u, u.get_meta(META_TARGET, BROOK_ICE), 4.0)
 			return true
+		&"knives":
+			var tail := _tail_walker(int(u.get_meta(&"_knife_convoy", -1)))
+			if tail == null:
+				u.set_meta(META_MODE, &"walkers_hero")
+			elif u.attack_target != tail:
+				u.command_attack(tail)
+			return true
 		&"withdraw":
 			return true
 	return false
@@ -993,8 +1013,16 @@ func _depart() -> void:
 	next_convoy += 1
 
 
+## A walker's place in its convoy's list (deterministic, survives a load: `convoys` is saved). -1 = not a walker.
+func walker_index(u: Unit) -> int:
+	var c := int(u.get_meta(&"convoy", -1))
+	if c < 0 or c >= convoys.size():
+		return -1
+	return (convoys[c]["walkers"] as Array).find(u)
+
+
 func _jitter(u: Unit) -> Vector3:
-	var i := float(u.get_instance_id() % 7) - 3.0
+	var i := float(maxi(0, walker_index(u)) % 7) - 3.0
 	return Vector3(i * 0.35, 0.0, i * 0.25)
 
 
@@ -1070,6 +1098,58 @@ func _tick_walkers(dt: float) -> void:
 			keep_out.append(row)
 	_gate_out = keep_out
 	_check_convoys()
+
+
+## Hush's knives (review fix): convoy `c`'s lead walker past ROAD[4] (the brook crossing) springs a squad that hunts
+## that convoy's tail.
+func _tick_knives() -> void:
+	for c: int in KNIFE_CONVOYS:
+		if c >= convoys.size() or has_fired(StringName("knives_%d" % c)):
+			continue
+		var conv: Dictionary = convoys[c]
+		if conv["state"] != &"road":
+			continue
+		var lead := 0
+		for v: Variant in conv["walkers"]:
+			if is_instance_valid(v) and (v as Unit).is_alive():
+				lead = maxi(lead, int((v as Unit).get_meta(&"wp", 0)))
+		if lead >= KNIFE_WP:
+			send_knives(c)
+
+
+## Sends the knife squad on convoy `c` (tests call it). Returns the squad.
+func send_knives(c: int) -> Array:
+	if is_ending() or not fire_once(StringName("knives_%d" % c)):
+		return []
+	knives_sent += 1
+	var cut := func(n: int) -> int: return n - int(floor(n * HOLLOW_CUT)) if objective_state("sec_hollow") == "done" else n
+	var units := spawn_wave_at(WAVES[&"KNIVES"], KNIFE_FROM, ENEMY, cut)
+	for u in units:
+		(u as Unit).set_meta(&"_knife_convoy", c)   # transient: after a load the knives go back to walkers_hero
+		order_wave(u as Unit, &"knives", BROOK_ICE)
+	flash_ring(BROOK_ICE, BROOK_ICE_R)
+	if hud:
+		hud.show_message(Loc.t(MSG_KNIVES, {"n": c + 1}), 5.0)
+	if c == KNIFE_CONVOYS[0]:
+		say_l("L33")
+	return units
+
+
+## The walker of convoy `c` furthest back on the road (lowest waypoint, then furthest from it); null = none.
+func _tail_walker(c: int) -> Unit:
+	var best: Unit = null
+	var best_wp := 1 << 20
+	var best_d := -1.0
+	for u in _road_walkers():
+		if int(u.get_meta(&"convoy", -1)) != c:
+			continue
+		var wp := int(u.get_meta(&"wp", 1))
+		var d := _flat(u.global_position, ROAD[wp])
+		if wp < best_wp or (wp == best_wp and d > best_d):
+			best = u
+			best_wp = wp
+			best_d = d
+	return best
 
 
 ## A walker inside the gate zone: safe (truce, invulnerable), counted, gone through the gate 2 s later.
@@ -1258,6 +1338,7 @@ func _physics_process(delta: float) -> void:
 	if _tick <= 0.0:
 		_tick = 0.5
 		_tick_walkers(0.5)
+		_tick_knives()
 		_tick_ambushes()
 		_tick_ice()
 		var t := "%s|%s|%s" % [objective_text(&"obj_convoys"), on_road(), next_convoy]
