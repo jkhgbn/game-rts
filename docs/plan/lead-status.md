@@ -3,35 +3,36 @@
 Read first after a reset, with `docs/plan/owner-asks.md` (waiting for JS) and `docs/plan/decisions.md` (already decided).
 History: `docs/plan/history/lead-status-2026-09.md`, restart notes `docs/ideas/restart_*.md`.
 
-**Updated:** 2026-10-16 ~06:00 UTC, laptop (nothing pushed).
+**Updated:** 2026-10-16 ~19:30 UTC, laptop (nothing pushed).
 
 ## Where things are
 - Main repo `Documents\four-wizards-rts` (main). Remote https://github.com/jkhgbn/game-rts (private): push only on JS's word.
-- Last playtest build: tag `playtest-2026-10-16` (f223ba20), `Desktop\FourWizards-2026-10-16.zip` (214 MB, not on
-  OneDrive), notes `docs/plan/playtest-notes.md` (= LISEZMOI.md in the zip). Exe smoke: main menu loads, 0 errors.
-  No new play worktree (disk); `four-wizards-rts-play` still at 9f338fc1.
-- CI worktree `four-wizards-rts-ci` at the tag. Full CI `playtest-2026-10-16` (-Parallel 4): import / smoke / perf PASS,
-  568 / 576 tests; the 8 fails = the load-sensitive mission sims (e2m1 / e2m2 / e2m4 / e3m2 / e7m1 / e7m4 / e8m3) +
-  test_9_c9; re-run at -Parallel 2: 4 pass, e2m2 / e3m2 / e7m4 / e8m3 still fail. e3m2 bisected to 2c1b2673 (visual
-  only: building HP bars) = the sims flip on cosmetic changes, not a difficulty change (triage in that run's ci.md).
-- Disk: C: ~3.1 GB free. Local-only lab PNGs ~3.4 GB in `docs/art/lab` (git-excluded): delete only with JS's OK (asked).
-- Weekly usage 81 % (resets 2026-10-18 05:00 UTC). Stop new waves at 85 %, keep 8 % reserve.
+- Last playtest build: tag `playtest-2026-10-16` (f223ba20), `Desktop\FourWizards-2026-10-16.zip`, notes
+  `docs/plan/playtest-notes.md`. The campaign fix wave below is NOT in a build yet.
+- Disk: C: ~4 GB free (local lab PNGs deleted with JS's OK). Weekly usage 88 % (resets 2026-10-18 05:00 UTC): JS's cap
+  is 95 %, so no new agent waves before the reset.
 
-## Graphics week (JS 2026-10-15 "les graphiques les + beaux possible"; plan + log `docs/plan/graphics-week.md`)
-- G-A to G-E done. G-F review round 3 (`docs/art/gf_review3.md`) top 6 all committed: Ice keep calm c544719d, VfxCap
-  427b6bc3 + mount flash 613f0632, building HP bars 2c1b2673 + hover 7e1f52c9, sites 362abe35, autumn haze fd0a191b,
-  Fire keep / crucible / keep smoke 69681225; leftovers 8197b17e (Fire Hall chimney, grass under site pads), Thornwater
-  timber bridges f3a871a7, frost needle crash 8572ccbf.
-- Quick CI on the night's commits green after 53a83c8f; quiet perf_test norm 5.40 (baseline 5.60), test_ws_perf PASS.
-- Next: JS playtests the 2026-10-16 build; his notes -> a G-G fix round (budget permitting, weekly reset 10-18).
+## Campaign review + fix wave (JS 2026-10-16 "grade all missions" then "fait tout jusqua 95%")
+- Review: `docs/playtests/campaign_review_2026-10-16/summary.md` (avg C+ 6.7; fixes list at the end).
+- Done and committed: ending_b speaker per road + 90 s credits (c0a1b0e0), Hollow King silhouette (e158a6fd), e7m2 / e7m4
+  goal-based phases (f962d82a), e8m2 ~20 min + e8m3 HP phases / Ward Mend (e09b86e5), weakest missions e2m3 / e2m5 /
+  e4m2 new final verbs (a85658d9), e5m1 nightfall (rush stall fix), readability + Ruin Slinger (8b3d34ed), ep1-2
+  Shadow wave variety (a1e704db), French for all new text (02379595).
+- Sims: 34 / 36 green on the wave run (cr-wave-sims), then e8m2 window and e5m1 fixed.
+- Determinism (side session, f9e938bf): the mission harness bakes nav on the main thread, turns nav async off and fixes
+  seeds. Sims no longer flip on load; e2m2 still drifts after ~3:44 with one seed (cause open, note
+  `sim-determinism-root-cause.md` in the side-session notes folder). `mission_e2_03.gd:959` still bakes on a thread.
+- Not done from the review: "another final verb" for more missions beyond the weakest four; e6m1 / e6m2, e3m4 / e4m1,
+  e4m3 / e4m4 near-twins; new genre breaks after ep5; the player's own keyhole step in e8m3; credits names / roles.
 
-## Balance (JS "try to 50/50 balance")
-- Combo A shipped (decisions 2026-10-15). Round 5 (fs7-r5) done: combo A stays (spread 17), no bot arm ships
-  (decisions 2026-10-16). Next step needs a unit change (JS's call: e.g. L3 Gloom Thrall 70 HP).
+## Open points for JS (also in the final message)
+- Credits line "Made with the Godot Engine." (agent-added) and whether credits are skippable before a first viewing.
+- Dacian's gender: e7m2 English says "him", the French of e7 says "la". One must change.
+- e6m1 new Aldra / Torvald lines are subtitle-only (no voice clip).
 
 ## Known follow-ups
-- Quartermeet bridges read pale (granite). Nature keep smoke starts above the canopy. Fire keep "drop outer ring at tier 1".
-- Team ring off at Low; `TEAM_RING_ALPHA` may be weak on dirt. `em_cloth` ownership table vs owners.json mismatch.
-- "1 resources still in use at exit" in every test (global).
-- Mission sims (e2m2, e3m2, e7m4, e8m3) flip on cosmetic commits: root-cause pass (order / RNG dependency or multi-seed).
-- Older list (2026-10-14): Wave Strike balance, e3m3 lambda warning, UI Lab `hud_research`, tooltip delay, music.md mono note.
+- Design docs' wave tables (mission-02/-03/-04, e2m1, e2m2, e2m4) still list the old rows (game-designer).
+- Nav watchdog copies in e6m1 / e6m2: move into main.gd for every level, then drop them.
+- i18n extractor catches fire_once ids (`knives_%d`, `beat%s`) and the fog shader in fog_of_war.gd:542.
+- Quartermeet bridges pale; Nature keep smoke above the canopy; "1 resources still in use at exit" in every test.
+- Balance: next step needs a unit change (JS's call, e.g. L3 Gloom Thrall 70 HP).
