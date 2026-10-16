@@ -944,17 +944,23 @@ func _launch(id: StringName, u: Unit, color: Color, size: float, arc: float) -> 
 	_world().add_child(bolt, true)
 	bolt.launch_at_target(champion, _cast_origin(), u, amount_of(id), color, size,
 			float(ability_data(id)["speed"]), arc)
+	bolt.set_visual_origin(_cast_visual_origin())
 	return bolt
 
 
-# Where thrown / shot skills start: the model's get_beam_origin() (staff crystal...), else chest height.
+# Where thrown / shot skills start for gameplay: chest height (never a model pose, see Unit._shot_origin).
 func _cast_origin() -> Vector3:
+	return champion.global_position + Vector3.UP * champion.body_height * 0.75
+
+
+# Where they are DRAWN leaving from: the model's get_beam_origin() (staff crystal...), else _cast_origin().
+func _cast_visual_origin() -> Vector3:
 	var model := champion.get_model()
 	if model and model.has_method(&"get_beam_origin"):
 		var p: Variant = model.call(&"get_beam_origin")
 		if p is Vector3:
 			return p
-	return champion.global_position + Vector3.UP * champion.body_height * 0.75
+	return _cast_origin()
 
 
 ## Skewer: 40 damage to every enemy unit in the 5 x 1 m line toward `aim`. Returns the far end point.

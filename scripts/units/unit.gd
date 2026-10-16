@@ -2248,6 +2248,7 @@ func _spawn_shot(target: Node3D) -> void:
 	get_tree().current_scene.add_child(bolt)
 	bolt.launch_at_target(self, _shot_origin(), target, dmg, projectile_color,
 			0.22 if dmg > attack_damage + 0.01 else 0.14, _bolt_speed())
+	bolt.set_visual_origin(_shot_visual_origin())
 	bolt.hit_unit.connect(_on_attack_hit)
 
 
@@ -2258,13 +2259,20 @@ func _bolt_speed() -> float:
 	return DEFAULT_BOLT_SPEED
 
 
-## Where this unit's ranged bolts start (world space). Champions use their model's get_beam_origin().
+## Where this unit's ranged bolts start for gameplay (world space): 3/4 of the height. Never a model pose
+## (the animation phase is seeded from the instance id; flight time must not depend on it).
 func _shot_origin() -> Vector3:
+	return global_position + Vector3.UP * body_height * 0.75
+
+
+## Where the bolt is DRAWN leaving from (Projectile.set_visual_origin): the bow tip for bowmen, else
+## _shot_origin(). Champions override it (weapon tip / beam origin).
+func _shot_visual_origin() -> Vector3:
 	if unit_type and BowmanKit.is_bowman(unit_type.id) and model_has(&"get_bow_tip_position"):
 		var tip: Variant = _model.call(&"get_bow_tip_position")   # bowmen.md: arrows leave the bow
 		if tip is Vector3:
 			return tip
-	return global_position + Vector3.UP * body_height * 0.75
+	return _shot_origin()
 
 
 # The windup is over: shoot, unless we died or the target is gone.

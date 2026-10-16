@@ -766,10 +766,11 @@ func _build_visual() -> void:
 	_build_placeholder_props()
 
 
-## Ranged champions (Wayfinder, Mender) shoot from the model's release point when it has one (the Mender's
-## censer, get_beam_origin()); else from the Unit default (3/4 of the height). With a class weapon (11.C5) the
+## Ranged champions (Wayfinder, Mender) draw their shots leaving the model's release point when it has one (the
+## Mender's censer, get_beam_origin()); else the Unit default (3/4 of the height). With a class weapon (11.C5) the
 ## model's get_weapon_tip() comes first (the Wizard staff's crystal; the Mender's censer is hidden then).
-func _shot_origin() -> Vector3:
+## Visual only: the gameplay start is Unit._shot_origin().
+func _shot_visual_origin() -> Vector3:
 	if champion_class and _model and _model.has_method(&"get_weapon_tip"):
 		var tip: Variant = _model.call(&"get_weapon_tip")
 		if tip is Vector3:
@@ -778,7 +779,7 @@ func _shot_origin() -> Vector3:
 		var p: Variant = _model.call(&"get_beam_origin")
 		if p is Vector3:
 			return p
-	return super._shot_origin()
+	return super._shot_visual_origin()
 
 
 ## The Wizard class's bolt flies at its own speed (26 m/s); every other shot is the Unit's.
@@ -789,6 +790,7 @@ func _spawn_shot(target: Node3D) -> void:
 	var bolt := Projectile.new()
 	get_tree().current_scene.add_child(bolt)
 	bolt.launch_at_target(self, _shot_origin(), target, attack_damage, projectile_color, 0.14, projectile_speed)
+	bolt.set_visual_origin(_shot_visual_origin())
 	bolt.hit_unit.connect(_on_attack_hit)
 
 

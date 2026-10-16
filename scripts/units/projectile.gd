@@ -34,6 +34,8 @@ var _t := 0.0
 var _arc := 0.5
 var _mesh: MeshInstance3D
 var _fog_check_left := 0.0
+# Drawn-only offset from the gameplay start (bow tip, staff crystal...), fades out along the flight.
+var _visual_offset := Vector3.ZERO
 
 
 ## Fires at a Unit or a building and follows it. `from_unit` is the shooter (Unit or tower).
@@ -48,6 +50,14 @@ func launch_at_target(from_unit: Node3D, from: Vector3, target: Node3D, dmg: flo
 		if away.length() > 0.01:
 			_target_offset += away.normalized() * reach
 	_setup(from_unit, from, target.global_position + _target_offset, dmg, 0.0, col, size, speed, arc)
+
+
+## Visual only: draw the shot leaving `p` (the model's bow tip / staff...) and converging onto the gameplay
+## path. Call it right after launch_*. Flight time, impact and damage stay computed from the gameplay `from`
+## (gameplay never reads a model pose: the animation phase must not change when a shot lands).
+func set_visual_origin(p: Vector3) -> void:
+	_visual_offset = p - _start
+	global_position = p
 
 
 ## Old name, kept for existing callers. Same as launch_at_target.
@@ -104,7 +114,7 @@ func _process(delta: float) -> void:
 		else:
 			_target = null
 	_t = min(1.0, _t + delta / _duration)
-	global_position = _start.lerp(_target_pos, _t) + Vector3.UP * sin(_t * PI) * _arc
+	global_position = _start.lerp(_target_pos, _t) + Vector3.UP * sin(_t * PI) * _arc + _visual_offset * (1.0 - _t)
 	_fog_check_left -= delta
 	if _fog_check_left <= 0.0:
 		_update_fog_visibility()

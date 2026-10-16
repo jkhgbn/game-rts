@@ -235,7 +235,7 @@ func _test_mender() -> void:
 	_check(bolt != null, "Mender shoots a bolt at a foe")
 	if bolt:
 		_check((bolt.get(&"color") as Color).is_equal_approx(Color(0.5, 1.0, 0.6)), "Mender bolt colour (0.5, 1.0, 0.6)")
-		var start: Vector3 = bolt.get(&"_start")
+		var start: Vector3 = (bolt.get(&"_start") as Vector3) + (bolt.get(&"_visual_offset") as Vector3)   # the drawn start
 		var origin: Vector3 = ch.get_model().call(&"get_beam_origin")
 		_check(start.distance_to(origin) < 0.35, "Mender bolt starts at get_beam_origin() (%s vs %s)" % [start, origin])
 		var default_origin := ch.global_position + Vector3.UP * ch.body_height * 0.75

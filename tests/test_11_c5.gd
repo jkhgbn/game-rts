@@ -155,7 +155,7 @@ func _check_state(ch: Champion, arch: StringName, cls: StringName, when: String)
 	_check(m.call(&"weapon_class") == cls, "%s: model weapon_class %s" % [tag, m.call(&"weapon_class")])
 	# shot origin
 	# (get_weapon_tip / get_beam_origin return Variants: null for "none" on some models, e.g. the Oathwall)
-	var origin: Vector3 = ch.call(&"_shot_origin")
+	var origin: Vector3 = ch.call(&"_shot_visual_origin")   # drawn start (the gameplay start is chest height)
 	var tip: Variant = m.call(&"get_weapon_tip")
 	var beam: Variant = m.call(&"get_beam_origin") if m.has_method(&"get_beam_origin") else null
 	var def := ch.global_position + Vector3.UP * ch.body_height * 0.75
@@ -260,7 +260,7 @@ func _check_class_before_tree() -> void:
 	_check(_near(float(oath.get(&"_model_windup")), 0.12), "Oathwall given Wizard before the tree: windup 0.12 (%s)"
 			% oath.get(&"_model_windup"))
 	var tip: Variant = _model_of(oath).call(&"get_weapon_tip")
-	_check(tip is Vector3 and (oath.call(&"_shot_origin") as Vector3).distance_to(tip) < 0.001,
+	_check(tip is Vector3 and (oath.call(&"_shot_visual_origin") as Vector3).distance_to(tip) < 0.001,
 			"Oathwall Wizard (before the tree): shot origin = staff tip")
 	oath.set_champion_class(&"")
 	_check(_near(float(oath.get(&"_model_windup")), 0.0), "Oathwall back to its slam: windup 0")
@@ -300,7 +300,7 @@ func _watch() -> void:
 		if p.source == _wiz:
 			_wiz_bolts += 1
 			var tip: Variant = _model_of(_wiz).call(&"get_weapon_tip")
-			var start: Vector3 = p.get(&"_start")
+			var start: Vector3 = (p.get(&"_start") as Vector3) + (p.get(&"_visual_offset") as Vector3)   # the drawn start
 			if tip is Vector3 and start.distance_to(tip) < 0.4 and p.color.is_equal_approx(WIZ_BOLT):
 				_wiz_bolt_near_tip += 1
 		elif p.source == _spear:
