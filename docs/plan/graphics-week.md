@@ -30,6 +30,8 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
 "never touch" list, tiers via `GameSettings.effective_graphics_quality()`, procedural / original only, no downloads.
 
 ## Progress (lead, 2026-10-15 ~16:20 local; weekly 62 %)
+- ~03:10 UTC 10-16 (weekly 81 %): review round 3 top 6 + leftovers all committed (lead-status.md lists the commits);
+  balance fs7-r5 recorded (combo A stays); CI triage 8449c5af. Next: quick CI, quiet perf, playtest build + French notes.
 - ~00:50 UTC 10-16 (weekly 78 %): committed m02 ice blocks + snow cliffs + Building site outline d3e61232, billboard
   keep-scale root cause (test_gf_billboard_scale) + Night Spire roof + calm Shadow site outline 8b45539c, Thornwater
   look 40497bce. Running: billboard fix on the 6 art/environment notes, per-map horizon (Crown Hollow's aqueduct /
