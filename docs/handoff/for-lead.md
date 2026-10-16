@@ -353,3 +353,132 @@ mossier stone) through level-local mesh copies.
 `Building.set_hp_bar_hover(on)` now exists (same as Unit). `SelectionManager.set_hovered_unit` only receives `unit_at()`
 (Units), so buildings never get hover today. For ui-coder (scripts/ui/selection_manager.gd ~l.350): also pass a hovered
 building (the method is called through `has_method`, so a Building works as-is). Selection and hits already work.
+
+## Campaign review 2026-10-16, weakest missions (systems-coder): new player text needs French
+e2m3 / e4m2 / e2m5 / e5m1 got new lines, messages and hints (details in each script's header "Campaign review fixes").
+`data/i18n/` is not mine: please run `tools/i18n/extract_strings.gd '--' merge` and add these (proposed French):
+- e2m3: "The last wagon is always the heaviest, Vessa. My knives can smell it from here." = "Le dernier chariot est toujours
+  le plus lourd, Vessa. Mes couteaux le sentent d'ici." · "Everyone on the wagon! If it stops, we stop. If it burns, I burn
+  something bigger." = "Tout le monde sur le chariot ! S'il s'arrête, on s'arrête. S'il brûle, je brûle quelque chose de
+  plus gros." · "The Grand Tribute sets out. Malrik's knives wait on the Lodge road: escort the wagon!" = "Le Grand Tribut
+  part. Les couteaux de Malrik attendent sur la route du Pavillon : escortez le chariot !" · "Ambush on the Lodge road! They
+  are going for the Grand Tribute" = "Embuscade sur la route du Pavillon ! Ils visent le Grand Tribut" · "The Grand Tribute
+  is lost! Take the gold back before the thieves do" = "Le Grand Tribut est perdu ! Reprenez l'or avant les voleurs" ·
+  "Escort the Grand Tribute: %d m to the Lodge" = "Escortez le Grand Tribut : %d m jusqu'au Pavillon".
+- e4m2: "The slow ones at the back, my knives. Always the slow ones." = "Les lents, à l'arrière, mes couteaux. Toujours les
+  lents." · "Hush's knives at the brook crossing! They are going for the stragglers of convoy {n}" = "Les couteaux de Hush au
+  gué du ruisseau ! Ils visent les traînards du convoi {n}".
+- e2m5: "The stones up the slope still remember the sun! Carry it down to him, girl, a shard at a time!" = "Les pierres de la
+  pente se souviennent encore du soleil ! Porte-le-lui, petite, un éclat à la fois !" · "Walk Vessa onto a lit Sunstone to
+  take a sunshard, then carry it to the Door: the Door strikes the jailer. Unlit Sunstones light like beacons." = "Menez
+  Vessa sur une Pierre-soleil allumée pour prendre un éclat de soleil, puis portez-le à la Porte : la Porte frappe le
+  geôlier. Les Pierres-soleil éteintes s'allument comme des fanaux." · "Sunshard taken: carry it to the Door" = "Éclat de
+  soleil pris : portez-le à la Porte" · "Carry the sunshard to the Door" = "Portez l'éclat de soleil à la Porte" · "Carry
+  sunshards from the lit Sunstones to the Door: each one makes it strike" = "Portez des éclats de soleil des Pierres-soleil
+  allumées jusqu'à la Porte : chacun la fait frapper".
+- e5m1: "Behind me, girl. Nobody crosses this bridge while I stand on it." = "Derrière moi, petite. Personne ne traverse ce
+  pont tant que je suis dessus." · "And what do I do? Watch?" = "Et moi, je fais quoi ? Je regarde ?" · "You throw fire over
+  my shoulder. That is what a spark is for." = "Tu lances le feu par-dessus mon épaule. C'est à ça que sert une étincelle." ·
+  "That is how a bridge is held. One sword in front, one spark behind." = "C'est comme ça qu'on tient un pont. Une épée
+  devant, une étincelle derrière." · "Years later, she would hold a bridge of her own, and remember who had stood in front
+  of her." = "Des années plus tard, elle tiendrait son propre pont, et se souviendrait de celui qui s'était tenu devant
+  elle." · "Torches on the west road: reivers are coming for the Millrace farms!" = "Des torches sur la route de l'ouest :
+  les pillards viennent pour les fermes de Millrace !" · "Vey holds the Old Bridge: stay behind him and throw Fireballs. They
+  cost no mana near him while he stands." = "Vey tient le Vieux Pont : restez derrière lui et lancez des Boules de feu.
+  Elles ne coûtent pas de mana près de lui tant qu'il tient."
+(Use the glossary's names for Lodge / Sunstone / Old Bridge / Millrace if they differ from mine.)
+- e2m5 keeps the old B3 lance (Vessa at the Door with Vey, now 15 / 18 / 21 s) only because tests/test_e2m5.gd `_lance` and
+  test_e2m5_sim.gd script it; once those tests carry shards, `_tick_lance` can go.
+- test_save_metas: the metas `e2m3_grand`, `knife_convoy` and `walker_ix` are gone. The Grand wagon is now known by its
+  saved modifier `mission:grand_tribute`, the knives' target is `_knife_convoy` (transient), and the walker jitter reads
+  the walker's place in its saved convoy list. Nothing for you to add to SAVE_METAS for these.
+
+## Campaign review 2026-10-16, e8m2 / e8m3 (systems-coder)
+1. **Sim windows** (tests/test_e8_sim.gd is yours): e8m2 is cut to ~20 min (march floors halved, bars faster) and e8m3's
+   phases now follow the King's HP (4:00 lock-out, no 17:00 / 25:30 floors), so the old `TARGET` windows (e8m2 25-30 min,
+   e8m3 28-35 min) no longer fit. Measured play time (normal): e8m2 20:20; e8m3 20:20 / 21:19 (seeds 0 / 2). Proposed:
+   `"e8m2": [1080.0, 1500.0, 75.0]` (18-25 min) and `"e8m3": [1080.0, 1560.0, 60.0]` (18-26 min). `PASSIVE_LIMIT` can stay
+   (both passive runs PASS: e8m2 lost at 26:12, e8m3 no win).
+2. **French** (`data/i18n/` is not mine; run `tools/i18n/extract_strings.gd '--' merge`, proposed French):
+   - e8m2 march beats: "Stand back from the pylon. No, further. Further than that." = "Reculez du pylône. Non, plus loin.
+     Plus loin que ça." · "Quietly now. The Hollow hears footsteps better than it hears knives." = "Doucement, maintenant. Le
+     Hollow entend les pas mieux que les couteaux." · "Hold still, all of you. That includes the rubble." = "Ne bougez plus,
+     tous. Ça vaut aussi pour les gravats." · "Roots, take their feet. We walk, they wait." = "Racines, prenez-leur les pieds.
+     Nous marchons, ils attendent." · "The Hollow answers the {kingdom} march!" = "Le Hollow répond à la marche {kingdom} !"
+   - e8m3: "The {kingdom} Key-Ward is at {pct} %!" = "La Garde-clé {kingdom} est à {pct} % !" · "The {kingdom} Key-Ward is
+     mended." = "La Garde-clé {kingdom} est réparée." · "Ward Mend: stand beside a Key-Ward with your wizard, no Host near,
+     for 3 s (+25 %, every 60 s). It relights a broken one." = "Réparation de garde : placez votre sorcier près d'une
+     Garde-clé, sans Host autour, pendant 3 s (+25 %, toutes les 60 s). Elle rallume une garde brisée." · "Ward Mend ready" =
+     "Réparation de garde prête" · "Ward Mend {time}" = "Réparation de garde {time}" · "Never let two keyholes fall at once
+     ({wards}) · {mend}" = "Ne laissez jamais tomber deux serrures en même temps ({wards}) · {mend}" (replaces the old
+     "({wards})" key). Use the glossary's word for Key-Ward / Host if it differs.
+
+## Campaign review 2026-10-16: enemy rosters m02-m04, e2m1, e2m2, e2m4 (systems-coder, cr-waves)
+Waves now grow across episodes 1-2 (same crystal value per wave within 25 %, `tests/test_cr_waves.gd`):
+m02 Bleakbows + the first Gloom Deacon; m03 Hexweavers + Gloam Riders (stake raid = 2 Shades + 2 Bleakbows); m04 Hollow Oathsworn,
+raids = Duskbolt Harriers (2 / 1); e2m1 Barrow Ghouls / Knights, Oathsworn, raids = ghouls rising 16 m from the target
+after a 3 s ring; e2m2 Gloam Rider raids (+1 on hard), Nightblood Reavers, named elite Grave Marshal Corvane (local
+type `grave_marshal`, Barrow Knight base, blows apply `marked`) with the Vice knights; e2m4 Barrow Ghouls (G4, W1),
+Barrow Knights, Oathsworn, Veilborn Dreadrider instead of the 2 late Knights.
+- For the game-designer: the wave tables in docs/design/mission-02.md / -03 / -04 / e2m1 / e2m2 / e2m4 still list the
+  old rows; please update them from the `WAVE_ROWS` / `WAVES` constants.
+- For i18n: the new display name "Grave Marshal Corvane" needs a msgid / French line (extract_strings merge).
+
+## Campaign review 2026-10-16: the ending (cr-ending)
+- `ep8_ending_b`: the turn line "Nobody sits. Not ever again." is now said by the player's wizard. The format already had
+  it: shot `branch=<flag>` / `branch=!<flag>` (`CinematicShot.branch_flag`, a failed branch takes 0 s) on the bool flags
+  `e8_road_fire / shadow / ice / nature` the road picker writes. E15 is split: the turn shot E15V / E15M / E15T / E15Y
+  (4.8 s, one per road, voiced L1_<wizard>) + the shared strike shot E15 (7.2 s, same camera). The player's own fate
+  moves last: E17 / E18+E18B / E19 carry `branch=!e8_road_<k>`, copies E17L / E18L+E18BL / E19L play after E20 on their
+  road (Vessa's E20 is last already). No CampaignState / STORY_FILMS / FILM_BRANCHES change, no new film, stage scene
+  untouched (same cast); only the .cine + the baked .tres.
+- Notes: one road plays 67 s; cine's own tools sum every branch (~106 s), so the header says `length=64..108`.
+  `run_cine check` = 0 FAIL, 2 WARN (RT1 / RT2: the runtime partner check plays the dev save, where no road flag is
+  set, so it drops the branch shots and its timeline differs from cine's: expected, not a runtime bug). A save with no
+  `e8_road_*` flag (only the cine tool; the game always has one) drops the turn shot and starts at the strike.
+- Credits (`scripts/campaign/e8_story_screen.gd`, kind credits): a 90 s slow roll (`ROLL_SECONDS`): title, the four
+  wizards (portrait from `art/portraits/<w>.png`, name in the kingdom colour, "Kingdom of X", "Relic: <ItemType name>",
+  the player's road last), the five thank-you lines, "Made with the Godot Engine.", "Four hands keep the peace, not
+  one."; Esc / Enter / Space / a click skip to the end panel (other keys no longer advance). Public: `is_rolling()`,
+  `roll_time()`, `skip_credits()`, static `roll_order(road)`, `relic_name(k)`. 7 new campaign.po lines translated.
+  Still open from the doc: mission-e8-03.md wants the credits skippable only after a first full viewing, and names /
+  roles on the roll (JS has not given any): not done.
+- Test: `tests/test_cr_ending.gd` (4 roads: speaker + shot order + length; credits length, roll order, Esc / click skip).
+
+## Campaign review 2026-10-16: readability + roster (cr-read, systems-coder)
+- New / changed player text (English in the logic, needs `tools/i18n/extract_strings.gd '--' merge` + French):
+  e6m4 "The Master is interrupted: clear the white circle!", "The Hollow counts: {n}" (Label3D, Loc.t),
+  "The Master is interrupted: %d %% (clear the circle)", "Nothing may break the seal (%d %%, the Hollow counted %d)",
+  the Bramblesage hint (Pollen Haze now blinds the Ruin Slingers), unit name "Ruin Slinger";
+  e7m3 "Every pit you hold pays gold (+%d / min each). Every row you leave costs lives." (replaces the old tithe line),
+  "{row} is being taken: send soldiers to its bell!"; e6m1 the Lake Rise hint (HINT_LAKE), unit name "Deep Warden" and
+  two lines said through `say()` (subtitle only, no voice clip): Aldra "They're coming up through the ice! Stop them out
+  there, my lord. Stone that stands still on the ice goes under." / Torvald "Then nobody walks past the floes. Shields
+  onto the ice." If they should be voiced, data/voice/lines/e6m1.json needs two rows (L31 / L32) and I switch to say_l.
+- The Ruin Slinger (`ruin_slinger`, a Bleakbow copy, `MissionE6_04.make_slinger`) is a mission-local type: no
+  data/units file, no Unit Guide block (not a player unit).
+
+## From systems-coder, campaign review 2026-10-16: e7m2 / e7m4 (cr-e7)
+- **Sim time windows** (tests are lead / shared files, I did not edit them): the review asked for shorter missions, so
+  `tests/test_e7m2_sim.gd` line 92 (18-24 min play) and `tests/test_e7m4_sim.gd` line 93 (25-30 min play) now fail on
+  time alone. Please widen them to about 12-24 min (e7m2: about 13:40 play now, was 18:32) and 19-28 min (e7m4: about
+  21:20 play now, was 25:19). The comment on line 4 of test_e7m2_sim still names DUEL_FLOOR, which is gone.
+- **test_save_metas**: add `e7m4_great` (set on the units of Malrik's great assault M5 in e7m4; a load must keep it so
+  that P4's goal still counts them) to SAVE_METAS. The other unlisted metas it reports (e2m3_grand, knife_convoy,
+  walker_ix) come from the other agents of this wave.
+- **Nav freeze seen in e7m2 runs, under heavy machine load**: sometimes no unit moves (the path is empty, and
+  "query made before first map synchronization"). It happens with the old e7m2 script too, so it is not this change.
+  It looks like a harness / main.gd nav-sync timing issue. Since e7m2 now has a causeway limit, a frozen run ends in
+  defeat ("barricade") instead of a timeout.
+- **i18n**: new player text in mission_e7_02.gd (Dacian soon, strongbox window / gone, causeway warn / holds, Sun Cleave
+  hint) and mission_e7_04.gd (hunger 50 / 75 / 100, great assault broken, keep mend, hold objective). Please run
+  extract + translate them. test_i18n was already failing before this wave (68 campaign keys).
+
+## From systems-coder (cr-read), addendum: the nav freeze in e6m1 / e6m2 sims
+- Same freeze as the cr-e7 note above: 3 of the first 4 Glasswater sims (e6m1 + passive, e6m2 open) froze from 0:00.
+  A probe showed a baked region (602 polygons) while `NavigationServer3D.map_get_iteration_id(map) == 0` 20 s after the
+  match start (the map never synced). Reruns under less load were clean (e6m1 18:57, e6m2 PASS).
+- Stopgap in my files: `MissionE6_01.nav_watchdog(level)` (called from e6m1 and e6m2 ticks). If the map has still never
+  synced after the match start, it calls `build_grid.request_rebake()` and pushes the warning "nav watchdog: ..." (3 tries
+  at most). It has not fired in a clean run. Suggestion: move the same check into main.gd `_on_navigation_ready` / its
+  tick for every level, then drop the mission copies.

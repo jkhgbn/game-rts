@@ -476,162 +476,162 @@ msgid "Group %s: %s\nClick: select  ·  Double-click: centre camera"
 msgstr "Groupe %s : %s\nClic : sélectionner  ·  Double-clic : centrer la caméra"
 
 #. menu_button = _top_button(root, 0, "", Loc.t("Menu  [Esc]"))
-#: scripts/ui/hud.gd:140
+#: scripts/ui/hud.gd:149
 msgid "Menu  [Esc]"
 msgstr "Menu  [Échap]"
 
 #. help_button = _top_button(root, 1, "?", Loc.t("Controls  [%s]") % KeyLabels.of(HELP_KEY))
-#: scripts/ui/hud.gd:150
+#: scripts/ui/hud.gd:159
 msgid "Controls  [%s]"
 msgstr "Commandes  [%s]"
 
 #. return Loc.t("Your wizard")
-#: scripts/ui/hud.gd:610 scripts/ui/hud.gd:612 scripts/ui/selection_panel.gd:2415
+#: scripts/ui/hud.gd:631 scripts/ui/hud.gd:633 scripts/ui/selection_panel.gd:2415
 msgid "Your wizard"
 msgstr "Votre sorcier"
 
 #. return Loc.t("Walk %s with %s") % [wizard_name, KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D])]
-#: scripts/ui/hud.gd:619
+#: scripts/ui/hud.gd:640
 msgid "Walk %s with %s"
 msgstr "Dirigez %s avec %s"
 
 #. return Loc.t("Right-click the ground to move %s") % wizard_name
-#: scripts/ui/hud.gd:620
+#: scripts/ui/hud.gd:641
 msgid "Right-click the ground to move %s"
 msgstr "Clic droit au sol pour déplacer %s"
 
 #. var pan_keys := KeyLabels.join([KEY_W, KEY_A, KEY_S, KEY_D]) if GameSettings.rts_wasd() else Loc.t("Arrows")
-#: scripts/ui/hud.gd:677 scripts/campaign/mission_e3_02.gd:55
+#: scripts/ui/hud.gd:698 scripts/campaign/mission_e3_02.gd:55
 msgid "Arrows"
 msgstr "Flèches"
 
 #. middle = (Loc.t("Right click: move / attack / gather / rally    %s: attack-move    %s: stop")
-#: scripts/ui/hud.gd:680
+#: scripts/ui/hud.gd:701
 msgid "Right click: move / attack / gather / rally    %s: attack-move    %s: stop"
 msgstr "Clic droit : déplacer / attaquer / récolter / rallier    %s : attaque-dépl.    %s : arrêter"
 
 #. + "\n" + Loc.t("%s: hold    %s: gather    %s: build (workers)    %s: train")
-#: scripts/ui/hud.gd:682
+#: scripts/ui/hud.gd:703
 msgid "%s: hold    %s: gather    %s: build (workers)    %s: train"
 msgstr "%s : tenir    %s : récolter    %s : construire (ouvriers)    %s : former"
 
 #. + "\n" + Loc.t("Delete: cancel a site    %s: walk %s    %s: spells")
-#: scripts/ui/hud.gd:684
+#: scripts/ui/hud.gd:705
 msgid "Delete: cancel a site    %s: walk %s    %s: spells"
 msgstr "Suppr : annuler un chantier    %s : diriger %s    %s : sorts"
 
 #. middle = (Loc.t("Right click: move (%s too) / attack / gather / rally    %s: stop") % [wizard_name, k.call(KEY
-#: scripts/ui/hud.gd:688 scripts/ui/hud.gd:693
+#: scripts/ui/hud.gd:709 scripts/ui/hud.gd:714
 msgid "Right click: move (%s too) / attack / gather / rally    %s: stop"
 msgstr "Clic droit : déplacer (%s aussi) / attaquer / récolter / rallier    %s : arrêter"
 
 #. + "\n" + Loc.t("Attack-move: %s + click    %s: hold    %s: gather    %s: build")
-#: scripts/ui/hud.gd:689
+#: scripts/ui/hud.gd:710
 msgid "Attack-move: %s + click    %s: hold    %s: gather    %s: build"
 msgstr "Attaque-dépl. : %s + clic    %s : tenir    %s : récolter    %s : construire"
 
 #. + "\n" + Loc.t("%s: train    Delete: cancel a site    %s: spells") % [train, spells] + "\n")
-#: scripts/ui/hud.gd:691 scripts/ui/hud.gd:696
+#: scripts/ui/hud.gd:712 scripts/ui/hud.gd:717
 msgid "%s: train    Delete: cancel a site    %s: spells"
 msgstr "%s : former    Suppr : annuler un chantier    %s : sorts"
 
 #. + "\n" + Loc.t("Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build")
-#: scripts/ui/hud.gd:694
+#: scripts/ui/hud.gd:715
 msgid "Attack-move: %s + click (%s too)    %s: hold    %s: gather    %s: build"
 msgstr "Attaque-dépl. : %s + clic (%s aussi)    %s : tenir    %s : récolter    %s : construire"
 
 #. return (Loc.t("Left click / drag: select    Shift: add    Double-click: all of a type") + "\n"
-#: scripts/ui/hud.gd:697
+#: scripts/ui/hud.gd:718
 msgid "Left click / drag: select    Shift: add    Double-click: all of a type"
 msgstr "Clic gauche / glisser : sélect.    Maj : ajouter    Double-clic : tout un type"
 
 #. + Loc.t("Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart")
-#: scripts/ui/hud.gd:699
+#: scripts/ui/hud.gd:720
 msgid "Ctrl+%s: learn spell    F1: %s    Space: find %s    F9: restart"
 msgstr "Ctrl+%s : apprendre un sort    F1 : %s    Espace : trouver %s    F9 : recommencer"
 
 #. + "\n" + Loc.t("Groups 1-0: Ctrl set · Shift add · Alt steal · NN centre    Ctrl+%s: all") % k.call(KEY_A)
-#: scripts/ui/hud.gd:701
+#: scripts/ui/hud.gd:722
 msgid "Groups 1-0: Ctrl set · Shift add · Alt steal · NN centre    Ctrl+%s: all"
 msgstr "Groupes 1-0 : Ctrl créer · Maj ajouter · Alt voler · NN centrer    Ctrl+%s : tout"
 
 #. + "\n" + Loc.t("F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender")
-#: scripts/ui/hud.gd:702
+#: scripts/ui/hud.gd:723
 msgid "F2: army (Shift add)   F3: idle (Ctrl all)   Tab: type   F10 x2: surrender"
 msgstr "F2 : armée (Maj ajoute)   F3 : inactif (Ctrl tous)   Tab : type   F10 x2 : abandonner"
 
 #. + "\n" + Loc.t("%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop") % [pan_keys, k.call(KEY_T)]
-#: scripts/ui/hud.gd:703
+#: scripts/ui/hud.gd:724
 msgid "%s / edge: pan    Wheel: zoom    Middle drag: rotate    %s: shop"
 msgstr "%s / bord : défiler    Molette : zoom    Glisser milieu : pivoter    %s : boutique"
 
 #. lines.append(Loc.t("%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion") % [k.call(KEY_R), k
-#: scripts/ui/hud.gd:711
+#: scripts/ui/hud.gd:732
 msgid "%s: bounty (Shift+click: stay)    %s: tavern    F5-F7: find champion"
 msgstr "%s : prime (Maj+clic : garder)    %s : taverne    F5-F7 : trouver un champion"
 
 #. row.append(Loc.t("Flag: %s raise · Delete remove") % k.call(KEY_Z))
-#: scripts/ui/hud.gd:714
+#: scripts/ui/hud.gd:735
 msgid "Flag: %s raise · Delete remove"
 msgstr "Drapeau : %s hausser · Suppr retirer"
 
 #. row.append(Loc.t("%s: trade & hunters    %s: trade (caravans)") % [k.call(KEY_U), k.call(KEY_G)])
-#: scripts/ui/hud.gd:716
+#: scripts/ui/hud.gd:737
 msgid "%s: trade & hunters    %s: trade (caravans)"
 msgstr "%s : commerce et chasseurs    %s : commerce (caravanes)"
 
 #. row.append(Loc.t("%s, %s: Bazaar    Bazaar: %s caravan") % [k.call(KEY_B), k.call(KEY_B), k.call(KEY_Z)])
-#: scripts/ui/hud.gd:722
+#: scripts/ui/hud.gd:743
 msgid "%s, %s: Bazaar    Bazaar: %s caravan"
 msgstr "%s, %s : Bazar    Bazar : %s caravane"
 
 #. row.append(Loc.t("%s / %s: caster spells (Ctrl: autocast)") % [k.call(KEY_Z), k.call(KEY_V)])
-#: scripts/ui/hud.gd:724
+#: scripts/ui/hud.gd:745
 msgid "%s / %s: caster spells (Ctrl: autocast)"
 msgstr "%s / %s : sorts des lanceurs (Ctrl : lancement auto)"
 
 #. show_message(Loc.t("%s reaches level %d") % [short, int(lvl)], 3.0)
-#: scripts/ui/hud.gd:999
+#: scripts/ui/hud.gd:1034
 msgid "%s reaches level %d"
 msgstr "%s atteint le niveau %d"
 
 #. var _help_name := "your wizard"   # the wizard named in the help
-#: scripts/ui/hud.gd:66
+#: scripts/ui/hud.gd:75
 msgid "your wizard"
 msgstr "votre sorcier"
 
 #. _objective_header = _fold_header("Objective")
-#: scripts/ui/hud.gd:126
+#: scripts/ui/hud.gd:135
 msgid "Objective"
 msgstr "Objectif"
 
 #. _objective_header.tooltip_text = "Click: fold / unfold the objective"
-#: scripts/ui/hud.gd:127
+#: scripts/ui/hud.gd:136
 msgid "Click: fold / unfold the objective"
 msgstr "Clic : replier / déplier l’objectif"
 
 #. b.text = "Summary" if tab == END_TAB_SUMMARY else "Score"
-#: scripts/ui/hud.gd:311
+#: scripts/ui/hud.gd:320
 msgid "Summary"
 msgstr "Résumé"
 
 #. b.text = "Summary" if tab == END_TAB_SUMMARY else "Score"
-#: scripts/ui/hud.gd:311
+#: scripts/ui/hud.gd:320
 msgid "Score"
 msgstr "Pointage"
 
 #. end_restart_button = _end_button(end_buttons, "Restart (F9)")
-#: scripts/ui/hud.gd:336
+#: scripts/ui/hud.gd:345
 msgid "Restart (F9)"
 msgstr "Recommencer (F9)"
 
 #. end_menu_button = _end_button(end_buttons, "Main menu")
-#: scripts/ui/hud.gd:338
+#: scripts/ui/hud.gd:347
 msgid "Main menu"
 msgstr "Menu principal"
 
 #. const HELP_CAPTURE := "Capture: stand near towers, wells and shrines"
-#: scripts/ui/hud.gd:659
+#: scripts/ui/hud.gd:680
 msgid "Capture: stand near towers, wells and shrines"
 msgstr "Capture : restez près des tours, puits et sanctuaires"
 
@@ -817,14 +817,14 @@ msgid "Total"
 msgstr "Total"
 
 #. message.emit(Loc.t("Picked up %s") % ItemTooltip.display_name(type))
-#: scripts/ui/selection_manager.gd:1683 scripts/ui/selection_manager.gd:1725
-#: scripts/ui/selection_manager.gd:1727
+#: scripts/ui/selection_manager.gd:1687 scripts/ui/selection_manager.gd:1729
+#: scripts/ui/selection_manager.gd:1731
 msgid "Picked up %s"
 msgstr "Ramassé : %s"
 
 #. message.emit(Loc.t("Research cancelled: {name}", {"name": Loc.sink(str(UnitResearch.row(row_id)["name"]))}))
-#: scripts/ui/selection_manager.gd:2351 scripts/ui/selection_manager.gd:2370
-#: scripts/ui/selection_manager.gd:2415
+#: scripts/ui/selection_manager.gd:2355 scripts/ui/selection_manager.gd:2374
+#: scripts/ui/selection_manager.gd:2419
 msgid "Research cancelled: {name}"
 msgstr "Recherche annulée : {name}"
 
@@ -840,64 +840,64 @@ msgid "No upgrade for that unit"
 msgstr "Aucune amélioration pour cette unité"
 
 #. return "No bounty selected"
-#: scripts/ui/selection_manager.gd:779
+#: scripts/ui/selection_manager.gd:783
 msgid "No bounty selected"
 msgstr "Aucune prime sélectionnée"
 
 #. message.emit("A builder died: its queued buildings wait for a worker")
-#: scripts/ui/selection_manager.gd:1124
+#: scripts/ui/selection_manager.gd:1128
 msgid "A builder died: its queued buildings wait for a worker"
 msgstr "Un bâtisseur est mort : ses bâtiments en attente ont besoin d'un ouvrier"
 
 #. return "Unknown spell"
-#: scripts/ui/selection_manager.gd:1231 scripts/units/wizard.gd:409 scripts/units/wizard.gd:454
+#: scripts/ui/selection_manager.gd:1235 scripts/units/wizard.gd:415 scripts/units/wizard.gd:460
 #: scripts/spells/spell_caster.gd:54
 msgid "Unknown spell"
 msgstr "Sort inconnu"
 
 #. return "No spell points"
-#: scripts/ui/selection_manager.gd:1233 scripts/ui/spell_info.gd:184 scripts/units/wizard.gd:418
+#: scripts/ui/selection_manager.gd:1237 scripts/ui/spell_info.gd:184 scripts/units/wizard.gd:424
 msgid "No spell points"
 msgstr "Aucun point de sort"
 
 #. message.emit(CasterKit.REASON_NO_TARGET if kind == &"point" else "Pick a unit")
-#: scripts/ui/selection_manager.gd:1570 scripts/ui/selection_manager.gd:2805
-#: scripts/ui/selection_manager.gd:2809 scripts/ui/selection_manager.gd:3702
+#: scripts/ui/selection_manager.gd:1574 scripts/ui/selection_manager.gd:2809
+#: scripts/ui/selection_manager.gd:2813 scripts/ui/selection_manager.gd:3734
 msgid "Pick a unit"
 msgstr "Choisissez une unité"
 
 #. return "No wizard"
-#: scripts/ui/selection_manager.gd:1584
+#: scripts/ui/selection_manager.gd:1588
 msgid "No wizard"
 msgstr "Aucun sorcier"
 
 #. return "No inventory"
-#: scripts/ui/selection_manager.gd:1587 scripts/ui/selection_manager.gd:1622
+#: scripts/ui/selection_manager.gd:1591 scripts/ui/selection_manager.gd:1626
 msgid "No inventory"
 msgstr "Aucun inventaire"
 
 #. return "No Bazaar selected"
-#: scripts/ui/selection_manager.gd:1901 scripts/ui/selection_manager.gd:1903
+#: scripts/ui/selection_manager.gd:1905 scripts/ui/selection_manager.gd:1907
 msgid "No Bazaar selected"
 msgstr "Aucun Bazar sélectionné"
 
 #. return "No building selected"
-#: scripts/ui/selection_manager.gd:2074
+#: scripts/ui/selection_manager.gd:2078
 msgid "No building selected"
 msgstr "Aucun bâtiment sélectionné"
 
 #. return "No helper"
-#: scripts/ui/selection_manager.gd:2434
+#: scripts/ui/selection_manager.gd:2438
 msgid "No helper"
 msgstr "Aucun assistant"
 
 #. message.emit("No idle workers")
-#: scripts/ui/selection_manager.gd:2613 scripts/ui/selection_manager.gd:2739
+#: scripts/ui/selection_manager.gd:2617 scripts/ui/selection_manager.gd:2743
 msgid "No idle workers"
 msgstr "Aucun ouvrier inactif"
 
 #. message.emit("Click a crystal node")
-#: scripts/ui/selection_manager.gd:2830 scripts/ui/selection_manager.gd:3563
+#: scripts/ui/selection_manager.gd:2834 scripts/ui/selection_manager.gd:3595
 msgid "Click a crystal node"
 msgstr "Cliquez un gisement de cristaux"
 
@@ -1772,7 +1772,7 @@ msgid "Saplings fight for 25 s, then wither."
 msgstr "Des pousses combattent 25 s, puis fanent."
 
 #. return "Not enough mana"
-#: scripts/ui/spell_info.gd:177 scripts/units/caster_kit.gd:97 scripts/units/wizard.gd:518
+#: scripts/ui/spell_info.gd:177 scripts/units/caster_kit.gd:97 scripts/units/wizard.gd:524
 #: scripts/spells/spell_caster.gd:57
 msgid "Not enough mana"
 msgstr "Pas assez de mana"

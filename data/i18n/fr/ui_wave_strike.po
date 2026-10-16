@@ -455,7 +455,7 @@ msgid "Nothing to undo"
 msgstr "Rien à annuler"
 
 #. var front := _label3d(Loc.t("FRONT"), 120, Color(UIStyle.GOLD, 0.7), tf)
-#: scripts/ui/wave_strike/pad_view.gd:272
+#: scripts/ui/wave_strike/pad_view.gd:277
 msgid "FRONT"
 msgstr "AVANT"
 

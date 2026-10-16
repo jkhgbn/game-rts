@@ -66,7 +66,7 @@ msgid "Hire  [{key}]\n{crystals} crystals · {essence} essence · {pop} pop"
 msgstr "Engager  [{key}]\n{crystals} cristaux · {essence} essence · {pop} pop"
 
 #. intent_label.text = Loc.t("Arrives in {n} s", {"n": ceili(ChampionBar.hire_left(g, id))})
-#: scripts/ui/tavern_window.gd:1041 scripts/ui/champion_bar.gd:1435
+#: scripts/ui/tavern_window.gd:1041 scripts/ui/champion_bar.gd:1441
 msgid "Arrives in {n} s"
 msgstr "Arrive dans {n} s"
 
@@ -197,7 +197,7 @@ msgid "Revive gold"
 msgstr "Ranimer (or)"
 
 #. class_word.text = "Class"
-#: scripts/ui/tavern_window.gd:930 scripts/ui/tavern_window.gd:934 scripts/ui/champion_bar.gd:1109
+#: scripts/ui/tavern_window.gd:930 scripts/ui/tavern_window.gd:934 scripts/ui/champion_bar.gd:1115
 msgid "Class"
 msgstr "Classe"
 
@@ -347,13 +347,13 @@ msgid "Three trackers walk your mines and roads in turn, attack every Magpie the
 msgstr "Trois pisteurs parcourent vos mines et vos routes, attaquent chaque Magpie et pourchassent les pillards."
 
 #. const NO_BAZAAR := "No Bazaar"
-#: scripts/ui/trade_window.gd:90 scripts/ui/post_panel.gd:407 scripts/campaign/mission_e2_03.gd:154
+#: scripts/ui/trade_window.gd:90 scripts/ui/post_panel.gd:407 scripts/campaign/mission_e2_03.gd:168
 #: scripts/campaign/mission_e7_base.gd:74 scripts/economy/caravan.gd:47 scripts/economy/gold_bank.gd:61
 msgid "No Bazaar"
 msgstr "Pas de Bazar"
 
 #. const NO_GOLD := "Not enough gold"
-#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:417 scripts/campaign/mission_e2_03.gd:155
+#: scripts/ui/trade_window.gd:91 scripts/ui/top_bar.gd:417 scripts/campaign/mission_e2_03.gd:169
 #: scripts/campaign/mission_e7_base.gd:75 scripts/economy/gold_bank.gd:63
 #: scripts/world/champion_guild.gd:79
 msgid "Not enough gold"
@@ -507,7 +507,7 @@ msgid "Sold {name} for {n}"
 msgstr "{name} vendu pour {n}"
 
 #. message.emit(Loc.t("Not enough crystals"))
-#: scripts/ui/shop_window.gd:659 scripts/ui/top_bar.gd:325 scripts/campaign/mission_e2_05.gd:226
+#: scripts/ui/shop_window.gd:659 scripts/ui/top_bar.gd:325 scripts/campaign/mission_e2_05.gd:240
 #: scripts/campaign/mission_e3_04.gd:173 scripts/buildings/build_grid.gd:26
 #: scripts/buildings/training_building.gd:16
 msgid "Not enough crystals"
@@ -631,98 +631,98 @@ msgid "Drop an item here to sell"
 msgstr "Déposez un objet ici pour le vendre"
 
 #. return Loc.t("{intent} ({stake})", args) if loc else "{intent} ({stake})".format(args)
-#: scripts/ui/champion_bar.gd:711
+#: scripts/ui/champion_bar.gd:717
 msgid "{intent} ({stake})"
 msgstr "{intent} ({stake})"
 
 #. return Loc.t("{intent}: {target} ({stake})", args) if loc else "{intent}: {target} ({stake})".format(args)
-#: scripts/ui/champion_bar.gd:712
+#: scripts/ui/champion_bar.gd:718
 msgid "{intent}: {target} ({stake})"
 msgstr "{intent} : {target} ({stake})"
 
 #. return Loc.t("{intent}: {target}", a2) if loc else "{intent}: {target}".format(a2)
-#: scripts/ui/champion_bar.gd:717
+#: scripts/ui/champion_bar.gd:723
 msgid "{intent}: {target}"
 msgstr "{intent} : {target}"
 
 #. return Loc.t("Items: {list}", {"list": ", ".join(parts)}) if not parts.is_empty() else Loc.t("Items: none")
-#: scripts/ui/champion_bar.gd:762
+#: scripts/ui/champion_bar.gd:768
 msgid "Items: {list}"
 msgstr "Objets : {list}"
 
 #. return Loc.t("Items: {list}", {"list": ", ".join(parts)}) if not parts.is_empty() else Loc.t("Items: none")
-#: scripts/ui/champion_bar.gd:762
+#: scripts/ui/champion_bar.gd:768
 msgid "Items: none"
 msgstr "Objets : aucun"
 
 #. var first := str(a.get("name", "")) + ("  " + Loc.t("Locked") if locked else "")
-#: scripts/ui/champion_bar.gd:845 scripts/ui/champion_bar.gd:866 scripts/ui/champion_bar.gd:1108
+#: scripts/ui/champion_bar.gd:851 scripts/ui/champion_bar.gd:872 scripts/ui/champion_bar.gd:1114
 #: scripts/units/champion_abilities.gd:63 scripts/units/creature_abilities.gd:62
 msgid "Locked"
 msgstr "Verrouillé"
 
 #. lines.append(Loc.t("Autocast: {when}", {"when": Loc.t(str(a.get("when", "")))}))
-#: scripts/ui/champion_bar.gd:851
+#: scripts/ui/champion_bar.gd:857
 msgid "Autocast: {when}"
 msgstr "Lancement auto : {when}"
 
 #. lines.append(Loc.t("Unlocks at level {n}", {"n": int(a.get("unlock", 1))}))
-#: scripts/ui/champion_bar.gd:853 scripts/ui/champion_bar.gd:879 scripts/ui/champion_bar.gd:1115
+#: scripts/ui/champion_bar.gd:859 scripts/ui/champion_bar.gd:885 scripts/ui/champion_bar.gd:1121
 msgid "Unlocks at level {n}"
 msgstr "Débloqué au niveau {n}"
 
 #. var unpaid := Loc.t("Unpaid: ignores bounties").get_slice(":", 0)
-#: scripts/ui/champion_bar.gd:880 scripts/ui/champion_bar.gd:929 scripts/ui/champion_bar.gd:1619
+#: scripts/ui/champion_bar.gd:886 scripts/ui/champion_bar.gd:935 scripts/ui/champion_bar.gd:1625
 msgid "Unpaid: ignores bounties"
 msgstr "Impayé : ignore les primes"
 
 #. lines.append(Loc.t("Level {level} · {xp} · HP {hp} / {max} · Purse {purse}", args) if xp != ""
-#: scripts/ui/champion_bar.gd:926
+#: scripts/ui/champion_bar.gd:932
 msgid "Level {level} · {xp} · HP {hp} / {max} · Purse {purse}"
 msgstr "Niv. {level} · {xp} · PV {hp} / {max} · Bourse {purse}"
 
 #. else Loc.t("Level {level} · HP {hp} / {max} · Purse {purse}", args))
-#: scripts/ui/champion_bar.gd:927
+#: scripts/ui/champion_bar.gd:933
 msgid "Level {level} · HP {hp} / {max} · Purse {purse}"
 msgstr "Niv. {level} · PV {hp} / {max} · Bourse {purse}"
 
 #. return Loc.t("{name} takes up {weapon}", {"name": display_name_of(ch),
-#: scripts/ui/champion_bar.gd:998
+#: scripts/ui/champion_bar.gd:1004
 msgid "{name} takes up {weapon}"
 msgstr "{name} prend {weapon}"
 
 #. var weapon := Loc.t("ranged {reach} · {dmg} damage every {cd} s", wargs) if bool(c.get("ranged", false)) \
-#: scripts/ui/champion_bar.gd:1012
+#: scripts/ui/champion_bar.gd:1018
 msgid "ranged {reach} · {dmg} damage every {cd} s"
 msgstr "à distance {reach} · {dmg} dégâts toutes les {cd} s"
 
 #. else Loc.t("melee · {dmg} damage every {cd} s · reach {reach}", wargs)
-#: scripts/ui/champion_bar.gd:1013
+#: scripts/ui/champion_bar.gd:1019
 msgid "melee · {dmg} damage every {cd} s · reach {reach}"
 msgstr "mêlée · {dmg} dégâts toutes les {cd} s · allonge {reach}"
 
 #. var lines: PackedStringArray = [Loc.t("Class skill {n}", {"n": slot}) + "  " + Loc.t("Locked") if slot > 0
-#: scripts/ui/champion_bar.gd:1108
+#: scripts/ui/champion_bar.gd:1114
 msgid "Class skill {n}"
 msgstr "Compétence de classe {n}"
 
 #. lines.append(Loc.t("Chooses a class at level 2 · leans {lean}", {"lean": lean_text(weights)}))
-#: scripts/ui/champion_bar.gd:1110
+#: scripts/ui/champion_bar.gd:1116
 msgid "Chooses a class at level 2 · leans {lean}"
 msgstr "Choisit une classe au niveau 2 · penche {lean}"
 
 #. tavern_label.text = "Y · tavern" if open else Loc.t("Tavern opens at {time}", {"time": at})
-#: scripts/ui/champion_bar.gd:1413 scripts/ui/champion_bar.gd:1417
+#: scripts/ui/champion_bar.gd:1419 scripts/ui/champion_bar.gd:1423
 msgid "Tavern opens at {time}"
 msgstr "Taverne ouverte à {time}"
 
 #. tooltip_text = Loc.t("Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern.") + (
-#: scripts/ui/champion_bar.gd:1416
+#: scripts/ui/champion_bar.gd:1422
 msgid "Hire a champion  [Y]\nOpen the tavern (Y) or click a tavern."
 msgstr "Engager un champion  [Y]\nOuvrez la taverne (Y) ou cliquez sur une taverne."
 
 #. + Loc.t("Hired: walks out of the tavern in {n} s.", {"n": ceili(left)})
-#: scripts/ui/champion_bar.gd:1439
+#: scripts/ui/champion_bar.gd:1445
 msgid "Hired: walks out of the tavern in {n} s."
 msgstr "Engagé : sort de la taverne dans {n} s."
 
@@ -792,13 +792,13 @@ msgid "Your bounties before level 2 steer its class"
 msgstr "Vos primes avant le niveau 2 orientent sa classe"
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
-#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:657 scripts/ui/flag_card.gd:289
+#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:663 scripts/ui/flag_card.gd:289
 #: scripts/economy/caravan.gd:189
 msgid "Idle"
 msgstr "Inactif"
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
-#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:647 scripts/ui/selection_panel.gd:787
+#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:653 scripts/ui/selection_panel.gd:787
 msgid "Fallen"
 msgstr "Tombé"
 
@@ -818,7 +818,7 @@ msgid "Fighting"
 msgstr "Au combat"
 
 #. const INTENT_MSGIDS: Array[String] = ["Idle", "Fallen", "Fleeing", "Resting", "Fighting", "Unpaid!", "Hunting
-#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:662 scripts/ui/selection_panel.gd:1623
+#: scripts/ui/champion_bar.gd:84 scripts/ui/champion_bar.gd:668 scripts/ui/selection_panel.gd:1623
 msgid "Unpaid!"
 msgstr "Impayé !"
 
@@ -1403,32 +1403,32 @@ msgid "on the enemy with the most neighbours (3+ within 3.5 m)"
 msgstr "sur l'ennemi le plus entouré (3+ à moins de 3,5 m)"
 
 #. return "Returns in %d s" % ceili(left) if left > 0.0 else "Fallen"
-#: scripts/ui/champion_bar.gd:647
+#: scripts/ui/champion_bar.gd:653
 msgid "Returns in %d s"
 msgstr "Revient dans %d s"
 
 #. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
-#: scripts/ui/champion_bar.gd:726 scripts/ui/selection_panel.gd:869 scripts/ui/selection_panel.gd:1017
+#: scripts/ui/champion_bar.gd:732 scripts/ui/selection_panel.gd:869 scripts/ui/selection_panel.gd:1017
 msgid "XP  MAX"
 msgstr "XP  MAX"
 
 #. return "XP  MAX" if next <= 0 else "XP  %d / %d" % [xp, next]
-#: scripts/ui/champion_bar.gd:726 scripts/ui/selection_panel.gd:874 scripts/ui/selection_panel.gd:1017
+#: scripts/ui/champion_bar.gd:732 scripts/ui/selection_panel.gd:874 scripts/ui/selection_panel.gd:1017
 msgid "XP  %d / %d"
 msgstr "XP  %d / %d"
 
 #. hire_label = UIStyle.panel_label("Hire a champion", 12)
-#: scripts/ui/champion_bar.gd:1352
+#: scripts/ui/champion_bar.gd:1358
 msgid "Hire a champion"
 msgstr "Engager un champion"
 
 #. tavern_label = UIStyle.panel_label("Y · tavern", 11, UIStyle.GOLD)
-#: scripts/ui/champion_bar.gd:1356 scripts/ui/champion_bar.gd:1413
+#: scripts/ui/champion_bar.gd:1362 scripts/ui/champion_bar.gd:1419
 msgid "Y · tavern"
 msgstr "Y · taverne"
 
 #. tooltip_text = ItemTooltip.describe(type, "", maxi(n, 1)) if type != null else "Empty item slot"
-#: scripts/ui/champion_bar.gd:1836
+#: scripts/ui/champion_bar.gd:1842
 msgid "Empty item slot"
 msgstr "Emplacement d'objet vide"
 
@@ -1456,7 +1456,7 @@ msgstr "Artéfact (invendable)"
 
 #. row.add_child(text(rest, 12, WARN if rest.begins_with("Not learned") or rest.begins_with(Loc.t("Not learned"))
 #: scripts/ui/item_tooltip.gd:692 scripts/ui/item_tooltip.gd:217 scripts/ui/spell_info.gd:173
-#: scripts/ui/ui_style.gd:509 scripts/ui/ui_style.gd:545 scripts/units/wizard.gd:447
+#: scripts/ui/ui_style.gd:509 scripts/ui/ui_style.gd:545 scripts/units/wizard.gd:453
 msgid "Not learned"
 msgstr "Non appris"
 
@@ -1523,12 +1523,12 @@ msgid "can't"
 msgstr "impossible"
 
 #. "can't", "Max rank", "Inventory full", "Not sold", "cannot"]
-#: scripts/ui/item_tooltip.gd:218 scripts/units/wizard.gd:413
+#: scripts/ui/item_tooltip.gd:218 scripts/units/wizard.gd:419
 msgid "Max rank"
 msgstr "Rang max"
 
 #. "can't", "Max rank", "Inventory full", "Not sold", "cannot"]
-#: scripts/ui/item_tooltip.gd:218 scripts/ui/selection_manager.gd:1727 scripts/items/inventory.gd:476
+#: scripts/ui/item_tooltip.gd:218 scripts/ui/selection_manager.gd:1731 scripts/items/inventory.gd:476
 #: scripts/items/inventory.gd:497 scripts/items/inventory.gd:545 scripts/items/recipes.gd:67
 msgid "Inventory full"
 msgstr "Inventaire plein"
@@ -1604,13 +1604,13 @@ msgid "Escort"
 msgstr "Escorte"
 
 #. const MSG_NO_CHAMPIONS := "No champions"
-#: scripts/ui/bounty_mode.gd:45 scripts/ui/bounty_mode.gd:50 scripts/world/bounty_board.gd:209
-#: scripts/world/bounty_board.gd:246
+#: scripts/ui/bounty_mode.gd:45 scripts/ui/bounty_mode.gd:50 scripts/world/bounty_board.gd:211
+#: scripts/world/bounty_board.gd:248
 msgid "No champions"
 msgstr "Aucun champion"
 
 #. const MSG_TOO_MANY := "Too many bounties"
-#: scripts/ui/bounty_mode.gd:46 scripts/world/bounty_board.gd:214 scripts/world/bounty_board.gd:251
+#: scripts/ui/bounty_mode.gd:46 scripts/world/bounty_board.gd:216 scripts/world/bounty_board.gd:253
 msgid "Too many bounties"
 msgstr "Trop de primes"
 
@@ -1628,7 +1628,7 @@ msgid "Not enough essence"
 msgstr "Pas assez d'essence"
 
 #. const MSG_MAX := "Max bounty"
-#: scripts/ui/bounty_mode.gd:49 scripts/world/bounty_board.gd:265 scripts/world/bounty_board.gd:311
+#: scripts/ui/bounty_mode.gd:49 scripts/world/bounty_board.gd:267 scripts/world/bounty_board.gd:313
 msgid "Max bounty"
 msgstr "Prime maximale"
 

@@ -1706,17 +1706,17 @@ msgid "Can't hire that here"
 msgstr "Impossible d'engager ça ici"
 
 #. @export var unit_name := "Soldier"
-#: scripts/units/unit.gd:160
+#: scripts/units/unit.gd:184
 msgid "Soldier"
 msgstr "Soldat"
 
 #. return "Needs level %d" % needed
-#: scripts/units/wizard.gd:416
+#: scripts/units/wizard.gd:422
 msgid "Needs level %d"
 msgstr "Exige le niveau %d"
 
 #. return "Your wizard has fallen"
-#: scripts/units/wizard.gd:516
+#: scripts/units/wizard.gd:522
 msgid "Your wizard has fallen"
 msgstr "Votre sorcier est tombé"
 
@@ -1945,57 +1945,57 @@ msgid "Falling back."
 msgstr "Je me replie."
 
 #. var what := "bounty on %s" % _the(b.target)
-#: scripts/world/bounty_board.gd:731
+#: scripts/world/bounty_board.gd:733
 msgid "bounty on %s"
 msgstr "prime sur %s"
 
 #. what = "claim on %s" % name_of(b.claim_point)
-#: scripts/world/bounty_board.gd:733
+#: scripts/world/bounty_board.gd:735
 msgid "claim on %s"
 msgstr "réclamation sur %s"
 
 #. what = "scouting bounty"
-#: scripts/world/bounty_board.gd:735
+#: scripts/world/bounty_board.gd:737
 msgid "scouting bounty"
 msgstr "prime d'éclaireur"
 
 #. notify("%s took your %s" % [name_of(champion), what])
-#: scripts/world/bounty_board.gd:736
+#: scripts/world/bounty_board.gd:738
 msgid "%s took your %s"
 msgstr "%s a pris votre %s"
 
 #. notify("Bounty paid: %d to %s" % [share, name_of(ch)])
-#: scripts/world/bounty_board.gd:760 scripts/world/bounty_board.gd:779
+#: scripts/world/bounty_board.gd:762 scripts/world/bounty_board.gd:781
 msgid "Bounty paid: %d to %s"
 msgstr "Prime payée : %d à %s"
 
 #. var who := name_of(ch) if ch else "a champion"
-#: scripts/world/bounty_board.gd:778
+#: scripts/world/bounty_board.gd:780
 msgid "a champion"
 msgstr "un champion"
 
 #. notify("Bounty refunded: %d" % amount)
-#: scripts/world/bounty_board.gd:788
+#: scripts/world/bounty_board.gd:790
 msgid "Bounty refunded: %d"
 msgstr "Prime remboursée : %d"
 
 #. var what := name_of(b.target) if is_named(b.target) else "your %s" % name_of(b.target)
-#: scripts/world/bounty_board.gd:797
+#: scripts/world/bounty_board.gd:799
 msgid "your %s"
 msgstr "votre %s"
 
 #. victim_board.notify("A bounty of %d is on %s!" % [b.stake, what])
-#: scripts/world/bounty_board.gd:800
+#: scripts/world/bounty_board.gd:802
 msgid "A bounty of %d is on %s!"
 msgstr "Une prime de %d est sur %s !"
 
 #. return "a lost target"
-#: scripts/world/bounty_board.gd:884
+#: scripts/world/bounty_board.gd:886
 msgid "a lost target"
 msgstr "une cible perdue"
 
 #. return name_of(node) if is_named(node) else "the %s" % name_of(node)
-#: scripts/world/bounty_board.gd:885
+#: scripts/world/bounty_board.gd:887
 msgid "the %s"
 msgstr "le %s"
 
@@ -2267,6 +2267,11 @@ msgstr "L'ennemi a abattu %s"
 msgid "Your army slew %s"
 msgstr "Votre armée a abattu %s"
 
+#. const OVERLAY_SHADER := """
+#: scripts/world/fog_of_war.gd:542
+msgid "\nshader_type spatial;\nrender_mode unshaded, cull_front, depth_test_disabled, depth_draw_never, blend_mix, shadows_disabled, fog_disabled;\n\nuniform sampler2D vis_tex : filter_linear, repeat_disable;\nuniform sampler2D exp_tex : filter_linear, repeat_disable;\nuniform sampler2D depth_tex : hint_depth_texture, filter_nearest, repeat_disable;\nuniform vec2 map_half = vec2(60.0, 60.0);\nuniform float explored_alpha = 0.55;\nuniform float unexplored_alpha = 0.92;\nuniform vec3 unexplored_color = vec3(0.010, 0.014, 0.026);\nuniform vec3 explored_color = vec3(0.008, 0.011, 0.022);\nuniform float cloud_amount = 0.0;\n#ifdef FOG_RICH\nuniform sampler2D screen_tex : hint_screen_texture, filter_nearest, repeat_disable;\nuniform float explored_dim = 0.55;\nuniform float explored_desat = 0.45;\nuniform vec3 explored_tint = vec3(0.9, 0.95, 1.05);\n#endif\n\n// Integer hash: a sin() hash breaks into hard-edged blocks when neighbouring cells round differently.\nfloat fog_hash(vec2 p) {\n\tuvec2 q = uvec2(ivec2(p) + ivec2(32768));\n\tuint h = (q.x * 1597334677u) ^ (q.y * 3812015801u);\n\th = (h ^ (h >> 16u)) * 73244475u;\n\th ^= h >> 16u;\n\treturn float(h) * (1.0 / 4294967295.0);\n}\n\nfloat fog_noise(vec2 p) {\n\tvec2 i = floor(p);\n\tvec2 f = fract(p);\n\tvec2 u = f * f * (3.0 - 2.0 * f);\n\tfloat a = fog_hash(i);\n\tfloat b = fog_hash(i + vec2(1.0, 0.0));\n\tfloat c = fog_hash(i + vec2(0.0, 1.0));\n\tfloat d = fog_hash(i + vec2(1.0, 1.0));\n\treturn mix(mix(a, b, u.x), mix(c, d, u.x), u.y);\n}\n\nvoid fragment() {\n\tfloat depth = texture(depth_tex, SCREEN_UV).r;\n\tvec4 view = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);\n\tview.xyz /= view.w;\n\tvec3 world = (INV_VIEW_MATRIX * vec4(view.xyz, 1.0)).xyz;\n\tvec2 uv = (world.xz + map_half) / (2.0 * map_half);\n\tALBEDO = vec3(0.0);\n\tif (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || world.y > 40.0) {\n\t\tALPHA = 0.0;\n\t} else {\n\t\tfloat e = texture(exp_tex, uv).r;\n\t\tfloat v = texture(vis_tex, uv).r;\n#ifdef FOG_RICH\n\t\tvec2 px = 0.7 / vec2(textureSize(exp_tex, 0));\n\t\te = e * 0.4 + 0.15 * (texture(exp_tex, uv + vec2(px.x, 0.0)).r + texture(exp_tex, uv - vec2(px.x, 0.0)).r\n\t\t\t\t+ texture(exp_tex, uv + vec2(0.0, px.y)).r + texture(exp_tex, uv - vec2(0.0, px.y)).r);\n\t\tv = v * 0.4 + 0.15 * (texture(vis_tex, uv + vec2(px.x, 0.0)).r + texture(vis_tex, uv - vec2(px.x, 0.0)).r\n\t\t\t\t+ texture(vis_tex, uv + vec2(0.0, px.y)).r + texture(vis_tex, uv - vec2(0.0, px.y)).r);\n#endif\n\t\te = smoothstep(0.0, 1.0, e);\n\t\tv = smoothstep(0.0, 1.0, v);\n\t\tvec3 ucol = unexplored_color;\n\t\tfloat ua = unexplored_alpha;\n\t\tif (cloud_amount > 0.0) {\n\t\t\tvec2 q = world.xz * 0.05;\n\t\t\tfloat n = fog_noise(q + TIME * vec2(0.010, 0.004)) * 0.65\n\t\t\t\t\t+ fog_noise(q * 2.3 - TIME * vec2(0.006, 0.011)) * 0.35;\n\t\t\tucol *= 1.0 + cloud_amount * (n - 0.35) * 2.2;\n\t\t\tua = clamp(ua - cloud_amount * (n - 0.5) * 0.12, 0.0, 1.0);\n\t\t}\n#ifdef FOG_RICH\n\t\tif (e * v > 0.995) {\n\t\t\tALPHA = 0.0;\n\t\t} else {\n\t\t\tvec3 scene = texture(screen_tex, SCREEN_UV).rgb;\n\t\t\tfloat luma = dot(scene, vec3(0.2126, 0.7152, 0.0722));\n\t\t\tvec3 dim = mix(scene, vec3(luma), explored_desat) * explored_dim * explored_tint;\n\t\t\tvec3 under = mix(scene, ucol, ua);\n\t\t\tALBEDO = mix(under, mix(dim, scene, v), e);\n\t\t\tALPHA = 1.0;\n\t\t}\n#else\n\t\tALBEDO = mix(ucol, explored_color, e);\n\t\tALPHA = mix(ua, mix(explored_alpha, 0.0, v), e);\n#endif\n\t}\n}\n"
+msgstr ""
+
 #. "name": "Red deer", "hp": 60.0, "radius": 0.5, "walk": 3.0, "flee": 7.0, "flee_dist": 12.0,
 #: scripts/world/game_critter.gd:39
 msgid "Red deer"
@@ -2368,32 +2373,32 @@ msgid "%s herd"
 msgstr "Harde (%s)"
 
 #. const START_HINT := "Click your Keep (bottom-left) to train workers, then select workers and press B to build"
-#: scripts/world/main.gd:46
+#: scripts/world/main.gd:49
 msgid "Click your Keep (bottom-left) to train workers, then select workers and press B to build"
 msgstr "Cliquez sur votre donjon (en bas à gauche) pour former des ouvriers, puis sélectionnez des ouvriers et appuyez sur B pour construire"
 
 #. hud.show_message("Baking pathfinding...", 1.0)
-#: scripts/world/main.gd:117
+#: scripts/world/main.gd:136
 msgid "Baking pathfinding..."
 msgstr "Calcul des chemins..."
 
 #. return ("Mission 1: Ruins of the Ember Crown\n"
-#: scripts/world/main.gd:169
+#: scripts/world/main.gd:193
 msgid "Mission 1: Ruins of the Ember Crown\nLead the Fire Wizard to the Ember Crown (north-east).\nYour wizard must survive."
 msgstr "Mission 1 : Ruins of the Ember Crown\nMenez le sorcier du Feu à l'Ember Crown (nord-est).\nVotre sorcier doit survivre."
 
 #. hud.show_message("%s claims the %s!  +%d max mana, stronger Fireball" %
-#: scripts/world/main.gd:219
+#: scripts/world/main.gd:243
 msgid "%s claims the %s!  +%d max mana, stronger Fireball"
 msgstr "%s s'empare de %s !  +%d mana max, Fireball plus puissant"
 
 #. hud.show_banner("VICTORY\nPress F9 to play again", Color(1.0, 0.85, 0.3))
-#: scripts/world/main.gd:239
+#: scripts/world/main.gd:263
 msgid "VICTORY\nPress F9 to play again"
 msgstr "VICTOIRE\nAppuyez sur F9 pour rejouer"
 
 #. hud.show_banner("DEFEAT\nYour wizard has fallen.  Press F9 to retry", Color(0.9, 0.3, 0.3))
-#: scripts/world/main.gd:241
+#: scripts/world/main.gd:265
 msgid "DEFEAT\nYour wizard has fallen.  Press F9 to retry"
 msgstr "DÉFAITE\nVotre sorcier est tombé.  Appuyez sur F9 pour réessayer"
 

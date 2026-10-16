@@ -146,7 +146,7 @@ msgid "%s m/s"
 msgstr "%s m/s"
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Unit Guide", 34))
-#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:696
+#: scripts/ui/menus/unit_guide.gd:316 scripts/ui/menus/main_menu.gd:741
 #: scripts/ui/menus/pause_menu.gd:59
 msgid "Unit Guide"
 msgstr "Guide des unités"
@@ -162,8 +162,8 @@ msgid "Type a name, role, kingdom, building or tag (\"archers\", \"chill\", \"st
 msgstr "Tapez un nom, un rôle, un royaume, un bâtiment ou une étiquette (« archers », « gel », « écuries »)."
 
 #. back_button = _button(row, "Back", 140)
-#: scripts/ui/menus/unit_guide.gd:336 scripts/ui/menus/main_menu.gd:818
-#: scripts/ui/menus/main_menu.gd:909 scripts/ui/menus/pause_menu.gd:278
+#: scripts/ui/menus/unit_guide.gd:336 scripts/ui/menus/main_menu.gd:863
+#: scripts/ui/menus/main_menu.gd:954 scripts/ui/menus/pause_menu.gd:278
 #: scripts/ui/menus/settings_panel.gd:118 scripts/ui/wave_strike/wave_strike_lobby.gd:119
 msgid "Back"
 msgstr "Retour"
@@ -390,7 +390,7 @@ msgid "Helper"
 msgstr "Assistant"
 
 #. "support": "Support", "titan": "Titan", "helper": "Helper", "champion": "Champion", "worker": "Worker"}
-#: scripts/ui/menus/unit_guide_data.gd:16 scripts/ui/champion_bar.gd:601 scripts/units/champion.gd:118
+#: scripts/ui/menus/unit_guide_data.gd:16 scripts/ui/champion_bar.gd:607 scripts/units/champion.gd:118
 msgid "Champion"
 msgstr "Champion"
 
@@ -450,7 +450,7 @@ msgstr "Salle"
 
 #. var stables_name := stables.display_name if stables else "Stables"
 #: scripts/ui/menus/unit_guide_data.gd:80 scripts/ui/menus/unit_guide_data.gd:372
-#: scripts/campaign/mission_e8_02.gd:107 scripts/campaign/mission_e8_03.gd:131
+#: scripts/campaign/mission_e8_02.gd:123 scripts/campaign/mission_e8_03.gd:148
 msgid "Stables"
 msgstr "Écuries"
 

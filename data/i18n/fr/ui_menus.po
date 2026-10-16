@@ -87,8 +87,8 @@ msgstr "%s\nBientôt : ce royaume ne peut pas encore lancer d'escarmouche."
 
 #. "name": "Fire", "wizard": "Vessa", "kingdom_line": "Fire kingdom", "of_line": "Vessa of Fire", "title": "Vessa
 #: scripts/ui/menus/kingdom_card.gd:16 scripts/ui/cinematic/speakers.gd:7
-#: scripts/campaign/e8_story_screen.gd:16 scripts/campaign/mission_00.gd:111
-#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:142
+#: scripts/campaign/e8_story_screen.gd:18 scripts/campaign/mission_00.gd:111
+#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:154
 msgid "Vessa"
 msgstr "Vessa"
 
@@ -129,8 +129,8 @@ msgstr "Kindle"
 
 #. "name": "Shadow", "wizard": "Malrik", "kingdom_line": "Shadow kingdom", "of_line": "Malrik of Shadow", "title"
 #: scripts/ui/menus/kingdom_card.gd:21 scripts/ui/cinematic/speakers.gd:10
-#: scripts/campaign/e8_story_screen.gd:17 scripts/campaign/mission_00.gd:112
-#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:142
+#: scripts/campaign/e8_story_screen.gd:19 scripts/campaign/mission_00.gd:112
+#: scripts/campaign/mission_01.gd:96 scripts/campaign/mission_02.gd:154
 msgid "Malrik"
 msgstr "Malrik"
 
@@ -171,8 +171,8 @@ msgstr "Umbral Shroud"
 
 #. "name": "Ice", "wizard": "Torvald", "kingdom_line": "Ice kingdom", "of_line": "Torvald of Ice", "title": "Torv
 #: scripts/ui/menus/kingdom_card.gd:26 scripts/ui/cinematic/speakers.gd:12
-#: scripts/campaign/e8_story_screen.gd:18 scripts/campaign/mission_02.gd:142
-#: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_02.gd:174
+#: scripts/campaign/e8_story_screen.gd:20 scripts/campaign/mission_02.gd:154
+#: scripts/campaign/mission_e2_01.gd:160 scripts/campaign/mission_e2_02.gd:180
 msgid "Torvald"
 msgstr "Torvald"
 
@@ -213,8 +213,8 @@ msgstr "Rime Aegis"
 
 #. "name": "Nature", "wizard": "Ysolde", "kingdom_line": "Nature kingdom", "of_line": "Ysolde of Nature", "title"
 #: scripts/ui/menus/kingdom_card.gd:31 scripts/ui/cinematic/speakers.gd:13
-#: scripts/campaign/e8_story_screen.gd:19 scripts/campaign/mission_03.gd:156
-#: scripts/campaign/mission_e2_01.gd:151 scripts/campaign/mission_e2_02.gd:173
+#: scripts/campaign/e8_story_screen.gd:21 scripts/campaign/mission_03.gd:166
+#: scripts/campaign/mission_e2_01.gd:160 scripts/campaign/mission_e2_02.gd:179
 msgid "Ysolde"
 msgstr "Ysolde"
 
@@ -254,62 +254,62 @@ msgid "Call the Thicket"
 msgstr "Call the Thicket"
 
 #. style_label.text = "Coming soon"
-#: scripts/ui/menus/kingdom_card.gd:168 scripts/ui/menus/main_menu.gd:575
+#: scripts/ui/menus/kingdom_card.gd:168 scripts/ui/menus/main_menu.gd:617
 msgid "Coming soon"
 msgstr "Bientôt disponible"
 
 #. return Loc.t("%s  vs  %s") % [KingdomCard.of_line(_player), KingdomCard.of_line(_enemy)]
-#: scripts/ui/menus/main_menu.gd:347
+#: scripts/ui/menus/main_menu.gd:389
 msgid "%s  vs  %s"
 msgstr "%s  contre  %s"
 
 #. var ri := map_list.add_item(Loc.t("Random %s map") % mode, _random_icon())
-#: scripts/ui/menus/main_menu.gd:416
+#: scripts/ui/menus/main_menu.gd:458
 msgid "Random %s map"
 msgstr "Carte %s aléatoire"
 
 #. map_info_label.text = Loc.t("One of the %d ready %s maps, drawn when the match starts.") % [cat.list(_map_seat
-#: scripts/ui/menus/main_menu.gd:434
+#: scripts/ui/menus/main_menu.gd:476
 msgid "One of the %d ready %s maps, drawn when the match starts."
 msgstr "Une des %d cartes %s prêtes, tirée au début de la partie."
 
 #. map_info_label.text = Loc.t("%s · %s · %s look\n%s") % [Loc.sink(MapCatalog.size_text(e)),
-#: scripts/ui/menus/main_menu.gd:441
+#: scripts/ui/menus/main_menu.gd:483
 msgid "%s · %s · %s look\n%s"
 msgstr "%s · %s · style %s\n%s"
 
 #. var tag := UIStyle.display_label(Loc.t("MAP"), 22, UIStyle.GOLD)
-#: scripts/ui/menus/main_menu.gd:472 scripts/ui/menus/main_menu.gd:474
+#: scripts/ui/menus/main_menu.gd:514 scripts/ui/menus/main_menu.gd:516
 msgid "MAP"
 msgstr "CARTE"
 
 #. var title: String = Loc.t(MISSION_TITLES[id]) if MISSION_TITLES.has(id) else Loc.t("Mission %d") % (i + 1)
-#: scripts/ui/menus/main_menu.gd:566
+#: scripts/ui/menus/main_menu.gd:608
 msgid "Mission %d"
 msgstr "Mission %d"
 
 #. b.text = "   " + Loc.t("%d.  Locked") % (i + 1)
-#: scripts/ui/menus/main_menu.gd:571
+#: scripts/ui/menus/main_menu.gd:613
 msgid "%d.  Locked"
 msgstr "%d.  Verrouillée"
 
 #. b.text = "   " + Loc.t("%d.  %s  (coming soon)") % [i + 1, title]
-#: scripts/ui/menus/main_menu.gd:574
+#: scripts/ui/menus/main_menu.gd:616
 msgid "%d.  %s  (coming soon)"
 msgstr "%d.  %s  (bientôt)"
 
 #. var lb := _toggle_button(limit_row, "Off" if minutes == 0 else Loc.t("%d min") % minutes, limit_group)
-#: scripts/ui/menus/main_menu.gd:781
+#: scripts/ui/menus/main_menu.gd:826
 msgid "%d min"
 msgstr "%d min"
 
 #. var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
-#: scripts/ui/menus/main_menu.gd:841 scripts/ui/menus/main_menu.gd:733
+#: scripts/ui/menus/main_menu.gd:886 scripts/ui/menus/main_menu.gd:778
 msgid "YOU"
 msgstr "VOUS"
 
 #. var tag_label := UIStyle.display_label(Loc.t("YOU") if tag == "YOU" else Loc.t("ENEMY"), 22,
-#: scripts/ui/menus/main_menu.gd:841 scripts/ui/menus/main_menu.gd:736
+#: scripts/ui/menus/main_menu.gd:886 scripts/ui/menus/main_menu.gd:781
 msgid "ENEMY"
 msgstr "ENNEMI"
 
@@ -324,7 +324,7 @@ msgid "Easy"
 msgstr "Facile"
 
 #. const DIFFICULTY_NAMES := ["Easy", "Normal", "Hard"]   # Commander.Difficulty order
-#: scripts/ui/menus/main_menu.gd:11 scripts/ui/menus/main_menu.gd:800
+#: scripts/ui/menus/main_menu.gd:11 scripts/ui/menus/main_menu.gd:845
 msgid "Normal"
 msgstr "Normal"
 
@@ -385,185 +385,185 @@ msgid "The Burning Grove"
 msgstr "Le Bosquet en flammes"
 
 #. var title := UIStyle.use_title_font(UIStyle.label("Four Wizards", 84))
-#: scripts/ui/menus/main_menu.gd:122
+#: scripts/ui/menus/main_menu.gd:131 scripts/campaign/e8_story_screen.gd:196
 msgid "Four Wizards"
 msgstr "Four Wizards"
 
 #. var footer := UIStyle.label("Prototype build  -  Esc in game: pause", 14)
-#: scripts/ui/menus/main_menu.gd:152
+#: scripts/ui/menus/main_menu.gd:161
 msgid "Prototype build  -  Esc in game: pause"
 msgstr "Version prototype  -  Échap en jeu : pause"
 
 #. map_list.set_item_tooltip(ri, "A ready map drawn at Start (a restart replays the same map).")
-#: scripts/ui/menus/main_menu.gd:417
+#: scripts/ui/menus/main_menu.gd:459
 msgid "A ready map drawn at Start (a restart replays the same map)."
 msgstr "Une carte prête, tirée au lancement (recommencer rejoue la même carte)."
 
 #. map_title_label.text = "Random map"
-#: scripts/ui/menus/main_menu.gd:433
+#: scripts/ui/menus/main_menu.gd:475
 msgid "Random map"
 msgstr "Carte aléatoire"
 
 #. b.tooltip_text = "Maps for 2 players." if seats == MapCatalog.SEATS_1V1 \
-#: scripts/ui/menus/main_menu.gd:484
+#: scripts/ui/menus/main_menu.gd:526
 msgid "Maps for 2 players."
 msgstr "Cartes pour 2 joueurs."
 
 #. else "Maps for 4 players (played as a 1v1 until 2v2 skirmish comes)."
-#: scripts/ui/menus/main_menu.gd:485
+#: scripts/ui/menus/main_menu.gd:527
 msgid "Maps for 4 players (played as a 1v1 until 2v2 skirmish comes)."
 msgstr "Cartes pour 4 joueurs (jouées en 1v1 en attendant l'escarmouche 2v2)."
 
 #. b.tooltip_text = "Win the previous mission to unlock it."
-#: scripts/ui/menus/main_menu.gd:572
+#: scripts/ui/menus/main_menu.gd:614
 msgid "Win the previous mission to unlock it."
 msgstr "Gagnez la mission précédente pour la déverrouiller."
 
 #. prologue_button.text = "Watch opening" if film != &"" else "Watch prologue"
-#: scripts/ui/menus/main_menu.gd:608
+#: scripts/ui/menus/main_menu.gd:650
 msgid "Watch opening"
 msgstr "Voir l'ouverture"
 
 #. prologue_button.text = "Watch opening" if film != &"" else "Watch prologue"
-#: scripts/ui/menus/main_menu.gd:608 scripts/ui/menus/main_menu.gd:912
+#: scripts/ui/menus/main_menu.gd:650 scripts/ui/menus/main_menu.gd:957
 msgid "Watch prologue"
 msgstr "Voir le prologue"
 
 #. prologue_button.tooltip_text = "The episode's opening film. Plays before this mission the first time." if film
-#: scripts/ui/menus/main_menu.gd:609
+#: scripts/ui/menus/main_menu.gd:651
 msgid "The episode's opening film. Plays before this mission the first time."
 msgstr "Le film d'ouverture de l'épisode. Joue avant cette mission la première fois."
 
 #. else "The story so far (3 min). Plays before mission 1 the first time."
-#: scripts/ui/menus/main_menu.gd:610 scripts/ui/menus/main_menu.gd:914
+#: scripts/ui/menus/main_menu.gd:652 scripts/ui/menus/main_menu.gd:959
 msgid "The story so far (3 min). Plays before mission 1 the first time."
 msgstr "L'histoire jusqu'ici (3 min). Joue avant la mission 1 la première fois."
 
 #. skirmish_button = _menu_button(box, "Skirmish 1v1")
-#: scripts/ui/menus/main_menu.gd:688 scripts/ui/menus/main_menu.gd:711
+#: scripts/ui/menus/main_menu.gd:733 scripts/ui/menus/main_menu.gd:756
 msgid "Skirmish 1v1"
 msgstr "Escarmouche 1v1"
 
 #. wave_strike_button = _menu_button(box, "Wave Strike")
-#: scripts/ui/menus/main_menu.gd:691 scripts/ui/menus/settings_panel.gd:409
+#: scripts/ui/menus/main_menu.gd:736 scripts/ui/menus/settings_panel.gd:409
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:51
 msgid "Wave Strike"
 msgstr "Wave Strike"
 
 #. wave_strike_button.tooltip_text = "Buy cards, send waves down one lane, break the enemy Bastion (new mode, 1v1
-#: scripts/ui/menus/main_menu.gd:692
+#: scripts/ui/menus/main_menu.gd:737
 msgid "Buy cards, send waves down one lane, break the enemy Bastion (new mode, 1v1)."
 msgstr "Achetez des cartes, envoyez des vagues dans un couloir, brisez le Bastion ennemi (nouveau mode, 1v1)."
 
 #. campaign_button = _menu_button(box, "Campaign")
-#: scripts/ui/menus/main_menu.gd:694 scripts/ui/menus/main_menu.gd:866
+#: scripts/ui/menus/main_menu.gd:739 scripts/ui/menus/main_menu.gd:911
 msgid "Campaign"
 msgstr "Campagne"
 
 #. unit_guide_button.tooltip_text = "Every unit of the four kingdoms: stats, abilities, pros and cons, counters."
-#: scripts/ui/menus/main_menu.gd:697
+#: scripts/ui/menus/main_menu.gd:742
 msgid "Every unit of the four kingdoms: stats, abilities, pros and cons, counters."
 msgstr "Toutes les unités des quatre royaumes : stats, capacités, forces et faiblesses, contres."
 
 #. settings_button = _menu_button(box, "Settings")
-#: scripts/ui/menus/main_menu.gd:699 scripts/ui/menus/pause_menu.gd:57
+#: scripts/ui/menus/main_menu.gd:744 scripts/ui/menus/pause_menu.gd:57
 #: scripts/ui/menus/settings_panel.gd:73
 msgid "Settings"
 msgstr "Paramètres"
 
 #. quit_button = _menu_button(box, "Quit")
-#: scripts/ui/menus/main_menu.gd:701
+#: scripts/ui/menus/main_menu.gd:746
 msgid "Quit"
 msgstr "Quitter"
 
 #. kingdom_buttons = _card_row(box, "YOU", "Your kingdom", player_group, set_player_kingdom)
-#: scripts/ui/menus/main_menu.gd:733 scripts/ui/wave_strike/wave_strike_lobby.gd:76
+#: scripts/ui/menus/main_menu.gd:778 scripts/ui/wave_strike/wave_strike_lobby.gd:76
 msgid "Your kingdom"
 msgstr "Votre royaume"
 
 #. enemy_buttons = _card_row(box, "ENEMY", "The bot", enemy_group, set_enemy)
-#: scripts/ui/menus/main_menu.gd:736
+#: scripts/ui/menus/main_menu.gd:781
 msgid "The bot"
 msgstr "L'IA"
 
 #. var diff_title := UIStyle.label("Opponent difficulty", 20)
-#: scripts/ui/menus/main_menu.gd:742 scripts/ui/menus/main_menu.gd:894
+#: scripts/ui/menus/main_menu.gd:787 scripts/ui/menus/main_menu.gd:939
 msgid "Opponent difficulty"
 msgstr "Difficulté de l'IA"
 
 #. var trade_title := UIStyle.label("Trade and guilds", 20)
-#: scripts/ui/menus/main_menu.gd:758
+#: scripts/ui/menus/main_menu.gd:803
 msgid "Trade and guilds"
 msgstr "Commerce et guildes"
 
 #. var tb := _toggle_button(trade_row, "On" if on else "Off", trade_group)
-#: scripts/ui/menus/main_menu.gd:764
+#: scripts/ui/menus/main_menu.gd:809
 msgid "On"
 msgstr "Activé"
 
 #. var tb := _toggle_button(trade_row, "On" if on else "Off", trade_group)
-#: scripts/ui/menus/main_menu.gd:764 scripts/ui/menus/main_menu.gd:781
+#: scripts/ui/menus/main_menu.gd:809 scripts/ui/menus/main_menu.gd:826
 msgid "Off"
 msgstr "Désactivé"
 
 #. tb.tooltip_text = "Trading posts, Bazaars, caravans, Magpies and the Greywater Lodges (skirmish only)."
-#: scripts/ui/menus/main_menu.gd:765
+#: scripts/ui/menus/main_menu.gd:810
 msgid "Trading posts, Bazaars, caravans, Magpies and the Greywater Lodges (skirmish only)."
 msgstr "Comptoirs, Bazars, caravanes, Magpies et Greywater Lodges (escarmouche seulement)."
 
 #. var limit_title := UIStyle.label("Time limit", 20)
-#: scripts/ui/menus/main_menu.gd:774
+#: scripts/ui/menus/main_menu.gd:819
 msgid "Time limit"
 msgstr "Limite de temps"
 
 #. lb.tooltip_text = "Off: the match ends only when a side has no building left or concedes.\n" \
-#: scripts/ui/menus/main_menu.gd:782
+#: scripts/ui/menus/main_menu.gd:827
 msgid "Off: the match ends only when a side has no building left or concedes.\n30 / 45 min: at the limit the match ends and the higher score wins."
 msgstr "Désactivé : la partie se termine seulement quand un camp n'a plus de bâtiment ou abandonne.\n30 / 45 min : à la limite, la partie se termine et le meilleur pointage l'emporte."
 
 #. var pace_title := UIStyle.label("Pace", 20)
-#: scripts/ui/menus/main_menu.gd:794
+#: scripts/ui/menus/main_menu.gd:839
 msgid "Pace"
 msgstr "Rythme"
 
 #. var pace_names: Array[String] = ["Normal", "Fast (test)", "Blitz"]
-#: scripts/ui/menus/main_menu.gd:800
+#: scripts/ui/menus/main_menu.gd:845
 msgid "Fast (test)"
 msgstr "Rapide (test)"
 
 #. var pace_names: Array[String] = ["Normal", "Fast (test)", "Blitz"]
-#: scripts/ui/menus/main_menu.gd:800
+#: scripts/ui/menus/main_menu.gd:845
 msgid "Blitz"
 msgstr "Blitz"
 
 #. var pace_tips: Array[String] = ["Normal: the usual game.",
-#: scripts/ui/menus/main_menu.gd:801
+#: scripts/ui/menus/main_menu.gd:846
 msgid "Normal: the usual game."
 msgstr "Normal : la partie habituelle."
 
 #. "Fast (test): buildings have less HP, towers hit softer, units train faster
-#: scripts/ui/menus/main_menu.gd:802
+#: scripts/ui/menus/main_menu.gd:847
 msgid "Fast (test): buildings have less HP, towers hit softer, units train faster\nand the bots attack sooner (skirmish only)."
 msgstr "Rapide (test) : bâtiments moins solides, tours moins puissantes, unités formées plus vite\net bots qui attaquent plus tôt (escarmouche seulement)."
 
 #. "Blitz: 9 starting workers, weaker buildings, faster training and keep upgrades,
-#: scripts/ui/menus/main_menu.gd:804
+#: scripts/ui/menus/main_menu.gd:849
 msgid "Blitz: 9 starting workers, weaker buildings, faster training and keep upgrades,\nbolder bots and a 30 % faster clock. Games last about 8 to 12 minutes (skirmish only)."
 msgstr "Blitz : 9 ouvriers au départ, bâtiments moins solides, formation et améliorations du donjon plus rapides,\nbots plus audacieux et horloge 30 % plus rapide. Les parties durent environ 8 à 12 minutes (escarmouche seulement)."
 
 #. start_button = _menu_button(actions, "Start")
-#: scripts/ui/menus/main_menu.gd:821 scripts/ui/menus/main_menu.gd:917
+#: scripts/ui/menus/main_menu.gd:866 scripts/ui/menus/main_menu.gd:962
 #: scripts/ui/wave_strike/wave_strike_lobby.gd:121
 msgid "Start"
 msgstr "Lancer"
 
 #. var who := UIStyle.label("Vessa, apprentice of Fire", 17)
-#: scripts/ui/menus/main_menu.gd:870
+#: scripts/ui/menus/main_menu.gd:915
 msgid "Vessa, apprentice of Fire"
 msgstr "Vessa, apprentie du Feu"
 
 #. box.add_child(UIStyle.label("Mission", 20))
-#: scripts/ui/menus/main_menu.gd:875 scripts/ui/mission/briefing_screen.gd:109
+#: scripts/ui/menus/main_menu.gd:920 scripts/ui/mission/briefing_screen.gd:109
 msgid "Mission"
 msgstr "Mission"
 
@@ -819,7 +819,7 @@ msgid "Game language (voices stay in English; subtitles follow the language)."
 msgstr "Langue du jeu (les voix restent en anglais; les sous-titres suivent la langue)."
 
 #. var name_label := UIStyle.label("Controls", 18)
-#: scripts/ui/menus/settings_panel.gd:385 scripts/ui/hud.gd:174
+#: scripts/ui/menus/settings_panel.gd:385 scripts/ui/hud.gd:183
 msgid "Controls"
 msgstr "Commandes"
 
