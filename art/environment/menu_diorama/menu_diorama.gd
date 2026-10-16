@@ -73,6 +73,22 @@ const LANDMARKS: Array[Dictionary] = [
 			"scale": 0.85, "hill": 5.0, "radius": 13.0},
 ]
 const LANDMARK_NAMES := {&"fire": "Fire", &"shadow": "Shadow", &"ice": "Ice", &"nature": "Nature"}
+## G-F review 2 item 13 (docs/art/gf_menu_fire.md): no diorama glow blooms to white. Every additive glow here peaks at
+## GLOW_CAP per channel (colour x the largest multiplier it ever gets), under the environment's glow_hdr_threshold
+## (1.1 in menu_diorama_env.tres), at every tier. The altar's beacon (and its High core) is alpha-blended instead
+## (menu_beacon.gdshader: amber core, orange rim, colours <= BEACON_MAX per channel); the altar embers get a ramp
+## scaled under the cap. tests/test_gf_menu_fire.gd checks all of it.
+const GLOW_CAP := 1.0
+const BEACON_MAX := 0.9
+const BEACON_SHADER: Shader = preload("res://art/environment/menu_diorama/menu_beacon.gdshader")
+const BEACON_CORE := Color(0.9, 0.56, 0.12)     ## saturated amber
+const BEACON_RIM := Color(0.86, 0.32, 0.06)     ## orange, fading out at the silhouette
+const BEACON_INNER_CORE := Color(0.9, 0.66, 0.22)   ## the High+ BeaconCore: a slightly lighter amber, fainter
+## The kingdom pools under the wizards: shader strength and the level a focused kingdom swells to (rest = 1.0,
+## the pulse peaks at 1.0): GLOW x POOL_STRENGTH x POOL_FOCUS_LEVEL <= GLOW_CAP.
+const POOL_STRENGTH := 0.6
+const POOL_FOCUS_LEVEL := 1.6
+const POOL_DIM_LEVEL := 0.55
 const LANDMARK_CLEAR := 0.85     ## Far trees keep out of this share of a landmark hill's radius.
 const BIRD_SHADER: Shader = preload("res://art/environment/menu_diorama/menu_birds.gdshader")
 const POND_SHADER: Shader = preload("res://art/environment/menu_diorama/menu_pond.gdshader")
@@ -144,6 +160,16 @@ const WIDE_ASPECT := 21.0 / 9.0
 @export var focus_screen: Vector2 = Vector2(0.2, 0.66)
 ## Same on a 21:9 screen (lerped by aspect between the two).
 @export var focus_screen_wide: Vector2 = Vector2(0.27, 0.66)
+
+@export_group("Centred menu")
+## G-F review 2 item 13: when the main menu centres its panel (a window too narrow for the panel on the right, see
+## MainMenu.column_on_side, read only), the wide shot dollies out to `narrow_distance` (keep it inside the far
+## treeline ring, far_radius_min), widens to `narrow_fov_deg` and draws the crown at `narrow_focus_screen`, so the
+## four wizards fit left of the centred panel. Glides over `narrow_time` seconds.
+@export var narrow_distance: float = 37.0
+@export var narrow_fov_deg: float = 41.0
+@export var narrow_focus_screen: Vector2 = Vector2(0.155, 0.64)
+@export var narrow_time: float = 1.2
 
 @export_group("Altar")
 ## The Ember Crown altar's look (CrownPedestalArt manual hooks): 0 = awake (gold column of light),
@@ -222,6 +248,11 @@ var _bird_mats: Array[ShaderMaterial] = []
 var _vp_saved: Dictionary = {}       # the SubViewport's own AA / LOD before a tier changed them
 var _shadow_filter_set := false
 var _prop_mats: Array[ShaderMaterial] = []
+# Item 13: centred-menu framing.
+var _menu_ref: WeakRef = null        # the MainMenu next to / above this diorama (has `column_on_side`)
+var _menu_searched := false
+var _narrow := -1.0                  # 0 = menu panel on the right / no menu, 1 = centred panel (-1 = not read yet)
+var _wide_w := 1.0                   # 1 while the wide shot shows, 0 on a kingdom focus (smoothed)
 
 
 func _ready() -> void:
@@ -351,6 +382,8 @@ func set_quality(q: int) -> void:
 				"rendering/lights_and_shadows/directional_shadow/soft_shadow_filter_quality", 2))
 				as RenderingServer.ShadowQuality)
 	_apply_viewport_tier(q)
+	_tame_altar(q)
+	_cap_model_emitters()
 	if q > TIER_LOW and _dressing == null:
 		_build_dressing()
 	_apply_dressing_tier(q)
@@ -377,6 +410,7 @@ func _process(delta: float) -> void:
 	_orbit += orbit_speed_deg * delta
 	if _blend < 1.0:
 		_blend = minf(1.0, _blend + delta / FOCUS_TIME)
+	_update_narrow(delta)
 	_update_camera(delta)
 	_animate_crown()
 	_animate_glows(delta)
@@ -397,7 +431,7 @@ func _animate_glows(delta: float) -> void:
 	for kd: StringName in _pools:
 		var target := 1.0
 		if _focus != &"":
-			target = 2.1 if kd == _focus else 0.55
+			target = POOL_FOCUS_LEVEL if kd == _focus else POOL_DIM_LEVEL
 		var g: float = lerpf(float(_glow_level.get(kd, 1.0)), target, k)
 		_glow_level[kd] = g
 		var pulse := 0.92 + 0.08 * sin(_time * 1.7 + float(KINGDOMS.find(kd)) * 1.6)
@@ -455,6 +489,46 @@ func _ease(t: float) -> float:
 	return t * t * t * (t * (t * 6.0 - 15.0) + 10.0)   # smootherstep
 
 
+## Item 13: follows the menu's layout (centred panel = 1) and the wide-shot weight; jumps on the first read.
+func _update_narrow(delta: float) -> void:
+	var target := 1.0 if _menu_centred() else 0.0
+	if _narrow < 0.0:
+		_narrow = target
+	else:
+		_narrow = move_toward(_narrow, target, delta / maxf(narrow_time, 0.01))
+	_wide_w = move_toward(_wide_w, 1.0 if _focus == &"" else 0.0, delta / FOCUS_TIME)
+
+
+## True while the main menu shows its main panel centred (MainMenu.column_on_side false). No menu found = false.
+func _menu_centred() -> bool:
+	var menu: Node = null
+	if _menu_ref:
+		menu = _menu_ref.get_ref() as Node
+	if menu == null and not _menu_searched:
+		_menu_searched = true
+		menu = _find_menu()
+		_menu_ref = weakref(menu) if menu else null
+	if menu == null or not menu.is_inside_tree():
+		return false
+	var panel := menu.get(&"main_panel") as Control
+	return panel != null and panel.is_visible_in_tree() and not bool(menu.get(&"column_on_side"))
+
+
+## The MainMenu holding this diorama (an ancestor) or next to it (a child of an ancestor: the shots script).
+func _find_menu() -> Node:
+	var p: Node = get_parent()
+	var depth := 0
+	while p != null and depth < 4:
+		if &"column_on_side" in p:
+			return p
+		for c: Node in p.get_children():
+			if c != self and &"column_on_side" in c:
+				return c
+		p = p.get_parent()
+		depth += 1
+	return null
+
+
 func _update_camera(_delta: float) -> void:
 	if _camera == null:
 		return
@@ -478,8 +552,16 @@ func _update_camera(_delta: float) -> void:
 			aspect = r.x / r.y
 	var wide_t := clampf((aspect - REF_ASPECT) / (WIDE_ASPECT - REF_ASPECT), 0.0, 1.0)
 	var sp: Vector2 = (s["screen"] as Vector2).lerp(s["screen_wide"], wide_t)
+	var fov := float(s["fov"])
+	var n := maxf(_narrow, 0.0) * _wide_w
+	if n > 0.0:
+		var ne := _ease(n)
+		sp = sp.lerp(narrow_focus_screen, ne)
+		fov = lerpf(fov, narrow_fov_deg, ne)
+		pos = target + dir * dist * lerpf(1.0, narrow_distance / maxf(distance, 0.01), ne)
+		_camera.global_transform = Transform3D(Basis.looking_at(target - pos, Vector3.UP), pos)
 	var near := 0.1
-	var h := 2.0 * near * tan(deg_to_rad(float(s["fov"])) * 0.5)
+	var h := 2.0 * near * tan(deg_to_rad(fov) * 0.5)
 	var w := h * aspect
 	_camera.set_frustum(h, Vector2((0.5 - sp.x) * w, (sp.y - 0.5) * h), near, 400.0)
 
@@ -517,6 +599,113 @@ func _dress_models() -> void:
 			flag.call(&"set_kind", 0)
 
 
+## `c` scaled down (hue kept) so no channel is above `cap` (alpha untouched).
+static func cap_glow(c: Color, cap: float = GLOW_CAP) -> Color:
+	var m := maxf(c.r, maxf(c.g, c.b))
+	if m <= cap or m <= 0.0:
+		return c
+	var k := cap / m
+	return Color(c.r * k, c.g * k, c.b * k, c.a)
+
+
+## Item 13: the altar (CrownPedestalArt, used read-only) seen from the menu. Its tier pieces follow this diorama's
+## tier first (idempotent; the pedestal's own set_quality from the "lighting_rigs" group then changes nothing), so the
+## BeaconCore exists before it gets its override. Beacon + core: menu_beacon.gdshader (alpha-blended amber, the
+## pedestal still drives `intensity` / `tint` per instance). Embers: a ramp that keeps EMBERS_GOLD x ramp <= GLOW_CAP.
+func _tame_altar(q: int) -> void:
+	var altar := get_node_or_null(^"Altar")
+	if altar == null:
+		return
+	if altar.has_method(&"set_detail_tier"):
+		altar.call(&"set_detail_tier", q)
+	var beacon := altar.get_node_or_null(^"Beacon") as GeometryInstance3D
+	if beacon and not (beacon.material_override is ShaderMaterial
+			and (beacon.material_override as ShaderMaterial).shader == BEACON_SHADER):
+		beacon.material_override = _beacon_material(BEACON_CORE, BEACON_RIM, 0.95)
+	var core := altar.get_node_or_null(^"BeaconCore") as GeometryInstance3D
+	if core and not (core.material_override is ShaderMaterial
+			and (core.material_override as ShaderMaterial).shader == BEACON_SHADER):
+		core.material_override = _beacon_material(BEACON_INNER_CORE, BEACON_CORE, 0.5)
+	var embers := altar.get_node_or_null(^"Embers") as GPUParticles3D
+	if embers and embers.process_material is ParticleProcessMaterial and not embers.has_meta(&"_menu_capped"):
+		var pr := (embers.process_material as ParticleProcessMaterial).duplicate() as ParticleProcessMaterial
+		var ramp := pr.color_ramp as GradientTexture1D
+		if ramp and ramp.gradient:
+			# The pedestal multiplies the ramp by EMBERS_GOLD (2.6, 1.55, 0.7): scale the ramp by GLOW_CAP / 2.6.
+			var k := GLOW_CAP / maxf(_embers_gain(altar), 1.0)
+			var g := ramp.gradient.duplicate() as Gradient
+			var cols := g.colors
+			for i: int in cols.size():
+				cols[i] = Color(cols[i].r * k, cols[i].g * k, cols[i].b * k, cols[i].a)
+			g.colors = cols
+			var t := GradientTexture1D.new()
+			t.gradient = g
+			pr.color_ramp = t
+			embers.process_material = pr
+		embers.set_meta(&"_menu_capped", true)
+
+
+## Item 13: the wizards' and champions' own additive motes (staff embers, snow, seeds, void motes, lantern, censer;
+## their draw albedo is 1.8-2.6 x a coloured ramp) peak at GLOW_CAP in the menu: a scaled copy of the draw material
+## as the emitter's material_override (the models' shared materials stay untouched). An emitter that already has a
+## material_override (a model driving its own colour) is left alone. Idempotent; no new draw, pass or particle.
+func _cap_model_emitters() -> void:
+	for holder_path: NodePath in [^"Wizards", ^"Champions"]:
+		var holder := get_node_or_null(holder_path)
+		if holder == null:
+			continue
+		for n: Node in holder.find_children("*", "GPUParticles3D", true, false):
+			var p := n as GPUParticles3D
+			if p.material_override != null or p.draw_pass_1 == null:
+				continue
+			var m := p.draw_pass_1.surface_get_material(0) as StandardMaterial3D
+			if m == null or m.blend_mode != BaseMaterial3D.BLEND_MODE_ADD:
+				continue
+			var peak := emitter_peak(m.albedo_color, p.process_material)
+			if peak <= GLOW_CAP:
+				continue
+			var mo := m.duplicate() as StandardMaterial3D
+			var k := GLOW_CAP / peak
+			var a := m.albedo_color
+			mo.albedo_color = Color(a.r * k, a.g * k, a.b * k, a.a)
+			p.material_override = mo
+
+
+## The largest channel an additive emitter reaches: draw albedo x the brightest colour of its ramp.
+static func emitter_peak(albedo: Color, process: Material) -> float:
+	var ramp := 1.0
+	var pr := process as ParticleProcessMaterial
+	if pr and pr.color_ramp is GradientTexture1D and (pr.color_ramp as GradientTexture1D).gradient:
+		ramp = 0.0
+		for c: Color in (pr.color_ramp as GradientTexture1D).gradient.colors:
+			ramp = maxf(ramp, maxf(c.r, maxf(c.g, c.b)))
+	if pr:
+		ramp *= maxf(pr.color.r, maxf(pr.color.g, pr.color.b))
+	return maxf(albedo.r, maxf(albedo.g, albedo.b)) * ramp
+
+
+## The largest channel the altar embers' material colour reaches (CrownPedestalArt.EMBERS_GOLD / EMBERS_RED).
+static func _embers_gain(altar: Node) -> float:
+	var gain := 1.0
+	var s := altar.get_script() as Script
+	if s:
+		var consts := s.get_script_constant_map()
+		for key: String in ["EMBERS_GOLD", "EMBERS_RED"]:
+			if consts.has(key):
+				var c: Color = consts[key]
+				gain = maxf(gain, maxf(c.r, maxf(c.g, c.b)))
+	return gain
+
+
+func _beacon_material(core_c: Color, rim_c: Color, opacity: float) -> ShaderMaterial:
+	var m := ShaderMaterial.new()
+	m.shader = BEACON_SHADER
+	m.set_shader_parameter(&"core_color", cap_glow(core_c, BEACON_MAX))
+	m.set_shader_parameter(&"rim_color", cap_glow(rim_c, BEACON_MAX))
+	m.set_shader_parameter(&"opacity", opacity)
+	return m
+
+
 func _soft_texture() -> Texture2D:
 	if _soft_tex == null:
 		var g := Gradient.new()
@@ -551,9 +740,12 @@ func _particle_draw_mesh(size: float) -> QuadMesh:
 	return q
 
 
-func _fade_ramp(c: Color) -> GradientTexture1D:
+## Fade-in / hold / fade-out ramp of an additive emitter (all of them use the white-albedo _particle_draw_mesh), its
+## colour capped at GLOW_CAP (item 13: the HDR colours the emitters ask for keep their hue, never their whiteness).
+func _fade_ramp(hdr: Color) -> GradientTexture1D:
 	var g := Gradient.new()
 	g.offsets = PackedFloat32Array([0.0, 0.2, 0.7, 1.0])
+	var c := cap_glow(hdr)
 	var c0 := c
 	c0.a = 0.0
 	g.colors = PackedColorArray([c0, c, c, c0])
@@ -579,7 +771,7 @@ func _build_kingdom_glows() -> void:
 		var mat := ShaderMaterial.new()
 		mat.shader = POOL_SHADER
 		mat.set_shader_parameter(&"color", c)
-		mat.set_shader_parameter(&"strength", 1.1)
+		mat.set_shader_parameter(&"strength", POOL_STRENGTH)
 		mat.set_shader_parameter(&"inner", 0.0)
 		mat.set_shader_parameter(&"falloff", 1.6)
 		pm.material = mat
@@ -613,8 +805,7 @@ func _build_kingdom_glows() -> void:
 		pr.tangential_accel_max = 0.35
 		pr.scale_min = 0.6
 		pr.scale_max = 1.2
-		var hc := Color(c.r * 2.6, c.g * 2.6, c.b * 2.6, 1.0)
-		pr.color_ramp = _fade_ramp(hc)
+		pr.color_ramp = _fade_ramp(Color(c.r * 2.6, c.g * 2.6, c.b * 2.6, 1.0))
 		p.process_material = pr
 		p.draw_pass_1 = _particle_draw_mesh(0.14)
 		p.position = Vector3(w.global_position.x, 0.15, w.global_position.z)
