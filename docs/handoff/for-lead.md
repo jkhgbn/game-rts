@@ -348,3 +348,8 @@ The Crown Isle now has a per-map variant (`docs/art/gf_crown_isle.md`, `art/envi
 CrownIsleVariant`: run `--import` once. Optional follow-up for the bridges owner (`art/environment/bridges/`): a
 timber-plank deck variant of the crown lane bridge / steps for Thornwater; today they are only repainted (peat-dark,
 mossier stone) through level-local mesh copies.
+
+## G-F review 3 item 3 (systems-coder, 2026-10-15): building HP bar hover
+`Building.set_hp_bar_hover(on)` now exists (same as Unit). `SelectionManager.set_hovered_unit` only receives `unit_at()`
+(Units), so buildings never get hover today. For ui-coder (scripts/ui/selection_manager.gd ~l.350): also pass a hovered
+building (the method is called through `has_method`, so a Building works as-is). Selection and hits already work.

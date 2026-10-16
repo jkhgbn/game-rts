@@ -29,7 +29,11 @@ const IDLE_REGEN_DELAY := 10.0
 const IDLE_REGEN_TICK := 0.5
 const AURA_TICK := 0.25              ## BuildingType.aura_radius: refresh rate (Unit.AURA_LINGER keeps it 1 s).
 const RING_BAND_MID := 0.26          ## UnitFx ring band centre past ring_radius (0.20 .. 0.32).
-const BAR_FRAME := 0.03              ## m, the HP bar frame (a soldier bar has 0.022).
+const BAR_FRAME := 0.0               ## m, the HP bar frame: 0 = the thin soldier edge (G-F review 3 item 3; was 0.03 black).
+const HP_BAR_HEIGHT := 0.12          ## m (G-F review 3: was 0.26; unit bars 0.1, heroes 0.12).
+const HP_BAR_WIDTH_K := 0.6          ## bar width = footprint x * K, clamped to MIN..MAX.
+const HP_BAR_WIDTH_MIN := 1.6
+const HP_BAR_WIDTH_MAX := 4.0
 const BAR_TICK_HP := 250.0           ## HP per HP-bar tick (drawn at High+).
 
 @export var building_type: BuildingType
@@ -67,6 +71,8 @@ var _bar_ticks := -1.0
 var _bar_hp := INF
 var _trail_from := 0.0               # recent-damage trail: fill before the hit, UnitFx.now() at the hit
 var _trail_t0 := -100.0
+var _bar_hover := false              # set_hp_bar_hover (under the cursor)
+var _bar_focus := -1                 # last `focus` instance uniform sent (1 = selected / hovered = full opacity)
 var _since_damage := 1000.0          # seconds since the last take_damage (idle regen)
 var _regen_left := IDLE_REGEN_TICK
 var _aura_left := 0.0
@@ -770,13 +776,13 @@ func _build_hp_bar() -> void:
 	if _hp_shader == null:
 		_hp_shader = UnitFx.bar_shader()
 	var own := Teams.relation(Teams.human_seat(), int(team)) == &"self"
-	var s := building_type.size_m() if building_type else Vector2(2.0, 2.0)
-	var bar_size := Vector2(maxf(2.0, s.x * 0.9), 0.26)
-	var style := {"color": Color.BLACK, "frame": BAR_FRAME}
+	var bar_size := Vector2(hp_bar_width(), HP_BAR_HEIGHT)
+	var style := {"color": Color.BLACK, "frame": BAR_FRAME, "fade_min": Unit.HP_BAR_FADE_MIN}
 	var tier := GameSettings.effective_graphics_quality()
 	_hp_mat = UnitFx.bar_material(relation_color(int(team), true), own, style, tier)
-	# A site's bar is its build progress: the plain team colour, never the own green -> red damage ramp.
-	_site_hp_mat = UnitFx.bar_material(relation_color(int(team), true), false, style, tier)
+	# A site's bar is its build progress: the plain team colour, never the own green -> red damage ramp, never fades.
+	var site_style := {"color": Color.BLACK, "frame": BAR_FRAME}
+	_site_hp_mat = UnitFx.bar_material(relation_color(int(team), true), false, site_style, tier)
 	_hp_bar = MeshInstance3D.new()
 	_hp_bar.name = "HPBar"
 	_hp_bar.mesh = UnitFx.bar_mesh(bar_size)
@@ -810,10 +816,36 @@ func _update_hp_bar() -> void:
 	if ticks != _bar_ticks:
 		_bar_ticks = ticks
 		_hp_bar.set_instance_shader_parameter(&"tick_step", ticks)
+	var focus := 1 if (selected or _bar_hover) else 0
+	if focus != _bar_focus:
+		_bar_focus = focus
+		_hp_bar.set_instance_shader_parameter(&"focus", float(focus))
 	var mat: ShaderMaterial = _hp_mat if is_constructed() else _site_hp_mat
 	if _hp_bar.material_override != mat:
 		_hp_bar.material_override = mat
 	_hp_bar.visible = not _dead and (selected or hp < max_hp or not is_constructed())
+
+
+## The building is under the cursor (the UI may call it, same as Unit.set_hp_bar_hover): its bar stays at full opacity.
+func set_hp_bar_hover(on: bool) -> void:
+	if on == _bar_hover:
+		return
+	_bar_hover = on
+	_update_hp_bar()
+
+
+## The world HP bar's width (m): footprint x * HP_BAR_WIDTH_K, clamped (G-F review 3).
+func hp_bar_width() -> float:
+	var s := building_type.size_m() if building_type else Vector2(2.0, 2.0)
+	return clampf(s.x * HP_BAR_WIDTH_K, HP_BAR_WIDTH_MIN, HP_BAR_WIDTH_MAX)
+
+
+## The world HP bar's opacity now (0-1, same curve as the shader; read only, tests / UI). A site's bar never fades.
+func hp_bar_opacity() -> float:
+	if _hp_bar == null or not _hp_bar.visible:
+		return 0.0
+	var fade_min := Unit.HP_BAR_FADE_MIN if is_constructed() else 1.0
+	return UnitFx.bar_fade(_trail_t0, UnitFx.now(), selected or _bar_hover, fade_min)
 
 
 # ---------------------------------------------------------------- save / load (docs/design/save-load.md)
