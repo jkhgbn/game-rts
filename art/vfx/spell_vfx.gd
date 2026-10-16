@@ -1356,6 +1356,7 @@ func _emitter(look: StringName, one_shot: bool) -> GPUParticles3D:
 	p.set_instance_shader_parameter(&"additive", float(d[3]))
 	p.set_instance_shader_parameter(&"erosion", float(d[4]))
 	p.set_instance_shader_parameter(&"core", float(d[5]))
+	VfxCap.fit(p)   # G-F VFX caps: under the mix / additive caps (docs/art/gf_vfx_caps.md)
 	return p
 
 

@@ -863,6 +863,7 @@ func _build_shared() -> void:
 			p.visibility_range_end = PARTICLE_RANGE
 			var h: float = spec[5]
 			p.visibility_aabb = AABB(Vector3(-h, -2.0, -h), Vector3(h * 2.0, 6.0, h * 2.0))
+			VfxCap.fit(p)   # G-F VFX caps (docs/art/gf_vfx_caps.md)
 			add_child(p)
 			arr.append(p)
 		_bursts[look] = arr

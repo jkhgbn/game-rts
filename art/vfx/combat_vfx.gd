@@ -1226,6 +1226,15 @@ func _look(look: StringName, pool: StringName, count: int, life: float, draw: St
 		m: ParticleProcessMaterial) -> void:
 	count = mini(count, int(POOLS[pool][0]))
 	_looks[look] = [pool, count, life, _draw[draw], m]
+	VfxCap.fit_parts(m, _draw[draw])   # G-F VFX caps: pooled emitters get their look at fire time (docs/art/gf_vfx_caps.md)
+
+
+## Read-only view for tests: {look: [draw mesh, process material]} (tests/test_gf_vfx_caps.gd).
+func look_parts() -> Dictionary:
+	var out := {}
+	for look: StringName in _looks:
+		out[look] = [_looks[look][3], _looks[look][4]]
+	return out
 
 
 func _pmat_of(look: StringName) -> ParticleProcessMaterial:

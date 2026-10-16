@@ -815,6 +815,7 @@ func _emitter(look: StringName, amount: int, lifetime: float, pass_id: StringNam
 	p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	p.visibility_range_end = PARTICLE_RANGE
 	p.visibility_aabb = AABB(Vector3(-half, -2.0, -half), Vector3(half * 2.0, 6.0, half * 2.0))
+	VfxCap.fit(p)   # G-F VFX caps: under the mix / additive caps (docs/art/gf_vfx_caps.md)
 	return p
 
 

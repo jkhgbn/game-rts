@@ -421,9 +421,9 @@ func _mana_scald(at: Variant, target: Variant) -> void:
 				&"tail": 0.35, &"flow": 9.0, &"wobble": 0.8, &"seed": _rng.randf() * 10.0})
 	fx.lash = lash
 	# the palm flash (at the source), the cold flash + steam at the head (at the target, once the lash arrives)
-	_flare(fx, A_POINT, Vector3.ZERO, _hdr(STEAM_BLUE, 1.8), 0.3, 0.55, 0.08, 0.0, 0.22, 0.0, 0.15, 0.6, 6.0)
-	_flare(fx, A_TARGET, Vector3.ZERO, _hdr(STEAM_BLUE, 2.0), 0.5, 1.1, 0.12, 0.12, 0.5, 0.0, 0.3, 0.8, 8.0)
-	_flare(fx, A_TARGET, Vector3.ZERO, _hdr(STEAM, 1.6), 0.25, 0.4, 0.06, 0.12, 0.3, 0.0, 0.14)
+	_flare(fx, A_POINT, Vector3.ZERO, _hdr(STEAM_BLUE, 1.2), 0.3, 0.55, 0.08, 0.0, 0.22, 0.0, 0.15, 0.6, 6.0)
+	_flare(fx, A_TARGET, Vector3.ZERO, _hdr(STEAM_BLUE, 1.2), 0.5, 1.1, 0.12, 0.12, 0.5, 0.0, 0.3, 0.8, 8.0)
+	_flare(fx, A_TARGET, Vector3.ZERO, _hdr(STEAM_BLUE, 1.0), 0.25, 0.4, 0.06, 0.12, 0.3, 0.0, 0.14)
 	_sched(fx, &"steam_burst", 0.12, A_TARGET, Vector3.UP * 0.1)
 	_sched(fx, &"steam_sparks", 0.12, A_TARGET, Vector3.ZERO)
 	_start(fx)
@@ -930,6 +930,7 @@ func _emitter(look: StringName, amount: int, lifetime: float, pass_id: StringNam
 	p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	p.visibility_range_end = PARTICLE_RANGE
 	p.visibility_aabb = AABB(Vector3(-half, -3.0, -half), Vector3(half * 2.0, 8.0, half * 2.0))
+	VfxCap.fit(p)   # G-F VFX caps: under the mix / additive caps (docs/art/gf_vfx_caps.md)
 	return p
 
 
@@ -1047,7 +1048,8 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.damping_max = 2.0
 			_spin(m, 90.0)
 			_size(m, 0.35, 0.6, &"grow")
-			m.color_initial_ramp = _ramp_tex(_lin([STEAM, Color(0.72, 0.84, 0.95)]))
+			# G-F caps: grey-blue steam under the 0.72 mix cap (a white HDR blob in the melee before)
+			m.color_initial_ramp = _ramp_tex(_lin([Color(0.62, 0.68, 0.72), Color(0.50, 0.60, 0.70)]))
 			m.color_ramp = _ramp_at([0.0, 0.12, 0.55, 1.0], [Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.75), Color(1, 1, 1, 0.35),
 					Color(1, 1, 1, 0.0)])
 		&"steam_sparks":
@@ -1059,7 +1061,7 @@ func _pmat(key: StringName) -> ParticleProcessMaterial:
 			m.damping_min = 3.0
 			m.damping_max = 5.0
 			_size(m, 0.06, 0.1, &"shrink")
-			m.color_ramp = _ramp_tex([_hdr(STEAM, 2.4), _hdr(STEAM_BLUE, 1.8), _hdr(STEAM_BLUE, 0.6, 0.0)])
+			m.color_ramp = _ramp_tex([_hdr(STEAM_BLUE, 1.0), _hdr(STEAM_BLUE, 0.8), _hdr(STEAM_BLUE, 0.4, 0.0)])
 		&"stoke_puff":
 			_sphere(m, 0.08)
 			m.direction = Vector3.UP

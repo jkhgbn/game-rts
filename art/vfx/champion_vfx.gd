@@ -1834,6 +1834,7 @@ func _emitter(look: StringName, amount: int, lifetime: float, pass_id: StringNam
 	else:
 		p.visibility_aabb = AABB(Vector3(-9.0, -3.0, -9.0), Vector3(18.0, 12.0, 18.0)) if big \
 				else AABB(Vector3(-5.0, -3.0, -5.0), Vector3(10.0, 9.0, 10.0))
+	VfxCap.fit(p)   # G-F VFX caps: under the mix / additive caps (docs/art/gf_vfx_caps.md)
 	return p
 
 

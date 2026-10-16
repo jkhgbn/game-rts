@@ -722,6 +722,7 @@ func _build_shared() -> void:
 			p.visible = false
 			p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			p.visibility_aabb = AABB(Vector3(-7.0, -2.0, -7.0), Vector3(14.0, 9.0, 14.0))
+			VfxCap.fit(p)   # G-F VFX caps (docs/art/gf_vfx_caps.md)
 			add_child(p)
 			arr.append(p)
 		_pools[look] = arr

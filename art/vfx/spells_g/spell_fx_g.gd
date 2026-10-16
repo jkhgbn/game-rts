@@ -55,8 +55,8 @@ const PALETTES := {
 	&"smoke": [Color(0.16, 0.12, 0.10), Color(0.11, 0.09, 0.08), Color(0.06, 0.05, 0.05, 0.5)],
 	&"molten": [Color(2.8, 1.2, 0.3), Color(1.4, 0.32, 0.04), Color(0.10, 0.06, 0.04, 0.8)],
 	&"shadow": [Color(1.0, 0.3, 2.0), Color(0.14, 0.02, 0.26), Color(0.015, 0.0, 0.03, 0.85)],
-	&"ice": [Color(1.0, 1.35, 1.6), Color(0.38, 0.66, 0.95), Color(0.55, 0.68, 0.80, 0.42)],
-	&"steam": [Color(1.5, 1.7, 1.9), Color(0.7, 0.85, 1.0), Color(0.62, 0.68, 0.74, 0.45)],
+	&"ice": [Color(0.56, 0.66, 0.72), Color(0.38, 0.66, 0.95), Color(0.50, 0.62, 0.72, 0.42)],   # G-F caps: pale <= 0.72
+	&"steam": [Color(0.64, 0.68, 0.72), Color(0.54, 0.62, 0.70), Color(0.60, 0.66, 0.72, 0.45)],   # G-F caps: was HDR 1.9
 	&"dust": [Color(0.70, 0.62, 0.40), Color(0.42, 0.33, 0.20), Color(0.30, 0.24, 0.16, 0.5)],
 	&"gold": [Color(2.2, 1.8, 0.8), Color(1.0, 0.85, 0.35), Color(0.6, 0.55, 0.3, 0.3)],
 }
@@ -96,7 +96,7 @@ const LOOKS := {
 	&"leaf_burst": [26, 1.7, &"petal", 0.9],
 	&"petal_spiral": [36, 2.3, &"petal", 0.4],
 	&"spores": [30, 2.6, &"soft_add", 0.3],
-	&"steam_puff": [10, 1.0, &"smoke", 0.9],
+	&"steam_puff": [5, 1.0, &"smoke", 0.9],
 }
 ## Continuous emitters on projectiles: look -> [amount at High, lifetime, draw pass].
 const TRAILS := {
@@ -1035,6 +1035,7 @@ func _emitter(look: StringName, amount: int, lifetime: float, pass_id: StringNam
 	p.visibility_range_end = PARTICLE_RANGE + 10.0
 	if pass_id == &"streak":
 		p.transform_align = GPUParticles3D.TRANSFORM_ALIGN_Z_BILLBOARD_Y_TO_VELOCITY
+	VfxCap.fit(p)   # G-F VFX caps: under the mix / additive caps (docs/art/gf_vfx_caps.md)
 	return p
 
 

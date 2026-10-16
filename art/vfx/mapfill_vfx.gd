@@ -1414,6 +1414,7 @@ func _emitter(look: StringName, amount: int, lifetime: float, pass_id: StringNam
 	var tall := look == &"gold_spiral" or look == &"gold_rise"
 	p.visibility_aabb = AABB(Vector3(-8.0, -2.0, -8.0), Vector3(16.0, 28.0, 16.0)) if tall \
 			else AABB(Vector3(-8.0, -3.0, -8.0), Vector3(16.0, 11.0, 16.0))
+	VfxCap.fit(p)   # G-F VFX caps: under the mix / additive caps (docs/art/gf_vfx_caps.md)
 	return p
 
 
