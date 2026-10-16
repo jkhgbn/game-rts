@@ -297,6 +297,7 @@ static func _quad(add: bool) -> QuadMesh:
 	m.disable_fog = add  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	m.vertex_color_use_as_albedo = true
 	m.albedo_texture = tex
 	if not add:

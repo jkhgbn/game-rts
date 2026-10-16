@@ -471,6 +471,7 @@ func _make_mist() -> GPUParticles3D:
 		sm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		sm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		sm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+		sm.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 		sm.vertex_color_use_as_albedo = true
 		sm.albedo_color = Color(0.10, 0.04, 0.16, 1.0)
 		sm.no_depth_test = false

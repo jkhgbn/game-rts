@@ -477,6 +477,7 @@ static func _embers(amount: int, lifetime: float, radius: float, speed: float, s
 		sm.disable_fog = true  # G-E 5: an additive quad must not fog
 		sm.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 		sm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+		sm.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 		sm.vertex_color_use_as_albedo = true
 		sm.albedo_color = Color(2.2, 2.0, 1.8, 1.0)
 		var rg := Gradient.new()

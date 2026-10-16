@@ -5,7 +5,7 @@
 	"ground": "meadow",
 	"kind": "building",
 	"kingdom": "shadow",
-	"quality": 88.2,
+	"quality": 93.0,
 	"result": "PASS",
 	"scene": "res://art/buildings/shadow_tower.tscn",
 	"tier": "small",

@@ -73,5 +73,6 @@ test_13c_v7, test_forge_model, test_gb_leftovers, smoke (victory=true).
 ## Not done
 
 - The construction outline (glowing violet square, art-keep 8.2) is unchanged; it is now the loudest part of a site.
+  (Done 2026-10-15 with the Night Spire roof below: `docs/art/gf_shadow_leftovers.md`.)
 - The Shadow BuildRing motes (pale violet puffs round a site) could follow the item-7 particle cap.
 - The Shadow tower roof (review item 3 mentions it with the Hovel) was not touched.

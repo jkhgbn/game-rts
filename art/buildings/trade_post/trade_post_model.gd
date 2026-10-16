@@ -1146,6 +1146,7 @@ func _build_brazier_fire() -> void:
 	q.size = Vector2(0.3, 0.42)
 	var qm: StandardMaterial3D = _soft_mat("flame", Color(1, 1, 1, 1), true, false).duplicate() as StandardMaterial3D
 	qm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	qm.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	qm.vertex_color_use_as_albedo = true
 	q.material = qm
 	_flames = GPUParticles3D.new()

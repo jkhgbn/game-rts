@@ -20,6 +20,7 @@ var _dress: ShadowDress
 
 
 func _setup_palette() -> void:
+	outline_calm = true   # G-F Shadow leftovers: the site outline under the flagstones (SiteOutline)
 	kingdom_color = Color(0.42, 0.22, 0.60)
 	glow_color = Color(0.70, 0.30, 1.00)
 	stone_color = Color(0.20, 0.17, 0.26)

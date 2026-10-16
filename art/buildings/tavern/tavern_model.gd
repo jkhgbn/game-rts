@@ -839,6 +839,7 @@ func _build_smoke() -> void:
 	var q := QuadMesh.new()
 	var qm: StandardMaterial3D = _soft_mat("smoke", Color(1, 1, 1, 1), false, false).duplicate() as StandardMaterial3D
 	qm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	qm.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	qm.vertex_color_use_as_albedo = true
 	q.material = qm
 	_smoke = GPUParticles3D.new()

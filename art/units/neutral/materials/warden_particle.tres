@@ -19,6 +19,7 @@ vertex_color_use_as_albedo = true
 albedo_color = Color(1.6, 1.6, 1.6, 1)
 albedo_texture = SubResource("GradientTexture2D_3i7jj")
 billboard_mode = 3
+billboard_keep_scale = true
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false

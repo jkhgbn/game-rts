@@ -60,6 +60,7 @@ func _particle_mat(nm: String, dir: String) -> void:
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	m.disable_fog = true  # G-E 5: an additive quad must not fog
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	m.vertex_color_use_as_albedo = true
 	m.albedo_color = Color(1.6, 1.6, 1.6, 1)
 	m.albedo_texture = _radial_tex(0.35)
@@ -102,6 +103,7 @@ func _smoke_mat() -> void:
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	m.vertex_color_use_as_albedo = true
 	m.albedo_texture = _radial_tex(0.1)
 	ResourceSaver.save(m, p)

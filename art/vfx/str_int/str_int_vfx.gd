@@ -185,6 +185,7 @@ func _add_particles(color: Color, gravity: Vector3, radius: float, amount: int, 
 	qm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	qm.disable_fog = true  # G-E 5: an additive quad must not fog
 	qm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	qm.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	qm.albedo_color = color * 2.0
 	quad.material = qm
 	p.draw_pass_1 = quad

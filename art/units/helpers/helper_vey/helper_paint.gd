@@ -343,6 +343,7 @@ static func motes(key: String, amount: int, lifetime: float, radius: float, spee
 		sm.disable_fog = not blend_mix  # G-E 5: an additive quad must not fog
 		sm.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 		sm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+		sm.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 		sm.vertex_color_use_as_albedo = true
 		sm.albedo_color = Color(1, 1, 1, 1) if blend_mix else Color(2.2, 2.1, 1.8, 1.0)
 		var rg := Gradient.new()

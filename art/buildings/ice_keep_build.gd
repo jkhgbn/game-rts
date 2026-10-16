@@ -702,6 +702,7 @@ func _particle_mat(tex: Texture2D, blend: int, nm: String) -> StandardMaterial3D
 	m.resource_name = nm
 	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	m.blend_mode = blend
 	m.disable_fog = blend == BaseMaterial3D.BLEND_MODE_ADD  # G-E 5: an additive quad must not fog

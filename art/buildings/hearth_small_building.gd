@@ -49,6 +49,8 @@ var wreck_top: float = 1.0      # top of the collapsed stub (debris sits on it)
 var vc_merge: bool = false
 var crack_glow: float = 1.0   ## vc_merge: crack emission x this (< 1 keeps the veins under the bloom level)
 var _glow_vc: ShaderMaterial   ## vc_merge: the merged glow material (PaintedVC.convert_glow)
+## G-F Shadow leftovers: a thin, dim, saturation-capped construction outline (SiteOutline; a subclass sets it in _setup()).
+var outline_calm: bool = false
 var smoke_points: Array[Vector3] = []
 var _m_wood: ShaderMaterial   ## G-B Fire: timber (scaffold, woodpile); null = the trim stand-in
 var _hazes: Array[Node3D] = []   ## G-B Fire: heat-haze quads (High / Ultra)
@@ -156,7 +158,7 @@ func _process(delta: float) -> void:
 		_apply_rim_and_glow()
 	if _outline_fade > 0.0:
 		_outline_fade = maxf(_outline_fade - delta / 0.5, 0.0)
-		_outline_mat.set_shader_parameter(&"energy", 2.0 * _outline_fade)
+		_outline_mat.set_shader_parameter(&"energy", SiteOutline.energy(outline_calm) * _outline_fade)
 		if _outline_fade <= 0.0:
 			_outline.visible = false
 	PVC.sync_glow(_glow_vc)
@@ -199,7 +201,7 @@ func set_construction_progress(p: float) -> void:
 	if building:
 		_outline.visible = true
 		_outline_fade = 0.0
-		_outline_mat.set_shader_parameter(&"energy", 2.0)
+		_outline_mat.set_shader_parameter(&"energy", SiteOutline.energy(outline_calm))
 	elif _was_building:
 		_outline_fade = 1.0
 		BuildSettle.play(_settle_dust, _settle_glint, self)   # G-B leftovers: dust + glints, fog-safe
@@ -259,7 +261,7 @@ func set_team_color(c: Color) -> void:
 	var g: Color = team_glow()
 	for m: ShaderMaterial in _team_glows:
 		m.set_shader_parameter(&"glow_color", g)
-	_outline_mat.set_shader_parameter(&"glow_color", g)
+	_outline_mat.set_shader_parameter(&"glow_color", SiteOutline.tint(g, outline_calm))
 	for gr: Gradient in _team_ramps:
 		gr.set_color(0, Color(g, 1.0))
 		gr.set_color(1, Color(g, 0.0))
@@ -839,15 +841,16 @@ func _build_state_nodes() -> void:
 	# Glowing construction outline: 4 thin emissive bars around the footprint.
 	_outline_mat = ShaderMaterial.new()
 	_outline_mat.shader = GLOW
-	_outline_mat.set_shader_parameter(&"energy", 2.0)
-	_outline_mat.set_shader_parameter(&"pulse_speed", TAU)
+	_outline_mat.set_shader_parameter(&"energy", SiteOutline.energy(outline_calm))
+	_outline_mat.set_shader_parameter(&"pulse_speed", SiteOutline.pulse(outline_calm))
 	var side: float = footprint + 0.3
+	var bar_w: float = SiteOutline.width(0.2, outline_calm)
 	var xf: Array[Transform3D] = []
 	for i: int in 4:
 		var yaw: float = PI * 0.5 * i
 		var dir := Vector3(sin(yaw), 0.0, cos(yaw))
 		xf.append(Transform3D(Basis(Vector3.UP, yaw), dir * side * 0.5 + Vector3(0, 0.05, 0)))
-	_outline = _multi("BuildOutline", _box(Vector3(side + 0.2, 0.05, 0.2)), _outline_mat, xf)
+	_outline = _multi("BuildOutline", _box(Vector3(side + bar_w, 0.05, bar_w)), _outline_mat, xf)
 	_body.remove_child(_outline)
 	add_child(_outline)
 	_outline.visible = false
@@ -916,6 +919,7 @@ static func _quad(add: bool) -> QuadMesh:
 	m.disable_fog = add  # G-E 5: an additive quad must not fog
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	m.vertex_color_use_as_albedo = true
 	m.albedo_texture = tex
 	var q := QuadMesh.new()

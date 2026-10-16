@@ -114,6 +114,8 @@ var _build_dust: GPUParticles3D
 var _dust: GPUParticles3D
 var _outline: MultiMeshInstance3D
 var _outline_mat: ShaderMaterial
+## G-F Shadow leftovers: a thin, dim, saturation-capped construction outline (SiteOutline; set in _setup_palette()).
+var outline_calm: bool = false
 var _rubble: MultiMeshInstance3D
 var _rubble2: MultiMeshInstance3D
 var _debris: MultiMeshInstance3D
@@ -204,7 +206,7 @@ func _process(delta: float) -> void:
 		_apply_rim_and_glow()
 	if _outline_fade > 0.0:
 		_outline_fade = maxf(_outline_fade - delta / 0.5, 0.0)
-		_outline_mat.set_shader_parameter(&"energy", 2.0 * _outline_fade)
+		_outline_mat.set_shader_parameter(&"energy", SiteOutline.energy(outline_calm) * _outline_fade)
 		if _outline_fade <= 0.0:
 			_outline.visible = false
 	PVC.sync_glow(_glow_vc)
@@ -241,7 +243,7 @@ func set_construction_progress(p: float) -> void:
 	if building:
 		_outline.visible = true
 		_outline_fade = 0.0
-		_outline_mat.set_shader_parameter(&"energy", 2.0)
+		_outline_mat.set_shader_parameter(&"energy", SiteOutline.energy(outline_calm))
 	elif _was_building:
 		_outline_fade = 1.0
 		BuildSettle.play(_build_dust, _build_flash, self)   # G-B leftovers: dust + glints, fog-safe
@@ -310,7 +312,7 @@ func set_team_color(c: Color) -> void:
 	mat_team.set_shader_parameter(&"base_color", c)
 	mat_banner.set_shader_parameter(&"cloth_color", _cloth_of(c))
 	var glow: Color = glow_color if c.is_equal_approx(kingdom_color) else c.lightened(0.35)
-	_outline_mat.set_shader_parameter(&"glow_color", glow)
+	_outline_mat.set_shader_parameter(&"glow_color", SiteOutline.tint(glow, outline_calm))
 	for g: Gradient in _team_ramps:
 		g.set_color(0, Color(glow, 1.0))
 		g.set_color(1, Color(glow, 0.0))
@@ -986,6 +988,7 @@ func _quad(additive: bool) -> QuadMesh:
 	m.vertex_color_use_as_albedo = true
 	m.albedo_texture = tex
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	m.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	var q := QuadMesh.new()
 	q.size = Vector2.ONE
@@ -1221,11 +1224,11 @@ func _build_state_nodes() -> void:
 	# Glowing construction outline: 4 thin emissive bars around the plinth, at ground level.
 	_outline_mat = ShaderMaterial.new()
 	_outline_mat.shader = RUNE_GLOW
-	_outline_mat.set_shader_parameter(&"energy", 2.0)
-	_outline_mat.set_shader_parameter(&"pulse_speed", TAU)
-	_outline_mat.set_shader_parameter(&"glow_color", glow_color)
+	_outline_mat.set_shader_parameter(&"energy", SiteOutline.energy(outline_calm))
+	_outline_mat.set_shader_parameter(&"pulse_speed", SiteOutline.pulse(outline_calm))
+	_outline_mat.set_shader_parameter(&"glow_color", SiteOutline.tint(glow_color, outline_calm))
 	var bar := BoxMesh.new()
-	bar.size = Vector3(7.2, 0.06, 0.25)
+	bar.size = Vector3(7.2, 0.06, SiteOutline.width(0.25, outline_calm))
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
 	mm.mesh = bar

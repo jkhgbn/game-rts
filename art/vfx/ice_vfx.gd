@@ -982,6 +982,7 @@ func _particle_quad(blend: BaseMaterial3D.BlendMode) -> QuadMesh:
 	mat.blend_mode = blend
 	mat.disable_fog = blend == BaseMaterial3D.BLEND_MODE_ADD  # G-E 5: an additive quad must not fog
 	mat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	mat.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	mat.vertex_color_use_as_albedo = true
 	mat.albedo_texture = _soft_tex
 	mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED

@@ -1188,6 +1188,7 @@ func _particle_quad(key: String) -> QuadMesh:
 	var q := QuadMesh.new()
 	var qm: StandardMaterial3D = _soft_mat(key, Color(1, 1, 1, 1), key == "fire_part", false).duplicate() as StandardMaterial3D
 	qm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	qm.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	qm.vertex_color_use_as_albedo = true
 	q.material = qm
 	return q
