@@ -385,7 +385,8 @@ func _on_damage_taken(_amount: float, _attacker: Node3D) -> void:
 
 # Hoarlight Magebow: a weak spell: 20 + chill 1 s on its target (else the nearest enemy unit) within 10 m.
 func _try_frost_needle() -> void:
-	var target := unit.attack_target as Unit
+	# Validity first: `as Unit` on a freed attack_target raises "Trying to cast a freed object".
+	var target: Unit = unit.attack_target as Unit if is_instance_valid(unit.attack_target) else null
 	var rng := float(FROST_NEEDLE["range"])
 	if target == null or not target.is_alive() or not unit.is_enemy_of(target) \
 			or _flat(target.global_position, unit.global_position) > rng + target.radius:
