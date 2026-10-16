@@ -16,6 +16,8 @@ var fitted_half := Vector2(BAKED_HALF, BAKED_HALF)   ## The half size the ring i
 ## G-F per-map horizon (horizon_variant.gd): &"" until fitted, then HorizonVariant.CROWN_HOLLOW (the baked ring, shader
 ## fit) or the variant whose meshes replaced the baked ones (fen / autumn / neutral, fit baked on the CPU). Read only.
 var variant := &""
+## The map id whose own palette overrides the horizon material (apply_palette), &"" = the shared material. Read only.
+var palette := &""
 var _baked: Array[Mesh] = []   # the sector meshes from horizon.tscn (child order)
 
 
@@ -33,6 +35,18 @@ func _fit_to_map() -> void:
 		fit_to(MapInfo.half_x(), MapInfo.half_z())
 		return
 	apply_variant(kind, MapInfo.half_x(), MapInfo.half_z(), GameSettings.effective_graphics_quality())
+	apply_palette(HorizonVariant.layout_id_of(get_parent()))
+
+
+## A map with its own horizon palette (HorizonVariant.palette_override: Quartermeet) draws every sector with that
+## material; any other id clears the override (the shared horizon_mat, AutumnSwap's tones on the autumn maps).
+func apply_palette(map_id: StringName) -> void:
+	var mat := HorizonVariant.palette_override(map_id)
+	palette = map_id if mat != null else &""
+	for c: Node in get_children():
+		var mi := c as MeshInstance3D
+		if mi != null:
+			mi.material_override = mat
 
 
 ## Swaps the sector meshes for `kind`'s (HorizonVariant: the Crown Hollow landmarks dropped, the map's own dressing

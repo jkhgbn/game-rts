@@ -20,6 +20,13 @@ const FEN := &"fen"
 const AUTUMN := &"autumn"
 const NEUTRAL := &"neutral"
 const CROWN_IDS: Array[StringName] = [&"", &"crown_hollow", &"crown_hollow_level"]
+## Quartermeet's own horizon palette (palette_override): same autumn horizon shader, golden-yellow tones.
+const QUARTERMEET_ID := &"quartermeet"
+const AUTUMN_HORIZON_MAT := "res://art/environment/autumn/horizon_autumn_mat.tres"
+const QM_PALETTE := "res://art/environment/quartermeet/quartermeet_palette.gd"
+const QM_FAR_VALUE := 0.86      ## far crowns a touch darker than the near ones (haze)
+const QM_FAR_GREEN := 0.55      ## the late-green minority reads as a dark olive at range
+static var _palette_cache: Dictionary = {}
 
 ## UV.y tags of the baked meshes (horizon_tag_bake.gd); TAG_DRESSING marks the pieces this script adds.
 const TAG_TOWER := 1
@@ -130,6 +137,43 @@ static func kind_for_level(level: Node) -> StringName:
 	return kind_for(MapInfo.map_id, biome_of(level))
 
 
+## The level's map id: its MapLayout id (LayoutLevel.map_layout()), else MapInfo.map_id.
+static func layout_id_of(level: Node) -> StringName:
+	if level != null and level.has_method(&"map_layout"):
+		var lay: Variant = level.call(&"map_layout")
+		if lay is Resource and &"id" in lay and String((lay as Resource).get(&"id")) != "":
+			return StringName(String((lay as Resource).get(&"id")))
+	return MapInfo.map_id
+
+
+## The horizon palette for a map whose autumn tones differ from the shared AutumnSwap mix (Quartermeet: the harvest
+## highland's golden-yellow crowns, docs/art/gf_quartermeet.md). A material override for every sector (a duplicate of
+## horizon_autumn_mat.tres, the same shader and cost, its colours from QuartermeetPalette.NATURE); null = keep the
+## shared material (Ashwind Reach and every other map unchanged). Cached per map id.
+static func palette_override(map_id: StringName) -> Material:
+	if map_id != QUARTERMEET_ID:
+		return null
+	if _palette_cache.has(map_id):
+		return _palette_cache[map_id] as Material
+	var base := load(AUTUMN_HORIZON_MAT) as ShaderMaterial if ResourceLoader.exists(AUTUMN_HORIZON_MAT) else null
+	var pal := load(QM_PALETTE) as Script if ResourceLoader.exists(QM_PALETTE) else null
+	if base == null or pal == null:
+		return null
+	var nature: Dictionary = pal.get_script_constant_map().get("NATURE", {})
+	var mat := base.duplicate() as ShaderMaterial
+	# The far crowns sit in haze: the near crown tones a little darker, and late green (not dark fir) as the minority.
+	var far := func(key: StringName, fallback: Color) -> Color:
+		var c: Color = nature.get(key, fallback)
+		return Color(c.r * QM_FAR_VALUE, c.g * QM_FAR_VALUE, c.b * QM_FAR_VALUE)
+	mat.set_shader_parameter(&"far_russet", far.call(&"crown_russet", Color(0.70, 0.45, 0.10)))
+	mat.set_shader_parameter(&"far_amber", far.call(&"crown_amber", Color(0.88, 0.66, 0.13)))
+	mat.set_shader_parameter(&"far_gold", far.call(&"crown_gold", Color(0.95, 0.82, 0.28)))
+	mat.set_shader_parameter(&"far_evergreen", far.call(&"crown_late_green", Color(0.52, 0.53, 0.20)) * QM_FAR_GREEN)
+	mat.set_shader_parameter(&"evergreen_share", 0.14)
+	_palette_cache[map_id] = mat
+	return mat
+
+
 static func biome_of(level: Node) -> String:
 	var lay: Variant = null
 	if level != null and level.has_method(&"map_layout"):
@@ -195,6 +239,7 @@ static func meshes_for(kind: StringName, half: Vector2, base: Array[Mesh], tier:
 
 static func clear_cache() -> void:
 	_cache.clear()
+	_palette_cache.clear()
 
 
 func build(kind: StringName, half: Vector2, base: Array[Mesh], tier: int) -> Array[ArrayMesh]:

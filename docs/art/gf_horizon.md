@@ -45,6 +45,19 @@ which has no `fit_xz`. So the Quartermeet and Ashwind Reach horizons were **not 
 - **Hook.** None needed: `HorizonFit._fit_to_map` (already deferred after the level's `MapInfo.setup`) calls
   `apply_variant`. `level_looks.gd` is not touched.
 
+## Quartermeet palette (follow-up)
+Quartermeet has its own look (`docs/art/gf_quartermeet.md`). Its horizon used to keep AutumnSwap's shared orange /
+russet mix; it now has its own palette:
+- On the layout id `quartermeet`, `HorizonFit.apply_palette` sets a `material_override` on the 8 sectors. The
+  override comes from `HorizonVariant.palette_override(map_id)`: a cached duplicate of `horizon_autumn_mat.tres`
+  (same shader, same cost) whose `far_*` tones come from `QuartermeetPalette.NATURE` (×0.86 for haze), plus a
+  late-green minority (share 0.14).
+- The shared materials are never touched, so Ashwind Reach and every other map are unchanged.
+- The test checks both maps: Quartermeet has the override, and Ashwind has none and its shared material is
+  intact.
+- The dense band just outside the map is the ground's painted canopy, which QuartermeetLook already recolours.
+- Shot: `lab/gf_horizon/after/quartermeet_overview_qm_palette.jpg`, also `key_quartermeet_overview_after.png`.
+
 ## Cost
 - No new shader pass, light or particle. Draw-only, with no colliders and nothing on the navmesh.
 - Triangles (baked 96 407):

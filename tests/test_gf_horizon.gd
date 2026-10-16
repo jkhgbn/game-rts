@@ -31,7 +31,8 @@ func _main() -> void:
 	for row: Array in cases:
 		for tier: int in [0, 2]:
 			await _check_map(row[0], row[1], row[2], tier)
-	await _check_real_level(&"quartermeet", HorizonVariant.AUTUMN)
+	await _check_real_level(&"quartermeet", HorizonVariant.AUTUMN, true)
+	await _check_real_level(&"ashwind_reach", HorizonVariant.AUTUMN, false)
 	MapInfo.reset()
 	if fails.is_empty():
 		print("PASS %s" % TASK_ID)
@@ -136,7 +137,7 @@ func _check_map(map_id: StringName, size: Vector2, want: StringName, tier: int) 
 
 
 ## A real level: the deferred fit after main.gd's MapInfo.setup picks the variant.
-func _check_real_level(map_id: StringName, want: StringName) -> void:
+func _check_real_level(map_id: StringName, want: StringName, own_palette: bool) -> void:
 	var cat := MapCatalog.load_default()
 	var level := cat.instantiate_level(map_id)
 	if level == null:
@@ -152,7 +153,35 @@ func _check_real_level(map_id: StringName, want: StringName) -> void:
 	elif StringName(hz.get(&"variant")) != want:
 		fails.append("%s level: variant %s, want %s" % [map_id, hz.get(&"variant"), want])
 	else:
-		print("%s level: variant %s, map %s x %s" % [map_id, hz.get(&"variant"), MapInfo.size_x, MapInfo.size_z])
+		print("%s level: variant %s, map %s x %s, palette %s" % [map_id, hz.get(&"variant"), MapInfo.size_x,
+			MapInfo.size_z, str(hz.get(&"palette"))])
+		_check_palette(map_id, hz, own_palette)
 	level.queue_free()
 	for f: int in 3:
 		await process_frame
+
+
+## Quartermeet draws its horizon with its own golden palette (a material override on every sector); Ashwind Reach
+## keeps the shared material (AutumnSwap's tones) untouched.
+func _check_palette(map_id: StringName, hz: Node, own_palette: bool) -> void:
+	var shared := load("res://art/environment/autumn/horizon_autumn_mat.tres") as ShaderMaterial
+	for c: Node in hz.get_children():
+		var mi := c as MeshInstance3D
+		if mi == null:
+			continue
+		var ov := mi.material_override as ShaderMaterial
+		if not own_palette:
+			if ov != null:
+				fails.append("%s: %s has a palette override (must keep the shared horizon material)" % [map_id, mi.name])
+			continue
+		if ov == null or ov.shader == null or not ov.shader.resource_path.ends_with("horizon_autumn.gdshader"):
+			fails.append("%s: %s has no Quartermeet palette override" % [map_id, mi.name])
+			continue
+		var gold: Color = ov.get_shader_parameter(&"far_gold")
+		var russet: Color = ov.get_shader_parameter(&"far_russet")
+		if gold.is_equal_approx(shared.get_shader_parameter(&"far_gold")) or russet.g < 0.3:
+			fails.append("%s: palette override keeps the shared orange tones" % map_id)
+	if StringName(hz.get(&"palette")) != (map_id if own_palette else &""):
+		fails.append("%s: palette %s" % [map_id, hz.get(&"palette")])
+	if shared.get_shader_parameter(&"far_gold") != Color(0.76, 0.6, 0.22, 1):
+		fails.append("%s: the shared horizon_autumn_mat was changed" % map_id)
