@@ -58,3 +58,16 @@ One SD on 36 games is ~8 points: Fire is clearly high, Ice / Nature low. fs6-mat
 concede, Ice the longest games (18:10). Next (round 5, `fs7-r5`, seeds 9-11, 36 games per arm): give Ice and Nature
 combo A's early-champion / line-defence knobs (`fs7_icn`, no attack_reserve so Ice keeps cause 3's 1), Fire's first
 champion at 4:00 (`fs7_fire_late` = L6), both (`fs7_icn_fire_late`), with combo A as the control.
+
+## Round 5: fs7-r5 (CH seeds 9-11, 36 games per arm, 143 valid / 1 skipped for stale import errors)
+| Arm | Fire | Shadow | Ice | Nature | Spread | Median |
+|---|---|---|---|---|---|---|
+| **combo A (control)** | 44 % | 50 % | 44 % | 61 % | **17** | 16:30 |
+| fs7_fire_late (Fire 1st champion 4:00) | 44 % | 65 % | 59 % | 33 % | 31 | 17:04 |
+| fs7_icn_fire_late | 50 % | 39 % | 28 % | 83 % | 56 | 16:52 |
+| fs7_icn (Ice / Nature get combo A knobs) | 56 % | 44 % | 17 % | 83 % | 67 | 16:50 |
+Giving Ice and Nature the early-champion / line-defence knobs helps Nature a lot and hurts Ice (17 %): the knobs do not
+suit Ice. Fire late alone over-corrects (Shadow 65 %, Nature 33 %). On these seeds combo A alone is already within the
+noise of 50 % for every kingdom (one SD on 36 games ~8 points; Nature +11 is the only edge). **Decision (lead): keep
+combo A, ship no round-5 arm.** Rounds 4b and 5 disagree on Fire (69 % vs 44 %): seed variance is larger than any
+remaining knob effect, so the next balance step needs a unit change (JS's call), not more bot knobs.
