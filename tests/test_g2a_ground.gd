@@ -4,7 +4,7 @@ extends SceneTree
 ## Checks: the G2a scripts / shaders compile; ground.gdshader has bake_mode + relief with defaults that keep today's
 ## look (0 / 0); grass_blades.gdshader's uniforms; GrassClump builds 7 blades (35 verts, 21 tris); GroundDetail.ensure
 ## is a no-op headless (no bake, no node, so tests / perf / bots never pay for it); the tier tables keep Low empty and
-## grow with the tier; MapDressingArt hooks GroundDetail. Prints "G2A_GROUND PASS" or "G2A_GROUND FAIL: ...".
+## grow with the tier; MapDressingArt hooks GroundDetail. Prints "PASS g2a_ground" or "FAIL g2a_ground: ..." (Error Lab format).
 
 const DETAIL := "res://art/environment/grass/ground_detail.gd"
 const CLUMP := "res://art/environment/grass/grass_clump.gd"
@@ -81,9 +81,9 @@ func _run() -> void:
 	_check(dsrc.contains("ground_detail.gd") and (dsrc.contains("\"ensure\"") or dsrc.contains("&\"ensure\"")),
 		"MapDressingArt hooks GroundDetail.ensure")
 	if fails.is_empty():
-		print("G2A_GROUND PASS")
+		print("PASS g2a_ground")
 	else:
-		print("G2A_GROUND FAIL: %d (%s)" % [fails.size(), "; ".join(fails)])
+		print("FAIL g2a_ground: %d (%s)" % [fails.size(), "; ".join(fails)])
 	quit(0 if fails.is_empty() else 1)
 
 

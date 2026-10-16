@@ -333,7 +333,7 @@ foreach ($lf in $logFiles) {
 	$st.tail = $tail.ToArray()
 	for ($i = 0; $i -lt $lines.Count; $i++) {
 		$line = $lines[$i]
-		if ($line -notmatch $CollectRx) { continue }
+		if ($line -cnotmatch $CollectRx) { continue }   # case-sensitive: a test status line "0 script errors" is not a Godot error
 		if ($ExpectedRx.ContainsKey($test) -and $line -match $ExpectedRx[$test]) { continue }
 		if ($line -match $FrameRx) { continue }
 		# The frame: first res:// frame in the next lines (at: or backtrace), else the first at: frame.
@@ -347,7 +347,7 @@ foreach ($lf in $logFiles) {
 		if (-not $file -and $line -match '(res://[^\s"'':]+\.(gd|tscn|tres|gdshader))(:(\d+))?') { $file = $Matches[1]; if ($Matches[4]) { $ln = [int]$Matches[4] } }
 		$norm = Get-Norm $line
 		$sev = "WARN"
-		if ($line -match $InfoRx) { $sev = "INFO" } elseif ($line -match $FailRx) { $sev = "FAIL" }
+		if ($line -match $InfoRx) { $sev = "INFO" } elseif ($line -cmatch $FailRx) { $sev = "FAIL" }
 		if ($sev -eq "FAIL") { $st.script_errors++ }
 		$loc = if ($file) { "${file}:$ln" } elseif ($engine) { "engine $engine" } else { "(no frame)" }
 		# The key uses the function, not the line number, so an edit above the bug does not make it "NEW".
