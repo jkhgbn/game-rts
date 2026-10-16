@@ -13,9 +13,12 @@ extends MissionE7Base
 ##   (the West Crown Bridge and the north-west Crown Steps); while one stands, side-0 units are pushed off the isle (a
 ##   soft wall, the Laurel-ring rule). The island Ember Spire covers the bridge one.
 ## - Clue C3 (the herald) and the boxes are on the east bank (Crown Hollow's south-east quarter).
-## - Story floor: Dacian comes to the sand at the afternoon bell (DUEL_FLOOR, 17:00 normal) even when the truth is found
-##   earlier ("The Laurel is fought at the afternoon bell").
-## - The duel is auto-attacks and spells only (no Sun Cleave / Second Wind); at E12 Aurivane stands down (its field units
+## - Campaign review 2026-10-16: no story floor any more. Dacian comes to the sand DUEL_BREATHE s after the third clue
+##   (the film beats breathe); the third clue also starts the strongbox window (BOX_WINDOW: the bettors come back for
+##   what is left). If the Sun Barricade still stands at BARRICADE_LIMIT, "The causeway holds" = defeat (a passive run
+##   ends instead of stalling).
+## - The duel is auto-attacks and spells plus one telegraphed Sun Cleave every SWING_EVERY s (a ground marker under
+##   Torvald for SWING_WINDUP s, then the hit there: step out of it); no Second Wind. At E12 Aurivane stands down (its field units
 ##   walk home and leave, Vessa goes back to her keep at peace) instead of the D8 truce brawl; Hush has boss numbers and
 ##   flees at 25 % (no Blink Strike / Night of Knives; the Shardguard hint stays).
 
@@ -36,7 +39,15 @@ const DUEL_D := Vector3(3.5, 0.0, -3.5)
 const DUEL_RING := 8.0
 const DUEL_LOSE := 0.75
 const DUEL_DRAW := 90.0
-const DUEL_FLOOR: Array[float] = [900.0, 1020.0, 1140.0]
+const DUEL_BREATHE := 45.0                                    ## Dacian comes this long after the third clue
+const BOX_WINDOW: Array[float] = [150.0, 120.0, 90.0]           ## strongboxes left this long after the third clue
+const BARRICADE_LIMIT: Array[float] = [1380.0, 1200.0, 1080.0]  ## barricade still up = "The causeway holds" (defeat)
+const BARRICADE_WARN := 300.0
+const SWING_FIRST := 6.0
+const SWING_EVERY := 11.0
+const SWING_WINDUP := 1.25
+const SWING_R := 2.5
+const SWING_PCT := 0.15                                       ## of Torvald's max HP
 const BARRICADE_HP: Array[float] = [2200.0, 3000.0, 3600.0]   ## two gatehouses (spec: one 1 500 barricade)
 const DACIAN_HP: Array[float] = [800.0, 950.0, 1050.0]
 const HUSH_HP: Array[float] = [850.0, 1100.0, 1400.0]
@@ -49,6 +60,7 @@ const CITADEL_AT := 345.0
 const W1_AT := 240.0
 const W2_AT := 480.0
 const W4_AT := 780.0
+const W4_AFTER_CLUE2 := 45.0   ## review 2026-10-16: W4 also comes this long after the second clue (no duel floor any more)
 const RELIEF_EVERY := 150.0
 const AMBUSH_LATE := 30.0
 const LEVEL_CAP := 8
@@ -123,7 +135,12 @@ const HINT_CLUE := "Hold Torvald beside a clue (4 s) with no enemy near to read 
 const HINT_SHARDGUARD := "A Shardguard beside Dacian stops her blink and freezes her."
 const MSG_ISLE_SHUT := "The Sun Barricade still stands: the isle is closed."
 const MSG_DACIAN := "Dacian comes to the sand."
-const MSG_DACIAN_BELL := "Dacian will come to the sand at the afternoon bell (%s)."
+const MSG_DACIAN_SOON := "Dacian comes to the sand. Meet him at the Tollrock."
+const MSG_BOXES_WINDOW := "The bettors will be back for their strongboxes in %s."
+const MSG_BOXES_GONE := "The bettors carried off the last strongboxes."
+const MSG_CAUSEWAY_WARN := "Break the Sun Barricade before %s, or the causeway holds and the truth stays buried."
+const MSG_CAUSEWAY_HOLDS := "The causeway holds: you have not broken it."
+const HINT_SWING := "Dacian winds up a Sun Cleave: step out of the marked ground before it lands."
 const MSG_RING := "The Laurel ring is for the duellists alone."
 const MSG_CLUE_REFUSED := "Not with the enemy this close."
 const MSG_VESSA_FELL := "Vessa falls back to the Sun Gate"
@@ -148,6 +165,11 @@ var waves_fired: Array[String] = []
 var knives: Array = []
 var hush_gone := false
 var dacian_arrived := false
+var truth_time := -1.0                   ## mission time the third clue landed (-1 = not yet)
+var clue2_time := -1.0                   ## mission time the second clue landed (-1 = not yet)
+var box_until := -1.0                    ## strongbox window end (-1 = not started)
+var swings_hit := 0
+var swings_dodged := 0
 
 var _tick := 0.0
 var _fast := 0.0
@@ -155,6 +177,9 @@ var _relief_next := -1.0
 var _kneel_until := 0.0
 var _box_props: Array = []
 var _isle_msg_t := 0.0
+var _swing_next := 0.0
+var _swing_at := Vector3.INF
+var _swing_marker: Node3D
 
 
 # ---------------------------------------------------------------- setup
@@ -369,6 +394,8 @@ func objective_text(id: StringName, with_counter := true) -> String:
 		&"sec_aldra":
 			return "Raise a Citadel and call Aldra"
 		&"sec_boxes":
+			if with_counter and box_until > 0.0 and objective_state("sec_boxes") == "active":
+				return "Seize the bettors' strongboxes (%d / 3, %s left)" % [boxes_open, mmss(maxf(0.0, box_until - mission_time()))]
 			if with_counter:
 				return "Seize the bettors' strongboxes (%d / 3)" % boxes_open
 			return "Seize the bettors' strongboxes"
@@ -478,6 +505,8 @@ func _clue_found(cid: StringName) -> void:
 			fire_once(&"E11")
 			play_cutscene(&"e7m2_herald", _herald_end)
 	objectives_changed.emit()
+	if clues_found.size() >= 2 and clue2_time < 0.0:
+		clue2_time = mission_time()
 	if clues_found.size() >= 3:
 		_truth_known()
 
@@ -493,21 +522,54 @@ func _truth_known() -> void:
 	say_l("L16")
 	set_objective(&"obj_truth", "done")
 	set_objective(&"obj_duel", "active")
-	if mission_time() < duel_floor() and hud:
-		hud.show_message(MSG_DACIAN_BELL % mmss(duel_floor()), 6.0)
+	truth_time = mission_time()
+	if objective_state("sec_boxes") == "active" and boxes_open < BOXES.size():
+		box_until = truth_time + float(by_difficulty(BOX_WINDOW))
+		if hud:
+			hud.show_message(MSG_BOXES_WINDOW % mmss(box_until - truth_time), 6.0)
 
 
+## When Dacian comes to the sand: DUEL_BREATHE s after the third clue (no clock floor; review 2026-10-16).
 func duel_floor() -> float:
-	return float(by_difficulty(DUEL_FLOOR))
+	if truth_time < 0.0:
+		return 1.0e9
+	return truth_time + DUEL_BREATHE
 
 
-## Dacian walks to the sand once the truth is known and the afternoon bell has rung.
+## The strongbox window closes: the boxes left are carried off.
+func _tick_box_window() -> void:
+	if box_until < 0.0 or mission_time() < box_until or objective_state("sec_boxes") != "active":
+		return
+	for i in BOXES.size():
+		if fire_once(StringName("box_%d" % i)) and i < _box_props.size() and is_instance_valid(_box_props[i]):
+			(_box_props[i] as Node3D).visible = false
+	set_objective(&"sec_boxes", "failed")
+	if hud:
+		hud.show_message(MSG_BOXES_GONE, 5.0)
+
+
+## A passive run ends: the Sun Barricade still standing at BARRICADE_LIMIT = defeat (warning BARRICADE_WARN s before).
+func _tick_causeway() -> void:
+	if barricades_left() == 0 or objective_state("obj_barricade") != "active":
+		return
+	var limit := float(by_difficulty(BARRICADE_LIMIT))
+	var t := mission_time()
+	if t >= limit - BARRICADE_WARN and fire_once(&"causeway_warn") and hud:
+		hud.show_message(MSG_CAUSEWAY_WARN % mmss(limit), 10.0)
+	if t >= limit and fire_once(&"causeway_holds"):
+		if hud:
+			hud.show_message(MSG_CAUSEWAY_HOLDS, 6.0)
+		set_objective(&"obj_barricade", "failed")
+		lose(DEFEAT_DELAY)
+
+
+## Dacian walks to the sand DUEL_BREATHE s after the truth is known.
 func _tick_dacian() -> void:
 	if not has_fired(&"E11b") or dacian_arrived or mission_time() < duel_floor():
 		return
 	dacian_arrived = true
 	if hud:
-		hud.show_message(MSG_DACIAN, 5.0)
+		hud.show_message(MSG_DACIAN_SOON, 5.0)
 	dacian = make_unit("dacian_story")
 	_spawn(dacian, Unit.Team.NEUTRAL, SOUTH_FOOT)
 	mark_scripted(dacian)
@@ -559,6 +621,8 @@ func _duel_start() -> void:
 	duel_started = mission_time()
 	set_truce([dacian], false, Unit.TRUCE_ALL)
 	dacian.team = Unit.Team.ENEMY
+	_swing_next = mission_time() + SWING_FIRST
+	_swing_at = Vector3.INF
 	hero.death_guard = func(_a: Variant) -> bool:
 		hero.hp = 1.0
 		return true
@@ -581,6 +645,8 @@ func _tick_duel() -> void:
 				hud.show_message(MSG_RING, 4.0)
 	if dacian.attack_target == null and hero_alive():
 		dacian.command_attack(hero)
+	if _swing_at == Vector3.INF and mission_time() >= _swing_next and hero_alive():
+		_swing_telegraph()
 	var outcome := ""
 	if hero.hp < hero.max_hp * DUEL_LOSE:
 		outcome = "lost"
@@ -592,8 +658,43 @@ func _tick_duel() -> void:
 		_duel_end(outcome)
 
 
+## Dacian's Sun Cleave: a marker under Torvald for SWING_WINDUP s, then the hit lands there (step out of it).
+func _swing_telegraph() -> void:
+	_swing_at = Vector3(hero.global_position.x, 0.0, hero.global_position.z)
+	_swing_marker = ground_disc(_swing_at, SWING_R, Color(1.0, 0.55, 0.15, 0.5), 0.06)
+	dacian.set_cast_lock(SWING_WINDUP)
+	if fire_once(&"swing_hint") and hud:
+		hud.show_message(HINT_SWING, 5.0)
+	after(SWING_WINDUP, _swing_land)
+
+
+## Where the Sun Cleave being wound up lands (Vector3.INF = none).
+func swing_target() -> Vector3:
+	return _swing_at
+
+
+func _swing_land() -> void:
+	if _swing_marker and is_instance_valid(_swing_marker):
+		_swing_marker.queue_free()
+	_swing_marker = null
+	var at := _swing_at
+	_swing_at = Vector3.INF
+	_swing_next = mission_time() + SWING_EVERY
+	if duel_state != "on" or at == Vector3.INF or dacian == null or not is_instance_valid(dacian):
+		return
+	flash_ring(at, SWING_R)
+	if hero_alive() and _flat(hero.global_position, at) <= SWING_R:
+		swings_hit += 1
+		hero.take_damage(hero.max_hp * SWING_PCT, dacian)
+	else:
+		swings_dodged += 1
+
+
 func _duel_end(outcome: String) -> void:
 	duel_state = outcome
+	if _swing_marker and is_instance_valid(_swing_marker):
+		_swing_marker.queue_free()
+	_swing_marker = null
 	fire_once(&"E13")
 	hero.death_guard = Callable()
 	dacian.command_stop()
@@ -777,7 +878,8 @@ func _tick_waves() -> void:
 			hud.show_message(HINT_CITADEL, 12.0)
 	if t >= W2_AT:
 		_launch_w2()
-	if not has_fired(&"E12") and t >= W4_AT and clues_found.size() >= 2 and fire_once(&"W4"):
+	var w4_due := t >= W4_AT or (clue2_time >= 0.0 and t >= clue2_time + W4_AFTER_CLUE2)
+	if not has_fired(&"E12") and w4_due and clues_found.size() >= 2 and fire_once(&"W4"):
 		waves_fired.append("W4")
 		var goal := ROCK if rock_owner() == 0 else HARBOUR
 		route_wave(WAVES[&"W4"], SOUTH_FOOT + Vector3(6.0, 0.0, -6.0), [SOUTH_CAUSEWAY], goal)
@@ -894,7 +996,8 @@ func save_state(ids: Dictionary = {}) -> Dictionary:
 	var found: Array = []
 	for c: StringName in clues_found:
 		found.append(String(c))
-	d["e7m2"] = {"clues": found, "boxes": boxes_open, "duel": duel_state, "dacian_arrived": dacian_arrived}
+	d["e7m2"] = {"clues": found, "boxes": boxes_open, "duel": duel_state, "dacian_arrived": dacian_arrived,
+			"truth_t": truth_time, "box_until": box_until, "clue2_t": clue2_time}
 	return d
 
 
@@ -907,6 +1010,9 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	boxes_open = int(m.get("boxes", 0))
 	duel_state = String(m.get("duel", ""))
 	dacian_arrived = bool(m.get("dacian_arrived", false))
+	truth_time = float(m.get("truth_t", -1.0))
+	clue2_time = float(m.get("clue2_t", -1.0))
+	box_until = float(m.get("box_until", -1.0))
 	if tier_system:
 		tier_system.max_tier = 3 if has_fired(&"E4") else 2
 	# Review 2026-10-10 #3: the ambush hooks (Dacian's death, Hush's guard) are set mid-mission.
@@ -958,6 +1064,8 @@ func _physics_process(delta: float) -> void:
 		_tick_ambush_end()
 		_tick_seraphine()
 		_tick_boxes()
+		_tick_box_window()
+		_tick_causeway()
 		_tick_events()
 		objectives_changed.emit()
 		if hud and mission_hud == null:

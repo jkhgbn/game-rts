@@ -113,6 +113,7 @@ const SAVE_METAS := {
 	"e7_mode": "E7M3 mode",
 	"e7_default": "E7M3 default row",
 	"e7_up_at": "E7M4 up at (mission_time)",
+	"e7m4_great": "E7M4 great assault unit (Still the Sea needs them dead after a load)",
 	"fled": "E7M4 Hush fled",
 	"frozen": "E7M4 frozen building",
 	"leg": "E8 fire leg",

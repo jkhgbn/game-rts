@@ -1,8 +1,8 @@
 extends SceneTree
 ## Mission e7m4 timing check (docs/design/mission-e7-04.md acceptance check 1: a scripted headless run on normal - the
 ## army with Malrik onto the Tollrock, the turn, Kesh and Morrow paid home, the rock held, three stages at the
-## lighthouse - ends `victory=true` in 25-30 game minutes, cutscenes included). Still the Sea opens at 22:00 at the
-## earliest, so no rush ends the mission early; `-- --passive` (tests/test_e7m4_passive_sim.gd) checks that doing
+## lighthouse - ends `victory=true` in 19-28 game minutes, cutscenes included). Still the Sea opens once M5 is broken
+## (18:00 at the earliest, 22:00 at the latest; campaign review 2026-10-16); `-- --passive` (tests/test_e7m4_passive_sim.gd) checks that doing
 ## nothing never wins (nobody channels the lighthouse). Real fights, cinematics off; e7m4_dawn 0:15 + two_skies 0:28 +
 ## turn 0:28 + still 0:17 are added to the play time. `-- --seed N`, `-- --verbose`. Slow. Run: godot --headless
 ## --path . -s tests/test_e7m4_sim.gd --fixed-fps 60 --quit-after 120000
@@ -90,7 +90,7 @@ func _play() -> bool:
 			h.check(h.ended != 1, "a passive run won (%s)" % MissionE5Base.mmss(t))
 			return true
 		h.check(h.ended == 1, "defeat at %s (%s)" % [MissionE5Base.mmss(t), _phase])
-		h.check(t + CINE_SECONDS >= 1500.0 and t + CINE_SECONDS <= 1800.0, "play time %s outside 25-30 min" % MissionE5Base.mmss(t + CINE_SECONDS))
+		h.check(t + CINE_SECONDS >= 1140.0 and t + CINE_SECONDS <= 1680.0, "play time %s outside 19-28 min" % MissionE5Base.mmss(t + CINE_SECONDS))
 		return true
 	if passive:
 		return false

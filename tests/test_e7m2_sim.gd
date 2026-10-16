@@ -1,8 +1,7 @@
 extends SceneTree
 ## Mission e7m2 timing check (docs/design/mission-e7-02.md acceptance check 1: a scripted headless run on normal -
 ## Mortars on the barricades, the Citadel, Aldra, the rock, the 3 clues, the duel, the ambush - ends `victory=true` in
-## 18-24 game minutes). The duel waits for the afternoon bell (MissionE7_02.DUEL_FLOOR 14:30), so a rush cannot end the
-## mission early; `-- --passive` (tests/test_e7m2_passive_sim.gd) checks that doing nothing never wins (no clue reads
+## 12-24 game minutes; campaign review 2026-10-16: no duel floor, Dacian comes 45 s after the third clue); `-- --passive` (tests/test_e7m2_passive_sim.gd) checks that doing nothing never wins (no clue reads
 ## itself). Real fights, cinematics off; e7m2_morning 0:12 + herald 0:15 + laurel_call 0:12 + knives 0:06 + mask 0:30
 ## are added to the play time. `-- --seed N`, `-- --verbose`. Slow. Run: godot --headless --path . -s
 ## tests/test_e7m2_sim.gd --fixed-fps 60 --quit-after 100000
@@ -89,7 +88,7 @@ func _play() -> bool:
 			h.check(h.ended != 1, "a passive run won (%s)" % MissionE5Base.mmss(t))
 			return true
 		h.check(h.ended == 1, "defeat at %s (%s)" % [MissionE5Base.mmss(t), _phase])
-		h.check(t + CINE_SECONDS >= 1080.0 and t + CINE_SECONDS <= 1440.0, "play time %s outside 18-24 min" % MissionE5Base.mmss(t + CINE_SECONDS))
+		h.check(t + CINE_SECONDS >= 720.0 and t + CINE_SECONDS <= 1440.0, "play time %s outside 12-24 min" % MissionE5Base.mmss(t + CINE_SECONDS))
 		return true
 	if passive:
 		return false

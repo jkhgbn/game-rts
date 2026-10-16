@@ -4,7 +4,8 @@ extends MissionE7Base
 ## Coinwater. P1 "The Full Strait": Torvald + Malrik (ALLY) against Aurivane, take the Tollrock (or 11:00). P2 "Two
 ## Skies": Malrik buys every dragon, Aurivane withdraws, a truce on the sand (0:40). P3 "The Turn": Malrik orders the
 ## strait burnt, Torvald says no; Malrik's seat turns enemy, Ossavar joins Torvald. P4 "Hold the Rock" against Malrik's
-## assaults (pay his dragons home at the Bazaar). P5 "Still the Sea" from 22:00 (spec 21:00, see below): three channels at the lighthouse.
+## assaults (pay his dragons home at the Bazaar). P5 "Still the Sea" once his great assault (M5) is broken (not before
+## 18:00, at the latest the old 22:00 floor): three channels at the lighthouse.
 ## Then ep7_ending. Spotlight: the Shardguard.
 ##
 ## Built deviations (2026-10-09, from the spec):
@@ -16,8 +17,10 @@ extends MissionE7Base
 ## - The stone's hunger counts deaths within 20 m of the river line (|x| <= 20); Hollow Surge = +15 % damage modifier.
 ## - Pay-offs are a mission button panel (needs the Bazaar). The strait thirds are the river's north reach (west),
 ##   south reach (east) and the moat ring.
-## - Story floor: Still the Sea opens at 22:00 (spec 21:00; the scripted run won at 24:22 play time with 21:00), "the
-##   sea stills at the noon slack tide".
+## - Campaign review 2026-10-16: Still the Sea opens when P4's goal is met (Malrik's great assault M5 broken: at most
+##   P4_LEFT of its units alive, the rock ours), never before STILL_AT (18:00); the old floor (max(22:00, turn + 10:30))
+##   stays as the latest start. The keep mends KEEP_MEND of its max HP at the Turn and again when the sea starts to
+##   still. The stone's hunger says its effect in plain words at 50 / 75 / 100 (HUD + the hold objective).
 
 const MISSION_ID := &"e7m4"
 const MISSION_TITLE := "The Year of Two Skies"
@@ -31,7 +34,11 @@ const W3_AT := 510.0
 const TRUCE_LEN := 40.0
 const GRACE := 10.0
 const SILVER_FIRE := 20.0
-const STILL_AT := 1320.0
+const STILL_AT := 1080.0                ## earliest Still the Sea (18:00)
+const STILL_LATEST := 1320.0            ## the old story floor = the latest start
+const P4_LEFT := 3                      ## units of the great assault still alive when P4's goal counts as met
+const KEEP_MEND := 0.25                 ## of the keep's max HP, at the Turn and when the sea starts to still
+const GREAT_META := &"e7m4_great"       ## on the great assault's units (saved)
 const STILL_AFTER_TURN := 630.0
 const STAGE_GAP := 30.0
 const STAGE_NEED: Array[float] = [10.0, 15.0, 20.0]
@@ -138,7 +145,11 @@ const HINT_START := "Crimson galleys shell the shore. Shardcasters on the bank, 
 const HINT_PAY := "Dragons serve whoever filled the hoard last. Pay them home with the buttons on the right (a Bazaar is needed)."
 const MSG_GRACE := "Malrik pulls back to his harbour"
 const MSG_MALRIK_FELL := "Malrik sinks into the shadows of his hull"
-const MSG_SURGE := "Hollow Surge: Malrik's soldiers strike harder"
+const MSG_SURGE := "The stone's hunger is at 50 %: Malrik's soldiers deal 15 % more damage for 60 s"
+const MSG_HUNGER_75 := "The stone's hunger is at 75 %: at 100 % Malrik's next assault comes at once, a quarter stronger. Fewer deaths by the river slow it."
+const MSG_HUNGER_FULL := "The stone's hunger is full: Malrik's next assault comes now, a quarter stronger. The hunger falls back to 50 %."
+const MSG_GREAT_BROKEN := "Malrik's great assault is broken. The sea can be stilled: go to the lighthouse."
+const MSG_MEND := "Frost knits the Rime Keep's walls (+25 % HP)"
 const MSG_STAGE_READY := "The lighthouse is ready: channel the next stage"
 const MSG_SUNWAKE_SOON := "A dragon is landing on the Tollrock. Auction in 0:30: bid with the Bid buttons"
 
@@ -163,6 +174,7 @@ var stage := 0                          ## stages done (0-3)
 var stage_progress := 0.0
 var stage_ready_at := 0.0
 var victory_time := -1.0
+var p4_done_at := -1.0                  ## mission time P4's goal was met (-1 = not yet)
 var waves_fired: Array[String] = []
 var people := false
 var pits := false
@@ -404,8 +416,10 @@ func objective_text(id: StringName, with_counter := true) -> String:
 		&"obj_hold":
 			if with_counter and rock_lost_for > 0.0:
 				return "Hold the Tollrock against Malrik (lost for %d s)" % int(rock_lost_for)
+			if with_counter and meter >= 50.0:
+				return "Hold the Tollrock against Malrik (the stone's hunger %d %%: at 100 %% his next assault comes at once)" % int(meter)
 			if with_counter:
-				return "Hold the Tollrock against Malrik (the stone's hunger %d %%)" % int(meter)
+				return "Hold the Tollrock against Malrik (the stone's hunger %d %%: at 50 %% his soldiers hit harder)" % int(meter)
 			return "Hold the Tollrock against Malrik"
 		&"obj_still":
 			if with_counter:
@@ -680,6 +694,7 @@ func _turn_end() -> void:
 			set_truce([g], true, Unit.TRUCE_ALL)
 			g.destroyed.connect(_on_silver_sunk)
 	after(SILVER_FIRE, _silver_open_fire)
+	_mend_keep()
 	set_objective(&"obj_hold", "active")
 	set_objective(&"sec_dragons", "active")
 	set_objective(&"sec_silver", "active")
@@ -765,11 +780,53 @@ func _tick_p4(dt: float) -> void:
 			lose(DEFEAT_DELAY)
 	else:
 		rock_lost_for = 0.0
+	_tick_p4_goal()
+	_drop_peaceful_targets()
 	if _surge_until > 0.0 and t >= _surge_until:
 		_surge_until = 0.0
 		for n in get_tree().get_nodes_in_group(&"units"):
 			if n is Unit:
 				(n as Unit).remove_modifier(&"mission:hollow_surge")
+
+
+## P4's goal: the great assault (M5) fired and broken (at most P4_LEFT of its units alive) with the rock ours.
+func _tick_p4_goal() -> void:
+	if p4_done_at >= 0.0 or not has_fired(&"M5") or rock_owner() != 0 or has_fired(&"E17"):
+		return
+	var left := 0
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u and u.is_alive() and u.has_meta(GREAT_META):
+			left += 1
+	if left > P4_LEFT:
+		return
+	p4_done_at = mission_time()
+	if hud:
+		hud.show_message(MSG_GREAT_BROKEN, 6.0)
+
+
+## Side 0 stops chasing a target at peace (a dragon resting at its roost or paid home: TRUCE_ALL). Without it an attack
+## order on a resting dragon parked the army under it in Malrik's quarter, and the paid dragon's flight home led it into
+## his keep (review 2026-10-16: the army fell there at 14:00 and the hold was lost to the next base assault).
+func _drop_peaceful_targets() -> void:
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u == null or not u.is_alive() or Teams.side_of(int(u.team)) != 0:
+			continue
+		if u.attack_target == null or not is_instance_valid(u.attack_target):
+			continue
+		var x := u.attack_target as Unit
+		if x and StringName(x.get_meta(Unit.TRUCE_META, &"")) == Unit.TRUCE_ALL:
+			u.drop_target_if(x)
+
+
+## The keep mends KEEP_MEND of its max HP (the Turn, the start of Still the Sea).
+func _mend_keep() -> void:
+	if keep == null or not is_instance_valid(keep) or not keep.is_alive():
+		return
+	keep.heal(keep.max_hp * KEEP_MEND)
+	if hud:
+		hud.show_message(MSG_MEND, 4.0)
 
 
 func _assault(wave_id: StringName, kind: String, dragon_id: String, mult: float) -> void:
@@ -813,6 +870,8 @@ func _assault(wave_id: StringName, kind: String, dragon_id: String, mult: float)
 	if mult > 1.0:
 		say_l("L33b")
 	for v: Variant in out:
+		if wave_id == &"M5":
+			(v as Unit).set_meta(GREAT_META, true)
 		if _surge_until > 0.0:
 			(v as Unit).add_modifier(&"mission:hollow_surge", {"attack_damage_pct": 0.15})
 
@@ -854,9 +913,13 @@ func _on_any_unit_died(u: Node) -> void:
 			var x := n as Unit
 			if x and x.is_alive() and int(x.team) == Teams.ENEMY_2:
 				x.add_modifier(&"mission:hollow_surge", {"attack_damage_pct": 0.15})
+	if meter >= 75.0 and meter < 100.0 and fire_once(&"hunger_75") and hud:
+		hud.show_message(MSG_HUNGER_75, 6.0)
 	if meter >= 100.0:
 		meter = 50.0
 		fire_once(&"E16")
+		if hud:
+			hud.show_message(MSG_HUNGER_FULL, 6.0)
 		for row: Array in ASSAULTS:
 			if not has_fired(StringName(row[1])) and mission_time() < still_at():
 				fire_once(StringName(row[1]))
@@ -932,10 +995,14 @@ func _malrik_back() -> void:
 
 # ---------------------------------------------------------------- P5: Still the Sea
 
+## When Still the Sea opens: P4's goal met (not before STILL_AT), at the latest max(STILL_LATEST, turn + STILL_AFTER_TURN).
 func still_at() -> float:
 	if turn_time < 0.0:
 		return 1.0e9
-	return maxf(STILL_AT, turn_time + STILL_AFTER_TURN)
+	var latest := maxf(STILL_LATEST, turn_time + STILL_AFTER_TURN)
+	if p4_done_at < 0.0:
+		return latest
+	return minf(latest, maxf(STILL_AT, p4_done_at))
 
 
 func _tick_p5(dt: float) -> void:
@@ -947,6 +1014,7 @@ func _tick_p5(dt: float) -> void:
 		say_l("L34")
 		set_objective(&"obj_still", "active")
 		flash_ring(ROCK, 3.0)
+		_mend_keep()
 	if t < stage_ready_at:
 		return
 	var need := float(by_difficulty(STAGE_NEED))
@@ -1056,7 +1124,7 @@ func _on_player_hero_fell() -> void:
 func save_state(ids: Dictionary = {}) -> Dictionary:
 	var d := super(ids)
 	d["e7m4"] = {"phase": phase, "turn": turn_time, "red": red_sunk, "silver": silver_sunk, "paid": paid.duplicate(),
-			"meter": meter, "peak": meter_peak, "stage": stage}
+			"meter": meter, "peak": meter_peak, "stage": stage, "p4_done": p4_done_at}
 	return d
 
 
@@ -1071,6 +1139,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 	meter = float(m.get("meter", 0.0))
 	meter_peak = float(m.get("peak", 0.0))
 	stage = int(m.get("stage", 0))
+	p4_done_at = float(m.get("p4_done", -1.0))
 	# Review 2026-10-10 #3: guards and hooks on units the load rebuilt (a seat that changed sides spawns new ones).
 	if malrik and is_instance_valid(malrik) and not malrik.died.is_connected(_on_malrik_died):
 		malrik.died.connect(_on_malrik_died)
