@@ -167,6 +167,9 @@ func _ready() -> void:
 	set_health_ratio(_health_ratio)
 	_set_sel(1.0 if _selected else 0.0)
 	_apply_tier()
+	# G-F round 3 item 9: soft violet-grey damage columns that read against the dark keep (KeepDamageSmoke).
+	for s: GPUParticles3D in _smoke:
+		KeepDamageSmoke.tune(s, Color(0.31, 0.28, 0.35), Color(0.41, 0.38, 0.46), 0.45)
 
 
 func _span_of(n: Node3D) -> Vector2:

@@ -494,10 +494,14 @@ static func _static_items() -> Array:
 		it.append(_it(_cyl(0.365, 0.372, 0.1, 8), Vector3(0.0, y, cz), dark, Vector3(0, 22.5, 0)))
 	it.append(_it(_cyl(0.36, 0.31, 0.2, 8), Vector3(0.0, 2.48, cz), team, Vector3(0, 22.5, 0)))
 	it.append(_it(_cyl(0.372, 0.36, 0.06, 8), Vector3(0.0, 2.36, cz), dark, Vector3(0, 22.5, 0)))
-	for sz: float in [-1.0, 1.0]:
-		it.append(_bx(Vector3(0.0, 2.65, cz + sz * 0.29), Vector3(0.74, 0.14, 0.1), dark))
-	for sx: float in [-1.0, 1.0]:
-		it.append(_bx(Vector3(sx * 0.32, 2.65, cz), Vector3(0.1, 0.14, 0.68), dark))
+	# Crown rim (G-F round 3 item 6): a round lip and eight rounded rim stones round the ember mouth, so the top reads
+	# as a round stack, never a square.
+	# Low-poly (6-sided tapered stones, top caps only: the triangle budget) and inside FOOTPRINT_HALF.
+	it.append(_it(_cylc(0.325, 0.34, 0.08, 16, false, false), Vector3(0.0, 2.62, cz), dark))
+	for i: int in 8:
+		var a: float = TAU * (float(i) + 0.5) / 8.0
+		var h: float = 0.13 if i % 2 == 0 else 0.1
+		it.append(_it(_cylc(0.05, 0.075, h, 6, true, false), Vector3(cos(a) * 0.265, 2.66 + h * 0.5, cz + sin(a) * 0.265), dark, Vector3(0, float(i) * 17.0, 0)))
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
 			it.append(_it(_cyl(0.0, 0.07, 0.28, 6), Vector3(sx * 0.32, 2.85, cz + sz * 0.27), bronze, Vector3(0, 0, -sx * 8.0)))
@@ -589,7 +593,7 @@ static func _hot_items() -> Array:
 	for sx: float in [-1.0, 1.0]:
 		it.append(_bx(Vector3(sx * 0.692, 0.7, AXLE.z), Vector3(0.02, 0.3, 0.38), coals))
 	it.append(_it(_cyl(0.5, 0.54, 0.06, 14), Vector3(0.0, 1.27, AXLE.z), coals))
-	it.append(_bx(Vector3(0.0, 2.62, 1.02), Vector3(0.52, 0.04, 0.42), coals))
+	it.append(_it(_cylc(0.26, 0.26, 0.03, 10, true, false), Vector3(0.0, 2.635, 1.02), coals))   # round coal bed (r3: no square)
 	var g0: int = it.size()
 	it.append(_bx(Vector3(0.9, 0.9, -0.66), Vector3(0.07, 0.035, 0.44), molten))
 	it.append(_bx(Vector3(0.9, 0.9, -0.34), Vector3(0.04, 0.03, 0.14), molten))
@@ -603,6 +607,9 @@ static func _pilot_items() -> Array:
 	var molten := m("ec_molten")
 	var it: Array = []
 	it.append(_it(_sph(0.1), Vector3(BANNER.x, 2.89, BANNER.z), molten))
+	# The chimney's pit floor (G-F round 3 item 6): dark ember red with a faint warm glow, never a black hole; the
+	# lit coal bed (HotGlow) sits just above it.
+	it.append(_it(_cylc(0.29, 0.29, 0.02, 10, true, false), Vector3(0.0, 2.61, 1.02), m("ec_pit")))   # over the stack's stone cap (2.6)
 	for sx: float in [-1.0, 1.0]:
 		it.append(_bx(Vector3(sx * 0.3, 2.13, 1.02), Vector3(0.03, 0.34, 0.12), molten, Vector3(0, 0, sx * 1.7)))
 	return it
@@ -656,7 +663,8 @@ static func _body_items() -> Array:
 static func _crust_items() -> Array:
 	var dark := m("ec_dark")
 	var it: Array = []
-	it.append(_it(_cylc(0.42, 0.55, 0.05, 12, true, false), Vector3(0.0, 0.31, 0.0), dark, Vector3(0, 9, 0)))
+	# G-F round 3 item 6: the crust floor is dark ember red (ec_pit, a faint warm glow), not black; the lumps stay dark.
+	it.append(_it(_cylc(0.42, 0.55, 0.05, 12, true, false), Vector3(0.0, 0.31, 0.0), m("ec_pit"), Vector3(0, 9, 0)))
 	for p: Vector3 in [Vector3(0.18, 0.32, 0.12), Vector3(-0.22, 0.32, -0.06), Vector3(0.02, 0.32, -0.26)]:
 		it.append(_it(_sph(0.11), p, dark, Vector3.ZERO, Vector3(1.0, 0.45, 1.0)))
 	return it

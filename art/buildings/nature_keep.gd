@@ -152,6 +152,9 @@ func _ready() -> void:
 	_own_particle_ramps()
 	_cap_motes()
 	_apply_gfx()
+	# G-F round 3 item 9: soft olive-grey damage columns that read against the keep (KeepDamageSmoke).
+	for s: GPUParticles3D in _smoke:
+		KeepDamageSmoke.tune(s, Color(0.36, 0.36, 0.3), Color(0.5, 0.5, 0.44))
 	_build_tier_nodes()
 	set_team_color(_team_color)
 	set_construction_progress(_progress)

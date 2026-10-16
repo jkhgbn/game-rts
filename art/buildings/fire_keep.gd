@@ -17,7 +17,8 @@ signal destroyed_finished
 ## start view. Applied at run time (_crown_fit): the .tscn keeps the builder's output (HEART_Y 16.2, RING_Y 14.0).
 const CROWN_BASE := 12.0      ## the spire's foot (donjon parapet top)
 const CROWN_SQUASH := 0.75    ## crown height x this
-const CROWN_SLIM := 0.82      ## crown width (claws, heart, rune band, crystal ring radius) x this
+const CROWN_SLIM := 0.65      ## crown width (claws, heart, rune band, crystal ring radius) x this (G-F r3: 0.82 -> 0.65)
+const HEART_ENERGY := 2.16    ## the Ember Heart orb's emission (fire_keep_glow heart_energy; G-F r3: 3.6 x 0.6)
 const RING_Y := CROWN_BASE + (14.0 - CROWN_BASE) * CROWN_SQUASH
 const HEART_Y := CROWN_BASE + (16.2 - CROWN_BASE) * CROWN_SQUASH
 const RING_SPEED_DEG := 12.0
@@ -474,6 +475,9 @@ func _crown_fit() -> void:
 	_heart_light.position.y = CROWN_BASE + (_heart_light.position.y - CROWN_BASE) * CROWN_SQUASH
 	var sparks: Node3D = _idle_fx[3]
 	sparks.position.y = HEART_Y
+	# G-F round 3 item 7: the orb's emission x 0.6 (the cage is slimmer too: CROWN_SLIM).
+	if heart_material:
+		heart_material.set_shader_parameter(&"heart_energy", HEART_ENERGY)
 
 
 ## Squash part i vertically about height `b` (Body space), with an optional offset (rumble).
@@ -622,6 +626,9 @@ func _build_state_nodes() -> void:
 		pm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 		pm.emission_sphere_radius = 0.45
 		_smoke.append(_particles("Smoke%d" % (_smoke.size() + 1), _body, pos, 30, 3.5, pm, mix_quad, false))
+	# G-F round 3 item 9: soft warm-grey columns that read against the dark walls (KeepDamageSmoke).
+	for s: GPUParticles3D in _smoke:
+		KeepDamageSmoke.tune(s, Color(0.36, 0.33, 0.31), Color(0.52, 0.5, 0.48))
 	# G-F keep damage (docs/art/gf_keep_damage.md): the blaze used the brazier ramp (born pale yellow 1 / 0.92 / 0.55 at
 	# alpha 1); 24 additive quads at the plume's core summed to white. Its own ramp keeps the fire hues at an alpha whose
 	# stack of 6 stays <= 1.0 on the brightest channel (under the glow threshold, the core stays orange).

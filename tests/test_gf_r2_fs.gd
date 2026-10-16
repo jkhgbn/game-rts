@@ -91,14 +91,15 @@ func _process(_delta: float) -> bool:
 func _check_static() -> void:
 	# --- Fire keep crown (item 4).
 	var spire := _fk.get_node(^"Body/Spire") as Node3D
-	_check(absf(spire.scale.y - 0.75) < 0.01 and absf(spire.scale.x - 0.82) < 0.01, "spire not squashed / slimmed: %s" % spire.scale)
+	_check(absf(spire.scale.y - 0.75) < 0.01 and absf(spire.scale.x - FireKeepModel.CROWN_SLIM) < 0.01, "spire not squashed / slimmed: %s" % spire.scale)
 	var heart := _fk.get_node(^"Body/EmberHeart") as Node3D
 	_check(heart.position.y < 15.5 and heart.position.y > 14.8, "heart not lowered: %.2f" % heart.position.y)
 	var ring := _fk.get_node(^"Body/Ring") as Node3D
-	_check(ring.position.y < 13.9 and absf(ring.scale.x - 0.82) < 0.01, "ring not lowered / slimmed: y %.2f s %.2f" % [ring.position.y, ring.scale.x])
+	_check(ring.position.y < 13.9 and absf(ring.scale.x - FireKeepModel.CROWN_SLIM) < 0.01, "ring not lowered / slimmed: y %.2f s %.2f" % [ring.position.y, ring.scale.x])
 	var crystal := _fk.get_node(^"Body/Ring/Crystal1") as Node3D
 	var rad: float = Vector2(crystal.global_position.x - _fk.global_position.x, crystal.global_position.z - _fk.global_position.z).length()
-	_check(rad < 2.8 and rad > 2.4, "crystal ring radius %.2f (want ~2.67)" % rad)
+	var want: float = 3.25 * FireKeepModel.CROWN_SLIM   # G-F r3: 0.65 -> ~2.11 m (r2: 0.82 -> 2.67)
+	_check(absf(rad - want) < 0.2, "crystal ring radius %.2f (want ~%.2f)" % [rad, want])
 	_check((_fk.get_node(^"Body/RuneTilt") as Node3D).scale.x < 0.9, "rune band not slimmed")
 	_check(not (_fk_site.get_node(^"Body/Ring") as Node3D).visible, "keep site shows the crystal ring")
 	# --- Crucible glows through the cap.
@@ -155,7 +156,7 @@ func _check_built() -> void:
 		_check(not (m.get_node(^"SitePad") as Node3D).visible, "%s built: pad still shown" % m.name)
 		_check(not (m.get_node(^"Scaffold") as Node3D).visible, "%s built: scaffold still shown" % m.name)
 	var ring := _fk_site.get_node(^"Body/Ring") as Node3D
-	_check(absf(ring.scale.x - 0.82) < 0.02, "built keep site: ring scale %.2f after appearing" % ring.scale.x)
+	_check(absf(ring.scale.x - FireKeepModel.CROWN_SLIM) < 0.02, "built keep site: ring scale %.2f after appearing" % ring.scale.x)
 
 
 ## Distinct team multipliers in the model's merged painted_vc surfaces (team vertices: COLOR.a == 0).
