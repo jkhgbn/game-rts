@@ -12,6 +12,10 @@ extends RefCounted
 ##   group "snowbanks" (its MeshInstance3D child gets a drift), the rock snow caps (level children with a SphereMesh in
 ##   the old bank white), the lake in group "glasswater_lake" (its "IceDisc" + a ShoreLip), then GroundDetail.refresh().
 ##   Mission 2 calls it at the end of `_build_map` (docs/handoff/for-systems-coder.md); no colliders, nav or gameplay change.
+## - G-F review 2 item 11 (docs/art/gf_m02.md): `dress_level` also gives a level without MapDressing a snow border
+##   (`add_snow_border`: the Crown Hollow cliff + plateau meshes as snow-capped granite (env_painted.gdshader
+##   `cliff_snow`) and a snow plateau whose painted canopy is sparse fir stands on snow (ground.gdshader snow_border),
+##   120 m maps only) and dresses every Frozen Emberguard block / Sentinel ice shell already built (FrozenBlockArt).
 
 const GROUND_SHADER := "res://art/environment/ground.gdshader"
 const DRIFT_SHADER := preload("res://art/environment/snow/snow_drift.gdshader")
@@ -20,6 +24,11 @@ const GAME_SETTINGS_PATH := "res://scripts/ui/menus/game_settings.gd"
 const META := &"_frozen_look"
 const OLD_BANK_WHITE := Color(0.92, 0.94, 0.98)   ## mission_02.gd BANK_COLOR (the placeholder caps to restyle)
 const SPARKLE: Array[float] = [0.0, 0.7, 1.0, 1.0]   ## glint strength per tier (Low = none)
+const CLIFF_MESH := "res://art/environment/meshes/map_cliffs.res"
+const PLATEAU_MESH := "res://art/environment/meshes/map_plateau.res"
+const CLIFF_MAT := "res://art/environment/cliff_mat.tres"
+const PLATEAU_MAT := "res://art/environment/plateau_mat.tres"
+const BORDER_HALF := 60.0   ## the cliff / plateau meshes ring a 120 x 120 map
 
 ## Ground values (ground.gdshader uniforms). Lit snow lands at ~0.78 on screen under the ice preset (measured in
 ## docs/art/ge_fixes_b.md), shade ~0.6 blue.
@@ -197,7 +206,51 @@ static func dress_level(level: Node) -> bool:
 	for gd: Node in level.find_children("GroundDetail", "", false, false):
 		if gd.has_method(&"refresh"):
 			gd.call(&"refresh")
+	add_snow_border(level)
+	for ice: Node in level.find_children("IceBlock", "Node3D", true, false):
+		if ice.get_parent() is Node3D and ice.get_parent().has_signal(&"lit_up"):
+			FrozenBlockArt.dress_block(ice.get_parent() as Node3D)
+	for shell: Node in level.find_children("IceShell", "MeshInstance3D", true, false):
+		FrozenBlockArt.dress_shell(shell as MeshInstance3D)
 	return found
+
+
+## Snow-capped cliffs + a snow plateau round a 120 m level that has no MapDressing (draw-only, no collider). Null when
+## the level has one, is another size, or the meshes are missing; the node "SnowBorder" otherwise (idempotent).
+static func add_snow_border(level: Node) -> Node3D:
+	if level == null or level.get_node_or_null(^"MapDressing") != null:
+		return null
+	var existing := level.get_node_or_null(^"SnowBorder") as Node3D
+	if existing:
+		return existing
+	if absf(MapInfo.half_x() - BORDER_HALF) > 0.5 or absf(MapInfo.half_z() - BORDER_HALF) > 0.5:
+		return null
+	if not (ResourceLoader.exists(CLIFF_MESH) and ResourceLoader.exists(PLATEAU_MESH)):
+		return null
+	var root := Node3D.new()
+	root.name = "SnowBorder"
+	level.add_child(root)
+	var cliffs := MeshInstance3D.new()
+	cliffs.name = "Cliffs"
+	cliffs.mesh = load(CLIFF_MESH) as Mesh
+	cliffs.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+	var cm := (load(CLIFF_MAT) as ShaderMaterial).duplicate() as ShaderMaterial if ResourceLoader.exists(CLIFF_MAT) else null
+	if cm:
+		cm.set_shader_parameter(&"cliff_snow", 1.0)
+		cm.set_shader_parameter(&"cliff_foot", Color(0.36, 0.41, 0.50))
+		cliffs.material_override = cm
+	root.add_child(cliffs)
+	var plateau := MeshInstance3D.new()
+	plateau.name = "Plateau"
+	plateau.mesh = load(PLATEAU_MESH) as Mesh
+	plateau.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	plateau.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+	var pm := (load(PLATEAU_MAT) as ShaderMaterial).duplicate() as ShaderMaterial if ResourceLoader.exists(PLATEAU_MAT) else null
+	if pm:
+		apply_ground(pm)
+		plateau.material_override = pm
+	root.add_child(plateau)
+	return root
 
 
 static func _dress_bank(body: Node3D, snow: ShaderMaterial) -> void:

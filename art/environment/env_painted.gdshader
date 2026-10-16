@@ -30,6 +30,11 @@ uniform vec3 cliff_foot : source_color = vec3(0.17, 0.18, 0.23);
 uniform float cliff_foot_height = 2.4;
 uniform float cliff_top_smooth = 0.75;
 uniform vec2 cliff_sun_xz = vec2(0.64, 0.77);   // direction TO the sun on the ground (preset_warm): walls turned away get darker
+// G-F review 2 item 11 (FrozenLook.dress_level, mission 2's snow border; 0 = off, every other map): the same cliffs as
+// cold blue-grey granite with snow on the caps and ledges (broken, deeper on flatter faces) and frost in the streaks.
+uniform float cliff_snow = 0.0;
+uniform vec3 snow_cap : source_color = vec3(0.74, 0.79, 0.86);
+uniform vec3 snow_rock : source_color = vec3(0.40, 0.44, 0.52);
 
 varying vec3 v_wp;
 varying vec3 v_wn;
@@ -106,6 +111,15 @@ void fragment() {
 		float cap = smoothstep(0.6, 0.9, n.y) * step(v_col.r * 1.15, v_col.g) * cliff_paint;
 		vec3 cap_col = mix(albedo, vec3(dot(albedo, vec3(0.30, 0.59, 0.11))), 0.3) * vec3(0.74, 0.78, 0.86);
 		albedo = mix(albedo, cap_col * (0.82 + na * 0.36), cap);
+		if (cliff_snow > 0.0) {
+			// Granite: the painted value pattern kept, hue pulled to a cold grey-blue.
+			float lum = dot(albedo, vec3(0.30, 0.59, 0.11));
+			vec3 rock = snow_rock * (lum / max(dot(v_col, vec3(0.30, 0.59, 0.11)), 0.05)) * 0.9;
+			albedo = mix(albedo, rock, cliff_snow);
+			// Snow wherever the face looks up enough to hold it, broken by the noise; frost in the streaks.
+			float hold = smoothstep(0.55, 0.8, n.y + (nb - 0.5) * 0.18);
+			albedo = mix(albedo, snow_cap * (0.88 + na * 0.18), hold * cliff_snow);
+		}
 		// Cool dark foot where the wall meets the map floor.
 		float foot = 1.0 - smoothstep(-0.3, cliff_foot_height, v_wp.y + (na - 0.5) * 0.8);
 		albedo = mix(albedo, cliff_foot * (0.8 + na * 0.4), foot * 0.6 * cliff_paint);

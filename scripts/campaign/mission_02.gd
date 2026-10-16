@@ -17,6 +17,7 @@ signal orb_claimed(wizard: Wizard)
 const MISSION_ID := &"m02"
 const MISSION_TITLE := "The Orb Beneath the Ice"
 const MAP_SEED := 1202
+const FROZEN_BLOCK_ART := "res://art/environment/snow/frozen_block_art.gd"   # Sentinel shell look (tech-artist), load-guarded
 
 const EMBER_HALL_POS := Vector3(-27.0, 0.0, 45.0)
 const GLOOM_HALL_POS := Vector3(27.0, 0.0, -45.0)
@@ -768,6 +769,11 @@ func _add_shell(u: Unit) -> void:
 	mi.material_override = m
 	mi.position.y = 1.8
 	u.add_child(mi)
+	# G-F review 2 item 11: faceted ice shell from the tech-artist (draw-only; _shatter_shell still frees "IceShell").
+	if ResourceLoader.exists(FROZEN_BLOCK_ART):
+		var fba := load(FROZEN_BLOCK_ART) as Script
+		if fba and fba.has_method(&"dress_shell"):
+			fba.call(&"dress_shell", mi)
 
 
 func _shatter_shell(u: Unit) -> void:

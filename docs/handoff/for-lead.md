@@ -289,3 +289,47 @@ _mesh_node(st.commit(), plate_mat if plate_mat else unlit(Color.WHITE, false, tr
    The art now replants them in windowed runs (`art/environment/lane_dressing/forest_replant.gd`, via LevelLooks, after
    `EnvProps.commit()`: treeline + clusters + glades, 3 sizes, every tier). Nothing is needed; if the grid code is ever
    touched, it can stay as is (the replant drops every instance inside a forest block + 1.8 m and plants its own).
+
+## From tech-artist, G-F Shadow leftovers (2026-10-15): Building's own site outline (scripts/buildings/, systems-coder)
+Every construction site draws TWO footprint squares: the model's glowing outline (art, now calm on Shadow:
+`SiteOutline`) and `Building._build_outline()` (`scripts/buildings/building.gd` ~l.703): four 0.1 m unshaded
+`StandardMaterial3D` bars in the full `team_color` (violet on Shadow), shown by `_update_look()` while `site`.
+With a model it is now the loudest line of a Shadow site (`docs/art/lab/gf_shadow_left/after/site_tower_p000_z12.jpg`:
+the inner square). Request, precise:
+1. In `_update_look()`, show `_outline` only when there is no art model: `_outline.visible = site and not
+   (_model and _model.has_method(&"set_construction_progress"))` (the model already draws its own site outline,
+   pad and scaffold; the placeholder box art still needs the line).
+2. If a footprint line must stay with a model (placement read), grade it instead: `mat.albedo_color =
+   Color.from_hsv(team_color.h, minf(team_color.s, 0.4), minf(team_color.v, 0.7))` and `w := 0.05`.
+Tests that look at `BuildOutline` (`test_10_v*`, `test_13_v25`, `test_a2_6`) read the MODEL's node of that
+name, not Building's `_outline`, so option 1 does not touch them.
+
+## From tech-artist, G-F review 2 item 9 (2026-10-15): Thornwater identity, the data side (optional, four-wizards-high)
+The art now gives Thornwater its own look in windowed runs (`art/environment/thornwater/`, via LevelLooks; note
+`docs/art/gf_thornwater.md`): marsh-meadow ground, peaty water, reed beds, thickets, a fen-wood border belt and four
+thorn spires in the moat. It keys on the layout id `thornwater`, so nothing is needed. Data ideas that would go further
+(World Forge `data/maps/thornwater.map`, then the gate):
+1. **Catalog / layout biome**: `biome=meadow` -> `marsh` (catalog entry + `.map` header) would let biome-driven art
+   (AmbientLife mood, future scatters) treat it as wet; the hook text could name the reeds / thorns ("A winding river
+   through a reed marsh..."). Check first that nothing keys gameplay on `meadow`.
+2. **Border shape**: the map edge is still a straight 120 m square; a few `block kind=cliff` bays / outcrops (2-4 m
+   deep, mirrored) would break the box for real (the art can only dress it).
+3. **Corner silhouettes**: the shared horizon (`art/environment/horizon/`, baked for Crown Hollow) shows the same
+   aqueduct (W) and octagonal pond (E) on every map. A per-map horizon or hiding those on non-Crown-Hollow maps is
+   an art task (tech-artist) if wanted; noted in the gf_thornwater note.
+
+## From tech-artist, G-F review 2 item 11 (2026-10-15): m02 Sentinel ice shells (scripts/campaign/mission_02.gd)
+The frozen Emberguard blocks and the snow border need nothing: the existing `FrozenLook.dress_level(self)` call at the
+end of `_build_map()` now also dresses every block (`FrozenBlockArt.dress_block`) and adds the snow-capped cliffs
+(note `docs/art/gf_m02.md`). The two Sentinel shells are made later (`_spawn_sentinels`, after the navmesh bake), so
+they still show the old cyan box. One load-guarded hook, at the end of `_add_shell(u)`, right after `u.add_child(mi)`:
+```gdscript
+	# G-F review 2 item 11: faceted ice shell from the tech-artist (draw-only; _shatter_shell still frees "IceShell").
+	if ResourceLoader.exists("res://art/environment/snow/frozen_block_art.gd"):
+		var fba := load("res://art/environment/snow/frozen_block_art.gd") as Script
+		if fba and fba.has_method(&"dress_shell"):
+			fba.call(&"dress_shell", mi)
+```
+It keeps the node name, position (y 1.8) and collider-free setup, so `_shatter_shell` and saves are unchanged.
+Optional (systems-coder, cosmetic): `scripts/campaign/frozen_emberguard.gd` header still says "Placeholder art (M9.V1)";
+the art now replaces its box / capsules / stump in place (hidden, not freed, so `_on_thawed` / `load_row` still work).

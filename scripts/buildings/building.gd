@@ -669,7 +669,8 @@ func _update_look() -> void:
 			mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA if site else BaseMaterial3D.TRANSPARENCY_DISABLED
 			mat.albedo_color.a = SITE_ALPHA if site else 1.0
 		if _outline:
-			_outline.visible = site
+			# An art model that draws its own site (BuildOutline) owns the footprint line.
+			_outline.visible = site and not (_model and _model.has_method(&"set_construction_progress"))
 	if _model and _model.has_method(&"set_construction_progress"):
 		if not _dead:
 			_model.call(&"set_construction_progress", _progress)   # the model shows its own site

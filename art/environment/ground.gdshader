@@ -577,11 +577,19 @@ vec3 road_paint(vec2 p, vec4 r, float sid, vec3 grass, float px, float mid, floa
 	return pebbles(p + vec2(sid * 3.1, 0.0), c, px, 0.8);
 }
 
+// Smooth value noise from the cell hash (no texture: safe in any branch).
+float cell_vn(vec2 q) {
+	vec2 i = floor(q);
+	vec2 f = fract(q);
+	f = f * f * (3.0 - 2.0 * f);
+	return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+
 // Painted canopy seen from above: overlapping round crowns with a lit sun side.
 // canopy_crown: the crown over p as (shade value before posterising, inside 0 / 1, crown hash); `grad` = d value / d p
 // (analytic, inside the winning crown; 0 where the value is clamped).
-vec3 canopy_crown(vec2 p, out vec2 grad) {
-	float cs = 3.4;
+vec3 canopy_crown(vec2 p, float sparse, out vec2 grad) {
+	float cs = sparse > 0.5 ? 2.2 : 3.4;   // snow: finer crowns (a stand texture at range, not big scales)
 	vec2 g = p / cs;
 	vec2 id = floor(g);
 	float best = 9.0;
@@ -596,7 +604,17 @@ vec3 canopy_crown(vec2 p, out vec2 grad) {
 			vec2 h = hash2(cid);
 			vec2 cpos = (cid + 0.5 + (h - 0.5) * 0.7) * cs;
 			float r = 1.7 + h.x * 1.3;
-			float d = length(p - cpos) / r;
+			if (sparse > 0.5) {
+				// G-F r2 item 11 (snow): stands and glades. A cell keeps its fir only where the clump noise allows,
+				// sizes vary more (0.55-1.25 x), so the frame reads as fir clumps on snow, not a scale mail.
+				float clump = cell_vn(cid * 0.21 + vec2(3.7, 1.9));
+				float keep = smoothstep(0.32, 0.68, clump);
+				r *= 0.42 + 0.4 * fract(h.y * 7.31);
+				if (hash(cid + vec2(17.3, 5.1)) > keep) {
+					r = -1.0;
+				}
+			}
+			float d = r > 0.0 ? length(p - cpos) / r : 9.0;
 			// The crown whose surface is "highest" here wins (dome height minus distance), so crowns overlap.
 			float top = (1.0 - d * d) * r + h.y * 0.6;
 			if (d < 1.0 && top > height) {
@@ -632,20 +650,44 @@ vec3 canopy_paint(vec3 k, float vp, float stand) {
 	return mix(canopy_dark * 0.45, c, k.y);
 }
 
+// G-F r2 item 11: the snow-map border (snow_mode). Sparse fir crowns (canopy_crown sparse) on open snow; each fir
+// throws a short cool shadow away from the sun; the snow between is the map's own snow, a touch darker with the
+// stand noise. No derivatives (callers pass the posterised shade).
+vec3 snow_border(vec2 p, vec3 k, float vp, float stand) {
+	vec3 snow = mix(grass_dark, grass_light, 0.5 + (stand - 0.5) * 0.5) * 0.94;
+	vec2 g2;
+	vec3 ks = canopy_crown(p + sun_dir * 0.9, 1.0, g2);
+	snow = mix(snow, snow * snow_shade * 0.88, ks.y * 0.45);
+	// Snow-laden crowns: dark needles only on the shade side and at the rim, snow on the lit top.
+	float sn = smoothstep(0.5, 0.9, vp + (k.z - 0.5) * 0.4);
+	vec3 fir = mix(canopy_dark * (1.5 + vp * 0.9), canopy_light * 0.9, sn * 0.45);
+	fir *= 0.88 + stand * 0.24;
+	return mix(snow, fir, k.y);
+}
+
 // Uniform-branch callers only (takes derivatives).
 vec3 canopy(vec2 p, float px) {
 	vec2 grad;
-	vec3 k = canopy_crown(p, grad);
-	return canopy_paint(k, poster(k.x, 4.0), nz(p * 0.018 + vec2(4.4, 1.7)));
+	float sparse = step(0.5, snow_mode);
+	vec3 k = canopy_crown(p, sparse, grad);
+	float vp = poster(k.x, 4.0);
+	float stand = nz(p * 0.018 + vec2(4.4, 1.7));
+	if (snow_mode > 0.5) {
+		return snow_border(p, k, vp, stand);
+	}
+	return canopy_paint(k, vp, stand);
 }
 
 // Per-pixel-branch callers: no derivative here; dpx / dpy = dFdx / dFdy of p taken before the branch (shader lint B).
 // The shade's width comes from the chain rule, the stand noise from textureGrad (same mip as the implicit read).
 vec3 canopy_grad(vec2 p, vec2 dpx, vec2 dpy) {
 	vec2 grad;
-	vec3 k = canopy_crown(p, grad);
+	vec3 k = canopy_crown(p, step(0.5, snow_mode), grad);
 	float fw = abs(dot(grad, dpx)) + abs(dot(grad, dpy));
 	float stand = textureGrad(noise_tex, p * 0.018 + vec2(4.4, 1.7), dpx * 0.018, dpy * 0.018).r;
+	if (snow_mode > 0.5) {
+		return snow_border(p, k, poster_w(k.x, 4.0, fw), stand);
+	}
 	return canopy_paint(k, poster_w(k.x, 4.0, fw), stand);
 }
 
@@ -1047,6 +1089,9 @@ void fragment() {
 		// (MAP.P1: darker and cooler than the play space so the map reads as a lit hollow in a shady forest.)
 		vec3 floor_c = mix(grass * 0.55, clover_color, 0.35) * vec3(0.90, 0.95, 1.0);
 		floor_c = grass_details(p, floor_c, px, 0.8, 0.0);
+		if (snow_mode > 0.5) {
+			floor_c = col * 0.9;   // G-F r2 item 11: the snow plateau stays snow (no forest-floor band without trees)
+		}
 		float cz = smoothstep(canopy_start - 1.0, canopy_start + 1.0, od + (mid - 0.5) * 6.0);
 		col = mix(floor_c, canopy(p, px), cz);
 		col = mix(col, haze_color, smoothstep(canopy_start + 10.0, canopy_start + 90.0, od) * 0.75);
