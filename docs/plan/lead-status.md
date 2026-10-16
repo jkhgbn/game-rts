@@ -12,7 +12,8 @@ History: `docs/plan/history/lead-status-2026-09.md`, restart notes `docs/ideas/r
   No new play worktree (disk); `four-wizards-rts-play` still at 9f338fc1.
 - CI worktree `four-wizards-rts-ci` at the tag. Full CI `playtest-2026-10-16` (-Parallel 4): import / smoke / perf PASS,
   568 / 576 tests; the 8 fails = the load-sensitive mission sims (e2m1 / e2m2 / e2m4 / e3m2 / e7m1 / e7m4 / e8m3) +
-  test_9_c9; re-run at -Parallel 2: `docs/ci/playtest-2026-10-16-rerun` (result below in "Next").
+  test_9_c9; re-run at -Parallel 2: 4 pass, e2m2 / e3m2 / e7m4 / e8m3 still fail. e3m2 bisected to 2c1b2673 (visual
+  only: building HP bars) = the sims flip on cosmetic changes, not a difficulty change (triage in that run's ci.md).
 - Disk: C: ~3.1 GB free. Local-only lab PNGs ~3.4 GB in `docs/art/lab` (git-excluded): delete only with JS's OK (asked).
 - Weekly usage 81 % (resets 2026-10-18 05:00 UTC). Stop new waves at 85 %, keep 8 % reserve.
 
@@ -32,4 +33,5 @@ History: `docs/plan/history/lead-status-2026-09.md`, restart notes `docs/ideas/r
 - Quartermeet bridges read pale (granite). Nature keep smoke starts above the canopy. Fire keep "drop outer ring at tier 1".
 - Team ring off at Low; `TEAM_RING_ALPHA` may be weak on dirt. `em_cloth` ownership table vs owners.json mismatch.
 - "1 resources still in use at exit" in every test (global).
+- Mission sims (e2m2, e3m2, e7m4, e8m3) flip on cosmetic commits: root-cause pass (order / RNG dependency or multi-seed).
 - Older list (2026-10-14): Wave Strike balance, e3m3 lambda warning, UI Lab `hud_research`, tooltip delay, music.md mono note.
