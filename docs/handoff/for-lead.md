@@ -340,3 +340,11 @@ one LOOKS entry in `art/environment/level_looks.gd`, `tests/test_gf_quartermeet.
 horizon owner: the horizon backdrop (`horizon_mat`, art/environment/horizon/) still shows the shared autumn orange on
 Quartermeet; a per-map tint (paler gold / slate hills) keyed on layout id `quartermeet` would finish the look. It must
 leave Ashwind Reach unchanged.
+
+## 2026-10-15 G-F crown isle variants (tech-artist)
+
+The Crown Isle now has a per-map variant (`docs/art/gf_crown_isle.md`, `art/environment/crown_variants/`,
+`tests/test_gf_crown_isle.gd`), hooked from `CrownPedestalArt._ready` (no lead hook needed). New `class_name
+CrownIsleVariant`: run `--import` once. Optional follow-up for the bridges owner (`art/environment/bridges/`): a
+timber-plank deck variant of the crown lane bridge / steps for Thornwater; today they are only repainted (peat-dark,
+mossier stone) through level-local mesh copies.

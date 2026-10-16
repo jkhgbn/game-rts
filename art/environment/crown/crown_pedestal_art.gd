@@ -66,6 +66,8 @@ const CORE_TINT := Color(1.0, 0.86, 0.6)
 const LIGHT_ENERGY := 1.4
 const LIGHT_RANGE := 9.0
 const STONE_MAT := "res://art/environment/crown/crown_stone_mat.tres"   ## High+: dressed stone lit by the crown
+## G-F crown isle variants (docs/art/gf_crown_isle.md): each layout map's own isle look (none on Crown Hollow).
+const ISLE_LOOK := "res://art/environment/crown_variants/crown_isle_look.gd"
 var _core: GeometryInstance3D
 var _light: OmniLight3D
 var _stone: GeometryInstance3D
@@ -95,6 +97,15 @@ func _ready() -> void:
 	_update_state(true)
 	_snap()
 	_apply(0.0)
+	if ResourceLoader.exists(ISLE_LOOK):
+		_apply_isle_look.call_deferred()
+
+
+## The map's crown isle variant (after the level finished building: the altar is spawned after the props / river).
+func _apply_isle_look() -> void:
+	var s := load(ISLE_LOOK) as Script
+	if s and is_inside_tree():
+		s.call(&"ensure_for_pedestal", self)
 
 
 ## The G-D tier pieces for graphics tier q (0 Low .. 3 Ultra): High+ BeaconCore + the crown-lit stone, Ultra the
