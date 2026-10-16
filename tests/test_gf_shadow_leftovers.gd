@@ -4,7 +4,7 @@ extends SceneTree
 ## Checks: the Night Spire's collar is a slate crown (many vertices, three team shades, still ONE merged surface, the
 ## mirror team colour follows); its hooks still work (site, collapse finishes); the Shadow construction outline is calm
 ## (thin bars, low energy, slow pulse, glow saturation <= 0.4 / value <= 0.7, also after a team colour change) on the
-## Night Spire, Hovel, Gloom Hall and Gloom Stables, while the Fire models keep the default outline.
+## Night Spire, Hovel, Gloom Hall and Gloom Stables, and (G-F round 3, gf_r3_sites.md) on the Fire models too.
 
 const TASK_ID := "gf_shadow_leftovers"
 const SPIRE := "res://art/buildings/shadow_tower.tscn"
@@ -117,8 +117,9 @@ func _check_outlines(stage: String) -> void:
 		var ol := m.get_node_or_null(^"BuildOutline") as GeometryInstance3D
 		var mat := m.get(&"_outline_mat") as ShaderMaterial
 		var fe: float = float(mat.get_shader_parameter(&"energy")) if mat else -1.0
-		_check(absf(fe - 2.0) < 0.01, "%s %s: Fire outline energy %.2f" % [m.name, stage, fe])
-		_check(_bar_width(ol) >= 0.19, "%s %s: Fire outline bar narrowed" % [m.name, stage])
+		# G-F round 3 sites (docs/art/gf_r3_sites.md): every kingdom's site outline is the calm one now.
+		_check(fe >= 0.0 and fe <= 0.6, "%s %s: Fire outline energy %.2f (want calm)" % [m.name, stage, fe])
+		_check(_bar_width(ol) <= 0.13, "%s %s: Fire outline bar %.2f m (want calm)" % [m.name, stage, _bar_width(ol)])
 
 
 func _bar_width(ol: GeometryInstance3D) -> float:

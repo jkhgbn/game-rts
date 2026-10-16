@@ -114,8 +114,15 @@ var _build_dust: GPUParticles3D
 var _dust: GPUParticles3D
 var _outline: MultiMeshInstance3D
 var _outline_mat: ShaderMaterial
-## G-F Shadow leftovers: a thin, dim, saturation-capped construction outline (SiteOutline; set in _setup_palette()).
-var outline_calm: bool = false
+## G-F Shadow leftovers: a thin, dim, saturation-capped construction outline (SiteOutline). G-F round 3: every kingdom.
+var outline_calm: bool = true
+## G-F round 3 sites (docs/art/gf_r3_sites.md): the shared worked-earth site pad (SiteOutline.make_pad), its kingdom
+## ("" = from glow_color) and half size; below SITE_PLINTH_AT no Body part shows (a squashed plinth is a black slab).
+const SITE_PLINTH_AT := 0.07
+var site_kingdom: StringName = &""
+var site_half: float = 3.3
+var _site_pad: MeshInstance3D
+var _site_timber: ShaderMaterial
 var _rubble: MultiMeshInstance3D
 var _rubble2: MultiMeshInstance3D
 var _debris: MultiMeshInstance3D
@@ -160,6 +167,8 @@ func _ready() -> void:
 		mat_team.set_shader_parameter(&"crack_energy", crack_glow)
 		if _gb_fire():
 			GBF.apply(mat_team)   # G-B: the Fire paint layer (same vertex contract and uniforms)
+			if _site_pad:
+				GBF.apply(_site_pad.material_override as ShaderMaterial)   # G-F round 3: the site pad too
 	if _budget_wanted() and mat_banner and mat_banner.shader == BANNER:
 		mat_banner.set_shader_parameter(&"glyph_energy", 0.2)   # R5: the glyph reads as paint, not as a glow point
 	_make_light_pool()
@@ -228,7 +237,7 @@ func set_construction_progress(p: float) -> void:
 			part.visible = true
 			continue
 		var b: float = _part_b[i]
-		if h < b:
+		if h < b or _progress < SITE_PLINTH_AT:
 			part.visible = false
 			continue
 		part.visible = true
@@ -238,7 +247,8 @@ func set_construction_progress(p: float) -> void:
 	for hz: Node3D in _hazes:
 		hz.visible = not building
 	if _scaffold:
-		_scaffold.visible = building and _progress > 0.0
+		_scaffold.visible = building   # G-F round 3: the timber scaffold from the first frame
+	_show_site_pad(building)
 	_build_ring.emitting = building
 	if building:
 		_outline.visible = true
@@ -286,6 +296,7 @@ func play_destroyed() -> void:
 	_build_ring.emitting = false
 	if _scaffold:
 		_scaffold.visible = false
+	_show_site_pad(false)
 	for fx: GPUParticles3D in _idle_fx:
 		fx.emitting = false
 	for hz: Node3D in _hazes:
@@ -349,9 +360,28 @@ func _gb_haze(parent: Node3D, pos: Vector3, size: Vector2, strength: float = 1.0
 		_hazes.append(hz)
 
 
-## G-B Fire: timber for the scaffold / racks when the model made one, else the metal stand-in (other kingdoms).
+## G-B Fire: timber for the scaffold / racks when the model made one, else (G-F round 3) the kingdom's site timber
+## (SiteOutline.timber), never the metal / trim stand-in (Shadow's flat lilac beams).
 func _scaffold_mat() -> ShaderMaterial:
-	return mat_wood if mat_wood else mat_metal
+	if mat_wood:
+		return mat_wood
+	if _site_timber == null:
+		_site_timber = _painted_mat(SiteOutline.timber(_site_kingdom()), 0.0, 0.0)
+	return _site_timber
+
+
+## G-F round 3: the site's kingdom (site_kingdom, else from the glow colour's hue).
+func _site_kingdom() -> StringName:
+	return site_kingdom if site_kingdom != &"" else SiteOutline.kingdom_of(glow_color)
+
+
+## G-F round 3: the shared site pad while a site (the contact decal waits: the pad is the site's ground).
+func _show_site_pad(on: bool) -> void:
+	if _site_pad:
+		_site_pad.visible = on
+	var dc := get_node_or_null(^"ContactDecal") as Node3D
+	if dc:
+		dc.visible = not on
 
 
 ## The other budget passes (shared particle quads / process materials, one decal material for the contact decal and
@@ -1117,7 +1147,7 @@ func _apply_rim_and_glow() -> void:
 		return
 	var k: float = _sel_k
 	if _progress < 1.0 and not _destroyed:
-		k = maxf(k, 0.65)  # sites glow in the team colour while they rise
+		k = maxf(k, 0.25)  # sites: a light team rim (G-F round 3: 0.65 washed the site timber in the team colour)
 	var rim_col: Color = RIM_IDLE.lerp(_team_color, k)
 	var rim_str: float = lerpf(0.25, 0.9, k)
 	for m: ShaderMaterial in _painted:
@@ -1253,6 +1283,8 @@ func _build_state_nodes() -> void:
 	_debris = _cubes("Debris", pts, 0.8, rng, _body)
 	_rubble2.visible = false
 	_debris.visible = false
+	_site_pad = SiteOutline.make_pad(_site_kingdom(), site_half, true)   # G-F round 3: every kingdom's site ground
+	add_child(_site_pad)
 
 
 func _cubes(nm: String, points: Array, size: float, rng: RandomNumberGenerator, parent: Node3D) -> MultiMeshInstance3D:

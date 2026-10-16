@@ -49,8 +49,13 @@ var wreck_top: float = 1.0      # top of the collapsed stub (debris sits on it)
 var vc_merge: bool = false
 var crack_glow: float = 1.0   ## vc_merge: crack emission x this (< 1 keeps the veins under the bloom level)
 var _glow_vc: ShaderMaterial   ## vc_merge: the merged glow material (PaintedVC.convert_glow)
-## G-F Shadow leftovers: a thin, dim, saturation-capped construction outline (SiteOutline; a subclass sets it in _setup()).
-var outline_calm: bool = false
+## G-F Shadow leftovers: a thin, dim, saturation-capped construction outline (SiteOutline). G-F round 3: every kingdom.
+var outline_calm: bool = true
+## G-F round 3 sites (docs/art/gf_r3_sites.md): the shared worked-earth site pad (SiteOutline.make_pad), its kingdom
+## ("" = from glow_color); below SITE_PLINTH_AT no Body part shows (a squashed plinth is a black slab).
+const SITE_PLINTH_AT := 0.08
+var site_kingdom: StringName = &""
+var _site_pad: MeshInstance3D
 var smoke_points: Array[Vector3] = []
 var _m_wood: ShaderMaterial   ## G-B Fire: timber (scaffold, woodpile); null = the trim stand-in
 var _hazes: Array[Node3D] = []   ## G-B Fire: heat-haze quads (High / Ultra)
@@ -128,6 +133,8 @@ func _ready() -> void:
 		_m_team.set_shader_parameter(&"crack_energy", crack_glow)
 		if _gb_fire():
 			GBF.apply(_m_team)   # G-B: the Fire paint layer (same vertex contract and uniforms)
+			if _site_pad:
+				GBF.apply(_site_pad.material_override as ShaderMaterial)   # G-F round 3: the site pad too
 	_post_build()
 	if vc_merge:
 		_glow_vc = PVC.convert_glow(self)   # one glow material; _process copies the sources' state over
@@ -181,7 +188,7 @@ func set_construction_progress(p: float) -> void:
 			part.visible = true
 			continue
 		var b: float = _part_b[i]
-		if h < b:
+		if h < b or _progress < SITE_PLINTH_AT:
 			part.visible = false
 			continue
 		part.visible = true
@@ -197,7 +204,8 @@ func set_construction_progress(p: float) -> void:
 	for hz: Node3D in _hazes:
 		hz.visible = not building
 	if _scaffold:
-		_scaffold.visible = building and _progress > 0.0
+		_scaffold.visible = building   # G-F round 3: the timber scaffold from the first frame
+	_show_site_pad(building)
 	if building:
 		_outline.visible = true
 		_outline_fade = 0.0
@@ -235,6 +243,7 @@ func play_destroyed() -> void:
 	_outline.visible = false
 	if _scaffold:
 		_scaffold.visible = false
+	_show_site_pad(false)
 	for fx: GPUParticles3D in _idle_fx:
 		fx.emitting = false
 	for hz: Node3D in _hazes:
@@ -499,7 +508,8 @@ func _build_scaffold(size: float, top: float, decks: Array[float]) -> void:
 	var box1: Mesh = _box(Vector3.ONE)
 	var h: float = size * 0.5
 	var it: Array = []
-	var wood: ShaderMaterial = _m_wood if _m_wood else _m_trim   # G-B Fire: timber when the model made it
+	# G-B Fire: timber when the model made it; G-F round 3: else the kingdom's site timber (never the trim stand-in).
+	var wood: ShaderMaterial = _m_wood if _m_wood else _painted_mat(SiteOutline.timber(_site_kingdom()), 0.0, 0.0)
 	for c: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1)]:
 		it.append(_it(box1, Vector3(c.x * h, top * 0.5, c.y * h), wood, Vector3.ZERO, Vector3(0.16, top, 0.16)))
 	for y: float in decks:
@@ -677,7 +687,7 @@ func _apply_rim_and_glow() -> void:
 		return
 	var k: float = _sel_k
 	if _progress < 1.0 and not _destroyed:
-		k = maxf(k, 0.65)
+		k = maxf(k, 0.25)   # G-F round 3: a light team rim on sites (0.65 washed the timber in the team colour)
 	var rim_col: Color = RIM_IDLE.lerp(_team_color, k)
 	var rim_str: float = lerpf(0.25, 0.9, k)
 	for m: ShaderMaterial in _painted:
@@ -854,6 +864,22 @@ func _build_state_nodes() -> void:
 	_body.remove_child(_outline)
 	add_child(_outline)
 	_outline.visible = false
+	_site_pad = SiteOutline.make_pad(_site_kingdom(), footprint * 0.5 - 0.05, false)   # G-F round 3: the site ground
+	add_child(_site_pad)
+
+
+## G-F round 3: the site's kingdom (site_kingdom, else from the glow colour's hue).
+func _site_kingdom() -> StringName:
+	return site_kingdom if site_kingdom != &"" else SiteOutline.kingdom_of(glow_color)
+
+
+## G-F round 3: the shared site pad while a site (the contact decal waits: the pad is the site's ground).
+func _show_site_pad(on: bool) -> void:
+	if _site_pad:
+		_site_pad.visible = on
+	var dc := get_node_or_null(^"ContactDecal") as Node3D
+	if dc:
+		dc.visible = not on
 
 
 func _ramp(a: Color, b: Color, team: bool) -> GradientTexture1D:

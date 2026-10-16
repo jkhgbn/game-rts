@@ -21,14 +21,10 @@ const TEAM_DARK := 0.74   ## G-B: the darker slate courses = team colour x this 
 var mat_team_dark: ShaderMaterial   ## G-B: the darker slate courses (team colour x TEAM_DARK)
 const TEAM_MID := 0.87   ## G-F round 2: the middle slate shade (team colour x this)
 var mat_team_mid: ShaderMaterial    ## G-F round 2: the middle slate shade
-const SITE_HALF := 3.0       ## G-F round 2: site pad half size (6 x 6 m footprint)
-const SITE_PLINTH_AT := 0.07 ## G-F round 2: below this progress (the walls start) the squashed plinth stays hidden
-var _site_pad: Node3D
 var _dress: ShadowDress
 
 
 func _setup_palette() -> void:
-	outline_calm = true   # G-F Shadow leftovers: the site outline under the flagstones (SiteOutline)
 	kingdom_color = Color(0.42, 0.22, 0.60)
 	glow_color = Color(0.70, 0.30, 1.00)
 	stone_color = Color(0.20, 0.17, 0.26)
@@ -144,7 +140,6 @@ func _post_build() -> void:
 
 func set_construction_progress(p: float) -> void:
 	super(p)
-	_site_look()
 	if _dress and not _destroyed:
 		_dress.sync(_progress, _health_ratio, false)
 
@@ -157,39 +152,8 @@ func set_health_ratio(r: float) -> void:
 
 func play_destroyed() -> void:
 	super()
-	if _site_pad:
-		_site_pad.visible = false
 	if _dress:
 		_dress.sync(1.0, 0.0, true)
-
-
-## G-F round 2 (gf_review2 item 8): the site pad (ShadowDress.site_pad_items) under every Shadow hall-type site, built
-## before the painted merge so it draws with the merged material. The Bazaar / Paddock / Forge inherit it.
-func _build_state_nodes() -> void:
-	super()
-	var flag_a: ShaderMaterial = _painted_mat(stone_color.lightened(0.26), 0.0, 0.0)
-	var flag_b: ShaderMaterial = _painted_mat(stone_color.lightened(0.12), 0.0, 0.0)
-	_site_pad = Node3D.new()
-	_site_pad.name = "SitePad"
-	add_child(_site_pad)
-	_merged("SitePadParts", "site_pad", ShadowDress.site_pad_items(SITE_HALF, 6650, flag_a, flag_b, _scaffold_mat(),
-		mat_dark), _site_pad, false)
-	_site_pad.visible = false
-
-
-## A site: the pad and the scaffold from the first frame; below SITE_PLINTH_AT the plinth (a flat black slab when
-## squashed) stays hidden, so a fresh site is worked ground, not a hole.
-func _site_look() -> void:
-	if not _ready_done or _destroyed:
-		return
-	var building: bool = _progress < 1.0
-	if _site_pad:
-		_site_pad.visible = building
-	if _scaffold:
-		_scaffold.visible = building
-	var plinth := _body.get_node_or_null(^"PlinthBase") as Node3D
-	if plinth and building and _progress < SITE_PLINTH_AT:
-		plinth.visible = false
 
 
 func set_team_color(c: Color) -> void:

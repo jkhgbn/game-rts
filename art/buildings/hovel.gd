@@ -22,13 +22,10 @@ var _m_team_dark: ShaderMaterial   ## G-B: the darker shingle courses (team colo
 var _m_bone: ShaderMaterial
 const TEAM_MID := 0.87   ## G-F round 2: the middle slate shade (team colour x this)
 var _m_team_mid: ShaderMaterial
-const SITE_PLINTH_AT := 0.08   ## G-F round 2: below this progress (the walls start) the squashed plinth stays hidden
-var _site_pad: Node3D
 var _dress: ShadowDress
 
 
 func _setup() -> void:
-	outline_calm = true   # G-F Shadow leftovers: the site outline under the flagstones (SiteOutline)
 	kingdom_color = Color(0.42, 0.22, 0.60)
 	glow_color = Color(0.70, 0.30, 1.00)
 	stone_color = Color(0.20, 0.17, 0.26)
@@ -180,13 +177,6 @@ func _build_parts() -> void:
 	_show_below_50.append(_roof_patch("RoofHoleF", roof, _face_xf(PI * 4.0 / 3.0, 0.0), 0.75))
 	_show_below_25.append(_roof_patch("RoofHoleR", roof, _face_xf(PI / 3.0, 0.1), 0.7, _brew_mat))
 	_build_scaffold(4.2, 3.6, [1.5, 2.9] as Array[float])
-	# G-F round 2 (gf_review2 item 8): the site pad (loose slate flags, layout stakes, timber) while it is a site.
-	_site_pad = Node3D.new()
-	_site_pad.name = "SitePad"
-	add_child(_site_pad)
-	_merged("SitePadParts", "site_pad", ShadowDress.site_pad_items(2.0, 4470, _painted_mat(stone_color.lightened(0.26), 0.0,
-		0.0), _painted_mat(stone_color.lightened(0.12), 0.0, 0.0), _m_trim, _m_dark), _site_pad)
-	_site_pad.visible = false
 	_build_wreck(1.5, 1.1, _brew_mat, 4041, 6)
 	# Idle: purple motes spiral up around the hut, a thin wisp from the stovepipe.
 	var mo := _pm(Vector3.UP, 20.0, 0.3, 0.6, Vector3.ZERO, 0.09, 0.04,
@@ -298,21 +288,12 @@ func _post_build() -> void:
 
 
 func _on_progress(building: bool) -> void:
-	# G-F round 2: the pad and the scaffold from the first frame; the squashed hex plinth (a black slab) waits.
-	if _site_pad:
-		_site_pad.visible = building
-	if _scaffold:
-		_scaffold.visible = building
-	var plinth := _body.get_node_or_null(^"Plinth") as Node3D
-	if plinth and building and _progress < SITE_PLINTH_AT:
-		plinth.visible = false
+	# G-F round 3: the site pad, scaffold and hidden plinth are SmallBuildingModel's now (SiteOutline.make_pad).
 	if _dress:
 		_dress.sync(_progress, _health_ratio, false)
 
 
 func _on_destroy_start() -> void:
-	if _site_pad:
-		_site_pad.visible = false
 	if _dress:
 		_dress.sync(1.0, 0.0, true)
 
