@@ -17,7 +17,7 @@ const UNWEAVE: Array[float] = [4.0, 5.0, 6.0]
 const KNOT_AT: Array[float] = [0.0, 330.0, 660.0]   ## story floor: the older the wall, the longer its knot holds
 const HAMLETS := [["Pipwell", Vector3(-14.0, 0.0, -30.0), Vector3(-14.0, 0.0, -56.0), [["shade", 4], ["grave_hound", 2]]],
 		["Fernby", Vector3(4.0, 0.0, 36.0), Vector3(4.0, 0.0, 56.0), [["warden", 3], ["shade", 3], ["nightbolt", 1]]],
-		["Hollins Cross", Vector3(18.0, 0.0, -34.0), Vector3(20.0, 0.0, -56.0), [["warden", 4], ["sentinel", 1]]]]
+		["Hollins Cross", Vector3(18.0, 0.0, -34.0), Vector3(20.0, 0.0, -56.0), [["warden", 3], ["ruin_slinger", 1], ["sentinel", 1]]]]
 const HAMLET_R := 8.0
 const BURN: Array[float] = [150.0, 120.0, 100.0]
 const RIVER_X := 22.0
@@ -25,8 +25,8 @@ const BRIDGES := {&"north": Vector3(24.0, 0.0, -30.0), &"road": Vector3(24.0, 0.
 const BRIDGE_AT := {&"north": [780.0, 660.0, 600.0], &"south": [1020.0, 900.0, 780.0], &"road": [1260.0, 1140.0, 960.0]}
 const BRIDGE_NAMES := {&"north": "North Bridge", &"road": "Road Bridge", &"south": "South Bridge"}
 const HOST_E: Array[Vector3] = [Vector3(56.0, 0.0, -30.0), Vector3(56.0, 0.0, 30.0)]
-const TIDES := [[360.0, "T1", [["warden", 6]]], [600.0, "T2", [["warden", 6], ["sentinel", 1]]],
-		[840.0, "T3", [["warden", 8], ["shade", 2], ["nightbolt", 2]]], [1020.0, "T4", [["warden", 8], ["sentinel", 2]]]]
+const TIDES := [[360.0, "T1", [["warden", 5], ["ruin_slinger", 1]]], [600.0, "T2", [["warden", 5], ["ruin_slinger", 1], ["sentinel", 1]]],
+		[840.0, "T3", [["warden", 8], ["shade", 2], ["nightbolt", 2]]], [1020.0, "T4", [["warden", 6], ["ruin_slinger", 2], ["sentinel", 2]]]]
 const BRIDGEHEAD := Vector3(36.0, 0.0, -4.0)
 const EXIT := Vector3(54.0, 0.0, -4.0)
 const EXIT_R := 8.0
@@ -343,7 +343,7 @@ func _tick_bridges() -> void:
 	if hero_alive() and absf(hero.global_position.x - RIVER_X) < 20.0 and fire_once(&"E11"):
 		say_l("L15")
 		waves_fired.append("Bridgehead")
-		host_guards([["warden", 6], ["sentinel", 2]], BRIDGEHEAD, 4.0)
+		host_guards([["warden", 5], [SLINGER, 1], ["sentinel", 2]], BRIDGEHEAD, 4.0)
 	if hero_alive() and hero.global_position.x > RIVER_X + 1.0 and crossed_at < 0.0:
 		crossed_at = t
 		fire_once(&"E12")

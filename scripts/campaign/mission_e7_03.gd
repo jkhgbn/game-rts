@@ -15,6 +15,9 @@ extends MissionE7Base
 ##   dockers lost), masks seize it (its dockers are led to the adit; killing every mask within 10 m frees them).
 ## - Brannet stays at Net Lane's bell (no walk with the crew); the girl rings the Tar Steps bell when Torvald comes within
 ##   15 m of it after dusk. Gold: GoldBank + the pre-built Bazaar only (no posts, no caravans).
+## - Campaign review 2026-10-16: a row being taken shows a ring under its bell that fills over the take time (orange =
+##   Aurivane will burn it, violet-grey = masks will seize it) and a "being taken" message once per take; masked units
+##   wear a grey hood band (+ a grey wash from Medium graphics); the 9:00 tithe message says the trade plainly.
 
 const MISSION_ID := &"e7m3"
 const MISSION_TITLE := "The Outwall"
@@ -132,7 +135,11 @@ const MSG_BELL_REFUSED := "The lane won't open its doors with raiders in the str
 const MSG_BURNT := "%s burns"
 const MSG_SEIZED := "Masks take %s into the dark"
 const MSG_PRESSED := "The Archon's press takes %s"
-const MSG_TITHE := "The pits pay their tithe while you hold them (+%d gold / min each)"
+const MSG_TITHE := "Every pit you hold pays gold (+%d / min each). Every row you leave costs lives."
+const MSG_TAKING := "{row} is being taken: send soldiers to its bell!"
+const TAKE_RING_BURN := Color(1.0, 0.45, 0.15, 0.45)
+const TAKE_RING_MASK := Color(0.62, 0.55, 0.72, 0.50)
+const MASK_GREY := Color(0.62, 0.62, 0.64)
 const HINT_MAMMOTHS := "Two hauling mammoths are chained in the Hauling Yard: hold Torvald at the chain post (4 s) to free them."
 
 ## Read only.
@@ -161,6 +168,8 @@ var _chain_progress := 0.0
 var _tithe_t := 0.0
 var _gangs: Array = []                ## [units, row, state, until]
 var _lost_at_dawn := 0
+var _take_rings := {}                 # row id -> [fill disc, edge ring] (drawn only outside the sim)
+var _taking_said := {}                # row id -> true while its current take was announced
 
 
 # ---------------------------------------------------------------- setup
@@ -361,6 +370,7 @@ func _on_navigation_ready() -> void:
 		mammoths.append(m)
 	spawn_rows(G1, ADIT + Vector3(-2.0, 0.0, 2.0), 2.5, Unit.Team.ENEMY, true)
 	spawn_rows(G2, YARD + Vector3(-2.0, 0.0, 0.0), 3.0, Unit.Team.ENEMY, true)
+	_mask_looks_all()
 	for id: StringName in ROWS:
 		fog.reveal(Unit.Team.PLAYER, ROWS[id], 9.0)
 	for id: StringName in PITS:
@@ -583,17 +593,22 @@ func _side0_near(at: Vector3, r: float) -> bool:
 ## A row with enemies at its bell for TAKE_AFTER s and no side-0 soldier there is taken (burnt / seized).
 func _tick_rows(dt: float) -> void:
 	for rid: StringName in ROWS:
-		if bells_rung.has(rid) or rows_taken.has(rid) or int(row_people.get(rid, 0)) <= 0:
-			continue
-		if DUSK_ROWS.has(rid) and mission_time() < DUSK_AT:
+		if bells_rung.has(rid) or rows_taken.has(rid) or int(row_people.get(rid, 0)) <= 0 \
+				or DUSK_ROWS.has(rid) and mission_time() < DUSK_AT:
+			if float(_take_clock.get(rid, 0.0)) > 0.0:
+				_take_clock[rid] = 0.0
+				_show_take(rid)
 			continue
 		var at: Vector3 = ROWS[rid]
 		if enemies_near(at, ROW_R) > 0 and not _side0_near(at, ROW_R):
 			_take_clock[rid] = float(_take_clock.get(rid, 0.0)) + dt
 		else:
 			_take_clock[rid] = 0.0
+		_show_take(rid)
 		if float(_take_clock[rid]) >= float(by_difficulty(TAKE_AFTER)):
 			rows_taken.append(rid)
+			_take_clock[rid] = 0.0
+			_show_take(rid)
 			var name_s := String(ROW_NAMES[rid])
 			if _masks_near(at, ROW_R) > 0:
 				if hud:
@@ -605,6 +620,99 @@ func _tick_rows(dt: float) -> void:
 				var n := int(row_people[rid])
 				row_people[rid] = 0
 				_add_lost(n)
+
+
+## Read only (tests, HUD): 0-1 how far row `rid` is from being taken (0 = nobody is taking it).
+func row_take_ratio(rid: StringName) -> float:
+	return clampf(float(_take_clock.get(rid, 0.0)) / float(by_difficulty(TAKE_AFTER)), 0.0, 1.0)
+
+
+## The take ring under row `rid`'s bell (fills with row_take_ratio) and the one message per take.
+func _show_take(rid: StringName) -> void:
+	var r := row_take_ratio(rid)
+	if r <= 0.0:
+		_taking_said.erase(rid)
+	elif not _taking_said.has(rid):
+		_taking_said[rid] = true
+		if hud:
+			hud.show_message(Loc.t(MSG_TAKING, {"row": Loc.t(String(ROW_NAMES[rid]))}), 4.0)
+	if _SIM.enabled:
+		return
+	var masks := _masks_near(ROWS[rid], ROW_R) > 0
+	if not _take_rings.has(rid):
+		if r <= 0.0:
+			return
+		var fill := ground_disc(ROWS[rid], ROW_R, TAKE_RING_BURN, 0.06)
+		var torus := TorusMesh.new()
+		torus.inner_radius = ROW_R - 0.25
+		torus.outer_radius = ROW_R + 0.25
+		torus.rings = 64
+		torus.ring_segments = 6
+		var mat := StandardMaterial3D.new()
+		mat.albedo_color = TAKE_RING_BURN
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		var edge := MeshInstance3D.new()
+		edge.mesh = torus
+		edge.material_override = mat
+		edge.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		edge.scale = Vector3(1.0, 0.2, 1.0)
+		add_child(edge)
+		edge.global_position = ROWS[rid] + Vector3(0.0, 0.08, 0.0)
+		_take_rings[rid] = [fill, edge]
+	var parts: Array = _take_rings[rid]
+	var col := TAKE_RING_MASK if masks else TAKE_RING_BURN
+	for i in parts.size():
+		var mi := parts[i] as MeshInstance3D
+		if mi == null or not is_instance_valid(mi):
+			continue
+		mi.visible = r > 0.0
+		(mi.material_override as StandardMaterial3D).albedo_color = col
+		if i == 0:
+			mi.scale = Vector3(maxf(0.02, r), 1.0, maxf(0.02, r))
+
+
+## Masked raiders read apart from Aurivane's and the press: a grey hood band on every mask (+ a grey wash from Medium
+## graphics). Drawn only outside the sim; safe to call twice.
+func mask_look(u: Unit) -> void:
+	if _SIM.enabled or u == null or not is_mask(u) or u.has_meta(&"_e7_mask_look"):
+		return
+	u.set_meta(&"_e7_mask_look", true)
+	var model := u.get_model()
+	var parent: Node3D = model if model else u
+	var band := MeshInstance3D.new()
+	band.name = "MaskBand"
+	var cyl := CylinderMesh.new()
+	cyl.top_radius = 0.24
+	cyl.bottom_radius = 0.26
+	cyl.height = 0.16
+	band.mesh = cyl
+	var m := StandardMaterial3D.new()
+	m.albedo_color = MASK_GREY
+	m.roughness = 0.9
+	band.material_override = m
+	parent.add_child(band)
+	var h := u.unit_type.body_height if u.unit_type else 1.6
+	band.position = Vector3(0.0, h * 0.86 / maxf(0.01, parent.scale.y), 0.0)
+	var gs := get_node_or_null(^"/root/GameSettings")
+	if gs == null or not gs.has_method(&"effective_graphics_quality") or int(gs.call(&"effective_graphics_quality")) < 1:
+		return
+	var wash := StandardMaterial3D.new()
+	wash.albedo_color = Color(MASK_GREY.r, MASK_GREY.g, MASK_GREY.b, 0.45)
+	wash.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	wash.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	for n in parent.find_children("*", "GeometryInstance3D", true, false):
+		if n != band:
+			(n as GeometryInstance3D).material_overlay = wash
+
+
+func _mask_looks_all() -> void:
+	if _SIM.enabled:
+		return
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u and u.is_alive() and is_mask(u):
+			mask_look(u)
 
 
 # ---------------------------------------------------------------- press-gangs
@@ -742,6 +850,7 @@ func _tick_waves() -> void:
 			for v: Variant in out:
 				var u := v as Unit
 				u.set_meta(&"e7_default", row[4])
+				mask_look(u)
 				order_wave(u, &"raid3", _target_point(row[4]))
 				if u.unit_type and u.unit_type.id == &"mask_captain":
 					captain = u
@@ -1018,6 +1127,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		guard_life(seraphine, _on_seraphine_down)
 	if captain and is_instance_valid(captain) and captain.is_alive() and not captain.died.is_connected(_on_captain_died):
 		captain.died.connect(_on_captain_died)
+	_mask_looks_all()
 
 
 ## C6-5: press-gangs restored by the load (`_gangs` is a saved variable) keep their state: dead units dropped, the order

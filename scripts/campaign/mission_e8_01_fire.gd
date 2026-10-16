@@ -28,14 +28,14 @@ const STORM_REACH := 25.0
 ## [T + seconds, id, [[spawn, rows], ...]]; spawn: crack / wgn / wgs / ruin.
 const WAVES := [
 	[60.0, "H1", [["wgs", [["warden", 6]]]]],
-	[150.0, "H2", [["crack", [["warden", 8]]]]],
+	[150.0, "H2", [["crack", [["warden", 6], ["ruin_slinger", 2]]]]],
 	[240.0, "H3", [["wgn", [["warden", 6], ["sentinel", 1]]]]],
 	[330.0, "H4", [["crack", [["warden", 6]]], ["wgs", [["warden", 4], ["sentinel", 1]]]]],
 	[420.0, "H5", [["wgn", [["warden", 4]]], ["ruin", [["shade", 4], ["nightbolt", 2], ["gloom_deacon", 1]]]]],
-	[540.0, "H6", [["crack", [["warden", 4], ["sentinel", 1]]], ["wgn", [["warden", 4], ["sentinel", 1]]], ["wgs", [["warden", 4]]]]],
+	[540.0, "H6", [["crack", [["warden", 4], ["sentinel", 1]]], ["wgn", [["warden", 4], ["sentinel", 1]]], ["wgs", [["warden", 3], ["ruin_slinger", 1]]]]],
 	[660.0, "H7", [["crack", [["warden", 8]]], ["wgn", [["sentinel", 2]]], ["ruin", [["shade", 4], ["nightbolt", 2], ["shadow_knight", 1]]]]],
-	[750.0, "H8", [["crack", [["warden", 5], ["sentinel", 1]]], ["wgn", [["warden", 5], ["sentinel", 1]]], ["wgs", [["warden", 4], ["sentinel", 1]]]]],
-	[840.0, "H9", [["crack", [["warden", 4], ["sentinel", 1]]], ["wgn", [["warden", 4], ["sentinel", 1]]], ["wgs", [["warden", 4]]]]],
+	[750.0, "H8", [["crack", [["warden", 4], ["ruin_slinger", 1], ["sentinel", 1]]], ["wgn", [["warden", 5], ["sentinel", 1]]], ["wgs", [["warden", 4], ["sentinel", 1]]]]],
+	[840.0, "H9", [["crack", [["warden", 4], ["sentinel", 1]]], ["wgn", [["warden", 4], ["sentinel", 1]]], ["wgs", [["warden", 3], ["ruin_slinger", 1]]]]],
 ]
 
 const MSG_WARM := "The water is warm under your feet."
@@ -304,7 +304,7 @@ func _tick_storm(dt: float) -> void:
 	flash_ring(best[0].global_position, 6.0)
 	for i in mini(8, best.size()):
 		var u := best[i]
-		var dmg := 120.0 if u.unit_type and (String(u.unit_type.id) == HOST_WARDEN or String(u.unit_type.id) == SENTINEL) else 60.0
+		var dmg := 120.0 if u.unit_type and (String(u.unit_type.id) in [HOST_WARDEN, SENTINEL, SLINGER]) else 60.0
 		u.take_damage(dmg, null)
 
 

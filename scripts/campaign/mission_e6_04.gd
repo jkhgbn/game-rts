@@ -15,6 +15,9 @@ extends MissionE6Base
 ## - The Stronghold opens at 3:30 by raising TierSystem.max_tier from 1 to 2 (the keep's card shows no tier step before).
 ## - Torvald is the ALLY seat (activate_seat + a Commander on an Ice profile, 9 / 9 / 7 soldiers, never attacks); the
 ##   spec's pushes are mission orders on his army (40 % wg_e, 50 % half to the isle 60 s, 70 % wg_s, 90 % all on the isle).
+## - Campaign review 2026-10-16: the Host has a ranged unit (the Ruin Slinger, a Bleakbow copy; one Warden of each column /
+##   rise is a Slinger, same count); "the Hollow counts" is a tally (the seal objective's count, a ring at 25 m that
+##   darkens per counted death, a Label3D over the stone); a pause shows "The Master is interrupted" (objective + message).
 
 const MISSION_ID := &"e6m4"
 const MISSION_TITLE := "The First Crack"
@@ -110,8 +113,15 @@ const BRIEFING_PARAGRAPHS: Array[String] = [
 const HINT_START := "Keep every enemy out of the white circle around the Master: the crack only closes while it is clear. Your bank is the west."
 const HINT_COUNTS := "The Hollow counts the dead: every soldier who falls near the isle weakens the seal."
 const HINT_STRONGHOLD := "Your Heartwood can become a Stronghold: select it and press X (200 crystals). It opens Vinelasher, Greenheart Oathkeeper (Grove Hall) and the Bramblesage (Keep)."
-const HINT_SAGE := "Bramblesage: Z Snagroot drags one enemy 7 m toward it: pull Wardens out of the Master's circle. The Host is all melee: Pollen Haze has nothing to blind here."
+const HINT_SAGE := "Bramblesage: Z Snagroot drags one enemy 7 m toward it: pull Wardens out of the Master's circle. V Pollen Haze blinds the Ruin Slingers."
 const MSG_TORVALD_FELL := "Torvald falls back to the north shore"
+const MSG_INTERRUPTED := "The Master is interrupted: clear the white circle!"
+const MSG_COUNTED := "The Hollow counts: {n}"
+const SLINGER_ID := "ruin_slinger"       ## the Host's ranged unit (campaign review 2026-10-16)
+const INTERRUPT_MSG_EVERY := 20.0
+const COUNT_RING_CLEAR := Color(1.0, 0.85, 0.45, 0.30)
+const COUNT_RING_FULL := Color(0.85, 0.12, 0.08, 0.85)
+const COUNT_RING_FULL_AT := 40            ## counted deaths at which the ring is fully red
 
 ## Read only.
 var seal: E6Target
@@ -127,6 +137,11 @@ var waves_fired: Array[String] = []
 var crack_units: Array = []
 var victory_time := -1.0
 var pause_time := 0.0                    ## seconds the hold spent paused (after HOLD_FROM)
+var interruptions := 0                   ## times the hold went from running to paused
+
+var _count_ring: MeshInstance3D
+var _count_label: Label3D
+var _interrupt_msg_at := -1.0e6
 
 var _tick := 0.0
 var _fast := 0.0
@@ -150,6 +165,15 @@ func _init() -> void:
 	define_objectives([[&"obj_hold", "primary"], [&"obj_seal", "primary"], [&"obj_ysolde", "primary"],
 			[&"obj_keep", "primary"], [&"sec_gates", "secondary"], [&"sec_unbroken", "secondary"]])
 	make_breakers("", "", 0.0)
+	make_slinger(self)
+
+
+## The Host's ranged unit (campaign review 2026-10-16), shared with the e8m1 roads: a stone Bleakbow (amber shards).
+static func make_slinger(m: MissionE5Base) -> void:
+	m.local_unit("bleakbow", SLINGER_ID, "Ruin Slinger", {"max_hp": 160.0, "armor": 6.0, "attack_damage": 14.0,
+			"attack_range": 9.0, "attack_cooldown": 1.6, "move_speed": 3.8, "aggro_range": 10.0, "pop": 2, "cost": 120,
+			"kill_xp": 30, "commandable": false, "neutral_leash": false, "faction": &"neutral",
+			"body_color": Color(0.55, 0.52, 0.48), "projectile_color": Color(1.0, 0.65, 0.2)})
 
 
 func _mission_config() -> MissionConfig:
@@ -318,6 +342,7 @@ func _build_map() -> void:
 			_mesh(body, cyl, Color(0.72, 0.70, 0.66), 2.0)
 	ground_disc(STONE, ISLE_R + 1.5, Color(0.62, 0.60, 0.56, 0.85))
 	ground_disc(STONE, PAUSE_R, Color(1.0, 0.95, 0.75, 0.35), 0.05)
+	_build_count_tally()
 	box_prop(STONE + Vector3(0.0, 0.0, 1.6), Vector3(0.9, 1.5, 0.9), Color(0.95, 0.93, 0.85))   # the Master, kneeling
 	for row: Array in NODES + ALLY_NODES:
 		_add_crystal_node(StringName(row[0]), row[1], int(row[2]))
@@ -452,11 +477,11 @@ func objective_text(id: StringName, with_counter := true) -> String:
 			if not with_counter:
 				return "The Master holds the crack"
 			if hold_paused:
-				return "The Master holds the crack: %d %% (paused)" % int(floor(hold * 100.0))
+				return "The Master is interrupted: %d %% (clear the circle)" % int(floor(hold * 100.0))
 			return "The Master holds the crack: %d %%" % int(floor(hold * 100.0))
 		&"obj_seal":
 			if with_counter and seal:
-				return "Nothing may break the seal (%d %%)" % int(round(seal.ratio() * 100.0))
+				return "Nothing may break the seal (%d %%, the Hollow counted %d)" % [int(round(seal.ratio() * 100.0)), counted]
 			return "Nothing may break the seal"
 		&"obj_ysolde":
 			return "Ysolde must survive"
@@ -502,6 +527,51 @@ func _on_seal_broken(_h: Heartfrost) -> void:
 	lose(DEFEAT_DELAY)
 
 
+## The tally ring (r COUNT_R, where "near the isle" ends) and the counter over the stone; drawn only outside the sim.
+func _build_count_tally() -> void:
+	if _SIM.enabled:
+		return
+	var torus := TorusMesh.new()
+	torus.inner_radius = COUNT_R - 0.35
+	torus.outer_radius = COUNT_R + 0.35
+	torus.rings = 96
+	torus.ring_segments = 6
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = COUNT_RING_CLEAR
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_count_ring = MeshInstance3D.new()
+	_count_ring.name = "HollowCountRing"
+	_count_ring.mesh = torus
+	_count_ring.material_override = mat
+	_count_ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_count_ring.scale = Vector3(1.0, 0.15, 1.0)
+	add_child(_count_ring)
+	_count_ring.global_position = STONE + Vector3(0.0, 0.08, 0.0)
+	_count_label = Label3D.new()
+	_count_label.name = "HollowCountLabel"
+	_count_label.font_size = 56
+	_count_label.outline_size = 12
+	_count_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_count_label.no_depth_test = true
+	add_child(_count_label)
+	_count_label.global_position = STONE + Vector3(0.0, 5.5, 0.0)
+	_update_count_tally()
+
+
+## Read only (tests): how red the tally ring is (0 = nothing counted, 1 = COUNT_RING_FULL_AT deaths).
+func count_ring_ratio() -> float:
+	return clampf(float(counted) / float(COUNT_RING_FULL_AT), 0.0, 1.0)
+
+
+func _update_count_tally() -> void:
+	if _count_ring and is_instance_valid(_count_ring):
+		(_count_ring.material_override as StandardMaterial3D).albedo_color = COUNT_RING_CLEAR.lerp(COUNT_RING_FULL, count_ring_ratio())
+	if _count_label and is_instance_valid(_count_label):
+		_count_label.text = Loc.t(MSG_COUNTED, {"n": counted})
+		_count_label.modulate = Color(1.0, 0.9, 0.7).lerp(Color(1.0, 0.35, 0.25), count_ring_ratio())
+
+
 ## The Hollow counts: a death in "units" within 25 m of the stone costs the seal (not the Host, not Saplings, not
 ## while a scene holds the world).
 func _on_any_unit_died(u: Node) -> void:
@@ -514,6 +584,9 @@ func _on_any_unit_died(u: Node) -> void:
 		return
 	counted += 1
 	seal.drain(float(by_difficulty(COUNT_COST)))
+	_update_count_tally()
+	if not _SIM.enabled:
+		flash_ring(Vector3(unit.global_position.x, 0.0, unit.global_position.z), 1.2)
 	if fire_once(&"E2"):
 		say_l("L7")
 		if hud:
@@ -523,9 +596,12 @@ func _on_any_unit_died(u: Node) -> void:
 func _tick_hold(dt: float) -> void:
 	if mission_time() < HOLD_FROM or hold >= 1.0:
 		return
+	var was_paused := hold_paused
 	hold_paused = enemies_near(STONE, PAUSE_R) > 0
 	if hold_paused:
 		pause_time += dt
+		if not was_paused:
+			_on_interrupted()
 		return
 	var before := hold
 	hold = minf(1.0, hold + dt / hold_length())
@@ -545,6 +621,19 @@ func _tick_hold(dt: float) -> void:
 		_hold_done()
 
 
+## The hold just paused: a loud state (the objective says it, a message at most every 20 s, a flash on the circle).
+func _on_interrupted() -> void:
+	interruptions += 1
+	objectives_changed.emit()
+	if not _SIM.enabled:
+		flash_ring(STONE, PAUSE_R)
+	if mission_time() - _interrupt_msg_at < INTERRUPT_MSG_EVERY:
+		return
+	_interrupt_msg_at = mission_time()
+	if hud:
+		hud.show_message(MSG_INTERRUPTED, 3.0)
+
+
 func _tick_seal() -> void:
 	if seal == null:
 		return
@@ -561,7 +650,7 @@ func _column(gid: StringName, extra_breaker := false) -> void:
 	var g := wgates[gid] as WardenGate
 	if not g.is_alive():
 		return
-	var rows: Array = [[WARDEN_ID, 3]]
+	var rows: Array = [[WARDEN_ID, 2], [SLINGER_ID, 1]]
 	if extra_breaker:
 		rows.append([BREAKER_ID, 1])
 	wave(rows, g.front_point(), &"stone", STONE)
@@ -577,7 +666,7 @@ func _tick_host() -> void:
 		_next_rise = t + RISE_EVERY
 		waves_fired.append("rise")
 		for s: StringName in STEPS:
-			wave([[WARDEN_ID, 4]], STEPS[s], &"stone", STONE)
+			wave([[WARDEN_ID, 3], [SLINGER_ID, 1]], STEPS[s], &"stone", STONE)
 	if t >= STRONGHOLD_AT and fire_once(&"E3"):
 		if tier_system:
 			tier_system.max_tier = 2
@@ -631,7 +720,7 @@ func _last_rise() -> void:
 	waves_fired.append("last_rise")
 	say_l("L16")
 	for s: StringName in STEPS:
-		wave([[BREAKER_ID, 1], [WARDEN_ID, 5]], STEPS[s], &"stone", STONE)
+		wave([[BREAKER_ID, 1], [WARDEN_ID, 4], [SLINGER_ID, 1]], STEPS[s], &"stone", STONE)
 	_torvald_push(STONE + Vector3(5.0, 0.0, -5.0), 9999.0)
 
 
@@ -792,6 +881,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		seal.hp = float(d["seal_hp"])
 	if tier_system:
 		tier_system.max_tier = 2 if has_fired(&"E3") else 1
+	_update_count_tally()
 	_push = _load_push(d.get("e6m4_push", {}), nodes)
 
 

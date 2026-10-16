@@ -28,6 +28,7 @@ const START_CRYSTALS: Array[int] = [550, 450, 350]
 const DEFEAT_DELAY := 3.0
 const HINT_CITADEL := "Your Stronghold can become a Citadel: select the Keep and press X (300 crystals, 90 s). It opens the kingdom's tier-3 unit (C) and lets you call your helper (V)."
 const BRIEFING_LINE := "Four keys. One door. Yours is on this road."
+const SLINGER := MissionE6_04.SLINGER_ID   ## the Ruin Slinger (Host ranged; host_rows keeps the id as it is)
 
 ## Read only.
 var victory_time := -1.0
@@ -100,6 +101,7 @@ func _init() -> void:
 	super()
 	host_team = Unit.Team.ENEMY
 	use_lines(StringName("e8m1_%s" % road))
+	MissionE6_04.make_slinger(self)   # campaign review 2026-10-16: the Host's ranged unit (SLINGER rows)
 
 
 func _mission_config() -> MissionConfig:

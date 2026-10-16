@@ -18,6 +18,11 @@ extends MissionE6Base
 ## - Winters: MissionBlizzard (PLAYER sight x 0.6) + ENEMY speed -0.4 (`season:drift`); the light tint stands in for
 ##   the season ramps. The Frost Hall's Colossus / Frostbow lock is not built (Frost Hall trains its full tier-1 card).
 ## - Wardens are the `hollow_warden` copy (pop 2 for the floe weight, aggro 9).
+## - Campaign review 2026-10-16 (e6m1 was e6m2's twin; the sim never broke a floe): "stone that stops on the ice sinks
+##   it": every 2 s that 4+ ENEMY floe weight stands still on a floe (fighting, blocked, frozen) adds a crack (credit
+##   Torvald). Two Lake Rises (winter 2 at 10:00, winter 3 at 16:15) climb out of the lake itself on a far floe:
+##   Deep Wardens, slow and armoured (armor 60: hard to stop on land), so holding them on the ice is the answer; Aldra
+##   and Torvald say it, a hint and a flash mark the rise.
 
 const MISSION_ID := &"e6m1"
 const MISSION_TITLE := "A Hundred Winters"
@@ -82,6 +87,16 @@ const CARVE_HERO_R := 8.0
 const CARVE_CLEAR_R := 12.0
 const ALDRA_BACK := 40.0
 const FLASH_FREEZE_R := 4.5
+const DEEP_ID := "deep_warden"
+## Lake Rises [id, time, rows, preferred floes]: they climb out at r RISE_R on the first frozen floe of the list.
+const LAKE_RISES := [
+	[&"lake1", 600.0, [["deep_warden", 4]], [5, 4, 6]],
+	[&"lake2", 975.0, [["deep_warden", 4], ["warden_breaker", 1]], [3, 2, 4]],
+]
+const RISE_R := 18.0
+const HELD_WEIGHT := 4          ## ENEMY pop standing still on one floe that cracks it
+const HELD_CRACK_EVERY := 2.0   ## seconds of standing still per crack (4 cracks = a break)
+const HELD_MOVE := 0.4          ## moved less than this in 0.5 s = standing still
 const YOUNG_SCALE := 0.9
 
 const SPEAKER_COLORS := {&"torvald": Color(0.55, 0.80, 1.00), &"aldra": Color(0.62, 0.95, 0.88),
@@ -130,6 +145,9 @@ const BRIEFING_PARAGRAPHS: Array[String] = [
 ]
 const HINT_START := "Keep the Heartfrost alive through three winters. Wardens come from the cracks in the north-east. Ice Walls (V) can close a gap."
 const HINT_FLOE := "The ice is cracking under the Wardens. Rime Bolt and Flash Freeze crack it further: stone does not swim."
+const HINT_LAKE := "Deep Wardens climb out of the lake. On land they shrug off blows, but stone that stands still on a floe cracks it: block them on the ice (Rimeshields in their path, Flash Freeze) and the floe sinks them."
+const LINE_LAKE_ALDRA := "They're coming up through the ice! Stop them out there, my lord. Stone that stands still on the ice goes under."
+const LINE_LAKE_TORVALD := "Then nobody walks past the floes. Shields onto the ice."
 const HINT_CARVE := "Walk Torvald to a Sentinel stone (south-west shore): Aldra will carve it while no enemy is near."
 const MSG_WINTER := "Winter comes."
 const MSG_THAW := "The thaw."
@@ -151,6 +169,11 @@ var winter3_units: Array = []             ## W3c's units (the last stand)
 var victory_time := -1.0
 var aldra_falls := 0
 var floes_broken := 0
+var held_cracks := 0                      ## cracks added by "stone that stops on the ice"
+var lake_rise_units: Array = []           ## the Deep Wardens / Breakers of the Lake Rises
+
+var _held_t: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+var _last_pos := {}                       # instance id -> position at the last 0.5 s tick
 
 var _tick := 0.0
 var _aldra_back_left := -1.0
@@ -233,6 +256,9 @@ func _init() -> void:
 			[&"sec_sentinels", "secondary"], [&"sec_longhouse", "secondary"]])
 	make_breakers("stair_breaker", "The Stair-Breaker", 2400.0)
 	local_unit("rime_colossus", "sentinel", "Sentinel", {"pop": 0, "cost": 0})
+	local_unit("ruin_warden", DEEP_ID, "Deep Warden", {"armor": 60.0, "move_speed": 3.2, "aggro_range": 9.0,
+			"pop": 3, "cost": 160, "kill_xp": 110, "commandable": false})
+	_scales[DEEP_ID] = 1.2
 	_rime_keep_type = MissionE5Base.local_building("ice_keep", "ice_keep", "Rime Keep", 3000.0, true)
 	if _rime_keep_type:
 		_rime_keep_type.pop_bonus = 20
@@ -616,6 +642,80 @@ func _on_floe_broken(_i: int, _credit: Node3D) -> void:
 				hud.show_message(HINT_FLOE, 8.0)
 
 
+## "Stone that stops on the ice sinks it": per floe, the ENEMY weight (pop >= 2 units) that moved < HELD_MOVE since the
+## last tick; HELD_WEIGHT or more for HELD_CRACK_EVERY s = one crack, credit Torvald (the sink's kills are his).
+func _tick_held_ice(dt: float) -> void:
+	if lake == null:
+		return
+	var held: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0]
+	var seen := {}
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u == null or not u.is_alive() or int(u.team) != Unit.Team.ENEMY or u.unit_type == null or int(u.unit_type.pop) < 2:
+			continue
+		var id := u.get_instance_id()
+		var p := u.global_position
+		seen[id] = p
+		var i := GlasswaterLake.floe_at(p)
+		if i < 0 or lake.is_open(i) or not _last_pos.has(id):
+			continue
+		if _flat(p, _last_pos[id] as Vector3) < HELD_MOVE:
+			held[i] += int(u.unit_type.pop)
+	_last_pos = seen
+	for i in GlasswaterLake.FLOES:
+		if held[i] < HELD_WEIGHT or lake.is_open(i):
+			_held_t[i] = 0.0
+			continue
+		_held_t[i] += dt
+		if _held_t[i] >= HELD_CRACK_EVERY:
+			_held_t[i] = 0.0
+			held_cracks += 1
+			lake.crack(i, 1.0, hero if hero_alive() else null)
+
+
+## Navmesh watchdog (cr-read 2026-10-16): some Glasswater runs kept a baked region that the navigation map never synced
+## (map iteration 0, every unit stuck, the sims ended on the 20:00 cap). When the map has still never synced after the
+## match start, ask the BuildGrid for one more bake (at most 3 times). Lead: the generic home is main.gd.
+static func nav_watchdog(level: MissionBase) -> void:
+	var kicks := int(level.get_meta(&"_nav_kicks", 0))
+	if kicks >= 3 or level.nav_region == null or level.build_grid == null or not level.is_inside_tree():
+		return
+	var map := level.nav_region.get_navigation_map()
+	if not map.is_valid() or NavigationServer3D.map_get_iteration_id(map) > 0:
+		level.set_meta(&"_nav_kicks", 3)
+		return
+	if level.build_grid.is_rebaking():
+		return
+	level.set_meta(&"_nav_kicks", kicks + 1)
+	push_warning("nav watchdog: the navigation map never synced, rebaking (%d)" % (kicks + 1))
+	level.build_grid.request_rebake()
+
+
+## A Lake Rise: the rows climb out of the ice on the first frozen floe of `floes`, walk at the Heartfrost.
+func _lake_rise(row: Array) -> void:
+	if is_ending() or lake == null:
+		return
+	var floe := -1
+	for f: int in row[3]:
+		if not lake.is_open(f):
+			floe = f
+			break
+	if floe < 0:
+		return
+	var a := deg_to_rad(float(floe) * 45.0)
+	var at := Vector3(cos(a) * RISE_R, 0.0, sin(a) * RISE_R)
+	var units := wave(row[2], at, &"heart", HEART_POS)
+	lake_rise_units.append_array(units)
+	if not _SIM.enabled:
+		flash_ring(at, 4.0)
+	if row[0] == &"lake1":
+		fire_once(&"E_lake")
+		say(&"aldra", LINE_LAKE_ALDRA)
+		say(&"torvald", LINE_LAKE_TORVALD)
+		if hud:
+			hud.show_message(HINT_LAKE, 12.0)
+
+
 # ---------------------------------------------------------------- seasons and waves
 
 func _tick_seasons() -> void:
@@ -672,6 +772,12 @@ func _tick_waves() -> void:
 			continue
 		waves_fired.append(id)
 		_fire_wave(row)
+	for row: Array in LAKE_RISES:
+		var id := String(row[0])
+		if waves_fired.has(id) or t < float(row[1]):
+			continue
+		waves_fired.append(id)
+		_lake_rise(row)
 
 
 func _fire_wave(row: Array) -> void:
@@ -903,6 +1009,8 @@ func _physics_process(delta: float) -> void:
 		_tick_seasons()
 		_tick_waves()
 		_tick_carving(0.5)
+		_tick_held_ice(0.5)
+		nav_watchdog(self)
 		_tick_winter3()
 		enforce_max(&"ice_lodge", 2, MSG_ONE_LODGE)
 		enforce_max(&"ice_wall", 16, MSG_WALLS)

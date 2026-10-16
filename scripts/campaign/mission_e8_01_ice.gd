@@ -436,7 +436,7 @@ func _reach(wp: int) -> void:
 			fire_once(&"E9")
 			say_l("L13")
 			waves_fired.append("W5")
-			host_guards([["warden", 8], ["sentinel", 1]], CRACK, 5.0)
+			host_guards([["warden", 6], [SLINGER, 2], ["sentinel", 1]], CRACK, 5.0)
 		WP_STAIR:
 			fire_once(&"E11")
 			say_l("L15")

@@ -1031,6 +1031,7 @@ func _physics_process(delta: float) -> void:
 	tick_scripted(delta)
 	if is_ending():
 		return
+	MissionE6_01.nav_watchdog(self)   # cr-read 2026-10-16: a never-synced navmesh gets one more bake
 	_tick_aldra(delta)
 	if heartfrost:
 		heart_min = minf(heart_min, heartfrost.ratio())
