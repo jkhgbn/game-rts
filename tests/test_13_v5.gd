@@ -216,7 +216,7 @@ func _run() -> void:
 	var leg_flash := float((a.get_node("Root/Mount/LegFL/Merged") as MeshInstance3D).get_instance_shader_parameter(&"hit_flash"))
 	var neck_flash := float((a.get_node("Root/Mount/Neck/Merged") as MeshInstance3D).get_instance_shader_parameter(&"hit_flash"))
 	print("hit: body flash %.2f, leg %.2f, neck %.2f, root z %.3f" % [flash, leg_flash, neck_flash, root_n.position.z])
-	_check(flash > 0.3 and leg_flash > 0.3 and neck_flash > 0.3, "the whole beast flashes on a hit")
+	_check(flash > 0.15 and leg_flash > 0.15 and neck_flash > 0.15, "the whole beast flashes on a hit")   # mounts flash at <= 0.4 since G-F review 3 (MountModel.MOUNT_FLASH_MAX)
 	_check(root_n.position.z < -0.03, "hit flinch pushes back")
 	await _wait(0.5)
 	# ---- charge

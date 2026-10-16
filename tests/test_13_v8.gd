@@ -234,7 +234,7 @@ func _run() -> void:
 	var f_a := float(axe_mi.get_instance_shader_parameter(&"hit_flash"))
 	print("hit flash rider %.2f, rhino %.2f, axe %.2f" % [f_r, f_m, f_a])
 	# the Ice rider's flash is cyan, half strength and half length since the in-game grade pass (2026-09-30)
-	_check(f_r > 0.08 and f_m > 0.3, "rider and rhino flash on hits")
+	_check(f_r > 0.08 and f_m > 0.15, "rider and rhino flash on hits")   # mounts flash at <= 0.4 since G-F review 3 (MountModel.MOUNT_FLASH_MAX)
 	await _wait(0.4)
 	# ---- team colour: cloth only; a second colour replaces the first
 	var red := Color(0.85, 0.30, 0.12)

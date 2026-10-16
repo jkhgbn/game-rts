@@ -177,8 +177,8 @@ func _ready() -> void:
 ## Title + main panel in the right part (anchors COLUMN_SIDE_LEFT..1) while the main panel shows and the window is
 ## wide enough for the title; else the whole width (the setup / campaign / settings panels, narrow windows).
 func place_column() -> void:
-	if menu_column == null:
-		return
+	if menu_column == null or not is_inside_tree():
+		return   # a deferred visibility_changed can land after the menu left the tree
 	var w := get_viewport_rect().size.x
 	var need := maxf(_title_label.get_combined_minimum_size().x, main_panel.get_combined_minimum_size().x)
 	var side := main_panel != null and main_panel.visible and w * (1.0 - COLUMN_SIDE_LEFT) - COLUMN_SIDE_MARGIN >= need

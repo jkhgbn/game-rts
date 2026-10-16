@@ -245,7 +245,7 @@ func _run() -> void:
 	var f_arch := float(archer_mi.get_instance_shader_parameter(&"hit_flash"))
 	var f_frame := float(frame_mi.get_instance_shader_parameter(&"hit_flash"))
 	print("hit flash: body %.2f, trunk %.2f, archer %.2f, frame %.2f" % [f_body, f_trunk, f_arch, f_frame])
-	_check(f_body > 0.3 and f_trunk > 0.3, "the whole beast flashes (body, trunk)")
+	_check(f_body > 0.15 and f_trunk > 0.15, "the whole beast flashes (body, trunk)")   # mounts flash at <= 0.4 since G-F review 3 (MountModel.MOUNT_FLASH_MAX)
 	_check(f_arch > 0.3 and f_frame > 0.3, "the howdah flashes with it")
 	await _wait(0.5)
 	# ---- howdah shot: turn to a target on the right, draw, release once, arrow re-nocked

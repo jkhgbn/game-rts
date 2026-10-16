@@ -240,7 +240,7 @@ func _run() -> void:
 	for mi: MeshInstance3D in [body_mi, jaw_mi, tree_mi, crown_mi]:
 		fl.append(float(mi.get_instance_shader_parameter(&"hit_flash")))
 	print("hit flash: body %.2f, jaw %.2f, tree %.2f, crown %.2f" % fl)
-	_check(fl.min() > 0.3, "the whole beast and its grove flash")
+	_check(fl.min() > 0.15, "the whole beast and its grove flash")   # mounts flash at <= 0.4 since G-F review 3 (MountModel.MOUNT_FLASH_MAX)
 	await _wait(0.5)
 	# ---- team colour: the drapes only; restores
 	var red := Color(0.85, 0.30, 0.12)

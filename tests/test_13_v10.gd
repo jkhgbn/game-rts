@@ -223,7 +223,7 @@ func _run() -> void:
 	var f_r := float((rider.get_node("Root/Chest/Merged") as MeshInstance3D).get_instance_shader_parameter(&"hit_flash"))
 	var f_b := float((boar.get_node("Root/Mount/Merged") as MeshInstance3D).get_instance_shader_parameter(&"hit_flash"))
 	print("hit flash rider %.2f, boar %.2f" % [f_r, f_b])
-	_check(f_r > 0.3 and f_b > 0.3, "rider and boar flash on hits")
+	_check(f_r > 0.15 and f_b > 0.15, "rider and boar flash on hits")   # mounts flash at <= 0.4 since G-F review 3 (MountModel.MOUNT_FLASH_MAX)
 	await _wait(0.4)
 	# ---- team colour: cloth / cape / pennon take it
 	var blue := Color(0.45, 0.75, 0.95)

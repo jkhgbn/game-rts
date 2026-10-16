@@ -158,7 +158,7 @@ func _run() -> void:
 	var fc := float((a.get_node("Root/Chest/Merged") as MeshInstance3D).get_instance_shader_parameter(&"hit_flash"))
 	var fl := float((a.get_node("Root/Chest/ArmL/Merged") as MeshInstance3D).get_instance_shader_parameter(&"hit_flash"))
 	print("hit flash: horse %.2f, rider %.2f, shield arm %.2f" % [fb, fc, fl])
-	_check(fb > 0.3 and fc > 0.3 and fl > 0.3, "horse and rider flash on a hit")
+	_check(fb > 0.15 and fc > 0.15 and fl > 0.15, "horse and rider flash on a hit")   # mounts flash at <= 0.4 since G-F review 3 (MountModel.MOUNT_FLASH_MAX)
 	await _wait(0.5)
 	# ---- attack: the lance strike
 	a.call(&"play_attack")
