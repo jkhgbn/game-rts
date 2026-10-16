@@ -641,8 +641,8 @@ material = SubResource("StandardMaterial3D_mxm82")
 size = Vector2(2.6, 2.6)
 
 [sub_resource type="Gradient" id="Gradient_2r6xj"]
-offsets = PackedFloat32Array(0, 0.3, 0.75, 1)
-colors = PackedColorArray(0.45, 0.25, 0.55, 1, 0.33, 0.13, 0.5, 1, 0.12, 0.04, 0.2, 0.6, 0.1, 0.03, 0.17, 0)
+offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
+colors = PackedColorArray(0.85, 0.8, 0.9, 0, 1, 1, 1, 0.95, 0.8, 0.75, 0.85, 0.75, 0.6, 0.55, 0.7, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_wvvwg"]
 gradient = SubResource("Gradient_2r6xj")
@@ -665,13 +665,36 @@ gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_n0dqg")
 color_ramp = SubResource("GradientTexture1D_wvvwg")
 
+[sub_resource type="Gradient" id="Gradient_riftx"]
+offsets = PackedFloat32Array(0, 0.45, 0.66, 0.8, 1)
+colors = PackedColorArray(0.08, 0.02, 0.14, 1, 0.14, 0.05, 0.24, 1, 0.5, 0.3, 0.62, 0.85, 0.66, 0.46, 0.72, 0.55, 0.4, 0.2, 0.5, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_riftx"]
+gradient = SubResource("Gradient_riftx")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_riftx"]
+resource_name = "RiftMix"
+transparency = 1
+depth_draw_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_riftx")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
 [sub_resource type="QuadMesh" id="QuadMesh_281xo"]
-material = SubResource("StandardMaterial3D_5lund")
-size = Vector2(0.9, 0.9)
+material = SubResource("StandardMaterial3D_riftx")
+size = Vector2(0.55, 1)
 
 [sub_resource type="Gradient" id="Gradient_2sxr0"]
-offsets = PackedFloat32Array(0, 0.3, 0.75, 1)
-colors = PackedColorArray(0.45, 0.25, 0.55, 1, 0.33, 0.13, 0.5, 1, 0.12, 0.04, 0.2, 0.6, 0.1, 0.03, 0.17, 0)
+offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
+colors = PackedColorArray(0.85, 0.8, 0.9, 0, 1, 1, 1, 0.95, 0.8, 0.75, 0.85, 0.75, 0.6, 0.55, 0.7, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_et6l8"]
 gradient = SubResource("Gradient_2sxr0")
@@ -695,8 +718,8 @@ scale_curve = SubResource("CurveTexture_7el57")
 color_ramp = SubResource("GradientTexture1D_et6l8")
 
 [sub_resource type="QuadMesh" id="QuadMesh_pky3c"]
-material = SubResource("StandardMaterial3D_5lund")
-size = Vector2(0.9, 0.9)
+material = SubResource("StandardMaterial3D_riftx")
+size = Vector2(0.55, 1)
 
 [sub_resource type="Gradient" id="Gradient_0x6lv"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)

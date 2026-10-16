@@ -371,8 +371,15 @@ func _initialize() -> void:
 		smp.gravity = Vector3(0.25, 0, 0)
 		smp.scale_curve = _curve(0.27, 1.0)
 		smp.color_ramp = _grad([Color(0.10, 0.07, 0.13, 0.0), Color(0.10, 0.07, 0.13, 0.7), Color(0.14, 0.11, 0.18, 0.0)], [0.0, 0.1, 1.0])
+	# G-F keep damage (docs/art/gf_keep_damage.md): the rift was 24 additive quads on the x3 HDR material and summed to a
+	# white-lilac ball under the bloom. It is now alpha-blended (a stack never passes its own colour) on a rift dot: a dark
+	# violet core with a lilac rim capped at 0.72 (MoteCap.VALUE_CAP), on a tall 0.55 x 1 m quad (a slit, not a ball).
+	var rift_tex := _radial([Color(0.08, 0.02, 0.14, 1), Color(0.14, 0.05, 0.24, 1), Color(0.5, 0.3, 0.62, 0.85),
+		Color(0.66, 0.46, 0.72, 0.55), Color(0.4, 0.2, 0.5, 0)], [0.0, 0.45, 0.66, 0.8, 1.0])
+	var rift_mat := _particle_mat(rift_tex, BaseMaterial3D.BLEND_MODE_MIX, "RiftMix")
 	for s: Array in [["Rift1", Vector3(-1.2, 7.0, 1.4)], ["Rift2", Vector3(0.6, 12.0, -0.8)]]:
-		var rf := _particles(s[0], keep, 24, 1.0, add_mat, 0.9)
+		var rf := _particles(s[0], keep, 24, 1.0, rift_mat, 0.9)
+		(rf.draw_pass_1 as QuadMesh).size = Vector2(0.55, 1.0)
 		rf.position = s[1] * k
 		rf.emitting = false
 		rf.preprocess = 0.0
@@ -385,7 +392,7 @@ func _initialize() -> void:
 		rfp.initial_velocity_min = 1.2
 		rfp.initial_velocity_max = 2.0
 		rfp.scale_curve = _curve(1.0, 0.33)
-		rfp.color_ramp = _grad([Color(0.45, 0.25, 0.55, 1.0), Color(0.33, 0.13, 0.5, 1.0), Color(0.12, 0.04, 0.2, 0.6), Color(0.1, 0.03, 0.17, 0.0)], [0.0, 0.3, 0.75, 1.0])
+		rfp.color_ramp = _grad([Color(0.85, 0.8, 0.9, 0.0), Color(1, 1, 1, 0.95), Color(0.8, 0.75, 0.85, 0.75), Color(0.6, 0.55, 0.7, 0.0)], [0.0, 0.15, 0.7, 1.0])
 	# TrainBurst: one-shot, 72 particles; the training pulse uses 1/3 of them (amount_ratio),
 	# the shard burst all of them. The script moves it and sets its direction per use.
 	var tb := _particles("TrainBurst", keep, 72, 0.8, add_mat, 0.15)

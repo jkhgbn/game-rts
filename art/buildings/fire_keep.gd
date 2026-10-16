@@ -622,8 +622,17 @@ func _build_state_nodes() -> void:
 		pm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 		pm.emission_sphere_radius = 0.45
 		_smoke.append(_particles("Smoke%d" % (_smoke.size() + 1), _body, pos, 30, 3.5, pm, mix_quad, false))
+	# G-F keep damage (docs/art/gf_keep_damage.md): the blaze used the brazier ramp (born pale yellow 1 / 0.92 / 0.55 at
+	# alpha 1); 24 additive quads at the plume's core summed to white. Its own ramp keeps the fire hues at an alpha whose
+	# stack of 6 stays <= 1.0 on the brightest channel (under the glow threshold, the core stays orange).
+	var blaze_g := Gradient.new()
+	blaze_g.offsets = PackedFloat32Array([0.0, 0.35, 0.75, 1.0])
+	blaze_g.colors = PackedColorArray([Color(1.0, 0.55, 0.12, 0.16), Color(1.0, 0.36, 0.05, 0.15),
+		Color(0.6, 0.1, 0.0, 0.1), Color(0.3, 0.02, 0.0, 0.0)])
+	var blaze_ramp := GradientTexture1D.new()
+	blaze_ramp.gradient = blaze_g
 	for pos: Vector3 in [Vector3(-1.7, 6.9, -1.5), Vector3(1.0, 12.3, 0.9)]:
-		var pm := _pm(Vector3.UP, 15.0, 1.6, 2.6, Vector3.ZERO, 0.95, 0.3, fire_ramp)
+		var pm := _pm(Vector3.UP, 15.0, 1.6, 2.6, Vector3.ZERO, 0.95, 0.3, blaze_ramp)
 		pm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 		pm.emission_sphere_radius = 0.5
 		_blaze.append(_particles("Blaze%d" % (_blaze.size() + 1), _body, pos, 24, 1.0, pm, add_quad, false))
