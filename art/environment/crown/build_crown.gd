@@ -651,6 +651,7 @@ func _spark_mat(col: Color) -> StandardMaterial3D:
 	m.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	m.disable_fog = true  # G-E 5: an additive quad must not fog
 	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	m.vertex_color_use_as_albedo = true
 	m.albedo_texture = _soft_dot()
 	m.albedo_color = col

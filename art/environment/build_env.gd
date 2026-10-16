@@ -985,6 +985,7 @@ func _build_crystal_node() -> void:
 	star_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	star_mat.disable_fog = true  # G-E 5: an additive quad must not fog
 	star_mat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	star_mat.billboard_keep_scale = true   # G-F billboard pass: the particle scale applies (docs/art/gf_billboard.md)
 	star_mat.vertex_color_use_as_albedo = true
 	star_mat.albedo_texture = _sparkle_texture()
 	star_mat.albedo_color = Color(1.6, 2.3, 2.6)

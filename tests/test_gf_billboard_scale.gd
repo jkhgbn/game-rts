@@ -22,7 +22,7 @@ const SCENE_ROOTS: Array[String] = ["res://art/buildings", "res://art/units", "r
 const SKIP_DIRS: Array[String] = ["_effort_trial", "tools", "parts", "preview", "materials", "shots", "combat_g",
 		"spells_g", "textures", "meshes"]
 const SRC_ROOTS: Array[String] = ["res://art", "res://scripts/vfx"]
-const NOTE_ONLY: Array[String] = ["res://art/environment", "res://art/cinematics"]
+const NOTE_ONLY: Array[String] = ["res://art/cinematics"]
 ## How far below a billboard_mode line keep_scale must appear (same material variable).
 const SRC_WINDOW := 14
 const SCALE_TOL := 0.15

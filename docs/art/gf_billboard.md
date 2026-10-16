@@ -49,8 +49,8 @@ which gives 1840 emitters (1710 at Low, which is what CI runs).
   `X.billboard_keep_scale = true` within the next 14 lines. This covers the static VFX makers.
 - Every `.tscn` / `.tres` block under `art/` with `billboard_mode = 3` must have keep scale.
 
-`art/environment` and `art/cinematics` belong to other owners, so the test prints them as notes instead of failing on
-them (see the end of this note).
+`art/cinematics` belongs to another owner, so the test prints it as notes instead of failing on it. `art/environment`
+was a note too until the follow-up below; it now fails like the rest of `art/`.
 
 **Before the fix:** 664 emitter hits (376 unique) plus 55 source hits. **After:** PASS at Low and at High.
 
@@ -108,20 +108,20 @@ BuildRing, which stays at its written size for consistency with the other kingdo
 x3 albedo, and it still blooms into a white-lilac ball when the keep is under 25 % HP. It is a candidate for a
 `MoteCap.cap`-style value cap in a later pass.
 
-## Left for other owners (printed as notes by the test)
+## Follow-up: art/environment (fixed once the Thornwater pass freed it)
 
-These emitters draw at the quad size today:
+The same one-line fix went into the six emitters that were notes at first:
 
-- `art/environment/build_env.gd:987` (`star_mat`)
-- `art/environment/crown/build_crown.gd:653`
-- `art/environment/crystal/build_crystal.gd:224` (`star_mat`)
-- `art/environment/menu_diorama/menu_diorama.gd:543`
+- `art/environment/build_env.gd` (`star_mat`, crystal glints)
+- `art/environment/crown/build_crown.gd` (`_spark_mat`, the two crown spark bursts)
+- `art/environment/crystal/build_crystal.gd` (`star_mat`, crystal glints)
+- `art/environment/menu_diorama/menu_diorama.gd` (`_particle_draw_mesh`, every menu diorama particle, smoke included through `_particle_mix_mesh`)
 - `art/environment/crown_pedestal.tscn` (2 materials)
 - `art/environment/crystal_node.tscn` (1 material)
 
-`art/cinematics` had no hit.
-
-The fix is the same one line, plus a look at the result. Once those owners take it, the test can drop `NOTE_ONLY`.
+Every user is a particle draw pass with a scale of 0.5-1.4 (some with a pop / fade curve), so the only change is size:
+the glints and sparks now pop and fade as written instead of holding the quad size. `NOTE_ONLY` keeps only
+`art/cinematics`, which had no hit.
 
 ## Tests
 
