@@ -11,9 +11,12 @@ extends MissionE8Muster
 ## held in place by `rooted` outside phase 2; his damage gates are a heal-back of the blocked share on `damage_taken`.
 ## The Key-Wards are mission data (3 000 HP, a ring and a pillar): the Tear, the Hollow Pulse and Host units within 5 m
 ## (6 HP / s each) wear them down, they mend 0.5 % / s with no Host within 12 m. Allied helpers are not on the field:
-## the Hollow Pulse checks the player's helper only. No titans (sec_titan dropped). Story floors: phase 2 opens no
-## earlier than 17:00 and phase 3 no earlier than 25:30, and the King falls on the third turn at the earliest (normal),
-## so the scripted run lands in the 28-35 min target. Tuning: the chains themselves hit him (8 % per Surge and per turn,
+## the Hollow Pulse checks the player's helper only. No titans (sec_titan dropped). Phases (campaign review 2026-10-16):
+## the King's HP moves them (60 % -> phase 2, 25 % -> phase 3), with only a PHASE_LOCKOUT minimum after the previous
+## phase began (no fixed clock floors); the King falls on the third turn at the earliest (normal). The wards: their HP
+## is in the objective line and called on screen at 50 % / 25 %, and the hero has a Ward Mend (MEND_*: stand within
+## 6 m of a Key-Ward, Host-free, for 3 s: +25 %, or a broken one relit at half; 60 s cooldown). The King's look:
+## KING_ART's static dress(unit) when the file exists. Tuning: the chains themselves hit him (8 % per Surge and per turn,
 ## 5 % per lash every 60 s while he walks) and the Hurl hits 45 on at most 6 (a scripted army cannot dodge); his crush is 40 (spec 90).
 
 const MISSION_ID := &"e8m3"
@@ -26,8 +29,15 @@ const SURGE_LEN: Array[float] = [12.0, 10.0, 9.0]
 const TEAR: Array[float] = [12.0, 16.0, 20.0]   ## spec 30 / 40 / 50 (tuning: the mend could never keep up)
 const PULSE_EVERY: Array[float] = [9.0, 8.0, 7.0]
 const TURNS_MIN: Array[int] = [2, 3, 4]
-const PHASE2_FLOOR := 1020.0
-const PHASE3_FLOOR := 1530.0
+const PHASE_LOCKOUT := 240.0     ## a phase lasts at least this long, whatever the damage (4:00)
+const WALK_MULT := 0.45          ## phase 2 damage share outside the staggers (was 0.3: the walk lasted for the clock)
+const MEND_R := 6.0
+const MEND_CHANNEL := 3.0
+const MEND_GAIN := 0.25
+const MEND_COOLDOWN := 60.0
+const WARD_WARN: Array[float] = [0.5, 0.25]
+const KING_ART := "res://art/units/titans/hollow_king/hollow_king_art.gd"
+const KING_LIMB := {Unit.Team.PLAYER: &"arm_r", Teams.ALLY: &"arm_l", Unit.Team.ENEMY: &"leg_l", Teams.ENEMY_2: &"leg_r"}
 const RING := 3.0
 const RING_CLEAR := 8.0
 const RELIGHT_WAIT := 30.0
@@ -66,6 +76,9 @@ const MSG_WAITING := "The chains wait: the {kingdom} keyhole is below half"
 const MSG_BROKEN := "The {kingdom} chain is broken! The King's {limb} is free!"
 const MSG_STAGGER := "The King staggers!"
 const MSG_OPEN := "The King is open!"
+const MSG_WARD_LOW := "The {kingdom} Key-Ward is at {pct} %!"
+const MSG_MENDED := "The {kingdom} Key-Ward is mended."
+const HINT_MEND := "Ward Mend: stand beside a Key-Ward with your wizard, no Host near, for 3 s (+25 %, every 60 s). It relights a broken one."
 
 ## Read only.
 var phase := 0
@@ -100,6 +113,10 @@ var _walk_next := 0.0
 var _tide_next := 30.0
 var _tide_i := 0
 var _lash_next := 0.0
+var phase_at := 0.0              ## mission time the current phase began
+var mend_ready_at := 0.0         ## mission time the hero's Ward Mend is ready again
+var mend_progress := 0.0
+var ward_warned := {}            ## seat -> lowest WARD_WARN index announced (re-armed above +10 %)
 
 
 func _init() -> void:
@@ -168,6 +185,7 @@ func _on_navigation_ready() -> void:
 	local_type("hollow_king").max_hp = king_max
 	king = make_unit("hollow_king")
 	_spawn(king, Unit.Team.NEUTRAL, CRACK)
+	_dress_king()
 	mark_scripted(king)
 	arm_enemy(king)
 	king.add_to_group(&"boss")
@@ -268,7 +286,7 @@ func objective_text(id: StringName, with_counter := true) -> String:
 			return "Hold together: all four at your keyholes"
 		&"obj_keys":
 			if with_counter:
-				return Loc.t("Never let two keyholes fall at once ({wards})", {"wards": _wards_text()})
+				return Loc.t("Never let two keyholes fall at once ({wards}) · {mend}", {"wards": _wards_text(), "mend": _mend_text()})
 			return "Never let two keyholes fall at once"
 		&"obj_wizard":
 			return Loc.t("{wizard} must survive", {"wizard": Loc.t(wizard_name())})
@@ -294,6 +312,13 @@ func _objective_extra(id: StringName, _o: Dictionary) -> Dictionary:
 	return {}
 
 
+func _mend_text() -> String:
+	var left := mend_ready_at - mission_time()
+	if left <= 0.0:
+		return Loc.t("Ward Mend ready")
+	return Loc.t("Ward Mend {time}", {"time": mmss(left)})
+
+
 func _king_pct() -> int:
 	return int(100.0 * king.hp / maxf(1.0, king.max_hp)) if king and is_instance_valid(king) else 0
 
@@ -306,7 +331,7 @@ func _king_mult() -> float:
 		1:
 			return 1.0 if t < surge_until else 0.0
 		2:
-			return 1.0 if t < stagger_until else 0.3
+			return 1.0 if t < stagger_until else WALK_MULT
 		3:
 			return 1.0 if t < exposed_until else 0.1
 	return 0.0
@@ -328,11 +353,11 @@ func _on_king_hit(amount: float, _attacker: Node3D) -> void:
 	var t := mission_time()
 	if phase == 1 and king.hp <= king.max_hp * 0.6:
 		king.hp = king.max_hp * 0.6
-		if t >= PHASE2_FLOOR:
+		if t >= phase_at + PHASE_LOCKOUT:
 			_phase2()
 	elif phase == 2 and king.hp <= king.max_hp * 0.25:
 		king.hp = king.max_hp * 0.25
-		if t >= PHASE3_FLOOR:
+		if t >= phase_at + PHASE_LOCKOUT:
 			_phase3()
 	elif phase == 3 and king.hp <= 1.0:
 		_check_fall()
@@ -377,6 +402,7 @@ func _tick_phase0() -> void:
 			say_l("L7")
 	if t >= rise:
 		phase = 1
+		phase_at = t
 		fire_once(&"E3")
 		set_objective(&"obj_rise", "done")
 		set_objective(&"obj_chains", "active")
@@ -385,6 +411,8 @@ func _tick_phase0() -> void:
 		if flag_int("e8_stone_uses") >= 3:
 			say_l("L32")
 		show_spotlight()
+		if hud:
+			hud.show_message(HINT_MEND, 8.0)
 
 
 func _surge_blocker() -> int:
@@ -449,6 +477,7 @@ func _phase2() -> void:
 	if phase != 1 or not fire_once(&"E8"):
 		return
 	phase = 2
+	phase_at = mission_time()
 	surge_until = 0.0
 	set_objective(&"obj_chains", "done")
 	set_objective(&"obj_walk", "active")
@@ -532,6 +561,7 @@ func _phase3() -> void:
 	if phase != 2 or not fire_once(&"E10"):
 		return
 	phase = 3
+	phase_at = mission_time()
 	set_objective(&"obj_walk", "done")
 	set_objective(&"sec_fed", "done" if fed < FED_LIMIT else "failed")
 	set_objective(&"obj_together", "active")
@@ -539,17 +569,19 @@ func _phase3() -> void:
 
 
 ## e8m3_chains end state (identical on skip): the King kneels at (0, 0), Host near the wards gone, every ward >= 50 %
-## and relit, every wizard at its ring, Hush at the Shadow keyhole, the bots on their rings.
+## and relit, every wizard healed and at its ring, Hush at the Shadow keyhole, the bots on their rings.
 func _chains_end() -> void:
 	king.command_stop()
 	king.global_position = CRACK
 	for s: int in SEATS:
 		broken.erase(s)
+		_chain_look(s, false)
 		ward[s] = maxf(float(ward[s]), ward_max * 0.5)
 		for u: Unit in host_near(keyhole_of(s), 12.0):
 			u.leave_map()
 		var w: Wizard = seat_wizard.get(s)
 		if w and is_instance_valid(w) and w.is_alive():
+			w.heal(w.max_hp)   # review 2026-10-16: the phases come sooner (less essence for draughts); the last act starts whole
 			var to := keyhole_of(s) + (keep_pos(s) - keyhole_of(s)).normalized() * 2.0
 			w.global_position = to
 			w.command_stop()
@@ -676,6 +708,7 @@ func _hurt_ward(s: int, n: float) -> void:
 	ward[s] = maxf(0.0, float(ward[s]) - n)
 	if float(ward[s]) <= 0.0:
 		broken[s] = mission_time()
+		_chain_look(s, true)
 		relight[s] = 0.0
 		ever_broken = true
 		if objective_state("sec_chains") == "active":
@@ -712,10 +745,109 @@ func _tick_wards(dt: float) -> void:
 			relight[s] = ring_step(w, float(relight[s]), at, RING, RELIGHT, RING_CLEAR, dt)
 			if float(relight[s]) >= RELIGHT:
 				broken.erase(s)
+				_chain_look(s, false)
 				ward[s] = ward_max * 0.5
 				flash_ring(at, 5.0)
 				if s == Unit.Team.PLAYER and fire_once(&"E6b"):
 					say_w("L13")
+	_tick_mend(dt)
+	_tick_ward_warn()
+
+
+## Ward HP on screen (campaign review 2026-10-16): a ward crossing 50 % / 25 % is called out; re-armed 10 % above.
+func _tick_ward_warn() -> void:
+	for s: int in SEATS:
+		if broken.has(s):
+			continue
+		var pct := float(ward[s]) / maxf(1.0, ward_max)
+		var i := int(ward_warned.get(s, -1))
+		if i >= 0 and pct > WARD_WARN[i] + 0.1:
+			i -= 1
+			ward_warned[s] = i
+		var nxt := i + 1
+		if nxt < WARD_WARN.size() and pct < WARD_WARN[nxt]:
+			ward_warned[s] = nxt
+			flash_ring(keyhole_of(s), 5.0)
+			if hud:
+				hud.show_message(Loc.t(MSG_WARD_LOW, {"kingdom": Loc.t(String(seat_kind[s]).capitalize()),
+						"pct": int(100.0 * pct)}), 4.0)
+
+
+## The ward within MEND_R of the hero (-1 = none).
+func _mend_seat() -> int:
+	if not hero_alive():
+		return -1
+	for s: int in SEATS:
+		if _flat(hero.global_position, keyhole_of(s)) <= MEND_R:
+			return s
+	return -1
+
+
+## Ward Mend: the hero within MEND_R of a Key-Ward, no Host within MEND_R of it, for MEND_CHANNEL s -> +MEND_GAIN of
+## its HP (a broken ward past RELIGHT_WAIT: relit at half). Cooldown MEND_COOLDOWN.
+func _tick_mend(dt: float) -> void:
+	var t := mission_time()
+	var s := _mend_seat()
+	var useful := s >= 0 and t >= mend_ready_at and ((broken.has(s) and t >= float(broken[s]) + RELIGHT_WAIT) \
+			or (not broken.has(s) and float(ward[s]) < ward_max * 0.9))
+	if not useful:
+		mend_progress = 0.0
+		return
+	mend_progress = ring_step(hero, mend_progress, keyhole_of(s), MEND_R, MEND_CHANNEL, MEND_R, dt)
+	if mend_progress < MEND_CHANNEL:
+		return
+	mend_progress = 0.0
+	mend_ready_at = t + MEND_COOLDOWN
+	if broken.has(s):
+		broken.erase(s)
+		_chain_look(s, false)
+		relight[s] = 0.0
+		ward[s] = ward_max * 0.5
+	else:
+		ward[s] = minf(ward_max, float(ward[s]) + ward_max * MEND_GAIN)
+	flash_ring(keyhole_of(s), 5.0)
+	if hud:
+		hud.show_message(Loc.t(MSG_MENDED, {"kingdom": Loc.t(String(seat_kind[s]).capitalize())}), 3.0)
+
+
+## The Hollow King's own look (tech-artist, HollowKingArt): `KING_ART`'s statics when the file exists (load-guarded,
+## never a class_name reference). dress(unit, chain colours) at spawn / load, then one chain per Key-Ward (KING_LIMB).
+func _king_art() -> Script:
+	if not ResourceLoader.exists(KING_ART):
+		return null
+	var art := load(KING_ART) as Script
+	if art == null:
+		return null
+	for m: Dictionary in art.get_script_method_list():
+		if String(m.get("name", "")) == "dress":
+			return art
+	return null
+
+
+func _dress_king() -> void:
+	if king == null or not is_instance_valid(king) or king.has_meta(&"_king_dressed"):
+		return
+	var art := _king_art()
+	if art == null:
+		return
+	var colors := {}
+	for st: int in SEATS:
+		if seat_kind.has(st):
+			colors[KING_LIMB[st]] = MissionE8_02.KINGDOM_COLOR.get(seat_kind[st], Color(1.0, 0.85, 0.45))
+	king.set_meta(&"_king_dressed", true)
+	art.call(&"dress", king, colors)
+	for st: int in SEATS:
+		if broken.has(st):
+			_chain_look(st, true)
+
+
+## The King's chain for seat `st`'s Key-Ward: dimmed while the ward is broken (HollowKingArt.set_chain_broken).
+func _chain_look(st: int, is_broken: bool) -> void:
+	if king == null or not is_instance_valid(king) or not king.has_meta(&"_king_dressed"):
+		return
+	var art := _king_art()
+	if art and art.get_script_method_list().any(func(m: Dictionary) -> bool: return String(m.get("name", "")) == "set_chain_broken"):
+		art.call(&"set_chain_broken", king, KING_LIMB[st], is_broken)
 
 
 ## Keystone Hurl: the biggest clump of seat units within 32 m of the King (`at_hero`: the player's wizard), 1.6 s later.
@@ -810,6 +942,7 @@ func load_state(d: Dictionary, nodes: Dictionary = {}) -> void:
 		if not king.damage_taken.is_connected(_on_king_hit):
 			king.damage_taken.connect(_on_king_hit)
 		king.death_guard = _king_guard
+		_dress_king()
 	if hush and is_instance_valid(hush):
 		guard_life(hush)
 

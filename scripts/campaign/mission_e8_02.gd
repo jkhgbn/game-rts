@@ -8,9 +8,11 @@ extends MissionE8Muster
 ##
 ## Built deviations (2026-10-09, besides MissionE8Muster's): the pylons are Warden-Gate structures (1 400 HP, 2 Wardens
 ## / 35 s while they stand); a lit keyhole is a pillar of the kingdom's colour (no Key-Ward HP in e8m2: it stays lit);
-## pings are HUD messages with the ally's line (no ping wheel). Story floor: an ally marches no earlier than 14:00 /
-## 18:00 / 24:00 (A2 / B1 / B2, normal; "the muster horns") however full its bar, so the scripted run lands in the
-## 25-30 min target.
+## pings are HUD messages with the ally's line (no ping wheel). Story floor: an ally marches no earlier than 7:00 /
+## 9:00 / 12:00 (A2 / B1 / B2, normal; "the muster horns"). Campaign review 2026-10-16: the floors are halved and the
+## bars fill faster (about a 20 min mission), so the player's help (kills, answered calls) really brings a march
+## forward; each allied march has one beat (MARCH_BEAT: its wizard's line, a kingdom set piece on the Host at its
+## keyhole, then the Hollow answers with a burst from the isle).
 
 const MISSION_ID := &"e8m2"
 const MISSION_TITLE := "The Last Muster"
@@ -21,10 +23,23 @@ const CHANNEL := 5.0
 const RING := 3.0
 const RING_CLEAR := 8.0
 const ALLY_RING := 6.0   ## a bot's ring (tuning: its wizard is blocked by its own army around the keyhole)
-const MUSTER_TIME := {Teams.ALLY: [780.0, 960.0, 1080.0], Unit.Team.ENEMY: [960.0, 1200.0, 1380.0],
-		Teams.ENEMY_2: [1140.0, 1440.0, 1680.0]}
-const MARCH_FLOOR := {Teams.ALLY: [720.0, 840.0, 960.0], Unit.Team.ENEMY: [900.0, 1080.0, 1200.0],
-		Teams.ENEMY_2: [1200.0, 1440.0, 1620.0]}
+const MUSTER_TIME := {Teams.ALLY: [540.0, 660.0, 750.0], Unit.Team.ENEMY: [780.0, 960.0, 1080.0],
+		Teams.ENEMY_2: [900.0, 1080.0, 1200.0]}
+const MARCH_FLOOR := {Teams.ALLY: [360.0, 420.0, 480.0], Unit.Team.ENEMY: [450.0, 540.0, 600.0],
+		Teams.ENEMY_2: [570.0, 720.0, 810.0]}
+## The march beat: once the marching wizard is this close to its keyhole (or BEAT_LATE s into the march).
+const BEAT_R := 20.0
+const BEAT_LATE := 45.0
+const BEAT_AREA := 14.0
+const BEAT_BURST := 4
+## Per kingdom: [the wizard's line, status on the Host near the keyhole, its seconds, damage to them].
+const MARCH_BEAT := {
+	&"fire": ["Stand back from the pylon. No, further. Further than that.", &"", 0.0, 140.0],
+	&"shadow": ["Quietly now. The Hollow hears footsteps better than it hears knives.", &"dazed", 3.0, 70.0],
+	&"ice": ["Hold still, all of you. That includes the rubble.", &"frozen", 4.0, 0.0],
+	&"nature": ["Roots, take their feet. We walk, they wait.", &"rooted", 6.0, 0.0],
+}
+const MSG_BEAT := "The Hollow answers the {kingdom} march!"
 const HELP_KILL: Array[float] = [3.0, 2.0, 1.5]
 const HELP_PING: Array[float] = [15.0, 10.0, 8.0]
 const HELP_KILL_MAX := 40.0
@@ -76,6 +91,7 @@ var early_rise := false
 var victory_time := -1.0
 var waves_fired: Array[String] = []
 var gates := {}                  ## seat -> WardenGate (the Hollow Gates)
+var beats: Array[int] = []       ## seats whose march beat played
 
 var _tick := 0.0
 var _crack_i := 0
@@ -411,6 +427,7 @@ func _tick_muster(dt: float) -> void:
 		elif busy == &"march":
 			# a bot's march never stalls the story (tuning, 2026-10-09): its pylon falls 90 s in, its key turns 150 s in
 			var since := t - float(march_at.get(s, t))
+			_tick_beat(s, since)
 			var pg := pylons[s] as WardenGate
 			if since >= 90.0 and pg.is_alive():
 				pg.take_damage(1.0e6, seat_wizard.get(s))
@@ -443,6 +460,34 @@ func _march(s: int) -> void:
 	waves_fired.append("pressure%s" % SEAT_NAMES[s])
 	crack_toward(s, _rise_rows([["warden", 6], ["sentinel", 1]]))
 	_call_help(s, keyhole_of(s))
+
+
+## The march beat (campaign review 2026-10-16): the marching wizard reaches its keyhole -> its line, its kingdom's
+## set piece on the Host there (fire burns, shadow dazes, ice freezes, nature roots), then a burst out of the isle and
+## a call for help.
+func _tick_beat(s: int, since: float) -> void:
+	if beats.has(s):
+		return
+	var w: Wizard = seat_wizard.get(s)
+	var close := w != null and is_instance_valid(w) and w.is_alive() and _flat(w.global_position, keyhole_of(s)) <= BEAT_R
+	if not close and since < BEAT_LATE:
+		return
+	beats.append(s)
+	var k: StringName = seat_kind[s]
+	var b: Array = MARCH_BEAT[k]
+	say(StringName(WIZARD_OF[k]), String(b[0]))
+	flash_ring(keyhole_of(s), BEAT_AREA)
+	for u: Unit in host_near(keyhole_of(s), BEAT_AREA):
+		if float(b[3]) > 0.0:
+			u.take_damage(float(b[3]), w if w and is_instance_valid(w) else null)
+		if StringName(b[1]) != &"" and u.is_alive():
+			u.apply_status(StringName(b[1]), float(b[2]))
+	waves_fired.append("beat%s" % SEAT_NAMES[s])
+	crack_toward(s, _rise_rows([["warden", BEAT_BURST]]))
+	if hud:
+		hud.show_message(Loc.t(MSG_BEAT, {"kingdom": Loc.t(String(k).capitalize())}), 4.0)
+	if not ping.has(s):
+		_call_help(s, keyhole_of(s))
 
 
 func _tick_ping(s: int) -> void:

@@ -12,7 +12,7 @@ const SCENES := {"e8m1_fire": "res://missions/mission_e8_01_fire.tscn", "e8m1_sh
 		"e8m2": "res://missions/mission_e8_02.tscn", "e8m3": "res://missions/mission_e8_03.tscn"}
 ## [min, max] play time in seconds (cutscenes included) and the cutscene seconds added to the mission clock.
 const TARGET := {"e8m1_fire": [1080.0, 1320.0, 65.0], "e8m1_shadow": [1080.0, 1320.0, 80.0], "e8m1_ice": [1080.0, 1320.0, 50.0],
-		"e8m1_nature": [1080.0, 1320.0, 45.0], "e8m2": [1500.0, 1800.0, 75.0], "e8m3": [1680.0, 2100.0, 60.0]}
+		"e8m1_nature": [1080.0, 1320.0, 45.0], "e8m2": [960.0, 1500.0, 75.0], "e8m3": [1080.0, 1560.0, 60.0]}
 const PASSIVE_LIMIT := {"e8m1_fire": 1500.0, "e8m1_shadow": 1500.0, "e8m1_ice": 1500.0, "e8m1_nature": 1500.0,
 		"e8m2": 1900.0, "e8m3": 2200.0}
 const HALL_MIX := {&"fire": ["flame_guard", "ember_archer", "pyre_adept", "flame_guard", "ember_archer", "blaze_rider"],
