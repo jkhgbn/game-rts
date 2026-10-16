@@ -14,12 +14,17 @@ extends RefCounted
 ##   ThornwaterLook (art/environment/thornwater/thornwater_look.gd) Thornwater (G-F r2 item 9): wet marsh-meadow ground,
 ##                peaty water, a cooler light (every tier); reed beds, thickets, a fen wood belt and the moat thorn
 ##                spires at Medium+ (docs/art/gf_thornwater.md).
+##   QuartermeetLook (art/environment/quartermeet/quartermeet_look.gd) Quartermeet (G-F): a harvest highland on top of
+##                the autumn swap: straw-gold stubble, granite roads, a heather moor rim, golden birch crowns, a slate-teal
+##                river, a crisper sun (every tier); stook fields, drystone walls, hay bales and the moat standing stones
+##                at Medium+ (docs/art/gf_quartermeet.md).
 
 const LOOKS: Array[String] = [
 	"res://art/environment/sighing_wood/forest_mood.gd",
 	"res://art/environment/lane_dressing/lane_dressing.gd",
 	"res://art/environment/lane_dressing/forest_replant.gd",
 	"res://art/environment/thornwater/thornwater_look.gd",
+	"res://art/environment/quartermeet/quartermeet_look.gd",
 ]
 
 

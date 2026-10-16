@@ -333,3 +333,10 @@ they still show the old cyan box. One load-guarded hook, at the end of `_add_she
 It keeps the node name, position (y 1.8) and collider-free setup, so `_shatter_shell` and saves are unchanged.
 Optional (systems-coder, cosmetic): `scripts/campaign/frozen_emberguard.gd` header still says "Placeholder art (M9.V1)";
 the art now replaces its box / capsules / stump in place (hidden, not freed, so `_on_thawed` / `load_row` still work).
+
+## From tech-artist, G-F Quartermeet identity (2026-10-15): nothing blocking
+Quartermeet now has its own harvest-highland look (`docs/art/gf_quartermeet.md`, `art/environment/quartermeet/`,
+one LOOKS entry in `art/environment/level_looks.gd`, `tests/test_gf_quartermeet.gd`). Optional follow-up for the
+horizon owner: the horizon backdrop (`horizon_mat`, art/environment/horizon/) still shows the shared autumn orange on
+Quartermeet; a per-map tint (paler gold / slate hills) keyed on layout id `quartermeet` would finish the look. It must
+leave Ashwind Reach unchanged.
