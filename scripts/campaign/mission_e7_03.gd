@@ -663,8 +663,11 @@ func _show_take(rid: StringName) -> void:
 	var parts: Array = _take_rings[rid]
 	var col := TAKE_RING_MASK if masks else TAKE_RING_BURN
 	for i in parts.size():
-		var mi := parts[i] as MeshInstance3D
-		if mi == null or not is_instance_valid(mi):
+		var part: Variant = parts[i]
+		if not is_instance_valid(part):
+			continue
+		var mi := part as MeshInstance3D
+		if mi == null:
 			continue
 		mi.visible = r > 0.0
 		(mi.material_override as StandardMaterial3D).albedo_color = col
