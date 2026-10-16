@@ -52,6 +52,15 @@ const THIN_KINDS: Array[String] = [KERB, GRASS, HEATHER, GORSE, BURNT, FLAGS, EM
 ## Tests / tools: >= 0 beats the settings (0 Low .. 3 Ultra).
 static var quality_override := -1
 
+## G-F review 3 item 5 (docs/art/gf_r3_autumn.md): the lane road and plaza dirt of a lane map, a desaturated
+## brown-ochre (the autumn red-brown read as a maroon smear under the old orange fog). Painted on the level's own
+## ground material only (a per-level duplicate; a shared .tres is never touched), at every tier (colour only).
+const LANE_GROUND := {
+	&"road_color": Color(0.43, 0.33, 0.22), &"road_dark": Color(0.30, 0.23, 0.155),
+	&"dirt_color": Color(0.41, 0.315, 0.21), &"dirt_dark": Color(0.285, 0.215, 0.145),
+}
+const GROUND_SHADER := "res://art/environment/ground.gdshader"
+
 var counts := {}                     ## mesh path -> instances placed (tests)
 var _level: Node
 var _layout: Resource
@@ -87,7 +96,10 @@ static func settings_quality() -> int:
 
 ## The level's LaneDressing (created when the level wants one and the tier is Medium+: Low keeps the cost before G1).
 static func ensure_for_level(level: Node) -> LaneDressing:
-	if level == null or not level.is_inside_tree() or not wants(level) or settings_quality() < 1:
+	if level == null or not level.is_inside_tree() or not wants(level):
+		return null
+	paint_lane_ground(level)
+	if settings_quality() < 1:
 		return null
 	var old := level.get_node_or_null(NodePath(String(NODE_NAME))) as LaneDressing
 	if old:
@@ -96,6 +108,35 @@ static func ensure_for_level(level: Node) -> LaneDressing:
 	d.name = NODE_NAME
 	level.add_child(d)
 	return d
+
+
+## Sets LANE_GROUND on every level-owned ground-shader material under `level` (shared .tres files skipped).
+## Returns how many materials were painted. Idempotent.
+static func paint_lane_ground(level: Node) -> int:
+	if level == null:
+		return 0
+	var seen := {}
+	var n := 0
+	for node: Node in level.find_children("*", "GeometryInstance3D", true, false):
+		var gi := node as GeometryInstance3D
+		var mats: Array = [gi.material_override]
+		var mi := gi as MeshInstance3D
+		if mi and mi.mesh:
+			for s: int in mi.mesh.get_surface_count():
+				mats.append(mi.get_surface_override_material(s))
+				mats.append(mi.mesh.surface_get_material(s))
+		for m: Variant in mats:
+			var sm := m as ShaderMaterial
+			if sm == null or seen.has(sm) or sm.shader == null or sm.shader.resource_path != GROUND_SHADER:
+				continue
+			seen[sm] = true
+			var p := sm.resource_path
+			if p != "" and not p.contains("::"):
+				continue   # a shared file (e.g. the plateau): other maps load it too
+			for k: StringName in LANE_GROUND:
+				sm.set_shader_parameter(k, LANE_GROUND[k])
+			n += 1
+	return n
 
 
 ## CPU copies of one kind's instance transforms (mesh path), e.g. for tests: the headless renderer keeps no MultiMesh data.
