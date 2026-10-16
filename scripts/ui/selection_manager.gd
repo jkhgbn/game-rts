@@ -161,7 +161,8 @@ var hovered_post: Node3D = null
 ## Read only: the visible game critter under the mouse while hunters are selected and no order is pending (the
 ## cross cursor and the red ring are up), or null.
 var hovered_critter: Node3D = null
-## Read only: the unit under the mouse (20 Hz), whose world HP bar shows at full opacity (`Unit.set_hp_bar_hover`).
+## Read only: the unit or building under the mouse (20 Hz, `hover_target_at`), whose world HP bar shows at full
+## opacity (`set_hp_bar_hover` on Unit / Building). Never both: a unit wins, the same way a click picks.
 var hovered_unit: Node3D = null
 var _critter_cursor := false
 var _critter_check_left := 0.0
@@ -347,7 +348,7 @@ func _process(delta: float) -> void:
 		_hover_left = HOVER_INTERVAL
 		hovered_post = post_at(_mouse_pos) if enabled and camera != null else null
 		_update_critter_hover()
-		set_hovered_unit(unit_at(_mouse_pos) if enabled and camera != null else null)
+		set_hovered_unit(hover_target_at(_mouse_pos) if enabled and camera != null else null)
 	elif hovered_critter != null:
 		if _critter_ok(hovered_critter):
 			_target_ring.global_position = hovered_critter.global_position + Vector3.UP * 0.06
@@ -2861,7 +2862,24 @@ func unit_at(screen_pos: Vector2) -> Unit:
 		return hit.collider   # U3-2: a unit the fog hides is never picked (bounty mode, inspect, orders)
 	if hit and _in_group_upwards(hit.collider, "buildings") != null:
 		return null   # the click landed on a building, not next to a unit
-	# Forgiving fallback: nearest unit drawn within 28 pixels of the click.
+	return _unit_drawn_near(screen_pos)
+
+
+## The hover target (G-F building bars): what a click would pick, from ONE ray on layer 2. A unit hit wins, then a
+## building hit (alive, not hidden by the fog), else the forgiving unit fallback of `unit_at`. Never both.
+func hover_target_at(screen_pos: Vector2) -> Node3D:
+	var hit := _ray(screen_pos, 2)
+	if hit:
+		if hit.collider is Unit and (hit.collider as Unit).is_alive() and not _is_hidden(hit.collider):
+			return hit.collider
+		var b := _in_group_upwards(hit.collider, "buildings")
+		if b != null:
+			return b if _building_alive(b) and not _is_hidden(b) else null
+	return _unit_drawn_near(screen_pos)
+
+
+## Forgiving fallback: nearest visible unit drawn within 28 pixels of the screen point, or null.
+func _unit_drawn_near(screen_pos: Vector2) -> Unit:
 	var best: Unit = null
 	var best_d := 28.0
 	for node in get_tree().get_nodes_in_group("units"):
