@@ -126,18 +126,23 @@ const HUSH_HP: Array[float] = [1000.0, 1400.0, 1800.0]
 const GATE_TIME: Array[float] = [35.0, 45.0, 60.0]
 const W4_WARDENS: Array[int] = [2, 4, 6]
 
+## Shadow rows (campaign review 2026-10-16, "the waves are the same"): the dark halls are a barrow: Barrow Ghouls
+## (Grave Feast) feed in the tunnels, Barrow Knights and Hollow Oathsworn march with the waves, and the Veilborn
+## Dreadrider replaces the two late Knights when Hush is gone. Same crystal value as the old rows.
 const WAVES := {
 	&"G1": [["shade", 4], ["nightbolt", 2]],
 	&"G2": [["shade", 3], ["hexweaver", 1]],
 	&"G3": [["shade", 4], ["nightbolt", 2], ["hexweaver", 1]],
-	&"G4": [["grave_hound", 3]],
-	&"W1": [["shade", 4], ["grave_hound", 2]],
-	&"W2": [["shade", 4], ["nightbolt", 2], ["shadow_knight", 1]],
-	&"W3": [["shade", 5], ["nightbolt", 3], ["shadow_knight", 1], ["gloom_deacon", 1]],
+	&"G4": [["barrow_ghoul", 3]],
+	&"W1": [["shade", 3], ["barrow_ghoul", 2], ["bleakbow", 1]],
+	&"W2": [["shade", 4], ["nightbolt", 2], ["barrow_knight", 1]],
+	&"W3": [["shade", 4], ["nightbolt", 2], ["hollow_oathsworn", 1], ["barrow_knight", 1], ["gloom_deacon", 1]],
 	&"RACE": [["shade", 2]],
-	&"W4": [["shade", 6], ["nightbolt", 3], ["shadow_knight", 1]],
-	&"W4K": [["shadow_knight", 2]],
+	&"W4": [["shade", 5], ["nightbolt", 2], ["hexweaver", 1], ["barrow_knight", 1], ["barrow_ghoul", 1]],
+	&"W4K": [["veilborn_dreadrider", 1]],
 }
+## Easy drops these from the waves (the old rule dropped the Shadow Knight).
+const EASY_SKIP: Array[StringName] = [&"shadow_knight", &"barrow_knight"]
 const ACOLYTES := {&"W1": 1, &"W2": 2, &"RACE": 1}
 
 const SPEAKER_COLORS := {
@@ -1220,7 +1225,7 @@ func _fire_wave(id: StringName) -> void:
 	var diff := clampi(mission_difficulty, 0, 2)
 	var rows: Array = []
 	for row: Array in WAVES[id]:
-		if diff == 0 and String(row[0]) == "shadow_knight":
+		if diff == 0 and EASY_SKIP.has(StringName(row[0])):
 			continue
 		rows.append(row)
 	var units := spawn_wave_at(rows, at)

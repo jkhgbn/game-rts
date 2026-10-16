@@ -98,10 +98,20 @@ const DRAIN_TIMES: Array[float] = [180.0, 420.0, 660.0]
 ## and the late drains bring a real escort, see mission-03.md "Changes" / the build report).
 const DRAIN_ROWS := [
 	[["gloom_thrall", 3], ["shade", 3]],
-	[["gloom_thrall", 3], ["shade", 10], ["nightbolt", 4], ["shadow_knight", 2]],
-	[["gloom_thrall", 3], ["shade", 10], ["nightbolt", 4], ["shadow_knight", 2]],
+	[["gloom_thrall", 3], ["shade", 8], ["nightbolt", 3], ["hexweaver", 1], ["gloam_rider", 1], ["shadow_knight", 2]],
+	[["gloom_thrall", 3], ["shade", 8], ["nightbolt", 3], ["hexweaver", 1], ["gloam_rider", 1], ["shadow_knight", 2]],
 ]
-const LATE_DRAIN_ROWS := [["gloom_thrall", 4], ["shade", 10], ["nightbolt", 4], ["shadow_knight", 2]]
+const LATE_DRAIN_ROWS := [["gloom_thrall", 4], ["shade", 8], ["nightbolt", 3], ["hexweaver", 1], ["gloam_rider", 1],
+		["shadow_knight", 2]]
+## Waves (campaign review 2026-10-16, "the waves are the same"): the Sighing Wood brings Hexweavers (Wither Hex) and
+## Gloam Riders; the stake raid is Bleakbows shooting the stake from range under a Shade screen instead of the Grave
+## Hound pack. Same crystal value.
+const WAVE_ROWS := {
+	&"W1": [["shade", 4], ["bleakbow", 1], ["hexweaver", 1]],
+	&"W2": [["shade", 4], ["nightbolt", 2], ["gloam_rider", 1], ["hexweaver", 1], ["shadow_knight", 1]],
+	&"stake_raid": [["shade", 2], ["bleakbow", 2]],
+	&"race": [["shade", 7], ["nightbolt", 3], ["hexweaver", 1], ["shadow_knight", 1]],
+}
 const STAGE_BACK := 16.0       ## Thralls wait this far from their heart while its guardians live.
 const GUARD_NEAR := 10.0
 const W1_TIME := 270.0
@@ -1170,7 +1180,7 @@ func _fire_w1() -> void:
 		return
 	waves_fired.append(&"W1")
 	var target := _alive_pos(ember_hall, _alive_pos(keep, PLAYER_START))
-	for u in spawn_wave_at([["shade", 5], ["nightbolt", 2]], _wave_spawn_point()):
+	for u in spawn_wave_at(WAVE_ROWS[&"W1"], _wave_spawn_point()):
 		order_wave(u, &"point", target)
 
 
@@ -1179,7 +1189,7 @@ func _fire_w2() -> void:
 		return
 	waves_fired.append(&"W2")
 	var target := _alive_pos(keep, PLAYER_START)
-	for u in spawn_wave_at([["shade", 6], ["nightbolt", 3], ["shadow_knight", 1]], _wave_spawn_point()):
+	for u in spawn_wave_at(WAVE_ROWS[&"W2"], _wave_spawn_point()):
 		order_wave(u, &"point", target)
 
 
@@ -1194,7 +1204,7 @@ func _fire_stake_raid(which: Variant) -> void:
 	var target := hero_pos()
 	if is_instance_valid(stake) and stake is Building and (stake as Building).is_alive():
 		target = (stake as Building).global_position
-	for u in spawn_wave_at([["grave_hound", 3], ["shade", 2]], _wave_spawn_point()):
+	for u in spawn_wave_at(WAVE_ROWS[&"stake_raid"], _wave_spawn_point()):
 		order_wave(u, &"point", target)
 
 
@@ -1278,7 +1288,7 @@ func _e10_end_state() -> void:
 
 func _spawn_race_army() -> void:
 	waves_fired.append(&"race")
-	race_army = spawn_wave_at([["shade", 8], ["nightbolt", 3], ["shadow_knight", 1]], _wave_spawn_point())
+	race_army = spawn_wave_at(WAVE_ROWS[&"race"], _wave_spawn_point())
 	if mission_difficulty >= 2:
 		race_army.append_array(spawn_wave_at([["shadow_knight", 1]], _wave_spawn_point(), Unit.Team.ENEMY,
 				func(_n: int) -> int: return 1))

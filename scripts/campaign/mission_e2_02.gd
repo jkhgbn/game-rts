@@ -149,20 +149,26 @@ const VEY_PRICE := {"crystals": [250, 300, 350], "essence": [100, 150, 200], "ti
 const EASY_SKIP: Array[StringName] = [&"rime_colossus", &"frost_mortar"]
 
 ## Waves: id -> {side, rows}. Ice rows lose 40 % once Rimehold is broken (and the Colossus).
+## Shadow rows (campaign review 2026-10-16, "the waves are the same"): Malrik brings his Gloam Riders (they also run
+## the raids on the planters), Nightblood Reavers and, with the Vice knights, his Grave Marshal Corvane (an elite
+## Barrow Knight whose blows mark the target). Same crystal value as the old Shade / Hound / Knight rows.
 const WAVES := {
 	&"W1": {"side": &"ice", "rows": [["rimeshield", 3], ["shardcaster", 2]]},
-	&"W2": {"side": &"shadow", "rows": [["shade", 4], ["nightbolt", 2], ["grave_hound", 2]]},
+	&"W2": {"side": &"shadow", "rows": [["shade", 3], ["bleakbow", 2], ["gloam_rider", 1]]},
 	&"W3": {"side": &"ice", "rows": [["rimeshield", 4], ["shardcaster", 2], ["rime_seer", 1]]},
-	&"W4": {"side": &"shadow", "rows": [["shade", 5], ["nightbolt", 3], ["shadow_knight", 1], ["gloom_deacon", 1]]},
+	&"W4": {"side": &"shadow", "rows": [["shade", 4], ["nightbolt", 3], ["nightblood_reaver", 1], ["gloom_deacon", 1]]},
 	&"W5": {"side": &"ice", "rows": [["rimeshield", 4], ["shardcaster", 2], ["frost_mortar", 1], ["rime_colossus", 1]]},
-	&"W6": {"side": &"shadow", "rows": [["shade", 4], ["nightbolt", 2], ["grave_hound", 2]]},
-	&"VS": {"side": &"shadow", "rows": [["shade", 6], ["nightbolt", 3], ["shadow_knight", 1], ["gloom_deacon", 1]]},
+	&"W6": {"side": &"shadow", "rows": [["shade", 3], ["hexweaver", 1], ["bleakbow", 1], ["gloam_rider", 1]]},
+	&"VS": {"side": &"shadow", "rows": [["shade", 6], ["nightbolt", 3], ["nightblood_reaver", 1], ["gloom_deacon", 1]]},
 	&"VI": {"side": &"ice", "rows": [["rimeshield", 5], ["shardcaster", 3], ["frost_mortar", 1], ["rime_colossus", 1]]},
-	&"VK": {"side": &"shadow", "rows": [["shadow_knight", 2]]},
+	&"VK": {"side": &"shadow", "rows": [["grave_marshal", 1], ["shadow_knight", 1]]},
 	&"VH": {"side": &"shadow", "rows": [["shade", 4], ["nightbolt", 2]]},
 	&"RELIEF": {"side": &"ice", "rows": [["rimeshield", 4], ["shardcaster", 2]]},
-	&"RAID": {"side": &"shadow", "rows": [["grave_hound", 2]]},
+	&"RAID": {"side": &"shadow", "rows": [["gloam_rider", 1]]},
 }
+const RAID_HARD_EXTRA := 1   ## Hard: one more rider per raid (the old pack was 3 hounds there).
+const ELITE_ID := &"grave_marshal"
+const ELITE_HARD_HP_PCT := 0.4
 const WAVE_TIMES := {&"W1": W1_AT, &"W2": W2_AT, &"W3": W3_AT, &"W4": W4_AT, &"W5": W5_AT}
 
 const SPEAKER_COLORS := {
@@ -362,6 +368,7 @@ func _ready() -> void:
 	get_tree().node_added.connect(_on_e2_node_added)
 	_carrier_type = register_local_unit_type(_make_carrier_type())
 	_wren_type = register_local_unit_type(_make_story_type("wildwood_archer", &"wren", "Wren", 260.0, 5.2))
+	register_local_unit_type(make_elite_type())
 	for id in ["thornling", "bloomtender"]:
 		var base := UnitType.find(id)
 		if base:
@@ -680,6 +687,25 @@ func _make_carrier_type() -> UnitType:
 
 
 ## A story unit type: not commandable, no attack, pop 0, from `base_id`'s look.
+## Grave Marshal Corvane (campaign review 2026-10-16): Malrik's named elite with the Vice knights. A Barrow Knight
+## with more HP and a heavier blow that marks its target (status `marked`: +15 % damage taken, 3 s).
+static func make_elite_type() -> UnitType:
+	var base := UnitType.find("barrow_knight")
+	var t := (base.duplicate() as UnitType) if base else UnitType.new()
+	t.id = ELITE_ID
+	t.display_name = "Grave Marshal Corvane"
+	t.max_hp = 520.0
+	t.attack_damage = 30.0
+	t.kill_xp = 200
+	t.cost = 0
+	t.pop = 0
+	t.commandable = false
+	t.on_hit_status = &"marked"
+	t.on_hit_duration = 3.0
+	t.body_color = Color(0.35, 0.12, 0.4)
+	return t
+
+
 func _make_story_type(base_id: String, id: StringName, display: String, hp: float, speed: float) -> UnitType:
 	var base := UnitType.find(base_id)
 	var t := (base.duplicate() as UnitType) if base else UnitType.new()
@@ -1815,7 +1841,8 @@ func _wave_rows(id: StringName) -> Array:
 	var diff := clampi(mission_difficulty, 0, 2)
 	for row: Array in w["rows"]:
 		var tid := StringName(row[0])
-		if diff == 0 and (EASY_SKIP.has(tid) or (tid == &"shadow_knight" and id == &"W4")):
+		if diff == 0 and (EASY_SKIP.has(tid) or (tid == &"nightblood_reaver" and id == &"W4")
+				or (tid == &"shadow_knight" and id == &"VK")):
 			continue
 		if tid == &"rime_colossus" and objective_state("obj_rimehold") == "done":
 			continue
@@ -1868,6 +1895,8 @@ func _fire_wave(id: StringName) -> void:
 				if shadow_hero.is_alive():
 					units.append(shadow_hero)
 			for u in units:
+				if diff >= 2 and (u as Unit).unit_type and (u as Unit).unit_type.id == ELITE_ID:
+					(u as Unit).add_modifier(&"mission:elite_hard", {"max_hp_pct": ELITE_HARD_HP_PCT})
 				order_wave(u as Unit, &"vice_shadow", (GROVES[&"B"] as Array)[1])
 		&"VI":
 			raise_wizard(torvald, WIZARD_VICE_LEVEL[diff], [&"rime_bolt"])
@@ -1889,12 +1918,15 @@ func _w1_target() -> Vector3:
 	return _alive_pos(ember_hall, _alive_pos(keep, PLAYER_START))
 
 
-## Raids: 2 Grave Hounds every 150 s from 6:00 until E14, for the nearest walking carrier, else a Fire worker.
+## Raids: a Gloam Rider (2 on hard) every 150 s from 6:00 until E14, for the nearest walking carrier, else a Fire
+## worker.
 func _raid() -> void:
 	if is_ending() or ally_active or vice_done:
 		return
 	after(RAID_EVERY, _raid)
-	var units := spawn_wave_at(_wave_rows(&"RAID"), _side_spawn(&"shadow"), SHADOW_SEAT)
+	var extra := RAID_HARD_EXTRA if mission_difficulty >= 2 else 0
+	var units := spawn_wave_at(_wave_rows(&"RAID"), _side_spawn(&"shadow"), SHADOW_SEAT,
+			func(n: int) -> int: return n + extra)
 	for u in units:
 		order_wave(u as Unit, &"raid", _raid_target((u as Unit).global_position))
 

@@ -121,20 +121,29 @@ const TORVALD_SPELLS := [&"rime_bolt", &"rime_bolt", &"flash_freeze", &"flash_fr
 const VEY_PRICE := {"crystals": [200, 250, 300], "essence": [50, 100, 150], "time": [30.0, 30.0, 45.0]}
 
 ## Waves: id -> {side, rows, torvald, malrik}. Ice rows lose 40 % once the Frost Hall burns (sec_frosthall).
+## Shadow rows (campaign review 2026-10-16, "the waves are the same"): the burnt grove brings Barrow Ghouls (Grave
+## Feast), Hollow Oathsworn and Barrow Knights, a Hexweaver in H6; same crystal value as the old Shade / Hound rows.
 const WAVES := {
-	&"H1": {"side": &"shadow", "rows": [["shade", 4], ["nightbolt", 2], ["grave_hound", 2]]},
+	&"H1": {"side": &"shadow", "rows": [["shade", 4], ["bleakbow", 2], ["barrow_ghoul", 2]]},
 	&"H2": {"side": &"ice", "rows": [["rimeshield", 4], ["shardcaster", 3], ["rime_seer", 1]], "torvald": true},
-	&"H3": {"side": &"shadow", "rows": [["shade", 5], ["nightbolt", 3], ["shadow_knight", 1], ["gloom_deacon", 1]]},
+	&"H3": {"side": &"shadow", "rows": [["shade", 4], ["nightbolt", 2], ["hollow_oathsworn", 1], ["shadow_knight", 1],
+			["gloom_deacon", 1]]},
 	&"H4": {"side": &"ice", "rows": [["rimeshield", 4], ["shardcaster", 2], ["rime_colossus", 1], ["frost_mortar", 1]],
 			"torvald": true},
-	&"H5": {"side": &"both", "rows": [["shade", 4], ["nightbolt", 2], ["shadow_knight", 1]],
+	&"H5": {"side": &"both", "rows": [["shade", 2], ["barrow_ghoul", 2], ["nightbolt", 2], ["barrow_knight", 1]],
 			"ice_rows": [["rimeshield", 3], ["shardcaster", 2], ["rime_seer", 1]], "malrik": true},
-	&"H6": {"side": &"both", "rows": [["shade", 6], ["nightbolt", 3], ["shadow_knight", 1]],
+	&"H6": {"side": &"both", "rows": [["shade", 5], ["nightbolt", 2], ["hexweaver", 1], ["barrow_knight", 1]],
 			"ice_rows": [["rimeshield", 4], ["shardcaster", 2], ["rime_colossus", 1]], "malrik": true, "torvald": true},
-	&"H7": {"side": &"both", "rows": [["shade", 4], ["nightbolt", 2], ["grave_hound", 2]],
+	&"H7": {"side": &"both", "rows": [["shade", 3], ["bleakbow", 2], ["barrow_ghoul", 3]],
 			"ice_rows": [["rimeshield", 4], ["shardcaster", 3], ["rime_seer", 1]], "malrik": true, "torvald": true},
 }
 const EASY_SKIP: Array[StringName] = [&"rime_colossus", &"frost_mortar"]
+const PROBE_ROWS := [["shade", 3], ["barrow_ghoul", 2]]
+## Raids (campaign review 2026-10-16: no more "2 Grave Hounds every 150 s"): Barrow Ghouls claw out of the burnt
+## ground RAID_RISE_DIST from their target (a survivor, else a worker), RAID_WARN s after a dark ring marks the spot.
+const RAID_ROWS := [["barrow_ghoul", 2]]
+const RAID_RISE_DIST := 16.0
+const RAID_WARN := 3.0
 
 const SPEAKER_COLORS := {
 	&"vessa": Color(1.0, 0.45, 0.1),
@@ -849,7 +858,7 @@ func _e4_probe() -> void:
 		return
 	fire_once(&"E4")
 	var target := _alive_pos(ember_hall, _alive_pos(keep, PLAYER_START))
-	var units := spawn_wave_at([["shade", 3], ["grave_hound", 2]], _side_spawn(&"shadow"))
+	var units := spawn_wave_at(PROBE_ROWS, _side_spawn(&"shadow"))
 	wave_units[&"P1"] = units
 	for u in units:
 		order_wave(u, &"point", target)
@@ -1032,7 +1041,7 @@ func _wave_rows(rows: Array, ice: bool) -> Array:
 	var diff := clampi(mission_difficulty, 0, 2)
 	for row: Array in rows:
 		var id := StringName(row[0])
-		if diff == 0 and (EASY_SKIP.has(id) or id == &"shadow_knight" and rows.size() == 4):
+		if diff == 0 and (EASY_SKIP.has(id) or id == &"shadow_knight" and rows.has(["gloom_deacon", 1])):
 			continue
 		if ice and id == &"rime_colossus" and objective_state("sec_frosthall") == "done":
 			continue
@@ -1082,15 +1091,38 @@ func _fire_wave(id: StringName) -> void:
 			say_l(24)
 
 
-## Raids: 2 Grave Hounds every 150 s for the nearest walking survivor, else the nearest Fire worker.
+## Raids: every 150 s, Barrow Ghouls rise from the ground near the nearest walking survivor, else a Fire worker
+## (a dark ring warns RAID_WARN s before).
 func _raid() -> void:
 	if is_ending() or hold_done:
 		return
 	after(RAID_EVERY, _raid)
-	var units := spawn_wave_at([["grave_hound", 2]], _side_spawn(&"shadow"))
-	for u in units:
-		var t := _raid_target((u as Unit).global_position)
-		order_wave(u as Unit, &"raid", t)
+	var at := raid_rise_spot()
+	flash_ring(at, 2.5)
+	after(RAID_WARN, _raid_rise.bind(at))   # a named method: the timer survives a save
+
+
+## Where the next raid rises: RAID_RISE_DIST from the target toward the Shadow camp, on walkable ground.
+func raid_rise_spot() -> Vector3:
+	var from := _side_spawn(&"shadow")
+	var t := _raid_target(from)
+	var dir := Vector3(from.x - t.x, 0.0, from.z - t.z)
+	dir = dir.normalized() if dir.length() > 0.5 else Vector3(1.0, 0.0, -1.0).normalized()
+	var p := t + dir * RAID_RISE_DIST
+	var nav := get_world_3d().navigation_map if is_inside_tree() else RID()
+	if nav.is_valid() and NavigationServer3D.map_get_iteration_id(nav) > 0:
+		p = NavigationServer3D.map_get_closest_point(nav, p)
+	return MapInfo.clamp_point(Vector3(p.x, 0.0, p.z), 4.0)
+
+
+func _raid_rise(at: Vector3) -> void:
+	if is_ending() or hold_done:
+		return
+	if not waves_fired.has(&"raid"):
+		waves_fired.append(&"raid")
+	for u in spawn_wave_at(RAID_ROWS, at):
+		(u as Unit).set_down((u as Unit).global_position)   # out of the ground onto the navmesh
+		order_wave(u as Unit, &"raid", _raid_target((u as Unit).global_position))
 
 
 func _raid_target(from: Vector3) -> Vector3:

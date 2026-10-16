@@ -50,6 +50,16 @@ const STRIKE_DELAY := 20.0
 const STRIKE_RECRUIT_EVERY := 60.0   ## Phase 1: the bot's new soldiers at its rally join the pylon strike this often.
 const STRIKE_RECRUIT_RADIUS := 16.0
 const RAID_EVERY := 180.0
+## Waves (campaign review 2026-10-16, "the waves are the same"): the Hollow Throne brings Hollow Oathsworn (Unbroken
+## Vow) to the strike and the push, a Hexweaver to the isle, and the phase-1 raids are Duskbolt Harriers riding the
+## shore with crossbows (2, 1 once the Gloom Hall burned) instead of the Grave Hound pack. Same crystal value as before.
+const WAVE_ROWS := {
+	&"isle_guard": [["shade", 6], ["nightbolt", 2], ["hexweaver", 1]],   # 9 units (tests/test_19_c5.gd)
+	&"strike": [["shade", 2], ["hollow_oathsworn", 1], ["bleakbow", 1], ["nightbolt", 1]],
+	&"raid": [["duskbolt_harrier", 2]],
+	&"raid_hall_burned": [["duskbolt_harrier", 1]],
+	&"push": [["shade", 4], ["hollow_oathsworn", 1]],
+}
 const MALRIK_RESPAWN := 60.0
 const DEFEAT_DELAY := 3.0
 const HOLLOW_PER_DEATH := 1.0
@@ -452,7 +462,7 @@ func _on_navigation_ready() -> void:
 	for i in shadow_army.size():
 		_spawn(make_unit(shadow_army[i]), Unit.Team.ENEMY,
 				SHADOW_RALLY + Vector3(-4.0 + (i % 5) * 1.6, 0.0, 2.0 - (i / 5) * 1.7))
-	isle_guard = spawn_group([["shade", 6], ["nightbolt", 3]], THRONE_POS, 5.0, Unit.Team.ENEMY, true)
+	isle_guard = spawn_group(WAVE_ROWS[&"isle_guard"], THRONE_POS, 5.0, Unit.Team.ENEMY, true)
 
 	_spawn_caches()
 	_setup_champions()
@@ -865,7 +875,7 @@ func _e7_strike() -> void:
 		mark_scripted(u)
 		strike_units.append(u)
 	var spawn := GLOOM_SPAWN if gloom_hall and is_instance_valid(gloom_hall) and gloom_hall.is_alive() else SHADOW_START
-	for u in spawn_wave_at([["shade", 4], ["nightbolt", 2]], spawn):
+	for u in spawn_wave_at(WAVE_ROWS[&"strike"], spawn):
 		strike_units.append(u)
 	for u in strike_units:
 		order_wave(u as Unit, &"strike", _strike_target_pos())
@@ -955,13 +965,13 @@ func _nearest_worker(at: Vector3) -> Unit:
 	return best
 
 
-## Raids (phase 1, every 180 s): 4 Grave Hounds (2 once the Gloom Hall burned) for the nearest Fire worker.
+## Raids (phase 1, every 180 s): 2 Duskbolt Harriers (1 once the Gloom Hall burned) for the nearest Fire worker.
 func _send_raid() -> void:
 	if is_ending():
 		return
 	raids_sent += 1
-	var n := 2 if objective_state("sec_hall") == "done" else 4
-	for u in spawn_wave_at([["grave_hound", n]], SHADOW_START + Vector3(-6.0, 0.0, 6.0)):
+	var rows: Array = WAVE_ROWS[&"raid_hall_burned" if objective_state("sec_hall") == "done" else &"raid"]
+	for u in spawn_wave_at(rows, SHADOW_START + Vector3(-6.0, 0.0, 6.0)):
 		var w := _nearest_worker((u as Unit).global_position)
 		order_wave(u as Unit, &"raid", w.global_position if w else _alive_pos(keep, PLAYER_START))
 
@@ -1000,7 +1010,7 @@ func _e9_walk() -> void:
 		if is_instance_valid(u) and (u as Unit).is_alive():
 			_release_strike_unit(u as Unit)
 	var knights := 1 if objective_state("sec_hall") == "done" else 2
-	push_units = spawn_wave_at([["shade", 6], ["shadow_knight", knights]], NORTH_EDGE)
+	push_units = spawn_wave_at(WAVE_ROWS[&"push"] + [["shadow_knight", knights]], NORTH_EDGE)
 	for u in push_units:
 		order_wave(u as Unit, &"point", _alive_pos(keep, PLAYER_START))
 

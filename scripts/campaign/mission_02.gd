@@ -106,6 +106,17 @@ const VICTORY_DELAY := 4.0
 const LEVEL_CAP := 6
 const FIREBALL_TRAVEL := 0.3      ## The Fireball's crack / Heartfrost hit lands this long after the cast.
 
+## Waves (campaign review 2026-10-16, "the waves are the same"): mission 2 brings the Bleakbow (bleeding arrows) and
+## the first Gloom Deacon of the campaign; the counts keep the old waves' crystal value (W2 waits as before).
+const WAVE_ROWS := {
+	&"W1": [["shade", 3], ["bleakbow", 2]],
+	&"reinforcements": [["shade", 3], ["nightbolt", 1], ["bleakbow", 1], ["grave_hound", 1]],
+	&"W2": [["shade", 4], ["bleakbow", 2], ["gloom_deacon", 1]],
+	&"W3": [["shade", 3], ["bleakbow", 2], ["shadow_knight", 1]],
+	&"pursuit": [["shade", 3], ["nightbolt", 2], ["gloom_deacon", 1], ["shadow_knight", 1]],
+	&"pursuit_2": [["shade", 2], ["grave_hound", 2]],
+}
+
 ## [easy, normal, hard] (difficulty notes).
 const COUNT_MULT: Array[float] = [0.6, 1.0, 1.4]
 const START_CRYSTALS_BY_DIFF: Array[int] = [400, 300, 250]
@@ -250,7 +261,7 @@ func _mission_config() -> MissionConfig:
 	c.mission_id = MISSION_ID
 	c.title = MISSION_TITLE
 	c.count_mult = COUNT_MULT.duplicate()
-	c.easy_skip_types = [&"shadow_knight"]
+	c.easy_skip_types = [&"shadow_knight", &"gloom_deacon"]
 	c.defeat_on_keep_lost = true
 	c.keep_lost_message = "The Fire keep has fallen"
 	c.tiers_enabled = true
@@ -1456,7 +1467,7 @@ func _fire_w1() -> void:
 		return
 	waves_fired.append(&"W1")
 	var target := _alive_pos(ember_hall, _alive_pos(keep, PLAYER_START))
-	for u in spawn_wave_at([["shade", 3], ["nightbolt", 2]], _wave_spawn_point()):
+	for u in spawn_wave_at(WAVE_ROWS[&"W1"], _wave_spawn_point()):
 		order_wave(u, &"point", target)
 	hud.show_message(HINT_SPOTLIGHT, 8.0)   # the spotlight moment (unit-spotlights.md 2.1)
 
@@ -1466,7 +1477,7 @@ func _fire_reinforcements() -> void:
 		return
 	waves_fired.append(&"reinforcements")
 	var target := _nearest_fire_worker_pos(SHADOW_ROAD)
-	reinforcements = spawn_wave_at([["shade", 3], ["nightbolt", 2], ["grave_hound", 1]], SHADOW_ROAD)
+	reinforcements = spawn_wave_at(WAVE_ROWS[&"reinforcements"], SHADOW_ROAD)
 	for u in reinforcements:
 		order_wave(u, &"point", target)
 
@@ -1487,7 +1498,7 @@ func _tick_w2() -> void:
 		return
 	waves_fired.append(&"W2")
 	var target := _alive_pos(keep, PLAYER_START)
-	for u in spawn_wave_at([["shade", 4], ["nightbolt", 2], ["grave_hound", 2]], _wave_spawn_point()):
+	for u in spawn_wave_at(WAVE_ROWS[&"W2"], _wave_spawn_point()):
 		order_wave(u, &"point", target)
 
 
@@ -1495,7 +1506,7 @@ func _fire_w3() -> void:
 	if is_ending() or waves_fired.has(&"W3") or orb_taken:
 		return
 	waves_fired.append(&"W3")
-	for u in spawn_wave_at([["shade", 3], ["nightbolt", 2], ["shadow_knight", 1]], _wave_spawn_point()):
+	for u in spawn_wave_at(WAVE_ROWS[&"W3"], _wave_spawn_point()):
 		order_wave(u, &"heartfrost_then_vessa", HEARTFROST_POS)
 
 
@@ -1503,7 +1514,7 @@ func _fire_pursuit() -> void:
 	if waves_fired.has(&"pursuit"):
 		return
 	waves_fired.append(&"pursuit")
-	for u in spawn_wave_at([["shade", 4], ["nightbolt", 3], ["shadow_knight", 1]], _wave_spawn_point()):
+	for u in spawn_wave_at(WAVE_ROWS[&"pursuit"], _wave_spawn_point()):
 		order_wave(u, &"hero", hero_pos())
 	_malrik_joins()
 	after(PURSUIT_SECOND, _fire_pursuit_2)   # a named method: the timer survives a save
@@ -1513,7 +1524,7 @@ func _fire_pursuit_2() -> void:
 	if is_ending() or waves_fired.has(&"pursuit_2"):
 		return
 	waves_fired.append(&"pursuit_2")
-	for u in spawn_wave_at([["shade", 2], ["grave_hound", 2]], _wave_spawn_point()):
+	for u in spawn_wave_at(WAVE_ROWS[&"pursuit_2"], _wave_spawn_point()):
 		order_wave(u, &"hero", hero_pos())
 
 
