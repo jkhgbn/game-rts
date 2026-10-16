@@ -11,11 +11,15 @@ extends RefCounted
 ##                Pad surrounds (flagstones, corner banners).
 ##   ForestReplant (art/environment/lane_dressing/forest_replant.gd) Wave Strike forest blocks: the level's grid trees
 ##                replanted as a treeline + clusters + glades, 3 sizes (every tier: same meshes, same count).
+##   ThornwaterLook (art/environment/thornwater/thornwater_look.gd) Thornwater (G-F r2 item 9): wet marsh-meadow ground,
+##                peaty water, a cooler light (every tier); reed beds, thickets, a fen wood belt and the moat thorn
+##                spires at Medium+ (docs/art/gf_thornwater.md).
 
 const LOOKS: Array[String] = [
 	"res://art/environment/sighing_wood/forest_mood.gd",
 	"res://art/environment/lane_dressing/lane_dressing.gd",
 	"res://art/environment/lane_dressing/forest_replant.gd",
+	"res://art/environment/thornwater/thornwater_look.gd",
 ]
 
 
