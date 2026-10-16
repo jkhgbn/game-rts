@@ -14,6 +14,10 @@ extends RefCounted
 ## Events.objective_changed / dialogue / mission_ended. Never write `Events` in a test (autoloads compile later): the
 ## harness reaches it through the root.
 
+const _REPLAY := preload("res://scripts/core/replay/replay_hooks.gd")
+const _SESSION := preload("res://scripts/core/replay/replay_session.gd")
+const DEFAULT_SEED := 1   ## the run's seed when the command line has no `-- --seed N`
+
 var task_id := "mission"
 var main: Node
 var steps := Steps.new()
@@ -27,6 +31,9 @@ var nav_timeout_frames := 5000
 var timeout_frames := 20000
 var frame := 0
 var _wait := 0
+var _nav_synced := false
+var _seed := DEFAULT_SEED
+var _rng_count := 0
 var _tree: SceneTree
 
 
@@ -68,9 +75,60 @@ func open(tree: SceneTree, mission: Variant, options: Dictionary = {}) -> Node:
 		main.set(&"config", c)
 	for k: Variant in extra:
 		main.set(StringName(str(k)), extra[k])
+	# Same run whatever the CPU load (root-cause pass 2026-10-16): navmeshes bake on the main thread (the game bakes on a
+	# thread, so a new navmesh landed after a wall-clock delay) and the nav map applies them at once (no async
+	# iterations). The Replay Lab's deterministic mode; set before the level bakes its first navmesh and before the map's
+	# first sync (switching async off while an async iteration is in flight leaves the map without paths for good).
+	_REPLAY.bake_mode = _REPLAY.BAKE_SYNC
+	# Same seeds every run (Godot randomizes the global RNG at launch, and RNG nodes randomize in _ready): the global
+	# RNG and, after each node's _ready, its RNG fields, like the Replay Lab's session.
+	var args := OS.get_cmdline_user_args()
+	var si := args.find("--seed")
+	_seed = int(args[si + 1]) if si >= 0 and si + 1 < args.size() else DEFAULT_SEED
+	seed(_seed)
+	tree.node_added.connect(_on_node_added)
+	var map := tree.root.get_world_3d().navigation_map
+	if map.is_valid():
+		NavigationServer3D.map_set_use_async_iterations(map, false)
 	tree.root.add_child(main)
 	tree.current_scene = main
+	sync_nav_map(main)
 	return main
+
+
+## Turns the async iterations of the level's nav map and regions off (paths see a rebake on the next map sync, not
+## after a thread's delay). `open` calls it before the map's first sync (later, it can leave the map without paths). The
+## server applies the switch on its next sync: true only once the map reports it off, so `tick` calls it every frame
+## until then and the steps start after it.
+static func sync_nav_map(level: Node) -> bool:
+	var region: Variant = level.get(&"nav_region") if level != null else null
+	if not region is NavigationRegion3D or not (region as NavigationRegion3D).is_inside_tree():
+		return false
+	var map := (region as NavigationRegion3D).get_world_3d().navigation_map
+	if not map.is_valid():
+		return false
+	var done := not NavigationServer3D.map_get_use_async_iterations(map)
+	NavigationServer3D.map_set_use_async_iterations(map, false)
+	for r in level.find_children("*", "NavigationRegion3D", true, false):
+		var rid := (r as NavigationRegion3D).get_rid()
+		done = done and not NavigationServer3D.region_get_use_async_iterations(rid)
+		NavigationServer3D.region_set_use_async_iterations(rid, false)
+	return done
+
+
+func _on_node_added(node: Node) -> void:
+	var cb := _seed_rngs.bind(node)
+	if node.get_script() != null and not node.is_connected(&"ready", cb):   # by name: some scripts have a ready()
+		node.connect(&"ready", cb, CONNECT_ONE_SHOT)
+
+
+func _seed_rngs(node: Node) -> void:
+	if not is_instance_valid(node):
+		return
+	for key in _SESSION.RNG_FIELDS:
+		if key in node and node.get(key) is RandomNumberGenerator:
+			_rng_count += 1
+			(node.get(key) as RandomNumberGenerator).seed = hash([_seed, _rng_count, String(key)])
 
 
 ## True once the navmesh is baked, the hero exists and the match clock runs.
@@ -78,10 +136,12 @@ func is_ready() -> bool:
 	return main != null and main.get(&"hero") != null and bool(main.get(&"match_started"))
 
 
-## One frame: waits for the map, keeps the hero alive (protect_hero), runs the steps, prints the verdict.
-## Returns true when the test is over (return it from _process).
+## One frame: waits for the map and the nav map sync switch, keeps the hero alive (protect_hero), runs the steps,
+## prints the verdict. Returns true when the test is over (return it from _process).
 func tick() -> bool:
-	if not is_ready():
+	if not _nav_synced:
+		_nav_synced = sync_nav_map(main)
+	if not _nav_synced or not is_ready():
 		_wait += 1
 		if _wait > nav_timeout_frames:
 			print("FAIL %s: navigation never finished baking" % task_id)

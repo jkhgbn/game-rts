@@ -137,7 +137,12 @@ func _ready() -> void:
 
 	nav_region.bake_finished.connect(_on_navigation_ready, CONNECT_ONE_SHOT)
 	_REPLAY.level_ready()
-	nav_region.bake_navigation_mesh(_REPLAY.bake_mode != _REPLAY.BAKE_SYNC)
+	if _REPLAY.bake_mode == _REPLAY.BAKE_SYNC:
+		# Deterministic runs (Replay Lab, mission sims): main-thread bake, deferred so _on_navigation_ready still runs
+		# after the subclasses' _ready (missions connect signals and set their economy after super()), like a thread.
+		nav_region.bake_navigation_mesh.call_deferred(false)
+	else:
+		nav_region.bake_navigation_mesh(true)
 
 
 func _on_navigation_ready() -> void:
