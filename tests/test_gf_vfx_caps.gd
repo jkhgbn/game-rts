@@ -120,6 +120,7 @@ func _run() -> void:
 	if g:
 		_check_palettes()
 	SpellFxG.test_tier = -1
+	await _check_mount_flash()
 	if _args.has("verbose"):
 		for l: String in _lines:
 			print("  ", l)
@@ -322,6 +323,55 @@ func _judge(tag: String, add: bool, stack: float, peak: float, hdr: bool) -> voi
 		_fails.append(line + (" (HDR albedo)" if hdr else ""))
 
 
+## Mount hit flash (the white bear in the melee): every unit model holding a MountModel is hit; the flash its beast
+## draws (instance `hit_flash` = flash x hit_flash_scale) and its hit_flash_scale stay <= MOUNT_FLASH (also when a
+## wrapper such as blaze / gloam rider sets a bigger scale after the build).
+const MOUNT_FLASH := 0.4
+
+
+func _check_mount_flash() -> void:
+	var scenes := {}
+	for f: String in DirAccess.get_files_at("res://data/units/"):
+		var fn := f.trim_suffix(".remap")
+		if not fn.ends_with(".tres"):
+			continue
+		var ut := load("res://data/units/" + fn) as UnitType
+		if ut and ut.model_scene:
+			scenes[ut.model_scene.resource_path] = ut.model_scene
+	var mounts := 0
+	for path: String in scenes:
+		var inst := (scenes[path] as PackedScene).instantiate()
+		_world.add_child(inst)
+		await _frames(2)
+		var ms: Array[Node] = []
+		if inst is MountModel:
+			ms.append(inst)
+		ms.append_array(inst.find_children("*", "MountModel", true, false))
+		for m: Node in ms:
+			mounts += 1
+			(m as CharacterModel).play_hit()
+		var peak := {}
+		for k: int in 12:
+			await process_frame
+			for m: Node in ms:
+				for gi: Node in m.find_children("*", "GeometryInstance3D", true, false):
+					var v: Variant = (gi as GeometryInstance3D).get_instance_shader_parameter(&"hit_flash")
+					if v != null:
+						peak[m] = maxf(float(peak.get(m, 0.0)), float(v))
+		for m: Node in ms:
+			var sc: float = (m as CharacterModel).hit_flash_scale
+			var line := "mount flash %s/%s scale %.2f drawn %.2f / %.2f" % [path.get_file(), m.name, sc,
+					float(peak.get(m, 0.0)), MOUNT_FLASH]
+			_lines.append(line)
+			_checked += 1
+			if sc > MOUNT_FLASH + 0.001 or float(peak.get(m, 0.0)) > MOUNT_FLASH + 0.001:
+				_fails.append(line)
+		inst.queue_free()
+	if mounts == 0:
+		_fails.append("no mount model found")
+	_notes.append("%d mount models hit" % mounts)
+
+
 ## SpellFxG billows: a pale palette (steam, frost, gold) must stay under the MIX cap (it reads as a white ball once it
 ## passes the glow threshold); saturated palettes (fire, molten, void) bloom in their own hue.
 func _check_palettes() -> void:
@@ -420,6 +470,18 @@ func _run_shots() -> void:
 	for k: int in n:
 		await _wait(0.7)
 		await _shot("%s_battle_z14_%d" % [_tag, k + 1])
+	if _args.has("bear"):
+		# the mount hit flash (white bear blob): centre on a Frostcrown juggernaut, hit its bear, shoot mid-flash
+		for u: Unit in units:
+			var bears := u.find_children("*", "MountModel", true, false)
+			if bears.is_empty() or bears[0].name != &"Bear":
+				continue
+			_cam(u.global_position, 14.0)
+			await _wait(0.8)
+			(bears[0] as CharacterModel).play_hit()
+			await _frames(3)
+			await _shot("key_after_bear_flash")
+			break
 	if _args.has("vessa") and hero is Unit:
 		# The review's "yellow-white sphere on a Fire unit" = Vessa in the melee: burst of frames while she fights.
 		var h := hero as Unit

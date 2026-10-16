@@ -37,11 +37,12 @@ Since the billboard keep-scale pass (`gf_billboard.md`), particles draw at their
 - After the fix: PASS, 2497 emitters.
 - Shots mode: `shots=1 tag=X [vessa=1]`.
 
-## Still open (not owned here)
-The remaining white silhouette in the melee, visible in the after shots, is the **mount hit flash**.
-- `art/units/kit/mount_model.gd` adds the whole beast to `_flash_hit_targets`.
-- The Frostcrown bear (`art/units/ice/frostcrown_juggernaut/parts/frostcrown_bear.gd`) keeps `hit_flash_scale` 1.0, so the flash adds emission 2.0 x the whole body.
-- Proposed fix, after that loop in `mount_model.gd`: `hit_flash_scale = minf(hit_flash_scale, 0.4)`. The other option is to set the bear's `hit_flash_scale` like the blaze and gloam riders do.
+## Mount hit flash (follow-up)
+The remaining white silhouette in the melee was the mount hit flash. `mount_model.gd` flashes the whole beast. The Frostcrown bear kept `hit_flash_scale` 1.0, which is emission 2.0 over the whole body.
+- `MountModel.MOUNT_FLASH_MAX` 0.4 caps `hit_flash_scale` after the build.
+- `_set_flash` caps it again at flash time. This catches the blaze / gloam rider wrappers, which set 0.55 after the build.
+- The test hits all 17 mount models and checks the drawn `hit_flash` and the scale are <= 0.4. Before the fix the bear was at 1.0.
+- Shot: `key_after_bear_flash.png`.
 
 ## Shots
 In `docs/art/lab/gf_vfx_caps/`:

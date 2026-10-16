@@ -23,6 +23,7 @@ extends CharacterModel
 ## Authoring (in _build_mount): part(), add_sculpt(), add_barding_part(), add_barding_sculpt() + the static mesh
 ## builders lathe_mesh / tube_mesh / shell_mesh / lock_mesh and sculpt_* (one multi-material mesh = one authored part).
 
+const MOUNT_FLASH_MAX := 0.4   ## G-F VFX caps: a mount hit flash adds at most 2.0 x this emission (docs/art/gf_vfx_caps.md)
 ## Extra pivots (not in the kit's fixed list): merged here, animated here.
 const X_NECK := 0
 const X_TAIL := 1
@@ -601,6 +602,14 @@ func _merge_extra(j: int) -> void:
 	_xmerged[j] = mi
 
 
+## G-F VFX caps: a wrapper (blaze / gloam rider) may set the mount's hit_flash_scale after it is built; the cap
+## holds at flash time too.
+func _set_flash(v: float) -> void:
+	if hit_flash_scale > MOUNT_FLASH_MAX:
+		hit_flash_scale = MOUNT_FLASH_MAX
+	super(v)
+
+
 func _after_ready() -> void:
 	_mount_geo.clear()
 	for i: int in [P_MOUNT, P_MOUNT_HEAD, P_LEG_FL, P_LEG_FR, P_LEG_BL, P_LEG_BR]:
@@ -620,6 +629,9 @@ func _after_ready() -> void:
 	for m: MeshInstance3D in _mount_geo:
 		if not _flash_hit_targets.has(m):
 			_flash_hit_targets.append(m)
+	# G-F VFX caps (docs/art/gf_vfx_caps.md): a whole beast at the kit's full flash (emission 2.0) read as a white blob
+	# in the melee; a mount flashes at most MOUNT_FLASH_MAX (the rider kingdoms' 0.5-0.55 are capped too, see _set_flash).
+	hit_flash_scale = minf(hit_flash_scale, MOUNT_FLASH_MAX)
 	# Body centre and lying height (death roll) from the body merge.
 	var body: MeshInstance3D = _merged_nodes.get(P_MOUNT)
 	if body and body.mesh and _piv[P_MOUNT]:
