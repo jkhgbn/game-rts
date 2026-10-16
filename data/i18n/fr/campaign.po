@@ -7108,388 +7108,398 @@ msgid "Break both Frost Halls"
 msgstr "Briser les deux Frost Halls"
 
 #. const MISSION_TITLE := "The First Spark"
-#: scripts/campaign/mission_e5_01.gd:35
+#: scripts/campaign/mission_e5_01.gd:36
 msgid "The First Spark"
 msgstr "La première étincelle"
 
 #. &"hearthstone": ["Hearthstone", Vector3(-18.0, 0.0, -24.0)],
-#: scripts/campaign/mission_e5_01.gd:46
+#: scripts/campaign/mission_e5_01.gd:47
 msgid "Hearthstone"
 msgstr "Hearthstone"
 
 #. &"millrace": ["Millrace", Vector3(-42.0, 0.0, 14.0)],
-#: scripts/campaign/mission_e5_01.gd:47
+#: scripts/campaign/mission_e5_01.gd:48
 msgid "Millrace"
 msgstr "Millrace"
 
 #. &"bridge": ["Old Bridge", Vector3(2.0, 0.0, 0.0)],
-#: scripts/campaign/mission_e5_01.gd:48
+#: scripts/campaign/mission_e5_01.gd:49
 msgid "Old Bridge"
 msgstr "Old Bridge"
 
 #. &"knoll": ["Shepherd's Knoll", Vector3(36.0, 0.0, -18.0)],
-#: scripts/campaign/mission_e5_01.gd:49
+#: scripts/campaign/mission_e5_01.gd:50
 msgid "Shepherd's Knoll"
 msgstr "Shepherd's Knoll"
 
 #. &"bellmouth": ["Bellmouth", Vector3(26.0, 0.0, 34.0)],
-#: scripts/campaign/mission_e5_01.gd:50
+#: scripts/campaign/mission_e5_01.gd:51
 msgid "Bellmouth"
 msgstr "Bellmouth"
 
 #. const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"gannet": "Gannet Rook", &"master": "The Master
-#: scripts/campaign/mission_e5_01.gd:125 scripts/campaign/mission_e5_01.gd:275
+#: scripts/campaign/mission_e5_01.gd:129 scripts/campaign/mission_e5_01.gd:281
 #: scripts/campaign/mission_e5_02.gd:119 scripts/campaign/mission_e5_02.gd:256
 msgid "Gannet Rook"
 msgstr "Gannet Rook"
 
 #. [&"narrator", "Long before the war, a girl with soot on her hands came down into the Vale of Bells."],
-#: scripts/campaign/mission_e5_01.gd:132 data/voice/lines/e5m1.json:L1
+#: scripts/campaign/mission_e5_01.gd:136 data/voice/lines/e5m1.json:L1
 msgid "Long before the war, a girl with soot on her hands came down into the Vale of Bells."
 msgstr "Bien avant la guerre, une fillette aux mains pleines de suie est descendue dans le Vale of Bells."
 
 #. [&"vey", "Five beacons, Vessa. Light them all and the south watch comes home. That is the trial."],
-#: scripts/campaign/mission_e5_01.gd:133 data/voice/lines/e5m1.json:L2
+#: scripts/campaign/mission_e5_01.gd:137 data/voice/lines/e5m1.json:L2
 msgid "Five beacons, Vessa. Light them all and the south watch comes home. That is the trial."
 msgstr "Cinq feux de signal, Vessa. Allume-les tous, et la garde du sud rentre. C'est ça, l'épreuve."
 
 #. [&"vessa", "Five? I could light fifty. Can I light the bridge too? It looks very flammable."],
-#: scripts/campaign/mission_e5_01.gd:134 data/voice/lines/e5m1.json:L3
+#: scripts/campaign/mission_e5_01.gd:138 data/voice/lines/e5m1.json:L3
 msgid "Five? I could light fifty. Can I light the bridge too? It looks very flammable."
 msgstr "Cinq ? J'en allumerais cinquante. Je peux allumer le pont aussi ? Il a l'air très inflammable."
 
 #. [&"vey", "Stand close and hold still. Fire comes when you stop chasing it."],
-#: scripts/campaign/mission_e5_01.gd:135 data/voice/lines/e5m1.json:L4
+#: scripts/campaign/mission_e5_01.gd:139 data/voice/lines/e5m1.json:L4
 msgid "Stand close and hold still. Fire comes when you stop chasing it."
 msgstr "Approche-toi et reste immobile. Le feu vient quand tu arrêtes de lui courir après."
 
 #. [&"vessa", "Ha! One! Did you see? Tell me you saw that."],
-#: scripts/campaign/mission_e5_01.gd:136 data/voice/lines/e5m1.json:L5
+#: scripts/campaign/mission_e5_01.gd:140 data/voice/lines/e5m1.json:L5
 msgid "Ha! One! Did you see? Tell me you saw that."
 msgstr "Ha ! Un ! T'as vu ? Dis-moi que t'as vu ça."
 
 #. [&"vey", "I saw. Now build something to guard it. A beacon on its own is just a target."],
-#: scripts/campaign/mission_e5_01.gd:137 data/voice/lines/e5m1.json:L6
+#: scripts/campaign/mission_e5_01.gd:141 data/voice/lines/e5m1.json:L6
 msgid "I saw. Now build something to guard it. A beacon on its own is just a target."
 msgstr "J'ai vu. Maintenant, bâtis quelque chose pour le garder. Un feu tout seul, c'est juste une cible."
 
 #. [&"gannet", "Pretty lights in the vale! Keep lighting them, little match. We'll follow them home."],
-#: scripts/campaign/mission_e5_01.gd:138 data/voice/lines/e5m1.json:L7
+#: scripts/campaign/mission_e5_01.gd:142 data/voice/lines/e5m1.json:L7
 msgid "Pretty lights in the vale! Keep lighting them, little match. We'll follow them home."
 msgstr "Jolies lumières dans la vallée ! Continue, petite allumette. On va les suivre jusque chez toi."
 
 #. [&"vey", "You're getting stronger. Learn to step out of trouble before you learn to start it."],
-#: scripts/campaign/mission_e5_01.gd:139 data/voice/lines/e5m1.json:L8
+#: scripts/campaign/mission_e5_01.gd:143 data/voice/lines/e5m1.json:L8
 msgid "You're getting stronger. Learn to step out of trouble before you learn to start it."
 msgstr "Tu deviens plus forte. Apprends à te sortir du trouble avant d'apprendre à en faire."
 
 #. [&"vessa", "Millrace is lit! And the mill is... mostly not on fire. Mostly."],
-#: scripts/campaign/mission_e5_01.gd:140 data/voice/lines/e5m1.json:L9
+#: scripts/campaign/mission_e5_01.gd:144 data/voice/lines/e5m1.json:L9
 msgid "Millrace is lit! And the mill is... mostly not on fire. Mostly."
 msgstr "Millrace est allumé ! Et le moulin est... presque pas en feu. Presque."
 
 #. [&"narrator", "The miller's boys took down their bows from the wall. Nobody had asked them to."],
-#: scripts/campaign/mission_e5_01.gd:141 data/voice/lines/e5m1.json:L10
+#: scripts/campaign/mission_e5_01.gd:145 data/voice/lines/e5m1.json:L10
 msgid "The miller's boys took down their bows from the wall. Nobody had asked them to."
 msgstr "Les garçons du meunier ont décroché leurs arcs du mur. Personne ne le leur avait demandé."
 
 #. [&"vey", "Halfway. Your soldiers are tired, Vessa. Let them catch up."],
-#: scripts/campaign/mission_e5_01.gd:142 data/voice/lines/e5m1.json:L11
+#: scripts/campaign/mission_e5_01.gd:146 data/voice/lines/e5m1.json:L11
 msgid "Halfway. Your soldiers are tired, Vessa. Let them catch up."
 msgstr "La moitié. Tes soldats sont fatigués, Vessa. Laisse-les te rattraper."
 
 #. [&"vey", "Leave the boars their hill and they'll leave you yours. Take the beacon, not the fight."],
-#: scripts/campaign/mission_e5_01.gd:143 data/voice/lines/e5m1.json:L12
+#: scripts/campaign/mission_e5_01.gd:147 data/voice/lines/e5m1.json:L12
 msgid "Leave the boars their hill and they'll leave you yours. Take the beacon, not the fight."
 msgstr "Laisse leur colline aux sangliers, et ils te laisseront la tienne. Prends le feu, pas le combat."
 
 #. [&"narrator", "On the far road, the south watch's scouts saw the fire and turned their horses home."],
-#: scripts/campaign/mission_e5_01.gd:144 data/voice/lines/e5m1.json:L13
+#: scripts/campaign/mission_e5_01.gd:148 data/voice/lines/e5m1.json:L13
 msgid "On the far road, the south watch's scouts saw the fire and turned their horses home."
 msgstr "Au loin, sur la route, les éclaireurs de la garde du sud ont vu le feu et ont tourné bride."
 
 #. [&"vey", "Vessa! A spark that runs off alone goes out. Wait for your soldiers."],
-#: scripts/campaign/mission_e5_01.gd:145 data/voice/lines/e5m1.json:L14
+#: scripts/campaign/mission_e5_01.gd:149 data/voice/lines/e5m1.json:L14
 msgid "Vessa! A spark that runs off alone goes out. Wait for your soldiers."
 msgstr "Vessa ! Une étincelle qui part toute seule s'éteint. Attends tes soldats."
 
 #. [&"vessa", "Oops. Tents are very flammable. Who knew? ...Everyone. Everyone knew."],
-#: scripts/campaign/mission_e5_01.gd:146 data/voice/lines/e5m1.json:L15
+#: scripts/campaign/mission_e5_01.gd:150 data/voice/lines/e5m1.json:L15
 msgid "Oops. Tents are very flammable. Who knew? ...Everyone. Everyone knew."
 msgstr "Oups. Les tentes, c'est très inflammable. Qui l'aurait cru ? ...Tout le monde. Tout le monde le savait."
 
 #. [&"gannet", "All five lit? Then the whole vale can watch you lose. Boys! Fetch me that match!"],
-#: scripts/campaign/mission_e5_01.gd:147 data/voice/lines/e5m1.json:L16
+#: scripts/campaign/mission_e5_01.gd:151 data/voice/lines/e5m1.json:L16
 msgid "All five lit? Then the whole vale can watch you lose. Boys! Fetch me that match!"
 msgstr "Les cinq allumés ? Alors toute la vallée va te regarder perdre. Les gars ! Ramenez-moi l'allumette !"
 
 #. [&"vessa", "Come on, then! I've got five fires and a really bad temper."],
-#: scripts/campaign/mission_e5_01.gd:148 data/voice/lines/e5m1.json:L17
+#: scripts/campaign/mission_e5_01.gd:152 data/voice/lines/e5m1.json:L17
 msgid "Come on, then! I've got five fires and a really bad temper."
 msgstr "Venez-vous-en, d'abord ! J'ai cinq feux et un très mauvais caractère."
 
 #. [&"gannet", "She burned my good coat! Back to the fens! Back to the fens!"],
-#: scripts/campaign/mission_e5_01.gd:149 data/voice/lines/e5m1.json:L18
+#: scripts/campaign/mission_e5_01.gd:153 data/voice/lines/e5m1.json:L18
 msgid "She burned my good coat! Back to the fens! Back to the fens!"
 msgstr "Elle a brûlé mon beau manteau ! Retour aux marais ! Retour aux marais !"
 
 #. [&"narrator", "At dusk the south watch rode home along a road of fire."],
-#: scripts/campaign/mission_e5_01.gd:150 data/voice/lines/e5m1.json:L19
+#: scripts/campaign/mission_e5_01.gd:154 data/voice/lines/e5m1.json:L19
 msgid "At dusk the south watch rode home along a road of fire."
 msgstr "Au crépuscule, la garde du sud est rentrée par une route de feu."
 
 #. [&"vey", "Not bad, girl. Remember it: the spark first. Then the storm."],
-#: scripts/campaign/mission_e5_01.gd:151 data/voice/lines/e5m1.json:L20
+#: scripts/campaign/mission_e5_01.gd:155 data/voice/lines/e5m1.json:L20
 msgid "Not bad, girl. Remember it: the spark first. Then the storm."
 msgstr "Pas mal, petite. Souviens-t'en : l'étincelle d'abord. Puis la tempête."
 
 #. [&"vessa", "What storm? I don't have a storm. Do YOU have a storm?"],
-#: scripts/campaign/mission_e5_01.gd:152 data/voice/lines/e5m1.json:L21
+#: scripts/campaign/mission_e5_01.gd:156 data/voice/lines/e5m1.json:L21
 msgid "What storm? I don't have a storm. Do YOU have a storm?"
 msgstr "Quelle tempête ? J'ai pas de tempête, moi. TOI, t'as une tempête ?"
 
 #. [&"vey", "Ha. Go and wash your face. You look like a chimney."],
-#: scripts/campaign/mission_e5_01.gd:153 data/voice/lines/e5m1.json:L22
+#: scripts/campaign/mission_e5_01.gd:157 data/voice/lines/e5m1.json:L22
 msgid "Ha. Go and wash your face. You look like a chimney."
 msgstr "Ha. Va te débarbouiller. T'as l'air d'une cheminée."
 
 #. [&"master", "Not yet, old friend. Let her find her own fire first."],
-#: scripts/campaign/mission_e5_01.gd:154 data/voice/lines/e5m1.json:L23
+#: scripts/campaign/mission_e5_01.gd:158 data/voice/lines/e5m1.json:L23
 msgid "Not yet, old friend. Let her find her own fire first."
 msgstr "Pas encore, mon vieil ami. Laisse-la d'abord trouver son propre feu."
 
 #. [&"vey", "Just catching my breath. Keep lighting!"],
-#: scripts/campaign/mission_e5_01.gd:155 data/voice/lines/e5m1.json:L24
+#: scripts/campaign/mission_e5_01.gd:159 data/voice/lines/e5m1.json:L24
 msgid "Just catching my breath. Keep lighting!"
 msgstr "Je reprends mon souffle, c'est tout. Continue d'allumer !"
 
 #. [&"vessa", "Vey... I didn't wait..."],
-#: scripts/campaign/mission_e5_01.gd:156 data/voice/lines/e5m1.json:L25
+#: scripts/campaign/mission_e5_01.gd:160 data/voice/lines/e5m1.json:L25
 msgid "Vey... I didn't wait..."
 msgstr "Vey... J'ai pas attendu..."
 
 #. [&"vessa", "No, no, no! That was somebody's house!"],
-#: scripts/campaign/mission_e5_01.gd:157 data/voice/lines/e5m1.json:L26
+#: scripts/campaign/mission_e5_01.gd:161 data/voice/lines/e5m1.json:L26
 msgid "No, no, no! That was somebody's house!"
 msgstr "Non, non, non ! C'était la maison de quelqu'un !"
 
 #. [&"vey", "Behind me, girl. Nobody crosses this bridge while I stand on it."],
-#: scripts/campaign/mission_e5_01.gd:158
+#: scripts/campaign/mission_e5_01.gd:162
 msgid "Behind me, girl. Nobody crosses this bridge while I stand on it."
 msgstr "Derrière moi, petite. Personne ne traverse ce pont tant que je suis dessus."
 
 #. [&"vessa", "And what do I do? Watch?"],
-#: scripts/campaign/mission_e5_01.gd:159
+#: scripts/campaign/mission_e5_01.gd:163
 msgid "And what do I do? Watch?"
 msgstr "Et moi, je fais quoi ? Je regarde ?"
 
 #. [&"vey", "You throw fire over my shoulder. That is what a spark is for."],
-#: scripts/campaign/mission_e5_01.gd:160
+#: scripts/campaign/mission_e5_01.gd:164
 msgid "You throw fire over my shoulder. That is what a spark is for."
 msgstr "Tu lances le feu par-dessus mon épaule. C'est à ça que sert une étincelle."
 
 #. [&"vey", "That is how a bridge is held. One sword in front, one spark behind."],
-#: scripts/campaign/mission_e5_01.gd:161
+#: scripts/campaign/mission_e5_01.gd:165
 msgid "That is how a bridge is held. One sword in front, one spark behind."
 msgstr "C'est comme ça qu'on tient un pont. Une épée devant, une étincelle derrière."
 
 #. [&"narrator", "Years later, she would hold a bridge of her own, and remember who had stood in front of her."],
-#: scripts/campaign/mission_e5_01.gd:162
+#: scripts/campaign/mission_e5_01.gd:166
 msgid "Years later, she would hold a bridge of her own, and remember who had stood in front of her."
 msgstr "Des années plus tard, elle tiendrait son propre pont, et se souviendrait de celui qui s'était tenu devant elle."
 
 #. "Winter, the truce. In Emberfall, Vessa turns an old sword-knot in her fingers. Vey's. She remembers the first
-#: scripts/campaign/mission_e5_01.gd:165
+#: scripts/campaign/mission_e5_01.gd:169
 msgid "Winter, the truce. In Emberfall, Vessa turns an old sword-knot in her fingers. Vey's. She remembers the first time he made her wait."
 msgstr "L'hiver, la trêve. À Emberfall, Vessa fait tourner entre ses doigts une vieille dragonne d'épée. Celle de Vey. Elle se souvient de la première fois qu'il l'a fait attendre."
 
 #. "Twenty years before the crown, the Master's citadel rose above the clouds and the world was at peace, nearly.
-#: scripts/campaign/mission_e5_01.gd:166
+#: scripts/campaign/mission_e5_01.gd:170
 msgid "Twenty years before the crown, the Master's citadel rose above the clouds and the world was at peace, nearly. In the Vale of Bells below it, the old signal beacons had gone cold, and reivers from the southern fens had noticed."
 msgstr "Vingt ans avant la couronne, la citadelle du maître s'élevait au-dessus des nuages et le monde était en paix, ou presque. Dans le val des Cloches, à ses pieds, les vieux feux d'alarme s'étaient éteints, et les pillards des marais du sud l'avaient remarqué."
 
 #. "Torren Vey, the Master's sword, set his youngest apprentice her first trial: light all five beacons and call
-#: scripts/campaign/mission_e5_01.gd:167
+#: scripts/campaign/mission_e5_01.gd:171
 msgid "Torren Vey, the Master's sword, set his youngest apprentice her first trial: light all five beacons and call the south watch home. Vessa was twelve. She had never waited for anything in her life."
 msgstr "Torren Vey, l'épée du maître, donna à sa plus jeune apprentie sa première épreuve : allumer les cinq feux et rappeler la garde du sud. Vessa avait douze ans. Elle n'avait jamais rien attendu de sa vie."
 
 #. const HINT_START := "Right-click to walk Vessa (Hero WASD: W A S D). Light the beacon to the south-east: stand
-#: scripts/campaign/mission_e5_01.gd:169
+#: scripts/campaign/mission_e5_01.gd:173
 msgid "Right-click to walk Vessa (Hero WASD: W A S D). Light the beacon to the south-east: stand beside it."
 msgstr "Clic droit pour faire marcher Vessa (Héros WASD : W A S D). Allumez le feu au sud-est : tenez-vous à côté."
 
 #. const HINT_BEACON := "Stay within 3 m of the beacon for 3 seconds. Only Vessa can light it."
-#: scripts/campaign/mission_e5_01.gd:170
+#: scripts/campaign/mission_e5_01.gd:174
 msgid "Stay within 3 m of the beacon for 3 seconds. Only Vessa can light it."
 msgstr "Restez à moins de 3 m du feu pendant 3 secondes. Seule Vessa peut l'allumer."
 
 #. const HINT_BUILD := "Select the Keep and press Z to train a Cinder Hand. Then select a Cinder Hand: B, then X,
-#: scripts/campaign/mission_e5_01.gd:171
+#: scripts/campaign/mission_e5_01.gd:175
 msgid "Select the Keep and press Z to train a Cinder Hand. Then select a Cinder Hand: B, then X, builds an Ember Hall."
 msgstr "Sélectionnez le Donjon et appuyez sur Z pour former une Cinder Hand. Puis sélectionnez une Cinder Hand : B, puis X, construit une Ember Hall."
 
 #. const HINT_HALL := "Select the Ember Hall: Z trains a Flame Guard, X an Ember Archer. Right-click the ground t
-#: scripts/campaign/mission_e5_01.gd:172
+#: scripts/campaign/mission_e5_01.gd:176
 msgid "Select the Ember Hall: Z trains a Flame Guard, X an Ember Archer. Right-click the ground to set their rally point."
 msgstr "Sélectionnez l'Ember Hall : Z forme un Flame Guard, X un Ember Archer. Clic droit sur le sol pour placer leur point de ralliement."
 
 #. const HINT_W1 := "Select your soldiers, press X (or A) and click: they attack everything on the way. F then cl
-#: scripts/campaign/mission_e5_01.gd:173
+#: scripts/campaign/mission_e5_01.gd:177
 msgid "Select your soldiers, press X (or A) and click: they attack everything on the way. F then click: Fireball."
 msgstr "Sélectionnez vos soldats, appuyez sur X (ou A) et cliquez : ils attaquent tout sur leur chemin. F puis clic : Fireball."
 
 #. const HINT_LEVEL := "Level up! Ctrl+Q learns Ember Step, then Q and click to jump. Ctrl+1 puts your selection
-#: scripts/campaign/mission_e5_01.gd:174
+#: scripts/campaign/mission_e5_01.gd:178
 msgid "Level up! Ctrl+Q learns Ember Step, then Q and click to jump. Ctrl+1 puts your selection in group 1."
 msgstr "Niveau supérieur! Ctrl+Q apprend Ember Step, puis Q et clic pour bondir. Ctrl+1 met votre sélection dans le groupe 1."
 
 #. const HINT_KNOLL := "Neutral beasts guard their ground but never chase far. Draw them off the beacon, or pass
-#: scripts/campaign/mission_e5_01.gd:175
+#: scripts/campaign/mission_e5_01.gd:179
 msgid "Neutral beasts guard their ground but never chase far. Draw them off the beacon, or pass by."
 msgstr "Les bêtes neutres gardent leur terrain, mais ne poursuivent jamais loin. Attirez-les loin du feu, ou passez votre chemin."
 
 #. const HINT_RIDERS := "Blaze Riders are fast: send them after the slingers."
-#: scripts/campaign/mission_e5_01.gd:176
+#: scripts/campaign/mission_e5_01.gd:180
 msgid "Blaze Riders are fast: send them after the slingers."
 msgstr "Les Blaze Riders sont rapides : envoyez-les sur les frondeurs."
 
 #. const HINT_SPIRE := "Build an Ember Spire by the Millrace farms (worker, B then C)."
-#: scripts/campaign/mission_e5_01.gd:177
+#: scripts/campaign/mission_e5_01.gd:181
 msgid "Build an Ember Spire by the Millrace farms (worker, B then C)."
 msgstr "Construisez une Ember Spire près des fermes de Millrace (ouvrier, B puis C)."
 
 #. const MSG_BLOCKED := "Reivers stand by the beacon: it won't catch until they are gone"
-#: scripts/campaign/mission_e5_01.gd:178
+#: scripts/campaign/mission_e5_01.gd:182
 msgid "Reivers stand by the beacon: it won't catch until they are gone"
 msgstr "Des pillards gardent le feu : il ne prendra pas tant qu'ils seront là"
 
 #. const MSG_VOLUNTEERS := "The Millrace volunteers join you"
-#: scripts/campaign/mission_e5_01.gd:179
+#: scripts/campaign/mission_e5_01.gd:183
 msgid "The Millrace volunteers join you"
 msgstr "Les volontaires de Millrace se joignent à vous"
 
 #. const MSG_SCOUTS := "The south watch's scouts ride in"
-#: scripts/campaign/mission_e5_01.gd:180
+#: scripts/campaign/mission_e5_01.gd:184
 msgid "The south watch's scouts ride in"
 msgstr "Les éclaireurs de la garde du sud arrivent au galop"
 
 #. const MSG_GANNET_FLEES := "Gannet Rook flees to the fens"
-#: scripts/campaign/mission_e5_01.gd:181
+#: scripts/campaign/mission_e5_01.gd:185
 msgid "Gannet Rook flees to the fens"
 msgstr "Gannet Rook s'enfuit vers les marais"
 
 #. const MSG_ONE_HEARTH := "Valewatch has room for one Hearth"
-#: scripts/campaign/mission_e5_01.gd:182
+#: scripts/campaign/mission_e5_01.gd:186
 msgid "Valewatch has room for one Hearth"
 msgstr "Valewatch n'a de place que pour un Hearth"
 
 #. const MSG_FARMS_WARNING := "Torches on the west road: reivers are coming for the Millrace farms!"
-#: scripts/campaign/mission_e5_01.gd:183
+#: scripts/campaign/mission_e5_01.gd:187
 msgid "Torches on the west road: reivers are coming for the Millrace farms!"
 msgstr "Des torches sur la route de l'ouest : les pillards viennent pour les fermes de Millrace !"
 
+#. const MSG_NIGHT_WARNING := "Two minutes to nightfall: light every beacon before dark!"
+#: scripts/campaign/mission_e5_01.gd:188
+msgid "Two minutes to nightfall: light every beacon before dark!"
+msgstr "Deux minutes avant la nuit : allumez tous les feux avant le noir !"
+
+#. const MSG_NIGHT_FELL := "Night fell on a dark vale: Gannet's host came down unseen."
+#: scripts/campaign/mission_e5_01.gd:189
+msgid "Night fell on a dark vale: Gannet's host came down unseen."
+msgstr "La nuit est tombée sur un val sans feux : l'armée de Gannet est descendue sans être vue."
+
 #. const HINT_WALL := "Vey holds the Old Bridge: stay behind him and throw Fireballs. They cost no mana near him
-#: scripts/campaign/mission_e5_01.gd:184
+#: scripts/campaign/mission_e5_01.gd:190
 msgid "Vey holds the Old Bridge: stay behind him and throw Fireballs. They cost no mana near him while he stands."
 msgstr "Vey tient l'Old Bridge : restez derrière lui et lancez des Fireballs. Elles ne coûtent pas de mana près de lui tant qu'il tient debout."
 
 #. c.keep_lost_message = "Valewatch has fallen"
-#: scripts/campaign/mission_e5_01.gd:249
+#: scripts/campaign/mission_e5_01.gd:255
 msgid "Valewatch has fallen"
 msgstr "Valewatch est tombée"
 
 #. c.victory_banner = "VICTORY\nThe south watch rides home"
-#: scripts/campaign/mission_e5_01.gd:258
+#: scripts/campaign/mission_e5_01.gd:264
 msgid "VICTORY\nThe south watch rides home"
 msgstr "VICTOIRE\nLa garde du sud rentre au pays"
 
 #. c.spotlight = {"id": &"fire_tower", "trigger": &"manual", "key_hint": "Worker: B then C",
-#: scripts/campaign/mission_e5_01.gd:261
+#: scripts/campaign/mission_e5_01.gd:267
 msgid "Worker: B then C"
 msgstr "Ouvrier : B puis C"
 
 #. "card": "Ember Spire. A tower that watches while you're away: raiders hate it."}
-#: scripts/campaign/mission_e5_01.gd:262
+#: scripts/campaign/mission_e5_01.gd:268
 msgid "Ember Spire. A tower that watches while you're away: raiders hate it."
 msgstr "Ember Spire. Une tour qui veille pendant votre absence : les pillards la détestent."
 
 #. local_unit("magpie", "reiver", "Reiver", {"aggro_range": 8.0, "kill_xp": 20, "commandable": false,
-#: scripts/campaign/mission_e5_01.gd:268 scripts/campaign/mission_e5_02.gd:249
+#: scripts/campaign/mission_e5_01.gd:274 scripts/campaign/mission_e5_02.gd:249
 msgid "Reiver"
 msgstr "Reiver"
 
 #. local_unit("nightbolt", "reiver_slinger", "Reiver Slinger", {"max_hp": 70.0, "attack_damage": 9.0,
-#: scripts/campaign/mission_e5_01.gd:270 scripts/campaign/mission_e5_02.gd:251
+#: scripts/campaign/mission_e5_01.gd:276 scripts/campaign/mission_e5_02.gd:251
 msgid "Reiver Slinger"
 msgstr "Reiver Slinger"
 
 #. local_unit("bristleback", "war_boar", "War-boar", {"neutral_leash": false, "aggro_range": 8.0, "kill_xp": 30,
-#: scripts/campaign/mission_e5_01.gd:273 scripts/campaign/mission_e5_02.gd:254
+#: scripts/campaign/mission_e5_01.gd:279 scripts/campaign/mission_e5_02.gd:254
 msgid "War-boar"
 msgstr "War-boar"
 
 #. local_unit("torren_vey", "vey_prime", "Torren Vey", {"max_hp": 1400.0, "armor": 25.0, "attack_damage": 32.0,
-#: scripts/campaign/mission_e5_01.gd:278
+#: scripts/campaign/mission_e5_01.gd:284
 msgid "Torren Vey"
 msgstr "Torren Vey"
 
 #. _vale_keep_type = MissionE5Base.local_building("fire_keep", "fire_keep", "Valewatch", 2000.0, true)
-#: scripts/campaign/mission_e5_01.gd:280
+#: scripts/campaign/mission_e5_01.gd:286
 msgid "Valewatch"
 msgstr "Valewatch"
 
 #. _farm_type = MissionE5Base.local_building("fire_hearth", "millrace_farm", "Millrace Farm", 500.0)
-#: scripts/campaign/mission_e5_01.gd:283
+#: scripts/campaign/mission_e5_01.gd:289
 msgid "Millrace Farm"
 msgstr "Millrace Farm"
 
 #. _tent_type = MissionE5Base.local_building("shadow_hovel", "reiver_tent", "Reiver Tent", 450.0)
-#: scripts/campaign/mission_e5_01.gd:284 scripts/campaign/mission_e5_02.gd:269
+#: scripts/campaign/mission_e5_01.gd:290 scripts/campaign/mission_e5_02.gd:269
 msgid "Reiver Tent"
 msgstr "Reiver Tent"
 
 #. return "Episode 5, Mission 1: %s" % MISSION_TITLE
-#: scripts/campaign/mission_e5_01.gd:300
+#: scripts/campaign/mission_e5_01.gd:306
 msgid "Episode 5, Mission 1: %s"
 msgstr "Épisode 5, mission 1 : %s"
 
 #. return "Light the beacons of the Vale (%d / 5)" % lit.size()
-#: scripts/campaign/mission_e5_01.gd:497
+#: scripts/campaign/mission_e5_01.gd:503
 msgid "Light the beacons of the Vale (%d / 5)"
 msgstr "Allumez les feux du val (%d / 5)"
 
 #. return "Light the beacons of the Vale"
-#: scripts/campaign/mission_e5_01.gd:498
+#: scripts/campaign/mission_e5_01.gd:504
 msgid "Light the beacons of the Vale"
 msgstr "Allumez les feux du val"
 
 #. return "Hold the Vale until the south watch rides in (%d:%02d)" % [s / 60, s % 60]
-#: scripts/campaign/mission_e5_01.gd:502
+#: scripts/campaign/mission_e5_01.gd:508
 msgid "Hold the Vale until the south watch rides in (%d:%02d)"
 msgstr "Tenez le val jusqu'au retour de la garde du sud (%d:%02d)"
 
 #. return "Hold the Vale until the south watch rides in"
-#: scripts/campaign/mission_e5_01.gd:503
+#: scripts/campaign/mission_e5_01.gd:509
 msgid "Hold the Vale until the south watch rides in"
 msgstr "Tenez le val jusqu'au retour de la garde du sud"
 
 #. return "Keep the Millrace farms standing (%d)" % farms_standing()
-#: scripts/campaign/mission_e5_01.gd:508
+#: scripts/campaign/mission_e5_01.gd:514
 msgid "Keep the Millrace farms standing (%d)"
 msgstr "Gardez les fermes de Millrace debout (%d)"
 
 #. return "Keep the Millrace farms standing"
-#: scripts/campaign/mission_e5_01.gd:509
+#: scripts/campaign/mission_e5_01.gd:515
 msgid "Keep the Millrace farms standing"
 msgstr "Gardez les fermes de Millrace debout"
 
 #. return "Burn the reivers' tents (%d / 2)" % tents_burned
-#: scripts/campaign/mission_e5_01.gd:512
+#: scripts/campaign/mission_e5_01.gd:518
 msgid "Burn the reivers' tents (%d / 2)"
 msgstr "Brûlez les tentes des pillards (%d / 2)"
 
 #. return "Burn the reivers' tents"
-#: scripts/campaign/mission_e5_01.gd:513
+#: scripts/campaign/mission_e5_01.gd:519
 msgid "Burn the reivers' tents"
 msgstr "Brûlez les tentes des pillards"
 
@@ -10710,7 +10720,7 @@ msgid "Unmask the Mask Captain"
 msgstr "Démasque le Capitaine masqué"
 
 #. return "Not while the Outwall's people are walking"
-#: scripts/campaign/mission_e7_03.gd:1153
+#: scripts/campaign/mission_e7_03.gd:1154
 msgid "Not while the Outwall's people are walking"
 msgstr "Pas pendant que les gens de l'Outwall marchent"
 

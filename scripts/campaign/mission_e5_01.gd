@@ -18,11 +18,19 @@ extends MissionE5Base
 ##   Intercept, The Lesson as a 10 mana refund, kneel 8 s -> 40 %, never attacks buildings, the teaching bark).
 ## - Gannet's Hook Throw pulls through Unit.displace; he flees at 40 % (untargetable at once) and despawns at SP_SE.
 ##   He comes with the Final's +40 s group (not at 0 s): a big army drove him off in seconds, the hold was no fight.
+## - Nightfall (review fix): a beacon still dark at NIGHT_AT (20:00 / 18:00 / 16:00) = defeat, warned 2:00 before.
 ## - The south watch rides home at dusk: the hold lasts until max(5th beacon + 1:30, DUSK_AT) (9:00 / 10:00 / 11:00),
 ##   the Final's second group comes 50 s before its end and the camp calls go on until then (a beacon rush lit four
 ##   beacons by 3:30 with Vey and the start army; it must not win before ~10 min, tests/test_e5m1_rush_sim.gd).
 ## - Hearth max 1: a second Hearth site is cancelled at once with a full refund ("Valewatch has room for one Hearth").
 ## - Items locked: no essence, the inventory bar hidden (the keep / Hall still answer is_shop()).
+## Campaign review fixes (2026-10-16, docs/playtests/campaign_review_2026-10-16/part2.md "e5m1"):
+## - Vey's Wall (the set piece only prime Vey and young Vessa can have): lighting the Old Bridge sends W3 charging
+##   at the bridge down the Bellmouth lane; Vey plants himself on the bridge for 30 s (armor +10, damage +50 %, Old
+##   Steel on every 2nd strike, he holds the spot instead of following Vessa) and Vessa's Fireballs cost nothing within
+##   10 m of him while he stands. The survivors go on to Valewatch as before.
+## - A shorter dead start: W1 from 2:30 (was 4:00), 40 s after the first beacon (was 60 s).
+## - The first Millrace raid (W2) comes 20 s after the beacon with a warning ring on the farms, so sec_farms can be won.
 
 const MISSION_ID := &"e5m1"
 const MISSION_TITLE := "The First Spark"
@@ -56,13 +64,22 @@ const BEACON_BLOCK_R := 8.0       ## a hostile unit this close keeps a beacon fr
 const NEAR_BEACON_HINT := 12.0
 const KNOLL_HINT_R := 14.0
 const GUARD_LEASH := 16.0         ## 2x the guards' aggro
-const W1_EARLIEST := 240.0
-const W1_AFTER_B1 := 60.0
+const W1_EARLIEST := 150.0
+const W1_AFTER_B1 := 40.0
+const W2_WARNING := 20.0           ## the first Millrace raid comes this long after the beacon (a ring on the farms first)
+const WALL_TIME := 30.0            ## Vey's Wall on the Old Bridge
+const WALL_FROM := Vector3(14.0, 0.0, 17.0)   ## W3 charges at the bridge down the Bellmouth lane
+const WALL_STATS := {"armor": 10.0, "attack_damage_pct": 0.5}
+const WALL_REFUND := 40.0          ## a Fireball within LESSON_R of Vey costs nothing while he holds the bridge
+const WALL_HOLD_R := 6.0           ## Vey fights what comes within this of his spot, else walks back to it
 const RAID_EVERY := 120.0
 const CAMP_CALL_EVERY := 150.0
 const FINAL_EXTRA_AFTER := 40.0
 const HOLD_TIME: Array[float] = [60.0, 90.0, 120.0]
 const DUSK_AT: Array[float] = [540.0, 600.0, 660.0]   ## the watch is never home before dusk (rush floor)
+## Nightfall (review fix 2026-10-16): the Bellmouth still dark at this mission time = defeat (a stalled vale always ends).
+const NIGHT_AT: Array[float] = [1200.0, 1080.0, 960.0]
+const NIGHT_WARNING := 120.0
 const GANNET_FLEE := 0.40
 const GANNET_HP: Array[float] = [550.0, 700.0, 900.0]
 const HOOK_CD: Array[float] = [15.0, 12.0, 10.0]
@@ -113,7 +130,8 @@ const SPEAKER_NAMES := {&"vessa": "Vessa", &"vey": "Old Vey", &"gannet": "Gannet
 		&"narrator": "Narrator"}
 ## The spec's 26 lines (data/voice/lines/e5m1.json, French in data/i18n/fr): LINE_IDS[n - 1] = id of line n.
 const LINE_IDS: Array[String] = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "L10", "L11", "L12", "L13",
-		"L14", "L15", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L23", "L24", "L25", "L26"]
+		"L14", "L15", "L16", "L17", "L18", "L19", "L20", "L21", "L22", "L23", "L24", "L25", "L26",
+		"L27", "L28", "L29", "L30", "L31"]
 const DIALOGUE := [
 	[&"narrator", "Long before the war, a girl with soot on her hands came down into the Vale of Bells."],
 	[&"vey", "Five beacons, Vessa. Light them all and the south watch comes home. That is the trial."],
@@ -141,6 +159,11 @@ const DIALOGUE := [
 	[&"vey", "Just catching my breath. Keep lighting!"],
 	[&"vessa", "Vey... I didn't wait..."],
 	[&"vessa", "No, no, no! That was somebody's house!"],
+	[&"vey", "Behind me, girl. Nobody crosses this bridge while I stand on it."],
+	[&"vessa", "And what do I do? Watch?"],
+	[&"vey", "You throw fire over my shoulder. That is what a spark is for."],
+	[&"vey", "That is how a bridge is held. One sword in front, one spark behind."],
+	[&"narrator", "Years later, she would hold a bridge of her own, and remember who had stood in front of her."],
 ]
 const BRIEFING_PARAGRAPHS: Array[String] = [
 	"Winter, the truce. In Emberfall, Vessa turns an old sword-knot in her fingers. Vey's. She remembers the first time he made her wait.",
@@ -161,6 +184,10 @@ const MSG_VOLUNTEERS := "The Millrace volunteers join you"
 const MSG_SCOUTS := "The south watch's scouts ride in"
 const MSG_GANNET_FLEES := "Gannet Rook flees to the fens"
 const MSG_ONE_HEARTH := "Valewatch has room for one Hearth"
+const MSG_FARMS_WARNING := "Torches on the west road: reivers are coming for the Millrace farms!"
+const MSG_NIGHT_WARNING := "Two minutes to nightfall: light every beacon before dark!"
+const MSG_NIGHT_FELL := "Night fell on a dark vale: Gannet's host came down unseen."
+const HINT_WALL := "Vey holds the Old Bridge: stay behind him and throw Fireballs. They cost no mana near him while he stands."
 
 ## Read only.
 var beacons := {}                       ## id -> MissionBrazier
@@ -178,6 +205,8 @@ var hold_ends_at := -1.0                ## mission time the hold ends (-1 = not 
 var victory_time := -1.0
 var bark_count := 0
 var vey_kneels := 0
+var wall_left := 0.0                    ## Vey's Wall on the Old Bridge: seconds left (0 = not standing)
+var wall_done := false
 
 var _tick := 0.0
 var _fast := 0.0
@@ -577,7 +606,11 @@ func _e7_millrace() -> void:
 	if hud:
 		hud.show_message(MSG_VOLUNTEERS, 4.0)
 	set_objective(&"sec_farms", "active" if farms_standing() == FARMS.size() else "failed")
-	_fire_wave(&"W2")
+	for f in FARMS:
+		flash_ring(f, 4.0)
+	if hud:
+		hud.show_message(MSG_FARMS_WARNING, 5.0)
+	after(W2_WARNING, _fire_wave.bind(&"W2"))
 
 
 ## E8: Old Bridge lit: L11, W3, the farm raids stop, the camp calls start.
@@ -588,6 +621,48 @@ func _e8_bridge() -> void:
 	_raid_at = -1.0
 	_fire_wave(&"W3")
 	_camp_at = mission_time() + CAMP_CALL_EVERY
+	start_wall()
+
+
+## Vey's Wall (review fix): Vey plants himself on the Old Bridge for WALL_TIME, W3 charges across it.
+func start_wall() -> void:
+	if wall_done or wall_left > 0.0 or not _vey_ok() or is_ending():
+		return
+	wall_left = WALL_TIME
+	fire_once(&"E_wall")
+	vey.add_modifier(&"mission:vey_wall", WALL_STATS)
+	vey.command_move(wall_spot())
+	flash_ring(wall_spot(), 3.0)
+	for id in ["L27", "L28", "L29"]:
+		say_l(id)
+	if hud:
+		hud.show_message(HINT_WALL, 10.0)
+
+
+## Where Vey stands: 3 m from the Old Bridge beacon toward the Bellmouth lane (the charge).
+func wall_spot() -> Vector3:
+	var b: Vector3 = BEACONS[&"bridge"][1]
+	var dir := WALL_FROM - b
+	dir.y = 0.0
+	return b + dir.normalized() * 3.0
+
+
+func _end_wall() -> void:
+	if wall_done:
+		return
+	wall_done = true
+	wall_left = 0.0
+	if vey and is_instance_valid(vey):
+		vey.remove_modifier(&"mission:vey_wall")
+	for n in get_tree().get_nodes_in_group(&"units"):
+		var u := n as Unit
+		if u and u.is_alive() and u.get_meta(META_MODE, &"") == &"charge":
+			u.set_meta(META_MODE, &"keep")   # the charge is over: the survivors go on to Valewatch
+			if u.attack_target == null and keep:
+				u.command_attack_move(keep.global_position)
+	if not is_ending():
+		say_l("L30")
+		say_l("L31")
 
 
 ## E10: the Knoll lit: L13, 2 Blaze Riders ride in from the east edge.
@@ -662,8 +737,8 @@ func _fire_wave(id: StringName) -> void:
 			for u in spawn_rows(WAVES[&"RAID"], SP_W, 0.0, Unit.Team.ENEMY, false, true):
 				order_wave(u as Unit, &"farm", FARMS[1])
 		&"W3":
-			for u in spawn_rows(WAVES[&"W3"], SP_SE, 0.0, Unit.Team.ENEMY, false, true):
-				order_wave(u as Unit, &"keep", VALEWATCH)
+			for u in spawn_rows(WAVES[&"W3"], WALL_FROM, 0.0, Unit.Team.ENEMY, false, true):
+				order_wave(u as Unit, &"charge", BEACONS[&"bridge"][1])
 		&"CAMP":
 			for t: Variant in tents:
 				if is_instance_valid(t) and (t as Building).is_alive():
@@ -820,6 +895,13 @@ func _refresh_wave_unit(u: Unit, mode: StringName, hero_at: Vector3) -> bool:
 			if u.attack_target == null or not u.attack_target is Unit:
 				u.command_attack_move(hero_at)
 			return true
+		&"charge":
+			if wall_left <= 0.0:
+				u.set_meta(META_MODE, &"keep")   # the charge is over: the survivors go on to Valewatch
+				return true
+			if u.attack_target == null and not u.is_attack_moving():
+				u.command_attack_move(BEACONS[&"bridge"][1])
+			return true
 		&"fled":
 			return true
 	return false
@@ -851,6 +933,7 @@ func _nearest_lit(from: Vector3) -> Vector3:
 
 func _tick_waves() -> void:
 	var t := mission_time()
+	_tick_night(t)
 	if _w1_at > 0.0 and t >= _w1_at and not waves_fired.has("W1"):
 		_fire_wave(&"W1")
 	if _raid_at > 0.0 and t >= _raid_at:
@@ -865,6 +948,20 @@ func _tick_waves() -> void:
 		_fire_wave(&"FINAL2")
 	if objective_state("obj_hold") == "active" and t >= hold_ends_at:
 		_hold_done()
+
+
+## Nightfall: a warning NIGHT_WARNING s before, then defeat while a beacon is still dark (E13 not reached).
+func _tick_night(t: float) -> void:
+	if has_fired(&"E13") or is_ending():
+		return
+	var night := float(by_difficulty(NIGHT_AT))
+	if t >= night - NIGHT_WARNING and fire_once(&"E_night_warn") and hud:
+		hud.show_message(MSG_NIGHT_WARNING, 8.0)
+	if t >= night and fire_once(&"E_night"):
+		set_objective(&"obj_beacons", "failed")
+		if hud:
+			hud.show_message(MSG_NIGHT_FELL, 6.0)
+		lose(3.0)
 
 
 ## Guards (2x leash) walk home when they chased too far.
@@ -901,7 +998,7 @@ func _vey_guard(_attacker: Variant) -> bool:
 ## Old Steel: every 3rd strike also hits every other enemy within 2.5 m of the target for 50 % (no spark).
 func _on_vey_struck(target: Node3D, amount: float) -> void:
 	_vey_strikes += 1
-	if _vey_strikes % 3 != 0 or target == null or not is_instance_valid(target):
+	if _vey_strikes % (2 if wall_left > 0.0 else 3) != 0 or target == null or not is_instance_valid(target):
 		return
 	for n in get_tree().get_nodes_in_group(&"units"):
 		var u := n as Unit
@@ -913,7 +1010,7 @@ func _on_vey_struck(target: Node3D, amount: float) -> void:
 ## The Lesson: Fireball costs 30 instead of 40 within 10 m of Vey (the 10 back right after the cast).
 func _on_vessa_cast(spell_id: StringName) -> void:
 	if spell_id == &"fireball" and _vey_ok() and hero_alive() and _flat(vey.global_position, hero.global_position) <= LESSON_R:
-		hero.mana = minf(hero.get_stat(&"max_mana"), hero.mana + LESSON_REFUND)
+		hero.mana = minf(hero.get_stat(&"max_mana"), hero.mana + (WALL_REFUND if wall_left > 0.0 else LESSON_REFUND))
 
 
 func _on_vessa_level(_u: Unit, level: int) -> void:
@@ -934,6 +1031,13 @@ func _tick_vey(dt: float) -> void:
 			vey.death_guard = _vey_guard
 			vey.hp = vey.max_hp * VEY_STAND_HP
 		return
+	if wall_left > 0.0:
+		wall_left -= dt
+		if wall_left <= 0.0:
+			_end_wall()
+		elif _vey_ok():
+			_tick_wall()
+			return
 	if not _vey_ok() or not hero_alive():
 		return
 	_intercept_left -= dt
@@ -964,6 +1068,19 @@ func _tick_vey(dt: float) -> void:
 	if d > VEY_FAR or (d < 1.5 and not vey.has_move_order()):
 		var side := Vector3(2.0, 0.0, 1.0).normalized() * VEY_NEAR
 		vey.command_move(at + side)
+
+
+## Vey on the bridge: fights what comes within WALL_HOLD_R of his spot, else walks back to it (never follows Vessa).
+func _tick_wall() -> void:
+	var spot := wall_spot()
+	var foe := foe_near(spot, WALL_HOLD_R)
+	if foe != null and foe.team != Unit.Team.NEUTRAL:
+		if vey.attack_target != foe and (vey.attack_target == null or not vey.attack_target is Unit
+				or not (vey.attack_target as Unit).is_alive()):
+			vey.command_attack(foe)
+		return
+	if _flat(vey.global_position, spot) > 1.5 and not vey.has_move_order():
+		vey.command_move(spot)
 
 
 ## E11 (the teaching bark): Vessa > 14 m from every own soldier, outside the base ring, for 5 s: L14 (once per 60 s).

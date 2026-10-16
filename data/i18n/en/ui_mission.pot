@@ -102,7 +102,7 @@ msgstr ""
 
 #. &"master": ["The Master", Color(0.95, 0.93, 0.85)],
 #: scripts/ui/cinematic/speakers.gd:16 scripts/campaign/mission_03.gd:167
-#: scripts/campaign/mission_e2_05.gd:179 scripts/campaign/mission_e5_01.gd:125
+#: scripts/campaign/mission_e2_05.gd:179 scripts/campaign/mission_e5_01.gd:129
 #: scripts/campaign/mission_e5_03.gd:122 scripts/campaign/mission_e5_04.gd:93
 msgid "The Master"
 msgstr ""

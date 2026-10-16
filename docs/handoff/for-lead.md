@@ -392,6 +392,12 @@ e2m3 / e4m2 / e2m5 / e5m1 got new lines, messages and hints (details in each scr
 - test_save_metas: the metas `e2m3_grand`, `knife_convoy` and `walker_ix` are gone. The Grand wagon is now known by its
   saved modifier `mission:grand_tribute`, the knives' target is `_knife_convoy` (transient), and the walker jitter reads
   the walker's place in its saved convoy list. Nothing for you to add to SAVE_METAS for these.
+- e5m1 rush stall fix: nightfall. If a beacon is still dark at 20:00 / 18:00 / 16:00 (easy / normal / hard), the
+  player loses, with a warning 2:00 before. Why: the earlier W1 (2:30) can kill the workers building the first Hall,
+  and the sim never rebuilds it, so Vessa waited alone at the Knoll with no army until the frame limit. New strings:
+  "Two minutes to nightfall: light every beacon before dark!" = "Deux minutes avant la nuit : allumez tous les feux avant
+  le noir !" · "Night fell on a dark vale: Gannet's host came down unseen." = "La nuit est tombée sur un val sans feux :
+  l'armée de Gannet est descendue sans être vue."
 
 ## Campaign review 2026-10-16, e8m2 / e8m3 (systems-coder)
 1. **Sim windows** (tests/test_e8_sim.gd is yours): e8m2 is cut to ~20 min (march floors halved, bars faster) and e8m3's
