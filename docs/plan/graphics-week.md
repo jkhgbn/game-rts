@@ -30,6 +30,16 @@ every later model looks, so G-B / G-C build on them). G-B to G-E use the same br
 "never touch" list, tiers via `GameSettings.effective_graphics_quality()`, procedural / original only, no downloads.
 
 ## Progress (lead, 2026-10-15 ~16:20 local; weekly 62 %)
+- ~00:50 UTC 10-16 (weekly 78 %): committed m02 ice blocks + snow cliffs + Building site outline d3e61232, billboard
+  keep-scale root cause (test_gf_billboard_scale) + Night Spire roof + calm Shadow site outline 8b45539c, Thornwater
+  look 40497bce. Running: billboard fix on the 6 art/environment notes, per-map horizon (Crown Hollow's aqueduct /
+  pond off the other maps), Quartermeet own palette. Then stop at 85 %: quiet perf, playtest build.
+- ~23:20 UTC (weekly 77 %): G-F committed: offscreen emitters 39a4f8c3, cavalry tier c036d618, minimap a4b2eef2, G-E D
+  c47509c0, death FX 71774795, review round 2 54455ebe (docs/art/gf_review2.md) and its fixes: HP bars df4bf49a, ground
+  rings / m00 disc 688c9fe8, Fire / Shadow buildings 3c9539b9, autumn / Ashwind c640bfe8, HUD / menu 1f1ae005, Ice /
+  Nature buildings + MoteCap 7bb1b166. Last wave (then stop at 85 %): billboard particle size root cause (every
+  emitter), Shadow tower roof + site outline, m02 frozen Emberguard + cliffs, Thornwater identity. CI gf-2026-10-15
+  running (perf OK at c47509c0). Then quiet perf + test_ws_perf, playtest build.
 - ~20:40 UTC (weekly 73 %, 5 h reset): committed G-E value pass 87c622a6. G-E review top 8 all done. Running G-F wave:
   offscreen emitters root-cause test + generic stop in the model base, Art Lab mounted-cavalry tier, G-E fixes D
   (Nature off the meadow hue, Thornback / Bramble saddle cloth, Dusk Keep violet panels, hovel R5c), minimap at night
