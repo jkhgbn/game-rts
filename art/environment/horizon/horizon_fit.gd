@@ -13,6 +13,10 @@ const BAKED_HALF := 60.0       ## The map half size the ring was baked around (h
 const PIECE_MAX := 20.0        ## A welded piece wider than this (the ground sheets) anchors each vertex on itself.
 
 var fitted_half := Vector2(BAKED_HALF, BAKED_HALF)   ## The half size the ring is fitted to (read only).
+## G-F per-map horizon (horizon_variant.gd): &"" until fitted, then HorizonVariant.CROWN_HOLLOW (the baked ring, shader
+## fit) or the variant whose meshes replaced the baked ones (fen / autumn / neutral, fit baked on the CPU). Read only.
+var variant := &""
+var _baked: Array[Mesh] = []   # the sector meshes from horizon.tscn (child order)
 
 
 func _ready() -> void:
@@ -23,7 +27,38 @@ func _ready() -> void:
 func _fit_to_map() -> void:
 	if not is_inside_tree():
 		return
-	fit_to(MapInfo.half_x(), MapInfo.half_z())
+	var kind := HorizonVariant.kind_for_level(get_parent())
+	if kind == HorizonVariant.CROWN_HOLLOW:
+		variant = kind
+		fit_to(MapInfo.half_x(), MapInfo.half_z())
+		return
+	apply_variant(kind, MapInfo.half_x(), MapInfo.half_z(), GameSettings.effective_graphics_quality())
+
+
+## Swaps the sector meshes for `kind`'s (HorizonVariant: the Crown Hollow landmarks dropped, the map's own dressing
+## added, the fit already applied for a map of half size `half_x` x `half_z`). CROWN_HOLLOW puts the baked ring back.
+func apply_variant(kind: StringName, half_x: float, half_z: float, tier: int) -> void:
+	var sectors: Array[MeshInstance3D] = []
+	for c: Node in get_children():
+		if c is MeshInstance3D:
+			sectors.append(c as MeshInstance3D)
+	if _baked.is_empty():
+		for mi: MeshInstance3D in sectors:
+			_baked.append(mi.mesh)
+	variant = kind
+	if kind == HorizonVariant.CROWN_HOLLOW:
+		for i: int in sectors.size():
+			sectors[i].mesh = _baked[i]
+		fit_to(half_x, half_z)
+		return
+	var meshes := HorizonVariant.meshes_for(kind, Vector2(half_x, half_z), _baked, tier)
+	fitted_half = Vector2(half_x, half_z)
+	for i: int in sectors.size():
+		var mi := sectors[i]
+		mi.mesh = meshes[i] if i < meshes.size() else null
+		# The fit is in the vertices: the shader's own fit stays at rest.
+		mi.set_instance_shader_parameter(&"map_half", Vector2(BAKED_HALF, BAKED_HALF))
+		mi.extra_cull_margin = 0.0
 
 
 ## Fits the ring to a map of half size `half_x` x `half_z` (metres, map centred on the origin).
