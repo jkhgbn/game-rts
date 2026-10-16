@@ -100,7 +100,20 @@ static func make_pad(kingdom: StringName, half: float, stakes: bool) -> MeshInst
 	mi.set_instance_shader_parameter(&"ao_bottom", PAD_AO_BOTTOM)
 	mi.set_instance_shader_parameter(&"ao_height", PAD_AO_HEIGHT)
 	mi.visible = false
+	# G-F round 3 leftovers (docs/art/gf_r3_leftovers.md): the pad's grass-free rectangle (pad space: min x, min z,
+	# max x, max z). GroundDetail clears the 3D grass blades over it while the pad shows (box clear).
+	mi.set_meta(&"_grass_clear_rect", pad_rect(half, stakes))
 	return mi
+
+
+## The pad's footprint in pad space (min x, min z, max x, max z): the sunk, pushed-out earth edge (<= half + 0.35),
+## the stakes (half + 0.26) and the timber stack / kingdom pile by the +X side (_pad_mesh layout), plus a 0.1 margin.
+static func pad_rect(half: float, stakes: bool) -> Vector4:
+	var s: float = clampf(half / 3.3, 0.5, 1.0)
+	var px: float = half + 0.45 * s + (0.2 if stakes else 0.1)
+	var e: float = half + 0.35
+	var z: float = maxf(e, 1.95 * s) + 0.1
+	return Vector4(-e - 0.1, -z, maxf(e, px + 0.5 * s) + 0.1, z)
 
 
 static func _pad_mesh(kingdom: StringName, half: float, stakes: bool) -> ArrayMesh:
@@ -161,11 +174,11 @@ static func _pad_mesh(kingdom: StringName, half: float, stakes: bool) -> ArrayMe
 				var cnt: int = int((inner * 1.2 - float(r) * 0.12) / tw)
 				for c: int in maxi(cnt, 0):
 					var x: float = -inner + tw * (float(c) + 0.5) + (0.25 * tw if r % 2 == 1 else 0.0)
-					_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.04, 0.04)).scaled(Vector3(tw - 0.04, 0.06,
+					_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.04, 0.04)).scaled_local(Vector3(tw - 0.04, 0.06,
 						td - 0.035)), Vector3(x, top + 0.03, z)), flag.lerp(pile, rng.randf() * 0.4))
 			for k: int in 5:
 				var p := Vector3(rng.randf_range(0.6, inner), top + 0.03, rng.randf_range(0.5, inner))
-				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(tw - 0.04, 0.06, td - 0.035)), p),
+				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled_local(Vector3(tw - 0.04, 0.06, td - 0.035)), p),
 					flag.lerp(pile, 0.5))
 		&"ice":   # frosted flagstones over most of the pad, gaps between
 			var nc: int = maxi(int(inner * 2.0 / clampf(inner * 2.0 / 4.0, 0.6, 1.0)), 2)
@@ -176,7 +189,7 @@ static func _pad_mesh(kingdom: StringName, half: float, stakes: bool) -> ArrayMe
 						continue
 					var p := Vector3(-inner + cs2 * (float(i) + 0.5) + rng.randf_range(-0.08, 0.08), top + 0.035,
 						-inner + cs2 * (float(j) + 0.5) + rng.randf_range(-0.08, 0.08))
-					_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.2, 0.2)).scaled(Vector3(cs2 * rng.randf_range(0.7,
+					_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.2, 0.2)).scaled_local(Vector3(cs2 * rng.randf_range(0.7,
 						0.88), 0.07, cs2 * rng.randf_range(0.66, 0.86))), p), flag.lerp(pile, rng.randf() * 0.6))
 		&"nature":   # turned-earth furrows, a few moss tufts between them
 			var gap: float = 0.55
@@ -184,10 +197,10 @@ static func _pad_mesh(kingdom: StringName, half: float, stakes: bool) -> ArrayMe
 			for r: int in nr:
 				var x: float = -inner + gap * (float(r) + 0.5)
 				var fl: float = inner * 2.0 * rng.randf_range(0.7, 0.92)
-				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.05, 0.05)).scaled(Vector3(0.24, 0.08, fl)),
+				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.05, 0.05)).scaled_local(Vector3(0.24, 0.08, fl)),
 					Vector3(x, top + 0.04, rng.randf_range(-0.2, 0.2))), eb.lerp(ea, 0.3).darkened(0.05))
 			for k: int in int(inner * 3.0):
-				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(0.22, 0.07, 0.18)),
+				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled_local(Vector3(0.22, 0.07, 0.18)),
 					Vector3(rng.randf_range(-inner, inner), top + 0.035, rng.randf_range(-inner, inner))), flag)
 		_:   # shadow: slate flags in loose courses, gaps, two shades
 			var nc: int = maxi(int(inner * 2.0 / clampf(inner * 2.0 / 5.0, 0.5, 0.8)), 2)
@@ -198,16 +211,16 @@ static func _pad_mesh(kingdom: StringName, half: float, stakes: bool) -> ArrayMe
 						continue
 					var p := Vector3(-inner + cs2 * (float(i) + 0.5) + rng.randf_range(-0.06, 0.06), top + 0.025,
 						-inner + cs2 * (float(j) + 0.5) + rng.randf_range(-0.06, 0.06))
-					_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.25, 0.25)).scaled(Vector3(cs2 * 0.86, 0.05,
+					_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.25, 0.25)).scaled_local(Vector3(cs2 * 0.86, 0.05,
 						cs2 * rng.randf_range(0.6, 0.84))), p), flag.lerp(ea, rng.randf() * 0.5))
 	if stakes:   # layout stakes with cords (Halls)
 		var sr: float = half + 0.2
 		var corners: Array[Vector3] = [Vector3(-sr, 0, -sr), Vector3(sr, 0, -sr), Vector3(sr, 0, sr), Vector3(-sr, 0, sr)]
 		for k: int in 4:
-			_box(st, n, Transform3D(Basis.IDENTITY.scaled(Vector3(0.12, 0.85, 0.12)), corners[k] + Vector3(0, 0.37, 0)), wood)
+			_box(st, n, Transform3D(Basis.IDENTITY.scaled_local(Vector3(0.12, 0.85, 0.12)), corners[k] + Vector3(0, 0.37, 0)), wood)
 			var q: Vector3 = corners[(k + 1) % 4]
 			var along: Vector3 = q - corners[k]
-			_box(st, n, Transform3D(Basis(Vector3.UP, atan2(-along.z, along.x)).scaled(Vector3(along.length(), 0.025, 0.025)),
+			_box(st, n, Transform3D(Basis(Vector3.UP, atan2(-along.z, along.x)).scaled_local(Vector3(along.length(), 0.025, 0.025)),
 				(corners[k] + q) * 0.5 + Vector3(0, 0.66, 0)), flag.lerp(wood, 0.3))
 	# Timber stack + kingdom pile beside the +X side (outside the footprint; scaled to the site).
 	var s: float = clampf(half / 3.3, 0.5, 1.0)
@@ -215,42 +228,42 @@ static func _pad_mesh(kingdom: StringName, half: float, stakes: bool) -> ArrayMe
 	var bw: float = 0.2 * s
 	var bl: float = 2.0 * s
 	for b: int in 3:   # three beams side by side on the ground (along Z)
-		_box(st, n, Transform3D(Basis.IDENTITY.scaled(Vector3(bw, bw, bl)), Vector3(px + (float(b) - 1.0) * (bw + 0.02),
+		_box(st, n, Transform3D(Basis.IDENTITY.scaled_local(Vector3(bw, bw, bl)), Vector3(px + (float(b) - 1.0) * (bw + 0.02),
 			bw * 0.5, -0.9 * s)), wood.darkened(0.06 * float(b)))
 	for b: int in 2:   # two across them
-		_box(st, n, Transform3D(Basis(Vector3.UP, 0.08).scaled(Vector3(bw * 3.6, bw, bw)), Vector3(px, bw * 1.5,
+		_box(st, n, Transform3D(Basis(Vector3.UP, 0.08).scaled_local(Vector3(bw * 3.6, bw, bw)), Vector3(px, bw * 1.5,
 			-0.9 * s + (float(b) - 0.5) * bl * 0.6)), wood.lightened(0.05))
 	var pz: float = 0.9 * s
 	match kingdom:
 		&"fire":   # a pallet of bricks, three courses
-			_box(st, n, Transform3D(Basis.IDENTITY.scaled(Vector3(0.9 * s, 0.08, 0.7 * s)), Vector3(px, 0.04, pz)), wood)
+			_box(st, n, Transform3D(Basis.IDENTITY.scaled_local(Vector3(0.9 * s, 0.08, 0.7 * s)), Vector3(px, 0.04, pz)), wood)
 			var bs := Vector3(0.26 * s, 0.11 * s, 0.13 * s)
 			for c: int in 3:
 				for i: int in 3:
 					for j: int in 5:
 						if c == 2 and (i + j) % 3 == 0:
 							continue
-						_box(st, n, Transform3D(Basis.IDENTITY.scaled(bs * Vector3(0.95, 1.0, 0.95)), Vector3(px + (float(i) - 1.0)
+						_box(st, n, Transform3D(Basis.IDENTITY.scaled_local(bs * Vector3(0.95, 1.0, 0.95)), Vector3(px + (float(i) - 1.0)
 							* bs.x, 0.08 + bs.y * (float(c) + 0.5), pz + (float(j) - 2.0) * bs.z)), pile.lerp(flag, rng.randf() * 0.3))
 		&"ice":   # cut stone blocks, two on the ground, one on top
 			var bk: float = 0.42 * s
 			for i: int in 2:
-				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.1, 0.1)).scaled(Vector3(bk, bk, bk * 1.2)),
+				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.1, 0.1)).scaled_local(Vector3(bk, bk, bk * 1.2)),
 					Vector3(px + (float(i) - 0.5) * (bk + 0.04), bk * 0.5, pz)), pile.lerp(flag, 0.3 * float(i)))
-			_box(st, n, Transform3D(Basis(Vector3.UP, 0.3).scaled(Vector3(bk, bk * 0.8, bk)), Vector3(px, bk * 1.4, pz)), flag)
+			_box(st, n, Transform3D(Basis(Vector3.UP, 0.3).scaled_local(Vector3(bk, bk * 0.8, bk)), Vector3(px, bk * 1.4, pz)), flag)
 		&"nature":   # a bundle of planks on two bearers
 			for i: int in 2:
-				_box(st, n, Transform3D(Basis.IDENTITY.scaled(Vector3(0.7 * s, 0.1, 0.12)), Vector3(px, 0.05,
+				_box(st, n, Transform3D(Basis.IDENTITY.scaled_local(Vector3(0.7 * s, 0.1, 0.12)), Vector3(px, 0.05,
 					pz + (float(i) - 0.5) * 0.9 * s)), wood.darkened(0.1))
 			for c: int in 3:
 				for i: int in 3:
-					_box(st, n, Transform3D(Basis.IDENTITY.scaled(Vector3(0.2 * s, 0.06, 1.5 * s)), Vector3(px + (float(i) - 1.0)
+					_box(st, n, Transform3D(Basis.IDENTITY.scaled_local(Vector3(0.2 * s, 0.06, 1.5 * s)), Vector3(px + (float(i) - 1.0)
 						* 0.21 * s, 0.13 + 0.065 * float(c), pz)), pile.lerp(wood, rng.randf() * 0.5))
 		_:   # shadow: a stack of cut slates
 			for c: int in 6:
-				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.12, 0.12)).scaled(Vector3(0.6 * s, 0.05,
+				_box(st, n, Transform3D(Basis(Vector3.UP, rng.randf_range(-0.12, 0.12)).scaled_local(Vector3(0.6 * s, 0.05,
 					0.42 * s)), Vector3(px, 0.025 + 0.052 * float(c), pz)), pile.lerp(flag, rng.randf() * 0.5))
-			_box(st, n, Transform3D(Basis(Vector3.UP, 0.5).scaled(Vector3(0.5 * s, 0.05, 0.36 * s)), Vector3(px + 0.1,
+			_box(st, n, Transform3D(Basis(Vector3.UP, 0.5).scaled_local(Vector3(0.5 * s, 0.05, 0.36 * s)), Vector3(px + 0.1,
 				0.025, pz + 0.7 * s)), pile)
 	return st.commit()
 

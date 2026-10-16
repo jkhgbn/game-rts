@@ -123,6 +123,17 @@ var site_kingdom: StringName = &""
 var site_half: float = 3.3
 var _site_pad: MeshInstance3D
 var _site_timber: ShaderMaterial
+## G-F round 3 leftovers (docs/art/gf_r3_leftovers.md): the Ember Hall chimney mouth (open lip round a dark ember-red
+## floor, not a capped black square) and a cold site body: below SITE_COLD_TO the body's crack / lava-line emission
+## is off (0 % -> SITE_COLD_FROM), back to crack_glow at SITE_COLD_TO, so the pad and scaffold lead under ~50 %.
+const CHIMNEY_MOUTH_R := 0.95
+const CHIMNEY_PIT_COLOR := Color(0.25, 0.07, 0.03)
+const CHIMNEY_PIT_ENERGY := 0.7
+const SITE_COLD_FROM := 0.4
+const SITE_COLD_TO := 0.6
+var _chimney_pit: ShaderMaterial
+var _chimney_crown: Node3D   ## hidden on a site below SITE_CROWN_AT (a squashed glowing mouth near the ground)
+const SITE_CROWN_AT := 0.85
 var _rubble: MultiMeshInstance3D
 var _rubble2: MultiMeshInstance3D
 var _debris: MultiMeshInstance3D
@@ -249,6 +260,9 @@ func set_construction_progress(p: float) -> void:
 	if _scaffold:
 		_scaffold.visible = building   # G-F round 3: the timber scaffold from the first frame
 	_show_site_pad(building)
+	_apply_site_glow()
+	if _chimney_crown and building:
+		_chimney_crown.visible = _progress >= SITE_CROWN_AT
 	_build_ring.emitting = building
 	if building:
 		_outline.visible = true
@@ -373,6 +387,19 @@ func _scaffold_mat() -> ShaderMaterial:
 ## G-F round 3: the site's kingdom (site_kingdom, else from the glow colour's hue).
 func _site_kingdom() -> StringName:
 	return site_kingdom if site_kingdom != &"" else SiteOutline.kingdom_of(glow_color)
+
+
+## G-F round 3 leftovers: the body's crack / lava-line emission (painted-vc halls) while a site: off below
+## SITE_COLD_FROM, crack_glow again from SITE_COLD_TO (built: always crack_glow).
+func site_glow_k() -> float:
+	if _progress >= 1.0 or _destroyed:
+		return 1.0
+	return smoothstep(SITE_COLD_FROM, SITE_COLD_TO, _progress)
+
+
+func _apply_site_glow() -> void:
+	if mat_team and (mat_team.shader == PVC.PAINTED_VC or mat_team.shader == GBF.FIRE_VC):
+		mat_team.set_shader_parameter(&"crack_energy", crack_glow * site_glow_k())
 
 
 ## G-F round 3: the shared site pad while a site (the contact decal waits: the pad is the site's ground).
@@ -564,12 +591,28 @@ func _build_structure() -> void:
 			quoin if k % 2 == 0 else flag_b, Vector3(0, 0, 0), along * 0.6 + fd.abs() * 0.12 + Vector3(0, 0.3, 0)))
 	_merged("ChimneyStack", "chimney_stack", it, chimney)
 	it = []
-	it.append(BMG.item(_cyl(1.55, 1.05, 0.8, 4), Vector3(0, 7.6, 0), mat_dark, Vector3(0, 45, 0)))
+	# G-F round 3 leftovers (docs/art/gf_r3_leftovers.md): the crown was a capped dark frustum that buried the coals, so
+	# from above it read as a flat black square pit. Now an open chimney mouth: an octagonal collar, a rounded stone lip
+	# (torus) round a dark ember-red floor (its own dim glow channel, like the crucible's ec_pit: value ~0.28, far under
+	# the glow caps), the round coal bed and clinker lumps on it.
+	var lip: ShaderMaterial = _painted_mat(stone_color.lightened(0.18), 0.1, 0.0)
+	it.append(BMG.item(_cyl(1.45, 1.05, 0.55, 8), Vector3(0, 7.475, 0), lip, Vector3(0, 22.5, 0)))
+	var rim := TorusMesh.new()
+	rim.inner_radius = CHIMNEY_MOUTH_R
+	rim.outer_radius = 1.5
+	rim.rings = 16
+	rim.ring_segments = 6
+	it.append(BMG.item(rim, Vector3(0, 7.8, 0), lip))
+	var pit: ShaderMaterial = _glow_mat(CHIMNEY_PIT_ENERGY, 1.1, 0)
+	pit.set_shader_parameter(&"glow_color", CHIMNEY_PIT_COLOR)
+	pit.set_shader_parameter(&"phase", 0.7)
+	_chimney_pit = pit
+	it.append(BMG.item(_cyl(1.0, 1.0, 0.1, 10), Vector3(0, 7.72, 0), pit))
 	# G-F round 2 (docs/art/gf_r2_buildings_fs.md, gf_review2 item 4): the coal bed burned to a white square under its
 	# additive flames from the start view. It sits a little deeper in the crown, glows under the cap's knee (its own
-	# dimmer glow channel) and the flames over it are fewer and smaller (below).
+	# dimmer glow channel) and the flames over it are fewer and smaller (below). Round since r3 leftovers.
 	var coals: ShaderMaterial = _glow_mat(1.1, 1.4, 0)
-	it.append(BMG.item(box1, Vector3(0, 7.8, 0), coals, Vector3.ZERO, Vector3(1.2, 0.3, 1.2)))
+	it.append(BMG.item(_cyl(0.62, 0.62, 0.16, 8), Vector3(0, 7.82, 0), coals))
 	for lump: Vector3 in [Vector3(-0.32, 0, -0.2), Vector3(0.28, 0, -0.34), Vector3(0.05, 0, 0.3), Vector3(-0.38, 0, 0.36),
 			Vector3(0.4, 0, 0.22)]:
 		# dark clinker lumps break the glowing square into a coal bed
@@ -581,6 +624,7 @@ func _build_structure() -> void:
 		it.append(BMG.item_xf(_cyl(0.0, 0.2, 1.1, 4), Transform3D(b, d * 1.02 + Vector3(0, 8.0, 0) + b * Vector3(0, 0.5, 0)),
 			mat_metal))
 	var crown := _merged("ChimneyTop", "chimney_top", it, chimney)
+	_chimney_crown = crown
 	var chim_banner := _banner("ChimneyBanner", Vector2(1.1, 2.2), Vector3(0, 5.2, -0.98), 0.0, chimney)
 	_falling = chimney
 	_fall_axis = Vector3.FORWARD

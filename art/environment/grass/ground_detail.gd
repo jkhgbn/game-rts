@@ -481,10 +481,15 @@ func refresh_clears(c: Vector3, reach: float) -> void:
 			rad += 0.3
 			rad = maxf(rad, model_clear_radius(n3))
 			var p := n3.global_position
+			# G-F r3 leftovers: a construction site's pad clears its whole rectangle (box clear, w > 0).
+			var box := site_pad_box(n3) if g == &"buildings" else Vector4.ZERO
+			if box.w > 0.0:
+				p = Vector3(box.x, 0.0, box.y)
+				rad = Vector2(box.z, box.w).length()
 			var dd := Vector2(p.x - c.x, p.z - c.z).length()
 			if dd > reach + rad or not _clear_known(n3):
 				continue
-			_keep_nearest(false, dd * dd, Vector4(p.x, p.z, rad, 0.0))
+			_keep_nearest(false, dd * dd, box if box.w > 0.0 else Vector4(p.x, p.z, rad, 0.0))
 	if _mat:
 		_mat.set_shader_parameter(&"clears", _clear_buf)
 		_mat.set_shader_parameter(&"clear_count", _clear_n)
@@ -501,7 +506,34 @@ static func model_clear_radius(b: Node3D) -> float:
 	return float(m.get_meta(&"_grass_clear_radius")) * absf(m.global_transform.basis.get_scale().x)
 
 
-## The grass-free circles in use (x, z, radius, 0) (tests / tools).
+## G-F round 3 leftovers (docs/art/gf_r3_leftovers.md): the world grass-free box of a building model's visible
+## construction-site pad (SiteOutline.make_pad sets the pad-space meta `_grass_clear_rect`): (centre x, centre z,
+## half x, half z), the axis-aligned box round the rotated / scaled rectangle. Vector4.ZERO when the building has no
+## pad showing (built, destroyed, no model). Read every CLEAR_INTERVAL, never per frame.
+static func site_pad_box(b: Node3D) -> Vector4:
+	if not b.has_method(&"model"):
+		return Vector4.ZERO
+	var m := b.call(&"model") as Node3D
+	if m == null:
+		return Vector4.ZERO
+	var pad := m.get_node_or_null(^"SitePad") as Node3D
+	if pad == null or not pad.visible or not pad.has_meta(&"_grass_clear_rect"):
+		return Vector4.ZERO
+	var r: Vector4 = pad.get_meta(&"_grass_clear_rect")
+	var xf: Transform3D = pad.global_transform
+	var lo := Vector2(INF, INF)
+	var hi := Vector2(-INF, -INF)
+	for q: Vector3 in [Vector3(r.x, 0, r.y), Vector3(r.z, 0, r.y), Vector3(r.z, 0, r.w), Vector3(r.x, 0, r.w)]:
+		var w: Vector3 = xf * q
+		lo = Vector2(minf(lo.x, w.x), minf(lo.y, w.z))
+		hi = Vector2(maxf(hi.x, w.x), maxf(hi.y, w.z))
+	var h: Vector2 = (hi - lo) * 0.5
+	if h.x <= 0.0 or h.y <= 0.0:
+		return Vector4.ZERO
+	return Vector4((lo.x + hi.x) * 0.5, (lo.y + hi.y) * 0.5, h.x, h.y)
+
+
+## The grass-free circles in use (x, z, radius, 0) and site boxes (x, z, half x, half z) (tests / tools).
 func clear_list() -> Array[Vector4]:
 	var out: Array[Vector4] = []
 	for i in _clear_n:

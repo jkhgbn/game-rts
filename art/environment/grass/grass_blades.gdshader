@@ -31,7 +31,7 @@ uniform vec3 flower_b : source_color = vec3(1.00, 0.84, 0.26);
 uniform vec3 flower_c : source_color = vec3(0.72, 0.56, 0.92);
 uniform vec4 pushers[48];                    // (x, z, radius, 0) visible units
 uniform int pusher_count = 0;
-uniform vec4 clears[32];                     // (x, z, radius, 0) buildings, crystal nodes
+uniform vec4 clears[32];                     // (x, z, radius, 0) buildings, crystal nodes; (x, z, hx, hz) site pads
 uniform int clear_count = 0;
 uniform vec3 field_center = vec3(0.0);
 // Camera-distance fade (m): blades shrink to nothing between x and y, so a far view never rasterises micro-blades
@@ -85,7 +85,10 @@ void vertex() {
 				break;
 			}
 			vec4 c = clears[i];
-			s *= smoothstep(c.z, c.z + 0.7, length(wp - c.xy));
+			// w > 0: a construction-site pad box (xy centre, zw half extents; G-F r3 leftovers), else a circle.
+			vec2 q = abs(wp - c.xy) - c.zw;
+			float d = c.w > 0.0 ? length(max(q, vec2(0.0))) : length(wp - c.xy) - c.z;
+			s *= smoothstep(0.0, 0.7, d);
 		}
 		// Units: blades flatten and lean away (feet and selection rings stay clear).
 		float flat_k = 0.0;
