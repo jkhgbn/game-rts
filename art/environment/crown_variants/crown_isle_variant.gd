@@ -12,6 +12,8 @@ extends Node3D
 ##     (stone only: the gold trims, the ember coals, the altar, its runes, seal and beacon are untouched, so the Ember
 ##     Crown reads the same on every map)
 ##   - the isle paving: the level's own ground material `paving_color`
+##   - thornwater: the two crown LANE bridges swap to a fen-timber trestle instead (plank deck, rails, pile bents;
+##     timber_bridge_meshes.gd in art/environment/bridges/, same 3 surfaces / draws, braziers kept; G-F review 3 item 10)
 ## Medium+ (MultiMeshes, draw-only, no collider, nothing on nav layers; ~4-7 draws):
 ##   thornwater   about half the pillars broken to mossy stumps (the collider stays: a stump still reads as the
 ##                obstacle) with their fallen drums beside them, rushes along the isle rim, lily pads at its
@@ -35,6 +37,9 @@ const LILY := B + "riverbank/rb_lily_pads.res"
 const HEATHER := B + "heath/heath_heather.res"
 const LICHEN := B + "heath/heath_lichen_stones.res"
 const QM_MESHES := "res://art/environment/quartermeet/quartermeet_meshes.gd"
+## Thornwater: the crown lane bridges swap to a timber trestle (art/environment/bridges/timber_bridge_meshes.gd).
+const TIMBER := "res://art/environment/bridges/timber_bridge_meshes.gd"
+const LANE_BRIDGE_MESH := "res://art/environment/bridges/lane_bridge.res"
 ## Kinds built in code, keyed like a path.
 const STUMP := "isle:stump"
 const GARLAND := "isle:garland"
@@ -247,6 +252,7 @@ func _recolor_crossings() -> void:
 		return
 	var cm := load(MESHES) as Script
 	var n := 0
+	var timber := 0
 	for node: Node in (_river as Node).find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
 		if mi.mesh == null or not mi.is_inside_tree():
@@ -259,9 +265,18 @@ func _recolor_crossings() -> void:
 			painted = painted or bool(cm.call(&"is_painted_surface", mi.mesh, s))
 		if not painted:
 			continue
+		if variant == &"thornwater" and mi.mesh.resource_path == LANE_BRIDGE_MESH and ResourceLoader.exists(TIMBER):
+			# G-F review 3 item 10: Thornwater's crown lane bridges become fen-timber trestles (same 3 surfaces).
+			var tm := (load(TIMBER) as Script).call(&"lane_bridge", mi.mesh) as Mesh
+			if tm:
+				_swap(mi, &"mesh", tm)
+				n += 1
+				timber += 1
+				continue
 		_swap(mi, &"mesh", cm.call(&"recolored", mi.mesh, variant))
 		n += 1
 	counts["crossings"] = n
+	counts["timber_bridges"] = timber
 
 
 func _recolor_rubble() -> void:
