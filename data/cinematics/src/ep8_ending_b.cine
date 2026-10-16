@@ -4,9 +4,10 @@
 # shatter with it, one ember of the Crown survives in Vessa's hand ("Good."); sunrise; the fates, told by the Master:
 # Torvald's open gate, Ysolde's oaks, Malrik's candle by the deep door, Vessa's school ("She learned to wait. ...
 # Mostly."), the harbour cities' draw; the throne stays empty: "four hands, not one". Then ep8_bookend (canon track).
-# This take is the Vessa road (L1_vessa; the outline's default). The other roads say the same words in their own voice
-# (L1_malrik / L1_torvald / L1_ysolde, voiced) and move their own fate shot last: a per-road pick needs StoryFlow (not
-# built), so those variants are not separate films yet.
+# Per road (campaign review 2026-10-16): the turn shot E15V / E15M / E15T / E15Y is picked by the shot `branch=` flag
+# e8_road_fire / shadow / ice / nature (the road picker writes them; a failed branch takes 0 s), so the player's wizard
+# says L1_<wizard>; the player's own fate shot moves last (E17L / E18L+E18BL / E19L play on their road, the originals
+# take 0 s there; Vessa's E20 is last already). One road plays ~67 s; cine's tools sum every branch (~106 s): length=.
 # Text source for i18n / voices: data/voice/lines/ep8_ending_b.json (L1_vessa, L2-L10).
 # e8m3 is not built: not in CampaignState.STORY_FILMS yet (play it with run_cine.ps1 play ep8_ending_b).
 # Sets (stand-ins): forge_intro_malrik's courtyard = the pit (E15-E16, E18B, E22; ep8_ending_a's staging) and Malrik's
@@ -16,7 +17,7 @@
 # messengers = Cinder Hands, the children = the Ep3 memory boy, the cadets = Flame Guards, Pell's cart = the caravan,
 # the oak saplings = Saplings, Ossavar = the cinder dragon titan; the "GENUINE THRONE RUBBLE" sign is not dressed.
 # Axis: the pit: the throne (north) - the four (south), cameras east; each fate shot keeps its set's rule.
-cine ep8_ending_b  title="Episode 8: Four Hands"  letterbox=2.39  seed=804  length=64..70
+cine ep8_ending_b  title="Episode 8: Four Hands"  letterbox=2.39  seed=804  length=64..108
 use set forge_intro_malrik
 use music res://assets/audio/music/music_menu.wav  vol=-20
 cast  throne   res://art/cinematics/stage_sets/forge_citadel/parts/throne.tscn  at=(0, 0, -2.4)  yaw=0  set=forge_intro_malrik
@@ -53,8 +54,10 @@ cast  ossavar  res://art/units/titans/cinder_dragon/cinder_dragon.tscn  at=(-13.
 cast  pell     res://art/units/caravan/caravan.tscn  at=(-4.0, 0, 12.0)  yaw=-60  set=forge_intro_vessa
 
 # ---------------------------------------------------------------- the throne
-# WS: Vessa turns back to the others; the four lay their relics on the throne and strike together; one ember survives
-shot E15 12.0  cam=static  from=(6.4, 2.2, 5.6)  look=(-0.4, 1.3, -0.6)  fov=44  in=blend:0.4  faces=vessa,malrik
+# The turn, one shot per road (branch = the e8_road_<k> flag the road picker writes; the other three take 0 s):
+# the player's wizard turns back to the others: "Nobody sits. Not ever again." (L1_<wizard>). A save with no road
+# flag (the cine tool, a save from before the road picker) drops the turn; the strike shot E15 still plays.
+shot E15V 4.8  cam=static  from=(6.4, 2.2, 5.6)  look=(-0.4, 1.3, -0.6)  fov=44  in=blend:0.4  branch=e8_road_fire  faces=vessa
   at 0.0  fade color=#8a8a9a  alpha=0.12  time=0.05
   at 0.0  hide sknight
   at 0.0  hide hexweaver
@@ -70,27 +73,92 @@ shot E15 12.0  cam=static  from=(6.4, 2.2, 5.6)  look=(-0.4, 1.3, -0.6)  fov=44 
   at 0.6  face vessa  yaw=20  time=0.8
   at 2.0  line vessa "Nobody sits. Not ever again."  dur=2.6
   at 2.0  anim vessa set_expression  arg=fierce
-  at 4.8  face vessa  yaw=180  time=0.5
-  at 5.0  anim vessa play_cast
-  at 5.0  anim malrik play_cast
-  at 5.0  anim torvald play_cast
-  at 5.0  anim ysolde play_cast
-  at 5.2  vfx f  scene=res://art/cinematics/fx/fire_burst.tscn  at=(0, 1.2, -2.2)  life=2.0  scale=0.8
-  at 5.2  vfx i  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-0.4, 1.0, -2.4)  life=2.0  scale=0.8
-  at 5.2  vfx g  scene=res://art/cinematics/fx/bloom_wave.tscn  at=(0, 0, -2.4)  life=2.0  scale=0.4
-  at 5.2  vfx s  scene=res://art/cinematics/fx/shadow_wave.tscn  at=(0, 0, -2.4)  life=2.0  scale=0.6
-  at 5.2  sfx res://assets/audio/sfx/atk_storm.wav  vol=-6
-  at 5.8  hide throne
-  at 5.8  vfx dust  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(0, 0.1, -2.4)  life=2.6  scale=1.2
-  at 7.0  line master "Good."  dur=1.6
-  at 8.6  vfx ember  scene=res://art/cinematics/fx/ember.tscn  at=(-1.2, 1.2, 1.2)  life=3.4  scale=0.2
+  at 4.6  face vessa  yaw=180  time=0.2
+shot E15M 4.8  cam=static  from=(6.4, 2.2, 5.6)  look=(-0.4, 1.3, -0.6)  fov=44  in=blend:0.4  branch=e8_road_shadow  faces=malrik
+  at 0.0  fade color=#8a8a9a  alpha=0.12  time=0.05
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  teleport malrik  to=(1.2, 0, 1.6)  yaw=180
+  at 0.6  face malrik  yaw=-20  time=0.8
+  at 2.0  line malrik "Nobody sits. Not ever again."  dur=2.6
+  at 2.0  anim malrik set_expression  arg=fierce
+  at 4.6  face malrik  yaw=180  time=0.2
+shot E15T 4.8  cam=static  from=(6.4, 2.2, 5.6)  look=(-0.4, 1.3, -0.6)  fov=44  in=blend:0.4  branch=e8_road_ice  faces=torvald
+  at 0.0  fade color=#8a8a9a  alpha=0.12  time=0.05
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  teleport malrik  to=(1.2, 0, 1.6)  yaw=180
+  at 0.6  face torvald  yaw=66  time=0.8
+  at 2.0  line torvald "Nobody sits. Not ever again."  dur=2.6
+  at 2.0  anim torvald set_expression  arg=fierce
+  at 4.6  face torvald  yaw=150  time=0.2
+shot E15Y 4.8  cam=static  from=(6.4, 2.2, 5.6)  look=(-0.4, 1.3, -0.6)  fov=44  in=blend:0.4  branch=e8_road_nature  faces=ysolde
+  at 0.0  fade color=#8a8a9a  alpha=0.12  time=0.05
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  teleport malrik  to=(1.2, 0, 1.6)  yaw=180
+  at 0.6  face ysolde  yaw=-66  time=0.8
+  at 2.0  line ysolde "Nobody sits. Not ever again."  dur=2.6
+  at 2.0  anim ysolde set_expression  arg=fierce
+  at 4.6  face ysolde  yaw=-150  time=0.2
+# WS (same camera, every road): the four lay their relics on the throne and strike together; one ember survives
+shot E15 7.2  cam=static  from=(6.4, 2.2, 5.6)  look=(-0.4, 1.3, -0.6)  fov=44  in=blend:0.4  faces=vessa,malrik
+  at 0.0  fade color=#8a8a9a  alpha=0.12  time=0.05
+  at 0.0  hide sknight
+  at 0.0  hide hexweaver
+  at 0.0  hide shade
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_vortex
+  at 0.0  hide fx_tendrils
+  at 0.0  hide fx_master
+  at 0.0  hide fx_crown
+  at 0.0  hide malrik_young
+  at 0.0  teleport malrik  to=(1.2, 0, 1.6)  yaw=180
+  at 0.2  anim vessa play_cast
+  at 0.2  anim malrik play_cast
+  at 0.2  anim torvald play_cast
+  at 0.2  anim ysolde play_cast
+  at 0.4  vfx f  scene=res://art/cinematics/fx/fire_burst.tscn  at=(0, 1.2, -2.2)  life=2.0  scale=0.8
+  at 0.4  vfx i  scene=res://art/cinematics/fx/ice_burst.tscn  at=(-0.4, 1.0, -2.4)  life=2.0  scale=0.8
+  at 0.4  vfx g  scene=res://art/cinematics/fx/bloom_wave.tscn  at=(0, 0, -2.4)  life=2.0  scale=0.4
+  at 0.4  vfx s  scene=res://art/cinematics/fx/shadow_wave.tscn  at=(0, 0, -2.4)  life=2.0  scale=0.6
+  at 0.4  sfx res://assets/audio/sfx/atk_storm.wav  vol=-6
+  at 1.0  hide throne
+  at 1.0  vfx dust  scene=res://art/cinematics/fx/freeze_wave.tscn  at=(0, 0.1, -2.4)  life=2.6  scale=1.2
+  at 2.2  line master "Good."  dur=1.6
+  at 3.8  vfx ember  scene=res://art/cinematics/fx/ember.tscn  at=(-1.2, 1.2, 1.2)  life=3.4  scale=0.2
 # Crane up and out: sunrise breaks over Crown Hollow; the empty pit
 shot E16 6.0  cam=crane  from=(5, 4, 8)  to=(10, 26, 20)  look=(0, 1, -1)>(0, 0, -6)  fov=40>52
   at 0.0  fade color=#ffe9c0  alpha=0.18  time=2.0
 
 # ---------------------------------------------------------------- the fates
 # Torvald: the ice gate open, a column of refugees waved in, Aldra handing out blankets, the signal fire burning
-shot E17 8.0  set=forge_intro_torvald  cam=static  from=(1.4, 2.0, 7.8)  look=(-0.2, 1.6, -0.6)  fov=44  in=fade_white:0.5  faces=torvald_torvald
+shot E17 8.0  set=forge_intro_torvald  branch=!e8_road_ice  cam=static  from=(1.4, 2.0, 7.8)  look=(-0.2, 1.6, -0.6)  fov=44  in=fade_white:0.5  faces=torvald_torvald
   at 0.0  fade color=#ffe9c0  alpha=0.1  time=0.3
   at 0.0  hide colossus
   at 0.0  hide frostbow
@@ -111,7 +179,7 @@ shot E17 8.0  set=forge_intro_torvald  cam=static  from=(1.4, 2.0, 7.8)  look=(-
   at 1.0  anim torvald_torvald play_cast
   at 0.0  vfx signal  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-3.8, 1.2, -1.6)  life=8  scale=0.3
 # Ysolde: the root-wall across the border road sinks; messengers ride in; Wren on her stag
-shot E18 5.0  set=forge_intro_ysolde  cam=static  from=(-4.0, 1.8, 16.0)  look=(2.6, 1.4, 1.0)  fov=46  in=blend:0.3  faces=ysolde_ysolde
+shot E18 5.0  set=forge_intro_ysolde  branch=!e8_road_nature  cam=static  from=(-4.0, 1.8, 16.0)  look=(2.6, 1.4, 1.0)  fov=46  in=blend:0.3  faces=ysolde_ysolde
   at 0.0  hide ysolde_young
   at 0.0  hide treant
   at 0.0  hide vinelasher
@@ -126,7 +194,7 @@ shot E18 5.0  set=forge_intro_ysolde  cam=static  from=(-4.0, 1.8, 16.0)  look=(
   at 1.0  line master "Ysolde planted the Hollow with oaks. She never closed a road again."  dur=6.0
   at 1.6  hide fx_vines
 # ...then the pit: Ysolde kneels, planting an oak where the throne was
-shot E18B 3.0  cam=static  from=(2.8, 1.4, 2.2)  look=(0.2, 1.2, -1.0)  fov=42  faces=ysolde
+shot E18B 3.0  branch=!e8_road_nature  cam=static  from=(2.8, 1.4, 2.2)  look=(0.2, 1.2, -1.0)  fov=42  faces=ysolde
   at 0.0  show sap1
   at 0.0  show sap2
   at 0.0  show sap3
@@ -137,13 +205,16 @@ shot E18B 3.0  cam=static  from=(2.8, 1.4, 2.2)  look=(0.2, 1.2, -1.0)  fov=42  
   at 0.0  teleport ysolde  to=(0.4, 0, -0.4)  yaw=30
   at 0.2  anim ysolde play_cast arg=wild_bloom
 # Malrik: in a stone room by the sealed deep door he lights his candle instead of pinching it; Hush in the doorway
-shot E19 9.0  cam=static  from=(1.4, 1.9, 4.6)  look=(0.2, 1.7, 2.2)  fov=34  in=fade_black:0.5  faces=malrik
+shot E19 9.0  branch=!e8_road_shadow  cam=static  from=(1.4, 1.9, 4.6)  look=(0.2, 1.7, 2.2)  fov=34  in=fade_black:0.5  faces=malrik
   at 0.0  fade color=#0b0c26  alpha=0.3  time=0.05
   at 0.0  hide ysolde
   at 0.0  hide sap1
   at 0.0  hide sap2
   at 0.0  hide sap3
   at 0.0  show malrik
+  at 0.0  hide vessa
+  at 0.0  hide torvald
+  at 0.0  hide master
   at 0.0  show hush
   at 0.0  show door
   at 0.0  show candle
@@ -168,6 +239,71 @@ shot E20 10.0  set=forge_watch_keep  cam=static  from=(1.4, 0.7, 9.6)  look=(0, 
   at 6.0  vfx fizz2  scene=res://art/cinematics/fx/fire_burst.tscn  at=(0, 0.8, 7.0)  life=1.0  scale=0.1
   at 8.0  line master "Mostly."  dur=1.6
   at 8.0  anim watch_keep_vessa play_cast
+# The player's own fate last (Vessa's E20 already is): the moved copy plays on its road, the original takes 0 s there
+shot E17L 8.0  set=forge_intro_torvald  branch=e8_road_ice  cam=static  from=(1.4, 2.0, 7.8)  look=(-0.2, 1.6, -0.6)  fov=44  in=fade_white:0.5  faces=torvald_torvald
+  at 0.0  fade color=#ffe9c0  alpha=0.1  time=0.3
+  at 0.0  hide colossus
+  at 0.0  hide frostbow
+  at 0.0  hide messenger
+  at 0.0  hide foe
+  at 0.0  hide army_line
+  at 0.0  hide army_charge
+  at 0.0  hide fx_icewall
+  at 0.0  hide fx_burst
+  at 0.0  hide fx_heart
+  at 0.0  hide fx_cracks
+  at 0.0  hide fx_snow
+  at 0.0  anim torvald_torvald set_expression  arg=smile
+  at 0.0  move ref1  to=(0.2, 0, -3.0)  speed=1.0
+  at 0.4  move ref2  to=(-0.6, 0, -2.4)  speed=1.0
+  at 0.8  move ref3  to=(0.8, 0, -1.8)  speed=1.0
+  at 1.0  line master "Torvald opened his gate, and he kept it open."  dur=4.5
+  at 1.0  anim torvald_torvald play_cast
+  at 0.0  vfx signal  scene=res://art/cinematics/fx/fire_burst.tscn  at=(-3.8, 1.2, -1.6)  life=8  scale=0.3
+shot E18L 5.0  set=forge_intro_ysolde  branch=e8_road_nature  cam=static  from=(-4.0, 1.8, 16.0)  look=(2.6, 1.4, 1.0)  fov=46  in=blend:0.3  faces=ysolde_ysolde
+  at 0.0  hide ysolde_young
+  at 0.0  hide treant
+  at 0.0  hide vinelasher
+  at 0.0  hide army_host
+  at 0.0  hide army_fallen
+  at 0.0  hide fx_tree
+  at 0.0  hide fx_master
+  at 0.0  show fx_vines
+  at 0.0  move messenger  to=(2.0, 0, 4.0)  speed=2.0
+  at 0.4  move wren  to=(-2.0, 0, 8.0)  speed=1.8
+  at 0.4  move stag  to=(-3.2, 0, 8.6)  speed=1.8
+  at 1.0  line master "Ysolde planted the Hollow with oaks. She never closed a road again."  dur=6.0
+  at 1.6  hide fx_vines
+shot E18BL 3.0  branch=e8_road_nature  cam=static  from=(2.8, 1.4, 2.2)  look=(0.2, 1.2, -1.0)  fov=42  faces=ysolde
+  at 0.0  show ysolde
+  at 0.0  show sap1
+  at 0.0  show sap2
+  at 0.0  show sap3
+  at 0.0  hide vessa
+  at 0.0  hide torvald
+  at 0.0  hide master
+  at 0.0  hide malrik
+  at 0.0  teleport ysolde  to=(0.4, 0, -0.4)  yaw=30
+  at 0.2  anim ysolde play_cast arg=wild_bloom
+shot E19L 9.0  branch=e8_road_shadow  cam=static  from=(1.4, 1.9, 4.6)  look=(0.2, 1.7, 2.2)  fov=34  in=fade_black:0.5  faces=malrik
+  at 0.0  fade color=#0b0c26  alpha=0.3  time=0.05
+  at 0.0  hide ysolde
+  at 0.0  hide sap1
+  at 0.0  hide sap2
+  at 0.0  hide sap3
+  at 0.0  show malrik
+  at 0.0  hide vessa
+  at 0.0  hide torvald
+  at 0.0  hide master
+  at 0.0  show hush
+  at 0.0  show door
+  at 0.0  show candle
+  at 0.0  teleport malrik  to=(0.2, 0, 2.2)  yaw=20
+  at 0.0  anim malrik set_expression  arg=neutral
+  at 1.0  line master "Malrik kept watch over the deep. The dark still came when he called."  dur=4.8
+  at 2.0  vfx flame  scene=res://art/cinematics/fx/ember.tscn  at=(0.9, 1.15, 3.2)  life=7  scale=0.15
+  at 6.0  line master "It never frightened him."  dur=2.6
+  at 6.0  anim malrik set_expression  arg=smile
 # The Tollrock: Dacian and Seraphine, older, beside the empty chair sharing a jug; Ossavar asleep; Pell's cart below
 shot E21 7.0  set=forge_intro_vessa  cam=static  from=(4.0, 2.4, 9.0)  look=(-8.6, 1.4, 6.6)  fov=46  in=blend:0.4  faces=dacian,seraphine
   at 0.0  hide vessa_vessa
@@ -191,6 +327,9 @@ shot E22 7.0  cam=dolly  from=(4.4, 2.4, 4.6)  to=(2.0, 1.4, 1.2)  look=(0, 0.6,
   at 0.0  fade color=#ffe9c0  alpha=0.15  time=0.3
   at 0.0  hide malrik
   at 0.0  hide hush
+  at 0.0  hide door
+  at 0.0  hide candle
+  at 0.0  hide ysolde
   at 0.0  show sap1
   at 0.0  show sap2
   at 0.0  show sap3
