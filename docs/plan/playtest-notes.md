@@ -1,38 +1,47 @@
-# Four Wizards — build du 14 octobre 2026 au soir (tag playtest-2026-10-14-5)
+# Four Wizards — build du 16 octobre 2026 (tag playtest-2026-10-16)
 
-Double-clic sur **FourWizards.exe** (un vrai .exe maintenant ; garde le fichier .dll à côté).
+Double-clic sur **FourWizards.exe** dans `Bureau\FourWizards-2026-10-16.zip` (garde le fichier .dll à côté).
+Paramètres > Graphismes : **Élevé** par défaut sur ta carte graphique ; essaie **Ultra** aussi.
 
-**Important :** les zips du 13 et du 14 au matin avaient un bug invisible dans nos tests : les objets, l'inventaire,
-les champions et les assistants ne se chargeaient pas dans le jeu exporté. C'est corrigé ici, et chaque build est
-maintenant vérifié (tous les scripts chargés dans le .exe avant le zip).
+## Nouveau : la semaine des graphismes
+### Lumière, sol, eau
+- Nouvel éclairage par niveau de qualité : ombres douces, occlusion ambiante, rayons de lumière, reflets, ciel animé.
+- Herbe et fleurs qui bougent, sol peint plus riche, eau avec reflets et rives mouillées.
+- Ambiance propre à chaque carte : Thornwater = marais (ponts en planches, île de la Couronne en ruine moussue),
+  Quartermeet = hautes terres dorées (cercle de pierres), Ashwind / automne moins brumeux.
+- Nuit au clair de lune, neige, forêt sombre selon la mission.
 
-## Nouveau depuis le zip du 14 octobre (matin)
-### Améliorations propres à chaque unité (escarmouche)
-- Les 56 unités de combat des 4 royaumes ont au moins une amélioration (55 nouvelles), achetée dans le bâtiment qui
-  les forme (Hall, Écuries ou donjon). Prix en cristaux, de 75 à 200 selon le tier, une recherche à la fois par bâtiment.
-  Une recherche ne bloque jamais la formation d'unités.
-- Touches : sélectionne le bâtiment, **+** = page de recherche, puis la touche de l'unité = sa page :
-  **Z** = son « + » (rang 3), **X C V B** = ses améliorations. Rappuyer sur une recherche en cours = l'annuler
-  (remboursée). Échap = page précédente.
-- Effets variés : épines, dégâts en zone, poison, bouclier de combat, aura de meute, sorts plus forts pour les lanceurs,
-  capacités des T3 renforcées…
-- Les 3 améliorations d'unité de la Forge y ont déménagé ; la Forge garde Armes, Armure et l'amélioration du royaume.
-- Les améliorations des archers sont enfin achetables.
-- Le bot achète aussi ses améliorations selon son armée.
+### Royaumes, unités, bâtiments
+- Les 4 sorciers, toutes les unités, champions, montures et titans retravaillés (formes, matériaux, couleurs d'équipe).
+- Tous les bâtiments des 4 royaumes + bâtiments neutres retravaillés. Forteresse de Glace plus calme, forteresse de Feu
+  avec un creuset rond, cheminée du Hall de Feu ouverte et rougeoyante.
+- Chantiers de construction : un seul look clair pour tous (dalle de terre teintée + échafaudage en bois), plus de
+  carré noir.
+- Forteresse endommagée : vraie colonne de fumée grise.
+- En miroir (même royaume des deux côtés), l'adversaire a une palette alternative ; chaque unité a un léger anneau au
+  sol à sa couleur (toi / ennemi / neutre).
 
-### Musique
-- 13 nouveaux morceaux d'orchestre (vrais instruments, sans chant) : un thème par royaume, une marche neutre, Wave
-  Strike, boss, carte de campagne, taverne, chant de fin, victoire et défaite.
-- En partie : ton thème d'abord, puis au hasard entre les 4 thèmes et la marche (le tien plus souvent, jamais deux
-  fois de suite). Des tambours montent quand l'ennemi attaque ta base ou ton sorcier.
-- Musique au menu et sur la carte de campagne, musique de boss en mission ; elle se coupe pendant les cinématiques.
-- Les missions ont enfin leurs bruitages (il n'y en avait pas).
+### Combat et effets
+- Sorts et effets refaits, mais plafonnés : plus de grosses taches blanches dans les batailles, plus lisible.
+- Coups, morts, effondrements de bâtiments, débris ; vie ambiante (oiseaux, papillons, lucioles la nuit).
+- Barres de vie plus fines ; celles des bâtiments s'estompent quand ils sont pleins et réapparaissent quand on les
+  frappe, les sélectionne ou les **survole à la souris**.
+- Menu principal : diorama avec un pilier de feu plus doux.
+
+### Équilibrage et corrections
+- Feu contre Ombre en Normal : le bot Ombre joue mieux (premier champion plus tôt, meilleure défense). Sur 36 parties
+  par royaume : Feu 44 %, Ombre 50 %, Glace 44 %, Nature 61 %.
+- Le sort Frost Needle ne plante plus quand sa cible meurt au même moment.
 
 ## Dis-moi
-- Les améliorations : trop chères, trop faibles, trop fortes ? Les touches + / unité / Z X C V B sont-elles claires ?
-- La musique dans le jeu : le volume, la rotation, les tambours de combat.
+- Les graphismes en **Élevé** et en **Ultra** : est-ce beau ? Le jeu reste-t-il fluide (FPS) en grosse bataille ?
+- Ce qui jure encore : un bâtiment, une unité, une couleur, un effet trop fort ou trop faible ?
+- Les cartes Thornwater et Quartermeet : l'ambiance te plaît ?
+- L'équilibre des 4 royaumes en escarmouche Normal.
 
 ## Problèmes connus
-- Feu bat encore Ombre en Normal (~70 %) ; Blitz équilibré. Les nouvelles améliorations ne sont pas encore équilibrées
-  (mesure bot contre bot en cours).
-- e6m2 très dur en difficile ; e3m1, e4m4, e5m4 : nos joueurs simulés échouent encore.
+- Nature un peu forte en Normal (61 %) ; pour aller plus près du 50/50, il faudrait changer une unité (ta décision,
+  ex. Gloom Thrall de l'Ombre à 70 PV).
+- Les ponts de Quartermeet sont un peu pâles ; la fumée de la forteresse Nature part au-dessus des arbres.
+- e6m2 très dur en difficile ; certaines missions simulées échouent encore quand l'ordi est très chargé.
+- Question en attente : est-ce que je peux effacer les ~3,4 Go de captures d'écran locales dans `docs/art/lab` ?
