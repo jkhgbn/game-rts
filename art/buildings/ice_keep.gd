@@ -9,12 +9,31 @@ signal destroyed_finished
 const DEFAULT_TEAM := Color(0.45, 0.75, 0.95)
 const GLOW_DEFAULT := Color(0.75, 0.92, 1.00)
 const IDLE_RIM := Color(0.45, 0.74, 0.98)
-const IDLE_RIM_STRENGTH := 0.2
-## In-game grade pass (2026-09-30): the keep was the brightest thing on screen. The team-coloured crystals are
-## CRYSTAL_DARKEN darker than the kingdom colour, the snow / silver ~17 % darker (ice_keep.tscn), the glow parts under
-## the bloom (GLOW_BOOST), the ground frost a hard 1 m rim (ice_keep_ground.gdshader).
-const CRYSTAL_DARKEN := 0.15
-const GLOW_BOOST := 0.3
+const IDLE_RIM_STRENGTH := 0.1   # G-F r3: x0.5 (was 0.2)
+## In-game grade pass (2026-09-30): the keep was the brightest thing on screen. The snow / silver ~17 % darker
+## (ice_keep.tscn), the glow parts under the bloom (GLOW_BOOST), the ground frost a hard 1 m rim (ice_keep_ground.gdshader).
+## G-F review 3 item 1 (docs/art/gf_r3_ice_keep.md): it was still the loudest object on any map (a near-white crystal
+## spire, glowing crack veins at full HP). The team crystal is now a pale tint of the team colour (CRYSTAL_PALE toward
+## CRYSTAL_PALE_COLOR) capped at value CRYSTAL_VALUE (crystal_color()), every glow x0.5 (GLOW_BOOST 0.3 -> 0.15, the
+## crystal's inner glow ICE_GLOW, the idle / light rim, the crown light CROWN_LIGHT) and the crack veins / ice
+## fractures only show below 50 % HP (set_health_ratio).
+const CRYSTAL_VALUE := 0.6
+const CRYSTAL_PALE := 0.4
+const CRYSTAL_PALE_COLOR := Color(0.78, 0.84, 0.90)
+const GLOW_BOOST := 0.15
+const POINT_BOOST := 3.0         # the small warm windows: the keep's bloom points (Art Lab R5)
+const ICE_GLOW := 0.5            # ice_paint ip_ice_glow on the crystal (was 1.0)
+const ICE_LIGHT_RIM := 0.13      # ice_paint ip_light_rim on the crystal (was 0.26)
+const CROWN_LIGHT := 0.75        # crown light energy (was 1.5)
+const VEIN_HP := 0.5             # crack veins / crystal fractures only below this HP ratio
+## Damage smoke (G-F r3): after the billboard keep-scale pass (docs/art/gf_billboard.md) the dark 2.6 m puffs shrank
+## to 0.7 m at birth and faded on a 3.5 m rise: no column read. Now a soft grey column (alpha-blended, value <= MoteCap
+## VALUE_CAP): big sized quads, 5 s life, ~8 m rise, same particle count. Low keeps the old 2.6 m quad (no extra fill).
+const SMOKE_SIZE := 3.4
+const SMOKE_SIZE_LOW := 2.6
+const SMOKE_GREY := Color(0.56, 0.59, 0.63)
+const SMOKE_ALPHA := 0.55
+const SMOKE_LIFE := 5.0
 const HALO_SPEED := deg_to_rad(8.0)
 const HALO_Y := 12.0
 const HALO_R := 2.8
@@ -57,6 +76,7 @@ var _halo_broken: bool = false
 var _halo_crystal: bool = false  ## G-E 7: the halo shards are lit crystals (no glow instance uniforms)
 var _floating_shown: bool = true
 var _painted_mats: Array[ShaderMaterial] = []
+var _crack_base: Dictionary = {}   # painted ShaderMaterial -> its crack_strength (shown below VEIN_HP only)
 var _crystal_mat: ShaderMaterial
 var _glow_mat: ShaderMaterial
 var _banner_mat: ShaderMaterial
@@ -111,6 +131,7 @@ func _ready() -> void:
 	_burst.process_material = _burst.process_material.duplicate() as ParticleProcessMaterial
 	_build_ring.process_material = _build_ring.process_material.duplicate() as ParticleProcessMaterial
 	_cap_motes()
+	_style_smoke()
 	for c: Node in _model.get_children():
 		var n := c as Node3D
 		if n == null:
@@ -147,6 +168,53 @@ func _cap_motes() -> void:
 		sp.color_ramp = MoteCap.ramp(Color(0.66, 0.74, 0.86), 0.6)
 	MoteCap.apply_own(_snow, null, 0.1)    # the keep's ParticleMix soft dot at 0.1 m (no new material: Art Lab B8)
 	MoteCap.apply_own(_swirl)
+
+
+## The team crystal's base colour: the team colour paled toward CRYSTAL_PALE_COLOR, value capped at CRYSTAL_VALUE (hue
+## kept, so the main / alt mirror palettes and every team colour still read). Static: tests and other kits can ask.
+static func crystal_color(team: Color) -> Color:
+	return MoteCap.cap(team.lerp(CRYSTAL_PALE_COLOR, CRYSTAL_PALE), CRYSTAL_VALUE)
+
+
+## G-F r3 (docs/art/gf_r3_ice_keep.md): the damage smoke (Smoke1 / Smoke2, < 50 % HP and the collapse) as a soft grey
+## column on the keep's own alpha-blended ParticleMix soft dot (no new material: Art Lab B8). The size lives in the
+## quad (MoteCap.sized); the process scale is a relative spread. The .tscn process materials are shared by every keep:
+## values are set, never scaled (idempotent). Ramp / curve resources are made once per game.
+static var _smoke_ramp: GradientTexture1D
+static var _smoke_curve: CurveTexture
+
+
+func _style_smoke() -> void:
+	if _smoke_ramp == null:
+		_smoke_ramp = MoteCap.ramp(SMOKE_GREY, SMOKE_ALPHA)
+		var g: Gradient = _smoke_ramp.gradient
+		g.offsets = PackedFloat32Array([0.0, 0.12, 0.6, 1.0])
+		var cv := Curve.new()
+		cv.add_point(Vector2(0.0, 0.45))
+		cv.add_point(Vector2(0.5, 0.85))
+		cv.add_point(Vector2(1.0, 1.0))
+		_smoke_curve = CurveTexture.new()
+		_smoke_curve.curve = cv
+	var size: float = SMOKE_SIZE_LOW if GameSettings.effective_graphics_quality() <= 0 else SMOKE_SIZE
+	for s: GPUParticles3D in _smoke:
+		s.lifetime = SMOKE_LIFE
+		s.draw_pass_1 = MoteCap.sized(s.draw_pass_1, size)
+		s.visibility_aabb = AABB(Vector3(-5, -2, -5), Vector3(13, 15, 10))
+		var pm := s.process_material as ParticleProcessMaterial
+		if pm == null:
+			continue
+		pm.emission_sphere_radius = 0.6
+		pm.spread = 9.0
+		pm.initial_velocity_min = 1.35
+		pm.initial_velocity_max = 1.75
+		pm.gravity = Vector3(0.22, 0.0, 0.0)
+		pm.damping_min = 0.0
+		pm.damping_max = 0.0
+		pm.scale_min = 0.8
+		pm.scale_max = 1.0
+		pm.scale_curve = _smoke_curve
+		pm.color = Color.WHITE
+		pm.color_ramp = _smoke_ramp
 
 
 func _span_of(n: Node3D) -> Vector2:
@@ -186,11 +254,20 @@ func _make_unique_materials() -> void:
 	# G-B Ice: the painted parts take the Ice paint layer (crystal ice, snow, frost-rimmed ice-stone).
 	for m: ShaderMaterial in _painted_mats:
 		IceShapes.ice_part(m, int(PART_KINDS.get(m.resource_name, IceShapes.K_STONE)))
+		_crack_base[m] = float(m.get_shader_parameter(&"crack_strength"))
+		m.set_shader_parameter(&"crack_strength", 0.0)   # veins only below VEIN_HP (set_health_ratio)
+	if _crystal_mat:
+		_crystal_mat.set_shader_parameter(&"ip_ice_glow", ICE_GLOW)
+		_crystal_mat.set_shader_parameter(&"ip_light_rim", ICE_LIGHT_RIM)
 	# Warm interior light in the windows: the shared glow material's per-instance tint (no 9th material, Art Lab B8);
 	# the team colour stays on the crown, halo and gate.
 	var win := get_node_or_null(^"Model/Windows") as GeometryInstance3D
 	if win and not IceShapes.legacy:
 		win.set_instance_shader_parameter(&"tint_color", Color(IceShapes.WARM_WINDOW, 1.0))
+	# G-F r3: the glow x0.5 calms the big glowing masses (core, halo, gate); the small warm windows are the keep's
+	# bloom points (POINT_BOOST x the halved GLOW_BOOST) so it still has 4-12 glow points at 40 m (Art Lab R5).
+	if win:
+		win.set_instance_shader_parameter(&"boost", POINT_BOOST)
 
 
 func _process(delta: float) -> void:
@@ -218,7 +295,7 @@ func _process(delta: float) -> void:
 		shimmer = 0.7 + 0.15 * sin(_t * 23.0) + 0.15 * sin(_t * 37.0)
 	var p: float = _progress
 	_tier_process(delta)
-	_crown_light.light_energy = 1.5 * shimmer * p * (1.3 if _tier >= 3 else 1.0)
+	_crown_light.light_energy = CROWN_LIGHT * shimmer * p * (1.3 if _tier >= 3 else 1.0)
 	_gate_light.light_energy = 1.0 * (0.9 + 0.1 * sin(_t * 1.7)) * p * (2.0 if _pulse_t < 0.3 else 1.0)
 
 
@@ -230,7 +307,7 @@ func set_team_color(c: Color) -> void:
 		return
 	var glow: Color = _glow_color()
 	var is_default: bool = c.is_equal_approx(DEFAULT_TEAM)
-	_crystal_mat.set_shader_parameter(&"base_color", c.darkened(CRYSTAL_DARKEN))
+	_crystal_mat.set_shader_parameter(&"base_color", crystal_color(c))
 	_glow_mat.set_shader_parameter(&"glow_color", glow)
 	_banner_mat.set_shader_parameter(&"cloth_color", c)
 	_banner_mat.set_shader_parameter(&"stripe_color", Color(0.15, 0.35, 0.60) if is_default else c.darkened(0.55))
@@ -250,8 +327,11 @@ func set_health_ratio(r: float) -> void:
 	var below50: bool = _health_ratio < 0.5
 	var below25: bool = _health_ratio < 0.25
 	var dmg: float = 1.0 if below25 else (0.6 if below50 else (1.0 - _health_ratio) * 0.5)
+	var veins: bool = _health_ratio < VEIN_HP
 	for m: ShaderMaterial in _painted_mats:
-		m.set_shader_parameter(&"damage", dmg)
+		# The crystal's damage = its white fracture lines (ice_paint): none at VEIN_HP and above.
+		m.set_shader_parameter(&"damage", dmg if (veins or m != _crystal_mat) else 0.0)
+		m.set_shader_parameter(&"crack_strength", float(_crack_base.get(m, 0.0)) if veins else 0.0)
 	_ground_mat.set_shader_parameter(&"damage", dmg)
 	var built: bool = _progress >= 1.0
 	for s: GPUParticles3D in _smoke:
@@ -375,10 +455,10 @@ func play_destroyed() -> void:
 		n.transform = _orig[n]
 		n.reparent(pivot, true)
 	_core.set_instance_shader_parameter(&"boost", 3.0)
-	_crown_light.light_energy = 5.0
+	_crown_light.light_energy = CROWN_LIGHT * 3.3
 	var tw := create_tween().set_parallel(true)
 	# 0.0-0.15 flash; 0.0-0.6 the tip and the halo rise and spin up.
-	tw.tween_property(_crown_light, "light_energy", 1.5, 0.15)
+	tw.tween_property(_crown_light, "light_energy", CROWN_LIGHT, 0.15)
 	tw.tween_property(_tip, "position:y", _tip.position.y + 1.5, 0.6).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tw.tween_property(_tip, "rotation:y", _tip.rotation.y + PI, 0.6)
 	tw.tween_property(_halo, "position:y", _halo.position.y + 1.0, 0.6).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
@@ -411,12 +491,13 @@ func play_destroyed() -> void:
 		_mist2.emitting = true
 		_rubble2.visible = true).set_delay(2.2)
 	# 2.2-3.0 lights fade to 30 %, the frost turns to grey slush, debris grows.
-	tw.tween_property(_crown_light, "light_energy", 1.5 * 0.3, 0.8).set_delay(2.2)
+	tw.tween_property(_crown_light, "light_energy", CROWN_LIGHT * 0.3, 0.8).set_delay(2.2)
 	tw.tween_property(_gate_light, "light_energy", 1.0 * 0.3, 0.8).set_delay(2.2)
 	tw.tween_method(func(v: float) -> void: _ground_mat.set_shader_parameter(&"scorch", v), 0.0, 1.0, 0.8).set_delay(2.2)
 	tw.tween_property(_rubble, "scale", Vector3(1.1, 1.6, 1.1), 0.8).set_delay(2.2)
 	for m: ShaderMaterial in _painted_mats:
 		m.set_shader_parameter(&"damage", 1.0)
+		m.set_shader_parameter(&"crack_strength", float(_crack_base.get(m, 0.0)))
 	tw.tween_callback(func() -> void: destroyed_finished.emit()).set_delay(3.0)
 
 
@@ -555,8 +636,8 @@ func play_tier_up() -> void:
 	_pop_t = 0.0
 	_fire_burst(Vector3(0, 14.5, 0), Vector3.UP, 180.0, 3.0, 7.0, 1.0)
 	var tw := create_tween()
-	tw.tween_property(_crown_light, "light_energy", 6.0, 0.12)
-	tw.tween_property(_crown_light, "light_energy", 1.5, 0.6)
+	tw.tween_property(_crown_light, "light_energy", CROWN_LIGHT * 4.0, 0.12)
+	tw.tween_property(_crown_light, "light_energy", CROWN_LIGHT, 0.6)
 
 
 func _build_tier_parts() -> void:

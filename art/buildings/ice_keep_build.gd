@@ -357,6 +357,8 @@ func _initialize() -> void:
 	mist2.preprocess = 0.0
 	_add(mist2, keep, "FrostMist2")
 	# State particles (art-keep.md 7.3, Ice colours).
+	# G-F r3: IceKeep._style_smoke() (ice_keep.gd) re-sets Smoke1 / Smoke2 at run time (soft grey column, sized quad,
+	# 5 s life) and crystal_color() / set_health_ratio() set the crystal tint and the veins, so a rebuilt .tscn keeps them.
 	for s: Array in [["Smoke1", Vector3(-1.6, 3.8, 1.5)], ["Smoke2", Vector3(1.1, 5.2, -1.0)]]:
 		var sm := _particles(s[0], keep, 30, 3.5, mix_mat, 2.6)
 		sm.position = s[1]
